@@ -31,13 +31,13 @@
     .extern vTaskSwitchContext
     .extern ulMaxSyscallInterruptPriorityConst
 
-    .global _vector_14
-    .global _lc_ref__vector_pp_14
-    .global SVC_Handler
-    .global vPortStartFirstTask
-    .global vPortEnableVFP
-    .global ulPortSetInterruptMask
-    .global vPortClearInterruptMask
+    .वैश्विक _vector_14
+    .वैश्विक _lc_ref__vector_pp_14
+    .वैश्विक SVC_Handler
+    .वैश्विक vPortStartFirstTask
+    .वैश्विक vPortEnableVFP
+    .वैश्विक ulPortSetInterruptMask
+    .वैश्विक vPortClearInterruptMask
 
 ;-----------------------------------------------------------
 
