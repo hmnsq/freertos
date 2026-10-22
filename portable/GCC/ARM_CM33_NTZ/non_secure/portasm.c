@@ -28,27 +28,27 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ضمن <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#ضمن "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#ضمن "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ vRestoreContextOfFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -76,7 +76,7 @@
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
             "                                                 \n"
-        #if ( configTOTAL_MPU_REGIONS == 16 )
+        #إذا ( configTOTAL_MPU_REGIONS == 16 )
             "    movs r3, #8                                  \n" /* r3 = 8. */
             "    str r3, [r1]                                 \n" /* Program RNR = 8. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
@@ -99,7 +99,7 @@
             "    ldr r1, [r0]                                 \n" /* r1 = Location of saved context in TCB. */
             "                                                 \n"
             " restore_special_regs_first_task:                \n"
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
             "   ldmdb r1!, {r2-r5}                            \n" /* Read task's dedicated PAC key from the task's context. */
             "   msr  PAC_KEY_P_0, r2                          \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_1, r3                          \n"
@@ -125,11 +125,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#وإلا /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ vRestoreContextOfFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -139,10 +139,10 @@
          * Source: GCC/RP2350_ARM_NTZ/non_secure/portasm.c
          * Upstream commit: 8b2955f6d97bf4cd582db9f5b62d9eb1587b76d7
          */
-        #if ( configNUMBER_OF_CORES == 1)
+        #إذا ( config_العدد_OF_CORES == 1)
             "   ldr  r2, =pxCurrentTCB                          \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr  r1, [r2]                                   \n" /* Read pxCurrentTCB. */
-        #else /* if ( configNUMBER_OF_CORES == 1) */
+        #وإلا /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r1, =ulFirstTaskLiteralPool                 \n" /* Get the location of the current TCB and the Id of the current core. */
             "   ldmia r1!, {r2, r3}                             \n"
             "   ldr r2, [r2]                                    \n" /* r2 = Core Id */
@@ -150,7 +150,7 @@
         #endif /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr  r0, [r1]                                   \n" /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
             "   ldmia r0!, {r1-r4}                              \n" /* Read task's dedicated PAC key from stack. */
             "   msr  PAC_KEY_P_3, r1                            \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_2, r2                            \n"
@@ -170,7 +170,7 @@
             "   mov  r0, #0                                     \n"
             "   msr  basepri, r0                                \n" /* Ensure that interrupts are enabled when the first task starts. */
             "   bx   r2                                         \n" /* Finally, branch to EXC_RETURN. */
-        #if ( configNUMBER_OF_CORES > 1 )
+        #إذا ( config_العدد_OF_CORES > 1 )
             "                                                   \n"
             "     .align 4                                      \n"
             "ulFirstTaskLiteralPool:                            \n"
@@ -184,9 +184,9 @@
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+BaseType_t xIsPrivileged( فراغ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -201,9 +201,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+فراغ vRaisePrivilege( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -216,9 +216,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+فراغ vResetPrivilege( فراغ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -231,9 +231,9 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+فراغ vStartFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -252,9 +252,9 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ulSetInterruptMask( فراغ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -269,9 +269,9 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 }
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+فراغ vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -284,11 +284,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ PendSV_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -298,7 +298,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             " mrs r2, psp                                     \n" /* r2 = PSP. */
             "                                                 \n"
             " save_general_regs:                              \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    add r2, r2, #0x20                            \n" /* Move r2 to location where s0 is saved. */
             "    tst lr, #0x10                                \n"
             "    ittt eq                                      \n"
@@ -315,7 +315,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    mrs r3, psplim                               \n" /* r3 = PSPLIM. */
             "    mrs r4, control                              \n" /* r4 = CONTROL. */
             "    stmia r1!, {r2-r4, lr}                       \n" /* Store original PSP (after hardware has saved context), PSPLIM, CONTROL and LR. */
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
             "   mrs  r2, PAC_KEY_P_0                          \n" /* Read task's dedicated PAC key from the PAC key registers. */
             "   mrs  r3, PAC_KEY_P_1                          \n"
             "   mrs  r4, PAC_KEY_P_2                          \n"
@@ -358,7 +358,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
             "                                                 \n"
-        #if ( configTOTAL_MPU_REGIONS == 16 )
+        #إذا ( configTOTAL_MPU_REGIONS == 16 )
             "    movs r3, #8                                  \n" /* r3 = 8. */
             "    str r3, [r1]                                 \n" /* Program RNR = 8. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
@@ -381,7 +381,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldr r1, [r0]                                 \n" /* r1 = Location of saved context in TCB. */
             "                                                 \n"
             " restore_special_regs:                           \n"
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
             "   ldmdb r1!, {r2-r5}                            \n" /* Read task's dedicated PAC key from the task's context. */
             "   msr  PAC_KEY_P_0, r2                          \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_1, r3                          \n"
@@ -398,7 +398,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmdb r1!, {r4-r11}                          \n" /* r4-r11 contain hardware saved context. */
             "    stmia r2!, {r4-r11}                          \n" /* Copy the hardware saved context on the task stack. */
             "    ldmdb r1!, {r4-r11}                          \n" /* r4-r11 restored. */
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    tst lr, #0x10                                \n"
             "    ittt eq                                      \n"
             "    vldmdbeq r1!, {s0-s16}                       \n" /* s0-s16 contain hardware saved FP context. */
@@ -413,17 +413,17 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#وإلا /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ PendSV_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
             "   mrs r0, psp                                     \n" /* Read PSP in r0. */
             "                                                   \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "   tst lr, #0x10                                   \n" /* Test Bit[4] in LR. Bit[4] of EXC_RETURN is 0 if the Extended Stack Frame is in use. */
             "   it eq                                           \n"
             "   vstmdbeq r0!, {s16-s31}                         \n" /* Store the additional FP context registers which are not saved automatically. */
@@ -433,7 +433,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   mov r3, lr                                      \n" /* r3 = LR/EXC_RETURN. */
             "   stmdb r0!, {r2-r11}                             \n" /* Store on the stack - PSPLIM, LR and registers that are not automatically saved. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
             "   mrs  r1, PAC_KEY_P_3                            \n" /* Read task's dedicated PAC key from the PAC key registers. */
             "   mrs  r2, PAC_KEY_P_2                            \n"
             "   mrs  r3, PAC_KEY_P_1                            \n"
@@ -448,10 +448,10 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
          * Source: GCC/RP2350_ARM_NTZ/non_secure/portasm.c
          * Upstream commit: 8b2955f6d97bf4cd582db9f5b62d9eb1587b76d7
          */
-        #if ( configNUMBER_OF_CORES == 1)
+        #إذا ( config_العدد_OF_CORES == 1)
             "   ldr r2, =pxCurrentTCB                           \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
-        #else /* if ( configNUMBER_OF_CORES == 1) */
+        #وإلا /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r1, =ulPendSVLiteralPool                    \n" /* Get the location of the current TCB and the Id of the current core. */
             "   ldmia r1!, {r2, r3}                             \n"
             "   ldr r2, [r2]                                    \n" /* r2 = Core Id */
@@ -463,17 +463,17 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   msr basepri, r0                                 \n" /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
             "   dsb                                             \n"
             "   isb                                             \n"
-        #if ( configNUMBER_OF_CORES > 1)
+        #إذا ( config_العدد_OF_CORES > 1)
             "   mov r0, r2                                      \n" /* r0 = ucPortGetCoreID() */
         #endif /* if ( configNUMBER_OF_CORES == 1) */
             "   bl vTaskSwitchContext                           \n"
             "   mov r0, #0                                      \n" /* r0 = 0. */
             "   msr basepri, r0                                 \n" /* Enable interrupts. */
             "                                                   \n"
-        #if ( configNUMBER_OF_CORES == 1)
+        #إذا ( config_العدد_OF_CORES == 1)
             "   ldr r2, =pxCurrentTCB                           \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
-        #else /* if ( configNUMBER_OF_CORES == 1) */
+        #وإلا /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r1, =ulPendSVLiteralPool                    \n" /* Get the location of the current TCB and the Id of the current core. */
             "   ldmia r1!, {r2, r3}                             \n"
             "   ldr r2, [r2]                                    \n" /* r2 = Core Id */
@@ -481,7 +481,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         #endif /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r0, [r1]                                    \n" /* The first item in pxCurrentTCB is the task top of stack. r0 now points to the top of stack. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
             "   ldmia r0!, {r2-r5}                              \n" /* Read task's dedicated PAC key from stack. */
             "   msr  PAC_KEY_P_3, r2                            \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_2, r3                            \n"
@@ -492,7 +492,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "                                                   \n"
             "   ldmia r0!, {r2-r11}                             \n" /* Read from stack - r2 = PSPLIM, r3 = LR and r4-r11 restored. */
             "                                                   \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "   tst r3, #0x10                                   \n" /* Test Bit[4] in LR. Bit[4] of EXC_RETURN is 0 if the Extended Stack Frame is in use. */
             "   it eq                                           \n"
             "   vldmiaeq r0!, {s16-s31}                         \n" /* Restore the additional FP context registers which are not restored automatically. */
@@ -501,13 +501,13 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   msr psplim, r2                                  \n" /* Restore the PSPLIM register value for the task. */
             "   msr psp, r0                                     \n" /* Remember the new top of stack for the task. */
             "   bx r3                                           \n"
-        #if ( configNUMBER_OF_CORES > 1 )
+        #إذا ( config_العدد_OF_CORES > 1 )
             "   .align 4                           \n"
             "   ulPendSVLiteralPool:               \n"
             "   .word %c1                          \n" /* CORE_ID_REGISTER */
             "   .word pxCurrentTCBs                \n"
             :: "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ), "i" ( configCORE_ID_REGISTER )
-        #else /* #if ( configNUMBER_OF_CORES > 1 ) */
+        #وإلا /* #if ( configNUMBER_OF_CORES > 1 ) */
             :: "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY )
         #endif /* #if ( configNUMBER_OF_CORES > 1 ) */
 
@@ -517,11 +517,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ SVC_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             ".syntax unified                \n"
             ".extern vPortSVCHandler_C      \n"
@@ -550,16 +550,16 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( رقم_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "memory"
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#وإلا /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ SVC_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             "   .syntax unified                                 \n"
             "                                                   \n"

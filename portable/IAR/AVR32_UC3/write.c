@@ -72,9 +72,9 @@
  */
 
 
-#include <yfuns.h>
-#include <avr32/io.h>
-#include "usart.h"
+#ضمن <yfuns.h>
+#ضمن <avr32/io.h>
+#ضمن "usart.h"
 
 
 _STD_BEGIN
@@ -84,7 +84,7 @@ _STD_BEGIN
 
 
 /*! Pointer to the base of the USART module instance to use for stdio. */
-__no_init volatile avr32_usart_t * volatile stdio_usart_base;
+__no_init متطاير avr32_usart_t * متطاير stdio_usart_base;
 
 
 /*! \brief Writes a number of bytes, at most \a size, from the memory area
@@ -100,36 +100,36 @@ __no_init volatile avr32_usart_t * volatile stdio_usart_base;
  *
  * \return The number of bytes written, or \c _LLIO_ERROR on failure.
  */
-size_t __write( int handle,
-                const uint8_t * buffer,
+size_t __write( صحيح handle,
+                ثابت uint8_t * buffer,
                 size_t size )
 {
     size_t nChars = 0;
 
-    if( buffer == 0 )
+    إذا( buffer == 0 )
     {
         /* This means that we should flush internal buffers. */
-        return 0;
+        إرجاع 0;
     }
 
     /* This implementation only writes to stdout and stderr. */
     /* For all other file handles, it returns failure. */
-    if( ( handle != _LLIO_STDOUT ) && ( handle != _LLIO_STDERR ) )
+    إذا( ( handle != _LLIO_STDOUT ) && ( handle != _LLIO_STDERR ) )
     {
-        return _LLIO_ERROR;
+        إرجاع _LLIO_ERROR;
     }
 
-    for( ; size != 0; --size )
+    لكل( ; size != 0; --size )
     {
-        if( usart_putchar( stdio_usart_base, *buffer++ ) < 0 )
+        إذا( usart_putchar( stdio_usart_base, *buffer++ ) < 0 )
         {
-            return _LLIO_ERROR;
+            إرجاع _LLIO_ERROR;
         }
 
         ++nChars;
     }
 
-    return nChars;
+    إرجاع nChars;
 }
 
 

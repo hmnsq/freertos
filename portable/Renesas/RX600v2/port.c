@@ -31,33 +31,33 @@
  *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ضمن "string.h"
 
 /* Hardware specifics. */
-#if defined( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H ) && ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
-    #include "platform.h"
-#else
-    #include "iodefine.h"
+#إذا defined( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H ) && ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+    #ضمن "platform.h"
+#وإلا
+    #ضمن "iodefine.h"
 #endif
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
 PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( مكدس_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( مكدس_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
 /* The following lines are to ensure vSoftwareInterruptEntry can be referenced,
  and therefore installed in the vector table, when the FreeRTOS code is built
 as a library. */
-extern BaseType_t vSoftwareInterruptEntry;
-const BaseType_t * p_vSoftwareInterruptEntry = &vSoftwareInterruptEntry;
+خارجي BaseType_t vSoftwareInterruptEntry;
+ثابت BaseType_t * p_vSoftwareInterruptEntry = &vSoftwareInterruptEntry;
 
 /*-----------------------------------------------------------*/
 
@@ -65,14 +65,14 @@ const BaseType_t * p_vSoftwareInterruptEntry = &vSoftwareInterruptEntry;
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void );
+ساكن فراغ prvStartFirstTask( فراغ );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-static void prvYieldHandler( void );
+ساكن فراغ prvYieldHandler( فراغ );
 
 /*
  * The entry point for the software interrupt handler.  This is the function
@@ -80,97 +80,97 @@ static void prvYieldHandler( void );
  * the vector table, but the code that installs it is in prvYieldHandler rather
  * than using a #pragma.
  */
-void vSoftwareInterruptISR( void );
+فراغ vSoftwareInterruptISR( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /* This is accessed by the inline assembler functions so is file scope for
 convenience. */
-extern void *pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+خارجي فراغ *pxCurrentTCB;
+خارجي فراغ vTaskSwitchContext( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+مكدس_Type_t *px_Port_Initialise_مكدس( مكدس_Type_t *px_قمة_Of_مكدس, TaskFunction_t pxCode, فراغ *pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_قمة_Of_مكدس = 0x00;
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = portINITIAL_PSW;
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
     value.  Otherwise code space can be saved by just setting the registers
     that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0xffffffff; /* r15. */
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0xeeeeeeee;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0xdddddddd;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0xcccccccc;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0xbbbbbbbb;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0xaaaaaaaa;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x99999999;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x88888888;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x77777777;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x66666666;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x55555555;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x44444444;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x33333333;
+        px_قمة_Of_مكدس--;
+        *px_قمة_Of_مكدس = 0x22222222;
+        px_قمة_Of_مكدس--;
     }
-    #else
+    #وإلا
     {
-        pxTopOfStack -= 15;
+        px_قمة_Of_مكدس -= 15;
     }
     #endif
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 1. */
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pvParameters; /* R1 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = portINITIAL_FPSW;
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x11111111; /* Accumulator 0. */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x22222222; /* Accumulator 0. */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x33333333; /* Accumulator 0. */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x44444444; /* Accumulator 1. */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x55555555; /* Accumulator 1. */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    إرجاع px_قمة_Of_مكدس;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-extern void vApplicationSetupTimerInterrupt( void );
+خارجي فراغ vApplicationSetupTimerInterrupt( فراغ );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    إذا( pxCurrentTCB != عدم )
     {
         /* Call an application function to set up the timer that will generate the
         tick interrupt.  This way the application can decide which peripheral to
@@ -191,15 +191,15 @@ extern void vApplicationSetupTimerInterrupt( void );
     }
 
     /* Just to make sure the function is not optimised away. */
-    ( void ) vSoftwareInterruptISR();
+    ( فراغ ) vSoftwareInterruptISR();
 
     /* Should not get here. */
-    return pdFAIL;
+    إرجاع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma inline_asm prvStartFirstTask
-static void prvStartFirstTask( void )
+ساكن فراغ prvStartFirstTask( فراغ )
 {
     /* When starting the scheduler there is nothing that needs moving to the
     interrupt stack because the function is not called from an interrupt.
@@ -214,19 +214,19 @@ static void prvStartFirstTask( void )
 
     /* Restore the registers from the stack of the task pointed to by
     pxCurrentTCB. */
-    POP     R15
+    اسحب_2     R15
     MVTACLO R15, A0     /* Accumulator low 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACHI R15, A0     /* Accumulator high 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACGU R15, A0     /* Accumulator guard. */
-    POP     R15
+    اسحب_2     R15
     MVTACLO R15, A1     /* Accumulator low 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACHI R15, A1     /* Accumulator high 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACGU R15, A1     /* Accumulator guard. */
-    POP     R15
+    اسحب_2     R15
     MVTC    R15,FPSW    /* Floating point status word. */
     POPM    R1-R15      /* R1 to R15 - R0 is not included as it is the SP. */
     RTE                 /* This pops the remaining registers. */
@@ -236,13 +236,13 @@ static void prvStartFirstTask( void )
 /*-----------------------------------------------------------*/
 
 #pragma interrupt ( vTickISR( vect = _VECT( configTICK_VECTOR ), enable ) )
-void vTickISR( void )
+فراغ vTickISR( فراغ )
 {
     /* Increment the tick, and perform any processing the new tick value
     necessitates. */
     set_ipl( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -251,14 +251,14 @@ void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+فراغ vSoftwareInterruptISR( فراغ )
 {
     prvYieldHandler();
 }
 /*-----------------------------------------------------------*/
 
 #pragma inline_asm prvYieldHandler
-static void prvYieldHandler( void )
+ساكن فراغ prvYieldHandler( فراغ )
 {
     /* Re-enable interrupts. */
     SETPSW  I
@@ -267,7 +267,7 @@ static void prvYieldHandler( void )
     the interrupt occurred from the interrupt stack to the user stack.
 
     R15 is saved before it is clobbered. */
-    PUSH.L  R15
+    ادفع_2.L  R15
 
     /* Read the user stack pointer. */
     MVFC    USP, R15
@@ -292,19 +292,19 @@ static void prvYieldHandler( void )
 
     /* Save the FPSW and accumulators. */
     MVFC    FPSW, R15
-    PUSH.L  R15
+    ادفع_2.L  R15
     MVFACGU #0, A1, R15
-    PUSH.L  R15
+    ادفع_2.L  R15
     MVFACHI #0, A1, R15
-    PUSH.L  R15
-    MVFACLO #0, A1, R15 ; Low order word.
-    PUSH.L  R15
+    ادفع_2.L  R15
+    MVFACLO #0, A1, R15 ; أدنى order word.
+    ادفع_2.L  R15
     MVFACGU #0, A0, R15
-    PUSH.L  R15
+    ادفع_2.L  R15
     MVFACHI #0, A0, R15
-    PUSH.L  R15
-    MVFACLO #0, A0, R15 ; Low order word.
-    PUSH.L  R15
+    ادفع_2.L  R15
+    MVFACLO #0, A0, R15 ; أدنى order word.
+    ادفع_2.L  R15
 
     /* Save the stack pointer to the TCB. */
     MOV.L   #_pxCurrentTCB, R15
@@ -329,19 +329,19 @@ static void prvYieldHandler( void )
 
     /* Restore the context of the new task.  The PSW (Program Status Word) and
     PC will be popped by the RTE instruction. */
-    POP     R15
+    اسحب_2     R15
     MVTACLO R15, A0     /* Accumulator low 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACHI R15, A0     /* Accumulator high 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACGU R15, A0     /* Accumulator guard. */
-    POP     R15
+    اسحب_2     R15
     MVTACLO R15, A1     /* Accumulator low 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACHI R15, A1     /* Accumulator high 32 bits. */
-    POP     R15
+    اسحب_2     R15
     MVTACGU R15, A1     /* Accumulator guard. */
-    POP     R15
+    اسحب_2     R15
     MVTC    R15,FPSW
     POPM    R1-R15
     RTE
@@ -350,13 +350,13 @@ static void prvYieldHandler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == عدم );
 
     /* The following line is just to prevent the symbol getting optimised away. */
-    ( void ) vTaskSwitchContext();
+    ( فراغ ) vTaskSwitchContext();
 }
 /*-----------------------------------------------------------*/

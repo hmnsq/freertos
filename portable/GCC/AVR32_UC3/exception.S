@@ -2,7 +2,7 @@
  * FreeRTOS Kernel <DEVELOPMENT BRANCH>
  * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
- * SPDX-License-Identifier: MIT AND BSD-3-Clause
+ * SPDX-License-Identifier: MIT و BSD-3-Clause
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -59,16 +59,16 @@
  * 3. The name of ATMEL may not be used to endorse or promote products derived
  * from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY AND
- * SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * هذا SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' و ANY EXPRESS أو IMPLIED
+ * WARRANTIES, INCLUDING, BUT ليس LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY و FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY و
+ * SPECIFICALLY DISCLAIMED. في NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, أو CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT ليس LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS أو SERVICES;
+ * LOSS OF USE, DATA, أو PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER في CONTRACT, STRICT LIABILITY, أو TORT
+ * (INCLUDING NEGLIGENCE أو OTHERWISE) ARISING في ANY WAY OUT OF THE USE OF
+ * هذا SOFTWARE, EVEN إذا ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 
@@ -100,7 +100,7 @@ _handle_Unrecoverable_Exception:
         rjmp $
 
         .org  0x004
-        // TLB Multiple Hit: UNUSED IN AVR32UC.
+        // TLB Multiple Hit: UNUSED في AVR32UC.
 _handle_TLB_Multiple_Hit:
         rjmp $
 
@@ -150,12 +150,12 @@ _handle_Privilege_Violation:
         rjmp $
 
         .org  0x02C
-        // Floating-Point: UNUSED IN AVR32UC.
+        // Floating-Point: UNUSED في AVR32UC.
 _handle_Floating_Point:
         rjmp $
 
         .org  0x030
-        // Coprocessor Absent: UNUSED IN AVR32UC.
+        // Coprocessor Absent: UNUSED في AVR32UC.
 _handle_Coprocessor_Absent:
         rjmp $
 
@@ -180,22 +180,22 @@ _handle_DTLB_Protection_Write:
         rjmp $
 
         .org  0x044
-        // DTLB Modified: UNUSED IN AVR32UC.
+        // DTLB Modified: UNUSED في AVR32UC.
 _handle_DTLB_Modified:
         rjmp $
 
         .org  0x050
-        // ITLB Miss: UNUSED IN AVR32UC.
+        // ITLB Miss: UNUSED في AVR32UC.
 _handle_ITLB_Miss:
         rjmp $
 
         .org  0x060
-        // DTLB Miss (Read): UNUSED IN AVR32UC.
+        // DTLB Miss (Read): UNUSED في AVR32UC.
 _handle_DTLB_Miss_Read:
         rjmp $
 
         .org  0x070
-        // DTLB Miss (Write): UNUSED IN AVR32UC.
+        // DTLB Miss (Write): UNUSED في AVR32UC.
 _handle_DTLB_Miss_Write:
         rjmp $
 
@@ -208,7 +208,7 @@ _handle_Supervisor_Call:
 // Interrupt support.
 // The interrupt controller must provide the offset address relative to EVBA.
 // Important note:
-//   All interrupts call a C function named _get_interrupt_handler.
+//   All interrupts نادي a C function named _get_interrupt_handler.
 //   This function will read group and interrupt line number to then return in
 //   R12 a pointer to a user-provided interrupt handler.
 
@@ -232,7 +232,7 @@ _int0:
 _int0_normal:
 #endif
   mov     r12, 0  // Pass the int_lev parameter to the _get_interrupt_handler function.
-  call    _get_interrupt_handler
+  نادي    _get_interrupt_handler
   cp.w    r12, 0  // Get the pointer to the interrupt handler returned by the function.
   movne   pc, r12 // If this was not a spurious interrupt (R12 != NULL), jump to the handler.
   rete            // If this was a spurious interrupt (R12 == NULL), return from event handler.
@@ -255,7 +255,7 @@ _int1:
 _int1_normal:
 #endif
   mov     r12, 1  // Pass the int_lev parameter to the _get_interrupt_handler function.
-  call    _get_interrupt_handler
+  نادي    _get_interrupt_handler
   cp.w    r12, 0  // Get the pointer to the interrupt handler returned by the function.
   movne   pc, r12 // If this was not a spurious interrupt (R12 != NULL), jump to the handler.
   rete            // If this was a spurious interrupt (R12 == NULL), return from event handler.
@@ -278,7 +278,7 @@ _int2:
 _int2_normal:
 #endif
   mov     r12, 2  // Pass the int_lev parameter to the _get_interrupt_handler function.
-  call    _get_interrupt_handler
+  نادي    _get_interrupt_handler
   cp.w    r12, 0  // Get the pointer to the interrupt handler returned by the function.
   movne   pc, r12 // If this was not a spurious interrupt (R12 != NULL), jump to the handler.
   rete            // If this was a spurious interrupt (R12 == NULL), return from event handler.
@@ -301,7 +301,7 @@ _int3:
 _int3_normal:
 #endif
   mov     r12, 3  // Pass the int_lev parameter to the _get_interrupt_handler function.
-  call    _get_interrupt_handler
+  نادي    _get_interrupt_handler
   cp.w    r12, 0  // Get the pointer to the interrupt handler returned by the function.
   movne   pc, r12 // If this was not a spurious interrupt (R12 != NULL), jump to the handler.
   rete            // If this was a spurious interrupt (R12 == NULL), return from event handler.

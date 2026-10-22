@@ -27,47 +27,47 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
-#define portINITIAL_FORMAT_VECTOR      ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR      ( ( مكدس_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER    ( ( StackType_t ) 0x2000 )
+#define portINITIAL_STATUS_REGISTER    ( ( مكدس_Type_t ) 0x2000 )
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ساكن uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+مكدس_Type_t * px_Port_Initialise_مكدس( مكدس_Type_t * px_قمة_Of_مكدس,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pvParameters;
+    px_قمة_Of_مكدس--;
 
-    *pxTopOfStack = ( StackType_t ) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0xDEADBEEF;
+    px_قمة_Of_مكدس--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pxCode;
+    px_قمة_Of_مكدس--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_قمة_Of_مكدس--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14;                  /* A5 to D0. */
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x0; /*FP*/
+    px_قمة_Of_مكدس -= 14;                  /* A5 to D0. */
 
-    return pxTopOfStack;
+    إرجاع px_قمة_Of_مكدس;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vPortStartFirstTask( void );
+    خارجي فراغ vPortStartFirstTask( فراغ );
 
     ulCriticalNesting = 0UL;
 
@@ -77,51 +77,51 @@ BaseType_t xPortStartScheduler( void )
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    إرجاع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
-    if( ulCriticalNesting == 0UL )
+    إذا( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
          * critical section being entered. */
-        do
+        افعل
         {
             portDISABLE_INTERRUPTS();
 
-            if( MCF_INTC0_INTFRCL == 0UL )
+            إذا( MCF_INTC0_INTFRCL == 0UL )
             {
-                break;
+                اكسر;
             }
 
             portENABLE_INTERRUPTS();
-        } while( 1 );
+        } بينما( 1 );
     }
 
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    إذا( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+فراغ vPortYieldHandler( فراغ )
 {
     uint32_t ulSavedInterruptMask;
 

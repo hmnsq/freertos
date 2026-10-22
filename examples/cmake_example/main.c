@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#ضمن <FreeRTOS.h>
+#ضمن <task.h>
+#ضمن <queue.h>
+#ضمن <timers.h>
+#ضمن <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#ضمن <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+ساكن فراغ exampleTask( فراغ * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+ساكن فراغ exampleTask( فراغ * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( فراغ ) parameters;
 
-    for( ; ; )
+    لكل( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,42 +62,42 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+صحيح الرئيسية( فراغ )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    ساكن StaticTask_t exampleTaskTCB;
+    ساكن مكدس_Type_t example_Task_مكدس[ config_MINIMAL_مكدس_SIZE ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( فراغ ) printf( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( فراغ ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_MINIMAL_مكدس_SIZE,
+                                عدم,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_مكدس[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    لكل( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    إرجاع 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#إذا ( config_CHECK_FOR_مكدس_OVERFLOW > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    فراغ v_Application_مكدس_Overflow_Hook( TaskHandle_t xTask,
+                                        حرف * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( فراغ ) xTask;
+        ( فراغ ) pcTaskName;
     }
 
 #endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
