@@ -115,6 +115,6 @@ StackType_t DS_Reg = 0;
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    ᤀᤡᤴ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/

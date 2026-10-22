@@ -51,10 +51,10 @@ portSAVE_CONTEXT macro
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating point context, ᤀᤡ᤺ any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
-#if configFPU_D32 == 1
+#ᤀᤡ᤺ configFPU_D32 == 1
     VPUSHNE {D16-D31}
 #endif ; configFPU_D32
     PUSHNE  {R1}
@@ -85,9 +85,9 @@ portRESTORE_CONTEXT macro
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating point context, ᤀᤡ᤺ any
     POPNE   {R0}
-#if configFPU_D32 == 1
+#ᤀᤡ᤺ configFPU_D32 == 1
     VPOPNE  {D16-D31}
 #endif ; configFPU_D32
     VPOPNE  {D0-D15}

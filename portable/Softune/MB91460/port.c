@@ -35,7 +35,7 @@
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -173,7 +173,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     /* PS - User Mode, USP, ILM=31, Interrupts enabled */
     *pxTopOfStack = ( StackType_t ) 0x001F0030; /* PS */
 
-    return pxTopOfStack;
+    ᤀᤡᤴ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -192,7 +192,7 @@ BaseType_t xPortStartScheduler( void )
     __asm(" reti ");
 
     /* Should not get here. */
-    return pdFAIL;
+    ᤀᤡᤴ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -225,7 +225,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#ᤀᤡ᤺ configUSE_PREEMPTION == 1
 
     /*
      * Tick ISR for preemptive scheduler. The tick count is incremented
@@ -247,7 +247,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     AND R1,@R0                              ;Clear RLT0 interrupt flag
 
     CALL32   _xTaskIncrementTick,R12        ;Increment Tick
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context ᤀᤡ᤺ required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -257,7 +257,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 
     #pragma endasm
 
-#else
+#ᤀᤡ᤺ᤆᤡ
 
     /*
      * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -290,7 +290,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     LDI #_dicr, R0
     BANDL #0x0E, @R0                        ;Clear Delayed interrupt flag
 
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context ᤀᤡ᤺ required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -312,7 +312,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     _vPortYield:
 
     SaveContext                             ;Save context
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context ᤀᤡ᤺ required
     RestoreContext                          ;Restore context
 
     RETI

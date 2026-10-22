@@ -418,7 +418,7 @@
 
 /* *INDENT-OFF* */
 #define configASSERT( x )         \
-    if( ( x ) == 0 )              \
+    ᤀᤡ᤺( ( x ) == 0 )              \
     {                             \
         taskDISABLE_INTERRUPTS(); \
         for( ; ; )                \

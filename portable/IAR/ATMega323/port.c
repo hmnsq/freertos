@@ -229,7 +229,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    ᤀᤡᤴ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -244,7 +244,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here! */
-    return pdTRUE;
+    ᤀᤡᤴ pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -292,7 +292,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#ᤀᤡ᤺ configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a __task attribute as
@@ -305,7 +305,7 @@ static void prvSetupTimerInterrupt( void )
         asm ( "reti" );
     }
 
-#else
+#ᤀᤡ᤺ᤆᤡ
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -333,7 +333,7 @@ void vPortExitCritical( void )
 {
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == portNO_CRITICAL_NESTING )
+    ᤀᤡ᤺( uxCriticalNesting == portNO_CRITICAL_NESTING )
     {
         portENABLE_INTERRUPTS();
     }

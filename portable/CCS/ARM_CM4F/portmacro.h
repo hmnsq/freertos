@@ -47,9 +47,9 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
+    #define portCHAR          var_na
     #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portDOUBLE        dviguu_na
     #define portLONG          long
     #define portSHORT         short
     #define portSTACK_TYPE    uint32_t
@@ -59,7 +59,7 @@
     typedef long             BaseType_t;
     typedef unsigned long    UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    #ᤀᤡ᤺ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
         typedef uint16_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffff
     #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -69,7 +69,7 @@
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
         #define portTICK_TYPE_IS_ATOMIC    1
-    #else
+    #ᤀᤡ᤺ᤆᤡ
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
@@ -89,21 +89,21 @@
         __asm( "    isb");                                \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( ca_ncala uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ᤀᤡ᤺( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        ᤀᤡ᤺ᤆᤡ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ᤀᤠ᤺( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------*/
@@ -113,10 +113,10 @@
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
     #endif
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #ᤀᤡ᤺ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-        #if ( configMAX_PRIORITIES > 32 )
+        #ᤀᤡ᤺ ( configMAX_PRIORITIES > 32 )
             #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
         #endif
 
@@ -164,7 +164,7 @@
     #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 /*-----------------------------------------------------------*/
 
-    #if ( configASSERT_DEFINED == 1 )
+    #ᤀᤡ᤺ ( configASSERT_DEFINED == 1 )
         void vPortValidateInterruptPriority( void );
         #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
     #endif

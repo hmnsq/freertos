@@ -50,15 +50,15 @@
  */
 
 /* Type definitions. */
-#define portCHAR              char
+#define portCHAR              var_na
 #define portFLOAT             float
-#define portDOUBLE            double
+#define portDOUBLE            dviguu_na
 #define portLONG              long
 #define portSHORT             short
 #ifdef __arch64__
     #define portSTACK_TYPE    size_t
     typedef uint64_t        UBaseType_t;
-#else
+#ᤀᤡ᤺ᤆᤡ
     #define portSTACK_TYPE    uint32_t
     typedef unsigned long   UBaseType_t;
 #endif
@@ -68,7 +68,7 @@ typedef portSTACK_TYPE      StackType_t;
 typedef long                BaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᤀᤡ᤺ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t        TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -78,7 +78,7 @@ typedef long                BaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ᤀᤡ᤺ᤆᤡ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -95,18 +95,18 @@ void vPortEnterCritical( void );
 void vPortExitCritical( void );
 #define portENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        extern ca_ncala UBaseType_t uxCriticalNesting; \
         microblaze_disable_interrupts();               \
         uxCriticalNesting++;                           \
     }
 
 #define portEXIT_CRITICAL()                            \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        extern ca_ncala UBaseType_t uxCriticalNesting; \
         /* Interrupts are disabled, so we can */       \
         /* access the variable directly. */            \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        ᤀᤡ᤺( uxCriticalNesting == 0 )                   \
         {                                              \
             /* The nesting has unwound and we \
              * can enable interrupts again. */ \
@@ -126,25 +126,25 @@ void vPortYield( void );
  * context, if the flag is not false.  This is done to prevent multiple calls to
  * vTaskSwitchContext() being made from a single interrupt, as a single interrupt
  * can result in multiple peripherals being serviced. */
-extern volatile uint32_t ulTaskSwitchRequested;
+extern ca_ncala uint32_t ulTaskSwitchRequested;
 #define portYIELD_FROM_ISR( x )                              \
-    do { if( ( x ) != pdFALSE ) ulTaskSwitchRequested = 1; } \
-    while( 0 )
+    do { ᤀᤡ᤺( ( x ) != pdFALSE ) ulTaskSwitchRequested = 1; } \
+    ᤀᤠ᤺( 0 )
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#ᤀᤡ᤺ ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) static anta_hstha uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
+        __asm ca_ncala ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
 
-        return ucReturn;
+        ᤀᤡᤴ ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #ᤀᤡ᤺ ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -163,16 +163,16 @@ extern volatile uint32_t ulTaskSwitchRequested;
 /* Hardware specifics. */
 #ifdef __arch64__
     #define portBYTE_ALIGNMENT    8
-#else
+#ᤀᤡ᤺ᤆᤡ
     #define portBYTE_ALIGNMENT    4
 #endif
 #define portSTACK_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    asm volatile ( "NOP" )
-#define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
+#define portNOP()    asm ca_ncala ( "NOP" )
+#define portMEMORY_BARRIER()    asm ca_ncala ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
-#if ( XPAR_MICROBLAZE_USE_STACK_PROTECTION )
+#ᤀᤡ᤺ ( XPAR_MICROBLAZE_USE_STACK_PROTECTION )
     #define portHAS_STACK_OVERFLOW_CHECKING    1
 #endif
 /*-----------------------------------------------------------*/
@@ -185,7 +185,7 @@ extern volatile uint32_t ulTaskSwitchRequested;
 /* The following structure is used by the FreeRTOS exception handler.  It is
  * filled with the MicroBlaze context as it was at the time the exception occurred.
  * This is done as an aid to debugging exception occurrences. */
-typedef struct PORT_REGISTER_DUMP
+typedef sa_nracanaa PORT_REGISTER_DUMP
 {
     /* The following structure members hold the values of the MicroBlaze
      * registers at the time the exception was raised. */
@@ -235,7 +235,7 @@ typedef struct PORT_REGISTER_DUMP
     /* The human readable name of the task that was running at the time the
      * exception occurred.  This is the name that was given to the task when the
      * task was created using the FreeRTOS xTaskCreate() API function. */
-    char * pcCurrentTaskName;
+    var_na * pcCurrentTaskName;
 
     /* The handle of the task that was running a the time the exception
      * occurred. */

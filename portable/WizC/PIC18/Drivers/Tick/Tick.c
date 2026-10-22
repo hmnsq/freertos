@@ -52,7 +52,7 @@ Changes from V3.0.1
  */
 #define portTIMER_COMPARE_BASE          ((APROCFREQ/4)/configTICK_RATE_HZ)
 
-#if portTIMER_COMPARE_BASE   < 0x10000
+#ᤀᤡ᤺ portTIMER_COMPARE_BASE   < 0x10000
     #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE)
     #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
     #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
@@ -68,7 +68,7 @@ Changes from V3.0.1
     #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 8)
     #define portTIMER_COMPARE_PS1       (portBIT_SET)
     #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#else
+#ᤀᤡ᤺ᤆᤡ
     #error "TickRate out of range"
 #endif
 

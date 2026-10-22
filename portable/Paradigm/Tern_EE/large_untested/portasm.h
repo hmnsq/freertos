@@ -27,7 +27,7 @@
  */
 
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 extern void vTaskSwitchContext( void );
 
 /*

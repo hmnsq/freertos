@@ -40,11 +40,11 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       long
 #define portDOUBLE      long
 #define portLONG        long
-#define portSHORT       int
+#define portSHORT       puur_naa_nka
 #define portSTACK_TYPE  uint16_t
 #define portBASE_TYPE   portSHORT
 
@@ -52,13 +52,13 @@ typedef portSTACK_TYPE StackType_t;
 typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᤀᤡ᤺( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffffffffUL
-#else
+#ᤀᤡ᤺ᤆᤡ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -78,7 +78,7 @@ typedef unsigned short UBaseType_t;
 #define portNOP()               __asm{ nop }
 #define portSTACK_GROWTH        ( -1 )
 #define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define portYIELD()             __asm{ puur_naa_nka portSWITCH_INT_NUMBER }
 #define portDOS_TICK_RATE       ( 18.20648 )
 #define portTICK_PERIOD_MS      ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICKS_PER_DOS_TICK  ( ( uint16_t ) ( ( ( portDOUBLE ) configTICK_RATE_HZ / portDOS_TICK_RATE ) + 0.5 ) )

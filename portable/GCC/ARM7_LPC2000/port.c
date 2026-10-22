@@ -138,7 +138,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    ᤀᤡ᤺( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -152,7 +152,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    ᤀᤡᤴ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -166,7 +166,7 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᤀᤡᤴ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -195,7 +195,7 @@ static void prvSetupTimerInterrupt( void )
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #ᤀᤡ᤺ portPRESCALE_VALUE != 0
     {
         ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
     }
