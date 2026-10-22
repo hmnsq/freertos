@@ -34,16 +34,16 @@
 
 portSAVE_CONTEXT macro
 
-    ; Save the LR and SPSR onto the system mode stack before switching to
-    ; system mode to save the remaining system mode registers
+    ; Save the LR and SPSR onto the प्रणाली mode थाक before switching to
+    ; प्रणाली mode to save the remaining प्रणाली mode registers
     SRSDB   sp!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    थप_2    {R0-R12, R14}
 
-    ; Push the critical nesting count
+    ; थप_3 the critical nesting गन्ती
     LDR     R2, =ulCriticalNesting
     LDR     R1, [R2]
-    PUSH    {R1}
+    थप_2    {R1}
 
     ; Does the task have a floating point context that needs saving?  If
     ; ulPortTaskHasFPUContext is 0 then no.
@@ -51,16 +51,16 @@ portSAVE_CONTEXT macro
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating point context, यदि any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
     VPUSHNE {D16-D31}
     PUSHNE  {R1}
 
     ; Save ulPortTaskHasFPUContext itself
-    PUSH    {R3}
+    थप_2    {R3}
 
-    ; Save the stack pointer in the TCB
+    ; Save the थाक pointer in the TCB
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     STR     SP, [R1]
@@ -71,7 +71,7 @@ portSAVE_CONTEXT macro
 
 portRESTORE_CONTEXT macro
 
-    ; Set the SP to point to the stack of the task being restored.
+    ; Set the SP to point to the थाक of the task being restored.
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     LDR     SP, [R1]
@@ -79,11 +79,11 @@ portRESTORE_CONTEXT macro
     ; Is there a floating point context to restore?  If the restored
     ; ulPortTaskHasFPUContext is zero then no.
     LDR     R0, =ulPortTaskHasFPUContext
-    POP     {R1}
+    झिक_2     {R1}
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating point context, यदि any
     POPNE   {R0}
     VPOPNE  {D16-D31}
     VPOPNE  {D0-D15}
@@ -91,19 +91,19 @@ portRESTORE_CONTEXT macro
 
     ; Restore the critical section nesting depth
     LDR     R0, =ulCriticalNesting
-    POP     {R1}
+    झिक_2     {R1}
     STR     R1, [R0]
 
-    ; Ensure the priority mask is correct for the critical nesting depth
+    ; Ensure the priority mask is correct लागि the critical nesting depth
     LDR     R2, =portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS
     CMP     R1, #0
     MOVEQ   R4, #255
     LDRNE   R4, =( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT )
     STR     R4, [r2]
 
-    ; Restore all system mode registers other than the SP (which is already
+    ; Restore all प्रणाली mode registers other than the SP (which is already
     ; being used)
-    POP     {R0-R12, R14}
+    झिक_2     {R0-R12, R14}
 
     ; Return to the task code, loading CPSR on the way.
     RFEIA   sp!

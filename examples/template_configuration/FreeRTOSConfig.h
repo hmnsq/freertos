@@ -53,7 +53,7 @@
  * settings.  Your application will certainly need a different value so set this
  * correctly. This is very often, but not always, equal to the main system clock
  * frequency. */
-#define configCPU_CLOCK_HZ    ( ( unsigned long ) 20000000 )
+#define configCPU_CLOCK_HZ    ( ( अचिन्हित दीर्घ ) 20000000 )
 
 /* configSYSTICK_CLOCK_HZ is an optional parameter for ARM Cortex-M ports only.
  *
@@ -115,7 +115,7 @@
  * (in words, not in bytes!).  The kernel does not use this constant for any
  * other purpose.  Demo applications use the constant to make the demos somewhat
  * portable across hardware architectures. */
-#define configMINIMAL_STACK_SIZE                   128
+#define config_MINIMAL_थाक_SIZE                   128
 
 /* configMAX_TASK_NAME_LEN sets the maximum length (in characters) of a task's
  * human readable name.  Includes the NULL terminator. */
@@ -165,7 +165,7 @@
  * in the array.  See
  * https://www.freertos.org/thread-local-storage-pointers.html Defaults to 0 if
  * left undefined. */
-#define configNUM_THREAD_LOCAL_STORAGE_POINTERS    0
+#define config_अङ्क_THREAD_LOCAL_STORAGE_POINTERS    0
 
 /* When configUSE_MINI_LIST_ITEM is set to 0, MiniListItem_t and ListItem_t are
  * both the same. When configUSE_MINI_LIST_ITEM is set to 1, MiniListItem_t
@@ -178,14 +178,14 @@
  * size of the task being created.  The same type is used to return information
  * about stack usage in various other API calls.  Defaults to size_t if left
  * undefined. */
-#define configSTACK_DEPTH_TYPE                     size_t
+#define config_थाक_DEPTH_TYPE                     माप_प्रकार
 
 /* configMESSAGE_BUFFER_LENGTH_TYPE sets the type used to store the length of
  * each message written to a FreeRTOS message buffer (the length is also written
  * to the message buffer.  Defaults to size_t if left undefined - but that may
  * waste space if messages never go above a length that could be held in a
  * uint8_t. */
-#define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
+#define configMESSAGE_BUFFER_LENGTH_TYPE           माप_प्रकार
 
 /* If configHEAP_CLEAR_MEMORY_ON_FREE is set to 1, then blocks of memory
  * allocated using pvPortMalloc() will be cleared (i.e. set to zero) when freed
@@ -234,7 +234,7 @@
  * task.  See
  * https://www.freertos.org/RTOS-software-timer-service-daemon-task.html Only
  * used if configUSE_TIMERS is set to 1. */
-#define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
+#define config_TIMER_TASK_थाक_DEPTH    config_MINIMAL_थाक_SIZE
 
 /* configTIMER_QUEUE_LENGTH sets the length of the queue (the number of discrete
  * items the queue can hold) used to send commands to the timer task.  See
@@ -300,7 +300,7 @@
  * come from the standard FreeRTOS heap.  The application writer must provide
  * implementations for pvPortMallocStack() and vPortFreeStack() if set to 1.
  * Defaults to 0 if left undefined. */
-#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
+#define config_थाक_ALLOCATION_FROM_SEPARATE_HEAP    0
 
 /* Set configENABLE_HEAP_PROTECTOR to 1 to enable bounds checking and
  * obfuscation to internal heap block pointers in heap_4.c and heap_5.c to help
@@ -362,7 +362,7 @@
  * configCHECK_FOR_STACK_OVERFLOW is set to 1. See
  * https://www.freertos.org/Stacks-and-stack-overflow-checking.html  Defaults to
  * 0 if left undefined. */
-#define configCHECK_FOR_STACK_OVERFLOW        2
+#define config_CHECK_FOR_थाक_OVERFLOW        2
 
 /******************************************************************************/
 /* Run time and task stats gathering related definitions. *********************/
@@ -418,10 +418,10 @@
 
 /* *INDENT-OFF* */
 #define configASSERT( x )         \
-    if( ( x ) == 0 )              \
+    यदि( ( x ) == 0 )              \
     {                             \
         taskDISABLE_INTERRUPTS(); \
-        for( ; ; )                \
+        लागि( ; ; )                \
         ;                         \
     }
 /* *INDENT-ON* */
@@ -492,7 +492,7 @@
  * calls. For example, if configSYSTEM_CALL_STACK_SIZE is defined as 128 and
  * there are 10 tasks in the application, the total amount of memory used for
  * system call stacks is 128 * 10 = 1280 words. */
-#define configSYSTEM_CALL_STACK_SIZE                              128
+#define config_SYSTEM_CALL_थाक_SIZE                              128
 
 /* When using the v2 MPU wrapper, set configENABLE_ACCESS_CONTROL_LIST to 1 to
  * enable Access Control List (ACL) feature. When ACL is enabled, an
@@ -664,7 +664,7 @@
 #define INCLUDE_vTaskDelay                     1
 #define INCLUDE_xTaskGetSchedulerState         1
 #define INCLUDE_xTaskGetCurrentTaskHandle      1
-#define INCLUDE_uxTaskGetStackHighWaterMark    0
+#define INCLUDE_ux_Task_Get_थाक_माथिल्लो_Water_Mark    0
 #define INCLUDE_xTaskGetIdleTaskHandle         0
 #define INCLUDE_eTaskGetState                  0
 #define INCLUDE_xTimerPendFunctionCall         0

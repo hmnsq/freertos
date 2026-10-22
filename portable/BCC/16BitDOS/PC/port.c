@@ -38,13 +38,13 @@ Changes from V4.0.1
       its proper value when the scheduler exits.
 */
 
-#include <stdlib.h>
-#include <dos.h>
-#include <setjmp.h>
+#अन्तर्भाव <stdlib.h>
+#अन्तर्भाव <dos.h>
+#अन्तर्भाव <setjmp.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
+#अन्तर्भाव "portasm.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the industrial
@@ -53,59 +53,59 @@ Changes from V4.0.1
 
 /*lint -e950 Non ANSI reserved words okay in this file only. */
 
-#define portTIMER_INT_NUMBER    0x08
+#define port_TIMER_INT_सङ्ख्या    0x08
 
 /* Setup hardware for required tick interrupt rate. */
-static void prvSetTickFrequency( uint32_t ulTickRateHz );
+स्थिर शून्य prvSetTickFrequency( uint32_t ulTickRateHz );
 
 /* Restore hardware to as it was prior to starting the scheduler. */
-static void prvExitFunction( void );
+स्थिर शून्य prvExitFunction( शून्य );
 
 /* Either chain to the DOS tick (which itself clears the PIC) or clear the PIC
 directly.  We chain to the DOS tick as close as possible to the standard DOS
 tick rate. */
-static void prvPortResetPIC( void );
+स्थिर शून्य prvPortResetPIC( शून्य );
 
 /* The ISR used depends on whether the preemptive or cooperative
 scheduler is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#यदि( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    स्थिर शून्य __interrupt __far prvPreemptiveTick( शून्य );
+#अन्यथा
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
+    स्थिर शून्य __interrupt __far prvNonPreemptiveTick( शून्य );
 #endif
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+स्थिर शून्य __interrupt __far prvYieldProcessor( शून्य );
 
 /* Set the tick frequency back so the floppy drive works correctly when the
 scheduler exits. */
-static void prvSetTickFrequencyDefault( void );
+स्थिर शून्य prvSetTickFrequencyDefault( शून्य );
 
 /*lint -e956 File scopes necessary here. */
 
 /* Used to signal when to chain to the DOS tick, and when to just clear the PIC ourselves. */
-static int16_t sDOSTickCounter;
+स्थिर int16_t sDOSTickCounter;
 
 /* Set true when the vectors are set so the scheduler will service the tick. */
-static BaseType_t xSchedulerRunning = pdFALSE;
+स्थिर BaseType_t xSchedulerRunning = pdFALSE;
 
 /* Points to the original routine installed on the vector we use for manual context switches.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISR )();
+स्थिर शून्य ( __interrupt __far *pxOldSwitchISR )();
 
 /* Points to the original routine installed on the vector we use to chain to the DOS tick.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISRPlus1 )();
+स्थिर शून्य ( __interrupt __far *pxOldSwitchISRPlus1 )();
 
 /* Used to restore the original DOS context when the scheduler is ended. */
-static jmp_buf xJumpBuf;
+स्थिर लाँघ_बफ xJumpBuf;
 
 /*lint +e956 */
 
 /*-----------------------------------------------------------*/
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
 pxISR pxOriginalTickISR;
 
@@ -113,31 +113,31 @@ pxISR pxOriginalTickISR;
 
     /* Remember what was on the interrupts we are going to use
     so we can put them back later if required. */
-    pxOldSwitchISR = _dos_getvect( portSWITCH_INT_NUMBER );
-    pxOriginalTickISR = _dos_getvect( portTIMER_INT_NUMBER );
-    pxOldSwitchISRPlus1 = _dos_getvect( portSWITCH_INT_NUMBER + 1 );
+    pxOldSwitchISR = _dos_getvect( port_SWITCH_INT_सङ्ख्या );
+    pxOriginalTickISR = _dos_getvect( port_TIMER_INT_सङ्ख्या );
+    pxOldSwitchISRPlus1 = _dos_getvect( port_SWITCH_INT_सङ्ख्या + 1 );
 
     prvSetTickFrequency( configTICK_RATE_HZ );
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    _dos_setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    _dos_setvect( port_SWITCH_INT_सङ्ख्या, prvYieldProcessor );
 
     /* Put the old tick on a different interrupt number so we can
     call it when we want. */
-    _dos_setvect( portSWITCH_INT_NUMBER + 1, pxOriginalTickISR );
+    _dos_setvect( port_SWITCH_INT_सङ्ख्या + 1, pxOriginalTickISR );
 
     /* The ISR used depends on whether the preemptive or cooperative
     scheduler is being used. */
-    #if( configUSE_PREEMPTION == 1 )
+    #यदि( configUSE_PREEMPTION == 1 )
     {
         /* Put our tick switch function on the timer interrupt. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
+        _dos_setvect( port_TIMER_INT_सङ्ख्या, prvPreemptiveTick );
     }
-    #else
+    #अन्यथा
     {
         /* We want the timer interrupt to just increment the tick count. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvNonPreemptiveTick );
+        _dos_setvect( port_TIMER_INT_सङ्ख्या, prvNonPreemptiveTick );
     }
     #endif
 
@@ -147,12 +147,12 @@ pxISR pxOriginalTickISR;
     sDOSTickCounter = portTICKS_PER_DOS_TICK;
 
     /* Clean up function if we want to return to DOS. */
-    if( setjmp( xJumpBuf ) != 0 )
+    यदि( बनाओ_लाँघ( xJumpBuf ) != 0 )
     {
         prvExitFunction();
         xSchedulerRunning = pdFALSE;
     }
-    else
+    अन्यथा
     {
         xSchedulerRunning = pdTRUE;
 
@@ -160,17 +160,17 @@ pxISR pxOriginalTickISR;
         portFIRST_CONTEXT();
     }
 
-    return xSchedulerRunning;
+    फर्काऊ xSchedulerRunning;
 }
 /*-----------------------------------------------------------*/
 
 /* The ISR used depends on whether the preemptive or cooperative
 scheduler is being used. */
-#if( configUSE_PREEMPTION == 1 )
-    static void __interrupt __far prvPreemptiveTick( void )
+#यदि( configUSE_PREEMPTION == 1 )
+    स्थिर शून्य __interrupt __far prvPreemptiveTick( शून्य )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        यदि( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
             portSWITCH_CONTEXT();
@@ -179,8 +179,8 @@ scheduler is being used. */
         /* Reset the PIC ready for the next time. */
         prvPortResetPIC();
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#अन्यथा
+    स्थिर शून्य __interrupt __far prvNonPreemptiveTick( शून्य )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
@@ -190,26 +190,26 @@ scheduler is being used. */
 #endif
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+स्थिर शून्य __interrupt __far prvYieldProcessor( शून्य )
 {
     /* Switch in the context of the next task to be run. */
     portSWITCH_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-static void prvPortResetPIC( void )
+स्थिर शून्य prvPortResetPIC( शून्य )
 {
     /* We are going to call the DOS tick interrupt at as close a
     frequency to the normal DOS tick as possible. */
 
     /* WE SHOULD NOT DO THIS IF YIELD WAS CALLED. */
     --sDOSTickCounter;
-    if( sDOSTickCounter <= 0 )
+    यदि( sDOSTickCounter <= 0 )
     {
         sDOSTickCounter = ( int16_t ) portTICKS_PER_DOS_TICK;
-        __asm{ int  portSWITCH_INT_NUMBER + 1 };
+        __asm{ पूर्णाङ्क  port_SWITCH_INT_सङ्ख्या + 1 };
     }
-    else
+    अन्यथा
     {
         /* Reset the PIC as the DOS tick is not being called to
         do it. */
@@ -222,33 +222,33 @@ static void prvPortResetPIC( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Jump back to the processor state prior to starting the
     scheduler.  This means we are not going to be using a
     task stack frame so the task can be deleted. */
-    longjmp( xJumpBuf, 1 );
+    दीर्घ_लाँघ( xJumpBuf, 1 );
 }
 /*-----------------------------------------------------------*/
 
-static void prvExitFunction( void )
+स्थिर शून्य prvExitFunction( शून्य )
 {
-void ( __interrupt __far *pxOriginalTickISR )();
+शून्य ( __interrupt __far *pxOriginalTickISR )();
 
     /* Interrupts should be disabled here anyway - but no
     harm in making sure. */
     portDISABLE_INTERRUPTS();
-    if( xSchedulerRunning == pdTRUE )
+    यदि( xSchedulerRunning == pdTRUE )
     {
         /* Set the DOS tick back onto the timer ticker. */
-        pxOriginalTickISR = _dos_getvect( portSWITCH_INT_NUMBER + 1 );
-        _dos_setvect( portTIMER_INT_NUMBER, pxOriginalTickISR );
+        pxOriginalTickISR = _dos_getvect( port_SWITCH_INT_सङ्ख्या + 1 );
+        _dos_setvect( port_TIMER_INT_सङ्ख्या, pxOriginalTickISR );
         prvSetTickFrequencyDefault();
 
         /* Put back the switch interrupt routines that was in place
         before the scheduler started. */
-        _dos_setvect( portSWITCH_INT_NUMBER, pxOldSwitchISR );
-        _dos_setvect( portSWITCH_INT_NUMBER + 1, pxOldSwitchISRPlus1 );
+        _dos_setvect( port_SWITCH_INT_सङ्ख्या, pxOldSwitchISR );
+        _dos_setvect( port_SWITCH_INT_सङ्ख्या + 1, pxOldSwitchISRPlus1 );
     }
     /* The tick timer is back how DOS wants it.  We can re-enable
     interrupts without the scheduler being called. */
@@ -256,12 +256,12 @@ void ( __interrupt __far *pxOriginalTickISR )();
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetTickFrequency( uint32_t ulTickRateHz )
+स्थिर शून्य prvSetTickFrequency( uint32_t ulTickRateHz )
 {
-const uint16_t usPIT_MODE = ( uint16_t ) 0x43;
-const uint16_t usPIT0 = ( uint16_t ) 0x40;
-const uint32_t ulPIT_CONST = ( uint32_t ) 1193180UL;
-const uint16_t us8254_CTR0_MODE3 = ( uint16_t ) 0x36;
+अचर uint16_t usPIT_MODE = ( uint16_t ) 0x43;
+अचर uint16_t usPIT0 = ( uint16_t ) 0x40;
+अचर uint32_t ulPIT_CONST = ( uint32_t ) 1193180UL;
+अचर uint16_t us8254_CTR0_MODE3 = ( uint16_t ) 0x36;
 uint32_t ulOutput;
 
     /* Setup the 8245 to tick at the wanted frequency. */
@@ -273,11 +273,11 @@ uint32_t ulOutput;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetTickFrequencyDefault( void )
+स्थिर शून्य prvSetTickFrequencyDefault( शून्य )
 {
-const uint16_t usPIT_MODE = ( uint16_t ) 0x43;
-const uint16_t usPIT0 = ( uint16_t ) 0x40;
-const uint16_t us8254_CTR0_MODE3 = ( uint16_t ) 0x36;
+अचर uint16_t usPIT_MODE = ( uint16_t ) 0x43;
+अचर uint16_t usPIT0 = ( uint16_t ) 0x40;
+अचर uint16_t us8254_CTR0_MODE3 = ( uint16_t ) 0x36;
 
     portOUTPUT_BYTE( usPIT_MODE, us8254_CTR0_MODE3 );
     portOUTPUT_BYTE( usPIT0,0 );

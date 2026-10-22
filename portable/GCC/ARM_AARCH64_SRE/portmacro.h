@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,19 +46,19 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    size_t
-#define portBASE_TYPE     long
+#define portCHAR          वर्ण
+#define portFLOAT         भिन्न
+#define portDOUBLE        द्विगुण
+#define portLONG          दीर्घ
+#define portSHORT         लघु
+#define port_थाक_TYPE    माप_प्रकार
+#define portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef portBASE_TYPE    BaseType_t;
-typedef uint64_t         UBaseType_t;
+प्रकारनिर्देश port_थाक_TYPE   थाक_Type_t;
+प्रकारनिर्देश portBASE_TYPE    BaseType_t;
+प्रकारनिर्देश uint64_t         UBaseType_t;
 
-typedef uint64_t         TickType_t;
+प्रकारनिर्देश uint64_t         TickType_t;
 #define portMAX_DELAY              ( ( TickType_t ) 0xffffffffffffffff )
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
@@ -68,7 +68,7 @@ typedef uint64_t         TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH         ( -1 )
+#define port_थाक_GROWTH         ( -1 )
 #define portTICK_PERIOD_MS       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT       16
 #define portPOINTER_SIZE_TYPE    uint64_t
@@ -80,40 +80,40 @@ typedef uint64_t         TickType_t;
 /* Called at the end of an ISR that can cause a context switch. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint64_t ullPortYieldRequired;    \
+        बाह्य uint64_t ullPortYieldRequired;    \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        यदि( xSwitchRequired != pdFALSE )         \
         {                                        \
             ullPortYieldRequired = pdTRUE;       \
         }                                        \
     }
 
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#if defined( GUEST )
-    #define portYIELD()            __asm volatile ( "SVC 0" ::: "memory" )
-#else
-    #define portYIELD()            __asm volatile ( "SMC 0" ::: "memory" )
+#यदि defined( GUEST )
+    #define portYIELD()            __asm चञ्चल ( "SVC 0" ::: "memory" )
+#अन्यथा
+    #define portYIELD()            __asm चञ्चल ( "SMC 0" ::: "memory" )
 #endif
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern UBaseType_t uxPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t uxNewMaskValue );
-extern void vPortInstallFreeRTOSVectorTable( void );
+बाह्य शून्य vPortEnterCritical( शून्य );
+बाह्य शून्य vPortExitCritical( शून्य );
+बाह्य UBaseType_t uxPortSetInterruptMask( शून्य );
+बाह्य शून्य vPortClearInterruptMask( UBaseType_t ux_New_Mask_मान );
+बाह्य शून्य vPortInstallFreeRTOSVectorTable( शून्य );
 
 #define portDISABLE_INTERRUPTS()                       \
-    __asm volatile ( "MSR DAIFSET, #2" ::: "memory" ); \
-    __asm volatile ( "DSB SY" );                       \
-    __asm volatile ( "ISB SY" );
+    __asm चञ्चल ( "MSR DAIFSET, #2" ::: "memory" ); \
+    __asm चञ्चल ( "DSB SY" );                       \
+    __asm चञ्चल ( "ISB SY" );
 
 #define portENABLE_INTERRUPTS()                        \
-    __asm volatile ( "MSR DAIFCLR, #2" ::: "memory" ); \
-    __asm volatile ( "DSB SY" );                       \
-    __asm volatile ( "ISB SY" );
+    __asm चञ्चल ( "MSR DAIFCLR, #2" ::: "memory" ); \
+    __asm चञ्चल ( "DSB SY" );                       \
+    __asm चञ्चल ( "ISB SY" );
 
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
@@ -128,21 +128,21 @@ extern void vPortInstallFreeRTOSVectorTable( void );
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+शून्य FreeRTOS_Tick_Handler( शून्य );
 
 /* If configUSE_TASK_FPU_SUPPORT is set to 1 (or left undefined) then tasks are
  * created without an FPU context and must call vPortTaskUsesFPU() to give
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU context
  * by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
-    void vPortTaskUsesFPU( void );
-#else
+#यदि ( configUSE_TASK_FPU_SUPPORT != 2 )
+    शून्य vPortTaskUsesFPU( शून्य );
+#अन्यथा
     /* Each task has an FPU context already, so define this function away to
     * nothing to prevent it from being called accidentally. */
     #define vPortTaskUsesFPU()
@@ -157,7 +157,7 @@ void FreeRTOS_Tick_Handler( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#यदि configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -165,40 +165,40 @@ void FreeRTOS_Tick_Handler( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( uxReadyPriorities ) )
+    #define portGET_HIGHEST_PRIORITY( ux_शीर्ष_Priority, uxReadyPriorities )    ux_शीर्ष_Priority = ( 31 - __builtin_clz( uxReadyPriorities ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
+#यदि ( configASSERT_DEFINED == 1 )
+    शून्य vPortValidateInterruptPriority( शून्य );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif /* configASSERT */
 
-#define portNOP()                                         __asm volatile ( "NOP" )
+#define portNOP()                                         __asm चञ्चल ( "NOP" )
 #define portINLINE    __inline
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
+#यदि configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 32
+    #define port_MAX_द्विआधारी_POINT_मान    3
+#अथवायदि configUNIQUE_INTERRUPT_PRIORITIES == 32
     #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 64
+    #define port_MAX_द्विआधारी_POINT_मान    2
+#अथवायदि configUNIQUE_INTERRUPT_PRIORITIES == 64
     #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 128
+    #define port_MAX_द्विआधारी_POINT_मान    1
+#अथवायदि configUNIQUE_INTERRUPT_PRIORITIES == 128
     #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 256
+    #define port_MAX_द्विआधारी_POINT_मान    0
+#अथवायदि configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
+    #define port_MAX_द्विआधारी_POINT_मान    0
+#अन्यथा /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the सङ्ख्या of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm चञ्चल ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

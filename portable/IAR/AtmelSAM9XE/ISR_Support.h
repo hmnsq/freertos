@@ -35,12 +35,12 @@ Context save and restore macro definitions
 portSAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+थप_3 R0 as we are going to use the पञ्जिका.
    STMDB SP !, {
     R0
 }
 
-Set R0 to point to the task stack pointer.
+Set R0 to point to the task थाक pointer.
    STMDB SP, {
     SP
 }
@@ -52,7 +52,7 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+थप_3 the फर्काऊ address onto the थाक.
           STMDB R0 !, {
            LR
        }
@@ -62,12 +62,12 @@ Push the return address onto the stack.
 
 ;
 
-Pop R0 so we can save it onto the system mode stack.
+झिक_3 R0 so we can save it onto the प्रणाली mode थाक.
    LDMIA SP !, {
     R0
 }
 
-Push all the system mode registers onto the task stack.
+थप_3 all the प्रणाली mode registers onto the task थाक.
    STMDB LR, {
     R0 - LR
 }
@@ -76,7 +76,7 @@ NOP
 SUB LR, LR, # 60
 
 ;
-Push the SPSR onto the task stack.
+थप_3 the SPSR onto the task थाक.
    MRS R0, SPSR
 STMDB LR !, {
     R0
@@ -88,9 +88,9 @@ STMDB LR !, {
     R0
 }
 
-Store the new top of stack
+Store the new शीर्ष_2 of थाक
 
-for the task.
+लागि the task.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 STR LR, [ R0 ]
@@ -101,13 +101,13 @@ ENDM
 portRESTORE_CONTEXT MACRO
 
 ;
-Set the LR to the task stack.
+Set the LR to the task थाक.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 LDR LR, [ R0 ]
 
 ;
-The critical nesting depth is the first item on the stack.
+The critical nesting depth is the first item on the थाक.
    ;
 Load it into the ulCriticalNesting variable.
    LDR R0, = ulCriticalNesting
@@ -118,16 +118,16 @@ Load it into the ulCriticalNesting variable.
 STR R1, [ R0 ]
 
 ;
-Get the SPSR from the stack.
+Get the SPSR from the थाक.
    LDMFD LR !, {
     R0
 }
 MSR SPSR_cxsf, R0
 
 ;
-Restore all system mode registers
+Restore all प्रणाली mode registers
 
-for the task.
+लागि the task.
    LDMFD LR, {
     R0 - R14
 }
@@ -136,12 +136,12 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the फर्काऊ address.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And फर्काऊ -correcting the offset in the LR to obtain the
 ;
 
 correct address.

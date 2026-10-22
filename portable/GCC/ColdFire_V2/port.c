@@ -27,47 +27,47 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
-#define portINITIAL_FORMAT_VECTOR      ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR      ( ( थाक_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER    ( ( StackType_t ) 0x2000 )
+#define portINITIAL_STATUS_REGISTER    ( ( थाक_Type_t ) 0x2000 )
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+स्थिर uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+थाक_Type_t * px_Port_Initialise_थाक( थाक_Type_t * px_शीर्ष_Of_थाक,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_शीर्ष_Of_थाक = ( थाक_Type_t ) pvParameters;
+    px_शीर्ष_Of_थाक--;
 
-    *pxTopOfStack = ( StackType_t ) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_शीर्ष_Of_थाक = ( थाक_Type_t ) 0xDEADBEEF;
+    px_शीर्ष_Of_थाक--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_शीर्ष_Of_थाक = ( थाक_Type_t ) pxCode;
+    px_शीर्ष_Of_थाक--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_थाक = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_शीर्ष_Of_थाक--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14;                  /* A5 to D0. */
+    *px_शीर्ष_Of_थाक = ( थाक_Type_t ) 0x0; /*FP*/
+    px_शीर्ष_Of_थाक -= 14;                  /* A5 to D0. */
 
-    return pxTopOfStack;
+    फर्काऊ px_शीर्ष_Of_थाक;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
-    extern void vPortStartFirstTask( void );
+    बाह्य शून्य vPortStartFirstTask( शून्य );
 
     ulCriticalNesting = 0UL;
 
@@ -77,51 +77,51 @@ BaseType_t xPortStartScheduler( void )
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    फर्काऊ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+शून्य vPortEnterCritical( शून्य )
 {
-    if( ulCriticalNesting == 0UL )
+    यदि( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
          * critical section being entered. */
-        do
+        गर
         {
             portDISABLE_INTERRUPTS();
 
-            if( MCF_INTC0_INTFRCL == 0UL )
+            यदि( MCF_INTC0_INTFRCL == 0UL )
             {
-                break;
+                रोक;
             }
 
             portENABLE_INTERRUPTS();
-        } while( 1 );
+        } जबसम्म( 1 );
     }
 
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+शून्य vPortExitCritical( शून्य )
 {
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    यदि( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+शून्य vPortYieldHandler( शून्य )
 {
     uint32_t ulSavedInterruptMask;
 
