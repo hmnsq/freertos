@@ -58,7 +58,7 @@
 #ifdef __arch64__
     #define portSTACK_TYPE    size_t
     typedef uint64_t        UBaseType_t;
-#else
+#否则
     #define portSTACK_TYPE    uint32_t
     typedef unsigned long   UBaseType_t;
 #endif
@@ -68,7 +68,7 @@ typedef portSTACK_TYPE      StackType_t;
 typedef long                BaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#もし ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t        TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -78,7 +78,7 @@ typedef long                BaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#否则
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -106,7 +106,7 @@ void vPortExitCritical( void );
         /* Interrupts are disabled, so we can */       \
         /* access the variable directly. */            \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        もし( uxCriticalNesting == 0 )                   \
         {                                              \
             /* The nesting has unwound and we \
              * can enable interrupts again. */ \
@@ -128,10 +128,10 @@ void vPortYield( void );
  * can result in multiple peripherals being serviced. */
 extern volatile uint32_t ulTaskSwitchRequested;
 #define portYIELD_FROM_ISR( x )                              \
-    do { if( ( x ) != pdFALSE ) ulTaskSwitchRequested = 1; } \
-    while( 0 )
+    do { もし( ( x ) != pdFALSE ) ulTaskSwitchRequested = 1; } \
+    ながら( 0 )
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#もし ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Generic helper function. */
     __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
@@ -140,11 +140,11 @@ extern volatile uint32_t ulTaskSwitchRequested;
 
         __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
 
-        return ucReturn;
+        戻る ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #もし ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -163,7 +163,7 @@ extern volatile uint32_t ulTaskSwitchRequested;
 /* Hardware specifics. */
 #ifdef __arch64__
     #define portBYTE_ALIGNMENT    8
-#else
+#否则
     #define portBYTE_ALIGNMENT    4
 #endif
 #define portSTACK_GROWTH          ( -1 )
@@ -172,7 +172,7 @@ extern volatile uint32_t ulTaskSwitchRequested;
 #define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
-#if ( XPAR_MICROBLAZE_USE_STACK_PROTECTION )
+#もし ( XPAR_MICROBLAZE_USE_STACK_PROTECTION )
     #define portHAS_STACK_OVERFLOW_CHECKING    1
 #endif
 /*-----------------------------------------------------------*/

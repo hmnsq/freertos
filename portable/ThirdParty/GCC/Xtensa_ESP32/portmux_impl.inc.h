@@ -22,30 +22,30 @@
 static inline bool __attribute__( ( always_inline ) )
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
     PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux,
-                                int timeout_cycles,
+                                整数 timeout_cycles,
                                 const char * fnName,
-                                int line )
+                                整数 line )
     {
-#else
-    PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux, int timeout_cycles )
+#否则
+    PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux, 整数 timeout_cycles )
     {
         #endif
 
 
-        #if !CONFIG_FREERTOS_UNICORE
+        #もし !CONFIG_FREERTOS_UNICORE
             uint32_t res;
             portBASE_TYPE coreID, otherCoreID;
             uint32_t ccount_start;
             bool set_timeout = timeout_cycles > portMUX_NO_TIMEOUT;
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                if( !set_timeout )
+                もし( !set_timeout )
                 {
                     timeout_cycles = 10000; /* Always set a timeout in debug mode */
                     set_timeout = true;
                 }
             #endif
 
-            if( set_timeout ) /* Timeout */
+            もし( set_timeout ) /* Timeout */
             {
                 RSR( CCOUNT, ccount_start );
             }
@@ -53,10 +53,10 @@ static inline bool __attribute__( ( always_inline ) )
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                 uint32_t owner = mux->owner;
 
-                #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                    if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
-                #else
-                    if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
+                #もし ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+                    もし( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
+                #否则
+                    もし( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
                 #endif
                 {
                     ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, line );
@@ -71,9 +71,9 @@ static inline bool __attribute__( ( always_inline ) )
             /* Note: coreID is the full 32 bit core ID (CORE_ID_PRO/CORE_ID_APP),
              * not the 0/1 value returned by xPortGetCoreID()
              */
-            #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+            #もし ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
                 otherCoreID = CORE_ID_XOR_SWAP ^ coreID;
-            #else
+            #否则
                 otherCoreID = CORE_ID_REGVAL_XOR_SWAP ^ coreID;
             #endif
 
@@ -89,26 +89,26 @@ static inline bool __attribute__( ( always_inline ) )
                 res = coreID;
                 PORTMUX_COMPARE_SET_FN_NAME( &mux->owner, portMUX_FREE_VAL, &res );
 
-                if( res != otherCoreID )
+                もし( res != otherCoreID )
                 {
                     break; /* mux->owner is "our" coreID */
                 }
 
-                if( set_timeout )
+                もし( set_timeout )
                 {
                     uint32_t ccount_now;
                     RSR( CCOUNT, ccount_now );
 
-                    if( ccount_now - ccount_start > ( unsigned ) timeout_cycles )
+                    もし( ccount_now - ccount_start > ( unsigned ) timeout_cycles )
                     {
                         #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                             ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->lastLockedFn, mux->lastLockedLine, fnName, line );
                             ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->count );
                         #endif
-                        return false;
+                        戻る false;
                     }
                 }
-            } while( 1 );
+            } ながら( 1 );
 
             assert( res == coreID || res == portMUX_FREE_VAL );           /* any other value implies memory corruption or uninitialized mux */
             assert( ( res == portMUX_FREE_VAL ) == ( mux->count == 0 ) ); /* we're first to lock iff count is zero */
@@ -119,57 +119,57 @@ static inline bool __attribute__( ( always_inline ) )
 
 
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                if( res == portMUX_FREE_VAL ) /*initial lock */
+                もし( res == portMUX_FREE_VAL ) /*initial lock */
                 {
                     mux->lastLockedFn = fnName;
                     mux->lastLockedLine = line;
                 }
-                else
+                否则
                 {
                     ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->count - 1,
                                 mux->lastLockedFn, mux->lastLockedLine, fnName, line );
                 }
             #endif /* CONFIG_FREERTOS_PORTMUX_DEBUG */
         #endif /* CONFIG_FREERTOS_UNICORE */
-        return true;
+        戻る true;
     }
 
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
         static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux,
                                                         const char * fnName,
-                                                        int line )
+                                                        整数 line )
         {
-#else
+#否则
         static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux )
         {
             #endif
 
 
-            #if !CONFIG_FREERTOS_UNICORE
+            #もし !CONFIG_FREERTOS_UNICORE
                 portBASE_TYPE coreID;
                 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                     const char * lastLockedFn = mux->lastLockedFn;
-                    int lastLockedLine = mux->lastLockedLine;
+                    整数 lastLockedLine = mux->lastLockedLine;
                     mux->lastLockedFn = fnName;
                     mux->lastLockedLine = line;
                     uint32_t owner = mux->owner;
 
-                    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                        if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
-                    #else
-                        if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
+                    #もし ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+                        もし( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
+                    #否则
+                        もし( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
                     #endif
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p is invalid (0x%x)!\n", mux, mux->owner );
                     }
                 #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
-                #if CONFIG_FREERTOS_PORTMUX_DEBUG || !defined( NDEBUG )
+                #もし CONFIG_FREERTOS_PORTMUX_DEBUG || !defined( NDEBUG )
                     RSR( PRID, coreID );
                 #endif
 
                 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                    if( coreID != mux->owner )
+                    もし( coreID != mux->owner )
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p was already unlocked!\n", mux );
                         ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", lastLockedFn, lastLockedLine, fnName, line );
@@ -180,11 +180,11 @@ static inline bool __attribute__( ( always_inline ) )
 
                 mux->count--;
 
-                if( mux->count == 0 )
+                もし( mux->count == 0 )
                 {
                     mux->owner = portMUX_FREE_VAL;
                 }
-                else
+                否则
                 {
                     assert( mux->count < 0x100 ); /* Indicates memory corruption */
                     #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG_RECURSIVE

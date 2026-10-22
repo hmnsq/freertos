@@ -55,7 +55,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#否则
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -74,7 +74,7 @@ const StackType_t xISRStackTop = ( StackType_t ) &( xISRStack[ configISR_STACK_S
  * the task stacks, and so will legitimately appear in many positions within
  * the ISR stack. */
     #define portISR_STACK_FILL_BYTE    0xee
-#else
+#否则
     extern const uint32_t __freertos_irq_stack_top[];
     const StackType_t xISRStackTop = ( StackType_t ) __freertos_irq_stack_top;
 #endif
@@ -112,7 +112,7 @@ size_t xTaskReturnAddress = ( size_t ) portTASK_RETURN_ADDRESS;
  * stack checking.  A problem in the ISR stack will trigger an assert, not call
  * the stack overflow hook function (because the stack overflow hook is specific
  * to a task stack, not the ISR stack). */
-#if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#もし defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 )
     #warning "This path not tested, or even compiled yet."
 
     static const uint8_t ucExpectedStackBytes[] =
@@ -125,7 +125,7 @@ size_t xTaskReturnAddress = ( size_t ) portTASK_RETURN_ADDRESS;
     }; \
 
     #define portCHECK_ISR_STACK()    configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
+#否则 /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
     /* Define the function away. */
     #define portCHECK_ISR_STACK()
 #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
@@ -144,7 +144,7 @@ static void prvTaskExitError( void )
     configASSERT( xCriticalNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    ながら( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -157,7 +157,7 @@ static void prvTaskExitError( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 )
+#もし ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 )
 
     void vPortSetupTimerInterrupt( void )
     {
@@ -174,7 +174,7 @@ static void prvTaskExitError( void )
         {
             ulCurrentTimeHigh = *pulTimeHigh;
             ulCurrentTimeLow = *pulTimeLow;
-        } while( ulCurrentTimeHigh != *pulTimeHigh );
+        } ながら( ulCurrentTimeHigh != *pulTimeHigh );
 
         ullNextTime = ( uint64_t ) ulCurrentTimeHigh;
         ullNextTime <<= 32ULL; /* High 4-byte word is 32-bits up. */
@@ -193,7 +193,7 @@ BaseType_t xPortStartScheduler( void )
 {
     extern void xPortStartFirstTask( void );
 
-    #if ( configASSERT_DEFINED == 1 )
+    #もし ( configASSERT_DEFINED == 1 )
     {
         /* Check alignment of the interrupt stack - which is the same as the
          * stack that was being used by main() prior to the scheduler being
@@ -213,7 +213,7 @@ BaseType_t xPortStartScheduler( void )
      * configure whichever clock is to be used to generate the tick interrupt. */
     vPortSetupTimerInterrupt();
 
-    #if ( ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) )
+    #もし ( ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) )
     {
         /* Enable mtime and external interrupts.  1<<7 for timer interrupt,
          * 1<<11 for external interrupt.  _RB_ What happens here when mtime is
@@ -226,14 +226,14 @@ BaseType_t xPortStartScheduler( void )
 
     /* Should not get here as after calling xPortStartFirstTask() only tasks
      * should be executing. */
-    return pdFAIL;
+    戻る pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 void vPortEndScheduler( void )
 {
     /* Not implemented. */
-    for( ; ; )
+    ために( ; ; )
     {
     }
 }

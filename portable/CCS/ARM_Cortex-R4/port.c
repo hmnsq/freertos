@@ -84,7 +84,7 @@ StackType_t *pxOriginalTOS;
 
     pxOriginalTOS = pxTopOfStack;
 
-    #if __TI_VFP_SUPPORT__
+    #もし __TI_VFP_SUPPORT__
     {
         /* Ensure the stack is correctly aligned on exit. */
         pxTopOfStack--;
@@ -132,7 +132,7 @@ StackType_t *pxOriginalTOS;
         *pxTopOfStack = ( StackType_t ) 0x01010101; /* R1 */
         pxTopOfStack--;
     }
-    #else
+    #否则
     {
         pxTopOfStack -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
     }
@@ -145,7 +145,7 @@ StackType_t *pxOriginalTOS;
     /* Set the status register for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    もし( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* The task will start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -162,7 +162,7 @@ StackType_t *pxOriginalTOS;
     }
     #endif
 
-    return pxTopOfStack;
+    戻る pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -212,7 +212,7 @@ BaseType_t xPortStartScheduler(void)
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return pdFAIL;
+    戻る pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -227,7 +227,7 @@ void vPortEndScheduler(void)
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#もし configUSE_PREEMPTION == 0
 
     /* The cooperative scheduler requires a normal IRQ service routine to
      * simply increment the system tick. */
@@ -241,7 +241,7 @@ void vPortEndScheduler(void)
         xTaskIncrementTick();
     }
 
- #else
+ #否则
 
     /*
      **************************************************************************
@@ -277,14 +277,14 @@ void vPortEnterCritical( void )
  */
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > 0 )
+    もし( ulCriticalNesting > 0 )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
         re-enabled. */
-        if( ulCriticalNesting == 0 )
+        もし( ulCriticalNesting == 0 )
         {
             /* Enable interrupts as per portENABLE_INTERRUPTS(). */
             portENABLE_INTERRUPTS();
@@ -293,7 +293,7 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-#if __TI_VFP_SUPPORT__
+#もし __TI_VFP_SUPPORT__
 
     void vPortTaskUsesFPU( void )
     {

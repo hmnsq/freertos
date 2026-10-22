@@ -28,10 +28,10 @@
 
         #define portBASE_TYPE    BaseType_t
 
-        #if ( configUSE_16_BIT_TICKS == 1 )
+        #もし ( configUSE_16_BIT_TICKS == 1 )
             typedef uint16_t     TickType_t;
             #define portMAX_DELAY              ( TickType_t ) 0xffff
-        #else
+        #否则
             typedef uint32_t     TickType_t;
             #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
@@ -71,7 +71,7 @@
     #ifndef __ASSEMBLER__
 
 /* Check validity of number of cores specified in config */
-        #if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
+        #もし ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
             #error "Invalid number of cores specified in config!"
         #endif
 
@@ -85,12 +85,12 @@
         #define portEND_SWITCHING_ISR( xSwitchRequired )               \
     do                                                                 \
     {                                                                  \
-        if( xSwitchRequired != pdFALSE )                               \
+        もし( xSwitchRequired != pdFALSE )                               \
         {                                                              \
             extern uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
             ulPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;         \
         }                                                              \
-    } while( 0 )
+    } ながら( 0 )
 
         #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
@@ -98,7 +98,7 @@
 /* SMP utilities. */
         #define portGET_CORE_ID()      rtos_core_id_get()
 
-        void vPortYieldOtherCore( int xOtherCoreID );
+        void vPortYieldOtherCore( 整数 xOtherCoreID );
         #define portYIELD_CORE( x )    vPortYieldOtherCore( x )
 /*-----------------------------------------------------------*/
 
@@ -107,7 +107,7 @@
             #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
         #endif
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #もし configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
             #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -152,10 +152,10 @@
 
         #define portASSERT_IF_IN_ISR()                    configASSERT( portCHECK_IF_IN_ISR() == 0 )
 
-        #define portGET_ISR_LOCK( xCoreID )               do{ ( void )( xCoreID ); rtos_lock_acquire( 0 ); } while( 0 )
-        #define portRELEASE_ISR_LOCK( xCoreID )           do{ ( void )( xCoreID ); rtos_lock_release( 0 ); } while( 0 )
-        #define portGET_TASK_LOCK( xCoreID )              do{ ( void )( xCoreID ); rtos_lock_acquire( 1 ); } while( 0 )
-        #define portRELEASE_TASK_LOCK( xCoreID )          do{ ( void )( xCoreID ); rtos_lock_release( 1 ); } while( 0 )
+        #define portGET_ISR_LOCK( xCoreID )               do{ ( void )( xCoreID ); rtos_lock_acquire( 0 ); } ながら( 0 )
+        #define portRELEASE_ISR_LOCK( xCoreID )           do{ ( void )( xCoreID ); rtos_lock_release( 0 ); } ながら( 0 )
+        #define portGET_TASK_LOCK( xCoreID )              do{ ( void )( xCoreID ); rtos_lock_acquire( 1 ); } ながら( 0 )
+        #define portRELEASE_TASK_LOCK( xCoreID )          do{ ( void )( xCoreID ); rtos_lock_release( 1 ); } ながら( 0 )
 
 
         void vTaskEnterCritical( void );
@@ -171,15 +171,15 @@
 /*-----------------------------------------------------------*/
 
 /* Runtime stats support */
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            int xscope_gettime( void );
+        #もし ( configGENERATE_RUN_TIME_STATS == 1 )
+            整数 xscope_gettime( void );
             #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* nothing needed here */
             #define portGET_RUN_TIME_COUNTER_VALUE()            xscope_gettime()
         #endif
 /*-----------------------------------------------------------*/
 
 /* Maps sprintf and snprintf to the lite version in lib_rtos_support */
-        #if ( configUSE_DEBUG_SPRINTF == 1 )
+        #もし ( configUSE_DEBUG_SPRINTF == 1 )
             #define sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
             #define snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
         #endif

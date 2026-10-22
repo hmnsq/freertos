@@ -136,7 +136,7 @@ BaseType_t MPU_xTaskGetSchedulerState( void ) FREERTOS_SYSTEM_CALL;
 /* Privileged only wrappers for Task APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#もし ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     BaseType_t MPU_xTaskCreate( TaskFunction_t pxTaskCode,
                                 const char * const pcName,
@@ -165,7 +165,7 @@ BaseType_t MPU_xTaskGetSchedulerState( void ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xTaskCatchUpTicks( TickType_t xTicksToCatchUp ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xTaskResumeAll( void ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#否则 /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     BaseType_t MPU_xTaskCreate( TaskFunction_t pxTaskCode,
                                 const char * const pcName,
@@ -249,7 +249,7 @@ uint8_t MPU_ucQueueGetQueueType( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 /* Privileged only wrappers for Queue APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#もし ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     void MPU_vQueueDelete( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
     QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) FREERTOS_SYSTEM_CALL;
@@ -277,7 +277,7 @@ uint8_t MPU_ucQueueGetQueueType( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xQueueGenericReset( QueueHandle_t xQueue,
                                        BaseType_t xNewQueue ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#否则 /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     void MPU_vQueueDelete( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
     QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) PRIVILEGED_FUNCTION;
@@ -387,7 +387,7 @@ EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
                                  const EventBits_t uxBitsToSet,
                                  const EventBits_t uxBitsToWaitFor,
                                  TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
-#if ( configUSE_TRACE_FACILITY == 1 )
+#もし ( configUSE_TRACE_FACILITY == 1 )
     UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) FREERTOS_SYSTEM_CALL;
     void MPU_vEventGroupSetNumber( void * xEventGroup,
                                    UBaseType_t uxEventGroupNumber ) FREERTOS_SYSTEM_CALL;
@@ -396,13 +396,13 @@ EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
 /* Privileged only wrappers for Event Group APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#もし ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     EventGroupHandle_t MPU_xEventGroupCreate( void ) FREERTOS_SYSTEM_CALL;
     EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) FREERTOS_SYSTEM_CALL;
     void MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#否则 /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     EventGroupHandle_t MPU_xEventGroupCreate( void ) PRIVILEGED_FUNCTION;
     EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) PRIVILEGED_FUNCTION;
@@ -414,7 +414,7 @@ BaseType_t MPU_xEventGroupGetStaticBuffer( EventGroupHandle_t xEventGroup,
                                            StaticEventGroup_t ** ppxEventGroupBuffer ) PRIVILEGED_FUNCTION;
 EventBits_t MPU_xEventGroupGetBitsFromISR( EventGroupHandle_t xEventGroup ) PRIVILEGED_FUNCTION;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#もし ( configUSE_MPU_WRAPPERS_V1 == 0 )
     BaseType_t MPU_xEventGroupClearBitsFromISR( EventGroupHandle_t xEventGroup,
                                                 const EventBits_t uxBitsToClear ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xEventGroupSetBitsFromISR( EventGroupHandle_t xEventGroup,
@@ -442,7 +442,7 @@ size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuff
 /* Privileged only wrappers for Stream Buffer APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#もし ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
                                                          size_t xTriggerLevelBytes,
@@ -459,7 +459,7 @@ size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuff
     void MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xStreamBufferReset( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#否则 /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
                                                          size_t xTriggerLevelBytes,

@@ -171,20 +171,20 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     xSYSTEM_CALL_STACK_INFO * xSysCallInfo = NULL;
 
-    if( xRunPrivileged == pdTRUE )
+    もし( xRunPrivileged == pdTRUE )
     {
         xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
         /* Current Program Status Register (CPSR). */
         xMPUSettings->ulContext[ ulIndex ] = SYS_MODE;
     }
-    else
+    否则
     {
         xMPUSettings->ulTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
         /* Current Program Status Register (CPSR). */
         xMPUSettings->ulContext[ ulIndex ] = USER_MODE;
     }
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x0UL )
+    もし( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x0UL )
     {
         /* The task will cause the processor to start in THUMB state, set the
          * Thumb state bit in the CPSR. */
@@ -230,7 +230,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pvParameters; /* R0. */
     ulIndex--;
 
-    #if( portENABLE_FPU == 1 )
+    #もし( portENABLE_FPU == 1 )
     {
         xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000015; /* S31. */
         ulIndex--;
@@ -318,7 +318,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     xSysCallInfo->pulSystemCallExitAddress = ( uint32_t * ) ( &vPortSystemCallExit );
 
     /* Return the address where this task's context should be restored from. */
-    return &( xMPUSettings->ulContext[ ulIndex ] );
+    戻る &( xMPUSettings->ulContext[ ulIndex ] );
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -340,12 +340,12 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                 StackType_t * pxBottomOfStack,
                                 uint32_t ulStackDepth )
 {
-    #if defined( __ARMCC_VERSION )
+    #もし defined( __ARMCC_VERSION )
         /* Declaration when these variable are defined in code instead of being
          * exported from linker scripts. */
         extern uint32_t * __SRAM_segment_start__;
         extern uint32_t * __SRAM_segment_end__;
-    #else
+    #否则
         /* Declaration when these variable are exported from linker scripts. */
         extern uint32_t __SRAM_segment_start__[];
         extern uint32_t __SRAM_segment_end__[];
@@ -356,7 +356,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
     uint32_t ulRegionLengthEncoded;
     uint32_t ulRegionLengthDecoded;
 
-    if( xRegions == NULL )
+    もし( xRegions == NULL )
     {
         /* No MPU regions are specified so allow access to all of the RAM. */
         ulRegionLength = ( uint32_t ) __SRAM_segment_end__ - ( uint32_t ) __SRAM_segment_start__;
@@ -374,12 +374,12 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = ( portMPU_REGION_PRIV_RW_USER_RW_NOEXEC |
                                                                portMPU_REGION_NORMAL_OIWTNOWA_SHARED );
     }
-    else
+    否则
     {
-        for( ulIndex = 0UL; ulIndex < portNUM_CONFIGURABLE_REGIONS; ulIndex++ )
+        ために( ulIndex = 0UL; ulIndex < portNUM_CONFIGURABLE_REGIONS; ulIndex++ )
         {
             /* If a length has been provided, the region is in use. */
-            if( ( xRegions[ ulIndex ] ).ulLengthInBytes > 0UL )
+            もし( ( xRegions[ ulIndex ] ).ulLengthInBytes > 0UL )
             {
                 ulRegionLength = xRegions[ ulIndex ].ulLengthInBytes;
                 ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
@@ -394,7 +394,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                                                   portMPU_REGION_ENABLE );
                 xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = xRegions[ ulIndex ].ulParameters;
             }
-            else
+            否则
             {
                 xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = 0x0UL;
                 xMPUSettings->xRegion[ ulIndex ].ulRegionSize = 0x0UL;
@@ -406,7 +406,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
          * which case the stack region parameters will be valid. At all other
          * times the stack parameters will not be valid and it is assumed that the
          * stack region has already been configured. */
-        if( ulStackDepth != 0x0UL )
+        もし( ulStackDepth != 0x0UL )
         {
             ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulStackDepth * ( uint32_t ) sizeof( StackType_t ) );
 
@@ -435,12 +435,12 @@ BaseType_t xPortIsTaskPrivileged( void )
     /* Calling task's MPU settings. */
     const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL );
 
-    if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+    もし( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
     {
         xTaskIsPrivileged = pdTRUE;
     }
 
-    return xTaskIsPrivileged;
+    戻る xTaskIsPrivileged;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -465,7 +465,7 @@ BaseType_t xPortStartScheduler( void )
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
     ( void ) prvTaskExitError();
-    return pdFALSE;
+    戻る pdFALSE;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -476,13 +476,13 @@ static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
     uint32_t ulRegionSize, ulReturnValue = 4U;
 
     /* 32 bytes is the smallest valid region for Cortex R4 and R5 CPUs. */
-    for( ulRegionSize = 0x20UL; ulReturnValue < 0x1FUL; ( ulRegionSize <<= 1UL ) )
+    ために( ulRegionSize = 0x20UL; ulReturnValue < 0x1FUL; ( ulRegionSize <<= 1UL ) )
     {
-        if( ulActualMPURegionSize <= ulRegionSize )
+        もし( ulActualMPURegionSize <= ulRegionSize )
         {
             break;
         }
-        else
+        否则
         {
             ulReturnValue++;
         }
@@ -490,7 +490,7 @@ static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
 
     /* Shift the code by one before returning so it can be written directly
      * into the correct bit position of the attribute register. */
-    return ulReturnValue << 1UL;
+    戻る ulReturnValue << 1UL;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -498,7 +498,7 @@ static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
 /* PRIVILEGED_FUNCTION */
 static void prvSetupMPU( void )
 {
-#if defined( __ARMCC_VERSION )
+#もし defined( __ARMCC_VERSION )
     /* Declaration when these variable are defined in code. */
     /* Sections used for FLASH. */
     extern uint32_t * __FLASH_segment_start__;
@@ -511,7 +511,7 @@ static void prvSetupMPU( void )
     extern uint32_t * __SRAM_segment_end__;
     extern uint32_t * __privileged_data_start__;
     extern uint32_t * __privileged_data_end__;
-#else
+#否则
     /* Declaration when these variable are exported from linker scripts. */
     /* Sections used for FLASH. */
     extern uint32_t __FLASH_segment_start__[];
@@ -582,22 +582,22 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
     uint32_t ulMPURegionEnd;
     uint32_t ulMPURegionAccessPermissions;
 
-    if( portADD_UINT32_WILL_OVERFLOW( ulBufferStart, ( ulBufferLength - 1UL ) ) == pdFALSE )
+    もし( portADD_UINT32_WILL_OVERFLOW( ulBufferStart, ( ulBufferLength - 1UL ) ) == pdFALSE )
     {
         ulBufferEnd = ulBufferStart + ulBufferLength - 1UL;
         ulMPURegionLength = 2UL << ( xTaskMPURegion->ulRegionSize >> 1UL );
         ulMPURegionStart = xTaskMPURegion->ulRegionBaseAddress;
         ulMPURegionEnd = xTaskMPURegion->ulRegionBaseAddress + ulMPURegionLength - 1UL;
 
-        if( ( ulBufferStart >= ulMPURegionStart ) &&
+        もし( ( ulBufferStart >= ulMPURegionStart ) &&
             ( ulBufferEnd <= ulMPURegionEnd ) &&
             ( ulBufferStart <= ulBufferEnd ) )
         {
             ulMPURegionAccessPermissions = xTaskMPURegion->ulRegionAttribute & portMPU_REGION_AP_BITMASK;
 
-            if( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
+            もし( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
             {
-                if( ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RO ) ||
+                もし( ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RO ) ||
                     ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RO_USER_RO ) ||
                     ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW ) )
 
@@ -605,9 +605,9 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
                     xAccessGranted = pdTRUE;
                 }
             }
-            else if( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
+            否则 もし( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
             {
-                if( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW )
+                もし( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW )
                 {
                     xAccessGranted = pdTRUE;
                 }
@@ -615,7 +615,7 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
         }
     }
 
-    return xAccessGranted;
+    戻る xAccessGranted;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -629,33 +629,33 @@ BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
     uint32_t ulRegionIndex;
     xMPU_SETTINGS * xTaskMPUSettings = NULL;
 
-    if( prvPortSchedulerRunning == pdFALSE )
+    もし( prvPortSchedulerRunning == pdFALSE )
     {
         /* Grant access to all the memory before the scheduler is started. It is
          * necessary because there is no task running yet and therefore, we
          * cannot use the permissions of any task. */
         xAccessGranted = pdTRUE;
     }
-    else
+    否则
     {
         /* Calling task's MPU settings. */
         xTaskMPUSettings = xTaskGetMPUSettings( NULL );
 
-        if( ( xTaskMPUSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        もし( ( xTaskMPUSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             /* Privileged tasks have access to all the memory. */
             xAccessGranted = pdTRUE;
         }
-        else
+        否则
         {
-            for( ulRegionIndex = 0x0UL; ulRegionIndex < portTOTAL_NUM_REGIONS_IN_TCB; ulRegionIndex++ )
+            ために( ulRegionIndex = 0x0UL; ulRegionIndex < portTOTAL_NUM_REGIONS_IN_TCB; ulRegionIndex++ )
             {
                 xAccessGranted = prvMPURegionAuthorizesBuffer( &( xTaskMPUSettings->xRegion[ ulRegionIndex ] ),
                                                                ( uint32_t ) pvBuffer,
                                                                ( uint32_t ) xBufferLength,
                                                                ulAccessRequested );
 
-                if( xAccessGranted == pdTRUE )
+                もし( xAccessGranted == pdTRUE )
                 {
                     break;
                 }
@@ -663,12 +663,12 @@ BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
         }
     }
 
-    return xAccessGranted;
+    戻る xAccessGranted;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#もし( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
 BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject )
@@ -677,7 +677,7 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
     BaseType_t xAccessGranted = pdFALSE;
     const xMPU_SETTINGS * xTaskMpuSettings;
 
-    if( prvPortSchedulerRunning == pdFALSE )
+    もし( prvPortSchedulerRunning == pdFALSE )
     {
         /* Grant access to all the kernel objects before the scheduler
          * is started. It is necessary because there is no task running
@@ -685,7 +685,7 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
          * task. */
         xAccessGranted = pdTRUE;
     }
-    else
+    否则
     {
         /* Calling task's MPU settings. */
         xTaskMpuSettings = xTaskGetMPUSettings( NULL );
@@ -695,13 +695,13 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
         ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject
                                         % portACL_ENTRY_SIZE_BITS );
 
-        if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        もし( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        否则
         {
-            if( ( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] ) &
+            もし( ( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] ) &
                   ( 1U << ulAccessControlListEntryBit ) ) != 0UL )
             {
                 xAccessGranted = pdTRUE;
@@ -709,10 +709,10 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
         }
     }
 
-    return xAccessGranted;
+    戻る xAccessGranted;
 }
 
-#else
+#否则
 
 /* PRIVILEGED_FUNCTION */
 BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject )
@@ -721,14 +721,14 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
 
     /* If Access Control List feature is not used, all the tasks have
      * access to all the kernel objects. */
-    return pdTRUE;
+    戻る pdTRUE;
 }
 
 #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#もし( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
 void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
@@ -751,7 +751,7 @@ void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#もし( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
 void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
@@ -784,7 +784,7 @@ void prvTaskExitError( void )
      * defined, then stop here so application writers can catch the error. */
     configASSERT( ulPortInterruptNesting == ~0UL );
 
-    for( ;; )
+    ために( ;; )
     {
     }
 }
@@ -816,7 +816,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert
      * if the critical nesting count is 1 to protect against recursive calls if
      * the assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    もし( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
@@ -826,7 +826,7 @@ void vPortEnterCritical( void )
 /* PRIVILEGED_FUNCTION */
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    もし( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -834,7 +834,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        もし( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */

@@ -43,7 +43,7 @@
 #include <xintc_i.h>
 #include <xtmrctr.h>
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+#もし ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
     #error configSUPPORT_DYNAMIC_ALLOCATION must be set to 1 to use this port.
 #endif
 
@@ -180,7 +180,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    戻る pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -205,7 +205,7 @@ BaseType_t xPortStartScheduler( void )
     pulISRStack = ( uint32_t * ) pvPortMalloc( configMINIMAL_STACK_SIZE * sizeof( StackType_t ) );
 
     /* Restore the context of the first task that is going to run. */
-    if( pulISRStack != NULL )
+    もし( pulISRStack != NULL )
     {
         /* Fill the ISR stack with a known value to facilitate debugging. */
         memset( pulISRStack, portISR_STACK_FILL_VALUE, configMINIMAL_STACK_SIZE * sizeof( StackType_t ) );
@@ -216,7 +216,7 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    戻る pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -287,7 +287,7 @@ void vTaskISRHandler( void )
     /* Which interrupts are pending? */
     ulPending = XIntc_In32( ( XPAR_INTC_SINGLE_BASEADDR + XIN_IVR_OFFSET ) );
 
-    if( ulPending < XPAR_INTC_MAX_NUM_INTR_INPUTS )
+    もし( ulPending < XPAR_INTC_MAX_NUM_INTR_INPUTS )
     {
         static XIntc_VectorTableEntry * pxTablePtr;
         static XIntc_Config * pxConfig;
@@ -300,12 +300,12 @@ void vTaskISRHandler( void )
 
         pxTablePtr = &( pxConfig->HandlerTable[ ulPending ] );
 
-        if( pxConfig->AckBeforeService & ( ulInterruptMask ) )
+        もし( pxConfig->AckBeforeService & ( ulInterruptMask ) )
         {
             XIntc_mAckIntr( pxConfig->BaseAddress, ulInterruptMask );
             pxTablePtr->Handler( pxTablePtr->CallBackRef );
         }
-        else
+        否则
         {
             pxTablePtr->Handler( pxTablePtr->CallBackRef );
             XIntc_mAckIntr( pxConfig->BaseAddress, ulInterruptMask );
@@ -322,7 +322,7 @@ void vTickISR( void * pvBaseAddress )
     uint32_t ulCSR;
 
     /* Increment the RTOS tick - this might cause a task to unblock. */
-    if( xTaskIncrementTick() != pdFALSE )
+    もし( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }

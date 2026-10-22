@@ -185,14 +185,14 @@ class KernelHeaderChecker(HeaderChecker):
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
         self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
+        ために pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
             self.armCollabFilesPatternList.append(re.compile(pattern))
 
     def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+        ために pattern in self.armCollabFilesPatternList:
+            もし pattern.match(path):
+                戻る True
+        戻る False
 
     def checkArmCollabFile(self, path):
         isValid = False
@@ -200,12 +200,12 @@ class KernelHeaderChecker(HeaderChecker):
 
         with open(path, encoding="utf-8", errors="ignore") as file:
             chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
+            lines = [("%s\n" % line) ために line in chunk.strip().splitlines()][
                 : len(self.header) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
+            もし (len(lines) > 0) and (lines[0].find("#!") == 0):
                 lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
+            もし (len(lines) > 0) and (len(lines[-1].strip()) == 0):
                 lines.remove(lines[-1])
 
         # Split lines in sections.
@@ -213,32 +213,32 @@ class KernelHeaderChecker(HeaderChecker):
         headers["text"] = []
         headers["copyright"] = []
         headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
+        ために line in lines:
+            もし self.armCollabRegex.match(line):
                 headers["copyright"].append(line)
             elif "SPDX-License-Identifier:" in line:
                 headers["spdx"].append(line)
-            else:
+            否则:
                 headers["text"].append(line)
 
         text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
         spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
 
-        if text_equal and spdx_equal:
+        もし text_equal and spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
+            もし len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
                 isValid = True
 
-        return isValid
+        戻る isValid
 
     def customCheck(self, path):
         isValid = False
-        if self.isArmCollabFile(path):
+        もし self.isArmCollabFile(path):
             isValid = self.checkArmCollabFile(path)
-        return isValid
+        戻る isValid
 
 
-def main():
+def メインページ():
     parser = HeaderChecker.configArgParser()
     args   = parser.parse_args()
 
@@ -254,10 +254,10 @@ def main():
     checker.ignoreFile(os.path.split(__file__)[-1])
 
     rc = checker.processArgs(args)
-    if rc:
+    もし rc:
         checker.showHelp(__file__)
 
-    return rc
+    戻る rc
 
-if __name__ == '__main__':
-    exit(main())
+もし __name__ == '__main__':
+    exit(メインページ())

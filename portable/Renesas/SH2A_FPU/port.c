@@ -50,7 +50,7 @@
 #define portFLOP_REGISTERS_TO_STORE    ( 18 )
 #define portFLOP_STORAGE_SIZE          ( portFLOP_REGISTERS_TO_STORE * 4 )
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+#もし ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
     #error configSUPPORT_DYNAMIC_ALLOCATION must be 1 to use this port.
 #endif
 
@@ -176,7 +176,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     * TBR = jump table base register.
     * R15 is the stack pointer. */
 
-    return pxTopOfStack;
+    戻る pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -197,7 +197,7 @@ BaseType_t xPortStartScheduler( void )
     trapa( portSTART_SCHEDULER_TRAP_NO );
 
     /* Should not get here. */
-    return pdFAIL;
+    戻る pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -224,7 +224,7 @@ void vPortYield( void )
 
     /* Restore the interrupt mask to whatever it was previously (when the
      * function was entered). */
-    set_imask( ( int ) lInterruptMask );
+    set_imask( ( 整数 ) lInterruptMask );
 }
 /*-----------------------------------------------------------*/
 
@@ -240,7 +240,7 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 
     /* Passing NULL as xTask is used to indicate that the calling task is the
      * subject task - so pxCurrentTCB is the task handle. */
-    if( xTask == NULL )
+    もし( xTask == NULL )
     {
         xTask = ( TaskHandle_t ) pxCurrentTCB;
     }
@@ -248,7 +248,7 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
     /* Allocate a buffer large enough to hold all the flop registers. */
     pulFlopBuffer = ( uint32_t * ) pvPortMalloc( portFLOP_STORAGE_SIZE );
 
-    if( pulFlopBuffer != NULL )
+    もし( pulFlopBuffer != NULL )
     {
         /* Start with the registers in a benign state. */
         memset( ( void * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
@@ -262,11 +262,11 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
         vTaskSetApplicationTaskTag( xTask, ( void * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
         xReturn = pdPASS;
     }
-    else
+    否则
     {
         xReturn = pdFAIL;
     }
 
-    return xReturn;
+    戻る xReturn;
 }
 /*-----------------------------------------------------------*/

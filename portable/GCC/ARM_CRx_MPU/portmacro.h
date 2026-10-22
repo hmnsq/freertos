@@ -50,7 +50,7 @@ extern "C" {
             "to use when an unprivileged task makes a FreeRTOS Kernel call. "
 #endif /* configSYSTEM_CALL_STACK_SIZE */
 
-#if( configUSE_MPU_WRAPPERS_V1 == 1 )
+#もし( configUSE_MPU_WRAPPERS_V1 == 1 )
     #error This port is usable with MPU wrappers V2 only.
 #endif /* configUSE_MPU_WRAPPERS_V1 */
 
@@ -61,10 +61,10 @@ extern "C" {
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#もし( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #もし( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when " \
                 "configMAX_PRIORITIES is less than or equal to 32. " \
                 "It is very rare that a system requires more than 10 to 15 difference " \
@@ -413,7 +413,7 @@ void prvTaskExitError( void );
 
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
+#否则
     #define portTASK_RETURN_ADDRESS prvTaskExitError
 #endif /* configTASK_RETURN_ADDRESS */
 
@@ -515,7 +515,7 @@ typedef struct MPU_SETTINGS
     xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
     uint32_t ulContext[ CONTEXT_SIZE ]; /**< Buffer used to store task context. */
 
-    #if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #もし( configENABLE_ACCESS_CONTROL_LIST == 1 )
         uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE
                                         / portACL_ENTRY_SIZE_BITS )
                                       + 1UL ];

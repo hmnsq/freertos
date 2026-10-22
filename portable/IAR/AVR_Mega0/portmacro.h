@@ -50,7 +50,7 @@
 #define portFLOAT                float
 #define portDOUBLE               double
 #define portLONG                 long
-#define portSHORT                int
+#define portSHORT                整数
 #define portSTACK_TYPE           uint8_t
 #define portBASE_TYPE            char
 
@@ -60,13 +60,13 @@ typedef portSTACK_TYPE   StackType_t;
 typedef signed char      BaseType_t;
 typedef unsigned char    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#もし ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#否则
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
