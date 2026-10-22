@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,25 +47,25 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#define portBASE_TYPE     حرف
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+تعريفنوع portSTACK_TYPE   StackType_t;
+تعريفنوع signed حرف      BaseType_t;
+تعريفنوع unsigned حرف    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#𐡄𐡍 ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -74,21 +74,21 @@ typedef unsigned char    UBaseType_t;
 #define portBYTE_ALIGNMENT    2
 #define portSTACK_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portYIELD()    asm volatile ( "TRAPA #0" )
-#define portNOP()      asm volatile ( "NOP" )
+#define portYIELD()    asm متطاير ( "TRAPA #0" )
+#define portNOP()      asm متطاير ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENABLE_INTERRUPTS()     asm volatile ( "ANDC #0x7F, CCR" );
-#define portDISABLE_INTERRUPTS()    asm volatile ( "ORC  #0x80, CCR" );
+#define portENABLE_INTERRUPTS()     asm متطاير ( "ANDC #0x7F, CCR" );
+#define portDISABLE_INTERRUPTS()    asm متطاير ( "ORC  #0x80, CCR" );
 
 /* Push the CCR then disable interrupts. */
 #define portENTER_CRITICAL()            \
-    asm volatile ( "STC  CCR, @-ER7" ); \
+    asm متطاير ( "STC  CCR, @-ER7" ); \
     portDISABLE_INTERRUPTS();
 
 /* Pop the CCR to set the interrupt masking back to its previous state. */
-#define  portEXIT_CRITICAL()    asm volatile ( "LDC  @ER7+, CCR" );
+#define  portEXIT_CRITICAL()    asm متطاير ( "LDC  @ER7+, CCR" );
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
@@ -99,23 +99,23 @@ typedef unsigned char    UBaseType_t;
  * pointer to the TCB. */
 
 #define portSAVE_STACK_POINTER()                  \
-    extern void * pxCurrentTCB;                   \
+    خارجي فراغ * pxCurrentTCB;                   \
                                                   \
-    asm volatile (                                \
+    asm متطاير (                                \
         "MOV.L  @_pxCurrentTCB, ER5         \n\t" \
         "MOV.L  ER7, @ER5                   \n\t" \
         );                                        \
-    ( void ) pxCurrentTCB;
+    ( فراغ ) pxCurrentTCB;
 
 
 #define portRESTORE_STACK_POINTER()               \
-    extern void * pxCurrentTCB;                   \
+    خارجي فراغ * pxCurrentTCB;                   \
                                                   \
-    asm volatile (                                \
+    asm متطاير (                                \
         "MOV.L  @_pxCurrentTCB, ER5         \n\t" \
         "MOV.L  @ER5, ER7                   \n\t" \
         );                                        \
-    ( void ) pxCurrentTCB;
+    ( فراغ ) pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -123,9 +123,9 @@ typedef unsigned char    UBaseType_t;
 
 #define portENTER_SWITCHING_ISR()    portSAVE_STACK_POINTER(); {
 #define portEXIT_SWITCHING_ISR( x )             \
-    if( x )                                     \
+    𐡄𐡍( x )                                     \
     {                                           \
-        extern void vTaskSwitchContext( void ); \
+        خارجي فراغ vTaskSwitchContext( فراغ ); \
         vTaskSwitchContext();                   \
     }                                           \
 }                                               \
@@ -133,8 +133,8 @@ typedef unsigned char    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

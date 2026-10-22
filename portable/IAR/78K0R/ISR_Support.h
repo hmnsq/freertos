@@ -26,7 +26,7 @@
    * ; *
    * ; */
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
 ;
 Variables used by scheduler
@@ -53,10 +53,10 @@ PUSH AX;
 Save AX Register to stack.
    PUSH HL
 MOV A, CS;
-Save CS register.
+Save CS سجل.
    XCH A, X
 MOV A, ES;
-Save ES register.
+Save ES سجل.
    PUSH AX
 PUSH DE;
 Save the remaining general purpose registers.
@@ -98,13 +98,13 @@ POP BC;
 Restore the necessary general purpose registers.
    POP DE
 POP AX;
-Restore the ES register.
+Restore the ES سجل.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS سجل.
    MOV CS, A
 POP HL;
-Restore general purpose register HL.
+Restore general purpose سجل HL.
    POP AX;
 Restore AX.
    ENDM

@@ -26,16 +26,16 @@
  *
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "mb91467d.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "mb91467d.h"
 
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -62,7 +62,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
      LD @R0, R0                                 ;Get the pxCurrentTCB->pxTopOfStack address
      ST R15,@R0                                 ;Store USP to pxCurrentTCB->pxTopOfStack
 
-     ANDCCR #0xDF                               ;Switch back to system stack for the rest of tick ISR
+     ANDCCR #0xDF                               ;Switch back to system stack لكل the rest of tick ISR
 #endm
 
 #macro RestoreContext
@@ -88,7 +88,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
      LDM0 (R7,R6,R5,R4,R3,R2,R1,R0)             ;Restore R7-R0
      LD @R15+, RP                               ;Restore RP
 
-     ANDCCR #0xDF                               ;Switch back to system stack for the rest of tick ISR
+     ANDCCR #0xDF                               ;Switch back to system stack لكل the rest of tick ISR
 #endm
 #pragma endasm
 
@@ -97,7 +97,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
 /*
  * Perform hardware setup to enable ticks from timer 1,
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -106,7 +106,7 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
@@ -173,11 +173,11 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     /* PS - User Mode, USP, ILM=31, Interrupts enabled */
     *pxTopOfStack = ( StackType_t ) 0x001F0030; /* PS */
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Setup the hardware to generate the tick. */
     prvSetupTimerInterrupt();
@@ -192,21 +192,21 @@ BaseType_t xPortStartScheduler( void )
     __asm(" reti ");
 
     /* Should not get here. */
-    return pdFAIL;
+    أرجع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented - unlikely to ever be required as there is nothing to
     return to. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
 /* The peripheral clock divided by 32 is used by the timer. */
-const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTICK_RATE_HZ ) / 32UL ) - 1UL );
+ثابت uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTICK_RATE_HZ ) / 32UL ) - 1UL );
 
     /* Setup RLT0 to generate a tick interrupt. */
 
@@ -225,7 +225,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#𐡄𐡍 configUSE_PREEMPTION == 1
 
     /*
      * Tick ISR for preemptive scheduler. The tick count is incremented
@@ -247,7 +247,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     AND R1,@R0                              ;Clear RLT0 interrupt flag
 
     CALL32   _xTaskIncrementTick,R12        ;Increment Tick
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context 𐡄𐡍 required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -257,14 +257,14 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 
     #pragma endasm
 
-#else
+#وإلا
 
     /*
      * Tick ISR for the cooperative scheduler.  All this does is increment the
      * tick count.  We don't need to switch context, this can only be done by
      * manual calls to taskYIELD();
      */
-    __interrupt void ReloadTimer0_IRQHandler( void )
+    __interrupt فراغ ReloadTimer0_IRQHandler( فراغ )
     {
         /* Clear RLT0 interrupt flag */
         TMCSR0_UF = 0;
@@ -290,7 +290,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     LDI #_dicr, R0
     BANDL #0x0E, @R0                        ;Clear Delayed interrupt flag
 
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context 𐡄𐡍 required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -312,7 +312,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     _vPortYield:
 
     SaveContext                             ;Save context
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context 𐡄𐡍 required
     RestoreContext                          ;Restore context
 
     RETI

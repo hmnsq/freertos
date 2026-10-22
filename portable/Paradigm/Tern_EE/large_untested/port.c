@@ -33,13 +33,13 @@
  *----------------------------------------------------------*/
 
 /* Library includes. */
-#include <embedded.h>
-#include <ae.h>
+#ضمن <embedded.h>
+#ضمن <ae.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "portasm.h"
 
 /* The timer increments every four clocks, hence the divide by 4. */
 #define portTIMER_COMPARE ( uint16_t ) ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / ( uint32_t ) 4 )
@@ -52,31 +52,31 @@
 #define portCLEAR_INTERRUPT 0x0008
 
 /* Setup the hardware to generate the required tick frequency. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#𐡄𐡍( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    ساكن فراغ __interrupt __far prvPreemptiveTick( فراغ );
+#وإلا
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
+    ساكن فراغ __interrupt __far prvNonPreemptiveTick( فراغ );
 #endif
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+ساكن فراغ __interrupt __far prvYieldProcessor( فراغ );
 
 /* The timer initialisation functions leave interrupts enabled,
 which is not what we want.  This ISR is installed temporarily in case
 the timer fires before we get a change to disable interrupts again. */
-static void __interrupt __far prvDummyISR( void );
+ساكن فراغ __interrupt __far prvDummyISR( فراغ );
 
 /*-----------------------------------------------------------*/
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 StackType_t DS_Reg = 0;
 
@@ -136,11 +136,11 @@ StackType_t DS_Reg = 0;
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* This is called with interrupts already disabled. */
 
@@ -155,11 +155,11 @@ BaseType_t xPortStartScheduler( void )
     portFIRST_CONTEXT();
 
     /* Should not get here! */
-    return pdFALSE;
+    أرجع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvDummyISR( void )
+ساكن فراغ __interrupt __far prvDummyISR( فراغ )
 {
     /* The timer initialisation functions leave interrupts enabled,
     which is not what we want.  This ISR is installed temporarily in case
@@ -170,11 +170,11 @@ static void __interrupt __far prvDummyISR( void )
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
-    static void __interrupt __far prvPreemptiveTick( void )
+#𐡄𐡍( configUSE_PREEMPTION == 1 )
+    ساكن فراغ __interrupt __far prvPreemptiveTick( فراغ )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        𐡄𐡍( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
             portSWITCH_CONTEXT();
@@ -183,8 +183,8 @@ is being used. */
         /* Reset interrupt. */
         outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#وإلا
+    ساكن فراغ __interrupt __far prvNonPreemptiveTick( فراغ )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
@@ -196,23 +196,23 @@ is being used. */
 #endif
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+ساكن فراغ __interrupt __far prvYieldProcessor( فراغ )
 {
     /* Switch in the context of the next task to be run. */
     portSWITCH_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
-const uint16_t usTimerACompare = portTIMER_COMPARE, usTimerAMode = portENABLE_TIMER_AND_INTERRUPT;
-const uint16_t usT2_IRQ = 0x13;
+ثابت uint16_t usTimerACompare = portTIMER_COMPARE, usTimerAMode = portENABLE_TIMER_AND_INTERRUPT;
+ثابت uint16_t usT2_IRQ = 0x13;
 
     /* Configure the timer, the dummy handler is used here as the init
     function leaves interrupts enabled. */
@@ -221,11 +221,11 @@ const uint16_t usT2_IRQ = 0x13;
     /* Disable interrupts again before installing the real handlers. */
     portDISABLE_INTERRUPTS();
 
-    #if( configUSE_PREEMPTION == 1 )
+    #𐡄𐡍( configUSE_PREEMPTION == 1 )
         /* Tick service routine used by the scheduler when preemptive scheduling is
         being used. */
         setvect( usT2_IRQ, prvPreemptiveTick );
-    #else
+    #وإلا
         /* Tick service routine used by the scheduler when cooperative scheduling is
         being used. */
         setvect( usT2_IRQ, prvNonPreemptiveTick );

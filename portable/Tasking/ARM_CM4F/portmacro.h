@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,30 +47,30 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          حرف
+    #define portFLOAT         عائم
+    #define portDOUBLE        مزدوج
     #define portLONG          long
     #define portSHORT         short
     #define portSTACK_TYPE    uint32_t
     #define portBASE_TYPE     long
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    تعريفنوع portSTACK_TYPE   StackType_t;
+    تعريفنوع long             BaseType_t;
+    تعريفنوع unsigned long    UBaseType_t;
 
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
+    #𐡄𐡍 ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        تعريفنوع uint16_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
+    #وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        تعريفنوع uint32_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
         #define portTICK_TYPE_IS_ATOMIC    1
-    #else
+    #وإلا
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
@@ -83,24 +83,24 @@
 
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
-#define portNVIC_INT_CTRL     ( ( volatile uint32_t * ) 0xe000ed04 )
+خارجي فراغ vPortYield( فراغ );
+#define portNVIC_INT_CTRL     ( ( متطاير uint32_t * ) 0xe000ed04 )
 #define portNVIC_PENDSVSET    0x10000000
 #define portYIELD()                vPortYield()
 
 #define portEND_SWITCHING_ISR( xSwitchRequired )         \
-    do                                                   \
+    𐡏𐡁𐡃                                                   \
     {                                                    \
-        if( xSwitchRequired != pdFALSE )                 \
+        𐡄𐡍( xSwitchRequired != pdFALSE )                 \
         {                                                \
             traceISR_EXIT_TO_SCHEDULER();                \
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET; \
         }                                                \
-        else                                             \
+        وإلا                                             \
         {                                                \
             traceISR_EXIT();                             \
         }                                                \
-    } while( 0 )
+    } طالما( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -120,14 +120,14 @@ extern void vPortYield( void );
  */
     #define portCLEAR_INTERRUPT_MASK()    __set_BASEPRI( 0 )
 
-    extern uint32_t ulPortSetInterruptMask( void );
-    extern void vPortClearInterruptMask( uint32_t ulNewMask );
+    خارجي uint32_t ulPortSetInterruptMask( فراغ );
+    خارجي فراغ vPortClearInterruptMask( uint32_t ulNewMask );
     #define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
     #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
 
 
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
+    خارجي فراغ vPortEnterCritical( فراغ );
+    خارجي فراغ vPortExitCritical( فراغ );
 
     #define portDISABLE_INTERRUPTS()    portSET_INTERRUPT_MASK()
     #define portENABLE_INTERRUPTS()     portCLEAR_INTERRUPT_MASK()
@@ -137,8 +137,8 @@ extern void vPortYield( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
     #define portNOP()
 

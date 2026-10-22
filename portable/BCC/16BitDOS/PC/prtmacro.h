@@ -40,25 +40,25 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        حرف
 #define portFLOAT       long
 #define portDOUBLE      long
 #define portLONG        long
-#define portSHORT       int
+#define portSHORT       صحيح
 #define portSTACK_TYPE  uint16_t
 #define portBASE_TYPE   portSHORT
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+تعريفنوع portSTACK_TYPE StackType_t;
+تعريفنوع short BaseType_t;
+تعريفنوع unsigned short UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#𐡄𐡍( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffffffffUL
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -78,7 +78,7 @@ typedef unsigned short UBaseType_t;
 #define portNOP()               __asm{ nop }
 #define portSTACK_GROWTH        ( -1 )
 #define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define portYIELD()             __asm{ صحيح portSWITCH_INT_NUMBER }
 #define portDOS_TICK_RATE       ( 18.20648 )
 #define portTICK_PERIOD_MS      ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICKS_PER_DOS_TICK  ( ( uint16_t ) ( ( ( portDOUBLE ) configTICK_RATE_HZ / portDOS_TICK_RATE ) + 0.5 ) )
@@ -93,7 +93,7 @@ typedef unsigned short UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vTaskFunction, pvParameters ) void vTaskFunction( void *pvParameters )
-#define portTASK_FUNCTION( vTaskFunction, pvParameters ) void vTaskFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vTaskFunction, pvParameters ) فراغ vTaskFunction( فراغ *pvParameters )
+#define portTASK_FUNCTION( vTaskFunction, pvParameters ) فراغ vTaskFunction( فراغ *pvParameters )
 
 #endif /* PORTMACRO_H */

@@ -45,13 +45,13 @@ Changes from V2.6.1:
 
 
 
-#include <stdlib.h>
-#include "FreeRTOS.h"
+#ضمن <stdlib.h>
+#ضمن "FreeRTOS.h"
 
 /*-----------------------------------------------------------*/
 
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 StackType_t DS_Reg = 0;
 StackType_t * pxOriginalSP;
@@ -136,6 +136,6 @@ StackType_t * pxOriginalSP;
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/

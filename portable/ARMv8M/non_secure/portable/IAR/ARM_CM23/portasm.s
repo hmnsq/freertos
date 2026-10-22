@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 𐡀𐡅
+ * IMPLIED, INCLUDING BUT 𐡋𐡀 LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE 𐡅 NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS 𐡀𐡅
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 𐡀𐡅 OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT 𐡀𐡅 OTHERWISE, ARISING FROM, OUT OF 𐡀𐡅 في
+ * CONNECTION WITH THE SOFTWARE 𐡀𐡅 THE USE 𐡀𐡅 OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -33,7 +33,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System نادي numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -47,28 +47,28 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 #endif
 
 
-    EXTERN pxCurrentTCB
-    EXTERN xSecureContext
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN SecureContext_SaveContext
-    EXTERN SecureContext_LoadContext
+    خارجي pxCurrentTCB
+    خارجي xSecureContext
+    خارجي vTaskSwitchContext
+    خارجي vPortSVCHandler_C
+    خارجي SecureContext_SaveContext
+    خارجي SecureContext_LoadContext
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    خارجي vSystemCallEnter
+    خارجي vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vPortAllocateSecureContext
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
-    PUBLIC vPortFreeSecureContext
+    عام xIsPrivileged
+    عام vResetPrivilege
+    عام vPortAllocateSecureContext
+    عام vRestoreContextOfFirstTask
+    عام vRaisePrivilege
+    عام vStartFirstTask
+    عام ulSetInterruptMask
+    عام vClearInterruptMask
+    عام PendSV_Handler
+    عام SVC_Handler
+    عام vPortFreeSecureContext
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -86,8 +86,8 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
     movs r1, #1                             /* r1 = 1. */
-    tst r0, r1                              /* Perform r0 & r1 (bitwise AND) and update the conditions flag. */
-    beq running_privileged                  /* If the result of previous AND operation was 0, branch. */
+    tst r0, r1                              /* Perform r0 & r1 (bitwise 𐡅) and update the conditions flag. */
+    beq running_privileged                  /* If the result of previous 𐡅 operation was 0, branch. */
     movs r0, #0                             /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     bx lr                                   /* Return. */
     running_privileged:
@@ -104,7 +104,7 @@ vResetPrivilege:
 /*-----------------------------------------------------------*/
 
 vPortAllocateSecureContext:
-    svc 100                                 /* Secure context is allocated in the supervisor call. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
+    svc 100                                 /* Secure context is allocated in the supervisor نادي. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
@@ -237,7 +237,7 @@ vStartFirstTask:
     cpsie i                                 /* Globally enable interrupts. */
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System نادي to start the first task. portSVC_START_SCHEDULER = 102. */
 /*-----------------------------------------------------------*/
 
 ulSetInterruptMask:
@@ -525,8 +525,8 @@ vPortFreeSecureContext:
     bne free_secure_context                 /* Branch if r1 != 0. */
     bx lr                                   /* There is no secure context (xSecureContext is NULL). */
     free_secure_context:
-        svc 101                             /* Secure context is freed in the supervisor call. portSVC_FREE_SECURE_CONTEXT = 101. */
+        svc 101                             /* Secure context is freed in the supervisor نادي. portSVC_FREE_SECURE_CONTEXT = 101. */
         bx lr                               /* Return. */
 /*-----------------------------------------------------------*/
 
-    END
+    𐡎𐡅𐡐

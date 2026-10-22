@@ -27,11 +27,11 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Critical nesting should be initialised to a non zero value so interrupts don't
  * accidentally get enabled before the scheduler is started. */
@@ -42,20 +42,20 @@
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /* Keeps track of the nesting level of critical sections. */
-volatile StackType_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متطاير StackType_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 /* Sets up the timer to generate the tick interrupt. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*-----------------------------------------------------------*/
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     *pxTopOfStack = ( StackType_t ) pxCode;     /* Task function start address */
     pxTopOfStack--;
@@ -73,7 +73,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0x24242424; /* Initial Value of R24 */
     pxTopOfStack--;
-    #if ( __DATA_MODEL__ == 0 ) || ( __DATA_MODEL__ == 1 )
+    #𐡄𐡍 ( __DATA_MODEL__ == 0 ) || ( __DATA_MODEL__ == 1 )
         *pxTopOfStack = ( StackType_t ) 0x25252525; /* Initial Value of R25 */
         pxTopOfStack--;
     #endif /* configDATA_MODE */
@@ -117,7 +117,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0x55555555; /* Initial Value of R05 */
     pxTopOfStack--;
-    #if __DATA_MODEL__ == 0 || __DATA_MODEL__ == 1
+    #𐡄𐡍 __DATA_MODEL__ == 0 || __DATA_MODEL__ == 1
         *pxTopOfStack = ( StackType_t ) 0x44444444; /* Initial Value of R04 */
         pxTopOfStack--;
     #endif /* configDATA_MODE */
@@ -131,11 +131,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task.
      */
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
@@ -145,11 +145,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the V850ES/Fx3 port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -159,7 +159,7 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.  This uses
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     TM0CE = 0;    /* TMM0 operation disable */
     TM0EQMK0 = 1; /* INTTM0EQ0 interrupt disable */
@@ -169,7 +169,7 @@ static void prvSetupTimerInterrupt( void )
     {
         TM0CMP0 = ( ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / 2 ) - 1 ); /* divided by 2 because peripherals only run at CPU_CLOCK/2 */
     }
-    #else
+    #وإلا
     {
         TM0CMP0 = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
     }

@@ -27,11 +27,11 @@
  */
 
 /* Hardware includes. */
-#include "msp430.h"
+#ضمن "msp430.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the MSP430X port.
@@ -45,8 +45,8 @@ not the MCLK. */
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each
 time a critical section is entered the count is incremented.  Each time a
@@ -56,7 +56,7 @@ being re-enabled if the count is zero.
 usCriticalNesting will get set to zero when the scheduler starts, but must
 not be initialised to zero as this will cause problems during the startup
 sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متطاير uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 
@@ -64,7 +64,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-void vPortSetupTimerInterrupt( void );
+فراغ vPortSetupTimerInterrupt( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -73,7 +73,7 @@ void vPortSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 uint16_t *pusTopOfStack;
 uint32_t *pulTopOfStack, ulTemp;
@@ -92,13 +92,13 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Data types are need either 16 bits or 32 bits depending on the data
     and code model used. */
-    if( sizeof( pxCode ) == sizeof( uint16_t ) )
+    𐡄𐡍( حجم( pxCode ) == حجم( uint16_t ) )
     {
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
         ulTemp = ( uint32_t ) pxCode;
         *pusTopOfStack = ( uint16_t ) ulTemp;
     }
-    else
+    وإلا
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
@@ -109,7 +109,7 @@ uint32_t *pulTopOfStack, ulTemp;
 
     pusTopOfStack--;
     *pusTopOfStack = portFLAGS_INT_ENABLED;
-    pusTopOfStack -= ( sizeof( StackType_t ) / 2 );
+    pusTopOfStack -= ( حجم( StackType_t ) / 2 );
 
     /* From here on the size of stacked items depends on the memory model. */
     pxTopOfStack = ( StackType_t * ) pusTopOfStack;
@@ -140,7 +140,7 @@ uint32_t *pulTopOfStack, ulTemp;
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x4444;
         pxTopOfStack--;
-    #else
+    #وإلا
         pxTopOfStack -= 3;
         *pxTopOfStack = ( StackType_t ) pvParameters;
         pxTopOfStack -= 9;
@@ -153,11 +153,11 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the MSP430 port will get stopped.  If required simply
     disable the tick interrupt here. */
@@ -167,23 +167,23 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-void vPortSetupTimerInterrupt( void )
+فراغ vPortSetupTimerInterrupt( فراغ )
 {
     vApplicationSetupTimerInterrupt();
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector=configTICK_VECTOR
-interrupt void vTickISREntry( void )
+interrupt فراغ vTickISREntry( فراغ )
 {
-extern void vPortTickISR( void );
+خارجي فراغ vPortTickISR( فراغ );
 
     __bic_SR_register_on_exit( SCG1 + SCG0 + OSCOFF + CPUOFF );
-    #if configUSE_PREEMPTION == 1
-        extern void vPortPreemptiveTickISR( void );
+    #𐡄𐡍 configUSE_PREEMPTION == 1
+        خارجي فراغ vPortPreemptiveTickISR( فراغ );
         vPortPreemptiveTickISR();
-    #else
-        extern void vPortCooperativeTickISR( void );
+    #وإلا
+        خارجي فراغ vPortCooperativeTickISR( فراغ );
         vPortCooperativeTickISR();
     #endif
 }

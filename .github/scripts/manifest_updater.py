@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
-import os
-import argparse
+استورد os
+استورد argparse
 
 THIS_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 MANIFEST_FILE = os.path.join(THIS_FILE_PATH, '..', '..', 'manifest.yml')
 
 def update_manifest_file(new_version_number):
     updated_lines = []
-    with open(MANIFEST_FILE, 'r') as f:
-        for line in f:
+    with open(MANIFEST_FILE, 'r') كـ f:
+        لكل line في f:
             line = line.strip()
-            if line.startswith('version'):
+            𐡄𐡍 line.startswith('version'):
                 updated_lines.append(f'version: "V{new_version_number}"\n')
-            else:
+            وإلا:
                 updated_lines.append(f'{line}\n')
 
-    with open(MANIFEST_FILE, 'w') as f:
+    with open(MANIFEST_FILE, 'w') كـ f:
         f.writelines(updated_lines)
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--version', required=True, help='New version number.')
+    parser.add_argument('-v', '--version', required=𐡒𐡔𐡈, help='New version number.')
     args = parser.parse_args()
-    return args
+    أرجع args
 
 def main():
     args = parse_args()
     update_manifest_file(args.version)
 
-if __name__ == '__main__':
+𐡄𐡍 __name__ == '__main__':
     main()

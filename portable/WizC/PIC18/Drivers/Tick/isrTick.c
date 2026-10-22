@@ -53,7 +53,7 @@ Changes from V3.0.1
     /*
      * Was the interrupt the SystemClock?
      */
-    if( bCCP1IF && bCCP1IE )
+    𐡄𐡍( bCCP1IF && bCCP1IE )
     {
         /*
          * Reset the interrupt flag
@@ -63,7 +63,7 @@ Changes from V3.0.1
         /*
          * Maintain the tick count.
          */
-        if( xTaskIncrementTick() != pdFALSE )
+        𐡄𐡍( xTaskIncrementTick() != pdFALSE )
         {
             /*
              * Ask for a switch to the highest priority task

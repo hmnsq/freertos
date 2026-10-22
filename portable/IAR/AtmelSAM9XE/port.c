@@ -32,21 +32,21 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Hardware includes. */
-#include <board.h>
-#include <pio/pio.h>
-#include <pio/pio_it.h>
-#include <pit/pit.h>
-#include <aic/aic.h>
-#include <tc/tc.h>
-#include <utility/led.h>
-#include <utility/trace.h>
+#ضمن <board.h>
+#ضمن <pio/pio.h>
+#ضمن <pio/pio_it.h>
+#ضمن <pit/pit.h>
+#ضمن <aic/aic.h>
+#ضمن <tc/tc.h>
+#ضمن <utility/led.h>
+#ضمن <utility/trace.h>
 
 /*-----------------------------------------------------------*/
 
@@ -69,10 +69,10 @@
 /*-----------------------------------------------------------*/
 
 /* Setup the PIT to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /* The PIT interrupt handler - the RTOS tick. */
-static void vPortTickISR( void );
+ساكن فراغ vPortTickISR( فراغ );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -89,7 +89,7 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     StackType_t * pxOriginalTOS;
 
@@ -159,13 +159,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vPortStartFirstTask( void );
+    خارجي فراغ vPortStartFirstTask( فراغ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -175,25 +175,25 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
 }
 /*-----------------------------------------------------------*/
 
-static __arm void vPortTickISR( void )
+ساكن __arm فراغ vPortTickISR( فراغ )
 {
-    volatile uint32_t ulDummy;
+    متطاير uint32_t ulDummy;
 
     /* Increment the tick count - which may wake some tasks but as the
      * preemptive scheduler is not being used any woken task is not given
      * processor time no matter what its priority. */
-    if( xTaskIncrementTick() != pdFALSE )
+    𐡄𐡍( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -202,15 +202,15 @@ static __arm void vPortTickISR( void )
     ulDummy = AT91C_BASE_PITC->PITC_PIVR;
 
     /* To remove compiler warning. */
-    ( void ) ulDummy;
+    ( فراغ ) ulDummy;
 
     /* The AIC is cleared in the asm wrapper, outside of this function. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
-    const uint32_t ulPeriodIn_uS = ( 1.0 / ( double ) configTICK_RATE_HZ ) * port1SECOND_IN_uS;
+    ثابت uint32_t ulPeriodIn_uS = ( 1.0 / ( مزدوج ) configTICK_RATE_HZ ) * port1SECOND_IN_uS;
 
     /* Setup the PIT for the required frequency. */
     PIT_Init( ulPeriodIn_uS, BOARD_MCK / port1MHz_IN_Hz );
@@ -223,7 +223,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     /* Disable interrupts first! */
     __disable_irq();
@@ -235,16 +235,16 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    𐡄𐡍( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        𐡄𐡍( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_irq();
         }
