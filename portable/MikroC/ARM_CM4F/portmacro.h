@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -52,35 +52,35 @@
     #pragma funcall xTimerCreateTimerTask prvTimerTask
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          ଅକ୍ଷର
+    #define portFLOAT         ଦଶମିକ
+    #define portDOUBLE        ଦ୍ୱିଗୁଣ
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
+    #define port_ଗଦା_TYPE    uint32_t
     #define portBASE_TYPE     long
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
+    #ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
+    #ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
         #define portTICK_TYPE_IS_ATOMIC    1
-    #else
+    #ଅନ୍ୟଥା
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_ଗଦା_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT    8
 /*-----------------------------------------------------------*/
@@ -97,27 +97,27 @@
         __asm{ isb };                                              \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( ଅସ୍ଥିର uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    କର                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ଯଦି( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        ଅନ୍ୟଥା                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ଯେତେବେଳେ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortEnterCritical( ଶୂନ୍ୟ );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortExitCritical( ଶୂନ୍ୟ );
     #define portDISABLE_INTERRUPTS()                  CPU_REG_SET( CPU_BASEPRI, configMAX_SYSCALL_INTERRUPT_PRIORITY ); __asm{ dsb }; __asm{ isb }
     #define portENABLE_INTERRUPTS()                   CPU_REG_SET( CPU_BASEPRI, 0 );
     #define portENTER_CRITICAL()                      vPortEnterCritical()
@@ -130,13 +130,13 @@
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
     #ifndef portSUPPRESS_TICKS_AND_SLEEP
-        extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+        ବାହ୍ୟ ଶୂନ୍ୟ vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
         #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
     #endif
 /*-----------------------------------------------------------*/
@@ -146,20 +146,20 @@
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
     #endif
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #ଯଦି configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
-        __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+        __attribute__( ( always_inline ) ) ସ୍ଥିର ଧାଡ଼ିଭିତରେ uint8_t uc_Port_ଗଣନା_Leading_Zeros( uint32_t ulBitmap )
         {
             uint8_t ucReturn;
 
-            __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
+            __asm ଅସ୍ଥିର ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
 
-            return ucReturn;
+            ଫେରନ୍ତୁ ucReturn;
         }
 
 /* Check the configuration. */
-        #if ( configMAX_PRIORITIES > 32 )
+        #ଯଦି ( configMAX_PRIORITIES > 32 )
             #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
         #endif
 
@@ -169,25 +169,25 @@
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+        #define portGET_HIGHEST_PRIORITY( ux_ଶୀର୍ଷ_Priority, uxReadyPriorities )    ux_ଶୀର୍ଷ_Priority = ( 31UL - ( uint32_t ) uc_Port_ଗଣନା_Leading_Zeros( ( uxReadyPriorities ) ) )
 
     #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /*-----------------------------------------------------------*/
 
-    #if ( configASSERT_DEFINED == 1 )
-        void vPortValidateInterruptPriority( void );
+    #ଯଦି ( configASSERT_DEFINED == 1 )
+        ଶୂନ୍ୟ vPortValidateInterruptPriority( ଶୂନ୍ୟ );
         #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
     #endif
 
 /* portNOP() is not required by this port. */
     #define portNOP()
 
-    BaseType_t xPortIsInsideInterrupt( void );
+    BaseType_t xPortIsInsideInterrupt( ଶୂନ୍ୟ );
 
 /*-----------------------------------------------------------*/
 
-    static inline uint32_t ulPortRaiseBASEPRI( void )
+    ସ୍ଥିର ଧାଡ଼ିଭିତରେ uint32_t ulPortRaiseBASEPRI( ଶୂନ୍ୟ )
     {
         uint32_t ulOriginalBASEPRI;
 
@@ -195,7 +195,7 @@
         CPU_REG_SET( CPU_BASEPRI, configMAX_SYSCALL_INTERRUPT_PRIORITY );
         __asm{ dsb };
         __asm{ isb };
-        return ulOriginalBASEPRI;
+        ଫେରନ୍ତୁ ulOriginalBASEPRI;
     }
 /*-----------------------------------------------------------*/
 

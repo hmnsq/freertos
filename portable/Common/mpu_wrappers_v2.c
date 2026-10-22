@@ -37,22 +37,22 @@
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "timers.h"
-#include "event_groups.h"
-#include "stream_buffer.h"
-#include "mpu_prototypes.h"
-#include "mpu_syscall_numbers.h"
+#ଅନ୍ତର୍ଭାଵ "FreeRTOS.h"
+#ଅନ୍ତର୍ଭାଵ "task.h"
+#ଅନ୍ତର୍ଭାଵ "queue.h"
+#ଅନ୍ତର୍ଭାଵ "timers.h"
+#ଅନ୍ତର୍ଭାଵ "event_groups.h"
+#ଅନ୍ତର୍ଭାଵ "stream_buffer.h"
+#ଅନ୍ତର୍ଭାଵ "mpu_prototypes.h"
+#ଅନ୍ତର୍ଭାଵ "mpu_syscall_numbers.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 /*-----------------------------------------------------------*/
 
-#if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ଯଦି ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     #ifndef configPROTECTED_KERNEL_OBJECT_POOL_SIZE
-        #error configPROTECTED_KERNEL_OBJECT_POOL_SIZE must be defined to maximum number of kernel objects in the application.
+        #error configPROTECTED_KERNEL_OBJECT_POOL_SIZE must be defined to maximum ସଂଖ୍ୟା of kernel objects in the application.
     #endif
 
 /**
@@ -66,17 +66,17 @@
 /**
  * @brief Opaque type for a kernel object.
  */
-    struct OpaqueObject;
-    typedef struct OpaqueObject * OpaqueObjectHandle_t;
+    ସଂରଚନା OpaqueObject;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା OpaqueObject * OpaqueObjectHandle_t;
 
 /**
  * @brief Defines kernel object in the kernel object pool.
  */
-    typedef struct KernelObject
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା KernelObject
     {
         OpaqueObjectHandle_t xInternalObjectHandle;
         uint32_t ulKernelObjectType;
-        void * pvKernelObjectData;
+        ଶୂନ୍ୟ * pvKernelObjectData;
     } KernelObject_t;
 
 /**
@@ -132,14 +132,14 @@
  * @return Index of a free slot is returned, if a free slot is
  *         found. Otherwise -1 is returned.
  */
-    static int32_t MPU_GetFreeIndexInKernelObjectPool( void ) PRIVILEGED_FUNCTION;
+    ସ୍ଥିର int32_t MPU_GetFreeIndexInKernelObjectPool( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Set the given index as free in the kernel object pool.
  *
  * @param lIndex The index to set as free.
  */
-    static void MPU_SetIndexFreeInKernelObjectPool( int32_t lIndex ) PRIVILEGED_FUNCTION;
+    ସ୍ଥିର ଶୂନ୍ୟ MPU_SetIndexFreeInKernelObjectPool( int32_t lIndex ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Get the index at which a given kernel object is stored.
@@ -150,7 +150,7 @@
  * @return Index at which the kernel object is stored if it is a valid
  *         handle, -1 otherwise.
  */
-    static int32_t MPU_GetIndexForHandle( OpaqueObjectHandle_t xHandle,
+    ସ୍ଥିର int32_t MPU_GetIndexForHandle( OpaqueObjectHandle_t xHandle,
                                           uint32_t ulKernelObjectType ) PRIVILEGED_FUNCTION;
 
 /**
@@ -163,9 +163,9 @@
  *        Currently, only used for timer objects to store timer callback.
  * @param ulKernelObjectType The kernel object type.
  */
-    static void MPU_StoreHandleAndDataAtIndex( int32_t lIndex,
+    ସ୍ଥିର ଶୂନ୍ୟ MPU_StoreHandleAndDataAtIndex( int32_t lIndex,
                                                OpaqueObjectHandle_t xHandle,
-                                               void * pvKernelObjectData,
+                                               ଶୂନ୍ୟ * pvKernelObjectData,
                                                uint32_t ulKernelObjectType ) PRIVILEGED_FUNCTION;
 
 /**
@@ -177,10 +177,10 @@
  *
  * @return The kernel object handle at the index.
  */
-    static OpaqueObjectHandle_t MPU_GetHandleAtIndex( int32_t lIndex,
+    ସ୍ଥିର OpaqueObjectHandle_t MPU_GetHandleAtIndex( int32_t lIndex,
                                                       uint32_t ulKernelObjectType ) PRIVILEGED_FUNCTION;
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
 /**
  * @brief The function registered as callback for all the timers.
@@ -190,20 +190,20 @@
  *
  * @param xInternalHandle The internal timer handle.
  */
-        static void MPU_TimerCallback( TimerHandle_t xInternalHandle ) PRIVILEGED_FUNCTION;
+        ସ୍ଥିର ଶୂନ୍ୟ MPU_TimerCallback( TimerHandle_t xInternalHandle ) PRIVILEGED_FUNCTION;
 
     #endif /* #if ( configUSE_TIMERS == 1 ) */
 
 /*
  * Wrappers to keep all the casting in one place.
  */
-    #define MPU_StoreQueueHandleAtIndex( lIndex, xHandle )                 MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_QUEUE )
+    #define MPU_StoreQueueHandleAtIndex( lIndex, xHandle )                 MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ଖାଲି, KERNEL_OBJECT_TYPE_QUEUE )
     #define MPU_GetQueueHandleAtIndex( lIndex )                            ( QueueHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_QUEUE )
 
-    #if ( configUSE_QUEUE_SETS == 1 )
-        #define MPU_StoreQueueSetHandleAtIndex( lIndex, xHandle )          MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_QUEUE )
+    #ଯଦି ( configUSE_QUEUE_SETS == 1 )
+        #define MPU_StoreQueueSetHandleAtIndex( lIndex, xHandle )          MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ଖାଲି, KERNEL_OBJECT_TYPE_QUEUE )
         #define MPU_GetQueueSetHandleAtIndex( lIndex )                     ( QueueSetHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_QUEUE )
-        #define MPU_StoreQueueSetMemberHandleAtIndex( lIndex, xHandle )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_QUEUE )
+        #define MPU_StoreQueueSetMemberHandleAtIndex( lIndex, xHandle )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ଖାଲି, KERNEL_OBJECT_TYPE_QUEUE )
         #define MPU_GetQueueSetMemberHandleAtIndex( lIndex )               ( QueueSetMemberHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_QUEUE )
         #define MPU_GetIndexForQueueSetMemberHandle( xHandle )             MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_QUEUE )
     #endif
@@ -211,35 +211,35 @@
 /*
  * Wrappers to keep all the casting in one place for Task APIs.
  */
-    #define MPU_StoreTaskHandleAtIndex( lIndex, xHandle )            MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_TASK )
+    #define MPU_StoreTaskHandleAtIndex( lIndex, xHandle )            MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ଖାଲି, KERNEL_OBJECT_TYPE_TASK )
     #define MPU_GetTaskHandleAtIndex( lIndex )                       ( TaskHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_TASK )
     #define MPU_GetIndexForTaskHandle( xHandle )                     MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_TASK )
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 /*
  * Wrappers to keep all the casting in one place for Event Group APIs.
  */
-        #define MPU_StoreEventGroupHandleAtIndex( lIndex, xHandle )      MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_EVENT_GROUP )
+        #define MPU_StoreEventGroupHandleAtIndex( lIndex, xHandle )      MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ଖାଲି, KERNEL_OBJECT_TYPE_EVENT_GROUP )
         #define MPU_GetEventGroupHandleAtIndex( lIndex )                 ( EventGroupHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_EVENT_GROUP )
         #define MPU_GetIndexForEventGroupHandle( xHandle )               MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_EVENT_GROUP )
 
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 /*
  * Wrappers to keep all the casting in one place for Stream Buffer APIs.
  */
-        #define MPU_StoreStreamBufferHandleAtIndex( lIndex, xHandle )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle), NULL, KERNEL_OBJECT_TYPE_STREAM_BUFFER )
+        #define MPU_StoreStreamBufferHandleAtIndex( lIndex, xHandle )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle), ଖାଲି, KERNEL_OBJECT_TYPE_STREAM_BUFFER )
         #define MPU_GetStreamBufferHandleAtIndex( lIndex )               ( StreamBufferHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_STREAM_BUFFER )
         #define MPU_GetIndexForStreamBufferHandle( xHandle )             MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_STREAM_BUFFER )
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 /*
  * Wrappers to keep all the casting in one place for Timer APIs.
  */
-        #define MPU_StoreTimerHandleAtIndex( lIndex, xHandle, pxApplicationCallback )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ( void * ) ( pxApplicationCallback ), KERNEL_OBJECT_TYPE_TIMER )
+        #define MPU_StoreTimerHandleAtIndex( lIndex, xHandle, pxApplicationCallback )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ( ଶୂନ୍ୟ * ) ( pxApplicationCallback ), KERNEL_OBJECT_TYPE_TIMER )
         #define MPU_GetTimerHandleAtIndex( lIndex )                                      ( TimerHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_TIMER )
         #define MPU_GetIndexForTimerHandle( xHandle )                                    MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_TIMER )
 
@@ -250,10 +250,10 @@
 /**
  * @brief Kernel object pool.
  */
-    PRIVILEGED_DATA static KernelObject_t xKernelObjectPool[ configPROTECTED_KERNEL_OBJECT_POOL_SIZE ] = { 0 };
+    PRIVILEGED_DATA ସ୍ଥିର KernelObject_t xKernelObjectPool[ configPROTECTED_KERNEL_OBJECT_POOL_SIZE ] = { 0 };
 /*-----------------------------------------------------------*/
 
-    static int32_t MPU_GetFreeIndexInKernelObjectPool( void ) /* PRIVILEGED_FUNCTION */
+    ସ୍ଥିର int32_t MPU_GetFreeIndexInKernelObjectPool( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
     {
         int32_t i, lFreeIndex = -1;
 
@@ -263,61 +263,61 @@
          * critical section. */
         vTaskSuspendAll();
         {
-            for( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
+            ପାଇଁ( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
             {
-                if( xKernelObjectPool[ i ].xInternalObjectHandle == NULL )
+                ଯଦି( xKernelObjectPool[ i ].xInternalObjectHandle == ଖାଲି )
                 {
                     /* Mark this index as not free. */
                     xKernelObjectPool[ i ].xInternalObjectHandle = ( OpaqueObjectHandle_t ) ( ~0U );
                     lFreeIndex = i;
-                    break;
+                    ଭାଙ୍ଗ;
                 }
             }
         }
-        ( void ) xTaskResumeAll();
+        ( ଶୂନ୍ୟ ) xTaskResumeAll();
 
-        return lFreeIndex;
+        ଫେରନ୍ତୁ lFreeIndex;
     }
 /*-----------------------------------------------------------*/
 
-    static void MPU_SetIndexFreeInKernelObjectPool( int32_t lIndex ) /* PRIVILEGED_FUNCTION */
+    ସ୍ଥିର ଶୂନ୍ୟ MPU_SetIndexFreeInKernelObjectPool( int32_t lIndex ) /* PRIVILEGED_FUNCTION */
     {
         configASSERT( IS_INTERNAL_INDEX_VALID( lIndex ) != pdFALSE );
 
         taskENTER_CRITICAL();
         {
-            xKernelObjectPool[ lIndex ].xInternalObjectHandle = NULL;
+            xKernelObjectPool[ lIndex ].xInternalObjectHandle = ଖାଲି;
             xKernelObjectPool[ lIndex ].ulKernelObjectType = KERNEL_OBJECT_TYPE_INVALID;
-            xKernelObjectPool[ lIndex ].pvKernelObjectData = NULL;
+            xKernelObjectPool[ lIndex ].pvKernelObjectData = ଖାଲି;
         }
         taskEXIT_CRITICAL();
     }
 /*-----------------------------------------------------------*/
 
-    static int32_t MPU_GetIndexForHandle( OpaqueObjectHandle_t xHandle,
+    ସ୍ଥିର int32_t MPU_GetIndexForHandle( OpaqueObjectHandle_t xHandle,
                                           uint32_t ulKernelObjectType ) /* PRIVILEGED_FUNCTION */
     {
         int32_t i, lIndex = -1;
 
-        configASSERT( xHandle != NULL );
+        configASSERT( xHandle != ଖାଲି );
 
-        for( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
+        ପାଇଁ( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
         {
-            if( ( xKernelObjectPool[ i ].xInternalObjectHandle == xHandle ) &&
+            ଯଦି( ( xKernelObjectPool[ i ].xInternalObjectHandle == xHandle ) &&
                 ( xKernelObjectPool[ i ].ulKernelObjectType == ulKernelObjectType ) )
             {
                 lIndex = i;
-                break;
+                ଭାଙ୍ଗ;
             }
         }
 
-        return lIndex;
+        ଫେରନ୍ତୁ lIndex;
     }
 /*-----------------------------------------------------------*/
 
-    static void MPU_StoreHandleAndDataAtIndex( int32_t lIndex,
+    ସ୍ଥିର ଶୂନ୍ୟ MPU_StoreHandleAndDataAtIndex( int32_t lIndex,
                                                OpaqueObjectHandle_t xHandle,
-                                               void * pvKernelObjectData,
+                                               ଶୂନ୍ୟ * pvKernelObjectData,
                                                uint32_t ulKernelObjectType ) /* PRIVILEGED_FUNCTION */
     {
         configASSERT( IS_INTERNAL_INDEX_VALID( lIndex ) != pdFALSE );
@@ -327,45 +327,45 @@
     }
 /*-----------------------------------------------------------*/
 
-    static OpaqueObjectHandle_t MPU_GetHandleAtIndex( int32_t lIndex,
+    ସ୍ଥିର OpaqueObjectHandle_t MPU_GetHandleAtIndex( int32_t lIndex,
                                                       uint32_t ulKernelObjectType ) /* PRIVILEGED_FUNCTION */
     {
-        OpaqueObjectHandle_t xObjectHandle = NULL;
+        OpaqueObjectHandle_t xObjectHandle = ଖାଲି;
 
         configASSERT( IS_INTERNAL_INDEX_VALID( lIndex ) != pdFALSE );
 
-        if( xKernelObjectPool[ lIndex ].ulKernelObjectType == ulKernelObjectType )
+        ଯଦି( xKernelObjectPool[ lIndex ].ulKernelObjectType == ulKernelObjectType )
         {
             xObjectHandle = xKernelObjectPool[ lIndex ].xInternalObjectHandle;
         }
 
-        return xObjectHandle;
+        ଫେରନ୍ତୁ xObjectHandle;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #ଯଦି ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        void vGrantAccessToKernelObject( TaskHandle_t xExternalTaskHandle,
+        ଶୂନ୍ୟ vGrantAccessToKernelObject( TaskHandle_t xExternalTaskHandle,
                                          int32_t lExternalKernelObjectHandle ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lExternalTaskIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( IS_EXTERNAL_INDEX_VALID( lExternalKernelObjectHandle ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lExternalKernelObjectHandle ) != pdFALSE )
             {
-                if( xExternalTaskHandle == NULL )
+                ଯଦି( xExternalTaskHandle == ଖାଲି )
                 {
                     vPortGrantAccessToKernelObject( xExternalTaskHandle, CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     lExternalTaskIndex = ( int32_t ) xExternalTaskHandle;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lExternalTaskIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             vPortGrantAccessToKernelObject( xInternalTaskHandle,
                                                             CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
@@ -378,29 +378,29 @@
     #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #ଯଦି ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        void vRevokeAccessToKernelObject( TaskHandle_t xExternalTaskHandle,
+        ଶୂନ୍ୟ vRevokeAccessToKernelObject( TaskHandle_t xExternalTaskHandle,
                                           int32_t lExternalKernelObjectHandle ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lExternalTaskIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( IS_EXTERNAL_INDEX_VALID( lExternalKernelObjectHandle ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lExternalKernelObjectHandle ) != pdFALSE )
             {
-                if( xExternalTaskHandle == NULL )
+                ଯଦି( xExternalTaskHandle == ଖାଲି )
                 {
                     vPortRevokeAccessToKernelObject( xExternalTaskHandle, CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     lExternalTaskIndex = ( int32_t ) xExternalTaskHandle;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lExternalTaskIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             vPortRevokeAccessToKernelObject( xInternalTaskHandle,
                                                              CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
@@ -413,24 +413,24 @@
     #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
-        static void MPU_TimerCallback( TimerHandle_t xInternalHandle ) /* PRIVILEGED_FUNCTION */
+        ସ୍ଥିର ଶୂନ୍ୟ MPU_TimerCallback( TimerHandle_t xInternalHandle ) /* PRIVILEGED_FUNCTION */
         {
             int32_t i, lIndex = -1;
-            TimerHandle_t xExternalHandle = NULL;
-            TimerCallbackFunction_t pxApplicationCallBack = NULL;
+            TimerHandle_t xExternalHandle = ଖାଲି;
+            TimerCallbackFunction_t pxApplicationCallBack = ଖାଲି;
 
             /* Coming from the timer task and therefore, should be valid. */
-            configASSERT( xInternalHandle != NULL );
+            configASSERT( xInternalHandle != ଖାଲି );
 
-            for( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
+            ପାଇଁ( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
             {
-                if( ( ( TimerHandle_t ) xKernelObjectPool[ i ].xInternalObjectHandle == xInternalHandle ) &&
+                ଯଦି( ( ( TimerHandle_t ) xKernelObjectPool[ i ].xInternalObjectHandle == xInternalHandle ) &&
                     ( xKernelObjectPool[ i ].ulKernelObjectType == KERNEL_OBJECT_TYPE_TIMER ) )
                 {
                     lIndex = i;
-                    break;
+                    ଭାଙ୍ଗ;
                 }
             }
 
@@ -448,36 +448,36 @@
 /*            MPU wrappers for tasks APIs.                   */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskDelayUntil == 1 )
+    #ଯଦି ( INCLUDE_xTaskDelayUntil == 1 )
 
-        BaseType_t MPU_xTaskDelayUntilImpl( TickType_t * const pxPreviousWakeTime,
+        BaseType_t MPU_xTaskDelayUntilImpl( TickType_t * ଅଚଳ pxPreviousWakeTime,
                                             TickType_t xTimeIncrement ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskDelayUntilImpl( TickType_t * const pxPreviousWakeTime,
+        BaseType_t MPU_xTaskDelayUntilImpl( TickType_t * ଅଚଳ pxPreviousWakeTime,
                                             TickType_t xTimeIncrement ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             BaseType_t xIsPreviousWakeTimeAccessible = pdFALSE;
 
-            if( ( pxPreviousWakeTime != NULL ) && ( xTimeIncrement > 0U ) )
+            ଯଦି( ( pxPreviousWakeTime != ଖାଲି ) && ( xTimeIncrement > 0U ) )
             {
                 xIsPreviousWakeTimeAccessible = xPortIsAuthorizedToAccessBuffer( pxPreviousWakeTime,
-                                                                                 sizeof( TickType_t ),
+                                                                                 ଆକାର( TickType_t ),
                                                                                  ( tskMPU_WRITE_PERMISSION | tskMPU_READ_PERMISSION ) );
 
-                if( xIsPreviousWakeTimeAccessible == pdTRUE )
+                ଯଦି( xIsPreviousWakeTimeAccessible == pdTRUE )
                 {
                     xReturn = xTaskDelayUntil( pxPreviousWakeTime, xTimeIncrement );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskAbortDelay == 1 )
+    #ଯଦି ( INCLUDE_xTaskAbortDelay == 1 )
 
         BaseType_t MPU_xTaskAbortDelayImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
@@ -485,37 +485,37 @@
         {
             BaseType_t xReturn = pdFAIL;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xTask;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         xReturn = xTaskAbortDelay( xInternalTaskHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelay == 1 )
+    #ଯଦି ( INCLUDE_vTaskDelay == 1 )
 
-        void MPU_vTaskDelayImpl( TickType_t xTicksToDelay ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vTaskDelayImpl( TickType_t xTicksToDelay ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskDelayImpl( TickType_t xTicksToDelay ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTaskDelayImpl( TickType_t xTicksToDelay ) /* PRIVILEGED_FUNCTION */
         {
             vTaskDelay( xTicksToDelay );
         }
@@ -523,34 +523,34 @@
     #endif /* if ( INCLUDE_vTaskDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskPriorityGet == 1 )
+    #ଯଦି ( INCLUDE_uxTaskPriorityGet == 1 )
 
-        UBaseType_t MPU_uxTaskPriorityGetImpl( const TaskHandle_t pxTask ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_uxTaskPriorityGetImpl( ଅଚଳ TaskHandle_t pxTask ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTaskPriorityGetImpl( const TaskHandle_t pxTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_uxTaskPriorityGetImpl( ଅଚଳ TaskHandle_t pxTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( pxTask == NULL )
+            ଯଦି( pxTask == ଖାଲି )
             {
                 uxReturn = uxTaskPriorityGet( pxTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) pxTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             uxReturn = uxTaskPriorityGet( xInternalTaskHandle );
                         }
@@ -558,88 +558,88 @@
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_eTaskGetState == 1 )
+    #ଯଦି ( INCLUDE_eTaskGetState == 1 )
 
         eTaskState MPU_eTaskGetStateImpl( TaskHandle_t pxTask ) PRIVILEGED_FUNCTION;
 
         eTaskState MPU_eTaskGetStateImpl( TaskHandle_t pxTask ) /* PRIVILEGED_FUNCTION */
         {
             eTaskState eReturn = eInvalid;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
             lIndex = ( int32_t ) pxTask;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         eReturn = eTaskGetState( xInternalTaskHandle );
                     }
                 }
             }
 
-            return eReturn;
+            ଫେରନ୍ତୁ eReturn;
         }
 
     #endif /* if ( INCLUDE_eTaskGetState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #ଯଦି ( configUSE_TRACE_FACILITY == 1 )
 
-        void MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
+        ଶୂନ୍ୟ MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
                                    TaskStatus_t * pxTaskStatus,
-                                   BaseType_t xGetFreeStackSpace,
+                                   BaseType_t x_Get_Free_ଗଦା_Space,
                                    eTaskState eState ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
+        ଶୂନ୍ୟ MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
                                    TaskStatus_t * pxTaskStatus,
-                                   BaseType_t xGetFreeStackSpace,
+                                   BaseType_t x_Get_Free_ଗଦା_Space,
                                    eTaskState eState ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xIsTaskStatusWriteable = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
             xIsTaskStatusWriteable = xPortIsAuthorizedToAccessBuffer( pxTaskStatus,
-                                                                      sizeof( TaskStatus_t ),
+                                                                      ଆକାର( TaskStatus_t ),
                                                                       tskMPU_WRITE_PERMISSION );
 
-            if( xIsTaskStatusWriteable == pdTRUE )
+            ଯଦି( xIsTaskStatusWriteable == pdTRUE )
             {
-                if( xTask == NULL )
+                ଯଦି( xTask == ଖାଲି )
                 {
-                    vTaskGetInfo( xTask, pxTaskStatus, xGetFreeStackSpace, eState );
+                    vTaskGetInfo( xTask, pxTaskStatus, x_Get_Free_ଗଦା_Space, eState );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     lIndex = ( int32_t ) xTask;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                         {
                             xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            ଯଦି( xInternalTaskHandle != ଖାଲି )
                             {
-                                vTaskGetInfo( xInternalTaskHandle, pxTaskStatus, xGetFreeStackSpace, eState );
+                                vTaskGetInfo( xInternalTaskHandle, pxTaskStatus, x_Get_Free_ଗଦା_Space, eState );
                             }
                         }
                     }
@@ -650,57 +650,57 @@
     #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+    #ଯଦି ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
 
-        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( void ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( void ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xIdleTaskHandle = NULL;
+            TaskHandle_t xIdleTaskHandle = ଖାଲି;
 
             xIdleTaskHandle = xTaskGetIdleTaskHandle();
 
-            return xIdleTaskHandle;
+            ଫେରନ୍ତୁ xIdleTaskHandle;
         }
 
     #endif /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
+    #ଯଦି ( INCLUDE_vTaskSuspend == 1 )
 
-        void MPU_vTaskSuspendImpl( TaskHandle_t pxTaskToSuspend ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vTaskSuspendImpl( TaskHandle_t pxTaskToSuspend ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskSuspendImpl( TaskHandle_t pxTaskToSuspend ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTaskSuspendImpl( TaskHandle_t pxTaskToSuspend ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( pxTaskToSuspend == NULL )
+            ଯଦି( pxTaskToSuspend == ଖାଲି )
             {
                 vTaskSuspend( pxTaskToSuspend );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 /* After the scheduler starts, only privileged tasks are allowed
                  * to suspend other tasks. */
-                #if ( INCLUDE_xTaskGetSchedulerState == 1 )
-                    if( ( xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED ) || ( portIS_TASK_PRIVILEGED() == pdTRUE ) )
-                #else
-                    if( portIS_TASK_PRIVILEGED() == pdTRUE )
+                #ଯଦି ( INCLUDE_xTaskGetSchedulerState == 1 )
+                    ଯଦି( ( xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED ) || ( portIS_TASK_PRIVILEGED() == pdTRUE ) )
+                #ଅନ୍ୟଥା
+                    ଯଦି( portIS_TASK_PRIVILEGED() == pdTRUE )
                 #endif
                 {
                     lIndex = ( int32_t ) pxTaskToSuspend;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                         {
                             xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            ଯଦି( xInternalTaskHandle != ଖାଲି )
                             {
                                 vTaskSuspend( xInternalTaskHandle );
                             }
@@ -713,27 +713,27 @@
     #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
+    #ଯଦି ( INCLUDE_vTaskSuspend == 1 )
 
-        void MPU_vTaskResumeImpl( TaskHandle_t pxTaskToResume ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vTaskResumeImpl( TaskHandle_t pxTaskToResume ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskResumeImpl( TaskHandle_t pxTaskToResume ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTaskResumeImpl( TaskHandle_t pxTaskToResume ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
             lIndex = ( int32_t ) pxTaskToResume;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         vTaskResume( xInternalTaskHandle );
                     }
@@ -744,58 +744,58 @@
     #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    TickType_t MPU_xTaskGetTickCountImpl( void ) PRIVILEGED_FUNCTION;
+    TickType_t MPU_x_Task_Get_Tick_ଗଣନା_Impl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-    TickType_t MPU_xTaskGetTickCountImpl( void ) /* PRIVILEGED_FUNCTION */
+    TickType_t MPU_x_Task_Get_Tick_ଗଣନା_Impl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
     {
         TickType_t xReturn;
 
-        xReturn = xTaskGetTickCount();
+        xReturn = x_Task_Get_Tick_ଗଣନା();
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasksImpl( void ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_ux_Task_Get_ସଂଖ୍ୟା_Of_Tasks_Impl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasksImpl( void ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_ux_Task_Get_ସଂଖ୍ୟା_Of_Tasks_Impl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
     {
         UBaseType_t uxReturn;
 
-        uxReturn = uxTaskGetNumberOfTasks();
+        uxReturn = ux_Task_Get_ସଂଖ୍ୟା_Of_Tasks();
 
-        return uxReturn;
+        ଫେରନ୍ତୁ uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configGENERATE_RUN_TIME_STATS == 1 )
+    #ଯଦି ( configGENERATE_RUN_TIME_STATS == 1 )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounterImpl( const TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounterImpl( ଅଚଳ TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounterImpl( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounterImpl( ଅଚଳ TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             configRUN_TIME_COUNTER_TYPE xReturn = 0;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 xReturn = ulTaskGetRunTimeCounter( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             xReturn = ulTaskGetRunTimeCounter( xInternalTaskHandle );
                         }
@@ -803,40 +803,40 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configGENERATE_RUN_TIME_STATS == 1 )
+    #ଯଦି ( configGENERATE_RUN_TIME_STATS == 1 )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercentImpl( const TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercentImpl( ଅଚଳ TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercentImpl( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercentImpl( ଅଚଳ TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             configRUN_TIME_COUNTER_TYPE xReturn = 0;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 xReturn = ulTaskGetRunTimePercent( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             xReturn = ulTaskGetRunTimePercent( xInternalTaskHandle );
                         }
@@ -844,75 +844,75 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+    #ଯଦି ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercentImpl( void ) PRIVILEGED_FUNCTION;
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercentImpl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercentImpl( void ) /* PRIVILEGED_FUNCTION */
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercentImpl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
             configRUN_TIME_COUNTER_TYPE xReturn;
 
             xReturn = ulTaskGetIdleRunTimePercent();
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+    #ଯଦି ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounterImpl( void ) PRIVILEGED_FUNCTION;
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounterImpl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounterImpl( void ) /* PRIVILEGED_FUNCTION */
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounterImpl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
             configRUN_TIME_COUNTER_TYPE xReturn;
 
             xReturn = ulTaskGetIdleRunTimeCounter();
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #ଯଦି ( configUSE_APPLICATION_TASK_TAG == 1 )
 
-        void MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
-                                                 TaskHookFunction_t pxTagValue ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
+                                                 TaskHookFunction_t px_Tag_ମୂଲ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
-                                                 TaskHookFunction_t pxTagValue ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
+                                                 TaskHookFunction_t px_Tag_ମୂଲ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
-                vTaskSetApplicationTaskTag( xTask, pxTagValue );
+                vTaskSetApplicationTaskTag( xTask, px_Tag_ମୂଲ୍ୟ );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
-                            vTaskSetApplicationTaskTag( xInternalTaskHandle, pxTagValue );
+                            vTaskSetApplicationTaskTag( xInternalTaskHandle, px_Tag_ମୂଲ୍ୟ );
                         }
                     }
                 }
@@ -922,34 +922,34 @@
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #ଯଦି ( configUSE_APPLICATION_TASK_TAG == 1 )
 
         TaskHookFunction_t MPU_xTaskGetApplicationTaskTagImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
         TaskHookFunction_t MPU_xTaskGetApplicationTaskTagImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHookFunction_t xReturn = NULL;
+            TaskHookFunction_t xReturn = ଖାଲି;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 xReturn = xTaskGetApplicationTaskTag( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             xReturn = xTaskGetApplicationTaskTag( xInternalTaskHandle );
                         }
@@ -957,45 +957,45 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #ଯଦି ( config_ଅଙ୍କ_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
-        void MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
+        ଶୂନ୍ୟ MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
                                                         BaseType_t xIndex,
-                                                        void * pvValue ) PRIVILEGED_FUNCTION;
+                                                        ଶୂନ୍ୟ * pv_ମୂଲ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
+        ଶୂନ୍ୟ MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
                                                         BaseType_t xIndex,
-                                                        void * pvValue ) /* PRIVILEGED_FUNCTION */
+                                                        ଶୂନ୍ୟ * pv_ମୂଲ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTaskToSet == NULL )
+            ଯଦି( xTaskToSet == ଖାଲି )
             {
-                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pvValue );
+                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pv_ମୂଲ୍ୟ );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTaskToSet;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
-                            vTaskSetThreadLocalStoragePointer( xInternalTaskHandle, xIndex, pvValue );
+                            vTaskSetThreadLocalStoragePointer( xInternalTaskHandle, xIndex, pv_ମୂଲ୍ୟ );
                         }
                     }
                 }
@@ -1005,36 +1005,36 @@
     #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #ଯଦି ( config_ଅଙ୍କ_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
-        void * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
+        ଶୂନ୍ୟ * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
                                                            BaseType_t xIndex ) PRIVILEGED_FUNCTION;
 
-        void * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
+        ଶୂନ୍ୟ * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
                                                            BaseType_t xIndex ) /* PRIVILEGED_FUNCTION */
         {
-            void * pvReturn = NULL;
+            ଶୂନ୍ୟ * pvReturn = ଖାଲି;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTaskToQuery == NULL )
+            ଯଦି( xTaskToQuery == ଖାଲି )
             {
                 pvReturn = pvTaskGetThreadLocalStoragePointer( xTaskToQuery, xIndex );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTaskToQuery;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
                             pvReturn = pvTaskGetThreadLocalStoragePointer( xInternalTaskHandle, xIndex );
                         }
@@ -1042,13 +1042,13 @@
                 }
             }
 
-            return pvReturn;
+            ଫେରନ୍ତୁ pvReturn;
         }
 
     #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #ଯଦି ( configUSE_TRACE_FACILITY == 1 )
 
         UBaseType_t MPU_uxTaskGetSystemStateImpl( TaskStatus_t * pxTaskStatusArray,
                                                   UBaseType_t uxArraySize,
@@ -1062,171 +1062,171 @@
             BaseType_t xIsTaskStatusArrayWriteable = pdFALSE;
             BaseType_t xIsTotalRunTimeWriteable = pdFALSE;
 
-            if( mpuMULTIPLY_BASETYPE_WILL_OVERFLOW( sizeof( TaskStatus_t ), uxArraySize ) == 0 )
+            ଯଦି( mpuMULTIPLY_BASETYPE_WILL_OVERFLOW( ଆକାର( TaskStatus_t ), uxArraySize ) == 0 )
             {
                 xIsTaskStatusArrayWriteable = xPortIsAuthorizedToAccessBuffer( pxTaskStatusArray,
-                                                                               sizeof( TaskStatus_t ) * ( size_t ) uxArraySize,
+                                                                               ଆକାର( TaskStatus_t ) * ( size_t ) uxArraySize,
                                                                                tskMPU_WRITE_PERMISSION );
 
-                if( pulTotalRunTime != NULL )
+                ଯଦି( pulTotalRunTime != ଖାଲି )
                 {
                     xIsTotalRunTimeWriteable = xPortIsAuthorizedToAccessBuffer( pulTotalRunTime,
-                                                                                sizeof( configRUN_TIME_COUNTER_TYPE ),
+                                                                                ଆକାର( configRUN_TIME_COUNTER_TYPE ),
                                                                                 tskMPU_WRITE_PERMISSION );
                 }
 
-                if( ( xIsTaskStatusArrayWriteable == pdTRUE ) &&
-                    ( ( pulTotalRunTime == NULL ) || ( xIsTotalRunTimeWriteable == pdTRUE ) ) )
+                ଯଦି( ( xIsTaskStatusArrayWriteable == pdTRUE ) &&
+                    ( ( pulTotalRunTime == ଖାଲି ) || ( xIsTotalRunTimeWriteable == pdTRUE ) ) )
                 {
                     uxReturn = uxTaskGetSystemState( pxTaskStatusArray, uxArraySize, pulTotalRunTime );
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
+    #ଯଦି ( INCLUDE_ux_Task_Get_ଗଦା_ଉପର_Water_Mark == 1 )
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMarkImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Task_Get_ଗଦା_ଉପର_Water_Mark_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMarkImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_Get_ଗଦା_ଉପର_Water_Mark_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = 0;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
-                uxReturn = uxTaskGetStackHighWaterMark( xTask );
+                uxReturn = ux_Task_Get_ଗଦା_ଉପର_Water_Mark( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
-                            uxReturn = uxTaskGetStackHighWaterMark( xInternalTaskHandle );
+                            uxReturn = ux_Task_Get_ଗଦା_ଉପର_Water_Mark( xInternalTaskHandle );
                         }
                     }
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
+    #ଯଦି ( INCLUDE_ux_Task_Get_ଗଦା_ଉପର_Water_Mark2 == 1 )
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        config_ଗଦା_DEPTH_TYPE MPU_ux_Task_Get_ଗଦା_ଉପର_Water_Mark2_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        config_ଗଦା_DEPTH_TYPE MPU_ux_Task_Get_ଗଦା_ଉପର_Water_Mark2_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            configSTACK_DEPTH_TYPE uxReturn = 0;
+            config_ଗଦା_DEPTH_TYPE uxReturn = 0;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
-                uxReturn = uxTaskGetStackHighWaterMark2( xTask );
+                uxReturn = ux_Task_Get_ଗଦା_ଉପର_Water_Mark2( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                     {
                         xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        ଯଦି( xInternalTaskHandle != ଖାଲି )
                         {
-                            uxReturn = uxTaskGetStackHighWaterMark2( xInternalTaskHandle );
+                            uxReturn = ux_Task_Get_ଗଦା_ଉପର_Water_Mark2( xInternalTaskHandle );
                         }
                     }
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) )
+    #ଯଦି ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) )
 
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( void ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( void ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            TaskHandle_t xExternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
+            TaskHandle_t xExternalTaskHandle = ଖାଲି;
             int32_t lIndex;
 
             xInternalTaskHandle = xTaskGetCurrentTaskHandle();
 
-            if( xInternalTaskHandle != NULL )
+            ଯଦି( xInternalTaskHandle != ଖାଲି )
             {
                 lIndex = MPU_GetIndexForTaskHandle( xInternalTaskHandle );
 
-                if( lIndex != -1 )
+                ଯଦି( lIndex != -1 )
                 {
                     xExternalTaskHandle = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
             }
 
-            return xExternalTaskHandle;
+            ଫେରନ୍ତୁ xExternalTaskHandle;
         }
 
     #endif /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetSchedulerState == 1 )
+    #ଯଦି ( INCLUDE_xTaskGetSchedulerState == 1 )
 
-        BaseType_t MPU_xTaskGetSchedulerStateImpl( void ) PRIVILEGED_FUNCTION;
+        BaseType_t MPU_xTaskGetSchedulerStateImpl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGetSchedulerStateImpl( void ) /* PRIVILEGED_FUNCTION */
+        BaseType_t MPU_xTaskGetSchedulerStateImpl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = taskSCHEDULER_NOT_STARTED;
 
             xReturn = xTaskGetSchedulerState();
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskSetTimeOutStateImpl( TimeOut_t * const pxTimeOut ) PRIVILEGED_FUNCTION;
+    ଶୂନ୍ୟ MPU_vTaskSetTimeOutStateImpl( TimeOut_t * ଅଚଳ pxTimeOut ) PRIVILEGED_FUNCTION;
 
-    void MPU_vTaskSetTimeOutStateImpl( TimeOut_t * const pxTimeOut ) /* PRIVILEGED_FUNCTION */
+    ଶୂନ୍ୟ MPU_vTaskSetTimeOutStateImpl( TimeOut_t * ଅଚଳ pxTimeOut ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xIsTimeOutWriteable = pdFALSE;
 
-        if( pxTimeOut != NULL )
+        ଯଦି( pxTimeOut != ଖାଲି )
         {
             xIsTimeOutWriteable = xPortIsAuthorizedToAccessBuffer( pxTimeOut,
-                                                                   sizeof( TimeOut_t ),
+                                                                   ଆକାର( TimeOut_t ),
                                                                    tskMPU_WRITE_PERMISSION );
 
-            if( xIsTimeOutWriteable == pdTRUE )
+            ଯଦି( xIsTimeOutWriteable == pdTRUE )
             {
                 vTaskSetTimeOutState( pxTimeOut );
             }
@@ -1234,111 +1234,111 @@
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xTaskCheckForTimeOutImpl( TimeOut_t * const pxTimeOut,
-                                             TickType_t * const pxTicksToWait ) PRIVILEGED_FUNCTION;
+    BaseType_t MPU_xTaskCheckForTimeOutImpl( TimeOut_t * ଅଚଳ pxTimeOut,
+                                             TickType_t * ଅଚଳ pxTicksToWait ) PRIVILEGED_FUNCTION;
 
-    BaseType_t MPU_xTaskCheckForTimeOutImpl( TimeOut_t * const pxTimeOut,
-                                             TickType_t * const pxTicksToWait ) /* PRIVILEGED_FUNCTION */
+    BaseType_t MPU_xTaskCheckForTimeOutImpl( TimeOut_t * ଅଚଳ pxTimeOut,
+                                             TickType_t * ଅଚଳ pxTicksToWait ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFALSE;
         BaseType_t xIsTimeOutWriteable = pdFALSE;
         BaseType_t xIsTicksToWaitWriteable = pdFALSE;
 
-        if( ( pxTimeOut != NULL ) && ( pxTicksToWait != NULL ) )
+        ଯଦି( ( pxTimeOut != ଖାଲି ) && ( pxTicksToWait != ଖାଲି ) )
         {
             xIsTimeOutWriteable = xPortIsAuthorizedToAccessBuffer( pxTimeOut,
-                                                                   sizeof( TimeOut_t ),
+                                                                   ଆକାର( TimeOut_t ),
                                                                    tskMPU_WRITE_PERMISSION );
             xIsTicksToWaitWriteable = xPortIsAuthorizedToAccessBuffer( pxTicksToWait,
-                                                                       sizeof( TickType_t ),
+                                                                       ଆକାର( TickType_t ),
                                                                        tskMPU_WRITE_PERMISSION );
 
-            if( ( xIsTimeOutWriteable == pdTRUE ) && ( xIsTicksToWaitWriteable == pdTRUE ) )
+            ଯଦି( ( xIsTimeOutWriteable == pdTRUE ) && ( xIsTicksToWaitWriteable == pdTRUE ) )
             {
                 xReturn = xTaskCheckForTimeOut( pxTimeOut, pxTicksToWait );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
         BaseType_t MPU_xTaskGenericNotify( TaskHandle_t xTaskToNotify,
                                            UBaseType_t uxIndexToNotify,
-                                           uint32_t ulValue,
+                                           uint32_t ul_ମୂଲ୍ୟ,
                                            eNotifyAction eAction,
-                                           uint32_t * pulPreviousNotificationValue ) /* FREERTOS_SYSTEM_CALL */
+                                           uint32_t * pul_Previous_Notification_ମୂଲ୍ୟ ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn = pdFAIL;
             xTaskGenericNotifyParams_t xParams;
 
             xParams.xTaskToNotify = xTaskToNotify;
             xParams.uxIndexToNotify = uxIndexToNotify;
-            xParams.ulValue = ulValue;
+            xParams.ul_ମୂଲ୍ୟ = ul_ମୂଲ୍ୟ;
             xParams.eAction = eAction;
-            xParams.pulPreviousNotificationValue = pulPreviousNotificationValue;
+            xParams.pul_Previous_Notification_ମୂଲ୍ୟ = pul_Previous_Notification_ମୂଲ୍ୟ;
 
             xReturn = MPU_xTaskGenericNotifyEntry( &( xParams ) );
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
-        BaseType_t MPU_xTaskGenericNotifyImpl( const xTaskGenericNotifyParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        BaseType_t MPU_xTaskGenericNotifyImpl( ଅଚଳ xTaskGenericNotifyParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGenericNotifyImpl( const xTaskGenericNotifyParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        BaseType_t MPU_xTaskGenericNotifyImpl( ଅଚଳ xTaskGenericNotifyParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xIsPreviousNotificationValueWriteable = pdFALSE;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
+            BaseType_t x_Is_Previous_Notification_ମୂଲ୍ୟ_Writeable = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
             BaseType_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            ଯଦି( pxParams != ଖାଲି )
             {
                 xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xTaskGenericNotifyParams_t ),
+                                                                      ଆକାର( xTaskGenericNotifyParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            ଯଦି( xAreParamsReadable == pdTRUE )
             {
-                if( ( pxParams->uxIndexToNotify < configTASK_NOTIFICATION_ARRAY_ENTRIES ) &&
+                ଯଦି( ( pxParams->uxIndexToNotify < configTASK_NOTIFICATION_ARRAY_ENTRIES ) &&
                     ( ( pxParams->eAction == eNoAction ) ||
                       ( pxParams->eAction == eSetBits ) ||
                       ( pxParams->eAction == eIncrement ) ||
-                      ( pxParams->eAction == eSetValueWithOverwrite ) ||
-                      ( pxParams->eAction == eSetValueWithoutOverwrite ) ) )
+                      ( pxParams->eAction == e_Set_ମୂଲ୍ୟ_With_Overwrite ) ||
+                      ( pxParams->eAction == e_Set_ମୂଲ୍ୟ_Without_Overwrite ) ) )
                 {
-                    if( pxParams->pulPreviousNotificationValue != NULL )
+                    ଯଦି( pxParams->pul_Previous_Notification_ମୂଲ୍ୟ != ଖାଲି )
                     {
-                        xIsPreviousNotificationValueWriteable = xPortIsAuthorizedToAccessBuffer( pxParams->pulPreviousNotificationValue,
-                                                                                                 sizeof( uint32_t ),
+                        x_Is_Previous_Notification_ମୂଲ୍ୟ_Writeable = xPortIsAuthorizedToAccessBuffer( pxParams->pul_Previous_Notification_ମୂଲ୍ୟ,
+                                                                                                 ଆକାର( uint32_t ),
                                                                                                  tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pulPreviousNotificationValue == NULL ) ||
-                        ( xIsPreviousNotificationValueWriteable == pdTRUE ) )
+                    ଯଦି( ( pxParams->pul_Previous_Notification_ମୂଲ୍ୟ == ଖାଲି ) ||
+                        ( x_Is_Previous_Notification_ମୂଲ୍ୟ_Writeable == pdTRUE ) )
                     {
                         lIndex = ( int32_t ) ( pxParams->xTaskToNotify );
 
-                        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                         {
                             xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                            ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                             {
                                 xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                                if( xInternalTaskHandle != NULL )
+                                ଯଦି( xInternalTaskHandle != ଖାଲି )
                                 {
                                     xReturn = xTaskGenericNotify( xInternalTaskHandle,
                                                                   pxParams->uxIndexToNotify,
-                                                                  pxParams->ulValue,
+                                                                  pxParams->ul_ମୂଲ୍ୟ,
                                                                   pxParams->eAction,
-                                                                  pxParams->pulPreviousNotificationValue );
+                                                                  pxParams->pul_Previous_Notification_ମୂଲ୍ୟ );
                                 }
                             }
                         }
@@ -1346,18 +1346,18 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
         BaseType_t MPU_xTaskGenericNotifyWait( UBaseType_t uxIndexToWaitOn,
                                                uint32_t ulBitsToClearOnEntry,
                                                uint32_t ulBitsToClearOnExit,
-                                               uint32_t * pulNotificationValue,
+                                               uint32_t * pul_Notification_ମୂଲ୍ୟ,
                                                TickType_t xTicksToWait )
         {
             BaseType_t xReturn = pdFAIL;
@@ -1366,82 +1366,82 @@
             xParams.uxIndexToWaitOn = uxIndexToWaitOn;
             xParams.ulBitsToClearOnEntry = ulBitsToClearOnEntry;
             xParams.ulBitsToClearOnExit = ulBitsToClearOnExit;
-            xParams.pulNotificationValue = pulNotificationValue;
+            xParams.pul_Notification_ମୂଲ୍ୟ = pul_Notification_ମୂଲ୍ୟ;
             xParams.xTicksToWait = xTicksToWait;
 
             xReturn = MPU_xTaskGenericNotifyWaitEntry( &( xParams ) );
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
-        BaseType_t MPU_xTaskGenericNotifyWaitImpl( const xTaskGenericNotifyWaitParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        BaseType_t MPU_xTaskGenericNotifyWaitImpl( ଅଚଳ xTaskGenericNotifyWaitParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGenericNotifyWaitImpl( const xTaskGenericNotifyWaitParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        BaseType_t MPU_xTaskGenericNotifyWaitImpl( ଅଚଳ xTaskGenericNotifyWaitParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
-            BaseType_t xIsNotificationValueWritable = pdFALSE;
+            BaseType_t x_Is_Notification_ମୂଲ୍ୟ_Writable = pdFALSE;
             BaseType_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            ଯଦି( pxParams != ଖାଲି )
             {
                 xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xTaskGenericNotifyWaitParams_t ),
+                                                                      ଆକାର( xTaskGenericNotifyWaitParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            ଯଦି( xAreParamsReadable == pdTRUE )
             {
-                if( pxParams->uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+                ଯଦି( pxParams->uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
                 {
-                    if( pxParams->pulNotificationValue != NULL )
+                    ଯଦି( pxParams->pul_Notification_ମୂଲ୍ୟ != ଖାଲି )
                     {
-                        xIsNotificationValueWritable = xPortIsAuthorizedToAccessBuffer( pxParams->pulNotificationValue,
-                                                                                        sizeof( uint32_t ),
+                        x_Is_Notification_ମୂଲ୍ୟ_Writable = xPortIsAuthorizedToAccessBuffer( pxParams->pul_Notification_ମୂଲ୍ୟ,
+                                                                                        ଆକାର( uint32_t ),
                                                                                         tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pulNotificationValue == NULL ) ||
-                        ( xIsNotificationValueWritable == pdTRUE ) )
+                    ଯଦି( ( pxParams->pul_Notification_ମୂଲ୍ୟ == ଖାଲି ) ||
+                        ( x_Is_Notification_ମୂଲ୍ୟ_Writable == pdTRUE ) )
                     {
                         xReturn = xTaskGenericNotifyWait( pxParams->uxIndexToWaitOn,
                                                           pxParams->ulBitsToClearOnEntry,
                                                           pxParams->ulBitsToClearOnExit,
-                                                          pxParams->pulNotificationValue,
+                                                          pxParams->pul_Notification_ମୂଲ୍ୟ,
                                                           pxParams->xTicksToWait );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
         uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t uxIndexToWaitOn,
-                                                  BaseType_t xClearCountOnExit,
+                                                  BaseType_t x_Clear_ଗଣନା_On_Exit,
                                                   TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
         uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t uxIndexToWaitOn,
-                                                  BaseType_t xClearCountOnExit,
+                                                  BaseType_t x_Clear_ଗଣନା_On_Exit,
                                                   TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             uint32_t ulReturn = 0;
 
-            if( uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+            ଯଦି( uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, xClearCountOnExit, xTicksToWait );
+                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, x_Clear_ଗଣନା_On_Exit, xTicksToWait );
             }
 
-            return ulReturn;
+            ଫେରନ୍ତୁ ulReturn;
         }
 
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
         BaseType_t MPU_xTaskGenericNotifyStateClearImpl( TaskHandle_t xTask,
                                                          UBaseType_t uxIndexToClear ) PRIVILEGED_FUNCTION;
@@ -1451,28 +1451,28 @@
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( uxIndexToClear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+            ଯଦି( uxIndexToClear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                if( xTask == NULL )
+                ଯଦି( xTask == ଖାଲି )
                 {
                     xReturn = xTaskGenericNotifyStateClear( xTask, uxIndexToClear );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     lIndex = ( int32_t ) xTask;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                         {
                             xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            ଯଦି( xInternalTaskHandle != ଖାଲି )
                             {
                                 xReturn = xTaskGenericNotifyStateClear( xInternalTaskHandle, uxIndexToClear );
                             }
@@ -1481,55 +1481,55 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        uint32_t MPU_ulTaskGenericNotifyValueClearImpl( TaskHandle_t xTask,
+        uint32_t MPU_ul_Task_Generic_Notify_ମୂଲ୍ୟ_Clear_Impl( TaskHandle_t xTask,
                                                         UBaseType_t uxIndexToClear,
                                                         uint32_t ulBitsToClear ) PRIVILEGED_FUNCTION;
 
-        uint32_t MPU_ulTaskGenericNotifyValueClearImpl( TaskHandle_t xTask,
+        uint32_t MPU_ul_Task_Generic_Notify_ମୂଲ୍ୟ_Clear_Impl( TaskHandle_t xTask,
                                                         UBaseType_t uxIndexToClear,
                                                         uint32_t ulBitsToClear ) /* PRIVILEGED_FUNCTION */
         {
             uint32_t ulReturn = 0;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
-            if( uxIndexToClear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+            ଯଦି( uxIndexToClear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                if( xTask == NULL )
+                ଯଦି( xTask == ଖାଲି )
                 {
-                    ulReturn = ulTaskGenericNotifyValueClear( xTask, uxIndexToClear, ulBitsToClear );
+                    ulReturn = ul_Task_Generic_Notify_ମୂଲ୍ୟ_Clear( xTask, uxIndexToClear, ulBitsToClear );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     lIndex = ( int32_t ) xTask;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
                         {
                             xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            ଯଦି( xInternalTaskHandle != ଖାଲି )
                             {
-                                ulReturn = ulTaskGenericNotifyValueClear( xInternalTaskHandle, uxIndexToClear, ulBitsToClear );
+                                ulReturn = ul_Task_Generic_Notify_ମୂଲ୍ୟ_Clear( xInternalTaskHandle, uxIndexToClear, ulBitsToClear );
                             }
                         }
                     }
                 }
             }
 
-            return ulReturn;
+            ଫେରନ୍ତୁ ulReturn;
         }
 
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
@@ -1540,78 +1540,78 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
         BaseType_t MPU_xTaskCreate( TaskFunction_t pvTaskCode,
-                                    const char * const pcName,
-                                    const configSTACK_DEPTH_TYPE uxStackDepth,
-                                    void * pvParameters,
+                                    ଅଚଳ ଅକ୍ଷର * ଅଚଳ pcName,
+                                    ଅଚଳ config_ଗଦା_DEPTH_TYPE ux_ଗଦା_Depth,
+                                    ଶୂନ୍ୟ * pvParameters,
                                     UBaseType_t uxPriority,
                                     TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 /* xTaskCreate() can only be used to create privileged tasks in MPU port. */
-                if( ( uxPriority & portPRIVILEGE_BIT ) != 0 )
+                ଯଦି( ( uxPriority & portPRIVILEGE_BIT ) != 0 )
                 {
-                    xReturn = xTaskCreate( pvTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, &( xInternalTaskHandle ) );
+                    xReturn = xTaskCreate( pvTaskCode, pcName, ux_ଗଦା_Depth, pvParameters, uxPriority, &( xInternalTaskHandle ) );
 
-                    if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
+                    ଯଦି( ( xReturn == pdPASS ) && ( xInternalTaskHandle != ଖାଲି ) )
                     {
                         MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
 
-                        if( pxCreatedTask != NULL )
+                        ଯଦି( pxCreatedTask != ଖାଲି )
                         {
                             *pxCreatedTask = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                         }
                     }
-                    else
+                    ଅନ୍ୟଥା
                     {
                         MPU_SetIndexFreeInKernelObjectPool( lIndex );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
         TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t pxTaskCode,
-                                            const char * const pcName,
-                                            const configSTACK_DEPTH_TYPE uxStackDepth,
-                                            void * const pvParameters,
+                                            ଅଚଳ ଅକ୍ଷର * ଅଚଳ pcName,
+                                            ଅଚଳ config_ଗଦା_DEPTH_TYPE ux_ଗଦା_Depth,
+                                            ଶୂନ୍ୟ * ଅଚଳ pvParameters,
                                             UBaseType_t uxPriority,
-                                            StackType_t * const puxStackBuffer,
-                                            StaticTask_t * const pxTaskBuffer ) /* PRIVILEGED_FUNCTION */
+                                            ଗଦା_Type_t * ଅଚଳ pux_ଗଦା_Buffer,
+                                            StaticTask_t * ଅଚଳ pxTaskBuffer ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xExternalTaskHandle = NULL;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xExternalTaskHandle = ଖାଲି;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
-                xInternalTaskHandle = xTaskCreateStatic( pxTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, puxStackBuffer, pxTaskBuffer );
+                xInternalTaskHandle = xTaskCreateStatic( pxTaskCode, pcName, ux_ଗଦା_Depth, pvParameters, uxPriority, pux_ଗଦା_Buffer, pxTaskBuffer );
 
-                if( xInternalTaskHandle != NULL )
+                ଯଦି( xInternalTaskHandle != ଖାଲି )
                 {
                     MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
 
-                    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                    #ଯଦି ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                     {
                         /* By default, an unprivileged task has access to itself. */
-                        if( ( uxPriority & portPRIVILEGE_BIT ) == 0 )
+                        ଯଦି( ( uxPriority & portPRIVILEGE_BIT ) == 0 )
                         {
                             vPortGrantAccessToKernelObject( xInternalTaskHandle, lIndex );
                         }
@@ -1620,46 +1620,46 @@
 
                     xExternalTaskHandle = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalTaskHandle;
+            ଫେରନ୍ତୁ xExternalTaskHandle;
         }
 
     #endif /* configSUPPORT_STATIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelete == 1 )
+    #ଯଦି ( INCLUDE_vTaskDelete == 1 )
 
-        void MPU_vTaskDelete( TaskHandle_t pxTaskToDelete ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTaskDelete( TaskHandle_t pxTaskToDelete ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
 
-            if( pxTaskToDelete == NULL )
+            ଯଦି( pxTaskToDelete == ଖାଲି )
             {
                 xInternalTaskHandle = xTaskGetCurrentTaskHandle();
                 lIndex = MPU_GetIndexForTaskHandle( xInternalTaskHandle );
 
-                if( lIndex != -1 )
+                ଯଦି( lIndex != -1 )
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
 
                 vTaskDelete( xInternalTaskHandle );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) pxTaskToDelete;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
                         vTaskDelete( xInternalTaskHandle );
@@ -1672,27 +1672,27 @@
 /*-----------------------------------------------------------*/
 
 
-    #if ( INCLUDE_vTaskPrioritySet == 1 )
+    #ଯଦି ( INCLUDE_vTaskPrioritySet == 1 )
 
-        void MPU_vTaskPrioritySet( TaskHandle_t pxTask,
+        ଶୂନ୍ୟ MPU_vTaskPrioritySet( TaskHandle_t pxTask,
                                    UBaseType_t uxNewPriority ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
 
-            if( pxTask == NULL )
+            ଯଦି( pxTask == ଖାଲି )
             {
                 vTaskPrioritySet( pxTask, uxNewPriority );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) pxTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         vTaskPrioritySet( xInternalTaskHandle, uxNewPriority );
                     }
@@ -1703,178 +1703,178 @@
     #endif /* if ( INCLUDE_vTaskPrioritySet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetHandle == 1 )
+    #ଯଦି ( INCLUDE_xTaskGetHandle == 1 )
 
-        TaskHandle_t MPU_xTaskGetHandle( const char * pcNameToQuery ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskGetHandle( ଅଚଳ ଅକ୍ଷର * pcNameToQuery ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            TaskHandle_t xExternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
+            TaskHandle_t xExternalTaskHandle = ଖାଲି;
             int32_t lIndex;
 
             xInternalTaskHandle = xTaskGetHandle( pcNameToQuery );
 
-            if( xInternalTaskHandle != NULL )
+            ଯଦି( xInternalTaskHandle != ଖାଲି )
             {
                 lIndex = MPU_GetIndexForTaskHandle( xInternalTaskHandle );
 
-                if( lIndex != -1 )
+                ଯଦି( lIndex != -1 )
                 {
                     xExternalTaskHandle = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
             }
 
-            return xExternalTaskHandle;
+            ଫେରନ୍ତୁ xExternalTaskHandle;
         }
 
     #endif /* if ( INCLUDE_xTaskGetHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #ଯଦି ( configUSE_APPLICATION_TASK_TAG == 1 )
 
         BaseType_t MPU_xTaskCallApplicationTaskHook( TaskHandle_t xTask,
-                                                     void * pvParameter ) /* PRIVILEGED_FUNCTION */
+                                                     ଶୂନ୍ୟ * pvParameter ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 xReturn = xTaskCallApplicationTaskHook( xTask, pvParameter );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         xReturn = xTaskCallApplicationTaskHook( xInternalTaskHandle, pvParameter );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
-        BaseType_t MPU_xTaskCreateRestricted( const TaskParameters_t * const pxTaskDefinition,
+        BaseType_t MPU_xTaskCreateRestricted( ଅଚଳ TaskParameters_t * ଅଚଳ pxTaskDefinition,
                                               TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xReturn = xTaskCreateRestricted( pxTaskDefinition, &( xInternalTaskHandle ) );
 
-                if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
+                ଯଦି( ( xReturn == pdPASS ) && ( xInternalTaskHandle != ଖାଲି ) )
                 {
                     MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
 
-                    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                    #ଯଦି ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                     {
                         /* By default, an unprivileged task has access to itself. */
-                        if( ( pxTaskDefinition->uxPriority & portPRIVILEGE_BIT ) == 0 )
+                        ଯଦି( ( pxTaskDefinition->uxPriority & portPRIVILEGE_BIT ) == 0 )
                         {
                             vPortGrantAccessToKernelObject( xInternalTaskHandle, lIndex );
                         }
                     }
                     #endif
 
-                    if( pxCreatedTask != NULL )
+                    ଯଦି( pxCreatedTask != ଖାଲି )
                     {
                         *pxCreatedTask = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                     }
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
-        BaseType_t MPU_xTaskCreateRestrictedStatic( const TaskParameters_t * const pxTaskDefinition,
+        BaseType_t MPU_xTaskCreateRestrictedStatic( ଅଚଳ TaskParameters_t * ଅଚଳ pxTaskDefinition,
                                                     TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xReturn = xTaskCreateRestrictedStatic( pxTaskDefinition, &( xInternalTaskHandle ) );
 
-                if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
+                ଯଦି( ( xReturn == pdPASS ) && ( xInternalTaskHandle != ଖାଲି ) )
                 {
                     MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
 
-                    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                    #ଯଦି ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                     {
                         /* By default, an unprivileged task has access to itself. */
-                        if( ( pxTaskDefinition->uxPriority & portPRIVILEGE_BIT ) == 0 )
+                        ଯଦି( ( pxTaskDefinition->uxPriority & portPRIVILEGE_BIT ) == 0 )
                         {
                             vPortGrantAccessToKernelObject( xInternalTaskHandle, lIndex );
                         }
                     }
                     #endif
 
-                    if( pxCreatedTask != NULL )
+                    ଯଦି( pxCreatedTask != ଖାଲି )
                     {
                         *pxCreatedTask = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                     }
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* configSUPPORT_STATIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskAllocateMPURegions( TaskHandle_t xTaskToModify,
-                                      const MemoryRegion_t * const xRegions ) /* PRIVILEGED_FUNCTION */
+    ଶୂନ୍ୟ MPU_vTaskAllocateMPURegions( TaskHandle_t xTaskToModify,
+                                      ଅଚଳ MemoryRegion_t * ଅଚଳ xRegions ) /* PRIVILEGED_FUNCTION */
     {
-        TaskHandle_t xInternalTaskHandle = NULL;
+        TaskHandle_t xInternalTaskHandle = ଖାଲି;
         int32_t lIndex;
 
-        if( xTaskToModify == NULL )
+        ଯଦି( xTaskToModify == ଖାଲି )
         {
             vTaskAllocateMPURegions( xTaskToModify, xRegions );
         }
-        else
+        ଅନ୍ୟଥା
         {
             lIndex = ( int32_t ) xTaskToModify;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTaskHandle != NULL )
+                ଯଦି( xInternalTaskHandle != ଖାଲି )
                 {
                     vTaskAllocateMPURegions( xInternalTaskHandle, xRegions );
                 }
@@ -1883,276 +1883,276 @@
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
         BaseType_t MPU_xTaskGetStaticBuffers( TaskHandle_t xTask,
-                                              StackType_t ** ppuxStackBuffer,
+                                              ଗଦା_Type_t ** ppux_ଗଦା_Buffer,
                                               StaticTask_t ** ppxTaskBuffer ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xReturn = pdFALSE;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 xInternalTaskHandle = xTaskGetCurrentTaskHandle();
-                xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppuxStackBuffer, ppxTaskBuffer );
+                xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppux_ଗଦା_Buffer, ppxTaskBuffer );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
-                        xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppuxStackBuffer, ppxTaskBuffer );
+                        xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppux_ଗଦା_Buffer, ppxTaskBuffer );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
 
-    char * MPU_pcTaskGetName( TaskHandle_t xTaskToQuery ) /* PRIVILEGED_FUNCTION */
+    ଅକ୍ଷର * MPU_pcTaskGetName( TaskHandle_t xTaskToQuery ) /* PRIVILEGED_FUNCTION */
     {
-        char * pcReturn = NULL;
+        ଅକ୍ଷର * pcReturn = ଖାଲି;
         int32_t lIndex;
-        TaskHandle_t xInternalTaskHandle = NULL;
+        TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-        if( xTaskToQuery == NULL )
+        ଯଦି( xTaskToQuery == ଖାଲି )
         {
             pcReturn = pcTaskGetName( xTaskToQuery );
         }
-        else
+        ଅନ୍ୟଥା
         {
             lIndex = ( int32_t ) xTaskToQuery;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTaskHandle != NULL )
+                ଯଦି( xInternalTaskHandle != ଖାଲି )
                 {
                     pcReturn = pcTaskGetName( xInternalTaskHandle );
                 }
             }
         }
 
-        return pcReturn;
+        ଫେରନ୍ତୁ pcReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskPriorityGet == 1 )
+    #ଯଦି ( INCLUDE_uxTaskPriorityGet == 1 )
 
-        UBaseType_t MPU_uxTaskPriorityGetFromISR( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_uxTaskPriorityGetFromISR( ଅଚଳ TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 uxReturn = uxTaskPriorityGetFromISR( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         uxReturn = uxTaskPriorityGetFromISR( xInternalTaskHandle );
                     }
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* #if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) )
+    #ଯଦି ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) )
 
-        UBaseType_t MPU_uxTaskBasePriorityGet( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_uxTaskBasePriorityGet( ଅଚଳ TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 uxReturn = uxTaskBasePriorityGet( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         uxReturn = uxTaskBasePriorityGet( xInternalTaskHandle );
                     }
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) )
+    #ଯଦି ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) )
 
-        UBaseType_t MPU_uxTaskBasePriorityGetFromISR( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_uxTaskBasePriorityGetFromISR( ଅଚଳ TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 uxReturn = uxTaskBasePriorityGetFromISR( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         uxReturn = uxTaskBasePriorityGetFromISR( xInternalTaskHandle );
                     }
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )
+    #ଯଦି ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )
 
         BaseType_t MPU_xTaskResumeFromISR( TaskHandle_t xTaskToResume ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
             lIndex = ( int32_t ) xTaskToResume;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTaskHandle != NULL )
+                ଯଦି( xInternalTaskHandle != ଖାଲି )
                 {
                     xReturn = xTaskResumeFromISR( xInternalTaskHandle );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )*/
 /*---------------------------------------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #ଯଦି ( configUSE_APPLICATION_TASK_TAG == 1 )
 
         TaskHookFunction_t MPU_xTaskGetApplicationTaskTagFromISR( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHookFunction_t xReturn = NULL;
+            TaskHookFunction_t xReturn = ଖାଲି;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
-            if( xTask == NULL )
+            ଯଦି( xTask == ଖାଲି )
             {
                 xReturn = xTaskGetApplicationTaskTagFromISR( xTask );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 lIndex = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    ଯଦି( xInternalTaskHandle != ଖାଲି )
                     {
                         xReturn = xTaskGetApplicationTaskTagFromISR( xInternalTaskHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*---------------------------------------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
         BaseType_t MPU_xTaskGenericNotifyFromISR( TaskHandle_t xTaskToNotify,
                                                   UBaseType_t uxIndexToNotify,
-                                                  uint32_t ulValue,
+                                                  uint32_t ul_ମୂଲ୍ୟ,
                                                   eNotifyAction eAction,
-                                                  uint32_t * pulPreviousNotificationValue,
+                                                  uint32_t * pul_Previous_Notification_ମୂଲ୍ୟ,
                                                   BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
             lIndex = ( int32_t ) xTaskToNotify;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTaskHandle != NULL )
+                ଯଦି( xInternalTaskHandle != ଖାଲି )
                 {
-                    xReturn = xTaskGenericNotifyFromISR( xInternalTaskHandle, uxIndexToNotify, ulValue, eAction, pulPreviousNotificationValue, pxHigherPriorityTaskWoken );
+                    xReturn = xTaskGenericNotifyFromISR( xInternalTaskHandle, uxIndexToNotify, ul_ମୂଲ୍ୟ, eAction, pul_Previous_Notification_ମୂଲ୍ୟ, pxHigherPriorityTaskWoken );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*---------------------------------------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        void MPU_vTaskGenericNotifyGiveFromISR( TaskHandle_t xTaskToNotify,
+        ଶୂନ୍ୟ MPU_vTaskGenericNotifyGiveFromISR( TaskHandle_t xTaskToNotify,
                                                 UBaseType_t uxIndexToNotify,
                                                 BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHandle_t xInternalTaskHandle = ଖାଲି;
 
             lIndex = ( int32_t ) xTaskToNotify;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTaskHandle != NULL )
+                ଯଦି( xInternalTaskHandle != ଖାଲି )
                 {
                     vTaskGenericNotifyGiveFromISR( xInternalTaskHandle, uxIndexToNotify, pxHigherPriorityTaskWoken );
                 }
@@ -2166,17 +2166,17 @@
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueGenericSendImpl( QueueHandle_t xQueue,
-                                          const void * const pvItemToQueue,
+                                          ଅଚଳ ଶୂନ୍ୟ * ଅଚଳ pvItemToQueue,
                                           TickType_t xTicksToWait,
                                           BaseType_t xCopyPosition ) PRIVILEGED_FUNCTION;
 
     BaseType_t MPU_xQueueGenericSendImpl( QueueHandle_t xQueue,
-                                          const void * const pvItemToQueue,
+                                          ଅଚଳ ଶୂନ୍ୟ * ଅଚଳ pvItemToQueue,
                                           TickType_t xTicksToWait,
                                           BaseType_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         BaseType_t xReturn = pdFAIL;
         BaseType_t xIsItemToQueueReadable = pdFALSE;
         BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
@@ -2184,34 +2184,34 @@
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
                     uxQueueLength = uxQueueGetQueueLength( xInternalQueueHandle );
 
-                    if( ( !( ( pvItemToQueue == NULL ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) ) &&
+                    ଯଦି( ( !( ( pvItemToQueue == ଖାଲି ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) ) &&
                         ( !( ( xCopyPosition == queueOVERWRITE ) && ( uxQueueLength != ( UBaseType_t ) 1U ) ) )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                        #ଯଦି ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
                             && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
                         #endif
                         )
                     {
-                        if( pvItemToQueue != NULL )
+                        ଯଦି( pvItemToQueue != ଖାଲି )
                         {
                             xIsItemToQueueReadable = xPortIsAuthorizedToAccessBuffer( pvItemToQueue,
                                                                                       uxQueueItemSize,
                                                                                       tskMPU_READ_PERMISSION );
                         }
 
-                        if( ( pvItemToQueue == NULL ) || ( xIsItemToQueueReadable == pdTRUE ) )
+                        ଯଦି( ( pvItemToQueue == ଖାଲି ) || ( xIsItemToQueueReadable == pdTRUE ) )
                         {
                             xReturn = xQueueGenericSend( xInternalQueueHandle, pvItemToQueue, xTicksToWait, xCopyPosition );
                         }
@@ -2220,80 +2220,80 @@
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueMessagesWaitingImpl( const QueueHandle_t pxQueue ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_uxQueueMessagesWaitingImpl( ଅଚଳ QueueHandle_t pxQueue ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxQueueMessagesWaitingImpl( const QueueHandle_t pxQueue ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_uxQueueMessagesWaitingImpl( ଅଚଳ QueueHandle_t pxQueue ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         UBaseType_t uxReturn = 0;
         BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
         lIndex = ( int32_t ) pxQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     uxReturn = uxQueueMessagesWaiting( xInternalQueueHandle );
                 }
             }
         }
 
-        return uxReturn;
+        ଫେରନ୍ତୁ uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueSpacesAvailableImpl( const QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_uxQueueSpacesAvailableImpl( ଅଚଳ QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxQueueSpacesAvailableImpl( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_uxQueueSpacesAvailableImpl( ଅଚଳ QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         UBaseType_t uxReturn = 0;
         BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     uxReturn = uxQueueSpacesAvailable( xInternalQueueHandle );
                 }
             }
         }
 
-        return uxReturn;
+        ଫେରନ୍ତୁ uxReturn;
     }
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueReceiveImpl( QueueHandle_t pxQueue,
-                                      void * const pvBuffer,
+                                      ଶୂନ୍ୟ * ଅଚଳ pvBuffer,
                                       TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
     BaseType_t MPU_xQueueReceiveImpl( QueueHandle_t pxQueue,
-                                      void * const pvBuffer,
+                                      ଶୂନ୍ୟ * ଅଚଳ pvBuffer,
                                       TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         BaseType_t xReturn = pdFAIL;
         BaseType_t xIsReceiveBufferWritable = pdFALSE;
         BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
@@ -2301,20 +2301,20 @@
 
         lIndex = ( int32_t ) pxQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
 
-                    if( ( !( ( ( pvBuffer ) == NULL ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                    ଯଦି( ( !( ( ( pvBuffer ) == ଖାଲି ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) )
+                        #ଯଦି ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
                             && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
                         #endif
                         )
@@ -2323,7 +2323,7 @@
                                                                                     uxQueueItemSize,
                                                                                     tskMPU_WRITE_PERMISSION );
 
-                        if( xIsReceiveBufferWritable == pdTRUE )
+                        ଯଦି( xIsReceiveBufferWritable == pdTRUE )
                         {
                             xReturn = xQueueReceive( xInternalQueueHandle, pvBuffer, xTicksToWait );
                         }
@@ -2332,20 +2332,20 @@
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueuePeekImpl( QueueHandle_t xQueue,
-                                   void * const pvBuffer,
+                                   ଶୂନ୍ୟ * ଅଚଳ pvBuffer,
                                    TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
     BaseType_t MPU_xQueuePeekImpl( QueueHandle_t xQueue,
-                                   void * const pvBuffer,
+                                   ଶୂନ୍ୟ * ଅଚଳ pvBuffer,
                                    TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         BaseType_t xReturn = pdFAIL;
         BaseType_t xIsReceiveBufferWritable = pdFALSE;
         UBaseType_t uxQueueItemSize;
@@ -2353,20 +2353,20 @@
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
 
-                    if( ( !( ( ( pvBuffer ) == NULL ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                    ଯଦି( ( !( ( ( pvBuffer ) == ଖାଲି ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) )
+                        #ଯଦି ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
                             && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
                         #endif
                         )
@@ -2375,7 +2375,7 @@
                                                                                     uxQueueItemSize,
                                                                                     tskMPU_WRITE_PERMISSION );
 
-                        if( xIsReceiveBufferWritable == pdTRUE )
+                        ଯଦି( xIsReceiveBufferWritable == pdTRUE )
                         {
                             xReturn = xQueuePeek( xInternalQueueHandle, pvBuffer, xTicksToWait );
                         }
@@ -2384,7 +2384,7 @@
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -2395,27 +2395,27 @@
                                             TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         BaseType_t xReturn = pdFAIL;
         UBaseType_t uxQueueItemSize;
         BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
 
-                    if( ( uxQueueItemSize == 0U )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                    ଯଦି( ( uxQueueItemSize == 0U )
+                        #ଯଦି ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
                             && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
                         #endif
                         )
@@ -2426,42 +2426,42 @@
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+    #ଯଦି ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
 
         TaskHandle_t MPU_xQueueGetMutexHolderImpl( QueueHandle_t xSemaphore ) PRIVILEGED_FUNCTION;
 
         TaskHandle_t MPU_xQueueGetMutexHolderImpl( QueueHandle_t xSemaphore ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xMutexHolderTaskInternalHandle = NULL;
-            TaskHandle_t xMutexHolderTaskExternalHandle = NULL;
+            TaskHandle_t xMutexHolderTaskInternalHandle = ଖାଲି;
+            TaskHandle_t xMutexHolderTaskExternalHandle = ଖାଲି;
             int32_t lIndex, lMutexHolderTaskIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
 
             lIndex = ( int32_t ) xSemaphore;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
                 {
                     xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    ଯଦି( xInternalQueueHandle != ଖାଲି )
                     {
                         xMutexHolderTaskInternalHandle = xQueueGetMutexHolder( xInternalQueueHandle );
 
-                        if( xMutexHolderTaskInternalHandle != NULL )
+                        ଯଦି( xMutexHolderTaskInternalHandle != ଖାଲି )
                         {
                             lMutexHolderTaskIndex = MPU_GetIndexForTaskHandle( xMutexHolderTaskInternalHandle );
 
-                            if( lMutexHolderTaskIndex != -1 )
+                            ଯଦି( lMutexHolderTaskIndex != -1 )
                             {
                                 xMutexHolderTaskExternalHandle = ( TaskHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lMutexHolderTaskIndex ) );
                             }
@@ -2470,13 +2470,13 @@
                 }
             }
 
-            return xMutexHolderTaskExternalHandle;
+            ଫେରନ୍ତୁ xMutexHolderTaskExternalHandle;
         }
 
     #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #ଯଦି ( configUSE_RECURSIVE_MUTEXES == 1 )
 
         BaseType_t MPU_xQueueTakeMutexRecursiveImpl( QueueHandle_t xMutex,
                                                      TickType_t xBlockTime ) PRIVILEGED_FUNCTION;
@@ -2487,24 +2487,24 @@
             BaseType_t xReturn = pdFAIL;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
             int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
             UBaseType_t uxQueueItemSize;
 
             lIndex = ( int32_t ) xMutex;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
                 {
                     xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    ଯଦି( xInternalQueueHandle != ଖାଲି )
                     {
                         uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
 
-                        if( uxQueueItemSize == 0 )
+                        ଯଦି( uxQueueItemSize == 0 )
                         {
                             xReturn = xQueueTakeMutexRecursive( xInternalQueueHandle, xBlockTime );
                         }
@@ -2512,13 +2512,13 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #ଯଦି ( configUSE_RECURSIVE_MUTEXES == 1 )
 
         BaseType_t MPU_xQueueGiveMutexRecursiveImpl( QueueHandle_t xMutex ) PRIVILEGED_FUNCTION;
 
@@ -2527,32 +2527,32 @@
             BaseType_t xReturn = pdFAIL;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
             int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
             lIndex = ( int32_t ) xMutex;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
                 {
                     xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    ଯଦି( xInternalQueueHandle != ଖାଲି )
                     {
                         xReturn = xQueueGiveMutexRecursive( xInternalQueueHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #ଯଦି ( configUSE_QUEUE_SETS == 1 )
 
         QueueSetMemberHandle_t MPU_xQueueSelectFromSetImpl( QueueSetHandle_t xQueueSet,
                                                             TickType_t xBlockTimeTicks ) PRIVILEGED_FUNCTION;
@@ -2560,31 +2560,31 @@
         QueueSetMemberHandle_t MPU_xQueueSelectFromSetImpl( QueueSetHandle_t xQueueSet,
                                                             TickType_t xBlockTimeTicks ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetMemberHandle_t xSelectedMemberInternal = NULL;
-            QueueSetMemberHandle_t xSelectedMemberExternal = NULL;
+            QueueSetHandle_t xInternalQueueSetHandle = ଖାଲି;
+            QueueSetMemberHandle_t xSelectedMemberInternal = ଖାଲି;
+            QueueSetMemberHandle_t xSelectedMemberExternal = ଖାଲି;
             int32_t lIndexQueueSet, lIndexSelectedMember;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueueSet = pdFALSE;
 
             lIndexQueueSet = ( int32_t ) xQueueSet;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueueSet = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueueSet == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueueSet == pdTRUE )
                 {
                     xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
 
-                    if( xInternalQueueSetHandle != NULL )
+                    ଯଦି( xInternalQueueSetHandle != ଖାଲି )
                     {
                         xSelectedMemberInternal = xQueueSelectFromSet( xInternalQueueSetHandle, xBlockTimeTicks );
 
-                        if( xSelectedMemberInternal != NULL )
+                        ଯଦି( xSelectedMemberInternal != ଖାଲି )
                         {
                             lIndexSelectedMember = MPU_GetIndexForQueueSetMemberHandle( xSelectedMemberInternal );
 
-                            if( lIndexSelectedMember != -1 )
+                            ଯଦି( lIndexSelectedMember != -1 )
                             {
                                 xSelectedMemberExternal = ( QueueSetMemberHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lIndexSelectedMember ) );
                             }
@@ -2593,13 +2593,13 @@
                 }
             }
 
-            return xSelectedMemberExternal;
+            ଫେରନ୍ତୁ xSelectedMemberExternal;
         }
 
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #ଯଦି ( configUSE_QUEUE_SETS == 1 )
 
         BaseType_t MPU_xQueueAddToSetImpl( QueueSetMemberHandle_t xQueueOrSemaphore,
                                            QueueSetHandle_t xQueueSet ) PRIVILEGED_FUNCTION;
@@ -2608,8 +2608,8 @@
                                            QueueSetHandle_t xQueueSet ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
-            QueueSetMemberHandle_t xInternalQueueSetMemberHandle = NULL;
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
+            QueueSetMemberHandle_t xInternalQueueSetMemberHandle = ଖାଲି;
+            QueueSetHandle_t xInternalQueueSetHandle = ଖାଲି;
             int32_t lIndexQueueSet, lIndexQueueSetMember;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueueSet = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueueSetMember = pdFALSE;
@@ -2617,53 +2617,53 @@
             lIndexQueueSet = ( int32_t ) xQueueSet;
             lIndexQueueSetMember = ( int32_t ) xQueueOrSemaphore;
 
-            if( ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE ) &&
+            ଯଦି( ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE ) &&
                 ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSetMember ) != pdFALSE ) )
             {
                 xCallingTaskIsAuthorizedToAccessQueueSet = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
                 xCallingTaskIsAuthorizedToAccessQueueSetMember = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSetMember ) );
 
-                if( ( xCallingTaskIsAuthorizedToAccessQueueSet == pdTRUE ) && ( xCallingTaskIsAuthorizedToAccessQueueSetMember == pdTRUE ) )
+                ଯଦି( ( xCallingTaskIsAuthorizedToAccessQueueSet == pdTRUE ) && ( xCallingTaskIsAuthorizedToAccessQueueSetMember == pdTRUE ) )
                 {
                     xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
                     xInternalQueueSetMemberHandle = MPU_GetQueueSetMemberHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSetMember ) );
 
-                    if( ( xInternalQueueSetHandle != NULL ) && ( xInternalQueueSetMemberHandle != NULL ) )
+                    ଯଦି( ( xInternalQueueSetHandle != ଖାଲି ) && ( xInternalQueueSetMemberHandle != ଖାଲି ) )
                     {
                         xReturn = xQueueAddToSet( xInternalQueueSetMemberHandle, xInternalQueueSetHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
+    #ଯଦି configQUEUE_REGISTRY_SIZE > 0
 
-        void MPU_vQueueAddToRegistryImpl( QueueHandle_t xQueue,
-                                          const char * pcName ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vQueueAddToRegistryImpl( QueueHandle_t xQueue,
+                                          ଅଚଳ ଅକ୍ଷର * pcName ) PRIVILEGED_FUNCTION;
 
-        void MPU_vQueueAddToRegistryImpl( QueueHandle_t xQueue,
-                                          const char * pcName ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vQueueAddToRegistryImpl( QueueHandle_t xQueue,
+                                          ଅଚଳ ଅକ୍ଷର * pcName ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
             lIndex = ( int32_t ) xQueue;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
                 {
                     xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    ଯଦି( xInternalQueueHandle != ଖାଲି )
                     {
                         vQueueAddToRegistry( xInternalQueueHandle, pcName );
                     }
@@ -2674,27 +2674,27 @@
     #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
+    #ଯଦି configQUEUE_REGISTRY_SIZE > 0
 
-        void MPU_vQueueUnregisterQueueImpl( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vQueueUnregisterQueueImpl( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
 
-        void MPU_vQueueUnregisterQueueImpl( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vQueueUnregisterQueueImpl( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
             lIndex = ( int32_t ) xQueue;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
                 {
                     xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    ଯଦି( xInternalQueueHandle != ଖାଲି )
                     {
                         vQueueUnregisterQueue( xInternalQueueHandle );
                     }
@@ -2705,35 +2705,35 @@
     #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
+    #ଯଦି configQUEUE_REGISTRY_SIZE > 0
 
-        const char * MPU_pcQueueGetNameImpl( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
+        ଅଚଳ ଅକ୍ଷର * MPU_pcQueueGetNameImpl( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
 
-        const char * MPU_pcQueueGetNameImpl( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+        ଅଚଳ ଅକ୍ଷର * MPU_pcQueueGetNameImpl( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
         {
-            const char * pcReturn = NULL;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            ଅଚଳ ଅକ୍ଷର * pcReturn = ଖାଲି;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
 
             lIndex = ( int32_t ) xQueue;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
                 {
                     xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    ଯଦି( xInternalQueueHandle != ଖାଲି )
                     {
                         pcReturn = pcQueueGetName( xInternalQueueHandle );
                     }
                 }
             }
 
-            return pcReturn;
+            ଫେରନ୍ତୁ pcReturn;
         }
 
     #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
@@ -2744,18 +2744,18 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    void MPU_vQueueDelete( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    ଶୂନ୍ୟ MPU_vQueueDelete( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
     {
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         int32_t lIndex;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 vQueueDelete( xInternalQueueHandle );
                 MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
@@ -2764,197 +2764,197 @@
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #ଯଦି ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
+        QueueHandle_t MPU_xQueueCreateMutex( ଅଚଳ uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
+            QueueHandle_t xExternalQueueHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalQueueHandle = xQueueCreateMutex( ucQueueType );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
                     xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueHandle;
+            ଫେରନ୍ତୁ xExternalQueueHandle;
         }
 
     #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #ଯଦି ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateMutexStatic( const uint8_t ucQueueType,
+        QueueHandle_t MPU_xQueueCreateMutexStatic( ଅଚଳ uint8_t ucQueueType,
                                                    StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
+            QueueHandle_t xExternalQueueHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalQueueHandle = xQueueCreateMutexStatic( ucQueueType, pxStaticQueue );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
                     xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueHandle;
+            ଫେରନ୍ତୁ xExternalQueueHandle;
         }
 
     #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #ଯଦି ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t uxCountValue,
-                                                         UBaseType_t uxInitialCount ) /* PRIVILEGED_FUNCTION */
+        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t ux_ଗଣନା_ମୂଲ୍ୟ,
+                                                         UBaseType_t ux_Initial_ଗଣନା ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
+            QueueHandle_t xExternalQueueHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
-                xInternalQueueHandle = xQueueCreateCountingSemaphore( uxCountValue, uxInitialCount );
+                xInternalQueueHandle = xQueueCreateCountingSemaphore( ux_ଗଣନା_ମୂଲ୍ୟ, ux_Initial_ଗଣନା );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
                     xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueHandle;
+            ଫେରନ୍ତୁ xExternalQueueHandle;
         }
 
     #endif /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #ଯଦି ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( const UBaseType_t uxMaxCount,
-                                                               const UBaseType_t uxInitialCount,
+        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( ଅଚଳ UBaseType_t ux_Max_ଗଣନା,
+                                                               ଅଚଳ UBaseType_t ux_Initial_ଗଣନା,
                                                                StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
+            QueueHandle_t xExternalQueueHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
-                xInternalQueueHandle = xQueueCreateCountingSemaphoreStatic( uxMaxCount, uxInitialCount, pxStaticQueue );
+                xInternalQueueHandle = xQueueCreateCountingSemaphoreStatic( ux_Max_ଗଣନା, ux_Initial_ଗଣନା, pxStaticQueue );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
                     xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueHandle;
+            ଫେରନ୍ତୁ xExternalQueueHandle;
         }
 
     #endif /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
         QueueHandle_t MPU_xQueueGenericCreate( UBaseType_t uxQueueLength,
                                                UBaseType_t uxItemSize,
                                                uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
+            QueueHandle_t xExternalQueueHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalQueueHandle = xQueueGenericCreate( uxQueueLength, uxItemSize, ucQueueType );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
                     xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueHandle;
+            ଫେରନ୍ତୁ xExternalQueueHandle;
         }
 
     #endif /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
-        QueueHandle_t MPU_xQueueGenericCreateStatic( const UBaseType_t uxQueueLength,
-                                                     const UBaseType_t uxItemSize,
+        QueueHandle_t MPU_xQueueGenericCreateStatic( ଅଚଳ UBaseType_t uxQueueLength,
+                                                     ଅଚଳ UBaseType_t uxItemSize,
                                                      uint8_t * pucQueueStorage,
                                                      StaticQueue_t * pxStaticQueue,
-                                                     const uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
+                                                     ଅଚଳ uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
+            QueueHandle_t xExternalQueueHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalQueueHandle = xQueueGenericCreateStatic( uxQueueLength, uxItemSize, pucQueueStorage, pxStaticQueue, ucQueueType );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
                     xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueHandle;
+            ଫେରନ୍ତୁ xExternalQueueHandle;
         }
 
     #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
@@ -2964,339 +2964,339 @@
                                        BaseType_t xNewQueue ) /* PRIVILEGED_FUNCTION */
     {
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
         BaseType_t xReturn = pdFAIL;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueueGenericReset( xInternalQueueHandle, xNewQueue );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #ଯଦି ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
 
         QueueSetHandle_t MPU_xQueueCreateSet( UBaseType_t uxEventQueueLength ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetHandle_t xExternalQueueSetHandle = NULL;
+            QueueSetHandle_t xInternalQueueSetHandle = ଖାଲି;
+            QueueSetHandle_t xExternalQueueSetHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalQueueSetHandle = xQueueCreateSet( uxEventQueueLength );
 
-                if( xInternalQueueSetHandle != NULL )
+                ଯଦି( xInternalQueueSetHandle != ଖାଲି )
                 {
                     MPU_StoreQueueSetHandleAtIndex( lIndex, xInternalQueueSetHandle );
                     xExternalQueueSetHandle = ( QueueSetHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueSetHandle;
+            ଫେରନ୍ତୁ xExternalQueueSetHandle;
         }
 
     #endif /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #ଯଦି ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
 
-        QueueSetHandle_t MPU_xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength,
+        QueueSetHandle_t MPU_xQueueCreateSetStatic( ଅଚଳ UBaseType_t uxEventQueueLength,
                                                     uint8_t * pucQueueStorage,
                                                     StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetHandle_t xExternalQueueSetHandle = NULL;
+            QueueSetHandle_t xInternalQueueSetHandle = ଖାଲି;
+            QueueSetHandle_t xExternalQueueSetHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalQueueSetHandle = xQueueCreateSetStatic( uxEventQueueLength, pucQueueStorage, pxStaticQueue );
 
-                if( xInternalQueueSetHandle != NULL )
+                ଯଦି( xInternalQueueSetHandle != ଖାଲି )
                 {
                     MPU_StoreQueueSetHandleAtIndex( lIndex, xInternalQueueSetHandle );
                     xExternalQueueSetHandle = ( QueueSetHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalQueueSetHandle;
+            ଫେରନ୍ତୁ xExternalQueueSetHandle;
         }
 
     #endif /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #ଯଦି ( configUSE_QUEUE_SETS == 1 )
 
         BaseType_t MPU_xQueueRemoveFromSet( QueueSetMemberHandle_t xQueueOrSemaphore,
                                             QueueSetHandle_t xQueueSet ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
-            QueueSetMemberHandle_t xInternalQueueSetMemberHandle = NULL;
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
+            QueueSetMemberHandle_t xInternalQueueSetMemberHandle = ଖାଲି;
+            QueueSetHandle_t xInternalQueueSetHandle = ଖାଲି;
             int32_t lIndexQueueSet, lIndexQueueSetMember;
 
             lIndexQueueSet = ( int32_t ) xQueueSet;
             lIndexQueueSetMember = ( int32_t ) xQueueOrSemaphore;
 
-            if( ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE ) &&
+            ଯଦି( ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE ) &&
                 ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSetMember ) != pdFALSE ) )
             {
                 xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
                 xInternalQueueSetMemberHandle = MPU_GetQueueSetMemberHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSetMember ) );
 
-                if( ( xInternalQueueSetHandle != NULL ) && ( xInternalQueueSetMemberHandle != NULL ) )
+                ଯଦି( ( xInternalQueueSetHandle != ଖାଲି ) && ( xInternalQueueSetMemberHandle != ଖାଲି ) )
                 {
                     xReturn = xQueueRemoveFromSet( xInternalQueueSetMemberHandle, xInternalQueueSetHandle );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
         BaseType_t MPU_xQueueGenericGetStaticBuffers( QueueHandle_t xQueue,
                                                       uint8_t ** ppucQueueStorage,
                                                       StaticQueue_t ** ppxStaticQueue ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            QueueHandle_t xInternalQueueHandle = ଖାଲି;
             BaseType_t xReturn = pdFALSE;
 
             lIndex = ( int32_t ) xQueue;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalQueueHandle != NULL )
+                ଯଦି( xInternalQueueHandle != ଖାଲି )
                 {
                     xReturn = xQueueGenericGetStaticBuffers( xInternalQueueHandle, ppucQueueStorage, ppxStaticQueue );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /*if ( configSUPPORT_STATIC_ALLOCATION == 1 )*/
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueGenericSendFromISR( QueueHandle_t xQueue,
-                                             const void * const pvItemToQueue,
-                                             BaseType_t * const pxHigherPriorityTaskWoken,
-                                             const BaseType_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
+                                             ଅଚଳ ଶୂନ୍ୟ * ଅଚଳ pvItemToQueue,
+                                             BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken,
+                                             ଅଚଳ BaseType_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFAIL;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueueGenericSendFromISR( xInternalQueueHandle, pvItemToQueue, pxHigherPriorityTaskWoken, xCopyPosition );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueGiveFromISR( QueueHandle_t xQueue,
-                                      BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+                                      BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFAIL;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueueGiveFromISR( xInternalQueueHandle, pxHigherPriorityTaskWoken );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueuePeekFromISR( QueueHandle_t xQueue,
-                                      void * const pvBuffer ) /* PRIVILEGED_FUNCTION */
+                                      ଶୂନ୍ୟ * ଅଚଳ pvBuffer ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFAIL;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueuePeekFromISR( xInternalQueueHandle, pvBuffer );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueReceiveFromISR( QueueHandle_t xQueue,
-                                         void * const pvBuffer,
-                                         BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+                                         ଶୂନ୍ୟ * ଅଚଳ pvBuffer,
+                                         BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFAIL;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueueReceiveFromISR( xInternalQueueHandle, pvBuffer, pxHigherPriorityTaskWoken );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueIsQueueEmptyFromISR( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    BaseType_t MPU_xQueueIsQueueEmptyFromISR( ଅଚଳ QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFAIL;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueueIsQueueEmptyFromISR( xInternalQueueHandle );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueIsQueueFullFromISR( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    BaseType_t MPU_xQueueIsQueueFullFromISR( ଅଚଳ QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
     {
         BaseType_t xReturn = pdFAIL;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 xReturn = xQueueIsQueueFullFromISR( xInternalQueueHandle );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueMessagesWaitingFromISR( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_uxQueueMessagesWaitingFromISR( ଅଚଳ QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
     {
         UBaseType_t uxReturn = 0;
         int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        QueueHandle_t xInternalQueueHandle = ଖାଲି;
 
         lIndex = ( int32_t ) xQueue;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalQueueHandle != NULL )
+            ଯଦି( xInternalQueueHandle != ଖାଲି )
             {
                 uxReturn = uxQueueMessagesWaitingFromISR( xInternalQueueHandle );
             }
         }
 
-        return uxReturn;
+        ଫେରନ୍ତୁ uxReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+    #ଯଦି ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
 
         TaskHandle_t MPU_xQueueGetMutexHolderFromISR( QueueHandle_t xSemaphore ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xMutexHolderTaskInternalHandle = NULL;
-            TaskHandle_t xMutexHolderTaskExternalHandle = NULL;
+            TaskHandle_t xMutexHolderTaskInternalHandle = ଖାଲି;
+            TaskHandle_t xMutexHolderTaskExternalHandle = ଖାଲି;
             int32_t lIndex, lMutexHolderTaskIndex;
-            QueueHandle_t xInternalSemaphoreHandle = NULL;
+            QueueHandle_t xInternalSemaphoreHandle = ଖାଲି;
 
             lIndex = ( int32_t ) xSemaphore;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalSemaphoreHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalSemaphoreHandle != NULL )
+                ଯଦି( xInternalSemaphoreHandle != ଖାଲି )
                 {
                     xMutexHolderTaskInternalHandle = xQueueGetMutexHolder( xInternalSemaphoreHandle );
 
-                    if( xMutexHolderTaskInternalHandle != NULL )
+                    ଯଦି( xMutexHolderTaskInternalHandle != ଖାଲି )
                     {
                         lMutexHolderTaskIndex = MPU_GetIndexForTaskHandle( xMutexHolderTaskInternalHandle );
 
-                        if( lMutexHolderTaskIndex != -1 )
+                        ଯଦି( lMutexHolderTaskIndex != -1 )
                         {
                             xMutexHolderTaskExternalHandle = ( TaskHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lMutexHolderTaskIndex ) );
                         }
@@ -3304,36 +3304,36 @@
                 }
             }
 
-            return xMutexHolderTaskExternalHandle;
+            ଫେରନ୍ତୁ xMutexHolderTaskExternalHandle;
         }
 
     #endif /* #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #ଯଦି ( configUSE_QUEUE_SETS == 1 )
 
         QueueSetMemberHandle_t MPU_xQueueSelectFromSetFromISR( QueueSetHandle_t xQueueSet ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetMemberHandle_t xSelectedMemberInternal = NULL;
-            QueueSetMemberHandle_t xSelectedMemberExternal = NULL;
+            QueueSetHandle_t xInternalQueueSetHandle = ଖାଲି;
+            QueueSetMemberHandle_t xSelectedMemberInternal = ଖାଲି;
+            QueueSetMemberHandle_t xSelectedMemberExternal = ଖାଲି;
             int32_t lIndexQueueSet, lIndexSelectedMember;
 
             lIndexQueueSet = ( int32_t ) xQueueSet;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE )
             {
                 xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
 
-                if( xInternalQueueSetHandle != NULL )
+                ଯଦି( xInternalQueueSetHandle != ଖାଲି )
                 {
                     xSelectedMemberInternal = xQueueSelectFromSetFromISR( xInternalQueueSetHandle );
 
-                    if( xSelectedMemberInternal != NULL )
+                    ଯଦି( xSelectedMemberInternal != ଖାଲି )
                     {
                         lIndexSelectedMember = MPU_GetIndexForQueueSetMemberHandle( xSelectedMemberInternal );
 
-                        if( lIndexSelectedMember != -1 )
+                        ଯଦି( lIndexSelectedMember != -1 )
                         {
                             xSelectedMemberExternal = ( QueueSetMemberHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lIndexSelectedMember ) );
                         }
@@ -3341,7 +3341,7 @@
                 }
             }
 
-            return xSelectedMemberExternal;
+            ଫେରନ୍ତୁ xSelectedMemberExternal;
         }
 
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
@@ -3351,63 +3351,63 @@
 /*            MPU wrappers for timers APIs.                  */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
-        void * MPU_pvTimerGetTimerIDImpl( const TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ * MPU_pvTimerGetTimerIDImpl( ଅଚଳ TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        void * MPU_pvTimerGetTimerIDImpl( const TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ * MPU_pvTimerGetTimerIDImpl( ଅଚଳ TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
-            void * pvReturn = NULL;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            ଶୂନ୍ୟ * pvReturn = ଖାଲି;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         pvReturn = pvTimerGetTimerID( xInternalTimerHandle );
                     }
                 }
             }
 
-            return pvReturn;
+            ଫେରନ୍ତୁ pvReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
-        void MPU_vTimerSetTimerIDImpl( TimerHandle_t xTimer,
-                                       void * pvNewID ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vTimerSetTimerIDImpl( TimerHandle_t xTimer,
+                                       ଶୂନ୍ୟ * pvNewID ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTimerSetTimerIDImpl( TimerHandle_t xTimer,
-                                       void * pvNewID ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTimerSetTimerIDImpl( TimerHandle_t xTimer,
+                                       ଶୂନ୍ୟ * pvNewID ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         vTimerSetTimerID( xInternalTimerHandle, pvNewID );
                     }
@@ -3418,125 +3418,125 @@
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         BaseType_t MPU_xTimerIsTimerActiveImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
         BaseType_t MPU_xTimerIsTimerActiveImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         xReturn = xTimerIsTimerActive( xInternalTimerHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( void ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( ଶୂନ୍ୟ ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( void ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
             TaskHandle_t xReturn;
 
             xReturn = xTimerGetTimerDaemonTaskHandle();
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         BaseType_t MPU_xTimerGenericCommandFromTask( TimerHandle_t xTimer,
-                                                     const BaseType_t xCommandID,
-                                                     const TickType_t xOptionalValue,
-                                                     BaseType_t * const pxHigherPriorityTaskWoken,
-                                                     const TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+                                                     ଅଚଳ BaseType_t xCommandID,
+                                                     ଅଚଳ TickType_t x_Optional_ମୂଲ୍ୟ,
+                                                     BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken,
+                                                     ଅଚଳ TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn = pdFALSE;
             xTimerGenericCommandFromTaskParams_t xParams;
 
             xParams.xTimer = xTimer;
             xParams.xCommandID = xCommandID;
-            xParams.xOptionalValue = xOptionalValue;
+            xParams.x_Optional_ମୂଲ୍ୟ = x_Optional_ମୂଲ୍ୟ;
             xParams.pxHigherPriorityTaskWoken = pxHigherPriorityTaskWoken;
             xParams.xTicksToWait = xTicksToWait;
 
             xReturn = MPU_xTimerGenericCommandFromTaskEntry( &( xParams ) );
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
-        BaseType_t MPU_xTimerGenericCommandFromTaskImpl( const xTimerGenericCommandFromTaskParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        BaseType_t MPU_xTimerGenericCommandFromTaskImpl( ଅଚଳ xTimerGenericCommandFromTaskParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTimerGenericCommandFromTaskImpl( const xTimerGenericCommandFromTaskParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        BaseType_t MPU_xTimerGenericCommandFromTaskImpl( ଅଚଳ xTimerGenericCommandFromTaskParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xIsHigherPriorityTaskWokenWriteable = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
             BaseType_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            ଯଦି( pxParams != ଖାଲି )
             {
                 xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xTimerGenericCommandFromTaskParams_t ),
+                                                                      ଆକାର( xTimerGenericCommandFromTaskParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            ଯଦି( xAreParamsReadable == pdTRUE )
             {
-                if( pxParams->xCommandID < tmrFIRST_FROM_ISR_COMMAND )
+                ଯଦି( pxParams->xCommandID < tmrFIRST_FROM_ISR_COMMAND )
                 {
-                    if( pxParams->pxHigherPriorityTaskWoken != NULL )
+                    ଯଦି( pxParams->pxHigherPriorityTaskWoken != ଖାଲି )
                     {
                         xIsHigherPriorityTaskWokenWriteable = xPortIsAuthorizedToAccessBuffer( pxParams->pxHigherPriorityTaskWoken,
-                                                                                               sizeof( BaseType_t ),
+                                                                                               ଆକାର( BaseType_t ),
                                                                                                tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pxHigherPriorityTaskWoken == NULL ) ||
+                    ଯଦି( ( pxParams->pxHigherPriorityTaskWoken == ଖାଲି ) ||
                         ( xIsHigherPriorityTaskWokenWriteable == pdTRUE ) )
                     {
                         lIndex = ( int32_t ) ( pxParams->xTimer );
 
-                        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                         {
                             xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                            ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                             {
                                 xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                                if( xInternalTimerHandle != NULL )
+                                ଯଦି( xInternalTimerHandle != ଖାଲି )
                                 {
                                     xReturn = xTimerGenericCommandFromTask( xInternalTimerHandle,
                                                                             pxParams->xCommandID,
-                                                                            pxParams->xOptionalValue,
+                                                                            pxParams->x_Optional_ମୂଲ୍ୟ,
                                                                             pxParams->pxHigherPriorityTaskWoken,
                                                                             pxParams->xTicksToWait );
                                 }
@@ -3546,69 +3546,69 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
-        const char * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        ଅଚଳ ଅକ୍ଷର * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        const char * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        ଅଚଳ ଅକ୍ଷର * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
-            const char * pcReturn = NULL;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            ଅଚଳ ଅକ୍ଷର * pcReturn = ଖାଲି;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         pcReturn = pcTimerGetName( xInternalTimerHandle );
                     }
                 }
             }
 
-            return pcReturn;
+            ଫେରନ୍ତୁ pcReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
-        void MPU_vTimerSetReloadModeImpl( TimerHandle_t xTimer,
-                                          const BaseType_t xAutoReload ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_vTimerSetReloadModeImpl( TimerHandle_t xTimer,
+                                          ଅଚଳ BaseType_t xAutoReload ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTimerSetReloadModeImpl( TimerHandle_t xTimer,
-                                          const BaseType_t xAutoReload ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vTimerSetReloadModeImpl( TimerHandle_t xTimer,
+                                          ଅଚଳ BaseType_t xAutoReload ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         vTimerSetReloadMode( xInternalTimerHandle, xAutoReload );
                     }
@@ -3619,137 +3619,137 @@
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         BaseType_t MPU_xTimerGetReloadModeImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
         BaseType_t MPU_xTimerGetReloadModeImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         xReturn = xTimerGetReloadMode( xInternalTimerHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         UBaseType_t MPU_uxTimerGetReloadModeImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
         UBaseType_t MPU_uxTimerGetReloadModeImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = 0;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         uxReturn = uxTimerGetReloadMode( xInternalTimerHandle );
                     }
                 }
             }
 
-            return uxReturn;
+            ଫେରନ୍ତୁ uxReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         TickType_t MPU_xTimerGetPeriodImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
         TickType_t MPU_xTimerGetPeriodImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             TickType_t xReturn = 0;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         xReturn = xTimerGetPeriod( xInternalTimerHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         TickType_t MPU_xTimerGetExpiryTimeImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
         TickType_t MPU_xTimerGetExpiryTimeImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             TickType_t xReturn = 0;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
                 {
                     xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    ଯଦି( xInternalTimerHandle != ଖାଲି )
                     {
                         xReturn = xTimerGetExpiryTime( xInternalTimerHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
@@ -3760,163 +3760,163 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
 
-        TimerHandle_t MPU_xTimerCreate( const char * const pcTimerName,
-                                        const TickType_t xTimerPeriodInTicks,
-                                        const BaseType_t xAutoReload,
-                                        void * const pvTimerID,
+        TimerHandle_t MPU_xTimerCreate( ଅଚଳ ଅକ୍ଷର * ଅଚଳ pcTimerName,
+                                        ଅଚଳ TickType_t xTimerPeriodInTicks,
+                                        ଅଚଳ BaseType_t xAutoReload,
+                                        ଶୂନ୍ୟ * ଅଚଳ pvTimerID,
                                         TimerCallbackFunction_t pxCallbackFunction ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            TimerHandle_t xExternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
+            TimerHandle_t xExternalTimerHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalTimerHandle = xTimerCreate( pcTimerName, xTimerPeriodInTicks, xAutoReload, pvTimerID, MPU_TimerCallback );
 
-                if( xInternalTimerHandle != NULL )
+                ଯଦି( xInternalTimerHandle != ଖାଲି )
                 {
                     MPU_StoreTimerHandleAtIndex( lIndex, xInternalTimerHandle, pxCallbackFunction );
                     xExternalTimerHandle = ( TimerHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalTimerHandle;
+            ଫେରନ୍ତୁ xExternalTimerHandle;
         }
 
     #endif /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
 
-        TimerHandle_t MPU_xTimerCreateStatic( const char * const pcTimerName,
-                                              const TickType_t xTimerPeriodInTicks,
-                                              const BaseType_t xAutoReload,
-                                              void * const pvTimerID,
+        TimerHandle_t MPU_xTimerCreateStatic( ଅଚଳ ଅକ୍ଷର * ଅଚଳ pcTimerName,
+                                              ଅଚଳ TickType_t xTimerPeriodInTicks,
+                                              ଅଚଳ BaseType_t xAutoReload,
+                                              ଶୂନ୍ୟ * ଅଚଳ pvTimerID,
                                               TimerCallbackFunction_t pxCallbackFunction,
                                               StaticTimer_t * pxTimerBuffer ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            TimerHandle_t xExternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
+            TimerHandle_t xExternalTimerHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalTimerHandle = xTimerCreateStatic( pcTimerName, xTimerPeriodInTicks, xAutoReload, pvTimerID, MPU_TimerCallback, pxTimerBuffer );
 
-                if( xInternalTimerHandle != NULL )
+                ଯଦି( xInternalTimerHandle != ଖାଲି )
                 {
                     MPU_StoreTimerHandleAtIndex( lIndex, xInternalTimerHandle, pxCallbackFunction );
                     xExternalTimerHandle = ( TimerHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalTimerHandle;
+            ଫେରନ୍ତୁ xExternalTimerHandle;
         }
 
     #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
 
         BaseType_t MPU_xTimerGetStaticBuffer( TimerHandle_t xTimer,
                                               StaticTimer_t ** ppxTimerBuffer ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xReturn = pdFALSE;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTimerHandle != NULL )
+                ଯଦି( xInternalTimerHandle != ଖାଲି )
                 {
                     xReturn = xTimerGetStaticBuffer( xInternalTimerHandle, ppxTimerBuffer );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         BaseType_t MPU_xTimerGenericCommandFromISR( TimerHandle_t xTimer,
-                                                    const BaseType_t xCommandID,
-                                                    const TickType_t xOptionalValue,
-                                                    BaseType_t * const pxHigherPriorityTaskWoken,
-                                                    const TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+                                                    ଅଚଳ BaseType_t xCommandID,
+                                                    ଅଚଳ TickType_t x_Optional_ମୂଲ୍ୟ,
+                                                    BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken,
+                                                    ଅଚଳ TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTimerHandle != NULL )
+                ଯଦି( xInternalTimerHandle != ଖାଲି )
                 {
-                    xReturn = xTimerGenericCommandFromISR( xInternalTimerHandle, xCommandID, xOptionalValue, pxHigherPriorityTaskWoken, xTicksToWait );
+                    xReturn = xTimerGenericCommandFromISR( xInternalTimerHandle, xCommandID, x_Optional_ମୂଲ୍ୟ, pxHigherPriorityTaskWoken, xTicksToWait );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ଯଦି ( configUSE_TIMERS == 1 )
 
         BaseType_t MPU_xTimerDelete( TimerHandle_t xTimer, TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
+            TimerHandle_t xInternalTimerHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalTimerHandle != NULL )
+                ଯଦି( xInternalTimerHandle != ଖାଲି )
                 {
                     xReturn = xTimerGenericCommandFromTask( xInternalTimerHandle,
                                                             tmrCOMMAND_DELETE,
                                                             0U, /* xOptionalValue */
-                                                            NULL, /* pxHigherPriorityTaskWoken */
+                                                            ଖାଲି, /* pxHigherPriorityTaskWoken */
                                                             xTicksToWait );
-                    if( xReturn != pdFALSE )
+                    ଯଦି( xReturn != pdFALSE )
                     {
                         MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* if ( configUSE_TIMERS == 1 ) */
@@ -3926,12 +3926,12 @@
 /*           MPU wrappers for event group APIs.              */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 
         EventBits_t MPU_xEventGroupWaitBits( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToWaitFor,
-                                             const BaseType_t xClearOnExit,
-                                             const BaseType_t xWaitForAllBits,
+                                             ଅଚଳ EventBits_t uxBitsToWaitFor,
+                                             ଅଚଳ BaseType_t xClearOnExit,
+                                             ଅଚଳ BaseType_t xWaitForAllBits,
                                              TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             EventBits_t xReturn = 0;
@@ -3945,46 +3945,46 @@
 
             xReturn = MPU_xEventGroupWaitBitsEntry( &( xParams ) );
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
-        EventBits_t MPU_xEventGroupWaitBitsImpl( const xEventGroupWaitBitsParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        EventBits_t MPU_xEventGroupWaitBitsImpl( ଅଚଳ xEventGroupWaitBitsParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        EventBits_t MPU_xEventGroupWaitBitsImpl( const xEventGroupWaitBitsParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        EventBits_t MPU_xEventGroupWaitBitsImpl( ଅଚଳ xEventGroupWaitBitsParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
             EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
             BaseType_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            ଯଦି( pxParams != ଖାଲି )
             {
                 xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xEventGroupWaitBitsParams_t ),
+                                                                      ଆକାର( xEventGroupWaitBitsParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            ଯଦି( xAreParamsReadable == pdTRUE )
             {
-                if( ( ( pxParams->uxBitsToWaitFor & eventEVENT_BITS_CONTROL_BYTES ) == 0U ) &&
+                ଯଦି( ( ( pxParams->uxBitsToWaitFor & eventEVENT_BITS_CONTROL_BYTES ) == 0U ) &&
                     ( pxParams->uxBitsToWaitFor != 0U )
-                    #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                    #ଯଦି ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
                         && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( pxParams->xTicksToWait != 0U ) ) )
                     #endif
                     )
                 {
                     lIndex = ( int32_t ) ( pxParams->xEventGroup );
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
                         {
                             xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalEventGroupHandle != NULL )
+                            ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                             {
                                 xReturn = xEventGroupWaitBits( xInternalEventGroupHandle,
                                                                pxParams->uxBitsToWaitFor,
@@ -3997,38 +3997,38 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 
         EventBits_t MPU_xEventGroupClearBitsImpl( EventGroupHandle_t xEventGroup,
-                                                  const EventBits_t uxBitsToClear ) PRIVILEGED_FUNCTION;
+                                                  ଅଚଳ EventBits_t uxBitsToClear ) PRIVILEGED_FUNCTION;
 
         EventBits_t MPU_xEventGroupClearBitsImpl( EventGroupHandle_t xEventGroup,
-                                                  const EventBits_t uxBitsToClear ) /* PRIVILEGED_FUNCTION */
+                                                  ଅଚଳ EventBits_t uxBitsToClear ) /* PRIVILEGED_FUNCTION */
         {
             EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
 
-            if( ( uxBitsToClear & eventEVENT_BITS_CONTROL_BYTES ) == 0U )
+            ଯଦି( ( uxBitsToClear & eventEVENT_BITS_CONTROL_BYTES ) == 0U )
             {
                 lIndex = ( int32_t ) xEventGroup;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
                     {
                         xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalEventGroupHandle != NULL )
+                        ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                         {
                             xReturn = xEventGroupClearBits( xInternalEventGroupHandle, uxBitsToClear );
                         }
@@ -4036,38 +4036,38 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 
         EventBits_t MPU_xEventGroupSetBitsImpl( EventGroupHandle_t xEventGroup,
-                                                const EventBits_t uxBitsToSet ) PRIVILEGED_FUNCTION;
+                                                ଅଚଳ EventBits_t uxBitsToSet ) PRIVILEGED_FUNCTION;
 
         EventBits_t MPU_xEventGroupSetBitsImpl( EventGroupHandle_t xEventGroup,
-                                                const EventBits_t uxBitsToSet ) /* PRIVILEGED_FUNCTION */
+                                                ଅଚଳ EventBits_t uxBitsToSet ) /* PRIVILEGED_FUNCTION */
         {
             EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
 
-            if( ( uxBitsToSet & eventEVENT_BITS_CONTROL_BYTES ) == 0U )
+            ଯଦି( ( uxBitsToSet & eventEVENT_BITS_CONTROL_BYTES ) == 0U )
             {
                 lIndex = ( int32_t ) xEventGroup;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
                     {
                         xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalEventGroupHandle != NULL )
+                        ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                         {
                             xReturn = xEventGroupSetBits( xInternalEventGroupHandle, uxBitsToSet );
                         }
@@ -4075,47 +4075,47 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 
         EventBits_t MPU_xEventGroupSyncImpl( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToSet,
-                                             const EventBits_t uxBitsToWaitFor,
+                                             ଅଚଳ EventBits_t uxBitsToSet,
+                                             ଅଚଳ EventBits_t uxBitsToWaitFor,
                                              TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
         EventBits_t MPU_xEventGroupSyncImpl( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToSet,
-                                             const EventBits_t uxBitsToWaitFor,
+                                             ଅଚଳ EventBits_t uxBitsToSet,
+                                             ଅଚଳ EventBits_t uxBitsToWaitFor,
                                              TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
 
-            if( ( ( uxBitsToWaitFor & eventEVENT_BITS_CONTROL_BYTES ) == 0U ) &&
+            ଯଦି( ( ( uxBitsToWaitFor & eventEVENT_BITS_CONTROL_BYTES ) == 0U ) &&
                 ( uxBitsToWaitFor != 0U )
-                #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                #ଯଦି ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
                     && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
                 #endif
                 )
             {
                 lIndex = ( int32_t ) xEventGroup;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                 {
                     xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                    ଯଦି( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
                     {
                         xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xInternalEventGroupHandle != NULL )
+                        ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                         {
                             xReturn = xEventGroupSync( xInternalEventGroupHandle, uxBitsToSet, uxBitsToWaitFor, xTicksToWait );
                         }
@@ -4123,71 +4123,71 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+    #ଯଦି ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        UBaseType_t MPU_uxEventGroupGetNumberImpl( void * xEventGroup ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Event_Group_Get_ସଂଖ୍ୟା_Impl( ଶୂନ୍ୟ * xEventGroup ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxEventGroupGetNumberImpl( void * xEventGroup ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Event_Group_Get_ସଂଖ୍ୟା_Impl( ଶୂନ୍ୟ * xEventGroup ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
                 {
                     xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalEventGroupHandle != NULL )
+                    ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                     {
-                        xReturn = uxEventGroupGetNumber( xInternalEventGroupHandle );
+                        xReturn = ux_Event_Group_Get_ସଂଖ୍ୟା( xInternalEventGroupHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+    #ଯଦି ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        void MPU_vEventGroupSetNumberImpl( void * xEventGroup,
-                                           UBaseType_t uxEventGroupNumber ) PRIVILEGED_FUNCTION;
+        ଶୂନ୍ୟ MPU_v_Event_Group_Set_ସଂଖ୍ୟା_Impl( ଶୂନ୍ୟ * xEventGroup,
+                                           UBaseType_t ux_Event_Group_ସଂଖ୍ୟା ) PRIVILEGED_FUNCTION;
 
-        void MPU_vEventGroupSetNumberImpl( void * xEventGroup,
-                                           UBaseType_t uxEventGroupNumber ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_v_Event_Group_Set_ସଂଖ୍ୟା_Impl( ଶୂନ୍ୟ * xEventGroup,
+                                           UBaseType_t ux_Event_Group_ସଂଖ୍ୟା ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
                 {
                     xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalEventGroupHandle != NULL )
+                    ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                     {
-                        vEventGroupSetNumber( xInternalEventGroupHandle, uxEventGroupNumber );
+                        v_Event_Group_Set_ସଂଖ୍ୟା( xInternalEventGroupHandle, ux_Event_Group_ସଂଖ୍ୟା );
                     }
                 }
             }
@@ -4201,82 +4201,82 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #ଯଦି ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
 
-        EventGroupHandle_t MPU_xEventGroupCreate( void ) /* PRIVILEGED_FUNCTION */
+        EventGroupHandle_t MPU_xEventGroupCreate( ଶୂନ୍ୟ ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            EventGroupHandle_t xExternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
+            EventGroupHandle_t xExternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalEventGroupHandle = xEventGroupCreate();
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     MPU_StoreEventGroupHandleAtIndex( lIndex, xInternalEventGroupHandle );
                     xExternalEventGroupHandle = ( EventGroupHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalEventGroupHandle;
+            ଫେରନ୍ତୁ xExternalEventGroupHandle;
         }
 
     #endif /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #ଯଦି ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
 
         EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            EventGroupHandle_t xExternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
+            EventGroupHandle_t xExternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-            if( lIndex != -1 )
+            ଯଦି( lIndex != -1 )
             {
                 xInternalEventGroupHandle = xEventGroupCreateStatic( pxEventGroupBuffer );
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     MPU_StoreEventGroupHandleAtIndex( lIndex, xInternalEventGroupHandle );
                     xExternalEventGroupHandle = ( EventGroupHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                 }
-                else
+                ଅନ୍ୟଥା
                 {
                     MPU_SetIndexFreeInKernelObjectPool( lIndex );
                 }
             }
 
-            return xExternalEventGroupHandle;
+            ଫେରନ୍ତୁ xExternalEventGroupHandle;
         }
 
     #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 
-        void MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     vEventGroupDelete( xInternalEventGroupHandle );
                     MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
@@ -4287,109 +4287,109 @@
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #ଯଦି ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
 
         BaseType_t MPU_xEventGroupGetStaticBuffer( EventGroupHandle_t xEventGroup,
                                                    StaticEventGroup_t ** ppxEventGroupBuffer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     xReturn = xEventGroupGetStaticBuffer( xInternalEventGroupHandle, ppxEventGroupBuffer );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
+    #ଯଦି ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
 
         BaseType_t MPU_xEventGroupClearBitsFromISR( EventGroupHandle_t xEventGroup,
-                                                    const EventBits_t uxBitsToClear ) /* PRIVILEGED_FUNCTION */
+                                                    ଅଚଳ EventBits_t uxBitsToClear ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     xReturn = xEventGroupClearBitsFromISR( xInternalEventGroupHandle, uxBitsToClear );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
+    #ଯଦି ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
 
         BaseType_t MPU_xEventGroupSetBitsFromISR( EventGroupHandle_t xEventGroup,
-                                                  const EventBits_t uxBitsToSet,
+                                                  ଅଚଳ EventBits_t uxBitsToSet,
                                                   BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     xReturn = xEventGroupSetBitsFromISR( xInternalEventGroupHandle, uxBitsToSet, pxHigherPriorityTaskWoken );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
 
         EventBits_t MPU_xEventGroupGetBitsFromISR( EventGroupHandle_t xEventGroup ) /* PRIVILEGED_FUNCTION */
         {
             EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
+            EventGroupHandle_t xInternalEventGroupHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xEventGroup;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                ଯଦି( xInternalEventGroupHandle != ଖାଲି )
                 {
                     xReturn = xEventGroupGetBitsFromISR( xInternalEventGroupHandle );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
@@ -4399,43 +4399,43 @@
 /*           MPU wrappers for stream buffer APIs.            */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         size_t MPU_xStreamBufferSendImpl( StreamBufferHandle_t xStreamBuffer,
-                                          const void * pvTxData,
+                                          ଅଚଳ ଶୂନ୍ୟ * pvTxData,
                                           size_t xDataLengthBytes,
                                           TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
         size_t MPU_xStreamBufferSendImpl( StreamBufferHandle_t xStreamBuffer,
-                                          const void * pvTxData,
+                                          ଅଚଳ ଶୂନ୍ୟ * pvTxData,
                                           size_t xDataLengthBytes,
                                           TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xIsTxDataBufferReadable = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
-            if( pvTxData != NULL )
+            ଯଦି( pvTxData != ଖାଲି )
             {
                 xIsTxDataBufferReadable = xPortIsAuthorizedToAccessBuffer( pvTxData,
                                                                            xDataLengthBytes,
                                                                            tskMPU_READ_PERMISSION );
 
-                if( xIsTxDataBufferReadable == pdTRUE )
+                ଯଦି( xIsTxDataBufferReadable == pdTRUE )
                 {
                     lIndex = ( int32_t ) xStreamBuffer;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                         {
                             xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalStreamBufferHandle != NULL )
+                            ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                             {
                                 xReturn = xStreamBufferSend( xInternalStreamBufferHandle, pvTxData, xDataLengthBytes, xTicksToWait );
                             }
@@ -4444,49 +4444,49 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         size_t MPU_xStreamBufferReceiveImpl( StreamBufferHandle_t xStreamBuffer,
-                                             void * pvRxData,
+                                             ଶୂନ୍ୟ * pvRxData,
                                              size_t xBufferLengthBytes,
                                              TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
         size_t MPU_xStreamBufferReceiveImpl( StreamBufferHandle_t xStreamBuffer,
-                                             void * pvRxData,
+                                             ଶୂନ୍ୟ * pvRxData,
                                              size_t xBufferLengthBytes,
                                              TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xIsRxDataBufferWriteable = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
-            if( pvRxData != NULL )
+            ଯଦି( pvRxData != ଖାଲି )
             {
                 xIsRxDataBufferWriteable = xPortIsAuthorizedToAccessBuffer( pvRxData,
                                                                             xBufferLengthBytes,
                                                                             tskMPU_WRITE_PERMISSION );
 
-                if( xIsRxDataBufferWriteable == pdTRUE )
+                ଯଦି( xIsRxDataBufferWriteable == pdTRUE )
                 {
                     lIndex = ( int32_t ) xStreamBuffer;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
                     {
                         xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                        ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                         {
                             xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                            if( xInternalStreamBufferHandle != NULL )
+                            ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                             {
                                 xReturn = xStreamBufferReceive( xInternalStreamBufferHandle, pvRxData, xBufferLengthBytes, xTicksToWait );
                             }
@@ -4495,149 +4495,149 @@
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferIsFullImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
 
         BaseType_t MPU_xStreamBufferIsFullImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                 {
                     xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         xReturn = xStreamBufferIsFull( xInternalStreamBufferHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferIsEmptyImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
 
         BaseType_t MPU_xStreamBufferIsEmptyImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                 {
                     xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         xReturn = xStreamBufferIsEmpty( xInternalStreamBufferHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         size_t MPU_xStreamBufferSpacesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
 
         size_t MPU_xStreamBufferSpacesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                 {
                     xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         xReturn = xStreamBufferSpacesAvailable( xInternalStreamBufferHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         size_t MPU_xStreamBufferBytesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
 
         size_t MPU_xStreamBufferBytesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                 {
                     xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         xReturn = xStreamBufferBytesAvailable( xInternalStreamBufferHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferSetTriggerLevelImpl( StreamBufferHandle_t xStreamBuffer,
                                                          size_t xTriggerLevel ) PRIVILEGED_FUNCTION;
@@ -4646,62 +4646,62 @@
                                                          size_t xTriggerLevel ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                 {
                     xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         xReturn = xStreamBufferSetTriggerLevel( xInternalStreamBufferHandle, xTriggerLevel );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         size_t MPU_xStreamBufferNextMessageLengthBytesImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
 
         size_t MPU_xStreamBufferNextMessageLengthBytesImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
             BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                ଯଦି( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
                 {
                     xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         xReturn = xStreamBufferNextMessageLengthBytes( xInternalStreamBufferHandle );
                     }
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
@@ -4712,7 +4712,7 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #ଯଦି ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
 
         StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
                                                              size_t xTriggerLevelBytes,
@@ -4720,126 +4720,126 @@
                                                              StreamBufferCallbackFunction_t pxSendCompletedCallback,
                                                              StreamBufferCallbackFunction_t pxReceiveCompletedCallback ) /* PRIVILEGED_FUNCTION */
         {
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            StreamBufferHandle_t xExternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
+            StreamBufferHandle_t xExternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             /**
              * Stream buffer application level callback functionality is disabled for MPU
              * enabled ports.
              */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
+            configASSERT( ( pxSendCompletedCallback == ଖାଲି ) &&
+                          ( pxReceiveCompletedCallback == ଖାଲି ) );
 
-            if( ( pxSendCompletedCallback == NULL ) &&
-                ( pxReceiveCompletedCallback == NULL ) )
+            ଯଦି( ( pxSendCompletedCallback == ଖାଲି ) &&
+                ( pxReceiveCompletedCallback == ଖାଲି ) )
             {
                 lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-                if( lIndex != -1 )
+                ଯଦି( lIndex != -1 )
                 {
                     xInternalStreamBufferHandle = xStreamBufferGenericCreate( xBufferSizeBytes,
                                                                               xTriggerLevelBytes,
                                                                               xStreamBufferType,
-                                                                              NULL,
-                                                                              NULL );
+                                                                              ଖାଲି,
+                                                                              ଖାଲି );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         MPU_StoreStreamBufferHandleAtIndex( lIndex, xInternalStreamBufferHandle );
                         xExternalStreamBufferHandle = ( StreamBufferHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                     }
-                    else
+                    ଅନ୍ୟଥା
                     {
                         MPU_SetIndexFreeInKernelObjectPool( lIndex );
                     }
                 }
             }
-            else
+            ଅନ୍ୟଥା
             {
                 traceSTREAM_BUFFER_CREATE_FAILED( xStreamBufferType );
-                xExternalStreamBufferHandle = NULL;
+                xExternalStreamBufferHandle = ଖାଲି;
             }
 
-            return xExternalStreamBufferHandle;
+            ଫେରନ୍ତୁ xExternalStreamBufferHandle;
         }
 
     #endif /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #ଯଦି ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
 
         StreamBufferHandle_t MPU_xStreamBufferGenericCreateStatic( size_t xBufferSizeBytes,
                                                                    size_t xTriggerLevelBytes,
                                                                    BaseType_t xStreamBufferType,
-                                                                   uint8_t * const pucStreamBufferStorageArea,
-                                                                   StaticStreamBuffer_t * const pxStaticStreamBuffer,
+                                                                   uint8_t * ଅଚଳ pucStreamBufferStorageArea,
+                                                                   StaticStreamBuffer_t * ଅଚଳ pxStaticStreamBuffer,
                                                                    StreamBufferCallbackFunction_t pxSendCompletedCallback,
                                                                    StreamBufferCallbackFunction_t pxReceiveCompletedCallback ) /* PRIVILEGED_FUNCTION */
         {
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            StreamBufferHandle_t xExternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
+            StreamBufferHandle_t xExternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             /**
              * Stream buffer application level callback functionality is disabled for MPU
              * enabled ports.
              */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
+            configASSERT( ( pxSendCompletedCallback == ଖାଲି ) &&
+                          ( pxReceiveCompletedCallback == ଖାଲି ) );
 
-            if( ( pxSendCompletedCallback == NULL ) &&
-                ( pxReceiveCompletedCallback == NULL ) )
+            ଯଦି( ( pxSendCompletedCallback == ଖାଲି ) &&
+                ( pxReceiveCompletedCallback == ଖାଲି ) )
             {
                 lIndex = MPU_GetFreeIndexInKernelObjectPool();
 
-                if( lIndex != -1 )
+                ଯଦି( lIndex != -1 )
                 {
                     xInternalStreamBufferHandle = xStreamBufferGenericCreateStatic( xBufferSizeBytes,
                                                                                     xTriggerLevelBytes,
                                                                                     xStreamBufferType,
                                                                                     pucStreamBufferStorageArea,
                                                                                     pxStaticStreamBuffer,
-                                                                                    NULL,
-                                                                                    NULL );
+                                                                                    ଖାଲି,
+                                                                                    ଖାଲି );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                     {
                         MPU_StoreStreamBufferHandleAtIndex( lIndex, xInternalStreamBufferHandle );
                         xExternalStreamBufferHandle = ( StreamBufferHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
                     }
-                    else
+                    ଅନ୍ୟଥା
                     {
                         MPU_SetIndexFreeInKernelObjectPool( lIndex );
                     }
                 }
             }
-            else
+            ଅନ୍ୟଥା
             {
                 traceSTREAM_BUFFER_CREATE_STATIC_FAILED( xReturn, xStreamBufferType );
-                xExternalStreamBufferHandle = NULL;
+                xExternalStreamBufferHandle = ଖାଲି;
             }
 
-            return xExternalStreamBufferHandle;
+            ଫେରନ୍ତୁ xExternalStreamBufferHandle;
         }
 
     #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
-        void MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        ଶୂନ୍ୟ MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                 {
                     vStreamBufferDelete( xInternalStreamBufferHandle );
                 }
@@ -4851,194 +4851,194 @@
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferReset( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                 {
                     xReturn = xStreamBufferReset( xInternalStreamBufferHandle );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #ଯଦି ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
 
         BaseType_t MPU_xStreamBufferGetStaticBuffers( StreamBufferHandle_t xStreamBuffers,
                                                       uint8_t * ppucStreamBufferStorageArea,
                                                       StaticStreamBuffer_t * ppxStaticStreamBuffer ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xStreamBuffers;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                 {
                     xReturn = MPU_xStreamBufferGetStaticBuffers( xInternalStreamBufferHandle, ppucStreamBufferStorageArea, ppxStaticStreamBuffer );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
     size_t MPU_xStreamBufferSendFromISR( StreamBufferHandle_t xStreamBuffer,
-                                         const void * pvTxData,
+                                         ଅଚଳ ଶୂନ୍ୟ * pvTxData,
                                          size_t xDataLengthBytes,
-                                         BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+                                         BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
     {
         size_t xReturn = 0;
-        StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+        StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
         int32_t lIndex;
 
         lIndex = ( int32_t ) xStreamBuffer;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalStreamBufferHandle != NULL )
+            ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
             {
                 xReturn = xStreamBufferSendFromISR( xInternalStreamBufferHandle, pvTxData, xDataLengthBytes, pxHigherPriorityTaskWoken );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
     size_t MPU_xStreamBufferReceiveFromISR( StreamBufferHandle_t xStreamBuffer,
-                                            void * pvRxData,
+                                            ଶୂନ୍ୟ * pvRxData,
                                             size_t xBufferLengthBytes,
-                                            BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+                                            BaseType_t * ଅଚଳ pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
     {
         size_t xReturn = 0;
-        StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+        StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
         int32_t lIndex;
 
         lIndex = ( int32_t ) xStreamBuffer;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
         {
             xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-            if( xInternalStreamBufferHandle != NULL )
+            ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
             {
                 xReturn = xStreamBufferReceiveFromISR( xInternalStreamBufferHandle, pvRxData, xBufferLengthBytes, pxHigherPriorityTaskWoken );
             }
         }
 
-        return xReturn;
+        ଫେରନ୍ତୁ xReturn;
     }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferSendCompletedFromISR( StreamBufferHandle_t xStreamBuffer,
                                                           BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                 {
                     xReturn = xStreamBufferSendCompletedFromISR( xInternalStreamBufferHandle, pxHigherPriorityTaskWoken );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferReceiveCompletedFromISR( StreamBufferHandle_t xStreamBuffer,
                                                              BaseType_t * pxHigherPriorityTaskWoken ) /*PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                 {
                     xReturn = xStreamBufferReceiveCompletedFromISR( xInternalStreamBufferHandle, pxHigherPriorityTaskWoken );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
 
         BaseType_t MPU_xStreamBufferResetFromISR( StreamBufferHandle_t xStreamBuffer ) /*PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
+            StreamBufferHandle_t xInternalStreamBufferHandle = ଖାଲି;
             int32_t lIndex;
 
             lIndex = ( int32_t ) xStreamBuffer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            ଯଦି( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
             {
                 xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                ଯଦି( xInternalStreamBufferHandle != ଖାଲି )
                 {
                     xReturn = xStreamBufferResetFromISR( xInternalStreamBufferHandle );
                 }
             }
 
-            return xReturn;
+            ଫେରନ୍ତୁ xReturn;
         }
 
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
@@ -5048,8 +5048,8 @@
 /* Functions that the application writer wants to execute in privileged mode
  * can be defined in application_defined_privileged_functions.h. */
 
-    #if configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
-        #include "application_defined_privileged_functions.h"
+    #ଯଦି configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
+        #ଅନ୍ତର୍ଭାଵ "application_defined_privileged_functions.h"
     #endif
 /*-----------------------------------------------------------*/
 
@@ -5059,153 +5059,153 @@
  * The index in the array MUST match the corresponding system call number
  * defined in mpu_wrappers.h.
  */
-    PRIVILEGED_DATA UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ] =
+    PRIVILEGED_DATA UBaseType_t uxSystemCallImplementations[ ଅଙ୍କ_SYSTEM_CALLS ] =
     {
-        #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+        #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
             ( UBaseType_t ) MPU_xTaskGenericNotifyImpl,                     /* SYSTEM_CALL_xTaskGenericNotify. */
             ( UBaseType_t ) MPU_xTaskGenericNotifyWaitImpl,                 /* SYSTEM_CALL_xTaskGenericNotifyWait. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotify. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotifyWait. */
         #endif
 
-        #if ( configUSE_TIMERS == 1 )
+        #ଯଦି ( configUSE_TIMERS == 1 )
             ( UBaseType_t ) MPU_xTimerGenericCommandFromTaskImpl,           /* SYSTEM_CALL_xTimerGenericCommandFromTask. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerGenericCommandFromTask. */
         #endif
 
-        #if ( configUSE_EVENT_GROUPS == 1 )
+        #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
             ( UBaseType_t ) MPU_xEventGroupWaitBitsImpl,                    /* SYSTEM_CALL_xEventGroupWaitBits. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupWaitBits. */
         #endif
 
         /* The system calls above this line take 5 parameters. */
 
-        #if ( INCLUDE_xTaskDelayUntil == 1 )
+        #ଯଦି ( INCLUDE_xTaskDelayUntil == 1 )
             ( UBaseType_t ) MPU_xTaskDelayUntilImpl,                        /* SYSTEM_CALL_xTaskDelayUntil. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskDelayUntil. */
         #endif
 
-        #if ( INCLUDE_xTaskAbortDelay == 1 )
+        #ଯଦି ( INCLUDE_xTaskAbortDelay == 1 )
             ( UBaseType_t ) MPU_xTaskAbortDelayImpl,                        /* SYSTEM_CALL_xTaskAbortDelay. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskAbortDelay. */
         #endif
 
-        #if ( INCLUDE_vTaskDelay == 1 )
+        #ଯଦି ( INCLUDE_vTaskDelay == 1 )
             ( UBaseType_t ) MPU_vTaskDelayImpl,                             /* SYSTEM_CALL_vTaskDelay. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskDelay. */
         #endif
 
-        #if ( INCLUDE_uxTaskPriorityGet == 1 )
+        #ଯଦି ( INCLUDE_uxTaskPriorityGet == 1 )
             ( UBaseType_t ) MPU_uxTaskPriorityGetImpl,                      /* SYSTEM_CALL_uxTaskPriorityGet. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskPriorityGet. */
         #endif
 
-        #if ( INCLUDE_eTaskGetState == 1 )
+        #ଯଦି ( INCLUDE_eTaskGetState == 1 )
             ( UBaseType_t ) MPU_eTaskGetStateImpl,                          /* SYSTEM_CALL_eTaskGetState. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_eTaskGetState. */
         #endif
 
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #ଯଦି ( configUSE_TRACE_FACILITY == 1 )
             ( UBaseType_t ) MPU_vTaskGetInfoImpl,                           /* SYSTEM_CALL_vTaskGetInfo. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskGetInfo. */
         #endif
 
-        #if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+        #ଯଦି ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
             ( UBaseType_t ) MPU_xTaskGetIdleTaskHandleImpl,                 /* SYSTEM_CALL_xTaskGetIdleTaskHandle. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetIdleTaskHandle. */
         #endif
 
-        #if ( INCLUDE_vTaskSuspend == 1 )
+        #ଯଦି ( INCLUDE_vTaskSuspend == 1 )
             ( UBaseType_t ) MPU_vTaskSuspendImpl,                           /* SYSTEM_CALL_vTaskSuspend. */
             ( UBaseType_t ) MPU_vTaskResumeImpl,                            /* SYSTEM_CALL_vTaskResume. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskSuspend. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskResume. */
         #endif
 
-        ( UBaseType_t ) MPU_xTaskGetTickCountImpl,                          /* SYSTEM_CALL_xTaskGetTickCount. */
-        ( UBaseType_t ) MPU_uxTaskGetNumberOfTasksImpl,                     /* SYSTEM_CALL_uxTaskGetNumberOfTasks. */
+        ( UBaseType_t ) MPU_x_Task_Get_Tick_ଗଣନା_Impl,                          /* SYSTEM_CALL_xTaskGetTickCount. */
+        ( UBaseType_t ) MPU_ux_Task_Get_ସଂଖ୍ୟା_Of_Tasks_Impl,                     /* SYSTEM_CALL_uxTaskGetNumberOfTasks. */
 
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
+        #ଯଦି ( configGENERATE_RUN_TIME_STATS == 1 )
             ( UBaseType_t ) MPU_ulTaskGetRunTimeCounterImpl,                /* SYSTEM_CALL_ulTaskGetRunTimeCounter. */
             ( UBaseType_t ) MPU_ulTaskGetRunTimePercentImpl,                /* SYSTEM_CALL_ulTaskGetRunTimePercent. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetRunTimeCounter. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetRunTimePercent. */
         #endif
 
-        #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+        #ଯଦି ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
             ( UBaseType_t ) MPU_ulTaskGetIdleRunTimePercentImpl,            /* SYSTEM_CALL_ulTaskGetIdleRunTimePercent. */
             ( UBaseType_t ) MPU_ulTaskGetIdleRunTimeCounterImpl,            /* SYSTEM_CALL_ulTaskGetIdleRunTimeCounter. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetIdleRunTimePercent. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetIdleRunTimeCounter. */
         #endif
 
-        #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+        #ଯଦି ( configUSE_APPLICATION_TASK_TAG == 1 )
             ( UBaseType_t ) MPU_vTaskSetApplicationTaskTagImpl,             /* SYSTEM_CALL_vTaskSetApplicationTaskTag. */
             ( UBaseType_t ) MPU_xTaskGetApplicationTaskTagImpl,             /* SYSTEM_CALL_xTaskGetApplicationTaskTag. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskSetApplicationTaskTag. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetApplicationTaskTag. */
         #endif
 
-        #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+        #ଯଦି ( config_ଅଙ୍କ_THREAD_LOCAL_STORAGE_POINTERS != 0 )
             ( UBaseType_t ) MPU_vTaskSetThreadLocalStoragePointerImpl,      /* SYSTEM_CALL_vTaskSetThreadLocalStoragePointer. */
             ( UBaseType_t ) MPU_pvTaskGetThreadLocalStoragePointerImpl,     /* SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskSetThreadLocalStoragePointer. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer. */
         #endif
 
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #ଯଦି ( configUSE_TRACE_FACILITY == 1 )
             ( UBaseType_t ) MPU_uxTaskGetSystemStateImpl,                   /* SYSTEM_CALL_uxTaskGetSystemState. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetSystemState. */
         #endif
 
-        #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
-            ( UBaseType_t ) MPU_uxTaskGetStackHighWaterMarkImpl,            /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
-        #else
+        #ଯଦି ( INCLUDE_ux_Task_Get_ଗଦା_ଉପର_Water_Mark == 1 )
+            ( UBaseType_t ) MPU_ux_Task_Get_ଗଦା_ଉପର_Water_Mark_Impl,            /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
         #endif
 
-        #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
-            ( UBaseType_t ) MPU_uxTaskGetStackHighWaterMark2Impl,           /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
-        #else
+        #ଯଦି ( INCLUDE_ux_Task_Get_ଗଦା_ଉପର_Water_Mark2 == 1 )
+            ( UBaseType_t ) MPU_ux_Task_Get_ଗଦା_ଉପର_Water_Mark2_Impl,           /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
         #endif
 
-        #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
+        #ଯଦି ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
             ( UBaseType_t ) MPU_xTaskGetCurrentTaskHandleImpl,              /* SYSTEM_CALL_xTaskGetCurrentTaskHandle. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetCurrentTaskHandle. */
         #endif
 
-        #if ( INCLUDE_xTaskGetSchedulerState == 1 )
+        #ଯଦି ( INCLUDE_xTaskGetSchedulerState == 1 )
             ( UBaseType_t ) MPU_xTaskGetSchedulerStateImpl,                 /* SYSTEM_CALL_xTaskGetSchedulerState. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetSchedulerState. */
         #endif
 
         ( UBaseType_t ) MPU_vTaskSetTimeOutStateImpl,                       /* SYSTEM_CALL_vTaskSetTimeOutState. */
         ( UBaseType_t ) MPU_xTaskCheckForTimeOutImpl,                       /* SYSTEM_CALL_xTaskCheckForTimeOut. */
 
-        #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+        #ଯଦି ( configUSE_TASK_NOTIFICATIONS == 1 )
             ( UBaseType_t ) MPU_ulTaskGenericNotifyTakeImpl,                /* SYSTEM_CALL_ulTaskGenericNotifyTake. */
             ( UBaseType_t ) MPU_xTaskGenericNotifyStateClearImpl,           /* SYSTEM_CALL_xTaskGenericNotifyStateClear. */
-            ( UBaseType_t ) MPU_ulTaskGenericNotifyValueClearImpl,          /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
-        #else
+            ( UBaseType_t ) MPU_ul_Task_Generic_Notify_ମୂଲ୍ୟ_Clear_Impl,          /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGenericNotifyTake. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotifyStateClear. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
@@ -5218,39 +5218,39 @@
         ( UBaseType_t ) MPU_xQueuePeekImpl,                                 /* SYSTEM_CALL_xQueuePeek. */
         ( UBaseType_t ) MPU_xQueueSemaphoreTakeImpl,                        /* SYSTEM_CALL_xQueueSemaphoreTake. */
 
-        #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+        #ଯଦି ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
             ( UBaseType_t ) MPU_xQueueGetMutexHolderImpl,                   /* SYSTEM_CALL_xQueueGetMutexHolder. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueGetMutexHolder. */
         #endif
 
-        #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+        #ଯଦି ( configUSE_RECURSIVE_MUTEXES == 1 )
             ( UBaseType_t ) MPU_xQueueTakeMutexRecursiveImpl,               /* SYSTEM_CALL_xQueueTakeMutexRecursive. */
             ( UBaseType_t ) MPU_xQueueGiveMutexRecursiveImpl,               /* SYSTEM_CALL_xQueueGiveMutexRecursive. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueTakeMutexRecursive. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueGiveMutexRecursive. */
         #endif
 
-        #if ( configUSE_QUEUE_SETS == 1 )
+        #ଯଦି ( configUSE_QUEUE_SETS == 1 )
             ( UBaseType_t ) MPU_xQueueSelectFromSetImpl,                    /* SYSTEM_CALL_xQueueSelectFromSet. */
             ( UBaseType_t ) MPU_xQueueAddToSetImpl,                         /* SYSTEM_CALL_xQueueAddToSet. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueSelectFromSet. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueAddToSet. */
         #endif
 
-        #if configQUEUE_REGISTRY_SIZE > 0
+        #ଯଦି configQUEUE_REGISTRY_SIZE > 0
             ( UBaseType_t ) MPU_vQueueAddToRegistryImpl,                    /* SYSTEM_CALL_vQueueAddToRegistry. */
             ( UBaseType_t ) MPU_vQueueUnregisterQueueImpl,                  /* SYSTEM_CALL_vQueueUnregisterQueue. */
             ( UBaseType_t ) MPU_pcQueueGetNameImpl,                         /* SYSTEM_CALL_pcQueueGetName. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vQueueAddToRegistry. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vQueueUnregisterQueue. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_pcQueueGetName. */
         #endif
 
-        #if ( configUSE_TIMERS == 1 )
+        #ଯଦି ( configUSE_TIMERS == 1 )
             ( UBaseType_t ) MPU_pvTimerGetTimerIDImpl,                      /* SYSTEM_CALL_pvTimerGetTimerID. */
             ( UBaseType_t ) MPU_vTimerSetTimerIDImpl,                       /* SYSTEM_CALL_vTimerSetTimerID. */
             ( UBaseType_t ) MPU_xTimerIsTimerActiveImpl,                    /* SYSTEM_CALL_xTimerIsTimerActive. */
@@ -5261,7 +5261,7 @@
             ( UBaseType_t ) MPU_uxTimerGetReloadModeImpl,                   /* SYSTEM_CALL_uxTimerGetReloadMode. */
             ( UBaseType_t ) MPU_xTimerGetPeriodImpl,                        /* SYSTEM_CALL_xTimerGetPeriod. */
             ( UBaseType_t ) MPU_xTimerGetExpiryTimeImpl,                    /* SYSTEM_CALL_xTimerGetExpiryTime. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_pvTimerGetTimerID. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTimerSetTimerID. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerIsTimerActive. */
@@ -5274,19 +5274,19 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerGetExpiryTime. */
         #endif
 
-        #if ( configUSE_EVENT_GROUPS == 1 )
+        #ଯଦି ( configUSE_EVENT_GROUPS == 1 )
             ( UBaseType_t ) MPU_xEventGroupClearBitsImpl,                   /* SYSTEM_CALL_xEventGroupClearBits. */
             ( UBaseType_t ) MPU_xEventGroupSetBitsImpl,                     /* SYSTEM_CALL_xEventGroupSetBits. */
             ( UBaseType_t ) MPU_xEventGroupSyncImpl,                        /* SYSTEM_CALL_xEventGroupSync. */
 
-            #if ( configUSE_TRACE_FACILITY == 1 )
-                ( UBaseType_t ) MPU_uxEventGroupGetNumberImpl,              /* SYSTEM_CALL_uxEventGroupGetNumber. */
-                ( UBaseType_t ) MPU_vEventGroupSetNumberImpl,               /* SYSTEM_CALL_vEventGroupSetNumber. */
-            #else
+            #ଯଦି ( configUSE_TRACE_FACILITY == 1 )
+                ( UBaseType_t ) MPU_ux_Event_Group_Get_ସଂଖ୍ୟା_Impl,              /* SYSTEM_CALL_uxEventGroupGetNumber. */
+                ( UBaseType_t ) MPU_v_Event_Group_Set_ସଂଖ୍ୟା_Impl,               /* SYSTEM_CALL_vEventGroupSetNumber. */
+            #ଅନ୍ୟଥା
                 ( UBaseType_t ) 0,                                          /* SYSTEM_CALL_uxEventGroupGetNumber. */
                 ( UBaseType_t ) 0,                                          /* SYSTEM_CALL_vEventGroupSetNumber. */
             #endif
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupClearBits. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupSetBits. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupSync. */
@@ -5294,7 +5294,7 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vEventGroupSetNumber. */
         #endif
 
-        #if ( configUSE_STREAM_BUFFERS == 1 )
+        #ଯଦି ( configUSE_STREAM_BUFFERS == 1 )
             ( UBaseType_t ) MPU_xStreamBufferSendImpl,                      /* SYSTEM_CALL_xStreamBufferSend. */
             ( UBaseType_t ) MPU_xStreamBufferReceiveImpl,                   /* SYSTEM_CALL_xStreamBufferReceive. */
             ( UBaseType_t ) MPU_xStreamBufferIsFullImpl,                    /* SYSTEM_CALL_xStreamBufferIsFull. */
@@ -5303,7 +5303,7 @@
             ( UBaseType_t ) MPU_xStreamBufferBytesAvailableImpl,            /* SYSTEM_CALL_xStreamBufferBytesAvailable. */
             ( UBaseType_t ) MPU_xStreamBufferSetTriggerLevelImpl,           /* SYSTEM_CALL_xStreamBufferSetTriggerLevel. */
             ( UBaseType_t ) MPU_xStreamBufferNextMessageLengthBytesImpl     /* SYSTEM_CALL_xStreamBufferNextMessageLengthBytes. */
-        #else
+        #ଅନ୍ୟଥା
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferSend. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferReceive. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferIsFull. */

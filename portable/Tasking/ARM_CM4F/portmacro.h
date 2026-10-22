@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,60 +47,60 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          ଅକ୍ଷର
+    #define portFLOAT         ଦଶମିକ
+    #define portDOUBLE        ଦ୍ୱିଗୁଣ
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
+    #define port_ଗଦା_TYPE    uint32_t
     #define portBASE_TYPE     long
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
+    #ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
+    #ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
         #define portTICK_TYPE_IS_ATOMIC    1
-    #else
+    #ଅନ୍ୟଥା
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_ଗଦା_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT    8
 /*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
-#define portNVIC_INT_CTRL     ( ( volatile uint32_t * ) 0xe000ed04 )
+ବାହ୍ୟ ଶୂନ୍ୟ vPortYield( ଶୂନ୍ୟ );
+#define portNVIC_INT_CTRL     ( ( ଅସ୍ଥିର uint32_t * ) 0xe000ed04 )
 #define portNVIC_PENDSVSET    0x10000000
 #define portYIELD()                vPortYield()
 
 #define portEND_SWITCHING_ISR( xSwitchRequired )         \
-    do                                                   \
+    କର                                                   \
     {                                                    \
-        if( xSwitchRequired != pdFALSE )                 \
+        ଯଦି( xSwitchRequired != pdFALSE )                 \
         {                                                \
             traceISR_EXIT_TO_SCHEDULER();                \
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET; \
         }                                                \
-        else                                             \
+        ଅନ୍ୟଥା                                             \
         {                                                \
             traceISR_EXIT();                             \
         }                                                \
-    } while( 0 )
+    } ଯେତେବେଳେ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -120,14 +120,14 @@ extern void vPortYield( void );
  */
     #define portCLEAR_INTERRUPT_MASK()    __set_BASEPRI( 0 )
 
-    extern uint32_t ulPortSetInterruptMask( void );
-    extern void vPortClearInterruptMask( uint32_t ulNewMask );
+    ବାହ୍ୟ uint32_t ulPortSetInterruptMask( ଶୂନ୍ୟ );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortClearInterruptMask( uint32_t ulNewMask );
     #define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
     #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
 
 
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortEnterCritical( ଶୂନ୍ୟ );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortExitCritical( ଶୂନ୍ୟ );
 
     #define portDISABLE_INTERRUPTS()    portSET_INTERRUPT_MASK()
     #define portENABLE_INTERRUPTS()     portCLEAR_INTERRUPT_MASK()
@@ -137,8 +137,8 @@ extern void vPortYield( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 
     #define portNOP()
 

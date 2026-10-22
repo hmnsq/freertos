@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS କିମ୍ବା
+ * IMPLIED, INCLUDING BUT ନୁହେଁ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ଏବଂ NONINFRINGEMENT. ଭିତରେ NO EVENT SHALL THE AUTHORS କିମ୍ବା
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES କିମ୍ବା OTHER LIABILITY, WHETHER
+ * ଭିତରେ AN ACTION OF CONTRACT, TORT କିମ୍ବା OTHERWISE, ARISING FROM, OUT OF କିମ୍ବା ଭିତରେ
+ * CONNECTION WITH THE SOFTWARE କିମ୍ବା THE USE କିମ୍ବା OTHER DEALINGS ଭିତରେ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -43,10 +43,10 @@
 _vTickISR:
         portSAVE_CONTEXT
 
-        call    #_xTaskIncrementTick
+        ଡାକ    #_xTaskIncrementTick
         cmp.w   #0x00, r15
                 jeq     _SkipContextSwitch
-        call    #_vTaskSwitchContext
+        ଡାକ    #_vTaskSwitchContext
 _SkipContextSwitch:
         portRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
@@ -67,7 +67,7 @@ _vPortYield::
         portSAVE_CONTEXT
 
         /* Switch to the highest priority task that is ready to run. */
-        call    #_vTaskSwitchContext
+        ଡାକ    #_vTaskSwitchContext
 
         /* Restore the context of the new task. */
         portRESTORE_CONTEXT
@@ -82,7 +82,7 @@ _xPortStartScheduler::
 
         /* Setup the hardware to generate the tick.  Interrupts are disabled
         when this function is called. */
-        call    #_prvSetupTimerInterrupt
+        ଡାକ    #_prvSetupTimerInterrupt
 
         /* Restore the context of the first task that is going to run. */
         portRESTORE_CONTEXT
@@ -99,5 +99,5 @@ _xPortStartScheduler::
 
 
 
-        END
+        ଶେଷ
 

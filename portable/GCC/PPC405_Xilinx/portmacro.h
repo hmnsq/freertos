@@ -29,11 +29,11 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#include "xexception_l.h"
+#ଅନ୍ତର୍ଭାଵ "xexception_l.h"
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -48,25 +48,25 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          ଅକ୍ଷର
+#define portFLOAT         ଦଶମିକ
+#define portDOUBLE        ଦ୍ୱିଗୁଣ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ଗଦା_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#ଅନ୍ୟଥା
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -82,25 +82,25 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Critical section macros. */
-void vTaskEnterCritical( void );
-void vTaskExitCritical( void );
+ଶୂନ୍ୟ vTaskEnterCritical( ଶୂନ୍ୟ );
+ଶୂନ୍ୟ vTaskExitCritical( ଶୂନ୍ୟ );
 #define portENTER_CRITICAL()    vTaskEnterCritical()
 #define portEXIT_CRITICAL()     vTaskExitCritical()
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void );
-#define portYIELD()             asm volatile ( "SC \n\t NOP" )
+ଶୂନ୍ୟ vPortYield( ଶୂନ୍ୟ );
+#define portYIELD()             asm ଅସ୍ଥିର ( "SC \n\t NOP" )
 #define portYIELD_FROM_ISR()    vTaskSwitchContext()
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    8
-#define portSTACK_GROWTH      ( -1 )
+#define port_ଗଦା_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    asm volatile ( "NOP" )
+#define portNOP()    asm ଅସ୍ଥିର ( "NOP" )
 
 /* There are 32 * 32bit floating point registers, plus the FPSCR to save. */
 #define portNO_FLOP_REGISTERS_TO_SAVE    ( 32 + 1 )
@@ -108,14 +108,14 @@ void vPortYield( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 
 /* Port specific interrupt handling functions. */
-void vPortSetupInterruptController( void );
+ଶୂନ୍ୟ vPortSetupInterruptController( ଶୂନ୍ୟ );
 BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef );
+                                         ଶୂନ୍ୟ * pvCallBackRef );
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

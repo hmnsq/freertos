@@ -29,11 +29,11 @@
 /* GCC/HCS12 port by Jefferson L Smith, 2005 */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ଅନ୍ତର୍ଭାଵ "FreeRTOS.h"
+#ଅନ୍ତର୍ଭାଵ "task.h"
 
 /* Port includes */
-#include <sys/ports_def.h>
+#ଅନ୍ତର୍ଭାଵ <sys/ports_def.h>
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the HCS12 port.
@@ -44,7 +44,7 @@
  * Configure a timer to generate the RTOS tick at the frequency specified
  * within FreeRTOSConfig.h.
  */
-static void prvSetupTimerInterrupt( void );
+ସ୍ଥିର ଶୂନ୍ୟ prvSetupTimerInterrupt( ଶୂନ୍ୟ );
 
 /* NOTE: Interrupt service routines must be in non-banked memory - as does the
  * scheduler startup function. */
@@ -52,14 +52,14 @@ static void prvSetupTimerInterrupt( void );
 
 /* Manual context switch function.  This is the SWI ISR. */
 /* __attribute__((interrupt)) */
-void ATTR_NEAR vPortYield( void );
+ଶୂନ୍ୟ ATTR_NEAR vPortYield( ଶୂନ୍ୟ );
 
 /* Tick context switch function.  This is the timer ISR. */
 /* __attribute__((interrupt)) */
-void ATTR_NEAR vPortTickInterrupt( void );
+ଶୂନ୍ୟ ATTR_NEAR vPortTickInterrupt( ଶୂନ୍ୟ );
 
 /* Function in non-banked memory which actually switches to first task. */
-BaseType_t ATTR_NEAR xStartSchedulerNear( void );
+BaseType_t ATTR_NEAR xStartSchedulerNear( ଶୂନ୍ୟ );
 
 /* Calls to portENTER_CRITICAL() can be nested.  When they are nested the
  * critical section should not be left (i.e. interrupts should not be re-enabled)
@@ -67,16 +67,16 @@ BaseType_t ATTR_NEAR xStartSchedulerNear( void );
  * depth.  Each task maintains its own critical nesting depth variable so
  * uxCriticalNesting is saved and restored from the task stack during a context
  * switch. */
-volatile UBaseType_t uxCriticalNesting = 0x80; /* un-initialized */
+ଅସ୍ଥିର UBaseType_t uxCriticalNesting = 0x80; /* un-initialized */
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ଗଦା_Type_t * px_Port_Initialise_ଗଦା( ଗଦା_Type_t * px_ଶୀର୍ଷ_Of_ଗଦା,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ଶୂନ୍ୟ * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro.  In this case the stack as
@@ -84,28 +84,28 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
 
     /* The address of the task function is placed in the stack byte at a time. */
-    *pxTopOfStack = ( StackType_t ) *( ( ( StackType_t * ) ( &pxCode ) ) + 1 );
-    *--pxTopOfStack = ( StackType_t ) *( ( ( StackType_t * ) ( &pxCode ) ) + 0 );
+    *px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) *( ( ( ଗଦା_Type_t * ) ( &pxCode ) ) + 1 );
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) *( ( ( ଗଦା_Type_t * ) ( &pxCode ) ) + 0 );
 
     /* Next are all the registers that form part of the task context. */
 
     /* Y register */
-    *--pxTopOfStack = ( StackType_t ) 0xff;
-    *--pxTopOfStack = ( StackType_t ) 0xee;
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) 0xff;
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) 0xee;
 
     /* X register */
-    *--pxTopOfStack = ( StackType_t ) 0xdd;
-    *--pxTopOfStack = ( StackType_t ) 0xcc;
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) 0xdd;
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) 0xcc;
 
     /* A register contains parameter high byte. */
-    *--pxTopOfStack = ( StackType_t ) *( ( ( StackType_t * ) ( &pvParameters ) ) + 0 );
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) *( ( ( ଗଦା_Type_t * ) ( &pvParameters ) ) + 0 );
 
     /* B register contains parameter low byte. */
-    *--pxTopOfStack = ( StackType_t ) *( ( ( StackType_t * ) ( &pvParameters ) ) + 1 );
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) *( ( ( ଗଦା_Type_t * ) ( &pvParameters ) ) + 1 );
 
     /* CCR: Note that when the task starts interrupts will be enabled since
      * "I" bit of CCR is cleared */
-    *--pxTopOfStack = ( StackType_t ) 0x80; /* keeps Stop disabled (MCU default) */
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) 0x80; /* keeps Stop disabled (MCU default) */
 
     /* tmp softregs used by GCC. Values right now don't matter. */
     __asm( "\n\
@@ -115,29 +115,29 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         movw _.xy, 2,-%0                            \n\
         ;movw _.d2, 2,-%0                           \n\
         ;movw _.d1, 2,-%0                           \n\
-    " : "=A" ( pxTopOfStack ) : "0" ( pxTopOfStack ) );
+    " : "=A" ( pxTopOfStack ) : "0" ( px_ଶୀର୍ଷ_Of_ଗଦା ) );
 
     #ifdef BANKED_MODEL
         /* The page of the task. */
-        *--pxTopOfStack = 0x30; /* can only directly start in PPAGE 0x30 */
+        *--px_ଶୀର୍ଷ_Of_ଗଦା = 0x30; /* can only directly start in PPAGE 0x30 */
     #endif
 
     /* The critical nesting depth is initialised with 0 (meaning not in
      * a critical section). */
-    *--pxTopOfStack = ( StackType_t ) 0x00;
+    *--px_ଶୀର୍ଷ_Of_ଗଦା = ( ଗଦା_Type_t ) 0x00;
 
 
-    return pxTopOfStack;
+    ଫେରନ୍ତୁ px_ଶୀର୍ଷ_Of_ଗଦା;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ଶୂନ୍ୟ vPortEndScheduler( ଶୂନ୍ୟ )
 {
     /* It is unlikely that the HCS12 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ସ୍ଥିର ଶୂନ୍ୟ prvSetupTimerInterrupt( ଶୂନ୍ୟ )
 {
     /* Enable hardware RTI timer */
     /* Ignores configTICK_RATE_HZ */
@@ -146,7 +146,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ଶୂନ୍ୟ )
 {
     /* xPortStartScheduler() does not start the scheduler directly because
      * the header file containing the xPortStartScheduler() prototype is part
@@ -154,14 +154,14 @@ BaseType_t xPortStartScheduler( void )
      * Instead it simply calls the locally defined xNearStartScheduler() -
      * which does use the CODE_SEG pragma. */
 
-    int16_t register d;
+    int16_t ପଞ୍ଜିକରଣ d;
 
     __asm( "jmp  xStartSchedulerNear        ; will never return" : "=d" ( d ) );
-    return d;
+    ଫେରନ୍ତୁ d;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xStartSchedulerNear( void )
+BaseType_t xStartSchedulerNear( ଶୂନ୍ୟ )
 {
     /* Configure the timer that will generate the RTOS tick.  Interrupts are
      * disabled when this function is called. */
@@ -173,7 +173,7 @@ BaseType_t xStartSchedulerNear( void )
     portISR_TAIL();
 
     /* Should not get here! */
-    return pdFALSE;
+    ଫେରନ୍ତୁ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -185,7 +185,7 @@ BaseType_t xStartSchedulerNear( void )
  * Manual context switch forced by calling portYIELD().  This is the SWI
  * handler.
  */
-void vPortYield( void )
+ଶୂନ୍ୟ vPortYield( ଶୂନ୍ୟ )
 {
     portISR_HEAD();
 
@@ -206,20 +206,20 @@ void vPortYield( void )
  * being used then this simply increments the tick count.  If the
  * preemptive scheduler is being used a context switch can occur.
  */
-void vPortTickInterrupt( void )
+ଶୂନ୍ୟ vPortTickInterrupt( ଶୂନ୍ୟ )
 {
     portISR_HEAD();
 
     /* Clear tick timer flag */
     CRGFLG = 0x80;
 
-    #if configUSE_PREEMPTION == 1
+    #ଯଦି configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        ଯଦି( xTaskIncrementTick() != pdFALSE )
         {
             /* A context switch is necessary. */
             vTaskSwitchContext();
@@ -229,7 +229,7 @@ void vPortTickInterrupt( void )
          * to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else /* if configUSE_PREEMPTION == 1 */
+    #ଅନ୍ୟଥା /* if configUSE_PREEMPTION == 1 */
     {
         xTaskIncrementTick();
     }

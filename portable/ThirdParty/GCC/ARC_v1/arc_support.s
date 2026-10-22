@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS କିମ୍ବା
+ * IMPLIED, INCLUDING BUT ନୁହେଁ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ଏବଂ NONINFRINGEMENT. ଭିତରେ NO EVENT SHALL THE AUTHORS କିମ୍ବା
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES କିମ୍ବା OTHER LIABILITY, WHETHER
+ * ଭିତରେ AN ACTION OF CONTRACT, TORT କିମ୍ବା OTHERWISE, ARISING FROM, OUT OF କିମ୍ବା ଭିତରେ
+ * CONNECTION WITH THE SOFTWARE କିମ୍ବା THE USE କିମ୍ବା OTHER DEALINGS ଭିତରେ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  */
     .text
     .align 4
-    .global dispatch
+    .ଵୈଶ୍ଵିକ dispatch
 dispatch:
 /*
  *  the pre-conditions of this routine are task context, CPU is
@@ -67,7 +67,7 @@ dispatch_r:
 /*
  *  start dispatch
  */
-    .global start_dispatch
+    .ଵୈଶ୍ଵିକ start_dispatch
     .align 4
 start_dispatch:
 /*
@@ -120,7 +120,7 @@ dispatcher_0:
  *
  */
     .text
-    .global start_r
+    .ଵୈଶ୍ଵିକ start_r
     .align 4
 start_r:
     seti    /* unlock cpu */
@@ -131,7 +131,7 @@ start_r:
 
 /****** exceptions and interrupts handing ******/
 /****** entry for exception handling ******/
-    .global exc_entry_cpu
+    .ଵୈଶ୍ଵିକ exc_entry_cpu
     .align 4
 exc_entry_cpu:
 
@@ -219,7 +219,7 @@ ret_exc_r:
 #endif
 
 /****** entry for normal interrupt exception handling ******/
-    .global exc_entry_int   /* entry for interrupt handling */
+    .ଵୈଶ୍ଵିକ exc_entry_int   /* entry for interrupt handling */
     .align 4
 exc_entry_int:
 

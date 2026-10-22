@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,31 +47,31 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          ଅକ୍ଷର
+#define portFLOAT         ଦଶମିକ
+#define portDOUBLE        ଦ୍ୱିଗୁଣ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ଗଦା_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#ଅନ୍ୟଥା
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_ଗଦା_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 #define portYIELD()    asm ( "SWI 0" )
@@ -79,10 +79,10 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-__arm __interwork void vPortDisableInterruptsFromThumb( void );
-__arm __interwork void vPortEnableInterruptsFromThumb( void );
-__arm __interwork void vPortEnterCritical( void );
-__arm __interwork void vPortExitCritical( void );
+__arm __interwork ଶୂନ୍ୟ vPortDisableInterruptsFromThumb( ଶୂନ୍ୟ );
+__arm __interwork ଶୂନ୍ୟ vPortEnableInterruptsFromThumb( ଶୂନ୍ୟ );
+__arm __interwork ଶୂନ୍ୟ vPortEnterCritical( ଶୂନ୍ୟ );
+__arm __interwork ଶୂନ୍ୟ vPortExitCritical( ଶୂନ୍ୟ );
 
 #define portDISABLE_INTERRUPTS()    __disable_interrupt()
 #define portENABLE_INTERRUPTS()     __enable_interrupt()
@@ -93,14 +93,14 @@ __arm __interwork void vPortExitCritical( void );
 /* Task utilities. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern void vTaskSwitchContext( void );  \
+        ବାହ୍ୟ ଶୂନ୍ୟ vTaskSwitchContext( ଶୂନ୍ୟ );  \
                                                  \
-        if( xSwitchRequired )                    \
+        ଯଦି( xSwitchRequired )                    \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        ଅନ୍ୟଥା                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
@@ -109,8 +109,8 @@ __arm __interwork void vPortExitCritical( void );
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

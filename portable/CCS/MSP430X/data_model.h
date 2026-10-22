@@ -26,24 +26,24 @@
 ; *
 ; */
 
-    .if $DEFINED( __LARGE_DATA_MODEL__ )
+    .ଯଦି $DEFINED( __LARGE_DATA_MODEL__ )
         .define "pushm.a", pushm_x
         .define "popm.a", popm_x
-        .define "push.a", push_x
-        .define "pop.a", pop_x
+        .define "push.a", ଠେଲ_x
+        .define "pop.a", କାଢ଼_x
         .define "mov.a", mov_x
-    .else
+    .ଅନ୍ୟଥା
         .define "pushm.w", pushm_x
         .define "popm.w", popm_x
-        .define "push.w", push_x
-        .define "pop.w", pop_x
+        .define "push.w", ଠେଲ_x
+        .define "pop.w", କାଢ଼_x
         .define "mov.w", mov_x
     .endif
 
-    .if $DEFINED( __LARGE_CODE_MODEL__ )
+    .ଯଦି $DEFINED( __LARGE_CODE_MODEL__ )
         .define "calla", call_x
         .define "reta", ret_x
-    .else
+    .ଅନ୍ୟଥା
         .define "call", call_x
         .define "ret", ret_x
     .endif

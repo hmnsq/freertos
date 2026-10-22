@@ -31,11 +31,11 @@
 
     .include data_model.h
 
-    .global xTaskIncrementTick
-    .global vTaskSwitchContext
-    .global vPortSetupTimerInterrupt
-    .global pxCurrentTCB
-    .global usCriticalNesting
+    .ଵୈଶ୍ଵିକ xTaskIncrementTick
+    .ଵୈଶ୍ଵିକ vTaskSwitchContext
+    .ଵୈଶ୍ଵିକ vPortSetupTimerInterrupt
+    .ଵୈଶ୍ଵିକ pxCurrentTCB
+    .ଵୈଶ୍ଵିକ usCriticalNesting
 
     .def vPortPreemptiveTickISR
     .def vPortCooperativeTickISR

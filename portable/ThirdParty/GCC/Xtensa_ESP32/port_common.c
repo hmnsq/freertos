@@ -4,35 +4,35 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <string.h>
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portmacro.h"
-#include "esp_system.h"
-#include "esp_heap_caps_init.h"
-#include "esp_int_wdt.h"
-#include "esp_task_wdt.h"
-#include "esp_task.h"
-#include "esp_private/crosscore_int.h"
-#include "esp_private/startup_internal.h" /* Required by g_spiram_ok. [refactor-todo] for g_spiram_ok */
-#include "esp_log.h"
-#include "soc/soc_memory_types.h"
-#include "soc/dport_access.h"
-#include "sdkconfig.h"
-#include "esp_freertos_hooks.h"
+#ଅନ୍ତର୍ଭାଵ <string.h>
+#ଅନ୍ତର୍ଭାଵ "FreeRTOS.h"
+#ଅନ୍ତର୍ଭାଵ "task.h"
+#ଅନ୍ତର୍ଭାଵ "portmacro.h"
+#ଅନ୍ତର୍ଭାଵ "esp_system.h"
+#ଅନ୍ତର୍ଭାଵ "esp_heap_caps_init.h"
+#ଅନ୍ତର୍ଭାଵ "esp_int_wdt.h"
+#ଅନ୍ତର୍ଭାଵ "esp_task_wdt.h"
+#ଅନ୍ତର୍ଭାଵ "esp_task.h"
+#ଅନ୍ତର୍ଭାଵ "esp_private/crosscore_int.h"
+#ଅନ୍ତର୍ଭାଵ "esp_private/startup_internal.h" /* Required by g_spiram_ok. [refactor-todo] for g_spiram_ok */
+#ଅନ୍ତର୍ଭାଵ "esp_log.h"
+#ଅନ୍ତର୍ଭାଵ "soc/soc_memory_types.h"
+#ଅନ୍ତର୍ଭାଵ "soc/dport_access.h"
+#ଅନ୍ତର୍ଭାଵ "sdkconfig.h"
+#ଅନ୍ତର୍ଭାଵ "esp_freertos_hooks.h"
 
-#if CONFIG_IDF_TARGET_ESP32
-    #include "esp32/spiram.h"
-#elif CONFIG_IDF_TARGET_ESP32S2
-    #include "esp32s2/spiram.h"
-#elif CONFIG_IDF_TARGET_ESP32S3
-    #include "esp32s3/spiram.h"
-#elif CONFIG_IDF_TARGET_ESP32C3 || CONFIG_IDF_TARGET_ESP32H2
+#ଯଦି CONFIG_IDF_TARGET_ESP32
+    #ଅନ୍ତର୍ଭାଵ "esp32/spiram.h"
+#ନଚେତଯଦି CONFIG_IDF_TARGET_ESP32S2
+    #ଅନ୍ତର୍ଭାଵ "esp32s2/spiram.h"
+#ନଚେତଯଦି CONFIG_IDF_TARGET_ESP32S3
+    #ଅନ୍ତର୍ଭାଵ "esp32s3/spiram.h"
+#ନଚେତଯଦି CONFIG_IDF_TARGET_ESP32C3 || CONFIG_IDF_TARGET_ESP32H2
 /* SPIRAM is not supported on ESP32-C3 */
 #endif
 
-#if CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
-    static const char * TAG = "cpu_start";
+#ଯଦି CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
+    ସ୍ଥିର ଅଚଳ ଅକ୍ଷର * TAG = "cpu_start";
 #endif
 
 /* Architecture-agnostic parts of the FreeRTOS ESP-IDF port layer can go here.
@@ -42,28 +42,28 @@
  */
 
 /* Duplicate of inaccessible xSchedulerRunning; needed at startup to avoid counting nesting */
-volatile unsigned port_xSchedulerRunning[ portNUM_PROCESSORS ] = { 0 };
+ଅସ୍ଥିର unsigned port_xSchedulerRunning[ port_ଅଙ୍କ_PROCESSORS ] = { 0 };
 
 /* For now, running FreeRTOS on one core and a bare metal on the other (or other OSes) */
 /* is not supported. For now CONFIG_FREERTOS_UNICORE and CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE */
 /* should mirror each other's values. */
 /* */
 /* And since this should be true, we can just check for CONFIG_FREERTOS_UNICORE. */
-#if CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
+#ଯଦି CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
     #error "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
 #endif
 
-static void main_task( void * args );
+ସ୍ଥିର ଶୂନ୍ୟ main_task( ଶୂନ୍ୟ * args );
 
 #ifdef CONFIG_ESP_SYSTEM_GDBSTUB_RUNTIME
-    void esp_gdbstub_init( void );
+    ଶୂନ୍ୟ esp_gdbstub_init( ଶୂନ୍ୟ );
 #endif // CONFIG_ESP_SYSTEM_GDBSTUB_RUNTIME
 
-extern void app_main( void );
+ବାହ୍ୟ ଶୂନ୍ୟ app_main( ଶୂନ୍ୟ );
 
-void esp_startup_start_app_common( void )
+ଶୂନ୍ୟ esp_startup_start_app_common( ଶୂନ୍ୟ )
 {
-    #if CONFIG_ESP_INT_WDT
+    #ଯଦି CONFIG_ESP_INT_WDT
         esp_int_wdt_init();
         /*Initialize the interrupt watch dog for CPU0. */
         esp_int_wdt_cpu_init();
@@ -76,43 +76,43 @@ void esp_startup_start_app_common( void )
     #endif // CONFIG_ESP_SYSTEM_GDBSTUB_RUNTIME
 
     portBASE_TYPE res = xTaskCreatePinnedToCore( &main_task, "main",
-                                                 ESP_TASK_MAIN_STACK, NULL,
-                                                 ESP_TASK_MAIN_PRIO, NULL, ESP_TASK_MAIN_CORE );
-    assert( res == pdTRUE );
-    ( void ) res;
+                                                 ESP_TASK_MAIN_ଗଦା, ଖାଲି,
+                                                 ESP_TASK_MAIN_PRIO, ଖାଲି, ESP_TASK_MAIN_CORE );
+    ପ୍ରତିଜ୍ଞା( res == pdTRUE );
+    ( ଶୂନ୍ୟ ) res;
 }
 
-#if !CONFIG_FREERTOS_UNICORE
-    static volatile bool s_other_cpu_startup_done = false;
-    static bool other_cpu_startup_idle_hook_cb( void )
+#ଯଦି !CONFIG_FREERTOS_UNICORE
+    ସ୍ଥିର ଅସ୍ଥିର bool s_other_cpu_startup_done = false;
+    ସ୍ଥିର bool other_cpu_startup_idle_hook_cb( ଶୂନ୍ୟ )
     {
         s_other_cpu_startup_done = true;
-        return true;
+        ଫେରନ୍ତୁ true;
     }
 #endif
 
-static void main_task( void * args )
+ସ୍ଥିର ଶୂନ୍ୟ main_task( ଶୂନ୍ୟ * args )
 {
-    #if !CONFIG_FREERTOS_UNICORE
+    #ଯଦି !CONFIG_FREERTOS_UNICORE
         /* Wait for FreeRTOS initialization to finish on other core, before replacing its startup stack */
         esp_register_freertos_idle_hook_for_cpu( other_cpu_startup_idle_hook_cb, !xPortGetCoreID() );
 
-        while( !s_other_cpu_startup_done )
+        ଯେତେବେଳେ( !s_other_cpu_startup_done )
         {
         }
         esp_deregister_freertos_idle_hook_for_cpu( other_cpu_startup_idle_hook_cb, !xPortGetCoreID() );
     #endif
 
     /* [refactor-todo] check if there is a way to move the following block to esp_system startup */
-    heap_caps_enable_nonos_stack_heaps();
+    heap_caps_enable_nonos_ଗଦା_heaps();
 
     /* Now we have startup stack RAM available for heap, enable any DMA pool memory */
-    #if CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
-        if( g_spiram_ok )
+    #ଯଦି CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
+        ଯଦି( g_spiram_ok )
         {
             esp_err_t r = esp_spiram_reserve_dma_pool( CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL );
 
-            if( r != ESP_OK )
+            ଯଦି( r != ESP_OK )
             {
                 ESP_EARLY_LOGE( TAG, "Could not reserve internal/DMA pool (error 0x%x)", r );
                 abort();
@@ -123,7 +123,7 @@ static void main_task( void * args )
     /*Initialize task wdt if configured to do so */
     #ifdef CONFIG_ESP_TASK_WDT_PANIC
         ESP_ERROR_CHECK( esp_task_wdt_init( CONFIG_ESP_TASK_WDT_TIMEOUT_S, true ) );
-    #elif CONFIG_ESP_TASK_WDT
+    #ନଚେତଯଦି CONFIG_ESP_TASK_WDT
         ESP_ERROR_CHECK( esp_task_wdt_init( CONFIG_ESP_TASK_WDT_TIMEOUT_S, false ) );
     #endif
 
@@ -131,7 +131,7 @@ static void main_task( void * args )
     #ifdef CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0
         TaskHandle_t idle_0 = xTaskGetIdleTaskHandleForCPU( 0 );
 
-        if( idle_0 != NULL )
+        ଯଦି( idle_0 != ଖାଲି )
         {
             ESP_ERROR_CHECK( esp_task_wdt_add( idle_0 ) );
         }
@@ -140,28 +140,28 @@ static void main_task( void * args )
     #ifdef CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1
         TaskHandle_t idle_1 = xTaskGetIdleTaskHandleForCPU( 1 );
 
-        if( idle_1 != NULL )
+        ଯଦି( idle_1 != ଖାଲି )
         {
             ESP_ERROR_CHECK( esp_task_wdt_add( idle_1 ) );
         }
     #endif
 
     app_main();
-    vTaskDelete( NULL );
+    vTaskDelete( ଖାଲି );
 }
 
 /* -------------------- Heap Related ----------------------- */
 
-bool xPortCheckValidTCBMem( const void * ptr )
+bool xPortCheckValidTCBMem( ଅଚଳ ଶୂନ୍ୟ * ptr )
 {
-    return esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
+    ଫେରନ୍ତୁ esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
 }
 
-bool xPortcheckValidStackMem( const void * ptr )
+bool x_Portcheck_Valid_ଗଦା_Mem( ଅଚଳ ଶୂନ୍ୟ * ptr )
 {
-    #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
-        return esp_ptr_byte_accessible( ptr );
-    #else
-        return esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
+    #ifdef CONFIG_SPIRAM_ALLOW_ଗଦା_EXTERNAL_MEMORY
+        ଫେରନ୍ତୁ esp_ptr_byte_accessible( ptr );
+    #ଅନ୍ୟଥା
+        ଫେରନ୍ତୁ esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
     #endif
 }

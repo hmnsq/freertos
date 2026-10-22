@@ -54,7 +54,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -69,35 +69,35 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          ଅକ୍ଷର
+#define portFLOAT         ଦଶମିକ
+#define portDOUBLE        ଦ୍ୱିଗୁଣ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ଗଦା_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#ଅନ୍ୟଥା
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_ଗଦା_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
-#define portYIELD()    asm volatile ( "SWI 0" )
-#define portNOP()      asm volatile ( "NOP" )
+#define portYIELD()    asm ଅସ୍ଥିର ( "SWI 0" )
+#define portNOP()      asm ଅସ୍ଥିର ( "NOP" )
 
 /*
  * These define the timer to use for generating the tick interrupt.
@@ -120,11 +120,11 @@ typedef unsigned long    UBaseType_t;
 
 #define portRESTORE_CONTEXT()                                                 \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        ବାହ୍ୟ ଅସ୍ଥିର ଶୂନ୍ୟ * ଅସ୍ଥିର pxCurrentTCB;                         \
+        ବାହ୍ୟ ଅସ୍ଥିର uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Set the LR to the task stack. */                                   \
-        asm volatile (                                                        \
+        asm ଅସ୍ଥିର (                                                        \
             "LDR        R0, =pxCurrentTCB                               \n\t" \
             "LDR        R0, [R0]                                        \n\t" \
             "LDR        LR, [R0]                                        \n\t" \
@@ -150,18 +150,18 @@ typedef unsigned long    UBaseType_t;
             /* correct address. */                                            \
             "SUBS   PC, LR, #4                                          \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( ଶୂନ୍ୟ ) ulCriticalNesting;                                           \
+        ( ଶୂନ୍ୟ ) pxCurrentTCB;                                                \
     }
 /*-----------------------------------------------------------*/
 
 #define portSAVE_CONTEXT()                                                    \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        ବାହ୍ୟ ଅସ୍ଥିର ଶୂନ୍ୟ * ଅସ୍ଥିର pxCurrentTCB;                         \
+        ବାହ୍ୟ ଅସ୍ଥିର uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Push R0 as we are going to use the register. */                    \
-        asm volatile (                                                        \
+        asm ଅସ୍ଥିର (                                                        \
             "STMDB  SP!, {R0}                                           \n\t" \
                                                                               \
             /* Set R0 to point to the task stack pointer. */                  \
@@ -197,8 +197,8 @@ typedef unsigned long    UBaseType_t;
             "LDR    R0, [R0]                                            \n\t" \
             "STR    LR, [R0]                                            \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( ଶୂନ୍ୟ ) ulCriticalNesting;                                           \
+        ( ଶୂନ୍ୟ ) pxCurrentTCB;                                                \
     }
 
 #define portYIELD_FROM_ISR()    vTaskSwitchContext()
@@ -214,16 +214,16 @@ typedef unsigned long    UBaseType_t;
 
 #ifdef THUMB_INTERWORK
 
-    extern void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    extern void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortDisableInterruptsFromThumb( ଶୂନ୍ୟ ) __attribute__( ( naked ) );
+    ବାହ୍ୟ ଶୂନ୍ୟ vPortEnableInterruptsFromThumb( ଶୂନ୍ୟ ) __attribute__( ( naked ) );
 
     #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
     #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
 
-#else
+#ଅନ୍ୟଥା
 
     #define portDISABLE_INTERRUPTS()                                       \
-    asm volatile (                                                         \
+    asm ଅସ୍ଥିର (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
@@ -231,7 +231,7 @@ typedef unsigned long    UBaseType_t;
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
     #define portENABLE_INTERRUPTS()                                        \
-    asm volatile (                                                         \
+    asm ଅସ୍ଥିର (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
@@ -240,8 +240,8 @@ typedef unsigned long    UBaseType_t;
 
 #endif /* THUMB_INTERWORK */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+ବାହ୍ୟ ଶୂନ୍ୟ vPortEnterCritical( ଶୂନ୍ୟ );
+ବାହ୍ୟ ଶୂନ୍ୟ vPortExitCritical( ଶୂନ୍ୟ );
 
 #define portENTER_CRITICAL()    vPortEnterCritical();
 #define portEXIT_CRITICAL()     vPortExitCritical();
@@ -249,8 +249,8 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

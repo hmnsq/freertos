@@ -28,17 +28,17 @@
 
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
-#include "embARC.h"
+#ଅନ୍ତର୍ଭାଵ "embARC.h"
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
+#ifndef config_RECORD_ଗଦା_ଉପର_ADDRESS
+    #define config_RECORD_ଗଦା_ଉପର_ADDRESS    1
 #endif
 
 /*-----------------------------------------------------------
@@ -52,23 +52,23 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          ଅକ୍ଷର
+#define portFLOAT         ଦଶମିକ
+#define portDOUBLE        ଦ୍ୱିଗୁଣ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
+#define port_ଗଦା_TYPE    unsigned ପୂର୍ଣ୍ଣସଂଖ୍ୟା
 #define portBASE_TYPE     portLONG
 
 #ifndef Asm
-    #define Asm           __asm__ volatile
+    #define Asm           __asm__ ଅସ୍ଥିର
 #endif
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
+#ifndef ଖାଲି
+    #define ଖାଲି    0           /* invalid pointer */
 #endif /* NULL */
 
 #ifndef true
@@ -79,22 +79,22 @@
     #define false    0          /* false */
 #endif /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#ଅନ୍ୟଥା
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
+#define port_ଗଦା_GROWTH           ( -1 )
 #define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT         8
 #define portNOP()               Asm( "nop_s" );
@@ -114,7 +114,7 @@ typedef unsigned long    UBaseType_t;
         arc_unlock();           \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+ବାହ୍ୟ ଅସ୍ଥିର unsigned ପୂର୍ଣ୍ଣସଂଖ୍ୟା ulCriticalNesting;
 
 #define portENTER_CRITICAL()     \
     {                            \
@@ -125,10 +125,10 @@ extern volatile unsigned int ulCriticalNesting;
 
 #define portEXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        ଯଦି( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            ଯଦି( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
             {                                                  \
                 portENABLE_INTERRUPTS()                        \
             }                                                  \
@@ -136,14 +136,14 @@ extern volatile unsigned int ulCriticalNesting;
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              କର {} ଯେତେବେଳେ( 0 )     /* we use the timer */
+#define port_ALT_GET_RUN_TIME_COUNTER_ମୂଲ୍ୟ( dest )            ( dest = x_Tick_ଗଣନା )
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+ଶୂନ୍ୟ vPortYield( ଶୂନ୍ୟ );
+ଶୂନ୍ୟ vPortYieldFromIsr( ଶୂନ୍ୟ );
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

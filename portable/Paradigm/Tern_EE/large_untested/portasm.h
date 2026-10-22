@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ଶୂନ୍ୟ TCB_t;
+ବାହ୍ୟ ଅସ୍ଥିର TCB_t * ଅସ୍ଥିର pxCurrentTCB;
+ବାହ୍ୟ ଶୂନ୍ୟ vTaskSwitchContext( ଶୂନ୍ୟ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+ଶୂନ୍ୟ portSWITCH_CONTEXT( ଶୂନ୍ୟ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+ଶୂନ୍ୟ portFIRST_CONTEXT( ଶୂନ୍ୟ );
 
 #define portSWITCH_CONTEXT()                                         \
                         asm { mov   ax, seg pxCurrentTCB        } \
@@ -63,13 +63,13 @@ void portFIRST_CONTEXT( void );
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { କାଢ଼   bp                          }   \
+                            asm { କାଢ଼   di                          }   \
+                            asm { କାଢ଼   si                          }   \
+                            asm { କାଢ଼   ds                          }   \
+                            asm { କାଢ଼   es                          }   \
+                            asm { କାଢ଼   dx                          }   \
+                            asm { କାଢ଼   cx                          }   \
+                            asm { କାଢ଼   bx                          }   \
+                            asm { କାଢ଼   ax                          }   \
                             asm { iret                              }

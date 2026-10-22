@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS କିମ୍ବା
+ * IMPLIED, INCLUDING BUT ନୁହେଁ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ଏବଂ NONINFRINGEMENT. ଭିତରେ NO EVENT SHALL THE AUTHORS କିମ୍ବା
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES କିମ୍ବା OTHER LIABILITY, WHETHER
+ * ଭିତରେ AN ACTION OF CONTRACT, TORT କିମ୍ବା OTHERWISE, ARISING FROM, OUT OF କିମ୍ବା ଭିତରେ
+ * CONNECTION WITH THE SOFTWARE କିମ୍ବା THE USE କିମ୍ବା OTHER DEALINGS ଭିତରେ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -29,9 +29,9 @@
 #include "FreeRTOSConfig.h"
 #include "ISR_Support.h"
 
-    .global    _vPortYield
-    .global    _vPortStartFirstTask
-    .global    _vPortTickISR
+    .ଵୈଶ୍ଵିକ    _vPortYield
+    .ଵୈଶ୍ଵିକ    _vPortStartFirstTask
+    .ଵୈଶ୍ଵିକ    _vPortTickISR
 
     .extern    _vTaskSwitchContext
     .extern    _xTaskIncrementTick
@@ -45,7 +45,7 @@ _vPortYield:
     /* Save the context of the current task. */
     portSAVE_CONTEXT
     /* Call the scheduler to select the next task. */
-    call      !!_vTaskSwitchContext
+    ଡାକ      !!_vTaskSwitchContext
     /* Restore the context of the next task to run. */
     portRESTORE_CONTEXT
     retb
@@ -68,10 +68,10 @@ _vPortTickISR:
     /* Save the context of the currently executing task. */
     portSAVE_CONTEXT
     /* Call the RTOS tick function. */
-    call      !!_xTaskIncrementTick
+    ଡାକ      !!_xTaskIncrementTick
 #if configUSE_PREEMPTION == 1
     /* Select the next task to run. */
-    call      !!_vTaskSwitchContext
+    ଡାକ      !!_vTaskSwitchContext
 #endif
     /* Retore the context of whichever task will run next. */
     portRESTORE_CONTEXT

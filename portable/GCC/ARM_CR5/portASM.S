@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS କିମ୍ବା
+ * IMPLIED, INCLUDING BUT ନୁହେଁ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ଏବଂ NONINFRINGEMENT. ଭିତରେ NO EVENT SHALL THE AUTHORS କିମ୍ବା
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES କିମ୍ବା OTHER LIABILITY, WHETHER
+ * ଭିତରେ AN ACTION OF CONTRACT, TORT କିମ୍ବା OTHERWISE, ARISING FROM, OUT OF କିମ୍ବା ଭିତରେ
+ * CONNECTION WITH THE SOFTWARE କିମ୍ବା THE USE କିମ୍ବା OTHER DEALINGS ଭିତରେ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -50,9 +50,9 @@
     .extern ulPortTaskHasFPUContext
 #endif /* __ARM_FP */
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SWI_Handler
-    .global vPortRestoreTaskContext
+    .ଵୈଶ୍ଵିକ FreeRTOS_IRQ_Handler
+    .ଵୈଶ୍ଵିକ FreeRTOS_SWI_Handler
+    .ଵୈଶ୍ଵିକ vPortRestoreTaskContext
 
 .macro portSAVE_CONTEXT
 
@@ -150,7 +150,7 @@ FreeRTOS_SWI_Handler:
 
     /* Ensure bit 2 of the stack pointer is clear. */
     MOV     r2, sp
-    AND     r2, r2, #4
+    ଏବଂ     r2, r2, #4
     SUB     sp, sp, r2
 
     LDR R0, vTaskSwitchContextConst
@@ -204,7 +204,7 @@ FreeRTOS_IRQ_Handler:
     future use.  _RB_ Is this ever needed provided the start of the stack is
     alligned on an 8-byte boundary? */
     MOV     r2, sp
-    AND     r2, r2, #4
+    ଏବଂ     r2, r2, #4
     SUB     sp, sp, r2
 
     /* Call the interrupt handler. */
@@ -265,7 +265,7 @@ switch_before_exit:
 
     /* Ensure bit 2 of the stack pointer is clear. */
     MOV     r2, sp
-    AND     r2, r2, #4
+    ଏବଂ     r2, r2, #4
     SUB     sp, sp, r2
 
     /* Call the function that selects the new task to execute.
@@ -288,7 +288,7 @@ switch_before_exit:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * ଡାକ vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry their IRQ handler must be called

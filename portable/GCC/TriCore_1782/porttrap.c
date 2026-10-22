@@ -27,18 +27,18 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
+#ଅନ୍ତର୍ଭାଵ "FreeRTOS.h"
 
 /* Machine includes */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
-#include <machine/cint.h>
+#ଅନ୍ତର୍ଭାଵ <tc1782.h>
+#ଅନ୍ତର୍ଭାଵ <machine/intrinsics.h>
+#ଅନ୍ତର୍ଭାଵ <machine/cint.h>
 /*---------------------------------------------------------------------------*/
 
 /*
  * This reference is required by the Save/Restore Context Macros.
  */
-extern volatile uint32_t * pxCurrentTCB;
+ବାହ୍ୟ ଅସ୍ଥିର uint32_t * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /*
@@ -84,7 +84,7 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_CM_CALL_DEPTH_OVERFLOW                                    2
 #define portTIN_CM_CALL_DEPTH_UNDEFLOW                                    3
 #define portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
-#define portTIN_CM_CALL_STACK_UNDERFLOW                                   5
+#define port_TIN_CM_CALL_ଗଦା_UNDERFLOW                                   5
 #define portTIN_CM_CONTEXT_TYPE                                           6
 #define portTIN_CM_NESTING_ERROR                                          7
 
@@ -104,179 +104,179 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vMMUTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vInternalProtectionTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vInstructionErrorTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vContextManagementTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vSystemBusAndPeripheralsTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vAssertionTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ଶୂନ୍ୟ vNonMaskableInterruptTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
-void vTrapInstallHandlers( void )
+ଶୂନ୍ୟ vTrapInstallHandlers( ଶୂନ୍ୟ )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    ଯଦି( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vMMUTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_MMU_VIRTUAL_ADDRESS_FILL:
-        case portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
-        default:
+        ସ୍ଥିତି portTIN_MMU_VIRTUAL_ADDRESS_FILL:
+        ସ୍ଥିତି portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vInternalProtectionTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_IPT_PRIVILEGED_INSTRUCTION:
+        ସ୍ଥିତି portTIN_IPT_PRIVILEGED_INSTRUCTION:
         /* Instruction is not allowed at current execution level, eg DISABLE at User-0. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_READ:
+        ସ୍ଥିତି portTIN_IPT_MEMORY_PROTECTION_READ:
         /* Load word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_WRITE:
+        ସ୍ଥିତି portTIN_IPT_MEMORY_PROTECTION_WRITE:
         /* Store Word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
+        ସ୍ଥିତି portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
         /* PC jumped to an address outside of the valid range. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
+        ସ୍ଥିତି portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
         /* Access to a peripheral denied at current execution level. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
+        ସ୍ଥିତି portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
         /* NULL Pointer. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
+        ସ୍ଥିତି portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
         /* Tried to modify a global address pointer register. */
 
-        default:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
 
             pxCurrentTCB[ 0 ] = __MFCR( $PCXI );
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vInstructionErrorTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_IE_ILLEGAL_OPCODE:
-        case portTIN_IE_UNIMPLEMENTED_OPCODE:
-        case portTIN_IE_INVALID_OPERAND:
-        case portTIN_IE_DATA_ADDRESS_ALIGNMENT:
-        case portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
-        default:
+        ସ୍ଥିତି portTIN_IE_ILLEGAL_OPCODE:
+        ସ୍ଥିତି portTIN_IE_UNIMPLEMENTED_OPCODE:
+        ସ୍ଥିତି portTIN_IE_INVALID_OPERAND:
+        ସ୍ଥିତି portTIN_IE_DATA_ADDRESS_ALIGNMENT:
+        ସ୍ଥିତି portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vContextManagementTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
-        case portTIN_CM_CALL_DEPTH_OVERFLOW:
-        case portTIN_CM_CALL_DEPTH_UNDEFLOW:
-        case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
-        case portTIN_CM_CONTEXT_TYPE:
-        case portTIN_CM_NESTING_ERROR:
-        default:
+        ସ୍ଥିତି portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
+        ସ୍ଥିତି portTIN_CM_CALL_DEPTH_OVERFLOW:
+        ସ୍ଥିତି portTIN_CM_CALL_DEPTH_UNDEFLOW:
+        ସ୍ଥିତି portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
+        ସ୍ଥିତି port_TIN_CM_CALL_ଗଦା_UNDERFLOW:
+        ସ୍ଥିତି portTIN_CM_CONTEXT_TYPE:
+        ସ୍ଥିତି portTIN_CM_NESTING_ERROR:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vSystemBusAndPeripheralsTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
-        case portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
-        default:
+        ସ୍ଥିତି portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
+        ସ୍ଥିତି portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
+        ସ୍ଥିତି portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
+        ସ୍ଥିତି portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
+        ସ୍ଥିତି portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
+        ସ୍ଥିତି portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vAssertionTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_ASSERT_ARITHMETIC_OVERFLOW:
-        case portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
-        default:
+        ସ୍ଥିତି portTIN_ASSERT_ARITHMETIC_OVERFLOW:
+        ସ୍ଥିତି portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+ଶୂନ୍ୟ vNonMaskableInterruptTrap( ପୂର୍ଣ୍ଣସଂଖ୍ୟା iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ବାଛ( iTrapIdentification )
     {
-        case portTIN_NMI_NON_MASKABLE_INTERRUPT:
-        default:
+        ସ୍ଥିତି portTIN_NMI_NON_MASKABLE_INTERRUPT:
+        ପୂର୍ବନିର୍ଦ୍ଧାରିତ:
             _debug();
-            break;
+            ଭାଙ୍ଗ;
     }
 }
 /*---------------------------------------------------------------------------*/

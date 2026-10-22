@@ -23,10 +23,10 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ଅନ୍ତର୍ଭାଵ "FreeRTOS.h"
+#ଅନ୍ତର୍ଭାଵ "task.h"
 
-extern void vPortStartTask( void );
+ବାହ୍ୟ ଶୂନ୍ୟ vPortStartTask( ଶୂନ୍ୟ );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
@@ -36,13 +36,13 @@ portLONG ulCriticalNesting = 0x9999UL;
  * and implement task switch after exit critical area */
 portLONG pendsvflag = 0;
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ଗଦା_Type_t * px_Port_Initialise_ଗଦା( ଗଦା_Type_t * px_ଶୀର୍ଷ_Of_ଗଦା,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ଶୂନ୍ୟ * pvParameters )
 {
-    StackType_t * stk = NULL;
+    ଗଦା_Type_t * stk = ଖାଲି;
 
-    stk = pxTopOfStack;
+    stk = px_ଶୀର୍ଷ_Of_ଗଦା;
 
     *( --stk ) = ( uint32_t ) pxCode;       /* Entry Point                                         */
     *( --stk ) = ( uint32_t ) 0xE0000140L;  /* PSR                                                 */
@@ -62,46 +62,46 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    ଫେରନ୍ତୁ stk;
 }
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ଶୂନ୍ୟ )
 {
     ulCriticalNesting = 0UL;
 
     vPortStartTask();
 
-    return pdFALSE;
+    ଫେରନ୍ତୁ pdFALSE;
 }
 
 
-void vPortEndScheduler( void )
+ଶୂନ୍ୟ vPortEndScheduler( ଶୂନ୍ୟ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 
-void vPortEnterCritical( void )
+ଶୂନ୍ୟ vPortEnterCritical( ଶୂନ୍ୟ )
 {
     portDISABLE_INTERRUPTS();
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+ଶୂନ୍ୟ vPortExitCritical( ଶୂନ୍ୟ )
 {
-    if( ulCriticalNesting == 0 )
+    ଯଦି( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        ଯେତେବେଳେ( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ଯଦି( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        ଯଦି( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,8 +109,8 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
-    void xPortSysTickHandler( void )
+#ଯଦି configUSE_PREEMPTION == 0
+    ଶୂନ୍ୟ xPortSysTickHandler( ଶୂନ୍ୟ )
     {
         portLONG ulDummy;
 
@@ -119,20 +119,20 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
-    void xPortSysTickHandler( void )
+#ଅନ୍ୟଥା
+    ଶୂନ୍ୟ xPortSysTickHandler( ଶୂନ୍ୟ )
     {
         portLONG ulDummy;
 
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            ଯଦି( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            ଅନ୍ୟଥା
             {
                 traceISR_EXIT();
             }
@@ -141,7 +141,7 @@ void vPortExitCritical( void )
     }
 #endif /* if configUSE_PREEMPTION == 0 */
 
-void vPortYieldHandler( void )
+ଶୂନ୍ୟ vPortYieldHandler( ଶୂନ୍ୟ )
 {
     uint32_t ulSavedInterruptMask;
 
@@ -152,17 +152,17 @@ void vPortYieldHandler( void )
     portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
 }
 
-__attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
+__attribute__( ( weak ) ) ଶୂନ୍ୟ v_Application_ଗଦା_Overflow_Hook( xTaskHandle * pxTask,
                                                               signed portCHAR * pcTaskName )
 {
-    for( ; ; )
+    ପାଇଁ( ; ; )
     {
     }
 }
 
-__attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
+__attribute__( ( weak ) ) ଶୂନ୍ୟ vApplicationMallocFailedHook( ଶୂନ୍ୟ )
 {
-    for( ; ; )
+    ପାଇଁ( ; ; )
     {
     }
 }

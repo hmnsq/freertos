@@ -16,12 +16,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS କିମ୍ବା
+ * IMPLIED, INCLUDING BUT ନୁହେଁ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ଏବଂ NONINFRINGEMENT. ଭିତରେ NO EVENT SHALL THE AUTHORS କିମ୍ବା
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES କିମ୍ବା OTHER LIABILITY, WHETHER
+ * ଭିତରେ AN ACTION OF CONTRACT, TORT କିମ୍ବା OTHERWISE, ARISING FROM, OUT OF କିମ୍ବା ଭିତରେ
+ * CONNECTION WITH THE SOFTWARE କିମ୍ବା THE USE କିମ୍ବା OTHER DEALINGS ଭିତରେ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -34,7 +34,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System ଡାକ numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -51,28 +51,28 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     #define SECURE_CONTEXT_OFFSET       0
 #endif
 
-    EXTERN pxCurrentTCB
-    EXTERN xSecureContext
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN SecureContext_SaveContext
-    EXTERN SecureContext_LoadContext
+    ବାହ୍ୟ pxCurrentTCB
+    ବାହ୍ୟ xSecureContext
+    ବାହ୍ୟ vTaskSwitchContext
+    ବାହ୍ୟ vPortSVCHandler_C
+    ବାହ୍ୟ SecureContext_SaveContext
+    ବାହ୍ୟ SecureContext_LoadContext
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    ବାହ୍ୟ vSystemCallEnter
+    ବାହ୍ୟ vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vPortAllocateSecureContext
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
-    PUBLIC vPortFreeSecureContext
+    ସର୍ବସାଧାରଣ xIsPrivileged
+    ସର୍ବସାଧାରଣ vResetPrivilege
+    ସର୍ବସାଧାରଣ vPortAllocateSecureContext
+    ସର୍ବସାଧାରଣ vRestoreContextOfFirstTask
+    ସର୍ବସାଧାରଣ vRaisePrivilege
+    ସର୍ବସାଧାରଣ vStartFirstTask
+    ସର୍ବସାଧାରଣ ulSetInterruptMask
+    ସର୍ବସାଧାରଣ vClearInterruptMask
+    ସର୍ବସାଧାରଣ PendSV_Handler
+    ସର୍ବସାଧାରଣ SVC_Handler
+    ସର୍ବସାଧାରଣ vPortFreeSecureContext
 /*-----------------------------------------------------------*/
 
 /*---------------- Unprivileged Functions -------------------*/
@@ -85,7 +85,7 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
-    tst r0, #1                              /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1                              /* Perform r0 & 1 (bitwise ଏବଂ) and update the conditions flag. */
     ite ne
     movne r0, #0                            /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1                            /* CONTROL[0]==0. Return true to indicate that the processor is not privileged. */
@@ -100,7 +100,7 @@ vResetPrivilege:
 /*-----------------------------------------------------------*/
 
 vPortAllocateSecureContext:
-    svc 100                                 /* Secure context is allocated in the supervisor call. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
+    svc 100                                 /* Secure context is allocated in the supervisor ଡାକ. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
@@ -237,7 +237,7 @@ vStartFirstTask:
     cpsie f
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System ଡାକ to start the first task. portSVC_START_SCHEDULER = 102. */
 /*-----------------------------------------------------------*/
 
 ulSetInterruptMask:
@@ -546,8 +546,8 @@ vPortFreeSecureContext:
     ldr r1, [r2, #SECURE_CONTEXT_OFFSET]    /* Read xSecureContext from the task's context. */
     cmp r1, #0                              /* Raise svc if task's xSecureContext is not NULL. */
     it ne
-    svcne 101                               /* Secure context is freed in the supervisor call. portSVC_FREE_SECURE_CONTEXT = 101. */
+    svcne 101                               /* Secure context is freed in the supervisor ଡାକ. portSVC_FREE_SECURE_CONTEXT = 101. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
-    END
+    ଶେଷ

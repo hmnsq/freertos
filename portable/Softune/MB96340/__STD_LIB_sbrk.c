@@ -36,20 +36,20 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "FreeRTOSConfig.h"
-#include <stdlib.h>
+#ଅନ୍ତର୍ଭାଵ "FreeRTOSConfig.h"
+#ଅନ୍ତର୍ଭାଵ <stdlib.h>
 
-    static  long         brk_siz  =  0;
-    typedef int          _heep_t;
-    #define ROUNDUP(s)   (((s)+sizeof(_heep_t)-1)&~(sizeof(_heep_t)-1))
-    static  _heep_t      _heep[ROUNDUP(configTOTAL_HEAP_SIZE)/sizeof(_heep_t)];
+    ସ୍ଥିର  long         brk_siz  =  0;
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା ପୂର୍ଣ୍ଣସଂଖ୍ୟା          _heep_t;
+    #define ROUNDUP(s)   (((s)+ଆକାର(_heep_t)-1)&~(ଆକାର(_heep_t)-1))
+    ସ୍ଥିର  _heep_t      _heep[ROUNDUP(configTOTAL_HEAP_SIZE)/ଆକାର(_heep_t)];
     #define              _heep_size      ROUNDUP(configTOTAL_HEAP_SIZE)
 
-    extern  char  *sbrk(int  size)
+    ବାହ୍ୟ  ଅକ୍ଷର  *sbrk(ପୂର୍ଣ୍ଣସଂଖ୍ୟା  size)
     {
-       if  (brk_siz  +  size  >  _heep_size  ||  brk_siz  +  size  <  0)
+       ଯଦି  (brk_siz  +  size  >  _heep_size  ||  brk_siz  +  size  <  0)
 
-          return((char*)-1);
+          ଫେରନ୍ତୁ((ଅକ୍ଷର*)-1);
        brk_siz  +=  size;
-       return(  (char*)_heep  +  brk_siz  -  size);
+       ଫେରନ୍ତୁ(  (ଅକ୍ଷର*)_heep  +  brk_siz  -  size);
     }

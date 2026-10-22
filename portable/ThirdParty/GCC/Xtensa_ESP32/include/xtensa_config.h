@@ -45,15 +45,15 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
-#include <xtensa/hal.h>
-#include <xtensa/config/core.h>
-#include <xtensa/config/system.h> /* required for XSHAL_CLIB */
+#ଅନ୍ତର୍ଭାଵ <xtensa/hal.h>
+#ଅନ୍ତର୍ଭାଵ <xtensa/config/core.h>
+#ଅନ୍ତର୍ଭାଵ <xtensa/config/system.h> /* required for XSHAL_CLIB */
 
-#include "xtensa_context.h"
+#ଅନ୍ତର୍ଭାଵ "xtensa_context.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -109,10 +109,10 @@
 #ifdef XT_INTEXC_HOOKS
     #ifdef __XTENSA_CALL0_ABI__
         #define STK_INTEXC_EXTRA     0x200
-    #else
+    #ଅନ୍ୟଥା
         #define STK_INTEXC_EXTRA     0x180
     #endif
-#else
+#ଅନ୍ୟଥା
     #define STK_INTEXC_EXTRA         0
 #endif
 
@@ -124,7 +124,7 @@
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
     #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_SIZE )
-#else
+#ଅନ୍ୟଥା
     #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_SIZE )
 #endif
 
@@ -138,16 +138,16 @@
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
     #define XT_USER_SIZE    0x200
-#else
+#ଅନ୍ୟଥା
     #define XT_USER_SIZE    0x400
 #endif
 
 /* Minimum recommended stack size. */
-#define XT_STACK_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / sizeof( unsigned char ) )
+#define XT_ଗଦା_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / ଆକାର( unsigned ଅକ୍ଷର ) )
 
 /* OS overhead with and without C library thread context. */
-#define XT_STACK_EXTRA         ( XT_XTRA_SIZE )
-#define XT_STACK_EXTRA_CLIB    ( XT_XTRA_SIZE + XT_CLIB_CONTEXT_AREA_SIZE )
+#define XT_ଗଦା_EXTRA         ( XT_XTRA_SIZE )
+#define XT_ଗଦା_EXTRA_CLIB    ( XT_XTRA_SIZE + XT_CLIB_CONTEXT_AREA_SIZE )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

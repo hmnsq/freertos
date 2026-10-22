@@ -41,7 +41,7 @@ kcall:
  {stw    r1,     sp[1]   /* Now save it to the stack. */
 
   /* kcall uses the same common function as interrupt callbacks. */
-  /* tell it to call _yield above. */
+  /* tell it to ଡାକ _yield above. */
   ldap   r11,    _yield}
   mov    r1,     r11
 
@@ -81,7 +81,7 @@ rtos_interrupt_callback_common:
   ldw    dp,     sp[3]   /* (Restore CP and DP required for the RTOS ISR */
   ldw    cp,     sp[4]   /* in case the active thread has modified them.) */
  {mov    r0,     r11     /* ...into the first argument for the callback function, */
-  bla    r1}             /* and call the callback function. */
+  bla    r1}             /* and ଡାକ the callback function. */
 
  {set    sp,     r4      /* Restore the task's SP now. */
 
@@ -129,7 +129,7 @@ _yield_continue:
 
   mov    r6,     r0}               /* copy the RTOS core ID into r6 so we don't lose it. */
   ldap   r11,    vTaskSwitchContext
-  bla    r11             /* Finally call vTaskSwitchContext(core_id) now that the task's */
+  bla    r11             /* Finally ଡାକ vTaskSwitchContext(core_id) now that the task's */
                          /* entire context is saved. Note the core id in r0 is the argument. */
 
 //krestsp 0              /* unnecessary since KSP is already set and the SP */

@@ -31,13 +31,13 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ବାହ୍ୟ "C" {
 #endif
 /* *INDENT-ON* */
 
 /* System Includes. */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
+#ଅନ୍ତର୍ଭାଵ <tc1782.h>
+#ଅନ୍ତର୍ଭାଵ <machine/intrinsics.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,45 +50,45 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          ଅକ୍ଷର
+#define portFLOAT         ଦଶମିକ
+#define portDOUBLE        ଦ୍ୱିଗୁଣ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ଗଦା_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା port_ଗଦା_TYPE   ଗଦା_Type_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା long             BaseType_t;
+ପ୍ରକାରବ୍ୟାଖ୍ୟା unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#ନଚେତଯଦି ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    ପ୍ରକାରବ୍ୟାଖ୍ୟା uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ଅନ୍ୟଥା
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*---------------------------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                         ( -1 )
+#define port_ଗଦା_GROWTH                         ( -1 )
 #define portTICK_PERIOD_MS                       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                       4
-#define portNOP()    __asm volatile ( " nop " )
+#define portNOP()    __asm ଅସ୍ଥିର ( " nop " )
 #define portCRITICAL_NESTING_IN_TCB              1
 #define portRESTORE_FIRST_TASK_PRIORITY_LEVEL    1
 
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct MPU_SETTINGS
+ପ୍ରକାରବ୍ୟାଖ୍ୟା ସଂରଚନା MPU_SETTINGS
 {
     uint32_t ulNotUsed;
 } xMPU_SETTINGS;
@@ -98,8 +98,8 @@ typedef struct MPU_SETTINGS
 
 #define portCCPN_MASK        ( 0x000000FFUL )
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+ବାହ୍ୟ ଶୂନ୍ୟ vTaskEnterCritical( ଶୂନ୍ୟ );
+ବାହ୍ୟ ଶୂନ୍ୟ vTaskExitCritical( ଶୂନ୍ୟ );
 #define portENTER_CRITICAL()    vTaskEnterCritical()
 #define portEXIT_CRITICAL()     vTaskExitCritical()
 /*---------------------------------------------------------------------------*/
@@ -143,13 +143,13 @@ extern void vTaskExitCritical( void );
     }
 
 /* Set ICR.CCPN to uxSavedMaskValue. */
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedMaskValue )                          \
+#define portCLEAR_INTERRUPT_MASK_FROM_ISR( ux_Saved_Mask_ମୂଲ୍ୟ )                          \
     {                                                                                  \
         uint32_t ulICR;                                                                \
         _disable();                                                                    \
         ulICR = __MFCR( $ICR );    /* Get current ICR value. */                        \
         ulICR &= ~portCCPN_MASK;   /* Clear down mask bits. */                         \
-        ulICR |= uxSavedMaskValue; /* Set mask bits to previously saved mask value. */ \
+        ulICR |= ux_Saved_Mask_ମୂଲ୍ୟ; /* Set mask bits to previously saved mask value. */ \
         _mtcr( $ICR, ulICR );      /* Write back updated ICR. */                       \
         _isync();                                                                      \
         _enable();                                                                     \
@@ -157,24 +157,24 @@ extern void vTaskExitCritical( void );
 
 
 /* Set ICR.CCPN to configMAX_SYSCALL_INTERRUPT_PRIORITY */
-extern uint32_t uxPortSetInterruptMaskFromISR( void );
+ବାହ୍ୟ uint32_t uxPortSetInterruptMaskFromISR( ଶୂନ୍ୟ );
 #define portSET_INTERRUPT_MASK_FROM_ISR()                 uxPortSetInterruptMaskFromISR()
 
 /* Pend a priority 1 interrupt, which will take care of the context switch. */
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) { CPU_SRC0.bits.SETR = 1; _isync(); } } while( 0 )
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    କର { ଯଦି( xHigherPriorityTaskWoken != pdFALSE ) { CPU_SRC0.bits.SETR = 1; _isync(); } } ଯେତେବେଳେ( 0 )
 
 /*---------------------------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ଶୂନ୍ୟ vFunction( ଶୂନ୍ୟ * pvParameters )
 /*---------------------------------------------------------------------------*/
 
 /*
  * Port specific clean up macro required to free the CSAs that were consumed by
  * a task that has since been deleted.
  */
-void vPortReclaimCSA( uint32_t * pxTCB );
+ଶୂନ୍ୟ vPortReclaimCSA( uint32_t * pxTCB );
 #define portCLEAN_UP_TCB( pxTCB )    vPortReclaimCSA( ( uint32_t * ) ( pxTCB ) )
 
 /* *INDENT-OFF* */
