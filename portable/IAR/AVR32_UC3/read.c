@@ -83,7 +83,7 @@ _STD_BEGIN
 #pragma module_name = "?__read"
 
 
-extern volatile avr32_usart_t * volatile stdio_usart_base;
+extern ca_ncala avr32_usart_t * ca_ncala stdio_usart_base;
 
 
 /*! \brief Reads a number of bytes, at most \a size, into the memory area
@@ -96,33 +96,33 @@ extern volatile avr32_usart_t * volatile stdio_usart_base;
  * \return The number of bytes read, \c 0 at the end of the file, or
  *         \c _LLIO_ERROR on failure.
  */
-size_t __read( int handle,
+size_t __read( puur_naa_nka handle,
                uint8_t * buffer,
                size_t size )
 {
-    int nChars = 0;
+    puur_naa_nka nChars = 0;
 
     /* This implementation only reads from stdin. */
     /* For all other file handles, it returns failure. */
-    if( handle != _LLIO_STDIN )
+    ᬬᬾᬦ᭄( handle != _LLIO_STDIN )
     {
-        return _LLIO_ERROR;
+        ᬯᬮᬶ _LLIO_ERROR;
     }
 
     for( ; size > 0; --size )
     {
-        int c = usart_getchar( stdio_usart_base );
+        puur_naa_nka c = usart_getchar( stdio_usart_base );
 
-        if( c < 0 )
+        ᬬᬾᬦ᭄( c < 0 )
         {
-            break;
+            bha_nga;
         }
 
         *buffer++ = c;
         ++nChars;
     }
 
-    return nChars;
+    ᬯᬮᬶ nChars;
 }
 
 

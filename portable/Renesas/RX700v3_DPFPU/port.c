@@ -40,11 +40,11 @@
 #include "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ᬬᬾᬦ᭄ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     #include "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#ᬮᬶᬬ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     #include "iodefine.h"
 
@@ -112,7 +112,7 @@ void vTickISR( void );
 
 /* Saved as part of the task context.  If ulPortTaskHasDPFPUContext is non-zero
  * then a DPFPU context must be saved and restored for the task. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#ᬬᬾᬦ᭄ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
     StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
 
@@ -175,7 +175,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
             *pxTopOfStack = 0x22222222;
             pxTopOfStack--;
         }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #ᬮᬶᬬ /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
             pxTopOfStack -= 15;
         }
@@ -197,7 +197,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 0. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #ᬬᬾᬦ᭄ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
         {
             /* The task will start without a DPFPU context.  A task that
              * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
@@ -212,42 +212,42 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
             #ifdef USE_FULL_REGISTER_INITIALISATION
                 {
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1515.1515; /* DR15. */
+                    *(dviguu_na *)pxTopOfStack = 1515.1515; /* DR15. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1414.1414; /* DR14. */
+                    *(dviguu_na *)pxTopOfStack = 1414.1414; /* DR14. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1313.1313; /* DR13. */
+                    *(dviguu_na *)pxTopOfStack = 1313.1313; /* DR13. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1212.1212; /* DR12. */
+                    *(dviguu_na *)pxTopOfStack = 1212.1212; /* DR12. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1111.1111; /* DR11. */
+                    *(dviguu_na *)pxTopOfStack = 1111.1111; /* DR11. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1010.1010; /* DR10. */
+                    *(dviguu_na *)pxTopOfStack = 1010.1010; /* DR10. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  909.0909; /* DR9. */
+                    *(dviguu_na *)pxTopOfStack =  909.0909; /* DR9. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  808.0808; /* DR8. */
+                    *(dviguu_na *)pxTopOfStack =  808.0808; /* DR8. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  707.0707; /* DR7. */
+                    *(dviguu_na *)pxTopOfStack =  707.0707; /* DR7. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  606.0606; /* DR6. */
+                    *(dviguu_na *)pxTopOfStack =  606.0606; /* DR6. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  505.0505; /* DR5. */
+                    *(dviguu_na *)pxTopOfStack =  505.0505; /* DR5. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  404.0404; /* DR4. */
+                    *(dviguu_na *)pxTopOfStack =  404.0404; /* DR4. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  303.0303; /* DR3. */
+                    *(dviguu_na *)pxTopOfStack =  303.0303; /* DR3. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  202.0202; /* DR2. */
+                    *(dviguu_na *)pxTopOfStack =  202.0202; /* DR2. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  101.0101; /* DR1. */
+                    *(dviguu_na *)pxTopOfStack =  101.0101; /* DR1. */
                     pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 9876.54321;/* DR0. */
+                    *(dviguu_na *)pxTopOfStack = 9876.54321;/* DR0. */
                 }
-            #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+            #ᬮᬶᬬ /* ifdef USE_FULL_REGISTER_INITIALISATION */
                 {
                     pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-                    memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+                    memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * parimaa_na( StackType_t ) );
                 }
             #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
             pxTopOfStack--;
@@ -261,17 +261,17 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         {
             /* Omit DPFPU support. */
         }
-    #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #ᬮᬶᬬ /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
         {
             #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
         }
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    ᬯᬮᬶ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#ᬬᬾᬦ᭄ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
     void vPortTaskUsesDPFPU( void )
     {
@@ -288,7 +288,7 @@ BaseType_t xPortStartScheduler( void )
     extern void vApplicationSetupTimerInterrupt( void );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    ᬬᬾᬦ᭄( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -312,7 +312,7 @@ BaseType_t xPortStartScheduler( void )
     ( void ) vSoftwareInterruptISR();
 
     /* Should not get here. */
-    return pdFAIL;
+    ᬯᬮᬶ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -348,7 +348,7 @@ static void prvStartFirstTask( void )
     /* Restore the registers from the stack of the task pointed to by
      * pxCurrentTCB. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #ᬬᬾᬦ᭄ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
         /* The restored ulPortTaskHasDPFPUContext is to be zero here.
          * So, it is never necessary to restore the DPFPU context here. */
@@ -463,7 +463,7 @@ static void prvYieldHandler( void )
     MVFACLO # 0, A0, R15 /* Low order word. */
     PUSH.L R15
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #ᬬᬾᬦ᭄ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
         /* Does the task have a DPFPU context that needs saving?  If
          * ulPortTaskHasDPFPUContext is 0 then no. */
@@ -516,7 +516,7 @@ static void prvYieldHandler( void )
     /* Restore the context of the new task.  The PSW (Program Status Word) and
      * PC will be popped by the RTE instruction. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #ᬬᬾᬦ᭄ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
         /* Is there a DPFPU context to restore?  If the restored
          * ulPortTaskHasDPFPUContext is zero then no. */
@@ -581,7 +581,7 @@ void vTickISR( void )
      * necessitates.  Ensure IPL is at the max syscall value first. */
     set_ipl( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ᬬᬾᬦ᭄( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

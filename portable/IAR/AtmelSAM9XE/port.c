@@ -159,7 +159,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ᬯᬮᬶ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -175,7 +175,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᬯᬮᬶ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -188,12 +188,12 @@ void vPortEndScheduler( void )
 
 static __arm void vPortTickISR( void )
 {
-    volatile uint32_t ulDummy;
+    ca_ncala uint32_t ulDummy;
 
     /* Increment the tick count - which may wake some tasks but as the
      * preemptive scheduler is not being used any woken task is not given
      * processor time no matter what its priority. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ᬬᬾᬦ᭄( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -210,7 +210,7 @@ static __arm void vPortTickISR( void )
 
 static void prvSetupTimerInterrupt( void )
 {
-    const uint32_t ulPeriodIn_uS = ( 1.0 / ( double ) configTICK_RATE_HZ ) * port1SECOND_IN_uS;
+    const uint32_t ulPeriodIn_uS = ( 1.0 / ( dviguu_na ) configTICK_RATE_HZ ) * port1SECOND_IN_uS;
 
     /* Setup the PIT for the required frequency. */
     PIT_Init( ulPeriodIn_uS, BOARD_MCK / port1MHz_IN_Hz );
@@ -237,14 +237,14 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ᬬᬾᬦ᭄( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ᬬᬾᬦ᭄( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_irq();
         }

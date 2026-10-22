@@ -135,7 +135,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ᬯᬮᬶ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -151,7 +151,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᬯᬮᬶ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -165,7 +165,7 @@ void vPortEndScheduler( void )
 __arm void vPortPreemptiveTick( void )
 {
     /* Increment the tick counter. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ᬬᬾᬦ᭄( xTaskIncrementTick() != pdFALSE )
     {
         /* Select a new task to execute. */
         vTaskSwitchContext();
@@ -218,14 +218,14 @@ __arm __interwork void vPortEnterCritical( void )
 
 __arm __interwork void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ᬬᬾᬦ᭄( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ᬬᬾᬦ᭄( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

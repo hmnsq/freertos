@@ -74,7 +74,7 @@ override this behaviour by:
 #ifndef configTICK_INTERRUPT_VECTOR
     #define configTICK_INTERRUPT_VECTOR _TIMER_1_VECTOR
     #define configCLEAR_TICK_TIMER_INTERRUPT() IFS0CLR = _IFS0_T1IF_MASK
-#else
+#ᬮᬶᬬ
     #ifndef configCLEAR_TICK_TIMER_INTERRUPT
         #error If configTICK_INTERRUPT_VECTOR is defined in application code then configCLEAR_TICK_TIMER_INTERRUPT must also be defined in application code.
     #endif
@@ -85,7 +85,7 @@ prvTaskExitError() in case it messes up unwinding of the stack in the
 debugger - in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
+#ᬮᬶᬬ
     #define portTASK_RETURN_ADDRESS prvTaskExitError
 #endif
 
@@ -93,7 +93,7 @@ debugger - in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). *
 stack checking.  A problem in the ISR stack will trigger an assert, not call the
 stack overflow hook function (because the stack overflow hook is specific to a
 task stack, not the ISR stack). */
-#if( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#ᬬᬾᬦ᭄( configCHECK_FOR_STACK_OVERFLOW > 2 )
 
     /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
     the task stacks, and so will legitimately appear in many positions within
@@ -107,8 +107,8 @@ task stack, not the ISR stack). */
                                     portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
                                     portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE };   \
 
-    #define portCHECK_ISR_STACK() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else
+    #define portCHECK_ISR_STACK() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, parimaa_na( ucExpectedStackBytes ) ) == 0 ) )
+#ᬮᬶᬬ
     /* Define the function away. */
     #define portCHECK_ISR_STACK()
 #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
@@ -141,7 +141,7 @@ static void prvTaskExitError( void );
 
 /* Records the interrupt nesting depth.  This is initialised to one as it is
 decremented to 0 when the first task starts. */
-volatile UBaseType_t uxInterruptNesting = 0x01;
+ca_ncala UBaseType_t uxInterruptNesting = 0x01;
 
 /* Stores the task stack pointer when a switch is made to use the system stack. */
 UBaseType_t uxSavedTaskStackPointer = 0;
@@ -186,7 +186,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     *pxTopOfStack = (StackType_t) pvParameters; /* Parameters to pass in. */
     pxTopOfStack -= 15;
 
-    return pxTopOfStack;
+    ᬯᬮᬶ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -246,10 +246,10 @@ BaseType_t xPortStartScheduler( void )
 extern void vPortStartFirstTask( void );
 extern void *pxCurrentTCB;
 
-    #if ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+    #ᬬᬾᬦ᭄ ( configCHECK_FOR_STACK_OVERFLOW > 2 )
     {
         /* Fill the ISR stack to make it easy to asses how much is being used. */
-        memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+        memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, parimaa_na( xISRStack ) );
     }
     #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
@@ -279,7 +279,7 @@ extern void *pxCurrentTCB;
     functionality by defining configTASK_RETURN_ADDRESS. */
     prvTaskExitError();
 
-    return pdFALSE;
+    ᬯᬮᬶ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -289,7 +289,7 @@ UBaseType_t uxSavedStatus;
 
     uxSavedStatus = uxPortSetInterruptMaskFromISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ᬬᬾᬦ᭄( xTaskIncrementTick() != pdFALSE )
         {
             /* Pend a context switch. */
             _CP0_BIS_CAUSE( portCORE_SW_0 );
@@ -319,7 +319,7 @@ UBaseType_t uxSavedStatusRegister;
     lowered. */
     _CP0_SET_STATUS( ( ( uxSavedStatusRegister & ( ~portALL_IPL_BITS ) ) ) | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) );
 
-    return uxSavedStatusRegister;
+    ᬯᬮᬶ uxSavedStatusRegister;
 }
 /*-----------------------------------------------------------*/
 
