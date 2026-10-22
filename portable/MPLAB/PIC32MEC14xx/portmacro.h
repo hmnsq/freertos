@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,90 +46,90 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#परिभाषय पत्तनम्_CHAR        वर्ण
+#परिभाषय पत्तनम्_FLOAT       भिन्न
+#परिभाषय पत्तनम्_DOUBLE      द्विगुण
+#परिभाषय पत्तनम्_LONG        दीर्घ
+#परिभाषय पत्तनम्_SHORT       ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE  uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE   दीर्घ
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE राशिः_Type_t;
+प्रकारनिर्देश दीर्घ आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः  == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t             TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT  8
-#define portSTACK_GROWTH    -1
-#define portTICK_PERIOD_MS  ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT  8
+#परिभाषय पत्तनम्_राशिः_GROWTH    -1
+#परिभाषय पत्तनम्_TICK_PERIOD_MS  ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portIPL_SHIFT       ( 10UL )
+#परिभाषय पत्तनम्_IPL_सरणम्       ( 10UL )
 /* Don't straddle the CEE bit.  Interrupts calling FreeRTOS functions should
 never have higher IPL bits set anyway. */
-#define portALL_IPL_BITS    ( 0x7FUL << portIPL_SHIFT )
-#define portSW0_BIT         ( 0x01 << 8 )
+#परिभाषय पत्तनम्_ALL_IPL_द्वयङ्काः    ( 0x7FUL << पत्तनम्_IPL_सरणम् )
+#परिभाषय पत्तनम्_SW0_BIT         ( 0x01 << 8 )
 
 /* Interrupt priority conversion */
-#define portIPL_TO_CODE( iplNumber )    ( ( iplNumber >> 1 ) & 0x03ul )
-#define portCODE_TO_IPL( iplCode )      ( ( iplCode << 1 ) | 0x01ul )
+#परिभाषय पत्तनम्_IPL_गन्तव्यम्_संहिता( ipl_सङ्ख्या )    ( ( ipl_सङ्ख्या >> 1 ) & 0x03ul )
+#परिभाषय पत्तनम्_संहिता_गन्तव्यम्_IPL( ipl_संहिता )      ( ( ipl_संहिता << 1 ) | 0x01ul )
 
 /*-----------------------------------------------------------*/
 
-static inline uint32_t ulPortGetCP0Status( void )
+स्थिर अन्तःस्थ uint32_t ul_पत्तनम्_Get_CP0_स्थितिः( शून्य )
 {
 uint32_t rv;
 
-    __asm volatile(
+    __asm चञ्चल(
             "\n\t"
             "mfc0 %0,$12,0      \n\t"
             : "=r" ( rv ) :: );
 
-    return rv;
+    प्रत्यागम rv;
 }
 /*-----------------------------------------------------------*/
 
-static inline void vPortSetCP0Status( uint32_t new_status)
+स्थिर अन्तःस्थ शून्य v_पत्तनम्_समुच्चयः_CP0_स्थितिः( uint32_t new_स्थितिः)
 {
-    ( void ) new_status;
+    ( शून्य ) new_स्थितिः;
 
     __asm__ __volatile__(
             "\n\t"
             "mtc0 %0,$12,0      \n\t"
             "ehb                \n\t"
             :
-            :"r" ( new_status ) : );
+            :"r" ( new_स्थितिः ) : );
 }
 /*-----------------------------------------------------------*/
 
-static inline uint32_t ulPortGetCP0Cause( void )
+स्थिर अन्तःस्थ uint32_t ul_पत्तनम्_Get_CP0_Cause( शून्य )
 {
 uint32_t rv;
 
-    __asm volatile(
+    __asm चञ्चल(
             "\n\t"
             "mfc0 %0,$13,0      \n\t"
             : "=r" ( rv ) :: );
 
-    return rv;
+    प्रत्यागम rv;
 }
 /*-----------------------------------------------------------*/
 
-static inline void vPortSetCP0Cause( uint32_t new_cause )
+स्थिर अन्तःस्थ शून्य v_पत्तनम्_समुच्चयः_CP0_Cause( uint32_t new_cause )
 {
-    ( void ) new_cause;
+    ( शून्य ) new_cause;
 
     __asm__ __volatile__(
             "\n\t"
@@ -148,120 +148,120 @@ value was found to be above configMAX_SYSCALL_INTERRUPT_PRIORITY when an ISR
 safe FreeRTOS API function was executed.  ISR safe FreeRTOS API functions are
 those that end in FromISR.  FreeRTOS maintains a separate interrupt API to
 ensure API function and interrupt entry is as fast and as simple as possible. */
-#if ( configASSERT_DEFINED == 1 )
-    #define portDISABLE_INTERRUPTS()                                                                            \
+#यदि ( configASSERT_DEFINED == 1 )
+    #परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                                                                            \
     {                                                                                                           \
-    uint32_t ulStatus;                                                                                          \
+    uint32_t ul_स्थितिः;                                                                                          \
         /* Mask interrupts at and below the kernel interrupt priority. */                                       \
-        ulStatus = ulPortGetCP0Status();                                                                        \
+        ul_स्थितिः = ul_पत्तनम्_Get_CP0_स्थितिः();                                                                        \
         /* Is the current IPL below configMAX_SYSCALL_INTERRUPT_PRIORITY? */                                    \
-        if( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY )       \
+        यदि( ( ( ul_स्थितिः & पत्तनम्_ALL_IPL_द्वयङ्काः ) >> पत्तनम्_IPL_सरणम् ) < config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता )       \
         {                                                                                                       \
-            ulStatus &= ~portALL_IPL_BITS;                                                                      \
-            vPortSetCP0Status( ( ulStatus | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) ) );      \
+            ul_स्थितिः &= ~पत्तनम्_ALL_IPL_द्वयङ्काः;                                                                      \
+            v_पत्तनम्_समुच्चयः_CP0_स्थितिः( ( ul_स्थितिः | ( config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता << पत्तनम्_IPL_सरणम् ) ) );      \
         }                                                                                                       \
     }
-#else /* configASSERT */
-    #define portDISABLE_INTERRUPTS()                                                                            \
+#अन्यथा /* configASSERT */
+    #परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                                                                            \
     {                                                                                                           \
-    uint32_t ulStatus;                                                                                          \
+    uint32_t ul_स्थितिः;                                                                                          \
         /* Mask interrupts at and below the kernel interrupt priority. */                                       \
-        ulStatus = ulPortGetCP0Status();                                                                        \
-        ulStatus &= ~portALL_IPL_BITS;                                                                          \
-        vPortSetCP0Status( ( ulStatus | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) ) );          \
+        ul_स्थितिः = ul_पत्तनम्_Get_CP0_स्थितिः();                                                                        \
+        ul_स्थितिः &= ~पत्तनम्_ALL_IPL_द्वयङ्काः;                                                                          \
+        v_पत्तनम्_समुच्चयः_CP0_स्थितिः( ( ul_स्थितिः | ( config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता << पत्तनम्_IPL_सरणम् ) ) );          \
     }
-#endif /* configASSERT */
+#यदि_अन्तः /* configASSERT */
 
-#define portENABLE_INTERRUPTS()             \
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()             \
 {                                           \
-uint32_t ulStatus;                          \
+uint32_t ul_स्थितिः;                          \
     /* Unmask all interrupts. */            \
-    ulStatus = ulPortGetCP0Status();        \
-    ulStatus &= ~portALL_IPL_BITS;          \
-    vPortSetCP0Status( ulStatus );          \
+    ul_स्थितिः = ul_पत्तनम्_Get_CP0_स्थितिः();        \
+    ul_स्थितिः &= ~पत्तनम्_ALL_IPL_द्वयङ्काः;          \
+    v_पत्तनम्_समुच्चयः_CP0_स्थितिः( ul_स्थितिः );          \
 }
 
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portCRITICAL_NESTING_IN_TCB 1
-#define portENTER_CRITICAL()        vTaskEnterCritical()
-#define portEXIT_CRITICAL()         vTaskExitCritical()
+बाह्य शून्य vTaskEnterCritical( शून्य );
+बाह्य शून्य vTaskExitCritical( शून्य );
+#परिभाषय पत्तनम्_CRITICAL_NESTING_अन्तर्_TCB 1
+#परिभाषय पत्तनम्_ENTER_CRITICAL()        vTaskEnterCritical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL()         vTaskExitCritical()
 
-extern UBaseType_t uxPortSetInterruptMaskFromISR();
-extern void vPortClearInterruptMaskFromISR( UBaseType_t );
-#define portSET_INTERRUPT_MASK_FROM_ISR() uxPortSetInterruptMaskFromISR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedStatusRegister ) vPortClearInterruptMaskFromISR( uxSavedStatusRegister )
+बाह्य UBaseType_t ux_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR();
+बाह्य शून्य v_पत्तनम्_Clear_व्यवधानम्_आवरणम्_From_ISR( UBaseType_t );
+#परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR() ux_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR()
+#परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ux_Saved_स्थितिः_पञ्जिकाकोशः ) v_पत्तनम्_Clear_व्यवधानम्_आवरणम्_From_ISR( ux_Saved_स्थितिः_पञ्जिकाकोशः )
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
-#endif
+#यदि_अपरिभाषितम् config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION
+    #परिभाषय config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION 1
+#यदि_अन्तः
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#यदि config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #यदि( configMAX_PRIORITIES > 32 )
+        #दोषः config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION can only be समुच्चयः गन्तव्यम् 1 when configMAX_PRIORITIES is less than or equal गन्तव्यम् 32.  It is very rare that a system requires अधिकम् than 10 गन्तव्यम् 15 difference priorities as tasks that share a प्राथमिकता will time खण्डिका.
+    #यदि_अन्तः
 
     /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #परिभाषय पत्तनम्_लेखः_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( ux_प्राथमिकता ) )
+    #परिभाषय पत्तनम्_RESET_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( ux_प्राथमिकता ) )
 
     /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31 - _clz( ( uxReadyPriorities ) ) )
+    #परिभाषय पत्तनम्_GET_HIGHEST_प्राथमिकता( ux_शिखरम्_प्राथमिकता, uxReadyPriorities ) ux_शिखरम्_प्राथमिकता = ( 31 - _clz( ( uxReadyPriorities ) ) )
 
-#endif /* taskRECORD_READY_PRIORITY */
+#यदि_अन्तः /* taskRECORD_READY_PRIORITY */
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
-#define portYIELD()                         \
+#परिभाषय पत्तनम्_YIELD()                         \
 {                                           \
 uint32_t ulCause;                           \
     /* Trigger software interrupt. */       \
-    ulCause = ulPortGetCP0Cause();          \
-    ulCause |= portSW0_BIT;                 \
-    vPortSetCP0Cause( ulCause );            \
+    ulCause = ul_पत्तनम्_Get_CP0_Cause();          \
+    ulCause |= पत्तनम्_SW0_BIT;                 \
+    v_पत्तनम्_समुच्चयः_CP0_Cause( ulCause );            \
 }
 
-extern volatile UBaseType_t uxInterruptNesting;
-#define portASSERT_IF_IN_ISR() configASSERT( uxInterruptNesting == 0 )
+बाह्य चञ्चल UBaseType_t ux_व्यवधानम्_Nesting;
+#परिभाषय पत्तनम्_ASSERT_IF_अन्तर्_ISR() configASSERT( ux_व्यवधानम्_Nesting == 0 )
 
-#define portNOP() __asm volatile ( "nop" )
+#परिभाषय पत्तनम्_NOP() __asm चञ्चल ( "nop" )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters ) __attribute__((noreturn))
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters ) __attribute__((noreturn))
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
 /*-----------------------------------------------------------*/
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#परिभाषय पत्तनम्_अन्तः_SWITCHING_ISR( xSwitchRequired ) \
+    कुरु                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        यदि( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_गन्तव्यम्_SCHEDULER();        \
+            पत्तनम्_YIELD();                         \
         }                                        \
-        else                                     \
+        अन्यथा                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } यावत्( 0 )
 
 /* Required by the kernel aware debugger. */
-#ifdef __DEBUG
-    #define portREMOVE_STATIC_QUALIFIER
-#endif
+#यदि_परिभाषितम् __DEBUG
+    #परिभाषय पत्तनम्_REMOVE_STATIC_QUALIFIER
+#यदि_अन्तः
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

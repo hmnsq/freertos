@@ -70,8 +70,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -82,66 +82,66 @@
  * These settings should not be altered.
  *-----------------------------------------------------------
  */
-#include <avr32/io.h>
-#include "intc.h"
-#include "compiler.h"
+#अन्तर्भाव <avr32/io.h>
+#अन्तर्भाव "intc.h"
+#अन्तर्भाव "compiler.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-#define TASK_DELAY_MS( x )     ( ( x ) / portTICK_PERIOD_MS )
-#define TASK_DELAY_S( x )      ( ( x ) * 1000 / portTICK_PERIOD_MS )
-#define TASK_DELAY_MIN( x )    ( ( x ) * 60 * 1000 / portTICK_PERIOD_MS )
+#परिभाषय TASK_DELAY_MS( x )     ( ( x ) / पत्तनम्_TICK_PERIOD_MS )
+#परिभाषय TASK_DELAY_S( x )      ( ( x ) * 1000 / पत्तनम्_TICK_PERIOD_MS )
+#परिभाषय TASK_DELAY_MIN( x )    ( ( x ) * 60 * 1000 / पत्तनम्_TICK_PERIOD_MS )
 
-#define configTICK_TC_IRQ    ATPASTE2( AVR32_TC_IRQ, configTICK_TC_CHANNEL )
+#परिभाषय configTICK_TC_IRQ    ATPASTE2( AVR32_TC_IRQ, configTICK_TC_CHANNEL )
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t   TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t   TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    4
-#define portNOP()    { __asm__ __volatile__ ( "nop" ); }
+#परिभाषय पत्तनम्_राशिः_GROWTH      ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT    4
+#परिभाषय पत्तनम्_NOP()    { __asm__ __volatile__ ( "nop" ); }
 /*-----------------------------------------------------------*/
 
 
 /*-----------------------------------------------------------*/
 
 /* INTC-specific. */
-#define DISABLE_ALL_EXCEPTIONS()        Disable_global_exception()
-#define ENABLE_ALL_EXCEPTIONS()         Enable_global_exception()
+#परिभाषय DISABLE_ALL_EXCEPTIONS()        Disable_global_exception()
+#परिभाषय ENABLE_ALL_EXCEPTIONS()         Enable_global_exception()
 
-#define DISABLE_ALL_INTERRUPTS()        Disable_global_interrupt()
-#define ENABLE_ALL_INTERRUPTS()         Enable_global_interrupt()
+#परिभाषय DISABLE_ALL_INTERRUPTS()        Disable_global_व्यवधानम्()
+#परिभाषय ENABLE_ALL_INTERRUPTS()         Enable_global_व्यवधानम्()
 
-#define DISABLE_INT_LEVEL( int_lev )    Disable_interrupt_level( int_lev )
-#define ENABLE_INT_LEVEL( int_lev )     Enable_interrupt_level( int_lev )
+#परिभाषय DISABLE_INT_LEVEL( int_lev )    Disable_व्यवधानम्_level( int_lev )
+#परिभाषय ENABLE_INT_LEVEL( int_lev )     Enable_व्यवधानम्_level( int_lev )
 
 
 /*
@@ -157,33 +157,33 @@ typedef unsigned long    UBaseType_t;
  * SHALL NOT BE CALLED FROM WITHIN AN INTERRUPT as fputs and printf use malloc,
  * which is interrupt-unsafe with the current __malloc_lock and __malloc_unlock.
  */
-#if configDBG
-    #define portDBG_TRACE( ... )                                 \
+#यदि configDBG
+    #परिभाषय पत्तनम्_DBG_TRACE( ... )                                 \
     {                                                            \
         fputs( __FILE__ ":" ASTRINGZ( __LINE__ ) ": ", stdout ); \
-        printf( __VA_ARGS__ );                                   \
+        प्रारूप_लिख( __VA_ARGS__ );                                   \
         fputs( "\r\n", stdout );                                 \
     }
-#else
-    #define portDBG_TRACE( ... )
-#endif
+#अन्यथा
+    #परिभाषय पत्तनम्_DBG_TRACE( ... )
+#यदि_अन्तः
 
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    DISABLE_ALL_INTERRUPTS()
-#define portENABLE_INTERRUPTS()     ENABLE_ALL_INTERRUPTS()
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    DISABLE_ALL_INTERRUPTS()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     ENABLE_ALL_INTERRUPTS()
 
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+बाह्य शून्य v_पत्तनम्_Enter_Critical( शून्य );
+बाह्य शून्य v_पत्तनम्_Exit_Critical( शून्य );
 
-#define portENTER_CRITICAL()    vPortEnterCritical();
-#define portEXIT_CRITICAL()     vPortExitCritical();
+#परिभाषय पत्तनम्_ENTER_CRITICAL()    v_पत्तनम्_Enter_Critical();
+#परिभाषय पत्तनम्_EXIT_CRITICAL()     v_पत्तनम्_Exit_Critical();
 
 
 /* Added as there is no such function in FreeRTOS. */
-extern void * pvPortRealloc( void * pv,
-                             size_t xSize );
+बाह्य शून्य * pv_पत्तनम्_Realloc( शून्य * pv,
+                             size_t x_आकार );
 /*-----------------------------------------------------------*/
 
 
@@ -192,10 +192,10 @@ extern void * pvPortRealloc( void * pv,
 /*
  * Restore Context for cases other than INTi.
  */
-#define portRESTORE_CONTEXT()                                                                         \
+#परिभाषय पत्तनम्_RESTORE_CONTEXT()                                                                         \
     {                                                                                                 \
-        extern volatile uint32_t ulCriticalNesting;                                                   \
-        extern volatile void * volatile pxCurrentTCB;                                                 \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                   \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                 \
                                                                                                       \
         __asm__ __volatile__ (                                                                        \
             /* Set SP to point to new stack */                                                        \
@@ -264,12 +264,12 @@ extern void * pvPortRealloc( void * pv,
  * The ISR used for the scheduler tick depends on whether the cooperative or
  * the preemptive scheduler is being used.
  */
-#if configUSE_PREEMPTION == 0
+#यदि configUSE_PREEMPTION == 0
 
 /*
  * portSAVE_CONTEXT_OS_INT() for OS Tick exception.
  */
-    #define portSAVE_CONTEXT_OS_INT()                                                     \
+    #परिभाषय पत्तनम्_SAVE_CONTEXT_OS_INT()                                                     \
     {                                                                                     \
         /* Save R0..R7 */                                                                 \
         __asm__ __volatile__ ( "stm     --sp, r0-r7" );                                   \
@@ -281,7 +281,7 @@ extern void * pvPortRealloc( void * pv,
 /*
  * portRESTORE_CONTEXT_OS_INT() for Tick exception.
  */
-    #define portRESTORE_CONTEXT_OS_INT()                                                      \
+    #परिभाषय पत्तनम्_RESTORE_CONTEXT_OS_INT()                                                      \
     {                                                                                         \
         __asm__ __volatile__ (                                                                \
             /* Restore R0..R7 */                                                              \
@@ -293,15 +293,15 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                \
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#अन्यथा /* if configUSE_PREEMPTION == 0 */
 
 /*
  * portSAVE_CONTEXT_OS_INT() for OS Tick exception.
  */
-    #define portSAVE_CONTEXT_OS_INT()                                                                             \
+    #परिभाषय पत्तनम्_SAVE_CONTEXT_OS_INT()                                                                             \
     {                                                                                                             \
-        extern volatile uint32_t ulCriticalNesting;                                                               \
-        extern volatile void * volatile pxCurrentTCB;                                                             \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                               \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                             \
                                                                                                                   \
         /* When we come here */                                                                                   \
         /* Registers R8..R12, LR, PC and SR had already been pushed to system stack */                            \
@@ -343,17 +343,17 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                             \
+            [ पङ्क्तिः_3 ] "i" ( __LINE__ )                                                                             \
             );                                                                                                    \
     }
 
 /*
  * portRESTORE_CONTEXT_OS_INT() for Tick exception.
  */
-    #define portRESTORE_CONTEXT_OS_INT()                                                                          \
+    #परिभाषय पत्तनम्_RESTORE_CONTEXT_OS_INT()                                                                          \
     {                                                                                                             \
-        extern volatile uint32_t ulCriticalNesting;                                                               \
-        extern volatile void * volatile pxCurrentTCB;                                                             \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                               \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                             \
                                                                                                                   \
         /* Check if INT0 or higher were being handled (case where the OS tick interrupted another */              \
         /* interrupt handler (which was of a higher priority level but decided to lower its priority */           \
@@ -368,15 +368,15 @@ extern void * pvPortRealloc( void * pv,
             "cp.w    r0, 1\n\t"         /* Compare the mode bits with supervisor mode(b'001) */                   \
             "brhi    LABEL_INT_SKIP_RESTORE_CONTEXT_%[LINE]"                                                      \
             :                                                                                                     \
-            :[ LINE ] "i" ( __LINE__ )                                                                            \
+            :[ पङ्क्तिः_3 ] "i" ( __LINE__ )                                                                            \
             );                                                                                                    \
                                                                                                                   \
         /* Else */                                                                                                \
         /* because it is here safe, always call vTaskSwitchContext() since an OS tick occurred. */                \
         /* A critical section has to be used here because vTaskSwitchContext handles FreeRTOS linked lists. */    \
-        portENTER_CRITICAL();                                                                                     \
+        पत्तनम्_ENTER_CRITICAL();                                                                                     \
         vTaskSwitchContext();                                                                                     \
-        portEXIT_CRITICAL();                                                                                      \
+        पत्तनम्_EXIT_CRITICAL();                                                                                      \
                                                                                                                   \
         /* Restore all registers */                                                                               \
                                                                                                                   \
@@ -403,11 +403,11 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                             \
+            [ पङ्क्तिः_3 ] "i" ( __LINE__ )                                                                             \
             );                                                                                                    \
     }
 
-#endif /* if configUSE_PREEMPTION == 0 */
+#यदि_अन्तः /* if configUSE_PREEMPTION == 0 */
 
 
 /*
@@ -416,10 +416,10 @@ extern void * pvPortRealloc( void * pv,
  * NOTE: taskYIELD()(== SCALL) MUST NOT be called in a mode > supervisor mode.
  *
  */
-#define portSAVE_CONTEXT_SCALL()                                                                                        \
+#परिभाषय पत्तनम्_SAVE_CONTEXT_SCALL()                                                                                        \
     {                                                                                                                   \
-        extern volatile uint32_t ulCriticalNesting;                                                                     \
-        extern volatile void * volatile pxCurrentTCB;                                                                   \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                                     \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                                   \
                                                                                                                         \
         /* Warning: the stack layout after SCALL doesn't match the one after an interrupt. */                           \
         /* If SR[M2:M0] == 001 */                                                                                       \
@@ -467,7 +467,7 @@ extern void * pvPortRealloc( void * pv,
         /* pxCurrentTCB). */                                                                                            \
         /* Basically, all accesses to the pxCurrentTCB structure should be put in a */                                  \
         /* critical section because it is a global structure. */                                                        \
-        portENTER_CRITICAL();                                                                                           \
+        पत्तनम्_ENTER_CRITICAL();                                                                                           \
                                                                                                                         \
         /* Store SP in the first member of the structure pointed to by pxCurrentTCB */                                  \
         __asm__ __volatile__ (                                                                                          \
@@ -483,10 +483,10 @@ extern void * pvPortRealloc( void * pv,
 /*
  * portRESTORE_CONTEXT() for SupervisorCALL exception.
  */
-#define portRESTORE_CONTEXT_SCALL()                                                                                     \
+#परिभाषय पत्तनम्_RESTORE_CONTEXT_SCALL()                                                                                     \
     {                                                                                                                   \
-        extern volatile uint32_t ulCriticalNesting;                                                                     \
-        extern volatile void * volatile pxCurrentTCB;                                                                   \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                                     \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                                   \
                                                                                                                         \
         /* Restore all registers */                                                                                     \
                                                                                                                         \
@@ -501,7 +501,7 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                                          \
                                                                                                                         \
         /* Leave pxCurrentTCB variable access critical section */                                                       \
-        portEXIT_CRITICAL();                                                                                            \
+        पत्तनम्_EXIT_CRITICAL();                                                                                            \
                                                                                                                         \
         __asm__ __volatile__ (                                                                                          \
             /* Restore ulCriticalNesting variable */                                                                    \
@@ -539,13 +539,13 @@ extern void * pvPortRealloc( void * pv,
  * The ISR used depends on whether the cooperative or
  * the preemptive scheduler is being used.
  */
-#if configUSE_PREEMPTION == 0
+#यदि configUSE_PREEMPTION == 0
 
 /*
  * ISR entry and exit macros.  These are only required if a task switch
  * is required from the ISR.
  */
-    #define portENTER_SWITCHING_ISR()                                                     \
+    #परिभाषय पत्तनम्_ENTER_SWITCHING_ISR()                                                     \
     {                                                                                     \
         /* Save R0..R7 */                                                                 \
         __asm__ __volatile__ ( "stm     --sp, r0-r7" );                                   \
@@ -557,7 +557,7 @@ extern void * pvPortRealloc( void * pv,
 /*
  * Input parameter: in R12, boolean. Perform a vTaskSwitchContext() if 1
  */
-    #define portEXIT_SWITCHING_ISR()                                                                      \
+    #परिभाषय पत्तनम्_EXIT_SWITCHING_ISR()                                                                      \
     {                                                                                                     \
         __asm__ __volatile__ (                                                                            \
             /* Restore R0..R7 */                                                                          \
@@ -569,16 +569,16 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                            \
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#अन्यथा /* if configUSE_PREEMPTION == 0 */
 
 /*
  * ISR entry and exit macros.  These are only required if a task switch
  * is required from the ISR.
  */
-    #define portENTER_SWITCHING_ISR()                                                                                                                             \
+    #परिभाषय पत्तनम्_ENTER_SWITCHING_ISR()                                                                                                                             \
     {                                                                                                                                                             \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                               \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                             \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                                                                               \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                                                                             \
                                                                                                                                                                   \
         /* When we come here */                                                                                                                                   \
         /* Registers R8..R12, LR, PC and SR had already been pushed to system stack */                                                                            \
@@ -616,17 +616,17 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                                                                             \
+            [ पङ्क्तिः_3 ] "i" ( __LINE__ )                                                                                                                             \
             );                                                                                                                                                    \
     }
 
 /*
  * Input parameter: in R12, boolean. Perform a vTaskSwitchContext() if 1
  */
-    #define portEXIT_SWITCHING_ISR()                                                                                                                              \
+    #परिभाषय पत्तनम्_EXIT_SWITCHING_ISR()                                                                                                                              \
     {                                                                                                                                                             \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                               \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                             \
+        बाह्य चञ्चल uint32_t ulCriticalNesting;                                                                                                               \
+        बाह्य चञ्चल शून्य * चञ्चल pxCurrentTCB;                                                                                                             \
                                                                                                                                                                   \
         __asm__ __volatile__ (                                                                                                                                    \
             /* Check if INT0 or higher were being handled (case where the OS tick interrupted another */                                                          \
@@ -645,13 +645,13 @@ extern void * pvPortRealloc( void * pv,
             "cp.w    r12, 1                                                                         \n\t" /* Check if Switch context is required. */              \
             "brne    LABEL_ISR_RESTORE_CONTEXT_%[LINE]"                                                                                                           \
             :                                                                                                                                                     \
-            :[ LINE ] "i" ( __LINE__ )                                                                                                                            \
+            :[ पङ्क्तिः_3 ] "i" ( __LINE__ )                                                                                                                            \
             );                                                                                                                                                    \
                                                                                                                                                                   \
         /* A critical section has to be used here because vTaskSwitchContext handles FreeRTOS linked lists. */                                                    \
-        portENTER_CRITICAL();                                                                                                                                     \
+        पत्तनम्_ENTER_CRITICAL();                                                                                                                                     \
         vTaskSwitchContext();                                                                                                                                     \
-        portEXIT_CRITICAL();                                                                                                                                      \
+        पत्तनम्_EXIT_CRITICAL();                                                                                                                                      \
                                                                                                                                                                   \
         __asm__ __volatile__ (                                                                                                                                    \
             "LABEL_ISR_RESTORE_CONTEXT_%[LINE]:                                                     \n\t"                                                         \
@@ -682,23 +682,23 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                                                                             \
+            [ पङ्क्तिः_3 ] "i" ( __LINE__ )                                                                                                                             \
             );                                                                                                                                                    \
     }
 
-#endif /* if configUSE_PREEMPTION == 0 */
+#यदि_अन्तः /* if configUSE_PREEMPTION == 0 */
 
 
-#define portYIELD()                                           { __asm__ __volatile__ ( "scall" ); }
+#परिभाषय पत्तनम्_YIELD()                                           { __asm__ __volatile__ ( "scall" ); }
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

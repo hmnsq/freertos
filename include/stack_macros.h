@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef STACK_MACROS_H
-#define STACK_MACROS_H
+#यदि_अपरिभाषितम् राशिः_MACROS_H
+#परिभाषय राशिः_MACROS_H
 
 /*
  * Call the stack overflow hook function if the stack of the task being swapped
@@ -49,9 +49,9 @@
  * portSTACK_LIMIT_PADDING is a number of extra words to consider to be in
  * use on the stack.
  */
-#ifndef portSTACK_LIMIT_PADDING
-    #define portSTACK_LIMIT_PADDING    0
-#endif
+#यदि_अपरिभाषितम् पत्तनम्_राशिः_सीमा_PADDING
+    #परिभाषय पत्तनम्_राशिः_सीमा_PADDING    0
+#यदि_अन्तः
 
 /* Stack overflow check is not straight forward to implement for MPU ports
  * because of the following reasons:
@@ -64,92 +64,92 @@
  * Additionally, architectures with hardware stack overflow checking support
  * (such as Armv8-M) will trigger a fault when a task's stack overflows.
  */
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#यदि ( ( config_CHECK_FOR_राशिः_अतिप्रवाहः == 1 ) && ( पत्तनम्_राशिः_GROWTH < 0 ) && ( पत्तनम्_USING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                      \
-    do                                                                                          \
+    #परिभाषय task_CHECK_FOR_राशिः_अतिप्रवाहः()                                                      \
+    कुरु                                                                                          \
     {                                                                                           \
         /* Is the currently saved stack pointer within the stack limit? */                      \
-        if( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING )     \
+        यदि( pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः <= pxCurrentTCB->px_राशिः + पत्तनम्_राशिः_सीमा_PADDING )     \
         {                                                                                       \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
+            वर्ण * pc_अतिप्रवाहः_Task_Name = pxCurrentTCB->pcTaskName;                               \
+            v_Application_राशिः_अतिप्रवाहः_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_अतिप्रवाहः_Task_Name ); \
         }                                                                                       \
-    } while( 0 )
+    } यावत्( 0 )
 
-#endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
+#यदि_अन्तः /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#यदि ( ( config_CHECK_FOR_राशिः_अतिप्रवाहः == 1 ) && ( पत्तनम्_राशिः_GROWTH > 0 ) && ( पत्तनम्_USING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #परिभाषय task_CHECK_FOR_राशिः_अतिप्रवाहः()                                                       \
+    कुरु                                                                                           \
     {                                                                                            \
         /* Is the currently saved stack pointer within the stack limit? */                       \
-        if( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) \
+        यदि( pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः >= pxCurrentTCB->px_अन्तः_सम्बन्धि_राशिः - पत्तनम्_राशिः_सीमा_PADDING ) \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            वर्ण * pc_अतिप्रवाहः_Task_Name = pxCurrentTCB->pcTaskName;                                \
+            v_Application_राशिः_अतिप्रवाहः_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_अतिप्रवाहः_Task_Name );  \
         }                                                                                        \
-    } while( 0 )
+    } यावत्( 0 )
 
-#endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
+#यदि_अन्तः /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#यदि ( ( config_CHECK_FOR_राशिः_अतिप्रवाहः > 1 ) && ( पत्तनम्_राशिः_GROWTH < 0 ) && ( पत्तनम्_USING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #परिभाषय task_CHECK_FOR_राशिः_अतिप्रवाहः()                                                       \
+    कुरु                                                                                           \
     {                                                                                            \
-        const uint32_t * const pulStack = ( uint32_t * ) pxCurrentTCB->pxStack;                  \
-        const uint32_t ulCheckValue = ( uint32_t ) 0xa5a5a5a5U;                                  \
+        ध्रुव uint32_t * ध्रुव pul_राशिः = ( uint32_t * ) pxCurrentTCB->px_राशिः;                  \
+        ध्रुव uint32_t ul_Check_मानम् = ( uint32_t ) 0xa5a5a5a5U;                                  \
                                                                                                  \
-        if( ( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING ) || \
-            ( pulStack[ 0 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 1 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 2 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 3 ] != ulCheckValue ) )                                                  \
+        यदि( ( pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः <= pxCurrentTCB->px_राशिः + पत्तनम्_राशिः_सीमा_PADDING ) || \
+            ( pul_राशिः[ 0 ] != ul_Check_मानम् ) ||                                                 \
+            ( pul_राशिः[ 1 ] != ul_Check_मानम् ) ||                                                 \
+            ( pul_राशिः[ 2 ] != ul_Check_मानम् ) ||                                                 \
+            ( pul_राशिः[ 3 ] != ul_Check_मानम् ) )                                                  \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            वर्ण * pc_अतिप्रवाहः_Task_Name = pxCurrentTCB->pcTaskName;                                \
+            v_Application_राशिः_अतिप्रवाहः_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_अतिप्रवाहः_Task_Name );  \
         }                                                                                        \
-    } while( 0 )
+    } यावत्( 0 )
 
-#endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
+#यदि_अन्तः /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#यदि ( ( config_CHECK_FOR_राशिः_अतिप्रवाहः > 1 ) && ( पत्तनम्_राशिः_GROWTH > 0 ) && ( पत्तनम्_USING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                                                                \
-    do                                                                                                                                    \
+    #परिभाषय task_CHECK_FOR_राशिः_अतिप्रवाहः()                                                                                                \
+    कुरु                                                                                                                                    \
     {                                                                                                                                     \
-        int8_t * pcEndOfStack = ( int8_t * ) pxCurrentTCB->pxEndOfStack;                                                                  \
-        static const uint8_t ucExpectedStackBytes[] = { tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE }; \
+        int8_t * pc_अन्तः_सम्बन्धि_राशिः = ( int8_t * ) pxCurrentTCB->px_अन्तः_सम्बन्धि_राशिः;                                                                  \
+        स्थिर ध्रुव uint8_t uc_Expected_राशिः_अष्टकानि[] = { tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE,   \
+                                                        tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE,   \
+                                                        tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE,   \
+                                                        tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE,   \
+                                                        tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE, tsk_राशिः_FILL_BYTE }; \
                                                                                                                                           \
-        pcEndOfStack -= sizeof( ucExpectedStackBytes );                                                                                   \
+        pc_अन्तः_सम्बन्धि_राशिः -= परिमाण( uc_Expected_राशिः_अष्टकानि );                                                                                   \
                                                                                                                                           \
-        if( ( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) ||                                     \
-            ( memcmp( ( void * ) pcEndOfStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) != 0 ) )                 \
+        यदि( ( pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः >= pxCurrentTCB->px_अन्तः_सम्बन्धि_राशिः - पत्तनम्_राशिः_सीमा_PADDING ) ||                                     \
+            ( memcmp( ( शून्य * ) pc_अन्तः_सम्बन्धि_राशिः, ( शून्य * ) uc_Expected_राशिः_अष्टकानि, परिमाण( uc_Expected_राशिः_अष्टकानि ) ) != 0 ) )                 \
         {                                                                                                                                 \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
+            वर्ण * pc_अतिप्रवाहः_Task_Name = pxCurrentTCB->pcTaskName;                                                                         \
+            v_Application_राशिः_अतिप्रवाहः_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_अतिप्रवाहः_Task_Name );                                           \
         }                                                                                                                                 \
-    } while( 0 )
+    } यावत्( 0 )
 
-#endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
+#यदि_अन्तः /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Remove stack overflow macro if not being used. */
-#ifndef taskCHECK_FOR_STACK_OVERFLOW
-    #define taskCHECK_FOR_STACK_OVERFLOW()
-#endif
+#यदि_अपरिभाषितम् task_CHECK_FOR_राशिः_अतिप्रवाहः
+    #परिभाषय task_CHECK_FOR_राशिः_अतिप्रवाहः()
+#यदि_अन्तः
 
 
 
-#endif /* STACK_MACROS_H */
+#यदि_अन्तः /* STACK_MACROS_H */

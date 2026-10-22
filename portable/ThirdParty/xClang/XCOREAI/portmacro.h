@@ -1,63 +1,63 @@
 /* Copyright (c) 2020, XMOS Ltd, All rights reserved */
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+    #परिभाषय PORTMACRO_H
 
-    #ifndef __ASSEMBLER__
+    #यदि_अपरिभाषितम् __ASSEMBLER__
 
 /* Inclusion of xc1.h will result in clock being defined as a type.
  * By default, FreeRTOS will require standard time.h, where clock is a function.
  */
-        #ifndef USE_XCORE_CLOCK_TYPE
-            #define _clock_defined
-        #endif
+        #यदि_अपरिभाषितम् USE_XCORE_CLOCK_TYPE
+            #परिभाषय _clock_defined
+        #यदि_अन्तः
 
-        #include <xs1.h>
-        #include "rtos_support.h"
+        #अन्तर्भाव <xs1.h>
+        #अन्तर्भाव "rtos_support.h"
 
-        #ifdef __cplusplus
-        extern "C" {
-        #endif
+        #यदि_परिभाषितम् __cplusplus
+        बाह्य "C" {
+        #यदि_अन्तः
 
 /* Type definitions. */
-        #define portSTACK_TYPE    uint32_t
-        typedef portSTACK_TYPE   StackType_t;
-        typedef double           portDOUBLE;
-        typedef int32_t          BaseType_t;
-        typedef uint32_t         UBaseType_t;
+        #परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+        प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+        प्रकारनिर्देश द्विगुण           पत्तनम्_DOUBLE;
+        प्रकारनिर्देश int32_t          आधारः_Type_t;
+        प्रकारनिर्देश uint32_t         UBaseType_t;
 
-        #define portBASE_TYPE    BaseType_t
+        #परिभाषय पत्तनम्_आधारः_TYPE    आधारः_Type_t
 
-        #if ( configUSE_16_BIT_TICKS == 1 )
-            typedef uint16_t     TickType_t;
-            #define portMAX_DELAY              ( TickType_t ) 0xffff
-        #else
-            typedef uint32_t     TickType_t;
-            #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+        #यदि ( configUSE_16_BIT_TICKS == 1 )
+            प्रकारनिर्देश uint16_t     TickType_t;
+            #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffff
+        #अन्यथा
+            प्रकारनिर्देश uint32_t     TickType_t;
+            #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-            #define portTICK_TYPE_IS_ATOMIC    1
-        #endif
+            #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
+        #यदि_अन्तः
 /*-----------------------------------------------------------*/
 
-    #endif /* __ASSEMBLER__ */
+    #यदि_अन्तः /* __ASSEMBLER__ */
 
 /* Architecture specifics. These can be used by assembly files as well. */
-    #define portSTACK_GROWTH               ( -1 )
-    #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT             8
-    #define portCRITICAL_NESTING_IN_TCB    1
-    #define portMAX_CORE_COUNT             8
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES      1
-    #endif
+    #परिभाषय पत्तनम्_राशिः_GROWTH               ( -1 )
+    #परिभाषय पत्तनम्_TICK_PERIOD_MS             ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+    #परिभाषय पत्तनम्_BYTE_ALIGNMENT             8
+    #परिभाषय पत्तनम्_CRITICAL_NESTING_अन्तर्_TCB    1
+    #परिभाषय पत्तनम्_MAX_CORE_गणनम्             8
+    #यदि_अपरिभाषितम् config_सङ्ख्या_सम्बन्धि_CORES
+        #परिभाषय config_सङ्ख्या_सम्बन्धि_CORES      1
+    #यदि_अन्तः
 
 /* This may be set to zero in the config file if the rtos_time
  *  functions are not needed or if it is incremented elsewhere. */
-    #ifndef configUPDATE_RTOS_TIME_FROM_TICK_ISR
-        #define configUPDATE_RTOS_TIME_FROM_TICK_ISR    1
-    #endif
+    #यदि_अपरिभाषितम् configUPDATE_RTOS_TIME_FROM_TICK_ISR
+        #परिभाषय configUPDATE_RTOS_TIME_FROM_TICK_ISR    1
+    #यदि_अन्तः
 
 /*
  * When entering an ISR we need to grow the stack by one more word than
@@ -66,147 +66,147 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-    #define portTHREAD_CONTEXT_STACK_GROWTH    RTOS_SUPPORT_INTERRUPT_STACK_GROWTH
+    #परिभाषय पत्तनम्_THREAD_CONTEXT_राशिः_GROWTH    RTOS_SUPPORT_व्यवधानम्_राशिः_GROWTH
 
-    #ifndef __ASSEMBLER__
+    #यदि_अपरिभाषितम् __ASSEMBLER__
 
 /* Check validity of number of cores specified in config */
-        #if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
-            #error "Invalid number of cores specified in config!"
-        #endif
+        #यदि ( config_सङ्ख्या_सम्बन्धि_CORES < 1 || पत्तनम्_MAX_CORE_गणनम् < config_सङ्ख्या_सम्बन्धि_CORES )
+            #दोषः "Invalid number of cores specified in config!"
+        #यदि_अन्तः
 
-        #define portMEMORY_BARRIER()                  RTOS_MEMORY_BARRIER()
-        #define portTASK_STACK_DEPTH( pxTaskCode )    RTOS_THREAD_STACK_SIZE( pxTaskCode )
+        #परिभाषय पत्तनम्_स्मृतिः_BARRIER()                  RTOS_स्मृतिः_BARRIER()
+        #परिभाषय पत्तनम्_TASK_राशिः_गभीरता( px_Task_संहिता )    RTOS_THREAD_राशिः_आकार( px_Task_संहिता )
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-        #define portYIELD()    asm volatile ( "KCALLI_lu6 0" ::: "memory" )
+        #परिभाषय पत्तनम्_YIELD()    asm चञ्चल ( "KCALLI_lu6 0" ::: "memory" )
 
-        #define portEND_SWITCHING_ISR( xSwitchRequired )               \
-    do                                                                 \
+        #परिभाषय पत्तनम्_अन्तः_SWITCHING_ISR( xSwitchRequired )               \
+    कुरु                                                                 \
     {                                                                  \
-        if( xSwitchRequired != pdFALSE )                               \
+        यदि( xSwitchRequired != pdFALSE )                               \
         {                                                              \
-            extern uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
-            ulPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;         \
+            बाह्य uint32_t ul_पत्तनम्_Yield_Required[ पत्तनम्_MAX_CORE_गणनम् ]; \
+            ul_पत्तनम्_Yield_Required[ पत्तनम्_GET_CORE_ID() ] = pdTRUE;         \
         }                                                              \
-    } while( 0 )
+    } यावत्( 0 )
 
-        #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+        #परिभाषय पत्तनम्_YIELD_FROM_ISR( x )    पत्तनम्_अन्तः_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* SMP utilities. */
-        #define portGET_CORE_ID()      rtos_core_id_get()
+        #परिभाषय पत्तनम्_GET_CORE_ID()      rtos_core_id_get()
 
-        void vPortYieldOtherCore( int xOtherCoreID );
-        #define portYIELD_CORE( x )    vPortYieldOtherCore( x )
+        शून्य v_पत्तनम्_Yield_Other_Core( पूर्णाङ्क xOtherCoreID );
+        #परिभाषय पत्तनम्_YIELD_CORE( x )    v_पत्तनम्_Yield_Other_Core( x )
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-        #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-            #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-        #endif
+        #यदि_अपरिभाषितम् config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION
+            #परिभाषय config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION    0
+        #यदि_अन्तः
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #यदि config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-            #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-            #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+            #परिभाषय पत्तनम्_लेखः_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_प्राथमिकता ) )
+            #परिभाषय पत्तनम्_RESET_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_प्राथमिकता ) )
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
+            #परिभाषय पत्तनम्_GET_HIGHEST_प्राथमिकता( ux_शिखरम्_प्राथमिकता, uxReadyPriorities )    ux_शिखरम्_प्राथमिकता = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
 
-        #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+        #यदि_अन्तः /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-        #define portGET_INTERRUPT_STATE()                 rtos_interrupt_mask_get()
+        #परिभाषय पत्तनम्_GET_व्यवधानम्_STATE()                 rtos_व्यवधानम्_आवरणम्_get()
 
 /*
  * This differs from the standard portDISABLE_INTERRUPTS()
  * in that it also returns what the interrupt state was
  * before it disabling interrupts.
  */
-        #define portDISABLE_INTERRUPTS()                  rtos_interrupt_mask_all()
+        #परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                  rtos_व्यवधानम्_आवरणम्_all()
 
-        #define portENABLE_INTERRUPTS()                   rtos_interrupt_unmask_all()
+        #परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                   rtos_व्यवधानम्_unmask_all()
 
 /*
  * Port set interrupt mask and clear interrupt mask.
  */
-        #define portSET_INTERRUPT_MASK()                  rtos_interrupt_mask_all()
-        #define portCLEAR_INTERRUPT_MASK( ulState )       rtos_interrupt_mask_set( ulState )
+        #परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्()                  rtos_व्यवधानम्_आवरणम्_all()
+        #परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्( ulState )       rtos_व्यवधानम्_आवरणम्_समुच्चयः( ulState )
 
 /*
  * Will enable interrupts if ulState is non-zero.
  */
-        #define portRESTORE_INTERRUPTS( ulState )         rtos_interrupt_mask_set( ulState )
+        #परिभाषय पत्तनम्_RESTORE_INTERRUPTS( ulState )         rtos_व्यवधानम्_आवरणम्_समुच्चयः( ulState )
 
 /*
  * Returns non-zero if currently running in an
  * ISR or otherwise in kernel mode.
  */
-        #define portCHECK_IF_IN_ISR()                     rtos_isr_running()
+        #परिभाषय पत्तनम्_CHECK_IF_अन्तर्_ISR()                     rtos_isr_running()
 
-        #define portASSERT_IF_IN_ISR()                    configASSERT( portCHECK_IF_IN_ISR() == 0 )
+        #परिभाषय पत्तनम्_ASSERT_IF_अन्तर्_ISR()                    configASSERT( पत्तनम्_CHECK_IF_अन्तर्_ISR() == 0 )
 
-        #define portGET_ISR_LOCK( xCoreID )               do{ ( void )( xCoreID ); rtos_lock_acquire( 0 ); } while( 0 )
-        #define portRELEASE_ISR_LOCK( xCoreID )           do{ ( void )( xCoreID ); rtos_lock_release( 0 ); } while( 0 )
-        #define portGET_TASK_LOCK( xCoreID )              do{ ( void )( xCoreID ); rtos_lock_acquire( 1 ); } while( 0 )
-        #define portRELEASE_TASK_LOCK( xCoreID )          do{ ( void )( xCoreID ); rtos_lock_release( 1 ); } while( 0 )
+        #परिभाषय पत्तनम्_GET_ISR_तालकम्( xCoreID )               कुरु{ ( शून्य )( xCoreID ); rtos_तालकम्_acquire( 0 ); } यावत्( 0 )
+        #परिभाषय पत्तनम्_RELEASE_ISR_तालकम्( xCoreID )           कुरु{ ( शून्य )( xCoreID ); rtos_तालकम्_release( 0 ); } यावत्( 0 )
+        #परिभाषय पत्तनम्_GET_TASK_तालकम्( xCoreID )              कुरु{ ( शून्य )( xCoreID ); rtos_तालकम्_acquire( 1 ); } यावत्( 0 )
+        #परिभाषय पत्तनम्_RELEASE_TASK_तालकम्( xCoreID )          कुरु{ ( शून्य )( xCoreID ); rtos_तालकम्_release( 1 ); } यावत्( 0 )
 
 
-        void vTaskEnterCritical( void );
-        void vTaskExitCritical( void );
-        #define portENTER_CRITICAL()    vTaskEnterCritical()
-        #define portEXIT_CRITICAL()     vTaskExitCritical()
+        शून्य vTaskEnterCritical( शून्य );
+        शून्य vTaskExitCritical( शून्य );
+        #परिभाषय पत्तनम्_ENTER_CRITICAL()    vTaskEnterCritical()
+        #परिभाषय पत्तनम्_EXIT_CRITICAL()     vTaskExitCritical()
 
-        extern UBaseType_t vTaskEnterCriticalFromISR( void );
-        extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
-        #define portENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
-        #define portEXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
+        बाह्य UBaseType_t vTaskEnterCriticalFromISR( शून्य );
+        बाह्य शून्य vTaskExitCriticalFromISR( UBaseType_t ux_Saved_व्यवधानम्_स्थितिः );
+        #परिभाषय पत्तनम्_ENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
+        #परिभाषय पत्तनम्_EXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
 
 /*-----------------------------------------------------------*/
 
 /* Runtime stats support */
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            int xscope_gettime( void );
-            #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* nothing needed here */
-            #define portGET_RUN_TIME_COUNTER_VALUE()            xscope_gettime()
-        #endif
+        #यदि ( config_GENERATE_सततम्_TIME_STATS == 1 )
+            पूर्णाङ्क xscope_gettime( शून्य );
+            #परिभाषय पत्तनम्_CONFIGURE_TIMER_FOR_सततम्_TIME_STATS()    /* nothing needed here */
+            #परिभाषय पत्तनम्_GET_सततम्_TIME_गणक_मानम्()            xscope_gettime()
+        #यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Maps sprintf and snprintf to the lite version in lib_rtos_support */
-        #if ( configUSE_DEBUG_SPRINTF == 1 )
-            #define sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
-            #define snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
-        #endif
+        #यदि ( configUSE_DEBUG_SPRINTF == 1 )
+            #परिभाषय sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
+            #परिभाषय snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
+        #यदि_अन्तः
 
 /* Attribute for the pxCallbackFunction member of the Timer_t struct.
  * Required by xcc to calculate stack usage. */
-        #define portTIMER_CALLBACK_ATTRIBUTE    __attribute__( ( fptrgroup( "timerCallbackGroup" ) ) )
+        #परिभाषय पत्तनम्_TIMER_CALLBACK_ATTRIBUTE    __attribute__( ( fptrgroup( "timerCallbackGroup" ) ) )
 
 /* Timer callback function macros. For xcc this ensures they get added to the timer callback
  * group so that stack usage for certain functions in timers.c can be calculated. */
-        #define portTIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    void vFunction( TimerHandle_t xTimer )
-        #define portTIMER_CALLBACK_FUNCTION( vFunction, xTimer )          portTIMER_CALLBACK_ATTRIBUTE void vFunction( TimerHandle_t xTimer )
+        #परिभाषय पत्तनम्_TIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    शून्य vFunction( TimerHandle_t xTimer )
+        #परिभाषय पत्तनम्_TIMER_CALLBACK_FUNCTION( vFunction, xTimer )          पत्तनम्_TIMER_CALLBACK_ATTRIBUTE शून्य vFunction( TimerHandle_t xTimer )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-        #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-        #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+        #परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+        #परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 /*-----------------------------------------------------------*/
 
 
-        #ifdef __cplusplus
+        #यदि_परिभाषितम् __cplusplus
 }
-        #endif
+        #यदि_अन्तः
 
-    #endif /* __ASSEMBLER__ */
+    #यदि_अन्तः /* __ASSEMBLER__ */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

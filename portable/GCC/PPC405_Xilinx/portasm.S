@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -33,12 +33,12 @@
     .extern xTaskIncrementTick
     .extern vPortISRHandler
 
-    .global vPortStartFirstTask
-    .global vPortYield
-    .global vPortTickISR
-    .global vPortISRWrapper
-    .global vPortSaveFPURegisters
-    .global vPortRestoreFPURegisters
+    .वैश्विक v_पत्तनम्_Start_First_Task
+    .वैश्विक v_पत्तनम्_Yield
+    .वैश्विक v_पत्तनम्_Tick_ISR
+    .वैश्विक v_पत्तनम्_ISRWrapper
+    .वैश्विक v_पत्तनम्_Save_FPURegisters
+    .वैश्विक v_पत्तनम्_Restore_FPURegisters
 
 .set    BChainField, 0
 .set    NextLRField, BChainField + 4
@@ -94,7 +94,7 @@
 .endm
 
 
-vPortStartFirstTask:
+v_पत्तनम्_Start_First_Task:
 
     /* Get the address of the TCB. */
     xor     R0, R0, R0
@@ -147,14 +147,14 @@ vPortStartFirstTask:
 
 
 
-vPortYield:
+v_पत्तनम्_Yield:
 
     portSAVE_STACK_POINTER_AND_LR
     bl vTaskSwitchContext
     portRESTORE_STACK_POINTER_AND_LR
     blr
 
-vPortTickISR:
+v_पत्तनम्_Tick_ISR:
 
     portSAVE_STACK_POINTER_AND_LR
     bl xTaskIncrementTick
@@ -170,7 +170,7 @@ vPortTickISR:
     portRESTORE_STACK_POINTER_AND_LR
     blr
 
-vPortISRWrapper:
+v_पत्तनम्_ISRWrapper:
 
     portSAVE_STACK_POINTER_AND_LR
     bl vPortISRHandler
@@ -179,7 +179,7 @@ vPortISRWrapper:
 
 #if configUSE_FPU == 1
 
-vPortSaveFPURegisters:
+v_पत्तनम्_Save_FPURegisters:
 
     /* Enable APU and mark FPU as present. */
     mfmsr   r0
@@ -280,7 +280,7 @@ vPortSaveFPURegisters:
 
 #if configUSE_FPU == 1
 
-vPortRestoreFPURegisters:
+v_पत्तनम्_Restore_FPURegisters:
 
     /* Enable APU and mark FPU as present. */
     mfmsr   r0

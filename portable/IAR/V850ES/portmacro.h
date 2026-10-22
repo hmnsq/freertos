@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,43 +46,43 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     int
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    अचिह्नित पूर्णाङ्क
+#परिभाषय पत्तनम्_आधारः_TYPE     पूर्णाङ्क
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-#define portDISABLE_INTERRUPTS()    __asm( "DI" )
-#define portENABLE_INTERRUPTS()     __asm( "EI" )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    __asm( "DI" )
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     __asm( "EI" )
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-#define portNO_CRITICAL_SECTION_NESTING    ( ( UBaseType_t ) 0 )
+#परिभाषय पत्तनम्_NO_CRITICAL_SECTION_NESTING    ( ( UBaseType_t ) 0 )
 
-#define portENTER_CRITICAL()                                                      \
+#परिभाषय पत्तनम्_ENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;            \
+        बाह्य चञ्चल /*uint16_t*/ पत्तनम्_राशिः_TYPE usCriticalNesting;            \
                                                                                   \
-        portDISABLE_INTERRUPTS();                                                 \
+        पत्तनम्_DISABLE_INTERRUPTS();                                                 \
                                                                                   \
         /* Now that interrupts are disabled, ulCriticalNesting can be accessed */ \
         /* directly.  Increment ulCriticalNesting to keep a count of how many */  \
@@ -90,52 +90,52 @@ typedef unsigned long    UBaseType_t;
         usCriticalNesting++;                                                      \
     }
 
-#define portEXIT_CRITICAL()                                                         \
+#परिभाषय पत्तनम्_EXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;              \
+        बाह्य चञ्चल /*uint16_t*/ पत्तनम्_राशिः_TYPE usCriticalNesting;              \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        यदि( usCriticalNesting > पत्तनम्_NO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            यदि( usCriticalNesting == पत्तनम्_NO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
-                portENABLE_INTERRUPTS();                                            \
+                पत्तनम्_ENABLE_INTERRUPTS();                                            \
             }                                                                       \
         }                                                                           \
     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-extern void vPortStart( void );
-extern void portSAVE_CONTEXT( void );
-extern void portRESTORE_CONTEXT( void );
-#define portYIELD()                                       __asm( "trap 0" )
-#define portNOP()                                         __asm( "NOP" )
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } while( 0 )
+बाह्य शून्य v_पत्तनम्_Yield( शून्य );
+बाह्य शून्य v_पत्तनम्_Start( शून्य );
+बाह्य शून्य पत्तनम्_SAVE_CONTEXT( शून्य );
+बाह्य शून्य पत्तनम्_RESTORE_CONTEXT( शून्य );
+#परिभाषय पत्तनम्_YIELD()                                       __asm( "trap 0" )
+#परिभाषय पत्तनम्_NOP()                                         __asm( "NOP" )
+बाह्य शून्य vTaskSwitchContext( शून्य );
+#परिभाषय पत्तनम्_YIELD_FROM_ISR( x_Higher_प्राथमिकता_Task_Woken )    कुरु { यदि( x_Higher_प्राथमिकता_Task_Woken ) vTaskSwitchContext( ); } यावत्( 0 )
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT    4
+#परिभाषय पत्तनम्_राशिः_GROWTH      ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

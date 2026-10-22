@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,90 +46,90 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-void microblaze_disable_interrupts( void );
-void microblaze_enable_interrupts( void );
-#define portDISABLE_INTERRUPTS()    microblaze_disable_interrupts()
-#define portENABLE_INTERRUPTS()     microblaze_enable_interrupts()
+शून्य microblaze_disable_interrupts( शून्य );
+शून्य microblaze_enable_interrupts( शून्य );
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    microblaze_disable_interrupts()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     microblaze_enable_interrupts()
 /*-----------------------------------------------------------*/
 
 /* Critical section macros. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
-#define portENTER_CRITICAL()                  \
+शून्य v_पत्तनम्_Enter_Critical( शून्य );
+शून्य v_पत्तनम्_Exit_Critical( शून्य );
+#परिभाषय पत्तनम्_ENTER_CRITICAL()                  \
     {                                         \
-        extern UBaseType_t uxCriticalNesting; \
+        बाह्य UBaseType_t uxCriticalNesting; \
         microblaze_disable_interrupts();      \
         uxCriticalNesting++;                  \
     }
 
-#define portEXIT_CRITICAL()                      \
+#परिभाषय पत्तनम्_EXIT_CRITICAL()                      \
     {                                            \
-        extern UBaseType_t uxCriticalNesting;    \
+        बाह्य UBaseType_t uxCriticalNesting;    \
         /* Interrupts are disabled, so we can */ \
         /* access the variable directly. */      \
         uxCriticalNesting--;                     \
-        if( uxCriticalNesting == 0 )             \
+        यदि( uxCriticalNesting == 0 )             \
         {                                        \
             /* The nesting has unwound and we \
              * can enable interrupts again. */ \
-            portENABLE_INTERRUPTS();           \
+            पत्तनम्_ENABLE_INTERRUPTS();           \
         }                                      \
     }
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void );
-#define portYIELD()             vPortYield()
+शून्य v_पत्तनम्_Yield( शून्य );
+#परिभाषय पत्तनम्_YIELD()             v_पत्तनम्_Yield()
 
-void vTaskSwitchContext();
-#define portYIELD_FROM_ISR()    vTaskSwitchContext()
+शून्य vTaskSwitchContext();
+#परिभाषय पत्तनम्_YIELD_FROM_ISR()    vTaskSwitchContext()
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()               asm volatile ( "NOP" )
-#define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT    4
+#परिभाषय पत्तनम्_राशिः_GROWTH      ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_NOP()               asm चञ्चल ( "NOP" )
+#परिभाषय पत्तनम्_स्मृतिः_BARRIER()    asm चञ्चल ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

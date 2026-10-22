@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+आनयन os
+आनयन re
+तः common.शीर्षकम्_checker आनयन शीर्षकम्_Checker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -126,7 +126,7 @@ KERNEL_ARM_COLLAB_FILES_PATTERNS = [
     r'.*tasks\.c$',
 ]
 
-KERNEL_HEADER = [
+KERNEL_शीर्षकम् = [
     '/*\n',
     ' * FreeRTOS Kernel <DEVELOPMENT BRANCH>\n',
     ' * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.\n',
@@ -166,84 +166,84 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
-    def __init__(
+वर्ग Kernel_शीर्षकम्_Checker(शीर्षकम्_Checker):
+    परिभाषा __init__(
         self,
-        header,
+        शीर्षकम्,
         padding=1000,
-        ignored_files=None,
-        ignored_ext=None,
-        ignored_patterns=None,
-        py_ext=None,
-        asm_ext=None,
-        third_party_patterns=None,
-        copyright_regex = None
+        ignored_files=किमपि_न,
+        ignored_ext=किमपि_न,
+        ignored_patterns=किमपि_न,
+        py_ext=किमपि_न,
+        asm_ext=किमपि_न,
+        third_party_patterns=किमपि_न,
+        copyright_regex = किमपि_न
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
+        पर().__init__(शीर्षकम्, padding, ignored_files, ignored_ext, ignored_patterns,
                          py_ext, asm_ext, third_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
-        self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
-            self.armCollabFilesPatternList.append(re.compile(pattern))
+        self.arm_Collab_Files_आदर्शः_List = []
+        प्रति आदर्शः अन्तः KERNEL_ARM_COLLAB_FILES_PATTERNS:
+            self.arm_Collab_Files_आदर्शः_List.append(re.compile(आदर्शः))
 
-    def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+    परिभाषा isArmCollabFile(self, मार्गः):
+        प्रति आदर्शः अन्तः self.arm_Collab_Files_आदर्शः_List:
+            यदि आदर्शः.मेलनम्(मार्गः):
+                प्रत्यागम सत्य
+        प्रत्यागम असत्य
 
-    def checkArmCollabFile(self, path):
-        isValid = False
-        file_ext = os.path.splitext(path)[-1]
+    परिभाषा checkArmCollabFile(self, मार्गः):
+        isValid = असत्य
+        file_ext = os.मार्गः.splitext(मार्गः)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
-                : len(self.header) + 2
+        सह open(मार्गः, encoding="utf-8", errors="ignore") इव file:
+            chunk = file.पठ(दीर्घता("".join(self.शीर्षकम्)) + self.padding)
+            पङ्क्तयः = [("%s\n" % पङ्क्तिः) प्रति पङ्क्तिः अन्तः chunk.strip().splitlines()][
+                : दीर्घता(self.शीर्षकम्) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            यदि (दीर्घता(पङ्क्तयः) > 0) च (पङ्क्तयः[0].find("#!") == 0):
+                पङ्क्तयः.remove(पङ्क्तयः[0])
+            यदि (दीर्घता(पङ्क्तयः) > 0) च (दीर्घता(पङ्क्तयः[-1].strip()) == 0):
+                पङ्क्तयः.remove(पङ्क्तयः[-1])
 
         # Split lines in sections.
-        headers = dict()
-        headers["text"] = []
-        headers["copyright"] = []
-        headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
-            else:
-                headers["text"].append(line)
+        शीर्षकाणि = dict()
+        शीर्षकाणि["text"] = []
+        शीर्षकाणि["copyright"] = []
+        शीर्षकाणि["spdx"] = []
+        प्रति पङ्क्तिः अन्तः पङ्क्तयः:
+            यदि self.armCollabRegex.मेलनम्(पङ्क्तिः):
+                शीर्षकाणि["copyright"].append(पङ्क्तिः)
+            नोचेद्यदि "SPDX-License-Identifier:" अन्तः पङ्क्तिः:
+                शीर्षकाणि["spdx"].append(पङ्क्तिः)
+            अन्यथा:
+                शीर्षकाणि["text"].append(पङ्क्तिः)
 
-        text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
-        spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
+        text_equal = self.is_Valid_शीर्षकम्_Section(file_ext, "text", शीर्षकाणि["text"])
+        spdx_equal = self.is_Valid_शीर्षकम्_Section(file_ext, "spdx", शीर्षकाणि["spdx"])
 
-        if text_equal and spdx_equal:
+        यदि text_equal च spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            यदि दीर्घता(शीर्षकाणि["copyright"]) == 3 वा दीर्घता(शीर्षकाणि["copyright"]) == 2:
+                isValid = सत्य
 
-        return isValid
+        प्रत्यागम isValid
 
-    def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
-            isValid = self.checkArmCollabFile(path)
-        return isValid
+    परिभाषा customCheck(self, मार्गः):
+        isValid = असत्य
+        यदि self.isArmCollabFile(मार्गः):
+            isValid = self.checkArmCollabFile(मार्गः)
+        प्रत्यागम isValid
 
 
-def main():
-    parser = HeaderChecker.configArgParser()
-    args   = parser.parse_args()
+परिभाषा मुख्यम्():
+    parser = शीर्षकम्_Checker.configArgParser()
+    तर्काः   = parser.parse_तर्काः()
 
     # Configure the checks then run
-    checker = KernelHeaderChecker(KERNEL_HEADER,
+    checker = Kernel_शीर्षकम्_Checker(KERNEL_शीर्षकम्,
                                   copyright_regex=FREERTOS_COPYRIGHT_REGEX,
                                   ignored_files=KERNEL_IGNORED_FILES,
                                   ignored_ext=KERNEL_IGNORED_EXTENSIONS,
@@ -251,13 +251,13 @@ def main():
                                   third_party_patterns=KERNEL_THIRD_PARTY_PATTERNS,
                                   py_ext=KERNEL_PY_EXTENSIONS,
                                   asm_ext=KERNEL_ASM_EXTENSIONS)
-    checker.ignoreFile(os.path.split(__file__)[-1])
+    checker.ignoreFile(os.मार्गः.विभज(__file__)[-1])
 
-    rc = checker.processArgs(args)
-    if rc:
+    rc = checker.process_तर्काः(तर्काः)
+    यदि rc:
         checker.showHelp(__file__)
 
-    return rc
+    प्रत्यागम rc
 
-if __name__ == '__main__':
-    exit(main())
+यदि __name__ == '__main__':
+    exit(मुख्यम्())

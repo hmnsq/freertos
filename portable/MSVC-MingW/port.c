@@ -27,33 +27,33 @@
  */
 
 /* Standard includes. */
-#include <stdio.h>
+#अन्तर्भाव <stdio.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
-#ifdef WIN32_LEAN_AND_MEAN
-    #include <winsock2.h>
-#else
-    #include <winsock.h>
-#endif
+#यदि_परिभाषितम् WIN32_LEAN_AND_माध्यम्
+    #अन्तर्भाव <winsock2.h>
+#अन्यथा
+    #अन्तर्भाव <winsock.h>
+#यदि_अन्तः
 
-#ifdef _MSC_VER
-    #include <timeapi.h>
-    #pragma comment(lib, "winmm.lib")
-#else
-    #include <mmsystem.h>
-#endif
+#यदि_परिभाषितम् _MSC_VER
+    #अन्तर्भाव <timeapi.h>
+    #निर्देशः comment(lib, "winmm.lib")
+#अन्यथा
+    #अन्तर्भाव <mmsystem.h>
+#यदि_अन्तः
 
-#define portMAX_INTERRUPTS                          ( ( uint32_t ) sizeof( uint32_t ) * 8UL ) /* The number of bits in an uint32_t. */
-#define portNO_CRITICAL_NESTING                     ( ( uint32_t ) 0 )
+#परिभाषय पत्तनम्_MAX_INTERRUPTS                          ( ( uint32_t ) परिमाण( uint32_t ) * 8UL ) /* The number of bits in an uint32_t. */
+#परिभाषय पत्तनम्_NO_CRITICAL_NESTING                     ( ( uint32_t ) 0 )
 
 /* The priorities at which the various components of the simulation execute. */
-#define portDELETE_SELF_THREAD_PRIORITY             THREAD_PRIORITY_TIME_CRITICAL /* Must be highest. */
-#define portSIMULATED_INTERRUPTS_THREAD_PRIORITY    THREAD_PRIORITY_TIME_CRITICAL
-#define portSIMULATED_TIMER_THREAD_PRIORITY         THREAD_PRIORITY_HIGHEST
-#define portTASK_THREAD_PRIORITY                    THREAD_PRIORITY_ABOVE_NORMAL
+#परिभाषय पत्तनम्_DELETE_SELF_THREAD_प्राथमिकता             THREAD_प्राथमिकता_TIME_CRITICAL /* Must be highest. */
+#परिभाषय पत्तनम्_SIMULATED_INTERRUPTS_THREAD_प्राथमिकता    THREAD_प्राथमिकता_TIME_CRITICAL
+#परिभाषय पत्तनम्_SIMULATED_TIMER_THREAD_प्राथमिकता         THREAD_प्राथमिकता_HIGHEST
+#परिभाषय पत्तनम्_TASK_THREAD_प्राथमिकता                    THREAD_प्राथमिकता_ABOVE_प्रसामान्यम्
 
 /*
  * Created as a high priority thread, this function uses a timer to simulate
@@ -61,20 +61,20 @@
  * environment the timer does not achieve anything approaching real time
  * performance though.
  */
-static DWORD WINAPI prvSimulatedPeripheralTimer( LPVOID lpParameter );
+स्थिर DWORD WINAPI prvSimulatedPeripheralTimer( LPVOID lpParameter );
 
 /*
  * Process all the simulated interrupts - each represented by a bit in
  * ulPendingInterrupts variable.
  */
-static void prvProcessSimulatedInterrupts( void );
+स्थिर शून्य prvProcessSimulatedInterrupts( शून्य );
 
 /*
  * Interrupt handlers used by the kernel itself.  These are executed from the
  * simulated interrupt handler thread.
  */
-static uint32_t prvProcessYieldInterrupt( void );
-static uint32_t prvProcessTickInterrupt( void );
+स्थिर uint32_t prv_Process_Yield_व्यवधानम्( शून्य );
+स्थिर uint32_t prv_Process_Tick_व्यवधानम्( शून्य );
 
 /*
  * Exiting a critical section will cause the calling task to block on yield
@@ -83,13 +83,13 @@ static uint32_t prvProcessTickInterrupt( void );
  * attempt to obtain pvInterruptEventMutex if a critical section is used inside
  * an interrupt handler itself.
  */
-volatile BaseType_t xInsideInterrupt = pdFALSE;
+चञ्चल आधारः_Type_t x_Inside_व्यवधानम् = pdFALSE;
 
 /*
  * Called when the process exits to let Windows know the high timer resolution
  * is no longer required.
  */
-static BOOL WINAPI prvEndProcess( DWORD dwCtrlType );
+स्थिर BOOL WINAPI prv_अन्तः_Process( DWORD dwCtrlType );
 
 /*-----------------------------------------------------------*/
 
@@ -98,29 +98,29 @@ static BOOL WINAPI prvEndProcess( DWORD dwCtrlType );
  * although the task stack is still used to hold an xThreadState structure this is
  * the only thing it will ever hold.  The structure indirectly maps the task handle
  * to a thread handle. */
-typedef struct
+प्रकारनिर्देश संरचना
 {
     /* Handle of the thread that executes the task. */
-    void * pvThread;
+    शून्य * pvThread;
 
     /* Event used to make sure the thread does not execute past a yield point
      * between the call to SuspendThread() to suspend the thread and the
      * asynchronous SuspendThread() operation actually being performed. */
-    void * pvYieldEvent;
+    शून्य * pvYieldEvent;
 } ThreadState_t;
 
 /* Simulated interrupts waiting to be processed.  This is a bit mask where each
  * bit represents one interrupt, so a maximum of 32 interrupts can be simulated. */
-static volatile uint32_t ulPendingInterrupts = 0UL;
+स्थिर चञ्चल uint32_t ulPendingInterrupts = 0UL;
 
 /* An event used to inform the simulated interrupt processing thread (a high
  * priority thread that simulated interrupt processing) that an interrupt is
  * pending. */
-static void * pvInterruptEvent = NULL;
+स्थिर शून्य * pv_व्यवधानम्_Event = रिक्त;
 
 /* Mutex used to protect all the simulated interrupt variables that are accessed
  * by multiple threads. */
-static void * pvInterruptEventMutex = NULL;
+स्थिर शून्य * pv_व्यवधानम्_Event_Mutex = रिक्त;
 
 /* The critical nesting count for the currently executing task.  This is
  * initialised to a non-zero value so interrupts do not become enabled during
@@ -129,108 +129,108 @@ static void * pvInterruptEventMutex = NULL;
  * initialisation is probably not critical in this simulated environment as the
  * simulated interrupt handlers do not get created until the FreeRTOS scheduler is
  * started anyway. */
-static volatile uint32_t ulCriticalNesting = 9999UL;
+स्थिर चञ्चल uint32_t ulCriticalNesting = 9999UL;
 
 /* Handlers for all the simulated software interrupts.  The first two positions
  * are used for the Yield and Tick interrupts so are handled slightly differently,
  * all the other interrupts can be user defined. */
-static uint32_t (* ulIsrHandler[ portMAX_INTERRUPTS ])( void ) = { 0 };
+स्थिर uint32_t (* ulIsrHandler[ पत्तनम्_MAX_INTERRUPTS ])( शून्य ) = { 0 };
 
 /* Pointer to the TCB of the currently executing task. */
-extern void * volatile pxCurrentTCB;
+बाह्य शून्य * चञ्चल pxCurrentTCB;
 
 /* Used to ensure nothing is processed during the startup sequence. */
-static BaseType_t xPortRunning = pdFALSE;
+स्थिर आधारः_Type_t x_पत्तनम्_Running = pdFALSE;
 
 /*-----------------------------------------------------------*/
 
-static DWORD WINAPI prvSimulatedPeripheralTimer( LPVOID lpParameter )
+स्थिर DWORD WINAPI prvSimulatedPeripheralTimer( LPVOID lpParameter )
 {
-    TickType_t xMinimumWindowsBlockTime;
+    TickType_t x_Minimum_Windows_खण्डम्_Time;
     TIMECAPS xTimeCaps;
-    TickType_t xWaitTimeBetweenTicks = portTICK_PERIOD_MS;
-    HANDLE hTimer = NULL;
+    TickType_t xWaitTimeBetweenTicks = पत्तनम्_TICK_PERIOD_MS;
+    HANDLE hTimer = रिक्त;
     LARGE_INTEGER liDueTime;
     BOOL bSuccess;
 
     /* Set the timer resolution to the maximum possible. */
-    if( timeGetDevCaps( &xTimeCaps, sizeof( xTimeCaps ) ) == MMSYSERR_NOERROR )
+    यदि( timeGetDevCaps( &xTimeCaps, परिमाण( xTimeCaps ) ) == MMSYSERR_NOERROR )
     {
-        xMinimumWindowsBlockTime = ( TickType_t ) xTimeCaps.wPeriodMin;
+        x_Minimum_Windows_खण्डम्_Time = ( TickType_t ) xTimeCaps.wPeriodMin;
         timeBeginPeriod( xTimeCaps.wPeriodMin );
 
         /* Register an exit handler so the timeBeginPeriod() function can be
          * matched with a timeEndPeriod() when the application exits. */
-        SetConsoleCtrlHandler( prvEndProcess, TRUE );
+        समुच्चयः_Console_Ctrl_Handler( prv_अन्तः_Process, TRUE );
     }
-    else
+    अन्यथा
     {
-        xMinimumWindowsBlockTime = ( TickType_t ) 20;
+        x_Minimum_Windows_खण्डम्_Time = ( TickType_t ) 20;
     }
 
     /* Just to prevent compiler warnings. */
-    ( void ) lpParameter;
+    ( शून्य ) lpParameter;
 
     /* Tick time for the timer is adjusted with the maximum available
      resolution. */
-    if( portTICK_PERIOD_MS < xMinimumWindowsBlockTime )
+    यदि( पत्तनम्_TICK_PERIOD_MS < x_Minimum_Windows_खण्डम्_Time )
     {
-        xWaitTimeBetweenTicks = xMinimumWindowsBlockTime;
+        xWaitTimeBetweenTicks = x_Minimum_Windows_खण्डम्_Time;
     }
 
     /* Convert the tick time in milliseconds to nanoseconds resolution
      for the Waitable Timer. */
-    liDueTime.u.LowPart = xWaitTimeBetweenTicks * 1000 * 1000;
-    liDueTime.u.HighPart = 0;
+    liDueTime.u.नीचः_Part = xWaitTimeBetweenTicks * 1000 * 1000;
+    liDueTime.u.उच्चः_Part = 0;
 
     /* Create a synchronization Waitable Timer.*/
-    hTimer = CreateWaitableTimer( NULL, FALSE, NULL );
+    hTimer = CreateWaitableTimer( रिक्त, FALSE, रिक्त );
 
-    configASSERT( hTimer != NULL );
+    configASSERT( hTimer != रिक्त );
 
     /* Set the Waitable Timer. The timer is set to run periodically at every
     xWaitTimeBetweenTicks milliseconds. */
-    bSuccess = SetWaitableTimer( hTimer, &liDueTime, xWaitTimeBetweenTicks, NULL, NULL, 0 );
+    bSuccess = समुच्चयः_Waitable_Timer( hTimer, &liDueTime, xWaitTimeBetweenTicks, रिक्त, रिक्त, 0 );
     configASSERT( bSuccess );
 
-    while( xPortRunning == pdTRUE )
+    यावत्( x_पत्तनम्_Running == pdTRUE )
     {
         /* Wait until the timer expires and we can access the simulated interrupt
          * variables. */
 
         WaitForSingleObject( hTimer, INFINITE );
 
-        vPortGenerateSimulatedInterruptFromWindowsThread( portINTERRUPT_TICK );
+        v_पत्तनम्_Generate_Simulated_व्यवधानम्_From_Windows_Thread( पत्तनम्_व्यवधानम्_TICK );
     }
 
-    return 0;
+    प्रत्यागम 0;
 }
 /*-----------------------------------------------------------*/
 
-static BOOL WINAPI prvEndProcess( DWORD dwCtrlType )
+स्थिर BOOL WINAPI prv_अन्तः_Process( DWORD dwCtrlType )
 {
     TIMECAPS xTimeCaps;
 
-    ( void ) dwCtrlType;
+    ( शून्य ) dwCtrlType;
 
-    if( timeGetDevCaps( &xTimeCaps, sizeof( xTimeCaps ) ) == MMSYSERR_NOERROR )
+    यदि( timeGetDevCaps( &xTimeCaps, परिमाण( xTimeCaps ) ) == MMSYSERR_NOERROR )
     {
         /* Match the call to timeBeginPeriod( xTimeCaps.wPeriodMin ) made when
          * the process started with a timeEndPeriod() as the process exits. */
-        timeEndPeriod( xTimeCaps.wPeriodMin );
+        time_अन्तः_Period( xTimeCaps.wPeriodMin );
     }
 
-    return pdFALSE;
+    प्रत्यागम pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                     TaskFunction_t px_संहिता,
+                                     शून्य * pvParameters )
 {
-    ThreadState_t * pxThreadState = NULL;
-    int8_t * pcTopOfStack = ( int8_t * ) pxTopOfStack;
-    const SIZE_T xStackSize = 1024; /* Set the size to a small number which will get rounded up to the minimum possible. */
+    ThreadState_t * pxThreadState = रिक्त;
+    int8_t * pc_शिखरम्_सम्बन्धि_राशिः = ( int8_t * ) px_शिखरम्_सम्बन्धि_राशिः;
+    ध्रुव आकार_T x_राशिः_आकार = 1024; /* Set the size to a small number which will get rounded up to the minimum possible. */
 
     /* In this simulated case a stack is not initialised, but instead a thread
      * is created that will execute the task being created.  The thread handles
@@ -238,43 +238,43 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * the stack that was created for the task - so the stack buffer is still
      * used, just not in the conventional way.  It will not be used for anything
      * other than holding this structure. */
-    pxThreadState = ( ThreadState_t * ) ( pcTopOfStack - sizeof( ThreadState_t ) );
+    pxThreadState = ( ThreadState_t * ) ( pc_शिखरम्_सम्बन्धि_राशिः - परिमाण( ThreadState_t ) );
 
     /* Create the event used to prevent the thread from executing past its yield
      * point if the SuspendThread() call that suspends the thread does not take
      * effect immediately (it is an asynchronous call). */
-    pxThreadState->pvYieldEvent = CreateEvent( NULL,   /* Default security attributes. */
+    pxThreadState->pvYieldEvent = CreateEvent( रिक्त,   /* Default security attributes. */
                                                FALSE,  /* Auto reset. */
                                                FALSE,  /* Start not signalled. */
-                                               NULL ); /* No name. */
+                                               रिक्त ); /* No name. */
 
 
-#ifdef __GNUC__
+#यदि_परिभाषितम् __GNUC__
     /* GCC reports the warning for the cast operation from TaskFunction_t to LPTHREAD_START_ROUTINE. */
     /* Disable this warning here by the #pragma option. */
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-function-type"
-#endif
+#निर्देशः GCC diagnostic प्रक्षिप
+#निर्देशः GCC diagnostic ignored "-Wcast-function-type"
+#यदि_अन्तः
     /* Create the thread itself. */
-    pxThreadState->pvThread = CreateThread( NULL, xStackSize, ( LPTHREAD_START_ROUTINE ) pxCode, pvParameters, CREATE_SUSPENDED | STACK_SIZE_PARAM_IS_A_RESERVATION, NULL );
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+    pxThreadState->pvThread = CreateThread( रिक्त, x_राशिः_आकार, ( LPTHREAD_START_ROUTINE ) px_संहिता, pvParameters, CREATE_SUSPENDED | राशिः_आकार_PARAM_IS_A_RESERVATION, रिक्त );
+#यदि_परिभाषितम् __GNUC__
+#निर्देशः GCC diagnostic निष्कासय
+#यदि_अन्तः
 
     configASSERT( pxThreadState->pvThread ); /* See comment where TerminateThread() is called. */
-    SetThreadAffinityMask( pxThreadState->pvThread, 0x01 );
-    SetThreadPriorityBoost( pxThreadState->pvThread, TRUE );
-    SetThreadPriority( pxThreadState->pvThread, portTASK_THREAD_PRIORITY );
+    समुच्चयः_Thread_Affinity_आवरणम्( pxThreadState->pvThread, 0x01 );
+    समुच्चयः_Thread_प्राथमिकता_Boost( pxThreadState->pvThread, TRUE );
+    समुच्चयः_Thread_प्राथमिकता( pxThreadState->pvThread, पत्तनम्_TASK_THREAD_प्राथमिकता );
 
-    return ( StackType_t * ) pxThreadState;
+    प्रत्यागम ( राशिः_Type_t * ) pxThreadState;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
-    void * pvHandle = NULL;
+    शून्य * pvHandle = रिक्त;
     int32_t lSuccess;
-    ThreadState_t * pxThreadState = NULL;
+    ThreadState_t * pxThreadState = रिक्त;
     SYSTEM_INFO xSystemInfo;
 
     /* This port runs windows threads with extremely high priority.  All the
@@ -282,32 +282,32 @@ BaseType_t xPortStartScheduler( void )
      * if the host has multiple cores. */
     GetSystemInfo( &xSystemInfo );
 
-    if( xSystemInfo.dwNumberOfProcessors <= 1 )
+    यदि( xSystemInfo.dw_सङ्ख्या_सम्बन्धि_Processors <= 1 )
     {
-        printf( "This version of the FreeRTOS Windows port can only be used on multi-core hosts.\r\n" );
+        प्रारूप_लिख( "This version of the FreeRTOS Windows port can only be used on multi-core hosts.\r\n" );
         lSuccess = pdFAIL;
     }
-    else
+    अन्यथा
     {
         lSuccess = pdPASS;
 
         /* The highest priority class is used to [try to] prevent other Windows
          * activity interfering with FreeRTOS timing too much. */
-        if( SetPriorityClass( GetCurrentProcess(), REALTIME_PRIORITY_CLASS ) == 0 )
+        यदि( समुच्चयः_प्राथमिकता_Class( GetCurrentProcess(), REALTIME_प्राथमिकता_CLASS ) == 0 )
         {
-            printf( "SetPriorityClass() failed\r\n" );
+            प्रारूप_लिख( "SetPriorityClass() failed\r\n" );
         }
 
         /* Install the interrupt handlers used by the scheduler itself. */
-        vPortSetInterruptHandler( portINTERRUPT_YIELD, prvProcessYieldInterrupt );
-        vPortSetInterruptHandler( portINTERRUPT_TICK, prvProcessTickInterrupt );
+        v_पत्तनम्_समुच्चयः_व्यवधानम्_Handler( पत्तनम्_व्यवधानम्_YIELD, prv_Process_Yield_व्यवधानम् );
+        v_पत्तनम्_समुच्चयः_व्यवधानम्_Handler( पत्तनम्_व्यवधानम्_TICK, prv_Process_Tick_व्यवधानम् );
 
         /* Create the events and mutexes that are used to synchronise all the
          * threads. */
-        pvInterruptEventMutex = CreateMutex( NULL, FALSE, NULL );
-        pvInterruptEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+        pv_व्यवधानम्_Event_Mutex = CreateMutex( रिक्त, FALSE, रिक्त );
+        pv_व्यवधानम्_Event = CreateEvent( रिक्त, FALSE, FALSE, रिक्त );
 
-        if( ( pvInterruptEventMutex == NULL ) || ( pvInterruptEvent == NULL ) )
+        यदि( ( pv_व्यवधानम्_Event_Mutex == रिक्त ) || ( pv_व्यवधानम्_Event == रिक्त ) )
         {
             lSuccess = pdFAIL;
         }
@@ -317,46 +317,46 @@ BaseType_t xPortStartScheduler( void )
          * simulated interrupts take priority over tasks. */
         pvHandle = GetCurrentThread();
 
-        if( pvHandle == NULL )
+        यदि( pvHandle == रिक्त )
         {
             lSuccess = pdFAIL;
         }
     }
 
-    if( lSuccess == pdPASS )
+    यदि( lSuccess == pdPASS )
     {
-        if( SetThreadPriority( pvHandle, portSIMULATED_INTERRUPTS_THREAD_PRIORITY ) == 0 )
+        यदि( समुच्चयः_Thread_प्राथमिकता( pvHandle, पत्तनम्_SIMULATED_INTERRUPTS_THREAD_प्राथमिकता ) == 0 )
         {
             lSuccess = pdFAIL;
         }
 
-        SetThreadPriorityBoost( pvHandle, TRUE );
-        SetThreadAffinityMask( pvHandle, 0x01 );
+        समुच्चयः_Thread_प्राथमिकता_Boost( pvHandle, TRUE );
+        समुच्चयः_Thread_Affinity_आवरणम्( pvHandle, 0x01 );
     }
 
-    if( lSuccess == pdPASS )
+    यदि( lSuccess == pdPASS )
     {
         /* Start the thread that simulates the timer peripheral to generate
          * tick interrupts.  The priority is set below that of the simulated
          * interrupt handler so the interrupt event mutex is used for the
          * handshake / overrun protection. */
-        pvHandle = CreateThread( NULL, 0, prvSimulatedPeripheralTimer, NULL, CREATE_SUSPENDED, NULL );
+        pvHandle = CreateThread( रिक्त, 0, prvSimulatedPeripheralTimer, रिक्त, CREATE_SUSPENDED, रिक्त );
 
-        if( pvHandle != NULL )
+        यदि( pvHandle != रिक्त )
         {
-            SetThreadPriority( pvHandle, portSIMULATED_TIMER_THREAD_PRIORITY );
-            SetThreadPriorityBoost( pvHandle, TRUE );
-            SetThreadAffinityMask( pvHandle, 0x01 );
+            समुच्चयः_Thread_प्राथमिकता( pvHandle, पत्तनम्_SIMULATED_TIMER_THREAD_प्राथमिकता );
+            समुच्चयः_Thread_प्राथमिकता_Boost( pvHandle, TRUE );
+            समुच्चयः_Thread_Affinity_आवरणम्( pvHandle, 0x01 );
             ResumeThread( pvHandle );
         }
 
         /* Start the highest priority task by obtaining its associated thread
          * state structure, in which is stored the thread handle. */
         pxThreadState = ( ThreadState_t * ) *( ( size_t * ) pxCurrentTCB );
-        ulCriticalNesting = portNO_CRITICAL_NESTING;
+        ulCriticalNesting = पत्तनम्_NO_CRITICAL_NESTING;
 
         /* The scheduler is now running. */
-        xPortRunning = pdTRUE;
+        x_पत्तनम्_Running = pdTRUE;
 
         /* Start the first task. */
         ResumeThread( pxThreadState->pvThread );
@@ -368,65 +368,65 @@ BaseType_t xPortStartScheduler( void )
 
     /* Would not expect to return from prvProcessSimulatedInterrupts(), so should
      * not get here. */
-    return 0;
+    प्रत्यागम 0;
 }
 /*-----------------------------------------------------------*/
 
-static uint32_t prvProcessYieldInterrupt( void )
+स्थिर uint32_t prv_Process_Yield_व्यवधानम्( शून्य )
 {
     /* Always return true as this is a yield. */
-    return pdTRUE;
+    प्रत्यागम pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-static uint32_t prvProcessTickInterrupt( void )
+स्थिर uint32_t prv_Process_Tick_व्यवधानम्( शून्य )
 {
     uint32_t ulSwitchRequired;
 
     /* Process the tick itself. */
-    configASSERT( xPortRunning );
+    configASSERT( x_पत्तनम्_Running );
     ulSwitchRequired = ( uint32_t ) xTaskIncrementTick();
 
-    return ulSwitchRequired;
+    प्रत्यागम ulSwitchRequired;
 }
 /*-----------------------------------------------------------*/
 
-static void prvProcessSimulatedInterrupts( void )
+स्थिर शून्य prvProcessSimulatedInterrupts( शून्य )
 {
     uint32_t ulSwitchRequired, i;
     ThreadState_t * pxThreadState;
-    void * pvObjectList[ 2 ];
+    शून्य * pvObjectList[ 2 ];
     CONTEXT xContext;
-    DWORD xWinApiResult;
-    const DWORD xTimeoutMilliseconds = 1000;
+    DWORD x_Win_Api_परिणाम;
+    ध्रुव DWORD xTimeoutMilliseconds = 1000;
 
     /* Going to block on the mutex that ensured exclusive access to the simulated
      * interrupt objects, and the event that signals that a simulated interrupt
      * should be processed. */
-    pvObjectList[ 0 ] = pvInterruptEventMutex;
-    pvObjectList[ 1 ] = pvInterruptEvent;
+    pvObjectList[ 0 ] = pv_व्यवधानम्_Event_Mutex;
+    pvObjectList[ 1 ] = pv_व्यवधानम्_Event;
 
     /* Create a pending tick to ensure the first task is started as soon as
      * this thread pends. */
-    ulPendingInterrupts |= ( 1UL << portINTERRUPT_TICK );
-    SetEvent( pvInterruptEvent );
+    ulPendingInterrupts |= ( 1UL << पत्तनम्_व्यवधानम्_TICK );
+    समुच्चयः_Event( pv_व्यवधानम्_Event );
 
-    while( xPortRunning == pdTRUE )
+    यावत्( x_पत्तनम्_Running == pdTRUE )
     {
-        xInsideInterrupt = pdFALSE;
+        x_Inside_व्यवधानम् = pdFALSE;
 
         /* Wait with timeout so that we can exit from this loop when
          * the scheduler is stopped by calling vPortEndScheduler. */
-        xWinApiResult = WaitForMultipleObjects( sizeof( pvObjectList ) / sizeof( void * ), pvObjectList, TRUE, xTimeoutMilliseconds );
+        x_Win_Api_परिणाम = Wait_For_गुणजः_Objects( परिमाण( pvObjectList ) / परिमाण( शून्य * ), pvObjectList, TRUE, xTimeoutMilliseconds );
 
-        if( xWinApiResult != WAIT_TIMEOUT )
+        यदि( x_Win_Api_परिणाम != WAIT_TIMEOUT )
         {
             /* Cannot be in a critical section to get here.  Tasks that exit a
              * critical section will block on a yield mutex to wait for an interrupt to
              * process if an interrupt was set pending while the task was inside the
              * critical section.  xInsideInterrupt prevents interrupts that contain
              * critical sections from doing the same. */
-            xInsideInterrupt = pdTRUE;
+            x_Inside_व्यवधानम् = pdTRUE;
 
             /* Used to indicate whether the simulated interrupt processing has
              * necessitated a context switch to another task/thread. */
@@ -434,17 +434,17 @@ static void prvProcessSimulatedInterrupts( void )
 
             /* For each interrupt we are interested in processing, each of which is
              * represented by a bit in the 32bit ulPendingInterrupts variable. */
-            for( i = 0; i < portMAX_INTERRUPTS; i++ )
+            प्रति( i = 0; i < पत्तनम्_MAX_INTERRUPTS; i++ )
             {
                 /* Is the simulated interrupt pending? */
-                if( ( ulPendingInterrupts & ( 1UL << i ) ) != 0 )
+                यदि( ( ulPendingInterrupts & ( 1UL << i ) ) != 0 )
                 {
                     /* Is a handler installed? */
-                    if( ulIsrHandler[ i ] != NULL )
+                    यदि( ulIsrHandler[ i ] != रिक्त )
                     {
                         /* Run the actual handler.  Handlers return pdTRUE if they
                          * necessitate a context switch. */
-                        if( ulIsrHandler[ i ]() != pdFALSE )
+                        यदि( ulIsrHandler[ i ]() != pdFALSE )
                         {
                             /* A bit mask is used purely to help debugging. */
                             ulSwitchRequired |= ( 1UL << i );
@@ -456,7 +456,7 @@ static void prvProcessSimulatedInterrupts( void )
                 }
             }
 
-            if( ulSwitchRequired != pdFALSE )
+            यदि( ulSwitchRequired != pdFALSE )
             {
                 /* Suspend the old thread. */
                 pxThreadState = ( ThreadState_t * ) *( ( size_t * ) pxCurrentTCB );
@@ -470,7 +470,7 @@ static void prvProcessSimulatedInterrupts( void )
                  * https://devblogs.microsoft.com/oldnewthing/20150205-00/?p=44743
                  * they do - so as they do not harm (slight run-time hit). */
                 xContext.ContextFlags = CONTEXT_INTEGER;
-                ( void ) GetThreadContext( pxThreadState->pvThread, &xContext );
+                ( शून्य ) GetThreadContext( pxThreadState->pvThread, &xContext );
 
                 /* Select the next task to run. */
                 vTaskSwitchContext();
@@ -481,7 +481,7 @@ static void prvProcessSimulatedInterrupts( void )
 
                 /* pxThreadState->pvThread can be NULL if the task deleted
                  * itself - but a deleted task should never be resumed here. */
-                configASSERT( pxThreadState->pvThread != NULL );
+                configASSERT( pxThreadState->pvThread != रिक्त );
                 ResumeThread( pxThreadState->pvThread );
             }
 
@@ -494,66 +494,66 @@ static void prvProcessSimulatedInterrupts( void )
              * the task was switched out asynchronously by an interrupt as the event
              * is reset before the task blocks on it. */
             pxThreadState = ( ThreadState_t * ) ( *( size_t * ) pxCurrentTCB );
-            SetEvent( pxThreadState->pvYieldEvent );
-            ReleaseMutex( pvInterruptEventMutex );
+            समुच्चयः_Event( pxThreadState->pvYieldEvent );
+            ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortDeleteThread( void * pvTaskToDelete )
+शून्य v_पत्तनम्_Delete_Thread( शून्य * pv_Task_गन्तव्यम्_Delete )
 {
     ThreadState_t * pxThreadState;
-    uint32_t ulErrorCode;
+    uint32_t ul_Error_संहिता;
 
     /* Remove compiler warnings if configASSERT() is not defined. */
-    ( void ) ulErrorCode;
+    ( शून्य ) ul_Error_संहिता;
 
     /* Find the handle of the thread being deleted. */
-    pxThreadState = ( ThreadState_t * ) ( *( size_t * ) pvTaskToDelete );
+    pxThreadState = ( ThreadState_t * ) ( *( size_t * ) pv_Task_गन्तव्यम्_Delete );
 
     /* Check that the thread is still valid, it might have been closed by
      * vPortCloseRunningThread() - which will be the case if the task associated
      * with the thread originally deleted itself rather than being deleted by a
      * different task. */
-    if( pxThreadState->pvThread != NULL )
+    यदि( pxThreadState->pvThread != रिक्त )
     {
-        WaitForSingleObject( pvInterruptEventMutex, INFINITE );
+        WaitForSingleObject( pv_व्यवधानम्_Event_Mutex, INFINITE );
 
         /* !!! This is not a nice way to terminate a thread, and will eventually
          * result in resources being depleted if tasks frequently delete other
          * tasks (rather than deleting themselves) as the task stacks will not be
          * freed. */
-        ulErrorCode = TerminateThread( pxThreadState->pvThread, 0 );
-        configASSERT( ulErrorCode );
+        ul_Error_संहिता = TerminateThread( pxThreadState->pvThread, 0 );
+        configASSERT( ul_Error_संहिता );
 
-        ulErrorCode = CloseHandle( pxThreadState->pvThread );
-        configASSERT( ulErrorCode );
+        ul_Error_संहिता = CloseHandle( pxThreadState->pvThread );
+        configASSERT( ul_Error_संहिता );
 
-        ReleaseMutex( pvInterruptEventMutex );
+        ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortCloseRunningThread( void * pvTaskToDelete,
-                              volatile BaseType_t * pxPendYield )
+शून्य v_पत्तनम्_Close_Running_Thread( शून्य * pv_Task_गन्तव्यम्_Delete,
+                              चञ्चल आधारः_Type_t * pxPendYield )
 {
     ThreadState_t * pxThreadState;
-    void * pvThread;
-    uint32_t ulErrorCode;
+    शून्य * pvThread;
+    uint32_t ul_Error_संहिता;
 
     /* Remove compiler warnings if configASSERT() is not defined. */
-    ( void ) ulErrorCode;
+    ( शून्य ) ul_Error_संहिता;
 
     /* Find the handle of the thread being deleted. */
-    pxThreadState = ( ThreadState_t * ) ( *( size_t * ) pvTaskToDelete );
+    pxThreadState = ( ThreadState_t * ) ( *( size_t * ) pv_Task_गन्तव्यम्_Delete );
     pvThread = pxThreadState->pvThread;
 
     /* Raise the Windows priority of the thread to ensure the FreeRTOS scheduler
      * does not run and swap it out before it is closed.  If that were to happen
      * the thread would never run again and effectively be a thread handle and
      * memory leak. */
-    SetThreadPriority( pvThread, portDELETE_SELF_THREAD_PRIORITY );
+    समुच्चयः_Thread_प्राथमिकता( pvThread, पत्तनम्_DELETE_SELF_THREAD_प्राथमिकता );
 
     /* This function will not return, therefore a yield is set as pending to
      * ensure a context switch occurs away from this thread on the next tick. */
@@ -561,11 +561,11 @@ void vPortCloseRunningThread( void * pvTaskToDelete,
 
     /* Mark the thread associated with this task as invalid so
      * vPortDeleteThread() does not try to terminate it. */
-    pxThreadState->pvThread = NULL;
+    pxThreadState->pvThread = रिक्त;
 
     /* Close the thread. */
-    ulErrorCode = CloseHandle( pvThread );
-    configASSERT( ulErrorCode );
+    ul_Error_संहिता = CloseHandle( pvThread );
+    configASSERT( ul_Error_संहिता );
 
     /* This is called from a critical section, which must be exited before the
      * thread stops. */
@@ -577,11 +577,11 @@ void vPortCloseRunningThread( void * pvTaskToDelete,
      * vTaskDelete does not get called because this function never returns. If
      * we do not pend portINTERRUPT_YIELD here, the next task is not scheduled
      * when configUSE_PREEMPTION is set to 0. */
-    if( pvInterruptEventMutex != NULL )
+    यदि( pv_व्यवधानम्_Event_Mutex != रिक्त )
     {
-        WaitForSingleObject( pvInterruptEventMutex, INFINITE );
-        ulPendingInterrupts |= ( 1UL << portINTERRUPT_YIELD );
-        ReleaseMutex( pvInterruptEventMutex );
+        WaitForSingleObject( pv_व्यवधानम्_Event_Mutex, INFINITE );
+        ulPendingInterrupts |= ( 1UL << पत्तनम्_व्यवधानम्_YIELD );
+        ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
     }
 
     CloseHandle( pxThreadState->pvYieldEvent );
@@ -589,22 +589,22 @@ void vPortCloseRunningThread( void * pvTaskToDelete,
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
-    xPortRunning = pdFALSE;
+    x_पत्तनम्_Running = pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber )
+शून्य v_पत्तनम्_Generate_Simulated_व्यवधानम्( uint32_t ul_व्यवधानम्_सङ्ख्या )
 {
     ThreadState_t * pxThreadState = ( ThreadState_t * ) *( ( size_t * ) pxCurrentTCB );
 
-    configASSERT( xPortRunning );
+    configASSERT( x_पत्तनम्_Running );
 
-    if( ( ulInterruptNumber < portMAX_INTERRUPTS ) && ( pvInterruptEventMutex != NULL ) )
+    यदि( ( ul_व्यवधानम्_सङ्ख्या < पत्तनम्_MAX_INTERRUPTS ) && ( pv_व्यवधानम्_Event_Mutex != रिक्त ) )
     {
-        WaitForSingleObject( pvInterruptEventMutex, INFINITE );
-        ulPendingInterrupts |= ( 1UL << ulInterruptNumber );
+        WaitForSingleObject( pv_व्यवधानम्_Event_Mutex, INFINITE );
+        ulPendingInterrupts |= ( 1UL << ul_व्यवधानम्_सङ्ख्या );
 
         /* The simulated interrupt is now held pending, but don't actually
          * process it yet if this call is within a critical section.  It is
@@ -612,18 +612,18 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber )
          * mutexes are accumulative.  If in a critical section then the event
          * will get set when the critical section nesting count is wound back
          * down to zero. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        यदि( ulCriticalNesting == पत्तनम्_NO_CRITICAL_NESTING )
         {
-            SetEvent( pvInterruptEvent );
+            समुच्चयः_Event( pv_व्यवधानम्_Event );
 
             /* Going to wait for an event - make sure the event is not already
              * signaled. */
             ResetEvent( pxThreadState->pvYieldEvent );
         }
 
-        ReleaseMutex( pvInterruptEventMutex );
+        ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
 
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        यदि( ulCriticalNesting == पत्तनम्_NO_CRITICAL_NESTING )
         {
             /* An interrupt was pended so ensure to block to allow it to
              * execute.  In most cases the (simulated) interrupt will have
@@ -635,65 +635,65 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber )
 }
 /*-----------------------------------------------------------*/
 
-void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumber )
+शून्य v_पत्तनम्_Generate_Simulated_व्यवधानम्_From_Windows_Thread( uint32_t ul_व्यवधानम्_सङ्ख्या )
 {
-    if( xPortRunning == pdTRUE )
+    यदि( x_पत्तनम्_Running == pdTRUE )
     {
         /* Can't proceed if in a critical section as pvInterruptEventMutex won't
          * be available. */
-        WaitForSingleObject( pvInterruptEventMutex, INFINITE );
+        WaitForSingleObject( pv_व्यवधानम्_Event_Mutex, INFINITE );
 
         /* Pending a user defined interrupt to be handled in simulated interrupt
          * handler thread. */
-        ulPendingInterrupts |= ( 1UL << ulInterruptNumber );
+        ulPendingInterrupts |= ( 1UL << ul_व्यवधानम्_सङ्ख्या );
 
         /* The interrupt is now pending - notify the simulated interrupt
          * handler thread.  Must be outside of a critical section to get here so
          * the handler thread can execute immediately pvInterruptEventMutex is
          * released. */
         configASSERT( ulCriticalNesting == 0UL );
-        SetEvent( pvInterruptEvent );
+        समुच्चयः_Event( pv_व्यवधानम्_Event );
 
         /* Give back the mutex so the simulated interrupt handler unblocks
          * and can access the interrupt handler variables. */
-        ReleaseMutex( pvInterruptEventMutex );
+        ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetInterruptHandler( uint32_t ulInterruptNumber,
-                               uint32_t ( * pvHandler )( void ) )
+शून्य v_पत्तनम्_समुच्चयः_व्यवधानम्_Handler( uint32_t ul_व्यवधानम्_सङ्ख्या,
+                               uint32_t ( * pvHandler )( शून्य ) )
 {
-    if( ulInterruptNumber < portMAX_INTERRUPTS )
+    यदि( ul_व्यवधानम्_सङ्ख्या < पत्तनम्_MAX_INTERRUPTS )
     {
-        if( pvInterruptEventMutex != NULL )
+        यदि( pv_व्यवधानम्_Event_Mutex != रिक्त )
         {
-            WaitForSingleObject( pvInterruptEventMutex, INFINITE );
-            ulIsrHandler[ ulInterruptNumber ] = pvHandler;
-            ReleaseMutex( pvInterruptEventMutex );
+            WaitForSingleObject( pv_व्यवधानम्_Event_Mutex, INFINITE );
+            ulIsrHandler[ ul_व्यवधानम्_सङ्ख्या ] = pvHandler;
+            ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
         }
-        else
+        अन्यथा
         {
-            ulIsrHandler[ ulInterruptNumber ] = pvHandler;
+            ulIsrHandler[ ul_व्यवधानम्_सङ्ख्या ] = pvHandler;
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+शून्य v_पत्तनम्_Enter_Critical( शून्य )
 {
-    if( xPortRunning == pdTRUE )
+    यदि( x_पत्तनम्_Running == pdTRUE )
     {
         /* The interrupt event mutex is held for the entire critical section,
          * effectively disabling (simulated) interrupts. */
-        WaitForSingleObject( pvInterruptEventMutex, INFINITE );
+        WaitForSingleObject( pv_व्यवधानम्_Event_Mutex, INFINITE );
     }
 
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+शून्य v_पत्तनम्_Exit_Critical( शून्य )
 {
     int32_t lMutexNeedsReleasing;
 
@@ -701,21 +701,21 @@ void vPortExitCritical( void )
      * obtained on entry to the critical section. */
     lMutexNeedsReleasing = pdTRUE;
 
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    यदि( ulCriticalNesting > पत्तनम्_NO_CRITICAL_NESTING )
     {
         ulCriticalNesting--;
 
         /* Don't need to wait for any pending interrupts to execute if the
          * critical section was exited from inside an interrupt. */
-        if( ( ulCriticalNesting == portNO_CRITICAL_NESTING ) && ( xInsideInterrupt == pdFALSE ) )
+        यदि( ( ulCriticalNesting == पत्तनम्_NO_CRITICAL_NESTING ) && ( x_Inside_व्यवधानम् == pdFALSE ) )
         {
             /* Were any interrupts set to pending while interrupts were
              * (simulated) disabled? */
-            if( ulPendingInterrupts != 0UL )
+            यदि( ulPendingInterrupts != 0UL )
             {
                 ThreadState_t * pxThreadState = ( ThreadState_t * ) *( ( size_t * ) pxCurrentTCB );
 
-                configASSERT( xPortRunning );
+                configASSERT( x_पत्तनम्_Running );
 
                 /* The interrupt won't actually executed until
                  * pvInterruptEventMutex is released as it waits on both
@@ -724,7 +724,7 @@ void vPortExitCritical( void )
                  * interrupt is pended if the interrupt is pended
                  * from outside a critical section - hence it is set
                  * here. */
-                SetEvent( pvInterruptEvent );
+                समुच्चयः_Event( pv_व्यवधानम्_Event );
 
                 /* The calling task is going to wait for an event to ensure the
                  * interrupt that is pending executes immediately after the
@@ -735,18 +735,18 @@ void vPortExitCritical( void )
                 /* Mutex will be released now so the (simulated) interrupt can
                  * execute, so does not require releasing on function exit. */
                 lMutexNeedsReleasing = pdFALSE;
-                ReleaseMutex( pvInterruptEventMutex );
+                ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
                 WaitForSingleObject( pxThreadState->pvYieldEvent, INFINITE );
             }
         }
     }
 
-    if( pvInterruptEventMutex != NULL )
+    यदि( pv_व्यवधानम्_Event_Mutex != रिक्त )
     {
-        if( lMutexNeedsReleasing == pdTRUE )
+        यदि( lMutexNeedsReleasing == pdTRUE )
         {
-            configASSERT( xPortRunning );
-            ReleaseMutex( pvInterruptEventMutex );
+            configASSERT( x_पत्तनम्_Running );
+            ReleaseMutex( pv_व्यवधानम्_Event_Mutex );
         }
     }
 }

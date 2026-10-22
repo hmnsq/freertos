@@ -27,17 +27,17 @@
  */
 
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+    #परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /* Hardware specifics. */
-    #include <machine.h>
+    #अन्तर्भाव <machine.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,9 +51,9 @@
 
 /* When the FIT configurator or the Smart Configurator is used, platform.h has to be
  * used. */
-    #ifndef configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H
-        #define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H 0
-    #endif
+    #यदि_अपरिभाषितम् config_INCLUDE_PLATFORM_H_INSTEAD_सम्बन्धि_IODEFINE_H
+        #परिभाषय config_INCLUDE_PLATFORM_H_INSTEAD_सम्बन्धि_IODEFINE_H 0
+    #यदि_अन्तः
 
 /* If configUSE_TASK_DPFPU_SUPPORT is set to 1 (or undefined) then each task will
  * be created without a DPFPU context, and a task must call vTaskUsesDPFPU() before
@@ -61,72 +61,72 @@
  * tasks are created with a DPFPU context by default, and calling vTaskUsesDPFPU() has
  * no effect.  If configUSE_TASK_DPFPU_SUPPORT is set to 0 then tasks never take care
  * of any DPFPU context (even if DPFPU registers are used). */
-    #ifndef configUSE_TASK_DPFPU_SUPPORT
-        #define configUSE_TASK_DPFPU_SUPPORT 1
-    #endif
+    #यदि_अपरिभाषितम् configUSE_TASK_DPFPU_SUPPORT
+        #परिभाषय configUSE_TASK_DPFPU_SUPPORT 1
+    #यदि_अन्तः
 
 /*-----------------------------------------------------------*/
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #परिभाषय पत्तनम्_CHAR          वर्ण
+    #परिभाषय पत्तनम्_FLOAT         भिन्न
+    #परिभाषय पत्तनम्_DOUBLE        द्विगुण
+    #परिभाषय पत्तनम्_LONG          दीर्घ
+    #परिभाषय पत्तनम्_SHORT         ह्रस्व
+    #परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+    #परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+    प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+    प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    #यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+        प्रकारनिर्देश uint16_t     TickType_t;
+        #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffff
+    #नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+        प्रकारनिर्देश uint32_t     TickType_t;
+        #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-        #define portTICK_TYPE_IS_ATOMIC    1
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+        #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
+    #अन्यथा
+        #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+    #यदि_अन्तः
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portBYTE_ALIGNMENT    8     /* Could make four, according to manual. */
-    #define portSTACK_GROWTH      -1
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portNOP()    nop()
+    #परिभाषय पत्तनम्_BYTE_ALIGNMENT    8     /* Could make four, according to manual. */
+    #परिभाषय पत्तनम्_राशिः_GROWTH      -1
+    #परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+    #परिभाषय पत्तनम्_NOP()    nop()
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
-    #pragma inline_asm vPortYield
-    static void vPortYield( void )
+    #निर्देशः inline_asm v_पत्तनम्_Yield
+    स्थिर शून्य v_पत्तनम्_Yield( शून्य )
     {
-    #ifndef __CDT_PARSER__
+    #यदि_अपरिभाषितम् __CDT_PARSER__
         /* Save clobbered register - may not actually be necessary if inline asm
          * functions are considered to use the same rules as function calls by the
          * compiler. */
-        PUSH.L R5
+        प्रक्षिप_2.L R5
         /* Set ITU SWINTR. */
         MOV.L # 000872E0H, R5
         MOV.B # 1, [ R5 ]
         /* Read back to ensure the value is taken before proceeding. */
         CMP [ R5 ].UB, R5
         /* Restore clobbered register to its previous value. */
-        POP R5
-    #endif
+        निष्कासय_2 R5
+    #यदि_अन्तः
     }
 
-    #define portYIELD()                                       vPortYield()
-    #define portYIELD_FROM_ISR( x )                           do { if( ( x ) != pdFALSE ) portYIELD(); } while( 0 )
+    #परिभाषय पत्तनम्_YIELD()                                       v_पत्तनम्_Yield()
+    #परिभाषय पत्तनम्_YIELD_FROM_ISR( x )                           कुरु { यदि( ( x ) != pdFALSE ) पत्तनम्_YIELD(); } यावत्( 0 )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -137,32 +137,32 @@
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-    #define portENABLE_INTERRUPTS()                           set_ipl( ( long ) 0 )
-    #if ( configASSERT_DEFINED == 1 )
-        #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( get_ipl() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-        #define portDISABLE_INTERRUPTS()                      if( get_ipl() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-    #else
-        #define portDISABLE_INTERRUPTS()                      set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-    #endif
+    #परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                           समुच्चयः_ipl( ( दीर्घ ) 0 )
+    #यदि ( configASSERT_DEFINED == 1 )
+        #परिभाषय पत्तनम्_ASSERT_IF_व्यवधानम्_प्राथमिकता_INVALID()    configASSERT( ( get_ipl() <= config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता ) )
+        #परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                      यदि( get_ipl() < config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता ) समुच्चयः_ipl( ( दीर्घ ) config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता )
+    #अन्यथा
+        #परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                      समुच्चयः_ipl( ( दीर्घ ) config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता )
+    #यदि_अन्तः
 
 /* Critical nesting counts are stored in the TCB. */
-    #define portCRITICAL_NESTING_IN_TCB    ( 1 )
+    #परिभाषय पत्तनम्_CRITICAL_NESTING_अन्तर्_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
-    #define portENTER_CRITICAL()    vTaskEnterCritical()
-    #define portEXIT_CRITICAL()     vTaskExitCritical()
+    बाह्य शून्य vTaskEnterCritical( शून्य );
+    बाह्य शून्य vTaskExitCritical( शून्य );
+    #परिभाषय पत्तनम्_ENTER_CRITICAL()    vTaskEnterCritical()
+    #परिभाषय पत्तनम्_EXIT_CRITICAL()     vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-    #define portSET_INTERRUPT_MASK_FROM_ISR()                              ( UBaseType_t ) get_ipl(); set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    set_ipl( ( long ) uxSavedInterruptStatus )
+    #परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR()                              ( UBaseType_t ) get_ipl(); समुच्चयः_ipl( ( दीर्घ ) config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता )
+    #परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ux_Saved_व्यवधानम्_स्थितिः )    समुच्चयः_ipl( ( दीर्घ ) ux_Saved_व्यवधानम्_स्थितिः )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+    #परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /*-----------------------------------------------------------*/
 
@@ -171,29 +171,29 @@
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-    #if( configUSE_TASK_DPFPU_SUPPORT == 1 )
-        void vPortTaskUsesDPFPU( void );
-    #else
+    #यदि( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        शून्य v_पत्तनम्_Task_उपयुङ्क्ते_DPFPU( शून्य );
+    #अन्यथा
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
-        #define vPortTaskUsesDPFPU()
-    #endif
-    #define portTASK_USES_DPFPU() vPortTaskUsesDPFPU()
+        #परिभाषय v_पत्तनम्_Task_उपयुङ्क्ते_DPFPU()
+    #यदि_अन्तः
+    #परिभाषय पत्तनम्_TASK_उपयुङ्क्ते_DPFPU() v_पत्तनम्_Task_उपयुङ्क्ते_DPFPU()
 
 /* Definition to allow compatibility with existing FreeRTOS Demo using flop.c. */
-    #define portTASK_USES_FLOATING_POINT() vPortTaskUsesDPFPU()
+    #परिभाषय पत्तनम्_TASK_उपयुङ्क्ते_FLOATING_POINT() v_पत्तनम्_Task_उपयुङ्क्ते_DPFPU()
 
-#pragma inline_asm vPortMemoryBarrier
-static void vPortMemoryBarrier( void )
+#निर्देशः inline_asm v_पत्तनम्_स्मृतिः_Barrier
+स्थिर शून्य v_पत्तनम्_स्मृतिः_Barrier( शून्य )
 {
 }
 
-#define portMEMORY_BARRIER()    vPortMemoryBarrier()
+#परिभाषय पत्तनम्_स्मृतिः_BARRIER()    v_पत्तनम्_स्मृतिः_Barrier()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

@@ -30,26 +30,26 @@
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers. That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#परिभाषय MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* MPU includes. */
-#include "mpu_wrappers.h"
-#include "mpu_syscall_numbers.h"
+#अन्तर्भाव "mpu_wrappers.h"
+#अन्तर्भाव "mpu_syscall_numbers.h"
 
 /* Portasm includes. */
-#include "portasm.h"
+#अन्तर्भाव "portasm.h"
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#यदि ( configENABLE_TRUSTZONE == 1 )
     /* Secure components includes. */
-    #include "secure_context.h"
-    #include "secure_init.h"
-#endif /* configENABLE_TRUSTZONE */
+    #अन्तर्भाव "secure_context.h"
+    #अन्तर्भाव "secure_init.h"
+#यदि_अन्तः /* configENABLE_TRUSTZONE */
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#अपरिभाषय MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /**
  * The FreeRTOS Cortex M33 port can be configured to run on the Secure Side only
@@ -66,203 +66,203 @@
  * 3. Run FreeRTOS on the Non-Secure Side only i.e. no Secure Side function call support:
  *    configRUN_FREERTOS_SECURE_ONLY = 0 and configENABLE_TRUSTZONE = 0
  */
-#if ( ( configRUN_FREERTOS_SECURE_ONLY == 1 ) && ( configENABLE_TRUSTZONE == 1 ) )
-    #error TrustZone needs to be disabled in order to run FreeRTOS on the Secure Side.
-#endif
+#यदि ( ( config_सततम्_FREERTOS_SECURE_ONLY == 1 ) && ( configENABLE_TRUSTZONE == 1 ) )
+    #दोषः TrustZone needs गन्तव्यम् be disabled अन्तर् क्रमः गन्तव्यम् सततम् FreeRTOS on the Secure Side.
+#यदि_अन्तः
 
 /**
  * Cortex-M23 does not have non-secure PSPLIM. We should use PSPLIM on Cortex-M23
  * only when FreeRTOS runs on secure side.
  */
-#if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 0 ) && ( configRUN_FREERTOS_SECURE_ONLY == 0 ) )
-    #define portUSE_PSPLIM_REGISTER    0
-#else
-    #define portUSE_PSPLIM_REGISTER    1
-#endif
+#यदि ( ( पत्तनम्_HAS_ARMV8_M_MAIN_EXTENSION == 0 ) && ( config_सततम्_FREERTOS_SECURE_ONLY == 0 ) )
+    #परिभाषय पत्तनम्_USE_PSPLIM_पञ्जिकाकोशः    0
+#अन्यथा
+    #परिभाषय पत्तनम्_USE_PSPLIM_पञ्जिकाकोशः    1
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Prototype of all Interrupt Service Routines (ISRs).
  */
-typedef void ( * portISR_t )( void );
+प्रकारनिर्देश शून्य ( * पत्तनम्_ISR_t )( शून्य );
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the NVIC.
  */
-#define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
-#define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
-#define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
-#define portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
-#define portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
-#define portMIN_INTERRUPT_PRIORITY            ( 255UL )
-#define portNVIC_PENDSV_PRI                   ( portMIN_INTERRUPT_PRIORITY << 16UL )
-#define portNVIC_SYSTICK_PRI                  ( portMIN_INTERRUPT_PRIORITY << 24UL )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_CTRL_REG             ( *( ( चञ्चल uint32_t * ) 0xe000e010 ) )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_आरोपय_REG             ( *( ( चञ्चल uint32_t * ) 0xe000e014 ) )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG    ( *( ( चञ्चल uint32_t * ) 0xe000e018 ) )
+#परिभाषय पत्तनम्_NVIC_SHPR3_REG                    ( *( ( चञ्चल uint32_t * ) 0xe000ed20 ) )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_गणनम्_FLAG_BIT       ( 1UL << 16UL )
+#परिभाषय पत्तनम्_NVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
+#परिभाषय पत्तनम्_NVIC_PEND_SYSTICK_समुच्चयः_BIT         ( 1UL << 26UL )
+#परिभाषय पत्तनम्_MIN_व्यवधानम्_प्राथमिकता            ( 255UL )
+#परिभाषय पत्तनम्_NVIC_PENDSV_PRI                   ( पत्तनम्_MIN_व्यवधानम्_प्राथमिकता << 16UL )
+#परिभाषय पत्तनम्_NVIC_SYSTICK_PRI                  ( पत्तनम्_MIN_व्यवधानम्_प्राथमिकता << 24UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the SCB.
  */
-#define portSCB_VTOR_REG                      ( *( ( portISR_t ** ) 0xe000ed08 ) )
-#define portSCB_SYS_HANDLER_CTRL_STATE_REG    ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
-#define portSCB_MEM_FAULT_ENABLE_BIT          ( 1UL << 16UL )
-#define portSCB_USG_FAULT_ENABLE_BIT          ( 1UL << 18UL )
+#परिभाषय पत्तनम्_SCB_VTOR_REG                      ( *( ( पत्तनम्_ISR_t ** ) 0xe000ed08 ) )
+#परिभाषय पत्तनम्_SCB_SYS_HANDLER_CTRL_STATE_REG    ( *( ( चञ्चल uint32_t * ) 0xe000ed24 ) )
+#परिभाषय पत्तनम्_SCB_MEM_FAULT_ENABLE_BIT          ( 1UL << 16UL )
+#परिभाषय पत्तनम्_SCB_USG_FAULT_ENABLE_BIT          ( 1UL << 18UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants used to check the installation of the FreeRTOS interrupt handlers.
  */
-#define portVECTOR_INDEX_SVC       ( 11 )
-#define portVECTOR_INDEX_PENDSV    ( 14 )
+#परिभाषय पत्तनम्_सदिशम्_सूचकांक_SVC       ( 11 )
+#परिभाषय पत्तनम्_सदिशम्_सूचकांक_PENDSV    ( 14 )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to check the validity of an interrupt priority.
  */
-#define portNVIC_SHPR2_REG                 ( *( ( volatile uint32_t * ) 0xE000ED1C ) )
-#define portFIRST_USER_INTERRUPT_NUMBER    ( 16 )
-#define portNVIC_IP_REGISTERS_OFFSET_16    ( 0xE000E3F0 )
-#define portAIRCR_REG                      ( *( ( volatile uint32_t * ) 0xE000ED0C ) )
-#define portTOP_BIT_OF_BYTE                ( ( uint8_t ) 0x80 )
-#define portMAX_PRIGROUP_BITS              ( ( uint8_t ) 7 )
-#define portPRIORITY_GROUP_MASK            ( 0x07UL << 8UL )
-#define portPRIGROUP_SHIFT                 ( 8UL )
+#परिभाषय पत्तनम्_NVIC_SHPR2_REG                 ( *( ( चञ्चल uint32_t * ) 0xE000ED1C ) )
+#परिभाषय पत्तनम्_FIRST_USER_व्यवधानम्_सङ्ख्या    ( 16 )
+#परिभाषय पत्तनम्_NVIC_IP_REGISTERS_विस्थापनम्_16    ( 0xE000E3F0 )
+#परिभाषय पत्तनम्_AIRCR_REG                      ( *( ( चञ्चल uint32_t * ) 0xE000ED0C ) )
+#परिभाषय पत्तनम्_शिखरम्_BIT_सम्बन्धि_BYTE                ( ( uint8_t ) 0x80 )
+#परिभाषय पत्तनम्_MAX_PRIGROUP_द्वयङ्काः              ( ( uint8_t ) 7 )
+#परिभाषय पत्तनम्_प्राथमिकता_गणः_आवरणम्            ( 0x07UL << 8UL )
+#परिभाषय पत्तनम्_PRIGROUP_सरणम्                 ( 8UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants used during system call enter and exit.
  */
-#define portPSR_STACK_PADDING_MASK              ( 1UL << 9UL )
-#define portEXC_RETURN_STACK_FRAME_TYPE_MASK    ( 1UL << 4UL )
+#परिभाषय पत्तनम्_PSR_राशिः_PADDING_आवरणम्              ( 1UL << 9UL )
+#परिभाषय पत्तनम्_EXC_RETURN_राशिः_FRAME_TYPE_आवरणम्    ( 1UL << 4UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the FPU.
  */
-#define portCPACR               ( ( volatile uint32_t * ) 0xe000ed88 ) /* Coprocessor Access Control Register. */
-#define portCPACR_CP10_VALUE    ( 3UL )
-#define portCPACR_CP11_VALUE    portCPACR_CP10_VALUE
-#define portCPACR_CP10_POS      ( 20UL )
-#define portCPACR_CP11_POS      ( 22UL )
+#परिभाषय पत्तनम्_CPACR               ( ( चञ्चल uint32_t * ) 0xe000ed88 ) /* Coprocessor Access Control Register. */
+#परिभाषय पत्तनम्_CPACR_CP10_मानम्    ( 3UL )
+#परिभाषय पत्तनम्_CPACR_CP11_मानम्    पत्तनम्_CPACR_CP10_मानम्
+#परिभाषय पत्तनम्_CPACR_CP10_POS      ( 20UL )
+#परिभाषय पत्तनम्_CPACR_CP11_POS      ( 22UL )
 
-#define portFPCCR               ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating Point Context Control Register. */
-#define portFPCCR_ASPEN_POS     ( 31UL )
-#define portFPCCR_ASPEN_MASK    ( 1UL << portFPCCR_ASPEN_POS )
-#define portFPCCR_LSPEN_POS     ( 30UL )
-#define portFPCCR_LSPEN_MASK    ( 1UL << portFPCCR_LSPEN_POS )
+#परिभाषय पत्तनम्_FPCCR               ( ( चञ्चल uint32_t * ) 0xe000ef34 ) /* Floating Point Context Control Register. */
+#परिभाषय पत्तनम्_FPCCR_ASPEN_POS     ( 31UL )
+#परिभाषय पत्तनम्_FPCCR_ASPEN_आवरणम्    ( 1UL << पत्तनम्_FPCCR_ASPEN_POS )
+#परिभाषय पत्तनम्_FPCCR_LSPEN_POS     ( 30UL )
+#परिभाषय पत्तनम्_FPCCR_LSPEN_आवरणम्    ( 1UL << पत्तनम्_FPCCR_LSPEN_POS )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Offsets in the stack to the parameters when inside the SVC handler.
  */
-#define portOFFSET_TO_LR     ( 5 )
-#define portOFFSET_TO_PC     ( 6 )
-#define portOFFSET_TO_PSR    ( 7 )
+#परिभाषय पत्तनम्_विस्थापनम्_गन्तव्यम्_LR     ( 5 )
+#परिभाषय पत्तनम्_विस्थापनम्_गन्तव्यम्_PC     ( 6 )
+#परिभाषय पत्तनम्_विस्थापनम्_गन्तव्यम्_PSR    ( 7 )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the MPU.
  */
-#define portMPU_TYPE_REG                        ( *( ( volatile uint32_t * ) 0xe000ed90 ) )
-#define portMPU_CTRL_REG                        ( *( ( volatile uint32_t * ) 0xe000ed94 ) )
-#define portMPU_RNR_REG                         ( *( ( volatile uint32_t * ) 0xe000ed98 ) )
+#परिभाषय पत्तनम्_MPU_TYPE_REG                        ( *( ( चञ्चल uint32_t * ) 0xe000ed90 ) )
+#परिभाषय पत्तनम्_MPU_CTRL_REG                        ( *( ( चञ्चल uint32_t * ) 0xe000ed94 ) )
+#परिभाषय पत्तनम्_MPU_RNR_REG                         ( *( ( चञ्चल uint32_t * ) 0xe000ed98 ) )
 
-#define portMPU_RBAR_REG                        ( *( ( volatile uint32_t * ) 0xe000ed9c ) )
-#define portMPU_RLAR_REG                        ( *( ( volatile uint32_t * ) 0xe000eda0 ) )
+#परिभाषय पत्तनम्_MPU_RBAR_REG                        ( *( ( चञ्चल uint32_t * ) 0xe000ed9c ) )
+#परिभाषय पत्तनम्_MPU_RLAR_REG                        ( *( ( चञ्चल uint32_t * ) 0xe000eda0 ) )
 
-#define portMPU_RBAR_A1_REG                     ( *( ( volatile uint32_t * ) 0xe000eda4 ) )
-#define portMPU_RLAR_A1_REG                     ( *( ( volatile uint32_t * ) 0xe000eda8 ) )
+#परिभाषय पत्तनम्_MPU_RBAR_A1_REG                     ( *( ( चञ्चल uint32_t * ) 0xe000eda4 ) )
+#परिभाषय पत्तनम्_MPU_RLAR_A1_REG                     ( *( ( चञ्चल uint32_t * ) 0xe000eda8 ) )
 
-#define portMPU_RBAR_A2_REG                     ( *( ( volatile uint32_t * ) 0xe000edac ) )
-#define portMPU_RLAR_A2_REG                     ( *( ( volatile uint32_t * ) 0xe000edb0 ) )
+#परिभाषय पत्तनम्_MPU_RBAR_A2_REG                     ( *( ( चञ्चल uint32_t * ) 0xe000edac ) )
+#परिभाषय पत्तनम्_MPU_RLAR_A2_REG                     ( *( ( चञ्चल uint32_t * ) 0xe000edb0 ) )
 
-#define portMPU_RBAR_A3_REG                     ( *( ( volatile uint32_t * ) 0xe000edb4 ) )
-#define portMPU_RLAR_A3_REG                     ( *( ( volatile uint32_t * ) 0xe000edb8 ) )
+#परिभाषय पत्तनम्_MPU_RBAR_A3_REG                     ( *( ( चञ्चल uint32_t * ) 0xe000edb4 ) )
+#परिभाषय पत्तनम्_MPU_RLAR_A3_REG                     ( *( ( चञ्चल uint32_t * ) 0xe000edb8 ) )
 
-#define portMPU_MAIR0_REG                       ( *( ( volatile uint32_t * ) 0xe000edc0 ) )
-#define portMPU_MAIR1_REG                       ( *( ( volatile uint32_t * ) 0xe000edc4 ) )
+#परिभाषय पत्तनम्_MPU_MAIR0_REG                       ( *( ( चञ्चल uint32_t * ) 0xe000edc0 ) )
+#परिभाषय पत्तनम्_MPU_MAIR1_REG                       ( *( ( चञ्चल uint32_t * ) 0xe000edc4 ) )
 
-#define portMPU_RBAR_ADDRESS_MASK               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
-#define portMPU_RLAR_ADDRESS_MASK               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
+#परिभाषय पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम्               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
+#परिभाषय पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम्               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
 
-#define portMPU_RBAR_ACCESS_PERMISSIONS_MASK    ( 3UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RBAR_ACCESS_PERMISSIONS_आवरणम्    ( 3UL << 1UL )
 
-#define portMPU_MAIR_ATTR0_POS                  ( 0UL )
-#define portMPU_MAIR_ATTR0_MASK                 ( 0x000000ff )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR0_POS                  ( 0UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR0_आवरणम्                 ( 0x000000ff )
 
-#define portMPU_MAIR_ATTR1_POS                  ( 8UL )
-#define portMPU_MAIR_ATTR1_MASK                 ( 0x0000ff00 )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR1_POS                  ( 8UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR1_आवरणम्                 ( 0x0000ff00 )
 
-#define portMPU_MAIR_ATTR2_POS                  ( 16UL )
-#define portMPU_MAIR_ATTR2_MASK                 ( 0x00ff0000 )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR2_POS                  ( 16UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR2_आवरणम्                 ( 0x00ff0000 )
 
-#define portMPU_MAIR_ATTR3_POS                  ( 24UL )
-#define portMPU_MAIR_ATTR3_MASK                 ( 0xff000000 )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR3_POS                  ( 24UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR3_आवरणम्                 ( 0xff000000 )
 
-#define portMPU_MAIR_ATTR4_POS                  ( 0UL )
-#define portMPU_MAIR_ATTR4_MASK                 ( 0x000000ff )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR4_POS                  ( 0UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR4_आवरणम्                 ( 0x000000ff )
 
-#define portMPU_MAIR_ATTR5_POS                  ( 8UL )
-#define portMPU_MAIR_ATTR5_MASK                 ( 0x0000ff00 )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR5_POS                  ( 8UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR5_आवरणम्                 ( 0x0000ff00 )
 
-#define portMPU_MAIR_ATTR6_POS                  ( 16UL )
-#define portMPU_MAIR_ATTR6_MASK                 ( 0x00ff0000 )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR6_POS                  ( 16UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR6_आवरणम्                 ( 0x00ff0000 )
 
-#define portMPU_MAIR_ATTR7_POS                  ( 24UL )
-#define portMPU_MAIR_ATTR7_MASK                 ( 0xff000000 )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR7_POS                  ( 24UL )
+#परिभाषय पत्तनम्_MPU_MAIR_ATTR7_आवरणम्                 ( 0xff000000 )
 
-#define portMPU_RLAR_ATTR_INDEX0                ( 0UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX1                ( 1UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX2                ( 2UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX3                ( 3UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX4                ( 4UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX5                ( 5UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX6                ( 6UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX7                ( 7UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX0                ( 0UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX1                ( 1UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX2                ( 2UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX3                ( 3UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX4                ( 4UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX5                ( 5UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX6                ( 6UL << 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_ATTR_INDEX7                ( 7UL << 1UL )
 
-#define portMPU_RLAR_REGION_ENABLE              ( 1UL )
+#परिभाषय पत्तनम्_MPU_RLAR_REGION_ENABLE              ( 1UL )
 
-#if ( portARMV8M_MINOR_VERSION >= 1 )
+#यदि ( पत्तनम्_ARMV8_M_MINOR_संस्करणम् >= 1 )
 
     /* Enable Privileged eXecute Never MPU attribute for the selected memory
      * region. */
-    #define portMPU_RLAR_PRIVILEGED_EXECUTE_NEVER    ( 1UL << 4UL )
-#endif /* portARMV8M_MINOR_VERSION >= 1 */
+    #परिभाषय पत्तनम्_MPU_RLAR_PRIVILEGED_EXECUTE_NEVER    ( 1UL << 4UL )
+#यदि_अन्तः /* portARMV8M_MINOR_VERSION >= 1 */
 
 /* Enable privileged access to unmapped region. */
-#define portMPU_PRIV_BACKGROUND_ENABLE_BIT    ( 1UL << 2UL )
+#परिभाषय पत्तनम्_MPU_PRIV_BACKGROUND_ENABLE_BIT    ( 1UL << 2UL )
 
 /* Enable MPU. */
-#define portMPU_ENABLE_BIT                    ( 1UL << 0UL )
+#परिभाषय पत्तनम्_MPU_ENABLE_BIT                    ( 1UL << 0UL )
 
 /* Extract first address of the MPU region as encoded in the
  * RBAR (Region Base Address Register) value. */
-#define portEXTRACT_FIRST_ADDRESS_FROM_RBAR( rbar ) \
-    ( ( rbar ) & portMPU_RBAR_ADDRESS_MASK )
+#परिभाषय पत्तनम्_EXTRACT_FIRST_स्थानाङ्कः_FROM_RBAR( rbar ) \
+    ( ( rbar ) & पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम् )
 
 /* Extract last address of the MPU region as encoded in the
  * RLAR (Region Limit Address Register) value. */
-#define portEXTRACT_LAST_ADDRESS_FROM_RLAR( rlar ) \
-    ( ( ( rlar ) & portMPU_RLAR_ADDRESS_MASK ) | ~portMPU_RLAR_ADDRESS_MASK )
+#परिभाषय पत्तनम्_EXTRACT_चरमः_स्थानाङ्कः_FROM_RLAR( rlar ) \
+    ( ( ( rlar ) & पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम् ) | ~पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम् )
 
 /* Does addr lies within [start, end] address range? */
-#define portIS_ADDRESS_WITHIN_RANGE( addr, start, end ) \
-    ( ( ( addr ) >= ( start ) ) && ( ( addr ) <= ( end ) ) )
+#परिभाषय पत्तनम्_IS_स्थानाङ्कः_WITHIN_RANGE( addr, start, अन्तः_2 ) \
+    ( ( ( addr ) >= ( start ) ) && ( ( addr ) <= ( अन्तः_2 ) ) )
 
 /* Is the access request satisfied by the available permissions? */
-#define portIS_AUTHORIZED( accessRequest, permissions ) \
+#परिभाषय पत्तनम्_IS_AUTHORIZED( accessRequest, permissions ) \
     ( ( ( permissions ) & ( accessRequest ) ) == accessRequest )
 
 /* Max value that fits in a uint32_t type. */
-#define portUINT32_MAX    ( ~( ( uint32_t ) 0 ) )
+#परिभाषय पत्तनम्_UINT32_MAX    ( ~( ( uint32_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define portADD_UINT32_WILL_OVERFLOW( a, b )    ( ( a ) > ( portUINT32_MAX - ( b ) ) )
+#परिभाषय पत्तनम्_सङ्कलय_UINT32_WILL_अतिप्रवाहः( a, b )    ( ( a ) > ( पत्तनम्_UINT32_MAX - ( b ) ) )
 /*-----------------------------------------------------------*/
 
 /**
@@ -270,22 +270,22 @@ typedef void ( * portISR_t )( void );
  *
  * It is needed because the systick is a 24-bit counter.
  */
-#define portMAX_24_BIT_NUMBER       ( 0xffffffUL )
+#परिभाषय पत्तनम्_MAX_24_BIT_सङ्ख्या       ( 0xffffffUL )
 
 /**
  * @brief A fiddle factor to estimate the number of SysTick counts that would
  * have occurred while the SysTick counter is stopped during tickless idle
  * calculations.
  */
-#define portMISSED_COUNTS_FACTOR    ( 94UL )
+#परिभाषय पत्तनम्_MISSED_COUNTS_गुणकः    ( 94UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to set up the initial stack.
  */
-#define portINITIAL_XPSR    ( 0x01000000 )
+#परिभाषय पत्तनम्_INITIAL_XPSR    ( 0x01000000 )
 
-#if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+#यदि ( config_सततम्_FREERTOS_SECURE_ONLY == 1 )
 
     /**
      * @brief Initial EXC_RETURN value.
@@ -301,8 +301,8 @@ typedef void ( * portISR_t )( void );
      * Bit[1] - 0 --> Reserved, 0.
      * Bit[0] - 1 --> The exception was taken to the Secure state.
      */
-    #define portINITIAL_EXC_RETURN    ( 0xfffffffd )
-#else
+    #परिभाषय पत्तनम्_INITIAL_EXC_RETURN    ( 0xfffffffd )
+#अन्यथा
 
     /**
      * @brief Initial EXC_RETURN value.
@@ -318,8 +318,8 @@ typedef void ( * portISR_t )( void );
      * Bit[1] - 0 --> Reserved, 0.
      * Bit[0] - 0 --> The exception was taken to the Non-Secure state.
      */
-    #define portINITIAL_EXC_RETURN    ( 0xffffffbc )
-#endif /* configRUN_FREERTOS_SECURE_ONLY */
+    #परिभाषय पत्तनम्_INITIAL_EXC_RETURN    ( 0xffffffbc )
+#यदि_अन्तः /* configRUN_FREERTOS_SECURE_ONLY */
 
 /**
  * @brief CONTROL register privileged bit mask.
@@ -328,74 +328,74 @@ typedef void ( * portISR_t )( void );
  *  Bit[0] = 0 ==> The task is privileged.
  *  Bit[0] = 1 ==> The task is not privileged.
  */
-#define portCONTROL_PRIVILEGED_MASK         ( 1UL << 0UL )
+#परिभाषय पत्तनम्_CONTROL_PRIVILEGED_आवरणम्         ( 1UL << 0UL )
 
 /**
  * @brief Initial CONTROL register values.
  */
-#define portINITIAL_CONTROL_UNPRIVILEGED    ( 0x3 )
-#define portINITIAL_CONTROL_PRIVILEGED      ( 0x2 )
+#परिभाषय पत्तनम्_INITIAL_CONTROL_UNPRIVILEGED    ( 0x3 )
+#परिभाषय पत्तनम्_INITIAL_CONTROL_PRIVILEGED      ( 0x2 )
 
 /**
  * @brief Let the user override the default SysTick clock rate.  If defined by the
  * user, this symbol must equal the SysTick clock rate when the CLK bit is 0 in the
  * configuration register.
  */
-#ifndef configSYSTICK_CLOCK_HZ
-    #define configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
+#यदि_अपरिभाषितम् configSYSTICK_CLOCK_HZ
+    #परिभाषय configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
     /* Ensure the SysTick is clocked at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
-#else
+    #परिभाषय पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG    ( पत्तनम्_NVIC_SYSTICK_CLK_BIT )
+#अन्यथा
     /* Select the option to clock SysTick not at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
-#endif
+    #परिभाषय पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
+#यदि_अन्तः
 
 /**
  * @brief Let the user override the pre-loading of the initial LR with the
  * address of prvTaskExitError() in case it messes up unwinding of the stack
  * in the debugger.
  */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#यदि_परिभाषितम् config_TASK_RETURN_स्थानाङ्कः
+    #परिभाषय पत्तनम्_TASK_RETURN_स्थानाङ्कः    config_TASK_RETURN_स्थानाङ्कः
+#अन्यथा
+    #परिभाषय पत्तनम्_TASK_RETURN_स्थानाङ्कः    prvTaskExitError
+#यदि_अन्तः
 
 /**
  * @brief If portPRELOAD_REGISTERS then registers will be given an initial value
  * when a task is created. This helps in debugging at the cost of code size.
  */
-#define portPRELOAD_REGISTERS    1
+#परिभाषय पत्तनम्_PRELOAD_REGISTERS    1
 
 /**
  * @brief A task is created without a secure context, and must call
  * portALLOCATE_SECURE_CONTEXT() to give itself a secure context before it makes
  * any secure calls.
  */
-#define portNO_SECURE_CONTEXT    0
+#परिभाषय पत्तनम्_NO_SECURE_CONTEXT    0
 
 /**
  * @brief Constants required to check and configure PACBTI security feature implementation.
  */
-#if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+#यदि ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
 
-    #define portID_ISAR5_REG       ( *( ( volatile uint32_t * ) 0xe000ed74 ) )
+    #परिभाषय पत्तनम्_ID_ISAR5_REG       ( *( ( चञ्चल uint32_t * ) 0xe000ed74 ) )
 
-    #define portCONTROL_UPAC_EN    ( 1UL << 7UL )
-    #define portCONTROL_PAC_EN     ( 1UL << 6UL )
-    #define portCONTROL_UBTI_EN    ( 1UL << 5UL )
-    #define portCONTROL_BTI_EN     ( 1UL << 4UL )
+    #परिभाषय पत्तनम्_CONTROL_UPAC_EN    ( 1UL << 7UL )
+    #परिभाषय पत्तनम्_CONTROL_PAC_EN     ( 1UL << 6UL )
+    #परिभाषय पत्तनम्_CONTROL_UBTI_EN    ( 1UL << 5UL )
+    #परिभाषय पत्तनम्_CONTROL_BTI_EN     ( 1UL << 4UL )
 
-#endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+#यदि_अन्तः /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Used to catch tasks that attempt to return from their implementing
  * function.
  */
-static void prvTaskExitError( void );
+स्थिर शून्य prvTaskExitError( शून्य );
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Extract MPU region's access permissions from the Region Base Address
@@ -405,26 +405,26 @@ static void prvTaskExitError( void );
      *
      * @return uint32_t Access permissions.
      */
-    static uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) PRIVILEGED_FUNCTION;
-#endif /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
+    स्थिर uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) PRIVILEGED_FUNCTION;
+#यदि_अन्तः /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
     /**
      * @brief Setup the Memory Protection Unit (MPU).
      */
-    static void prvSetupMPU( void ) PRIVILEGED_FUNCTION;
-#endif /* configENABLE_MPU */
+    स्थिर शून्य prv_सज्जता_MPU( शून्य ) PRIVILEGED_FUNCTION;
+#यदि_अन्तः /* configENABLE_MPU */
 
-#if ( configENABLE_FPU == 1 )
+#यदि ( configENABLE_FPU == 1 )
 
     /**
      * @brief Setup the Floating Point Unit (FPU).
      */
-    static void prvSetupFPU( void ) PRIVILEGED_FUNCTION;
-#endif /* configENABLE_FPU */
+    स्थिर शून्य prv_सज्जता_FPU( शून्य ) PRIVILEGED_FUNCTION;
+#यदि_अन्तः /* configENABLE_FPU */
 
-#if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+#यदि ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
 
     /**
      * @brief Configures PACBTI features.
@@ -440,13 +440,13 @@ static void prvTaskExitError( void );
      *
      * @return CONTROL register value according to the configured PACBTI option.
      */
-    #if ( configNUMBER_OF_CORES == 1 )
-        static uint32_t prvConfigurePACBTI( BaseType_t xWriteControlRegister );
-    #else /* #if ( configNUMBER_OF_CORES == 1 ) */
-        uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister );
-    #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
+        स्थिर uint32_t prvConfigurePACBTI( आधारः_Type_t x_Write_Control_पञ्जिकाकोशः );
+    #अन्यथा /* #if ( configNUMBER_OF_CORES == 1 ) */
+        uint32_t vConfigurePACBTI( आधारः_Type_t x_Write_Control_पञ्जिकाकोशः );
+    #यदि_अन्तः /* #if ( configNUMBER_OF_CORES == 1 ) */
 
-#endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+#यदि_अन्तः /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 
 /**
  * @brief Setup the timer to generate the tick interrupts.
@@ -454,7 +454,7 @@ static void prvTaskExitError( void );
  * The implementation in this file is weak to allow application writers to
  * change the timer used to generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void ) PRIVILEGED_FUNCTION;
+शून्य v_पत्तनम्_सज्जता_Timer_व्यवधानम्( शून्य ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Checks whether the current execution context is interrupt.
@@ -462,34 +462,34 @@ void vPortSetupTimerInterrupt( void ) PRIVILEGED_FUNCTION;
  * @return pdTRUE if the current execution context is interrupt, pdFALSE
  * otherwise.
  */
-BaseType_t xPortIsInsideInterrupt( void );
+आधारः_Type_t x_पत्तनम्_Is_Inside_व्यवधानम्( शून्य );
 
 /**
  * @brief Yield the processor.
  */
-void vPortYield( void ) PRIVILEGED_FUNCTION;
+शून्य v_पत्तनम्_Yield( शून्य ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Enter critical section.
  */
-void vPortEnterCritical( void ) PRIVILEGED_FUNCTION;
+शून्य v_पत्तनम्_Enter_Critical( शून्य ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Exit from critical section.
  */
-void vPortExitCritical( void ) PRIVILEGED_FUNCTION;
+शून्य v_पत्तनम्_Exit_Critical( शून्य ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief SysTick handler.
  */
-void SysTick_Handler( void ) PRIVILEGED_FUNCTION;
+शून्य SysTick_Handler( शून्य ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief C part of SVC handler.
  */
-portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIVILEGED_FUNCTION;
+पत्तनम्_DONT_DISCARD शून्य v_पत्तनम्_SVCHandler_C( uint32_t * pul_Caller_राशिः_स्थानाङ्कः ) PRIVILEGED_FUNCTION;
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Sets up the system call stack so that upon returning from
@@ -499,22 +499,22 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
      * @param ucSystemCallNumber The system call number of the system call.
      */
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    शून्य vSystemCallEnter( uint32_t * pul_Task_राशिः,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) PRIVILEGED_FUNCTION;
+                           uint8_t uc_System_Call_सङ्ख्या ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Raise SVC for exiting from a system call.
      */
-    void vRequestSystemCallExit( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+    शून्य vRequestSystemCallExit( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Sets up the task stack so that upon returning from
@@ -523,23 +523,23 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @param pulSystemCallStack The current SP when the SVC was raised.
      * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
      */
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    शून्य vSystemCallExit( uint32_t * pul_System_Call_राशिः,
                           uint32_t ulLR ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
     /**
      * @brief Checks whether or not the calling task is privileged.
      *
      * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
      */
-    BaseType_t xPortIsTaskPrivileged( void ) PRIVILEGED_FUNCTION;
+    आधारः_Type_t x_पत्तनम्_Is_Task_Privileged( शून्य ) PRIVILEGED_FUNCTION;
 
-#endif /* configENABLE_MPU == 1 */
+#यदि_अन्तः /* configENABLE_MPU == 1 */
 
-#if ( configNUMBER_OF_CORES > 1 )
+#यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
 
     /**
      * @brief Platform/Application-defined function that wakes up the secondary cores.
@@ -547,127 +547,127 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @return pdTRUE if the secondary cores were successfully woken up.
      *         pdFALSE otherwise.
      */
-    extern BaseType_t configWAKE_SECONDARY_CORES( void );
+    बाह्य आधारः_Type_t configWAKE_SECONDARY_CORES( शून्य );
 
-#endif /* #if ( configNUMBER_OF_CORES > 1 ) */
+#यदि_अन्तः /* #if ( configNUMBER_OF_CORES > 1 ) */
 
 /**
  * @brief Configures interrupt priorities.
  */
-void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
+शून्य v_पत्तनम्_Configure_व्यवधानम्_Priorities( शून्य ) PRIVILEGED_FUNCTION;
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief This variable is set to pdTRUE when the scheduler is started.
      */
-    PRIVILEGED_DATA static BaseType_t xSchedulerRunning = pdFALSE;
+    PRIVILEGED_दत्त स्थिर आधारः_Type_t xSchedulerRunning = pdFALSE;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /**
  * @brief Each task maintains its own interrupt status in the critical nesting
  * variable.
  */
-#if ( configNUMBER_OF_CORES == 1 )
-    PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0UL;
-#else /* #if ( configNUMBER_OF_CORES == 1 ) */
-    PRIVILEGED_DATA volatile uint32_t ulCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
+#यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
+    PRIVILEGED_दत्त स्थिर चञ्चल uint32_t ulCriticalNesting = 0UL;
+#अन्यथा /* #if ( configNUMBER_OF_CORES == 1 ) */
+    PRIVILEGED_दत्त चञ्चल uint32_t ulCriticalNestings[ config_सङ्ख्या_सम्बन्धि_CORES ] = { 0 };
     /* Flags to check if the secondary cores are ready. */
-    PRIVILEGED_DATA volatile uint8_t ucSecondaryCoresReadyFlags[ configNUMBER_OF_CORES - 1 ] = { 0 };
+    PRIVILEGED_दत्त चञ्चल uint8_t ucSecondaryCoresReadyFlags[ config_सङ्ख्या_सम्बन्धि_CORES - 1 ] = { 0 };
     /* Flag to indicate that the primary core has completed its initialisation. */
-    PRIVILEGED_DATA volatile uint8_t ucPrimaryCoreInitDoneFlag = 0;
- #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
+    PRIVILEGED_दत्त चञ्चल uint8_t uc_Primary_Core_Init_समाप्तम्_Flag = 0;
+ #यदि_अन्तः /* #if ( configNUMBER_OF_CORES == 1 ) */
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#यदि ( configENABLE_TRUSTZONE == 1 )
 
     /**
      * @brief Saved as part of the task context to indicate which context the
      * task is using on the secure side.
      */
-    PRIVILEGED_DATA portDONT_DISCARD volatile SecureContextHandle_t xSecureContext = portNO_SECURE_CONTEXT;
-#endif /* configENABLE_TRUSTZONE */
+    PRIVILEGED_दत्त पत्तनम्_DONT_DISCARD चञ्चल SecureContextHandle_t xSecureContext = पत्तनम्_NO_SECURE_CONTEXT;
+#यदि_अन्तः /* configENABLE_TRUSTZONE */
 
 /**
  * @brief Used by the portASSERT_IF_INTERRUPT_PRIORITY_INVALID() macro to ensure
  * FreeRTOS API functions are not called from interrupts that have been assigned
  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
  */
-#if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) )
+#यदि ( ( configASSERT_DEFINED == 1 ) && ( पत्तनम्_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) )
 
-    static uint8_t ucMaxSysCallPriority = 0;
-    static uint32_t ulMaxPRIGROUPValue = 0;
-    static const volatile uint8_t * const pcInterruptPriorityRegisters = ( const volatile uint8_t * ) portNVIC_IP_REGISTERS_OFFSET_16;
+    स्थिर uint8_t uc_Max_Sys_Call_प्राथमिकता = 0;
+    स्थिर uint32_t ulMaxPRIGROUPValue = 0;
+    स्थिर ध्रुव चञ्चल uint8_t * ध्रुव pc_व्यवधानम्_प्राथमिकता_Registers = ( ध्रुव चञ्चल uint8_t * ) पत्तनम्_NVIC_IP_REGISTERS_विस्थापनम्_16;
 
-#endif /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
+#यदि_अन्तः /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#यदि ( configUSE_TICKLESS_IDLE == 1 )
 
     /**
      * @brief The number of SysTick increments that make up one tick period.
      */
-    PRIVILEGED_DATA static uint32_t ulTimerCountsForOneTick = 0;
+    PRIVILEGED_दत्त स्थिर uint32_t ulTimerCountsForOneTick = 0;
 
     /**
      * @brief The maximum number of tick periods that can be suppressed is
      * limited by the 24 bit resolution of the SysTick timer.
      */
-    PRIVILEGED_DATA static uint32_t xMaximumPossibleSuppressedTicks = 0;
+    PRIVILEGED_दत्त स्थिर uint32_t x_अधिकतमम्_Possible_Suppressed_Ticks = 0;
 
     /**
      * @brief Compensate for the CPU cycles that pass while the SysTick is
      * stopped (low power functionality only).
      */
-    PRIVILEGED_DATA static uint32_t ulStoppedTimerCompensation = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+    PRIVILEGED_दत्त स्थिर uint32_t ulStoppedTimerCompensation = 0;
+#यदि_अन्तः /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#यदि ( configUSE_TICKLESS_IDLE == 1 )
 
-    __attribute__( ( weak ) ) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    __attribute__( ( weak ) ) शून्य v_पत्तनम्_Suppress_Ticks_And_Sleep( TickType_t xExpectedIdleTime )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
+        uint32_t ul_Reload_मानम्, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ul_Sys_Tick_Decrements_वामः;
         TickType_t xModifiableIdleTime;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        यदि( xExpectedIdleTime > x_अधिकतमम्_Possible_Suppressed_Ticks )
         {
-            xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+            xExpectedIdleTime = x_अधिकतमम्_Possible_Suppressed_Ticks;
         }
 
         /* Enter a critical section but don't use the taskENTER_CRITICAL()
          * method as that will mask interrupts that should exit sleep mode. */
-        __asm volatile ( "cpsid i" ::: "memory" );
-        __asm volatile ( "dsb" );
-        __asm volatile ( "isb" );
+        __asm चञ्चल ( "cpsid i" ::: "memory" );
+        __asm चञ्चल ( "dsb" );
+        __asm चञ्चल ( "isb" );
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        यदि( e_Task_Confirm_Sleep_बहुलकम्_स्थितिः() == eAbortSleep )
         {
             /* Re-enable interrupts - see comments above the cpsid instruction
              * above. */
-            __asm volatile ( "cpsie i" ::: "memory" );
+            __asm चञ्चल ( "cpsie i" ::: "memory" );
         }
-        else
+        अन्यथा
         {
             /* Stop the SysTick momentarily.  The time the SysTick is stopped for
              * is accounted for as best it can be, but using the tickless mode will
              * inevitably result in some tiny drift of the time maintained by the
              * kernel with respect to calendar time. */
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            पत्तनम्_NVIC_SYSTICK_CTRL_REG = ( पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG | पत्तनम्_NVIC_SYSTICK_INT_BIT );
 
             /* Use the SysTick current-value register to determine the number of
              * SysTick decrements remaining until the next tick interrupt.  If the
              * current-value register is zero, then there are actually
              * ulTimerCountsForOneTick decrements remaining, not zero, because the
              * SysTick requests the interrupt when decrementing from 1 to 0. */
-            ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            ul_Sys_Tick_Decrements_वामः = पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG;
 
-            if( ulSysTickDecrementsLeft == 0 )
+            यदि( ul_Sys_Tick_Decrements_वामः == 0 )
             {
-                ulSysTickDecrementsLeft = ulTimerCountsForOneTick;
+                ul_Sys_Tick_Decrements_वामः = ulTimerCountsForOneTick;
             }
 
             /* Calculate the reload value required to wait xExpectedIdleTime
@@ -676,28 +676,28 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
              * pending, then clear the IRQ, suppressing the first tick, and correct
              * the reload value to reflect that the second tick period is already
              * underway.  The expected idle time is always at least two ticks. */
-            ulReloadValue = ulSysTickDecrementsLeft + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+            ul_Reload_मानम् = ul_Sys_Tick_Decrements_वामः + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
 
-            if( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
+            यदि( ( पत्तनम्_NVIC_INT_CTRL_REG & पत्तनम्_NVIC_PEND_SYSTICK_समुच्चयः_BIT ) != 0 )
             {
-                portNVIC_INT_CTRL_REG = portNVIC_PEND_SYSTICK_CLEAR_BIT;
-                ulReloadValue -= ulTimerCountsForOneTick;
+                पत्तनम्_NVIC_INT_CTRL_REG = पत्तनम्_NVIC_PEND_SYSTICK_CLEAR_BIT;
+                ul_Reload_मानम् -= ulTimerCountsForOneTick;
             }
 
-            if( ulReloadValue > ulStoppedTimerCompensation )
+            यदि( ul_Reload_मानम् > ulStoppedTimerCompensation )
             {
-                ulReloadValue -= ulStoppedTimerCompensation;
+                ul_Reload_मानम् -= ulStoppedTimerCompensation;
             }
 
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            पत्तनम्_NVIC_SYSTICK_आरोपय_REG = ul_Reload_मानम्;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG = 0UL;
 
             /* Restart SysTick. */
-            portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+            पत्तनम्_NVIC_SYSTICK_CTRL_REG |= पत्तनम्_NVIC_SYSTICK_ENABLE_BIT;
 
             /* Sleep until something happens.  configPRE_SLEEP_PROCESSING() can
              * set its parameter to 0 to indicate that its implementation contains
@@ -707,11 +707,11 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
             xModifiableIdleTime = xExpectedIdleTime;
             configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
 
-            if( xModifiableIdleTime > 0 )
+            यदि( xModifiableIdleTime > 0 )
             {
-                __asm volatile ( "dsb" ::: "memory" );
-                __asm volatile ( "wfi" );
-                __asm volatile ( "isb" );
+                __asm चञ्चल ( "dsb" ::: "memory" );
+                __asm चञ्चल ( "wfi" );
+                __asm चञ्चल ( "isb" );
             }
 
             configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
@@ -719,17 +719,17 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
             /* Re-enable interrupts to allow the interrupt that brought the MCU
              * out of sleep mode to execute immediately.  See comments above
              * the cpsid instruction above. */
-            __asm volatile ( "cpsie i" ::: "memory" );
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm चञ्चल ( "cpsie i" ::: "memory" );
+            __asm चञ्चल ( "dsb" );
+            __asm चञ्चल ( "isb" );
 
             /* Disable interrupts again because the clock is about to be stopped
              * and interrupts that execute while the clock is stopped will increase
              * any slippage between the time maintained by the RTOS and calendar
              * time. */
-            __asm volatile ( "cpsid i" ::: "memory" );
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm चञ्चल ( "cpsid i" ::: "memory" );
+            __asm चञ्चल ( "dsb" );
+            __asm चञ्चल ( "isb" );
 
             /* Disable the SysTick clock without reading the
              * portNVIC_SYSTICK_CTRL_REG register to ensure the
@@ -738,60 +738,60 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
              * be, but using the tickless mode will inevitably result in some tiny
              * drift of the time maintained by the kernel with respect to calendar
              * time*/
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            पत्तनम्_NVIC_SYSTICK_CTRL_REG = ( पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG | पत्तनम्_NVIC_SYSTICK_INT_BIT );
 
             /* Determine whether the SysTick has already counted to zero. */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            यदि( ( पत्तनम्_NVIC_SYSTICK_CTRL_REG & पत्तनम्_NVIC_SYSTICK_गणनम्_FLAG_BIT ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_आरोपय_मानम्;
 
                 /* The tick interrupt ended the sleep (or is now pending), and
                  * a new tick period has started.  Reset portNVIC_SYSTICK_LOAD_REG
                  * with whatever remains of the new tick period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_आरोपय_मानम् = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_मानम् - पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long or because the SysTick current-value register
                  * is zero. */
-                if( ( ulCalculatedLoadValue <= ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                यदि( ( ul_Calculated_आरोपय_मानम् <= ulStoppedTimerCompensation ) || ( ul_Calculated_आरोपय_मानम् > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_आरोपय_मानम् = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                पत्तनम्_NVIC_SYSTICK_आरोपय_REG = ul_Calculated_आरोपय_मानम्;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
                  * forward by one less than the time spent waiting. */
                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
             }
-            else
+            अन्यथा
             {
                 /* Something other than the tick interrupt ended the sleep. */
 
                 /* Use the SysTick current-value register to determine the
                  * number of SysTick decrements remaining until the expected idle
                  * time would have ended. */
-                ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-                #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
+                ul_Sys_Tick_Decrements_वामः = पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG;
+                #यदि ( पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG != पत्तनम्_NVIC_SYSTICK_CLK_BIT )
                 {
                     /* If the SysTick is not using the core clock, the current-
                      * value register might still be zero here.  In that case, the
                      * SysTick didn't load from the reload register, and there are
                      * ulReloadValue decrements remaining in the expected idle
                      * time, not zero. */
-                    if( ulSysTickDecrementsLeft == 0 )
+                    यदि( ul_Sys_Tick_Decrements_वामः == 0 )
                     {
-                        ulSysTickDecrementsLeft = ulReloadValue;
+                        ul_Sys_Tick_Decrements_वामः = ul_Reload_मानम्;
                     }
                 }
-                #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+                #यदि_अन्तः /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
                 /* Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ulSysTickDecrementsLeft;
+                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ul_Sys_Tick_Decrements_वामः;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -799,7 +799,7 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
 
                 /* The reload value is set to whatever fraction of a single tick
                  * period remains. */
-                portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
+                पत्तनम्_NVIC_SYSTICK_आरोपय_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
             }
 
             /* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG again,
@@ -809,51 +809,51 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
              * from portNVIC_SYSTICK_LOAD_REG immediately instead of at the next
              * cycle of the other clock.  Then portNVIC_SYSTICK_LOAD_REG is ready
              * to receive the standard value immediately. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
-            portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-            #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
+            पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG = 0UL;
+            पत्तनम्_NVIC_SYSTICK_CTRL_REG = पत्तनम्_NVIC_SYSTICK_CLK_BIT | पत्तनम्_NVIC_SYSTICK_INT_BIT | पत्तनम्_NVIC_SYSTICK_ENABLE_BIT;
+            #यदि ( पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG == पत्तनम्_NVIC_SYSTICK_CLK_BIT )
             {
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
+                पत्तनम्_NVIC_SYSTICK_आरोपय_REG = ulTimerCountsForOneTick - 1UL;
             }
-            #else
+            #अन्यथा
             {
                 /* The temporary usage of the core clock has served its purpose,
                  * as described above.  Resume usage of the other clock. */
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
+                पत्तनम्_NVIC_SYSTICK_CTRL_REG = पत्तनम्_NVIC_SYSTICK_CLK_BIT | पत्तनम्_NVIC_SYSTICK_INT_BIT;
 
-                if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+                यदि( ( पत्तनम्_NVIC_SYSTICK_CTRL_REG & पत्तनम्_NVIC_SYSTICK_गणनम्_FLAG_BIT ) != 0 )
                 {
                     /* The partial tick period already ended.  Be sure the SysTick
                      * counts it only once. */
-                    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0;
+                    पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG = 0;
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+                पत्तनम्_NVIC_SYSTICK_आरोपय_REG = ulTimerCountsForOneTick - 1UL;
+                पत्तनम्_NVIC_SYSTICK_CTRL_REG = पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG | पत्तनम्_NVIC_SYSTICK_INT_BIT | पत्तनम्_NVIC_SYSTICK_ENABLE_BIT;
             }
-            #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+            #यदि_अन्तः /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
             /* Step the tick to account for any tick periods that elapsed. */
-            vTaskStepTick( ulCompleteTickPeriods );
+            v_Task_चरणः_Tick( ulCompleteTickPeriods );
 
             /* Exit with interrupts enabled. */
-            __asm volatile ( "cpsie i" ::: "memory" );
+            __asm चञ्चल ( "cpsie i" ::: "memory" );
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#यदि_अन्तः /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-__attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void ) /* PRIVILEGED_FUNCTION */
+__attribute__( ( weak ) ) शून्य v_पत्तनम्_सज्जता_Timer_व्यवधानम्( शून्य ) /* PRIVILEGED_FUNCTION */
 {
     /* Calculate the constants required to configure the tick interrupt. */
-    #if ( configUSE_TICKLESS_IDLE == 1 )
+    #यदि ( configUSE_TICKLESS_IDLE == 1 )
     {
-        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
-        xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
-        ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
+        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / config_TICK_दरः_HZ );
+        x_अधिकतमम्_Possible_Suppressed_Ticks = पत्तनम्_MAX_24_BIT_सङ्ख्या / ulTimerCountsForOneTick;
+        ulStoppedTimerCompensation = पत्तनम्_MISSED_COUNTS_गुणकः / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
     }
-    #endif /* configUSE_TICKLESS_IDLE */
+    #यदि_अन्तः /* configUSE_TICKLESS_IDLE */
 
     /* Stop and reset SysTick.
      *
@@ -863,32 +863,32 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void ) /* PRIVILEGED_FU
      * to one with a nonzero clock period and enable Systick at the same time.
      * So we configure the CLKSOURCE bit here, prior to setting the ENABLE bit.
      * This workaround avoids the bug in QEMU versions older than 7.0.0. */
-    portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    पत्तनम्_NVIC_SYSTICK_CTRL_REG = पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG;
+    पत्तनम्_NVIC_SYSTICK_CURRENT_मानम्_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
-    portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
-    portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+    पत्तनम्_NVIC_SYSTICK_आरोपय_REG = ( configSYSTICK_CLOCK_HZ / config_TICK_दरः_HZ ) - 1UL;
+    पत्तनम्_NVIC_SYSTICK_CTRL_REG = पत्तनम्_NVIC_SYSTICK_CLK_BIT_CONFIG | पत्तनम्_NVIC_SYSTICK_INT_BIT | पत्तनम्_NVIC_SYSTICK_ENABLE_BIT;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+स्थिर शून्य prvTaskExitError( शून्य )
 {
-    volatile uint32_t ulDummy = 0UL;
+    चञ्चल uint32_t ulDummy = 0UL;
 
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
      * should instead call vTaskDelete( NULL ). Artificially force an assert()
      * to be triggered if configASSERT() is defined, then stop here so
      * application writers can catch the error. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
         configASSERT( ulCriticalNesting == ~0UL );
-    #else /* #if ( configNUMBER_OF_CORES == 1 ) */
-        configASSERT( ulCriticalNestings[ portGET_CORE_ID() ] == ~0UL );
-    #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
-    portDISABLE_INTERRUPTS();
+    #अन्यथा /* #if ( configNUMBER_OF_CORES == 1 ) */
+        configASSERT( ulCriticalNestings[ पत्तनम्_GET_CORE_ID() ] == ~0UL );
+    #यदि_अन्तः /* #if ( configNUMBER_OF_CORES == 1 ) */
+    पत्तनम्_DISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    यावत्( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -901,312 +901,312 @@ static void prvTaskExitError( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    static uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) /* PRIVILEGED_FUNCTION */
+    स्थिर uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) /* PRIVILEGED_FUNCTION */
     {
         uint32_t ulAccessPermissions = 0;
 
-        if( ( ulRBARValue & portMPU_RBAR_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_ONLY )
+        यदि( ( ulRBARValue & पत्तनम्_MPU_RBAR_ACCESS_PERMISSIONS_आवरणम् ) == पत्तनम्_MPU_REGION_READ_ONLY )
         {
             ulAccessPermissions = tskMPU_READ_PERMISSION;
         }
 
-        if( ( ulRBARValue & portMPU_RBAR_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_WRITE )
+        यदि( ( ulRBARValue & पत्तनम्_MPU_RBAR_ACCESS_PERMISSIONS_आवरणम् ) == पत्तनम्_MPU_REGION_READ_WRITE )
         {
             ulAccessPermissions = ( tskMPU_READ_PERMISSION | tskMPU_WRITE_PERMISSION );
         }
 
-        return ulAccessPermissions;
+        प्रत्यागम ulAccessPermissions;
     }
 
-#endif /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
+#यदि_अन्तः /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
-    static void prvSetupMPU( void ) /* PRIVILEGED_FUNCTION */
+    स्थिर शून्य prv_सज्जता_MPU( शून्य ) /* PRIVILEGED_FUNCTION */
     {
-        #if defined( __ARMCC_VERSION )
+        #यदि defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
-            extern uint32_t * __unprivileged_flash_start__;
-            extern uint32_t * __unprivileged_flash_end__;
-            extern uint32_t * __privileged_sram_start__;
-            extern uint32_t * __privileged_sram_end__;
-        #else /* if defined( __ARMCC_VERSION ) */
+            बाह्य uint32_t * __privileged_functions_start__;
+            बाह्य uint32_t * __privileged_functions_end__;
+            बाह्य uint32_t * __syscalls_flash_start__;
+            बाह्य uint32_t * __syscalls_flash_end__;
+            बाह्य uint32_t * __unprivileged_flash_start__;
+            बाह्य uint32_t * __unprivileged_flash_end__;
+            बाह्य uint32_t * __privileged_sram_start__;
+            बाह्य uint32_t * __privileged_sram_end__;
+        #अन्यथा /* if defined( __ARMCC_VERSION ) */
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
-            extern uint32_t __unprivileged_flash_start__[];
-            extern uint32_t __unprivileged_flash_end__[];
-            extern uint32_t __privileged_sram_start__[];
-            extern uint32_t __privileged_sram_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
+            बाह्य uint32_t __privileged_functions_start__[];
+            बाह्य uint32_t __privileged_functions_end__[];
+            बाह्य uint32_t __syscalls_flash_start__[];
+            बाह्य uint32_t __syscalls_flash_end__[];
+            बाह्य uint32_t __unprivileged_flash_start__[];
+            बाह्य uint32_t __unprivileged_flash_end__[];
+            बाह्य uint32_t __privileged_sram_start__[];
+            बाह्य uint32_t __privileged_sram_end__[];
+        #यदि_अन्तः /* defined( __ARMCC_VERSION ) */
 
         /* The only permitted number of regions are 8 or 16. */
-        configASSERT( ( configTOTAL_MPU_REGIONS == 8 ) || ( configTOTAL_MPU_REGIONS == 16 ) );
+        configASSERT( ( config_योग_MPU_REGIONS == 8 ) || ( config_योग_MPU_REGIONS == 16 ) );
 
         /* MAIR0 - Index 0. */
-        portMPU_MAIR0_REG |= ( ( portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE << portMPU_MAIR_ATTR0_POS ) & portMPU_MAIR_ATTR0_MASK );
+        पत्तनम्_MPU_MAIR0_REG |= ( ( पत्तनम्_MPU_प्रसामान्यम्_स्मृतिः_BUFFERABLE_CACHEABLE << पत्तनम्_MPU_MAIR_ATTR0_POS ) & पत्तनम्_MPU_MAIR_ATTR0_आवरणम् );
         /* MAIR0 - Index 1. */
-        portMPU_MAIR0_REG |= ( ( portMPU_DEVICE_MEMORY_nGnRE << portMPU_MAIR_ATTR1_POS ) & portMPU_MAIR_ATTR1_MASK );
+        पत्तनम्_MPU_MAIR0_REG |= ( ( पत्तनम्_MPU_DEVICE_स्मृतिः_n_Gn_RE << पत्तनम्_MPU_MAIR_ATTR1_POS ) & पत्तनम्_MPU_MAIR_ATTR1_आवरणम् );
 
         /* Setup privileged flash as Read Only so that privileged tasks can
          * read it but not modify. */
-        portMPU_RNR_REG = portPRIVILEGED_FLASH_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __privileged_functions_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_PRIVILEGED_READ_ONLY );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __privileged_functions_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        पत्तनम्_MPU_RNR_REG = पत्तनम्_PRIVILEGED_FLASH_REGION;
+        पत्तनम्_MPU_RBAR_REG = ( ( ( uint32_t ) __privileged_functions_start__ ) & पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_REGION_NON_SHAREABLE ) |
+                           ( पत्तनम्_MPU_REGION_PRIVILEGED_READ_ONLY );
+        पत्तनम्_MPU_RLAR_REG = ( ( ( uint32_t ) __privileged_functions_end__ ) & पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( पत्तनम्_MPU_RLAR_REGION_ENABLE );
 
         /* Setup unprivileged flash as Read Only by both privileged and
          * unprivileged tasks. All tasks can read it but no-one can modify. */
-        portMPU_RNR_REG = portUNPRIVILEGED_FLASH_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __unprivileged_flash_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_READ_ONLY );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __unprivileged_flash_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        पत्तनम्_MPU_RNR_REG = पत्तनम्_UNPRIVILEGED_FLASH_REGION;
+        पत्तनम्_MPU_RBAR_REG = ( ( ( uint32_t ) __unprivileged_flash_start__ ) & पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_REGION_NON_SHAREABLE ) |
+                           ( पत्तनम्_MPU_REGION_READ_ONLY );
+        पत्तनम्_MPU_RLAR_REG = ( ( ( uint32_t ) __unprivileged_flash_end__ ) & पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( पत्तनम्_MPU_RLAR_REGION_ENABLE );
 
         /* Setup unprivileged syscalls flash as Read Only by both privileged
          * and unprivileged tasks. All tasks can read it but no-one can modify. */
-        portMPU_RNR_REG = portUNPRIVILEGED_SYSCALLS_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __syscalls_flash_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_READ_ONLY );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __syscalls_flash_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        पत्तनम्_MPU_RNR_REG = पत्तनम्_UNPRIVILEGED_SYSCALLS_REGION;
+        पत्तनम्_MPU_RBAR_REG = ( ( ( uint32_t ) __syscalls_flash_start__ ) & पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_REGION_NON_SHAREABLE ) |
+                           ( पत्तनम्_MPU_REGION_READ_ONLY );
+        पत्तनम्_MPU_RLAR_REG = ( ( ( uint32_t ) __syscalls_flash_end__ ) & पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( पत्तनम्_MPU_RLAR_REGION_ENABLE );
 
         /* Setup RAM containing kernel data for privileged access only. */
-        portMPU_RNR_REG = portPRIVILEGED_RAM_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __privileged_sram_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_PRIVILEGED_READ_WRITE ) |
-                           ( portMPU_REGION_EXECUTE_NEVER );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __privileged_sram_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        पत्तनम्_MPU_RNR_REG = पत्तनम्_PRIVILEGED_RAM_REGION;
+        पत्तनम्_MPU_RBAR_REG = ( ( ( uint32_t ) __privileged_sram_start__ ) & पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_REGION_NON_SHAREABLE ) |
+                           ( पत्तनम्_MPU_REGION_PRIVILEGED_READ_WRITE ) |
+                           ( पत्तनम्_MPU_REGION_EXECUTE_NEVER );
+        पत्तनम्_MPU_RLAR_REG = ( ( ( uint32_t ) __privileged_sram_end__ ) & पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम् ) |
+                           ( पत्तनम्_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( पत्तनम्_MPU_RLAR_REGION_ENABLE );
 
         /* Enable mem fault. */
-        portSCB_SYS_HANDLER_CTRL_STATE_REG |= portSCB_MEM_FAULT_ENABLE_BIT;
+        पत्तनम्_SCB_SYS_HANDLER_CTRL_STATE_REG |= पत्तनम्_SCB_MEM_FAULT_ENABLE_BIT;
 
         /* Enable MPU with privileged background access i.e. unmapped
          * regions have privileged access. */
-        portMPU_CTRL_REG |= ( portMPU_PRIV_BACKGROUND_ENABLE_BIT | portMPU_ENABLE_BIT );
+        पत्तनम्_MPU_CTRL_REG |= ( पत्तनम्_MPU_PRIV_BACKGROUND_ENABLE_BIT | पत्तनम्_MPU_ENABLE_BIT );
     }
 
-#endif /* configENABLE_MPU */
+#यदि_अन्तः /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_FPU == 1 )
+#यदि ( configENABLE_FPU == 1 )
 
-    static void prvSetupFPU( void ) /* PRIVILEGED_FUNCTION */
+    स्थिर शून्य prv_सज्जता_FPU( शून्य ) /* PRIVILEGED_FUNCTION */
     {
-        #if ( configENABLE_TRUSTZONE == 1 )
+        #यदि ( configENABLE_TRUSTZONE == 1 )
         {
             /* Enable non-secure access to the FPU. */
             SecureInit_EnableNSFPUAccess();
         }
-        #endif /* configENABLE_TRUSTZONE */
+        #यदि_अन्तः /* configENABLE_TRUSTZONE */
 
         /* CP10 = 11 ==> Full access to FPU i.e. both privileged and
          * unprivileged code should be able to access FPU. CP11 should be
          * programmed to the same value as CP10. */
-        *( portCPACR ) |= ( ( portCPACR_CP10_VALUE << portCPACR_CP10_POS ) |
-                            ( portCPACR_CP11_VALUE << portCPACR_CP11_POS )
+        *( पत्तनम्_CPACR ) |= ( ( पत्तनम्_CPACR_CP10_मानम् << पत्तनम्_CPACR_CP10_POS ) |
+                            ( पत्तनम्_CPACR_CP11_मानम् << पत्तनम्_CPACR_CP11_POS )
                             );
 
         /* ASPEN = 1 ==> Hardware should automatically preserve floating point
          * context on exception entry and restore on exception return.
          * LSPEN = 1 ==> Enable lazy context save of FP state. */
-        *( portFPCCR ) |= ( portFPCCR_ASPEN_MASK | portFPCCR_LSPEN_MASK );
+        *( पत्तनम्_FPCCR ) |= ( पत्तनम्_FPCCR_ASPEN_आवरणम् | पत्तनम्_FPCCR_LSPEN_आवरणम् );
     }
 
-#endif /* configENABLE_FPU */
+#यदि_अन्तः /* configENABLE_FPU */
 /*-----------------------------------------------------------*/
 
-void vPortYield( void ) /* PRIVILEGED_FUNCTION */
+शून्य v_पत्तनम्_Yield( शून्य ) /* PRIVILEGED_FUNCTION */
 {
     /* Set a PendSV to request a context switch. */
-    portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+    पत्तनम्_NVIC_INT_CTRL_REG = पत्तनम्_NVIC_PENDSVSET_BIT;
 
     /* Barriers are normally not required but do ensure the code is
      * completely within the specified behaviour for the architecture. */
-    __asm volatile ( "dsb" ::: "memory" );
-    __asm volatile ( "isb" );
+    __asm चञ्चल ( "dsb" ::: "memory" );
+    __asm चञ्चल ( "isb" );
 }
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
-    void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */
+#यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
+    शून्य v_पत्तनम्_Enter_Critical( शून्य ) /* PRIVILEGED_FUNCTION */
     {
-        portDISABLE_INTERRUPTS();
+        पत्तनम्_DISABLE_INTERRUPTS();
         ulCriticalNesting++;
         /* Barriers are normally not required but do ensure the code is
         * completely within the specified behaviour for the architecture. */
-        __asm volatile ( "dsb" ::: "memory" );
-        __asm volatile ( "isb" );
+        __asm चञ्चल ( "dsb" ::: "memory" );
+        __asm चञ्चल ( "isb" );
     }
     /*-----------------------------------------------------------*/
 
-    void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */
+    शून्य v_पत्तनम्_Exit_Critical( शून्य ) /* PRIVILEGED_FUNCTION */
     {
         configASSERT( ulCriticalNesting );
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == 0 )
+        यदि( ulCriticalNesting == 0 )
         {
-            portENABLE_INTERRUPTS();
+            पत्तनम्_ENABLE_INTERRUPTS();
         }
     }
-#endif /* configNUMBER_OF_CORES == 1 */
+#यदि_अन्तः /* configNUMBER_OF_CORES == 1 */
 /*-----------------------------------------------------------*/
 
-void SysTick_Handler( void ) /* PRIVILEGED_FUNCTION */
+शून्य SysTick_Handler( शून्य ) /* PRIVILEGED_FUNCTION */
 {
-    uint32_t ulPreviousMask;
+    uint32_t ul_Previous_आवरणम्;
 
-    ulPreviousMask = portSET_INTERRUPT_MASK_FROM_ISR();
-    #if ( configNUMBER_OF_CORES > 1 )
-        UBaseType_t uxSavedInterruptStatus = portENTER_CRITICAL_FROM_ISR();
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    ul_Previous_आवरणम् = पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR();
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
+        UBaseType_t ux_Saved_व्यवधानम्_स्थितिः = पत्तनम्_ENTER_CRITICAL_FROM_ISR();
+    #यदि_अन्तः /* if ( configNUMBER_OF_CORES > 1 ) */
 
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        यदि( xTaskIncrementTick() != pdFALSE )
         {
-            traceISR_EXIT_TO_SCHEDULER();
+            trace_ISR_EXIT_गन्तव्यम्_SCHEDULER();
             /* Pend a context switch. */
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+            पत्तनम्_NVIC_INT_CTRL_REG = पत्तनम्_NVIC_PENDSVSET_BIT;
         }
-        else
+        अन्यथा
         {
             traceISR_EXIT();
         }
     }
-    #if ( configNUMBER_OF_CORES > 1 )
-        portEXIT_CRITICAL_FROM_ISR( uxSavedInterruptStatus );
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
+        पत्तनम्_EXIT_CRITICAL_FROM_ISR( ux_Saved_व्यवधानम्_स्थितिः );
+    #यदि_अन्तः /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulPreviousMask );
+    पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ul_Previous_आवरणम् );
 }
 /*-----------------------------------------------------------*/
 
-void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTION portDONT_DISCARD */
+शून्य v_पत्तनम्_SVCHandler_C( uint32_t * pul_Caller_राशिः_स्थानाङ्कः ) /* PRIVILEGED_FUNCTION portDONT_DISCARD */
 {
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
-        #if defined( __ARMCC_VERSION )
+    #यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+        #यदि defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
-        #else
+            बाह्य uint32_t * __syscalls_flash_start__;
+            बाह्य uint32_t * __syscalls_flash_end__;
+        #अन्यथा
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
-    #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+            बाह्य uint32_t __syscalls_flash_start__[];
+            बाह्य uint32_t __syscalls_flash_end__[];
+        #यदि_अन्तः /* defined( __ARMCC_VERSION ) */
+    #यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-    #if ( configENABLE_MPU == 1 )
-        #if defined( __ARMCC_VERSION )
+    #यदि ( configENABLE_MPU == 1 )
+        #यदि defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-        #else
+            बाह्य uint32_t * __privileged_functions_start__;
+            बाह्य uint32_t * __privileged_functions_end__;
+        #अन्यथा
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
-    #endif /* configENABLE_MPU == 1 */
+            बाह्य uint32_t __privileged_functions_start__[];
+            बाह्य uint32_t __privileged_functions_end__[];
+        #यदि_अन्तः /* defined( __ARMCC_VERSION ) */
+    #यदि_अन्तः /* configENABLE_MPU == 1 */
 
     uint32_t ulPC;
 
-    #if ( configENABLE_TRUSTZONE == 1 )
+    #यदि ( configENABLE_TRUSTZONE == 1 )
         uint32_t ulR0, ulR1;
-        extern TaskHandle_t pxCurrentTCB;
-        #if ( configENABLE_MPU == 1 )
+        बाह्य TaskHandle_t pxCurrentTCB;
+        #यदि ( configENABLE_MPU == 1 )
             uint32_t ulControl, ulIsTaskPrivileged;
-        #endif /* configENABLE_MPU */
-    #endif /* configENABLE_TRUSTZONE */
+        #यदि_अन्तः /* configENABLE_MPU */
+    #यदि_अन्तः /* configENABLE_TRUSTZONE */
     uint8_t ucSVCNumber;
 
     /* Register are stored on the stack in the following order - R0, R1, R2, R3,
      * R12, LR, PC, xPSR. */
-    ulPC = pulCallerStackAddress[ portOFFSET_TO_PC ];
+    ulPC = pul_Caller_राशिः_स्थानाङ्कः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PC ];
     ucSVCNumber = ( ( uint8_t * ) ulPC )[ -2 ];
 
-    switch( ucSVCNumber )
+    विकल्प( ucSVCNumber )
     {
-    #if ( configENABLE_TRUSTZONE == 1 )
-        case portSVC_ALLOCATE_SECURE_CONTEXT:
+    #यदि ( configENABLE_TRUSTZONE == 1 )
+        पक्ष पत्तनम्_SVC_ALLOCATE_SECURE_CONTEXT:
 
             /* R0 contains the stack size passed as parameter to the
              * vPortAllocateSecureContext function. */
-            ulR0 = pulCallerStackAddress[ 0 ];
+            ulR0 = pul_Caller_राशिः_स्थानाङ्कः[ 0 ];
 
-            #if ( configENABLE_MPU == 1 )
+            #यदि ( configENABLE_MPU == 1 )
             {
                 /* Read the CONTROL register value. */
-                __asm volatile ( "mrs %0, control"  : "=r" ( ulControl ) );
+                __asm चञ्चल ( "mrs %0, control"  : "=r" ( ulControl ) );
 
                 /* The task that raised the SVC is privileged if Bit[0]
                  * in the CONTROL register is 0. */
-                ulIsTaskPrivileged = ( ( ulControl & portCONTROL_PRIVILEGED_MASK ) == 0 );
+                ulIsTaskPrivileged = ( ( ulControl & पत्तनम्_CONTROL_PRIVILEGED_आवरणम् ) == 0 );
 
                 /* Allocate and load a context for the secure task. */
                 xSecureContext = SecureContext_AllocateContext( ulR0, ulIsTaskPrivileged, pxCurrentTCB );
             }
-            #else /* if ( configENABLE_MPU == 1 ) */
+            #अन्यथा /* if ( configENABLE_MPU == 1 ) */
             {
                 /* Allocate and load a context for the secure task. */
                 xSecureContext = SecureContext_AllocateContext( ulR0, pxCurrentTCB );
             }
-            #endif /* configENABLE_MPU */
+            #यदि_अन्तः /* configENABLE_MPU */
 
             configASSERT( xSecureContext != securecontextINVALID_CONTEXT_ID );
-            SecureContext_LoadContext( xSecureContext, pxCurrentTCB );
-            break;
+            Secure_Context_आरोपय_Context( xSecureContext, pxCurrentTCB );
+            भङ्ग;
 
-        case portSVC_FREE_SECURE_CONTEXT:
-            #if ( configENABLE_MPU == 1 )
-            if( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
+        पक्ष पत्तनम्_SVC_FREE_SECURE_CONTEXT:
+            #यदि ( configENABLE_MPU == 1 )
+            यदि( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
                 ( ulPC <= ( uint32_t ) __privileged_functions_end__ ) )
             {
-            #endif /* configENABLE_MPU */
+            #यदि_अन्तः /* configENABLE_MPU */
                 /* R0 contains TCB being freed and R1 contains the secure
                  * context handle to be freed. */
-                ulR0 = pulCallerStackAddress[ 0 ];
-                ulR1 = pulCallerStackAddress[ 1 ];
+                ulR0 = pul_Caller_राशिः_स्थानाङ्कः[ 0 ];
+                ulR1 = pul_Caller_राशिः_स्थानाङ्कः[ 1 ];
 
                 /* Free the secure context. */
-                SecureContext_FreeContext( ( SecureContextHandle_t ) ulR1, ( void * ) ulR0 );
-            #if ( configENABLE_MPU == 1 )
+                SecureContext_FreeContext( ( SecureContextHandle_t ) ulR1, ( शून्य * ) ulR0 );
+            #यदि ( configENABLE_MPU == 1 )
             }
-            #endif /* configENABLE_MPU */
-            break;
-    #endif /* configENABLE_TRUSTZONE */
+            #यदि_अन्तः /* configENABLE_MPU */
+            भङ्ग;
+    #यदि_अन्तः /* configENABLE_TRUSTZONE */
 
-        case portSVC_START_SCHEDULER:
-            #if ( configENABLE_MPU == 1 )
-            if( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
+        पक्ष पत्तनम्_SVC_START_SCHEDULER:
+            #यदि ( configENABLE_MPU == 1 )
+            यदि( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
                 ( ulPC <= ( uint32_t ) __privileged_functions_end__ ) )
             {
-            #endif /* configENABLE_MPU */
-                #if ( configENABLE_TRUSTZONE == 1 )
+            #यदि_अन्तः /* configENABLE_MPU */
+                #यदि ( configENABLE_TRUSTZONE == 1 )
                 {
                     /* De-prioritize the non-secure exceptions so that the
                      * non-secure pendSV runs at the lowest priority. */
@@ -1215,74 +1215,74 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
                     /* Initialize the secure context management system. */
                     SecureContext_Init();
                 }
-                #endif /* configENABLE_TRUSTZONE */
+                #यदि_अन्तः /* configENABLE_TRUSTZONE */
 
-                #if ( configENABLE_FPU == 1 )
+                #यदि ( configENABLE_FPU == 1 )
                 {
                     /* Setup the Floating Point Unit (FPU). */
-                    prvSetupFPU();
+                    prv_सज्जता_FPU();
                 }
-                #endif /* configENABLE_FPU */
+                #यदि_अन्तः /* configENABLE_FPU */
 
                 /* Setup the context of the first task so that the first task starts
                  * executing. */
-                vRestoreContextOfFirstTask();
-            #if ( configENABLE_MPU == 1 )
+                v_Restore_Context_सम्बन्धि_First_Task();
+            #यदि ( configENABLE_MPU == 1 )
             }
-            #endif /* configENABLE_MPU */
-            break;
+            #यदि_अन्तः /* configENABLE_MPU */
+            भङ्ग;
 
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
-        case portSVC_RAISE_PRIVILEGE:
+    #यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+        पक्ष पत्तनम्_SVC_RAISE_PRIVILEGE:
 
             /* Only raise the privilege, if the svc was raised from any of
              * the system calls. */
-            if( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
+            यदि( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
                 ( ulPC <= ( uint32_t ) __syscalls_flash_end__ ) )
             {
                 vRaisePrivilege();
             }
-            break;
-    #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+            भङ्ग;
+    #यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-    #if ( configENABLE_MPU == 1 )
-        case portSVC_YIELD:
-            vPortYield();
-            break;
-    #endif /* configENABLE_MPU == 1 */
+    #यदि ( configENABLE_MPU == 1 )
+        पक्ष पत्तनम्_SVC_YIELD:
+            v_पत्तनम्_Yield();
+            भङ्ग;
+    #यदि_अन्तः /* configENABLE_MPU == 1 */
 
-        default:
+        स्वभाव:
             /* Incorrect SVC call. */
             configASSERT( pdFALSE );
     }
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    शून्य vSystemCallEnter( uint32_t * pul_Task_राशिः,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) /* PRIVILEGED_FUNCTION */
+                           uint8_t uc_System_Call_सङ्ख्या ) /* PRIVILEGED_FUNCTION */
     {
-        extern TaskHandle_t pxCurrentTCB;
-        extern UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ];
+        बाह्य TaskHandle_t pxCurrentTCB;
+        बाह्य UBaseType_t uxSystemCallImplementations[ अङ्कः_SYSTEM_CALLS ];
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulSystemCallStack;
-        uint32_t ulHardwareSavedExceptionFrameSize, ulSystemCallLocation, i;
+        uint32_t * pul_System_Call_राशिः;
+        uint32_t ul_Hardware_Saved_Exception_Frame_आकार, ulSystemCallLocation, i;
 
-        #if defined( __ARMCC_VERSION )
+        #यदि defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
-        #else
+            बाह्य uint32_t * __syscalls_flash_start__;
+            बाह्य uint32_t * __syscalls_flash_end__;
+        #अन्यथा
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
-        #endif /* #if defined( __ARMCC_VERSION ) */
+            बाह्य uint32_t __syscalls_flash_start__[];
+            बाह्य uint32_t __syscalls_flash_end__[];
+        #यदि_अन्तः /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulTaskStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -1297,101 +1297,101 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
          *    because the assembly SVC handler checks that before calling
          *    this function.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
+        यदि( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __syscalls_flash_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack == NULL ) &&
-            ( uxSystemCallImplementations[ ucSystemCallNumber ] != ( UBaseType_t ) 0 ) )
+            ( pxMpuSettings->x_System_Call_राशिः_Info.pul_Task_राशिः == रिक्त ) &&
+            ( uxSystemCallImplementations[ uc_System_Call_सङ्ख्या ] != ( UBaseType_t ) 0 ) )
         {
-            pulSystemCallStack = pxMpuSettings->xSystemCallStackInfo.pulSystemCallStack;
+            pul_System_Call_राशिः = pxMpuSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः;
 
             /* Hardware Saved Stack Frame Size upon Exception entry:
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+            #यदि ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             {
-                if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+                यदि( ( ulLR & पत्तनम्_EXC_RETURN_राशिः_FRAME_TYPE_आवरणम् ) == 0UL )
                 {
                     /* Extended frame i.e. FPU in use. */
-                    ulHardwareSavedExceptionFrameSize = 26;
-                    __asm volatile (
+                    ul_Hardware_Saved_Exception_Frame_आकार = 26;
+                    __asm चञ्चल (
                         " vpush {s0}         \n" /* Trigger lazy stacking. */
                         " vpop  {s0}         \n" /* Nullify the affect of the above instruction. */
                         ::: "memory"
                         );
                 }
-                else
+                अन्यथा
                 {
                     /* Standard frame i.e. FPU not in use. */
-                    ulHardwareSavedExceptionFrameSize = 8;
+                    ul_Hardware_Saved_Exception_Frame_आकार = 8;
                 }
             }
-            #else /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+            #अन्यथा /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
             {
-                ulHardwareSavedExceptionFrameSize = 8;
+                ul_Hardware_Saved_Exception_Frame_आकार = 8;
             }
-            #endif /* configENABLE_FPU || configENABLE_MVE */
+            #यदि_अन्तः /* configENABLE_FPU || configENABLE_MVE */
 
             /* Make space on the system call stack for the stack frame. */
-            pulSystemCallStack = pulSystemCallStack - ulHardwareSavedExceptionFrameSize;
+            pul_System_Call_राशिः = pul_System_Call_राशिः - ul_Hardware_Saved_Exception_Frame_आकार;
 
             /* Copy the stack frame. */
-            for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
+            प्रति( i = 0; i < ul_Hardware_Saved_Exception_Frame_आकार; i++ )
             {
-                pulSystemCallStack[ i ] = pulTaskStack[ i ];
+                pul_System_Call_राशिः[ i ] = pul_Task_राशिः[ i ];
             }
 
             /* Store the value of the Link Register before the SVC was raised.
              * It contains the address of the caller of the System Call entry
              * point (i.e. the caller of the MPU_<API>). We need to restore it
              * when we exit from the system call. */
-            pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry = pulTaskStack[ portOFFSET_TO_LR ];
+            pxMpuSettings->x_System_Call_राशिः_Info.ul_Link_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः = pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_LR ];
 
             /* Store the value of the PSPLIM register before the SVC was raised.
              * We need to restore it when we exit from the system call. */
-            #if ( portUSE_PSPLIM_REGISTER == 1 )
+            #यदि ( पत्तनम्_USE_PSPLIM_पञ्जिकाकोशः == 1 )
             {
-                __asm volatile ( "mrs %0, psplim" : "=r" ( pxMpuSettings->xSystemCallStackInfo.ulStackLimitRegisterAtSystemCallEntry ) );
+                __asm चञ्चल ( "mrs %0, psplim" : "=r" ( pxMpuSettings->x_System_Call_राशिः_Info.ul_राशिः_सीमा_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः ) );
             }
-            #endif
+            #यदि_अन्तः
 
             /* Use the pulSystemCallStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulSystemCallStack ) );
-            #if ( portUSE_PSPLIM_REGISTER == 1 )
+            __asm चञ्चल ( "msr psp, %0" : : "r" ( pul_System_Call_राशिः ) );
+            #यदि ( पत्तनम्_USE_PSPLIM_पञ्जिकाकोशः == 1 )
             {
-                __asm volatile ( "msr psplim, %0" : : "r" ( pxMpuSettings->xSystemCallStackInfo.pulSystemCallStackLimit ) );
+                __asm चञ्चल ( "msr psplim, %0" : : "r" ( pxMpuSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः_सीमा ) );
             }
-            #endif
+            #यदि_अन्तः
 
             /* Start executing the system call upon returning from this handler. */
-            pulSystemCallStack[ portOFFSET_TO_PC ] = uxSystemCallImplementations[ ucSystemCallNumber ];
+            pul_System_Call_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PC ] = uxSystemCallImplementations[ uc_System_Call_सङ्ख्या ];
 
             /* Raise a request to exit from the system call upon finishing the
              * system call. */
-            pulSystemCallStack[ portOFFSET_TO_LR ] = ( uint32_t ) vRequestSystemCallExit;
+            pul_System_Call_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_LR ] = ( uint32_t ) vRequestSystemCallExit;
 
             /* Remember the location where we should copy the stack frame when we exit from
              * the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = pulTaskStack + ulHardwareSavedExceptionFrameSize;
+            pxMpuSettings->x_System_Call_राशिः_Info.pul_Task_राशिः = pul_Task_राशिः + ul_Hardware_Saved_Exception_Frame_आकार;
 
             /* Record if the hardware used padding to force the stack pointer
              * to be double word aligned. */
-            if( ( pulTaskStack[ portOFFSET_TO_PSR ] & portPSR_STACK_PADDING_MASK ) == portPSR_STACK_PADDING_MASK )
+            यदि( ( pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PSR ] & पत्तनम्_PSR_राशिः_PADDING_आवरणम् ) == पत्तनम्_PSR_राशिः_PADDING_आवरणम् )
             {
-                pxMpuSettings->ulTaskFlags |= portSTACK_FRAME_HAS_PADDING_FLAG;
+                pxMpuSettings->ulTaskFlags |= पत्तनम्_राशिः_FRAME_HAS_PADDING_FLAG;
             }
-            else
+            अन्यथा
             {
-                pxMpuSettings->ulTaskFlags &= ( ~portSTACK_FRAME_HAS_PADDING_FLAG );
+                pxMpuSettings->ulTaskFlags &= ( ~पत्तनम्_राशिः_FRAME_HAS_PADDING_FLAG );
             }
 
             /* We ensure in pxPortInitialiseStack that the system call stack is
              * double word aligned and therefore, there is no need of padding.
              * Clear the bit[9] of stacked xPSR. */
-            pulSystemCallStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+            pul_System_Call_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PSR ] &= ( ~पत्तनम्_PSR_राशिः_PADDING_आवरणम् );
 
             /* Raise the privilege for the duration of the system call. */
-            __asm volatile (
+            __asm चञ्चल (
                 " mrs r0, control     \n" /* Obtain current control value. */
                 " movs r1, #1         \n" /* r1 = 1. */
                 " bics r0, r1         \n" /* Clear nPRIV bit. */
@@ -1401,42 +1401,42 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         }
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vRequestSystemCallExit( void ) /* __attribute__( ( naked ) ) PRIVILEGED_FUNCTION */
+    शून्य vRequestSystemCallExit( शून्य ) /* __attribute__( ( naked ) ) PRIVILEGED_FUNCTION */
     {
-        __asm volatile ( "svc %0 \n" ::"i" ( portSVC_SYSTEM_CALL_EXIT ) : "memory" );
+        __asm चञ्चल ( "svc %0 \n" ::"i" ( पत्तनम्_SVC_SYSTEM_CALL_EXIT ) : "memory" );
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    शून्य vSystemCallExit( uint32_t * pul_System_Call_राशिः,
                           uint32_t ulLR ) /* PRIVILEGED_FUNCTION */
     {
-        extern TaskHandle_t pxCurrentTCB;
+        बाह्य TaskHandle_t pxCurrentTCB;
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulTaskStack;
-        uint32_t ulHardwareSavedExceptionFrameSize, ulSystemCallLocation, i;
+        uint32_t * pul_Task_राशिः;
+        uint32_t ul_Hardware_Saved_Exception_Frame_आकार, ulSystemCallLocation, i;
 
-        #if defined( __ARMCC_VERSION )
+        #यदि defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-        #else
+            बाह्य uint32_t * __privileged_functions_start__;
+            बाह्य uint32_t * __privileged_functions_end__;
+        #अन्यथा
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-        #endif /* #if defined( __ARMCC_VERSION ) */
+            बाह्य uint32_t __privileged_functions_start__[];
+            बाह्य uint32_t __privileged_functions_end__[];
+        #यदि_अन्तः /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulSystemCallStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_System_Call_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -1448,83 +1448,83 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
          *    application is not attempting to exit without entering a system
          *    call.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
+        यदि( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __privileged_functions_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack != NULL ) )
+            ( pxMpuSettings->x_System_Call_राशिः_Info.pul_Task_राशिः != रिक्त ) )
         {
-            pulTaskStack = pxMpuSettings->xSystemCallStackInfo.pulTaskStack;
+            pul_Task_राशिः = pxMpuSettings->x_System_Call_राशिः_Info.pul_Task_राशिः;
 
             /* Hardware Saved Stack Frame Size upon Exception entry:
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+            #यदि ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             {
-                if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+                यदि( ( ulLR & पत्तनम्_EXC_RETURN_राशिः_FRAME_TYPE_आवरणम् ) == 0UL )
                 {
                     /* Extended frame i.e. FPU in use. */
-                    ulHardwareSavedExceptionFrameSize = 26;
-                    __asm volatile (
+                    ul_Hardware_Saved_Exception_Frame_आकार = 26;
+                    __asm चञ्चल (
                         " vpush {s0}         \n" /* Trigger lazy stacking. */
                         " vpop  {s0}         \n" /* Nullify the affect of the above instruction. */
                         ::: "memory"
                         );
                 }
-                else
+                अन्यथा
                 {
                     /* Standard frame i.e. FPU not in use. */
-                    ulHardwareSavedExceptionFrameSize = 8;
+                    ul_Hardware_Saved_Exception_Frame_आकार = 8;
                 }
             }
-            #else /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+            #अन्यथा /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
             {
-                ulHardwareSavedExceptionFrameSize = 8;
+                ul_Hardware_Saved_Exception_Frame_आकार = 8;
             }
-            #endif /* configENABLE_FPU || configENABLE_MVE */
+            #यदि_अन्तः /* configENABLE_FPU || configENABLE_MVE */
 
             /* Make space on the task stack for the stack frame. */
-            pulTaskStack = pulTaskStack - ulHardwareSavedExceptionFrameSize;
+            pul_Task_राशिः = pul_Task_राशिः - ul_Hardware_Saved_Exception_Frame_आकार;
 
             /* Copy the stack frame. */
-            for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
+            प्रति( i = 0; i < ul_Hardware_Saved_Exception_Frame_आकार; i++ )
             {
-                pulTaskStack[ i ] = pulSystemCallStack[ i ];
+                pul_Task_राशिः[ i ] = pul_System_Call_राशिः[ i ];
             }
 
             /* Use the pulTaskStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulTaskStack ) );
+            __asm चञ्चल ( "msr psp, %0" : : "r" ( pul_Task_राशिः ) );
 
             /* Return to the caller of the System Call entry point (i.e. the
              * caller of the MPU_<API>). */
-            pulTaskStack[ portOFFSET_TO_PC ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PC ] = pxMpuSettings->x_System_Call_राशिः_Info.ul_Link_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः;
             /* Ensure that LR has a valid value.*/
-            pulTaskStack[ portOFFSET_TO_LR ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_LR ] = pxMpuSettings->x_System_Call_राशिः_Info.ul_Link_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः;
 
             /* Restore the PSPLIM register to what it was at the time of
              * system call entry. */
-            #if ( portUSE_PSPLIM_REGISTER == 1 )
+            #यदि ( पत्तनम्_USE_PSPLIM_पञ्जिकाकोशः == 1 )
             {
-                __asm volatile ( "msr psplim, %0" : : "r" ( pxMpuSettings->xSystemCallStackInfo.ulStackLimitRegisterAtSystemCallEntry ) );
+                __asm चञ्चल ( "msr psplim, %0" : : "r" ( pxMpuSettings->x_System_Call_राशिः_Info.ul_राशिः_सीमा_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः ) );
             }
-            #endif
+            #यदि_अन्तः
 
             /* If the hardware used padding to force the stack pointer
              * to be double word aligned, set the stacked xPSR bit[9],
              * otherwise clear it. */
-            if( ( pxMpuSettings->ulTaskFlags & portSTACK_FRAME_HAS_PADDING_FLAG ) == portSTACK_FRAME_HAS_PADDING_FLAG )
+            यदि( ( pxMpuSettings->ulTaskFlags & पत्तनम्_राशिः_FRAME_HAS_PADDING_FLAG ) == पत्तनम्_राशिः_FRAME_HAS_PADDING_FLAG )
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] |= portPSR_STACK_PADDING_MASK;
+                pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PSR ] |= पत्तनम्_PSR_राशिः_PADDING_आवरणम्;
             }
-            else
+            अन्यथा
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+                pul_Task_राशिः[ पत्तनम्_विस्थापनम्_गन्तव्यम्_PSR ] &= ( ~पत्तनम्_PSR_राशिः_PADDING_आवरणम् );
             }
 
             /* This is not NULL only for the duration of the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            pxMpuSettings->x_System_Call_राशिः_Info.pul_Task_राशिः = रिक्त;
 
             /* Drop the privilege before returning to the thread mode. */
-            __asm volatile (
+            __asm चञ्चल (
                 " mrs r0, control     \n" /* Obtain current control value. */
                 " movs r1, #1         \n" /* r1 = 1. */
                 " orrs r0, r1         \n" /* Set nPRIV bit. */
@@ -1534,246 +1534,246 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         }
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
-    BaseType_t xPortIsTaskPrivileged( void ) /* PRIVILEGED_FUNCTION */
+    आधारः_Type_t x_पत्तनम्_Is_Task_Privileged( शून्य ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xTaskIsPrivileged = pdFALSE;
-        const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+        आधारः_Type_t xTaskIsPrivileged = pdFALSE;
+        ध्रुव xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( रिक्त ); /* Calling task's MPU settings. */
 
-        if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        यदि( ( xTaskMpuSettings->ulTaskFlags & पत्तनम्_TASK_IS_PRIVILEGED_FLAG ) == पत्तनम्_TASK_IS_PRIVILEGED_FLAG )
         {
             xTaskIsPrivileged = pdTRUE;
         }
 
-        return xTaskIsPrivileged;
+        प्रत्यागम xTaskIsPrivileged;
     }
 
-#endif /* configENABLE_MPU == 1 */
+#यदि_अन्तः /* configENABLE_MPU == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         StackType_t * pxEndOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters,
-                                         BaseType_t xRunPrivileged,
+    राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                         राशिः_Type_t * px_अन्तः_सम्बन्धि_राशिः,
+                                         TaskFunction_t px_संहिता,
+                                         शून्य * pvParameters,
+                                         आधारः_Type_t x_सततम्_Privileged,
                                          xMPU_SETTINGS * xMPUSettings ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulIndex = 0;
+        uint32_t ul_सूचकांक = 0;
         uint32_t ulControl = 0x0;
 
-        xMPUSettings->ulContext[ ulIndex ] = 0x04040404; /* r4. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x05050505; /* r5. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x06060606; /* r6. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x07070707; /* r7. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x08080808; /* r8. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x09090909; /* r9. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x10101010; /* r10. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x11111111; /* r11. */
-        ulIndex++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x04040404; /* r4. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x05050505; /* r5. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x06060606; /* r6. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x07070707; /* r7. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x08080808; /* r8. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x09090909; /* r9. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x10101010; /* r10. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x11111111; /* r11. */
+        ul_सूचकांक++;
 
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) pvParameters; /* r0. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x01010101; /* r1. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x02020202; /* r2. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x03030303; /* r3. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x12121212; /* r12. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) portTASK_RETURN_ADDRESS; /* LR. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) pxCode; /* PC. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = portINITIAL_XPSR; /* xPSR. */
-        ulIndex++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = ( uint32_t ) pvParameters; /* r0. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x01010101; /* r1. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x02020202; /* r2. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x03030303; /* r3. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = 0x12121212; /* r12. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = ( uint32_t ) पत्तनम्_TASK_RETURN_स्थानाङ्कः; /* LR. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = ( uint32_t ) px_संहिता; /* PC. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = पत्तनम्_INITIAL_XPSR; /* xPSR. */
+        ul_सूचकांक++;
 
-        #if ( configENABLE_TRUSTZONE == 1 )
+        #यदि ( configENABLE_TRUSTZONE == 1 )
         {
-            xMPUSettings->ulContext[ ulIndex ] = portNO_SECURE_CONTEXT; /* xSecureContext. */
-            ulIndex++;
+            xMPUSettings->ulContext[ ul_सूचकांक ] = पत्तनम्_NO_SECURE_CONTEXT; /* xSecureContext. */
+            ul_सूचकांक++;
         }
-        #endif /* configENABLE_TRUSTZONE */
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) ( pxTopOfStack - 8 ); /* PSP with the hardware saved stack. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) pxEndOfStack; /* PSPLIM. */
-        ulIndex++;
+        #यदि_अन्तः /* configENABLE_TRUSTZONE */
+        xMPUSettings->ulContext[ ul_सूचकांक ] = ( uint32_t ) ( px_शिखरम्_सम्बन्धि_राशिः - 8 ); /* PSP with the hardware saved stack. */
+        ul_सूचकांक++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = ( uint32_t ) px_अन्तः_सम्बन्धि_राशिः; /* PSPLIM. */
+        ul_सूचकांक++;
 
-        #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+        #यदि ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
         {
             /* Check PACBTI security feature configuration before pushing the
              * CONTROL register's value on task's TCB. */
-            #if ( configNUMBER_OF_CORES == 1 )
+            #यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
                 ulControl = prvConfigurePACBTI( pdFALSE );
-            #else /* configNUMBER_OF_CORES > 1 */
+            #अन्यथा /* configNUMBER_OF_CORES > 1 */
                 ulControl = vConfigurePACBTI( pdFALSE );
-            #endif /* configNUMBER_OF_CORES */
+            #यदि_अन्तः /* configNUMBER_OF_CORES */
         }
-        #endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+        #यदि_अन्तः /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 
-        if( xRunPrivileged == pdTRUE )
+        यदि( x_सततम्_Privileged == pdTRUE )
         {
-            xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
-            xMPUSettings->ulContext[ ulIndex ] = ( ulControl | ( uint32_t ) portINITIAL_CONTROL_PRIVILEGED ); /* CONTROL. */
-            ulIndex++;
+            xMPUSettings->ulTaskFlags |= पत्तनम्_TASK_IS_PRIVILEGED_FLAG;
+            xMPUSettings->ulContext[ ul_सूचकांक ] = ( ulControl | ( uint32_t ) पत्तनम्_INITIAL_CONTROL_PRIVILEGED ); /* CONTROL. */
+            ul_सूचकांक++;
         }
-        else
+        अन्यथा
         {
-            xMPUSettings->ulTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
-            xMPUSettings->ulContext[ ulIndex ] = ( ulControl | ( uint32_t ) portINITIAL_CONTROL_UNPRIVILEGED ); /* CONTROL. */
-            ulIndex++;
+            xMPUSettings->ulTaskFlags &= ( ~पत्तनम्_TASK_IS_PRIVILEGED_FLAG );
+            xMPUSettings->ulContext[ ul_सूचकांक ] = ( ulControl | ( uint32_t ) पत्तनम्_INITIAL_CONTROL_UNPRIVILEGED ); /* CONTROL. */
+            ul_सूचकांक++;
         }
 
-        xMPUSettings->ulContext[ ulIndex ] = portINITIAL_EXC_RETURN; /* LR (EXC_RETURN). */
-        ulIndex++;
+        xMPUSettings->ulContext[ ul_सूचकांक ] = पत्तनम्_INITIAL_EXC_RETURN; /* LR (EXC_RETURN). */
+        ul_सूचकांक++;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #यदि ( configUSE_MPU_WRAPPERS_V1 == 0 )
         {
             /* Ensure that the system call stack is double word aligned. */
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1 ] );
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->xSystemCallStackInfo.pulSystemCallStack ) &
-                                                                                     ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) );
+            xMPUSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः = &( xMPUSettings->x_System_Call_राशिः_Info.ul_System_Call_राशिः_बफर[ config_SYSTEM_CALL_राशिः_आकार - 1 ] );
+            xMPUSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः ) &
+                                                                                     ( uint32_t ) ( ~( पत्तनम्_BYTE_ALIGNMENT_आवरणम् ) ) );
 
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStackLimit = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ 0 ] );
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStackLimit = ( uint32_t * ) ( ( ( uint32_t ) ( xMPUSettings->xSystemCallStackInfo.pulSystemCallStackLimit ) +
-                                                                                            ( uint32_t ) ( portBYTE_ALIGNMENT - 1 ) ) &
-                                                                                          ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) );
+            xMPUSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः_सीमा = &( xMPUSettings->x_System_Call_राशिः_Info.ul_System_Call_राशिः_बफर[ 0 ] );
+            xMPUSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः_सीमा = ( uint32_t * ) ( ( ( uint32_t ) ( xMPUSettings->x_System_Call_राशिः_Info.pul_System_Call_राशिः_सीमा ) +
+                                                                                            ( uint32_t ) ( पत्तनम्_BYTE_ALIGNMENT - 1 ) ) &
+                                                                                          ( uint32_t ) ( ~( पत्तनम्_BYTE_ALIGNMENT_आवरणम् ) ) );
 
             /* This is not NULL only for the duration of a system call. */
-            xMPUSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            xMPUSettings->x_System_Call_राशिः_Info.pul_Task_राशिः = रिक्त;
         }
-        #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+        #यदि_अन्तः /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
-        #if ( configENABLE_PAC == 1 )
+        #यदि ( configENABLE_PAC == 1 )
         {
-            uint32_t ulTaskPacKey[ 4 ], i;
+            uint32_t ul_Task_Pac_कुञ्चिका[ 4 ], i;
 
-            vApplicationGenerateTaskRandomPacKey( &( ulTaskPacKey[ 0 ] ) );
+            v_Application_Generate_Task_Random_Pac_कुञ्चिका( &( ul_Task_Pac_कुञ्चिका[ 0 ] ) );
 
-            for( i = 0; i < 4; i++ )
+            प्रति( i = 0; i < 4; i++ )
             {
-                xMPUSettings->ulContext[ ulIndex ] = ulTaskPacKey[ i ];
-                ulIndex++;
+                xMPUSettings->ulContext[ ul_सूचकांक ] = ul_Task_Pac_कुञ्चिका[ i ];
+                ul_सूचकांक++;
             }
         }
-        #endif /* configENABLE_PAC */
+        #यदि_अन्तः /* configENABLE_PAC */
 
-        return &( xMPUSettings->ulContext[ ulIndex ] );
+        प्रत्यागम &( xMPUSettings->ulContext[ ul_सूचकांक ] );
     }
 
-#else /* configENABLE_MPU */
+#अन्यथा /* configENABLE_MPU */
 
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         StackType_t * pxEndOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters ) /* PRIVILEGED_FUNCTION */
+    राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                         राशिः_Type_t * px_अन्तः_सम्बन्धि_राशिः,
+                                         TaskFunction_t px_संहिता,
+                                         शून्य * pvParameters ) /* PRIVILEGED_FUNCTION */
     {
         /* Simulate the stack frame as it would be created by a context switch
          * interrupt. */
-        #if ( portPRELOAD_REGISTERS == 0 )
+        #यदि ( पत्तनम्_PRELOAD_REGISTERS == 0 )
         {
-            pxTopOfStack--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-            *pxTopOfStack = portINITIAL_XPSR; /* xPSR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxCode; /* PC. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-            pxTopOfStack -= 5; /* R12, R3, R2 and R1. */
-            *pxTopOfStack = ( StackType_t ) pvParameters; /* R0. */
-            pxTopOfStack -= 9; /* R11..R4, EXC_RETURN. */
-            *pxTopOfStack = portINITIAL_EXC_RETURN;
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxEndOfStack; /* Slot used to hold this task's PSPLIM value. */
+            px_शिखरम्_सम्बन्धि_राशिः--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+            *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_INITIAL_XPSR; /* xPSR. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_संहिता; /* PC. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) पत्तनम्_TASK_RETURN_स्थानाङ्कः; /* LR. */
+            px_शिखरम्_सम्बन्धि_राशिः -= 5; /* R12, R3, R2 and R1. */
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pvParameters; /* R0. */
+            px_शिखरम्_सम्बन्धि_राशिः -= 9; /* R11..R4, EXC_RETURN. */
+            *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_INITIAL_EXC_RETURN;
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_अन्तः_सम्बन्धि_राशिः; /* Slot used to hold this task's PSPLIM value. */
 
-            #if ( configENABLE_TRUSTZONE == 1 )
+            #यदि ( configENABLE_TRUSTZONE == 1 )
             {
-                pxTopOfStack--;
-                *pxTopOfStack = portNO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
+                px_शिखरम्_सम्बन्धि_राशिः--;
+                *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_NO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
             }
-            #endif /* configENABLE_TRUSTZONE */
+            #यदि_अन्तः /* configENABLE_TRUSTZONE */
         }
-        #else /* portPRELOAD_REGISTERS */
+        #अन्यथा /* portPRELOAD_REGISTERS */
         {
-            pxTopOfStack--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-            *pxTopOfStack = portINITIAL_XPSR; /* xPSR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxCode; /* PC. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x12121212UL; /* R12. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x03030303UL; /* R3. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x02020202UL; /* R2. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x01010101UL; /* R1. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pvParameters; /* R0. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x11111111UL; /* R11. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x10101010UL; /* R10. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x09090909UL; /* R09. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x08080808UL; /* R08. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x07070707UL; /* R07. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x06060606UL; /* R06. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x05050505UL; /* R05. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x04040404UL; /* R04. */
-            pxTopOfStack--;
-            *pxTopOfStack = portINITIAL_EXC_RETURN; /* EXC_RETURN. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxEndOfStack; /* Slot used to hold this task's PSPLIM value. */
+            px_शिखरम्_सम्बन्धि_राशिः--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+            *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_INITIAL_XPSR; /* xPSR. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_संहिता; /* PC. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) पत्तनम्_TASK_RETURN_स्थानाङ्कः; /* LR. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x12121212UL; /* R12. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x03030303UL; /* R3. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x02020202UL; /* R2. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x01010101UL; /* R1. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pvParameters; /* R0. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x11111111UL; /* R11. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x10101010UL; /* R10. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x09090909UL; /* R09. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x08080808UL; /* R08. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x07070707UL; /* R07. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x06060606UL; /* R06. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x05050505UL; /* R05. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x04040404UL; /* R04. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_INITIAL_EXC_RETURN; /* EXC_RETURN. */
+            px_शिखरम्_सम्बन्धि_राशिः--;
+            *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_अन्तः_सम्बन्धि_राशिः; /* Slot used to hold this task's PSPLIM value. */
 
-            #if ( configENABLE_TRUSTZONE == 1 )
+            #यदि ( configENABLE_TRUSTZONE == 1 )
             {
-                pxTopOfStack--;
-                *pxTopOfStack = portNO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
+                px_शिखरम्_सम्बन्धि_राशिः--;
+                *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_NO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
             }
-            #endif /* configENABLE_TRUSTZONE */
+            #यदि_अन्तः /* configENABLE_TRUSTZONE */
         }
-        #endif /* portPRELOAD_REGISTERS */
+        #यदि_अन्तः /* portPRELOAD_REGISTERS */
 
-        #if ( configENABLE_PAC == 1 )
+        #यदि ( configENABLE_PAC == 1 )
         {
-            uint32_t ulTaskPacKey[ 4 ], i;
+            uint32_t ul_Task_Pac_कुञ्चिका[ 4 ], i;
 
-            vApplicationGenerateTaskRandomPacKey( &( ulTaskPacKey[ 0 ] ) );
+            v_Application_Generate_Task_Random_Pac_कुञ्चिका( &( ul_Task_Pac_कुञ्चिका[ 0 ] ) );
 
-            for( i = 0; i < 4; i++ )
+            प्रति( i = 0; i < 4; i++ )
             {
-                pxTopOfStack--;
-                *pxTopOfStack = ulTaskPacKey[ i ];
+                px_शिखरम्_सम्बन्धि_राशिः--;
+                *px_शिखरम्_सम्बन्धि_राशिः = ul_Task_Pac_कुञ्चिका[ i ];
             }
         }
-        #endif /* configENABLE_PAC */
+        #यदि_अन्तः /* configENABLE_PAC */
 
-        return pxTopOfStack;
+        प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
     }
 
-#endif /* configENABLE_MPU */
+#यदि_अन्तः /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य ) /* PRIVILEGED_FUNCTION */
 {
     /* An application can install FreeRTOS interrupt handlers in one of the
      * following ways:
@@ -1787,9 +1787,9 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
      * configCHECK_HANDLER_INSTALLATION to 0 in their FreeRTOSConfig.h. Direct
      * routing, which is validated here when configCHECK_HANDLER_INSTALLATION
      * is 1, should be preferred when possible. */
-    #if ( configCHECK_HANDLER_INSTALLATION == 1 )
+    #यदि ( configCHECK_HANDLER_INSTALLATION == 1 )
     {
-        const portISR_t * const pxVectorTable = portSCB_VTOR_REG;
+        ध्रुव पत्तनम्_ISR_t * ध्रुव px_सदिशम्_सारणी = पत्तनम्_SCB_VTOR_REG;
 
         /* Validate that the application has correctly installed the FreeRTOS
          * handlers for SVCall and PendSV interrupts. We do not check the
@@ -1804,79 +1804,79 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
          * Systems with a configurable address for the interrupt vector table
          * can also encounter assertion failures or even system faults here if
          * VTOR is not set correctly to point to the application's vector table. */
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_SVC ] == SVC_Handler );
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_PENDSV ] == PendSV_Handler );
+        configASSERT( px_सदिशम्_सारणी[ पत्तनम्_सदिशम्_सूचकांक_SVC ] == SVC_Handler );
+        configASSERT( px_सदिशम्_सारणी[ पत्तनम्_सदिशम्_सूचकांक_PENDSV ] == PendSV_Handler );
     }
-    #endif /* configCHECK_HANDLER_INSTALLATION */
+    #यदि_अन्तः /* configCHECK_HANDLER_INSTALLATION */
 
-    vPortConfigureInterruptPriorities();
+    v_पत्तनम्_Configure_व्यवधानम्_Priorities();
 
-    #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+    #यदि ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
     {
         /* Set the CONTROL register value based on PACBTI security feature
          * configuration before starting the first task. */
-        #if ( configNUMBER_OF_CORES == 1 )
-            ( void ) prvConfigurePACBTI( pdTRUE );
-        #else /* configNUMBER_OF_CORES > 1 */
-            ( void ) vConfigurePACBTI( pdTRUE );
-        #endif /* configNUMBER_OF_CORES */
+        #यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
+            ( शून्य ) prvConfigurePACBTI( pdTRUE );
+        #अन्यथा /* configNUMBER_OF_CORES > 1 */
+            ( शून्य ) vConfigurePACBTI( pdTRUE );
+        #यदि_अन्तः /* configNUMBER_OF_CORES */
     }
-    #endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+    #यदि_अन्तः /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 
-    #if ( configENABLE_MPU == 1 )
+    #यदि ( configENABLE_MPU == 1 )
     {
         /* Setup the Memory Protection Unit (MPU). */
-        prvSetupMPU();
+        prv_सज्जता_MPU();
     }
-    #endif /* configENABLE_MPU */
+    #यदि_अन्तः /* configENABLE_MPU */
 
-    #if ( configNUMBER_OF_CORES > 1 )
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
         /* Start the timer that generates the tick ISR. Interrupts are disabled
          * here already. */
-        vPortSetupTimerInterrupt();
+        v_पत्तनम्_सज्जता_Timer_व्यवधानम्();
         /* Initialize the critical nesting count for all cores. */
-        for ( uint8_t ucCoreID = 0; ucCoreID < configNUMBER_OF_CORES; ucCoreID++ )
+        प्रति ( uint8_t ucCoreID = 0; ucCoreID < config_सङ्ख्या_सम्बन्धि_CORES; ucCoreID++ )
         {
             ulCriticalNestings[ ucCoreID ] = 0;
         }
         /* Signal that primary core has done all the necessary initialisations. */
-        ucPrimaryCoreInitDoneFlag = 1;
+        uc_Primary_Core_Init_समाप्तम्_Flag = 1;
         /* Wake up secondary cores */
-        BaseType_t xWakeResult = configWAKE_SECONDARY_CORES();
-        configASSERT( xWakeResult == pdTRUE );
+        आधारः_Type_t x_Wake_परिणाम = configWAKE_SECONDARY_CORES();
+        configASSERT( x_Wake_परिणाम == pdTRUE );
 
         /* Hold the primary core here until all the secondary cores are ready, this would be achieved only when
          * all elements of ucSecondaryCoresReadyFlags are set.
          */
-        while( 1 )
+        यावत्( 1 )
         {
-            BaseType_t xAllCoresReady = pdTRUE;
-            for( uint8_t ucCoreID = 0; ucCoreID < ( configNUMBER_OF_CORES - 1 ); ucCoreID++ )
+            आधारः_Type_t xAllCoresReady = pdTRUE;
+            प्रति( uint8_t ucCoreID = 0; ucCoreID < ( config_सङ्ख्या_सम्बन्धि_CORES - 1 ); ucCoreID++ )
             {
-                if( ucSecondaryCoresReadyFlags[ ucCoreID ] != pdTRUE )
+                यदि( ucSecondaryCoresReadyFlags[ ucCoreID ] != pdTRUE )
                 {
                     xAllCoresReady = pdFALSE;
-                    break;
+                    भङ्ग;
                 }
                 }
 
-            if ( xAllCoresReady == pdTRUE )
+            यदि ( xAllCoresReady == pdTRUE )
             {
-                break;
+                भङ्ग;
             }
         }
-    #else /* if ( configNUMBER_OF_CORES > 1 ) */
+    #अन्यथा /* if ( configNUMBER_OF_CORES > 1 ) */
         /* Start the timer that generates the tick ISR. */
-        vPortSetupTimerInterrupt();
+        v_पत्तनम्_सज्जता_Timer_व्यवधानम्();
         /* Initialize the critical nesting count ready for the first task. */
         ulCriticalNesting = 0;
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #यदि_अन्तः /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+    #यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
     {
         xSchedulerRunning = pdTRUE;
     }
-    #endif /* ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+    #यदि_अन्तः /* ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 
     /* Start the first task. */
     vStartFirstTask();
@@ -1887,179 +1887,179 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
      * functionality by defining configTASK_RETURN_ADDRESS. Call
      * vTaskSwitchContext() so link time optimization does not remove the
      * symbol. */
-    #if ( configNUMBER_OF_CORES > 1 )
-        vTaskSwitchContext( portGET_CORE_ID() );
-    #else
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
+        vTaskSwitchContext( पत्तनम्_GET_CORE_ID() );
+    #अन्यथा
         vTaskSwitchContext();
-    #endif
+    #यदि_अन्तः
     prvTaskExitError();
 
     /* Should not get here. */
-    return 0;
+    प्रत्यागम 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य ) /* PRIVILEGED_FUNCTION */
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
         configASSERT( ulCriticalNesting == 1000UL );
-    #else /* if ( configNUMBER_OF_CORES == 1 ) */
-        configASSERT( ulCriticalNestings[ portGET_CORE_ID() ] == 1000UL );
-    #endif /* if ( configNUMBER_OF_CORES == 1 ) */
+    #अन्यथा /* if ( configNUMBER_OF_CORES == 1 ) */
+        configASSERT( ulCriticalNestings[ पत्तनम्_GET_CORE_ID() ] == 1000UL );
+    #यदि_अन्तः /* if ( configNUMBER_OF_CORES == 1 ) */
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
-    void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                    const struct xMEMORY_REGION * const xRegions,
-                                    StackType_t * pxBottomOfStack,
-                                    configSTACK_DEPTH_TYPE uxStackDepth )
+    शून्य v_पत्तनम्_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                    ध्रुव संरचना x_स्मृतिः_REGION * ध्रुव xRegions,
+                                    राशिः_Type_t * px_Bottom_सम्बन्धि_राशिः,
+                                    config_राशिः_गभीरता_TYPE ux_राशिः_गभीरता )
     {
-        uint32_t ulRegionStartAddress, ulRegionEndAddress, ulRegionNumber;
-        int32_t lIndex = 0;
+        uint32_t ul_Region_Start_स्थानाङ्कः, ul_Region_अन्तः_स्थानाङ्कः, ul_Region_सङ्ख्या;
+        int32_t l_सूचकांक = 0;
 
-        #if defined( __ARMCC_VERSION )
+        #यदि defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_sram_start__;
-            extern uint32_t * __privileged_sram_end__;
-        #else
+            बाह्य uint32_t * __privileged_sram_start__;
+            बाह्य uint32_t * __privileged_sram_end__;
+        #अन्यथा
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_sram_start__[];
-            extern uint32_t __privileged_sram_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
+            बाह्य uint32_t __privileged_sram_start__[];
+            बाह्य uint32_t __privileged_sram_end__[];
+        #यदि_अन्तः /* defined( __ARMCC_VERSION ) */
 
         /* Setup MAIR0. */
-        xMPUSettings->ulMAIR0 = ( ( portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE << portMPU_MAIR_ATTR0_POS ) & portMPU_MAIR_ATTR0_MASK );
-        xMPUSettings->ulMAIR0 |= ( ( portMPU_DEVICE_MEMORY_nGnRE << portMPU_MAIR_ATTR1_POS ) & portMPU_MAIR_ATTR1_MASK );
+        xMPUSettings->ulMAIR0 = ( ( पत्तनम्_MPU_प्रसामान्यम्_स्मृतिः_BUFFERABLE_CACHEABLE << पत्तनम्_MPU_MAIR_ATTR0_POS ) & पत्तनम्_MPU_MAIR_ATTR0_आवरणम् );
+        xMPUSettings->ulMAIR0 |= ( ( पत्तनम्_MPU_DEVICE_स्मृतिः_n_Gn_RE << पत्तनम्_MPU_MAIR_ATTR1_POS ) & पत्तनम्_MPU_MAIR_ATTR1_आवरणम् );
 
         /* This function is called automatically when the task is created - in
          * which case the stack region parameters will be valid.  At all other
          * times the stack parameters will not be valid and it is assumed that
          * the stack region has already been configured. */
-        if( uxStackDepth > 0 )
+        यदि( ux_राशिः_गभीरता > 0 )
         {
-            ulRegionStartAddress = ( uint32_t ) pxBottomOfStack;
-            ulRegionEndAddress = ( uint32_t ) pxBottomOfStack + ( uxStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) - 1;
+            ul_Region_Start_स्थानाङ्कः = ( uint32_t ) px_Bottom_सम्बन्धि_राशिः;
+            ul_Region_अन्तः_स्थानाङ्कः = ( uint32_t ) px_Bottom_सम्बन्धि_राशिः + ( ux_राशिः_गभीरता * ( config_राशिः_गभीरता_TYPE ) परिमाण( राशिः_Type_t ) ) - 1;
 
             /* If the stack is within the privileged SRAM, do not protect it
              * using a separate MPU region. This is needed because privileged
              * SRAM is already protected using an MPU region and ARMv8-M does
              * not allow overlapping MPU regions. */
-            if( ( ulRegionStartAddress >= ( uint32_t ) __privileged_sram_start__ ) &&
-                ( ulRegionEndAddress <= ( uint32_t ) __privileged_sram_end__ ) )
+            यदि( ( ul_Region_Start_स्थानाङ्कः >= ( uint32_t ) __privileged_sram_start__ ) &&
+                ( ul_Region_अन्तः_स्थानाङ्कः <= ( uint32_t ) __privileged_sram_end__ ) )
             {
                 xMPUSettings->xRegionsSettings[ 0 ].ulRBAR = 0;
                 xMPUSettings->xRegionsSettings[ 0 ].ulRLAR = 0;
             }
-            else
+            अन्यथा
             {
                 /* Define the region that allows access to the stack. */
-                ulRegionStartAddress &= portMPU_RBAR_ADDRESS_MASK;
-                ulRegionEndAddress &= portMPU_RLAR_ADDRESS_MASK;
+                ul_Region_Start_स्थानाङ्कः &= पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम्;
+                ul_Region_अन्तः_स्थानाङ्कः &= पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम्;
 
-                xMPUSettings->xRegionsSettings[ 0 ].ulRBAR = ( ulRegionStartAddress ) |
-                                                             ( portMPU_REGION_NON_SHAREABLE ) |
-                                                             ( portMPU_REGION_READ_WRITE ) |
-                                                             ( portMPU_REGION_EXECUTE_NEVER );
+                xMPUSettings->xRegionsSettings[ 0 ].ulRBAR = ( ul_Region_Start_स्थानाङ्कः ) |
+                                                             ( पत्तनम्_MPU_REGION_NON_SHAREABLE ) |
+                                                             ( पत्तनम्_MPU_REGION_READ_WRITE ) |
+                                                             ( पत्तनम्_MPU_REGION_EXECUTE_NEVER );
 
-                xMPUSettings->xRegionsSettings[ 0 ].ulRLAR = ( ulRegionEndAddress ) |
-                                                             ( portMPU_RLAR_ATTR_INDEX0 ) |
-                                                             ( portMPU_RLAR_REGION_ENABLE );
+                xMPUSettings->xRegionsSettings[ 0 ].ulRLAR = ( ul_Region_अन्तः_स्थानाङ्कः ) |
+                                                             ( पत्तनम्_MPU_RLAR_ATTR_INDEX0 ) |
+                                                             ( पत्तनम्_MPU_RLAR_REGION_ENABLE );
             }
         }
 
         /* User supplied configurable regions. */
-        for( ulRegionNumber = 1; ulRegionNumber <= portNUM_CONFIGURABLE_REGIONS; ulRegionNumber++ )
+        प्रति( ul_Region_सङ्ख्या = 1; ul_Region_सङ्ख्या <= पत्तनम्_अङ्कः_CONFIGURABLE_REGIONS; ul_Region_सङ्ख्या++ )
         {
             /* If xRegions is NULL i.e. the task has not specified any MPU
              * region, the else part ensures that all the configurable MPU
              * regions are invalidated. */
-            if( ( xRegions != NULL ) && ( xRegions[ lIndex ].ulLengthInBytes > 0UL ) )
+            यदि( ( xRegions != रिक्त ) && ( xRegions[ l_सूचकांक ].ul_दीर्घता_अन्तर्_अष्टकानि > 0UL ) )
             {
                 /* Translate the generic region definition contained in xRegions
                  * into the ARMv8 specific MPU settings that are then stored in
                  * xMPUSettings. */
-                ulRegionStartAddress = ( ( uint32_t ) xRegions[ lIndex ].pvBaseAddress ) & portMPU_RBAR_ADDRESS_MASK;
-                ulRegionEndAddress = ( uint32_t ) xRegions[ lIndex ].pvBaseAddress + xRegions[ lIndex ].ulLengthInBytes - 1;
-                ulRegionEndAddress &= portMPU_RLAR_ADDRESS_MASK;
+                ul_Region_Start_स्थानाङ्कः = ( ( uint32_t ) xRegions[ l_सूचकांक ].pv_आधारः_स्थानाङ्कः ) & पत्तनम्_MPU_RBAR_स्थानाङ्कः_आवरणम्;
+                ul_Region_अन्तः_स्थानाङ्कः = ( uint32_t ) xRegions[ l_सूचकांक ].pv_आधारः_स्थानाङ्कः + xRegions[ l_सूचकांक ].ul_दीर्घता_अन्तर्_अष्टकानि - 1;
+                ul_Region_अन्तः_स्थानाङ्कः &= पत्तनम्_MPU_RLAR_स्थानाङ्कः_आवरणम्;
 
                 /* Start address. */
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR = ( ulRegionStartAddress ) |
-                                                                          ( portMPU_REGION_NON_SHAREABLE );
+                xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRBAR = ( ul_Region_Start_स्थानाङ्कः ) |
+                                                                          ( पत्तनम्_MPU_REGION_NON_SHAREABLE );
 
                 /* RO/RW. */
-                if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_READ_ONLY ) != 0 )
+                यदि( ( xRegions[ l_सूचकांक ].ulParameters & tskMPU_REGION_READ_ONLY ) != 0 )
                 {
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR |= ( portMPU_REGION_READ_ONLY );
+                    xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRBAR |= ( पत्तनम्_MPU_REGION_READ_ONLY );
                 }
-                else
+                अन्यथा
                 {
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR |= ( portMPU_REGION_READ_WRITE );
+                    xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRBAR |= ( पत्तनम्_MPU_REGION_READ_WRITE );
                 }
 
                 /* XN. */
-                if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_EXECUTE_NEVER ) != 0 )
+                यदि( ( xRegions[ l_सूचकांक ].ulParameters & tskMPU_REGION_EXECUTE_NEVER ) != 0 )
                 {
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR |= ( portMPU_REGION_EXECUTE_NEVER );
+                    xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRBAR |= ( पत्तनम्_MPU_REGION_EXECUTE_NEVER );
                 }
 
                 /* End Address. */
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR = ( ulRegionEndAddress ) |
-                                                                          ( portMPU_RLAR_REGION_ENABLE );
+                xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRLAR = ( ul_Region_अन्तः_स्थानाङ्कः ) |
+                                                                          ( पत्तनम्_MPU_RLAR_REGION_ENABLE );
 
                 /* PXN. */
-                #if ( portARMV8M_MINOR_VERSION >= 1 )
+                #यदि ( पत्तनम्_ARMV8_M_MINOR_संस्करणम् >= 1 )
                 {
-                    if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_PRIVILEGED_EXECUTE_NEVER ) != 0 )
+                    यदि( ( xRegions[ l_सूचकांक ].ulParameters & tskMPU_REGION_PRIVILEGED_EXECUTE_NEVER ) != 0 )
                     {
-                        xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR |= ( portMPU_RLAR_PRIVILEGED_EXECUTE_NEVER );
+                        xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRLAR |= ( पत्तनम्_MPU_RLAR_PRIVILEGED_EXECUTE_NEVER );
                     }
                 }
-                #endif /* portARMV8M_MINOR_VERSION >= 1 */
+                #यदि_अन्तः /* portARMV8M_MINOR_VERSION >= 1 */
 
                 /* Normal memory/ Device memory. */
-                if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_DEVICE_MEMORY ) != 0 )
+                यदि( ( xRegions[ l_सूचकांक ].ulParameters & tsk_MPU_REGION_DEVICE_स्मृतिः ) != 0 )
                 {
                     /* Attr1 in MAIR0 is configured as device memory. */
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR |= portMPU_RLAR_ATTR_INDEX1;
+                    xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRLAR |= पत्तनम्_MPU_RLAR_ATTR_INDEX1;
                 }
-                else
+                अन्यथा
                 {
                     /* Attr0 in MAIR0 is configured as normal memory. */
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR |= portMPU_RLAR_ATTR_INDEX0;
+                    xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRLAR |= पत्तनम्_MPU_RLAR_ATTR_INDEX0;
                 }
             }
-            else
+            अन्यथा
             {
                 /* Invalidate the region. */
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR = 0UL;
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR = 0UL;
+                xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRBAR = 0UL;
+                xMPUSettings->xRegionsSettings[ ul_Region_सङ्ख्या ].ulRLAR = 0UL;
             }
 
-            lIndex++;
+            l_सूचकांक++;
         }
     }
 
-#endif /* configENABLE_MPU */
+#यदि_अन्तः /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
-                                                size_t xBufferLength,
+    आधारः_Type_t x_पत्तनम्_Is_Authorized_गन्तव्यम्_Access_बफर( ध्रुव शून्य * pv_बफर,
+                                                size_t x_बफर_दीर्घता,
                                                 uint32_t ulAccessRequested ) /* PRIVILEGED_FUNCTION */
 
     {
-        uint32_t i, ulBufferStartAddress, ulBufferEndAddress;
-        BaseType_t xAccessGranted = pdFALSE;
-        const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+        uint32_t i, ul_बफर_Start_स्थानाङ्कः, ul_बफर_अन्तः_स्थानाङ्कः;
+        आधारः_Type_t xAccessGranted = pdFALSE;
+        ध्रुव xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( रिक्त ); /* Calling task's MPU settings. */
 
-        if( xSchedulerRunning == pdFALSE )
+        यदि( xSchedulerRunning == pdFALSE )
         {
             /* Grant access to all the kernel objects before the scheduler
              * is started. It is necessary because there is no task running
@@ -2067,83 +2067,83 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
              * task. */
             xAccessGranted = pdTRUE;
         }
-        else if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        अन्यथा यदि( ( xTaskMpuSettings->ulTaskFlags & पत्तनम्_TASK_IS_PRIVILEGED_FLAG ) == पत्तनम्_TASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        अन्यथा
         {
-            if( portADD_UINT32_WILL_OVERFLOW( ( ( uint32_t ) pvBuffer ), ( ( uint32_t ) xBufferLength - 1UL ) ) == pdFALSE )
+            यदि( पत्तनम्_सङ्कलय_UINT32_WILL_अतिप्रवाहः( ( ( uint32_t ) pv_बफर ), ( ( uint32_t ) x_बफर_दीर्घता - 1UL ) ) == pdFALSE )
             {
-                ulBufferStartAddress = ( uint32_t ) pvBuffer;
-                ulBufferEndAddress = ( ( ( uint32_t ) pvBuffer ) + ( uint32_t ) xBufferLength - 1UL );
+                ul_बफर_Start_स्थानाङ्कः = ( uint32_t ) pv_बफर;
+                ul_बफर_अन्तः_स्थानाङ्कः = ( ( ( uint32_t ) pv_बफर ) + ( uint32_t ) x_बफर_दीर्घता - 1UL );
 
-                for( i = 0; i < portTOTAL_NUM_REGIONS; i++ )
+                प्रति( i = 0; i < पत्तनम्_योग_अङ्कः_REGIONS; i++ )
                 {
                     /* Is the MPU region enabled? */
-                    if( ( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR & portMPU_RLAR_REGION_ENABLE ) == portMPU_RLAR_REGION_ENABLE )
+                    यदि( ( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR & पत्तनम्_MPU_RLAR_REGION_ENABLE ) == पत्तनम्_MPU_RLAR_REGION_ENABLE )
                     {
-                        if( portIS_ADDRESS_WITHIN_RANGE( ulBufferStartAddress,
-                                                         portEXTRACT_FIRST_ADDRESS_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
-                                                         portEXTRACT_LAST_ADDRESS_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
-                            portIS_ADDRESS_WITHIN_RANGE( ulBufferEndAddress,
-                                                         portEXTRACT_FIRST_ADDRESS_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
-                                                         portEXTRACT_LAST_ADDRESS_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
-                            portIS_AUTHORIZED( ulAccessRequested,
+                        यदि( पत्तनम्_IS_स्थानाङ्कः_WITHIN_RANGE( ul_बफर_Start_स्थानाङ्कः,
+                                                         पत्तनम्_EXTRACT_FIRST_स्थानाङ्कः_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
+                                                         पत्तनम्_EXTRACT_चरमः_स्थानाङ्कः_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
+                            पत्तनम्_IS_स्थानाङ्कः_WITHIN_RANGE( ul_बफर_अन्तः_स्थानाङ्कः,
+                                                         पत्तनम्_EXTRACT_FIRST_स्थानाङ्कः_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
+                                                         पत्तनम्_EXTRACT_चरमः_स्थानाङ्कः_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
+                            पत्तनम्_IS_AUTHORIZED( ulAccessRequested,
                                                prvGetRegionAccessPermissions( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ) ) )
                         {
                             xAccessGranted = pdTRUE;
-                            break;
+                            भङ्ग;
                         }
                     }
                 }
             }
         }
 
-        return xAccessGranted;
+        प्रत्यागम xAccessGranted;
     }
 
-#endif /* #if ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#यदि_अन्तः /* #if ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortIsInsideInterrupt( void )
+आधारः_Type_t x_पत्तनम्_Is_Inside_व्यवधानम्( शून्य )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_व्यवधानम्;
+    आधारः_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. Interrupt Program
      * Status Register (IPSR) holds the exception number of the currently-executing
      * exception or zero for Thread mode.*/
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm चञ्चल ( "mrs %0, ipsr" : "=r" ( ul_Current_व्यवधानम् )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    यदि( ul_Current_व्यवधानम् == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    अन्यथा
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    प्रत्यागम xReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) )
+#यदि ( ( configASSERT_DEFINED == 1 ) && ( पत्तनम्_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) )
 
-    void vPortValidateInterruptPriority( void )
+    शून्य v_पत्तनम्_Validate_व्यवधानम्_प्राथमिकता( शून्य )
     {
-        uint32_t ulCurrentInterrupt;
-        uint8_t ucCurrentPriority;
+        uint32_t ul_Current_व्यवधानम्;
+        uint8_t uc_Current_प्राथमिकता;
 
         /* Obtain the number of the currently executing interrupt. */
-        __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+        __asm चञ्चल ( "mrs %0, ipsr" : "=r" ( ul_Current_व्यवधानम् )::"memory" );
 
         /* Is the interrupt number a user defined interrupt? */
-        if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+        यदि( ul_Current_व्यवधानम् >= पत्तनम्_FIRST_USER_व्यवधानम्_सङ्ख्या )
         {
             /* Look up the interrupt's priority. */
-            ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];
+            uc_Current_प्राथमिकता = pc_व्यवधानम्_प्राथमिकता_Registers[ ul_Current_व्यवधानम् ];
 
             /* The following assertion will fail if a service routine (ISR) for
              * an interrupt that has been assigned a priority above
@@ -2168,7 +2168,7 @@ BaseType_t xPortIsInsideInterrupt( void )
              * The following links provide detailed information:
              * https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html
              * https://www.freertos.org/Why-FreeRTOS/FAQs */
-            configASSERT( ucCurrentPriority >= ucMaxSysCallPriority );
+            configASSERT( uc_Current_प्राथमिकता >= uc_Max_Sys_Call_प्राथमिकता );
         }
 
         /* Priority grouping:  The interrupt controller (NVIC) allows the bits
@@ -2184,18 +2184,18 @@ BaseType_t xPortIsInsideInterrupt( void )
          * scheduler.  Note however that some vendor specific peripheral libraries
          * assume a non-zero priority group setting, in which cases using a value
          * of zero will result in unpredictable behaviour. */
-        configASSERT( ( portAIRCR_REG & portPRIORITY_GROUP_MASK ) <= ulMaxPRIGROUPValue );
+        configASSERT( ( पत्तनम्_AIRCR_REG & पत्तनम्_प्राथमिकता_गणः_आवरणम् ) <= ulMaxPRIGROUPValue );
     }
 
-#endif /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
+#यदि_अन्तः /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
+शून्य v_पत्तनम्_Configure_व्यवधानम्_Priorities( शून्य ) /* PRIVILEGED_FUNCTION */
 {
-    #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) )
+    #यदि ( ( configASSERT_DEFINED == 1 ) && ( पत्तनम्_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) )
     {
-        volatile uint32_t ulImplementedPrioBits = 0;
-        volatile uint8_t ucMaxPriorityValue;
+        चञ्चल uint32_t ul_Implemented_Prio_द्वयङ्काः = 0;
+        चञ्चल uint8_t uc_Max_प्राथमिकता_मानम्;
 
         /* Determine the maximum priority from which ISR safe FreeRTOS API
         * functions can be called. ISR safe functions are those that end in
@@ -2204,13 +2204,13 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
         *
         * First, determine the number of priority bits available. Write to all
         * possible bits in the priority setting for SVCall. */
-        portNVIC_SHPR2_REG = 0xFF000000;
+        पत्तनम्_NVIC_SHPR2_REG = 0xFF000000;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = ( uint8_t ) ( ( portNVIC_SHPR2_REG & 0xFF000000 ) >> 24 );
+        uc_Max_प्राथमिकता_मानम् = ( uint8_t ) ( ( पत्तनम्_NVIC_SHPR2_REG & 0xFF000000 ) >> 24 );
 
         /* Use the same mask on the maximum system call priority. */
-        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
+        uc_Max_Sys_Call_प्राथमिकता = config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता & uc_Max_प्राथमिकता_मानम्;
 
         /* Check that the maximum system call priority is nonzero after
         * accounting for the number of priority bits supported by the
@@ -2218,21 +2218,21 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
         * register to 0 unmasks all interrupts, and interrupts with priority 0
         * cannot be masked using BASEPRI.
         * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
-        configASSERT( ucMaxSysCallPriority );
+        configASSERT( uc_Max_Sys_Call_प्राथमिकता );
 
         /* Check that the bits not implemented in hardware are zero in
         * configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( uint8_t ) ( ~( uint32_t ) ucMaxPriorityValue ) ) == 0U );
+        configASSERT( ( config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता & ( uint8_t ) ( ~( uint32_t ) uc_Max_प्राथमिकता_मानम् ) ) == 0U );
 
         /* Calculate the maximum acceptable priority group value for the number
         * of bits read back. */
-        while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+        यावत्( ( uc_Max_प्राथमिकता_मानम् & पत्तनम्_शिखरम्_BIT_सम्बन्धि_BYTE ) == पत्तनम्_शिखरम्_BIT_सम्बन्धि_BYTE )
         {
-            ulImplementedPrioBits++;
-            ucMaxPriorityValue <<= ( uint8_t ) 0x01;
+            ul_Implemented_Prio_द्वयङ्काः++;
+            uc_Max_प्राथमिकता_मानम् <<= ( uint8_t ) 0x01;
         }
 
-        if( ulImplementedPrioBits == 8 )
+        यदि( ul_Implemented_Prio_द्वयङ्काः == 8 )
         {
             /* When the hardware implements 8 priority bits, there is no way for
             * the software to configure PRIGROUP to not have sub-priorities. As
@@ -2251,78 +2251,78 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
             * The following assert ensures that the sub-priority bit in the
             * configMAX_SYSCALL_INTERRUPT_PRIORITY is clear to avoid the above mentioned
             * confusion. */
-            configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & 0x1U ) == 0U );
+            configASSERT( ( config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता & 0x1U ) == 0U );
             ulMaxPRIGROUPValue = 0;
         }
-        else
+        अन्यथा
         {
-            ulMaxPRIGROUPValue = portMAX_PRIGROUP_BITS - ulImplementedPrioBits;
+            ulMaxPRIGROUPValue = पत्तनम्_MAX_PRIGROUP_द्वयङ्काः - ul_Implemented_Prio_द्वयङ्काः;
         }
 
         /* Shift the priority group value back to its position within the AIRCR
         * register. */
-        ulMaxPRIGROUPValue <<= portPRIGROUP_SHIFT;
-        ulMaxPRIGROUPValue &= portPRIORITY_GROUP_MASK;
+        ulMaxPRIGROUPValue <<= पत्तनम्_PRIGROUP_सरणम्;
+        ulMaxPRIGROUPValue &= पत्तनम्_प्राथमिकता_गणः_आवरणम्;
     }
-    #endif /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
+    #यदि_अन्तः /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
 
     /* Make PendSV and SysTick the lowest priority interrupts, and make SVCall
     * the highest priority. */
-    portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
-    portNVIC_SHPR3_REG |= portNVIC_SYSTICK_PRI;
-    portNVIC_SHPR2_REG = 0;
+    पत्तनम्_NVIC_SHPR3_REG |= पत्तनम्_NVIC_PENDSV_PRI;
+    पत्तनम्_NVIC_SHPR3_REG |= पत्तनम्_NVIC_SYSTICK_PRI;
+    पत्तनम्_NVIC_SHPR2_REG = 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
-    void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                         int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+    शून्य v_पत्तनम्_Grant_Access_गन्तव्यम्_Kernel_Object( TaskHandle_t x_आन्तरिकम्_Task_Handle,
+                                         int32_t l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+        uint32_t ul_Access_Control_List_प्रविष्टिः_सूचकांक, ul_Access_Control_List_प्रविष्टिः_Bit;
         xMPU_SETTINGS * xTaskMpuSettings;
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_प्रविष्टिः_सूचकांक = ( ( uint32_t ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object / पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः );
+        ul_Access_Control_List_प्रविष्टिः_Bit = ( ( uint32_t ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object % पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः );
 
-        xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+        xTaskMpuSettings = xTaskGetMPUSettings( x_आन्तरिकम्_Task_Handle );
 
-        xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] |= ( 1U << ulAccessControlListEntryBit );
+        xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_प्रविष्टिः_सूचकांक ] |= ( 1U << ul_Access_Control_List_प्रविष्टिः_Bit );
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
+#यदि_अन्तः /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
-    void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                          int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+    शून्य v_पत्तनम्_Revoke_Access_गन्तव्यम्_Kernel_Object( TaskHandle_t x_आन्तरिकम्_Task_Handle,
+                                          int32_t l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+        uint32_t ul_Access_Control_List_प्रविष्टिः_सूचकांक, ul_Access_Control_List_प्रविष्टिः_Bit;
         xMPU_SETTINGS * xTaskMpuSettings;
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_प्रविष्टिः_सूचकांक = ( ( uint32_t ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object / पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः );
+        ul_Access_Control_List_प्रविष्टिः_Bit = ( ( uint32_t ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object % पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः );
 
-        xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+        xTaskMpuSettings = xTaskGetMPUSettings( x_आन्तरिकम्_Task_Handle );
 
-        xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] &= ~( 1U << ulAccessControlListEntryBit );
+        xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_प्रविष्टिः_सूचकांक ] &= ~( 1U << ul_Access_Control_List_प्रविष्टिः_Bit );
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
+#यदि_अन्तः /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#यदि ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #यदि ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+        आधारः_Type_t x_पत्तनम्_Is_Authorized_गन्तव्यम्_Access_Kernel_Object( int32_t l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object ) /* PRIVILEGED_FUNCTION */
         {
-            uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
-            BaseType_t xAccessGranted = pdFALSE;
-            const xMPU_SETTINGS * xTaskMpuSettings;
+            uint32_t ul_Access_Control_List_प्रविष्टिः_सूचकांक, ul_Access_Control_List_प्रविष्टिः_Bit;
+            आधारः_Type_t xAccessGranted = pdFALSE;
+            ध्रुव xMPU_SETTINGS * xTaskMpuSettings;
 
-            if( xSchedulerRunning == pdFALSE )
+            यदि( xSchedulerRunning == pdFALSE )
             {
                 /* Grant access to all the kernel objects before the scheduler
                  * is started. It is necessary because there is no task running
@@ -2330,104 +2330,104 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
                  * task. */
                 xAccessGranted = pdTRUE;
             }
-            else
+            अन्यथा
             {
-                xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+                xTaskMpuSettings = xTaskGetMPUSettings( रिक्त ); /* Calling task's MPU settings. */
 
-                ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-                ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+                ul_Access_Control_List_प्रविष्टिः_सूचकांक = ( ( uint32_t ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object / पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः );
+                ul_Access_Control_List_प्रविष्टिः_Bit = ( ( uint32_t ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object % पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः );
 
-                if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+                यदि( ( xTaskMpuSettings->ulTaskFlags & पत्तनम्_TASK_IS_PRIVILEGED_FLAG ) == पत्तनम्_TASK_IS_PRIVILEGED_FLAG )
                 {
                     xAccessGranted = pdTRUE;
                 }
-                else
+                अन्यथा
                 {
-                    if( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
+                    यदि( ( xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_प्रविष्टिः_सूचकांक ] & ( 1U << ul_Access_Control_List_प्रविष्टिः_Bit ) ) != 0 )
                     {
                         xAccessGranted = pdTRUE;
                     }
                 }
             }
 
-            return xAccessGranted;
+            प्रत्यागम xAccessGranted;
         }
 
-    #else /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #अन्यथा /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
-        BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+        आधारः_Type_t x_पत्तनम्_Is_Authorized_गन्तव्यम्_Access_Kernel_Object( int32_t l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object ) /* PRIVILEGED_FUNCTION */
         {
-            ( void ) lInternalIndexOfKernelObject;
+            ( शून्य ) l_आन्तरिकम्_सूचकांक_सम्बन्धि_Kernel_Object;
 
             /* If Access Control List feature is not used, all the tasks have
              * access to all the kernel objects. */
-            return pdTRUE;
+            प्रत्यागम pdTRUE;
         }
 
-    #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #यदि_अन्तः /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+#यदि_अन्तः /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
-    #if ( configNUMBER_OF_CORES == 1 )
-        static uint32_t prvConfigurePACBTI( BaseType_t xWriteControlRegister )
-    #else /* configNUMBER_OF_CORES > 1 */
-        uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister )
-    #endif /* configNUMBER_OF_CORES */
+#यदि ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+    #यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
+        स्थिर uint32_t prvConfigurePACBTI( आधारः_Type_t x_Write_Control_पञ्जिकाकोशः )
+    #अन्यथा /* configNUMBER_OF_CORES > 1 */
+        uint32_t vConfigurePACBTI( आधारः_Type_t x_Write_Control_पञ्जिकाकोशः )
+    #यदि_अन्तः /* configNUMBER_OF_CORES */
         {
             uint32_t ulControl = 0x0;
 
             /* Ensure that PACBTI is implemented. */
-            configASSERT( portID_ISAR5_REG != 0x0 );
+            configASSERT( पत्तनम्_ID_ISAR5_REG != 0x0 );
 
             /* Enable UsageFault exception. */
-            portSCB_SYS_HANDLER_CTRL_STATE_REG |= portSCB_USG_FAULT_ENABLE_BIT;
+            पत्तनम्_SCB_SYS_HANDLER_CTRL_STATE_REG |= पत्तनम्_SCB_USG_FAULT_ENABLE_BIT;
 
-            #if ( configENABLE_PAC == 1 )
+            #यदि ( configENABLE_PAC == 1 )
             {
-                ulControl |= ( portCONTROL_UPAC_EN | portCONTROL_PAC_EN );
+                ulControl |= ( पत्तनम्_CONTROL_UPAC_EN | पत्तनम्_CONTROL_PAC_EN );
             }
-            #endif
+            #यदि_अन्तः
 
-            #if ( configENABLE_BTI == 1 )
+            #यदि ( configENABLE_BTI == 1 )
             {
-                ulControl |= ( portCONTROL_UBTI_EN | portCONTROL_BTI_EN );
+                ulControl |= ( पत्तनम्_CONTROL_UBTI_EN | पत्तनम्_CONTROL_BTI_EN );
             }
-            #endif
+            #यदि_अन्तः
 
-            if( xWriteControlRegister == pdTRUE )
+            यदि( x_Write_Control_पञ्जिकाकोशः == pdTRUE )
             {
-                __asm volatile ( "msr control, %0" : : "r" ( ulControl ) );
+                __asm चञ्चल ( "msr control, %0" : : "r" ( ulControl ) );
             }
 
-            return ulControl;
+            प्रत्यागम ulControl;
         }
 
-#endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+#यदि_अन्तः /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
 
     /* Which core owns the lock? */
-    PRIVILEGED_DATA volatile uint32_t ulOwnedByCore[ portMAX_CORE_COUNT ];
+    PRIVILEGED_दत्त चञ्चल uint32_t ulOwnedByCore[ पत्तनम्_MAX_CORE_गणनम् ];
     /* Lock count a core owns. */
-    PRIVILEGED_DATA volatile uint32_t ulRecursionCountByLock[ eLockCount ];
+    PRIVILEGED_दत्त चञ्चल uint32_t ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_गणनम् ];
     /* Index 0 is used for ISR lock and Index 1 is used for task lock. */
-    PRIVILEGED_DATA volatile uint32_t ulGateWord[ eLockCount ];
+    PRIVILEGED_दत्त चञ्चल uint32_t ulGateWord[ e_तालकम्_गणनम् ];
 
-    __attribute__((weak)) void vInterruptCore( uint8_t ucCoreID )
+    __attribute__((weak)) शून्य v_व्यवधानम्_Core( uint8_t ucCoreID )
     {
         /* Default weak stub - platform specific implementation may override. */
-        ( void ) ucCoreID;
+        ( शून्य ) ucCoreID;
     }
 
 /*-----------------------------------------------------------*/
 
-    static inline void prvSpinUnlock( volatile uint32_t * ulLock )
+    स्थिर अन्तःस्थ शून्य prvSpinUnlock( चञ्चल uint32_t * ul_तालकम् )
     {
         /* Conservative unlock: preserve original barriers for broad HW/FVP. */
-        __asm volatile (
+        __asm चञ्चल (
             "dmb sy         \n"
             "mov r1, #0     \n"
             "str r1, [%0]   \n"
@@ -2435,14 +2435,14 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
             "dsb            \n"
             "isb            \n"
             :
-            : "r" ( ulLock )
+            : "r" ( ul_तालकम् )
             : "memory", "r1"
         );
     }
 
 /*-----------------------------------------------------------*/
 
-    static inline uint32_t prvSpinTrylock( volatile uint32_t * ulLock )
+    स्थिर अन्तःस्थ uint32_t prvSpinTrylock( चञ्चल uint32_t * ul_तालकम् )
     {
         /*
          * Conservative ldrex/strex trylock:
@@ -2451,133 +2451,133 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
          * - DMB on success to preserve expected acquire semantics.
          */
         uint32_t ulVal;
-        uint32_t ulStatus;
+        uint32_t ul_स्थितिः;
 
-        __asm volatile (
+        __asm चञ्चल (
             " ldrex %0, [%1]   \n"
             : "=r" ( ulVal )
-            : "r" ( ulLock )
+            : "r" ( ul_तालकम् )
             : "memory"
         );
 
-        if( ulVal != 0U )
+        यदि( ulVal != 0U )
         {
-            __asm volatile ("clrex" ::: "memory");
-            return 1U;
+            __asm चञ्चल ("clrex" ::: "memory");
+            प्रत्यागम 1U;
         }
 
-        __asm volatile (
+        __asm चञ्चल (
             " strex %0, %2, [%1]   \n"
-            : "=&r" ( ulStatus )
-            : "r" ( ulLock ), "r" (1U)
+            : "=&r" ( ul_स्थितिः )
+            : "r" ( ul_तालकम् ), "r" (1U)
             : "memory"
         );
 
-        if( ulStatus != 0U )
+        यदि( ul_स्थितिः != 0U )
         {
-            return 1U;
+            प्रत्यागम 1U;
         }
-        __asm volatile ( "dmb" ::: "memory" );
-        return 0U;
+        __asm चञ्चल ( "dmb" ::: "memory" );
+        प्रत्यागम 0U;
     }
 
 
 /*-----------------------------------------------------------*/
 
     /* Read 32b value shared between cores. */
-    static inline uint32_t prvGet32( volatile uint32_t * x )
+    स्थिर अन्तःस्थ uint32_t prvGet32( चञ्चल uint32_t * x )
     {
         __asm( "dsb" );
-        return *x;
+        प्रत्यागम *x;
     }
 
 /*-----------------------------------------------------------*/
 
     /* Write 32b value shared between cores. */
-    static inline void prvSet32( volatile uint32_t * x,
-                                 uint32_t value )
+    स्थिर अन्तःस्थ शून्य prvSet32( चञ्चल uint32_t * x,
+                                 uint32_t मानम् )
     {
-        *x = value;
+        *x = मानम्;
         __asm( "dsb" );
     }
 
 /*-----------------------------------------------------------*/
 
-    void vPortRecursiveLock( uint8_t ucCoreID,
-                             ePortRTOSLock eLockNum,
-                             BaseType_t uxAcquire )
+    शून्य v_पत्तनम्_Recursive_तालकम्( uint8_t ucCoreID,
+                             e_पत्तनम्_RTOSLock e_तालकम्_अङ्कः,
+                             आधारः_Type_t uxAcquire )
     {
         /* Validate the core ID and lock number. */
-        configASSERT( ucCoreID < portMAX_CORE_COUNT );
-        configASSERT( eLockNum < eLockCount );
+        configASSERT( ucCoreID < पत्तनम्_MAX_CORE_गणनम् );
+        configASSERT( e_तालकम्_अङ्कः < e_तालकम्_गणनम् );
 
-        uint32_t ulLockBit = 1u << eLockNum;
+        uint32_t ul_तालकम्_Bit = 1u << e_तालकम्_अङ्कः;
 
         /* Lock acquire */
-        if( uxAcquire )
+        यदि( uxAcquire )
         {
             /* Check if spinlock is available. */
             /* If spinlock is not available check if the core owns the lock. */
             /* If the core owns the lock wait increment the lock count by the core. */
             /* If core does not own the lock wait for the spinlock. */
-            if( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
+            यदि( prvSpinTrylock( &ulGateWord[ e_तालकम्_अङ्कः ] ) != 0 )
             {
                 /* Check if the core owns the spinlock. */
-                if( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ulLockBit )
+                यदि( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ul_तालकम्_Bit )
                 {
-                    configASSERT( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) != portUINT32_MAX );
-                    prvSet32( &ulRecursionCountByLock[ eLockNum ], ( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) + 1 ) );
-                    return;
+                    configASSERT( prvGet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ] ) != पत्तनम्_UINT32_MAX );
+                    prvSet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ], ( prvGet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ] ) + 1 ) );
+                    प्रत्यागम;
                 }
 
                 /* Preload the gate word into the cache. */
-                uint32_t dummy = ulGateWord[ eLockNum ];
+                uint32_t dummy = ulGateWord[ e_तालकम्_अङ्कः ];
                 dummy++;
 
-                while( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
+                यावत्( prvSpinTrylock( &ulGateWord[ e_तालकम्_अङ्कः ] ) != 0 )
                 {
-                    __asm volatile ( "wfe" );
+                    __asm चञ्चल ( "wfe" );
                 }
             }
 
             /* Add barrier to ensure lock is taken before we proceed. */
-            __asm volatile( "dmb sy" ::: "memory" );
+            __asm चञ्चल( "dmb sy" ::: "memory" );
 
             /* Assert the lock count is 0 when the spinlock is free and is acquired. */
-            configASSERT( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) == 0 );
+            configASSERT( prvGet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ] ) == 0 );
 
             /* Set lock count as 1. */
-            prvSet32( &ulRecursionCountByLock[ eLockNum ], 1 );
+            prvSet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ], 1 );
             /* Set ulOwnedByCore. */
-            prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) | ulLockBit ) );
+            prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) | ul_तालकम्_Bit ) );
         }
         /* Lock release. */
-        else
+        अन्यथा
         {
             /* Assert the lock is not free already. */
-            configASSERT( ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ulLockBit ) != 0 );
-            configASSERT( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) != 0 );
+            configASSERT( ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ul_तालकम्_Bit ) != 0 );
+            configASSERT( prvGet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ] ) != 0 );
 
             /* Reduce ulRecursionCountByLock by 1. */
-            prvSet32( &ulRecursionCountByLock[ eLockNum ], ( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) - 1 ) );
+            prvSet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ], ( prvGet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ] ) - 1 ) );
 
-            if( !prvGet32( &ulRecursionCountByLock[ eLockNum ] ) )
+            यदि( !prvGet32( &ul_Recursion_गणनम्_By_तालकम्[ e_तालकम्_अङ्कः ] ) )
             {
-                prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ~ulLockBit ) );
-                prvSpinUnlock( &ulGateWord[ eLockNum ] );
+                prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ~ul_तालकम्_Bit ) );
+                prvSpinUnlock( &ulGateWord[ e_तालकम्_अङ्कः ] );
                 /* Add barrier to ensure lock status is reflected before we proceed. */
-                __asm volatile( "dmb sy" ::: "memory" );
+                __asm चञ्चल( "dmb sy" ::: "memory" );
             }
         }
     }
 
 /*-----------------------------------------------------------*/
 
-    uint8_t ucPortGetCoreID( void )
+    uint8_t uc_पत्तनम्_Get_Core_ID( शून्य )
     {
-        return *(volatile uint8_t *)(configCORE_ID_REGISTER);
+        प्रत्यागम *(चञ्चल uint8_t *)(config_CORE_ID_पञ्जिकाकोशः);
     }
 
 /*-----------------------------------------------------------*/
 
-#endif /* if( configNUMBER_OF_CORES > 1 ) */
+#यदि_अन्तः /* if( configNUMBER_OF_CORES > 1 ) */

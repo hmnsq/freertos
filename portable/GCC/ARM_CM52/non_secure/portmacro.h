@@ -28,13 +28,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -47,36 +47,36 @@
  *------------------------------------------------------------------------------
  */
 
-#ifndef configENABLE_MVE
-    #error configENABLE_MVE must be defined in FreeRTOSConfig.h. Set configENABLE_MVE to 1 to enable the MVE or 0 to disable the MVE.
-#endif /* configENABLE_MVE */
+#यदि_अपरिभाषितम् configENABLE_MVE
+    #दोषः configENABLE_MVE must be defined अन्तर् FreeRTOSConfig.h. समुच्चयः_2 configENABLE_MVE गन्तव्यम् 1 गन्तव्यम् enable the MVE or 0 गन्तव्यम् disable the MVE.
+#यदि_अन्तः /* configENABLE_MVE */
 /*-----------------------------------------------------------*/
 
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M52"
-#define portHAS_ARMV8M_MAIN_EXTENSION    1
-#define portARMV8M_MINOR_VERSION         1
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            0
+#परिभाषय पत्तनम्_ARCH_NAME                    "Cortex-M52"
+#परिभाषय पत्तनम्_HAS_ARMV8_M_MAIN_EXTENSION    1
+#परिभाषय पत्तनम्_ARMV8_M_MINOR_संस्करणम्         1
+#परिभाषय पत्तनम्_DONT_DISCARD                 __attribute__( ( प्रयुक्तम् ) )
+#परिभाषय पत्तनम्_VALIDATED_FOR_SMP            0
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#अन्तर्भाव "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    ul_समुच्चयः_व्यवधानम्_आवरणम्()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     v_Clear_व्यवधानम्_आवरणम्( 0 )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

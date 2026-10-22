@@ -27,17 +27,17 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#include <limits.h>
-#include <stdint.h>
+#अन्तर्भाव <limits.h>
+#अन्तर्भाव <stdint.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,84 +50,84 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           unsigned long
-#define portBASE_TYPE            long
-#define portPOINTER_SIZE_TYPE    intptr_t
+#परिभाषय पत्तनम्_CHAR                 वर्ण
+#परिभाषय पत्तनम्_FLOAT                भिन्न
+#परिभाषय पत्तनम्_DOUBLE               द्विगुण
+#परिभाषय पत्तनम्_LONG                 दीर्घ
+#परिभाषय पत्तनम्_SHORT                ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE           अचिह्नित दीर्घ
+#परिभाषय पत्तनम्_आधारः_TYPE            दीर्घ
+#परिभाषय पत्तनम्_POINTER_आकार_TYPE    intptr_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-typedef unsigned long    TickType_t;
-#define portMAX_DELAY              ( ( TickType_t ) ULONG_MAX )
+प्रकारनिर्देश अचिह्नित दीर्घ    TickType_t;
+#परिभाषय पत्तनम्_MAX_DELAY              ( ( TickType_t ) ULONG_MAX )
 
-#define portTICK_TYPE_IS_ATOMIC    1
+#परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                   ( -1 )
-#define portHAS_STACK_OVERFLOW_CHECKING    ( 1 )
-#define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portTICK_RATE_MICROSECONDS         ( ( TickType_t ) 1000000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                 8
+#परिभाषय पत्तनम्_राशिः_GROWTH                   ( -1 )
+#परिभाषय पत्तनम्_HAS_राशिः_अतिप्रवाहः_CHECKING    ( 1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS                 ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_TICK_दरः_MICROSECONDS         ( ( TickType_t ) 1000000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT                 8
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
+बाह्य शून्य v_पत्तनम्_Yield( शून्य );
 
-#define portYIELD()                vPortYield()
+#परिभाषय पत्तनम्_YIELD()                v_पत्तनम्_Yield()
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#परिभाषय पत्तनम्_अन्तः_SWITCHING_ISR( xSwitchRequired ) \
+    कुरु                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        यदि( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            vPortYield();                        \
+            trace_ISR_EXIT_गन्तव्यम्_SCHEDULER();        \
+            v_पत्तनम्_Yield();                        \
         }                                        \
-        else                                     \
+        अन्यथा                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } यावत्( 0 )
+#परिभाषय पत्तनम्_YIELD_FROM_ISR( x )    पत्तनम्_अन्तः_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortDisableInterrupts( void );
-extern void vPortEnableInterrupts( void );
-#define portSET_INTERRUPT_MASK()      ( vPortDisableInterrupts() )
-#define portCLEAR_INTERRUPT_MASK()    ( vPortEnableInterrupts() )
+बाह्य शून्य v_पत्तनम्_Disable_Interrupts( शून्य );
+बाह्य शून्य v_पत्तनम्_Enable_Interrupts( शून्य );
+#परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्()      ( v_पत्तनम्_Disable_Interrupts() )
+#परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्()    ( v_पत्तनम्_Enable_Interrupts() )
 
-extern UBaseType_t xPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t xMask );
+बाह्य UBaseType_t x_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्( शून्य );
+बाह्य शून्य v_पत्तनम्_Clear_व्यवधानम्_आवरणम्( UBaseType_t x_आवरणम् );
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portSET_INTERRUPT_MASK_FROM_ISR()         xPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
-#define portDISABLE_INTERRUPTS()                  portSET_INTERRUPT_MASK()
-#define portENABLE_INTERRUPTS()                   portCLEAR_INTERRUPT_MASK()
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
+बाह्य शून्य v_पत्तनम्_Enter_Critical( शून्य );
+बाह्य शून्य v_पत्तनम्_Exit_Critical( शून्य );
+#परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR()         x_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्()
+#परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( x )    v_पत्तनम्_Clear_व्यवधानम्_आवरणम्( x )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                  पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                   पत्तनम्_CLEAR_व्यवधानम्_आवरणम्()
+#परिभाषय पत्तनम्_ENTER_CRITICAL()                      v_पत्तनम्_Enter_Critical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL()                       v_पत्तनम्_Exit_Critical()
 
 /*-----------------------------------------------------------*/
 
-extern void vPortThreadDying( void * pxTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-extern void vPortCancelThread( void * pxTaskToDelete );
-#define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortThreadDying( ( pvTaskToDelete ), ( pxPendYield ) )
-#define portCLEAN_UP_TCB( pxTCB )                                  vPortCancelThread( pxTCB )
+बाह्य शून्य v_पत्तनम्_Thread_Dying( शून्य * px_Task_गन्तव्यम्_Delete,
+                              चञ्चल आधारः_Type_t * pxPendYield );
+बाह्य शून्य v_पत्तनम्_Cancel_Thread( शून्य * px_Task_गन्तव्यम्_Delete );
+#परिभाषय पत्तनम्_PRE_TASK_DELETE_HOOK( pv_Task_गन्तव्यम्_Delete, pxPendYield )    v_पत्तनम्_Thread_Dying( ( pv_Task_गन्तव्यम्_Delete ), ( pxPendYield ) )
+#परिभाषय पत्तनम्_CLEAN_ऊर्ध्वम्_TCB( pxTCB )                                  v_पत्तनम्_Cancel_Thread( pxTCB )
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )         void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )               void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )         शून्य vFunction( शून्य * pvParameters ) __attribute__( ( noreturn ) )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )               शून्य vFunction( शून्य * pvParameters )
 /*-----------------------------------------------------------*/
 
 /*
@@ -138,16 +138,16 @@ extern void vPortCancelThread( void * pxTaskToDelete );
  * Thus, only a compiler barrier is needed to prevent the compiler
  * reordering.
  */
-#define portMEMORY_BARRIER()                        __asm volatile ( "" ::: "memory" )
+#परिभाषय पत्तनम्_स्मृतिः_BARRIER()                        __asm चञ्चल ( "" ::: "memory" )
 
-extern uint32_t ulPortGetRunTime( void );
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* no-op */
-#define portGET_RUN_TIME_COUNTER_VALUE()            ulPortGetRunTime()
+बाह्य uint32_t ul_पत्तनम्_Get_सततम्_Time( शून्य );
+#परिभाषय पत्तनम्_CONFIGURE_TIMER_FOR_सततम्_TIME_STATS()    /* no-op */
+#परिभाषय पत्तनम्_GET_सततम्_TIME_गणक_मानम्()            ul_पत्तनम्_Get_सततम्_Time()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

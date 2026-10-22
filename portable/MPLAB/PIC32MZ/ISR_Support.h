@@ -26,111 +26,111 @@
  *
  */
 
-#include "FreeRTOSConfig.h"
+#अन्तर्भाव "FreeRTOSConfig.h"
 
-#define portCONTEXT_SIZE                160
-#define portEPC_STACK_LOCATION          152
-#define portSTATUS_STACK_LOCATION       156
-#define portFPCSR_STACK_LOCATION        0
-#define portTASK_HAS_FPU_STACK_LOCATION     0
-#define portFPU_CONTEXT_SIZE            264
+#परिभाषय पत्तनम्_CONTEXT_आकार                160
+#परिभाषय पत्तनम्_EPC_राशिः_LOCATION          152
+#परिभाषय पत्तनम्_स्थितिः_राशिः_LOCATION       156
+#परिभाषय पत्तनम्_FPCSR_राशिः_LOCATION        0
+#परिभाषय पत्तनम्_TASK_HAS_FPU_राशिः_LOCATION     0
+#परिभाषय पत्तनम्_FPU_CONTEXT_आकार            264
 
 /******************************************************************/
-.macro  portSAVE_FPU_REGS    offset, base
+.macro  पत्तनम्_SAVE_FPU_REGS    offset, आधारः
     /* Macro to assist with saving just the FPU registers to the
      * specified address and base offset,
      * offset is a constant, base is the base pointer register  */
 
-    sdc1        $f31, \offset + 248(\base)
-    sdc1        $f30, \offset + 240(\base)
-    sdc1        $f29, \offset + 232(\base)
-    sdc1        $f28, \offset + 224(\base)
-    sdc1        $f27, \offset + 216(\base)
-    sdc1        $f26, \offset + 208(\base)
-    sdc1        $f25, \offset + 200(\base)
-    sdc1        $f24, \offset + 192(\base)
-    sdc1        $f23, \offset + 184(\base)
-    sdc1        $f22, \offset + 176(\base)
-    sdc1        $f21, \offset + 168(\base)
-    sdc1        $f20, \offset + 160(\base)
-    sdc1        $f19, \offset + 152(\base)
-    sdc1        $f18, \offset + 144(\base)
-    sdc1        $f17, \offset + 136(\base)
-    sdc1        $f16, \offset + 128(\base)
-    sdc1        $f15, \offset + 120(\base)
-    sdc1        $f14, \offset + 112(\base)
-    sdc1        $f13, \offset + 104(\base)
-    sdc1        $f12, \offset + 96(\base)
-    sdc1        $f11, \offset + 88(\base)
-    sdc1        $f10, \offset + 80(\base)
-    sdc1        $f9, \offset + 72(\base)
-    sdc1        $f8, \offset + 64(\base)
-    sdc1        $f7, \offset + 56(\base)
-    sdc1        $f6, \offset + 48(\base)
-    sdc1        $f5, \offset + 40(\base)
-    sdc1        $f4, \offset + 32(\base)
-    sdc1        $f3, \offset + 24(\base)
-    sdc1        $f2, \offset + 16(\base)
-    sdc1        $f1, \offset + 8(\base)
-    sdc1        $f0, \offset + 0(\base)
+    sdc1        $f31, \offset + 248(\आधारः)
+    sdc1        $f30, \offset + 240(\आधारः)
+    sdc1        $f29, \offset + 232(\आधारः)
+    sdc1        $f28, \offset + 224(\आधारः)
+    sdc1        $f27, \offset + 216(\आधारः)
+    sdc1        $f26, \offset + 208(\आधारः)
+    sdc1        $f25, \offset + 200(\आधारः)
+    sdc1        $f24, \offset + 192(\आधारः)
+    sdc1        $f23, \offset + 184(\आधारः)
+    sdc1        $f22, \offset + 176(\आधारः)
+    sdc1        $f21, \offset + 168(\आधारः)
+    sdc1        $f20, \offset + 160(\आधारः)
+    sdc1        $f19, \offset + 152(\आधारः)
+    sdc1        $f18, \offset + 144(\आधारः)
+    sdc1        $f17, \offset + 136(\आधारः)
+    sdc1        $f16, \offset + 128(\आधारः)
+    sdc1        $f15, \offset + 120(\आधारः)
+    sdc1        $f14, \offset + 112(\आधारः)
+    sdc1        $f13, \offset + 104(\आधारः)
+    sdc1        $f12, \offset + 96(\आधारः)
+    sdc1        $f11, \offset + 88(\आधारः)
+    sdc1        $f10, \offset + 80(\आधारः)
+    sdc1        $f9, \offset + 72(\आधारः)
+    sdc1        $f8, \offset + 64(\आधारः)
+    sdc1        $f7, \offset + 56(\आधारः)
+    sdc1        $f6, \offset + 48(\आधारः)
+    sdc1        $f5, \offset + 40(\आधारः)
+    sdc1        $f4, \offset + 32(\आधारः)
+    sdc1        $f3, \offset + 24(\आधारः)
+    sdc1        $f2, \offset + 16(\आधारः)
+    sdc1        $f1, \offset + 8(\आधारः)
+    sdc1        $f0, \offset + 0(\आधारः)
 
     .endm
 
 /******************************************************************/
-.macro  portLOAD_FPU_REGS    offset, base
+.macro  पत्तनम्_आरोपय_FPU_REGS    offset, आधारः
     /* Macro to assist with loading just the FPU registers from the
      * specified address and base offset, offset is a constant,
      * base is the base pointer register  */
 
-    ldc1        $f0, \offset + 0(\base)
-    ldc1        $f1, \offset + 8(\base)
-    ldc1        $f2, \offset + 16(\base)
-    ldc1        $f3, \offset + 24(\base)
-    ldc1        $f4, \offset + 32(\base)
-    ldc1        $f5, \offset + 40(\base)
-    ldc1        $f6, \offset + 48(\base)
-    ldc1        $f7, \offset + 56(\base)
-    ldc1        $f8, \offset + 64(\base)
-    ldc1        $f9, \offset + 72(\base)
-    ldc1        $f10, \offset + 80(\base)
-    ldc1        $f11, \offset + 88(\base)
-    ldc1        $f12, \offset + 96(\base)
-    ldc1        $f13, \offset + 104(\base)
-    ldc1        $f14, \offset + 112(\base)
-    ldc1        $f15, \offset + 120(\base)
-    ldc1        $f16, \offset + 128(\base)
-    ldc1        $f17, \offset + 136(\base)
-    ldc1        $f18, \offset + 144(\base)
-    ldc1        $f19, \offset + 152(\base)
-    ldc1        $f20, \offset + 160(\base)
-    ldc1        $f21, \offset + 168(\base)
-    ldc1        $f22, \offset + 176(\base)
-    ldc1        $f23, \offset + 184(\base)
-    ldc1        $f24, \offset + 192(\base)
-    ldc1        $f25, \offset + 200(\base)
-    ldc1        $f26, \offset + 208(\base)
-    ldc1        $f27, \offset + 216(\base)
-    ldc1        $f28, \offset + 224(\base)
-    ldc1        $f29, \offset + 232(\base)
-    ldc1        $f30, \offset + 240(\base)
-    ldc1        $f31, \offset + 248(\base)
+    ldc1        $f0, \offset + 0(\आधारः)
+    ldc1        $f1, \offset + 8(\आधारः)
+    ldc1        $f2, \offset + 16(\आधारः)
+    ldc1        $f3, \offset + 24(\आधारः)
+    ldc1        $f4, \offset + 32(\आधारः)
+    ldc1        $f5, \offset + 40(\आधारः)
+    ldc1        $f6, \offset + 48(\आधारः)
+    ldc1        $f7, \offset + 56(\आधारः)
+    ldc1        $f8, \offset + 64(\आधारः)
+    ldc1        $f9, \offset + 72(\आधारः)
+    ldc1        $f10, \offset + 80(\आधारः)
+    ldc1        $f11, \offset + 88(\आधारः)
+    ldc1        $f12, \offset + 96(\आधारः)
+    ldc1        $f13, \offset + 104(\आधारः)
+    ldc1        $f14, \offset + 112(\आधारः)
+    ldc1        $f15, \offset + 120(\आधारः)
+    ldc1        $f16, \offset + 128(\आधारः)
+    ldc1        $f17, \offset + 136(\आधारः)
+    ldc1        $f18, \offset + 144(\आधारः)
+    ldc1        $f19, \offset + 152(\आधारः)
+    ldc1        $f20, \offset + 160(\आधारः)
+    ldc1        $f21, \offset + 168(\आधारः)
+    ldc1        $f22, \offset + 176(\आधारः)
+    ldc1        $f23, \offset + 184(\आधारः)
+    ldc1        $f24, \offset + 192(\आधारः)
+    ldc1        $f25, \offset + 200(\आधारः)
+    ldc1        $f26, \offset + 208(\आधारः)
+    ldc1        $f27, \offset + 216(\आधारः)
+    ldc1        $f28, \offset + 224(\आधारः)
+    ldc1        $f29, \offset + 232(\आधारः)
+    ldc1        $f30, \offset + 240(\आधारः)
+    ldc1        $f31, \offset + 248(\आधारः)
 
     .endm
 
 /******************************************************************/
-.macro  portSAVE_CONTEXT
+.macro  पत्तनम्_SAVE_CONTEXT
 
     /* Make room for the context. First save the current status so it can be
     manipulated, and the cause and EPC registers so their original values are
     captured. */
     mfc0        k0, _CP0_CAUSE
-    addiu       sp, sp, -portCONTEXT_SIZE
+    addiu       sp, sp, -पत्तनम्_CONTEXT_आकार
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #यदि ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Test if we are already using the system stack. Only tasks may use the
         FPU so if we are already in a nested interrupt then the FPU context does
         not require saving. */
-        la          k1, uxInterruptNesting
+        la          k1, ux_व्यवधानम्_Nesting
         lw          k1, 0(k1)
         bne         k1, zero, 2f
         nop
@@ -142,23 +142,23 @@
         nop
 
         /* Adjust the stack to account for the additional FPU context.*/
-        addiu       sp, sp, -portFPU_CONTEXT_SIZE
+        addiu       sp, sp, -पत्तनम्_FPU_CONTEXT_आकार
 
     1:
         /* Save the ulTaskHasFPUContext flag. */
-        sw          k1, portTASK_HAS_FPU_STACK_LOCATION(sp)
+        sw          k1, पत्तनम्_TASK_HAS_FPU_राशिः_LOCATION(sp)
 
     2:
-    #endif
+    #यदि_अन्तः
 
-    mfc0        k1, _CP0_STATUS
+    mfc0        k1, CP0_स्थितिः
 
     /* Also save s7, s6 and s5 so they can be used.  Any nesting interrupts
     should maintain the values of these registers across the ISR. */
     sw          s7, 48(sp)
     sw          s6, 44(sp)
     sw          s5, 40(sp)
-    sw          k1, portSTATUS_STACK_LOCATION(sp)
+    sw          k1, पत्तनम्_स्थितिः_राशिः_LOCATION(sp)
 
     /* Prepare to enable interrupts above the current priority. */
     srl         k0, k0, 0xa
@@ -168,10 +168,10 @@
     ins         k1, zero, 1, 4
 
     /* s5 is used as the frame pointer. */
-    add         s5, zero, sp
+    सङ्कलय         s5, zero, sp
 
     /* Check the nesting count value. */
-    la          k0, uxInterruptNesting
+    la          k0, ux_व्यवधानम्_Nesting
     lw          s6, (k0)
 
     /* If the nesting count is 0 then swap to the system stack, otherwise
@@ -180,7 +180,7 @@
     nop
 
     /* Swap to the system stack. */
-    la          sp, xISRStackTop
+    la          sp, x_ISRStack_शिखरम्
     lw          sp, (sp)
 
     /* Increment and save the nesting count. */
@@ -191,7 +191,7 @@
     mfc0        s6, _CP0_EPC
 
     /* Re-enable interrupts. */
-    mtc0        k1, _CP0_STATUS
+    mtc0        k1, CP0_स्थितिः
 
     /* Save the context into the space just created.  s6 is saved again
     here as it now contains the EPC value.  No other s registers need be
@@ -214,7 +214,7 @@
     sw          a0, 60(s5)
     sw          v1, 56(s5)
     sw          v0, 52(s5)
-    sw          s6, portEPC_STACK_LOCATION(s5)
+    sw          s6, पत्तनम्_EPC_राशिः_LOCATION(s5)
     sw          $1, 16(s5)
 
     /* Save the AC0, AC1, AC2, AC3 registers from the DSP.  s6 is used as a
@@ -245,67 +245,67 @@
     sw          s6, 8(s5)
 
     /* Save the FPU context if the nesting count was zero. */
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
-        la          s6, uxInterruptNesting
+    #यदि ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+        la          s6, ux_व्यवधानम्_Nesting
         lw          s6, 0(s6)
         addiu       s6, s6, -1
         bne         s6, zero, 1f
         nop
 
         /* Test if the current task needs the FPU context saving. */
-        lw          s6, portTASK_HAS_FPU_STACK_LOCATION(s5)
+        lw          s6, पत्तनम्_TASK_HAS_FPU_राशिः_LOCATION(s5)
         beq         s6, zero, 1f
         nop
 
         /* Save the FPU registers. */
-        portSAVE_FPU_REGS ( portCONTEXT_SIZE + 8 ), s5
+        पत्तनम्_SAVE_FPU_REGS ( पत्तनम्_CONTEXT_आकार + 8 ), s5
 
         /* Save the FPU status register */
         cfc1        s6, $f31
-        sw          s6, (portCONTEXT_SIZE + portFPCSR_STACK_LOCATION)(s5)
+        sw          s6, (पत्तनम्_CONTEXT_आकार + पत्तनम्_FPCSR_राशिः_LOCATION)(s5)
 
         1:
-    #endif
+    #यदि_अन्तः
 
     /* Update the task stack pointer value if nesting is zero. */
-    la          s6, uxInterruptNesting
+    la          s6, ux_व्यवधानम्_Nesting
     lw          s6, (s6)
     addiu       s6, s6, -1
     bne         s6, zero, 1f
     nop
 
     /* Save the stack pointer. */
-    la          s6, uxSavedTaskStackPointer
+    la          s6, ux_Saved_Task_राशिः_Pointer
     sw          s5, (s6)
 1:
     .endm
 
 /******************************************************************/
-.macro  portRESTORE_CONTEXT
+.macro  पत्तनम्_RESTORE_CONTEXT
 
     /* Restore the stack pointer from the TCB.  This is only done if the
     nesting count is 1. */
-    la          s6, uxInterruptNesting
+    la          s6, ux_व्यवधानम्_Nesting
     lw          s6, (s6)
     addiu       s6, s6, -1
     bne         s6, zero, 1f
     nop
-    la          s6, uxSavedTaskStackPointer
+    la          s6, ux_Saved_Task_राशिः_Pointer
     lw          s5, (s6)
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #यदि ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Restore the FPU context if required. */
-        lw          s6, portTASK_HAS_FPU_STACK_LOCATION(s5)
+        lw          s6, पत्तनम्_TASK_HAS_FPU_राशिः_LOCATION(s5)
         beq         s6, zero, 1f
         nop
 
         /* Restore the FPU registers. */
-        portLOAD_FPU_REGS   ( portCONTEXT_SIZE + 8 ), s5
+        पत्तनम्_आरोपय_FPU_REGS   ( पत्तनम्_CONTEXT_आकार + 8 ), s5
 
         /* Restore the FPU status register. */
-        lw          s6, ( portCONTEXT_SIZE + portFPCSR_STACK_LOCATION )(s5)
+        lw          s6, ( पत्तनम्_CONTEXT_आकार + पत्तनम्_FPCSR_राशिः_LOCATION )(s5)
         ctc1        s6, $f31
-    #endif
+    #यदि_अन्तः
 
 1:
 
@@ -363,12 +363,12 @@
     ehb
 
     /* Decrement the nesting count. */
-    la          k0, uxInterruptNesting
+    la          k0, ux_व्यवधानम्_Nesting
     lw          k1, (k0)
     addiu       k1, k1, -1
     sw          k1, 0(k0)
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #यदि ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* If the nesting count is now zero then the FPU context may be restored. */
         bne         k1, zero, 1f
         nop
@@ -383,47 +383,47 @@
         nop
 
         /* Restore the STATUS and EPC registers */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, पत्तनम्_स्थितिः_राशिः_LOCATION(s5)
+        lw          k1, पत्तनम्_EPC_राशिः_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
-        add         sp, zero, s5
+        सङ्कलय         sp, zero, s5
         lw          s5, 40(sp)
 
         /* Adjust the stack pointer to remove the FPU context */
-        addiu       sp, sp, portFPU_CONTEXT_SIZE
+        addiu       sp, sp, पत्तनम्_FPU_CONTEXT_आकार
         beq         zero, zero, 2f
         nop
 
         1:  /* Restore the STATUS and EPC registers */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, पत्तनम्_स्थितिः_राशिः_LOCATION(s5)
+        lw          k1, पत्तनम्_EPC_राशिः_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
-        add         sp, zero, s5
+        सङ्कलय         sp, zero, s5
         lw          s5, 40(sp)
 
         2:  /* Adjust the stack pointer */
-        addiu       sp, sp, portCONTEXT_SIZE
+        addiu       sp, sp, पत्तनम्_CONTEXT_आकार
 
-    #else
+    #अन्यथा
 
         /* Restore the frame when there is no hardware FP support. */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, पत्तनम्_स्थितिः_राशिः_LOCATION(s5)
+        lw          k1, पत्तनम्_EPC_राशिः_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
-        add         sp, zero, s5
+        सङ्कलय         sp, zero, s5
         lw          s5, 40(sp)
 
-        addiu       sp, sp, portCONTEXT_SIZE
+        addiu       sp, sp, पत्तनम्_CONTEXT_आकार
 
-    #endif // ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #यदि_अन्तः // ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
 
-    mtc0        k0, _CP0_STATUS
+    mtc0        k0, CP0_स्थितिः
     mtc0        k1, _CP0_EPC
     ehb
     eret

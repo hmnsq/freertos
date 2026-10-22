@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 
 /*-----------------------------------------------------------
@@ -40,25 +40,25 @@
  * Configure a timer to generate the RTOS tick at the frequency specified
  * within FreeRTOSConfig.h.
  */
-static void prvSetupTimerInterrupt( void );
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य );
 
 /* Interrupt service routines have to be in non-banked memory - as does the
 scheduler startup function. */
-#pragma CODE_SEG __NEAR_SEG NON_BANKED
+#निर्देशः संहिता_SEG __NEAR_SEG NON_BANKED
 
     /* Manual context switch function.  This is the SWI ISR. */
-    void interrupt vPortYield( void );
+    शून्य व्यवधानम् v_पत्तनम्_Yield( शून्य );
 
     /* Tick context switch function.  This is the timer ISR. */
-    void interrupt vPortTickInterrupt( void );
+    शून्य व्यवधानम् v_पत्तनम्_Tick_व्यवधानम्( शून्य );
 
     /* Simply called by xPortStartScheduler().  xPortStartScheduler() does not
     start the scheduler directly because the header file containing the
     xPortStartScheduler() prototype is part of the common kernel code, and
     therefore cannot use the CODE_SEG pragma. */
-    static BaseType_t xBankedStartScheduler( void );
+    स्थिर आधारः_Type_t xBankedStartScheduler( शून्य );
 
-#pragma CODE_SEG DEFAULT
+#निर्देशः संहिता_SEG DEFAULT
 
 /* Calls to portENTER_CRITICAL() can be nested.  When they are nested the
 critical section should not be left (i.e. interrupts should not be re-enabled)
@@ -66,14 +66,14 @@ until the nesting depth reaches 0.  This variable simply tracks the nesting
 depth.  Each task maintains its own critical nesting depth variable so
 uxCriticalNesting is saved and restored from the task stack during a context
 switch. */
-volatile UBaseType_t uxCriticalNesting = 0xff;
+चञ्चल UBaseType_t uxCriticalNesting = 0xff;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+राशिः_Type_t *px_पत्तनम्_Initialise_राशिः( राशिः_Type_t *px_शिखरम्_सम्बन्धि_राशिः, TaskFunction_t px_संहिता, शून्य *pvParameters )
 {
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -95,66 +95,66 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
 
     /* The address of the task function is placed in the stack byte at a time. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pxCode) ) + 1 );
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pxCode) ) + 0 );
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) *( ((राशिः_Type_t *) (&px_संहिता) ) + 1 );
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) *( ((राशिः_Type_t *) (&px_संहिता) ) + 0 );
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Next are all the registers that form part of the task context. */
 
     /* Y register */
-    *pxTopOfStack = ( StackType_t ) 0xff;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xee;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xff;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xee;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* X register */
-    *pxTopOfStack = ( StackType_t ) 0xdd;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xcc;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xdd;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xcc;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* A register contains parameter high byte. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pvParameters) ) + 0 );
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) *( ((राशिः_Type_t *) (&pvParameters) ) + 0 );
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* B register contains parameter low byte. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pvParameters) ) + 1 );
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) *( ((राशिः_Type_t *) (&pvParameters) ) + 1 );
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* CCR: Note that when the task starts interrupts will be enabled since
     "I" bit of CCR is cleared */
-    *pxTopOfStack = ( StackType_t ) 0x00;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
-    #ifdef BANKED_MODEL
+    #यदि_परिभाषितम् BANKED_MODEL
         /* The page of the task. */
-        *pxTopOfStack = ( StackType_t ) ( ( int ) pxCode );
-        pxTopOfStack--;
-    #endif
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) ( ( पूर्णाङ्क ) px_संहिता );
+        px_शिखरम्_सम्बन्धि_राशिः--;
+    #यदि_अन्तः
 
     /* Finally the critical nesting depth is initialised with 0 (not within
     a critical section). */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00;
 
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* It is unlikely that the HCS12 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य )
 {
-    TickTimer_SetFreqHz( configTICK_RATE_HZ );
+    Tick_Timer_समुच्चयः_Freq_Hz( config_TICK_दरः_HZ );
     TickTimer_Enable();
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
     /* xPortStartScheduler() does not start the scheduler directly because
     the header file containing the xPortStartScheduler() prototype is part
@@ -162,26 +162,26 @@ BaseType_t xPortStartScheduler( void )
     Instead it simply calls the locally defined xBankedStartScheduler() -
     which does use the CODE_SEG pragma. */
 
-    return xBankedStartScheduler();
+    प्रत्यागम xBankedStartScheduler();
 }
 /*-----------------------------------------------------------*/
 
-#pragma CODE_SEG __NEAR_SEG NON_BANKED
+#निर्देशः संहिता_SEG __NEAR_SEG NON_BANKED
 
-static BaseType_t xBankedStartScheduler( void )
+स्थिर आधारः_Type_t xBankedStartScheduler( शून्य )
 {
     /* Configure the timer that will generate the RTOS tick.  Interrupts are
     disabled when this function is called. */
-    prvSetupTimerInterrupt();
+    prv_सज्जता_Timer_व्यवधानम्();
 
     /* Restore the context of the first task. */
-    portRESTORE_CONTEXT();
+    पत्तनम्_RESTORE_CONTEXT();
 
     /* Simulate the end of an interrupt to start the scheduler off. */
     __asm( "rti" );
 
     /* Should not get here! */
-    return pdFALSE;
+    प्रत्यागम pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -193,11 +193,11 @@ static BaseType_t xBankedStartScheduler( void )
  * Manual context switch forced by calling portYIELD().  This is the SWI
  * handler.
  */
-void interrupt vPortYield( void )
+शून्य व्यवधानम् v_पत्तनम्_Yield( शून्य )
 {
-    portSAVE_CONTEXT();
+    पत्तनम्_SAVE_CONTEXT();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT();
+    पत्तनम्_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -206,15 +206,15 @@ void interrupt vPortYield( void )
  * being used then this simply increments the tick count.  If the
  * preemptive scheduler is being used a context switch can occur.
  */
-void interrupt vPortTickInterrupt( void )
+शून्य व्यवधानम् v_पत्तनम्_Tick_व्यवधानम्( शून्य )
 {
-    #if configUSE_PREEMPTION == 1
+    #यदि configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
-        portSAVE_CONTEXT();
+        पत्तनम्_SAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        यदि( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -223,14 +223,14 @@ void interrupt vPortTickInterrupt( void )
 
         /* Restore the context of a task - which may be a different task
         to that interrupted. */
-        portRESTORE_CONTEXT();
+        पत्तनम्_RESTORE_CONTEXT();
     }
-    #else
+    #अन्यथा
     {
         xTaskIncrementTick();
         TFLG1 = 1;
     }
-    #endif
+    #यदि_अन्तः
 }
 
-#pragma CODE_SEG DEFAULT
+#निर्देशः संहिता_SEG DEFAULT

@@ -26,18 +26,18 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /* System Includes. */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
+#अन्तर्भाव <tc1782.h>
+#अन्तर्भाव <machine/intrinsics.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,106 +50,106 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*---------------------------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                         ( -1 )
-#define portTICK_PERIOD_MS                       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                       4
-#define portNOP()    __asm volatile ( " nop " )
-#define portCRITICAL_NESTING_IN_TCB              1
-#define portRESTORE_FIRST_TASK_PRIORITY_LEVEL    1
+#परिभाषय पत्तनम्_राशिः_GROWTH                         ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS                       ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT                       4
+#परिभाषय पत्तनम्_NOP()    __asm चञ्चल ( " nop " )
+#परिभाषय पत्तनम्_CRITICAL_NESTING_अन्तर्_TCB              1
+#परिभाषय पत्तनम्_RESTORE_FIRST_TASK_प्राथमिकता_LEVEL    1
 
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct MPU_SETTINGS
+प्रकारनिर्देश संरचना MPU_SETTINGS
 {
-    uint32_t ulNotUsed;
+    uint32_t ul_Not_प्रयुक्तम्;
 } xMPU_SETTINGS;
 
 /* Define away the instruction from the Restore Context Macro. */
-#define portPRIVILEGE_BIT    0x0UL
+#परिभाषय पत्तनम्_PRIVILEGE_BIT    0x0UL
 
-#define portCCPN_MASK        ( 0x000000FFUL )
+#परिभाषय पत्तनम्_CCPN_आवरणम्        ( 0x000000FFUL )
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()    vTaskEnterCritical()
-#define portEXIT_CRITICAL()     vTaskExitCritical()
+बाह्य शून्य vTaskEnterCritical( शून्य );
+बाह्य शून्य vTaskExitCritical( शून्य );
+#परिभाषय पत्तनम्_ENTER_CRITICAL()    vTaskEnterCritical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL()     vTaskExitCritical()
 /*---------------------------------------------------------------------------*/
 
 /* CSA Manipulation. */
-#define portCSA_TO_ADDRESS( pCSA )        ( ( uint32_t * ) ( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
-#define portADDRESS_TO_CSA( pAddress )    ( ( uint32_t ) ( ( ( ( ( uint32_t ) ( pAddress ) ) & 0xF0000000 ) >> 12 ) | ( ( ( uint32_t ) ( pAddress ) & 0x003FFFC0 ) >> 6 ) ) )
+#परिभाषय पत्तनम्_CSA_गन्तव्यम्_स्थानाङ्कः( pCSA )        ( ( uint32_t * ) ( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
+#परिभाषय पत्तनम्_स्थानाङ्कः_गन्तव्यम्_CSA( p_स्थानाङ्कः )    ( ( uint32_t ) ( ( ( ( ( uint32_t ) ( p_स्थानाङ्कः ) ) & 0xF0000000 ) >> 12 ) | ( ( ( uint32_t ) ( p_स्थानाङ्कः ) & 0x003FFFC0 ) >> 6 ) ) )
 /*---------------------------------------------------------------------------*/
 
-#define portYIELD()                       _syscall( 0 )
+#परिभाषय पत्तनम्_YIELD()                       _syscall( 0 )
 /* Port Restore is implicit in the platform when the function is returned from the original PSW is automatically replaced. */
-#define portSYSCALL_TASK_YIELD        0
-#define portSYSCALL_RAISE_PRIORITY    1
+#परिभाषय पत्तनम्_SYSCALL_TASK_YIELD        0
+#परिभाषय पत्तनम्_SYSCALL_RAISE_प्राथमिकता    1
 /*---------------------------------------------------------------------------*/
 
 /* Critical section management. */
 
 /* Set ICR.CCPN to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-#define portDISABLE_INTERRUPTS()                                                                      \
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                                                                      \
     {                                                                                                 \
         uint32_t ulICR;                                                                               \
         _disable();                                                                                   \
         ulICR = __MFCR( $ICR );                        /* Get current ICR value. */                   \
-        ulICR &= ~portCCPN_MASK;                       /* Clear down mask bits. */                    \
-        ulICR |= configMAX_SYSCALL_INTERRUPT_PRIORITY; /* Set mask bits to required priority mask. */ \
+        ulICR &= ~पत्तनम्_CCPN_आवरणम्;                       /* Clear down mask bits. */                    \
+        ulICR |= config_MAX_SYSCALL_व्यवधानम्_प्राथमिकता; /* Set mask bits to required priority mask. */ \
         _mtcr( $ICR, ulICR );                          /* Write back updated ICR. */                  \
         _isync();                                                                                     \
         _enable();                                                                                    \
     }
 
 /* Clear ICR.CCPN to allow all interrupt priorities. */
-#define portENABLE_INTERRUPTS()                                \
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                                \
     {                                                          \
         uint32_t ulICR;                                        \
         _disable();                                            \
         ulICR = __MFCR( $ICR );  /* Get current ICR value. */  \
-        ulICR &= ~portCCPN_MASK; /* Clear down mask bits. */   \
+        ulICR &= ~पत्तनम्_CCPN_आवरणम्; /* Clear down mask bits. */   \
         _mtcr( $ICR, ulICR );    /* Write back updated ICR. */ \
         _isync();                                              \
         _enable();                                             \
     }
 
 /* Set ICR.CCPN to uxSavedMaskValue. */
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedMaskValue )                          \
+#परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ux_Saved_आवरणम्_मानम् )                          \
     {                                                                                  \
         uint32_t ulICR;                                                                \
         _disable();                                                                    \
         ulICR = __MFCR( $ICR );    /* Get current ICR value. */                        \
-        ulICR &= ~portCCPN_MASK;   /* Clear down mask bits. */                         \
-        ulICR |= uxSavedMaskValue; /* Set mask bits to previously saved mask value. */ \
+        ulICR &= ~पत्तनम्_CCPN_आवरणम्;   /* Clear down mask bits. */                         \
+        ulICR |= ux_Saved_आवरणम्_मानम्; /* Set mask bits to previously saved mask value. */ \
         _mtcr( $ICR, ulICR );      /* Write back updated ICR. */                       \
         _isync();                                                                      \
         _enable();                                                                     \
@@ -157,30 +157,30 @@ extern void vTaskExitCritical( void );
 
 
 /* Set ICR.CCPN to configMAX_SYSCALL_INTERRUPT_PRIORITY */
-extern uint32_t uxPortSetInterruptMaskFromISR( void );
-#define portSET_INTERRUPT_MASK_FROM_ISR()                 uxPortSetInterruptMaskFromISR()
+बाह्य uint32_t ux_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR( शून्य );
+#परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR()                 ux_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR()
 
 /* Pend a priority 1 interrupt, which will take care of the context switch. */
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) { CPU_SRC0.bits.SETR = 1; _isync(); } } while( 0 )
+#परिभाषय पत्तनम्_YIELD_FROM_ISR( x_Higher_प्राथमिकता_Task_Woken )    कुरु { यदि( x_Higher_प्राथमिकता_Task_Woken != pdFALSE ) { CPU_SRC0.द्वयङ्काः_2.SETR = 1; _isync(); } } यावत्( 0 )
 
 /*---------------------------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 /*---------------------------------------------------------------------------*/
 
 /*
  * Port specific clean up macro required to free the CSAs that were consumed by
  * a task that has since been deleted.
  */
-void vPortReclaimCSA( uint32_t * pxTCB );
-#define portCLEAN_UP_TCB( pxTCB )    vPortReclaimCSA( ( uint32_t * ) ( pxTCB ) )
+शून्य v_पत्तनम्_Reclaim_CSA( uint32_t * pxTCB );
+#परिभाषय पत्तनम्_CLEAN_ऊर्ध्वम्_TCB( pxTCB )    v_पत्तनम्_Reclaim_CSA( ( uint32_t * ) ( pxTCB ) )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

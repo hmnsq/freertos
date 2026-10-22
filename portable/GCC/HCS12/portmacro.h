@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,40 +47,40 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    uint8_t
+#परिभाषय पत्तनम्_आधारः_TYPE     वर्ण
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश चिह्नित वर्ण      आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित वर्ण    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    1
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portYIELD()    __asm( "swi" );
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT    1
+#परिभाषय पत्तनम्_राशिः_GROWTH      ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_YIELD()    __asm( "swi" );
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENABLE_INTERRUPTS()     __asm( "cli" )
-#define portDISABLE_INTERRUPTS()    __asm( "sei" )
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     __asm( "cli" )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    __asm( "sei" )
 
 /*
  * Disable interrupts before incrementing the count of critical section nesting.
@@ -88,11 +88,11 @@ typedef unsigned char    UBaseType_t;
  * re-enabled.  Once interrupts are disabled the nesting count can be accessed
  * directly.  Each task maintains its own nesting count.
  */
-#define portENTER_CRITICAL()                           \
+#परिभाषय पत्तनम्_ENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        बाह्य चञ्चल UBaseType_t uxCriticalNesting; \
                                                        \
-        portDISABLE_INTERRUPTS();                      \
+        पत्तनम्_DISABLE_INTERRUPTS();                      \
         uxCriticalNesting++;                           \
     }
 
@@ -101,14 +101,14 @@ typedef unsigned char    UBaseType_t;
  * nesting is found to be 0 (no nesting) then we are leaving the critical
  * section and interrupts can be re-enabled.
  */
-#define  portEXIT_CRITICAL()                           \
+#परिभाषय  पत्तनम्_EXIT_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        बाह्य चञ्चल UBaseType_t uxCriticalNesting; \
                                                        \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        यदि( uxCriticalNesting == 0 )                   \
         {                                              \
-            portENABLE_INTERRUPTS();                   \
+            पत्तनम्_ENABLE_INTERRUPTS();                   \
         }                                              \
     }
 /*-----------------------------------------------------------*/
@@ -125,21 +125,21 @@ typedef unsigned char    UBaseType_t;
  * register is also stored as part of the tasks context.
  */
 
-#ifdef BANKED_MODEL
+#यदि_परिभाषितम् BANKED_MODEL
 
 /*
  * Load the stack pointer for the task, then pull the critical nesting
  * count and PPAGE register from the stack.  The remains of the
  * context are restored by the RTI instruction.
  */
-    #define portRESTORE_CONTEXT() \
+    #परिभाषय पत्तनम्_RESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; शून्य *            \n\
+        .globl uxCriticalNesting        ; वर्ण              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; राशिः_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         movb 1,sp+,0x30             ; PPAGE             \n\
@@ -151,58 +151,58 @@ typedef unsigned char    UBaseType_t;
  * registers.  Simply stack the nesting count and PPAGE value, then save
  * the task stack pointer.
  */
-    #define portSAVE_CONTEXT() \
+    #परिभाषय पत्तनम्_SAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; शून्य *            \n\
+        .globl uxCriticalNesting        ; वर्ण              \n\
                                             \n\
         movb 0x30, 1,-sp            ; PPAGE             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; राशिः_2             \n\
         " );                   \
     }
-#else /* ifdef BANKED_MODEL */
+#अन्यथा /* ifdef BANKED_MODEL */
 
 /*
  * These macros are as per the BANKED versions above, but without saving
  * and restoring the PPAGE register.
  */
 
-    #define portRESTORE_CONTEXT() \
+    #परिभाषय पत्तनम्_RESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; शून्य *            \n\
+        .globl uxCriticalNesting        ; वर्ण              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; राशिः_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         " );                      \
     }
 
-    #define portSAVE_CONTEXT() \
+    #परिभाषय पत्तनम्_SAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; शून्य *            \n\
+        .globl uxCriticalNesting        ; वर्ण              \n\
                                             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; राशिः_2             \n\
         " );                   \
     }
-#endif /* ifdef BANKED_MODEL */
+#यदि_अन्तः /* ifdef BANKED_MODEL */
 
 /*
  * Utility macros to save/restore correct software registers for GCC. This is
  * useful when GCC does not generate appropriate ISR head/tail code.
  */
-#define portISR_HEAD() \
+#परिभाषय पत्तनम्_ISR_शीर्ष() \
     {                  \
         __asm( "                                 \n\
         movw _.frame, 2,-sp                         \n\
@@ -214,7 +214,7 @@ typedef unsigned char    UBaseType_t;
         " );           \
     }
 
-#define portISR_TAIL() \
+#परिभाषय पत्तनम्_ISR_पुच्छ() \
     {                  \
         __asm( "                                 \n\
         movw 2,sp+, _.xy                            \n\
@@ -234,20 +234,20 @@ typedef unsigned char    UBaseType_t;
  * variables portYIELD() should be used in it's place.
  */
 
-#define portTASK_SWITCH_FROM_ISR() \
-    portSAVE_CONTEXT();            \
+#परिभाषय पत्तनम्_TASK_SWITCH_FROM_ISR() \
+    पत्तनम्_SAVE_CONTEXT();            \
     vTaskSwitchContext();          \
-    portRESTORE_CONTEXT();
+    पत्तनम्_RESTORE_CONTEXT();
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

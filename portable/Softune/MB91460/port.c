@@ -26,61 +26,61 @@
  *
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "mb91467d.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
+#अन्तर्भाव "mb91467d.h"
 
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+प्रकारनिर्देश शून्य TCB_t;
+बाह्य चञ्चल TCB_t * चञ्चल pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
-#pragma asm
+#निर्देशः asm
 #macro  SaveContext
-     ORCCR #0x20                                ;Switch to user stack
+     ORCCR #0x20                                ;Switch गन्तव्यम् user राशिः
      ST RP,@-R15                                ;Store RP
      STM0 (R7,R6,R5,R4,R3,R2,R1,R0)             ;Store R7-R0
      STM1 (R14,R13,R12,R11,R10,R9,R8)           ;Store R14-R8
      ST MDH, @-R15                              ;Store MDH
      ST MDL, @-R15                              ;Store MDL
 
-     ANDCCR #0xDF                               ;Switch back to system stack
-     LD @R15+,R0                                ;Store PC to R0
-     ORCCR #0x20                                ;Switch to user stack
-     ST R0,@-R15                                ;Store PC to User stack
+     ANDCCR #0xDF                               ;Switch पृष्ठभागः_2 गन्तव्यम् system राशिः
+     LD @R15+,R0                                ;Store PC गन्तव्यम् R0
+     ORCCR #0x20                                ;Switch गन्तव्यम् user राशिः
+     ST R0,@-R15                                ;Store PC गन्तव्यम् User राशिः
 
-     ANDCCR #0xDF                               ;Switch back to system stack
-     LD @R15+,R0                                ;Store PS to R0
-     ORCCR #0x20                                ;Switch to user stack
-     ST R0,@-R15                                ;Store PS to User stack
+     ANDCCR #0xDF                               ;Switch पृष्ठभागः_2 गन्तव्यम् system राशिः
+     LD @R15+,R0                                ;Store PS गन्तव्यम् R0
+     ORCCR #0x20                                ;Switch गन्तव्यम् user राशिः
+     ST R0,@-R15                                ;Store PS गन्तव्यम् User राशिः
 
-     LDI #_pxCurrentTCB, R0                     ;Get pxCurrentTCB address
-     LD @R0, R0                                 ;Get the pxCurrentTCB->pxTopOfStack address
-     ST R15,@R0                                 ;Store USP to pxCurrentTCB->pxTopOfStack
+     LDI #_pxCurrentTCB, R0                     ;Get pxCurrentTCB स्थानाङ्कः_2
+     LD @R0, R0                                 ;Get the pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः स्थानाङ्कः_2
+     ST R15,@R0                                 ;Store USP गन्तव्यम् pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः
 
-     ANDCCR #0xDF                               ;Switch back to system stack for the rest of tick ISR
+     ANDCCR #0xDF                               ;Switch पृष्ठभागः_2 गन्तव्यम् system राशिः प्रति the rest सम्बन्धि tick ISR
 #endm
 
 #macro RestoreContext
-     LDI #_pxCurrentTCB, R0                     ;Get pxCurrentTCB address
-     LD @R0, R0                                 ;Get the pxCurrentTCB->pxTopOfStack address
-     ORCCR #0x20                                ;Switch to user stack
-     LD @R0, R15                                ;Restore USP from pxCurrentTCB->pxTopOfStack
+     LDI #_pxCurrentTCB, R0                     ;Get pxCurrentTCB स्थानाङ्कः_2
+     LD @R0, R0                                 ;Get the pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः स्थानाङ्कः_2
+     ORCCR #0x20                                ;Switch गन्तव्यम् user राशिः
+     LD @R0, R15                                ;Restore USP from pxCurrentTCB->px_शिखरम्_सम्बन्धि_राशिः
 
-     LD @R15+,R0                                ;Store PS to R0
-     ANDCCR #0xDF                               ;Switch to system stack
-     ST R0,@-R15                                ;Store PS to system stack
+     LD @R15+,R0                                ;Store PS गन्तव्यम् R0
+     ANDCCR #0xDF                               ;Switch गन्तव्यम् system राशिः
+     ST R0,@-R15                                ;Store PS गन्तव्यम् system राशिः
 
-     ORCCR #0x20                                ;Switch to user stack
-     LD @R15+,R0                                ;Store PC to R0
-     ANDCCR #0xDF                               ;Switch to system stack
-     ST R0,@-R15                                ;Store PC to system stack
+     ORCCR #0x20                                ;Switch गन्तव्यम् user राशिः
+     LD @R15+,R0                                ;Store PC गन्तव्यम् R0
+     ANDCCR #0xDF                               ;Switch गन्तव्यम् system राशिः
+     ST R0,@-R15                                ;Store PC गन्तव्यम् system राशिः
 
-     ORCCR #0x20                                ;Switch back to retrieve the remaining context
+     ORCCR #0x20                                ;Switch पृष्ठभागः_2 गन्तव्यम् retrieve the remaining context
 
      LD @R15+, MDL                              ;Restore MDL
      LD @R15+, MDH                              ;Restore MDH
@@ -88,16 +88,16 @@ extern volatile TCB_t * volatile pxCurrentTCB;
      LDM0 (R7,R6,R5,R4,R3,R2,R1,R0)             ;Restore R7-R0
      LD @R15+, RP                               ;Restore RP
 
-     ANDCCR #0xDF                               ;Switch back to system stack for the rest of tick ISR
+     ANDCCR #0xDF                               ;Switch पृष्ठभागः_2 गन्तव्यम् system राशिः प्रति the rest सम्बन्धि tick ISR
 #endm
-#pragma endasm
+#निर्देशः endasm
 
 /*-----------------------------------------------------------*/
 
 /*
  * Perform hardware setup to enable ticks from timer 1,
  */
-static void prvSetupTimerInterrupt( void );
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य );
 /*-----------------------------------------------------------*/
 
 /*
@@ -106,107 +106,107 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+राशिः_Type_t *px_पत्तनम्_Initialise_राशिः( राशिः_Type_t *px_शिखरम्_सम्बन्धि_राशिः, TaskFunction_t px_संहिता, शून्य *pvParameters )
 {
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x11111111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = 0x11111111;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = 0x22222222;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = 0x33333333;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* This is a redundant push to the stack, it may be required if
     in some implementations of the compiler the parameter to the task
     is passed on to the stack rather than in R4 register. */
-    *pxTopOfStack = (StackType_t)(pvParameters);
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = (राशिः_Type_t)(pvParameters);
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
-    *pxTopOfStack = ( StackType_t ) 0x00000000; /* RP */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00007777; /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00006666; /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00005555; /* R5 */
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00000000; /* RP */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00007777; /* R7 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00006666; /* R6 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00005555; /* R5 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* In the current implementation of the compiler the first
     parameter to the task (or function) is passed via R4 parameter
     to the task, hence the pvParameters pointer is copied into the R4
     register. See compiler manual section 4.6.2 for more information. */
-    *pxTopOfStack = ( StackType_t ) (pvParameters); /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00003333; /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00002222; /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00001111; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000001; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000EEEE; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000DDDD; /* R13 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000CCCC; /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000BBBB; /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000AAAA; /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00009999; /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00008888; /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11110000; /* MDH */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x22220000; /* MDL */
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) (pvParameters); /* R4 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00003333; /* R3 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00002222; /* R2 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00001111; /* R1 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00000001; /* R0 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0000EEEE; /* R14 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0000DDDD; /* R13 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0000CCCC; /* R12 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0000BBBB; /* R11 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0000AAAA; /* R10 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00009999; /* R9 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00008888; /* R8 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x11110000; /* MDH */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x22220000; /* MDL */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* The start of the task code. */
-    *pxTopOfStack = ( StackType_t ) pxCode; /* PC */
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_संहिता; /* PC */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* PS - User Mode, USP, ILM=31, Interrupts enabled */
-    *pxTopOfStack = ( StackType_t ) 0x001F0030; /* PS */
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x001F0030; /* PS */
 
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
     /* Setup the hardware to generate the tick. */
-    prvSetupTimerInterrupt();
+    prv_सज्जता_Timer_व्यवधानम्();
 
     /* Restore the context of the first task that is going to run. */
-    #pragma asm
+    #निर्देशः asm
         RestoreContext
-    #pragma endasm
+    #निर्देशः endasm
 
     /* Simulate a function call end as generated by the compiler.  We will now
     jump to the start of the task the context of which we have just restored. */
     __asm(" reti ");
 
     /* Should not get here. */
-    return pdFAIL;
+    प्रत्यागम pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* Not implemented - unlikely to ever be required as there is nothing to
     return to. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य )
 {
 /* The peripheral clock divided by 32 is used by the timer. */
-const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTICK_RATE_HZ ) / 32UL ) - 1UL );
+ध्रुव uint16_t us_Reload_मानम् = ( uint16_t ) ( ( ( config_प्रत्येकम्_CLOCK_HZ / config_TICK_दरः_HZ ) / 32UL ) - 1UL );
 
     /* Setup RLT0 to generate a tick interrupt. */
 
@@ -216,7 +216,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     TMCSR0_RELD = 1;        /* Reload */
 
     TMCSR0_UF = 0;          /* Clear underflow flag */
-    TMRLR0 = usReloadValue;
+    TMRLR0 = us_Reload_मानम्;
     TMCSR0_INTE = 1;        /* Interrupt Enable */
     TMCSR0_CNTE = 1;        /* Count Enable */
     TMCSR0_TRG = 1;         /* Trigger */
@@ -225,7 +225,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#यदि configUSE_PREEMPTION == 1
 
     /*
      * Tick ISR for preemptive scheduler. The tick count is incremented
@@ -233,7 +233,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
      * and last the context of the task which is to be resumed is restored.
      */
 
-    #pragma asm
+    #निर्देशः asm
 
     .global _ReloadTimer0_IRQHandler
     _ReloadTimer0_IRQHandler:
@@ -244,10 +244,10 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 
     LDI #0xFFFB,R1
     LDI #_tmcsr0, R0
-    AND R1,@R0                              ;Clear RLT0 interrupt flag
+    AND R1,@R0                              ;Clear RLT0 व्यवधानम् flag
 
     CALL32   _xTaskIncrementTick,R12        ;Increment Tick
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context यदि required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -255,42 +255,42 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 
     RETI
 
-    #pragma endasm
+    #निर्देशः endasm
 
-#else
+#अन्यथा
 
     /*
      * Tick ISR for the cooperative scheduler.  All this does is increment the
      * tick count.  We don't need to switch context, this can only be done by
      * manual calls to taskYIELD();
      */
-    __interrupt void ReloadTimer0_IRQHandler( void )
+    __interrupt शून्य ReloadTimer0_IRQHandler( शून्य )
     {
         /* Clear RLT0 interrupt flag */
         TMCSR0_UF = 0;
         xTaskIncrementTick();
     }
 
-#endif
+#यदि_अन्तः
 
 /*
  * Manual context switch. We can use a __nosavereg attribute  as the context
  * would be saved by PortSAVE_CONTEXT().  The context is switched and then
  * the context of the new task is restored saved.
  */
-#pragma asm
+#निर्देशः asm
 
-    .global _vPortYieldDelayed
-    _vPortYieldDelayed:
+    .global v_पत्तनम्_Yield_Delayed
+    v_पत्तनम्_Yield_Delayed:
 
     ANDCCR #0xEF                            ;Disable Interrupts
     SaveContext                             ;Save context
     ORCCR #0x10                             ;Re-enable Interrupts
 
     LDI #_dicr, R0
-    BANDL #0x0E, @R0                        ;Clear Delayed interrupt flag
+    BANDL #0x0E, @R0                        ;Clear Delayed व्यवधानम् flag
 
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context यदि required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -298,7 +298,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 
     RETI
 
-#pragma endasm
+#निर्देशः endasm
 /*-----------------------------------------------------------*/
 
 /*
@@ -306,16 +306,16 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
  * would be saved by PortSAVE_CONTEXT().  The context is switched and then
  * the context of the new task is restored saved.
  */
-#pragma asm
+#निर्देशः asm
 
-    .global _vPortYield
-    _vPortYield:
+    .global v_पत्तनम्_Yield_2
+    v_पत्तनम्_Yield_2:
 
     SaveContext                             ;Save context
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context यदि required
     RestoreContext                          ;Restore context
 
     RETI
 
-#pragma endasm
+#निर्देशः endasm
 /*-----------------------------------------------------------*/

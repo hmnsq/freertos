@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -39,9 +39,9 @@
     .extern ullPortYieldRequired
     .extern _freertos_vector_table
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SWI_Handler
-    .global vPortRestoreTaskContext
+    .वैश्विक FreeRTOS_IRQ_Handler
+    .वैश्विक FreeRTOS_SWI_Handler
+    .वैश्विक v_पत्तनम्_Restore_Task_Context
 
 
 .macro portSAVE_CONTEXT
@@ -79,12 +79,12 @@
 
     STP     X2, X3, [SP, #-0x10]!
 
-    /* Save the critical section nesting depth. */
+    /* Save the critical खण्डः nesting depth. */
     LDR     X0, ullCriticalNestingConst
     LDR     X3, [X0]
 
     /* Save the FPU context indicator. */
-    LDR     X0, ullPortTaskHasFPUContextConst
+    LDR     X0, ull_पत्तनम्_Task_Has_FPUContext_Const
     LDR     X2, [X0]
 
     /* Save the FPU context, if any (32 128-bit plus two 64-bit status registers). */
@@ -147,7 +147,7 @@
     MOV     X1, #255                    /* X1 holds the unmask value. */
     CMP     X3, #0
     B.EQ    1f
-    LDR     X6, ullMaxAPIPriorityMaskConst
+    LDR     X6, ull_Max_APIPriority_आवरणम्_Const
     LDR     X1, [X6]                    /* X1 holds the mask value. */
 1:
     MSR     s3_0_c4_c6_0, X1            /* Write the mask value to ICCPMR. s3_0_c4_c6_0 is ICC_PMR_EL1. */
@@ -156,7 +156,7 @@
     STR     X3, [X0]                    /* Restore the task's critical nesting count. */
 
     /* Restore the FPU context indicator. */
-    LDR     X0, ullPortTaskHasFPUContextConst
+    LDR     X0, ull_पत्तनम्_Task_Has_FPUContext_Const
     STR     X2, [X0]
 
     /* Restore the FPU context, if any. */
@@ -252,11 +252,11 @@ FreeRTOS_Abort:
     B       .
 
 /******************************************************************************
- * vPortRestoreTaskContext is used to start the scheduler.
+ * v_पत्तनम्_Restore_Task_Context is used to start the scheduler.
  *****************************************************************************/
 .align 8
-.type vPortRestoreTaskContext, %function
-vPortRestoreTaskContext:
+.type v_पत्तनम्_Restore_Task_Context, %function
+v_पत्तनम्_Restore_Task_Context:
 .set freertos_vector_base,  _freertos_vector_table
 
     /* Install the FreeRTOS interrupt handlers. */
@@ -311,19 +311,19 @@ FreeRTOS_IRQ_Handler:
     STP     X2, X3, [SP, #-0x10]!
 
     /* Increment the interrupt nesting counter. */
-    LDR     X5, ullPortInterruptNestingConst
+    LDR     X5, ull_पत्तनम्_व्यवधानम्_Nesting_Const
     LDR     X1, [X5]    /* Old nesting count in X1. */
     ADD     X6, X1, #1
     STR     X6, [X5]    /* Address of nesting count variable in X5. */
 
-    /* Maintain the interrupt nesting information across the function call. */
+    /* Maintain the interrupt nesting information across the function आह्वान. */
     STP     X1, X5, [SP, #-0x10]!
 
     /* Read interrupt ID from the interrupt acknowledge register and store it
     in X0 for future parameter and interrupt clearing use. */
     MRS     X0, S3_0_C12_C12_0  /* S3_0_C12_C12_0 is ICC_IAR1_EL1. */
 
-    /* Maintain the interrupt ID value across the function call. */
+    /* Maintain the interrupt ID value across the function आह्वान. */
     STP     X0, X1, [SP, #-0x10]!
 
     /* Call the C handler. */
@@ -349,7 +349,7 @@ FreeRTOS_IRQ_Handler:
     B.NE    Exit_IRQ_No_Context_Switch
 
     /* Is a context switch required? */
-    LDR     X0, ullPortYieldRequiredConst
+    LDR     X0, ull_पत्तनम्_Yield_Required_Const
     LDR     X1, [X0]
     CMP     X1, #0
     B.EQ    Exit_IRQ_No_Context_Switch
@@ -423,7 +423,7 @@ Exit_IRQ_No_Context_Switch:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * आह्वान vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry their IRQ handler must be called
@@ -494,10 +494,10 @@ vApplicationIRQHandler:
 .align 8
 pxCurrentTCBConst: .dword pxCurrentTCB
 ullCriticalNestingConst: .dword ullCriticalNesting
-ullPortTaskHasFPUContextConst: .dword ullPortTaskHasFPUContext
+ull_पत्तनम्_Task_Has_FPUContext_Const: .dword ullPortTaskHasFPUContext
 
-ullMaxAPIPriorityMaskConst: .dword ullMaxAPIPriorityMask
-ullPortInterruptNestingConst: .dword ullPortInterruptNesting
-ullPortYieldRequiredConst: .dword ullPortYieldRequired
+ull_Max_APIPriority_आवरणम्_Const: .dword ullMaxAPIPriorityMask
+ull_पत्तनम्_व्यवधानम्_Nesting_Const: .dword ullPortInterruptNesting
+ull_पत्तनम्_Yield_Required_Const: .dword ullPortYieldRequired
 
 .end

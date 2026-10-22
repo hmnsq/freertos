@@ -46,14 +46,14 @@ Changes from V3.0.1
  * context switch in how it stores the context of a task.
  */
 
-#ifndef _FREERTOS_DRIVERS_TICK_ISRTICK_C
-#define _FREERTOS_DRIVERS_TICK_ISRTICK_C
+#यदि_अपरिभाषितम् _FREERTOS_DRIVERS_TICK_ISRTICK_C
+#परिभाषय _FREERTOS_DRIVERS_TICK_ISRTICK_C
 
 {
     /*
      * Was the interrupt the SystemClock?
      */
-    if( bCCP1IF && bCCP1IE )
+    यदि( bCCP1IF && bCCP1IE )
     {
         /*
          * Reset the interrupt flag
@@ -63,7 +63,7 @@ Changes from V3.0.1
         /*
          * Maintain the tick count.
          */
-        if( xTaskIncrementTick() != pdFALSE )
+        यदि( xTaskIncrementTick() != pdFALSE )
         {
             /*
              * Ask for a switch to the highest priority task
@@ -74,6 +74,6 @@ Changes from V3.0.1
     }
 }
 
-#pragma wizcpp uselib     "$__PATHNAME__/Tick.c"
+#निर्देशः wizcpp uselib     "$__PATHNAME__/Tick.c"
 
-#endif  /* _FREERTOS_DRIVERS_TICK_ISRTICK_C */
+#यदि_अन्तः  /* _FREERTOS_DRIVERS_TICK_ISRTICK_C */

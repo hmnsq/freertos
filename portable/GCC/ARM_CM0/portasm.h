@@ -26,27 +26,27 @@
  *
  */
 
-#ifndef __PORT_ASM_H__
-#define __PORT_ASM_H__
+#यदि_अपरिभाषितम् __PORT_ASM_H__
+#परिभाषय __PORT_ASM_H__
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
+#अन्तर्भाव "FreeRTOS.h"
 
 /* MPU wrappers includes. */
-#include "mpu_wrappers.h"
+#अन्तर्भाव "mpu_wrappers.h"
 
 /**
  * @brief Restore the context of the first task so that the first task starts
  * executing.
  */
-void vRestoreContextOfFirstTask( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+शून्य v_Restore_Context_सम्बन्धि_First_Task( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Checks whether or not the processor is privileged.
  *
  * @return 1 if the processor is already privileged, 0 otherwise.
  */
-BaseType_t xIsPrivileged( void ) __attribute__( ( naked ) );
+आधारः_Type_t xIsPrivileged( शून्य ) __attribute__( ( naked ) );
 
 /**
  * @brief Raises the privilege level by clearing the bit 0 of the CONTROL
@@ -59,7 +59,7 @@ BaseType_t xIsPrivileged( void ) __attribute__( ( naked ) );
  *  Bit[0] = 0 --> The processor is running privileged
  *  Bit[0] = 1 --> The processor is running unprivileged.
  */
-void vRaisePrivilege( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+शून्य vRaisePrivilege( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
@@ -69,31 +69,31 @@ void vRaisePrivilege( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
  *  Bit[0] = 0 --> The processor is running privileged
  *  Bit[0] = 1 --> The processor is running unprivileged.
  */
-void vResetPrivilege( void ) __attribute__( ( naked ) );
+शून्य vResetPrivilege( शून्य ) __attribute__( ( naked ) );
 
 /**
  * @brief Starts the first task.
  */
-void vStartFirstTask( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+शून्य vStartFirstTask( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Disables interrupts.
  */
-uint32_t ulSetInterruptMask( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+uint32_t ul_समुच्चयः_व्यवधानम्_आवरणम्( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Enables interrupts.
  */
-void vClearInterruptMask( uint32_t ulMask ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+शून्य v_Clear_व्यवधानम्_आवरणम्( uint32_t ul_आवरणम् ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief PendSV Exception handler.
  */
-void PendSV_Handler( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+शून्य PendSV_Handler( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief SVC Handler.
  */
-void SVC_Handler( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+शून्य SVC_Handler( शून्य ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
-#endif /* __PORT_ASM_H__ */
+#यदि_अन्तः /* __PORT_ASM_H__ */

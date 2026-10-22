@@ -37,13 +37,13 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#परिभाषय पत्तनम्_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-volatile uint32_t ulCriticalNesting = 9999UL;
+चञ्चल uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
@@ -51,14 +51,14 @@ volatile uint32_t ulCriticalNesting = 9999UL;
  * The scheduler can only be started from ARM mode, hence the inclusion of this
  * function here.
  */
-void vPortISRStartFirstTask( void );
+शून्य v_पत्तनम्_ISRStart_First_Task( शून्य );
 /*-----------------------------------------------------------*/
 
-void vPortISRStartFirstTask( void )
+शून्य v_पत्तनम्_ISRStart_First_Task( शून्य )
 {
     /* Simply start the scheduler.  This is included here as it can only be
      * called from ARM mode. */
-    asm volatile (                                                        \
+    asm चञ्चल (                                                        \
         "LDR        R0, =pxCurrentTCB                               \n\t" \
         "LDR        R0, [R0]                                        \n\t" \
         "LDR        LR, [R0]                                        \n\t" \
@@ -87,11 +87,11 @@ void vPortISRStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortTickISR( void )
+शून्य v_पत्तनम्_Tick_ISR( शून्य )
 {
     /* Increment the RTOS tick count, then look for the highest priority
      * task that is ready to run. */
-    if( xTaskIncrementTick() != pdFALSE )
+    यदि( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -108,14 +108,14 @@ void vPortTickISR( void )
  * ensure a switch to ARM mode.  When THUMB_INTERWORK is not defined then
  * the utilities are defined as macros in portmacro.h - as per other ports.
  */
-#ifdef THUMB_INTERWORK
+#यदि_परिभाषितम् THUMB_INTERWORK
 
-    void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    शून्य v_पत्तनम्_Disable_Interrupts_From_Thumb( शून्य ) __attribute__( ( naked ) );
+    शून्य v_पत्तनम्_Enable_Interrupts_From_Thumb( शून्य ) __attribute__( ( naked ) );
 
-    void vPortDisableInterruptsFromThumb( void )
+    शून्य v_पत्तनम्_Disable_Interrupts_From_Thumb( शून्य )
     {
-        asm volatile (
+        asm चञ्चल (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -124,9 +124,9 @@ void vPortTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-    void vPortEnableInterruptsFromThumb( void )
+    शून्य v_पत्तनम्_Enable_Interrupts_From_Thumb( शून्य )
     {
-        asm volatile (
+        asm चञ्चल (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -135,13 +135,13 @@ void vPortTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-#endif /* THUMB_INTERWORK */
+#यदि_अन्तः /* THUMB_INTERWORK */
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+शून्य v_पत्तनम्_Enter_Critical( शून्य )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    asm volatile (
+    asm चञ्चल (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -155,19 +155,19 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+शून्य v_पत्तनम्_Exit_Critical( शून्य )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    यदि( ulCriticalNesting > पत्तनम्_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        यदि( ulCriticalNesting == पत्तनम्_NO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
-            asm volatile (
+            asm चञ्चल (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */

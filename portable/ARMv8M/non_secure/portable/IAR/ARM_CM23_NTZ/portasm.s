@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -32,7 +32,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System आह्वान numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -43,23 +43,23 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     #define configRUN_FREERTOS_SECURE_ONLY 0
 #endif
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
+    बाह्य pxCurrentTCB
+    बाह्य vTaskSwitchContext
+    बाह्य vPortSVCHandler_C
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    बाह्य vSystemCallEnter
+    बाह्य vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
+    सार्वजनिक xIsPrivileged
+    सार्वजनिक vResetPrivilege
+    सार्वजनिक v_Restore_Context_सम्बन्धि_First_Task
+    सार्वजनिक vRaisePrivilege
+    सार्वजनिक vStartFirstTask
+    सार्वजनिक ul_समुच्चयः_व्यवधानम्_आवरणम्
+    सार्वजनिक v_Clear_व्यवधानम्_आवरणम्
+    सार्वजनिक PendSV_Handler
+    सार्वजनिक SVC_Handler
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -77,8 +77,8 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
     movs r1, #1                             /* r1 = 1. */
-    tst r0, r1                              /* Perform r0 & r1 (bitwise AND) and update the conditions flag. */
-    beq running_privileged                  /* If the result of previous AND operation was 0, branch. */
+    tst r0, r1                              /* Perform r0 & r1 (bitwise च) and update the conditions flag. */
+    beq running_privileged                  /* If the result of previous च operation was 0, branch. */
     movs r0, #0                             /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     bx lr                                   /* Return. */
     running_privileged:
@@ -105,7 +105,7 @@ vResetPrivilege:
 
 #if ( configENABLE_MPU == 1 )
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_सम्बन्धि_First_Task:
     program_mpu_first_task:
         ldr r3, =pxCurrentTCB               /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
         ldr r0, [r3]                        /* r0 = pxCurrentTCB.*/
@@ -167,7 +167,7 @@ vRestoreContextOfFirstTask:
         msr psplim, r3
     #endif
         msr control, r4
-        mov lr, r5
+        चालय lr, r5
 
     restore_general_regs_first_task:
         subs r1, #32
@@ -177,10 +177,10 @@ vRestoreContextOfFirstTask:
         stmia r2!, {r4-r7}                  /* Copy rest half of the the hardware saved context on the task stack. */
         subs r1, #48
         ldmia r1!, {r4-r7}                  /* Restore r8-r11. */
-        mov r8, r4                          /* r8 = r4. */
-        mov r9, r5                          /* r9 = r5. */
-        mov r10, r6                         /* r10 = r6. */
-        mov r11, r7                         /* r11 = r7. */
+        चालय r8, r4                          /* r8 = r4. */
+        चालय r9, r5                          /* r9 = r5. */
+        चालय r10, r6                         /* r10 = r6. */
+        चालय r11, r7                         /* r11 = r7. */
         subs r1, #32
         ldmia r1!, {r4-r7}                  /* Restore r4-r7. */
         subs r1, #16
@@ -191,7 +191,7 @@ vRestoreContextOfFirstTask:
 
 #else /* configENABLE_MPU */
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_सम्बन्धि_First_Task:
     ldr  r2, =pxCurrentTCB                  /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
     ldr  r1, [r2]                           /* Read pxCurrentTCB. */
     ldr  r0, [r1]                           /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
@@ -226,17 +226,17 @@ vStartFirstTask:
     cpsie i                                 /* Globally enable interrupts. */
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System आह्वान to start the first task. portSVC_START_SCHEDULER = 102. */
     nop
 /*-----------------------------------------------------------*/
 
-ulSetInterruptMask:
+ul_समुच्चयः_व्यवधानम्_आवरणम्:
     mrs r0, PRIMASK
     cpsid i
     bx lr
 /*-----------------------------------------------------------*/
 
-vClearInterruptMask:
+v_Clear_व्यवधानम्_आवरणम्:
     msr PRIMASK, r0
     bx lr
 /*-----------------------------------------------------------*/
@@ -251,10 +251,10 @@ PendSV_Handler:
 
     save_general_regs:
         stmia r1!, {r4-r7}                  /* Store r4-r7. */
-        mov r4, r8                          /* r4 = r8. */
-        mov r5, r9                          /* r5 = r9. */
-        mov r6, r10                         /* r6 = r10. */
-        mov r7, r11                         /* r7 = r11. */
+        चालय r4, r8                          /* r4 = r8. */
+        चालय r5, r9                          /* r5 = r9. */
+        चालय r6, r10                         /* r6 = r10. */
+        चालय r7, r11                         /* r7 = r11. */
         stmia r1!, {r4-r7}                  /* Store r8-r11. */
         ldmia r2!, {r4-r7}                  /* Copy half of the  hardware saved context into r4-r7. */
         stmia r1!, {r4-r7}                  /* Store the hardware saved context. */
@@ -269,7 +269,7 @@ PendSV_Handler:
         movs r3, #0                         /* r3 = 0. 0 is stored in the PSPLIM slot. */
     #endif
         mrs r4, control                     /* r4 = CONTROL. */
-        mov r5, lr                          /* r5 = LR. */
+        चालय r5, lr                          /* r5 = LR. */
         stmia r1!, {r2-r5}                  /* Store original PSP (after hardware has saved context), PSPLIM, CONTROL and LR. */
         str r1, [r0]                        /* Save the location from where the context should be restored as the first member of TCB. */
 
@@ -339,7 +339,7 @@ PendSV_Handler:
         msr psplim, r3
     #endif
         msr control, r4
-        mov lr, r5
+        चालय lr, r5
 
     restore_general_regs:
         subs r1, #32
@@ -349,10 +349,10 @@ PendSV_Handler:
         stmia r2!, {r4-r7}                  /* Copy rest half of the the hardware saved context on the task stack. */
         subs r1, #48
         ldmia r1!, {r4-r7}                  /* Restore r8-r11. */
-        mov r8, r4                          /* r8 = r4. */
-        mov r9, r5                          /* r9 = r5. */
-        mov r10, r6                         /* r10 = r6. */
-        mov r11, r7                         /* r11 = r7. */
+        चालय r8, r4                          /* r8 = r4. */
+        चालय r9, r5                          /* r9 = r5. */
+        चालय r10, r6                         /* r10 = r6. */
+        चालय r11, r7                         /* r11 = r7. */
         subs r1, #32
         ldmia r1!, {r4-r7}                  /* Restore r4-r7. */
         subs r1, #16
@@ -375,12 +375,12 @@ PendSV_Handler:
 #else
     movs r2, #0                             /* r0 = 0. 0 is stored in the PSPLIM slot. */
 #endif
-    mov r3, lr                              /* r3 = LR/EXC_RETURN. */
+    चालय r3, lr                              /* r3 = LR/EXC_RETURN. */
     stmia r0!, {r2-r7}                      /* Store on the stack - PSPLIM, LR and low registers that are not automatically saved. */
-    mov r4, r8                              /* r4 = r8. */
-    mov r5, r9                              /* r5 = r9. */
-    mov r6, r10                             /* r6 = r10. */
-    mov r7, r11                             /* r7 = r11. */
+    चालय r4, r8                              /* r4 = r8. */
+    चालय r5, r9                              /* r5 = r9. */
+    चालय r6, r10                             /* r6 = r10. */
+    चालय r7, r11                             /* r7 = r11. */
     stmia r0!, {r4-r7}                      /* Store the high registers that are not saved automatically. */
 
     cpsid i
@@ -393,10 +393,10 @@ PendSV_Handler:
 
     adds r0, r0, #24                        /* Move to the high registers. */
     ldmia r0!, {r4-r7}                      /* Restore the high registers that are not automatically restored. */
-    mov r8, r4                              /* r8 = r4. */
-    mov r9, r5                              /* r9 = r5. */
-    mov r10, r6                             /* r10 = r6. */
-    mov r11, r7                             /* r11 = r7. */
+    चालय r8, r4                              /* r8 = r4. */
+    चालय r9, r5                              /* r9 = r5. */
+    चालय r10, r6                             /* r10 = r6. */
+    चालय r11, r7                             /* r11 = r7. */
     msr psp, r0                             /* Remember the new top of stack for the task. */
     subs r0, r0, #40                        /* Move to the starting of the saved context. */
     ldmia r0!, {r2-r7}                      /* Read from stack - r2 = PSPLIM, r3 = LR and r4-r7 restored. */
@@ -412,7 +412,7 @@ PendSV_Handler:
 
 SVC_Handler:
     movs r0, #4
-    mov r1, lr
+    चालय r1, lr
     tst r0, r1
     beq stack_on_msp
     stack_on_psp:
@@ -426,9 +426,9 @@ SVC_Handler:
         ldr r3, [r0, #24]
         subs r3, #2
         ldrb r2, [r3, #0]
-        cmp r2, #NUM_SYSTEM_CALLS
+        तुलय r2, #NUM_SYSTEM_CALLS
         blt system_call_enter
-        cmp r2, #104        /* portSVC_SYSTEM_CALL_EXIT. */
+        तुलय r2, #104        /* portSVC_SYSTEM_CALL_EXIT. */
         beq system_call_exit
         b vPortSVCHandler_C
 
@@ -441,7 +441,7 @@ SVC_Handler:
 
 SVC_Handler:
     movs r0, #4
-    mov r1, lr
+    चालय r1, lr
     tst r0, r1
     beq stacking_used_msp
     mrs r0, psp
@@ -453,4 +453,4 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-    END
+    अन्त

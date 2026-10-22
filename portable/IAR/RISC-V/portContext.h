@@ -26,164 +26,164 @@
  *
  */
 
-#ifndef PORTCONTEXT_H
-#define PORTCONTEXT_H
+#यदि_अपरिभाषितम् PORTCONTEXT_H
+#परिभाषय PORTCONTEXT_H
 
-#if __riscv_xlen == 64
-    #define portWORD_SIZE    8
-    #define store_x          sd
-    #define load_x           ld
-#elif __riscv_xlen == 32
-    #define store_x          sw
-    #define load_x           lw
-    #define portWORD_SIZE    4
-#else
-    #error Assembler did not define __riscv_xlen
-#endif
+#यदि __riscv_xlen == 64
+    #परिभाषय पत्तनम्_WORD_आकार    8
+    #परिभाषय store_x          sd
+    #परिभाषय आरोपय_x           ld
+#नोचेद्यदि __riscv_xlen == 32
+    #परिभाषय store_x          sw
+    #परिभाषय आरोपय_x           lw
+    #परिभाषय पत्तनम्_WORD_आकार    4
+#अन्यथा
+    #दोषः Assembler did not define __riscv_xlen
+#यदि_अन्तः
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#अन्तर्भाव "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
  * portasmRESTORE_ADDITIONAL_REGISTERS macros - which can be defined in a chip
  * specific version of freertos_risc_v_chip_specific_extensions.h.  See the
  * notes at the top of portASM.S file. */
-#ifdef __riscv_32e
-    #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    13
-    #define portMSTATUS_OFFSET             14
-#else
-    #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    29
-    #define portMSTATUS_OFFSET             30
-#endif
+#यदि_परिभाषितम् __riscv_32e
+    #परिभाषय पत्तनम्_CONTEXT_आकार               ( 15 * पत्तनम्_WORD_आकार )
+    #परिभाषय पत्तनम्_CRITICAL_NESTING_विस्थापनम्    13
+    #परिभाषय पत्तनम्_MSTATUS_विस्थापनम्             14
+#अन्यथा
+    #परिभाषय पत्तनम्_CONTEXT_आकार               ( 31 * पत्तनम्_WORD_आकार )
+    #परिभाषय पत्तनम्_CRITICAL_NESTING_विस्थापनम्    29
+    #परिभाषय पत्तनम्_MSTATUS_विस्थापनम्             30
+#यदि_अन्तः
 
 EXTERN pxCurrentTCB
-EXTERN xISRStackTop
+EXTERN x_ISRStack_शिखरम्
 EXTERN xCriticalNesting
 EXTERN pxCriticalNesting
 
 /*-----------------------------------------------------------*/
 
-portcontextSAVE_CONTEXT_INTERNAL MACRO
-addi sp, sp, -portCONTEXT_SIZE
-store_x x1, 1 * portWORD_SIZE( sp )
-store_x x5, 2 * portWORD_SIZE( sp )
-store_x x6, 3 * portWORD_SIZE( sp )
-store_x x7, 4 * portWORD_SIZE( sp )
-store_x x8, 5 * portWORD_SIZE( sp )
-store_x x9, 6 * portWORD_SIZE( sp )
-store_x x10, 7 * portWORD_SIZE( sp )
-store_x x11, 8 * portWORD_SIZE( sp )
-store_x x12, 9 * portWORD_SIZE( sp )
-store_x x13, 10 * portWORD_SIZE( sp )
-store_x x14, 11 * portWORD_SIZE( sp )
-store_x x15, 12 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    store_x x16, 13 * portWORD_SIZE( sp )
-    store_x x17, 14 * portWORD_SIZE( sp )
-    store_x x18, 15 * portWORD_SIZE( sp )
-    store_x x19, 16 * portWORD_SIZE( sp )
-    store_x x20, 17 * portWORD_SIZE( sp )
-    store_x x21, 18 * portWORD_SIZE( sp )
-    store_x x22, 19 * portWORD_SIZE( sp )
-    store_x x23, 20 * portWORD_SIZE( sp )
-    store_x x24, 21 * portWORD_SIZE( sp )
-    store_x x25, 22 * portWORD_SIZE( sp )
-    store_x x26, 23 * portWORD_SIZE( sp )
-    store_x x27, 24 * portWORD_SIZE( sp )
-    store_x x28, 25 * portWORD_SIZE( sp )
-    store_x x29, 26 * portWORD_SIZE( sp )
-    store_x x30, 27 * portWORD_SIZE( sp )
-    store_x x31, 28 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
+portcontext_SAVE_CONTEXT_आन्तरिकम् MACRO
+addi sp, sp, -पत्तनम्_CONTEXT_आकार
+store_x x1, 1 * पत्तनम्_WORD_आकार( sp )
+store_x x5, 2 * पत्तनम्_WORD_आकार( sp )
+store_x x6, 3 * पत्तनम्_WORD_आकार( sp )
+store_x x7, 4 * पत्तनम्_WORD_आकार( sp )
+store_x x8, 5 * पत्तनम्_WORD_आकार( sp )
+store_x x9, 6 * पत्तनम्_WORD_आकार( sp )
+store_x x10, 7 * पत्तनम्_WORD_आकार( sp )
+store_x x11, 8 * पत्तनम्_WORD_आकार( sp )
+store_x x12, 9 * पत्तनम्_WORD_आकार( sp )
+store_x x13, 10 * पत्तनम्_WORD_आकार( sp )
+store_x x14, 11 * पत्तनम्_WORD_आकार( sp )
+store_x x15, 12 * पत्तनम्_WORD_आकार( sp )
+#यदि_अपरिभाषितम् __riscv_32e
+    store_x x16, 13 * पत्तनम्_WORD_आकार( sp )
+    store_x x17, 14 * पत्तनम्_WORD_आकार( sp )
+    store_x x18, 15 * पत्तनम्_WORD_आकार( sp )
+    store_x x19, 16 * पत्तनम्_WORD_आकार( sp )
+    store_x x20, 17 * पत्तनम्_WORD_आकार( sp )
+    store_x x21, 18 * पत्तनम्_WORD_आकार( sp )
+    store_x x22, 19 * पत्तनम्_WORD_आकार( sp )
+    store_x x23, 20 * पत्तनम्_WORD_आकार( sp )
+    store_x x24, 21 * पत्तनम्_WORD_आकार( sp )
+    store_x x25, 22 * पत्तनम्_WORD_आकार( sp )
+    store_x x26, 23 * पत्तनम्_WORD_आकार( sp )
+    store_x x27, 24 * पत्तनम्_WORD_आकार( sp )
+    store_x x28, 25 * पत्तनम्_WORD_आकार( sp )
+    store_x x29, 26 * पत्तनम्_WORD_आकार( sp )
+    store_x x30, 27 * पत्तनम्_WORD_आकार( sp )
+    store_x x31, 28 * पत्तनम्_WORD_आकार( sp )
+#यदि_अन्तः /* ifndef __riscv_32e */
 
-load_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
-store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the critical nesting value to the stack. */
+आरोपय_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
+store_x t0, पत्तनम्_CRITICAL_NESTING_विस्थापनम् * पत्तनम्_WORD_आकार( sp ) /* Store the critical nesting value to the stack. */
 
 csrr t0, mstatus                                              /* Required for MPIE bit. */
-store_x t0, portMSTATUS_OFFSET * portWORD_SIZE( sp )
+store_x t0, पत्तनम्_MSTATUS_विस्थापनम् * पत्तनम्_WORD_आकार( sp )
 
 portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_extensions.h to save any registers unique to the RISC-V implementation. */
 
-load_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
+आरोपय_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
 store_x sp, 0 ( t0 )             /* Write sp to first TCB member. */
 
 ENDM
 /*-----------------------------------------------------------*/
 
 portcontextSAVE_EXCEPTION_CONTEXT MACRO
-portcontextSAVE_CONTEXT_INTERNAL
+portcontext_SAVE_CONTEXT_आन्तरिकम्
 csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+आरोपय_x sp, x_ISRStack_शिखरम् /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 
-portcontextSAVE_INTERRUPT_CONTEXT MACRO
-portcontextSAVE_CONTEXT_INTERNAL
+portcontext_SAVE_व्यवधानम्_CONTEXT MACRO
+portcontext_SAVE_CONTEXT_आन्तरिकम्
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+आरोपय_x sp, x_ISRStack_शिखरम् /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 
 portcontextRESTORE_CONTEXT MACRO
-load_x t1, pxCurrentTCB /* Load pxCurrentTCB. */
-load_x sp, 0 ( t1 )     /* Read sp from first TCB member. */
+आरोपय_x t1, pxCurrentTCB /* Load pxCurrentTCB. */
+आरोपय_x sp, 0 ( t1 )     /* Read sp from first TCB member. */
 
 /* Load mepc with the address of the instruction in the task to run next. */
-load_x t0, 0 ( sp )
+आरोपय_x t0, 0 ( sp )
 csrw mepc, t0
 
 /* Defined in freertos_risc_v_chip_specific_extensions.h to restore any registers unique to the RISC-V implementation. */
 portasmRESTORE_ADDITIONAL_REGISTERS
 
 /* Load mstatus with the interrupt enable bits used by the task. */
-load_x t0, portMSTATUS_OFFSET * portWORD_SIZE( sp )
+आरोपय_x t0, पत्तनम्_MSTATUS_विस्थापनम् * पत्तनम्_WORD_आकार( sp )
 csrw mstatus, t0                                             /* Required for MPIE bit. */
 
-load_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
-load_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
+आरोपय_x t0, पत्तनम्_CRITICAL_NESTING_विस्थापनम् * पत्तनम्_WORD_आकार( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
+आरोपय_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
 store_x t0, 0 ( t1 )                                         /* Restore the critical nesting value for this task. */
 
-load_x x1, 1 * portWORD_SIZE( sp )
-load_x x5, 2 * portWORD_SIZE( sp )
-load_x x6, 3 * portWORD_SIZE( sp )
-load_x x7, 4 * portWORD_SIZE( sp )
-load_x x8, 5 * portWORD_SIZE( sp )
-load_x x9, 6 * portWORD_SIZE( sp )
-load_x x10, 7 * portWORD_SIZE( sp )
-load_x x11, 8 * portWORD_SIZE( sp )
-load_x x12, 9 * portWORD_SIZE( sp )
-load_x x13, 10 * portWORD_SIZE( sp )
-load_x x14, 11 * portWORD_SIZE( sp )
-load_x x15, 12 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    load_x x16, 13 * portWORD_SIZE( sp )
-    load_x x17, 14 * portWORD_SIZE( sp )
-    load_x x18, 15 * portWORD_SIZE( sp )
-    load_x x19, 16 * portWORD_SIZE( sp )
-    load_x x20, 17 * portWORD_SIZE( sp )
-    load_x x21, 18 * portWORD_SIZE( sp )
-    load_x x22, 19 * portWORD_SIZE( sp )
-    load_x x23, 20 * portWORD_SIZE( sp )
-    load_x x24, 21 * portWORD_SIZE( sp )
-    load_x x25, 22 * portWORD_SIZE( sp )
-    load_x x26, 23 * portWORD_SIZE( sp )
-    load_x x27, 24 * portWORD_SIZE( sp )
-    load_x x28, 25 * portWORD_SIZE( sp )
-    load_x x29, 26 * portWORD_SIZE( sp )
-    load_x x30, 27 * portWORD_SIZE( sp )
-    load_x x31, 28 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
-addi sp, sp, portCONTEXT_SIZE
+आरोपय_x x1, 1 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x5, 2 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x6, 3 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x7, 4 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x8, 5 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x9, 6 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x10, 7 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x11, 8 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x12, 9 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x13, 10 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x14, 11 * पत्तनम्_WORD_आकार( sp )
+आरोपय_x x15, 12 * पत्तनम्_WORD_आकार( sp )
+#यदि_अपरिभाषितम् __riscv_32e
+    आरोपय_x x16, 13 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x17, 14 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x18, 15 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x19, 16 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x20, 17 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x21, 18 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x22, 19 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x23, 20 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x24, 21 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x25, 22 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x26, 23 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x27, 24 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x28, 25 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x29, 26 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x30, 27 * पत्तनम्_WORD_आकार( sp )
+    आरोपय_x x31, 28 * पत्तनम्_WORD_आकार( sp )
+#यदि_अन्तः /* ifndef __riscv_32e */
+addi sp, sp, पत्तनम्_CONTEXT_आकार
 
 mret
 ENDM
 /*-----------------------------------------------------------*/
 
-#endif /* PORTCONTEXT_H */
+#यदि_अन्तः /* PORTCONTEXT_H */

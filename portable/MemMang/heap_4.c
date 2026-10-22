@@ -34,106 +34,106 @@
  * See heap_1.c, heap_2.c and heap_3.c for alternative implementations, and the
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
-#include <stdlib.h>
-#include <string.h>
+#अन्तर्भाव <stdlib.h>
+#अन्तर्भाव <string.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#परिभाषय MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#अपरिभाषय MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
-#endif
+#यदि ( config_SUPPORT_DYNAMIC_आवण्टनम् == 0 )
+    #दोषः This file must not be प्रयुक्तम् यदि config_SUPPORT_DYNAMIC_आवण्टनम् is 0
+#यदि_अन्तः
 
-#ifndef configHEAP_CLEAR_MEMORY_ON_FREE
-    #define configHEAP_CLEAR_MEMORY_ON_FREE    0
-#endif
+#यदि_अपरिभाषितम् config_HEAP_CLEAR_स्मृतिः_ON_FREE
+    #परिभाषय config_HEAP_CLEAR_स्मृतिः_ON_FREE    0
+#यदि_अन्तः
 
 /* Block sizes must not get too small. */
-#define heapMINIMUM_BLOCK_SIZE    ( ( size_t ) ( xHeapStructSize << 1 ) )
+#परिभाषय heap_MINIMUM_खण्डम्_आकार    ( ( size_t ) ( x_Heap_Struct_आकार << 1 ) )
 
 /* Assumes 8bit bytes! */
-#define heapBITS_PER_BYTE         ( ( size_t ) 8 )
+#परिभाषय heap_द्वयङ्काः_प्रत्येकम्_BYTE         ( ( size_t ) 8 )
 
 /* Max value that fits in a size_t type. */
-#define heapSIZE_MAX              ( ~( ( size_t ) 0 ) )
+#परिभाषय heap_आकार_MAX              ( ~( ( size_t ) 0 ) )
 
 /* Check if multiplying a and b will result in overflow. */
-#define heapMULTIPLY_WILL_OVERFLOW( a, b )     ( ( ( a ) > 0 ) && ( ( b ) > ( heapSIZE_MAX / ( a ) ) ) )
+#परिभाषय heap_MULTIPLY_WILL_अतिप्रवाहः( a, b )     ( ( ( a ) > 0 ) && ( ( b ) > ( heap_आकार_MAX / ( a ) ) ) )
 
 /* Check if adding a and b will result in overflow. */
-#define heapADD_WILL_OVERFLOW( a, b )          ( ( a ) > ( heapSIZE_MAX - ( b ) ) )
+#परिभाषय heap_सङ्कलय_WILL_अतिप्रवाहः( a, b )          ( ( a ) > ( heap_आकार_MAX - ( b ) ) )
 
 /* Check if the subtraction operation ( a - b ) will result in underflow. */
-#define heapSUBTRACT_WILL_UNDERFLOW( a, b )    ( ( a ) < ( b ) )
+#परिभाषय heap_व्यवकलय_WILL_UNDERFLOW( a, b )    ( ( a ) < ( b ) )
 
 /* MSB of the xBlockSize member of an BlockLink_t structure is used to track
  * the allocation status of a block.  When MSB of the xBlockSize member of
  * an BlockLink_t structure is set then the block belongs to the application.
  * When the bit is free the block is still part of the free heap space. */
-#define heapBLOCK_ALLOCATED_BITMASK    ( ( ( size_t ) 1 ) << ( ( sizeof( size_t ) * heapBITS_PER_BYTE ) - 1 ) )
-#define heapBLOCK_SIZE_IS_VALID( xBlockSize )    ( ( ( xBlockSize ) & heapBLOCK_ALLOCATED_BITMASK ) == 0 )
-#define heapBLOCK_IS_ALLOCATED( pxBlock )        ( ( ( pxBlock->xBlockSize ) & heapBLOCK_ALLOCATED_BITMASK ) != 0 )
-#define heapALLOCATE_BLOCK( pxBlock )            ( ( pxBlock->xBlockSize ) |= heapBLOCK_ALLOCATED_BITMASK )
-#define heapFREE_BLOCK( pxBlock )                ( ( pxBlock->xBlockSize ) &= ~heapBLOCK_ALLOCATED_BITMASK )
+#परिभाषय heap_खण्डम्_ALLOCATED_BITMASK    ( ( ( size_t ) 1 ) << ( ( परिमाण( size_t ) * heap_द्वयङ्काः_प्रत्येकम्_BYTE ) - 1 ) )
+#परिभाषय heap_खण्डम्_आकार_IS_VALID( x_खण्डम्_आकार )    ( ( ( x_खण्डम्_आकार ) & heap_खण्डम्_ALLOCATED_BITMASK ) == 0 )
+#परिभाषय heap_खण्डम्_IS_ALLOCATED( px_खण्डम् )        ( ( ( px_खण्डम्->x_खण्डम्_आकार ) & heap_खण्डम्_ALLOCATED_BITMASK ) != 0 )
+#परिभाषय heap_ALLOCATE_खण्डम्( px_खण्डम् )            ( ( px_खण्डम्->x_खण्डम्_आकार ) |= heap_खण्डम्_ALLOCATED_BITMASK )
+#परिभाषय heap_FREE_खण्डम्( px_खण्डम् )                ( ( px_खण्डम्->x_खण्डम्_आकार ) &= ~heap_खण्डम्_ALLOCATED_BITMASK )
 
 /*-----------------------------------------------------------*/
 
 /* Allocate the memory for the heap. */
-#if ( configAPPLICATION_ALLOCATED_HEAP == 1 )
+#यदि ( configAPPLICATION_ALLOCATED_HEAP == 1 )
 
 /* The application writer has already defined the array used for the RTOS
  * heap - probably so it can be placed in a special segment or address. */
-    extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#else
-    PRIVILEGED_DATA static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#endif /* configAPPLICATION_ALLOCATED_HEAP */
+    बाह्य uint8_t ucHeap[ config_योग_HEAP_आकार ];
+#अन्यथा
+    PRIVILEGED_दत्त स्थिर uint8_t ucHeap[ config_योग_HEAP_आकार ];
+#यदि_अन्तः /* configAPPLICATION_ALLOCATED_HEAP */
 
 /* Define the linked list structure.  This is used to link free blocks in order
  * of their memory address. */
-typedef struct A_BLOCK_LINK
+प्रकारनिर्देश संरचना A_खण्डम्_LINK
 {
-    struct A_BLOCK_LINK * pxNextFreeBlock; /**< The next free block in the list. */
-    size_t xBlockSize;                     /**< The size of the free block. */
-} BlockLink_t;
+    संरचना A_खण्डम्_LINK * px_अग्र_Free_खण्डम्; /**< The next free block in the list. */
+    size_t x_खण्डम्_आकार;                     /**< The size of the free block. */
+} खण्डम्_Link_t;
 
 /* Setting configENABLE_HEAP_PROTECTOR to 1 enables heap block pointers
  * protection using an application supplied canary value to catch heap
  * corruption should a heap buffer overflow occur.
  */
-#if ( configENABLE_HEAP_PROTECTOR == 1 )
+#यदि ( configENABLE_HEAP_PROTECTOR == 1 )
 
 /**
  * @brief Application provided function to get a random value to be used as canary.
  *
  * @param pxHeapCanary [out] Output parameter to return the canary value.
  */
-    extern void vApplicationGetRandomHeapCanary( portPOINTER_SIZE_TYPE * pxHeapCanary );
+    बाह्य शून्य vApplicationGetRandomHeapCanary( पत्तनम्_POINTER_आकार_TYPE * pxHeapCanary );
 
 /* Canary value for protecting internal heap pointers. */
-    PRIVILEGED_DATA static portPOINTER_SIZE_TYPE xHeapCanary;
+    PRIVILEGED_दत्त स्थिर पत्तनम्_POINTER_आकार_TYPE xHeapCanary;
 
 /* Macro to load/store BlockLink_t pointers to memory. By XORing the
  * pointers with a random canary value, heap overflows will result
  * in randomly unpredictable pointer values which will be caught by
  * heapVALIDATE_BLOCK_POINTER assert. */
-    #define heapPROTECT_BLOCK_POINTER( pxBlock )    ( ( BlockLink_t * ) ( ( ( portPOINTER_SIZE_TYPE ) ( pxBlock ) ) ^ xHeapCanary ) )
-#else
+    #परिभाषय heap_PROTECT_खण्डम्_POINTER( px_खण्डम् )    ( ( खण्डम्_Link_t * ) ( ( ( पत्तनम्_POINTER_आकार_TYPE ) ( px_खण्डम् ) ) ^ xHeapCanary ) )
+#अन्यथा
 
-    #define heapPROTECT_BLOCK_POINTER( pxBlock )    ( pxBlock )
+    #परिभाषय heap_PROTECT_खण्डम्_POINTER( px_खण्डम् )    ( px_खण्डम् )
 
-#endif /* configENABLE_HEAP_PROTECTOR */
+#यदि_अन्तः /* configENABLE_HEAP_PROTECTOR */
 
 /* Assert that a heap block pointer is within the heap bounds. */
-#define heapVALIDATE_BLOCK_POINTER( pxBlock )                          \
-    configASSERT( ( ( uint8_t * ) ( pxBlock ) >= &( ucHeap[ 0 ] ) ) && \
-                  ( ( uint8_t * ) ( pxBlock ) <= &( ucHeap[ configTOTAL_HEAP_SIZE - 1 ] ) ) )
+#परिभाषय heap_VALIDATE_खण्डम्_POINTER( px_खण्डम् )                          \
+    configASSERT( ( ( uint8_t * ) ( px_खण्डम् ) >= &( ucHeap[ 0 ] ) ) && \
+                  ( ( uint8_t * ) ( px_खण्डम् ) <= &( ucHeap[ config_योग_HEAP_आकार - 1 ] ) ) )
 
 /*-----------------------------------------------------------*/
 
@@ -143,77 +143,77 @@ typedef struct A_BLOCK_LINK
  * the block in front it and/or the block behind it if the memory blocks are
  * adjacent to each other.
  */
-static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert ) PRIVILEGED_FUNCTION;
+स्थिर शून्य prv_निवेशय_खण्डम्_Into_Free_List( खण्डम्_Link_t * px_खण्डम्_गन्तव्यम्_निवेशय ) PRIVILEGED_FUNCTION;
 
 /*
  * Called automatically to setup the required heap structures the first time
  * pvPortMalloc() is called.
  */
-static void prvHeapInit( void ) PRIVILEGED_FUNCTION;
+स्थिर शून्य prvHeapInit( शून्य ) PRIVILEGED_FUNCTION;
 
 /*-----------------------------------------------------------*/
 
 /* The size of the structure placed at the beginning of each allocated memory
  * block must by correctly byte aligned. */
-static const size_t xHeapStructSize = ( sizeof( BlockLink_t ) + ( ( size_t ) ( portBYTE_ALIGNMENT - 1 ) ) ) & ~( ( size_t ) portBYTE_ALIGNMENT_MASK );
+स्थिर ध्रुव size_t x_Heap_Struct_आकार = ( परिमाण( खण्डम्_Link_t ) + ( ( size_t ) ( पत्तनम्_BYTE_ALIGNMENT - 1 ) ) ) & ~( ( size_t ) पत्तनम्_BYTE_ALIGNMENT_आवरणम् );
 
 /* Create a couple of list links to mark the start and end of the list. */
-PRIVILEGED_DATA static BlockLink_t xStart;
-PRIVILEGED_DATA static BlockLink_t * pxEnd = NULL;
+PRIVILEGED_दत्त स्थिर खण्डम्_Link_t xStart;
+PRIVILEGED_दत्त स्थिर खण्डम्_Link_t * px_अन्तः = रिक्त;
 
 /* Keeps track of the number of calls to allocate and free memory as well as the
  * number of free bytes remaining, but says nothing about fragmentation. */
-PRIVILEGED_DATA static size_t xFreeBytesRemaining = ( size_t ) 0U;
-PRIVILEGED_DATA static size_t xMinimumEverFreeBytesRemaining = ( size_t ) 0U;
-PRIVILEGED_DATA static size_t xNumberOfSuccessfulAllocations = ( size_t ) 0U;
-PRIVILEGED_DATA static size_t xNumberOfSuccessfulFrees = ( size_t ) 0U;
+PRIVILEGED_दत्त स्थिर size_t x_Free_अष्टकानि_Remaining = ( size_t ) 0U;
+PRIVILEGED_दत्त स्थिर size_t x_Minimum_Ever_Free_अष्टकानि_Remaining = ( size_t ) 0U;
+PRIVILEGED_दत्त स्थिर size_t x_सङ्ख्या_सम्बन्धि_Successful_Allocations = ( size_t ) 0U;
+PRIVILEGED_दत्त स्थिर size_t x_सङ्ख्या_सम्बन्धि_Successful_Frees = ( size_t ) 0U;
 
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+शून्य * pv_पत्तनम्_Malloc( size_t x_Wanted_आकार )
 {
-    BlockLink_t * pxBlock;
-    BlockLink_t * pxPreviousBlock;
-    BlockLink_t * pxNewBlockLink;
-    void * pvReturn = NULL;
-    size_t xAdditionalRequiredSize;
-    size_t xAllocatedBlockSize = 0;
+    खण्डम्_Link_t * px_खण्डम्;
+    खण्डम्_Link_t * px_Previous_खण्डम्;
+    खण्डम्_Link_t * px_New_खण्डम्_Link;
+    शून्य * pvReturn = रिक्त;
+    size_t x_Additional_Required_आकार;
+    size_t x_Allocated_खण्डम्_आकार = 0;
 
-    if( xWantedSize > 0 )
+    यदि( x_Wanted_आकार > 0 )
     {
         /* The wanted size must be increased so it can contain a BlockLink_t
          * structure in addition to the requested amount of bytes. */
-        if( heapADD_WILL_OVERFLOW( xWantedSize, xHeapStructSize ) == 0 )
+        यदि( heap_सङ्कलय_WILL_अतिप्रवाहः( x_Wanted_आकार, x_Heap_Struct_आकार ) == 0 )
         {
-            xWantedSize += xHeapStructSize;
+            x_Wanted_आकार += x_Heap_Struct_आकार;
 
             /* Ensure that blocks are always aligned to the required number
              * of bytes. */
-            if( ( xWantedSize & portBYTE_ALIGNMENT_MASK ) != 0x00 )
+            यदि( ( x_Wanted_आकार & पत्तनम्_BYTE_ALIGNMENT_आवरणम् ) != 0x00 )
             {
                 /* Byte alignment required. */
-                xAdditionalRequiredSize = portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK );
+                x_Additional_Required_आकार = पत्तनम्_BYTE_ALIGNMENT - ( x_Wanted_आकार & पत्तनम्_BYTE_ALIGNMENT_आवरणम् );
 
-                if( heapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
+                यदि( heap_सङ्कलय_WILL_अतिप्रवाहः( x_Wanted_आकार, x_Additional_Required_आकार ) == 0 )
                 {
-                    xWantedSize += xAdditionalRequiredSize;
+                    x_Wanted_आकार += x_Additional_Required_आकार;
                 }
-                else
+                अन्यथा
                 {
-                    xWantedSize = 0;
+                    x_Wanted_आकार = 0;
                 }
             }
-            else
+            अन्यथा
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        अन्यथा
         {
-            xWantedSize = 0;
+            x_Wanted_आकार = 0;
         }
     }
-    else
+    अन्यथा
     {
         mtCOVERAGE_TEST_MARKER();
     }
@@ -222,11 +222,11 @@ void * pvPortMalloc( size_t xWantedSize )
     {
         /* If this is the first call to malloc then the heap will require
          * initialisation to setup the list of free blocks. */
-        if( pxEnd == NULL )
+        यदि( px_अन्तः == रिक्त )
         {
             prvHeapInit();
         }
-        else
+        अन्यथा
         {
             mtCOVERAGE_TEST_MARKER();
         }
@@ -235,174 +235,174 @@ void * pvPortMalloc( size_t xWantedSize )
          * top bit is set.  The top bit of the block size member of the BlockLink_t
          * structure is used to determine who owns the block - the application or
          * the kernel, so it must be free. */
-        if( heapBLOCK_SIZE_IS_VALID( xWantedSize ) != 0 )
+        यदि( heap_खण्डम्_आकार_IS_VALID( x_Wanted_आकार ) != 0 )
         {
-            if( ( xWantedSize > 0 ) && ( xWantedSize <= xFreeBytesRemaining ) )
+            यदि( ( x_Wanted_आकार > 0 ) && ( x_Wanted_आकार <= x_Free_अष्टकानि_Remaining ) )
             {
                 /* Traverse the list from the start (lowest address) block until
                  * one of adequate size is found. */
-                pxPreviousBlock = &xStart;
-                pxBlock = heapPROTECT_BLOCK_POINTER( xStart.pxNextFreeBlock );
-                heapVALIDATE_BLOCK_POINTER( pxBlock );
+                px_Previous_खण्डम् = &xStart;
+                px_खण्डम् = heap_PROTECT_खण्डम्_POINTER( xStart.px_अग्र_Free_खण्डम् );
+                heap_VALIDATE_खण्डम्_POINTER( px_खण्डम् );
 
-                while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != heapPROTECT_BLOCK_POINTER( NULL ) ) )
+                यावत्( ( px_खण्डम्->x_खण्डम्_आकार < x_Wanted_आकार ) && ( px_खण्डम्->px_अग्र_Free_खण्डम् != heap_PROTECT_खण्डम्_POINTER( रिक्त ) ) )
                 {
-                    pxPreviousBlock = pxBlock;
-                    pxBlock = heapPROTECT_BLOCK_POINTER( pxBlock->pxNextFreeBlock );
-                    heapVALIDATE_BLOCK_POINTER( pxBlock );
+                    px_Previous_खण्डम् = px_खण्डम्;
+                    px_खण्डम् = heap_PROTECT_खण्डम्_POINTER( px_खण्डम्->px_अग्र_Free_खण्डम् );
+                    heap_VALIDATE_खण्डम्_POINTER( px_खण्डम् );
                 }
 
                 /* If the end marker was reached then a block of adequate size
                  * was not found. */
-                if( pxBlock != pxEnd )
+                यदि( px_खण्डम् != px_अन्तः )
                 {
                     /* Return the memory space pointed to - jumping over the
                      * BlockLink_t structure at its start. */
-                    pvReturn = ( void * ) ( ( ( uint8_t * ) heapPROTECT_BLOCK_POINTER( pxPreviousBlock->pxNextFreeBlock ) ) + xHeapStructSize );
-                    heapVALIDATE_BLOCK_POINTER( pvReturn );
+                    pvReturn = ( शून्य * ) ( ( ( uint8_t * ) heap_PROTECT_खण्डम्_POINTER( px_Previous_खण्डम्->px_अग्र_Free_खण्डम् ) ) + x_Heap_Struct_आकार );
+                    heap_VALIDATE_खण्डम्_POINTER( pvReturn );
 
                     /* This block is being returned for use so must be taken out
                      * of the list of free blocks. */
-                    pxPreviousBlock->pxNextFreeBlock = pxBlock->pxNextFreeBlock;
+                    px_Previous_खण्डम्->px_अग्र_Free_खण्डम् = px_खण्डम्->px_अग्र_Free_खण्डम्;
 
                     /* If the block is larger than required it can be split into
                      * two. */
-                    configASSERT( heapSUBTRACT_WILL_UNDERFLOW( pxBlock->xBlockSize, xWantedSize ) == 0 );
+                    configASSERT( heap_व्यवकलय_WILL_UNDERFLOW( px_खण्डम्->x_खण्डम्_आकार, x_Wanted_आकार ) == 0 );
 
-                    if( ( pxBlock->xBlockSize - xWantedSize ) > heapMINIMUM_BLOCK_SIZE )
+                    यदि( ( px_खण्डम्->x_खण्डम्_आकार - x_Wanted_आकार ) > heap_MINIMUM_खण्डम्_आकार )
                     {
                         /* This block is to be split into two.  Create a new
                          * block following the number of bytes requested. The void
                          * cast is used to prevent byte alignment warnings from the
                          * compiler. */
-                        pxNewBlockLink = ( void * ) ( ( ( uint8_t * ) pxBlock ) + xWantedSize );
-                        configASSERT( ( ( ( size_t ) pxNewBlockLink ) & portBYTE_ALIGNMENT_MASK ) == 0 );
+                        px_New_खण्डम्_Link = ( शून्य * ) ( ( ( uint8_t * ) px_खण्डम् ) + x_Wanted_आकार );
+                        configASSERT( ( ( ( size_t ) px_New_खण्डम्_Link ) & पत्तनम्_BYTE_ALIGNMENT_आवरणम् ) == 0 );
 
                         /* Calculate the sizes of two blocks split from the
                          * single block. */
-                        pxNewBlockLink->xBlockSize = pxBlock->xBlockSize - xWantedSize;
-                        pxBlock->xBlockSize = xWantedSize;
+                        px_New_खण्डम्_Link->x_खण्डम्_आकार = px_खण्डम्->x_खण्डम्_आकार - x_Wanted_आकार;
+                        px_खण्डम्->x_खण्डम्_आकार = x_Wanted_आकार;
 
                         /* Insert the new block into the list of free blocks. */
-                        pxNewBlockLink->pxNextFreeBlock = pxPreviousBlock->pxNextFreeBlock;
-                        pxPreviousBlock->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxNewBlockLink );
+                        px_New_खण्डम्_Link->px_अग्र_Free_खण्डम् = px_Previous_खण्डम्->px_अग्र_Free_खण्डम्;
+                        px_Previous_खण्डम्->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( px_New_खण्डम्_Link );
                     }
-                    else
+                    अन्यथा
                     {
                         mtCOVERAGE_TEST_MARKER();
                     }
 
-                    xFreeBytesRemaining -= pxBlock->xBlockSize;
+                    x_Free_अष्टकानि_Remaining -= px_खण्डम्->x_खण्डम्_आकार;
 
-                    if( xFreeBytesRemaining < xMinimumEverFreeBytesRemaining )
+                    यदि( x_Free_अष्टकानि_Remaining < x_Minimum_Ever_Free_अष्टकानि_Remaining )
                     {
-                        xMinimumEverFreeBytesRemaining = xFreeBytesRemaining;
+                        x_Minimum_Ever_Free_अष्टकानि_Remaining = x_Free_अष्टकानि_Remaining;
                     }
-                    else
+                    अन्यथा
                     {
                         mtCOVERAGE_TEST_MARKER();
                     }
 
-                    xAllocatedBlockSize = pxBlock->xBlockSize;
+                    x_Allocated_खण्डम्_आकार = px_खण्डम्->x_खण्डम्_आकार;
 
                     /* The block is being returned - it is allocated and owned
                      * by the application and has no "next" block. */
-                    heapALLOCATE_BLOCK( pxBlock );
-                    pxBlock->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( NULL );
-                    xNumberOfSuccessfulAllocations++;
+                    heap_ALLOCATE_खण्डम्( px_खण्डम् );
+                    px_खण्डम्->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( रिक्त );
+                    x_सङ्ख्या_सम्बन्धि_Successful_Allocations++;
                 }
-                else
+                अन्यथा
                 {
                     mtCOVERAGE_TEST_MARKER();
                 }
             }
-            else
+            अन्यथा
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        अन्यथा
         {
             mtCOVERAGE_TEST_MARKER();
         }
 
-        traceMALLOC( pvReturn, xAllocatedBlockSize );
+        traceMALLOC( pvReturn, x_Allocated_खण्डम्_आकार );
 
         /* Prevent compiler warnings when trace macros are not used. */
-        ( void ) xAllocatedBlockSize;
+        ( शून्य ) x_Allocated_खण्डम्_आकार;
     }
-    ( void ) xTaskResumeAll();
+    ( शून्य ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #यदि ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        यदि( pvReturn == रिक्त )
         {
             vApplicationMallocFailedHook();
         }
-        else
+        अन्यथा
         {
             mtCOVERAGE_TEST_MARKER();
         }
     }
-    #endif /* if ( configUSE_MALLOC_FAILED_HOOK == 1 ) */
+    #यदि_अन्तः /* if ( configUSE_MALLOC_FAILED_HOOK == 1 ) */
 
-    configASSERT( ( ( ( size_t ) pvReturn ) & ( size_t ) portBYTE_ALIGNMENT_MASK ) == 0 );
-    return pvReturn;
+    configASSERT( ( ( ( size_t ) pvReturn ) & ( size_t ) पत्तनम्_BYTE_ALIGNMENT_आवरणम् ) == 0 );
+    प्रत्यागम pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+शून्य v_पत्तनम्_Free( शून्य * pv )
 {
     uint8_t * puc = ( uint8_t * ) pv;
-    BlockLink_t * pxLink;
+    खण्डम्_Link_t * pxLink;
 
-    if( pv != NULL )
+    यदि( pv != रिक्त )
     {
         /* The memory being freed will have an BlockLink_t structure immediately
          * before it. */
-        puc -= xHeapStructSize;
+        puc -= x_Heap_Struct_आकार;
 
         /* This casting is to keep the compiler from issuing warnings. */
-        pxLink = ( void * ) puc;
+        pxLink = ( शून्य * ) puc;
 
-        heapVALIDATE_BLOCK_POINTER( pxLink );
-        configASSERT( heapBLOCK_IS_ALLOCATED( pxLink ) != 0 );
-        configASSERT( pxLink->pxNextFreeBlock == heapPROTECT_BLOCK_POINTER( NULL ) );
+        heap_VALIDATE_खण्डम्_POINTER( pxLink );
+        configASSERT( heap_खण्डम्_IS_ALLOCATED( pxLink ) != 0 );
+        configASSERT( pxLink->px_अग्र_Free_खण्डम् == heap_PROTECT_खण्डम्_POINTER( रिक्त ) );
 
-        if( heapBLOCK_IS_ALLOCATED( pxLink ) != 0 )
+        यदि( heap_खण्डम्_IS_ALLOCATED( pxLink ) != 0 )
         {
-            if( pxLink->pxNextFreeBlock == heapPROTECT_BLOCK_POINTER( NULL ) )
+            यदि( pxLink->px_अग्र_Free_खण्डम् == heap_PROTECT_खण्डम्_POINTER( रिक्त ) )
             {
                 /* The block is being returned to the heap - it is no longer
                  * allocated. */
-                heapFREE_BLOCK( pxLink );
-                #if ( configHEAP_CLEAR_MEMORY_ON_FREE == 1 )
+                heap_FREE_खण्डम्( pxLink );
+                #यदि ( config_HEAP_CLEAR_स्मृतिः_ON_FREE == 1 )
                 {
                     /* Check for underflow as this can occur if xBlockSize is
                      * overwritten in a heap block. */
-                    if( heapSUBTRACT_WILL_UNDERFLOW( pxLink->xBlockSize, xHeapStructSize ) == 0 )
+                    यदि( heap_व्यवकलय_WILL_UNDERFLOW( pxLink->x_खण्डम्_आकार, x_Heap_Struct_आकार ) == 0 )
                     {
-                        ( void ) memset( puc + xHeapStructSize, 0, pxLink->xBlockSize - xHeapStructSize );
+                        ( शून्य ) स्मृतिं_पूरय( puc + x_Heap_Struct_आकार, 0, pxLink->x_खण्डम्_आकार - x_Heap_Struct_आकार );
                     }
                 }
-                #endif
+                #यदि_अन्तः
 
                 vTaskSuspendAll();
                 {
                     /* Add this block to the list of free blocks. */
-                    xFreeBytesRemaining += pxLink->xBlockSize;
-                    traceFREE( pv, pxLink->xBlockSize );
-                    prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
-                    xNumberOfSuccessfulFrees++;
+                    x_Free_अष्टकानि_Remaining += pxLink->x_खण्डम्_आकार;
+                    traceFREE( pv, pxLink->x_खण्डम्_आकार );
+                    prv_निवेशय_खण्डम्_Into_Free_List( ( ( खण्डम्_Link_t * ) pxLink ) );
+                    x_सङ्ख्या_सम्बन्धि_Successful_Frees++;
                 }
-                ( void ) xTaskResumeAll();
+                ( शून्य ) xTaskResumeAll();
             }
-            else
+            अन्यथा
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        अन्यथा
         {
             mtCOVERAGE_TEST_MARKER();
         }
@@ -410,212 +410,212 @@ void vPortFree( void * pv )
 }
 /*-----------------------------------------------------------*/
 
-size_t xPortGetFreeHeapSize( void )
+size_t x_पत्तनम्_Get_Free_Heap_आकार( शून्य )
 {
-    return xFreeBytesRemaining;
+    प्रत्यागम x_Free_अष्टकानि_Remaining;
 }
 /*-----------------------------------------------------------*/
 
-size_t xPortGetMinimumEverFreeHeapSize( void )
+size_t x_पत्तनम्_Get_Minimum_Ever_Free_Heap_आकार( शून्य )
 {
-    return xMinimumEverFreeBytesRemaining;
+    प्रत्यागम x_Minimum_Ever_Free_अष्टकानि_Remaining;
 }
 /*-----------------------------------------------------------*/
 
-void xPortResetHeapMinimumEverFreeHeapSize( void )
+शून्य x_पत्तनम्_Reset_Heap_Minimum_Ever_Free_Heap_आकार( शून्य )
 {
-    xMinimumEverFreeBytesRemaining = xFreeBytesRemaining;
+    x_Minimum_Ever_Free_अष्टकानि_Remaining = x_Free_अष्टकानि_Remaining;
 }
 /*-----------------------------------------------------------*/
 
-void vPortInitialiseBlocks( void )
+शून्य v_पत्तनम्_Initialise_खण्डानि( शून्य )
 {
     /* This just exists to keep the linker quiet. */
 }
 /*-----------------------------------------------------------*/
 
-void * pvPortCalloc( size_t xNum,
-                     size_t xSize )
+शून्य * pv_पत्तनम्_Calloc( size_t x_अङ्कः,
+                     size_t x_आकार )
 {
-    void * pv = NULL;
+    शून्य * pv = रिक्त;
 
-    if( heapMULTIPLY_WILL_OVERFLOW( xNum, xSize ) == 0 )
+    यदि( heap_MULTIPLY_WILL_अतिप्रवाहः( x_अङ्कः, x_आकार ) == 0 )
     {
-        pv = pvPortMalloc( xNum * xSize );
+        pv = pv_पत्तनम्_Malloc( x_अङ्कः * x_आकार );
 
-        if( pv != NULL )
+        यदि( pv != रिक्त )
         {
-            ( void ) memset( pv, 0, xNum * xSize );
+            ( शून्य ) स्मृतिं_पूरय( pv, 0, x_अङ्कः * x_आकार );
         }
     }
 
-    return pv;
+    प्रत्यागम pv;
 }
 /*-----------------------------------------------------------*/
 
-static void prvHeapInit( void ) /* PRIVILEGED_FUNCTION */
+स्थिर शून्य prvHeapInit( शून्य ) /* PRIVILEGED_FUNCTION */
 {
-    BlockLink_t * pxFirstFreeBlock;
-    portPOINTER_SIZE_TYPE uxStartAddress, uxEndAddress;
-    size_t xTotalHeapSize = configTOTAL_HEAP_SIZE;
+    खण्डम्_Link_t * px_First_Free_खण्डम्;
+    पत्तनम्_POINTER_आकार_TYPE ux_Start_स्थानाङ्कः, ux_अन्तः_स्थानाङ्कः;
+    size_t x_योग_Heap_आकार = config_योग_HEAP_आकार;
 
     /* Ensure the heap starts on a correctly aligned boundary. */
-    uxStartAddress = ( portPOINTER_SIZE_TYPE ) ucHeap;
+    ux_Start_स्थानाङ्कः = ( पत्तनम्_POINTER_आकार_TYPE ) ucHeap;
 
-    if( ( uxStartAddress & portBYTE_ALIGNMENT_MASK ) != 0 )
+    यदि( ( ux_Start_स्थानाङ्कः & पत्तनम्_BYTE_ALIGNMENT_आवरणम् ) != 0 )
     {
-        uxStartAddress += ( portBYTE_ALIGNMENT - 1 );
-        uxStartAddress &= ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK );
-        xTotalHeapSize -= ( size_t ) ( uxStartAddress - ( portPOINTER_SIZE_TYPE ) ucHeap );
+        ux_Start_स्थानाङ्कः += ( पत्तनम्_BYTE_ALIGNMENT - 1 );
+        ux_Start_स्थानाङ्कः &= ~( ( पत्तनम्_POINTER_आकार_TYPE ) पत्तनम्_BYTE_ALIGNMENT_आवरणम् );
+        x_योग_Heap_आकार -= ( size_t ) ( ux_Start_स्थानाङ्कः - ( पत्तनम्_POINTER_आकार_TYPE ) ucHeap );
     }
 
-    #if ( configENABLE_HEAP_PROTECTOR == 1 )
+    #यदि ( configENABLE_HEAP_PROTECTOR == 1 )
     {
         vApplicationGetRandomHeapCanary( &( xHeapCanary ) );
     }
-    #endif
+    #यदि_अन्तः
 
     /* xStart is used to hold a pointer to the first item in the list of free
      * blocks.  The void cast is used to prevent compiler warnings. */
-    xStart.pxNextFreeBlock = ( void * ) heapPROTECT_BLOCK_POINTER( uxStartAddress );
-    xStart.xBlockSize = ( size_t ) 0;
+    xStart.px_अग्र_Free_खण्डम् = ( शून्य * ) heap_PROTECT_खण्डम्_POINTER( ux_Start_स्थानाङ्कः );
+    xStart.x_खण्डम्_आकार = ( size_t ) 0;
 
     /* pxEnd is used to mark the end of the list of free blocks and is inserted
      * at the end of the heap space. */
-    uxEndAddress = uxStartAddress + ( portPOINTER_SIZE_TYPE ) xTotalHeapSize;
-    uxEndAddress -= ( portPOINTER_SIZE_TYPE ) xHeapStructSize;
-    uxEndAddress &= ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK );
-    pxEnd = ( BlockLink_t * ) uxEndAddress;
-    pxEnd->xBlockSize = 0;
-    pxEnd->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( NULL );
+    ux_अन्तः_स्थानाङ्कः = ux_Start_स्थानाङ्कः + ( पत्तनम्_POINTER_आकार_TYPE ) x_योग_Heap_आकार;
+    ux_अन्तः_स्थानाङ्कः -= ( पत्तनम्_POINTER_आकार_TYPE ) x_Heap_Struct_आकार;
+    ux_अन्तः_स्थानाङ्कः &= ~( ( पत्तनम्_POINTER_आकार_TYPE ) पत्तनम्_BYTE_ALIGNMENT_आवरणम् );
+    px_अन्तः = ( खण्डम्_Link_t * ) ux_अन्तः_स्थानाङ्कः;
+    px_अन्तः->x_खण्डम्_आकार = 0;
+    px_अन्तः->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( रिक्त );
 
     /* To start with there is a single free block that is sized to take up the
      * entire heap space, minus the space taken by pxEnd. */
-    pxFirstFreeBlock = ( BlockLink_t * ) uxStartAddress;
-    pxFirstFreeBlock->xBlockSize = ( size_t ) ( uxEndAddress - ( portPOINTER_SIZE_TYPE ) pxFirstFreeBlock );
-    pxFirstFreeBlock->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxEnd );
+    px_First_Free_खण्डम् = ( खण्डम्_Link_t * ) ux_Start_स्थानाङ्कः;
+    px_First_Free_खण्डम्->x_खण्डम्_आकार = ( size_t ) ( ux_अन्तः_स्थानाङ्कः - ( पत्तनम्_POINTER_आकार_TYPE ) px_First_Free_खण्डम् );
+    px_First_Free_खण्डम्->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( px_अन्तः );
 
     /* Only one block exists - and it covers the entire usable heap space. */
-    xMinimumEverFreeBytesRemaining = pxFirstFreeBlock->xBlockSize;
-    xFreeBytesRemaining = pxFirstFreeBlock->xBlockSize;
+    x_Minimum_Ever_Free_अष्टकानि_Remaining = px_First_Free_खण्डम्->x_खण्डम्_आकार;
+    x_Free_अष्टकानि_Remaining = px_First_Free_खण्डम्->x_खण्डम्_आकार;
 }
 /*-----------------------------------------------------------*/
 
-static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert ) /* PRIVILEGED_FUNCTION */
+स्थिर शून्य prv_निवेशय_खण्डम्_Into_Free_List( खण्डम्_Link_t * px_खण्डम्_गन्तव्यम्_निवेशय ) /* PRIVILEGED_FUNCTION */
 {
-    BlockLink_t * pxIterator;
+    खण्डम्_Link_t * pxIterator;
     uint8_t * puc;
 
     /* Iterate through the list until a block is found that has a higher address
      * than the block being inserted. */
-    for( pxIterator = &xStart; heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) < pxBlockToInsert; pxIterator = heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) )
+    प्रति( pxIterator = &xStart; heap_PROTECT_खण्डम्_POINTER( pxIterator->px_अग्र_Free_खण्डम् ) < px_खण्डम्_गन्तव्यम्_निवेशय; pxIterator = heap_PROTECT_खण्डम्_POINTER( pxIterator->px_अग्र_Free_खण्डम् ) )
     {
         /* Nothing to do here, just iterate to the right position. */
     }
 
-    if( pxIterator != &xStart )
+    यदि( pxIterator != &xStart )
     {
-        heapVALIDATE_BLOCK_POINTER( pxIterator );
+        heap_VALIDATE_खण्डम्_POINTER( pxIterator );
     }
 
     /* Do the block being inserted, and the block it is being inserted after
      * make a contiguous block of memory? */
     puc = ( uint8_t * ) pxIterator;
 
-    if( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) pxBlockToInsert )
+    यदि( ( puc + pxIterator->x_खण्डम्_आकार ) == ( uint8_t * ) px_खण्डम्_गन्तव्यम्_निवेशय )
     {
-        pxIterator->xBlockSize += pxBlockToInsert->xBlockSize;
-        pxBlockToInsert = pxIterator;
+        pxIterator->x_खण्डम्_आकार += px_खण्डम्_गन्तव्यम्_निवेशय->x_खण्डम्_आकार;
+        px_खण्डम्_गन्तव्यम्_निवेशय = pxIterator;
     }
-    else
+    अन्यथा
     {
         mtCOVERAGE_TEST_MARKER();
     }
 
     /* Do the block being inserted, and the block it is being inserted before
      * make a contiguous block of memory? */
-    puc = ( uint8_t * ) pxBlockToInsert;
+    puc = ( uint8_t * ) px_खण्डम्_गन्तव्यम्_निवेशय;
 
-    if( ( puc + pxBlockToInsert->xBlockSize ) == ( uint8_t * ) heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) )
+    यदि( ( puc + px_खण्डम्_गन्तव्यम्_निवेशय->x_खण्डम्_आकार ) == ( uint8_t * ) heap_PROTECT_खण्डम्_POINTER( pxIterator->px_अग्र_Free_खण्डम् ) )
     {
-        if( heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) != pxEnd )
+        यदि( heap_PROTECT_खण्डम्_POINTER( pxIterator->px_अग्र_Free_खण्डम् ) != px_अन्तः )
         {
             /* Form one big block from the two blocks. */
-            pxBlockToInsert->xBlockSize += heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock )->xBlockSize;
-            pxBlockToInsert->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock )->pxNextFreeBlock;
+            px_खण्डम्_गन्तव्यम्_निवेशय->x_खण्डम्_आकार += heap_PROTECT_खण्डम्_POINTER( pxIterator->px_अग्र_Free_खण्डम् )->x_खण्डम्_आकार;
+            px_खण्डम्_गन्तव्यम्_निवेशय->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( pxIterator->px_अग्र_Free_खण्डम् )->px_अग्र_Free_खण्डम्;
         }
-        else
+        अन्यथा
         {
-            pxBlockToInsert->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxEnd );
+            px_खण्डम्_गन्तव्यम्_निवेशय->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( px_अन्तः );
         }
     }
-    else
+    अन्यथा
     {
-        pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;
+        px_खण्डम्_गन्तव्यम्_निवेशय->px_अग्र_Free_खण्डम् = pxIterator->px_अग्र_Free_खण्डम्;
     }
 
     /* If the block being inserted plugged a gap, so was merged with the block
      * before and the block after, then it's pxNextFreeBlock pointer will have
      * already been set, and should not be set here as that would make it point
      * to itself. */
-    if( pxIterator != pxBlockToInsert )
+    यदि( pxIterator != px_खण्डम्_गन्तव्यम्_निवेशय )
     {
-        pxIterator->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxBlockToInsert );
+        pxIterator->px_अग्र_Free_खण्डम् = heap_PROTECT_खण्डम्_POINTER( px_खण्डम्_गन्तव्यम्_निवेशय );
     }
-    else
+    अन्यथा
     {
         mtCOVERAGE_TEST_MARKER();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortGetHeapStats( HeapStats_t * pxHeapStats )
+शून्य v_पत्तनम्_Get_Heap_Stats( HeapStats_t * pxHeapStats )
 {
-    BlockLink_t * pxBlock;
-    size_t xBlocks = 0, xMaxSize = 0, xMinSize = SIZE_MAX;
+    खण्डम्_Link_t * px_खण्डम्;
+    size_t x_खण्डानि = 0, x_Max_आकार = 0, x_Min_आकार = SIZE_MAX;
 
     vTaskSuspendAll();
     {
-        pxBlock = heapPROTECT_BLOCK_POINTER( xStart.pxNextFreeBlock );
+        px_खण्डम् = heap_PROTECT_खण्डम्_POINTER( xStart.px_अग्र_Free_खण्डम् );
 
         /* pxBlock will be NULL if the heap has not been initialised.  The heap
          * is initialised automatically when the first allocation is made. */
-        if( pxBlock != NULL )
+        यदि( px_खण्डम् != रिक्त )
         {
-            while( pxBlock != pxEnd )
+            यावत्( px_खण्डम् != px_अन्तः )
             {
                 /* Increment the number of blocks and record the largest block seen
                  * so far. */
-                xBlocks++;
+                x_खण्डानि++;
 
-                if( pxBlock->xBlockSize > xMaxSize )
+                यदि( px_खण्डम्->x_खण्डम्_आकार > x_Max_आकार )
                 {
-                    xMaxSize = pxBlock->xBlockSize;
+                    x_Max_आकार = px_खण्डम्->x_खण्डम्_आकार;
                 }
 
-                if( pxBlock->xBlockSize < xMinSize )
+                यदि( px_खण्डम्->x_खण्डम्_आकार < x_Min_आकार )
                 {
-                    xMinSize = pxBlock->xBlockSize;
+                    x_Min_आकार = px_खण्डम्->x_खण्डम्_आकार;
                 }
 
                 /* Move to the next block in the chain until the last block is
                  * reached. */
-                pxBlock = heapPROTECT_BLOCK_POINTER( pxBlock->pxNextFreeBlock );
+                px_खण्डम् = heap_PROTECT_खण्डम्_POINTER( px_खण्डम्->px_अग्र_Free_खण्डम् );
             }
         }
     }
-    ( void ) xTaskResumeAll();
+    ( शून्य ) xTaskResumeAll();
 
-    pxHeapStats->xSizeOfLargestFreeBlockInBytes = xMaxSize;
-    pxHeapStats->xSizeOfSmallestFreeBlockInBytes = xMinSize;
-    pxHeapStats->xNumberOfFreeBlocks = xBlocks;
+    pxHeapStats->x_आकार_सम्बन्धि_Largest_Free_खण्डम्_अन्तर्_अष्टकानि = x_Max_आकार;
+    pxHeapStats->x_आकार_सम्बन्धि_Smallest_Free_खण्डम्_अन्तर्_अष्टकानि = x_Min_आकार;
+    pxHeapStats->x_सङ्ख्या_सम्बन्धि_Free_खण्डानि = x_खण्डानि;
 
     taskENTER_CRITICAL();
     {
-        pxHeapStats->xAvailableHeapSpaceInBytes = xFreeBytesRemaining;
-        pxHeapStats->xNumberOfSuccessfulAllocations = xNumberOfSuccessfulAllocations;
-        pxHeapStats->xNumberOfSuccessfulFrees = xNumberOfSuccessfulFrees;
-        pxHeapStats->xMinimumEverFreeBytesRemaining = xMinimumEverFreeBytesRemaining;
+        pxHeapStats->x_उपलब्धम्_Heap_Space_अन्तर्_अष्टकानि = x_Free_अष्टकानि_Remaining;
+        pxHeapStats->x_सङ्ख्या_सम्बन्धि_Successful_Allocations = x_सङ्ख्या_सम्बन्धि_Successful_Allocations;
+        pxHeapStats->x_सङ्ख्या_सम्बन्धि_Successful_Frees = x_सङ्ख्या_सम्बन्धि_Successful_Frees;
+        pxHeapStats->x_Minimum_Ever_Free_अष्टकानि_Remaining = x_Minimum_Ever_Free_अष्टकानि_Remaining;
     }
     taskEXIT_CRITICAL();
 }
@@ -626,13 +626,13 @@ void vPortGetHeapStats( HeapStats_t * pxHeapStats )
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+शून्य v_पत्तनम्_Heap_Reset_State( शून्य )
 {
-    pxEnd = NULL;
+    px_अन्तः = रिक्त;
 
-    xFreeBytesRemaining = ( size_t ) 0U;
-    xMinimumEverFreeBytesRemaining = ( size_t ) 0U;
-    xNumberOfSuccessfulAllocations = ( size_t ) 0U;
-    xNumberOfSuccessfulFrees = ( size_t ) 0U;
+    x_Free_अष्टकानि_Remaining = ( size_t ) 0U;
+    x_Minimum_Ever_Free_अष्टकानि_Remaining = ( size_t ) 0U;
+    x_सङ्ख्या_सम्बन्धि_Successful_Allocations = ( size_t ) 0U;
+    x_सङ्ख्या_सम्बन्धि_Successful_Frees = ( size_t ) 0U;
 }
 /*-----------------------------------------------------------*/

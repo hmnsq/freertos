@@ -37,12 +37,12 @@ Changes from V3.0.0
 Changes from V3.0.1
 */
 
-#include <FreeRTOS.h>
-#include <task.h>
+#अन्तर्भाव <FreeRTOS.h>
+#अन्तर्भाव <task.h>
 
 /* IO port constants. */
-#define portBIT_SET     (1)
-#define portBIT_CLEAR   (0)
+#परिभाषय पत्तनम्_BIT_समुच्चयः     (1)
+#परिभाषय पत्तनम्_BIT_CLEAR   (0)
 
 /*
  * Hardware setup for the tick.
@@ -50,34 +50,34 @@ Changes from V3.0.1
  * and requested tickrate, a prescaled value with a matching
  * prescaler are determined.
  */
-#define portTIMER_COMPARE_BASE          ((APROCFREQ/4)/configTICK_RATE_HZ)
+#परिभाषय पत्तनम्_TIMER_COMPARE_आधारः          ((APROCFREQ/4)/config_TICK_दरः_HZ)
 
-#if portTIMER_COMPARE_BASE   < 0x10000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE)
-    #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
-    #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x20000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 2)
-    #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
-    #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#elif portTIMER_COMPARE_BASE < 0x40000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 4)
-    #define portTIMER_COMPARE_PS1       (portBIT_SET)
-    #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x80000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 8)
-    #define portTIMER_COMPARE_PS1       (portBIT_SET)
-    #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#else
-    #error "TickRate out of range"
-#endif
+#यदि पत्तनम्_TIMER_COMPARE_आधारः   < 0x10000
+    #परिभाषय पत्तनम्_TIMER_COMPARE_मानम्     (पत्तनम्_TIMER_COMPARE_आधारः)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS1       (पत्तनम्_BIT_CLEAR)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS0       (पत्तनम्_BIT_CLEAR)
+#नोचेद्यदि पत्तनम्_TIMER_COMPARE_आधारः < 0x20000
+    #परिभाषय पत्तनम्_TIMER_COMPARE_मानम्     (पत्तनम्_TIMER_COMPARE_आधारः / 2)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS1       (पत्तनम्_BIT_CLEAR)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS0       (पत्तनम्_BIT_समुच्चयः)
+#नोचेद्यदि पत्तनम्_TIMER_COMPARE_आधारः < 0x40000
+    #परिभाषय पत्तनम्_TIMER_COMPARE_मानम्     (पत्तनम्_TIMER_COMPARE_आधारः / 4)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS1       (पत्तनम्_BIT_समुच्चयः)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS0       (पत्तनम्_BIT_CLEAR)
+#नोचेद्यदि पत्तनम्_TIMER_COMPARE_आधारः < 0x80000
+    #परिभाषय पत्तनम्_TIMER_COMPARE_मानम्     (पत्तनम्_TIMER_COMPARE_आधारः / 8)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS1       (पत्तनम्_BIT_समुच्चयः)
+    #परिभाषय पत्तनम्_TIMER_COMPARE_PS0       (पत्तनम्_BIT_समुच्चयः)
+#अन्यथा
+    #दोषः "TickRate out of range"
+#यदि_अन्तः
 
 /*-----------------------------------------------------------*/
 
 /*
  * Setup a timer for a regular tick.
  */
-void portSetupTick( void )
+शून्य पत्तनम्_सज्जता_Tick( शून्य )
 {
     /*
      * Interrupts are disabled when this function is called.
@@ -91,28 +91,28 @@ void portSetupTick( void )
     /*
      * Set the compare match value.
      */
-    CCPR1H = ( uint8_t ) ( ( portTIMER_COMPARE_VALUE >> 8 ) & 0xff );
-    CCPR1L = ( uint8_t )   ( portTIMER_COMPARE_VALUE & 0xff );
+    CCPR1H = ( uint8_t ) ( ( पत्तनम्_TIMER_COMPARE_मानम् >> 8 ) & 0xff );
+    CCPR1L = ( uint8_t )   ( पत्तनम्_TIMER_COMPARE_मानम् & 0xff );
 
     /*
      * Set Compare Special Event Trigger Mode
      */
-    bCCP1M3     = portBIT_SET;
-    bCCP1M2     = portBIT_CLEAR;
-    bCCP1M1     = portBIT_SET;
-    bCCP1M0     = portBIT_SET;
+    bCCP1M3     = पत्तनम्_BIT_समुच्चयः;
+    bCCP1M2     = पत्तनम्_BIT_CLEAR;
+    bCCP1M1     = पत्तनम्_BIT_समुच्चयः;
+    bCCP1M0     = पत्तनम्_BIT_समुच्चयः;
 
     /*
      * Enable CCP1 interrupt
      */
-    bCCP1IE     = portBIT_SET;
+    bCCP1IE     = पत्तनम्_BIT_समुच्चयः;
 
     /*
      * We are only going to use the global interrupt bit, so disable
      * interruptpriorities and enable peripheral interrupts.
      */
-    bIPEN       = portBIT_CLEAR;
-    bPEIE       = portBIT_SET;
+    bIPEN       = पत्तनम्_BIT_CLEAR;
+    bPEIE       = पत्तनम्_BIT_समुच्चयः;
 
     /*
      * Set up timer1
@@ -128,12 +128,12 @@ void portSetupTick( void )
     /*
      * Setup the timer
      */
-    bRD16       = portBIT_SET;              // 16-bit
-    bT1CKPS1    = portTIMER_COMPARE_PS1;    // prescaler
-    bT1CKPS0    = portTIMER_COMPARE_PS0;    // prescaler
-    bT1OSCEN    = portBIT_SET;              // Oscillator enable
-    bT1SYNC     = portBIT_SET;              // No external clock sync
-    bTMR1CS     = portBIT_CLEAR;            // Internal clock
+    bRD16       = पत्तनम्_BIT_समुच्चयः;              // 16-bit
+    bT1CKPS1    = पत्तनम्_TIMER_COMPARE_PS1;    // prescaler
+    bT1CKPS0    = पत्तनम्_TIMER_COMPARE_PS0;    // prescaler
+    bT1OSCEN    = पत्तनम्_BIT_समुच्चयः;              // Oscillator enable
+    bT1SYNC     = पत्तनम्_BIT_समुच्चयः;              // No external clock sync
+    bTMR1CS     = पत्तनम्_BIT_CLEAR;            // Internal clock
 
-    bTMR1ON     = portBIT_SET;              // Start timer1
+    bTMR1ON     = पत्तनम्_BIT_समुच्चयः;              // Start timer1
 }

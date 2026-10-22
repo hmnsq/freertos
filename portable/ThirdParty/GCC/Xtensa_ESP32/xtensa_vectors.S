@@ -20,25 +20,25 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS वा IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE च NONINFRINGEMENT.
+ * अन्तः NO EVENT SHALL THE AUTHORS वा COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER अन्तः AN ACTION OF CONTRACT,
+ * TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः CONNECTION WITH THE
+ * SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  */
 
 /*******************************************************************************
 --------------------------------------------------------------------------------
 
-        XTENSA VECTORS AND LOW LEVEL HANDLERS FOR AN RTOS
+        XTENSA VECTORS च निम्न LEVEL HANDLERS FOR AN RTOS
 
   Xtensa low level exception and interrupt vectors and handlers for an RTOS.
 
   Interrupt handlers and user exception handlers support interaction with
   the RTOS by calling XT_RTOS_INT_ENTER and XT_RTOS_INT_EXIT before and
   after user's specific interrupt handlers. These macros are defined in
-  xtensa_<rtos>.h to call suitable functions in a specific RTOS.
+  xtensa_<rtos>.h to आह्वान suitable functions in a specific RTOS.
 
   Users can install application-specific interrupt handlers for low and
   medium level interrupts, by calling xt_set_interrupt_handler(). These
@@ -86,7 +86,7 @@
    1. This file should be assembled with the -mlongcalls option to xt-xcc.
    2. The -mlongcalls compiler option causes 'call0 dest' to be expanded to
       a sequence 'l32r a0, dest' 'callx0 a0' which works regardless of the
-      distance from the call to the destination. The linker then relaxes
+      distance from the आह्वान to the destination. The linker then relaxes
       it back to 'call0 dest' if it determines that dest is within range.
       This allows more flexibility in locating code without the performance
       overhead of the 'l32r' literal data load in cases where the destination
@@ -94,9 +94,9 @@
       has a longer range than 'j' due to the target being word-aligned, so
       the 'l32r' sequence is less likely needed.
    3. The use of 'call0' with -mlongcalls requires that register a0 not be
-      live at the time of the call, which is always the case for a function
-      call but needs to be ensured if 'call0' is used as a jump in lieu of 'j'.
-   4. This use of 'call0' is independent of the C function call ABI.
+      live at the time of the आह्वान, which is always the case for a function
+      आह्वान but needs to be ensured if 'call0' is used as a jump in lieu of 'j'.
+   4. This use of 'call0' is independent of the C function आह्वान ABI.
 
 *******************************************************************************/
 
@@ -168,14 +168,14 @@
     movi \scratch,portNUM_PROCESSORS
     mull \scratch,\reg,\scratch
     getcoreid \reg
-    add \reg,\scratch,\reg
+    योजय \reg,\scratch,\reg
 #endif
    .endm
 /*
 --------------------------------------------------------------------------------
   Macro extract_msb - return the input with only the highest bit set.
 
-  Input  : "ain"  - Input value, clobbered.
+  निवेशः  : "ain"  - निवेशः value, clobbered.
   Output : "aout" - Output value, has only one bit set, MSB of "ain".
   The two arguments must be different AR registers.
 --------------------------------------------------------------------------------
@@ -253,7 +253,7 @@
        last run instruction.
      */
     rsr     a0, EPC_1 + \level - 1          /* return address */
-    movi    a4, 0xC0000000                  /* constant with top 2 bits set (call size) */
+    movi    a4, 0xC0000000                  /* constant with top 2 bits set (आह्वान size) */
     or      a0, a0, a4                      /* set top 2 bits */
     addx2   a0, a4, a0                      /* clear top bit -- simulating call4 size   */
     #endif
@@ -272,15 +272,15 @@
     callx0  a4
     beqz    a2, 9f
     #else
-    mov     a6, a2
+    चालय     a6, a2
     callx4  a4
     beqz    a6, 9f
-    mov     a2, a6
+    चालय     a2, a6
     #endif
 2:
     #endif
 
-    /* Now look up in the dispatch table and call user ISR if any. */
+    /* Now look up in the dispatch table and आह्वान user ISR if any. */
     /* If multiple bits are set then MSB has highest priority.     */
 
     extract_msb  a4, a2                     /* a4 = MSB of a2, a2 trashed */
@@ -291,7 +291,7 @@
        priority.
     */
     movi    a3, \mask                       /* a3 = all interrupts at this level */
-    add     a2, a4, a4                      /* a2 = a4 << 1 */
+    योजय     a2, a4, a4                      /* a2 = a4 << 1 */
     addi    a2, a2, -1                      /* a2 = mask of 1's <= a4 bit */
     and     a2, a2, a3                      /* a2 = mask of all bits <= a4 at this level */
     movi    a3, _xt_intdata
@@ -321,14 +321,14 @@
     addx8   a3, a3, a4                      /* a3 = address of interrupt table entry */
     l32i    a4, a3, XIE_HANDLER             /* a4 = handler address */
     #ifdef __XTENSA_CALL0_ABI__
-    mov     a12, a6                         /* save in callee-saved reg */
+    चालय     a12, a6                         /* save in callee-saved reg */
     l32i    a2, a3, XIE_ARG                 /* a2 = handler arg */
-    callx0  a4                              /* call handler */
-    mov     a2, a12
+    callx0  a4                              /* आह्वान handler */
+    चालय     a2, a12
     #else
-    mov     a2, a6                          /* save in windowed reg */
+    चालय     a2, a6                          /* save in windowed reg */
     l32i    a6, a3, XIE_ARG                 /* a6 = handler arg */
-    callx4  a4                              /* call handler */
+    callx4  a4                              /* आह्वान handler */
     #endif
 
     #ifdef XT_USE_SWPRI
@@ -343,16 +343,16 @@
 .L_xt_user_int_timer_&level&:
     /*
     Interrupt handler for the RTOS tick timer if at this level.
-    We'll be reading the interrupt state again after this call
+    We'll be reading the interrupt state again after this आह्वान
     so no need to preserve any registers except a6 (vpri_mask).
     */
 
     #ifdef __XTENSA_CALL0_ABI__
-    mov     a12, a6
+    चालय     a12, a6
     call0   XT_RTOS_TIMER_INT
-    mov     a2, a12
+    चालय     a2, a12
     #else
-    mov     a2, a6
+    चालय     a2, a6
     call4   XT_RTOS_TIMER_INT
     #endif
     .endif
@@ -391,10 +391,10 @@
 --------------------------------------------------------------------------------
 */
 
-    .section .iram1,"ax"
-    .global panicHandler
+    .खण्डः .iram1,"ax"
+    .वैश्विक panicHandler
 
-    .global     _xt_panic
+    .वैश्विक     _xt_panic
     .type       _xt_panic,@function
     .align      4
     .literal_position
@@ -402,7 +402,7 @@
 
 _xt_panic:
     /* Allocate exception frame and save minimal context. */
-    mov     a0, sp
+    चालय     a0, sp
     addi    sp, sp, -XT_STK_FRMSZ
     s32i    a0, sp, XT_STK_A1
     #if XCHAL_HAVE_WINDOWED
@@ -435,7 +435,7 @@ _xt_panic:
     wsr     a0, PS
 
     //Call panic handler
-    mov     a6,sp
+    चालय     a6,sp
     call4 panicHandler
 
 
@@ -464,11 +464,11 @@ panic_print_hex_ok:
     movi a5,' '
     s32i a5,a3,0
 
-    ret
+    प्रत्यागच्छ
 #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 
-    .section    .rodata, "a"
+    .खण्डः    .rodata, "a"
     .align      4
 
 /*
@@ -487,7 +487,7 @@ panic_print_hex_ok:
 
     #ifdef XT_INTEXC_HOOKS
     .data
-    .global     _xt_intexc_hooks
+    .वैश्विक     _xt_intexc_hooks
     .type       _xt_intexc_hooks,@object
     .align      4
 
@@ -498,15 +498,15 @@ _xt_intexc_hooks:
 
 /*
 --------------------------------------------------------------------------------
-  EXCEPTION AND LEVEL 1 INTERRUPT VECTORS AND LOW LEVEL HANDLERS
+  EXCEPTION च LEVEL 1 INTERRUPT VECTORS च निम्न LEVEL HANDLERS
   (except window exception vectors).
 
   Each vector goes at a predetermined location according to the Xtensa
   hardware configuration, which is ensured by its placement in a special
-  section known to the Xtensa linker support package (LSP). It performs
-  the minimum necessary before jumping to the handler in the .text section.
+  खण्डः known to the Xtensa linker support package (LSP). It performs
+  the minimum necessary before jumping to the handler in the .text खण्डः.
 
-  The corresponding handler goes in the normal .text section. It sets up
+  The corresponding handler goes in the normal .text खण्डः. It sets up
   the appropriate stack frame, saves a few vector-specific registers and
   calls XT_RTOS_INT_ENTER to save the rest of the interrupted context
   and enter the RTOS, then sets up a C environment. It then calls the
@@ -530,10 +530,10 @@ Debug Exception.
 #if XCHAL_HAVE_DEBUG
 
     .begin      literal_prefix .DebugExceptionVector
-    .section    .DebugExceptionVector.text, "ax"
-    .global     _DebugExceptionVector
+    .खण्डः    .DebugExceptionVector.text, "ax"
+    .वैश्विक     _DebugExceptionVector
     .align      4
-    .global     xt_debugexception
+    .वैश्विक     xt_debugexception
 _DebugExceptionVector:
     wsr     a0, EXCSAVE+XCHAL_DEBUGLEVEL    /* preserve a0 */
     call0   xt_debugexception            /* load exception handler */
@@ -552,8 +552,8 @@ Double exceptions are not a normal occurrence. They indicate a bug of some kind.
 #ifdef XCHAL_DOUBLEEXC_VECTOR_VADDR
 
     .begin      literal_prefix .DoubleExceptionVector
-    .section    .DoubleExceptionVector.text, "ax"
-    .global     _DoubleExceptionVector
+    .खण्डः    .DoubleExceptionVector.text, "ax"
+    .वैश्विक     _DoubleExceptionVector
     .align      4
 
 _DoubleExceptionVector:
@@ -577,8 +577,8 @@ Kernel Exception (including Level 1 Interrupt from kernel mode).
 */
 
     .begin      literal_prefix .KernelExceptionVector
-    .section    .KernelExceptionVector.text, "ax"
-    .global     _KernelExceptionVector
+    .खण्डः    .KernelExceptionVector.text, "ax"
+    .वैश्विक     _KernelExceptionVector
     .align      4
 
 _KernelExceptionVector:
@@ -589,7 +589,7 @@ _KernelExceptionVector:
 
     .end        literal_prefix
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .align      4
 
 _xt_kernel_exc:
@@ -609,8 +609,8 @@ User Exception (including Level 1 Interrupt from user mode).
 */
 
     .begin      literal_prefix .UserExceptionVector
-    .section    .UserExceptionVector.text, "ax"
-    .global     _UserExceptionVector
+    .खण्डः    .UserExceptionVector.text, "ax"
+    .वैश्विक     _UserExceptionVector
     .type       _UserExceptionVector,@function
     .align      4
 
@@ -632,16 +632,16 @@ _UserExceptionVector:
 */
 
 #ifdef CONFIG_ESP32_IRAM_AS_8BIT_ACCESSIBLE_MEMORY
-    .global   LoadStoreErrorHandler
-    .global   AlignmentErrorHandler
+    .वैश्विक   LoadStoreErrorHandler
+    .वैश्विक   AlignmentErrorHandler
 #endif
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
 
     #if XCHAL_HAVE_WINDOWED
     .align      4
 _xt_to_alloca_exc:
-    call0   _xt_alloca_exc                  /* in window vectors section */
+    call0   _xt_alloca_exc                  /* in window vectors खण्डः */
     /* never returns here - call0 is used as a jump (see note at top) */
     #endif
 
@@ -713,7 +713,7 @@ _xt_user_exc:
     /* NOTE: we'll stay on the user stack for exception handling.       */
 
     /* Allocate exception frame and save minimal context. */
-    mov     a0, sp
+    चालय     a0, sp
     addi    sp, sp, -XT_STK_FRMSZ
     s32i    a0, sp, XT_STK_A1
     #if XCHAL_HAVE_WINDOWED
@@ -761,7 +761,7 @@ _xt_user_exc:
     s32e    a3, sp, -12
     #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
     rsr     a0, EPC_1                       /* return address for debug backtrace */
-    movi    a5, 0xC0000000                  /* constant with top 2 bits set (call size) */
+    movi    a5, 0xC0000000                  /* constant with top 2 bits set (आह्वान size) */
     rsync                                   /* wait for WSR.PS to complete */
     or      a0, a0, a5                      /* set top 2 bits */
     addx2   a0, a5, a0                      /* clear top bit -- thus simulating call4 size */
@@ -785,10 +785,10 @@ _xt_user_exc:
     callx0  a4
     beqi    a2, -1, .L_xt_user_done
     #else
-    mov     a6, a2
+    चालय     a6, a2
     callx4  a4
     beqi    a6, -1, .L_xt_user_done
-    mov     a2, a6
+    चालय     a2, a6
     #endif
 1:
     #endif
@@ -799,11 +799,11 @@ _xt_user_exc:
     addx4   a4, a2, a3                      /* a4 = address of exception table entry */
     l32i    a4, a4, 0                       /* a4 = handler address */
     #ifdef __XTENSA_CALL0_ABI__
-    mov     a2, sp                          /* a2 = pointer to exc frame */
-    callx0  a4                              /* call handler */
+    चालय     a2, sp                          /* a2 = pointer to exc frame */
+    callx0  a4                              /* आह्वान handler */
     #else
-    mov     a6, sp                          /* a6 = pointer to exc frame */
-    callx4  a4                              /* call handler */
+    चालय     a6, sp                          /* a6 = pointer to exc frame */
+    callx4  a4                              /* आह्वान handler */
     #endif
 
 .L_xt_user_done:
@@ -827,7 +827,7 @@ _xt_user_exc:
 --------------------------------------------------------------------------------
 */
 
-    .global     _xt_user_exit
+    .वैश्विक     _xt_user_exit
     .type       _xt_user_exit,@function
     .align      4
 _xt_user_exit:
@@ -850,7 +850,7 @@ Only syscall 0 is handled here. Other syscalls return -1 to caller in a2.
 --------------------------------------------------------------------------------
 */
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_syscall_exc,@function
     .align      4
 _xt_syscall_exc:
@@ -922,10 +922,10 @@ deliberately imposed to reduce the burden of state-save/restore in interrupts.
 */
 #if XCHAL_CP_NUM > 0
 
-    .section .rodata, "a"
+    .खण्डः .rodata, "a"
 
 /* Offset to CP n save area in thread's CP save area. */
-    .global _xt_coproc_sa_offset
+    .वैश्विक _xt_coproc_sa_offset
     .type   _xt_coproc_sa_offset,@object
     .align  16                      /* minimize crossing cache boundaries */
 _xt_coproc_sa_offset:
@@ -945,13 +945,13 @@ _xt_coproc_mask:
     .data
 
 /* Owner thread of CP n, identified by thread's CP save area (0 = unowned). */
-    .global _xt_coproc_owner_sa
+    .वैश्विक _xt_coproc_owner_sa
     .type   _xt_coproc_owner_sa,@object
     .align  16,,XCHAL_CP_MAX<<2     /* minimize crossing cache boundaries */
 _xt_coproc_owner_sa:
     .space  (XCHAL_CP_MAX * portNUM_PROCESSORS) << 2
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
 
 
     .align  4
@@ -975,7 +975,7 @@ _xt_coproc_owner_sa:
 _xt_coproc_exc:
 
     /* Allocate interrupt stack frame and save minimal context. */
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     #if XCHAL_HAVE_WINDOWED
@@ -1035,7 +1035,7 @@ _xt_coproc_exc:
     movi    a2, XCHAL_CP_MAX << 2
     mull    a2, a2, a3                      /* multiply by current processor id */
     movi    a3, _xt_coproc_owner_sa         /* a3 = base of owner array */
-    add     a3, a3, a2                      /* a3 = owner area needed for this processor */
+    योजय     a3, a3, a2                      /* a3 = owner area needed for this processor */
 
     extui   a2, a0, 0, 16                   /* coprocessor bitmask portion */
     or      a4, a4, a2                      /* a4 = CPENABLE | (1 << n) */
@@ -1093,7 +1093,7 @@ locking.
     s16i    a4,  a2,  XT_CPSTORED           /* update old owner's CPSTORED */
     l32i    a2, a2, XT_CP_ASA               /* ptr to actual (aligned) save area */
     extui   a3, a0, 16, 5                   /* a3 = CP index = n */
-    add     a2, a2, a5                      /* a2 = old owner's area for CP n */
+    योजय     a2, a2, a5                      /* a2 = old owner's area for CP n */
 
     /*
     The config-specific HAL macro invoked below destroys a2-5, preserves a0-1.
@@ -1122,7 +1122,7 @@ locking.
     addx4   a4,  a3, a4                     /* a4 = &_xt_coproc_sa_offset[n] */
     l32i    a4,  a4, 0                      /* a4 = XT_CP[n]_SA */
     l32i    a5, a15, XT_CP_ASA              /* ptr to actual (aligned) save area */
-    add     a2,  a4, a5                     /* a2 = new owner's area for CP */
+    योजय     a2,  a4, a5                     /* a2 = new owner's area for CP */
 
     /*
     The config-specific HAL macro invoked below destroys a2-5, preserves a0-1.
@@ -1178,12 +1178,12 @@ locking.
 -------------------------------------------------------------------------------
 */
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_lowint1,@function
     .align      4
 
 _xt_lowint1:
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     rsr     a0, PS                          /* save interruptee's PS */
@@ -1200,7 +1200,7 @@ _xt_lowint1:
     current stack pointer that points to the exception frame (XT_STK_FRAME).*/
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
-    mov     a0, sp
+    चालय     a0, sp
     wsr     a0, EXCSAVE_1
     #endif
     #endif
@@ -1221,7 +1221,7 @@ _xt_lowint1:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to आह्वान C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 1 XCHAL_INTLEVEL1_MASK
 
@@ -1231,7 +1231,7 @@ _xt_lowint1:
 
 /*
 -------------------------------------------------------------------------------
-  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS AND LOW LEVEL HANDLERS.
+  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS च निम्न LEVEL HANDLERS.
 
   Medium priority interrupts are by definition those with priority greater
   than 1 and not greater than XCHAL_EXCM_LEVEL. These are disabled by
@@ -1240,10 +1240,10 @@ _xt_lowint1:
 
   Each vector goes at a predetermined location according to the Xtensa
   hardware configuration, which is ensured by its placement in a special
-  section known to the Xtensa linker support package (LSP). It performs
-  the minimum necessary before jumping to the handler in the .text section.
+  खण्डः known to the Xtensa linker support package (LSP). It performs
+  the minimum necessary before jumping to the handler in the .text खण्डः.
 
-  The corresponding handler goes in the normal .text section. It sets up
+  The corresponding handler goes in the normal .text खण्डः. It sets up
   the appropriate stack frame, saves a few vector-specific registers and
   calls XT_RTOS_INT_ENTER to save the rest of the interrupted context
   and enter the RTOS, then sets up a C environment. It then calls the
@@ -1260,8 +1260,8 @@ _xt_lowint1:
 #if XCHAL_EXCM_LEVEL >= 2
 
     .begin      literal_prefix .Level2InterruptVector
-    .section    .Level2InterruptVector.text, "ax"
-    .global     _Level2Vector
+    .खण्डः    .Level2InterruptVector.text, "ax"
+    .वैश्विक     _Level2Vector
     .type       _Level2Vector,@function
     .align      4
 _Level2Vector:
@@ -1271,11 +1271,11 @@ _Level2Vector:
 
     .end        literal_prefix
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_medint2,@function
     .align      4
 _xt_medint2:
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     rsr     a0, EPS_2                       /* save interruptee's PS */
@@ -1292,7 +1292,7 @@ _xt_medint2:
     #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0))
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
-    mov     a0, sp
+    चालय     a0, sp
     wsr     a0, EXCSAVE_2
     #endif
     #endif
@@ -1313,7 +1313,7 @@ _xt_medint2:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to आह्वान C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 2 XCHAL_INTLEVEL2_MASK
 
@@ -1324,7 +1324,7 @@ _xt_medint2:
     Exit point for dispatch. Saved in interrupt stack frame at XT_STK_EXIT
     on entry and used to return to a thread or interrupted interrupt handler.
     */
-    .global     _xt_medint2_exit
+    .वैश्विक     _xt_medint2_exit
     .type       _xt_medint2_exit,@function
     .align      4
 _xt_medint2_exit:
@@ -1343,8 +1343,8 @@ _xt_medint2_exit:
 #if XCHAL_EXCM_LEVEL >= 3
 
     .begin      literal_prefix .Level3InterruptVector
-    .section    .Level3InterruptVector.text, "ax"
-    .global     _Level3Vector
+    .खण्डः    .Level3InterruptVector.text, "ax"
+    .वैश्विक     _Level3Vector
     .type       _Level3Vector,@function
     .align      4
 _Level3Vector:
@@ -1354,11 +1354,11 @@ _Level3Vector:
 
     .end        literal_prefix
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_medint3,@function
     .align      4
 _xt_medint3:
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     rsr     a0, EPS_3                       /* save interruptee's PS */
@@ -1375,7 +1375,7 @@ _xt_medint3:
     #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0))
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
-    mov     a0, sp
+    चालय     a0, sp
     wsr     a0, EXCSAVE_3
     #endif
     #endif
@@ -1396,7 +1396,7 @@ _xt_medint3:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to आह्वान C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 3 XCHAL_INTLEVEL3_MASK
 
@@ -1407,7 +1407,7 @@ _xt_medint3:
     Exit point for dispatch. Saved in interrupt stack frame at XT_STK_EXIT
     on entry and used to return to a thread or interrupted interrupt handler.
     */
-    .global     _xt_medint3_exit
+    .वैश्विक     _xt_medint3_exit
     .type       _xt_medint3_exit,@function
     .align      4
 _xt_medint3_exit:
@@ -1426,8 +1426,8 @@ _xt_medint3_exit:
 #if XCHAL_EXCM_LEVEL >= 4
 
     .begin      literal_prefix .Level4InterruptVector
-    .section    .Level4InterruptVector.text, "ax"
-    .global     _Level4Vector
+    .खण्डः    .Level4InterruptVector.text, "ax"
+    .वैश्विक     _Level4Vector
     .type       _Level4Vector,@function
     .align      4
 _Level4Vector:
@@ -1436,11 +1436,11 @@ _Level4Vector:
 
     .end        literal_prefix
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_medint4,@function
     .align      4
 _xt_medint4:
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     rsr     a0, EPS_4                       /* save interruptee's PS */
@@ -1457,7 +1457,7 @@ _xt_medint4:
     #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0))
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
-    mov     a0, sp
+    चालय     a0, sp
     wsr     a0, EXCSAVE_4
     #endif
     #endif
@@ -1478,7 +1478,7 @@ _xt_medint4:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to आह्वान C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 4 XCHAL_INTLEVEL4_MASK
 
@@ -1489,7 +1489,7 @@ _xt_medint4:
     Exit point for dispatch. Saved in interrupt stack frame at XT_STK_EXIT
     on entry and used to return to a thread or interrupted interrupt handler.
     */
-    .global     _xt_medint4_exit
+    .वैश्विक     _xt_medint4_exit
     .type       _xt_medint4_exit,@function
     .align      4
 _xt_medint4_exit:
@@ -1508,8 +1508,8 @@ _xt_medint4_exit:
 #if XCHAL_EXCM_LEVEL >= 5
 
     .begin      literal_prefix .Level5InterruptVector
-    .section    .Level5InterruptVector.text, "ax"
-    .global     _Level5Vector
+    .खण्डः    .Level5InterruptVector.text, "ax"
+    .वैश्विक     _Level5Vector
     .type       _Level5Vector,@function
     .align      4
 _Level5Vector:
@@ -1518,11 +1518,11 @@ _Level5Vector:
 
     .end        literal_prefix
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_medint5,@function
     .align      4
 _xt_medint5:
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     rsr     a0, EPS_5                       /* save interruptee's PS */
@@ -1539,7 +1539,7 @@ _xt_medint5:
     #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0))
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
-    mov     a0, sp
+    चालय     a0, sp
     wsr     a0, EXCSAVE_5
     #endif
     #endif
@@ -1559,7 +1559,7 @@ _xt_medint5:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to आह्वान C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 5 XCHAL_INTLEVEL5_MASK
 
@@ -1570,7 +1570,7 @@ _xt_medint5:
     Exit point for dispatch. Saved in interrupt stack frame at XT_STK_EXIT
     on entry and used to return to a thread or interrupted interrupt handler.
     */
-    .global     _xt_medint5_exit
+    .वैश्विक     _xt_medint5_exit
     .type       _xt_medint5_exit,@function
     .align      4
 _xt_medint5_exit:
@@ -1589,8 +1589,8 @@ _xt_medint5_exit:
 #if XCHAL_EXCM_LEVEL >= 6
 
     .begin      literal_prefix .Level6InterruptVector
-    .section    .Level6InterruptVector.text, "ax"
-    .global     _Level6Vector
+    .खण्डः    .Level6InterruptVector.text, "ax"
+    .वैश्विक     _Level6Vector
     .type       _Level6Vector,@function
     .align      4
 _Level6Vector:
@@ -1599,11 +1599,11 @@ _Level6Vector:
 
     .end        literal_prefix
 
-    .section .iram1,"ax"
+    .खण्डः .iram1,"ax"
     .type       _xt_medint6,@function
     .align      4
 _xt_medint6:
-    mov     a0, sp                          /* sp == a1 */
+    चालय     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
     s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
     rsr     a0, EPS_6                       /* save interruptee's PS */
@@ -1620,7 +1620,7 @@ _xt_medint6:
     #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0))
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
-    mov     a0, sp
+    चालय     a0, sp
     wsr     a0, EXCSAVE_6
     #endif
     #endif
@@ -1640,7 +1640,7 @@ _xt_medint6:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to आह्वान C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 6 XCHAL_INTLEVEL6_MASK
 
@@ -1651,7 +1651,7 @@ _xt_medint6:
     Exit point for dispatch. Saved in interrupt stack frame at XT_STK_EXIT
     on entry and used to return to a thread or interrupted interrupt handler.
     */
-    .global     _xt_medint6_exit
+    .वैश्विक     _xt_medint6_exit
     .type       _xt_medint6_exit,@function
     .align      4
 _xt_medint6_exit:
@@ -1670,12 +1670,12 @@ _xt_medint6_exit:
 
 /*******************************************************************************
 
-HIGH PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS AND HANDLERS
+उच्च PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS च HANDLERS
 
 High priority interrupts are by definition those with priorities greater
 than XCHAL_EXCM_LEVEL. This includes non-maskable (NMI). High priority
 interrupts cannot interact with the RTOS, that is they must save all regs
-they use and not call any RTOS function.
+they use and not आह्वान any RTOS function.
 
 A further restriction imposed by the Xtensa windowed architecture is that
 high priority interrupts must not modify the stack area even logically
@@ -1695,13 +1695,13 @@ registers it uses without touching the interrupted stack.
 
 Each vector goes at a predetermined location according to the Xtensa
 hardware configuration, which is ensured by its placement in a special
-section known to the Xtensa linker support package (LSP). It performs
-the minimum necessary before jumping to the handler in the .text section.
+खण्डः known to the Xtensa linker support package (LSP). It performs
+the minimum necessary before jumping to the handler in the .text खण्डः.
 
 *******************************************************************************/
 
 /*
-These stubs just call xt_highintX/xt_nmi to handle the real interrupt. Please define
+These stubs just आह्वान xt_highintX/xt_nmi to handle the real interrupt. Please define
 these in an external assembly source file. If these symbols are not defined anywhere
 else, the defaults in xtensa_vector_defaults.S are used.
 */
@@ -1709,10 +1709,10 @@ else, the defaults in xtensa_vector_defaults.S are used.
 #if XCHAL_NUM_INTLEVELS >=2 && XCHAL_EXCM_LEVEL <2 && XCHAL_DEBUGLEVEL !=2
 
     .begin      literal_prefix .Level2InterruptVector
-    .section    .Level2InterruptVector.text, "ax"
-    .global     _Level2Vector
+    .खण्डः    .Level2InterruptVector.text, "ax"
+    .वैश्विक     _Level2Vector
     .type       _Level2Vector,@function
-    .global     xt_highint2
+    .वैश्विक     xt_highint2
     .align      4
 _Level2Vector:
     wsr     a0, EXCSAVE_2                   /* preserve a0 */
@@ -1725,10 +1725,10 @@ _Level2Vector:
 #if XCHAL_NUM_INTLEVELS >=3 && XCHAL_EXCM_LEVEL <3 && XCHAL_DEBUGLEVEL !=3
 
     .begin      literal_prefix .Level3InterruptVector
-    .section    .Level3InterruptVector.text, "ax"
-    .global     _Level3Vector
+    .खण्डः    .Level3InterruptVector.text, "ax"
+    .वैश्विक     _Level3Vector
     .type       _Level3Vector,@function
-    .global     xt_highint3
+    .वैश्विक     xt_highint3
     .align      4
 _Level3Vector:
     wsr     a0, EXCSAVE_3                   /* preserve a0 */
@@ -1742,10 +1742,10 @@ _Level3Vector:
 #if XCHAL_NUM_INTLEVELS >=4 && XCHAL_EXCM_LEVEL <4 && XCHAL_DEBUGLEVEL !=4
 
     .begin      literal_prefix .Level4InterruptVector
-    .section    .Level4InterruptVector.text, "ax"
-    .global     _Level4Vector
+    .खण्डः    .Level4InterruptVector.text, "ax"
+    .वैश्विक     _Level4Vector
     .type       _Level4Vector,@function
-    .global     xt_highint4
+    .वैश्विक     xt_highint4
     .align      4
 _Level4Vector:
     wsr     a0, EXCSAVE_4                   /* preserve a0 */
@@ -1759,10 +1759,10 @@ _Level4Vector:
 #if XCHAL_NUM_INTLEVELS >=5 && XCHAL_EXCM_LEVEL <5 && XCHAL_DEBUGLEVEL !=5
 
     .begin      literal_prefix .Level5InterruptVector
-    .section    .Level5InterruptVector.text, "ax"
-    .global     _Level5Vector
+    .खण्डः    .Level5InterruptVector.text, "ax"
+    .वैश्विक     _Level5Vector
     .type       _Level5Vector,@function
-    .global     xt_highint5
+    .वैश्विक     xt_highint5
     .align      4
 _Level5Vector:
     wsr     a0, EXCSAVE_5                   /* preserve a0 */
@@ -1776,10 +1776,10 @@ _Level5Vector:
 #if XCHAL_NUM_INTLEVELS >=6 && XCHAL_EXCM_LEVEL <6 && XCHAL_DEBUGLEVEL !=6
 
     .begin      literal_prefix .Level6InterruptVector
-    .section    .Level6InterruptVector.text, "ax"
-    .global     _Level6Vector
+    .खण्डः    .Level6InterruptVector.text, "ax"
+    .वैश्विक     _Level6Vector
     .type       _Level6Vector,@function
-    .global     xt_highint6
+    .वैश्विक     xt_highint6
     .align      4
 _Level6Vector:
     wsr     a0, EXCSAVE_6                   /* preserve a0 */
@@ -1793,10 +1793,10 @@ _Level6Vector:
 #if XCHAL_HAVE_NMI
 
     .begin      literal_prefix .NMIExceptionVector
-    .section    .NMIExceptionVector.text, "ax"
-    .global     _NMIExceptionVector
+    .खण्डः    .NMIExceptionVector.text, "ax"
+    .वैश्विक     _NMIExceptionVector
     .type       _NMIExceptionVector,@function
-    .global     xt_nmi
+    .वैश्विक     xt_nmi
     .align      4
 _NMIExceptionVector:
     wsr     a0, EXCSAVE + XCHAL_NMILEVEL  _ /* preserve a0 */
@@ -1810,7 +1810,7 @@ _NMIExceptionVector:
 
 /*******************************************************************************
 
-WINDOW OVERFLOW AND UNDERFLOW EXCEPTION VECTORS AND ALLOCA EXCEPTION HANDLER
+WINDOW OVERFLOW च UNDERFLOW EXCEPTION VECTORS च ALLOCA EXCEPTION HANDLER
 
 Here is the code for each window overflow/underflow exception vector and
 (interspersed) efficient code for handling the alloca exception cause.
@@ -1822,74 +1822,74 @@ they do not.
 
 Window handlers go at predetermined vector locations according to the
 Xtensa hardware configuration, which is ensured by their placement in a
-special section known to the Xtensa linker support package (LSP). Since
-their offsets in that section are always the same, the LSPs do not define
-a section per vector.
+special खण्डः known to the Xtensa linker support package (LSP). Since
+their offsets in that खण्डः are always the same, the LSPs do not define
+a खण्डः per vector.
 
 These things are coded for XEA2 only (XEA1 is not supported).
 
 Note on Underflow Handlers:
-The underflow handler for returning from call[i+1] to call[i]
-must preserve all the registers from call[i+1]'s window.
+The underflow handler for returning from आह्वान[i+1] to आह्वान[i]
+must preserve all the registers from आह्वान[i+1]'s window.
 In particular, a0 and a1 must be preserved because the RETW instruction
 will be reexecuted (and may even underflow if an intervening exception
-has flushed call[i]'s registers).
+has flushed आह्वान[i]'s registers).
 Registers a2 and up may contain return values.
 
 *******************************************************************************/
 
 #if XCHAL_HAVE_WINDOWED
 
-    .section .WindowVectors.text, "ax"
+    .खण्डः .WindowVectors.text, "ax"
 
 /*
 --------------------------------------------------------------------------------
 Window Overflow Exception for Call4.
 
-Invoked if a call[i] referenced a register (a4-a15)
-that contains data from ancestor call[j];
-call[j] had done a call4 to call[j+1].
+Invoked if a आह्वान[i] referenced a register (a4-a15)
+that contains data from ancestor आह्वान[j];
+आह्वान[j] had done a call4 to आह्वान[j+1].
 On entry here:
-    window rotated to call[j] start point;
+    window rotated to आह्वान[j] start point;
         a0-a3 are registers to be saved;
         a4-a15 must be preserved;
-        a5 is call[j+1]'s stack pointer.
+        a5 is आह्वान[j+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
     .org    0x0
-    .global _WindowOverflow4
+    .वैश्विक _WindowOverflow4
 _WindowOverflow4:
 
-    s32e    a0, a5, -16     /* save a0 to call[j+1]'s stack frame */
-    s32e    a1, a5, -12     /* save a1 to call[j+1]'s stack frame */
-    s32e    a2, a5,  -8     /* save a2 to call[j+1]'s stack frame */
-    s32e    a3, a5,  -4     /* save a3 to call[j+1]'s stack frame */
-    rfwo                    /* rotates back to call[i] position */
+    s32e    a0, a5, -16     /* save a0 to आह्वान[j+1]'s stack frame */
+    s32e    a1, a5, -12     /* save a1 to आह्वान[j+1]'s stack frame */
+    s32e    a2, a5,  -8     /* save a2 to आह्वान[j+1]'s stack frame */
+    s32e    a3, a5,  -4     /* save a3 to आह्वान[j+1]'s stack frame */
+    rfwo                    /* rotates back to आह्वान[i] position */
 
 /*
 --------------------------------------------------------------------------------
 Window Underflow Exception for Call4
 
-Invoked by RETW returning from call[i+1] to call[i]
-where call[i]'s registers must be reloaded (not live in ARs);
-where call[i] had done a call4 to call[i+1].
+Invoked by RETW returning from आह्वान[i+1] to आह्वान[i]
+where आह्वान[i]'s registers must be reloaded (not live in ARs);
+where आह्वान[i] had done a call4 to आह्वान[i+1].
 On entry here:
-        window rotated to call[i] start point;
-        a0-a3 are undefined, must be reloaded with call[i].reg[0..3];
-        a4-a15 must be preserved (they are call[i+1].reg[0..11]);
-        a5 is call[i+1]'s stack pointer.
+        window rotated to आह्वान[i] start point;
+        a0-a3 are undefined, must be reloaded with आह्वान[i].reg[0..3];
+        a4-a15 must be preserved (they are आह्वान[i+1].reg[0..11]);
+        a5 is आह्वान[i+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
     .org    0x40
-    .global _WindowUnderflow4
+    .वैश्विक _WindowUnderflow4
 _WindowUnderflow4:
 
-    l32e    a0, a5, -16     /* restore a0 from call[i+1]'s stack frame */
-    l32e    a1, a5, -12     /* restore a1 from call[i+1]'s stack frame */
-    l32e    a2, a5,  -8     /* restore a2 from call[i+1]'s stack frame */
-    l32e    a3, a5,  -4     /* restore a3 from call[i+1]'s stack frame */
+    l32e    a0, a5, -16     /* restore a0 from आह्वान[i+1]'s stack frame */
+    l32e    a1, a5, -12     /* restore a1 from आह्वान[i+1]'s stack frame */
+    l32e    a2, a5,  -8     /* restore a2 from आह्वान[i+1]'s stack frame */
+    l32e    a3, a5,  -4     /* restore a3 from आह्वान[i+1]'s stack frame */
     rfwu
 
 /*
@@ -1906,7 +1906,7 @@ The code is optimized to avoid unaligned branches and minimize cache misses.
 */
 
     .align  4
-    .global _xt_alloca_exc
+    .वैश्विक _xt_alloca_exc
 _xt_alloca_exc:
 
     rsr     a0, WINDOWBASE  /* grab WINDOWBASE before rotw changes it */
@@ -1930,138 +1930,138 @@ _xt_alloca_exc:
 --------------------------------------------------------------------------------
 Window Overflow Exception for Call8
 
-Invoked if a call[i] referenced a register (a4-a15)
-that contains data from ancestor call[j];
-call[j] had done a call8 to call[j+1].
+Invoked if a आह्वान[i] referenced a register (a4-a15)
+that contains data from ancestor आह्वान[j];
+आह्वान[j] had done a call8 to आह्वान[j+1].
 On entry here:
-    window rotated to call[j] start point;
+    window rotated to आह्वान[j] start point;
         a0-a7 are registers to be saved;
         a8-a15 must be preserved;
-        a9 is call[j+1]'s stack pointer.
+        a9 is आह्वान[j+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
     .org    0x80
-    .global _WindowOverflow8
+    .वैश्विक _WindowOverflow8
 _WindowOverflow8:
 
-    s32e    a0, a9, -16     /* save a0 to call[j+1]'s stack frame */
-    l32e    a0, a1, -12     /* a0 <- call[j-1]'s sp
-                               (used to find end of call[j]'s frame) */
-    s32e    a1, a9, -12     /* save a1 to call[j+1]'s stack frame */
-    s32e    a2, a9,  -8     /* save a2 to call[j+1]'s stack frame */
-    s32e    a3, a9,  -4     /* save a3 to call[j+1]'s stack frame */
-    s32e    a4, a0, -32     /* save a4 to call[j]'s stack frame */
-    s32e    a5, a0, -28     /* save a5 to call[j]'s stack frame */
-    s32e    a6, a0, -24     /* save a6 to call[j]'s stack frame */
-    s32e    a7, a0, -20     /* save a7 to call[j]'s stack frame */
-    rfwo                    /* rotates back to call[i] position */
+    s32e    a0, a9, -16     /* save a0 to आह्वान[j+1]'s stack frame */
+    l32e    a0, a1, -12     /* a0 <- आह्वान[j-1]'s sp
+                               (used to find end of आह्वान[j]'s frame) */
+    s32e    a1, a9, -12     /* save a1 to आह्वान[j+1]'s stack frame */
+    s32e    a2, a9,  -8     /* save a2 to आह्वान[j+1]'s stack frame */
+    s32e    a3, a9,  -4     /* save a3 to आह्वान[j+1]'s stack frame */
+    s32e    a4, a0, -32     /* save a4 to आह्वान[j]'s stack frame */
+    s32e    a5, a0, -28     /* save a5 to आह्वान[j]'s stack frame */
+    s32e    a6, a0, -24     /* save a6 to आह्वान[j]'s stack frame */
+    s32e    a7, a0, -20     /* save a7 to आह्वान[j]'s stack frame */
+    rfwo                    /* rotates back to आह्वान[i] position */
 
 /*
 --------------------------------------------------------------------------------
 Window Underflow Exception for Call8
 
-Invoked by RETW returning from call[i+1] to call[i]
-where call[i]'s registers must be reloaded (not live in ARs);
-where call[i] had done a call8 to call[i+1].
+Invoked by RETW returning from आह्वान[i+1] to आह्वान[i]
+where आह्वान[i]'s registers must be reloaded (not live in ARs);
+where आह्वान[i] had done a call8 to आह्वान[i+1].
 On entry here:
-        window rotated to call[i] start point;
-        a0-a7 are undefined, must be reloaded with call[i].reg[0..7];
-        a8-a15 must be preserved (they are call[i+1].reg[0..7]);
-        a9 is call[i+1]'s stack pointer.
+        window rotated to आह्वान[i] start point;
+        a0-a7 are undefined, must be reloaded with आह्वान[i].reg[0..7];
+        a8-a15 must be preserved (they are आह्वान[i+1].reg[0..7]);
+        a9 is आह्वान[i+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
     .org    0xC0
-    .global _WindowUnderflow8
+    .वैश्विक _WindowUnderflow8
 _WindowUnderflow8:
 
-    l32e    a0, a9, -16     /* restore a0 from call[i+1]'s stack frame */
-    l32e    a1, a9, -12     /* restore a1 from call[i+1]'s stack frame */
-    l32e    a2, a9,  -8     /* restore a2 from call[i+1]'s stack frame */
-    l32e    a7, a1, -12     /* a7 <- call[i-1]'s sp
-                               (used to find end of call[i]'s frame) */
-    l32e    a3, a9,  -4     /* restore a3 from call[i+1]'s stack frame */
-    l32e    a4, a7, -32     /* restore a4 from call[i]'s stack frame */
-    l32e    a5, a7, -28     /* restore a5 from call[i]'s stack frame */
-    l32e    a6, a7, -24     /* restore a6 from call[i]'s stack frame */
-    l32e    a7, a7, -20     /* restore a7 from call[i]'s stack frame */
+    l32e    a0, a9, -16     /* restore a0 from आह्वान[i+1]'s stack frame */
+    l32e    a1, a9, -12     /* restore a1 from आह्वान[i+1]'s stack frame */
+    l32e    a2, a9,  -8     /* restore a2 from आह्वान[i+1]'s stack frame */
+    l32e    a7, a1, -12     /* a7 <- आह्वान[i-1]'s sp
+                               (used to find end of आह्वान[i]'s frame) */
+    l32e    a3, a9,  -4     /* restore a3 from आह्वान[i+1]'s stack frame */
+    l32e    a4, a7, -32     /* restore a4 from आह्वान[i]'s stack frame */
+    l32e    a5, a7, -28     /* restore a5 from आह्वान[i]'s stack frame */
+    l32e    a6, a7, -24     /* restore a6 from आह्वान[i]'s stack frame */
+    l32e    a7, a7, -20     /* restore a7 from आह्वान[i]'s stack frame */
     rfwu
 
 /*
 --------------------------------------------------------------------------------
 Window Overflow Exception for Call12
 
-Invoked if a call[i] referenced a register (a4-a15)
-that contains data from ancestor call[j];
-call[j] had done a call12 to call[j+1].
+Invoked if a आह्वान[i] referenced a register (a4-a15)
+that contains data from ancestor आह्वान[j];
+आह्वान[j] had done a call12 to आह्वान[j+1].
 On entry here:
-    window rotated to call[j] start point;
+    window rotated to आह्वान[j] start point;
         a0-a11 are registers to be saved;
         a12-a15 must be preserved;
-        a13 is call[j+1]'s stack pointer.
+        a13 is आह्वान[j+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
     .org    0x100
-    .global _WindowOverflow12
+    .वैश्विक _WindowOverflow12
 _WindowOverflow12:
 
-    s32e    a0,  a13, -16   /* save a0 to call[j+1]'s stack frame */
-    l32e    a0,  a1,  -12   /* a0 <- call[j-1]'s sp
-                               (used to find end of call[j]'s frame) */
-    s32e    a1,  a13, -12   /* save a1 to call[j+1]'s stack frame */
-    s32e    a2,  a13,  -8   /* save a2 to call[j+1]'s stack frame */
-    s32e    a3,  a13,  -4   /* save a3 to call[j+1]'s stack frame */
-    s32e    a4,  a0,  -48   /* save a4 to end of call[j]'s stack frame */
-    s32e    a5,  a0,  -44   /* save a5 to end of call[j]'s stack frame */
-    s32e    a6,  a0,  -40   /* save a6 to end of call[j]'s stack frame */
-    s32e    a7,  a0,  -36   /* save a7 to end of call[j]'s stack frame */
-    s32e    a8,  a0,  -32   /* save a8 to end of call[j]'s stack frame */
-    s32e    a9,  a0,  -28   /* save a9 to end of call[j]'s stack frame */
-    s32e    a10, a0,  -24   /* save a10 to end of call[j]'s stack frame */
-    s32e    a11, a0,  -20   /* save a11 to end of call[j]'s stack frame */
-    rfwo                    /* rotates back to call[i] position */
+    s32e    a0,  a13, -16   /* save a0 to आह्वान[j+1]'s stack frame */
+    l32e    a0,  a1,  -12   /* a0 <- आह्वान[j-1]'s sp
+                               (used to find end of आह्वान[j]'s frame) */
+    s32e    a1,  a13, -12   /* save a1 to आह्वान[j+1]'s stack frame */
+    s32e    a2,  a13,  -8   /* save a2 to आह्वान[j+1]'s stack frame */
+    s32e    a3,  a13,  -4   /* save a3 to आह्वान[j+1]'s stack frame */
+    s32e    a4,  a0,  -48   /* save a4 to end of आह्वान[j]'s stack frame */
+    s32e    a5,  a0,  -44   /* save a5 to end of आह्वान[j]'s stack frame */
+    s32e    a6,  a0,  -40   /* save a6 to end of आह्वान[j]'s stack frame */
+    s32e    a7,  a0,  -36   /* save a7 to end of आह्वान[j]'s stack frame */
+    s32e    a8,  a0,  -32   /* save a8 to end of आह्वान[j]'s stack frame */
+    s32e    a9,  a0,  -28   /* save a9 to end of आह्वान[j]'s stack frame */
+    s32e    a10, a0,  -24   /* save a10 to end of आह्वान[j]'s stack frame */
+    s32e    a11, a0,  -20   /* save a11 to end of आह्वान[j]'s stack frame */
+    rfwo                    /* rotates back to आह्वान[i] position */
 
 /*
 --------------------------------------------------------------------------------
 Window Underflow Exception for Call12
 
-Invoked by RETW returning from call[i+1] to call[i]
-where call[i]'s registers must be reloaded (not live in ARs);
-where call[i] had done a call12 to call[i+1].
+Invoked by RETW returning from आह्वान[i+1] to आह्वान[i]
+where आह्वान[i]'s registers must be reloaded (not live in ARs);
+where आह्वान[i] had done a call12 to आह्वान[i+1].
 On entry here:
-        window rotated to call[i] start point;
-        a0-a11 are undefined, must be reloaded with call[i].reg[0..11];
-        a12-a15 must be preserved (they are call[i+1].reg[0..3]);
-        a13 is call[i+1]'s stack pointer.
+        window rotated to आह्वान[i] start point;
+        a0-a11 are undefined, must be reloaded with आह्वान[i].reg[0..11];
+        a12-a15 must be preserved (they are आह्वान[i+1].reg[0..3]);
+        a13 is आह्वान[i+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
     .org 0x140
-    .global _WindowUnderflow12
+    .वैश्विक _WindowUnderflow12
 _WindowUnderflow12:
 
-    l32e    a0,  a13, -16   /* restore a0 from call[i+1]'s stack frame */
-    l32e    a1,  a13, -12   /* restore a1 from call[i+1]'s stack frame */
-    l32e    a2,  a13,  -8   /* restore a2 from call[i+1]'s stack frame */
-    l32e    a11, a1,  -12   /* a11 <- call[i-1]'s sp
-                               (used to find end of call[i]'s frame) */
-    l32e    a3,  a13,  -4   /* restore a3 from call[i+1]'s stack frame */
-    l32e    a4,  a11, -48   /* restore a4 from end of call[i]'s stack frame */
-    l32e    a5,  a11, -44   /* restore a5 from end of call[i]'s stack frame */
-    l32e    a6,  a11, -40   /* restore a6 from end of call[i]'s stack frame */
-    l32e    a7,  a11, -36   /* restore a7 from end of call[i]'s stack frame */
-    l32e    a8,  a11, -32   /* restore a8 from end of call[i]'s stack frame */
-    l32e    a9,  a11, -28   /* restore a9 from end of call[i]'s stack frame */
-    l32e    a10, a11, -24   /* restore a10 from end of call[i]'s stack frame */
-    l32e    a11, a11, -20   /* restore a11 from end of call[i]'s stack frame */
+    l32e    a0,  a13, -16   /* restore a0 from आह्वान[i+1]'s stack frame */
+    l32e    a1,  a13, -12   /* restore a1 from आह्वान[i+1]'s stack frame */
+    l32e    a2,  a13,  -8   /* restore a2 from आह्वान[i+1]'s stack frame */
+    l32e    a11, a1,  -12   /* a11 <- आह्वान[i-1]'s sp
+                               (used to find end of आह्वान[i]'s frame) */
+    l32e    a3,  a13,  -4   /* restore a3 from आह्वान[i+1]'s stack frame */
+    l32e    a4,  a11, -48   /* restore a4 from end of आह्वान[i]'s stack frame */
+    l32e    a5,  a11, -44   /* restore a5 from end of आह्वान[i]'s stack frame */
+    l32e    a6,  a11, -40   /* restore a6 from end of आह्वान[i]'s stack frame */
+    l32e    a7,  a11, -36   /* restore a7 from end of आह्वान[i]'s stack frame */
+    l32e    a8,  a11, -32   /* restore a8 from end of आह्वान[i]'s stack frame */
+    l32e    a9,  a11, -28   /* restore a9 from end of आह्वान[i]'s stack frame */
+    l32e    a10, a11, -24   /* restore a10 from end of आह्वान[i]'s stack frame */
+    l32e    a11, a11, -20   /* restore a11 from end of आह्वान[i]'s stack frame */
     rfwu
 
 #endif /* XCHAL_HAVE_WINDOWED */
 
-    .section    .UserEnter.text, "ax"
-    .global     call_user_start
+    .खण्डः    .UserEnter.text, "ax"
+    .वैश्विक     call_user_start
     .type       call_user_start,@function
     .align      4
     .literal_position

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -45,16 +45,16 @@
     .extern ulICCEOIR
     .extern ulPortYieldRequired
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SVC_Handler
-    .global vPortRestoreTaskContext
-    .global vPortInitialiseFPSCR
-    .global ulReadAPSR
-    .weak   vPortYield
-    .global vPortEnableInterrupts
-    .global vPortDisableInterrupts
-    .global ulPortSetInterruptMaskFromISR
-    .global ulPortCountLeadingZeros
+    .वैश्विक FreeRTOS_IRQ_Handler
+    .वैश्विक FreeRTOS_SVC_Handler
+    .वैश्विक v_पत्तनम्_Restore_Task_Context
+    .वैश्विक v_पत्तनम्_Initialise_FPSCR
+    .वैश्विक ulReadAPSR
+    .weak   v_पत्तनम्_Yield
+    .वैश्विक v_पत्तनम्_Enable_Interrupts
+    .वैश्विक v_पत्तनम्_Disable_Interrupts
+    .वैश्विक ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR
+    .वैश्विक ul_पत्तनम्_गणनम्_Leading_Zeros
 
     .weak   vApplicationSVCHandler
 /*-----------------------------------------------------------*/
@@ -120,7 +120,7 @@
     VPOPNE  {D0-D15}
     VMSRNE  FPSCR, R0
 
-    /* Restore the critical section nesting depth. */
+    /* Restore the critical खण्डः nesting depth. */
     LDR     R0, =ulCriticalNesting
     POP     {R1}
     STR     R1, [R0]
@@ -137,13 +137,13 @@
 /*-----------------------------------------------------------*/
 
 /*
- * void vPortRestoreTaskContext( void );
+ * void v_पत्तनम्_Restore_Task_Context( void );
  *
- * vPortRestoreTaskContext is used to start the scheduler.
+ * v_पत्तनम्_Restore_Task_Context is used to start the scheduler.
  */
 .align 4
-.type vPortRestoreTaskContext, %function
-vPortRestoreTaskContext:
+.type v_पत्तनम्_Restore_Task_Context, %function
+v_पत्तनम्_Restore_Task_Context:
     /* Switch to system mode. */
     CPS     #SYS_MODE
     portRESTORE_CONTEXT
@@ -151,13 +151,13 @@ vPortRestoreTaskContext:
 /*-----------------------------------------------------------*/
 
 /*
- * void vPortInitialiseFPSCR( void );
+ * void v_पत्तनम्_Initialise_FPSCR( void );
  *
- * vPortInitialiseFPSCR is used to initialize the FPSCR register.
+ * v_पत्तनम्_Initialise_FPSCR is used to initialize the FPSCR register.
  */
 .align 4
-.type vPortInitialiseFPSCR, %function
-vPortInitialiseFPSCR:
+.type v_पत्तनम्_Initialise_FPSCR, %function
+v_पत्तनम्_Initialise_FPSCR:
     MOV     R0, #0
     VMSR    FPSCR, R0
     BX      LR
@@ -178,11 +178,11 @@ ulReadAPSR:
 /*-----------------------------------------------------------*/
 
 /*
- * void vPortYield( void );
+ * void v_पत्तनम्_Yield( void );
  */
 .align 4
-.type vPortYield, %function
-vPortYield:
+.type v_पत्तनम्_Yield, %function
+v_पत्तनम्_Yield:
     SVC 0
     ISB
     BX  LR
@@ -190,22 +190,22 @@ vPortYield:
 /*-----------------------------------------------------------*/
 
 /*
- * void vPortEnableInterrupts( void );
+ * void v_पत्तनम्_Enable_Interrupts( void );
  */
 .align 4
-.type vPortEnableInterrupts, %function
-vPortEnableInterrupts:
+.type v_पत्तनम्_Enable_Interrupts, %function
+v_पत्तनम्_Enable_Interrupts:
     CPSIE   I
     BX      LR
 
 /*-----------------------------------------------------------*/
 
 /*
- * void vPortDisableInterrupts( void );
+ * void v_पत्तनम्_Disable_Interrupts( void );
  */
 .align 4
-.type vPortDisableInterrupts, %function
-vPortDisableInterrupts:
+.type v_पत्तनम्_Disable_Interrupts, %function
+v_पत्तनम्_Disable_Interrupts:
     CPSID    I
     DSB
     ISB
@@ -214,13 +214,13 @@ vPortDisableInterrupts:
 /*-----------------------------------------------------------*/
 
 /*
- * uint32_t ulPortSetInterruptMaskFromISR( void );
+ * uint32_t ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR( void );
  */
 .align 4
-.type ulPortSetInterruptMaskFromISR, %function
-ulPortSetInterruptMaskFromISR:
+.type ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR, %function
+ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_From_ISR:
     MRS     R0, CPSR
-    AND     R0, R0, #CPSR_I_BIT
+    च     R0, R0, #CPSR_I_BIT
     CPSID   I
     DSB
     ISB
@@ -246,7 +246,7 @@ vApplicationSVCHandler:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * आह्वान vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry, their IRQ handler must be called
@@ -283,15 +283,15 @@ vApplicationFPUSafeIRQHandler:
 /*-----------------------------------------------------------*/
 
 /*
- * UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+ * UBaseType_t ul_पत्तनम्_गणनम्_Leading_Zeros( UBaseType_t ulBitmap );
  *
  * According to the Procedure Call Standard for the ARM Architecture (AAPCS):
  * - Parameter ulBitmap is passed in R0.
  * - Return value must be in R0.
  */
 .align 4
-.type ulPortCountLeadingZeros, %function
-ulPortCountLeadingZeros:
+.type ul_पत्तनम्_गणनम्_Leading_Zeros, %function
+ul_पत्तनम्_गणनम्_Leading_Zeros:
     CLZ     R0, R0
     BX      LR
 
@@ -315,10 +315,10 @@ FreeRTOS_SVC_Handler:
 
     /* --------------------------------- SVC Routing --------------------------------- */
     CMP     R0, #0
-    BEQ     svcPortYield
+    BEQ     svc_पत्तनम्_Yield
     BNE     svcApplicationCall
 
-svcPortYield:
+svc_पत्तनम्_Yield:
     POP     { R0-R1 }
     portSAVE_CONTEXT
     BLX     vTaskSwitchContext
@@ -360,7 +360,7 @@ FreeRTOS_IRQ_Handler:
     /* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
      * future use. */
     MOV     R0, SP
-    AND     R2, R0, #4
+    च     R2, R0, #4
     SUB     SP, SP, R2
 
     /* Call the interrupt handler. */

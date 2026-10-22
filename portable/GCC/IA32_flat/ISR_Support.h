@@ -26,28 +26,28 @@
  *
  */
 
-    .extern ulTopOfSystemStack
-    .extern ulInterruptNesting
+    .बाह्य ul_शिखरम्_सम्बन्धि_System_राशिः
+    .बाह्य ul_व्यवधानम्_Nesting
 
 /*-----------------------------------------------------------*/
 
-.macro portFREERTOS_INTERRUPT_ENTRY
+.macro पत्तनम्_FREERTOS_व्यवधानम्_प्रविष्टिः
 
     /* Save general purpose registers. */
     pusha
 
     /* If ulInterruptNesting is zero the rest of the task context will need
     saving and a stack switch might be required. */
-    movl    ulInterruptNesting, %eax
+    movl    ul_व्यवधानम्_Nesting, %eax
     test    %eax, %eax
     jne     2f
 
     /* Interrupts are not nested, so save the rest of the task context. */
-    .if configSUPPORT_FPU == 1
+    .यदि configSUPPORT_FPU == 1
 
         /* If the task has a buffer allocated to save the FPU context then
         save the FPU context now. */
-        movl    pucPortTaskFPUContextBuffer, %eax
+        movl    puc_पत्तनम्_Task_FPUContext_बफर, %eax
         test    %eax, %eax
         je      1f
         fnsave  ( %eax ) /* Save FLOP context into ucTempFPUBuffer array. */
@@ -55,7 +55,7 @@
 
         1:
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        प्रक्षिप    puc_पत्तनम्_Task_FPUContext_बफर
 
     .endif /* configSUPPORT_FPU */
 
@@ -66,31 +66,31 @@
     movl    %esp, (%eax)
 
     /* Switch stacks. */
-    movl    ulTopOfSystemStack, %esp
+    movl    ul_शिखरम्_सम्बन्धि_System_राशिः, %esp
     movl    %esp, %ebp
 
     2:
     /* Increment nesting count. */
-    add     $1, ulInterruptNesting
+    सङ्कलय     $1, ul_व्यवधानम्_Nesting
 
 .endm
 /*-----------------------------------------------------------*/
 
-.macro portINTERRUPT_EPILOGUE
+.macro पत्तनम्_व्यवधानम्_EPILOGUE
 
     cli
-    sub     $1, ulInterruptNesting
+    sub     $1, ul_व्यवधानम्_Nesting
 
     /* If the nesting has unwound to zero. */
-    movl    ulInterruptNesting, %eax
+    movl    ul_व्यवधानम्_Nesting, %eax
     test    %eax, %eax
     jne     2f
 
     /* If a yield was requested then select a new TCB now. */
-    movl    ulPortYieldPending, %eax
+    movl    ul_पत्तनम्_Yield_Pending, %eax
     test    %eax, %eax
     je      1f
-    movl    $0, ulPortYieldPending
+    movl    $0, ul_पत्तनम्_Yield_Pending
     call    vTaskSwitchContext
 
     1:
@@ -98,14 +98,14 @@
     movl    pxCurrentTCB, %eax
     movl    (%eax), %esp
 
-    .if configSUPPORT_FPU == 1
+    .यदि configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        निष्कासय     puc_पत्तनम्_Task_FPUContext_बफर
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */
-        movl    pucPortTaskFPUContextBuffer, %eax
+        movl    puc_पत्तनम्_Task_FPUContext_बफर, %eax
         test    %eax, %eax
         je      1f
         frstor  ( %eax )
@@ -118,9 +118,9 @@
 .endm
 /*-----------------------------------------------------------*/
 
-.macro portFREERTOS_INTERRUPT_EXIT
+.macro पत्तनम्_FREERTOS_व्यवधानम्_EXIT
 
-    portINTERRUPT_EPILOGUE
+    पत्तनम्_व्यवधानम्_EPILOGUE
     /* EOI. */
     movl    $0x00, (0xFEE000B0)
     iret

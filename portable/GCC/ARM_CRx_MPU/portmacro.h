@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /**
  * @brief Functions, Defines, and Structs for use in the ARM_CRx_MPU FreeRTOS-Port
@@ -36,40 +36,40 @@
  *  hardware and compiler. These settings should not be altered.
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+बाह्य "C" {
+#यदि_अन्तः
 
 /* Include stdint for integer types of specific bit widths. */
-#include <stdint.h>
+#अन्तर्भाव <stdint.h>
 
 /* ------------------------------ FreeRTOS Config Check ------------------------------ */
 
-#ifndef configSYSTEM_CALL_STACK_SIZE
-    #error "Define configSYSTEM_CALL_STACK_SIZE to a length, in bytes, " \
+#यदि_अपरिभाषितम् config_SYSTEM_CALL_राशिः_आकार
+    #दोषः "Define configSYSTEM_CALL_STACK_SIZE to a length, in bytes, " \
             "to use when an unprivileged task makes a FreeRTOS Kernel call. "
-#endif /* configSYSTEM_CALL_STACK_SIZE */
+#यदि_अन्तः /* configSYSTEM_CALL_STACK_SIZE */
 
-#if( configUSE_MPU_WRAPPERS_V1 == 1 )
-    #error This port is usable with MPU wrappers V2 only.
-#endif /* configUSE_MPU_WRAPPERS_V1 */
+#यदि( configUSE_MPU_WRAPPERS_V1 == 1 )
+    #दोषः This पत्तनम् is usable with MPU wrappers V2 only.
+#यदि_अन्तः /* configUSE_MPU_WRAPPERS_V1 */
 
-#ifndef configSETUP_TICK_INTERRUPT
-    #error "configSETUP_TICK_INTERRUPT() must be defined in FreeRTOSConfig.h " \
+#यदि_अपरिभाषितम् config_सज्जता_TICK_व्यवधानम्
+    #दोषः "configSETUP_TICK_INTERRUPT() must be defined in FreeRTOSConfig.h " \
            "to call the function that sets up the tick interrupt."
-#endif /* configSETUP_TICK_INTERRUPT */
+#यदि_अन्तः /* configSETUP_TICK_INTERRUPT */
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#यदि( config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION == 1 )
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
-        #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when " \
+    #यदि( configMAX_PRIORITIES > 32 )
+        #दोषः "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when " \
                 "configMAX_PRIORITIES is less than or equal to 32. " \
                 "It is very rare that a system requires more than 10 to 15 difference " \
                 "priorities as tasks that share a priority will time slice."
-    #endif /* ( configMAX_PRIORITIES > 32 ) */
+    #यदि_अन्तः /* ( configMAX_PRIORITIES > 32 ) */
 
     /**
      * @brief Mark that a task of the given priority is ready.
@@ -79,8 +79,8 @@ extern "C" {
      * @param[in] uxPriority Priority of the task that is ready.
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxTopReadyPriority ) \
-        ( uxTopReadyPriority ) |= ( 1UL << ( uxPriority ) )
+    #परिभाषय पत्तनम्_लेखः_READY_प्राथमिकता( ux_प्राथमिकता, ux_शिखरम्_Ready_प्राथमिकता ) \
+        ( ux_शिखरम्_Ready_प्राथमिकता ) |= ( 1UL << ( ux_प्राथमिकता ) )
 
     /**
      * @brief Mark that a task of the given priority is no longer ready.
@@ -90,8 +90,8 @@ extern "C" {
      * @param[in] uxPriority Priority of the task that is no longer ready.
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      */
-    #define portRESET_READY_PRIORITY( uxPriority, uxTopReadyPriority ) \
-        ( uxTopReadyPriority ) &= ~( 1UL << ( uxPriority ) )
+    #परिभाषय पत्तनम्_RESET_READY_प्राथमिकता( ux_प्राथमिकता, ux_शिखरम्_Ready_प्राथमिकता ) \
+        ( ux_शिखरम्_Ready_प्राथमिकता ) &= ~( 1UL << ( ux_प्राथमिकता ) )
 
     /**
      * @brief Determine the highest priority ready task's priority.
@@ -101,14 +101,14 @@ extern "C" {
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      * @param[in] uxTopPriority The highest priority ready task's priority.
      */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxTopReadyPriority ) \
-        ( uxTopPriority ) = ( 31UL - ulPortCountLeadingZeros( ( uxTopReadyPriority ) ) )
+    #परिभाषय पत्तनम्_GET_HIGHEST_प्राथमिकता( ux_शिखरम्_प्राथमिकता, ux_शिखरम्_Ready_प्राथमिकता ) \
+        ( ux_शिखरम्_प्राथमिकता ) = ( 31UL - ul_पत्तनम्_गणनम्_Leading_Zeros( ( ux_शिखरम्_Ready_प्राथमिकता ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#यदि_अन्तः /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* ------------------------------ Port Type Definitions ------------------------------ */
 
-#include "portmacro_asm.h"
+#अन्तर्भाव "portmacro_asm.h"
 
 /**
  * @brief Critical section nesting value.
@@ -118,7 +118,7 @@ extern "C" {
  * @note A task exits critical section and enables IRQs when its nesting count
  * reaches this value.
  */
-#define portNO_CRITICAL_NESTING ( ( uint32_t ) 0x0 )
+#परिभाषय पत्तनम्_NO_CRITICAL_NESTING ( ( uint32_t ) 0x0 )
 
 /**
  * @brief Bit in Current Program Status Register (CPSR) to indicate that CPU is
@@ -126,35 +126,35 @@ extern "C" {
  *
  * @ingroup Task Context
  */
-#define portTHUMB_MODE_BIT      ( ( StackType_t ) 0x20 )
+#परिभाषय पत्तनम्_THUMB_बहुलकम्_BIT      ( ( राशिः_Type_t ) 0x20 )
 
 /**
  * @brief Bitmask to check if an address is of Thumb Code.
  *
  * @ingroup Task Context
  */
-#define portTHUMB_MODE_ADDRESS  ( 0x01UL )
+#परिभाषय पत्तनम्_THUMB_बहुलकम्_स्थानाङ्कः  ( 0x01UL )
 
 /**
  * @brief Data type used to represent a stack word.
  *
  * @ingroup Port Interface Specifications
  */
-typedef uint32_t StackType_t;
+प्रकारनिर्देश uint32_t राशिः_Type_t;
 
 /**
  * @brief Signed data type equal to the data word operating size of the CPU.
  *
  * @ingroup Port Interface Specifications
  */
-typedef int32_t BaseType_t;
+प्रकारनिर्देश int32_t आधारः_Type_t;
 
 /**
  * @brief Unsigned data type equal to the data word operating size of the CPU.
  *
  * @ingroup Port Interface Specifications
  */
-typedef uint32_t UBaseType_t;
+प्रकारनिर्देश uint32_t UBaseType_t;
 
 /**
  * @brief Data type used for the FreeRTOS Tick Counter.
@@ -162,21 +162,21 @@ typedef uint32_t UBaseType_t;
  * @note Using 32-bit tick type on a 32-bit architecture ensures that reads of
  * the tick count do not need to be guarded with a critical section.
  */
-typedef uint32_t TickType_t;
+प्रकारनिर्देश uint32_t TickType_t;
 
 /**
  * @brief Marks the direction the stack grows on the targeted CPU.
  *
  * @ingroup Port Interface Specifications
  */
-#define portSTACK_GROWTH   ( -1 )
+#परिभाषय पत्तनम्_राशिः_GROWTH   ( -1 )
 
 /**
  * @brief Specifies stack pointer alignment requirements of the target CPU.
  *
  * @ingroup Port Interface Specifications
  */
-#define portBYTE_ALIGNMENT 8U
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT 8U
 
 /**
  * @brief Task function prototype macro as described on FreeRTOS.org.
@@ -186,8 +186,8 @@ typedef uint32_t TickType_t;
  * @note This is not required for this port but included in case common demo
  * code uses it.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) \
-    void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters ) \
+    शून्य vFunction( शून्य * pvParameters )
 
 /**
  * @brief Task function prototype macro as described on FreeRTOS.org.
@@ -197,57 +197,57 @@ typedef uint32_t TickType_t;
  * @note This is not required for this port but included in case common demo
  * code uses it.
  */
-#define portTASK_FUNCTION( vFunction, pvParameters ) \
-    void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters ) \
+    शून्य vFunction( शून्य * pvParameters )
 
 /**
  * @brief The no-op ARM assembly instruction.
  *
  * @ingroup Port Interface Specifications
  */
-#define portNOP()                                    __asm volatile( "NOP" )
+#परिभाषय पत्तनम्_NOP()                                    __asm चञ्चल( "NOP" )
 
 /**
  * @brief The inline GCC label.
  *
  * @ingroup Port Interface Specifications
  */
-#define portINLINE                                   __inline
+#परिभाषय पत्तनम्_INLINE                                   __inline
 
 /**
  * @brief The memory access synchronization barrier.
  *
  * @ingroup Port Interface Specifications
  */
-#define portMEMORY_BARRIER()                         __asm volatile( "" ::: "memory" )
+#परिभाषय पत्तनम्_स्मृतिः_BARRIER()                         __asm चञ्चल( "" ::: "memory" )
 
 /**
  * @brief Ensure a symbol isn't removed from the compilation unit.
  *
  * @ingroup Port Interface Specifications
  */
-#define portDONT_DISCARD                             __attribute__( ( used ) )
+#परिभाषय पत्तनम्_DONT_DISCARD                             __attribute__( ( प्रयुक्तम् ) )
 
 /**
  * @brief Defines if the tick count can be accessed atomically.
  *
  * @ingroup System Clock
  */
-#define portTICK_TYPE_IS_ATOMIC                      1
+#परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC                      1
 
 /**
  * @brief The number of milliseconds between system ticks.
  *
  * @ingroup System Clock
  */
-#define portTICK_PERIOD_MS                           ( ( TickType_t ) 1000UL / configTICK_RATE_HZ )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS                           ( ( TickType_t ) 1000UL / config_TICK_दरः_HZ )
 
 /**
  * @brief The largest possible delay value for any FreeRTOS API.
  *
  * @ingroup System Clock
  */
-#define portMAX_DELAY                                ( TickType_t ) 0xFFFFFFFFUL
+#परिभाषय पत्तनम्_MAX_DELAY                                ( TickType_t ) 0xFFFFFFFFUL
 
 /* ----------------------------- Port Assembly Functions ----------------------------- */
 
@@ -256,83 +256,83 @@ typedef uint32_t TickType_t;
  *
  * @ingroup Scheduler
  */
-void FreeRTOS_SVC_Handler( void );
+शून्य FreeRTOS_SVC_Handler( शून्य );
 
 /**
  * @brief FreeRTOS Interrupt Handler.
  *
  * @ingroup Scheduler
  */
-void FreeRTOS_IRQ_Handler( void );
+शून्य FreeRTOS_IRQ_Handler( शून्य );
 
 /**
  * @brief Yield the CPU.
  *
  * @ingroup Scheduler
  */
-void vPortYield( void );
+शून्य v_पत्तनम्_Yield( शून्य );
 
-#define portYIELD() vPortYield()
+#परिभाषय पत्तनम्_YIELD() v_पत्तनम्_Yield()
 
 /**
  * @brief Enable interrupts.
  *
  * @ingroup Interrupt Management
  */
-void vPortEnableInterrupts( void );
+शून्य v_पत्तनम्_Enable_Interrupts( शून्य );
 
-#define portENABLE_INTERRUPTS() vPortEnableInterrupts()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS() v_पत्तनम्_Enable_Interrupts()
 
 /**
  * @brief Disable interrupts.
  *
  * @ingroup Interrupt Management
  */
-void vPortDisableInterrupts( void );
+शून्य v_पत्तनम्_Disable_Interrupts( शून्य );
 
-#define portDISABLE_INTERRUPTS() vPortDisableInterrupts()
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS() v_पत्तनम्_Disable_Interrupts()
 
 /**
  * @brief Exit from a FreeRTO System Call.
  *
  * @ingroup Port Privilege
  */
-void vPortSystemCallExit( void );
+शून्य v_पत्तनम्_System_Call_Exit( शून्य );
 
 /**
  * @brief Start executing first task.
  *
  * @ingroup Scheduler
  */
-void vPortStartFirstTask( void );
+शून्य v_पत्तनम्_Start_First_Task( शून्य );
 
 /**
  * @brief Enable the onboard MPU.
  *
  * @ingroup MPU Control
  */
-void vMPUEnable( void );
+शून्य vMPUEnable( शून्य );
 
 /**
  * @brief Disable the onboard MPU.
  *
  * @ingroup MPU Control
  */
-void vMPUDisable( void );
+शून्य vMPUDisable( शून्य );
 
 /**
  * @brief Enable the MPU Background Region.
  *
  * @ingroup MPU Control
  */
-void vMPUEnableBackgroundRegion( void );
+शून्य vMPUEnableBackgroundRegion( शून्य );
 
 /**
  * @brief Disable the MPU Background Region.
  *
  * @ingroup MPU Control
  */
-void vMPUDisableBackgroundRegion( void );
+शून्य vMPUDisableBackgroundRegion( शून्य );
 
 /**
  * @brief Set permissions for an MPU Region.
@@ -347,9 +347,9 @@ void vMPUDisableBackgroundRegion( void );
  * @note This is an internal function and assumes that the inputs to this
  * function are checked before calling this function.
  */
-void vMPUSetRegion( uint32_t ulRegionNumber,
-                    uint32_t ulBaseAddress,
-                    uint32_t ulRegionSize,
+शून्य vMPUSetRegion( uint32_t ul_Region_सङ्ख्या,
+                    uint32_t ul_आधारः_स्थानाङ्कः,
+                    uint32_t ul_Region_आकार,
                     uint32_t ulRegionPermissions );
 
 /* ------------------------------- Port.c Declarations ------------------------------- */
@@ -359,18 +359,18 @@ void vMPUSetRegion( uint32_t ulRegionNumber,
  *
  * @ingroup Critical Section
  */
-void vPortEnterCritical( void );
+शून्य v_पत्तनम्_Enter_Critical( शून्य );
 
-#define portENTER_CRITICAL() vPortEnterCritical()
+#परिभाषय पत्तनम्_ENTER_CRITICAL() v_पत्तनम्_Enter_Critical()
 
 /**
  * @brief Exit critical section.
  *
  * @ingroup Critical Section
  */
-void vPortExitCritical( void );
+शून्य v_पत्तनम्_Exit_Critical( शून्य );
 
-#define portEXIT_CRITICAL() vPortExitCritical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL() v_पत्तनम्_Exit_Critical()
 
 /**
  * @brief Checks whether or not the processor is privileged.
@@ -382,9 +382,9 @@ void vPortExitCritical( void );
  *
  * @return pdTRUE, if the processor is privileged, pdFALSE otherwise.
  */
-BaseType_t xPortIsPrivileged( void );
+आधारः_Type_t x_पत्तनम्_Is_Privileged( शून्य );
 
-#define portIS_PRIVILEGED() xPortIsPrivileged()
+#परिभाषय पत्तनम्_IS_PRIVILEGED() x_पत्तनम्_Is_Privileged()
 
 /**
  * @brief Checks whether or not a task is privileged.
@@ -397,9 +397,9 @@ BaseType_t xPortIsPrivileged( void );
  *
  * @return pdTRUE if the task is privileged, pdFALSE otherwise.
  */
-BaseType_t xPortIsTaskPrivileged( void );
+आधारः_Type_t x_पत्तनम्_Is_Task_Privileged( शून्य );
 
-#define portIS_TASK_PRIVILEGED() xPortIsTaskPrivileged()
+#परिभाषय पत्तनम्_IS_TASK_PRIVILEGED() x_पत्तनम्_Is_Task_Privileged()
 
 /**
  * @brief Default return address for tasks.
@@ -409,13 +409,13 @@ BaseType_t xPortIsTaskPrivileged( void );
  * @note This function is used as the default return address for tasks if
  * configTASK_RETURN_ADDRESS is not defined in FreeRTOSConfig.h.
  */
-void prvTaskExitError( void );
+शून्य prvTaskExitError( शून्य );
 
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS prvTaskExitError
-#endif /* configTASK_RETURN_ADDRESS */
+#यदि_परिभाषितम् config_TASK_RETURN_स्थानाङ्कः
+    #परिभाषय पत्तनम्_TASK_RETURN_स्थानाङ्कः config_TASK_RETURN_स्थानाङ्कः
+#अन्यथा
+    #परिभाषय पत्तनम्_TASK_RETURN_स्थानाङ्कः prvTaskExitError
+#यदि_अन्तः /* configTASK_RETURN_ADDRESS */
 
 /**
  * @brief Returns the number of leading zeros in a 32 bit variable.
@@ -424,7 +424,7 @@ void prvTaskExitError( void );
  *
  * @return The number of leading zeros in ulBitmap.
  */
-UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+UBaseType_t ul_पत्तनम्_गणनम्_Leading_Zeros( UBaseType_t ulBitmap );
 
 /**
  * @brief End the FreeRTOS scheduler.
@@ -433,7 +433,7 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
  *
  * @ingroup Scheduler
  */
-void vPortEndScheduler( void );
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य );
 
 /* --------------------------------- MPU Definitions --------------------------------- */
 
@@ -442,7 +442,7 @@ void vPortEndScheduler( void );
  *
  * @ingroup MPU Control
  */
-#define portUSING_MPU_WRAPPERS     1
+#परिभाषय पत्तनम्_USING_MPU_WRAPPERS     1
 
 /**
  * @brief Used to mark if a task should be created as a privileged task.
@@ -454,12 +454,12 @@ void vPortEndScheduler( void );
  * the task priority. For example, to create a privileged task at priority 2, the
  * uxPriority parameter should be set to ( 2 | portPRIVILEGE_BIT ).
  */
-#define portPRIVILEGE_BIT          ( 0x80000000UL )
+#परिभाषय पत्तनम्_PRIVILEGE_BIT          ( 0x80000000UL )
 
 /**
  * @brief Size of an Access Control List (ACL) entry in bits.
  */
-#define portACL_ENTRY_SIZE_BITS    ( 32UL )
+#परिभाषय पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः    ( 32UL )
 
 /**
  * @brief Structure to hold the MPU Register Values.
@@ -471,11 +471,11 @@ void vPortEndScheduler( void );
  * @note The ordering of this struct MUST be in sync with the ordering in
  * portRESTORE_CONTEXT.
  */
-typedef struct MPU_REGION_REGISTERS
+प्रकारनिर्देश संरचना MPU_REGION_REGISTERS
 {
-    uint32_t ulRegionSize;        /* Information for MPU Region Size and Enable Register. */
+    uint32_t ul_Region_आकार;        /* Information for MPU Region Size and Enable Register. */
     uint32_t ulRegionAttribute;   /* Information for MPU Region Access Control Register. */
-    uint32_t ulRegionBaseAddress; /* Information for MPU Region Base Address Register. */
+    uint32_t ul_Region_आधारः_स्थानाङ्कः; /* Information for MPU Region Base Address Register. */
 } xMPU_REGION_REGISTERS;
 
 /**
@@ -488,14 +488,14 @@ typedef struct MPU_REGION_REGISTERS
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct SYSTEM_CALL_STACK_INFO
+प्रकारनिर्देश संरचना SYSTEM_CALL_राशिः_INFO
 {
-    uint32_t * pulTaskStackPointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
-    uint32_t * pulLinkRegisterAtSystemCallEntry; /**< Link Register of the task when it made a FreeRTOS System Call. */
-    uint32_t * pulSystemCallStackPointer; /**< Stack Pointer to use for executing a FreeRTOS System Call. */
-    uint32_t * pulSystemCallExitAddress; /**< System call exit address. */
-    uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ]; /**< Buffer to be used as stack when performing a FreeRTOS System Call. */
-} xSYSTEM_CALL_STACK_INFO;
+    uint32_t * pul_Task_राशिः_Pointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
+    uint32_t * pul_Link_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः; /**< Link Register of the task when it made a FreeRTOS System Call. */
+    uint32_t * pul_System_Call_राशिः_Pointer; /**< Stack Pointer to use for executing a FreeRTOS System Call. */
+    uint32_t * pul_System_Call_Exit_स्थानाङ्कः; /**< System call exit address. */
+    uint32_t ul_System_Call_राशिः_बफर[ config_SYSTEM_CALL_राशिः_आकार ]; /**< Buffer to be used as stack when performing a FreeRTOS System Call. */
+} x_SYSTEM_CALL_राशिः_INFO;
 
 /**
  * @brief Per-Task MPU settings structure stored in the TCB.
@@ -508,22 +508,22 @@ typedef struct SYSTEM_CALL_STACK_INFO
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct MPU_SETTINGS
+प्रकारनिर्देश संरचना MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
+    xMPU_REGION_REGISTERS xRegion[ पत्तनम्_योग_अङ्कः_REGIONS_अन्तर्_TCB ];
     uint32_t ulTaskFlags;
-    xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-    uint32_t ulContext[ CONTEXT_SIZE ]; /**< Buffer used to store task context. */
+    x_SYSTEM_CALL_राशिः_INFO x_System_Call_राशिः_Info;
+    uint32_t ulContext[ CONTEXT_आकार ]; /**< Buffer used to store task context. */
 
-    #if( configENABLE_ACCESS_CONTROL_LIST == 1 )
-        uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE
-                                        / portACL_ENTRY_SIZE_BITS )
+    #यदि( configENABLE_ACCESS_CONTROL_LIST == 1 )
+        uint32_t ulAccessControlList[ ( config_PROTECTED_KERNEL_OBJECT_POOL_आकार
+                                        / पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः )
                                       + 1UL ];
-    #endif
+    #यदि_अन्तः
 } xMPU_SETTINGS;
 
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
 } /* extern C */
-#endif
+#यदि_अन्तः
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

@@ -20,12 +20,12 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS वा IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE च NONINFRINGEMENT.
+ * अन्तः NO EVENT SHALL THE AUTHORS वा COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER अन्तः AN ACTION OF CONTRACT,
+ * TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः CONNECTION WITH THE
+ * SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  */
 
 #include "xtensa_rtos.h"
@@ -46,9 +46,9 @@
 
     .data
     .align      16
-    .global     port_IntStack
-    .global     port_IntStackTop
-    .global     port_switch_flag
+    .वैश्विक     port_IntStack
+    .वैश्विक     port_IntStackTop
+    .वैश्विक     port_switch_flag
 port_IntStack:
     .space      configISR_STACK_SIZE*portNUM_PROCESSORS     /* This allocates stacks for each individual CPU. */
 port_IntStackTop:
@@ -68,7 +68,7 @@ port_switch_flag:
 *
 *******************************************************************************
 */
-    .global     _frxt_setup_switch
+    .वैश्विक     _frxt_setup_switch
     .type       _frxt_setup_switch,@function
     .align      4
 _frxt_setup_switch:
@@ -112,15 +112,15 @@ _frxt_int_enter:
     s32i    a13, a1, XT_STK_A13
 
     /* Save return address in a safe place (free a0). */
-    mov     a12, a0
+    चालय     a12, a0
 
     /* Save the rest of the interrupted context (preserves A12-13). */
     call0   _xt_context_save
 
     /*
     Save interrupted task's SP in TCB only if not nesting.
-    Manage nesting directly rather than call the generic IntEnter()
-    (in windowed ABI we can't call a C function here anyway because PS.EXCM is still set).
+    Manage nesting directly rather than आह्वान the generic IntEnter()
+    (in windowed ABI we can't आह्वान a C function here anyway because PS.EXCM is still set).
     */
     getcoreid a4
     movi    a2,  port_xSchedulerRunning
@@ -140,9 +140,9 @@ _frxt_int_enter:
     beqz    a2,  1f
     s32i    a1,  a2, TOPOFSTACK_OFFS    /* pxCurrentTCB->pxTopOfStack = SP */
     movi    a1,  port_IntStack+configISR_STACK_SIZE   /* a1 = top of intr stack for CPU 0  */
-    movi    a2,  configISR_STACK_SIZE   /* add configISR_STACK_SIZE * cpu_num to arrive at top of stack for cpu_num */
+    movi    a2,  configISR_STACK_SIZE   /* योजय configISR_STACK_SIZE * cpu_num to arrive at top of stack for cpu_num */
     mull    a2,  a4, a2
-    add     a1,  a1, a2                 /* for current proc */
+    योजय     a1,  a1, a2                 /* for current proc */
 
     #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0))
     #ifdef CONFIG_FREERTOS_FPU_IN_ISR
@@ -166,8 +166,8 @@ _frxt_int_enter:
     #endif
     #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
-    mov     a0,  a12                    /* restore return addr and return  */
-    ret
+    चालय     a0,  a12                    /* restore return addr and return  */
+    प्रत्यागच्छ
 
 /*
 *******************************************************************************
@@ -175,7 +175,7 @@ _frxt_int_enter:
 * void _frxt_int_exit(void)
 *
 * Implements the Xtensa RTOS porting layer's XT_RTOS_INT_EXIT function for
-* FreeRTOS. If required, calls vPortYieldFromInt() to perform task context
+* FreeRTOS. If required, calls v_पत्तनम्_Yield_From_Int() to perform task context
 * switching, restore the (possibly) new task's context, and return to the
 * exit dispatcher saved in the task's stack frame at XT_STK_EXIT.
 * May only be called from assembly code by the 'call0' instruction. Does not
@@ -237,10 +237,10 @@ _frxt_int_exit:
     #endif
 
     #ifdef __XTENSA_CALL0_ABI__
-    call0   vPortYieldFromInt       /* call dispatch inside the function; never returns */
+    call0   v_पत्तनम्_Yield_From_Int       /* आह्वान dispatch inside the function; never returns */
     #else
-    call4   vPortYieldFromInt       /* this one returns */
-    call0   _frxt_dispatch          /* tail-call dispatcher */
+    call4   v_पत्तनम्_Yield_From_Int       /* this one returns */
+    call0   _frxt_dispatch          /* tail-आह्वान dispatcher */
     /* Never returns here. */
     #endif
 
@@ -265,7 +265,7 @@ _frxt_int_exit:
     stack frame is deallocated in the exit dispatcher.
     */
     l32i    a0,  a1, XT_STK_EXIT
-    ret
+    प्रत्यागच्छ
 
 
 /*
@@ -324,7 +324,7 @@ _frxt_timer_int:
     l32i    a2, a3, 0                   /* a2 = comparator increment          */
     #endif
     rsr     a3, XT_CCOMPARE             /* a3 = old comparator value          */
-    add     a4, a3, a2                  /* a4 = new comparator value          */
+    योजय     a4, a3, a2                  /* a4 = new comparator value          */
     wsr     a4, XT_CCOMPARE             /* update comp. and clear interrupt   */
     esync
 
@@ -350,7 +350,7 @@ _frxt_timer_int:
     /* Check if we need to process more ticks to catch up. */
     esync                               /* ensure comparator update complete  */
     rsr     a4, CCOUNT                  /* a4 = cycle count                   */
-    sub     a4, a4, a3                  /* diff = ccount - old comparator     */
+    वियोजय     a4, a4, a3                  /* diff = ccount - old comparator     */
     blt     a2, a4, .L_xt_timer_int_catchup  /* repeat while diff > divisor */
 
 #ifdef CONFIG_PM_TRACE
@@ -389,7 +389,7 @@ _frxt_tick_timer_init:
     l32i    a3, a2, 0
     #endif
     rsr     a2, CCOUNT              /* current cycle count */
-    add     a2, a2, a3              /* time of first timer interrupt */
+    योजय     a2, a2, a3              /* time of first timer interrupt */
     wsr     a2, XT_CCOMPARE         /* set the comparator */
 
     /*
@@ -409,14 +409,14 @@ _frxt_tick_timer_init:
 
 /*
 **********************************************************************************************************
-*                                    DISPATCH THE HIGH READY TASK
+*                                    DISPATCH THE उच्च READY TASK
 *                                     void _frxt_dispatch(void)
 *
 * Switch context to the highest priority ready task, restore its state and dispatch control to it.
 *
 * This is a common dispatcher that acts as a shared exit path for all the context switch functions
-* including vPortYield() and vPortYieldFromInt(), all of which tail-call this dispatcher
-* (for windowed ABI vPortYieldFromInt() calls it indirectly via _frxt_int_exit() ).
+* including v_पत्तनम्_Yield() and v_पत्तनम्_Yield_From_Int(), all of which tail-आह्वान this dispatcher
+* (for windowed ABI v_पत्तनम्_Yield_From_Int() calls it indirectly via _frxt_int_exit() ).
 *
 * The Xtensa port uses different stack frames for solicited and unsolicited task suspension (see
 * comments on stack frames in xtensa_context.h). This function restores the state accordingly.
@@ -428,7 +428,7 @@ _frxt_tick_timer_init:
 *   Because it is tail-called without a true function entrypoint, it needs no 'entry' instruction.
 *
 * Exit:
-*   If incoming task called vPortYield() (solicited), this function returns as if from vPortYield().
+*   If incoming task called v_पत्तनम्_Yield() (solicited), this function returns as if from v_पत्तनम्_Yield().
 *   If incoming task was preempted by an interrupt, this function jumps to exit dispatcher.
 *
 **********************************************************************************************************
@@ -459,7 +459,7 @@ _frxt_dispatch:
 
 .L_frxt_dispatch_sol:
 
-    /* Solicited stack frame. Restore minimal context and return from vPortYield(). */
+    /* Solicited stack frame. Restore minimal context and return from v_पत्तनम्_Yield(). */
     #if XCHAL_HAVE_THREADPTR
     l32i    a2,  sp, XT_SOL_THREADPTR
     wur.threadptr a2
@@ -480,7 +480,7 @@ _frxt_dispatch:
     wsr     a3,  PS
     #ifdef __XTENSA_CALL0_ABI__
     addi    sp,  sp, XT_SOL_FRMSZ
-    ret
+    प्रत्यागच्छ
     #else
     retw
     #endif
@@ -518,13 +518,13 @@ _frxt_dispatch:
     stack frame is deallocated in the exit dispatcher.
     */
     l32i    a0, sp, XT_STK_EXIT
-    ret
+    प्रत्यागच्छ
 
 
 /*
 **********************************************************************************************************
 *                            PERFORM A SOLICTED CONTEXT SWITCH (from a task)
-*                                        void vPortYield(void)
+*                                        void v_पत्तनम्_Yield(void)
 *
 * This function saves the minimal state needed for a solicited task suspension, clears CPENABLE,
 * then tail-calls the dispatcher _frxt_dispatch() to perform the actual context switch
@@ -537,10 +537,10 @@ _frxt_dispatch:
 *
 **********************************************************************************************************
 */
-    .globl  vPortYield
-    .type   vPortYield,@function
+    .globl  v_पत्तनम्_Yield
+    .type   v_पत्तनम्_Yield,@function
     .align  4
-vPortYield:
+v_पत्तनम्_Yield:
 
     #ifdef __XTENSA_CALL0_ABI__
     addi    sp,  sp, -XT_SOL_FRMSZ
@@ -562,7 +562,7 @@ vPortYield:
     s32i    a15, sp, XT_SOL_A15
     #else
     /* Spill register windows. Calling xthal_window_spill() causes extra    */
-    /* spills and reloads, so we will set things up to call the _nw version */
+    /* spills and reloads, so we will set things up to आह्वान the _nw version */
     /* instead to save cycles.                                              */
     movi    a6,  ~(PS_WOE_MASK|PS_INTLEVEL_MASK)  /* spills a4-a7 if needed */
     and     a2,  a2, a6                           /* clear WOE, INTLEVEL    */
@@ -600,7 +600,7 @@ vPortYield:
 1:
     #endif
 
-    /* Tail-call dispatcher. */
+    /* Tail-आह्वान dispatcher. */
     call0   _frxt_dispatch
     /* Never reaches here. */
 
@@ -608,7 +608,7 @@ vPortYield:
 /*
 **********************************************************************************************************
 *                         PERFORM AN UNSOLICITED CONTEXT SWITCH (from an interrupt)
-*                                        void vPortYieldFromInt(void)
+*                                        void v_पत्तनम्_Yield_From_Int(void)
 *
 * This calls the context switch hook (removed), saves and clears CPENABLE, then tail-calls the dispatcher
 * _frxt_dispatch() to perform the actual context switch.
@@ -624,10 +624,10 @@ vPortYield:
 *
 **********************************************************************************************************
 */
-    .globl  vPortYieldFromInt
-    .type   vPortYieldFromInt,@function
+    .globl  v_पत्तनम्_Yield_From_Int
+    .type   v_पत्तनम्_Yield_From_Int,@function
     .align  4
-vPortYieldFromInt:
+v_पत्तनम्_Yield_From_Int:
 
     ENTRY(16)
 
@@ -647,7 +647,7 @@ vPortYieldFromInt:
     #endif
 
     #ifdef __XTENSA_CALL0_ABI__
-    /* Tail-call dispatcher. */
+    /* Tail-आह्वान dispatcher. */
     call0   _frxt_dispatch
     /* Never reaches here. */
     #else
@@ -662,7 +662,7 @@ vPortYieldFromInt:
 * Implements the Xtensa RTOS porting layer's XT_RTOS_CP_STATE function for FreeRTOS.
 *
 * May only be called when a task is running, not within an interrupt handler (returns 0 in that case).
-* May only be called from assembly code by the 'call0' instruction. Does NOT obey ABI conventions.
+* May only be called from assembly code by the 'call0' instruction. Does न obey ABI conventions.
 * Returns in A15 a pointer to the base of the co-processor state save area for the current task.
 * See the detailed description of the XT_RTOS_ENTER macro in xtensa_rtos.h.
 *
@@ -693,9 +693,9 @@ _frxt_task_coproc_state:
 
     beqz    a15, 2f
     l32i    a15, a15, CP_TOPOFSTACK_OFFS
-    ret
+    प्रत्यागच्छ
 
 1:  movi    a15, 0
-2:  ret
+2:  प्रत्यागच्छ
 
 #endif /* XCHAL_CP_NUM > 0 */

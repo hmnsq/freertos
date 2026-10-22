@@ -3,8 +3,8 @@
  * license and copyright intentionally withheld to promote copying into user code.
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -17,126 +17,126 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                int
-#define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#परिभाषय पत्तनम्_CHAR                 वर्ण
+#परिभाषय पत्तनम्_FLOAT                भिन्न
+#परिभाषय पत्तनम्_DOUBLE               द्विगुण
+#परिभाषय पत्तनम्_LONG                 दीर्घ
+#परिभाषय पत्तनम्_SHORT                पूर्णाङ्क
+#परिभाषय पत्तनम्_राशिः_TYPE           uint8_t
+#परिभाषय पत्तनम्_आधारः_TYPE            वर्ण
 
-#define portSTACK_GROWTH         ( -1 )
-#define portBYTE_ALIGNMENT       4
-#define portPOINTER_SIZE_TYPE    size_t
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+#परिभाषय पत्तनम्_राशिः_GROWTH         ( -1 )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT       4
+#परिभाषय पत्तनम्_POINTER_आकार_TYPE    size_t
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश चिह्नित वर्ण      आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित वर्ण    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffU
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffU
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffffffffffU
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffU
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffU
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_64_द्वयङ्काः )
+    प्रकारनिर्देश uint64_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffffffffffU
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#यदि_अपरिभाषितम् config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION
+    #परिभाषय config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION    1
+#यदि_अन्तः
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#यदि config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #यदि ( configMAX_PRIORITIES > 32 )
+        #दोषः config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION can only be समुच्चयः गन्तव्यम् 1 when configMAX_PRIORITIES is less than or equal गन्तव्यम् 32.  It is very rare that a system requires अधिकम् than 10 गन्तव्यम् 15 difference priorities as tasks that share a प्राथमिकता will time खण्डिका.
+    #यदि_अन्तः
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #परिभाषय पत्तनम्_लेखः_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_प्राथमिकता ) )
+    #परिभाषय पत्तनम्_RESET_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_प्राथमिकता ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    do {                                                                 \
-        uxTopPriority = 0;                                               \
-    } while( 0 )
+    #परिभाषय पत्तनम्_GET_HIGHEST_प्राथमिकता( ux_शिखरम्_प्राथमिकता, uxReadyPriorities ) \
+    कुरु {                                                                 \
+        ux_शिखरम्_प्राथमिकता = 0;                                               \
+    } यावत्( 0 )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#यदि_अन्तः /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* Disable the interrupts */
-#define portDISABLE_INTERRUPTS()    do {} while( 0 )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    कुरु {} यावत्( 0 )
 
 /* Enable the interrupts */
-#define portENABLE_INTERRUPTS()     do {} while( 0 )
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     कुरु {} यावत्( 0 )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#यदि ( config_सङ्ख्या_सम्बन्धि_CORES == 1 )
 /* preserve current interrupt state and then disable interrupts */
-    #define portENTER_CRITICAL()    do {} while( 0 )
+    #परिभाषय पत्तनम्_ENTER_CRITICAL()    कुरु {} यावत्( 0 )
 
 /* restore previously preserved interrupt state */
-    #define portEXIT_CRITICAL()     do {} while( 0 )
-#else
+    #परिभाषय पत्तनम्_EXIT_CRITICAL()     कुरु {} यावत्( 0 )
+#अन्यथा
 
 /* The port can maintain the critical nesting count in TCB or maintain the critical
  * nesting count in the port. */
-    #define portCRITICAL_NESTING_IN_TCB    1
+    #परिभाषय पत्तनम्_CRITICAL_NESTING_अन्तर्_TCB    1
 
 /* vTaskEnterCritical and vTaskExitCritical should be used in the implementation
  * of portENTER/EXIT_CRITICAL if the number of cores is more than 1 in the system. */
-    #define portENTER_CRITICAL             vTaskEnterCritical
-    #define portEXIT_CRITICAL              vTaskExitCritical
+    #परिभाषय पत्तनम्_ENTER_CRITICAL             vTaskEnterCritical
+    #परिभाषय पत्तनम्_EXIT_CRITICAL              vTaskExitCritical
 
 /* vTaskEnterCriticalFromISR and vTaskExitCriticalFromISR should be used in the
  * implementation of portENTER/EXIT_CRITICAL_FROM_ISR if the number of cores is
  * more than 1 in the system. */
-    #define portENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
-    #define portEXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
+    #परिभाषय पत्तनम्_ENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
+    #परिभाषय पत्तनम्_EXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
 
-#endif /* if ( configNUMBER_OF_CORES == 1 ) */
+#यदि_अन्तः /* if ( configNUMBER_OF_CORES == 1 ) */
 
-extern void vPortYield( void );
-#define portYIELD()                                           vPortYield()
+बाह्य शून्य v_पत्तनम्_Yield( शून्य );
+#परिभाषय पत्तनम्_YIELD()                                           v_पत्तनम्_Yield()
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters ) __attribute__( ( noreturn ) )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#यदि ( config_सङ्ख्या_सम्बन्धि_CORES > 1 )
     /* Return the core ID on which the code is running. */
-    #define portGET_CORE_ID()                0
+    #परिभाषय पत्तनम्_GET_CORE_ID()                0
 
 /* Set the interrupt mask. */
-    #define portSET_INTERRUPT_MASK()         0
+    #परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्()         0
 
 /* Clear the interrupt mask. */
-    #define portCLEAR_INTERRUPT_MASK( x )    ( ( void ) ( x ) )
+    #परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्( x )    ( ( शून्य ) ( x ) )
 
 /* Request the core ID x to yield. */
-    #define portYIELD_CORE( x )              do {} while( 0 )
+    #परिभाषय पत्तनम्_YIELD_CORE( x )              कुरु {} यावत्( 0 )
 
 /* Acquire the TASK lock. TASK lock is a recursive lock.
  * It should be able to be locked by the same core multiple times. */
-    #define portGET_TASK_LOCK( xCoreID )     do {} while( 0 )
+    #परिभाषय पत्तनम्_GET_TASK_तालकम्( xCoreID )     कुरु {} यावत्( 0 )
 
 /* Release the TASK lock. If a TASK lock is locked by the same core multiple times,
  * it should be released as many times as it is locked. */
-    #define portRELEASE_TASK_LOCK( xCoreID ) do {} while( 0 )
+    #परिभाषय पत्तनम्_RELEASE_TASK_तालकम्( xCoreID ) कुरु {} यावत्( 0 )
 
 /* Acquire the ISR lock. ISR lock is a recursive lock.
  * It should be able to be locked by the same core multiple times. */
-    #define portGET_ISR_LOCK( xCoreID )      do {} while( 0 )
+    #परिभाषय पत्तनम्_GET_ISR_तालकम्( xCoreID )      कुरु {} यावत्( 0 )
 
 /* Release the ISR lock. If a ISR lock is locked by the same core multiple times, \
  * it should be released as many times as it is locked. */
-    #define portRELEASE_ISR_LOCK( xCoreID )  do {} while( 0 )
+    #परिभाषय पत्तनम्_RELEASE_ISR_तालकम्( xCoreID )  कुरु {} यावत्( 0 )
 
-#endif /* if ( configNUMBER_OF_CORES > 1 ) */
+#यदि_अन्तः /* if ( configNUMBER_OF_CORES > 1 ) */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

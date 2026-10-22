@@ -31,17 +31,17 @@
     .extern vTaskSwitchContext
     .extern ulMaxSyscallInterruptPriorityConst
 
-    .global _vector_14
-    .global _lc_ref__vector_pp_14
-    .global SVC_Handler
-    .global vPortStartFirstTask
-    .global vPortEnableVFP
-    .global ulPortSetInterruptMask
-    .global vPortClearInterruptMask
+    .वैश्विक _vector_14
+    .वैश्विक _lc_ref__vector_pp_14
+    .वैश्विक SVC_Handler
+    .वैश्विक vPortStartFirstTask
+    .वैश्विक vPortEnableVFP
+    .वैश्विक ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्
+    .वैश्विक v_पत्तनम्_Clear_व्यवधानम्_आवरणम्
 
 ;-----------------------------------------------------------
 
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
 _vector_14: .type func
@@ -69,7 +69,7 @@ _vector_14: .type func
     ldr r0, [r0]
     msr basepri, r0
     bl vTaskSwitchContext
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     ldmia sp!, {r0, r3}
 
@@ -96,7 +96,7 @@ _vector_14: .type func
 
 ; This function is an XMC4000 silicon errata workaround.  It will get used when
 ; the SILICON_BUG_PMC_CM_001 linker macro is defined.
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
 _lc_ref__vector_pp_14: .type func
@@ -124,7 +124,7 @@ _lc_ref__vector_pp_14: .type func
     ldr r0, [r0]
     msr basepri, r0
     bl vTaskSwitchContext
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     ldmia sp!, {r3}
 
@@ -142,15 +142,15 @@ _lc_ref__vector_pp_14: .type func
 
     msr psp, r0
     isb
-    push { lr }
-    pop { pc } ; XMC4000 specific errata workaround.  Do not used "bx lr" here.
+    निक्षिप { lr }
+    उद्धर { pc } ; XMC4000 specific errata workaround.  Do not used "bx lr" here.
 
     .size   _lc_ref__vector_pp_14, $-_lc_ref__vector_pp_14
     .endsec
 
 ;-----------------------------------------------------------
 
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
 SVC_Handler: .type func
@@ -162,7 +162,7 @@ SVC_Handler: .type func
     ldmia r0!, {r4-r11, r14}
     msr psp, r0
     isb
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     bx r14
     .size   SVC_Handler, $-SVC_Handler
@@ -170,7 +170,7 @@ SVC_Handler: .type func
 
 ;-----------------------------------------------------------
 
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
 vPortStartFirstTask .type func
@@ -191,7 +191,7 @@ vPortStartFirstTask .type func
 
 ;-----------------------------------------------------------
 
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
 vPortEnableVFP .type func
@@ -208,27 +208,27 @@ vPortEnableVFP .type func
 
 ;-----------------------------------------------------------
 
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
-ulPortSetInterruptMask:
+ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्:
     mrs r0, basepri
     ldr.w r1, =ulMaxSyscallInterruptPriorityConst
     ldr r1, [r1]
     msr basepri, r1
     bx r14
-    .size   ulPortSetInterruptMask, $-ulPortSetInterruptMask
+    .size   ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्, $-ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्
     .endsec
 
 ;-----------------------------------------------------------
 
-    .section .text
+    .खण्डः .text
     .thumb
     .align 4
-vPortClearInterruptMask:
+v_पत्तनम्_Clear_व्यवधानम्_आवरणम्:
     msr basepri, r0
     bx r14
-    .size   vPortClearInterruptMask, $-vPortClearInterruptMask
+    .size   v_पत्तनम्_Clear_व्यवधानम्_आवरणम्, $-v_पत्तनम्_Clear_व्यवधानम्_आवरणम्
     .endsec
 
 ;-----------------------------------------------------------

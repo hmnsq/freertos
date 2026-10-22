@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,16 +31,16 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN vPortYieldFromISR
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    बाह्य vPortYieldFromISR
+    बाह्य pxCurrentTCB
+    बाह्य vTaskSwitchContext
 
-    PUBLIC vSetMSP
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC ulSetInterruptMaskFromISR
-    PUBLIC vClearInterruptMaskFromISR
+    सार्वजनिक vSetMSP
+    सार्वजनिक x_पत्तनम्_Pend_SVHandler
+    सार्वजनिक vPortSVCHandler
+    सार्वजनिक vPortStartFirstTask
+    सार्वजनिक ulSetInterruptMaskFromISR
+    सार्वजनिक vClearInterruptMaskFromISR
 
 /*-----------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ vSetMSP
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_पत्तनम्_Pend_SVHandler:
     mrs r0, psp
 
     ldr r3, =pxCurrentTCB   /* Get the location of the current TCB. */
@@ -59,26 +59,26 @@ xPortPendSVHandler:
     subs r0, r0, #32        /* Make space for the remaining low registers. */
     str r0, [r2]            /* Save the new top of stack. */
     stmia r0!, {r4-r7}      /* Store the low registers that are not saved automatically. */
-    mov r4, r8              /* Store the high registers. */
-    mov r5, r9
-    mov r6, r10
-    mov r7, r11
+    चालय r4, r8              /* Store the high registers. */
+    चालय r5, r9
+    चालय r6, r10
+    चालय r7, r11
     stmia r0!, {r4-r7}
 
-    push {r3, r14}
+    निक्षिप {r3, r14}
     cpsid i
     bl vTaskSwitchContext
     cpsie i
-    pop {r2, r3}            /* lr goes in r3. r2 now holds tcb pointer. */
+    उद्धर {r2, r3}            /* lr goes in r3. r2 now holds tcb pointer. */
 
     ldr r1, [r2]
     ldr r0, [r1]            /* The first item in pxCurrentTCB is the task top of stack. */
     adds r0, r0, #16        /* Move to the high registers. */
     ldmia r0!, {r4-r7}      /* Pop the high registers. */
-    mov r8, r4
-    mov r9, r5
-    mov r10, r6
-    mov r11, r7
+    चालय r8, r4
+    चालय r9, r5
+    चालय r10, r6
+    चालय r11, r7
 
     msr psp, r0             /* Remember the new top of stack for the task. */
 
@@ -109,10 +109,10 @@ vPortStartFirstTask
     movs r0, #2             /* Switch to the psp stack. */
     msr CONTROL, r0
     isb
-    pop {r0-r5}             /* Pop the registers that are saved automatically. */
-    mov lr, r5              /* lr is now in r5. */
-    pop {r3}                /* The return address is now in r3. */
-    pop {r2}                /* Pop and discard the XPSR. */
+    उद्धर {r0-r5}             /* Pop the registers that are saved automatically. */
+    चालय lr, r5              /* lr is now in r5. */
+    उद्धर {r3}                /* The return address is now in r3. */
+    उद्धर {r2}                /* Pop and discard the XPSR. */
     cpsie i                 /* The first task has its context and interrupts can be enabled. */
     bx r3                   /* Jump to the user defined task code. */
 
@@ -129,4 +129,4 @@ vClearInterruptMaskFromISR
     msr PRIMASK, r0
     bx lr
 
-    END
+    अन्त

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -42,9 +42,9 @@
     PORT_CPP_JTVIC_BASE = 0xBFFFC000
     PORT_CCP_JTVIC_GIRQ24_SRC = 0xBFFFC100
 
-    .global vPortStartFirstTask .text
-    .global vPortYieldISR .text
-    .global vPortTickInterruptHandler .text
+    .वैश्विक v_पत्तनम्_Start_First_Task .text
+    .वैश्विक v_पत्तनम्_Yield_ISR .text
+    .वैश्विक v_पत्तनम्_Tick_व्यवधानम्_Handler .text
 
 
 /******************************************************************/
@@ -52,7 +52,7 @@
 
 /***************************************************************
 *  The following is needed to locate the
-*  vPortTickInterruptHandler function into the correct vector
+*  v_पत्तनम्_Tick_व्यवधानम्_Handler function into the correct vector
 *  MEC14xx - This ISR will only be used if HW timers' interrupts
 *  in GIRQ23 are disaggregated.
 *
@@ -62,15 +62,15 @@
     .set  noat
     .set  micromips
 
-    .section .text, code
-    .ent    vPortTickInterruptHandler
+    .खण्डः .text, code
+    .ent    v_पत्तनम्_Tick_व्यवधानम्_Handler
 
 #if configTIMERS_DISAGGREGATED_ISRS == 0
 
     .globl girq23_isr
 
 girq23_isr:
-vPortTickInterruptHandler:
+v_पत्तनम्_Tick_व्यवधानम्_Handler:
 
     portSAVE_CONTEXT
 
@@ -79,14 +79,14 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-.end vPortTickInterruptHandler
+.end v_पत्तनम्_Tick_व्यवधानम्_Handler
 
 #else
 
     .globl girq23_b4
 
 girq23_b4:
-vPortTickInterruptHandler:
+v_पत्तनम्_Tick_व्यवधानम्_Handler:
 
     portSAVE_CONTEXT
 
@@ -95,7 +95,7 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-.end vPortTickInterruptHandler
+.end v_पत्तनम्_Tick_व्यवधानम्_Handler
 
 #endif /* #if configTIMERS_DISAGGREGATED_ISRS == 0 */
 
@@ -105,23 +105,23 @@ vPortTickInterruptHandler:
     .set    noreorder
     .set    noat
 
-    .section .text, code
-    .ent    vPortStartFirstTask
+    .खण्डः .text, code
+    .ent    v_पत्तनम्_Start_First_Task
 
-vPortStartFirstTask:
+v_पत्तनम्_Start_First_Task:
 
     /* Simply restore the context of the highest priority task that has
     been created so far. */
     portRESTORE_CONTEXT
 
-.end vPortStartFirstTask
+.end v_पत्तनम्_Start_First_Task
 
 
 
 /*******************************************************************/
 
 /***************************************************************
-*  The following is needed to locate the vPortYieldISR function into the correct
+*  The following is needed to locate the v_पत्तनम्_Yield_ISR function into the correct
 * vector.
 ***************************************************************/
 
@@ -129,19 +129,19 @@ vPortStartFirstTask:
     .set noreorder
     .set noat
 
-    .section .text, code
+    .खण्डः .text, code
 
-    .global vPortYieldISR
+    .वैश्विक v_पत्तनम्_Yield_ISR
 
 
 #if configCPU_DISAGGREGATED_ISRS == 0
-    .global girq24_isr
+    .वैश्विक girq24_isr
     .ent girq24_isr
 girq24_isr:
     la      k0, PORT_CPP_JTVIC_BASE
     lw      k0, 0x10C(k0)
     andi    k1, k0, 0x2
-    bgtz    k1, vPortYieldISR
+    bgtz    k1, v_पत्तनम्_Yield_ISR
     nop
 
     portSAVE_CONTEXT
@@ -153,11 +153,11 @@ girq24_isr:
     .end girq24_isr
 
 #else
-    .global girq24_b1
+    .वैश्विक girq24_b1
 girq24_b1:
 #endif
-        .ent  vPortYieldISR
-vPortYieldISR:
+        .ent  v_पत्तनम्_Yield_ISR
+v_पत्तनम्_Yield_ISR:
 
     /* Make room for the context. First save the current status so it can be
     manipulated, and the cause and EPC registers so thier original values
@@ -178,7 +178,7 @@ vPortYieldISR:
     ins     k1, zero, 1, 4        /* Clear EXL, ERL and UM. */
 
     /* s5 is used as the frame pointer. */
-    add     s5, zero, sp
+    योजय     s5, zero, sp
 
     /* Swap to the system stack.  This is not conditional on the nesting
     count as this interrupt is always the lowest priority and therefore
@@ -324,7 +324,7 @@ vPortYieldISR:
     sw      zero, 0(k0)
 
     /* Switch back to use the real stack pointer. */
-    add     sp, zero, s5
+    योजय     sp, zero, s5
 
     /* Restore the real s5 value. */
     lw      s5, 40(sp)
@@ -342,4 +342,4 @@ vPortYieldISR:
     eret
     nop
 
-.end    vPortYieldISR
+.end    v_पत्तनम्_Yield_ISR

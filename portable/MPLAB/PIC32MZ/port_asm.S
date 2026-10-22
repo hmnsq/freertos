@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -37,10 +37,10 @@
     .extern xISRStackTop
     .extern ulTaskHasFPUContext
 
-    .global vPortStartFirstTask
-    .global vPortYieldISR
-    .global vPortTickInterruptHandler
-    .global vPortInitialiseFPSCR
+    .वैश्विक v_पत्तनम्_Start_First_Task
+    .वैश्विक v_पत्तनम्_Yield_ISR
+    .वैश्विक v_पत्तनम्_Tick_व्यवधानम्_Handler
+    .वैश्विक v_पत्तनम्_Initialise_FPSCR
 
 
 /******************************************************************/
@@ -52,59 +52,59 @@
 
     /***************************************************************
     *  The following is needed to locate the
-    *  vPortTickInterruptHandler function into the correct vector
+    *  v_पत्तनम्_Tick_व्यवधानम्_Handler function into the correct vector
     ***************************************************************/
     #ifdef configTICK_INTERRUPT_VECTOR
         #if (configTICK_INTERRUPT_VECTOR == _CORE_TIMER_VECTOR)
-            .equ     __vector_dispatch_0, vPortTickInterruptHandler
-            .global  __vector_dispatch_0
-            .section .vector_0, code, keep
+            .equ     __vector_dispatch_0, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_0
+            .खण्डः .vector_0, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_1_VECTOR)
-            .equ     __vector_dispatch_4, vPortTickInterruptHandler
-            .global  __vector_dispatch_4
-            .section .vector_4, code, keep
+            .equ     __vector_dispatch_4, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_4
+            .खण्डः .vector_4, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_2_VECTOR)
-            .equ     __vector_dispatch_9, vPortTickInterruptHandler
-            .global  __vector_dispatch_9
-            .section .vector_9, code, keep
+            .equ     __vector_dispatch_9, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_9
+            .खण्डः .vector_9, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_3_VECTOR)
-            .equ     __vector_dispatch_14, vPortTickInterruptHandler
-            .global  __vector_dispatch_14
-            .section .vector_14, code, keep
+            .equ     __vector_dispatch_14, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_14
+            .खण्डः .vector_14, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_4_VECTOR)
-            .equ     __vector_dispatch_19, vPortTickInterruptHandler
-            .global  __vector_dispatch_19
-            .section .vector_19, code, keep
+            .equ     __vector_dispatch_19, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_19
+            .खण्डः .vector_19, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_5_VECTOR)
-            .equ     __vector_dispatch_24, vPortTickInterruptHandler
-            .global  __vector_dispatch_24
-            .section .vector_24, code, keep
+            .equ     __vector_dispatch_24, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_24
+            .खण्डः .vector_24, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_6_VECTOR)
-            .equ     __vector_dispatch_28, vPortTickInterruptHandler
-            .global  __vector_dispatch_28
-            .section .vector_28, code, keep
+            .equ     __vector_dispatch_28, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_28
+            .खण्डः .vector_28, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_7_VECTOR)
-            .equ     __vector_dispatch_32, vPortTickInterruptHandler
-            .global  __vector_dispatch_32
-            .section .vector_32, code, keep
+            .equ     __vector_dispatch_32, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_32
+            .खण्डः .vector_32, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_8_VECTOR)
-            .equ     __vector_dispatch_36, vPortTickInterruptHandler
-            .global  __vector_dispatch_36
-            .section .vector_36, code, keep
+            .equ     __vector_dispatch_36, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_36
+            .खण्डः .vector_36, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_9_VECTOR)
-            .equ     __vector_dispatch_40, vPortTickInterruptHandler
-            .global  __vector_dispatch_40
-            .section .vector_40, code, keep
+            .equ     __vector_dispatch_40, v_पत्तनम्_Tick_व्यवधानम्_Handler
+            .वैश्विक  __vector_dispatch_40
+            .खण्डः .vector_40, code, keep
         #endif
     #else
-        .equ     __vector_dispatch_4, vPortTickInterruptHandler
-        .global  __vector_dispatch_4
-        .section .vector_4, code, keep
+        .equ     __vector_dispatch_4, v_पत्तनम्_Tick_व्यवधानम्_Handler
+        .वैश्विक  __vector_dispatch_4
+        .खण्डः .vector_4, code, keep
     #endif
 
-    .ent        vPortTickInterruptHandler
+    .ent        v_पत्तनम्_Tick_व्यवधानम्_Handler
 
-vPortTickInterruptHandler:
+v_पत्तनम्_Tick_व्यवधानम्_Handler:
 
     portSAVE_CONTEXT
 
@@ -113,22 +113,22 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-    .end vPortTickInterruptHandler
+    .end v_पत्तनम्_Tick_व्यवधानम्_Handler
 
 /******************************************************************/
 
     .set        noreorder
     .set        noat
-    .section .text, code
-    .ent        vPortStartFirstTask
+    .खण्डः .text, code
+    .ent        v_पत्तनम्_Start_First_Task
 
-vPortStartFirstTask:
+v_पत्तनम्_Start_First_Task:
 
     /* Simply restore the context of the highest priority task that has been
     created so far. */
     portRESTORE_CONTEXT
 
-    .end vPortStartFirstTask
+    .end v_पत्तनम्_Start_First_Task
 
 
 
@@ -139,15 +139,15 @@ vPortStartFirstTask:
     .set  noreorder
     .set  noat
     /***************************************************************
-    *  The following is needed to locate the vPortYieldISR function
+    *  The following is needed to locate the v_पत्तनम्_Yield_ISR function
     *  into the correct vector
     ***************************************************************/
-    .equ     __vector_dispatch_1, vPortYieldISR
-    .global  __vector_dispatch_1
-    .section .vector_1, code
+    .equ     __vector_dispatch_1, v_पत्तनम्_Yield_ISR
+    .वैश्विक  __vector_dispatch_1
+    .खण्डः .vector_1, code
 
-    .ent  vPortYieldISR
-vPortYieldISR:
+    .ent  v_पत्तनम्_Yield_ISR
+v_पत्तनम्_Yield_ISR:
 
     #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Code sequence for FPU support, the context save requires advance
@@ -179,7 +179,7 @@ vPortYieldISR:
         ins     k1, zero, 1, 4          /* Clear EXL, ERL and UM. */
 
         /* s5 is used as the frame pointer. */
-        add     s5, zero, sp
+        योजय     s5, zero, sp
 
         /* Swap to the system stack.  This is not conditional on the nesting
         count as this interrupt is always the lowest priority and therefore
@@ -389,7 +389,7 @@ vPortYieldISR:
         sw      zero, 0(k0)
 
         /* Switch back to use the real stack pointer. */
-        add     sp, zero, s5
+        योजय     sp, zero, s5
 
         /* Restore the real s5 value. */
         lw      s5, 40(sp)
@@ -441,7 +441,7 @@ vPortYieldISR:
         ins     k1, zero, 1, 4          /* Clear EXL, ERL and UM. */
 
         /* s5 is used as the frame pointer. */
-        add     s5, zero, sp
+        योजय     s5, zero, sp
 
         /* Swap to the system stack.  This is not conditional on the nesting
         count as this interrupt is always the lowest priority and therefore
@@ -625,7 +625,7 @@ vPortYieldISR:
         sw      zero, 0(k0)
 
         /* Switch back to use the real stack pointer. */
-        add     sp, zero, s5
+        योजय     sp, zero, s5
 
         /* Restore the real s5 value. */
         lw      s5, 40(sp)
@@ -646,7 +646,7 @@ vPortYieldISR:
     eret
     nop
 
-    .end    vPortYieldISR
+    .end    v_पत्तनम्_Yield_ISR
 
 /******************************************************************/
 
@@ -660,10 +660,10 @@ vPortYieldISR:
 
     .set    noreorder
     .set    noat
-    .section .text, code
-    .ent    vPortInitialiseFPSCR
+    .खण्डः .text, code
+    .ent    v_पत्तनम्_Initialise_FPSCR
 
-vPortInitialiseFPSCR:
+v_पत्तनम्_Initialise_FPSCR:
 
     /* Initialize the floating point status register in CP1. The initial
     value is passed in a0. */
@@ -707,7 +707,7 @@ vPortInitialiseFPSCR:
     jr      ra
     nop
 
-    .end vPortInitialiseFPSCR
+    .end v_पत्तनम्_Initialise_FPSCR
 
 #endif /* ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 ) */
 
@@ -719,11 +719,11 @@ vPortInitialiseFPSCR:
 
     .set        noreorder
     .set        noat
-    .section    .text, code
-    .ent        vPortFPUReadback
-    .global     vPortFPUReadback
+    .खण्डः    .text, code
+    .ent        v_पत्तनम्_FPUReadback
+    .वैश्विक     v_पत्तनम्_FPUReadback
 
-vPortFPUReadback:
+v_पत्तनम्_FPUReadback:
     sdc1        $f0, 0(a0)
     sdc1        $f1, 8(a0)
     sdc1        $f2, 16(a0)
@@ -760,6 +760,6 @@ vPortFPUReadback:
     jr      ra
     nop
 
-    .end vPortFPUReadback
+    .end v_पत्तनम्_FPUReadback
 
 #endif /* ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 ) */

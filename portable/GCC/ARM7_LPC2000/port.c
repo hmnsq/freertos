@@ -37,39 +37,39 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#अन्तर्भाव <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Constants required to setup the task context. */
-#define portINITIAL_SPSR                   ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT                 ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE               ( ( StackType_t ) 4 )
-#define portNO_CRITICAL_SECTION_NESTING    ( ( StackType_t ) 0 )
+#परिभाषय पत्तनम्_INITIAL_SPSR                   ( ( राशिः_Type_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
+#परिभाषय पत्तनम्_THUMB_बहुलकम्_BIT                 ( ( राशिः_Type_t ) 0x20 )
+#परिभाषय पत्तनम्_INSTRUCTION_आकार               ( ( राशिः_Type_t ) 4 )
+#परिभाषय पत्तनम्_NO_CRITICAL_SECTION_NESTING    ( ( राशिः_Type_t ) 0 )
 
 /* Constants required to setup the tick ISR. */
-#define portENABLE_TIMER                   ( ( uint8_t ) 0x01 )
-#define portPRESCALE_VALUE                 0x00
-#define portINTERRUPT_ON_MATCH             ( ( uint32_t ) 0x01 )
-#define portRESET_COUNT_ON_MATCH           ( ( uint32_t ) 0x02 )
+#परिभाषय पत्तनम्_ENABLE_TIMER                   ( ( uint8_t ) 0x01 )
+#परिभाषय पत्तनम्_PRESCALE_मानम्                 0x00
+#परिभाषय पत्तनम्_व्यवधानम्_ON_मेलनम्             ( ( uint32_t ) 0x01 )
+#परिभाषय पत्तनम्_RESET_गणनम्_ON_मेलनम्           ( ( uint32_t ) 0x02 )
 
 /* Constants required to setup the VIC for the tick ISR. */
-#define portTIMER_VIC_CHANNEL              ( ( uint32_t ) 0x0004 )
-#define portTIMER_VIC_CHANNEL_BIT          ( ( uint32_t ) 0x0010 )
-#define portTIMER_VIC_ENABLE               ( ( uint32_t ) 0x0020 )
+#परिभाषय पत्तनम्_TIMER_VIC_CHANNEL              ( ( uint32_t ) 0x0004 )
+#परिभाषय पत्तनम्_TIMER_VIC_CHANNEL_BIT          ( ( uint32_t ) 0x0010 )
+#परिभाषय पत्तनम्_TIMER_VIC_ENABLE               ( ( uint32_t ) 0x0020 )
 
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य );
 
 /*
  * The scheduler can only be started from ARM mode, so
  * vPortISRStartFirstSTask() is defined in portISR.c.
  */
-extern void vPortISRStartFirstTask( void );
+बाह्य शून्य v_पत्तनम्_ISRStart_First_Task( शून्य );
 
 /*-----------------------------------------------------------*/
 
@@ -79,17 +79,17 @@ extern void vPortISRStartFirstTask( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                     TaskFunction_t px_संहिता,
+                                     शून्य * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    राशिः_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_शिखरम्_सम्बन्धि_राशिः;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -97,80 +97,80 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_संहिता + पत्तनम्_INSTRUCTION_आकार;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x12121212;    /* R12 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x11111111;    /* R11 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x10101010;    /* R10 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x09090909;    /* R9 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x08080808;    /* R8 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x07070707;    /* R7 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x06060606;    /* R6 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x05050505;    /* R5 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x04040404;    /* R4 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x03030303;    /* R3 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x02020202;    /* R2 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x01010101;    /* R1 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pvParameters; /* R0 */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* The last thing onto the stack is the status register, which is set for
      * system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) पत्तनम्_INITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    यदि( ( ( uint32_t ) px_संहिता & 0x01UL ) != 0x00 )
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_शिखरम्_सम्बन्धि_राशिः |= पत्तनम्_THUMB_बहुलकम्_BIT;
     }
 
-    pxTopOfStack--;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Some optimisation levels use the stack differently to others.  This
      * means the interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
+    *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_NO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_सज्जता_Timer_व्यवधानम्();
 
     /* Start the first task. */
-    vPortISRStartFirstTask();
+    v_पत्तनम्_ISRStart_First_Task();
 
     /* Should not get here! */
-    return 0;
+    प्रत्यागम 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -180,43 +180,43 @@ void vPortEndScheduler( void )
 /*
  * Setup the timer 0 to generate the tick interrupts at the required frequency.
  */
-static void prvSetupTimerInterrupt( void )
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य )
 {
-    uint32_t ulCompareMatch;
+    uint32_t ul_Compare_मेलनम्;
 
-    extern void( vTickISR )( void );
+    बाह्य शून्य( vTickISR )( शून्य );
 
     /* A 1ms tick does not require the use of the timer prescale.  This is
      * defaulted to zero but can be used if necessary. */
-    T0_PR = portPRESCALE_VALUE;
+    T0_PR = पत्तनम्_PRESCALE_मानम्;
 
     /* Calculate the match value required for our wanted tick rate. */
-    ulCompareMatch = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+    ul_Compare_मेलनम् = configCPU_CLOCK_HZ / config_TICK_दरः_HZ;
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #यदि पत्तनम्_PRESCALE_मानम् != 0
     {
-        ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
+        ul_Compare_मेलनम् /= ( पत्तनम्_PRESCALE_मानम् + 1 );
     }
-    #endif
-    T0_MR0 = ulCompareMatch;
+    #यदि_अन्तः
+    T0_MR0 = ul_Compare_मेलनम्;
 
     /* Generate tick with timer 0 compare match. */
-    T0_MCR = portRESET_COUNT_ON_MATCH | portINTERRUPT_ON_MATCH;
+    T0_MCR = पत्तनम्_RESET_गणनम्_ON_मेलनम् | पत्तनम्_व्यवधानम्_ON_मेलनम्;
 
     /* Setup the VIC for the timer. */
-    VICIntSelect &= ~( portTIMER_VIC_CHANNEL_BIT );
-    VICIntEnable |= portTIMER_VIC_CHANNEL_BIT;
+    VICIntSelect &= ~( पत्तनम्_TIMER_VIC_CHANNEL_BIT );
+    VICIntEnable |= पत्तनम्_TIMER_VIC_CHANNEL_BIT;
 
     /* The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
 
     VICVectAddr0 = ( int32_t ) vTickISR;
-    VICVectCntl0 = portTIMER_VIC_CHANNEL | portTIMER_VIC_ENABLE;
+    VICVectCntl0 = पत्तनम्_TIMER_VIC_CHANNEL | पत्तनम्_TIMER_VIC_ENABLE;
 
     /* Start the timer - interrupts are disabled when this function is called
      * so it is okay to do this here. */
-    T0_TCR = portENABLE_TIMER;
+    T0_TCR = पत्तनम्_ENABLE_TIMER;
 }
 /*-----------------------------------------------------------*/

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -38,20 +38,20 @@
     .extern pucPortTaskFPUContextBuffer
     .extern ulPortYieldPending
 
-    .global vPortStartFirstTask
-    .global vPortCentralInterruptWrapper
-    .global vPortAPICErrorHandlerWrapper
-    .global vPortTimerHandler
-    .global vPortYieldCall
-    .global vPortAPICSpuriousHandler
+    .वैश्विक v_पत्तनम्_Start_First_Task
+    .वैश्विक v_पत्तनम्_Central_व्यवधानम्_Wrapper
+    .वैश्विक v_पत्तनम्_APICError_Handler_Wrapper
+    .वैश्विक v_पत्तनम्_Timer_Handler
+    .वैश्विक v_पत्तनम्_Yield_Call
+    .वैश्विक v_पत्तनम्_APICSpurious_Handler
 
     .text
 
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortYieldCall
-vPortYieldCall:
+.func v_पत्तनम्_Yield_Call
+v_पत्तनम्_Yield_Call:
     /* Save general purpose registers. */
     pusha
 
@@ -68,7 +68,7 @@ vPortYieldCall:
         1:
 
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        निक्षिप    pucPortTaskFPUContextBuffer
 
     .endif /* configSUPPORT_FPU */
 
@@ -78,7 +78,7 @@ vPortYieldCall:
     /* Stack location is first item in the TCB. */
     movl    %esp, (%eax)
 
-    call vTaskSwitchContext
+    आह्वान vTaskSwitchContext
 
     /* Find the location of pxCurrentTCB again - a callee saved register could
     be used in place of eax to prevent this second load, but that then relies
@@ -89,7 +89,7 @@ vPortYieldCall:
     .if configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        उद्धर     pucPortTaskFPUContextBuffer
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */
@@ -107,8 +107,8 @@ vPortYieldCall:
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortStartFirstTask
-vPortStartFirstTask:
+.func v_पत्तनम्_Start_First_Task
+v_पत्तनम्_Start_First_Task:
 
     /* Find the TCB. */
     movl    pxCurrentTCB, %eax
@@ -119,7 +119,7 @@ vPortStartFirstTask:
     /* Restore FPU context flag. */
     .if configSUPPORT_FPU == 1
 
-        pop     pucPortTaskFPUContextBuffer
+        उद्धर     pucPortTaskFPUContextBuffer
 
     .endif /* configSUPPORT_FPU */
 
@@ -130,10 +130,10 @@ vPortStartFirstTask:
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortAPICErrorHandlerWrapper
-vPortAPICErrorHandlerWrapper:
+.func v_पत्तनम्_APICError_Handler_Wrapper
+v_पत्तनम्_APICError_Handler_Wrapper:
     pusha
-    call    vPortAPICErrorHandler
+    आह्वान    vPortAPICErrorHandler
     popa
     /* EOI. */
     movl    $0x00, (0xFEE000B0)
@@ -142,8 +142,8 @@ vPortAPICErrorHandlerWrapper:
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortTimerHandler
-vPortTimerHandler:
+.func v_पत्तनम्_Timer_Handler
+v_पत्तनम्_Timer_Handler:
 
     /* Save general purpose registers. */
     pusha
@@ -161,7 +161,7 @@ vPortTimerHandler:
 
         1:
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        निक्षिप    pucPortTaskFPUContextBuffer
 
     .endif /* configSUPPORT_FPU */
 
@@ -176,9 +176,9 @@ vPortTimerHandler:
     movl    %esp, %ebp
 
     /* Increment nesting count. */
-    add     $1, ulInterruptNesting
+    योजय     $1, ulInterruptNesting
 
-    call    xTaskIncrementTick
+    आह्वान    xTaskIncrementTick
 
     sti
 
@@ -186,14 +186,14 @@ vPortTimerHandler:
     test    %eax, %eax
     je      _skip_context_switch
     cli
-    call    vTaskSwitchContext
+    आह्वान    vTaskSwitchContext
 
 _skip_context_switch:
     cli
 
     /* Decrement the variable used to determine if a switch to a system
     stack is necessary. */
-    sub     $1, ulInterruptNesting
+    वियोजय     $1, ulInterruptNesting
 
     /* Stack location is first item in the TCB. */
     movl    pxCurrentTCB, %eax
@@ -202,7 +202,7 @@ _skip_context_switch:
     .if configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        उद्धर     pucPortTaskFPUContextBuffer
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */
@@ -225,8 +225,8 @@ _skip_context_switch:
 .if configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1
 
     .align 4
-    .func vPortCentralInterruptWrapper
-    vPortCentralInterruptWrapper:
+    .func v_पत्तनम्_Central_व्यवधानम्_Wrapper
+    v_पत्तनम्_Central_व्यवधानम्_Wrapper:
 
         portFREERTOS_INTERRUPT_ENTRY
 
@@ -236,19 +236,19 @@ _skip_context_switch:
     next_isr_long_word:
         test %ecx, %ecx                 /* Loop counter reached 0? */
         je wrapper_epilogue             /* Looked at all ISR registers without finding a bit set. */
-        sub $1, %ecx                    /* Sub 1 from loop counter. */
+        वियोजय $1, %ecx                    /* Sub 1 from loop counter. */
         movl (%eax), %ebx               /* Load next ISR long word. */
-        sub $0x10, %eax                 /* Point to next ISR long word in case no bits are set in the current long word. */
+        वियोजय $0x10, %eax                 /* Point to next ISR long word in case no bits are set in the current long word. */
         test %ebx, %ebx                 /* Are there any bits set? */
         je next_isr_long_word           /* Look at next ISR long word if no bits were set. */
         sti
         bsr %ebx, %ebx                  /* A bit was set, which one? */
         movl $32, %eax                  /* Destination operand for following multiplication. */
-        mul %ecx                        /* Calculate base vector for current register, 32 vectors per register. */
-        add %ebx, %eax                  /* Add bit offset into register to get final vector number. */
-        push %eax                       /* Vector number is function parameter. */
-        call vPortCentralInterruptHandler
-        pop %eax                        /* Remove parameter. */
+        गुणय %ecx                        /* Calculate base vector for current register, 32 vectors per register. */
+        योजय %ebx, %eax                  /* Add bit offset into register to get final vector number. */
+        निक्षिप %eax                       /* Vector number is function parameter. */
+        आह्वान vPortCentralInterruptHandler
+        उद्धर %eax                        /* Remove parameter. */
 
     wrapper_epilogue:
         portFREERTOS_INTERRUPT_EXIT
@@ -260,7 +260,7 @@ _skip_context_switch:
 
 .align 4
 .func vPortAPISpuriousHandler
-vPortAPICSpuriousHandler:
+v_पत्तनम्_APICSpurious_Handler:
     iret
 
 .endfunc

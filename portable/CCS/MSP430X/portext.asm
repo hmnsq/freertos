@@ -31,16 +31,16 @@
 
     .include data_model.h
 
-    .global xTaskIncrementTick
-    .global vTaskSwitchContext
-    .global vPortSetupTimerInterrupt
-    .global pxCurrentTCB
-    .global usCriticalNesting
+    .वैश्विक xTaskIncrementTick
+    .वैश्विक vTaskSwitchContext
+    .वैश्विक vPortSetupTimerInterrupt
+    .वैश्विक pxCurrentTCB
+    .वैश्विक usCriticalNesting
 
-    .def vPortPreemptiveTickISR
-    .def vPortCooperativeTickISR
-    .def vPortYield
-    .def xPortStartScheduler
+    .def v_पत्तनम्_Preemptive_Tick_ISR
+    .def v_पत्तनम्_Cooperative_Tick_ISR
+    .def v_पत्तनम्_Yield
+    .def x_पत्तनम्_Start_Scheduler
 
 ;-----------------------------------------------------------
 
@@ -63,7 +63,7 @@ portRESTORE_CONTEXT .macro
     movx.w   r15, &usCriticalNesting
     popm_x  #12, r15
     nop
-    pop.w   sr
+    उद्धर.w   sr
     nop
     ret_x
     .endm
@@ -81,11 +81,11 @@ portRESTORE_CONTEXT .macro
     .text
     .align 2
 
-vPortPreemptiveTickISR: .asmfunc
+v_पत्तनम्_Preemptive_Tick_ISR: .asmfunc
 
     ; The sr is not saved in portSAVE_CONTEXT() because vPortYield() needs
     ;to save it manually before it gets modified (interrupts get disabled).
-    push.w sr
+    निक्षिप.w sr
     portSAVE_CONTEXT
 
     call_x  #xTaskIncrementTick
@@ -97,11 +97,11 @@ vPortPreemptiveTickISR: .asmfunc
 
     .align 2
 
-vPortCooperativeTickISR: .asmfunc
+v_पत्तनम्_Cooperative_Tick_ISR: .asmfunc
 
     ; The sr is not saved in portSAVE_CONTEXT() because vPortYield() needs
     ;to save it manually before it gets modified (interrupts get disabled).
-    push.w sr
+    निक्षिप.w sr
     portSAVE_CONTEXT
 
     call_x  #xTaskIncrementTick
@@ -117,10 +117,10 @@ vPortCooperativeTickISR: .asmfunc
 
     .align 2
 
-vPortYield: .asmfunc
+v_पत्तनम्_Yield: .asmfunc
 
     ; The sr needs saving before it is modified.
-    push.w  sr
+    निक्षिप.w  sr
 
     ; Now the SR is stacked we can disable interrupts.
     dint
@@ -145,7 +145,7 @@ vPortYield: .asmfunc
 
     .align 2
 
-xPortStartScheduler: .asmfunc
+x_पत्तनम्_Start_Scheduler: .asmfunc
 
     ; Setup the hardware to generate the tick.  Interrupts are disabled
     ; when this function is called.

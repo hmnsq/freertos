@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -34,7 +34,7 @@
 .globl restore_sp_from_pxCurrentTCB
 
 # Entry point for exceptions.
-.section .exceptions.entry.user, "xa"
+.खण्डः .exceptions.entry.user, "xa"
 
 # Save the entire context of a task.
 save_context:
@@ -76,12 +76,12 @@ save_sp_to_pxCurrentTCB:
     ldw     et, (et)            # Load the value of the pxCurrentTCB pointer
     stw     sp, (et)            # Store the stack pointer into the top of the TCB
 
-    br      irq_test_user       # skip the section .exceptions.entry
+    br      irq_test_user       # skip the खण्डः .exceptions.entry
 
-    .section .exceptions.irqtest, "xa"
+    .खण्डः .exceptions.irqtest, "xa"
 irq_test_user:
 
-    .section .exceptions.exit.user, "xa"
+    .खण्डः .exceptions.exit.user, "xa"
 restore_sp_from_pxCurrentTCB:
     movia   et, pxCurrentTCB        # Load the address of the pxCurrentTCB pointer
     ldw     et, (et)                # Load the value of the pxCurrentTCB pointer
@@ -122,7 +122,7 @@ restore_context:
 
     eret                    # Return to address ea, loading eStatus into Status.
 
-    .section .exceptions.soft, "xa"
+    .खण्डः .exceptions.soft, "xa"
 soft_exceptions:
     movhi   r3, 0x003b              /* upper half of trap opcode */
     ori     r3, r3, 0x683a          /* lower half of trap opcode */
@@ -131,9 +131,9 @@ soft_exceptions:
 
 call_scheduler:
     stw     ea, 72(sp)                      # EA is PC+4 so will skip over instruction causing exception
-    movia   r15, vTaskSwitchContext         # Pick the next context - use long call version in place of "call"
+    movia   r15, vTaskSwitchContext         # Pick the next context - use long आह्वान version in place of "call"
     callr   r15
     br      restore_sp_from_pxCurrentTCB    # Switch in the task context and restore.
 
-    .section .exceptions.unknown.user
+    .खण्डः .exceptions.unknown.user
 exceptions_unknown_user:

@@ -16,12 +16,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -34,7 +34,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System आह्वान numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -51,28 +51,28 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     #define SECURE_CONTEXT_OFFSET       0
 #endif
 
-    EXTERN pxCurrentTCB
-    EXTERN xSecureContext
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN SecureContext_SaveContext
-    EXTERN SecureContext_LoadContext
+    बाह्य pxCurrentTCB
+    बाह्य xSecureContext
+    बाह्य vTaskSwitchContext
+    बाह्य vPortSVCHandler_C
+    बाह्य SecureContext_SaveContext
+    बाह्य SecureContext_LoadContext
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    बाह्य vSystemCallEnter
+    बाह्य vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vPortAllocateSecureContext
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
-    PUBLIC vPortFreeSecureContext
+    सार्वजनिक xIsPrivileged
+    सार्वजनिक vResetPrivilege
+    सार्वजनिक v_पत्तनम्_Allocate_Secure_Context
+    सार्वजनिक v_Restore_Context_सम्बन्धि_First_Task
+    सार्वजनिक vRaisePrivilege
+    सार्वजनिक vStartFirstTask
+    सार्वजनिक ul_समुच्चयः_व्यवधानम्_आवरणम्
+    सार्वजनिक v_Clear_व्यवधानम्_आवरणम्
+    सार्वजनिक PendSV_Handler
+    सार्वजनिक SVC_Handler
+    सार्वजनिक v_पत्तनम्_Free_Secure_Context
 /*-----------------------------------------------------------*/
 
 /*---------------- Unprivileged Functions -------------------*/
@@ -85,7 +85,7 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
-    tst r0, #1                              /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1                              /* Perform r0 & 1 (bitwise च) and update the conditions flag. */
     ite ne
     movne r0, #0                            /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1                            /* CONTROL[0]==0. Return true to indicate that the processor is not privileged. */
@@ -99,8 +99,8 @@ vResetPrivilege:
     bx lr                                   /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-vPortAllocateSecureContext:
-    svc 100                                 /* Secure context is allocated in the supervisor call. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
+v_पत्तनम्_Allocate_Secure_Context:
+    svc 100                                 /* Secure context is allocated in the supervisor आह्वान. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
@@ -114,7 +114,7 @@ vPortAllocateSecureContext:
 
 #if ( configENABLE_MPU == 1 )
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_सम्बन्धि_First_Task:
     program_mpu_first_task:
         ldr r3, =pxCurrentTCB               /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
         ldr r0, [r3]                        /* r0 = pxCurrentTCB. */
@@ -184,13 +184,13 @@ vRestoreContextOfFirstTask:
 
     restore_context_done_first_task:
         str r2, [r1]                        /* Save the location where the context should be saved next as the first member of TCB. */
-        mov r0, #0
+        चालय r0, #0
         msr basepri, r0                     /* Ensure that interrupts are enabled when the first task starts. */
         bx lr
 
 #else /* configENABLE_MPU */
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_सम्बन्धि_First_Task:
     ldr  r2, =pxCurrentTCB                  /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
     ldr  r3, [r2]                           /* Read pxCurrentTCB. */
     ldr  r0, [r3]                           /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
@@ -214,7 +214,7 @@ vRestoreContextOfFirstTask:
     adds r0, #32                            /* Discard everything up to r0. */
     msr  psp, r0                            /* This is now the new top of stack to use in the task. */
     isb
-    mov  r0, #0
+    चालय  r0, #0
     msr  basepri, r0                        /* Ensure that interrupts are enabled when the first task starts. */
     bx   r3                                 /* Finally, branch to EXC_RETURN. */
 
@@ -237,19 +237,19 @@ vStartFirstTask:
     cpsie f
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System आह्वान to start the first task. portSVC_START_SCHEDULER = 102. */
 /*-----------------------------------------------------------*/
 
-ulSetInterruptMask:
+ul_समुच्चयः_व्यवधानम्_आवरणम्:
     mrs r0, basepri                         /* r0 = basepri. Return original basepri value. */
-    mov r1, #configMAX_SYSCALL_INTERRUPT_PRIORITY
+    चालय r1, #configMAX_SYSCALL_INTERRUPT_PRIORITY
     msr basepri, r1                         /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
     dsb
     isb
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
-vClearInterruptMask:
+v_Clear_व्यवधानम्_आवरणम्:
     msr basepri, r0                         /* basepri = ulMask. */
     dsb
     isb
@@ -267,12 +267,12 @@ PendSV_Handler:
 
     cbz r0, save_ns_context                 /* No secure context to save. */
     save_s_context:
-        push {r0-r2, lr}
+        निक्षिप {r0-r2, lr}
         bl SecureContext_SaveContext        /* Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r0-r2, lr}
+        उद्धर {r0-r2, lr}
 
     save_ns_context:
-        mov r3, lr                          /* r3 = LR (EXC_RETURN). */
+        चालय r3, lr                          /* r3 = LR (EXC_RETURN). */
         lsls r3, r3, #25                    /* r3 = r3 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
         bmi save_special_regs               /* r3 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used to store the stack frame. */
 
@@ -280,13 +280,13 @@ PendSV_Handler:
         mrs r3, psp
 
     #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
-        add r3, r3, #0x20                   /* Move r3 to location where s0 is saved. */
+        योजय r3, r3, #0x20                   /* Move r3 to location where s0 is saved. */
         tst lr, #0x10
         ittt eq
         vstmiaeq r2!, {s16-s31}             /* Store s16-s31. */
         vldmiaeq r3, {s0-s16}               /* Copy hardware saved FP context into s0-s16. */
         vstmiaeq r2!, {s0-s16}              /* Store hardware saved FP context. */
-        sub r3, r3, #0x20                   /* Set r3 back to the location of hardware saved context. */
+        वियोजय r3, r3, #0x20                   /* Set r3 back to the location of hardware saved context. */
     #endif /* configENABLE_FPU || configENABLE_MVE */
 
         stmia r2!, {r4-r11}                 /* Store r4-r11. */
@@ -310,12 +310,12 @@ PendSV_Handler:
     str r2, [r1]                            /* Save the location from where the context should be restored as the first member of TCB. */
 
     select_next_task:
-        mov r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
+        चालय r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
         msr basepri, r0                     /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
         dsb
         isb
         bl vTaskSwitchContext
-        mov r0, #0                          /* r0 = 0. */
+        चालय r0, #0                          /* r0 = 0. */
         msr basepri, r0                     /* Enable interrupts. */
 
     program_mpu:
@@ -382,12 +382,12 @@ PendSV_Handler:
         cbz r0, restore_ns_context          /* No secure context to restore. */
 
     restore_s_context:
-        push {r1-r3, lr}
+        निक्षिप {r1-r3, lr}
         bl SecureContext_LoadContext        /* Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r1-r3, lr}
+        उद्धर {r1-r3, lr}
 
     restore_ns_context:
-        mov r0, lr                          /* r0 = LR (EXC_RETURN). */
+        चालय r0, lr                          /* r0 = LR (EXC_RETURN). */
         lsls r0, r0, #25                    /* r0 = r0 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
         bmi restore_context_done            /* r0 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used to store the stack frame. */
 
@@ -419,12 +419,12 @@ PendSV_Handler:
 
     cbz r0, save_ns_context                 /* No secure context to save. */
     save_s_context:
-        push {r0-r2, lr}
+        निक्षिप {r0-r2, lr}
         bl SecureContext_SaveContext       /* Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r0-r2, lr}
+        उद्धर {r0-r2, lr}
 
     save_ns_context:
-        mov r3, lr                          /* r3 = LR. */
+        चालय r3, lr                          /* r3 = LR. */
         lsls r3, r3, #25                    /* r3 = r3 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
         bmi save_special_regs               /* If r3 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used. */
 
@@ -451,12 +451,12 @@ PendSV_Handler:
     str r2, [r1]                            /* Save the new top of stack in TCB. */
 
     select_next_task:
-        mov r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
+        चालय r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
         msr basepri, r0                     /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
         dsb
         isb
         bl vTaskSwitchContext
-        mov r0, #0                          /* r0 = 0. */
+        चालय r0, #0                          /* r0 = 0. */
         msr basepri, r0                     /* Enable interrupts. */
 
     restore_context:
@@ -480,12 +480,12 @@ PendSV_Handler:
         cbz r0, restore_ns_context          /* If there is no secure context for the task, restore the non-secure context. */
 
     restore_s_context:
-        push {r1-r3, lr}
+        निक्षिप {r1-r3, lr}
         bl SecureContext_LoadContext        /* Restore the secure context. Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r1-r3, lr}
+        उद्धर {r1-r3, lr}
 
     restore_ns_context:
-        mov r0, lr                          /* r0 = LR (EXC_RETURN). */
+        चालय r0, lr                          /* r0 = LR (EXC_RETURN). */
         lsls r0, r0, #25                    /* r0 = r0 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
         bmi restore_context_done            /* r0 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used to store the stack frame. */
 
@@ -514,18 +514,18 @@ SVC_Handler:
 
     ldr r1, [r0, #24]
     ldrb r2, [r1, #-2]
-    cmp r2, #NUM_SYSTEM_CALLS
+    तुलय r2, #NUM_SYSTEM_CALLS
     blt syscall_enter
-    cmp r2, #104            /* portSVC_SYSTEM_CALL_EXIT. */
+    तुलय r2, #104            /* portSVC_SYSTEM_CALL_EXIT. */
     beq syscall_exit
     b vPortSVCHandler_C
 
     syscall_enter:
-        mov r1, lr
+        चालय r1, lr
         b vSystemCallEnter
 
     syscall_exit:
-        mov r1, lr
+        चालय r1, lr
         b vSystemCallExit
 
 #else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
@@ -540,14 +540,14 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-vPortFreeSecureContext:
+v_पत्तनम्_Free_Secure_Context:
     /* r0 = uint32_t *pulTCB. */
     ldr r2, [r0]                            /* The first item in the TCB is the stored context location. */
     ldr r1, [r2, #SECURE_CONTEXT_OFFSET]    /* Read xSecureContext from the task's context. */
-    cmp r1, #0                              /* Raise svc if task's xSecureContext is not NULL. */
+    तुलय r1, #0                              /* Raise svc if task's xSecureContext is not NULL. */
     it ne
-    svcne 101                               /* Secure context is freed in the supervisor call. portSVC_FREE_SECURE_CONTEXT = 101. */
+    svcne 101                               /* Secure context is freed in the supervisor आह्वान. portSVC_FREE_SECURE_CONTEXT = 101. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
-    END
+    अन्त

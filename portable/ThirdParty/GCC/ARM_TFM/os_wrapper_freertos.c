@@ -28,95 +28,95 @@
  * The implementation is based on FreeRTOS mutex type semaphore.
  */
 
-#include <stdbool.h>
+#अन्तर्भाव <stdbool.h>
 
-#include "os_wrapper/mutex.h"
+#अन्तर्भाव "os_wrapper/mutex.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "mpu_wrappers.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
+#अन्तर्भाव "semphr.h"
+#अन्तर्भाव "mpu_wrappers.h"
 
-#if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+#यदि ( config_SUPPORT_STATIC_आवण्टनम् == 1 )
 
 /*
  * In the static allocation, the RAM is required to hold the semaphore's
  * state.
  */
-    StaticSemaphore_t xSecureMutexBuffer;
-#endif
+    StaticSemaphore_t x_Secure_Mutex_बफर;
+#यदि_अन्तः
 
-#if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-    bool os_wrapper_is_kernel_started( void )
+#यदि ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+    bool os_wrapper_is_kernel_started( शून्य )
     {
-        return xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED;
+        प्रत्यागम xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED;
     }
-#endif
+#यदि_अन्तः
 
-void * os_wrapper_mutex_create( void )
+शून्य * os_wrapper_mutex_create( शून्य )
 {
-    SemaphoreHandle_t xMutexHandle = NULL;
+    SemaphoreHandle_t xMutexHandle = रिक्त;
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #यदि ( config_SUPPORT_DYNAMIC_आवण्टनम् == 1 )
         xMutexHandle = xSemaphoreCreateMutex();
-    #elif ( configSUPPORT_STATIC_ALLOCATION == 1 )
-        xMutexHandle = xSemaphoreCreateMutexStatic( &xSecureMutexBuffer );
-    #endif
-    return ( void * ) xMutexHandle;
+    #नोचेद्यदि ( config_SUPPORT_STATIC_आवण्टनम् == 1 )
+        xMutexHandle = xSemaphoreCreateMutexStatic( &x_Secure_Mutex_बफर );
+    #यदि_अन्तः
+    प्रत्यागम ( शून्य * ) xMutexHandle;
 }
 /*-----------------------------------------------------------*/
 
-uint32_t os_wrapper_mutex_acquire( void * handle,
+uint32_t os_wrapper_mutex_acquire( शून्य * handle,
                                    uint32_t timeout )
 {
-    BaseType_t xRet;
+    आधारः_Type_t xRet;
 
-    if( !handle )
+    यदि( !handle )
     {
-        return OS_WRAPPER_ERROR;
+        प्रत्यागम OS_WRAPPER_ERROR;
     }
 
     xRet = xSemaphoreTake( ( SemaphoreHandle_t ) handle,
                            ( timeout == OS_WRAPPER_WAIT_FOREVER ) ?
-                           portMAX_DELAY : ( TickType_t ) timeout );
+                           पत्तनम्_MAX_DELAY : ( TickType_t ) timeout );
 
-    if( xRet != pdPASS )
+    यदि( xRet != pdPASS )
     {
-        return OS_WRAPPER_ERROR;
+        प्रत्यागम OS_WRAPPER_ERROR;
     }
-    else
+    अन्यथा
     {
-        return OS_WRAPPER_SUCCESS;
+        प्रत्यागम OS_WRAPPER_SUCCESS;
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t os_wrapper_mutex_release( void * handle )
+uint32_t os_wrapper_mutex_release( शून्य * handle )
 {
-    BaseType_t xRet;
+    आधारः_Type_t xRet;
 
-    if( !handle )
+    यदि( !handle )
     {
-        return OS_WRAPPER_ERROR;
+        प्रत्यागम OS_WRAPPER_ERROR;
     }
 
     xRet = xSemaphoreGive( ( SemaphoreHandle_t ) handle );
 
-    if( xRet != pdPASS )
+    यदि( xRet != pdPASS )
     {
-        return OS_WRAPPER_ERROR;
+        प्रत्यागम OS_WRAPPER_ERROR;
     }
-    else
+    अन्यथा
     {
-        return OS_WRAPPER_SUCCESS;
+        प्रत्यागम OS_WRAPPER_SUCCESS;
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t os_wrapper_mutex_delete( void * handle )
+uint32_t os_wrapper_mutex_delete( शून्य * handle )
 {
     vSemaphoreDelete( ( SemaphoreHandle_t ) handle );
 
-    return OS_WRAPPER_SUCCESS;
+    प्रत्यागम OS_WRAPPER_SUCCESS;
 }
 /*-----------------------------------------------------------*/

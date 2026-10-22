@@ -32,40 +32,40 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Standard includes. */
-#include <string.h>
+#अन्तर्भाव <string.h>
 
 /* Hardware includes. */
-#include <xintc.h>
-#include <xintc_i.h>
-#include <xtmrctr.h>
+#अन्तर्भाव <xintc.h>
+#अन्तर्भाव <xintc_i.h>
+#अन्तर्भाव <xtmrctr.h>
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error configSUPPORT_DYNAMIC_ALLOCATION must be set to 1 to use this port.
-#endif
+#यदि ( config_SUPPORT_DYNAMIC_आवण्टनम् == 0 )
+    #दोषः config_SUPPORT_DYNAMIC_आवण्टनम् must be समुच्चयः गन्तव्यम् 1 गन्तव्यम् use this पत्तनम्.
+#यदि_अन्तः
 
 /* Tasks are started with interrupts enabled. */
-#define portINITIAL_MSR_STATE        ( ( StackType_t ) 0x02 )
+#परिभाषय पत्तनम्_INITIAL_MSR_STATE        ( ( राशिः_Type_t ) 0x02 )
 
 /* Tasks are started with a critical section nesting of 0 - however prior
  * to the scheduler being commenced we don't want the critical nesting level
  * to reach zero, so it is initialised to a high value. */
-#define portINITIAL_NESTING_VALUE    ( 0xff )
+#परिभाषय पत्तनम्_INITIAL_NESTING_मानम्    ( 0xff )
 
 /* Our hardware setup only uses one counter. */
-#define portCOUNTER_0                0
+#परिभाषय पत्तनम्_गणक_0                0
 
 /* The stack used by the ISR is filled with a known value to assist in
  * debugging. */
-#define portISR_STACK_FILL_VALUE     0x55555555
+#परिभाषय पत्तनम्_ISR_राशिः_FILL_मानम्     0x55555555
 
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+चञ्चल UBaseType_t uxCriticalNesting = पत्तनम्_INITIAL_NESTING_मानम्;
 
 /* To limit the amount of stack required by each task, this port uses a
  * separate stack for interrupts. */
@@ -77,7 +77,7 @@ uint32_t * pulISRStack;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-static void prvSetupTimerInterrupt( void );
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य );
 /*-----------------------------------------------------------*/
 
 /*
@@ -86,112 +86,112 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                     TaskFunction_t px_संहिता,
+                                     शून्य * pvParameters )
 {
-    extern void * _SDA2_BASE_;
-    extern void * _SDA_BASE_;
-    const uint32_t ulR2 = ( uint32_t ) &_SDA2_BASE_;
-    const uint32_t ulR13 = ( uint32_t ) &_SDA_BASE_;
+    बाह्य शून्य * SDA2_आधारः;
+    बाह्य शून्य * SDA_आधारः;
+    ध्रुव uint32_t ulR2 = ( uint32_t ) &SDA2_आधारः;
+    ध्रुव uint32_t ulR13 = ( uint32_t ) &SDA_आधारः;
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is essential for the Microblaze port and these lines must
      * not be omitted.  The parameter value will overwrite the
      * 0x22222222 value during the function prologue. */
-    *pxTopOfStack = ( StackType_t ) 0x11111111;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x22222222;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x33333333;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x11111111;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x22222222;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x33333333;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* First stack an initial value for the critical section nesting.  This
      *  is initialised to zero as tasks are started with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0. */
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x00; /* R0. */
 
     /* Place an initial value for all the general purpose registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ulR2;         /* R2 - small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03;         /* R3. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04;         /* R4. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R5 contains the function call parameters. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06;         /* R6. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07;         /* R7. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08;         /* R8. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09;         /* R9. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0a;         /* R10. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0b;         /* R11. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0c;         /* R12. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ulR13;        /* R13 - small data read write area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;       /* R14. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0f;         /* R15. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10;         /* R16. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11;         /* R17. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12;         /* R18. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x13;         /* R19. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x14;         /* R20. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x15;         /* R21. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x16;         /* R22. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x17;         /* R23. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x18;         /* R24. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x19;         /* R25. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1a;         /* R26. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1b;         /* R27. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1c;         /* R28. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1d;         /* R29. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1e;         /* R30. */
-    pxTopOfStack--;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) ulR2;         /* R2 - small data area. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x03;         /* R3. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x04;         /* R4. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pvParameters; /* R5 contains the function call parameters. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x06;         /* R6. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x07;         /* R7. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x08;         /* R8. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x09;         /* R9. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0a;         /* R10. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0b;         /* R11. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0c;         /* R12. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) ulR13;        /* R13 - small data read write area. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_संहिता;       /* R14. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0f;         /* R15. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x10;         /* R16. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x11;         /* R17. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x12;         /* R18. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x13;         /* R19. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x14;         /* R20. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x15;         /* R21. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x16;         /* R22. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x17;         /* R23. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x18;         /* R24. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x19;         /* R25. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1a;         /* R26. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1b;         /* R27. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1c;         /* R28. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1d;         /* R29. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1e;         /* R30. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* The MSR is stacked between R30 and R31. */
-    *pxTopOfStack = portINITIAL_MSR_STATE;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_INITIAL_MSR_STATE;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
-    *pxTopOfStack = ( StackType_t ) 0x1f; /* R31. */
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1f; /* R31. */
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
-    extern void( __FreeRTOS_interrupt_Handler )( void );
-    extern void( vStartFirstTask )( void );
+    बाह्य शून्य( __FreeRTOS_interrupt_Handler )( शून्य );
+    बाह्य शून्य( vStartFirstTask )( शून्य );
 
 
     /* Setup the FreeRTOS interrupt handler.  Code copied from crt0.s. */
-    asm volatile ( "la r6, r0, __FreeRTOS_interrupt_handler        \n\t" \
+    asm चञ्चल ( "la r6, r0, __FreeRTOS_interrupt_handler        \n\t" \
                    "sw r6, r1, r0                                  \n\t" \
                    "lhu r7, r1, r0                                 \n\t" \
                    "shi r7, r0, 0x12                               \n\t" \
@@ -199,28 +199,28 @@ BaseType_t xPortStartScheduler( void )
 
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
-    prvSetupTimerInterrupt();
+    prv_सज्जता_Timer_व्यवधानम्();
 
     /* Allocate the stack to be used by the interrupt handler. */
-    pulISRStack = ( uint32_t * ) pvPortMalloc( configMINIMAL_STACK_SIZE * sizeof( StackType_t ) );
+    pulISRStack = ( uint32_t * ) pv_पत्तनम्_Malloc( config_अल्पिष्ठम्_राशिः_आकार * परिमाण( राशिः_Type_t ) );
 
     /* Restore the context of the first task that is going to run. */
-    if( pulISRStack != NULL )
+    यदि( pulISRStack != रिक्त )
     {
         /* Fill the ISR stack with a known value to facilitate debugging. */
-        memset( pulISRStack, portISR_STACK_FILL_VALUE, configMINIMAL_STACK_SIZE * sizeof( StackType_t ) );
-        pulISRStack += ( configMINIMAL_STACK_SIZE - 1 );
+        स्मृतिं_पूरय( pulISRStack, पत्तनम्_ISR_राशिः_FILL_मानम्, config_अल्पिष्ठम्_राशिः_आकार * परिमाण( राशिः_Type_t ) );
+        pulISRStack += ( config_अल्पिष्ठम्_राशिः_आकार - 1 );
 
         /* Kick off the first task. */
         vStartFirstTask();
     }
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    प्रत्यागम pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* Not implemented. */
 }
@@ -229,47 +229,47 @@ void vPortEndScheduler( void )
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-void vPortYield( void )
+शून्य v_पत्तनम्_Yield( शून्य )
 {
-    extern void VPortYieldASM( void );
+    बाह्य शून्य VPortYieldASM( शून्य );
 
     /* Perform the context switch in a critical section to assure it is
      * not interrupted by the tick ISR.  It is not a problem to do this as
      * each task maintains its own interrupt status. */
-    portENTER_CRITICAL();
+    पत्तनम्_ENTER_CRITICAL();
 
     /* Jump directly to the yield function to ensure there is no
      * compiler generated prologue code. */
-    asm volatile ( "bralid r14, VPortYieldASM      \n\t" \
+    asm चञ्चल ( "bralid r14, VPortYieldASM      \n\t" \
                    "or r0, r0, r0                  \n\t" );
-    portEXIT_CRITICAL();
+    पत्तनम्_EXIT_CRITICAL();
 }
 /*-----------------------------------------------------------*/
 
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void )
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य )
 {
     XTmrCtr xTimer;
-    const uint32_t ulCounterValue = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
-    UBaseType_t uxMask;
+    ध्रुव uint32_t ul_गणक_मानम् = configCPU_CLOCK_HZ / config_TICK_दरः_HZ;
+    UBaseType_t ux_आवरणम्;
 
     /* The OPB timer1 is used to generate the tick.  Use the provided library
      * functions to enable the timer and set the tick frequency. */
     XTmrCtr_mDisable( XPAR_OPB_TIMER_1_BASEADDR, XPAR_OPB_TIMER_1_DEVICE_ID );
     XTmrCtr_Initialize( &xTimer, XPAR_OPB_TIMER_1_DEVICE_ID );
-    XTmrCtr_mSetLoadReg( XPAR_OPB_TIMER_1_BASEADDR, portCOUNTER_0, ulCounterValue );
-    XTmrCtr_mSetControlStatusReg( XPAR_OPB_TIMER_1_BASEADDR, portCOUNTER_0, XTC_CSR_LOAD_MASK | XTC_CSR_INT_occurred_MASK );
+    XTmr_Ctr_m_समुच्चयः_आरोपय_Reg( XPAR_OPB_TIMER_1_BASEADDR, पत्तनम्_गणक_0, ul_गणक_मानम् );
+    XTmr_Ctr_m_समुच्चयः_Control_स्थितिः_Reg( XPAR_OPB_TIMER_1_BASEADDR, पत्तनम्_गणक_0, XTC_CSR_आरोपय_आवरणम् | XTC_CSR_INT_occurred_आवरणम् );
 
     /* Set the timer interrupt enable bit while maintaining the other bit
      * states. */
-    uxMask = XIntc_In32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_OFFSET ) );
-    uxMask |= XPAR_OPB_TIMER_1_INTERRUPT_MASK;
-    XIntc_Out32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_OFFSET ), ( uxMask ) );
+    ux_आवरणम् = XIntc_In32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_विस्थापनम् ) );
+    ux_आवरणम् |= XPAR_OPB_TIMER_1_व्यवधानम्_आवरणम्;
+    XIntc_Out32( ( XPAR_OPB_INTC_0_BASEADDR + XIN_IER_विस्थापनम् ), ( ux_आवरणम् ) );
 
     XTmrCtr_Start( &xTimer, XPAR_OPB_TIMER_1_DEVICE_ID );
-    XTmrCtr_mSetControlStatusReg( XPAR_OPB_TIMER_1_BASEADDR, portCOUNTER_0, XTC_CSR_ENABLE_TMR_MASK | XTC_CSR_ENABLE_INT_MASK | XTC_CSR_AUTO_RELOAD_MASK | XTC_CSR_DOWN_COUNT_MASK | XTC_CSR_INT_occurred_MASK );
+    XTmr_Ctr_m_समुच्चयः_Control_स्थितिः_Reg( XPAR_OPB_TIMER_1_BASEADDR, पत्तनम्_गणक_0, XTC_CSR_ENABLE_TMR_आवरणम् | XTC_CSR_ENABLE_INT_आवरणम् | XTC_CSR_AUTO_RELOAD_आवरणम् | XTC_CSR_अधस्तात्_गणनम्_आवरणम् | XTC_CSR_INT_occurred_आवरणम् );
     XIntc_mAckIntr( XPAR_INTC_SINGLE_BASEADDR, 1 );
 }
 /*-----------------------------------------------------------*/
@@ -280,35 +280,35 @@ static void prvSetupTimerInterrupt( void )
  * This handler determines the interrupt source and calls the relevant
  * peripheral handler.
  */
-void vTaskISRHandler( void )
+शून्य vTaskISRHandler( शून्य )
 {
-    static uint32_t ulPending;
+    स्थिर uint32_t ulPending;
 
     /* Which interrupts are pending? */
-    ulPending = XIntc_In32( ( XPAR_INTC_SINGLE_BASEADDR + XIN_IVR_OFFSET ) );
+    ulPending = XIntc_In32( ( XPAR_INTC_SINGLE_BASEADDR + XIN_IVR_विस्थापनम् ) );
 
-    if( ulPending < XPAR_INTC_MAX_NUM_INTR_INPUTS )
+    यदि( ulPending < XPAR_INTC_MAX_अङ्कः_INTR_INPUTS )
     {
-        static XIntc_VectorTableEntry * pxTablePtr;
-        static XIntc_Config * pxConfig;
-        static uint32_t ulInterruptMask;
+        स्थिर XIntc_सदिशम्_सारणी_प्रविष्टिः * px_सारणी_Ptr;
+        स्थिर XIntc_Config * pxConfig;
+        स्थिर uint32_t ul_व्यवधानम्_आवरणम्;
 
-        ulInterruptMask = ( uint32_t ) 1 << ulPending;
+        ul_व्यवधानम्_आवरणम् = ( uint32_t ) 1 << ulPending;
 
         /* Get the configuration data using the device ID */
-        pxConfig = &XIntc_ConfigTable[ ( uint32_t ) XPAR_INTC_SINGLE_DEVICE_ID ];
+        pxConfig = &XIntc_Config_सारणी[ ( uint32_t ) XPAR_INTC_SINGLE_DEVICE_ID ];
 
-        pxTablePtr = &( pxConfig->HandlerTable[ ulPending ] );
+        px_सारणी_Ptr = &( pxConfig->Handler_सारणी[ ulPending ] );
 
-        if( pxConfig->AckBeforeService & ( ulInterruptMask ) )
+        यदि( pxConfig->AckBeforeService & ( ul_व्यवधानम्_आवरणम् ) )
         {
-            XIntc_mAckIntr( pxConfig->BaseAddress, ulInterruptMask );
-            pxTablePtr->Handler( pxTablePtr->CallBackRef );
+            XIntc_mAckIntr( pxConfig->आधारः_स्थानाङ्कः, ul_व्यवधानम्_आवरणम् );
+            px_सारणी_Ptr->Handler( px_सारणी_Ptr->Call_पृष्ठभागः_Ref );
         }
-        else
+        अन्यथा
         {
-            pxTablePtr->Handler( pxTablePtr->CallBackRef );
-            XIntc_mAckIntr( pxConfig->BaseAddress, ulInterruptMask );
+            px_सारणी_Ptr->Handler( px_सारणी_Ptr->Call_पृष्ठभागः_Ref );
+            XIntc_mAckIntr( pxConfig->आधारः_स्थानाङ्कः, ul_व्यवधानम्_आवरणम् );
         }
     }
 }
@@ -317,18 +317,18 @@ void vTaskISRHandler( void )
 /*
  * Handler for the timer interrupt.
  */
-void vTickISR( void * pvBaseAddress )
+शून्य vTickISR( शून्य * pv_आधारः_स्थानाङ्कः )
 {
     uint32_t ulCSR;
 
     /* Increment the RTOS tick - this might cause a task to unblock. */
-    if( xTaskIncrementTick() != pdFALSE )
+    यदि( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
 
     /* Clear the timer interrupt */
-    ulCSR = XTmrCtr_mGetControlStatusReg( XPAR_OPB_TIMER_1_BASEADDR, 0 );
-    XTmrCtr_mSetControlStatusReg( XPAR_OPB_TIMER_1_BASEADDR, portCOUNTER_0, ulCSR );
+    ulCSR = XTmr_Ctr_m_Get_Control_स्थितिः_Reg( XPAR_OPB_TIMER_1_BASEADDR, 0 );
+    XTmr_Ctr_m_समुच्चयः_Control_स्थितिः_Reg( XPAR_OPB_TIMER_1_BASEADDR, पत्तनम्_गणक_0, ulCSR );
 }
 /*-----------------------------------------------------------*/

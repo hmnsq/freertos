@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -39,20 +39,20 @@
  * + The code that tailors the kernel's RISC-V port to a specific RISC-V
  *   chip is implemented in freertos_risc_v_chip_specific_extensions.h.  There
  *   is one freertos_risc_v_chip_specific_extensions.h that can be used with any
- *   RISC-V chip that both includes a standard CLINT and does not add to the
+ *   RISC-V chip that both includes a standard CLINT and does not योजय to the
  *   base set of RISC-V registers.  There are additional
  *   freertos_risc_v_chip_specific_extensions.h files for RISC-V implementations
- *   that do not include a standard CLINT or do add to the base set of RISC-V
+ *   that do not include a standard CLINT or do योजय to the base set of RISC-V
  *   registers.
  *
  * CARE MUST BE TAKEN TO INCLDUE THE CORRECT
  * freertos_risc_v_chip_specific_extensions.h HEADER FILE FOR THE CHIP
- * IN USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
+ * अन्तः USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
  * header file ensure the path to the correct header file is in the assembler's
  * include path.
  *
  * This freertos_risc_v_chip_specific_extensions.h is for use on RISC-V chips
- * that include a standard CLINT and do not add to the base set of RISC-V
+ * that include a standard CLINT and do not योजय to the base set of RISC-V
  * registers.
  *
  */
@@ -85,19 +85,19 @@ definitions. */
 #define CSR_MEPC            0x341
 #define CSR_MCAUSE          0x342
 
-    PUBLIC xPortStartFirstTask
-    PUBLIC pxPortInitialiseStack
-    PUBLIC freertos_risc_v_trap_handler
-    PUBLIC freertos_risc_v_exception_handler
-    PUBLIC freertos_risc_v_interrupt_handler
-    PUBLIC freertos_risc_v_mtimer_interrupt_handler
+    सार्वजनिक x_पत्तनम्_Start_First_Task
+    सार्वजनिक px_पत्तनम्_Initialise_राशिः
+    सार्वजनिक freertos_risc_v_trap_handler
+    सार्वजनिक freertos_risc_v_exception_handler
+    सार्वजनिक freertos_risc_v_interrupt_handler
+    सार्वजनिक freertos_risc_v_mtimer_interrupt_handler
 
-    EXTERN vTaskSwitchContext
-    EXTERN xTaskIncrementTick
-    EXTERN pullMachineTimerCompareRegister
-    EXTERN pullNextTime
-    EXTERN uxTimerIncrementsForOneTick /* size_t type so 32-bit on 32-bit core and 64-bits on 64-bit core. */
-    EXTERN xTaskReturnAddress
+    बाह्य vTaskSwitchContext
+    बाह्य xTaskIncrementTick
+    बाह्य pullMachineTimerCompareRegister
+    बाह्य pullNextTime
+    बाह्य uxTimerIncrementsForOneTick /* size_t type so 32-bit on 32-bit core and 64-bits on 64-bit core. */
+    बाह्य xTaskReturnAddress
 
     PUBWEAK freertos_risc_v_application_exception_handler
     PUBWEAK freertos_risc_v_application_interrupt_handler
@@ -120,9 +120,9 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
         sw a3, 4(a0)                /* Store high word of ullNextTime into compare register.  No smaller than new value. */
         sw a2, 0(a0)                /* Store low word of ullNextTime into compare register. */
         lw t0, uxTimerIncrementsForOneTick  /* Load the value of ullTimerIncrementForOneTick into t0 (could this be optimized by storing in an array next to pullNextTime?). */
-        add a4, t0, a2              /* Add the low word of ullNextTime to the timer increments for one tick (assumes timer increment for one tick fits in 32-bits). */
+        योजय a4, t0, a2              /* Add the low word of ullNextTime to the timer increments for one tick (assumes timer increment for one tick fits in 32-bits). */
         sltu t1, a4, a2             /* See if the sum of low words overflowed (what about the zero case?). */
-        add t2, a3, t1              /* Add overflow to high word of ullNextTime. */
+        योजय t2, a3, t1              /* Add overflow to high word of ullNextTime. */
         sw a4, 0(a1)                /* Store new low word of ullNextTime. */
         sw t2, 4(a1)                /* Store new high word of ullNextTime. */
 
@@ -134,7 +134,7 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
         ld t2, 0(a1)                /* Load ullNextTime into t2. */
         sd t2, 0(a0)                /* Store ullNextTime into compare register. */
         ld t0, uxTimerIncrementsForOneTick  /* Load the value of ullTimerIncrementForOneTick into t0 (could this be optimized by storing in an array next to pullNextTime?). */
-        add t4, t0, t2              /* Add ullNextTime to the timer increments for one tick. */
+        योजय t4, t0, t2              /* Add ullNextTime to the timer increments for one tick. */
         sd t4, 0(a1)                /* Store ullNextTime. */
 
     #endif /* __riscv_xlen == 64 */
@@ -142,10 +142,10 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
 /*-----------------------------------------------------------*/
 
 /*
- * Unlike other ports pxPortInitialiseStack() is written in assembly code as it
+ * Unlike other ports px_पत्तनम्_Initialise_राशिः() is written in assembly code as it
  * needs access to the portasmADDITIONAL_CONTEXT_SIZE constant.  The prototype
  * for the function is as per the other ports:
- * StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
+ * StackType_t *px_पत्तनम्_Initialise_राशिः( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
  *
  * As per the standard RISC-V ABI pxTopOfStack is passed in in a0, pxCode in
  * a1, and pvParameters in a2.  The new top of stack is passed out in a0.
@@ -168,7 +168,7 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
  * x28-31        t3-6        Temporaries                       Caller
  *
  * The RISC-V context is saved to FreeRTOS tasks in the following stack frame,
- * where the global and thread pointers are currently assumed to be constant so
+ * where the वैश्विक and thread pointers are currently assumed to be constant so
  * are not saved:
  *
  * mstatus
@@ -204,7 +204,7 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
  * [chip specific registers go here]
  * pxCode
  */
-pxPortInitialiseStack:
+px_पत्तनम्_Initialise_राशिः:
     csrr t0, CSR_MSTATUS                /* Obtain current mstatus value. */
     andi t0, t0, ~0x8                   /* Ensure interrupts are disabled when the stack is restored within an ISR.  Required when a task is created after the schedulre has been started, otherwise interrupts would be disabled anyway. */
     addi t1, x0, 0x188                  /* Generate the value 0x1880, which are the MPIE and MPP bits to set in mstatus. */
@@ -225,7 +225,7 @@ pxPortInitialiseStack:
     load_x t0, xTaskReturnAddress
     store_x t0, 0(a0)                   /* Return address onto the stack. */
     addi t0, x0, portasmADDITIONAL_CONTEXT_SIZE /* The number of chip specific additional registers. */
-chip_specific_stack_frame:              /* First add any chip specific registers to the stack frame being created. */
+chip_specific_stack_frame:              /* First योजय any chip specific registers to the stack frame being created. */
     beq t0, x0, no_more_regs            /* No more chip specific registers to save. */
     addi a0, a0, -portWORD_SIZE         /* Make space for chip specific register. */
     store_x x0, 0(a0)                   /* Give the chip specific register an initial value of zero. */
@@ -234,10 +234,10 @@ chip_specific_stack_frame:              /* First add any chip specific registers
 no_more_regs:
     addi a0, a0, -portWORD_SIZE
     store_x a1, 0(a0)                   /* mret value (pxCode parameter) onto the stack. */
-    ret
+    प्रत्यागच्छ
 /*-----------------------------------------------------------*/
 
-xPortStartFirstTask:
+x_पत्तनम्_Start_First_Task:
     load_x  sp, pxCurrentTCB            /* Load pxCurrentTCB. */
     load_x  sp, 0( sp )                 /* Read sp from first TCB member. */
 
@@ -278,14 +278,14 @@ xPortStartFirstTask:
     store_x x5, 0( x6 )                     /* Restore the critical nesting value for this task. */
 
     load_x  x5, portMSTATUS_OFFSET * portWORD_SIZE( sp )    /* Initial mstatus into x5 (t0). */
-    addi    x5, x5, 0x08                    /* Set MIE bit so the first task starts with interrupts enabled - required as returns with ret not eret. */
+    addi    x5, x5, 0x08                    /* Set MIE bit so the first task starts with interrupts enabled - required as returns with प्रत्यागच्छ not eret. */
     csrrw   x0, CSR_MSTATUS, x5             /* Interrupts enabled from here! */
 
     load_x  x5, 2 * portWORD_SIZE( sp )     /* Initial x5 (t0) value. */
     load_x  x6, 3 * portWORD_SIZE( sp )     /* Initial x6 (t1) value. */
 
     addi    sp, sp, portCONTEXT_SIZE
-    ret
+    प्रत्यागच्छ
 /*-----------------------------------------------------------*/
 
 freertos_risc_v_application_exception_handler:
@@ -308,13 +308,13 @@ freertos_risc_v_application_interrupt_handler:
 freertos_risc_v_exception_handler:
     portcontextSAVE_EXCEPTION_CONTEXT
     /* a0 now contains mcause. */
-    li t0, 11                           /* 11 == environment call. */
-    bne a0, t0, other_exception         /* Not an M environment call, so some other exception. */
-    call vTaskSwitchContext
+    li t0, 11                           /* 11 == environment आह्वान. */
+    bne a0, t0, other_exception         /* Not an M environment आह्वान, so some other exception. */
+    आह्वान vTaskSwitchContext
     portcontextRESTORE_CONTEXT
 
 other_exception:
-    call freertos_risc_v_application_exception_handler
+    आह्वान freertos_risc_v_application_exception_handler
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
 
@@ -323,7 +323,7 @@ other_exception:
 
 freertos_risc_v_interrupt_handler:
     portcontextSAVE_INTERRUPT_CONTEXT
-    call freertos_risc_v_application_interrupt_handler
+    आह्वान freertos_risc_v_application_interrupt_handler
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
 
@@ -333,9 +333,9 @@ freertos_risc_v_interrupt_handler:
 freertos_risc_v_mtimer_interrupt_handler:
     portcontextSAVE_INTERRUPT_CONTEXT
     portUPDATE_MTIMER_COMPARE_REGISTER
-    call xTaskIncrementTick
+    आह्वान xTaskIncrementTick
     beqz a0, exit_without_context_switch    /* Don't switch context if incrementing tick didn't unblock a task. */
-    call vTaskSwitchContext
+    आह्वान vTaskSwitchContext
 exit_without_context_switch:
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
@@ -372,26 +372,26 @@ handle_interrupt:
         bne a0, t1, application_interrupt_handler
 
         portUPDATE_MTIMER_COMPARE_REGISTER
-        call xTaskIncrementTick
+        आह्वान xTaskIncrementTick
         beqz a0, processed_source       /* Don't switch context if incrementing tick didn't unblock a task. */
-        call vTaskSwitchContext
+        आह्वान vTaskSwitchContext
         j processed_source
 
 #endif /* portasmHAS_MTIME */
 
 application_interrupt_handler:
-    call freertos_risc_v_application_interrupt_handler
+    आह्वान freertos_risc_v_application_interrupt_handler
     j processed_source
 
 handle_exception:
     /* a0 contains mcause. */
-    li t0, 11                                   /* 11 == environment call. */
-    bne a0, t0, application_exception_handler   /* Not an M environment call, so some other exception. */
-    call vTaskSwitchContext
+    li t0, 11                                   /* 11 == environment आह्वान. */
+    bne a0, t0, application_exception_handler   /* Not an M environment आह्वान, so some other exception. */
+    आह्वान vTaskSwitchContext
     j processed_source
 
 application_exception_handler:
-    call freertos_risc_v_application_exception_handler
+    आह्वान freertos_risc_v_application_exception_handler
     j processed_source                  /* No other exceptions handled yet. */
 
 processed_source:

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,9 +31,9 @@
     .extern uxCriticalNesting
     .extern pulISRStack
 
-    .global __FreeRTOS_interrupt_handler
-    .global VPortYieldASM
-    .global vStartFirstTask
+    .वैश्विक __FreeRTOS_interrupt_handler
+    .वैश्विक VPortYieldASM
+    .वैश्विक vStartFirstTask
 
 
 .macro portSAVE_CONTEXT
@@ -72,7 +72,7 @@
     swi r4, r1, 116
     swi r3, r1, 120
     swi r2, r1, 124
-    /* Stack the critical section nesting value. */
+    /* Stack the critical खण्डः nesting value. */
     lwi r3, r0, uxCriticalNesting
     swi r3, r1, 128
     /* Save the top of stack value to the TCB. */
@@ -167,7 +167,7 @@ __FreeRTOS_interrupt_handler:
     swi r14, r1, 76
     /* Now switch to use the ISR stack. */
     lwi r3, r0, pulISRStack
-    add r1, r3, r0
+    योजय r1, r3, r0
     bralid r15, vTaskISRHandler
     or r0, r0, r0
     portRESTORE_CONTEXT
@@ -183,7 +183,7 @@ VPortYieldASM:
     swi r14, r1, 76
     /* Now switch to use the ISR stack. */
     lwi r3, r0, pulISRStack
-    add r1, r3, r0
+    योजय r1, r3, r0
     bralid r15, vTaskSwitchContext
     or r0, r0, r0
     portRESTORE_CONTEXT

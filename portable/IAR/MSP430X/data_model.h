@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#यदि_अपरिभाषितम् दत्त_MODEL_H
+#परिभाषय दत्त_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#यदि __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #परिभाषय pushm_x    pushm.w
+    #परिभाषय popm_x     popm.w
+    #परिभाषय प्रक्षिप_x     प्रक्षिप.w
+    #परिभाषय निष्कासय_x      निष्कासय.w
+    #परिभाषय mov_x      mov.w
+    #परिभाषय cmp_x      cmp.w
+#यदि_अन्तः
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#यदि __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #परिभाषय pushm_x    pushm.a
+    #परिभाषय popm_x     popm.a
+    #परिभाषय प्रक्षिप_x     pushx.a
+    #परिभाषय निष्कासय_x      popx.a
+    #परिभाषय mov_x      mov.w
+    #परिभाषय cmp_x      cmp.w
+#यदि_अन्तः
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#यदि __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #परिभाषय pushm_x    pushm.a
+    #परिभाषय popm_x     popm.a
+    #परिभाषय प्रक्षिप_x     pushx.a
+    #परिभाषय निष्कासय_x      popx.a
+    #परिभाषय mov_x      movx.a
+    #परिभाषय cmp_x      cmpx.a
+#यदि_अन्तः
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#यदि_अपरिभाषितम् pushm_x
+    #दोषः The assembler options must define one सम्बन्धि the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#यदि_अन्तः
 
-#endif /* DATA_MODEL_H */
+#यदि_अन्तः /* DATA_MODEL_H */

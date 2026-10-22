@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -49,35 +49,35 @@
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M33"
-#define portHAS_ARMV8M_MAIN_EXTENSION    1
-#define portARMV8M_MINOR_VERSION         0
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            0
+#परिभाषय पत्तनम्_ARCH_NAME                    "Cortex-M33"
+#परिभाषय पत्तनम्_HAS_ARMV8_M_MAIN_EXTENSION    1
+#परिभाषय पत्तनम्_ARMV8_M_MINOR_संस्करणम्         0
+#परिभाषय पत्तनम्_DONT_DISCARD                 __attribute__( ( प्रयुक्तम् ) )
+#परिभाषय पत्तनम्_VALIDATED_FOR_SMP            0
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#अन्तर्भाव "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#ifndef configENABLE_MVE
-    #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M33.
-#endif
+#यदि_अपरिभाषितम् configENABLE_MVE
+    #परिभाषय configENABLE_MVE    0
+#नोचेद्यदि ( configENABLE_MVE != 0 )
+    #दोषः configENABLE_MVE must be वामः undefined, or defined गन्तव्यम् 0 प्रति the Cortex-M33.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    ul_समुच्चयः_व्यवधानम्_आवरणम्()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     v_Clear_व्यवधानम्_आवरणम्( 0 )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

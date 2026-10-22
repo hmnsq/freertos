@@ -27,12 +27,12 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#परिभाषय पत्तनम्_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
 
 /* Initial PSW value allocated to a newly created task.
  *   11000110
@@ -45,7 +45,7 @@
  *   |--------------------- Zero Flag set
  *   ---------------------- Global Interrupt Flag set (enabled)
  */
-#define portPSW                         ( 0xc6UL )
+#परिभाषय पत्तनम्_PSW                         ( 0xc6UL )
 
 /* Each task maintains a count of the critical section nesting depth.  Each time
  * a critical section is entered the count is incremented.  Each time a critical
@@ -55,20 +55,20 @@
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+चञ्चल uint16_t usCriticalNesting = पत्तनम्_INITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-__attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void );
+__attribute__( ( weak ) ) शून्य v_Application_सज्जता_Timer_व्यवधानम्( शून्य );
 
 /*
  * Starts the scheduler by loading the context of the first task to run.
  * (defined in portasm.S).
  */
-extern void vPortStartFirstTask( void );
+बाह्य शून्य v_पत्तनम्_Start_First_Task( शून्य );
 
 /*-----------------------------------------------------------*/
 
@@ -78,9 +78,9 @@ extern void vPortStartFirstTask( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                     TaskFunction_t px_संहिता,
+                                     शून्य * pvParameters )
 {
     uint32_t * pulLocal;
 
@@ -88,126 +88,126 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Parameters are passed in on the stack, and written using a 32bit value
      * hence a space is left for the second two bytes. */
-    pxTopOfStack--;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Write in the parameter value. */
-    pulLocal = ( uint32_t * ) pxTopOfStack;
-    *pulLocal = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    pulLocal = ( uint32_t * ) px_शिखरम्_सम्बन्धि_राशिः;
+    *pulLocal = ( राशिः_Type_t ) pvParameters;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* The return address, leaving space for the first two bytes of the
      * 32-bit value. */
-    pxTopOfStack--;
-    pulLocal = ( uint32_t * ) pxTopOfStack;
+    px_शिखरम्_सम्बन्धि_राशिः--;
+    pulLocal = ( uint32_t * ) px_शिखरम्_सम्बन्धि_राशिः;
     *pulLocal = ( uint32_t ) 0;
-    pxTopOfStack--;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* The start address / PSW value is also written in as a 32bit value,
      * so leave a space for the second two bytes. */
-    pxTopOfStack--;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Task function start address combined with the PSW. */
-    pulLocal = ( uint32_t * ) pxTopOfStack;
-    *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-    pxTopOfStack--;
+    pulLocal = ( uint32_t * ) px_शिखरम्_सम्बन्धि_राशिः;
+    *pulLocal = ( ( ( uint32_t ) px_संहिता ) | ( पत्तनम्_PSW << 24UL ) );
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* An initial value for the AX register. */
-    *pxTopOfStack = ( StackType_t ) 0x1111;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x1111;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* An initial value for the HL register. */
-    *pxTopOfStack = ( StackType_t ) 0x2222;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x2222;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* CS and ES registers. */
-    *pxTopOfStack = ( StackType_t ) 0x0F00;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0F00;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* The remaining general purpose registers bank 0 (DE and BC) and the other
      * two register banks...register bank 3 is dedicated for use by interrupts so
      * is not saved as part of the task context. */
-    pxTopOfStack -= 10;
+    px_शिखरम्_सम्बन्धि_राशिः -= 10;
 
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) पत्तनम्_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack that has been generated so it
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
-    vApplicationSetupTimerInterrupt();
+    v_Application_सज्जता_Timer_व्यवधानम्();
 
     /* Restore the context of the first task that is going to run. */
-    vPortStartFirstTask();
+    v_पत्तनम्_Start_First_Task();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    प्रत्यागम pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* It is unlikely that the RL78 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void )
+__attribute__( ( weak ) ) शून्य v_Application_सज्जता_Timer_व्यवधानम्( शून्य )
 {
-    const uint16_t usClockHz = 15000UL; /* Internal clock. */
-    const uint16_t usCompareMatch = ( usClockHz / configTICK_RATE_HZ ) + 1UL;
+    ध्रुव uint16_t usClockHz = 15000UL; /* Internal clock. */
+    ध्रुव uint16_t us_Compare_मेलनम् = ( usClockHz / config_TICK_दरः_HZ ) + 1UL;
 
     /* Use the internal 15K clock. */
-    OSMC = ( unsigned char ) 0x16;
+    OSMC = ( अचिह्नित वर्ण ) 0x16;
 
-    #ifdef RTCEN
+    #यदि_परिभाषितम् RTCEN
     {
         /* Supply the interval timer clock. */
-        RTCEN = ( unsigned char ) 1U;
+        RTCEN = ( अचिह्नित वर्ण ) 1U;
 
         /* Disable INTIT interrupt. */
-        ITMK = ( unsigned char ) 1;
+        ITMK = ( अचिह्नित वर्ण ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( अचिह्नित वर्ण ) 0x0000;
 
         /* Clear INIT interrupt. */
-        ITIF = ( unsigned char ) 0;
+        ITIF = ( अचिह्नित वर्ण ) 0;
 
         /* Set interval and enable interrupt operation. */
-        ITMC = usCompareMatch | 0x8000U;
+        ITMC = us_Compare_मेलनम् | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        ITMK = ( unsigned char ) 0;
+        ITMK = ( अचिह्नित वर्ण ) 0;
     }
-    #endif /* ifdef RTCEN */
+    #यदि_अन्तः /* ifdef RTCEN */
 
-    #ifdef TMKAEN
+    #यदि_परिभाषितम् TMKAEN
     {
         /* Supply the interval timer clock. */
-        TMKAEN = ( unsigned char ) 1U;
+        TMKAEN = ( अचिह्नित वर्ण ) 1U;
 
         /* Disable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 1;
+        TMKAMK = ( अचिह्नित वर्ण ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( अचिह्नित वर्ण ) 0x0000;
 
         /* Clear INIT interrupt. */
-        TMKAIF = ( unsigned char ) 0;
+        TMKAIF = ( अचिह्नित वर्ण ) 0;
 
         /* Set interval and enable interrupt operation. */
-        ITMC = usCompareMatch | 0x8000U;
+        ITMC = us_Compare_मेलनम् | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 0;
+        TMKAMK = ( अचिह्नित वर्ण ) 0;
     }
-    #endif /* ifdef TMKAEN */
+    #यदि_अन्तः /* ifdef TMKAEN */
 }
 /*-----------------------------------------------------------*/

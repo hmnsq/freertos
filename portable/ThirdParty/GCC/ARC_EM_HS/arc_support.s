@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,14 +47,14 @@
  */
     .text
     .align 4
-    .global dispatch
+    .वैश्विक dispatch
 dispatch:
 /*
  *  the pre-conditions of this routine are task context, CPU is
  *  locked, dispatch is enabled.
  */
     SAVE_NONSCRATCH_REGS        /* save callee save registers */
-    mov r1, dispatch_r
+    चालय r1, dispatch_r
     PUSH    r1          /* save return address */
     ld  r0, [pxCurrentTCB]
     bl  dispatcher
@@ -67,7 +67,7 @@ dispatch_r:
 /*
  *  start dispatch
  */
-    .global start_dispatch
+    .वैश्विक start_dispatch
     .align 4
 start_dispatch:
 /*
@@ -80,7 +80,7 @@ start_dispatch:
  *  enabled.
  */
     clri
-    mov r0, 0
+    चालय r0, 0
     st  r0, [exc_nest_count]
     b   dispatcher_0
 /*
@@ -132,49 +132,49 @@ dispatcher_0:
  *
  */
     .text
-    .global start_r
+    .वैश्विक start_r
     .align 4
 start_r:
     seti    /* unlock cpu */
-    mov blink, vPortEndTask /* set return address */
+    चालय blink, vPortEndTask /* set return address */
     POP r1          /* get task function body */
     POP r0          /* get task parameters */
     j   [r1]
 
 /****** exceptions and interrupts handing ******/
 /****** entry for exception handling ******/
-    .global exc_entry_cpu
+    .वैश्विक exc_entry_cpu
     .align 4
 exc_entry_cpu:
 
     EXCEPTION_PROLOGUE
 
-    mov blink,  sp
-    mov r3, sp      /* as exception handler's para(p_excinfo) */
+    चालय blink,  sp
+    चालय r3, sp      /* as exception handler's para(p_excinfo) */
 
     ld  r0, [exc_nest_count]
-    add r1, r0, 1
+    योजय r1, r0, 1
     st  r1, [exc_nest_count]
     brne    r0, 0, exc_handler_1
 /* change to exception stack if interrupt happened in task context */
-    mov sp, _e_stack
+    चालय sp, _e_stack
 exc_handler_1:
     PUSH    blink
 
     lr  r0, [AUX_ECR]
     lsr r0, r0, 16
-    mov r1, exc_int_handler_table
+    चालय r1, exc_int_handler_table
     ld.as   r2, [r1, r0]
 
-    mov r0, r3
+    चालय r0, r3
     jl  [r2]        /* !!!!jump to exception handler where interrupts are not allowed! */
 
 /* interrupts are not allowed */
 ret_exc:
     POP sp
-    mov r1, exc_nest_count
+    चालय r1, exc_nest_count
     ld  r0, [r1]
-    sub r0, r0, 1
+    वियोजय r0, r0, 1
     st  r0, [r1]
     brne    r0, 0, ret_exc_1 /* nest exception case */
     lr  r1, [AUX_IRQ_ACT] /* nest interrupt case */
@@ -190,7 +190,7 @@ ret_exc_1:  /* return from non-task context, interrupts or exceptions are nested
 /* there is a dispatch request */
 ret_exc_2:
     /* clear dispatch request */
-    mov r0, 0
+    चालय r0, 0
     st  r0, [context_switch_reqflg]
 
     ld  r0, [pxCurrentTCB]
@@ -202,7 +202,7 @@ ret_exc_2:
     bclr    r0, r0, AUX_STATUS_BIT_AE   /* clear exception bit */
     kflag   r0
 
-    mov r1, ret_exc_r   /* save return address */
+    चालय r1, ret_exc_r   /* save return address */
     PUSH    r1
 
     bl  dispatcher  /* r0->pxCurrentTCB */
@@ -218,7 +218,7 @@ ret_exc_r:
     rtie
 
 /****** entry for normal interrupt exception handling ******/
-    .global exc_entry_int   /* entry for interrupt handling */
+    .वैश्विक exc_entry_int   /* entry for interrupt handling */
     .align 4
 exc_entry_int:
 #if ARC_FEATURE_FIRQ == 1
@@ -236,17 +236,17 @@ exc_entry_int:
 #endif
     INTERRUPT_PROLOGUE
 
-    mov blink, sp
+    चालय blink, sp
 
     clri    /* disable interrupt */
     ld  r3, [exc_nest_count]
-    add r2, r3, 1
+    योजय r2, r3, 1
     st  r2, [exc_nest_count]
     seti    /* enable higher priority interrupt */
 
     brne    r3, 0, irq_handler_1
 /* change to exception stack if interrupt happened in task context */
-    mov sp, _e_stack
+    चालय sp, _e_stack
 #if ARC_FEATURE_STACK_CHECK
 #if ARC_FEATURE_SEC_PRESENT
     lr r0, [AUX_SEC_STAT]
@@ -262,11 +262,11 @@ irq_handler_1:
     PUSH    blink
 
     lr  r0, [AUX_IRQ_CAUSE]
-    mov r1, exc_int_handler_table
+    चालय r1, exc_int_handler_table
     ld.as   r2, [r1, r0]    /* r2 = exc_int_handler_table + irqno *4 */
 /* handle software triggered interrupt */
     lr  r3, [AUX_IRQ_HINT]
-    cmp r3, r0
+    तुलय r3, r0
     bne.d irq_hint_handled
     xor r3, r3, r3
     sr  r3, [AUX_IRQ_HINT]
@@ -278,9 +278,9 @@ ret_int:
     clri    /* disable interrupt */
 
     POP sp
-    mov r1, exc_nest_count
+    चालय r1, exc_nest_count
     ld  r0, [r1]
-    sub r0, r0, 1
+    वियोजय r0, r0, 1
     st  r0, [r1]
 /* if there are multi-bits set in IRQ_ACT, it's still in nest interrupt */
     lr  r0, [AUX_IRQ_CAUSE]
@@ -298,7 +298,7 @@ ret_int_1:  /* return from non-task context */
 /* there is a dispatch request */
 ret_int_2:
     /* clear dispatch request */
-    mov r0, 0
+    चालय r0, 0
     st  r0, [context_switch_reqflg]
 
     ld  r0, [pxCurrentTCB]
@@ -310,7 +310,7 @@ ret_int_2:
     sr  r2, [AUX_IRQ_ACT]
 
     SAVE_CALLEE_REGS    /* save callee save registers */
-    mov r1, ret_int_r   /* save return address */
+    चालय r1, ret_int_r   /* save return address */
     PUSH    r1
 
     bl  dispatcher  /* r0->pxCurrentTCB */
@@ -322,7 +322,7 @@ ret_int_r:
     rtie
 
 #if ARC_FEATURE_FIRQ == 1
-    .global exc_entry_firq
+    .वैश्विक exc_entry_firq
     .align 4
 exc_entry_firq:
 #if ARC_FEATURE_STACK_CHECK && ARC_FEATURE_RGF_NUM_BANKS > 1
@@ -338,10 +338,10 @@ exc_entry_firq:
 #endif
     SAVE_FIQ_EXC_REGS
 
-    mov blink, sp
+    चालय blink, sp
 
     ld  r3, [exc_nest_count]
-    add r2, r3, 1
+    योजय r2, r3, 1
     st  r2, [exc_nest_count]
 
     brne    r3, 0, firq_handler_1
@@ -357,12 +357,12 @@ exc_entry_firq:
 #endif
 #endif
 /* change to exception stack if interrupt happened in task context */
-    mov sp, _e_stack
+    चालय sp, _e_stack
 firq_handler_1:
     PUSH    blink
 
     lr  r0, [AUX_IRQ_CAUSE]
-    mov r1, exc_int_handler_table
+    चालय r1, exc_int_handler_table
     ld.as   r2, [r1, r0]    /* r2 = exc_int_handler_table + irqno *4 */
 /* handle software triggered interrupt */
     lr  r3, [AUX_IRQ_HINT]
@@ -377,9 +377,9 @@ ret_firq:
     clri
     POP sp
 
-    mov r1, exc_nest_count
+    चालय r1, exc_nest_count
     ld  r0, [r1]
-    sub r0, r0, 1
+    वियोजय r0, r0, 1
     st  r0, [r1]
 /* if there are multi-bits set in IRQ_ACT, it's still in nest interrupt */
     lr  r1, [AUX_IRQ_ACT]
@@ -394,7 +394,7 @@ ret_firq_1: /* return from non-task context */
 /* there is a dispatch request */
 ret_firq_2:
     /* clear dispatch request */
-    mov r0, 0
+    चालय r0, 0
     st  r0, [context_switch_reqflg]
 
     ld  r0, [pxCurrentTCB]
@@ -413,7 +413,7 @@ ret_firq_2:
 #endif
 
 /* when BANKED_REGS == 16, r4-r9 wiil be also saved in fast irq stack
- * so pop them out
+ * so उद्धर them out
  */
 #if  ARC_FEATURE_RGF_BANKED_REGS == 16 && !defined(ARC_FEATURE_RF16)
     POP     r9
@@ -425,7 +425,7 @@ ret_firq_2:
 #endif
 
 /* for other cases, unbanked regs are already in interrupted context's stack,
- * so just need to save and pop the banked regs
+ * so just need to save and उद्धर the banked regs
  */
 
 /* save the interruptted context */
@@ -474,7 +474,7 @@ ret_firq_2:
 
     SAVE_CALLEE_REGS    /* save callee save registers */
 
-    mov r1, ret_firq_r  /* save return address */
+    चालय r1, ret_firq_r  /* save return address */
     PUSH    r1
     ld  r0, [pxCurrentTCB]
     bl  dispatcher  /* r0->pxCurrentTCB */

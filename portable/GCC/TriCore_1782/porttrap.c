@@ -27,18 +27,18 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
+#अन्तर्भाव "FreeRTOS.h"
 
 /* Machine includes */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
-#include <machine/cint.h>
+#अन्तर्भाव <tc1782.h>
+#अन्तर्भाव <machine/intrinsics.h>
+#अन्तर्भाव <machine/cint.h>
 /*---------------------------------------------------------------------------*/
 
 /*
  * This reference is required by the Save/Restore Context Macros.
  */
-extern volatile uint32_t * pxCurrentTCB;
+बाह्य चञ्चल uint32_t * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /*
@@ -51,232 +51,232 @@ extern volatile uint32_t * pxCurrentTCB;
  */
 
 /* The Trap Classes. */
-#define portMMU_TRAP                                                      0
-#define portIPT_TRAP                                                      1
-#define portIE_TRAP                                                       2
-#define portCM_TRAP                                                       3
-#define portSBP_TRAP                                                      4
-#define portASSERT_TRAP                                                   5
-#define portNMI_TRAP                                                      7
+#परिभाषय पत्तनम्_MMU_TRAP                                                      0
+#परिभाषय पत्तनम्_IPT_TRAP                                                      1
+#परिभाषय पत्तनम्_IE_TRAP                                                       2
+#परिभाषय पत्तनम्_CM_TRAP                                                       3
+#परिभाषय पत्तनम्_SBP_TRAP                                                      4
+#परिभाषय पत्तनम्_ASSERT_TRAP                                                   5
+#परिभाषय पत्तनम्_NMI_TRAP                                                      7
 
 /* MMU Trap Identifications. */
-#define portTIN_MMU_VIRTUAL_ADDRESS_FILL                                  0
-#define portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION                            1
+#परिभाषय पत्तनम्_TIN_MMU_VIRTUAL_स्थानाङ्कः_FILL                                  0
+#परिभाषय पत्तनम्_TIN_MMU_VIRTUAL_स्थानाङ्कः_PROTECTION                            1
 
 /* Internal Protection Trap Identifications. */
-#define portTIN_IPT_PRIVILEGED_INSTRUCTION                                1
-#define portTIN_IPT_MEMORY_PROTECTION_READ                                2
-#define portTIN_IPT_MEMORY_PROTECTION_WRITE                               3
-#define portTIN_IPT_MEMORY_PROTECTION_EXECUTION                           4
-#define portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS                   5
-#define portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS                        6
-#define portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION    7
+#परिभाषय पत्तनम्_TIN_IPT_PRIVILEGED_INSTRUCTION                                1
+#परिभाषय पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_READ                                2
+#परिभाषय पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_WRITE                               3
+#परिभाषय पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_EXECUTION                           4
+#परिभाषय पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_PERIPHERAL_ACCESS                   5
+#परिभाषय पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_NULL_स्थानाङ्कः                        6
+#परिभाषय पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_GLOBAL_पञ्जिकाकोशः_WRITE_PROTECTION    7
 
 /* Instruction Error Trap Identifications. */
-#define portTIN_IE_ILLEGAL_OPCODE                                         1
-#define portTIN_IE_UNIMPLEMENTED_OPCODE                                   2
-#define portTIN_IE_INVALID_OPERAND                                        3
-#define portTIN_IE_DATA_ADDRESS_ALIGNMENT                                 4
-#define portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS                           5
+#परिभाषय पत्तनम्_TIN_IE_ILLEGAL_OPCODE                                         1
+#परिभाषय पत्तनम्_TIN_IE_UNIMPLEMENTED_OPCODE                                   2
+#परिभाषय पत्तनम्_TIN_IE_INVALID_सङ्कार्यम्                                        3
+#परिभाषय पत्तनम्_TIN_IE_दत्त_स्थानाङ्कः_ALIGNMENT                                 4
+#परिभाषय पत्तनम्_TIN_IE_INVALID_LOCAL_स्मृतिः_स्थानाङ्कः                           5
 
 /* Context Management Trap Identifications. */
-#define portTIN_CM_FREE_CONTEXT_LIST_DEPLETION                            1
-#define portTIN_CM_CALL_DEPTH_OVERFLOW                                    2
-#define portTIN_CM_CALL_DEPTH_UNDEFLOW                                    3
-#define portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
-#define portTIN_CM_CALL_STACK_UNDERFLOW                                   5
-#define portTIN_CM_CONTEXT_TYPE                                           6
-#define portTIN_CM_NESTING_ERROR                                          7
+#परिभाषय पत्तनम्_TIN_CM_FREE_CONTEXT_LIST_DEPLETION                            1
+#परिभाषय पत्तनम्_TIN_CM_CALL_गभीरता_अतिप्रवाहः                                    2
+#परिभाषय पत्तनम्_TIN_CM_CALL_गभीरता_UNDEFLOW                                    3
+#परिभाषय पत्तनम्_TIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
+#परिभाषय पत्तनम्_TIN_CM_CALL_राशिः_UNDERFLOW                                   5
+#परिभाषय पत्तनम्_TIN_CM_CONTEXT_TYPE                                           6
+#परिभाषय पत्तनम्_TIN_CM_NESTING_ERROR                                          7
 
 /* System Bus and Peripherals Trap Identifications. */
-#define portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR                       1
-#define portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR                         2
-#define portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR                        3
-#define portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR                   4
-#define portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR                        5
-#define portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR                           6
+#परिभाषय पत्तनम्_TIN_SBP_क्रमादेशः_FETCH_SYNCHRONOUS_ERROR                       1
+#परिभाषय पत्तनम्_TIN_SBP_दत्त_ACCESS_SYNCHRONOUS_ERROR                         2
+#परिभाषय पत्तनम्_TIN_SBP_दत्त_ACCESS_ASYNCHRONOUS_ERROR                        3
+#परिभाषय पत्तनम्_TIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR                   4
+#परिभाषय पत्तनम्_TIN_SBP_क्रमादेशः_स्मृतिः_INTEGRITY_ERROR                        5
+#परिभाषय पत्तनम्_TIN_SBP_दत्त_स्मृतिः_INTEGRITY_ERROR                           6
 
 /* Assertion Trap Identifications. */
-#define portTIN_ASSERT_ARITHMETIC_OVERFLOW                                1
-#define portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW                         2
+#परिभाषय पत्तनम्_TIN_ASSERT_ARITHMETIC_अतिप्रवाहः                                1
+#परिभाषय पत्तनम्_TIN_ASSERT_STICKY_ARITHMETIC_अतिप्रवाहः                         2
 
 /* Non-maskable Interrupt Trap Identifications. */
-#define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
+#परिभाषय पत्तनम्_TIN_NMI_NON_MASKABLE_व्यवधानम्                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य vMMUTrap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य v_आन्तरिकम्_Protection_Trap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य vInstructionErrorTrap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य vContextManagementTrap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य vSystemBusAndPeripheralsTrap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य vAssertionTrap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
+शून्य v_Non_Maskable_व्यवधानम्_Trap( पूर्णाङ्क iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
-void vTrapInstallHandlers( void )
+शून्य vTrapInstallHandlers( शून्य )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_MMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_IPT_TRAP, v_आन्तरिकम्_Protection_Trap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_IE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_CM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_SBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_ASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    यदि( 0 == _install_trap_handler( पत्तनम्_NMI_TRAP, v_Non_Maskable_व्यवधानम्_Trap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+शून्य vMMUTrap( पूर्णाङ्क iTrapIdentification )
 {
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_MMU_VIRTUAL_ADDRESS_FILL:
-        case portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
-        default:
+        पक्ष पत्तनम्_TIN_MMU_VIRTUAL_स्थानाङ्कः_FILL:
+        पक्ष पत्तनम्_TIN_MMU_VIRTUAL_स्थानाङ्कः_PROTECTION:
+        स्वभाव:
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+शून्य v_आन्तरिकम्_Protection_Trap( पूर्णाङ्क iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_IPT_PRIVILEGED_INSTRUCTION:
+        पक्ष पत्तनम्_TIN_IPT_PRIVILEGED_INSTRUCTION:
         /* Instruction is not allowed at current execution level, eg DISABLE at User-0. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_READ:
+        पक्ष पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_READ:
         /* Load word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_WRITE:
+        पक्ष पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_WRITE:
         /* Store Word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
+        पक्ष पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_EXECUTION:
         /* PC jumped to an address outside of the valid range. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
+        पक्ष पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_PERIPHERAL_ACCESS:
         /* Access to a peripheral denied at current execution level. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
+        पक्ष पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_NULL_स्थानाङ्कः:
         /* NULL Pointer. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
+        पक्ष पत्तनम्_TIN_IPT_स्मृतिः_PROTECTION_GLOBAL_पञ्जिकाकोशः_WRITE_PROTECTION:
         /* Tried to modify a global address pointer register. */
 
-        default:
+        स्वभाव:
 
             pxCurrentTCB[ 0 ] = __MFCR( $PCXI );
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+शून्य vInstructionErrorTrap( पूर्णाङ्क iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_IE_ILLEGAL_OPCODE:
-        case portTIN_IE_UNIMPLEMENTED_OPCODE:
-        case portTIN_IE_INVALID_OPERAND:
-        case portTIN_IE_DATA_ADDRESS_ALIGNMENT:
-        case portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
-        default:
+        पक्ष पत्तनम्_TIN_IE_ILLEGAL_OPCODE:
+        पक्ष पत्तनम्_TIN_IE_UNIMPLEMENTED_OPCODE:
+        पक्ष पत्तनम्_TIN_IE_INVALID_सङ्कार्यम्:
+        पक्ष पत्तनम्_TIN_IE_दत्त_स्थानाङ्कः_ALIGNMENT:
+        पक्ष पत्तनम्_TIN_IE_INVALID_LOCAL_स्मृतिः_स्थानाङ्कः:
+        स्वभाव:
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+शून्य vContextManagementTrap( पूर्णाङ्क iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
-        case portTIN_CM_CALL_DEPTH_OVERFLOW:
-        case portTIN_CM_CALL_DEPTH_UNDEFLOW:
-        case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
-        case portTIN_CM_CONTEXT_TYPE:
-        case portTIN_CM_NESTING_ERROR:
-        default:
+        पक्ष पत्तनम्_TIN_CM_FREE_CONTEXT_LIST_DEPLETION:
+        पक्ष पत्तनम्_TIN_CM_CALL_गभीरता_अतिप्रवाहः:
+        पक्ष पत्तनम्_TIN_CM_CALL_गभीरता_UNDEFLOW:
+        पक्ष पत्तनम्_TIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
+        पक्ष पत्तनम्_TIN_CM_CALL_राशिः_UNDERFLOW:
+        पक्ष पत्तनम्_TIN_CM_CONTEXT_TYPE:
+        पक्ष पत्तनम्_TIN_CM_NESTING_ERROR:
+        स्वभाव:
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+शून्य vSystemBusAndPeripheralsTrap( पूर्णाङ्क iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
-        case portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
-        default:
+        पक्ष पत्तनम्_TIN_SBP_क्रमादेशः_FETCH_SYNCHRONOUS_ERROR:
+        पक्ष पत्तनम्_TIN_SBP_दत्त_ACCESS_SYNCHRONOUS_ERROR:
+        पक्ष पत्तनम्_TIN_SBP_दत्त_ACCESS_ASYNCHRONOUS_ERROR:
+        पक्ष पत्तनम्_TIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
+        पक्ष पत्तनम्_TIN_SBP_क्रमादेशः_स्मृतिः_INTEGRITY_ERROR:
+        पक्ष पत्तनम्_TIN_SBP_दत्त_स्मृतिः_INTEGRITY_ERROR:
+        स्वभाव:
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+शून्य vAssertionTrap( पूर्णाङ्क iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_ASSERT_ARITHMETIC_OVERFLOW:
-        case portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
-        default:
+        पक्ष पत्तनम्_TIN_ASSERT_ARITHMETIC_अतिप्रवाहः:
+        पक्ष पत्तनम्_TIN_ASSERT_STICKY_ARITHMETIC_अतिप्रवाहः:
+        स्वभाव:
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+शून्य v_Non_Maskable_व्यवधानम्_Trap( पूर्णाङ्क iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    विकल्प( iTrapIdentification )
     {
-        case portTIN_NMI_NON_MASKABLE_INTERRUPT:
-        default:
+        पक्ष पत्तनम्_TIN_NMI_NON_MASKABLE_व्यवधानम्:
+        स्वभाव:
             _debug();
-            break;
+            भङ्ग;
     }
 }
 /*---------------------------------------------------------------------------*/

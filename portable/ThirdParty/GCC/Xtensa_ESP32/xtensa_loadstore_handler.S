@@ -41,9 +41,9 @@
 #include "soc/soc.h"
 
 #define LOADSTORE_HANDLER_STACK_SZ      8
-    .section .bss, "aw"
+    .खण्डः .bss, "aw"
     .balign 16
-LoadStoreHandlerStack:
+आरोपय_Store_Handler_राशिः:
     .rept LOADSTORE_HANDLER_STACK_SZ
     .word 0
     .endr
@@ -55,18 +55,18 @@ LoadStoreHandlerStack:
  * Called from UserExceptionVector if EXCCAUSE is LoadStoreErrorCause
  */
 
-    .global   LoadStoreErrorHandler
-    .section .iram1, "ax"
+    .वैश्विक   आरोपय_Store_Error_Handler
+    .खण्डः .iram1, "ax"
 
     .literal_position
 
     .balign 4
-LoadStoreErrorHandler:
-    .type   LoadStoreErrorHandler, @function
+आरोपय_Store_Error_Handler:
+    .type   आरोपय_Store_Error_Handler, @function
 
     wsr     a0, depc                            // Save return address in depc
-    mov     a0, sp
-    movi    sp, LoadStoreHandlerStack
+    चालय     a0, sp
+    movi    sp, आरोपय_Store_Handler_राशिः
     s32i    a0, sp, 0x04                        // Since a0 contains value of a1
     s32i    a2, sp, 0x08
     s32i    a3, sp, 0x0c
@@ -76,7 +76,7 @@ LoadStoreErrorHandler:
 
     /* Check whether the address lies in the valid range */
     rsr     a3, excvaddr
-    movi    a4, _iram_text_end                  // End of code section of IRAM
+    movi    a4, _iram_text_end                  // End of code खण्डः of IRAM
     bge     a3, a4, 1f
     movi    a4, SOC_CACHE_APP_LOW               // Check if in APP cache region
     blt     a3, a4, .LS_wrong_opcode
@@ -207,39 +207,39 @@ LoadStoreErrorHandler:
 
 .LSE_store_reg:
     .org .LSE_store_reg + (7 * 8)
-    mov     a4, a7
+    चालय     a4, a7
     j .LSE_store_data
 
     .org .LSE_store_reg + (8 * 8)
-    mov     a4, a8
+    चालय     a4, a8
     j .LSE_store_data
 
     .org .LSE_store_reg + (9 * 8)
-    mov     a4, a9
+    चालय     a4, a9
     j .LSE_store_data
 
     .org .LSE_store_reg + (10 * 8)
-    mov     a4, a10
+    चालय     a4, a10
     j .LSE_store_data
 
     .org .LSE_store_reg + (11 * 8)
-    mov     a4, a11
+    चालय     a4, a11
     j .LSE_store_data
 
     .org .LSE_store_reg + (12 * 8)
-    mov     a4, a12
+    चालय     a4, a12
     j .LSE_store_data
 
     .org .LSE_store_reg + (13 * 8)
-    mov     a4, a13
+    चालय     a4, a13
     j .LSE_store_data
 
     .org .LSE_store_reg + (14 * 8)
-    mov     a4, a14
+    चालय     a4, a14
     j .LSE_store_data
 
     .org .LSE_store_reg + (15 * 8)
-    mov     a4, a15
+    चालय     a4, a15
     j .LSE_store_data
 
 
@@ -249,8 +249,8 @@ LoadStoreErrorHandler:
  * Called from UserExceptionVector if EXCCAUSE is LoadStoreAlignmentCause
  */
 
-    .global   AlignmentErrorHandler
-    .section .iram1, "ax"
+    .वैश्विक   AlignmentErrorHandler
+    .खण्डः .iram1, "ax"
 
     .literal_position
 
@@ -259,8 +259,8 @@ AlignmentErrorHandler:
     .type   AlignmentErrorHandler, @function
 
     wsr     a0, depc                            // Save return address in depc
-    mov     a0, sp
-    movi    sp, LoadStoreHandlerStack
+    चालय     a0, sp
+    movi    sp, आरोपय_Store_Handler_राशिः
     s32i    a0, sp, 0x04                        // Since a0 contains value of a1
     s32i    a2, sp, 0x08
     s32i    a3, sp, 0x0c
@@ -270,7 +270,7 @@ AlignmentErrorHandler:
 
     /* Check whether the address lies in the valid range */
     rsr     a3, excvaddr
-    movi    a4, _iram_text_end                  // End of code section of IRAM
+    movi    a4, _iram_text_end                  // End of code खण्डः of IRAM
     bge     a3, a4, 1f
     movi    a4, SOC_CACHE_APP_LOW               // Check if in APP cache region
     blt     a3, a4, .LS_wrong_opcode
@@ -330,7 +330,7 @@ AlignmentErrorHandler:
 
     movi    a3, .LS_jumptable_base
     slli    a2, a2, 4
-    add     a2, a2, a3                          // a2 is now the address to jump to
+    योजय     a2, a2, a3                          // a2 is now the address to jump to
     l32i    a3, sp, 0x0c
     jx      a2
 
@@ -417,35 +417,35 @@ AlignmentErrorHandler:
 
 .LSA_store_reg:
     .org .LSA_store_reg + (8 * 8)
-    mov     a4, a8
+    चालय     a4, a8
     j       .LSA_store_data
 
     .org .LSA_store_reg + (9 * 8)
-    mov     a4, a9
+    चालय     a4, a9
     j       .LSA_store_data
 
     .org .LSA_store_reg + (10 * 8)
-    mov     a4, a10
+    चालय     a4, a10
     j       .LSA_store_data
 
     .org .LSA_store_reg + (11 * 8)
-    mov     a4, a11
+    चालय     a4, a11
     j       .LSA_store_data
 
     .org .LSA_store_reg + (12 * 8)
-    mov     a4, a12
+    चालय     a4, a12
     j       .LSA_store_data
 
     .org .LSA_store_reg + (13 * 8)
-    mov     a4, a13
+    चालय     a4, a13
     j       .LSA_store_data
 
     .org .LSA_store_reg + (14 * 8)
-    mov     a4, a14
+    चालय     a4, a14
     j       .LSA_store_data
 
     .org .LSA_store_reg + (15 * 8)
-    mov     a4, a15
+    चालय     a4, a15
     j       .LSA_store_data
 
 /*
@@ -460,77 +460,77 @@ AlignmentErrorHandler:
     .set    .LS_jumptable_base, .LS_jumptable - (16 * 5)
 
     .org    .LS_jumptable_base + (16 * 5)
-    mov     a5, a4
+    चालय     a5, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 6)
-    mov     a6, a4
+    चालय     a6, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 7)
-    mov     a7, a4
+    चालय     a7, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 8)
-    mov     a8, a4
+    चालय     a8, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 9)
-    mov     a9, a4
+    चालय     a9, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 10)
-    mov     a10, a4
+    चालय     a10, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 11)
-    mov     a11, a4
+    चालय     a11, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 12)
-    mov     a12, a4
+    चालय     a12, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 13)
-    mov     a13, a4
+    चालय     a13, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 14)
-    mov     a14, a4
+    चालय     a14, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rfe
 
     .org    .LS_jumptable_base + (16 * 15)
-    mov     a15, a4
+    चालय     a15, a4
     l32i    a4, sp, 0x10
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
@@ -546,4 +546,4 @@ AlignmentErrorHandler:
     l32i    a2, sp, 0x08
     l32i    a1, sp, 0x04
     rsr     a0, depc
-    ret                                         // Equivalent to jx a0
+    प्रत्यागच्छ                                         // Equivalent to jx a0

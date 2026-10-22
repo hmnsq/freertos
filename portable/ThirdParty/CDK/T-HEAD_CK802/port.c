@@ -23,28 +23,28 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
-extern void vPortStartTask( void );
+बाह्य शून्य v_पत्तनम्_Start_Task( शून्य );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
-portLONG ulCriticalNesting = 0x9999UL;
+पत्तनम्_LONG ulCriticalNesting = 0x9999UL;
 
 /* Used to record one tack want to switch task after enter critical area, we need know it
  * and implement task switch after exit critical area */
-portLONG pendsvflag = 0;
+पत्तनम्_LONG pendsvflag = 0;
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                     TaskFunction_t px_संहिता,
+                                     शून्य * pvParameters )
 {
-    StackType_t * stk = NULL;
+    राशिः_Type_t * stk = रिक्त;
 
-    stk = pxTopOfStack;
+    stk = px_शिखरम्_सम्बन्धि_राशिः;
 
-    *( --stk ) = ( uint32_t ) pxCode;       /* Entry Point                                         */
+    *( --stk ) = ( uint32_t ) px_संहिता;       /* Entry Point                                         */
     *( --stk ) = ( uint32_t ) 0xE0000140L;  /* PSR                                                 */
     *( --stk ) = ( uint32_t ) 0xFFFFFFFEL;  /* R15 (LR) (init value will cause fault if ever used) */
     *( --stk ) = ( uint32_t ) 0x13131313L;  /* R13                                                 */
@@ -62,107 +62,107 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    प्रत्यागम stk;
 }
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
     ulCriticalNesting = 0UL;
 
-    vPortStartTask();
+    v_पत्तनम्_Start_Task();
 
-    return pdFALSE;
+    प्रत्यागम pdFALSE;
 }
 
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* Not implemented as there is nothing to return to. */
 }
 
-void vPortEnterCritical( void )
+शून्य v_पत्तनम्_Enter_Critical( शून्य )
 {
-    portDISABLE_INTERRUPTS();
+    पत्तनम्_DISABLE_INTERRUPTS();
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+शून्य v_पत्तनम्_Exit_Critical( शून्य )
 {
-    if( ulCriticalNesting == 0 )
+    यदि( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        यावत्( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    यदि( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        पत्तनम्_ENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        यदि( pendsvflag )
         {
             pendsvflag = 0;
-            portYIELD();
+            पत्तनम्_YIELD();
         }
     }
 }
 
-#if configUSE_PREEMPTION == 0
-    void xPortSysTickHandler( void )
+#यदि configUSE_PREEMPTION == 0
+    शून्य x_पत्तनम्_Sys_Tick_Handler( शून्य )
     {
-        portLONG ulDummy;
+        पत्तनम्_LONG ulDummy;
 
-        ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
+        ulDummy = पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR();
         xTaskIncrementTick();
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
+        पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ulDummy );
     }
 
-#else
-    void xPortSysTickHandler( void )
+#अन्यथा
+    शून्य x_पत्तनम्_Sys_Tick_Handler( शून्य )
     {
-        portLONG ulDummy;
+        पत्तनम्_LONG ulDummy;
 
-        ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
+        ulDummy = पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            यदि( xTaskIncrementTick() != pdFALSE )
             {
-                traceISR_EXIT_TO_SCHEDULER();
-                portYIELD_FROM_ISR( pdTRUE );
+                trace_ISR_EXIT_गन्तव्यम्_SCHEDULER();
+                पत्तनम्_YIELD_FROM_ISR( pdTRUE );
             }
-            else
+            अन्यथा
             {
                 traceISR_EXIT();
             }
         }
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
+        पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ulDummy );
     }
-#endif /* if configUSE_PREEMPTION == 0 */
+#यदि_अन्तः /* if configUSE_PREEMPTION == 0 */
 
-void vPortYieldHandler( void )
+शून्य v_पत्तनम्_Yield_Handler( शून्य )
 {
-    uint32_t ulSavedInterruptMask;
+    uint32_t ul_Saved_व्यवधानम्_आवरणम्;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_व्यवधानम्_आवरणम् = पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR();
 
     vTaskSwitchContext();
 
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ul_Saved_व्यवधानम्_आवरणम् );
 }
 
-__attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
-                                                              signed portCHAR * pcTaskName )
+__attribute__( ( weak ) ) शून्य v_Application_राशिः_अतिप्रवाहः_Hook( xTaskHandle * pxTask,
+                                                              चिह्नित पत्तनम्_CHAR * pcTaskName )
 {
-    for( ; ; )
+    प्रति( ; ; )
     {
     }
 }
 
-__attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
+__attribute__( ( weak ) ) शून्य vApplicationMallocFailedHook( शून्य )
 {
-    for( ; ; )
+    प्रति( ; ; )
     {
     }
 }

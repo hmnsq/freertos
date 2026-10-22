@@ -26,21 +26,21 @@
  *
  */
 
-#ifndef ARC_FREERTOS_EXCEPTIONS_H
-#define ARC_FREERTOS_EXCEPTIONS_H
+#यदि_अपरिभाषितम् ARC_FREERTOS_EXCEPTIONS_H
+#परिभाषय ARC_FREERTOS_EXCEPTIONS_H
 
 /*
  * here, all arc cpu exceptions share the same entry, also for all interrupt
  * exceptions
  */
-extern void exc_entry_cpu( void ); /* cpu exception entry for freertos */
-extern void exc_entry_int( void ); /* int exception entry for freertos */
+बाह्य शून्य exc_प्रविष्टिः_cpu( शून्य ); /* cpu exception entry for freertos */
+बाह्य शून्य exc_प्रविष्टिः_int( शून्य ); /* int exception entry for freertos */
 
 /* task dispatch functions in .s */
-extern void start_r( void );
-extern void start_dispatch();
-extern void dispatch();
+बाह्य शून्य start_r( शून्य );
+बाह्य शून्य start_dispatch();
+बाह्य शून्य dispatch();
 
-extern void freertos_exc_init( void );
+बाह्य शून्य freertos_exc_init( शून्य );
 
-#endif /* ARC_FREERTOS_EXCEPTIONS_H */
+#यदि_अन्तः /* ARC_FREERTOS_EXCEPTIONS_H */

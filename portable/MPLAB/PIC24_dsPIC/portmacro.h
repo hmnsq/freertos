@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,74 +46,74 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
-#define portPOINTER_SIZE_TYPE size_t
-#define SIZE_MAX    ( ( size_t ) -1 )
+#परिभाषय पत्तनम्_CHAR        वर्ण
+#परिभाषय पत्तनम्_FLOAT       भिन्न
+#परिभाषय पत्तनम्_DOUBLE      द्विगुण
+#परिभाषय पत्तनम्_LONG        दीर्घ
+#परिभाषय पत्तनम्_SHORT       ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE  uint16_t
+#परिभाषय पत्तनम्_आधारः_TYPE   ह्रस्व
+#परिभाषय पत्तनम्_POINTER_आकार_TYPE size_t
+#परिभाषय SIZE_MAX    ( ( size_t ) -1 )
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE राशिः_Type_t;
+प्रकारनिर्देश ह्रस्व आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित ह्रस्व UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
+#यदि( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY ( TickType_t ) 0xffff
 /* 16-bit tick type on a 16-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC 1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC 1
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः  == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t             TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          2
-#define portSTACK_GROWTH            1
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT          2
+#परिभाषय पत्तनम्_राशिः_GROWTH            1
+#परिभाषय पत्तनम्_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    SET_CPU_IPL( configKERNEL_INTERRUPT_PRIORITY ); __asm volatile ( "NOP" )
-#define portENABLE_INTERRUPTS()     SET_CPU_IPL( 0 )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()    समुच्चयः_CPU_IPL( config_KERNEL_व्यवधानम्_प्राथमिकता ); __asm चञ्चल ( "NOP" )
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()     समुच्चयः_CPU_IPL( 0 )
 
 /* Note that exiting a critical sectino will set the IPL bits to 0, no matter
 what their value was prior to entering the critical section. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
+बाह्य शून्य v_पत्तनम्_Enter_Critical( शून्य );
+बाह्य शून्य v_पत्तनम्_Exit_Critical( शून्य );
+#परिभाषय पत्तनम्_ENTER_CRITICAL()        v_पत्तनम्_Enter_Critical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL()         v_पत्तनम्_Exit_Critical()
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-#define portYIELD()             asm volatile ( "CALL _vPortYield            \n"     \
+बाह्य शून्य v_पत्तनम्_Yield( शून्य );
+#परिभाषय पत्तनम्_YIELD()             asm चञ्चल ( "CALL _vPortYield            \n"     \
                                                 "NOP                      " );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Required by the kernel aware debugger. */
-#ifdef __DEBUG
-    #define portREMOVE_STATIC_QUALIFIER
-#endif
+#यदि_परिभाषितम् __DEBUG
+    #परिभाषय पत्तनम्_REMOVE_STATIC_QUALIFIER
+#यदि_अन्तः
 
-#define portNOP()               asm volatile ( "NOP" )
+#परिभाषय पत्तनम्_NOP()               asm चञ्चल ( "NOP" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

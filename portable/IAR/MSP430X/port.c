@@ -27,11 +27,11 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Hardware includes. */
-#include "msp430.h"
+#अन्तर्भाव "msp430.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the MSP430X port.
@@ -39,14 +39,14 @@
 
 /* Constants required for hardware setup.  The tick ISR runs off the ACLK,
  * not the MCLK. */
-#define portACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
-#define portFLAGS_INT_ENABLED           ( ( StackType_t ) 0x08 )
+#परिभाषय पत्तनम्_ACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
+#परिभाषय पत्तनम्_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#परिभाषय पत्तनम्_FLAGS_INT_ENABLED           ( ( राशिः_Type_t ) 0x08 )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+प्रकारनिर्देश शून्य TCB_t;
+बाह्य चञ्चल TCB_t * चञ्चल pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each
  * time a critical section is entered the count is incremented.  Each time a
@@ -56,7 +56,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as this will cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+चञ्चल uint16_t usCriticalNesting = पत्तनम्_INITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 
@@ -64,7 +64,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-void vPortSetupTimerInterrupt( void );
+शून्य v_पत्तनम्_सज्जता_Timer_व्यवधानम्( शून्य );
 /*-----------------------------------------------------------*/
 
 /*
@@ -73,12 +73,12 @@ void vPortSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+राशिः_Type_t * px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः,
+                                     TaskFunction_t px_संहिता,
+                                     शून्य * pvParameters )
 {
-    uint16_t * pusTopOfStack;
-    uint32_t * pulTopOfStack;
+    uint16_t * pus_शिखरम्_सम्बन्धि_राशिः;
+    uint32_t * pul_शिखरम्_सम्बन्धि_राशिः;
 
     /*
      *  Place a few bytes of known values on the bottom of the stack.
@@ -95,73 +95,73 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * Some stacked items do not change size depending on the data model so have
      * to be explicitly cast to the correct size so this function will work
      * whichever data model is being used. */
-    if( sizeof( StackType_t ) == sizeof( uint16_t ) )
+    यदि( परिमाण( राशिः_Type_t ) == परिमाण( uint16_t ) )
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
-        pusTopOfStack = ( uint16_t * ) pxTopOfStack;
-        pusTopOfStack--;
-        pulTopOfStack = ( uint32_t * ) pusTopOfStack;
+        pus_शिखरम्_सम्बन्धि_राशिः = ( uint16_t * ) px_शिखरम्_सम्बन्धि_राशिः;
+        pus_शिखरम्_सम्बन्धि_राशिः--;
+        pul_शिखरम्_सम्बन्धि_राशिः = ( uint32_t * ) pus_शिखरम्_सम्बन्धि_राशिः;
     }
-    else
+    अन्यथा
     {
-        pulTopOfStack = ( uint32_t * ) pxTopOfStack;
+        pul_शिखरम्_सम्बन्धि_राशिः = ( uint32_t * ) px_शिखरम्_सम्बन्धि_राशिः;
     }
 
-    *pulTopOfStack = ( uint32_t ) pxCode;
+    *pul_शिखरम्_सम्बन्धि_राशिः = ( uint32_t ) px_संहिता;
 
-    pusTopOfStack = ( uint16_t * ) pulTopOfStack;
-    pusTopOfStack--;
-    *pusTopOfStack = portFLAGS_INT_ENABLED;
-    pusTopOfStack -= ( sizeof( StackType_t ) / 2 );
+    pus_शिखरम्_सम्बन्धि_राशिः = ( uint16_t * ) pul_शिखरम्_सम्बन्धि_राशिः;
+    pus_शिखरम्_सम्बन्धि_राशिः--;
+    *pus_शिखरम्_सम्बन्धि_राशिः = पत्तनम्_FLAGS_INT_ENABLED;
+    pus_शिखरम्_सम्बन्धि_राशिः -= ( परिमाण( राशिः_Type_t ) / 2 );
 
     /* From here on the size of stacked items depends on the memory model. */
-    pxTopOfStack = ( StackType_t * ) pusTopOfStack;
+    px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t * ) pus_शिखरम्_सम्बन्धि_राशिः;
 
     /* Next the general purpose registers. */
-    #ifdef PRELOAD_REGISTER_VALUES
-        *pxTopOfStack = ( StackType_t ) 0xffff;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xdddd;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x9999;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x8888;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x5555;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x6666;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x5555;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x4444;
-        pxTopOfStack--;
-    #else /* ifdef PRELOAD_REGISTER_VALUES */
-        pxTopOfStack -= 3;
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack -= 9;
-    #endif /* ifdef PRELOAD_REGISTER_VALUES */
+    #यदि_परिभाषितम् PRELOAD_पञ्जिकाकोशः_मानानि
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xffff;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xeeee;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xdddd;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pvParameters;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xbbbb;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0xaaaa;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x9999;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x8888;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x5555;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x6666;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x5555;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x4444;
+        px_शिखरम्_सम्बन्धि_राशिः--;
+    #अन्यथा /* ifdef PRELOAD_REGISTER_VALUES */
+        px_शिखरम्_सम्बन्धि_राशिः -= 3;
+        *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) pvParameters;
+        px_शिखरम्_सम्बन्धि_राशिः -= 9;
+    #यदि_अन्तः /* ifdef PRELOAD_REGISTER_VALUES */
 
 
     /* A variable is used to keep track of the critical section nesting.
      * This variable has to be stored as part of the task context and is
      * initially set to zero. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) पत्तनम्_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* It is unlikely that the MSP430 port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -171,17 +171,17 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-void vPortSetupTimerInterrupt( void )
+शून्य v_पत्तनम्_सज्जता_Timer_व्यवधानम्( शून्य )
 {
-    vApplicationSetupTimerInterrupt();
+    v_Application_सज्जता_Timer_व्यवधानम्();
 }
 /*-----------------------------------------------------------*/
 
-#pragma vector=configTICK_VECTOR
-__interrupt __raw void vTickISREntry( void )
+#निर्देशः सदिशम्=config_TICK_सदिशम्
+__interrupt __raw शून्य vTickISREntry( शून्य )
 {
-    extern void vPortTickISR( void );
+    बाह्य शून्य v_पत्तनम्_Tick_ISR( शून्य );
 
     __bic_SR_register_on_exit( SCG1 + SCG0 + OSCOFF + CPUOFF );
-    vPortTickISR();
+    v_पत्तनम्_Tick_ISR();
 }

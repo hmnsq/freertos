@@ -32,15 +32,15 @@ EXTERN ulCriticalNesting
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+पत्तनम्_SAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+प्रक्षिप_3 R0 as we are going गन्तव्यम् use the पञ्जिका.
    STMDB SP !, {
     R0
 }
 
-Set R0 to point to the task stack pointer.
+समुच्चयः_2 R0 गन्तव्यम् point गन्तव्यम् the task राशिः pointer.
    STMDB SP, {
     SP
 }
@@ -52,22 +52,22 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+प्रक्षिप_3 the प्रत्यागम स्थानाङ्कः_2 onto the राशिः.
           STMDB R0 !, {
            LR
        }
 
-       Now we have saved LR we can use it instead of R0.
+       Now we have saved LR we can use it instead सम्बन्धि R0.
           MOV LR, R0
 
 ;
 
-Pop R0 so we can save it onto the system mode stack.
+निष्कासय_3 R0 so we can save it onto the system बहुलकम्_2 राशिः.
    LDMIA SP !, {
     R0
 }
 
-Push all the system mode registers onto the task stack.
+प्रक्षिप_3 all the system बहुलकम्_2 registers onto the task राशिः.
    STMDB LR, {
     R0 - LR
 }
@@ -76,7 +76,7 @@ NOP
 SUB LR, LR, # 60
 
 ;
-Push the SPSR onto the task stack.
+प्रक्षिप_3 the SPSR onto the task राशिः.
    MRS R0, SPSR
 STMDB LR !, {
     R0
@@ -88,9 +88,9 @@ STMDB LR !, {
     R0
 }
 
-Store the new top of stack
+Store the new शिखरम्_2 सम्बन्धि राशिः
 
-for the task.
+प्रति the task.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 STR LR, [ R0 ]
@@ -98,18 +98,18 @@ STR LR, [ R0 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+पत्तनम्_RESTORE_CONTEXT MACRO
 
 ;
-Set the LR to the task stack.
+समुच्चयः_2 the LR गन्तव्यम् the task राशिः.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 LDR LR, [ R0 ]
 
 ;
-The critical nesting depth is the first item on the stack.
+The critical nesting गभीरता is the first item on the राशिः.
    ;
-Load it into the ulCriticalNesting variable.
+आरोपय it into the ulCriticalNesting variable.
    LDR R0, = ulCriticalNesting
              LDMFD LR !, {
     R1
@@ -118,16 +118,16 @@ Load it into the ulCriticalNesting variable.
 STR R1, [ R0 ]
 
 ;
-Get the SPSR from the stack.
+Get the SPSR from the राशिः.
    LDMFD LR !, {
     R0
 }
 MSR SPSR_cxsf, R0
 
 ;
-Restore all system mode registers
+Restore all system बहुलकम्_2 registers
 
-for the task.
+प्रति the task.
    LDMFD LR, {
     R0 - R14
 }
@@ -136,15 +136,15 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the प्रत्यागम स्थानाङ्कः_2.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And प्रत्यागम -correcting the offset अन्तर् the LR गन्तव्यम् obtain the
 ;
 
-correct address.
+correct स्थानाङ्कः_2.
    SUBS PC, LR, # 4
 
 ENDM

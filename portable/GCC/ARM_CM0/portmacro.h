@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -45,183 +45,183 @@
  *------------------------------------------------------------------------------
  */
 
-#ifndef configENABLE_MPU
-    #error configENABLE_MPU must be defined in FreeRTOSConfig.h.  Set configENABLE_MPU to 1 to enable the MPU or 0 to disable the MPU.
-#endif /* configENABLE_MPU */
+#यदि_अपरिभाषितम् configENABLE_MPU
+    #दोषः configENABLE_MPU must be defined अन्तर् FreeRTOSConfig.h.  समुच्चयः_2 configENABLE_MPU गन्तव्यम् 1 गन्तव्यम् enable the MPU or 0 गन्तव्यम् disable the MPU.
+#यदि_अन्तः /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Type definitions.
  */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t        TickType_t;
-    #define portMAX_DELAY   ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t        TickType_t;
-    #define portMAX_DELAY   ( TickType_t ) 0xffffffffUL
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t        TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY   ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t        TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY   ( TickType_t ) 0xffffffffUL
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
      * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                      "Cortex-M0+"
-#define portSTACK_GROWTH                   ( -1 )
-#define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                 8
-#define portNOP()
-#define portINLINE                         __inline
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE               inline __attribute__( ( always_inline ) )
-#endif
-#define portDONT_DISCARD                   __attribute__( ( used ) )
+#परिभाषय पत्तनम्_ARCH_NAME                      "Cortex-M0+"
+#परिभाषय पत्तनम्_राशिः_GROWTH                   ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS                 ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT                 8
+#परिभाषय पत्तनम्_NOP()
+#परिभाषय पत्तनम्_INLINE                         __inline
+#यदि_अपरिभाषितम् पत्तनम्_FORCE_INLINE
+    #परिभाषय पत्तनम्_FORCE_INLINE               अन्तःस्थ __attribute__( ( always_inline ) )
+#यदि_अन्तः
+#परिभाषय पत्तनम्_DONT_DISCARD                   __attribute__( ( प्रयुक्तम् ) )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Extern declarations.
  */
-extern BaseType_t xPortIsInsideInterrupt( void );
+बाह्य आधारः_Type_t x_पत्तनम्_Is_Inside_व्यवधानम्( शून्य );
 
-extern void vPortYield( void ) /* PRIVILEGED_FUNCTION */;
+बाह्य शून्य v_पत्तनम्_Yield( शून्य ) /* PRIVILEGED_FUNCTION */;
 
-extern void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */;
-extern void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */;
+बाह्य शून्य v_पत्तनम्_Enter_Critical( शून्य ) /* PRIVILEGED_FUNCTION */;
+बाह्य शून्य v_पत्तनम्_Exit_Critical( शून्य ) /* PRIVILEGED_FUNCTION */;
 
-extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
-extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+बाह्य uint32_t ul_समुच्चयः_व्यवधानम्_आवरणम्( शून्य ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+बाह्य शून्य v_Clear_व्यवधानम्_आवरणम्( uint32_t ul_आवरणम् ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
-#if ( configENABLE_MPU == 1 )
-    extern BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */;
-    extern void vResetPrivilege( void ) /* __attribute__ (( naked )) */;
-#endif /* configENABLE_MPU */
+#यदि ( configENABLE_MPU == 1 )
+    बाह्य आधारः_Type_t xIsPrivileged( शून्य ) /* __attribute__ (( naked )) */;
+    बाह्य शून्य vResetPrivilege( शून्य ) /* __attribute__ (( naked )) */;
+#यदि_अन्तः /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
-    #define portUSING_MPU_WRAPPERS          1
-    #define portPRIVILEGE_BIT               ( 0x80000000UL )
-#else
-    #define portPRIVILEGE_BIT               ( 0x0UL )
-#endif /* configENABLE_MPU */
+#यदि ( configENABLE_MPU == 1 )
+    #परिभाषय पत्तनम्_USING_MPU_WRAPPERS          1
+    #परिभाषय पत्तनम्_PRIVILEGE_BIT               ( 0x80000000UL )
+#अन्यथा
+    #परिभाषय पत्तनम्_PRIVILEGE_BIT               ( 0x0UL )
+#यदि_अन्तः /* configENABLE_MPU */
 
 /* Shareable (S), Cacheable (C) and Bufferable (B) bits for flash region. */
-#ifndef configS_C_B_FLASH
-    #define configS_C_B_FLASH               ( 0x07UL )
-#endif
+#यदि_अपरिभाषितम् configS_C_B_FLASH
+    #परिभाषय configS_C_B_FLASH               ( 0x07UL )
+#यदि_अन्तः
 
 /* Shareable (S), Cacheable (C) and Bufferable (B) bits for RAM region. */
-#ifndef configS_C_B_SRAM
-    #define configS_C_B_SRAM                ( 0x07UL )
-#endif
+#यदि_अपरिभाषितम् configS_C_B_SRAM
+    #परिभाषय configS_C_B_SRAM                ( 0x07UL )
+#यदि_अन्तः
 
 /* MPU regions. */
-#define portPRIVILEGED_RAM_REGION           ( 7UL )
-#define portPRIVILEGED_FLASH_REGION         ( 6UL )
-#define portUNPRIVILEGED_FLASH_REGION       ( 5UL )
-#define portSTACK_REGION                    ( 4UL )
-#define portFIRST_CONFIGURABLE_REGION       ( 0UL )
-#define portLAST_CONFIGURABLE_REGION        ( 3UL )
-#define portNUM_CONFIGURABLE_REGIONS        ( 4UL )
-#define portTOTAL_NUM_REGIONS               ( portNUM_CONFIGURABLE_REGIONS + 1UL ) /* Plus one to make space for the stack region. */
+#परिभाषय पत्तनम्_PRIVILEGED_RAM_REGION           ( 7UL )
+#परिभाषय पत्तनम्_PRIVILEGED_FLASH_REGION         ( 6UL )
+#परिभाषय पत्तनम्_UNPRIVILEGED_FLASH_REGION       ( 5UL )
+#परिभाषय पत्तनम्_राशिः_REGION                    ( 4UL )
+#परिभाषय पत्तनम्_FIRST_CONFIGURABLE_REGION       ( 0UL )
+#परिभाषय पत्तनम्_चरमः_CONFIGURABLE_REGION        ( 3UL )
+#परिभाषय पत्तनम्_अङ्कः_CONFIGURABLE_REGIONS        ( 4UL )
+#परिभाषय पत्तनम्_योग_अङ्कः_REGIONS               ( पत्तनम्_अङ्कः_CONFIGURABLE_REGIONS + 1UL ) /* Plus one to make space for the stack region. */
 
 /* MPU region sizes. This information is encoded in the SIZE bits of the MPU
  * Region Attribute and Size Register (RASR). */
-#define portMPU_REGION_SIZE_256B            ( 0x07UL << 1UL )
-#define portMPU_REGION_SIZE_512B            ( 0x08UL << 1UL )
-#define portMPU_REGION_SIZE_1KB             ( 0x09UL << 1UL )
-#define portMPU_REGION_SIZE_2KB             ( 0x0AUL << 1UL )
-#define portMPU_REGION_SIZE_4KB             ( 0x0BUL << 1UL )
-#define portMPU_REGION_SIZE_8KB             ( 0x0CUL << 1UL )
-#define portMPU_REGION_SIZE_16KB            ( 0x0DUL << 1UL )
-#define portMPU_REGION_SIZE_32KB            ( 0x0EUL << 1UL )
-#define portMPU_REGION_SIZE_64KB            ( 0x0FUL << 1UL )
-#define portMPU_REGION_SIZE_128KB           ( 0x10UL << 1UL )
-#define portMPU_REGION_SIZE_256KB           ( 0x11UL << 1UL )
-#define portMPU_REGION_SIZE_512KB           ( 0x12UL << 1UL )
-#define portMPU_REGION_SIZE_1MB             ( 0x13UL << 1UL )
-#define portMPU_REGION_SIZE_2MB             ( 0x14UL << 1UL )
-#define portMPU_REGION_SIZE_4MB             ( 0x15UL << 1UL )
-#define portMPU_REGION_SIZE_8MB             ( 0x16UL << 1UL )
-#define portMPU_REGION_SIZE_16MB            ( 0x17UL << 1UL )
-#define portMPU_REGION_SIZE_32MB            ( 0x18UL << 1UL )
-#define portMPU_REGION_SIZE_64MB            ( 0x19UL << 1UL )
-#define portMPU_REGION_SIZE_128MB           ( 0x1AUL << 1UL )
-#define portMPU_REGION_SIZE_256MB           ( 0x1BUL << 1UL )
-#define portMPU_REGION_SIZE_512MB           ( 0x1CUL << 1UL )
-#define portMPU_REGION_SIZE_1GB             ( 0x1DUL << 1UL )
-#define portMPU_REGION_SIZE_2GB             ( 0x1EUL << 1UL )
-#define portMPU_REGION_SIZE_4GB             ( 0x1FUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_256_B            ( 0x07UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_512_B            ( 0x08UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_1_KB             ( 0x09UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_2_KB             ( 0x0AUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_4_KB             ( 0x0BUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_8_KB             ( 0x0CUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_16_KB            ( 0x0DUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_32_KB            ( 0x0EUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_64_KB            ( 0x0FUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_128_KB           ( 0x10UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_256_KB           ( 0x11UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_512_KB           ( 0x12UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_1_MB             ( 0x13UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_2_MB             ( 0x14UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_4_MB             ( 0x15UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_8_MB             ( 0x16UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_16_MB            ( 0x17UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_32_MB            ( 0x18UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_64_MB            ( 0x19UL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_128_MB           ( 0x1AUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_256_MB           ( 0x1BUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_512_MB           ( 0x1CUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_1_GB             ( 0x1DUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_2_GB             ( 0x1EUL << 1UL )
+#परिभाषय पत्तनम्_MPU_REGION_आकार_4_GB             ( 0x1FUL << 1UL )
 
 /* MPU memory types. This information is encoded in the S ( Shareable), C
  * (Cacheable) and B (Bufferable) bits of the MPU Region Attribute and Size
  * Register (RASR). */
-#define portMPU_REGION_STRONGLY_ORDERED_SHAREABLE   ( 0x0UL << 16UL ) /* S=NA, C=0, B=0. */
-#define portMPU_REGION_DEVICE_SHAREABLE             ( 0x1UL << 16UL ) /* S=NA, C=0, B=1. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_NONSHARED    ( 0x2UL << 16UL ) /* S=0, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_SHARED       ( 0x6UL << 16UL ) /* S=1, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_NONSHARED    ( 0x3UL << 16UL ) /* S=0, C=1, B=1.*/
-#define portMPU_REGION_NORMAL_OIWBNOWA_SHARED       ( 0x7UL << 16UL ) /* S=1, C=1, B=1.*/
+#परिभाषय पत्तनम्_MPU_REGION_STRONGLY_ORDERED_SHAREABLE   ( 0x0UL << 16UL ) /* S=NA, C=0, B=0. */
+#परिभाषय पत्तनम्_MPU_REGION_DEVICE_SHAREABLE             ( 0x1UL << 16UL ) /* S=NA, C=0, B=1. */
+#परिभाषय पत्तनम्_MPU_REGION_प्रसामान्यम्_OIWTNOWA_NONSHARED    ( 0x2UL << 16UL ) /* S=0, C=1, B=0. */
+#परिभाषय पत्तनम्_MPU_REGION_प्रसामान्यम्_OIWTNOWA_SHARED       ( 0x6UL << 16UL ) /* S=1, C=1, B=0. */
+#परिभाषय पत्तनम्_MPU_REGION_प्रसामान्यम्_OIWBNOWA_NONSHARED    ( 0x3UL << 16UL ) /* S=0, C=1, B=1.*/
+#परिभाषय पत्तनम्_MPU_REGION_प्रसामान्यम्_OIWBNOWA_SHARED       ( 0x7UL << 16UL ) /* S=1, C=1, B=1.*/
 
 /* MPU access permissions. This information is encoded in the AP and XN bits of
  * the MPU Region Attribute and Size Register (RASR). */
-#define portMPU_REGION_PRIV_NA_UNPRIV_NA            ( 0x0UL << 24UL )
-#define portMPU_REGION_PRIV_RW_UNPRIV_NA            ( 0x1UL << 24UL )
-#define portMPU_REGION_PRIV_RW_UNPRIV_RO            ( 0x2UL << 24UL )
-#define portMPU_REGION_PRIV_RW_UNPRIV_RW            ( 0x3UL << 24UL )
-#define portMPU_REGION_PRIV_RO_UNPRIV_NA            ( 0x5UL << 24UL )
-#define portMPU_REGION_PRIV_RO_UNPRIV_RO            ( 0x6UL << 24UL )
-#define portMPU_REGION_EXECUTE_NEVER                ( 0x1UL << 28UL )
+#परिभाषय पत्तनम्_MPU_REGION_PRIV_NA_UNPRIV_NA            ( 0x0UL << 24UL )
+#परिभाषय पत्तनम्_MPU_REGION_PRIV_RW_UNPRIV_NA            ( 0x1UL << 24UL )
+#परिभाषय पत्तनम्_MPU_REGION_PRIV_RW_UNPRIV_RO            ( 0x2UL << 24UL )
+#परिभाषय पत्तनम्_MPU_REGION_PRIV_RW_UNPRIV_RW            ( 0x3UL << 24UL )
+#परिभाषय पत्तनम्_MPU_REGION_PRIV_RO_UNPRIV_NA            ( 0x5UL << 24UL )
+#परिभाषय पत्तनम्_MPU_REGION_PRIV_RO_UNPRIV_RO            ( 0x6UL << 24UL )
+#परिभाषय पत्तनम्_MPU_REGION_EXECUTE_NEVER                ( 0x1UL << 28UL )
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
     /**
      * @brief Settings to define an MPU region.
      */
-    typedef struct MPURegionSettings
+    प्रकारनिर्देश संरचना MPURegionSettings
     {
         uint32_t ulRBAR; /**< MPU Region Base Address Register (RBAR) for the region. */
         uint32_t ulRASR; /**< MPU Region Attribute and Size Register (RASR) for the region. */
     } MPURegionSettings_t;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #यदि ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-        #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
-        #endif
+        #यदि_अपरिभाषितम् config_SYSTEM_CALL_राशिः_आकार
+            #दोषः config_SYSTEM_CALL_राशिः_आकार must be defined गन्तव्यम् the desired आकार सम्बन्धि the system call राशिः अन्तर् शब्दाः प्रति using MPU wrappers v2.
+        #यदि_अन्तः
 
         /**
          * @brief System call stack.
          */
-        typedef struct SYSTEM_CALL_STACK_INFO
+        प्रकारनिर्देश संरचना SYSTEM_CALL_राशिः_INFO
         {
-            uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-            uint32_t * pulSystemCallStack;
-            uint32_t * pulTaskStack;
-            uint32_t ulLinkRegisterAtSystemCallEntry;
-        } xSYSTEM_CALL_STACK_INFO;
+            uint32_t ul_System_Call_राशिः_बफर[ config_SYSTEM_CALL_राशिः_आकार ];
+            uint32_t * pul_System_Call_राशिः;
+            uint32_t * pul_Task_राशिः;
+            uint32_t ul_Link_पञ्जिकाकोशः_At_System_Call_प्रविष्टिः;
+        } x_SYSTEM_CALL_राशिः_INFO;
 
-    #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+    #यदि_अन्तः /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
     /**
      * @brief MPU settings as stored in the TCB.
@@ -236,105 +236,105 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      * <---------><----------------><---------------><---->
      *     8               8                3          1
      */
-    #define CONTEXT_SIZE    20
+    #परिभाषय CONTEXT_आकार    20
 
     /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-    #define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
-    #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
+    #परिभाषय पत्तनम्_राशिः_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
+    #परिभाषय पत्तनम्_TASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
     /* Size of an Access Control List (ACL) entry in bits. */
-    #define portACL_ENTRY_SIZE_BITS             ( 32U )
+    #परिभाषय पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः             ( 32U )
 
-    typedef struct MPU_SETTINGS
+    प्रकारनिर्देश संरचना MPU_SETTINGS
     {
-        MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ]; /**< Settings for 4 per task regions. */
-        uint32_t ulContext[ CONTEXT_SIZE ];
+        MPURegionSettings_t xRegionsSettings[ पत्तनम्_योग_अङ्कः_REGIONS ]; /**< Settings for 4 per task regions. */
+        uint32_t ulContext[ CONTEXT_आकार ];
         uint32_t ulTaskFlags;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-            xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
-                uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
-            #endif
-        #endif
+        #यदि ( configUSE_MPU_WRAPPERS_V1 == 0 )
+            x_SYSTEM_CALL_राशिः_INFO x_System_Call_राशिः_Info;
+            #यदि ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                uint32_t ulAccessControlList[ ( config_PROTECTED_KERNEL_OBJECT_POOL_आकार / पत्तनम्_ACL_प्रविष्टिः_आकार_द्वयङ्काः ) + 1 ];
+            #यदि_अन्तः
+        #यदि_अन्तः
     } xMPU_SETTINGS;
 
-#endif /* configENABLE_MPU == 1 */
+#यदि_अन्तः /* configENABLE_MPU == 1 */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief SVC numbers.
  */
-#define portSVC_START_SCHEDULER            100
-#define portSVC_RAISE_PRIVILEGE            101
-#define portSVC_SYSTEM_CALL_EXIT           102
-#define portSVC_YIELD                      103
+#परिभाषय पत्तनम्_SVC_START_SCHEDULER            100
+#परिभाषय पत्तनम्_SVC_RAISE_PRIVILEGE            101
+#परिभाषय पत्तनम्_SVC_SYSTEM_CALL_EXIT           102
+#परिभाषय पत्तनम्_SVC_YIELD                      103
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Scheduler utilities.
  */
-#if ( configENABLE_MPU == 1 )
-    #define portYIELD()               __asm volatile ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
-    #define portYIELD_WITHIN_API()    vPortYield()
-#else
-    #define portYIELD()               vPortYield()
-    #define portYIELD_WITHIN_API()    vPortYield()
-#endif
+#यदि ( configENABLE_MPU == 1 )
+    #परिभाषय पत्तनम्_YIELD()               __asm चञ्चल ( "svc %0" ::"i" ( पत्तनम्_SVC_YIELD ) : "memory" )
+    #परिभाषय पत्तनम्_YIELD_WITHIN_API()    v_पत्तनम्_Yield()
+#अन्यथा
+    #परिभाषय पत्तनम्_YIELD()               v_पत्तनम्_Yield()
+    #परिभाषय पत्तनम्_YIELD_WITHIN_API()    v_पत्तनम्_Yield()
+#यदि_अन्तः
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+#परिभाषय पत्तनम्_NVIC_INT_CTRL_REG     ( *( ( चञ्चल uint32_t * ) 0xe000ed04 ) )
+#परिभाषय पत्तनम्_NVIC_PENDSVSET_BIT    ( 1UL << 28UL )
+#परिभाषय पत्तनम्_अन्तः_SWITCHING_ISR( xSwitchRequired )            \
+    कुरु                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        यदि( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_गन्तव्यम्_SCHEDULER();                   \
+            पत्तनम्_NVIC_INT_CTRL_REG = पत्तनम्_NVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        अन्यथा                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } यावत्( 0 )
+#परिभाषय पत्तनम्_YIELD_FROM_ISR( x )    पत्तनम्_अन्तः_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portSET_INTERRUPT_MASK_FROM_ISR()       ulSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  vClearInterruptMask( x )
-#define portDISABLE_INTERRUPTS()                __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()                 __asm volatile ( " cpsie i " ::: "memory" )
-#define portENTER_CRITICAL()                    vPortEnterCritical()
-#define portEXIT_CRITICAL()                     vPortExitCritical()
+#परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR()       ul_समुच्चयः_व्यवधानम्_आवरणम्()
+#परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( x )  v_Clear_व्यवधानम्_आवरणम्( x )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                __asm चञ्चल ( " cpsid i " ::: "memory" )
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                 __asm चञ्चल ( " cpsie i " ::: "memory" )
+#परिभाषय पत्तनम्_ENTER_CRITICAL()                    v_पत्तनम्_Enter_Critical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL()                     v_पत्तनम्_Exit_Critical()
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Tickless idle/low power functionality.
  */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#यदि_अपरिभाषितम् पत्तनम्_SUPPRESS_TICKS_AND_SLEEP
+    बाह्य शून्य v_पत्तनम्_Suppress_Ticks_And_Sleep( TickType_t xExpectedIdleTime );
+    #परिभाषय पत्तनम्_SUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    v_पत्तनम्_Suppress_Ticks_And_Sleep( xExpectedIdleTime )
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Task function macros as described on the FreeRTOS.org website.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
     /**
      * @brief Checks whether or not the processor is privileged.
      *
      * @return 1 if the processor is already privileged, 0 otherwise.
      */
-    #define portIS_PRIVILEGED()      xIsPrivileged()
+    #परिभाषय पत्तनम्_IS_PRIVILEGED()      xIsPrivileged()
 
     /**
      * @brief Raise an SVC request to raise privilege.
@@ -343,47 +343,47 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      * then it raises the privilege. If this is called from any other place,
      * the privilege is not raised.
      */
-    #define portRAISE_PRIVILEGE()    __asm volatile ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
+    #परिभाषय पत्तनम्_RAISE_PRIVILEGE()    __asm चञ्चल ( "svc %0 \n" ::"i" ( पत्तनम्_SVC_RAISE_PRIVILEGE ) : "memory" );
 
     /**
      * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
      * register.
      */
-    #define portRESET_PRIVILEGE()    vResetPrivilege()
+    #परिभाषय पत्तनम्_RESET_PRIVILEGE()    vResetPrivilege()
 
-#else
+#अन्यथा
 
-    #define portIS_PRIVILEGED()
-    #define portRAISE_PRIVILEGE()
-    #define portRESET_PRIVILEGE()
+    #परिभाषय पत्तनम्_IS_PRIVILEGED()
+    #परिभाषय पत्तनम्_RAISE_PRIVILEGE()
+    #परिभाषय पत्तनम्_RESET_PRIVILEGE()
 
-#endif /* configENABLE_MPU */
+#यदि_अन्तः /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#यदि ( configENABLE_MPU == 1 )
 
-    extern BaseType_t xPortIsTaskPrivileged( void );
+    बाह्य आधारः_Type_t x_पत्तनम्_Is_Task_Privileged( शून्य );
 
     /**
      * @brief Checks whether or not the calling task is privileged.
      *
      * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
      */
-    #define portIS_TASK_PRIVILEGED()    xPortIsTaskPrivileged()
+    #परिभाषय पत्तनम्_IS_TASK_PRIVILEGED()    x_पत्तनम्_Is_Task_Privileged()
 
-#endif /* configENABLE_MPU == 1 */
+#यदि_अन्तः /* configENABLE_MPU == 1 */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Barriers.
  */
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#परिभाषय पत्तनम्_स्मृतिः_BARRIER()    __asm चञ्चल ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

@@ -26,25 +26,25 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+प्रकारनिर्देश शून्य TCB_t;
+बाह्य चञ्चल TCB_t * चञ्चल pxCurrentTCB;
+बाह्य शून्य vTaskSwitchContext( शून्य );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+शून्य पत्तनम्_SWITCH_CONTEXT( शून्य );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+शून्य पत्तनम्_FIRST_CONTEXT( शून्य );
 
-#define portSWITCH_CONTEXT()                                         \
+#परिभाषय पत्तनम्_SWITCH_CONTEXT()                                         \
                         asm { mov   ax, seg pxCurrentTCB        } \
                             asm { mov   ds, ax                      }  \
                             asm { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */    \
@@ -57,19 +57,19 @@ void portFIRST_CONTEXT( void );
                             asm { mov   ss, es:[ bx + 2 ]           }      \
                             asm { mov   sp, es:[ bx ]               }
 
-#define portFIRST_CONTEXT()                                             \
+#परिभाषय पत्तनम्_FIRST_CONTEXT()                                             \
                             asm { mov   ax, seg pxCurrentTCB        }   \
                             asm { mov   ds, ax                      }   \
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { निष्कासय   bp                          }   \
+                            asm { निष्कासय   di                          }   \
+                            asm { निष्कासय   si                          }   \
+                            asm { निष्कासय   ds                          }   \
+                            asm { निष्कासय   es                          }   \
+                            asm { निष्कासय   dx                          }   \
+                            asm { निष्कासय   cx                          }   \
+                            asm { निष्कासय   bx                          }   \
+                            asm { निष्कासय   ax                          }   \
                             asm { iret                              }

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -33,7 +33,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System आह्वान numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -47,28 +47,28 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 #endif
 
 
-    EXTERN pxCurrentTCB
-    EXTERN xSecureContext
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN SecureContext_SaveContext
-    EXTERN SecureContext_LoadContext
+    बाह्य pxCurrentTCB
+    बाह्य xSecureContext
+    बाह्य vTaskSwitchContext
+    बाह्य vPortSVCHandler_C
+    बाह्य SecureContext_SaveContext
+    बाह्य SecureContext_LoadContext
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    बाह्य vSystemCallEnter
+    बाह्य vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vPortAllocateSecureContext
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
-    PUBLIC vPortFreeSecureContext
+    सार्वजनिक xIsPrivileged
+    सार्वजनिक vResetPrivilege
+    सार्वजनिक v_पत्तनम्_Allocate_Secure_Context
+    सार्वजनिक v_Restore_Context_सम्बन्धि_First_Task
+    सार्वजनिक vRaisePrivilege
+    सार्वजनिक vStartFirstTask
+    सार्वजनिक ul_समुच्चयः_व्यवधानम्_आवरणम्
+    सार्वजनिक v_Clear_व्यवधानम्_आवरणम्
+    सार्वजनिक PendSV_Handler
+    सार्वजनिक SVC_Handler
+    सार्वजनिक v_पत्तनम्_Free_Secure_Context
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -86,8 +86,8 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
     movs r1, #1                             /* r1 = 1. */
-    tst r0, r1                              /* Perform r0 & r1 (bitwise AND) and update the conditions flag. */
-    beq running_privileged                  /* If the result of previous AND operation was 0, branch. */
+    tst r0, r1                              /* Perform r0 & r1 (bitwise च) and update the conditions flag. */
+    beq running_privileged                  /* If the result of previous च operation was 0, branch. */
     movs r0, #0                             /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     bx lr                                   /* Return. */
     running_privileged:
@@ -103,8 +103,8 @@ vResetPrivilege:
     bx lr                                   /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-vPortAllocateSecureContext:
-    svc 100                                 /* Secure context is allocated in the supervisor call. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
+v_पत्तनम्_Allocate_Secure_Context:
+    svc 100                                 /* Secure context is allocated in the supervisor आह्वान. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
@@ -118,7 +118,7 @@ vPortAllocateSecureContext:
 
 #if ( configENABLE_MPU == 1 )
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_सम्बन्धि_First_Task:
     program_mpu_first_task:
         ldr r3, =pxCurrentTCB               /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
         ldr r0, [r3]                        /* r0 = pxCurrentTCB.*/
@@ -177,7 +177,7 @@ vRestoreContextOfFirstTask:
         subs r2, #20
         msr psp, r3
         msr control, r5
-        mov lr, r6
+        चालय lr, r6
         ldr r4, =xSecureContext             /* Read the location of xSecureContext i.e. &( xSecureContext ). */
         str r0, [r4]                        /* Restore xSecureContext. */
 
@@ -189,10 +189,10 @@ vRestoreContextOfFirstTask:
         stmia r3!, {r4-r7}                  /* Copy rest half of the the hardware saved context on the task stack. */
         subs r2, #48
         ldmia r2!, {r4-r7}                  /* Restore r8-r11. */
-        mov r8, r4                          /* r8 = r4. */
-        mov r9, r5                          /* r9 = r5. */
-        mov r10, r6                         /* r10 = r6. */
-        mov r11, r7                         /* r11 = r7. */
+        चालय r8, r4                          /* r8 = r4. */
+        चालय r9, r5                          /* r9 = r5. */
+        चालय r10, r6                         /* r10 = r6. */
+        चालय r11, r7                         /* r11 = r7. */
         subs r2, #32
         ldmia r2!, {r4-r7}                  /* Restore r4-r7. */
         subs r2, #16
@@ -203,7 +203,7 @@ vRestoreContextOfFirstTask:
 
 #else /* configENABLE_MPU */
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_सम्बन्धि_First_Task:
     ldr  r2, =pxCurrentTCB                  /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
     ldr  r3, [r2]                           /* Read pxCurrentTCB. */
     ldr  r0, [r3]                           /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
@@ -237,16 +237,16 @@ vStartFirstTask:
     cpsie i                                 /* Globally enable interrupts. */
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System आह्वान to start the first task. portSVC_START_SCHEDULER = 102. */
 /*-----------------------------------------------------------*/
 
-ulSetInterruptMask:
+ul_समुच्चयः_व्यवधानम्_आवरणम्:
     mrs r0, PRIMASK
     cpsid i
     bx lr
 /*-----------------------------------------------------------*/
 
-vClearInterruptMask:
+v_Clear_व्यवधानम्_आवरणम्:
     msr PRIMASK, r0
     bx lr
 /*-----------------------------------------------------------*/
@@ -261,23 +261,23 @@ PendSV_Handler:
 
     cbz r0, save_ns_context                 /* No secure context to save. */
     save_s_context:
-        push {r0-r2, lr}
+        निक्षिप {r0-r2, lr}
         bl SecureContext_SaveContext        /* Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r0-r3}                         /* LR is now in r3. */
-        mov lr, r3                          /* Restore LR. */
+        उद्धर {r0-r3}                         /* LR is now in r3. */
+        चालय lr, r3                          /* Restore LR. */
 
     save_ns_context:
-        mov r3, lr                          /* r3 = LR (EXC_RETURN). */
+        चालय r3, lr                          /* r3 = LR (EXC_RETURN). */
         lsls r3, r3, #25                    /* r3 = r3 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
         bmi save_special_regs               /* r3 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used to store the stack frame. */
 
     save_general_regs:
         mrs r3, psp
         stmia r2!, {r4-r7}                  /* Store r4-r7. */
-        mov r4, r8                          /* r4 = r8. */
-        mov r5, r9                          /* r5 = r9. */
-        mov r6, r10                         /* r6 = r10. */
-        mov r7, r11                         /* r7 = r11. */
+        चालय r4, r8                          /* r4 = r8. */
+        चालय r5, r9                          /* r5 = r9. */
+        चालय r6, r10                         /* r6 = r10. */
+        चालय r7, r11                         /* r7 = r11. */
         stmia r2!, {r4-r7}                  /* Store r8-r11. */
         ldmia r3!, {r4-r7}                  /* Copy half of the  hardware saved context into r4-r7. */
         stmia r2!, {r4-r7}                  /* Store the hardware saved context. */
@@ -288,7 +288,7 @@ PendSV_Handler:
         mrs r3, psp                         /* r3 = PSP. */
         movs r4, #0                         /* r4 = 0. 0 is stored in the PSPLIM slot. */
         mrs r5, control                     /* r5 = CONTROL. */
-        mov r6, lr                          /* r6 = LR. */
+        चालय r6, lr                          /* r6 = LR. */
         stmia r2!, {r0, r3-r6}              /* Store xSecureContext, original PSP (after hardware has saved context), PSPLIM, CONTROL and LR. */
         str r2, [r1]                        /* Save the location from where the context should be restored as the first member of TCB. */
 
@@ -355,19 +355,19 @@ PendSV_Handler:
         subs r2, #20
         msr psp, r3
         msr control, r5
-        mov lr, r6
+        चालय lr, r6
         ldr r4, =xSecureContext             /* Read the location of xSecureContext i.e. &( xSecureContext ). */
         str r0, [r4]                        /* Restore xSecureContext. */
         cbz r0, restore_ns_context          /* No secure context to restore. */
 
     restore_s_context:
-        push {r1-r3, lr}
+        निक्षिप {r1-r3, lr}
         bl SecureContext_LoadContext        /* Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r1-r4}                         /* LR is now in r4. */
-        mov lr, r4
+        उद्धर {r1-r4}                         /* LR is now in r4. */
+        चालय lr, r4
 
     restore_ns_context:
-        mov r0, lr                          /* r0 = LR (EXC_RETURN).  */
+        चालय r0, lr                          /* r0 = LR (EXC_RETURN).  */
         lsls r0, r0, #25                    /* r0 = r0 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame.  */
         bmi restore_context_done            /* r0 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used to store the stack frame. */
 
@@ -379,10 +379,10 @@ PendSV_Handler:
         stmia r3!, {r4-r7}                  /* Copy rest half of the the hardware saved context on the task stack. */
         subs r2, #48
         ldmia r2!, {r4-r7}                  /* Restore r8-r11. */
-        mov r8, r4                          /* r8 = r4. */
-        mov r9, r5                          /* r9 = r5. */
-        mov r10, r6                         /* r10 = r6. */
-        mov r11, r7                         /* r11 = r7. */
+        चालय r8, r4                          /* r8 = r4. */
+        चालय r9, r5                          /* r9 = r5. */
+        चालय r10, r6                         /* r10 = r6. */
+        चालय r11, r7                         /* r11 = r7. */
         subs r2, #32
         ldmia r2!, {r4-r7}                  /* Restore r4-r7. */
         subs r2, #16
@@ -401,10 +401,10 @@ PendSV_Handler:
     mrs r2, psp                             /* Read PSP in r2. */
 
     cbz r0, save_ns_context                 /* No secure context to save. */
-    push {r0-r2, r14}
+    निक्षिप {r0-r2, r14}
     bl SecureContext_SaveContext            /* Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-    pop {r0-r3}                             /* LR is now in r3. */
-    mov lr, r3                              /* LR = r3. */
+    उद्धर {r0-r3}                             /* LR is now in r3. */
+    चालय lr, r3                              /* LR = r3. */
     lsls r1, r3, #25                        /* r1 = r3 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
     bpl save_ns_context                     /* bpl - branch if positive or zero. If r1 >= 0 ==> Bit[6] in EXC_RETURN is 0 i.e. non-secure stack was used. */
     ldr r3, =pxCurrentTCB                   /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
@@ -413,7 +413,7 @@ PendSV_Handler:
     subs r2, r2, #12                        /* Make space for xSecureContext, PSPLIM and LR on the stack. */
     str r2, [r1]                            /* Save the new top of stack in TCB. */
     movs r1, #0                             /* r1 = 0. 0 is stored in the PSPLIM slot. */
-    mov r3, lr                              /* r3 = LR/EXC_RETURN. */
+    चालय r3, lr                              /* r3 = LR/EXC_RETURN. */
     stmia r2!, {r0, r1, r3}                 /* Store xSecureContext, PSPLIM and LR on the stack. */
 
     b select_next_task
@@ -424,12 +424,12 @@ PendSV_Handler:
         subs r2, r2, #44                    /* Make space for xSecureContext, PSPLIM, LR and the remaining registers on the stack. */
         str r2, [r1]                        /* Save the new top of stack in TCB. */
         movs r1, #0                         /* r1 = 0. 0 is stored in the PSPLIM slot. */
-        mov r3, lr                          /* r3 = LR/EXC_RETURN. */
+        चालय r3, lr                          /* r3 = LR/EXC_RETURN. */
         stmia r2!, {r0, r1, r3-r7}          /* Store xSecureContext, PSPLIM, LR and the low registers that are not saved automatically. */
-        mov r4, r8                          /* r4 = r8. */
-        mov r5, r9                          /* r5 = r9. */
-        mov r6, r10                         /* r6 = r10. */
-        mov r7, r11                         /* r7 = r11. */
+        चालय r4, r8                          /* r4 = r8. */
+        चालय r5, r9                          /* r5 = r9. */
+        चालय r6, r10                         /* r6 = r10. */
+        चालय r7, r11                         /* r7 = r11. */
         stmia r2!, {r4-r7}                  /* Store the high registers that are not saved automatically. */
 
     select_next_task:
@@ -442,16 +442,16 @@ PendSV_Handler:
         ldr r2, [r1]                        /* The first item in pxCurrentTCB is the task top of stack. r2 now points to the top of stack. */
 
         ldmia r2!, {r0, r1, r4}             /* Read from stack - r0 = xSecureContext, r1 = PSPLIM and r4 = LR. */
-        mov lr, r4                          /* LR = r4. */
+        चालय lr, r4                          /* LR = r4. */
         ldr r3, =xSecureContext             /* Read the location of xSecureContext i.e. &( xSecureContext ). */
         str r0, [r3]                        /* Restore the task's xSecureContext. */
         cbz r0, restore_ns_context          /* If there is no secure context for the task, restore the non-secure context. */
         ldr r3, =pxCurrentTCB               /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
         ldr r1, [r3]                        /* Read pxCurrentTCB. */
-        push {r2, r4}
+        निक्षिप {r2, r4}
         bl SecureContext_LoadContext        /* Restore the secure context. Params are in r0 and r1. r0 = xSecureContext and r1 = pxCurrentTCB. */
-        pop {r2, r4}
-        mov lr, r4                          /* LR = r4. */
+        उद्धर {r2, r4}
+        चालय lr, r4                          /* LR = r4. */
         lsls r1, r4, #25                    /* r1 = r4 << 25. Bit[6] of EXC_RETURN is 1 if secure stack was used, 0 if non-secure stack was used to store stack frame. */
         bpl restore_ns_context              /* bpl - branch if positive or zero. If r1 >= 0 ==> Bit[6] in EXC_RETURN is 0 i.e. non-secure stack was used. */
         msr psp, r2                         /* Remember the new top of stack for the task. */
@@ -460,10 +460,10 @@ PendSV_Handler:
     restore_ns_context:
         adds r2, r2, #16                    /* Move to the high registers. */
         ldmia r2!, {r4-r7}                  /* Restore the high registers that are not automatically restored. */
-        mov r8, r4                          /* r8 = r4. */
-        mov r9, r5                          /* r9 = r5. */
-        mov r10, r6                         /* r10 = r6. */
-        mov r11, r7                         /* r11 = r7. */
+        चालय r8, r4                          /* r8 = r4. */
+        चालय r9, r5                          /* r9 = r5. */
+        चालय r10, r6                         /* r10 = r6. */
+        चालय r11, r7                         /* r11 = r7. */
         msr psp, r2                         /* Remember the new top of stack for the task. */
         subs r2, r2, #32                    /* Go back to the low registers. */
         ldmia r2!, {r4-r7}                  /* Restore the low registers that are not automatically restored. */
@@ -476,7 +476,7 @@ PendSV_Handler:
 
 SVC_Handler:
     movs r0, #4
-    mov r1, lr
+    चालय r1, lr
     tst r0, r1
     beq stack_on_msp
     stack_on_psp:
@@ -490,9 +490,9 @@ SVC_Handler:
         ldr r3, [r0, #24]
         subs r3, #2
         ldrb r2, [r3, #0]
-        cmp r2, #NUM_SYSTEM_CALLS
+        तुलय r2, #NUM_SYSTEM_CALLS
         blt system_call_enter
-        cmp r2, #104        /* portSVC_SYSTEM_CALL_EXIT. */
+        तुलय r2, #104        /* portSVC_SYSTEM_CALL_EXIT. */
         beq system_call_exit
         b vPortSVCHandler_C
 
@@ -505,7 +505,7 @@ SVC_Handler:
 
 SVC_Handler:
     movs r0, #4
-    mov r1, lr
+    चालय r1, lr
     tst r0, r1
     beq stacking_used_msp
     mrs r0, psp
@@ -517,16 +517,16 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-vPortFreeSecureContext:
+v_पत्तनम्_Free_Secure_Context:
     ldr r2, [r0]                            /* The first item in the TCB is the stored context location. */
     adds r2, r2, #SECURE_CONTEXT_OFFSET     /* r2 = r2 + SECURE_CONTEXT_OFFSET. */
     ldr r1, [r2]                            /* Read xSecureContext from the task's context. */
-    cmp r1, #0                              /* Raise svc if task's xSecureContext is not NULL. */
+    तुलय r1, #0                              /* Raise svc if task's xSecureContext is not NULL. */
     bne free_secure_context                 /* Branch if r1 != 0. */
     bx lr                                   /* There is no secure context (xSecureContext is NULL). */
     free_secure_context:
-        svc 101                             /* Secure context is freed in the supervisor call. portSVC_FREE_SECURE_CONTEXT = 101. */
+        svc 101                             /* Secure context is freed in the supervisor आह्वान. portSVC_FREE_SECURE_CONTEXT = 101. */
         bx lr                               /* Return. */
 /*-----------------------------------------------------------*/
 
-    END
+    अन्त

@@ -9,7 +9,7 @@ rest of the ISR callback functions. */
 .add_to_set _fptrgroup.rtos_isr.nstackwords.group, vTaskSwitchContext.nstackwords, vTaskSwitchContext
 
 .globl kexcept
-.align 128              /* align the kernel section to 128 bytes */
+.align 128              /* align the kernel खण्डः to 128 bytes */
 .type  kexcept,@function
 .issue_mode dual
 .cc_top kexcept.function, kexcept
@@ -37,13 +37,13 @@ kcall:
   /* so we need to adjust the SPC value that we save to the stack: */
   stw    spc,    sp[1]   /* save the saved program counter onto the stack... */
   ldw    r1,     sp[1]   /* so that we can load it into r1 (which we have already saved). */
-  add    r1,     r1,   4 /* Add 4 to the spc to make it point to the instruction after the kcall. */
+  योजय    r1,     r1,   4 /* Add 4 to the spc to make it point to the instruction after the kcall. */
  {stw    r1,     sp[1]   /* Now save it to the stack. */
 
   /* kcall uses the same common function as interrupt callbacks. */
-  /* tell it to call _yield above. */
+  /* tell it to आह्वान _yield above. */
   ldap   r11,    _yield}
-  mov    r1,     r11
+  चालय    r1,     r11
 
   /* fall into rtos_interrupt_callback_common */
 
@@ -80,8 +80,8 @@ rtos_interrupt_callback_common:
   get    r11,    ed}     /* Get the event data... */
   ldw    dp,     sp[3]   /* (Restore CP and DP required for the RTOS ISR */
   ldw    cp,     sp[4]   /* in case the active thread has modified them.) */
- {mov    r0,     r11     /* ...into the first argument for the callback function, */
-  bla    r1}             /* and call the callback function. */
+ {चालय    r0,     r11     /* ...into the first argument for the callback function, */
+  bla    r1}             /* and आह्वान the callback function. */
 
  {set    sp,     r4      /* Restore the task's SP now. */
 
@@ -127,9 +127,9 @@ _yield_continue:
 
  {kentsp 0                         /* switch back to the kernel stack. */
 
-  mov    r6,     r0}               /* copy the RTOS core ID into r6 so we don't lose it. */
+  चालय    r6,     r0}               /* copy the RTOS core ID into r6 so we don't lose it. */
   ldap   r11,    vTaskSwitchContext
-  bla    r11             /* Finally call vTaskSwitchContext(core_id) now that the task's */
+  bla    r11             /* Finally आह्वान vTaskSwitchContext(core_id) now that the task's */
                          /* entire context is saved. Note the core id in r0 is the argument. */
 
 //krestsp 0              /* unnecessary since KSP is already set and the SP */

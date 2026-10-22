@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -39,18 +39,18 @@
     .extern vPortIncrementTick
     .extern xISRStackTop
 
-    .global vPortStartFirstTask
-    .global vPortYieldISR
-    .global vPortTickInterruptHandler
+    .वैश्विक v_पत्तनम्_Start_First_Task
+    .वैश्विक v_पत्तनम्_Yield_ISR
+    .वैश्विक v_पत्तनम्_Tick_व्यवधानम्_Handler
 
 
 /******************************************************************/
 
     .set        noreorder
     .set        noat
-    .ent        vPortTickInterruptHandler
+    .ent        v_पत्तनम्_Tick_व्यवधानम्_Handler
 
-vPortTickInterruptHandler:
+v_पत्तनम्_Tick_व्यवधानम्_Handler:
 
     portSAVE_CONTEXT
 
@@ -59,21 +59,21 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-    .end vPortTickInterruptHandler
+    .end v_पत्तनम्_Tick_व्यवधानम्_Handler
 
 /******************************************************************/
 
     .set        noreorder
     .set        noat
-    .ent        vPortStartFirstTask
+    .ent        v_पत्तनम्_Start_First_Task
 
-vPortStartFirstTask:
+v_पत्तनम्_Start_First_Task:
 
     /* Simply restore the context of the highest priority task that has been
     created so far. */
     portRESTORE_CONTEXT
 
-    .end vPortStartFirstTask
+    .end v_पत्तनम्_Start_First_Task
 
 
 
@@ -81,9 +81,9 @@ vPortStartFirstTask:
 
     .set        noreorder
     .set        noat
-    .ent        vPortYieldISR
+    .ent        v_पत्तनम्_Yield_ISR
 
-vPortYieldISR:
+v_पत्तनम्_Yield_ISR:
 
     /* Make room for the context. First save the current status so it can be
     manipulated. */
@@ -102,7 +102,7 @@ vPortYieldISR:
     ins         k1, zero, 1, 4
 
     /* s5 is used as the frame pointer. */
-    add         s5, zero, sp
+    योजय         s5, zero, sp
 
     /* Swap to the system stack.  This is not conditional on the nesting
     count as this interrupt is always the lowest priority and therefore
@@ -245,7 +245,7 @@ vPortYieldISR:
     sw          zero, 0(k0)
 
     /* Switch back to use the real stack pointer. */
-    add         sp, zero, s5
+    योजय         sp, zero, s5
 
     /* Restore the real s5 value. */
     lw          s5, 40(sp)
@@ -263,4 +263,4 @@ vPortYieldISR:
     eret
     nop
 
-    .end        vPortYieldISR
+    .end        v_पत्तनम्_Yield_ISR

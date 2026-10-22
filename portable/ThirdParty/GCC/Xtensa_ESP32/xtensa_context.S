@@ -20,17 +20,17 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS वा IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE च NONINFRINGEMENT.
+ * अन्तः NO EVENT SHALL THE AUTHORS वा COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER अन्तः AN ACTION OF CONTRACT,
+ * TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः CONNECTION WITH THE
+ * SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  */
 
 /*******************************************************************************
 
-        XTENSA CONTEXT SAVE AND RESTORE ROUTINES
+        XTENSA CONTEXT SAVE च RESTORE ROUTINES
 
 Low-level Call0 functions for handling generic context save and restore of
 registers not specifically addressed by the interrupt vectors and handlers.
@@ -83,7 +83,7 @@ Its counterpart is _xt_context_restore (which also restores A12, A13).
 
 Caller is expected to have saved PC, PS, A0, A1 (SP), A12, A13 in the frame.
 This function preserves A12 & A13 in order to provide the caller with 2 scratch
-regs that need not be saved over the call to this function. The choice of which
+regs that need not be saved over the आह्वान to this function. The choice of which
 2 regs to provide is governed by xthal_window_spill_nw and xthal_save_extra_nw,
 to avoid moving data more than necessary. Caller can assign regs accordingly.
 
@@ -103,7 +103,7 @@ Exit conditions:
 
 *******************************************************************************/
 
-    .global _xt_context_save
+    .वैश्विक _xt_context_save
     .type   _xt_context_save,@function
     .align  4
     .literal_position
@@ -152,7 +152,7 @@ _xt_context_save:
     #endif
 
     #if XCHAL_EXTRA_SA_SIZE > 0 || !defined(__XTENSA_CALL0_ABI__)
-    mov     a9,  a0                     /* preserve ret addr */
+    चालय     a9,  a0                     /* preserve प्रत्यागच्छ addr */
     #endif
 
     #if (ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0))
@@ -226,7 +226,7 @@ _xt_context_save:
      * need to save/restore EPC1 as well.
      * Note: even though a4-a15 are saved into the exception frame, we should not
      * clobber them until after SPILL_ALL_WINDOWS. This is because these registers
-     * may contain live windows belonging to previous frames in the call stack.
+     * may contain live windows belonging to previous frames in the आह्वान stack.
      * These frames will be spilled by SPILL_ALL_WINDOWS, and if the register was
      * used as a temporary by this code, the temporary value would get stored
      * onto the stack, instead of the real value.
@@ -259,10 +259,10 @@ _xt_context_save:
     #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
     #if XCHAL_EXTRA_SA_SIZE > 0 || !defined(__XTENSA_CALL0_ABI__)
-    mov     a0, a9                      /* retrieve ret addr */
+    चालय     a0, a9                      /* retrieve प्रत्यागच्छ addr */
     #endif
 
-    ret
+    प्रत्यागच्छ
 
 /*******************************************************************************
 
@@ -289,7 +289,7 @@ Exit conditions:
 
 *******************************************************************************/
 
-    .global _xt_context_restore
+    .वैश्विक _xt_context_restore
     .type   _xt_context_restore,@function
     .align  4
     .literal_position
@@ -306,14 +306,14 @@ _xt_context_restore:
     Here we only assume a13 is preserved.
     Future Xtensa tools releases might limit the regs that can be affected.
     */
-    mov     a13, a0                     /* preserve ret addr */
+    चालय     a13, a0                     /* preserve प्रत्यागच्छ addr */
     addi    a2,  sp, XT_STK_EXTRA       /* where to find it */
     # if XCHAL_EXTRA_SA_ALIGN > 16
     movi    a3, -XCHAL_EXTRA_SA_ALIGN
     and     a2, a2, a3                  /* align dynamically >16 bytes */
     # endif
     call0   xthal_restore_extra_nw      /* destroys a0,2,3,4,5 */
-    mov     a0,  a13                    /* retrieve ret addr */
+    चालय     a0,  a13                    /* retrieve प्रत्यागच्छ addr */
     #endif
 
     #if XCHAL_HAVE_LOOPS
@@ -377,15 +377,15 @@ _xt_context_restore:
     l32i    a15, sp, XT_STK_A15
     #endif
 
-    ret
+    प्रत्यागच्छ
 
 
 /*******************************************************************************
 
 _xt_coproc_init
 
-Initializes global co-processor management data, setting all co-processors
-to "unowned". Leaves CPENABLE as it found it (does NOT clear it).
+Initializes वैश्विक co-processor management data, setting all co-processors
+to "unowned". Leaves CPENABLE as it found it (does न clear it).
 
 Called during initialization of the RTOS, before any threads run.
 
@@ -408,7 +408,7 @@ Obeys ABI conventions per prototype:
 
 #if XCHAL_CP_NUM > 0
 
-    .global _xt_coproc_init
+    .वैश्विक _xt_coproc_init
     .type   _xt_coproc_init,@function
     .align  4
     .literal_position
@@ -458,7 +458,7 @@ Obeys ABI conventions per prototype:
 
 #if XCHAL_CP_NUM > 0
 
-    .global _xt_coproc_release
+    .वैश्विक _xt_coproc_release
     .type   _xt_coproc_release,@function
     .align  4
     .literal_position
@@ -470,7 +470,7 @@ _xt_coproc_release:
     movi    a3, XCHAL_CP_MAX << 2
     mull    a5, a5, a3
     movi    a3, _xt_coproc_owner_sa         /* a3 = base of owner array */
-    add     a3, a3, a5
+    योजय     a3, a3, a5
 
     addi    a4, a3, XCHAL_CP_MAX << 2       /* a4 = top+1 of owner array */
     movi    a5, 0                           /* a5 = 0 (unowned) */
@@ -513,7 +513,7 @@ Must be called from assembly code only, using CALL0.
 
     .extern     _xt_coproc_sa_offset   /* external reference */
 
-    .global     _xt_coproc_savecs
+    .वैश्विक     _xt_coproc_savecs
     .type       _xt_coproc_savecs,@function
     .align  4
     .literal_position
@@ -524,9 +524,9 @@ _xt_coproc_savecs:
 
     rsr     a2, CPENABLE                /* a2 = which CPs are enabled      */
     beqz    a2, .Ldone                  /* quick exit if none              */
-    mov     a14, a0                     /* save return address             */
+    चालय     a14, a0                     /* save return address             */
     call0   XT_RTOS_CP_STATE            /* get address of CP save area     */
-    mov     a0, a14                     /* restore return address          */
+    चालय     a0, a14                     /* restore return address          */
     beqz    a15, .Ldone                 /* if none then nothing to do      */
     s16i    a2, a15, XT_CP_CS_ST        /* save mask of CPs being stored   */
     movi    a13, _xt_coproc_sa_offset   /* array of CP save offsets        */
@@ -535,7 +535,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP0_SA_SIZE
     bbci.l  a2, 0, 2f                   /* CP 0 not enabled                */
     l32i    a14, a13, 0                 /* a14 = _xt_coproc_sa_offset[0]   */
-    add     a3, a14, a15                /* a3 = save area for CP 0         */
+    योजय     a3, a14, a15                /* a3 = save area for CP 0         */
     xchal_cp0_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -543,7 +543,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP1_SA_SIZE
     bbci.l  a2, 1, 2f                   /* CP 1 not enabled                */
     l32i    a14, a13, 4                 /* a14 = _xt_coproc_sa_offset[1]   */
-    add     a3, a14, a15                /* a3 = save area for CP 1         */
+    योजय     a3, a14, a15                /* a3 = save area for CP 1         */
     xchal_cp1_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -551,7 +551,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP2_SA_SIZE
     bbci.l  a2, 2, 2f
     l32i    a14, a13, 8
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp2_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -559,7 +559,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP3_SA_SIZE
     bbci.l  a2, 3, 2f
     l32i    a14, a13, 12
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp3_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -567,7 +567,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP4_SA_SIZE
     bbci.l  a2, 4, 2f
     l32i    a14, a13, 16
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp4_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -575,7 +575,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP5_SA_SIZE
     bbci.l  a2, 5, 2f
     l32i    a14, a13, 20
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp5_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -583,7 +583,7 @@ _xt_coproc_savecs:
 #if XCHAL_CP6_SA_SIZE
     bbci.l  a2, 6, 2f
     l32i    a14, a13, 24
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp6_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -591,13 +591,13 @@ _xt_coproc_savecs:
 #if XCHAL_CP7_SA_SIZE
     bbci.l  a2, 7, 2f
     l32i    a14, a13, 28
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp7_store a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
 
 .Ldone:
-    ret
+    प्रत्यागच्छ
 #endif
 
 
@@ -623,16 +623,16 @@ Must be called from assembly code only, using CALL0.
 *******************************************************************************/
 #if XCHAL_CP_NUM > 0
 
-    .global     _xt_coproc_restorecs
+    .वैश्विक     _xt_coproc_restorecs
     .type       _xt_coproc_restorecs,@function
     .align  4
     .literal_position
     .align      4
 _xt_coproc_restorecs:
 
-    mov     a14, a0                     /* save return address             */
+    चालय     a14, a0                     /* save return address             */
     call0   XT_RTOS_CP_STATE            /* get address of CP save area     */
-    mov     a0, a14                     /* restore return address          */
+    चालय     a0, a14                     /* restore return address          */
     beqz    a15, .Ldone2                /* if none then nothing to do      */
     l16ui   a3, a15, XT_CP_CS_ST        /* a3 = which CPs have been saved  */
     xor     a3, a3, a2                  /* clear the ones being restored   */
@@ -643,7 +643,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP0_SA_SIZE
     bbci.l  a2, 0, 2f                   /* CP 0 not enabled                */
     l32i    a14, a13, 0                 /* a14 = _xt_coproc_sa_offset[0]   */
-    add     a3, a14, a15                /* a3 = save area for CP 0         */
+    योजय     a3, a14, a15                /* a3 = save area for CP 0         */
     xchal_cp0_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -651,7 +651,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP1_SA_SIZE
     bbci.l  a2, 1, 2f                   /* CP 1 not enabled                */
     l32i    a14, a13, 4                 /* a14 = _xt_coproc_sa_offset[1]   */
-    add     a3, a14, a15                /* a3 = save area for CP 1         */
+    योजय     a3, a14, a15                /* a3 = save area for CP 1         */
     xchal_cp1_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -659,7 +659,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP2_SA_SIZE
     bbci.l  a2, 2, 2f
     l32i    a14, a13, 8
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp2_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -667,7 +667,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP3_SA_SIZE
     bbci.l  a2, 3, 2f
     l32i    a14, a13, 12
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp3_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -675,7 +675,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP4_SA_SIZE
     bbci.l  a2, 4, 2f
     l32i    a14, a13, 16
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp4_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -683,7 +683,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP5_SA_SIZE
     bbci.l  a2, 5, 2f
     l32i    a14, a13, 20
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp5_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -691,7 +691,7 @@ _xt_coproc_restorecs:
 #if XCHAL_CP6_SA_SIZE
     bbci.l  a2, 6, 2f
     l32i    a14, a13, 24
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp6_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
@@ -699,12 +699,12 @@ _xt_coproc_restorecs:
 #if XCHAL_CP7_SA_SIZE
     bbci.l  a2, 7, 2f
     l32i    a14, a13, 28
-    add     a3, a14, a15
+    योजय     a3, a14, a15
     xchal_cp7_load a3, a4, a5, a6, a7 continue=0 ofs=-1 select=XTHAL_SAS_TIE|XTHAL_SAS_NOCC|XTHAL_SAS_CALE alloc=XTHAL_SAS_ALL
 2:
 #endif
 
 .Ldone2:
-    ret
+    प्रत्यागच्छ
 
 #endif

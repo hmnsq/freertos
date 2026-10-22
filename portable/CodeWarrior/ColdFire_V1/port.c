@@ -27,31 +27,31 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#परिभाषय पत्तनम्_INITIAL_FORMAT_सदिशम्       ( ( राशिः_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#परिभाषय पत्तनम्_INITIAL_स्थितिः_पञ्जिकाकोशः     ( ( राशिः_Type_t ) 0x2000)
 
 /* The clock prescale into the timer peripheral. */
-#define portPRESCALE_VALUE              ( ( uint8_t ) 10 )
+#परिभाषय पत्तनम्_PRESCALE_मानम्              ( ( uint8_t ) 10 )
 
 /* The clock frequency into the RTC. */
-#define portRTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
+#परिभाषय पत्तनम्_RTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
 
-asm void interrupt VectorNumber_VL1swi vPortYieldISR( void );
-static void prvSetupTimerInterrupt( void );
+asm शून्य व्यवधानम् सदिशम्_सङ्ख्या_VL1swi v_पत्तनम्_Yield_ISR( शून्य );
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+स्थिर uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+राशिः_Type_t *px_पत्तनम्_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_सम्बन्धि_राशिः, TaskFunction_t px_संहिता, शून्य *pvParameters )
 {
 
 uint32_t ulOriginalA5;
@@ -59,52 +59,52 @@ uint32_t ulOriginalA5;
     __asm{ MOVE.L A5, ulOriginalA5 };
 
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = (राशिः_Type_t) 0xDEADBEEF;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) px_संहिता;
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_शिखरम्_सम्बन्धि_राशिः = ( पत्तनम्_INITIAL_FORMAT_सदिशम् << 16UL ) | ( पत्तनम्_INITIAL_स्थितिः_पञ्जिकाकोशः );
+    px_शिखरम्_सम्बन्धि_राशिः--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_शिखरम्_सम्बन्धि_राशिः = ( राशिः_Type_t ) 0x0; /*FP*/
+    px_शिखरम्_सम्बन्धि_राशिः -= 14; /* A5 to D0. */
 
     /* Parameter in A0. */
-    *( pxTopOfStack + 8 ) = ( StackType_t ) pvParameters;
+    *( px_शिखरम्_सम्बन्धि_राशिः + 8 ) = ( राशिः_Type_t ) pvParameters;
 
     /* A5 must be maintained as it is reserved by the compiler. */
-    *( pxTopOfStack + 13 ) = ulOriginalA5;
+    *( px_शिखरम्_सम्बन्धि_राशिः + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    प्रत्यागम px_शिखरम्_सम्बन्धि_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+आधारः_Type_t x_पत्तनम्_Start_Scheduler( शून्य )
 {
-extern void vPortStartFirstTask( void );
+बाह्य शून्य v_पत्तनम्_Start_First_Task( शून्य );
 
     ulCriticalNesting = 0UL;
 
     /* Configure a timer to generate the tick interrupt. */
-    prvSetupTimerInterrupt();
+    prv_सज्जता_Timer_व्यवधानम्();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_पत्तनम्_Start_First_Task();
 
-    return pdFALSE;
+    प्रत्यागम pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+स्थिर शून्य prv_सज्जता_Timer_व्यवधानम्( शून्य )
 {
     /* Prescale by 1 - ie no prescale. */
     RTCSC |= 8;
 
     /* Compare match value. */
-    RTCMOD = portRTC_CLOCK_HZ / configTICK_RATE_HZ;
+    RTCMOD = पत्तनम्_RTC_CLOCK_HZ / config_TICK_दरः_HZ;
 
     /* Enable the RTC to generate interrupts - interrupts are already disabled
     when this code executes. */
@@ -112,72 +112,72 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य v_पत्तनम्_अन्तः_Scheduler( शून्य )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+शून्य v_पत्तनम्_Enter_Critical( शून्य )
 {
-    if( ulCriticalNesting == 0UL )
+    यदि( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        कुरु
         {
-            portDISABLE_INTERRUPTS();
-            if( INTC_FRC == 0UL )
+            पत्तनम्_DISABLE_INTERRUPTS();
+            यदि( INTC_FRC == 0UL )
             {
-                break;
+                भङ्ग;
             }
 
-            portENABLE_INTERRUPTS();
+            पत्तनम्_ENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } यावत्( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+शून्य v_पत्तनम्_Exit_Critical( शून्य )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    यदि( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        पत्तनम्_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+शून्य v_पत्तनम्_Yield_Handler( शून्य )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_व्यवधानम्_आवरणम्;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_व्यवधानम्_आवरणम् = पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR();
     {
         /* Note this will clear all forced interrupts - this is done for speed. */
         INTC_CFRC = 0x3E;
         vTaskSwitchContext();
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ul_Saved_व्यवधानम्_आवरणम् );
 }
 /*-----------------------------------------------------------*/
 
-void interrupt VectorNumber_Vrtc vPortTickISR( void )
+शून्य व्यवधानम् सदिशम्_सङ्ख्या_Vrtc v_पत्तनम्_Tick_ISR( शून्य )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_व्यवधानम्_आवरणम्;
 
     /* Clear the interrupt. */
-    RTCSC |= RTCSC_RTIF_MASK;
+    RTCSC |= RTCSC_RTIF_आवरणम्;
 
     /* Increment the RTOS tick. */
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_व्यवधानम्_आवरणम् = पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        यदि( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( ul_Saved_व्यवधानम्_आवरणम् );
 }

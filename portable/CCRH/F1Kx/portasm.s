@@ -75,7 +75,7 @@ portSAVE_CONTEXT .macro
     pushsp  r15, r19
 
     ; Save FPU registers to stack if FPU is enabled
-    mov     FPU_MSK, r19
+    चालय     FPU_MSK, r19
     tst     r15, r19
 
     ; Jump over next 3 instructions: stsr (4 bytes)*2 + pushsp (4 bytes)
@@ -104,7 +104,7 @@ portRESTORE_CONTEXT .macro
     ld.w    0[r10], sp                  ; Restore the stack pointer from the TCB
 
     ; Restore FPU registers if FPU is enabled
-    mov     FPU_MSK, r19
+    चालय     FPU_MSK, r19
     ; Restore EIPSW register to check FPU
     ; Due to the syntax of the popsp instruction, using r14 as dummy value
     popsp	r14, r15
@@ -147,13 +147,13 @@ SAVE_REGISTER .macro
     stsr    EIPSW, r19
     stsr    EIPC, r18
     stsr    EIIC, r17
-    mov     lp, r16
-    mov     ep, r15
+    चालय     lp, r16
+    चालय     ep, r15
     stsr    CTPSW, r14
     stsr    CTPC, r13
     pushsp  r13, r18
 
-    mov     FPU_MSK, r16
+    चालय     FPU_MSK, r16
     tst     r16, r19
     bz      8
     stsr    FPSR, r17
@@ -167,7 +167,7 @@ SAVE_REGISTER .macro
 ;------------------------------------------------------------------------------
 RESTORE_REGISTER .macro
 
-	mov     FPU_MSK, r15
+	चालय     FPU_MSK, r15
 	popsp   r17, r19
     tst     r19, r15
     bz      8
@@ -177,8 +177,8 @@ RESTORE_REGISTER .macro
     popsp   r13, r18
     ldsr    r13, CTPC
     ldsr    r14, CTPSW
-    mov     r15, ep
-    mov     r16, lp
+    चालय     r15, ep
+    चालय     r16, lp
     ldsr    r17, EIIC
     ldsr    r18, EIPC
     ldsr    r19, EIPSW
@@ -201,7 +201,7 @@ _vPortStartFirstTask:
 ;------------------------------------------------------------------------------
 _vPortYield:
     trap    0
-    jmp     [lp]                        ; Return to caller function
+    कूर्द     [lp]                        ; Return to caller function
 
 ;------------------------------------------------------------------------------
 ; PortYield handler. This is installed as the TRAP exception handler.
@@ -214,25 +214,25 @@ _vTRAP0_Handler:
     ; Context switch should be executed at the most outer of interrupt tree.
     ; In that case, set xPortScheduleStatus to flag context switch in interrupt handler.
     jarl    _xPortGET_CORE_ID, lp ; return value is contained in r10 (CCRH compiler)
-    mov     r10, r11
+    चालय     r10, r11
     shl     2, r11
-    mov     #_uxInterruptNesting, r19
-    add     r11, r19
+    चालय     #_uxInterruptNesting, r19
+    योजय     r11, r19
     ld.w    0[r19], r18
-    cmp     r0, r18
+    तुलय     r0, r18
     be      _vTRAP0_Handler_ContextSwitch
 
-    mov     #_xPortScheduleStatus, r19
-    add     r11, r19
+    चालय     #_xPortScheduleStatus, r19
+    योजय     r11, r19
 
     ; Set xPortScheduleStatus[coreID]=PORT_SCHEDULER_TASKSWITCH
-    mov     1, r17
+    चालय     1, r17
     st.w    r17, 0[r19]
     br      _vTRAP0_Handler_Exit
 
 _vTRAP0_Handler_ContextSwitch:
     ; Pass coreID (r10) as parameter by r6 (CCRH compiler) in SMP support.
-    mov     r10, r6
+    चालय     r10, r6
     ; Call the scheduler to select the next task.
     ; vPortYeild may be called to current core again at the end of vTaskSwitchContext.
     ; This may case nested interrupt, however, it is not necessary to set
@@ -257,10 +257,10 @@ _vIrq_Handler:
     ; Then, increase nesting count for current core.
     jarl    _xPortGET_CORE_ID, lp ; return value is contained in r10 (CCRH compiler)
     shl     2, r10
-    mov     r10, r17
+    चालय     r10, r17
 
-    mov     #_uxInterruptNesting, r19
-    add     r17, r19
+    चालय     #_uxInterruptNesting, r19
+    योजय     r17, r19
     ld.w    0[r19], r18
     addi    0x1, r18, r16
     st.w    r16, 0[r19]
@@ -273,9 +273,9 @@ _vIrq_Handler:
 
     ; Do not enable interrupt for nesting. Stackover flow may occurs if the
     ; depth of nesting interrupt is exceeded.
-    mov     #_uxPortMaxInterruptDepth, r19
+    चालय     #_uxPortMaxInterruptDepth, r19
     ld.w    0[r19], r15
-    cmp     r15, r16
+    तुलय     r15, r16
 	bge     4                            ; Jump over ei instruction
     ei
     jarl    _vCommonISRHandler, lp
@@ -286,14 +286,14 @@ _vIrq_Handler:
     st.w    r18, 0[r19]                  ; Restore the old nesting count.
 
     ; A context switch if no nesting interrupt.
-    cmp     0x0, r18
+    तुलय     0x0, r18
     bne     _vIrq_Handler_NotSwitchContext
 
     ; Check if context switch is requested.
-    mov     #_xPortScheduleStatus, r19
-    add     r17, r19
+    चालय     #_xPortScheduleStatus, r19
+    योजय     r17, r19
     ld.w    0[r19], r18
-    cmp     r0, r18
+    तुलय     r0, r18
     bne     _vIrq_Handler_SwitchContext
 
 _vIrq_Handler_NotSwitchContext:
@@ -306,7 +306,7 @@ _vIrq_Handler_SwitchContext:
     ; Clear the context switch pending flag.
     st.w r0, 0[r19]
 
-    add     -1, r18
+    योजय     -1, r18
     bnz     _vIrq_Handler_StartFirstTask
     ; Restore used registers before saving the context to the task stack.
     RESTORE_REGISTER
@@ -315,7 +315,7 @@ _vIrq_Handler_SwitchContext:
     ; Get Core ID and pass to vTaskSwitchContext as parameter (CCRH compiler)
     ; The parameter is  unused in single core, no problem with this redudant setting
     jarl    _xPortGET_CORE_ID, lp ; return value is contained in r10 (CCRH compiler)
-    mov     r10, r6
+    चालय     r10, r6
 
     ; vPortYeild may be called to current core again at the end of vTaskSwitchContext.
     ; This may case nested interrupt, however, it is not necessary to set

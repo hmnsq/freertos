@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS वा
+ * IMPLIED, INCLUDING BUT न LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE च NONINFRINGEMENT. अन्तः NO EVENT SHALL THE AUTHORS वा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES वा OTHER LIABILITY, WHETHER
+ * अन्तः AN ACTION OF CONTRACT, TORT वा OTHERWISE, ARISING FROM, OUT OF वा अन्तः
+ * CONNECTION WITH THE SOFTWARE वा THE USE वा OTHER DEALINGS अन्तः THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,18 +31,18 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    बाह्य pxCurrentTCB
+    बाह्य vTaskSwitchContext
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
+    सार्वजनिक x_पत्तनम्_Pend_SVHandler
+    सार्वजनिक v_पत्तनम्_SVCHandler
+    सार्वजनिक vPortStartFirstTask
 
 
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_पत्तनम्_Pend_SVHandler:
     mrs r0, psp
     isb
     ldr r3, =pxCurrentTCB           /* Get the location of the current TCB. */
@@ -52,12 +52,12 @@ xPortPendSVHandler:
     str r0, [r2]                    /* Save the new top of stack into the first member of the TCB. */
 
     stmdb sp!, {r3, r14}
-    mov r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
+    चालय r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
     msr basepri, r0
     dsb
     isb
     bl vTaskSwitchContext
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     ldmia sp!, {r3, r14}
 
@@ -71,7 +71,7 @@ xPortPendSVHandler:
 
 /*-----------------------------------------------------------*/
 
-vPortSVCHandler:
+v_पत्तनम्_SVCHandler:
     /* Get the location of the current TCB. */
     ldr r3, =pxCurrentTCB
     ldr r1, [r3]
@@ -80,7 +80,7 @@ vPortSVCHandler:
     ldmia r0!, {r4-r11}
     msr psp, r0
     isb
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     orr r14, r14, #13
     bx r14
@@ -101,4 +101,4 @@ vPortStartFirstTask
     isb
     svc 0
 
-    END
+    अन्त

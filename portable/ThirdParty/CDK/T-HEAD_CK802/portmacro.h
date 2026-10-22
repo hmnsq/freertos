@@ -22,20 +22,20 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <csi_core.h>
+#अन्तर्भाव <stdlib.h>
+#अन्तर्भाव <stdint.h>
+#अन्तर्भाव <csi_core.h>
 
-extern void vPortYield( void );
+बाह्य शून्य v_पत्तनम्_Yield( शून्य );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    class vPortYield;
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    class v_पत्तनम्_Yield;
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 
@@ -50,125 +50,125 @@ extern void vPortYield( void );
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#परिभाषय पत्तनम्_CHAR          वर्ण
+#परिभाषय पत्तनम्_FLOAT         भिन्न
+#परिभाषय पत्तनम्_DOUBLE        द्विगुण
+#परिभाषय पत्तनम्_LONG          दीर्घ
+#परिभाषय पत्तनम्_SHORT         ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
-typedef void (* portvectorfunc)( void );
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
+प्रकारनिर्देश शून्य (* portvectorfunc)( शून्य );
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t     TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    8
-#define portSTACK_GROWTH      -1
-#define portMS_PERIOD_TICK    10
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT    8
+#परिभाषय पत्तनम्_राशिः_GROWTH      -1
+#परिभाषय पत्तनम्_MS_PERIOD_TICK    10
+#परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
 
 
-static inline void vPortEnableInterrupt( void )
+स्थिर अन्तःस्थ शून्य v_पत्तनम्_Enable_व्यवधानम्( शून्य )
 {
     __enable_irq();
 }
 
-static inline void vPortDisableInterrupt( void )
+स्थिर अन्तःस्थ शून्य v_पत्तनम्_Disable_व्यवधानम्( शून्य )
 {
     __disable_irq();
 }
 
-static inline portLONG GetCurrentPSR( void )
+स्थिर अन्तःस्थ पत्तनम्_LONG GetCurrentPSR( शून्य )
 {
-    return __get_PSR();
+    प्रत्यागम __get_PSR();
 }
 
-static inline portLONG SaveLocalPSR( void )
+स्थिर अन्तःस्थ पत्तनम्_LONG SaveLocalPSR( शून्य )
 {
-    portLONG flags = __get_PSR();
+    पत्तनम्_LONG flags = __get_PSR();
 
     __disable_irq();
-    return flags;
+    प्रत्यागम flags;
 }
 
-static inline void RestoreLocalPSR( portLONG newMask )
+स्थिर अन्तःस्थ शून्य RestoreLocalPSR( पत्तनम्_LONG new_आवरणम् )
 {
     __asm__ __volatile__ (
         "mtcr   %0, psr \n"
         :
-        : "r" ( newMask )
+        : "r" ( new_आवरणम् )
         : "memory"
         );
 }
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern __attribute__( ( naked ) ) void cpu_yeild( void );
+बाह्य शून्य v_पत्तनम्_Enter_Critical( शून्य );
+बाह्य शून्य v_पत्तनम्_Exit_Critical( शून्य );
+बाह्य __attribute__( ( naked ) ) शून्य cpu_yeild( शून्य );
 
-#define portDISABLE_INTERRUPTS()                  vPortDisableInterrupt()
-#define portENABLE_INTERRUPTS()                   vPortEnableInterrupt()
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
-#define portSET_INTERRUPT_MASK_FROM_ISR()         SaveLocalPSR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( a )    RestoreLocalPSR( a )
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                  v_पत्तनम्_Disable_व्यवधानम्()
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                   v_पत्तनम्_Enable_व्यवधानम्()
+#परिभाषय पत्तनम्_ENTER_CRITICAL()                      v_पत्तनम्_Enter_Critical()
+#परिभाषय पत्तनम्_EXIT_CRITICAL()                       v_पत्तनम्_Exit_Critical()
+#परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR()         SaveLocalPSR()
+#परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( a )    RestoreLocalPSR( a )
 
-#define portNOP()                                 asm ( "nop" )
+#परिभाषय पत्तनम्_NOP()                                 asm ( "nop" )
 
-extern portLONG ulCriticalNesting;
-extern portLONG pendsvflag;
+बाह्य पत्तनम्_LONG ulCriticalNesting;
+बाह्य पत्तनम्_LONG pendsvflag;
 
-#define portYIELD()              \
-    if( ulCriticalNesting == 0 ) \
+#परिभाषय पत्तनम्_YIELD()              \
+    यदि( ulCriticalNesting == 0 ) \
     {                            \
-        vPortYield();            \
+        v_पत्तनम्_Yield();            \
     }                            \
-    else                         \
+    अन्यथा                         \
     {                            \
         pendsvflag = 1;          \
     }                            \
-    portNOP(); portNOP()
+    पत्तनम्_NOP(); पत्तनम्_NOP()
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters ) __attribute__( ( noreturn ) )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 /*-----------------------------------------------------------*/
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do {                                         \
-        if( xSwitchRequired != pdFALSE )         \
+#परिभाषय पत्तनम्_अन्तः_SWITCHING_ISR( xSwitchRequired ) \
+    कुरु {                                         \
+        यदि( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_गन्तव्यम्_SCHEDULER();        \
+            पत्तनम्_YIELD();                         \
         }                                        \
-        else                                     \
+        अन्यथा                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } यावत्( 0 )
 
-#define portYIELD_FROM_ISR( a )    vTaskSwitchContext()
+#परिभाषय पत्तनम्_YIELD_FROM_ISR( a )    vTaskSwitchContext()
 
 
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

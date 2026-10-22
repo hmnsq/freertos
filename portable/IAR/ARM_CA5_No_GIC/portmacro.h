@@ -26,19 +26,19 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /* IAR includes. */
-#ifdef __ICCARM__
+#यदि_परिभाषितम् __ICCARM__
 
-    #include <intrinsics.h>
+    #अन्तर्भाव <intrinsics.h>
 
 
 
@@ -53,115 +53,115 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #परिभाषय पत्तनम्_CHAR          वर्ण
+    #परिभाषय पत्तनम्_FLOAT         भिन्न
+    #परिभाषय पत्तनम्_DOUBLE        द्विगुण
+    #परिभाषय पत्तनम्_LONG          दीर्घ
+    #परिभाषय पत्तनम्_SHORT         ह्रस्व
+    #परिभाषय पत्तनम्_राशिः_TYPE    uint32_t
+    #परिभाषय पत्तनम्_आधारः_TYPE     दीर्घ
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    प्रकारनिर्देश पत्तनम्_राशिः_TYPE   राशिः_Type_t;
+    प्रकारनिर्देश दीर्घ             आधारः_Type_t;
+    प्रकारनिर्देश अचिह्नित दीर्घ    UBaseType_t;
 
-    typedef uint32_t         TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    प्रकारनिर्देश uint32_t         TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
+    #परिभाषय पत्तनम्_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    8
+    #परिभाषय पत्तनम्_राशिः_GROWTH      ( -1 )
+    #परिभाषय पत्तनम्_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+    #परिभाषय पत्तनम्_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-    #define portEND_SWITCHING_ISR( xSwitchRequired ) \
+    #परिभाषय पत्तनम्_अन्तः_SWITCHING_ISR( xSwitchRequired ) \
     {                                                \
-        extern uint32_t ulPortYieldRequired;         \
+        बाह्य uint32_t ul_पत्तनम्_Yield_Required;         \
                                                      \
-        if( xSwitchRequired != pdFALSE )             \
+        यदि( xSwitchRequired != pdFALSE )             \
         {                                            \
-            ulPortYieldRequired = pdTRUE;            \
+            ul_पत्तनम्_Yield_Required = pdTRUE;            \
         }                                            \
     }
 
-    #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-    #define portYIELD()                __asm volatile ( "SWI 0" ); __ISB()
+    #परिभाषय पत्तनम्_YIELD_FROM_ISR( x )    पत्तनम्_अन्तः_SWITCHING_ISR( x )
+    #परिभाषय पत्तनम्_YIELD()                __asm चञ्चल ( "SWI 0" ); __ISB()
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    extern uint32_t ulPortSetInterruptMask( void );
-    extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+    बाह्य शून्य v_पत्तनम्_Enter_Critical( शून्य );
+    बाह्य शून्य v_पत्तनम्_Exit_Critical( शून्य );
+    बाह्य uint32_t ul_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्( शून्य );
+    बाह्य शून्य v_पत्तनम्_Clear_व्यवधानम्_आवरणम्( uint32_t ul_New_आवरणम्_मानम् );
 
-    #define portENTER_CRITICAL()                      vPortEnterCritical();
-    #define portEXIT_CRITICAL()                       vPortExitCritical();
-    #define portDISABLE_INTERRUPTS()                  __disable_irq(); __DSB(); __ISB()        /* No priority mask register so global disable is used. */
-    #define portENABLE_INTERRUPTS()                   __enable_irq()
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         __get_interrupt_state(); __disable_irq() /* No priority mask register so global disable is used. */
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    __set_interrupt_state( x )
+    #परिभाषय पत्तनम्_ENTER_CRITICAL()                      v_पत्तनम्_Enter_Critical();
+    #परिभाषय पत्तनम्_EXIT_CRITICAL()                       v_पत्तनम्_Exit_Critical();
+    #परिभाषय पत्तनम्_DISABLE_INTERRUPTS()                  __disable_irq(); __DSB(); __ISB()        /* No priority mask register so global disable is used. */
+    #परिभाषय पत्तनम्_ENABLE_INTERRUPTS()                   __enable_irq()
+    #परिभाषय पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्_FROM_ISR()         __get_interrupt_state(); __disable_irq() /* No priority mask register so global disable is used. */
+    #परिभाषय पत्तनम्_CLEAR_व्यवधानम्_आवरणम्_FROM_ISR( x )    __set_interrupt_state( x )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+    #परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-    void FreeRTOS_Tick_Handler( void );
+    शून्य FreeRTOS_Tick_Handler( शून्य );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    शून्य v_पत्तनम्_Task_उपयुङ्क्ते_FPU( शून्य );
+    #परिभाषय पत्तनम्_TASK_उपयुङ्क्ते_FLOATING_POINT()    v_पत्तनम्_Task_उपयुङ्क्ते_FPU()
 
 /* Architecture specific optimisations. */
-    #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #endif
+    #यदि_अपरिभाषितम् config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION
+        #परिभाषय config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION    1
+    #यदि_अन्तः
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #यदि config_USE_पत्तनम्_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-        #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-        #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+        #परिभाषय पत्तनम्_लेखः_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_प्राथमिकता ) )
+        #परिभाषय पत्तनम्_RESET_READY_प्राथमिकता( ux_प्राथमिकता, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_प्राथमिकता ) )
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __CLZ( uxReadyPriorities ) )
+        #परिभाषय पत्तनम्_GET_HIGHEST_प्राथमिकता( ux_शिखरम्_प्राथमिकता, uxReadyPriorities )    ux_शिखरम्_प्राथमिकता = ( 31 - __CLZ( uxReadyPriorities ) )
 
-    #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #यदि_अन्तः /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #define portNOP()    __asm volatile ( "NOP" )
+    #परिभाषय पत्तनम्_NOP()    __asm चञ्चल ( "NOP" )
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be
  * fixed in the source code because to do so would cause other compilers to
  * generate warnings. */
-    #pragma diag_suppress=Pe191
-    #pragma diag_suppress=Pa082
+    #निर्देशः diag_suppress=Pe191
+    #निर्देशः diag_suppress=Pa082
 
-#endif /* __ICCARM__ */
+#यदि_अन्तः /* __ICCARM__ */
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

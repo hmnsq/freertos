@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#यदि_परिभाषितम् __cplusplus
+    बाह्य "C" {
+#यदि_अन्तः
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,68 +46,68 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      long
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
+#परिभाषय पत्तनम्_CHAR        वर्ण
+#परिभाषय पत्तनम्_FLOAT       भिन्न
+#परिभाषय पत्तनम्_DOUBLE      दीर्घ
+#परिभाषय पत्तनम्_LONG        दीर्घ
+#परिभाषय पत्तनम्_SHORT       पूर्णाङ्क
+#परिभाषय पत्तनम्_राशिः_TYPE  uint16_t
+#परिभाषय पत्तनम्_आधारः_TYPE   ह्रस्व
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE राशिः_Type_t;
+प्रकारनिर्देश ह्रस्व आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित ह्रस्व UBaseType_t;
 
 
-typedef void ( __interrupt __far *pxISR )();
+प्रकारनिर्देश शून्य ( __interrupt __far *pxISR )();
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः  == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t             TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENTER_CRITICAL()            __asm{ pushf }  \
+#परिभाषय पत्तनम्_ENTER_CRITICAL()            __asm{ pushf }  \
                                         __asm{ cli   }  \
 
-#define portEXIT_CRITICAL()             __asm{ popf }
+#परिभाषय पत्तनम्_EXIT_CRITICAL()             __asm{ popf }
 
-#define portDISABLE_INTERRUPTS()        __asm{ cli }
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS()        __asm{ cli }
 
-#define portENABLE_INTERRUPTS()         __asm{ sti }
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS()         __asm{ sti }
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portNOP()                       __asm{ nop }
-#define portSTACK_GROWTH                ( -1 )
-#define portSWITCH_INT_NUMBER           0x80
-#define portYIELD()                     __asm{ int portSWITCH_INT_NUMBER }
-#define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT              2
-#define portINITIAL_SW                  ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#परिभाषय पत्तनम्_NOP()                       __asm{ nop }
+#परिभाषय पत्तनम्_राशिः_GROWTH                ( -1 )
+#परिभाषय पत्तनम्_SWITCH_INT_सङ्ख्या           0x80
+#परिभाषय पत्तनम्_YIELD()                     __asm{ पूर्णाङ्क पत्तनम्_SWITCH_INT_सङ्ख्या }
+#परिभाषय पत्तनम्_TICK_PERIOD_MS              ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT              2
+#परिभाषय पत्तनम्_INITIAL_SW                  ( ( पत्तनम्_राशिः_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )             inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )   outp( xAddr, ucValue )
-#define portINPUT_WORD( xAddr )             inpw( xAddr )
-#define portOUTPUT_WORD( xAddr, usValue )   outpw( xAddr, usValue )
+#परिभाषय पत्तनम्_निवेशः_BYTE( xAddr )             inp( xAddr )
+#परिभाषय पत्तनम्_OUTPUT_BYTE( xAddr, uc_मानम् )   outp( xAddr, uc_मानम् )
+#परिभाषय पत्तनम्_निवेशः_WORD( xAddr )             inpw( xAddr )
+#परिभाषय पत्तनम्_OUTPUT_WORD( xAddr, us_मानम् )   outpw( xAddr, us_मानम् )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vTaskFunction, vParameters ) void vTaskFunction( void *pvParameters )
-#define portTASK_FUNCTION( vTaskFunction, vParameters ) void vTaskFunction( void *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vTaskFunction, vParameters ) शून्य vTaskFunction( शून्य *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vTaskFunction, vParameters ) शून्य vTaskFunction( शून्य *pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#यदि_परिभाषितम् __cplusplus
     }
-#endif
+#यदि_अन्तः
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */

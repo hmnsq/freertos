@@ -32,37 +32,37 @@
     .ref vTaskSwitchContext
     .ref ulMaxSyscallInterruptPriority
 
-    .def xPortPendSVHandler
-    .def ulPortGetIPSR
-    .def vPortSVCHandler
-    .def vPortStartFirstTask
+    .def x_पत्तनम्_Pend_SVHandler
+    .def ul_पत्तनम्_Get_IPSR
+    .def v_पत्तनम्_SVCHandler
+    .def v_पत्तनम्_Start_First_Task
 
 NVICOffsetConst:                    .word   0xE000ED08
 CPACRConst:                         .word   0xE000ED88
 pxCurrentTCBConst:                  .word   pxCurrentTCB
-ulMaxSyscallInterruptPriorityConst: .word ulMaxSyscallInterruptPriority
+ul_Max_Syscall_व्यवधानम्_प्राथमिकता_Const: .word ulMaxSyscallInterruptPriority
 
 ; -----------------------------------------------------------
 
     .align 4
-ulPortGetIPSR: .asmfunc
+ul_पत्तनम्_Get_IPSR: .asmfunc
     mrs r0, ipsr
     bx r14
     .endasmfunc
  ; -----------------------------------------------------------
 
     .align 4
-vPortSetInterruptMask: .asmfunc
-    push {r0}
-    ldr r0, ulMaxSyscallInterruptPriorityConst
+v_पत्तनम्_समुच्चयः_व्यवधानम्_आवरणम्: .asmfunc
+    निक्षिप {r0}
+    ldr r0, ul_Max_Syscall_व्यवधानम्_प्राथमिकता_Const
     msr basepri, r0
-    pop {r0}
+    उद्धर {r0}
     bx r14
     .endasmfunc
 ; -----------------------------------------------------------
 
     .align 4
-xPortPendSVHandler: .asmfunc
+x_पत्तनम्_Pend_SVHandler: .asmfunc
     mrs r0, psp
     isb
 
@@ -77,13 +77,13 @@ xPortPendSVHandler: .asmfunc
     str r0, [r2]
 
     stmdb sp!, {r3, r14}
-    ldr r0, ulMaxSyscallInterruptPriorityConst
+    ldr r0, ul_Max_Syscall_व्यवधानम्_प्राथमिकता_Const
     ldr r1, [r0]
     msr basepri, r1
     dsb
     isb
     bl vTaskSwitchContext
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     ldmia sp!, {r3, r14}
 
@@ -102,7 +102,7 @@ xPortPendSVHandler: .asmfunc
 ; -----------------------------------------------------------
 
     .align 4
-vPortSVCHandler: .asmfunc
+v_पत्तनम्_SVCHandler: .asmfunc
     ;/* Get the location of the current TCB. */
     ldr r3, pxCurrentTCBConst
     ldr r1, [r3]
@@ -111,7 +111,7 @@ vPortSVCHandler: .asmfunc
     ldmia r0!, {r4-r11}
     msr psp, r0
     isb
-    mov r0, #0
+    चालय r0, #0
     msr basepri, r0
     orr r14, #0xd
     bx r14
@@ -120,7 +120,7 @@ vPortSVCHandler: .asmfunc
 ; -----------------------------------------------------------
 
     .align 4
-vPortStartFirstTask: .asmfunc
+v_पत्तनम्_Start_First_Task: .asmfunc
     ;/* Use the NVIC offset register to locate the stack. */
     ldr r0, NVICOffsetConst
     ldr r0, [r0]
@@ -131,7 +131,7 @@ vPortStartFirstTask: .asmfunc
     ;before the scheduler was started - which would otherwise result in the
     ;unnecessary leaving of space in the SVC stack for lazy saving of FPU
     ;registers. */
-    mov r0, #0
+    चालय r0, #0
     msr control, r0
     ;/* Call SVC to start the first task. */
     cpsie i

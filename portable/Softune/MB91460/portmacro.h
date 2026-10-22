@@ -26,14 +26,14 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#यदि_अपरिभाषितम् PORTMACRO_H
+#परिभाषय PORTMACRO_H
 
 /* Hardware specific includes. */
-#include "mb91467d.h"
+#अन्तर्भाव "mb91467d.h"
 
 /* Standard includes. */
-#include <stddef.h>
+#अन्तर्भाव <stddef.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -46,66 +46,66 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#परिभाषय पत्तनम्_CHAR        वर्ण
+#परिभाषय पत्तनम्_FLOAT       भिन्न
+#परिभाषय पत्तनम्_DOUBLE      द्विगुण
+#परिभाषय पत्तनम्_LONG        दीर्घ
+#परिभाषय पत्तनम्_SHORT       ह्रस्व
+#परिभाषय पत्तनम्_राशिः_TYPE  uint32_t
+#परिभाषय पत्तनम्_आधारः_TYPE   दीर्घ
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+प्रकारनिर्देश पत्तनम्_राशिः_TYPE राशिः_Type_t;
+प्रकारनिर्देश दीर्घ आधारः_Type_t;
+प्रकारनिर्देश अचिह्नित दीर्घ UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#यदि( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः == TICK_TYPE_विस्तारः_16_द्वयङ्काः )
+    प्रकारनिर्देश uint16_t TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY ( TickType_t ) 0xffff
+#नोचेद्यदि ( config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः  == TICK_TYPE_विस्तारः_32_द्वयङ्काः )
+    प्रकारनिर्देश uint32_t             TickType_t;
+    #परिभाषय पत्तनम्_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #दोषः config_TICK_TYPE_विस्तारः_अन्तर्_द्वयङ्काः समुच्चयः गन्तव्यम् unsupported tick type विस्तारः.
+#यदि_अन्तः
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#if configKERNEL_INTERRUPT_PRIORITY != 30
-    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM value set in the following line - 30 (1Eh) being the default.
-#endif
-#define portDISABLE_INTERRUPTS() __asm(" STILM #1Eh ")
-#define portENABLE_INTERRUPTS() __asm(" STILM #1Fh ")
+#यदि config_KERNEL_व्यवधानम्_प्राथमिकता != 30
+    #दोषः config_KERNEL_व्यवधानम्_प्राथमिकता (समुच्चयः अन्तर् FreeRTOSConfig.h) must मेलनम् the ILM मानम् समुच्चयः अन्तर् the following पङ्क्तिः - 30 (1Eh) being the स्वभाव.
+#यदि_अन्तः
+#परिभाषय पत्तनम्_DISABLE_INTERRUPTS() __asm(" STILM #1Eh ")
+#परिभाषय पत्तनम्_ENABLE_INTERRUPTS() __asm(" STILM #1Fh ")
 
-#define portENTER_CRITICAL()    \
+#परिभाषय पत्तनम्_ENTER_CRITICAL()    \
     __asm(" ST PS,@-R15 ");     \
     __asm(" ANDCCR #0xef ");    \
 
 
-#define portEXIT_CRITICAL()     \
+#परिभाषय पत्तनम्_EXIT_CRITICAL()     \
     __asm(" LD @R15+,PS ");     \
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH            ( -1 )
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT          4
-#define portNOP()                   __asm( " nop " );
+#परिभाषय पत्तनम्_राशिः_GROWTH            ( -1 )
+#परिभाषय पत्तनम्_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_दरः_HZ )
+#परिभाषय पत्तनम्_BYTE_ALIGNMENT          4
+#परिभाषय पत्तनम्_NOP()                   __asm( " nop " );
 /*-----------------------------------------------------------*/
 
 /* portYIELD() uses a SW interrupt */
-#define portYIELD()                 __asm( " INT #40H " );
+#परिभाषय पत्तनम्_YIELD()                 __asm( " INT #40H " );
 
 /* portYIELD_FROM_ISR() uses delayed interrupt */
-#define portYIELD_FROM_ISR()            DICR_DLYI = 1
+#परिभाषय पत्तनम्_YIELD_FROM_ISR()            DICR_DLYI = 1
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION_PROTO( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
+#परिभाषय पत्तनम्_TASK_FUNCTION( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
 
-#define portMINIMAL_STACK_SIZE configMINIMAL_STACK_SIZE
+#परिभाषय पत्तनम्_अल्पिष्ठम्_राशिः_आकार config_अल्पिष्ठम्_राशिः_आकार
 
 
-#endif /* PORTMACRO_H */
+#यदि_अन्तः /* PORTMACRO_H */
