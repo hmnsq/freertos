@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -51,15 +51,15 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     EXTERN vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
+    सार्व xIsPrivileged
+    सार्व vResetPrivilege
+    सार्व vRestoreContextOfFirstTask
+    सार्व vRaisePrivilege
+    सार्व vStartFirstTask
+    सार्व ulSetInterruptMask
+    सार्व vClearInterruptMask
+    सार्व PendSV_Handler
+    सार्व SVC_Handler
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -77,8 +77,8 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
     movs r1, #1                             /* r1 = 1. */
-    tst r0, r1                              /* Perform r0 & r1 (bitwise AND) and update the conditions flag. */
-    beq running_privileged                  /* If the result of previous AND operation was 0, branch. */
+    tst r0, r1                              /* Perform r0 & r1 (bitwise और) and update the conditions flag. */
+    beq running_privileged                  /* If the result of previous और operation was 0, branch. */
     movs r0, #0                             /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     bx lr                                   /* Return. */
     running_privileged:
@@ -453,4 +453,4 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-    END
+    पूर्ण

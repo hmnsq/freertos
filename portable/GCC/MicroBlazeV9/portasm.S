@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -147,49 +147,49 @@ back into the caller stack. */
 	ADDLIK r1, r1, portMINUS_CONTEXT_SIZE
 
 	/* Stack general registers. */
-	SI r31, r1, portR31_OFFSET
-	SI r30, r1, portR30_OFFSET
-	SI r29, r1, portR29_OFFSET
-	SI r28, r1, portR28_OFFSET
-	SI r27, r1, portR27_OFFSET
-	SI r26, r1, portR26_OFFSET
-	SI r25, r1, portR25_OFFSET
-	SI r24, r1, portR24_OFFSET
-	SI r23, r1, portR23_OFFSET
-	SI r22, r1, portR22_OFFSET
-	SI r21, r1, portR21_OFFSET
-	SI r20, r1, portR20_OFFSET
-	SI r19, r1, portR19_OFFSET
-	SI r18, r1, portR18_OFFSET
-	SI r17, r1, portR17_OFFSET
-	SI r16, r1, portR16_OFFSET
-	SI r15, r1, portR15_OFFSET
+	ढक r31, r1, portR31_OFFSET
+	ढक r30, r1, portR30_OFFSET
+	ढक r29, r1, portR29_OFFSET
+	ढक r28, r1, portR28_OFFSET
+	ढक r27, r1, portR27_OFFSET
+	ढक r26, r1, portR26_OFFSET
+	ढक r25, r1, portR25_OFFSET
+	ढक r24, r1, portR24_OFFSET
+	ढक r23, r1, portR23_OFFSET
+	ढक r22, r1, portR22_OFFSET
+	ढक r21, r1, portR21_OFFSET
+	ढक r20, r1, portR20_OFFSET
+	ढक r19, r1, portR19_OFFSET
+	ढक r18, r1, portR18_OFFSET
+	ढक r17, r1, portR17_OFFSET
+	ढक r16, r1, portR16_OFFSET
+	ढक r15, r1, portR15_OFFSET
 	/* R14 is saved later as it needs adjustment if a yield is performed. */
-	SI r13, r1, portR13_OFFSET
-	SI r12, r1, portR12_OFFSET
-	SI r11, r1, portR11_OFFSET
-	SI r10, r1, portR10_OFFSET
-	SI r9, r1, portR9_OFFSET
-	SI r8, r1, portR8_OFFSET
-	SI r7, r1, portR7_OFFSET
-	SI r6, r1, portR6_OFFSET
-	SI r5, r1, portR5_OFFSET
-	SI r4, r1, portR4_OFFSET
-	SI r3, r1, portR3_OFFSET
-	SI r2, r1, portR2_OFFSET
+	ढक r13, r1, portR13_OFFSET
+	ढक r12, r1, portR12_OFFSET
+	ढक r11, r1, portR11_OFFSET
+	ढक r10, r1, portR10_OFFSET
+	ढक r9, r1, portR9_OFFSET
+	ढक r8, r1, portR8_OFFSET
+	ढक r7, r1, portR7_OFFSET
+	ढक r6, r1, portR6_OFFSET
+	ढक r5, r1, portR5_OFFSET
+	ढक r4, r1, portR4_OFFSET
+	ढक r3, r1, portR3_OFFSET
+	ढक r2, r1, portR2_OFFSET
 
 	/* Stack the critical section nesting value. */
 	LI r18, r0, uxCriticalNesting
-	SI r18, r1, portCRITICAL_NESTING_OFFSET
+	ढक r18, r1, portCRITICAL_NESTING_OFFSET
 
 	/* Stack MSR. */
 	mfs r18, rmsr
-	SI r18, r1, portMSR_OFFSET
+	ढक r18, r1, portMSR_OFFSET
 
 	#if( XPAR_MICROBLAZE_USE_FPU != 0 )
 		/* Stack FSR. */
 		mfs r18, rfsr
-		SI r18, r1, portFSR_OFFSET
+		ढक r18, r1, portFSR_OFFSET
 	#endif
 
 #if( XPAR_MICROBLAZE_USE_STACK_PROTECTION )
@@ -266,7 +266,7 @@ back into the caller stack. */
 
 	/* Load the critical nesting value. */
 	LI r18, r1, portCRITICAL_NESTING_OFFSET
-	SI r18, r0, uxCriticalNesting
+	ढक r18, r0, uxCriticalNesting
 
 	/* Test the critical nesting value.  If it is non zero then the task last
 	exited the running state using a yield.  If it is zero, then the task
@@ -284,7 +284,7 @@ back into the caller stack. */
 	/* Return using rtid so interrupts are re-enabled as this function is
 	exited. */
 	rtid r14, 0
-	OR r0, r0, r0
+	या r0, r0, r0
 
 	.endm
 
@@ -309,7 +309,7 @@ exit_from_yield:
 
 	/* Return to the task. */
 	rtsd r14, 0
-	OR r0, r0, r0
+	या r0, r0, r0
 
 
 	.text
@@ -325,7 +325,7 @@ _interrupt_handler:
     portSAVE_CONTEXT
 
 	/* Stack the return address. */
-	SI r14, r1, portR14_OFFSET
+	ढक r14, r1, portR14_OFFSET
 
 	/* Switch to the ISR stack. */
 	LI r1, r0, pulISRStack
@@ -342,11 +342,11 @@ _interrupt_handler:
 
 	/* Execute any pending interrupts. */
 	BRALID r15, XIntc_DeviceInterruptHandler
-	OR r0, r0, r0
+	या r0, r0, r0
 
 	/* See if a new task should be selected to execute. */
 	LI r18, r0, ulTaskSwitchRequested
-	OR r18, r18, r0
+	या r18, r18, r0
 
 	/* If ulTaskSwitchRequested is already zero, then jump straight to
 	restoring the task that is already in the Running state. */
@@ -354,12 +354,12 @@ _interrupt_handler:
 
 	/* Set ulTaskSwitchRequested back to zero as a task switch is about to be
 	performed. */
-	SI r0, r0, ulTaskSwitchRequested
+	ढक r0, r0, ulTaskSwitchRequested
 
 	/* ulTaskSwitchRequested was not 0 when tested.  Select the next task to
 	execute. */
 	BRALID r15, vTaskSwitchContext
-	OR r0, r0, r0
+	या r0, r0, r0
 
 task_switch_not_requested:
 
@@ -381,7 +381,7 @@ VPortYieldASM:
 	/* Modify the return address so a return is done to the instruction after
 	the call to VPortYieldASM. */
 	ADDI r14, r14, 8
-	SI r14, r1, portR14_OFFSET
+	ढक r14, r1, portR14_OFFSET
 
 	/* Switch to use the ISR stack. */
 	LI r1, r0, pulISRStack
@@ -395,7 +395,7 @@ VPortYieldASM:
 
 	/* Select the next task to execute. */
 	BRALID r15, vTaskSwitchContext
-	OR r0, r0, r0
+	या r0, r0, r0
 
     /* Restore the context of the next task scheduled to execute. */
     portRESTORE_CONTEXT
@@ -426,8 +426,8 @@ vPortExceptionHandlerEntry:
 
 	/* Take a copy of the stack pointer before vPortExecptionHandler is called,
 	storing its value prior to the function stack frame being created. */
-	SI r1, r0, pulStackPointerOnFunctionEntry
+	ढक r1, r0, pulStackPointerOnFunctionEntry
 	BRALID r15, vPortExceptionHandler
-	OR r0, r0, r0
+	या r0, r0, r0
 
 #endif /* ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 ) */

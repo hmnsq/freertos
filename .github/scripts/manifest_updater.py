@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
-import os
-import argparse
+आयात os
+आयात argparse
 
 THIS_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-MANIFEST_FILE = os.path.join(THIS_FILE_PATH, '..', '..', 'manifest.yml')
+MANIFEST_FILE = os.path.मेल(THIS_FILE_PATH, '..', '..', 'manifest.yml')
 
-def update_manifest_file(new_version_number):
-    updated_lines = []
+def update_manifest_file(new_version_संख्या):
+    updated_पंक्तियाँ = []
     with open(MANIFEST_FILE, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith('version'):
-                updated_lines.append(f'version: "V{new_version_number}"\n')
-            else:
-                updated_lines.append(f'{line}\n')
+        क्रम पंक्ति in f:
+            पंक्ति = पंक्ति.strip()
+            अगर पंक्ति.startswith('version'):
+                updated_पंक्तियाँ.append(f'version: "V{new_version_number}"\n')
+            अन्यथा:
+                updated_पंक्तियाँ.append(f'{line}\n')
 
     with open(MANIFEST_FILE, 'w') as f:
-        f.writelines(updated_lines)
+        f.writelines(updated_पंक्तियाँ)
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', required=True, help='New version number.')
-    args = parser.parse_args()
-    return args
+    तर्क = parser.parse_args()
+    वापस तर्क
 
-def main():
-    args = parse_args()
-    update_manifest_file(args.version)
+def मुख्य():
+    तर्क = parse_args()
+    update_manifest_file(तर्क.version)
 
-if __name__ == '__main__':
-    main()
+अगर __name__ == '__main__':
+    मुख्य()

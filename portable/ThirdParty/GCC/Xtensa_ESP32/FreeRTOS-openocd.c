@@ -9,15 +9,15 @@
  * linking) to your LDFLAGS; same with all the other symbols you need.
  */
 
-#include "FreeRTOS.h"
-#include "esp_attr.h"
-#include "sdkconfig.h"
+#समावेश "FreeRTOS.h"
+#समावेश "esp_attr.h"
+#समावेश "sdkconfig.h"
 
-#ifdef __GNUC__
-    #define USED    __attribute__( ( used ) )
-#else
-    #define USED
-#endif
+#अगर_घोषित __GNUC__
+    #घोषणा USED    __attribute__( ( used ) )
+#अन्यथा
+    #घोषणा USED
+#पूर्ण_अगर
 
 /*
  * This file is no longer needed as AFTER FreeRTOS V10.14.1 OpenOCD is fixed in the kernel.

@@ -20,18 +20,18 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS या IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE और NONINFRINGEMENT.
+ * अंदर NO EVENT SHALL THE AUTHORS या COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES या OTHER LIABILITY, WHETHER अंदर AN ACTION OF CONTRACT,
+ * TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर CONNECTION WITH THE
+ * SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  */
 
 /*******************************************************************************
 --------------------------------------------------------------------------------
 
-        XTENSA VECTORS AND LOW LEVEL HANDLERS FOR AN RTOS
+        XTENSA VECTORS और न्यून LEVEL HANDLERS FOR AN RTOS
 
   Xtensa low level exception and interrupt vectors and handlers for an RTOS.
 
@@ -127,13 +127,13 @@
     used within the exception dispatcher.
 
     To create the pseudo base-save area, we need to store a copy of the pre-exception's
-    base save area (a0 to a4) below the exception dispatcher's SP. EXCSAVE_x will
-    be used to store a copy of the SP that points to the interrupted code's exception
-    frame just in case the exception dispatcher's SP does not point to the exception
+    base save area (a0 to a4) below the exception dispatcher's ढस. EXCSAVE_x will
+    be used to store a copy of the ढस that points to the interrupted code's exception
+    frame just in case the exception dispatcher's ढस does not point to the exception
     frame (which is the case when switching from task to interrupt stack).
 
     Clearing the pseudo base-save area is uncessary as the interrupt dispatcher
-    will restore the current SP to that of the pre-exception SP.
+    will restore the current ढस to that of the pre-exception ढस.
 --------------------------------------------------------------------------------
 */
 #ifdef CONFIG_FREERTOS_INTERRUPT_BACKTRACE
@@ -175,7 +175,7 @@
 --------------------------------------------------------------------------------
   Macro extract_msb - return the input with only the highest bit set.
 
-  Input  : "ain"  - Input value, clobbered.
+  निवेश  : "ain"  - निवेश value, clobbered.
   Output : "aout" - Output value, has only one bit set, MSB of "ain".
   The two arguments must be different AR registers.
 --------------------------------------------------------------------------------
@@ -237,7 +237,7 @@
        At this point, the exception frame should have been allocated and filled,
        and current sp points to the interrupt stack (for non-nested interrupt)
        or below the allocated exception frame (for nested interrupts). Copy the
-       pre-exception's base save area below the current SP.
+       pre-exception's base save area below the current ढस.
     */
     #ifdef XT_DEBUG_BACKTRACE
     #ifndef __XTENSA_CALL0_ABI__
@@ -498,7 +498,7 @@ _xt_intexc_hooks:
 
 /*
 --------------------------------------------------------------------------------
-  EXCEPTION AND LEVEL 1 INTERRUPT VECTORS AND LOW LEVEL HANDLERS
+  EXCEPTION और LEVEL 1 INTERRUPT VECTORS और न्यून LEVEL HANDLERS
   (except window exception vectors).
 
   Each vector goes at a predetermined location according to the Xtensa
@@ -977,7 +977,7 @@ _xt_coproc_exc:
     /* Allocate interrupt stack frame and save minimal context. */
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     #if XCHAL_HAVE_WINDOWED
     s32e    a0, sp, -12                     /* for debug backtrace */
     #endif
@@ -1185,7 +1185,7 @@ locking.
 _xt_lowint1:
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     rsr     a0, PS                          /* save interruptee's PS */
     s32i    a0, sp, XT_STK_PS
     rsr     a0, EPC_1                       /* save interruptee's PC */
@@ -1231,7 +1231,7 @@ _xt_lowint1:
 
 /*
 -------------------------------------------------------------------------------
-  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS AND LOW LEVEL HANDLERS.
+  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS और न्यून LEVEL HANDLERS.
 
   Medium priority interrupts are by definition those with priority greater
   than 1 and not greater than XCHAL_EXCM_LEVEL. These are disabled by
@@ -1277,7 +1277,7 @@ _Level2Vector:
 _xt_medint2:
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     rsr     a0, EPS_2                       /* save interruptee's PS */
     s32i    a0, sp, XT_STK_PS
     rsr     a0, EPC_2                       /* save interruptee's PC */
@@ -1360,7 +1360,7 @@ _Level3Vector:
 _xt_medint3:
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     rsr     a0, EPS_3                       /* save interruptee's PS */
     s32i    a0, sp, XT_STK_PS
     rsr     a0, EPC_3                       /* save interruptee's PC */
@@ -1442,7 +1442,7 @@ _Level4Vector:
 _xt_medint4:
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     rsr     a0, EPS_4                       /* save interruptee's PS */
     s32i    a0, sp, XT_STK_PS
     rsr     a0, EPC_4                       /* save interruptee's PC */
@@ -1524,7 +1524,7 @@ _Level5Vector:
 _xt_medint5:
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     rsr     a0, EPS_5                       /* save interruptee's PS */
     s32i    a0, sp, XT_STK_PS
     rsr     a0, EPC_5                       /* save interruptee's PC */
@@ -1605,7 +1605,7 @@ _Level6Vector:
 _xt_medint6:
     mov     a0, sp                          /* sp == a1 */
     addi    sp, sp, -XT_STK_FRMSZ           /* allocate interrupt stack frame */
-    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt SP */
+    s32i    a0, sp, XT_STK_A1               /* save pre-interrupt ढस */
     rsr     a0, EPS_6                       /* save interruptee's PS */
     s32i    a0, sp, XT_STK_PS
     rsr     a0, EPC_6                       /* save interruptee's PC */
@@ -1670,7 +1670,7 @@ _xt_medint6_exit:
 
 /*******************************************************************************
 
-HIGH PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS AND HANDLERS
+उच्च PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS और HANDLERS
 
 High priority interrupts are by definition those with priorities greater
 than XCHAL_EXCM_LEVEL. This includes non-maskable (NMI). High priority
@@ -1810,7 +1810,7 @@ _NMIExceptionVector:
 
 /*******************************************************************************
 
-WINDOW OVERFLOW AND UNDERFLOW EXCEPTION VECTORS AND ALLOCA EXCEPTION HANDLER
+WINDOW OVERFLOW और UNDERFLOW EXCEPTION VECTORS और ALLOCA EXCEPTION HANDLER
 
 Here is the code for each window overflow/underflow exception vector and
 (interspersed) efficient code for handling the alloca exception cause.

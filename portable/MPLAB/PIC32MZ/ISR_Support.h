@@ -26,14 +26,14 @@
  *
  */
 
-#include "FreeRTOSConfig.h"
+#समावेश "FreeRTOSConfig.h"
 
-#define portCONTEXT_SIZE                160
-#define portEPC_STACK_LOCATION          152
-#define portSTATUS_STACK_LOCATION       156
-#define portFPCSR_STACK_LOCATION        0
-#define portTASK_HAS_FPU_STACK_LOCATION     0
-#define portFPU_CONTEXT_SIZE            264
+#घोषणा port_CONTEXT_आकार                160
+#घोषणा port_EPC_ढेर_LOCATION          152
+#घोषणा port_STATUS_ढेर_LOCATION       156
+#घोषणा port_FPCSR_ढेर_LOCATION        0
+#घोषणा port_TASK_HAS_FPU_ढेर_LOCATION     0
+#घोषणा port_FPU_CONTEXT_आकार            264
 
 /******************************************************************/
 .macro  portSAVE_FPU_REGS    offset, base
@@ -124,9 +124,9 @@
     manipulated, and the cause and EPC registers so their original values are
     captured. */
     mfc0        k0, _CP0_CAUSE
-    addiu       sp, sp, -portCONTEXT_SIZE
+    addiu       sp, sp, -port_CONTEXT_आकार
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #अगर ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Test if we are already using the system stack. Only tasks may use the
         FPU so if we are already in a nested interrupt then the FPU context does
         not require saving. */
@@ -142,14 +142,14 @@
         nop
 
         /* Adjust the stack to account for the additional FPU context.*/
-        addiu       sp, sp, -portFPU_CONTEXT_SIZE
+        addiu       sp, sp, -port_FPU_CONTEXT_आकार
 
     1:
         /* Save the ulTaskHasFPUContext flag. */
-        sw          k1, portTASK_HAS_FPU_STACK_LOCATION(sp)
+        sw          k1, port_TASK_HAS_FPU_ढेर_LOCATION(sp)
 
     2:
-    #endif
+    #पूर्ण_अगर
 
     mfc0        k1, _CP0_STATUS
 
@@ -158,7 +158,7 @@
     sw          s7, 48(sp)
     sw          s6, 44(sp)
     sw          s5, 40(sp)
-    sw          k1, portSTATUS_STACK_LOCATION(sp)
+    sw          k1, port_STATUS_ढेर_LOCATION(sp)
 
     /* Prepare to enable interrupts above the current priority. */
     srl         k0, k0, 0xa
@@ -180,7 +180,7 @@
     nop
 
     /* Swap to the system stack. */
-    la          sp, xISRStackTop
+    la          sp, x_ISRStack_शीर्ष
     lw          sp, (sp)
 
     /* Increment and save the nesting count. */
@@ -214,7 +214,7 @@
     sw          a0, 60(s5)
     sw          v1, 56(s5)
     sw          v0, 52(s5)
-    sw          s6, portEPC_STACK_LOCATION(s5)
+    sw          s6, port_EPC_ढेर_LOCATION(s5)
     sw          $1, 16(s5)
 
     /* Save the AC0, AC1, AC2, AC3 registers from the DSP.  s6 is used as a
@@ -245,7 +245,7 @@
     sw          s6, 8(s5)
 
     /* Save the FPU context if the nesting count was zero. */
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #अगर ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         la          s6, uxInterruptNesting
         lw          s6, 0(s6)
         addiu       s6, s6, -1
@@ -253,19 +253,19 @@
         nop
 
         /* Test if the current task needs the FPU context saving. */
-        lw          s6, portTASK_HAS_FPU_STACK_LOCATION(s5)
+        lw          s6, port_TASK_HAS_FPU_ढेर_LOCATION(s5)
         beq         s6, zero, 1f
         nop
 
         /* Save the FPU registers. */
-        portSAVE_FPU_REGS ( portCONTEXT_SIZE + 8 ), s5
+        portSAVE_FPU_REGS ( port_CONTEXT_आकार + 8 ), s5
 
         /* Save the FPU status register */
         cfc1        s6, $f31
-        sw          s6, (portCONTEXT_SIZE + portFPCSR_STACK_LOCATION)(s5)
+        sw          s6, (port_CONTEXT_आकार + port_FPCSR_ढेर_LOCATION)(s5)
 
         1:
-    #endif
+    #पूर्ण_अगर
 
     /* Update the task stack pointer value if nesting is zero. */
     la          s6, uxInterruptNesting
@@ -275,7 +275,7 @@
     nop
 
     /* Save the stack pointer. */
-    la          s6, uxSavedTaskStackPointer
+    la          s6, ux_Saved_Task_ढेर_Pointer
     sw          s5, (s6)
 1:
     .endm
@@ -290,22 +290,22 @@
     addiu       s6, s6, -1
     bne         s6, zero, 1f
     nop
-    la          s6, uxSavedTaskStackPointer
+    la          s6, ux_Saved_Task_ढेर_Pointer
     lw          s5, (s6)
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #अगर ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Restore the FPU context if required. */
-        lw          s6, portTASK_HAS_FPU_STACK_LOCATION(s5)
+        lw          s6, port_TASK_HAS_FPU_ढेर_LOCATION(s5)
         beq         s6, zero, 1f
         nop
 
         /* Restore the FPU registers. */
-        portLOAD_FPU_REGS   ( portCONTEXT_SIZE + 8 ), s5
+        portLOAD_FPU_REGS   ( port_CONTEXT_आकार + 8 ), s5
 
         /* Restore the FPU status register. */
-        lw          s6, ( portCONTEXT_SIZE + portFPCSR_STACK_LOCATION )(s5)
+        lw          s6, ( port_CONTEXT_आकार + port_FPCSR_ढेर_LOCATION )(s5)
         ctc1        s6, $f31
-    #endif
+    #पूर्ण_अगर
 
 1:
 
@@ -368,7 +368,7 @@
     addiu       k1, k1, -1
     sw          k1, 0(k0)
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #अगर ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* If the nesting count is now zero then the FPU context may be restored. */
         bne         k1, zero, 1f
         nop
@@ -383,8 +383,8 @@
         nop
 
         /* Restore the STATUS and EPC registers */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, port_STATUS_ढेर_LOCATION(s5)
+        lw          k1, port_EPC_ढेर_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
@@ -392,13 +392,13 @@
         lw          s5, 40(sp)
 
         /* Adjust the stack pointer to remove the FPU context */
-        addiu       sp, sp, portFPU_CONTEXT_SIZE
+        addiu       sp, sp, port_FPU_CONTEXT_आकार
         beq         zero, zero, 2f
         nop
 
         1:  /* Restore the STATUS and EPC registers */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, port_STATUS_ढेर_LOCATION(s5)
+        lw          k1, port_EPC_ढेर_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
@@ -406,22 +406,22 @@
         lw          s5, 40(sp)
 
         2:  /* Adjust the stack pointer */
-        addiu       sp, sp, portCONTEXT_SIZE
+        addiu       sp, sp, port_CONTEXT_आकार
 
-    #else
+    #अन्यथा
 
         /* Restore the frame when there is no hardware FP support. */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, port_STATUS_ढेर_LOCATION(s5)
+        lw          k1, port_EPC_ढेर_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
         add         sp, zero, s5
         lw          s5, 40(sp)
 
-        addiu       sp, sp, portCONTEXT_SIZE
+        addiu       sp, sp, port_CONTEXT_आकार
 
-    #endif // ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #पूर्ण_अगर // ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
 
     mtc0        k0, _CP0_STATUS
     mtc0        k1, _CP0_EPC

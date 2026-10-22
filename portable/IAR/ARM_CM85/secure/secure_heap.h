@@ -26,11 +26,11 @@
  *
  */
 
-#ifndef __SECURE_HEAP_H__
-#define __SECURE_HEAP_H__
+#अगर_अघोषित __SECURE_HEAP_H__
+#घोषणा __SECURE_HEAP_H__
 
 /* Standard includes. */
-#include <stdlib.h>
+#समावेश <stdlib.h>
 
 /**
  * @brief Allocates memory from heap.
@@ -40,27 +40,27 @@
  * @return Pointer to the memory region if the allocation is successful, NULL
  * otherwise.
  */
-void * pvPortMalloc( size_t xWantedSize );
+व्योम * pvPortMalloc( माप_प्रकार x_Wanted_आकार );
 
 /**
  * @brief Frees the previously allocated memory.
  *
  * @param[in] pv Pointer to the memory to be freed.
  */
-void vPortFree( void * pv );
+व्योम vPortFree( व्योम * pv );
 
 /**
  * @brief Get the free heap size.
  *
  * @return Free heap size.
  */
-size_t xPortGetFreeHeapSize( void );
+माप_प्रकार x_Port_Get_Free_Heap_आकार( व्योम );
 
 /**
  * @brief Get the minimum ever free heap size.
  *
  * @return Minimum ever free heap size.
  */
-size_t xPortGetMinimumEverFreeHeapSize( void );
+माप_प्रकार x_Port_Get_Minimum_Ever_Free_Heap_आकार( व्योम );
 
-#endif /* __SECURE_HEAP_H__ */
+#पूर्ण_अगर /* __SECURE_HEAP_H__ */

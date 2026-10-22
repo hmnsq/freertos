@@ -26,26 +26,26 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#अगर_अघोषित PORT_ASM_H
+#घोषणा PORT_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+प्रकार व्योम TCB_t;
+बाह्य अस्थिर TCB_t * अस्थिर pxCurrentTCB;
+बाह्य व्योम vTaskSwitchContext( व्योम );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+व्योम portSWITCH_CONTEXT( व्योम );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+व्योम portFIRST_CONTEXT( व्योम );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -53,35 +53,35 @@ are a couple of extra bytes left of the ISR stack (presumably for use by the
 debugger).  The true stack pointer is then stored in the bp register.  We add
 2 to the stack pointer to remove the extra bytes before we restore our context. */
 
-#define portSWITCH_CONTEXT()                                            \
-                            asm { mov   ax, seg pxCurrentTCB        }   \
-                            asm { mov   ds, ax                      }   \
-                            asm { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */      \
-                            asm { mov   es:0x2[ bx ], ss            }   \
-                            asm { mov   es:[ bx ], sp               }   \
-                            asm { call  far ptr vTaskSwitchContext  }   /* Perform the switch. */                       \
-                            asm { mov   ax, seg pxCurrentTCB        }   /* Restore the stack pointer from the TCB. */   \
-                            asm { mov   ds, ax                      }   \
-                            asm { les   bx, dword ptr pxCurrentTCB  }   \
-                            asm { mov   ss, es:[ bx + 2 ]           }   \
-                            asm { mov   sp, es:[ bx ]               }
+#घोषणा portSWITCH_CONTEXT()                                            \
+                            यंत्र { mov   ax, seg pxCurrentTCB        }   \
+                            यंत्र { mov   ds, ax                      }   \
+                            यंत्र { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */      \
+                            यंत्र { mov   es:0x2[ bx ], ss            }   \
+                            यंत्र { mov   es:[ bx ], sp               }   \
+                            यंत्र { call  far ptr vTaskSwitchContext  }   /* Perform the switch. */                       \
+                            यंत्र { mov   ax, seg pxCurrentTCB        }   /* Restore the stack pointer from the TCB. */   \
+                            यंत्र { mov   ds, ax                      }   \
+                            यंत्र { les   bx, dword ptr pxCurrentTCB  }   \
+                            यंत्र { mov   ss, es:[ bx + 2 ]           }   \
+                            यंत्र { mov   sp, es:[ bx ]               }
 
-#define portFIRST_CONTEXT()                                             \
+#घोषणा portFIRST_CONTEXT()                                             \
                             __asm { mov ax, seg pxCurrentTCB        }   \
                             __asm { mov ds, ax                      }   \
                             __asm { les bx, dword ptr pxCurrentTCB  }   \
                             __asm { mov ss, es:[ bx + 2 ]           }   \
                             __asm { mov sp, es:[ bx ]               }   \
-                            __asm { pop bp                          }   \
-                            __asm { pop di                          }   \
-                            __asm { pop si                          }   \
-                            __asm { pop ds                          }   \
-                            __asm { pop es                          }   \
-                            __asm { pop dx                          }   \
-                            __asm { pop cx                          }   \
-                            __asm { pop bx                          }   \
-                            __asm { pop ax                          }   \
+                            __asm { निकालो bp                          }   \
+                            __asm { निकालो di                          }   \
+                            __asm { निकालो si                          }   \
+                            __asm { निकालो ds                          }   \
+                            __asm { निकालो es                          }   \
+                            __asm { निकालो dx                          }   \
+                            __asm { निकालो cx                          }   \
+                            __asm { निकालो bx                          }   \
+                            __asm { निकालो ax                          }   \
                             __asm { iret                            }
 
 
-#endif
+#पूर्ण_अगर

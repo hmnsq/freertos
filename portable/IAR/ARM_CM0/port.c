@@ -31,133 +31,133 @@
 *----------------------------------------------------------*/
 
 /* IAR includes. */
-#include "intrinsics.h"
+#समावेश "intrinsics.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#समावेश "FreeRTOS.h"
+#समावेश "task.h"
 
 /* Prototype of all Interrupt Service Routines (ISRs). */
-typedef void ( * portISR_t )( void );
+प्रकार व्योम ( * portISR_t )( व्योम );
 
 /* Constants required to manipulate the NVIC. */
-#define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_INT_CTRL_REG                 ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
-#define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
-#define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
-#define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
-#define portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
-#define portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
-#define portMIN_INTERRUPT_PRIORITY            ( 255UL )
-#define portNVIC_PENDSV_PRI                   ( portMIN_INTERRUPT_PRIORITY << 16UL )
-#define portNVIC_SYSTICK_PRI                  ( portMIN_INTERRUPT_PRIORITY << 24UL )
+#घोषणा portNVIC_SYSTICK_CTRL_REG             ( *( ( अस्थिर uint32_t * ) 0xe000e010 ) )
+#घोषणा portNVIC_SYSTICK_LOAD_REG             ( *( ( अस्थिर uint32_t * ) 0xe000e014 ) )
+#घोषणा port_NVIC_SYSTICK_CURRENT_मूल्य_REG    ( *( ( अस्थिर uint32_t * ) 0xe000e018 ) )
+#घोषणा portNVIC_INT_CTRL_REG                 ( *( ( अस्थिर uint32_t * ) 0xe000ed04 ) )
+#घोषणा portNVIC_SHPR3_REG                    ( *( ( अस्थिर uint32_t * ) 0xe000ed20 ) )
+#घोषणा portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
+#घोषणा portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
+#घोषणा portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
+#घोषणा port_NVIC_SYSTICK_गिनती_FLAG_BIT       ( 1UL << 16UL )
+#घोषणा portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
+#घोषणा portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
+#घोषणा portMIN_INTERRUPT_PRIORITY            ( 255UL )
+#घोषणा portNVIC_PENDSV_PRI                   ( portMIN_INTERRUPT_PRIORITY << 16UL )
+#घोषणा portNVIC_SYSTICK_PRI                  ( portMIN_INTERRUPT_PRIORITY << 24UL )
 
 /* Constants used to check the installation of the FreeRTOS interrupt handlers. */
-#define portSCB_VTOR_REG                      ( *( ( portISR_t ** ) 0xe000ed08 ) )
-#define portVECTOR_INDEX_PENDSV               ( 14 )
+#घोषणा portSCB_VTOR_REG                      ( *( ( portISR_t ** ) 0xe000ed08 ) )
+#घोषणा port_VECTOR_सूचकांक_PENDSV               ( 14 )
 
 /* Constants required to set up the initial stack. */
-#define portINITIAL_XPSR                      ( 0x01000000 )
+#घोषणा portINITIAL_XPSR                      ( 0x01000000 )
 
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. */
-static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
+अटल UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
 /* The systick is a 24-bit counter. */
-#define portMAX_24_BIT_NUMBER    ( 0xffffffUL )
+#घोषणा port_MAX_24_BIT_संख्या    ( 0xffffffUL )
 
 /* A fiddle factor to estimate the number of SysTick counts that would have
  * occurred while the SysTick counter is stopped during tickless idle
  * calculations. */
-#ifndef portMISSED_COUNTS_FACTOR
-    #define portMISSED_COUNTS_FACTOR    ( 94UL )
-#endif
+#अगर_अघोषित portMISSED_COUNTS_FACTOR
+    #घोषणा portMISSED_COUNTS_FACTOR    ( 94UL )
+#पूर्ण_अगर
 
 /* The number of SysTick increments that make up one tick period. */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t ulTimerCountsForOneTick = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+#अगर ( configUSE_TICKLESS_IDLE == 1 )
+    अटल uint32_t ulTimerCountsForOneTick = 0;
+#पूर्ण_अगर /* configUSE_TICKLESS_IDLE */
 
 /* The maximum number of tick periods that can be suppressed is limited by the
  * 24 bit resolution of the SysTick timer. */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t xMaximumPossibleSuppressedTicks = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+#अगर ( configUSE_TICKLESS_IDLE == 1 )
+    अटल uint32_t xMaximumPossibleSuppressedTicks = 0;
+#पूर्ण_अगर /* configUSE_TICKLESS_IDLE */
 
 /* Compensate for the CPU cycles that pass while the SysTick is stopped (low
  * power functionality only. */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t ulStoppedTimerCompensation = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+#अगर ( configUSE_TICKLESS_IDLE == 1 )
+    अटल uint32_t ulStoppedTimerCompensation = 0;
+#पूर्ण_अगर /* configUSE_TICKLESS_IDLE */
 
 /* Let the user override the default SysTick clock rate.  If defined by the
  * user, this symbol must equal the SysTick clock rate when the CLK bit is 0 in the
  * configuration register. */
-#ifndef configSYSTICK_CLOCK_HZ
-    #define configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
+#अगर_अघोषित configSYSTICK_CLOCK_HZ
+    #घोषणा configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
     /* Ensure the SysTick is clocked at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
-#else
+    #घोषणा portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
+#अन्यथा
     /* Select the option to clock SysTick not at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
-#endif
+    #घोषणा portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
+#पूर्ण_अगर
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void );
+व्योम vPortSetupTimerInterrupt( व्योम );
 
 /*
  * Exception handlers.
  */
-void xPortSysTickHandler( void );
+व्योम xPortSysTickHandler( व्योम );
 
 /*
  * Start first task is a separate function so it can be tested in isolation.
  */
-extern void vPortStartFirstTask( void );
+बाह्य व्योम vPortStartFirstTask( व्योम );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+अटल व्योम prvTaskExitError( व्योम );
 
 /*
  * FreeRTOS handlers implemented in assembly.
  */
-extern void xPortPendSVHandler( void );
+बाह्य व्योम xPortPendSVHandler( व्योम );
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ढेर_Type_t * px_Port_Initialise_ढेर( ढेर_Type_t * px_शीर्ष_Of_ढेर,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     व्योम * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
-    pxTopOfStack--;                                   /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-    *pxTopOfStack = portINITIAL_XPSR;                 /* xPSR */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;           /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError; /* LR */
-    pxTopOfStack -= 5;                                /* R12, R3, R2 and R1. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;     /* R0 */
-    pxTopOfStack -= 8;                                /* R11..R4. */
+    px_शीर्ष_Of_ढेर--;                                   /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+    *px_शीर्ष_Of_ढेर = portINITIAL_XPSR;                 /* xPSR */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) pxCode;           /* PC */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) prvTaskExitError; /* LR */
+    px_शीर्ष_Of_ढेर -= 5;                                /* R12, R3, R2 and R1. */
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) pvParameters;     /* R0 */
+    px_शीर्ष_Of_ढेर -= 8;                                /* R11..R4. */
 
-    return pxTopOfStack;
+    वापस px_शीर्ष_Of_ढेर;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+अटल व्योम prvTaskExitError( व्योम )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -168,7 +168,7 @@ static void prvTaskExitError( void )
     configASSERT( uxCriticalNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    क्रम( ; ; )
     {
     }
 }
@@ -177,7 +177,7 @@ static void prvTaskExitError( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( व्योम )
 {
     /* An application can install FreeRTOS interrupt handlers in one of the
      * following ways:
@@ -190,12 +190,12 @@ BaseType_t xPortStartScheduler( void )
      * configCHECK_HANDLER_INSTALLATION to 0 in their FreeRTOSConfig.h. Direct
      * routing, which is validated here when configCHECK_HANDLER_INSTALLATION
      * is 1, should be preferred when possible. */
-    #if ( configCHECK_HANDLER_INSTALLATION == 1 )
+    #अगर ( configCHECK_HANDLER_INSTALLATION == 1 )
     {
         /* Point pxVectorTable to the interrupt vector table. Systems without
          * a VTOR register provide the value zero in the VTOR register and
          * the vector table itself is located at the address 0x00000000. */
-        const portISR_t * const pxVectorTable = portSCB_VTOR_REG;
+        स्थिर portISR_t * स्थिर pxVectorTable = portSCB_VTOR_REG;
 
         /* Validate that the application has correctly installed the FreeRTOS
          * handler for PendSV interrupt. We do not check the installation of the
@@ -210,9 +210,9 @@ BaseType_t xPortStartScheduler( void )
          * Systems with a configurable address for the interrupt vector table
          * can also encounter assertion failures or even system faults here if
          * VTOR is not set correctly to point to the application's vector table. */
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_PENDSV ] == xPortPendSVHandler );
+        configASSERT( pxVectorTable[ port_VECTOR_सूचकांक_PENDSV ] == xPortPendSVHandler );
     }
-    #endif /* configCHECK_HANDLER_INSTALLATION */
+    #पूर्ण_अगर /* configCHECK_HANDLER_INSTALLATION */
 
     /* Make PendSV and SysTick the lowest priority interrupts. */
     portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
@@ -229,11 +229,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    वापस 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+व्योम vPortEndScheduler( व्योम )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -241,7 +241,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+व्योम vPortYield( व्योम )
 {
     /* Set a PendSV to request a context switch. */
     portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET;
@@ -253,7 +253,7 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+व्योम vPortEnterCritical( व्योम )
 {
     portDISABLE_INTERRUPTS();
     uxCriticalNesting++;
@@ -262,19 +262,19 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+व्योम vPortExitCritical( व्योम )
 {
     configASSERT( uxCriticalNesting );
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == 0 )
+    अगर( uxCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void xPortSysTickHandler( void )
+व्योम xPortSysTickHandler( व्योम )
 {
     uint32_t ulPreviousMask;
 
@@ -282,13 +282,13 @@ void xPortSysTickHandler( void )
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        अगर( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
             /* Pend a context switch. */
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET;
         }
-        else
+        अन्यथा
         {
             traceISR_EXIT();
         }
@@ -301,20 +301,20 @@ void xPortSysTickHandler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-__weak void vPortSetupTimerInterrupt( void )
+__weak व्योम vPortSetupTimerInterrupt( व्योम )
 {
     /* Calculate the constants required to configure the tick interrupt. */
-    #if ( configUSE_TICKLESS_IDLE == 1 )
+    #अगर ( configUSE_TICKLESS_IDLE == 1 )
     {
         ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
-        xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
+        xMaximumPossibleSuppressedTicks = port_MAX_24_BIT_संख्या / ulTimerCountsForOneTick;
         ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
     }
-    #endif /* configUSE_TICKLESS_IDLE */
+    #पूर्ण_अगर /* configUSE_TICKLESS_IDLE */
 
     /* Stop and reset the SysTick. */
     portNVIC_SYSTICK_CTRL_REG = 0UL;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    port_NVIC_SYSTICK_CURRENT_मूल्य_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
     portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
@@ -322,15 +322,15 @@ __weak void vPortSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#अगर ( configUSE_TICKLESS_IDLE == 1 )
 
-    __weak void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    __weak व्योम vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
+        uint32_t ul_Reload_मूल्य, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ul_Sys_Tick_Decrements_बायाँ;
         TickType_t xModifiableIdleTime;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        अगर( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
         {
             xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
         }
@@ -343,13 +343,13 @@ __weak void vPortSetupTimerInterrupt( void )
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        अगर( eTaskConfirmSleepModeStatus() == eAbortSleep )
         {
             /* Re-enable interrupts - see comments above the __disable_interrupt()
              * call above. */
             __enable_interrupt();
         }
-        else
+        अन्यथा
         {
             /* Stop the SysTick momentarily.  The time the SysTick is stopped for
              * is accounted for as best it can be, but using the tickless mode will
@@ -362,11 +362,11 @@ __weak void vPortSetupTimerInterrupt( void )
              * current-value register is zero, then there are actually
              * ulTimerCountsForOneTick decrements remaining, not zero, because the
              * SysTick requests the interrupt when decrementing from 1 to 0. */
-            ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            ul_Sys_Tick_Decrements_बायाँ = port_NVIC_SYSTICK_CURRENT_मूल्य_REG;
 
-            if( ulSysTickDecrementsLeft == 0 )
+            अगर( ul_Sys_Tick_Decrements_बायाँ == 0 )
             {
-                ulSysTickDecrementsLeft = ulTimerCountsForOneTick;
+                ul_Sys_Tick_Decrements_बायाँ = ulTimerCountsForOneTick;
             }
 
             /* Calculate the reload value required to wait xExpectedIdleTime
@@ -375,25 +375,25 @@ __weak void vPortSetupTimerInterrupt( void )
              * pending, then clear the IRQ, suppressing the first tick, and correct
              * the reload value to reflect that the second tick period is already
              * underway.  The expected idle time is always at least two ticks. */
-            ulReloadValue = ulSysTickDecrementsLeft + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+            ul_Reload_मूल्य = ul_Sys_Tick_Decrements_बायाँ + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
 
-            if( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
+            अगर( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
             {
                 portNVIC_INT_CTRL_REG = portNVIC_PEND_SYSTICK_CLEAR_BIT;
-                ulReloadValue -= ulTimerCountsForOneTick;
+                ul_Reload_मूल्य -= ulTimerCountsForOneTick;
             }
 
-            if( ulReloadValue > ulStoppedTimerCompensation )
+            अगर( ul_Reload_मूल्य > ulStoppedTimerCompensation )
             {
-                ulReloadValue -= ulStoppedTimerCompensation;
+                ul_Reload_मूल्य -= ulStoppedTimerCompensation;
             }
 
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            portNVIC_SYSTICK_LOAD_REG = ul_Reload_मूल्य;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            port_NVIC_SYSTICK_CURRENT_मूल्य_REG = 0UL;
 
             /* Restart SysTick. */
             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
@@ -406,7 +406,7 @@ __weak void vPortSetupTimerInterrupt( void )
             xModifiableIdleTime = xExpectedIdleTime;
             configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
 
-            if( xModifiableIdleTime > 0 )
+            अगर( xModifiableIdleTime > 0 )
             {
                 __DSB();
                 __WFI();
@@ -440,57 +440,57 @@ __weak void vPortSetupTimerInterrupt( void )
             portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
 
             /* Determine whether the SysTick has already counted to zero. */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            अगर( ( portNVIC_SYSTICK_CTRL_REG & port_NVIC_SYSTICK_गिनती_FLAG_BIT ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_Load_मूल्य;
 
                 /* The tick interrupt ended the sleep (or is now pending), and
                  * a new tick period has started.  Reset portNVIC_SYSTICK_LOAD_REG
                  * with whatever remains of the new tick period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_Load_मूल्य = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_मूल्य - port_NVIC_SYSTICK_CURRENT_मूल्य_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long or because the SysTick current-value register
                  * is zero. */
-                if( ( ulCalculatedLoadValue <= ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                अगर( ( ul_Calculated_Load_मूल्य <= ulStoppedTimerCompensation ) || ( ul_Calculated_Load_मूल्य > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_Load_मूल्य = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                portNVIC_SYSTICK_LOAD_REG = ul_Calculated_Load_मूल्य;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
                  * forward by one less than the time spent waiting. */
                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
             }
-            else
+            अन्यथा
             {
                 /* Something other than the tick interrupt ended the sleep. */
 
                 /* Use the SysTick current-value register to determine the
                  * number of SysTick decrements remaining until the expected idle
                  * time would have ended. */
-                ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-                #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
+                ul_Sys_Tick_Decrements_बायाँ = port_NVIC_SYSTICK_CURRENT_मूल्य_REG;
+                #अगर ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
                 {
                     /* If the SysTick is not using the core clock, the current-
                      * value register might still be zero here.  In that case, the
                      * SysTick didn't load from the reload register, and there are
                      * ulReloadValue decrements remaining in the expected idle
                      * time, not zero. */
-                    if( ulSysTickDecrementsLeft == 0 )
+                    अगर( ul_Sys_Tick_Decrements_बायाँ == 0 )
                     {
-                        ulSysTickDecrementsLeft = ulReloadValue;
+                        ul_Sys_Tick_Decrements_बायाँ = ul_Reload_मूल्य;
                     }
                 }
-                #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+                #पूर्ण_अगर /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
                 /* Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ulSysTickDecrementsLeft;
+                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ul_Sys_Tick_Decrements_बायाँ;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -508,29 +508,29 @@ __weak void vPortSetupTimerInterrupt( void )
              * from portNVIC_SYSTICK_LOAD_REG immediately instead of at the next
              * cycle of the other clock.  Then portNVIC_SYSTICK_LOAD_REG is ready
              * to receive the standard value immediately. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            port_NVIC_SYSTICK_CURRENT_मूल्य_REG = 0UL;
             portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-            #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
+            #अगर ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
             {
                 portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
             }
-            #else
+            #अन्यथा
             {
                 /* The temporary usage of the core clock has served its purpose,
                  * as described above.  Resume usage of the other clock. */
                 portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
 
-                if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+                अगर( ( portNVIC_SYSTICK_CTRL_REG & port_NVIC_SYSTICK_गिनती_FLAG_BIT ) != 0 )
                 {
                     /* The partial tick period already ended.  Be sure the SysTick
                      * counts it only once. */
-                    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0;
+                    port_NVIC_SYSTICK_CURRENT_मूल्य_REG = 0;
                 }
 
                 portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
                 portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
             }
-            #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+            #पूर्ण_अगर /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
             /* Step the tick to account for any tick periods that elapsed. */
             vTaskStepTick( ulCompleteTickPeriods );
@@ -540,4 +540,4 @@ __weak void vPortSetupTimerInterrupt( void )
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#पूर्ण_अगर /* configUSE_TICKLESS_IDLE */

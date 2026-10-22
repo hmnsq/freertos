@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+    बाह्य "C" {
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -49,35 +49,35 @@
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M33"
-#define portHAS_ARMV8M_MAIN_EXTENSION    1
-#define portARMV8M_MINOR_VERSION         0
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            1
+#घोषणा portARCH_NAME                    "Cortex-M33"
+#घोषणा portHAS_ARMV8M_MAIN_EXTENSION    1
+#घोषणा portARMV8M_MINOR_VERSION         0
+#घोषणा portDONT_DISCARD                 __attribute__( ( used ) )
+#घोषणा portVALIDATED_FOR_SMP            1
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#समावेश "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#ifndef configENABLE_MVE
-    #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M33.
-#endif
+#अगर_अघोषित configENABLE_MVE
+    #घोषणा configENABLE_MVE    0
+#या_अगर ( configENABLE_MVE != 0 )
+    #त्रुटि configENABLE_MVE must be बायाँ undefined, or defined to 0 क्रम the Cortex-M33.
+#पूर्ण_अगर
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
+#घोषणा portDISABLE_INTERRUPTS()    ulSetInterruptMask()
+#घोषणा portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
     }
-#endif
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */

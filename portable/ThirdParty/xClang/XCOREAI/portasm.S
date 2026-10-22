@@ -18,7 +18,7 @@ kexcept:
                         /* provides graceful exception handling */
 
 _yield:
- {set    sp,     r4                  /* Restore the task's SP to save the rest of its context. */
+ {set    sp,     r4                  /* Restore the task's ढस to save the rest of its context. */
   get    r11,    id}                 /* Get the logical core ID into r11. */
   ldaw   r0,     dp[rtos_core_map]
   ldw    r0,     r0[r11]             /* Translate to the RTOS core ID into r0 */
@@ -59,7 +59,7 @@ rtos_interrupt_callback_common:
   /* DP and CP need to be saved because these are restored for the kernel ISR. */
   /* LR needs to be saved because it is clobbered when calling the callback. */
   /* r0-r3, and r11 need to be saved because the callback may clobber them. */
-  /* r4 is saved because it is used here to hold the task SP. */
+  /* r4 is saved because it is used here to hold the task ढस. */
 
   stw    dp,     sp[5]
   stw    cp,     sp[6]
@@ -74,7 +74,7 @@ rtos_interrupt_callback_common:
   ldaw   r4,     sp[0]}  /* Get value of current stackpointer into r4. */
 
  {kentsp 0               /* switch to the kernel stack. */
-                         /* The value 0 is safe to use since we don't need the SP */
+                         /* The value 0 is safe to use since we don't need the ढस */
                          /* that it saves to KSP[0]. We already have it in r4. */
 
   get    r11,    ed}     /* Get the event data... */
@@ -83,7 +83,7 @@ rtos_interrupt_callback_common:
  {mov    r0,     r11     /* ...into the first argument for the callback function, */
   bla    r1}             /* and call the callback function. */
 
- {set    sp,     r4      /* Restore the task's SP now. */
+ {set    sp,     r4      /* Restore the task's ढस now. */
 
   get    r11,    id}                           /* Get the logical core ID into r11. */
   ldaw   r0,     dp[rtos_core_map]
@@ -122,7 +122,7 @@ _yield_continue:
 #endif
   ldw    r5,     dp[xcorePvtTCBContainer]
   ldw    r1,     r5[r0]            /* Get this core's current TCB pointer into r1. */
-  stw    r4,     r1[0x0]           /* Save the current task's SP to the first */
+  stw    r4,     r1[0x0]           /* Save the current task's ढस to the first */
                                    /* word (top of stack) in the current TCB. */
 
  {kentsp 0                         /* switch back to the kernel stack. */
@@ -132,7 +132,7 @@ _yield_continue:
   bla    r11             /* Finally call vTaskSwitchContext(core_id) now that the task's */
                          /* entire context is saved. Note the core id in r0 is the argument. */
 
-//krestsp 0              /* unnecessary since KSP is already set and the SP */
+//krestsp 0              /* unnecessary since KSP is already set and the ढस */
                          /* is being restored next from the current TCB. */
 
 .globl _freertos_restore_ctx

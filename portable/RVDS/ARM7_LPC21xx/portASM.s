@@ -26,7 +26,7 @@
 ; *
 ; */
 
-    INCLUDE portmacro.inc
+    समावेश portmacro.inc
 
     IMPORT  vTaskSwitchContext
     IMPORT  xTaskIncrementTick
@@ -37,9 +37,9 @@
     EXPORT  vPortYield
 
 
-VICVECTADDR EQU 0xFFFFF030
-T0IR        EQU 0xE0004000
-T0MATCHBIT  EQU 0x00000001
+VICVECTADDR सम 0xFFFFF030
+T0IR        सम 0xE0004000
+T0MATCHBIT  सम 0x00000001
 
     ARM
     AREA    PORT_ASM, CODE, READONLY
@@ -78,13 +78,13 @@ vPortYieldProcessor
     ; Within an IRQ ISR the link register has an offset from the true return
     ; address, but an SWI ISR does not.  Add the offset manually so the same
     ; ISR return code can be used in both cases.
-    ADD LR, LR, #4
+    जमा LR, LR, #4
 
     ; Perform the context switch.
     portSAVE_CONTEXT                    ; Save current task context
     LDR R0, =vTaskSwitchContext         ; Get the address of the context switch function
-    MOV LR, PC                          ; Store the return address
-    BX  R0                              ; Call the contedxt switch function
+    डालो LR, PC                          ; Store the return address
+    खक्ष  R0                              ; Call the contedxt switch function
     portRESTORE_CONTEXT                 ; restore the context of the selected task
 
 
@@ -103,22 +103,22 @@ vPreemptiveTick
     portSAVE_CONTEXT                    ; Save the context of the current task.
 
     LDR R0, =xTaskIncrementTick         ; Increment the tick count.
-    MOV LR, PC                          ; This may make a delayed task ready
-    BX R0                               ; to run.
+    डालो LR, PC                          ; This may make a delayed task ready
+    खक्ष R0                               ; to run.
 
-    CMP R0, #0
+    भेद R0, #0
     BEQ SkipContextSwitch
     LDR R0, =vTaskSwitchContext         ; Find the highest priority task that
-    MOV LR, PC                          ; is ready to run.
-    BX R0
+    डालो LR, PC                          ; is ready to run.
+    खक्ष R0
 SkipContextSwitch
-    MOV R0, #T0MATCHBIT                 ; Clear the timer event
+    डालो R0, #T0MATCHBIT                 ; Clear the timer event
     LDR R1, =T0IR
-    STR R0, [R1]
+    रक्रिर R0, [R1]
 
     LDR R0, =VICVECTADDR                ; Acknowledge the interrupt
-    STR R0,[R0]
+    रक्रिर R0,[R0]
 
     portRESTORE_CONTEXT                 ; Restore the context of the highest
                                         ; priority task that is ready to run.
-    END
+    पूर्ण

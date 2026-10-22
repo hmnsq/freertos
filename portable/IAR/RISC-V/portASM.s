@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  *
  * CARE MUST BE TAKEN TO INCLDUE THE CORRECT
  * freertos_risc_v_chip_specific_extensions.h HEADER FILE FOR THE CHIP
- * IN USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
+ * अंदर USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
  * header file ensure the path to the correct header file is in the assembler's
  * include path.
  *
@@ -85,12 +85,12 @@ definitions. */
 #define CSR_MEPC            0x341
 #define CSR_MCAUSE          0x342
 
-    PUBLIC xPortStartFirstTask
-    PUBLIC pxPortInitialiseStack
-    PUBLIC freertos_risc_v_trap_handler
-    PUBLIC freertos_risc_v_exception_handler
-    PUBLIC freertos_risc_v_interrupt_handler
-    PUBLIC freertos_risc_v_mtimer_interrupt_handler
+    सार्व xPortStartFirstTask
+    सार्व px_Port_Initialise_ढेर
+    सार्व freertos_risc_v_trap_handler
+    सार्व freertos_risc_v_exception_handler
+    सार्व freertos_risc_v_interrupt_handler
+    सार्व freertos_risc_v_mtimer_interrupt_handler
 
     EXTERN vTaskSwitchContext
     EXTERN xTaskIncrementTick
@@ -106,7 +106,7 @@ definitions. */
     SECTION `.text`:CODE:NOROOT(2)
     CODE
 
-portUPDATE_MTIMER_COMPARE_REGISTER MACRO
+portUPDATE_MTIMER_COMPARE_REGISTER सक्रिया
     load_x a0, pullMachineTimerCompareRegister  /* Load address of compare register into a0. */
     load_x a1, pullNextTime                     /* Load the address of ullNextTime into a1. */
 
@@ -138,14 +138,14 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
         sd t4, 0(a1)                /* Store ullNextTime. */
 
     #endif /* __riscv_xlen == 64 */
-    ENDM
+    पूर्ण_सक्रिया
 /*-----------------------------------------------------------*/
 
 /*
- * Unlike other ports pxPortInitialiseStack() is written in assembly code as it
+ * Unlike other ports px_Port_Initialise_ढेर() is written in assembly code as it
  * needs access to the portasmADDITIONAL_CONTEXT_SIZE constant.  The prototype
  * for the function is as per the other ports:
- * StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
+ * StackType_t *px_Port_Initialise_ढेर( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
  *
  * As per the standard RISC-V ABI pxTopOfStack is passed in in a0, pxCode in
  * a1, and pvParameters in a2.  The new top of stack is passed out in a0.
@@ -204,7 +204,7 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
  * [chip specific registers go here]
  * pxCode
  */
-pxPortInitialiseStack:
+px_Port_Initialise_ढेर:
     csrr t0, CSR_MSTATUS                /* Obtain current mstatus value. */
     andi t0, t0, ~0x8                   /* Ensure interrupts are disabled when the stack is restored within an ISR.  Required when a task is created after the schedulre has been started, otherwise interrupts would be disabled anyway. */
     addi t1, x0, 0x188                  /* Generate the value 0x1880, which are the MPIE and MPP bits to set in mstatus. */

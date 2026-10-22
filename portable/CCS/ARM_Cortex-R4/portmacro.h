@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef __PORTMACRO_H__
-#define __PORTMACRO_H__
+#अगर_अघोषित __PORTMACRO_H__
+#घोषणा __PORTMACRO_H__
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,80 +40,80 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#घोषणा portCHAR        अक्षर
+#घोषणा portFLOAT       भग्न
+#घोषणा portDOUBLE      द्विगुन
+#घोषणा portLONG        दीर्घ
+#घोषणा portSHORT       लघु
+#घोषणा port_ढेर_TYPE  uint32_t
+#घोषणा portBASE_TYPE   दीर्घ
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+प्रकार port_ढेर_TYPE ढेर_Type_t;
+प्रकार दीर्घ BaseType_t;
+प्रकार अचिन्हित दीर्घ UBaseType_t;
 
-#if (configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS)
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY (TickType_t) 0xFFFF
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY (TickType_t) 0xFFFFFFFFF
+#अगर (configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS)
+    प्रकार uint16_t TickType_t;
+    #घोषणा portMAX_DELAY (TickType_t) 0xFFFF
+#या_अगर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकार uint32_t TickType_t;
+    #घोषणा portMAX_DELAY (TickType_t) 0xFFFFFFFFF
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC 1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #घोषणा portTICK_TYPE_IS_ATOMIC 1
+#अन्यथा
+    #त्रुटि configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
+#पूर्ण_अगर
 
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH    (-1)
-#define portTICK_PERIOD_MS    ((TickType_t) 1000 / configTICK_RATE_HZ)
-#define portBYTE_ALIGNMENT  8
+#घोषणा port_ढेर_GROWTH    (-1)
+#घोषणा portTICK_PERIOD_MS    ((TickType_t) 1000 / configTICK_RATE_HZ)
+#घोषणा portBYTE_ALIGNMENT  8
 
 /* Critical section handling. */
-extern void vPortEnterCritical(void);
-extern void vPortExitCritical(void);
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    asm( " CPSID I" )
-#define portENABLE_INTERRUPTS()     asm( " CPSIE I" )
+बाह्य व्योम vPortEnterCritical(व्योम);
+बाह्य व्योम vPortExitCritical(व्योम);
+#घोषणा portENTER_CRITICAL()        vPortEnterCritical()
+#घोषणा portEXIT_CRITICAL()         vPortExitCritical()
+#घोषणा portDISABLE_INTERRUPTS()    यंत्र( " CPSID I" )
+#घोषणा portENABLE_INTERRUPTS()     यंत्र( " CPSIE I" )
 
 /* Scheduler utilities. */
-#pragma SWI_ALIAS( vPortYield, 0 )
-extern void vPortYield( void );
-#define portYIELD()                 vPortYield()
-#define portSYS_SSIR1_REG           ( * ( ( volatile uint32_t * ) 0xFFFFFFB0 ) )
-#define portSYS_SSIR1_SSKEY         ( 0x7500UL )
-#define portYIELD_WITHIN_API()      { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  asm( " DSB " ); asm( " ISB " ); }
-#define portYIELD_FROM_ISR( x )     do { if( x != pdFALSE ) { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  ( void ) portSYS_SSIR1_REG; } } while( 0 )
+#आशय SWI_ALIAS( vPortYield, 0 )
+बाह्य व्योम vPortYield( व्योम );
+#घोषणा portYIELD()                 vPortYield()
+#घोषणा portSYS_SSIR1_REG           ( * ( ( अस्थिर uint32_t * ) 0xFFFFFFB0 ) )
+#घोषणा portSYS_SSIR1_SSKEY         ( 0x7500UL )
+#घोषणा portYIELD_WITHIN_API()      { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  यंत्र( " DSB " ); यंत्र( " ISB " ); }
+#घोषणा portYIELD_FROM_ISR( x )     करो { अगर( x != pdFALSE ) { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  ( व्योम ) portSYS_SSIR1_REG; } } जबतक( 0 )
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
-#endif
+#अगर_अघोषित configUSE_PORT_OPTIMISED_TASK_SELECTION
+    #घोषणा configUSE_PORT_OPTIMISED_TASK_SELECTION 1
+#पूर्ण_अगर
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#अगर configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #अगर( configMAX_PRIORITIES > 32 )
+        #त्रुटि configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a प्रणाली requires more than 10 to 15 difference priorities as tasks that share a priority will समय slice.
+    #पूर्ण_अगर
 
     /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #घोषणा portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
+    #घोषणा portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
 
     /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31 - __clz( ( uxReadyPriorities ) ) )
+    #घोषणा portGET_HIGHEST_PRIORITY( ux_शीर्ष_Priority, uxReadyPriorities ) ux_शीर्ष_Priority = ( 31 - __clz( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#पूर्ण_अगर /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION(vFunction, pvParameters)       void vFunction(void *pvParameters)
-#define portTASK_FUNCTION_PROTO(vFunction, pvParameters) void vFunction(void *pvParameters)
+#घोषणा portTASK_FUNCTION(vFunction, pvParameters)       व्योम vFunction(व्योम *pvParameters)
+#घोषणा portTASK_FUNCTION_PROTO(vFunction, pvParameters) व्योम vFunction(व्योम *pvParameters)
 
-#endif /* __PORTMACRO_H__ */
+#पूर्ण_अगर /* __PORTMACRO_H__ */

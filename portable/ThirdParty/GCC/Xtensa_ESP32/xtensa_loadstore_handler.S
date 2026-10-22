@@ -43,7 +43,7 @@
 #define LOADSTORE_HANDLER_STACK_SZ      8
     .section .bss, "aw"
     .balign 16
-LoadStoreHandlerStack:
+Load_Store_Handler_ढेर:
     .rept LOADSTORE_HANDLER_STACK_SZ
     .word 0
     .endr
@@ -66,13 +66,13 @@ LoadStoreErrorHandler:
 
     wsr     a0, depc                            // Save return address in depc
     mov     a0, sp
-    movi    sp, LoadStoreHandlerStack
+    movi    sp, Load_Store_Handler_ढेर
     s32i    a0, sp, 0x04                        // Since a0 contains value of a1
     s32i    a2, sp, 0x08
     s32i    a3, sp, 0x0c
     s32i    a4, sp, 0x10
 
-    rsr     a0, sar                             // Save SAR in a0 to restore later
+    rsr     a0, sar                             // Save हगद in a0 to restore later
 
     /* Check whether the address lies in the valid range */
     rsr     a3, excvaddr
@@ -260,13 +260,13 @@ AlignmentErrorHandler:
 
     wsr     a0, depc                            // Save return address in depc
     mov     a0, sp
-    movi    sp, LoadStoreHandlerStack
+    movi    sp, Load_Store_Handler_ढेर
     s32i    a0, sp, 0x04                        // Since a0 contains value of a1
     s32i    a2, sp, 0x08
     s32i    a3, sp, 0x0c
     s32i    a4, sp, 0x10
 
-    rsr     a0, sar                             // Save SAR in a0 to restore later
+    rsr     a0, sar                             // Save हगद in a0 to restore later
 
     /* Check whether the address lies in the valid range */
     rsr     a3, excvaddr

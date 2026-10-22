@@ -26,15 +26,15 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
-#include <intrinsics.h>
+#समावेश <intrinsics.h>
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+    बाह्य "C" {
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -48,50 +48,50 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#घोषणा portCHAR          अक्षर
+#घोषणा portFLOAT         भग्न
+#घोषणा portDOUBLE        द्विगुन
+#घोषणा portLONG          दीर्घ
+#घोषणा portSHORT         लघु
+#घोषणा port_ढेर_TYPE    uint32_t
+#घोषणा portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकार port_ढेर_TYPE   ढेर_Type_t;
+प्रकार दीर्घ             BaseType_t;
+प्रकार अचिन्हित दीर्घ    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+प्रकार uint32_t         TickType_t;
+#घोषणा portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-#define portTICK_TYPE_IS_ATOMIC    1
+#घोषणा portTICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
+#घोषणा port_ढेर_GROWTH      ( -1 )
+#घोषणा portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#घोषणा portBYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired )      \
+#घोषणा portEND_SWITCHING_ISR( xSwitchRequired )      \
     {                                                 \
-        extern volatile uint32_t ulPortYieldRequired; \
+        बाह्य अस्थिर uint32_t ulPortYieldRequired; \
                                                       \
-        if( xSwitchRequired != pdFALSE )              \
+        अगर( xSwitchRequired != pdFALSE )              \
         {                                             \
             ulPortYieldRequired = pdTRUE;             \
         }                                             \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#define portYIELD()                 \
-    __asm volatile ( "SWI 0     \n" \
+#घोषणा portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+#घोषणा portYIELD()                 \
+    __asm अस्थिर ( "SWI 0     \n" \
                      "ISB         " );
 
 
@@ -99,89 +99,89 @@ typedef uint32_t         TickType_t;
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
-extern void vPortInstallFreeRTOSVectorTable( void );
+बाह्य व्योम vPortEnterCritical( व्योम );
+बाह्य व्योम vPortExitCritical( व्योम );
+बाह्य uint32_t ulPortSetInterruptMask( व्योम );
+बाह्य व्योम vPortClearInterruptMask( uint32_t ul_New_Mask_मूल्य );
+बाह्य व्योम vPortInstallFreeRTOSVectorTable( व्योम );
 
 /* The I bit within the CPSR. */
-#define portINTERRUPT_ENABLE_BIT    ( 1 << 7 )
+#घोषणा portINTERRUPT_ENABLE_BIT    ( 1 << 7 )
 
 /* In the absence of a priority mask register, these functions and macros
  * globally enable and disable interrupts. */
-#define portENTER_CRITICAL()       vPortEnterCritical();
-#define portEXIT_CRITICAL()        vPortExitCritical();
-#define portENABLE_INTERRUPTS()    __asm volatile ( "CPSIE i   \n" );
-#define portDISABLE_INTERRUPTS()    \
-    __asm volatile ( "CPSID i   \n" \
+#घोषणा portENTER_CRITICAL()       vPortEnterCritical();
+#घोषणा portEXIT_CRITICAL()        vPortExitCritical();
+#घोषणा portENABLE_INTERRUPTS()    __asm अस्थिर ( "CPSIE i   \n" );
+#घोषणा portDISABLE_INTERRUPTS()    \
+    __asm अस्थिर ( "CPSID i   \n" \
                      "DSB       \n" \
                      "ISB         " );
-#pragma inline
-static inline uint32_t portINLINE_SET_INTERRUPT_MASK_FROM_ISR( void )
+#आशय अंतरभूत
+अटल अंतरभूत uint32_t portINLINE_SET_INTERRUPT_MASK_FROM_ISR( व्योम )
 {
-    volatile uint32_t ulCPSR;
+    अस्थिर uint32_t ulCPSR;
 
-    __asm volatile ( "MRS %0, CPSR" : "=r" ( ulCPSR ) );
+    __asm अस्थिर ( "MRS %0, CPSR" : "=r" ( ulCPSR ) );
 
     ulCPSR &= portINTERRUPT_ENABLE_BIT;
     portDISABLE_INTERRUPTS();
-    return ulCPSR;
+    वापस ulCPSR;
 }
 
-#define portSET_INTERRUPT_MASK_FROM_ISR()         portINLINE_SET_INTERRUPT_MASK_FROM_ISR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    do { if( x == 0 ) portENABLE_INTERRUPTS( ); } while( 0 )
+#घोषणा portSET_INTERRUPT_MASK_FROM_ISR()         portINLINE_SET_INTERRUPT_MASK_FROM_ISR()
+#घोषणा portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    करो { अगर( x == 0 ) portENABLE_INTERRUPTS( ); } जबतक( 0 )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#घोषणा portTASK_FUNCTION_PROTO( vFunction, pvParameters )    व्योम vFunction( व्योम * pvParameters )
+#घोषणा portTASK_FUNCTION( vFunction, pvParameters )          व्योम vFunction( व्योम * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+व्योम FreeRTOS_Tick_Handler( व्योम );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-void vPortTaskUsesFPU( void );
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+व्योम vPortTaskUsesFPU( व्योम );
+#घोषणा portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#घोषणा portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
+#घोषणा portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#अगर_अघोषित configUSE_PORT_OPTIMISED_TASK_SELECTION
+    #घोषणा configUSE_PORT_OPTIMISED_TASK_SELECTION    1
+#पूर्ण_अगर
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#अगर configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #घोषणा portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
+    #घोषणा portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __CLZ( uxReadyPriorities ) )
+    #घोषणा portGET_HIGHEST_PRIORITY( ux_शीर्ष_Priority, uxReadyPriorities )    ux_शीर्ष_Priority = ( 31UL - ( uint32_t ) __CLZ( uxReadyPriorities ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#पूर्ण_अगर /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()    __asm volatile ( "NOP" )
-#define portINLINE    inline
+#घोषणा portNOP()    __asm अस्थिर ( "NOP" )
+#घोषणा portINLINE    अंतरभूत
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be fixed in
  * the source code because to do so would cause other compilers to generate
  * warnings. */
-#pragma diag_suppress=Pe191
-#pragma diag_suppress=Pa082
+#आशय diag_suppress=Pe191
+#आशय diag_suppress=Pa082
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
     }
-#endif
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */

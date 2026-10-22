@@ -39,38 +39,38 @@
 *******************************************************************************/
 
 
-#ifdef XT_BOARD
-    #include "xtensa/xtbsp.h"
-#endif
+#अगर_घोषित XT_BOARD
+    #समावेश "xtensa/xtbsp.h"
+#पूर्ण_अगर
 
-#include "xtensa_rtos.h"
-#include "sdkconfig.h"
-#include "esp_idf_version.h"
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #include    "esp_clk.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32
-        #include "esp32/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/clk.h"
-    #endif
-#endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+#समावेश "xtensa_rtos.h"
+#समावेश "sdkconfig.h"
+#समावेश "esp_idf_version.h"
+#अगर ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #समावेश    "esp_clk.h"
+#अन्यथा
+    #अगर CONFIG_IDF_TARGET_ESP32
+        #समावेश "esp32/clk.h"
+    #या_अगर CONFIG_IDF_TARGET_ESP32S2
+        #समावेश "esp32s2/clk.h"
+    #या_अगर CONFIG_IDF_TARGET_ESP32S3
+        #समावेश "esp32s3/clk.h"
+    #पूर्ण_अगर
+#पूर्ण_अगर /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
-#ifdef XT_RTOS_TIMER_INT
+#अगर_घोषित XT_RTOS_TIMER_INT
 
-    unsigned _xt_tick_divisor = 0; /* cached number of cycles per tick */
+    अचिन्हित xt_tick_भाजक = 0; /* cached number of cycles per tick */
 
-    void _xt_tick_divisor_init( void )
+    व्योम xt_tick_भाजक_init( व्योम )
     {
-        _xt_tick_divisor = esp_clk_cpu_freq() / XT_TICK_PER_SEC;
+        xt_tick_भाजक = esp_clk_cpu_freq() / XT_TICK_PER_SEC;
     }
 
 /* Deprecated, to be removed */
-    int xt_clock_freq( void )
+    पूर्णांक xt_clock_freq( व्योम )
     {
-        return esp_clk_cpu_freq();
+        वापस esp_clk_cpu_freq();
     }
 
-#endif /* XT_RTOS_TIMER_INT */
+#पूर्ण_अगर /* XT_RTOS_TIMER_INT */

@@ -26,23 +26,23 @@
  *
  */
 
-#include <stdlib.h>
-#include "porthardware.h"
-#include "FreeRTOS.h"
-#include "task.h"
+#समावेश <stdlib.h>
+#समावेश "porthardware.h"
+#समावेश "FreeRTOS.h"
+#समावेश "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the AVR port.
 *----------------------------------------------------------*/
 
 /* Start tasks with interrupts enables. */
-#define portFLAGS_INT_ENABLED    ( ( StackType_t ) 0x80 )
+#घोषणा portFLAGS_INT_ENABLED    ( ( ढेर_Type_t ) 0x80 )
 
 /*-----------------------------------------------------------*/
 
 
-#define portBYTES_USED_BY_RETURN_ADDRESS    2
-#define portNO_CRITICAL_NESTING             ( ( UBaseType_t ) 0 )
+#घोषणा portBYTES_USED_BY_RETURN_ADDRESS    2
+#घोषणा portNO_CRITICAL_NESTING             ( ( UBaseType_t ) 0 )
 
 /* Stores the critical section nesting.  This must not be initialised to 0.
  * It will be initialised when a task starts. */
@@ -51,26 +51,26 @@ UBaseType_t uxCriticalNesting = 0x50;
 /*
  * Setup timer to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+अटल व्योम prvSetupTimerInterrupt( व्योम );
 
 /*
  * The IAR compiler does not have full support for inline assembler, so
  * these are defined in the portmacro assembler file.
  */
-extern void vPortYieldFromTick( void );
-extern void vPortStart( void );
+बाह्य व्योम vPortYieldFromTick( व्योम );
+बाह्य व्योम vPortStart( व्योम );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ढेर_Type_t * px_Port_Initialise_ढेर( ढेर_Type_t * px_शीर्ष_Of_ढेर,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     व्योम * pvParameters )
 {
     uint16_t usAddress;
-    StackType_t * pxTopOfHardwareStack;
+    ढेर_Type_t * px_शीर्ष_Of_Hardware_ढेर;
 
     /* Simulate how the stack would look after a call to vPortYield(). */
 
@@ -99,124 +99,124 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Remember where the top of the hardware stack is - this is required
      * below. */
-    pxTopOfHardwareStack = pxTopOfStack;
+    px_शीर्ष_Of_Hardware_ढेर = px_शीर्ष_Of_ढेर;
 
     usAddress = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_शीर्ष_Of_ढेर--;
 
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_शीर्ष_Of_ढेर--;
 
     /* Leave enough space for the hardware stack before starting the software
      * stack.  The '- 2' is because we have already used two spaces for the
      * address of the start of the task. */
-    pxTopOfStack -= ( configCALL_STACK_SIZE - 2 );
+    px_शीर्ष_Of_ढेर -= ( config_CALL_ढेर_आकार - 2 );
 
     /* Next simulate the stack as if after a call to portSAVE_CONTEXT().
      *  portSAVE_CONTEXT places the flags on the stack immediately after r0
      *  to ensure the interrupts get disabled as soon as possible, and so ensuring
      *  the stack use is minimal should a context switch interrupt occur. */
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x00; /* R0 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = portFLAGS_INT_ENABLED;
+    px_शीर्ष_Of_ढेर--;
 
     /* Next place the address of the hardware stack.  This is required so
      * the AVR stack pointer can be restored to point to the hardware stack. */
-    pxTopOfHardwareStack -= portBYTES_USED_BY_RETURN_ADDRESS;
-    usAddress = ( uint16_t ) pxTopOfHardwareStack;
+    px_शीर्ष_Of_Hardware_ढेर -= portBYTES_USED_BY_RETURN_ADDRESS;
+    usAddress = ( uint16_t ) px_शीर्ष_Of_Hardware_ढेर;
 
     /* SPL */
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_शीर्ष_Of_ढेर--;
 
     /* SPH */
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_शीर्ष_Of_ढेर--;
 
     /* Now the remaining registers. */
-    *pxTopOfStack = ( StackType_t ) 0x01; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02; /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03; /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04; /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05; /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06; /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07; /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08; /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09; /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10; /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11; /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12; /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x13; /* R13 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x14; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x15; /* R15 */
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x01; /* R1 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x02; /* R2 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x03; /* R3 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x04; /* R4 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x05; /* R5 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x06; /* R6 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x07; /* R7 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x08; /* R8 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x09; /* R9 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x10; /* R10 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x11; /* R11 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x12; /* R12 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x13; /* R13 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x14; /* R14 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x15; /* R15 */
+    px_शीर्ष_Of_ढेर--;
 
     /* Place the parameter on the stack in the expected location. */
     usAddress = ( uint16_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_शीर्ष_Of_ढेर--;
 
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_शीर्ष_Of_ढेर--;
 
-    *pxTopOfStack = ( StackType_t ) 0x18; /* R18 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x19; /* R19 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x20; /* R20 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x21; /* R21 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x22; /* R22 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x23; /* R23 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x24; /* R24 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x25; /* R25 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x26; /* R26 X */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x27; /* R27 */
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x18; /* R18 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x19; /* R19 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x20; /* R20 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x21; /* R21 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x22; /* R22 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x23; /* R23 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x24; /* R24 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x25; /* R25 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x26; /* R26 X */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x27; /* R27 */
+    px_शीर्ष_Of_ढेर--;
 
     /* The Y register is not stored as it is used as the software stack and
      * gets saved into the task control block. */
 
-    *pxTopOfStack = ( StackType_t ) 0x30;  /* R30 Z */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x031; /* R31 */
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x30;  /* R30 Z */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x031; /* R31 */
 
-    pxTopOfStack--;
-    *pxTopOfStack = portNO_CRITICAL_NESTING; /* Critical nesting is zero when the task starts. */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = portNO_CRITICAL_NESTING; /* Critical nesting is zero when the task starts. */
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    वापस px_शीर्ष_Of_ढेर;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( व्योम )
 {
     /* Setup the hardware to generate the tick. */
     prvSetupTimerInterrupt();
@@ -227,11 +227,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here. */
-    return pdTRUE;
+    वापस pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+व्योम vPortEndScheduler( व्योम )
 {
     /* vPortEndScheduler is not implemented in this port. */
 }
@@ -241,14 +241,14 @@ void vPortEndScheduler( void )
 /*
  * Setup timer to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+अटल व्योम prvSetupTimerInterrupt( व्योम )
 {
     TICK_init();
 }
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#अगर configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a naked attribute as
@@ -256,12 +256,12 @@ static void prvSetupTimerInterrupt( void )
  * count is incremented after the context is saved.
  */
 
-    __task void TICK_INT( void )
+    __task व्योम TICK_INT( व्योम )
     {
         vPortYieldFromTick();
-        asm ( "reti" );
+        यंत्र ( "reti" );
     }
-#else
+#अन्यथा
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -269,18 +269,18 @@ static void prvSetupTimerInterrupt( void )
  * manual calls to taskYIELD();
  */
 
-    __interrupt void TICK_INT( void )
+    __interrupt व्योम TICK_INT( व्योम )
     {
         /* Clear tick interrupt flag. */
         INT_FLAGS = INT_MASK;
 
         xTaskIncrementTick();
     }
-#endif /* if configUSE_PREEMPTION == 1 */
+#पूर्ण_अगर /* if configUSE_PREEMPTION == 1 */
 
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+व्योम vPortEnterCritical( व्योम )
 {
     portDISABLE_INTERRUPTS();
     uxCriticalNesting++;
@@ -288,11 +288,11 @@ void vPortEnterCritical( void )
 
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+व्योम vPortExitCritical( व्योम )
 {
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == portNO_CRITICAL_NESTING )
+    अगर( uxCriticalNesting == portNO_CRITICAL_NESTING )
     {
         portENABLE_INTERRUPTS();
     }

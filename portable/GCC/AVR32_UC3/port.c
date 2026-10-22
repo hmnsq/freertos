@@ -71,38 +71,38 @@
  */
 
 /* Standard includes. */
-#include <sys/cpu.h>
-#include <sys/usart.h>
-#include <malloc.h>
+#समावेश <sys/cpu.h>
+#समावेश <sys/usart.h>
+#समावेश <malloc.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#समावेश "FreeRTOS.h"
+#समावेश "task.h"
 
 /* AVR32 UC3 includes. */
-#include <avr32/io.h>
-#include "gpio.h"
-#if ( configTICK_USE_TC == 1 )
-    #include "tc.h"
-#endif
+#समावेश <avr32/io.h>
+#समावेश "gpio.h"
+#अगर ( configTICK_USE_TC == 1 )
+    #समावेश "tc.h"
+#पूर्ण_अगर
 
 
 /* Constants required to setup the task context. */
-#define portINITIAL_SR             ( ( StackType_t ) 0x00400000 ) /* AVR32 : [M2:M0]=001 I1M=0 I0M=0, GM=0 */
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 0 )
+#घोषणा portINITIAL_SR             ( ( ढेर_Type_t ) 0x00400000 ) /* AVR32 : [M2:M0]=001 I1M=0 I0M=0, GM=0 */
+#घोषणा port_INSTRUCTION_आकार       ( ( ढेर_Type_t ) 0 )
 
 /* Each task maintains its own critical nesting variable. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+#घोषणा portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+अस्थिर uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configTICK_USE_TC == 0 )
-    static void prvScheduleNextTick( void );
-#else
-    static void prvClearTcInt( void );
-#endif
+#अगर ( configTICK_USE_TC == 0 )
+    अटल व्योम prv_Schedule_अग्र_Tick( व्योम );
+#अन्यथा
+    अटल व्योम prvClearTcInt( व्योम );
+#पूर्ण_अगर
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+अटल व्योम prvSetupTimerInterrupt( व्योम );
 
 /*-----------------------------------------------------------*/
 
@@ -114,19 +114,19 @@ static void prvSetupTimerInterrupt( void );
  * vectors are not compatible with the SCALL management in the current FreeRTOS
  * port. More low-level initializations are besides added here.
  */
-void _init_startup( void )
+व्योम _init_startup( व्योम )
 {
     /* Import the Exception Vector Base Address. */
-    extern void _evba;
+    बाह्य व्योम _evba;
 
-    #if configHEAP_INIT
-        extern void __heap_start__;
-        extern void __heap_end__;
+    #अगर configHEAP_INIT
+        बाह्य व्योम __heap_start__;
+        बाह्य व्योम __heap_end__;
         BaseType_t * pxMem;
-    #endif
+    #पूर्ण_अगर
 
     /* Load the Exception Vector Base Address in the corresponding system register. */
-    Set_system_register( AVR32_EVBA, ( int ) &_evba );
+    Set_system_register( AVR32_EVBA, ( पूर्णांक ) &_evba );
 
     /* Enable exceptions. */
     ENABLE_ALL_EXCEPTIONS();
@@ -134,33 +134,33 @@ void _init_startup( void )
     /* Initialize interrupt handling. */
     INTC_init_interrupts();
 
-    #if configHEAP_INIT
+    #अगर configHEAP_INIT
         /* Initialize the heap used by malloc. */
-        for( pxMem = &__heap_start__; pxMem < ( BaseType_t * ) &__heap_end__; )
+        क्रम( pxMem = &__heap_start__; pxMem < ( BaseType_t * ) &__heap_end__; )
         {
             *pxMem++ = 0xA5A5A5A5;
         }
-    #endif
+    #पूर्ण_अगर
 
     /* Give the used CPU clock frequency to Newlib, so it can work properly. */
     set_cpu_hz( configCPU_CLOCK_HZ );
 
     /* Code section present if and only if the debug trace is activated. */
-    #if configDBG
+    #अगर configDBG
     {
-        static const gpio_map_t DBG_USART_GPIO_MAP =
+        अटल स्थिर gpio_map_t DBG_USART_GPIO_MAP =
         {
             { configDBG_USART_RX_PIN, configDBG_USART_RX_FUNCTION },
             { configDBG_USART_TX_PIN, configDBG_USART_TX_FUNCTION }
         };
 
         /* Initialize the USART used for the debug trace with the configured parameters. */
-        set_usart_base( ( void * ) configDBG_USART );
+        set_usart_base( ( व्योम * ) configDBG_USART );
         gpio_enable_module( DBG_USART_GPIO_MAP,
-                            sizeof( DBG_USART_GPIO_MAP ) / sizeof( DBG_USART_GPIO_MAP[ 0 ] ) );
+                            माप( DBG_USART_GPIO_MAP ) / माप( DBG_USART_GPIO_MAP[ 0 ] ) );
         usart_init( configDBG_USART_BAUDRATE );
     }
-    #endif /* if configDBG */
+    #पूर्ण_अगर /* if configDBG */
 }
 /*-----------------------------------------------------------*/
 
@@ -183,7 +183,7 @@ void _init_startup( void )
  * safe section as memory allocation management uses global data.
  * See the aforementioned details.
  */
-void __malloc_lock( struct _reent * ptr )
+व्योम __malloc_lock( काष्ठा _reent * ptr )
 {
     vTaskSuspendAll();
 }
@@ -193,25 +193,25 @@ void __malloc_lock( struct _reent * ptr )
  * a safe section as memory allocation management uses global data.
  * See the aforementioned details.
  */
-void __malloc_unlock( struct _reent * ptr )
+व्योम __malloc_unlock( काष्ठा _reent * ptr )
 {
     xTaskResumeAll();
 }
 /*-----------------------------------------------------------*/
 
 /* Added as there is no such function in FreeRTOS. */
-void * pvPortRealloc( void * pv,
-                      size_t xWantedSize )
+व्योम * pvPortRealloc( व्योम * pv,
+                      माप_प्रकार x_Wanted_आकार )
 {
-    void * pvReturn;
+    व्योम * pvReturn;
 
     vTaskSuspendAll();
     {
-        pvReturn = realloc( pv, xWantedSize );
+        pvReturn = पुनः_स्मृति( pv, x_Wanted_आकार );
     }
     xTaskResumeAll();
 
-    return pvReturn;
+    वापस pvReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -220,20 +220,20 @@ void * pvPortRealloc( void * pv,
 
 /* The preemptive scheduler is defined as "naked" as the full context is saved
  * on entry as part of the context switch. */
-__attribute__( ( __naked__ ) ) static void vTick( void )
+__attribute__( ( __naked__ ) ) अटल व्योम vTick( व्योम )
 {
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT_OS_INT();
 
-    #if ( configTICK_USE_TC == 1 )
+    #अगर ( configTICK_USE_TC == 1 )
         /* Clear the interrupt flag. */
         prvClearTcInt();
-    #else
+    #अन्यथा
 
         /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
          * clock cycles from now. */
-        prvScheduleNextTick();
-    #endif
+        prv_Schedule_अग्र_Tick();
+    #पूर्ण_अगर
 
     /* Because FreeRTOS is not supposed to run with nested interrupts, put all OS
      * calls in a critical section . */
@@ -246,7 +246,7 @@ __attribute__( ( __naked__ ) ) static void vTick( void )
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( __naked__ ) ) void SCALLYield( void )
+__attribute__( ( __naked__ ) ) व्योम SCALLYield( व्योम )
 {
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT_SCALL();
@@ -259,7 +259,7 @@ __attribute__( ( __naked__ ) ) void SCALLYield( void )
  * different optimisation levels.  The interrupt flags can therefore not always
  * be saved to the stack.  Instead the critical section nesting level is stored
  * in a variable, which is then saved as part of the stack context. */
-__attribute__( ( __noinline__ ) ) void vPortEnterCritical( void )
+__attribute__( ( __noinline__ ) ) व्योम vPortEnterCritical( व्योम )
 {
     /* Disable interrupts */
     portDISABLE_INTERRUPTS();
@@ -271,13 +271,13 @@ __attribute__( ( __noinline__ ) ) void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( __noinline__ ) ) void vPortExitCritical( void )
+__attribute__( ( __noinline__ ) ) व्योम vPortExitCritical( व्योम )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    अगर( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        अगर( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable all interrupt/exception. */
             portENABLE_INTERRUPTS();
@@ -292,38 +292,38 @@ __attribute__( ( __noinline__ ) ) void vPortExitCritical( void )
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ढेर_Type_t * px_Port_Initialise_ढेर( ढेर_Type_t * px_शीर्ष_Of_ढेर,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     व्योम * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
 
     /* When the task starts, it will expect to find the function parameter in R12. */
-    pxTopOfStack--;
-    *pxTopOfStack-- = ( StackType_t ) 0x08080808;                    /* R8 */
-    *pxTopOfStack-- = ( StackType_t ) 0x09090909;                    /* R9 */
-    *pxTopOfStack-- = ( StackType_t ) 0x0A0A0A0A;                    /* R10 */
-    *pxTopOfStack-- = ( StackType_t ) 0x0B0B0B0B;                    /* R11 */
-    *pxTopOfStack-- = ( StackType_t ) pvParameters;                  /* R12 */
-    *pxTopOfStack-- = ( StackType_t ) 0xDEADBEEF;                    /* R14/LR */
-    *pxTopOfStack-- = ( StackType_t ) pxCode + portINSTRUCTION_SIZE; /* R15/PC */
-    *pxTopOfStack-- = ( StackType_t ) portINITIAL_SR;                /* SR */
-    *pxTopOfStack-- = ( StackType_t ) 0xFF0000FF;                    /* R0 */
-    *pxTopOfStack-- = ( StackType_t ) 0x01010101;                    /* R1 */
-    *pxTopOfStack-- = ( StackType_t ) 0x02020202;                    /* R2 */
-    *pxTopOfStack-- = ( StackType_t ) 0x03030303;                    /* R3 */
-    *pxTopOfStack-- = ( StackType_t ) 0x04040404;                    /* R4 */
-    *pxTopOfStack-- = ( StackType_t ) 0x05050505;                    /* R5 */
-    *pxTopOfStack-- = ( StackType_t ) 0x06060606;                    /* R6 */
-    *pxTopOfStack-- = ( StackType_t ) 0x07070707;                    /* R7 */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x08080808;                    /* R8 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x09090909;                    /* R9 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x0A0A0A0A;                    /* R10 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x0B0B0B0B;                    /* R11 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) pvParameters;                  /* R12 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0xDEADBEEF;                    /* R14/LR */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) pxCode + port_INSTRUCTION_आकार; /* R15/PC */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) portINITIAL_SR;                /* SR */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0xFF0000FF;                    /* R0 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x01010101;                    /* R1 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x02020202;                    /* R2 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x03030303;                    /* R3 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x04040404;                    /* R4 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x05050505;                    /* R5 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x06060606;                    /* R6 */
+    *px_शीर्ष_Of_ढेर-- = ( ढेर_Type_t ) 0x07070707;                    /* R7 */
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
 
-    return pxTopOfStack;
+    वापस px_शीर्ष_Of_ढेर;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( व्योम )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -333,11 +333,11 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here! */
-    return 0;
+    वापस 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+व्योम vPortEndScheduler( व्योम )
 {
     /* It is unlikely that the AVR32 port will require this function as there
      * is nothing to return to.  */
@@ -346,17 +346,17 @@ void vPortEndScheduler( void )
 
 /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
  * clock cycles from now. */
-#if ( configTICK_USE_TC == 0 )
-    static void prvScheduleFirstTick( void )
+#अगर ( configTICK_USE_TC == 0 )
+    अटल व्योम prvScheduleFirstTick( व्योम )
     {
         uint32_t lCycles;
 
-        lCycles = Get_system_register( AVR32_COUNT );
+        lCycles = Get_system_register( AVR32_गिनती );
         lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        अगर( 0 == lCycles )
         {
             lCycles++;
         }
@@ -364,42 +364,42 @@ void vPortEndScheduler( void )
         Set_system_register( AVR32_COMPARE, lCycles );
     }
 
-    __attribute__( ( __noinline__ ) ) static void prvScheduleNextTick( void )
+    __attribute__( ( __noinline__ ) ) अटल व्योम prv_Schedule_अग्र_Tick( व्योम )
     {
-        uint32_t lCycles, lCount;
+        uint32_t lCycles, l_गिनती;
 
         lCycles = Get_system_register( AVR32_COMPARE );
         lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        अगर( 0 == lCycles )
         {
             lCycles++;
         }
 
-        lCount = Get_system_register( AVR32_COUNT );
+        l_गिनती = Get_system_register( AVR32_गिनती );
 
-        if( lCycles < lCount )
+        अगर( lCycles < l_गिनती )
         { /* We missed a tick, recover for the next. */
             lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
         }
 
         Set_system_register( AVR32_COMPARE, lCycles );
     }
-#else /* if ( configTICK_USE_TC == 0 ) */
-    __attribute__( ( __noinline__ ) ) static void prvClearTcInt( void )
+#अन्यथा /* if ( configTICK_USE_TC == 0 ) */
+    __attribute__( ( __noinline__ ) ) अटल व्योम prvClearTcInt( व्योम )
     {
         AVR32_TC.channel[ configTICK_TC_CHANNEL ].sr;
     }
-#endif /* if ( configTICK_USE_TC == 0 ) */
+#पूर्ण_अगर /* if ( configTICK_USE_TC == 0 ) */
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void )
+अटल व्योम prvSetupTimerInterrupt( व्योम )
 {
-    #if ( configTICK_USE_TC == 1 )
-        volatile avr32_tc_t * tc = &AVR32_TC;
+    #अगर ( configTICK_USE_TC == 1 )
+        अस्थिर avr32_tc_t * tc = &AVR32_TC;
 
         /* Options for waveform generation. */
         tc_waveform_opt_t waveform_opt =
@@ -439,7 +439,7 @@ static void prvSetupTimerInterrupt( void )
             .lovrs = 0,
             .covfs = 0,
         };
-    #endif /* if ( configTICK_USE_TC == 1 ) */
+    #पूर्ण_अगर /* if ( configTICK_USE_TC == 1 ) */
 
     /* Disable all interrupt/exception. */
     portDISABLE_INTERRUPTS();
@@ -447,7 +447,7 @@ static void prvSetupTimerInterrupt( void )
     /* Register the compare interrupt handler to the interrupt controller and
      * enable the compare interrupt. */
 
-    #if ( configTICK_USE_TC == 1 )
+    #अगर ( configTICK_USE_TC == 1 )
     {
         INTC_register_interrupt( &vTick, configTICK_TC_IRQ, INT0 );
 
@@ -464,10 +464,10 @@ static void prvSetupTimerInterrupt( void )
         /* Start the timer/counter. */
         tc_start( tc, configTICK_TC_CHANNEL );
     }
-    #else /* if ( configTICK_USE_TC == 1 ) */
+    #अन्यथा /* if ( configTICK_USE_TC == 1 ) */
     {
         INTC_register_interrupt( &vTick, AVR32_CORE_COMPARE_IRQ, INT0 );
         prvScheduleFirstTick();
     }
-    #endif /* if ( configTICK_USE_TC == 1 ) */
+    #पूर्ण_अगर /* if ( configTICK_USE_TC == 1 ) */
 }

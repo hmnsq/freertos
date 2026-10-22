@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+    बाह्य "C" {
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,27 +46,27 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#घोषणा portCHAR          अक्षर
+#घोषणा portFLOAT         भग्न
+#घोषणा portDOUBLE        द्विगुन
+#घोषणा portLONG          दीर्घ
+#घोषणा portSHORT         लघु
+#घोषणा port_ढेर_TYPE    uint32_t
+#घोषणा portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकार port_ढेर_TYPE   ढेर_Type_t;
+प्रकार दीर्घ             BaseType_t;
+प्रकार अचिन्हित दीर्घ    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
+प्रकार uint32_t         TickType_t;
+#घोषणा portMAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    32
+#घोषणा port_ढेर_GROWTH      ( -1 )
+#घोषणा portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#घोषणा portBYTE_ALIGNMENT    32
 
 /*-----------------------------------------------------------*/
 
@@ -77,144 +77,144 @@ typedef uint32_t         TickType_t;
  * and 15 is the highest.  Therefore the following two interrupts are at the lowest
  * priority.  *NOTE 1* If the yield vector is changed then it must also be changed
  * in the portYIELD_INTERRUPT definition immediately below. */
-#define portAPIC_TIMER_INT_VECTOR       ( 0x21 )
-#define portAPIC_YIELD_INT_VECTOR       ( 0x20 )
+#घोषणा portAPIC_TIMER_INT_VECTOR       ( 0x21 )
+#घोषणा portAPIC_YIELD_INT_VECTOR       ( 0x20 )
 
 /* Build yield interrupt instruction. */
-#define portYIELD_INTERRUPT             "int $0x20"
+#घोषणा portYIELD_INTERRUPT             "int $0x20"
 
 /* APIC register addresses. */
-#define portAPIC_EOI                    ( *( ( volatile uint32_t * ) 0xFEE000B0UL ) )
+#घोषणा portAPIC_EOI                    ( *( ( अस्थिर uint32_t * ) 0xFEE000B0UL ) )
 
 /* APIC bit definitions. */
-#define portAPIC_ENABLE_BIT             ( 1UL << 8UL )
-#define portAPIC_TIMER_PERIODIC         ( 1UL << 17UL )
-#define portAPIC_DISABLE                ( 1UL << 16UL )
-#define portAPIC_NMI                    ( 4 << 8 )
-#define portAPIC_DIV_16                 ( 0x03 )
+#घोषणा portAPIC_ENABLE_BIT             ( 1UL << 8UL )
+#घोषणा portAPIC_TIMER_PERIODIC         ( 1UL << 17UL )
+#घोषणा portAPIC_DISABLE                ( 1UL << 16UL )
+#घोषणा portAPIC_NMI                    ( 4 << 8 )
+#घोषणा portAPIC_DIV_16                 ( 0x03 )
 
 /* Define local API register addresses. */
-#define portAPIC_ID_REGISTER            ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
-#define portAPIC_SPURIOUS_INT           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
-#define portAPIC_LVT_TIMER              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
-#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
-#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
-#define portAPIC_TASK_PRIORITY          ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
-#define portAPIC_LVT_ERROR              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
-#define portAPIC_ERROR_STATUS           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
-#define portAPIC_LDR                    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
-#define portAPIC_TMRDIV                 ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
-#define portAPIC_LVT_PERF               ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
-#define portAPIC_LVT_LINT0              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
-#define portAPIC_LVT_LINT1              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
+#घोषणा portAPIC_ID_REGISTER            ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
+#घोषणा portAPIC_SPURIOUS_INT           ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
+#घोषणा portAPIC_LVT_TIMER              ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
+#घोषणा port_APIC_TIMER_INITIAL_गिनती    ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
+#घोषणा port_APIC_TIMER_CURRENT_गिनती    ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
+#घोषणा portAPIC_TASK_PRIORITY          ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
+#घोषणा portAPIC_LVT_ERROR              ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
+#घोषणा portAPIC_ERROR_STATUS           ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
+#घोषणा portAPIC_LDR                    ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
+#घोषणा portAPIC_TMRDIV                 ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
+#घोषणा portAPIC_LVT_PERF               ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
+#घोषणा portAPIC_LVT_LINT0              ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
+#घोषणा portAPIC_LVT_LINT1              ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
 
 /* Don't yield if inside a critical section - instead hold the yield pending
  * so it is performed when the critical section is exited. */
-#define portYIELD()                                  \
+#घोषणा portYIELD()                                  \
     {                                                \
-        extern volatile uint32_t ulCriticalNesting;  \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( ulCriticalNesting != 0 )                 \
+        बाह्य अस्थिर uint32_t ulCriticalNesting;  \
+        बाह्य अस्थिर uint32_t ulPortYieldPending; \
+        अगर( ulCriticalNesting != 0 )                 \
         {                                            \
             ulPortYieldPending = pdTRUE;             \
         }                                            \
-        else                                         \
+        अन्यथा                                         \
         {                                            \
-            __asm volatile ( portYIELD_INTERRUPT );  \
+            __asm अस्थिर ( portYIELD_INTERRUPT );  \
         }                                            \
     }
 
 /* Called at the end of an ISR that can cause a context switch - pend a yield if
  * xSwitchRequired is not false. */
-#define portEND_SWITCHING_ISR( xSwitchRequired )     \
+#घोषणा portEND_SWITCHING_ISR( xSwitchRequired )     \
     {                                                \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( xSwitchRequired != pdFALSE )             \
+        बाह्य अस्थिर uint32_t ulPortYieldPending; \
+        अगर( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldPending = 1;                  \
         }                                            \
     }
 
 /* Same as portEND_SWITCHING_ISR() - take your pick which name to use. */
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+#घोषणा portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
 /* Critical sections for use in interrupts. */
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#घोषणा portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
+#घोषणा portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+बाह्य व्योम vPortEnterCritical( व्योम );
+बाह्य व्योम vPortExitCritical( व्योम );
+बाह्य uint32_t ulPortSetInterruptMask( व्योम );
+बाह्य व्योम vPortClearInterruptMask( uint32_t ul_New_Mask_मूल्य );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    __asm volatile ( "cli" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( "sti" )
+#घोषणा portENTER_CRITICAL()        vPortEnterCritical()
+#घोषणा portEXIT_CRITICAL()         vPortExitCritical()
+#घोषणा portDISABLE_INTERRUPTS()    __asm अस्थिर ( "cli" )
+#घोषणा portENABLE_INTERRUPTS()     __asm अस्थिर ( "sti" )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#घोषणा portTASK_FUNCTION_PROTO( vFunction, pvParameters )    व्योम vFunction( व्योम * pvParameters )
+#घोषणा portTASK_FUNCTION( vFunction, pvParameters )          व्योम vFunction( व्योम * pvParameters )
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#अगर configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    __asm volatile ( "bsr %1, %0\n\t"                                    \
-                     : "=r" ( uxTopPriority ) : "rm" ( uxReadyPriorities ) : "cc" )
+    #घोषणा portGET_HIGHEST_PRIORITY( ux_शीर्ष_Priority, uxReadyPriorities ) \
+    __asm अस्थिर ( "bsr %1, %0\n\t"                                    \
+                     : "=r" ( ux_शीर्ष_Priority ) : "rm" ( uxReadyPriorities ) : "cc" )
 
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #घोषणा portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
+    #घोषणा portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#पूर्ण_अगर /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()    __asm volatile ( "NOP" )
+#घोषणा portNOP()    __asm अस्थिर ( "NOP" )
 
 /*-----------------------------------------------------------
 * Misc
 *----------------------------------------------------------*/
 
-#define portNUM_VECTORS     256
-#define portMAX_PRIORITY    15
-typedef void ( * ISR_Handler_t ) ( void );
+#घोषणा port_अंक_VECTORS     256
+#घोषणा portMAX_PRIORITY    15
+प्रकार व्योम ( * ISR_Handler_t ) ( व्योम );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-#ifndef configSUPPORT_FPU
-    #define configSUPPORT_FPU    0
-#endif
+#अगर_अघोषित configSUPPORT_FPU
+    #घोषणा configSUPPORT_FPU    0
+#पूर्ण_अगर
 
-#if configSUPPORT_FPU == 1
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
-#endif
+#अगर configSUPPORT_FPU == 1
+    व्योम vPortTaskUsesFPU( व्योम );
+    #घोषणा portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+#पूर्ण_अगर
 
 /* See the comments under the configUSE_COMMON_INTERRUPT_ENTRY_POINT definition
  * below. */
 BaseType_t xPortRegisterCInterruptHandler( ISR_Handler_t pxHandler,
-                                           uint32_t ulVectorNumber );
+                                           uint32_t ul_Vector_संख्या );
 BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
-                                         uint32_t ulVectorNumber );
+                                         uint32_t ul_Vector_संख्या );
 
-#ifndef configAPIC_BASE
+#अगर_अघोषित configAPIC_BASE
 
 /* configAPIC_BASE_ADDRESS sets the base address of the local APIC.  It can
  * be overridden in FreeRTOSConfig.h should it not be constant. */
-    #define configAPIC_BASE    0xFEE00000UL
-#endif
+    #घोषणा configAPIC_BASE    0xFEE00000UL
+#पूर्ण_अगर
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+#अगर_अघोषित configUSE_PORT_OPTIMISED_TASK_SELECTION
 
 /* The FreeRTOS scheduling algorithm selects the task that will enter the
  * Running state.  configUSE_PORT_OPTIMISED_TASK_SELECTION is used to set how
@@ -231,10 +231,10 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * task priorities to 32 (the same task priority can be assigned to any number
  * of RTOS tasks). */
     #warning configUSE_PORT_OPTIMISED_TASK_SELECTION was not defined in FreeRTOSConfig.h and has been defaulted to 1
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+    #घोषणा configUSE_PORT_OPTIMISED_TASK_SELECTION    1
+#पूर्ण_अगर
 
-#ifndef configUSE_COMMON_INTERRUPT_ENTRY_POINT
+#अगर_अघोषित configUSE_COMMON_INTERRUPT_ENTRY_POINT
 
 /* There are two ways of implementing interrupt handlers:
  *
@@ -253,10 +253,10 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  *  This method can always be used.  It is slightly more complex than
  *  method 1 but benefits from a faster interrupt entry time. */
     #warning configUSE_COMMON_INTERRUPT_ENTRY_POINT was not defined in FreeRTOSConfig.h and has been defaulted to 1.
-    #define configUSE_COMMON_INTERRUPT_ENTRY_POINT    1
-#endif
+    #घोषणा configUSE_COMMON_INTERRUPT_ENTRY_POINT    1
+#पूर्ण_अगर
 
-#ifndef configISR_STACK_SIZE
+#अगर_अघोषित config_ISR_ढेर_आकार
 
 /* Interrupt entry code will switch the stack in use to a dedicated system
  * stack.
@@ -265,38 +265,38 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * on the system stack, and must be large enough to hold a potentially nested
  * interrupt stack frame. */
 
-    #error configISR_STACK_SIZE was not defined in FreeRTOSConfig.h.
-#endif
+    #त्रुटि config_ISR_ढेर_आकार was not defined in FreeRTOSConfig.h.
+#पूर्ण_अगर
 
-#ifndef configMAX_API_CALL_INTERRUPT_PRIORITY
+#अगर_अघोषित configMAX_API_CALL_INTERRUPT_PRIORITY
 
 /* Interrupt safe FreeRTOS functions (those that end in "FromISR" must not
  * be called from an interrupt that has a priority above that set by
  * configMAX_API_CALL_INTERRUPT_PRIORITY.  */
     #warning configMAX_API_CALL_INTERRUPT_PRIORITY was not defined in FreeRTOSConfig.h and has been defaulted to 10
-    #define configMAX_API_CALL_INTERRUPT_PRIORITY    10
-#endif
+    #घोषणा configMAX_API_CALL_INTERRUPT_PRIORITY    10
+#पूर्ण_अगर
 
-#ifndef configSUPPORT_FPU
+#अगर_अघोषित configSUPPORT_FPU
     #warning configSUPPORT_FPU was not defined in FreeRTOSConfig.h and has been defaulted to 0
-    #define configSUPPORT_FPU    0
-#endif
+    #घोषणा configSUPPORT_FPU    0
+#पूर्ण_अगर
 
 /* The value written to the task priority register to raise the interrupt mask
  * to the maximum from which FreeRTOS API calls can be made. */
-#define portAPIC_PRIORITY_SHIFT        ( 4UL )
-#define portAPIC_MAX_SUB_PRIORITY      ( 0x0fUL )
-#define portMAX_API_CALL_PRIORITY      ( ( configMAX_API_CALL_INTERRUPT_PRIORITY << portAPIC_PRIORITY_SHIFT ) | portAPIC_MAX_SUB_PRIORITY )
+#घोषणा portAPIC_PRIORITY_SHIFT        ( 4UL )
+#घोषणा portAPIC_MAX_SUB_PRIORITY      ( 0x0fUL )
+#घोषणा portMAX_API_CALL_PRIORITY      ( ( configMAX_API_CALL_INTERRUPT_PRIORITY << portAPIC_PRIORITY_SHIFT ) | portAPIC_MAX_SUB_PRIORITY )
 
 /* Asserts if interrupt safe FreeRTOS functions are called from a priority
  * above the max system call interrupt priority. */
-#define portAPIC_PROCESSOR_PRIORITY    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
-#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( portAPIC_PROCESSOR_PRIORITY ) <= ( portMAX_API_CALL_PRIORITY ) )
+#घोषणा portAPIC_PROCESSOR_PRIORITY    ( *( ( अस्थिर uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
+#घोषणा portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( portAPIC_PROCESSOR_PRIORITY ) <= ( portMAX_API_CALL_PRIORITY ) )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
     }
-#endif
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */

@@ -39,30 +39,30 @@ Changes from V2.6.1
 */
 
 
-#include <dos.h>
-#include <stdlib.h>
-#include "FreeRTOS.h"
+#समावेश <dos.h>
+#समावेश <stdlib.h>
+#समावेश "FreeRTOS.h"
 
 /*-----------------------------------------------------------*/
 
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ढेर_Type_t *px_Port_Initialise_ढेर( ढेर_Type_t *px_शीर्ष_Of_ढेर, TaskFunction_t pxCode, व्योम *pvParameters )
 {
-StackType_t DS_Reg = 0;
+ढेर_Type_t DS_Reg = 0;
 
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x4444;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x5555;
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = 0x1111;
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = 0x2222;
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = 0x3333;
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = 0x4444;
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = 0x5555;
+    px_शीर्ष_Of_ढेर--;
 
 
     /*lint -e950 -e611 -e923 Lint doesn't like this much - but nothing I can do about it. */
@@ -71,50 +71,50 @@ StackType_t DS_Reg = 0;
     instruction to load the program counter, so first there would be the
     function call with parameters preamble. */
 
-    *pxTopOfStack = FP_SEG( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = FP_SEG( pvParameters );
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = FP_OFF( pvParameters );
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = FP_SEG( pxCode );
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = FP_OFF( pxCode );
+    px_शीर्ष_Of_ढेर--;
 
     /* Next the status register and interrupt return address. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = portINITIAL_SW;
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = FP_SEG( pxCode );
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = FP_OFF( pxCode );
+    px_शीर्ष_Of_ढेर--;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA; /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xAAAA; /* AX */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xBBBB; /* BX */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xCCCC; /* CX */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xDDDD; /* DX */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xEEEE; /* ES */
+    px_शीर्ष_Of_ढेर--;
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
 
-    *pxTopOfStack = DS_Reg;                     /* DS */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
+    *px_शीर्ष_Of_ढेर = DS_Reg;                     /* DS */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x0123; /* SI */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xDDDD; /* DI */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xBBBB; /* BP */
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    वापस px_शीर्ष_Of_ढेर;
 }
 /*-----------------------------------------------------------*/

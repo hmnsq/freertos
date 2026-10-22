@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,42 +40,42 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
+#घोषणा portCHAR        अक्षर
+#घोषणा portFLOAT       भग्न
+#घोषणा portDOUBLE      द्विगुन
+#घोषणा portLONG        दीर्घ
+#घोषणा portSHORT       पूर्णांक
+#घोषणा port_ढेर_TYPE  uint16_t
+#घोषणा portBASE_TYPE   लघु
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+प्रकार port_ढेर_TYPE ढेर_Type_t;
+प्रकार लघु BaseType_t;
+प्रकार अचिन्हित लघु UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#अगर( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकार uint16_t TickType_t;
+    #घोषणा portMAX_DELAY ( TickType_t ) 0xffff
+#या_अगर ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    प्रकार uint32_t             TickType_t;
+    #घोषणा portMAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #त्रुटि configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
+#पूर्ण_अगर
 
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-#define portDISABLE_INTERRUPTS()    _DINT(); _NOP()
-#define portENABLE_INTERRUPTS()     _EINT();
+#घोषणा portDISABLE_INTERRUPTS()    _DINT(); _NOP()
+#घोषणा portENABLE_INTERRUPTS()     _EINT();
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-#define portNO_CRITICAL_SECTION_NESTING     ( ( uint16_t ) 0 )
+#घोषणा portNO_CRITICAL_SECTION_NESTING     ( ( uint16_t ) 0 )
 
-#define portENTER_CRITICAL()                                                    \
+#घोषणा portENTER_CRITICAL()                                                    \
 {                                                                               \
-extern volatile uint16_t usCriticalNesting;                         \
+बाह्य अस्थिर uint16_t usCriticalNesting;                         \
                                                                                 \
     portDISABLE_INTERRUPTS();                                                   \
                                                                                 \
@@ -85,18 +85,18 @@ extern volatile uint16_t usCriticalNesting;                         \
     usCriticalNesting++;                                                        \
 }
 
-#define portEXIT_CRITICAL()                                                     \
+#घोषणा portEXIT_CRITICAL()                                                     \
 {                                                                               \
-extern volatile uint16_t usCriticalNesting;                         \
+बाह्य अस्थिर uint16_t usCriticalNesting;                         \
                                                                                 \
-    if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+    अगर( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
     {                                                                           \
         /* Decrement the nesting count as we are leaving a critical section. */ \
         usCriticalNesting--;                                                    \
                                                                                 \
         /* If the nesting level has reached zero then interrupts should be */   \
         /* re-enabled. */                                                       \
-        if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+        अगर( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
         {                                                                       \
             portENABLE_INTERRUPTS();                                            \
         }                                                                       \
@@ -109,26 +109,26 @@ extern volatile uint16_t usCriticalNesting;                         \
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-extern void vPortYield( void );
-#define portYIELD() vPortYield()
+बाह्य व्योम vPortYield( व्योम );
+#घोषणा portYIELD() vPortYield()
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          2
-#define portSTACK_GROWTH            ( -1 )
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()
+#घोषणा portBYTE_ALIGNMENT          2
+#घोषणा port_ढेर_GROWTH            ( -1 )
+#घोषणा portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#घोषणा portNOP()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters ) __toplevel
+#घोषणा portTASK_FUNCTION_PROTO( vFunction, pvParameters ) व्योम vFunction( व्योम *pvParameters )
+#घोषणा portTASK_FUNCTION( vFunction, pvParameters ) व्योम vFunction( व्योम *pvParameters ) __toplevel
 
-#if configINTERRUPT_EXAMPLE_METHOD == 2
+#अगर configINTERRUPT_EXAMPLE_METHOD == 2
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x ) do { if( x ) vTaskSwitchContext(); } while( 0 )
+बाह्य व्योम vTaskSwitchContext( व्योम );
+#घोषणा portYIELD_FROM_ISR( x ) करो { अगर( x ) vTaskSwitchContext(); } जबतक( 0 )
 
-#endif
+#पूर्ण_अगर
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */

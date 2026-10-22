@@ -26,45 +26,45 @@
  *
  */
 
-#ifndef PORTCONTEXT_H
-#define PORTCONTEXT_H
+#अगर_अघोषित PORTCONTEXT_H
+#घोषणा PORTCONTEXT_H
 
-#ifndef configENABLE_FPU
-    #define configENABLE_FPU 0
-#endif
+#अगर_अघोषित configENABLE_FPU
+    #घोषणा configENABLE_FPU 0
+#पूर्ण_अगर
 
-#ifndef configENABLE_VPU
-    #define configENABLE_VPU 0
-#endif
+#अगर_अघोषित configENABLE_VPU
+    #घोषणा configENABLE_VPU 0
+#पूर्ण_अगर
 
-#if __riscv_xlen == 64
-    #define portWORD_SIZE    8
-    #define store_x          sd
-    #define load_x           ld
-#elif __riscv_xlen == 32
-    #define store_x          sw
-    #define load_x           lw
-    #define portWORD_SIZE    4
-#else
-    #error Assembler did not define __riscv_xlen
-#endif
+#अगर __riscv_xlen == 64
+    #घोषणा port_WORD_आकार    8
+    #घोषणा store_x          sd
+    #घोषणा load_x           ld
+#या_अगर __riscv_xlen == 32
+    #घोषणा store_x          sw
+    #घोषणा load_x           lw
+    #घोषणा port_WORD_आकार    4
+#अन्यथा
+    #त्रुटि Assembler did not define __riscv_xlen
+#पूर्ण_अगर
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#समावेश "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
  * portasmRESTORE_ADDITIONAL_REGISTERS macros - which can be defined in a chip
  * specific version of freertos_risc_v_chip_specific_extensions.h.  See the
  * notes at the top of portASM.S file. */
-#ifdef __riscv_32e
-    #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    14
-#else
-    #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    30
-#endif
+#अगर_घोषित __riscv_32e
+    #घोषणा port_CONTEXT_आकार               ( 15 * port_WORD_आकार )
+    #घोषणा portCRITICAL_NESTING_OFFSET    14
+#अन्यथा
+    #घोषणा port_CONTEXT_आकार               ( 31 * port_WORD_आकार )
+    #घोषणा portCRITICAL_NESTING_OFFSET    30
+#पूर्ण_अगर
 
-#if ( configENABLE_FPU == 1 )
+#अगर ( configENABLE_FPU == 1 )
     /* Bit [14:13] in the mstatus encode the status of FPU state which is one of
      * the following values:
      * 1. Value: 0, Meaning: Off.
@@ -72,33 +72,33 @@
      * 3. Value: 2, Meaning: Clean.
      * 4. Value: 3, Meaning: Dirty.
      */
-    #define MSTATUS_FS_MASK                 0x6000
-    #define MSTATUS_FS_INITIAL              0x2000
-    #define MSTATUS_FS_CLEAN                0x4000
-    #define MSTATUS_FS_DIRTY                0x6000
-    #define MSTATUS_FS_OFFSET               13
+    #घोषणा MSTATUS_FS_MASK                 0x6000
+    #घोषणा MSTATUS_FS_INITIAL              0x2000
+    #घोषणा MSTATUS_FS_CLEAN                0x4000
+    #घोषणा MSTATUS_FS_DIRTY                0x6000
+    #घोषणा MSTATUS_FS_OFFSET               13
 
-    #ifdef __riscv_fdiv
-        #if __riscv_flen == 32
-            #define load_f                  flw
-            #define store_f                 fsw
-        #elif __riscv_flen == 64
-            #define load_f                  fld
-            #define store_f                 fsd
-        #else
-            #error Assembler did not define __riscv_flen
-        #endif
+    #अगर_घोषित __riscv_fdiv
+        #अगर __riscv_flen == 32
+            #घोषणा load_f                  flw
+            #घोषणा store_f                 fsw
+        #या_अगर __riscv_flen == 64
+            #घोषणा load_f                  fld
+            #घोषणा store_f                 fsd
+        #अन्यथा
+            #त्रुटि Assembler did not define __riscv_flen
+        #पूर्ण_अगर
 
-        #define portFPU_REG_SIZE                ( __riscv_flen / 8 )
-        #define portFPU_REG_COUNT               33 /* 32 Floating point registers plus one CSR. */
-        #define portFPU_REG_OFFSET( regIndex )  ( ( 2 * portWORD_SIZE ) + ( regIndex * portFPU_REG_SIZE ) )
-        #define portFPU_CONTEXT_SIZE            ( portFPU_REG_SIZE * portFPU_REG_COUNT )
-    #else
-        #error configENABLE_FPU must not be set to 1 if the hardware does not have FPU
-    #endif
-#endif
+        #घोषणा port_FPU_REG_आकार                ( __riscv_flen / 8 )
+        #घोषणा port_FPU_REG_गिनती               33 /* 32 Floating point registers plus one CSR. */
+        #घोषणा portFPU_REG_OFFSET( reg_सूचकांक )  ( ( 2 * port_WORD_आकार ) + ( reg_सूचकांक * port_FPU_REG_आकार ) )
+        #घोषणा port_FPU_CONTEXT_आकार            ( port_FPU_REG_आकार * port_FPU_REG_गिनती )
+    #अन्यथा
+        #त्रुटि configENABLE_FPU must not be set to 1 अगर the hardware does not have FPU
+    #पूर्ण_अगर
+#पूर्ण_अगर
 
-#if ( configENABLE_VPU == 1 )
+#अगर ( configENABLE_VPU == 1 )
     /* Bit [10:9] in the mstatus encode the status of VPU state which is one of
      * the following values:
      * 1. Value: 0, Meaning: Off.
@@ -106,26 +106,26 @@
      * 3. Value: 2, Meaning: Clean.
      * 4. Value: 3, Meaning: Dirty.
      */
-    #define MSTATUS_VS_MASK                 0x600
-    #define MSTATUS_VS_INITIAL              0x200
-    #define MSTATUS_VS_CLEAN                0x400
-    #define MSTATUS_VS_DIRTY                0x600
-    #define MSTATUS_VS_OFFSET               9
+    #घोषणा MSTATUS_VS_MASK                 0x600
+    #घोषणा MSTATUS_VS_INITIAL              0x200
+    #घोषणा MSTATUS_VS_CLEAN                0x400
+    #घोषणा MSTATUS_VS_DIRTY                0x600
+    #घोषणा MSTATUS_VS_OFFSET               9
 
-    #ifndef __riscv_vector
-        #error configENABLE_VPU must not be set to 1 if the hardware does not have VPU
-    #endif
-#endif
+    #अगर_अघोषित __riscv_vector
+        #त्रुटि configENABLE_VPU must not be set to 1 अगर the hardware does not have VPU
+    #पूर्ण_अगर
+#पूर्ण_अगर
 /*-----------------------------------------------------------*/
 
-.extern pxCurrentTCB
-.extern xISRStackTop
-.extern xCriticalNesting
-.extern pxCriticalNesting
+.बाह्य pxCurrentTCB
+.बाह्य x_ISRStack_शीर्ष
+.बाह्य xCriticalNesting
+.बाह्य pxCriticalNesting
 /*-----------------------------------------------------------*/
 
     .macro portcontexSAVE_FPU_CONTEXT
-addi sp, sp, -( portFPU_CONTEXT_SIZE )
+addi sp, sp, -( port_FPU_CONTEXT_आकार )
 /* Store the FPU registers. */
 store_f f0,  portFPU_REG_OFFSET( 0  )( sp )
 store_f f1,  portFPU_REG_OFFSET( 1  )( sp )
@@ -200,13 +200,13 @@ load_f f30, portFPU_REG_OFFSET( 30 )( sp )
 load_f f31, portFPU_REG_OFFSET( 31 )( sp )
 load_x t0,  portFPU_REG_OFFSET( 32 )( sp )
 csrw fcsr, t0
-addi sp, sp, ( portFPU_CONTEXT_SIZE )
+addi sp, sp, ( port_FPU_CONTEXT_आकार )
     .endm
 /*-----------------------------------------------------------*/
 
     .macro portcontexSAVE_VPU_CONTEXT
 /* Un-reserve the space reserved for mstatus and epc. */
-add sp, sp, ( 2 * portWORD_SIZE )
+add sp, sp, ( 2 * port_WORD_आकार )
 
 csrr t0, vlenb /* t0 = vlenb. vlenb is the length of each vector register in bytes. */
 slli t0, t0, 3 /* t0 = vlenb * 8. t0 now contains the space required to store 8 vector registers. */
@@ -223,34 +223,34 @@ add     sp, sp, t0
 vs8r.v  v0, (sp)    /* Store v0-v7. */
 
 /* Store the VPU CSRs. */
-addi    sp, sp, -( 4 * portWORD_SIZE )
+addi    sp, sp, -( 4 * port_WORD_आकार )
 csrr    t0, vstart
-store_x t0, 0 * portWORD_SIZE( sp )
+store_x t0, 0 * port_WORD_आकार( sp )
 csrr    t0, vcsr
-store_x t0, 1 * portWORD_SIZE( sp )
+store_x t0, 1 * port_WORD_आकार( sp )
 csrr    t0, vl
-store_x t0, 2 * portWORD_SIZE( sp )
+store_x t0, 2 * port_WORD_आकार( sp )
 csrr    t0, vtype
-store_x t0, 3 * portWORD_SIZE( sp )
+store_x t0, 3 * port_WORD_आकार( sp )
 
 /* Re-reserve the space for mstatus and epc. */
-add sp, sp, -( 2 * portWORD_SIZE )
+add sp, sp, -( 2 * port_WORD_आकार )
     .endm
 /*-----------------------------------------------------------*/
 
     .macro portcontextRESTORE_VPU_CONTEXT
 /* Un-reserve the space reserved for mstatus and epc. */
-add sp, sp, ( 2 * portWORD_SIZE )
+add sp, sp, ( 2 * port_WORD_आकार )
 
 /* Restore the VPU CSRs. */
-load_x  t0, 0  * portWORD_SIZE( sp )
+load_x  t0, 0  * port_WORD_आकार( sp )
 csrw    vstart, t0
-load_x  t0, 1 * portWORD_SIZE( sp )
+load_x  t0, 1 * port_WORD_आकार( sp )
 csrw    vcsr, t0
-load_x  t0, 2 * portWORD_SIZE( sp )
-load_x  t1, 3 * portWORD_SIZE( sp )
+load_x  t0, 2 * port_WORD_आकार( sp )
+load_x  t1, 3 * port_WORD_आकार( sp )
 vsetvl  x0, t0, t1 /* vlen and vtype can only be updated by using vset*vl* instructions. */
-addi    sp, sp, ( 4 * portWORD_SIZE )
+addi    sp, sp, ( 4 * port_WORD_आकार )
 
 csrr t0, vlenb /* t0 = vlenb. vlenb is the length of each vector register in bytes. */
 slli t0, t0, 3 /* t0 = vlenb * 8. t0 now contains the space required to store 8 vector registers. */
@@ -266,47 +266,47 @@ vl8r.v  v24, (sp)   /* Restore v23-v31. */
 add     sp, sp, t0
 
 /* Re-reserve the space for mstatus and epc. */
-add sp, sp, -( 2 * portWORD_SIZE )
+add sp, sp, -( 2 * port_WORD_आकार )
     .endm
 /*-----------------------------------------------------------*/
 
    .macro portcontextSAVE_CONTEXT_INTERNAL
-addi sp, sp, -portCONTEXT_SIZE
-store_x x1,  2  * portWORD_SIZE( sp )
-store_x x5,  3  * portWORD_SIZE( sp )
-store_x x6,  4  * portWORD_SIZE( sp )
-store_x x7,  5  * portWORD_SIZE( sp )
-store_x x8,  6  * portWORD_SIZE( sp )
-store_x x9,  7  * portWORD_SIZE( sp )
-store_x x10, 8  * portWORD_SIZE( sp )
-store_x x11, 9  * portWORD_SIZE( sp )
-store_x x12, 10 * portWORD_SIZE( sp )
-store_x x13, 11 * portWORD_SIZE( sp )
-store_x x14, 12 * portWORD_SIZE( sp )
-store_x x15, 13 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    store_x x16, 14 * portWORD_SIZE( sp )
-    store_x x17, 15 * portWORD_SIZE( sp )
-    store_x x18, 16 * portWORD_SIZE( sp )
-    store_x x19, 17 * portWORD_SIZE( sp )
-    store_x x20, 18 * portWORD_SIZE( sp )
-    store_x x21, 19 * portWORD_SIZE( sp )
-    store_x x22, 20 * portWORD_SIZE( sp )
-    store_x x23, 21 * portWORD_SIZE( sp )
-    store_x x24, 22 * portWORD_SIZE( sp )
-    store_x x25, 23 * portWORD_SIZE( sp )
-    store_x x26, 24 * portWORD_SIZE( sp )
-    store_x x27, 25 * portWORD_SIZE( sp )
-    store_x x28, 26 * portWORD_SIZE( sp )
-    store_x x29, 27 * portWORD_SIZE( sp )
-    store_x x30, 28 * portWORD_SIZE( sp )
-    store_x x31, 29 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
+addi sp, sp, -port_CONTEXT_आकार
+store_x x1,  2  * port_WORD_आकार( sp )
+store_x x5,  3  * port_WORD_आकार( sp )
+store_x x6,  4  * port_WORD_आकार( sp )
+store_x x7,  5  * port_WORD_आकार( sp )
+store_x x8,  6  * port_WORD_आकार( sp )
+store_x x9,  7  * port_WORD_आकार( sp )
+store_x x10, 8  * port_WORD_आकार( sp )
+store_x x11, 9  * port_WORD_आकार( sp )
+store_x x12, 10 * port_WORD_आकार( sp )
+store_x x13, 11 * port_WORD_आकार( sp )
+store_x x14, 12 * port_WORD_आकार( sp )
+store_x x15, 13 * port_WORD_आकार( sp )
+#अगर_अघोषित __riscv_32e
+    store_x x16, 14 * port_WORD_आकार( sp )
+    store_x x17, 15 * port_WORD_आकार( sp )
+    store_x x18, 16 * port_WORD_आकार( sp )
+    store_x x19, 17 * port_WORD_आकार( sp )
+    store_x x20, 18 * port_WORD_आकार( sp )
+    store_x x21, 19 * port_WORD_आकार( sp )
+    store_x x22, 20 * port_WORD_आकार( sp )
+    store_x x23, 21 * port_WORD_आकार( sp )
+    store_x x24, 22 * port_WORD_आकार( sp )
+    store_x x25, 23 * port_WORD_आकार( sp )
+    store_x x26, 24 * port_WORD_आकार( sp )
+    store_x x27, 25 * port_WORD_आकार( sp )
+    store_x x28, 26 * port_WORD_आकार( sp )
+    store_x x29, 27 * port_WORD_आकार( sp )
+    store_x x30, 28 * port_WORD_आकार( sp )
+    store_x x31, 29 * port_WORD_आकार( sp )
+#पूर्ण_अगर /* ifndef __riscv_32e */
 
 load_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
-store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the critical nesting value to the stack. */
+store_x t0, portCRITICAL_NESTING_OFFSET * port_WORD_आकार( sp ) /* Store the critical nesting value to the stack. */
 
-#if( configENABLE_FPU == 1 )
+#अगर( configENABLE_FPU == 1 )
     csrr t0, mstatus
     srl t1, t0, MSTATUS_FS_OFFSET
     andi t1, t1, 3
@@ -315,9 +315,9 @@ store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the criti
 
     portcontexSAVE_FPU_CONTEXT
 1:
-#endif
+#पूर्ण_अगर
 
-#if( configENABLE_VPU == 1 )
+#अगर( configENABLE_VPU == 1 )
     csrr t0, mstatus
     srl t1, t0, MSTATUS_VS_OFFSET
     andi t1, t1, 3
@@ -326,14 +326,14 @@ store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the criti
 
     portcontexSAVE_VPU_CONTEXT
 2:
-#endif
+#पूर्ण_अगर
 
 csrr t0, mstatus
-store_x t0, 1 * portWORD_SIZE( sp )
+store_x t0, 1 * port_WORD_आकार( sp )
 
 portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_extensions.h to save any registers unique to the RISC-V implementation. */
 
-#if( configENABLE_FPU == 1 )
+#अगर( configENABLE_FPU == 1 )
     /* Mark the FPU as clean, if it was dirty and we saved FPU registers. */
     srl t1, t0, MSTATUS_FS_OFFSET
     andi t1, t1, 3
@@ -346,9 +346,9 @@ portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_ext
     or t0, t0, t1
     csrw mstatus, t0
 3:
-#endif
+#पूर्ण_अगर
 
-#if( configENABLE_VPU == 1 )
+#अगर( configENABLE_VPU == 1 )
     /* Mark the VPU as clean, if it was dirty and we saved VPU registers. */
     srl t1, t0, MSTATUS_VS_OFFSET
     andi t1, t1, 3
@@ -361,7 +361,7 @@ portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_ext
     or t0, t0, t1
     csrw mstatus, t0
 4:
-#endif
+#पूर्ण_अगर
 
 load_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
 store_x sp, 0 ( t0 )             /* Write sp to first TCB member. */
@@ -375,7 +375,7 @@ csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_शीर्ष /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
@@ -384,7 +384,7 @@ portcontextSAVE_CONTEXT_INTERNAL
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_शीर्ष /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
@@ -402,10 +402,10 @@ portasmRESTORE_ADDITIONAL_REGISTERS
 /* Restore mstatus register. It is important to use t3 (and not t0) here as t3
  * is not clobbered by portcontextRESTORE_VPU_CONTEXT and
  * portcontextRESTORE_FPU_CONTEXT. */
-load_x t3, 1 * portWORD_SIZE( sp )
+load_x t3, 1 * port_WORD_आकार( sp )
 csrw mstatus, t3
 
-#if( configENABLE_VPU == 1 )
+#अगर( configENABLE_VPU == 1 )
     srl t1, t3, MSTATUS_VS_OFFSET
     andi t1, t1, 3
     addi t2, x0, 3
@@ -413,9 +413,9 @@ csrw mstatus, t3
 
     portcontextRESTORE_VPU_CONTEXT
 5:
-#endif /* ifdef portasmSTORE_VPU_CONTEXT */
+#पूर्ण_अगर /* ifdef portasmSTORE_VPU_CONTEXT */
 
-#if( configENABLE_FPU == 1 )
+#अगर( configENABLE_FPU == 1 )
     srl t1, t3, MSTATUS_FS_OFFSET
     andi t1, t1, 3
     addi t2, x0, 3
@@ -423,46 +423,46 @@ csrw mstatus, t3
 
     portcontextRESTORE_FPU_CONTEXT
 6:
-#endif /* ifdef portasmSTORE_FPU_CONTEXT */
+#पूर्ण_अगर /* ifdef portasmSTORE_FPU_CONTEXT */
 
-load_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
+load_x t0, portCRITICAL_NESTING_OFFSET * port_WORD_आकार( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
 load_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
 store_x t0, 0 ( t1 )                                         /* Restore the critical nesting value for this task. */
 
-load_x x1,  2  * portWORD_SIZE( sp )
-load_x x5,  3  * portWORD_SIZE( sp )
-load_x x6,  4  * portWORD_SIZE( sp )
-load_x x7,  5  * portWORD_SIZE( sp )
-load_x x8,  6  * portWORD_SIZE( sp )
-load_x x9,  7  * portWORD_SIZE( sp )
-load_x x10, 8  * portWORD_SIZE( sp )
-load_x x11, 9  * portWORD_SIZE( sp )
-load_x x12, 10 * portWORD_SIZE( sp )
-load_x x13, 11 * portWORD_SIZE( sp )
-load_x x14, 12 * portWORD_SIZE( sp )
-load_x x15, 13 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    load_x x16, 14 * portWORD_SIZE( sp )
-    load_x x17, 15 * portWORD_SIZE( sp )
-    load_x x18, 16 * portWORD_SIZE( sp )
-    load_x x19, 17 * portWORD_SIZE( sp )
-    load_x x20, 18 * portWORD_SIZE( sp )
-    load_x x21, 19 * portWORD_SIZE( sp )
-    load_x x22, 20 * portWORD_SIZE( sp )
-    load_x x23, 21 * portWORD_SIZE( sp )
-    load_x x24, 22 * portWORD_SIZE( sp )
-    load_x x25, 23 * portWORD_SIZE( sp )
-    load_x x26, 24 * portWORD_SIZE( sp )
-    load_x x27, 25 * portWORD_SIZE( sp )
-    load_x x28, 26 * portWORD_SIZE( sp )
-    load_x x29, 27 * portWORD_SIZE( sp )
-    load_x x30, 28 * portWORD_SIZE( sp )
-    load_x x31, 29 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
-addi sp, sp, portCONTEXT_SIZE
+load_x x1,  2  * port_WORD_आकार( sp )
+load_x x5,  3  * port_WORD_आकार( sp )
+load_x x6,  4  * port_WORD_आकार( sp )
+load_x x7,  5  * port_WORD_आकार( sp )
+load_x x8,  6  * port_WORD_आकार( sp )
+load_x x9,  7  * port_WORD_आकार( sp )
+load_x x10, 8  * port_WORD_आकार( sp )
+load_x x11, 9  * port_WORD_आकार( sp )
+load_x x12, 10 * port_WORD_आकार( sp )
+load_x x13, 11 * port_WORD_आकार( sp )
+load_x x14, 12 * port_WORD_आकार( sp )
+load_x x15, 13 * port_WORD_आकार( sp )
+#अगर_अघोषित __riscv_32e
+    load_x x16, 14 * port_WORD_आकार( sp )
+    load_x x17, 15 * port_WORD_आकार( sp )
+    load_x x18, 16 * port_WORD_आकार( sp )
+    load_x x19, 17 * port_WORD_आकार( sp )
+    load_x x20, 18 * port_WORD_आकार( sp )
+    load_x x21, 19 * port_WORD_आकार( sp )
+    load_x x22, 20 * port_WORD_आकार( sp )
+    load_x x23, 21 * port_WORD_आकार( sp )
+    load_x x24, 22 * port_WORD_आकार( sp )
+    load_x x25, 23 * port_WORD_आकार( sp )
+    load_x x26, 24 * port_WORD_आकार( sp )
+    load_x x27, 25 * port_WORD_आकार( sp )
+    load_x x28, 26 * port_WORD_आकार( sp )
+    load_x x29, 27 * port_WORD_आकार( sp )
+    load_x x30, 28 * port_WORD_आकार( sp )
+    load_x x31, 29 * port_WORD_आकार( sp )
+#पूर्ण_अगर /* ifndef __riscv_32e */
+addi sp, sp, port_CONTEXT_आकार
 
 mret
    .endm
 /*-----------------------------------------------------------*/
 
-#endif /* PORTCONTEXT_H */
+#पूर्ण_अगर /* PORTCONTEXT_H */

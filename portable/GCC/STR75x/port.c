@@ -32,29 +32,29 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "75x_tb.h"
-#include "75x_eic.h"
+#समावेश "75x_tb.h"
+#समावेश "75x_eic.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#समावेश "FreeRTOS.h"
+#समावेश "task.h"
 
 /* Constants required to setup the initial stack. */
-#define portINITIAL_SPSR           ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT         ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#घोषणा portINITIAL_SPSR           ( ( ढेर_Type_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
+#घोषणा portTHUMB_MODE_BIT         ( ( ढेर_Type_t ) 0x20 )
+#घोषणा port_INSTRUCTION_आकार       ( ( ढेर_Type_t ) 4 )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#घोषणा portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
 /* Prescale used on the timer clock when calculating the tick period. */
-#define portPRESCALE               20
+#घोषणा portPRESCALE               20
 
 
 /*-----------------------------------------------------------*/
 
 /* Setup the TB to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+अटल व्योम prvSetupTimerInterrupt( व्योम );
 
 /*-----------------------------------------------------------*/
 
@@ -64,17 +64,17 @@ static void prvSetupTimerInterrupt( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ढेर_Type_t * px_Port_Initialise_ढेर( ढेर_Type_t * px_शीर्ष_Of_ढेर,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     व्योम * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    ढेर_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_शीर्ष_Of_ढेर;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_शीर्ष_Of_ढेर--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -82,67 +82,67 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) pxCode + port_INSTRUCTION_आकार;
+    px_शीर्ष_Of_ढेर--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x12121212;    /* R12 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x11111111;    /* R11 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x10101010;    /* R10 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x09090909;    /* R9 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x08080808;    /* R8 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x07070707;    /* R7 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x06060606;    /* R6 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x05050505;    /* R5 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x04040404;    /* R4 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x03030303;    /* R3 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x02020202;    /* R2 */
+    px_शीर्ष_Of_ढेर--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) 0x01010101;    /* R1 */
+    px_शीर्ष_Of_ढेर--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) pvParameters; /* R0 */
+    px_शीर्ष_Of_ढेर--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_शीर्ष_Of_ढेर = ( ढेर_Type_t ) portINITIAL_SPSR;
 
-    #ifdef THUMB_INTERWORK
+    #अगर_घोषित THUMB_INTERWORK
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_शीर्ष_Of_ढेर |= portTHUMB_MODE_BIT;
     }
-    #endif
+    #पूर्ण_अगर
 
-    pxTopOfStack--;
+    px_शीर्ष_Of_ढेर--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_शीर्ष_Of_ढेर = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    वापस px_शीर्ष_Of_ढेर;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( व्योम )
 {
-    extern void vPortISRStartFirstTask( void );
+    बाह्य व्योम vPortISRStartFirstTask( व्योम );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -152,18 +152,18 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    वापस 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+व्योम vPortEndScheduler( व्योम )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+अटल व्योम prvSetupTimerInterrupt( व्योम )
 {
     EIC_IRQInitTypeDef EIC_IRQInitStructure;
     TB_InitTypeDef TB_InitStructure;
@@ -176,7 +176,7 @@ static void prvSetupTimerInterrupt( void )
 
     /* Setup the TB for the generation of the tick interrupt. */
     TB_InitStructure.TB_Mode = TB_Mode_Timing;
-    TB_InitStructure.TB_CounterMode = TB_CounterMode_Down;
+    TB_InitStructure.TB_गणक_Mode = TB_गणक_Mode_Down;
     TB_InitStructure.TB_Prescaler = portPRESCALE - 1;
     TB_InitStructure.TB_AutoReload = ( ( configCPU_CLOCK_HZ / portPRESCALE ) / configTICK_RATE_HZ );
     TB_Init( &TB_InitStructure );

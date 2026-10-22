@@ -26,13 +26,13 @@
  *
  */
 
-#include "FreeRTOSConfig.h"
+#समावेश "FreeRTOSConfig.h"
 
-#define portCONTEXT_SIZE 132
-#define portEPC_STACK_LOCATION 124
-#define portSTATUS_STACK_LOCATION 128
+#घोषणा port_CONTEXT_आकार 132
+#घोषणा port_EPC_ढेर_LOCATION 124
+#घोषणा port_STATUS_ढेर_LOCATION 128
 
-#ifdef __LANGUAGE_ASSEMBLY__
+#अगर_घोषित __LANGUAGE_ASSEMBLY__
 
 /******************************************************************/
 .macro  portSAVE_CONTEXT
@@ -41,14 +41,14 @@
     manipulated, and the cause and EPC registers so their original values are
     captured. */
     mfc0    k0, _CP0_CAUSE
-    addiu   sp, sp, -portCONTEXT_SIZE
+    addiu   sp, sp, -port_CONTEXT_आकार
     mfc0    k1, _CP0_STATUS
 
     /* Also save s6 and s5 so they can be used.  Any nesting interrupts should
     maintain the values of these registers across the ISR. */
     sw      s6, 44(sp)
     sw      s5, 40(sp)
-    sw      k1, portSTATUS_STACK_LOCATION(sp)
+    sw      k1, port_STATUS_ढेर_LOCATION(sp)
 
     /* Prepare to enable interrupts above the current priority.
     k0 = k0 >> 10. Moves RIPL[17:10] to [7:0] */
@@ -84,7 +84,7 @@
     nop
 
     /* Swap to the system stack. */
-    la      sp, xISRStackTop
+    la      sp, x_ISRStack_शीर्ष
     lw      sp, (sp)
 
     /* Increment and save the nesting count. */
@@ -118,7 +118,7 @@
     sw      a0, 60(s5)
     sw      v1, 56(s5)
     sw      v0, 52(s5)
-    sw      s6, portEPC_STACK_LOCATION(s5)
+    sw      s6, port_EPC_ढेर_LOCATION(s5)
     sw      $1, 16(s5)
 
     /* MEC14xx does not have DSP, removed 7 words */
@@ -135,7 +135,7 @@
     nop
 
     /* Save the stack pointer. */
-    la      s6, uxSavedTaskStackPointer
+    la      s6, ux_Saved_Task_ढेर_Pointer
     sw      s5, (s6)
 1:
     .endm
@@ -150,7 +150,7 @@
     addiu   s6, s6, -1
     bne     s6, zero, 1f
     nop
-    la      s6, uxSavedTaskStackPointer
+    la      s6, ux_Saved_Task_ढेर_Pointer
     lw      s5, (s6)
 
     /* Restore the context.
@@ -194,14 +194,14 @@
     addiu   k1, k1, -1
     sw      k1, 0(k0)
 
-    lw      k0, portSTATUS_STACK_LOCATION(s5)
-    lw      k1, portEPC_STACK_LOCATION(s5)
+    lw      k0, port_STATUS_ढेर_LOCATION(s5)
+    lw      k1, port_EPC_ढेर_LOCATION(s5)
 
     /* Leave the stack in its original state.  First load sp from s5, then
     restore s5 from the stack. */
     add     sp, zero, s5
     lw      s5, 40(sp)
-    addiu   sp, sp, portCONTEXT_SIZE
+    addiu   sp, sp, port_CONTEXT_आकार
 
     mtc0    k0, _CP0_STATUS
     mtc0    k1, _CP0_EPC
@@ -211,4 +211,4 @@
 
     .endm
 
-#endif /* #ifdef __LANGUAGE_ASSEMBLY__ */
+#पूर्ण_अगर /* #ifdef __LANGUAGE_ASSEMBLY__ */

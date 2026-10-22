@@ -27,74 +27,74 @@
  * vPortCPUReleaseMutexIntsDisabled will then use the appropriate function to do the
  * actual lock/unlock.
  */
-#include "soc/cpu.h"
-#include "portable.h"
+#समावेश "soc/cpu.h"
+#समावेश "portable.h"
 
 /* XOR one core ID with this value to get the other core ID */
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #define CORE_ID_XOR_SWAP           ( CORE_ID_PRO ^ CORE_ID_APP )
-#else
-    #define CORE_ID_REGVAL_XOR_SWAP    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
-#endif
+#अगर ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #घोषणा CORE_ID_XOR_SWAP           ( CORE_ID_PRO ^ CORE_ID_APP )
+#अन्यथा
+    #घोषणा CORE_ID_REGVAL_XOR_SWAP    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
+#पूर्ण_अगर
 
 
 
 /*Define the mux routines for use with muxes in internal RAM */
-#define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledInternal
-#define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledInternal
-#define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSet
-#include "portmux_impl.inc.h"
-#undef PORTMUX_AQUIRE_MUX_FN_NAME
-#undef PORTMUX_RELEASE_MUX_FN_NAME
-#undef PORTMUX_COMPARE_SET_FN_NAME
+#घोषणा PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledInternal
+#घोषणा PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledInternal
+#घोषणा PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSet
+#समावेश "portmux_impl.inc.h"
+#अघोषित PORTMUX_AQUIRE_MUX_FN_NAME
+#अघोषित PORTMUX_RELEASE_MUX_FN_NAME
+#अघोषित PORTMUX_COMPARE_SET_FN_NAME
 
 
-#if defined( CONFIG_SPIRAM_SUPPORT )
+#अगर defined( CONFIG_SPIRAM_SUPPORT )
 
-    #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledExtram
-    #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledExtram
-    #define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSetExtram
-    #include "portmux_impl.inc.h"
-    #undef PORTMUX_AQUIRE_MUX_FN_NAME
-    #undef PORTMUX_RELEASE_MUX_FN_NAME
-    #undef PORTMUX_COMPARE_SET_FN_NAME
+    #घोषणा PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledExtram
+    #घोषणा PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledExtram
+    #घोषणा PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSetExtram
+    #समावेश "portmux_impl.inc.h"
+    #अघोषित PORTMUX_AQUIRE_MUX_FN_NAME
+    #अघोषित PORTMUX_RELEASE_MUX_FN_NAME
+    #अघोषित PORTMUX_COMPARE_SET_FN_NAME
 
-#endif
-
-
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int line
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const char * fnName, int line
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, line
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, line
-#else
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
-#endif
+#पूर्ण_अगर
 
 
-static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
+#अगर_घोषित CONFIG_FREERTOS_PORTMUX_DEBUG
+    #घोषणा PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, पूर्णांक timeout_cycles, स्थिर अक्षर * fnName, पूर्णांक पंक्ति
+    #घोषणा PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, स्थिर अक्षर * fnName, पूर्णांक पंक्ति
+    #घोषणा PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, पंक्ति
+    #घोषणा PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, पंक्ति
+#अन्यथा
+    #घोषणा PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, पूर्णांक timeout_cycles
+    #घोषणा PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
+    #घोषणा PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
+    #घोषणा PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
+#पूर्ण_अगर
+
+
+अटल अंतरभूत bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #अगर defined( CONFIG_SPIRAM_SUPPORT )
+        अगर( esp_ptr_external_ram( mux ) )
         {
-            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+            वापस vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
         }
-    #endif
-    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+    #पूर्ण_अगर
+    वापस vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
 }
 
 
-static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
+अटल अंतरभूत व्योम vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #अगर defined( CONFIG_SPIRAM_SUPPORT )
+        अगर( esp_ptr_external_ram( mux ) )
         {
             vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
-            return;
+            वापस;
         }
-    #endif
+    #पूर्ण_अगर
     vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
 }

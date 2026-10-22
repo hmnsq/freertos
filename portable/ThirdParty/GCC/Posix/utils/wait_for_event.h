@@ -26,21 +26,21 @@
  *
  */
 
-#ifndef WAIT_FOR_EVENT_H_
-#define WAIT_FOR_EVENT_H_
+#अगर_अघोषित WAIT_FOR_EVENT_H_
+#घोषणा WAIT_FOR_EVENT_H_
 
-#include <stdbool.h>
-#include <time.h>
+#समावेश <stdbool.h>
+#समावेश <time.h>
 
-struct event;
+काष्ठा event;
 
-struct event * event_create( void );
-void event_delete( struct event * );
-bool event_wait( struct event * ev );
-bool event_wait_timed( struct event * ev,
-                       time_t ms );
-void event_signal( struct event * ev );
+काष्ठा event * event_create( व्योम );
+व्योम event_delete( काष्ठा event * );
+bool event_wait( काष्ठा event * ev );
+bool event_wait_timed( काष्ठा event * ev,
+                       समय_प्रकार ms );
+व्योम event_signal( काष्ठा event * ev );
 
 
 
-#endif /* ifndef WAIT_FOR_EVENT_H_ */
+#पूर्ण_अगर /* ifndef WAIT_FOR_EVENT_H_ */

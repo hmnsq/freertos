@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+    बाह्य "C" {
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,52 +46,52 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#घोषणा portCHAR          अक्षर
+#घोषणा portFLOAT         भग्न
+#घोषणा portDOUBLE        द्विगुन
+#घोषणा portLONG          दीर्घ
+#घोषणा portSHORT         लघु
+#घोषणा port_ढेर_TYPE    uint32_t
+#घोषणा portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकार port_ढेर_TYPE   ढेर_Type_t;
+प्रकार दीर्घ             BaseType_t;
+प्रकार अचिन्हित दीर्घ    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
+प्रकार uint32_t         TickType_t;
+#घोषणा portMAX_DELAY    ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-#define portTICK_TYPE_IS_ATOMIC    1
+#घोषणा portTICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
+#घोषणा port_ढेर_GROWTH      ( -1 )
+#घोषणा portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#घोषणा portBYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired )      \
+#घोषणा portEND_SWITCHING_ISR( xSwitchRequired )      \
     {                                                 \
-        extern volatile uint32_t ulPortYieldRequired; \
+        बाह्य अस्थिर uint32_t ulPortYieldRequired; \
                                                       \
-        if( xSwitchRequired != pdFALSE )              \
+        अगर( xSwitchRequired != pdFALSE )              \
         {                                             \
             ulPortYieldRequired = pdTRUE;             \
         }                                             \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+#घोषणा portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 
-void vPortYield( void );
+व्योम vPortYield( व्योम );
 
-#define portYIELD()     vPortYield();
+#घोषणा portYIELD()     vPortYield();
 
 /*-----------------------------------------------------------*/
 
@@ -99,38 +99,38 @@ void vPortYield( void );
  * Critical section management.
  */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern void vPortEnableInterrupts( void );
-extern void vPortDisableInterrupts( void );
-extern uint32_t ulPortSetInterruptMaskFromISR( void );
+बाह्य व्योम vPortEnterCritical( व्योम );
+बाह्य व्योम vPortExitCritical( व्योम );
+बाह्य व्योम vPortEnableInterrupts( व्योम );
+बाह्य व्योम vPortDisableInterrupts( व्योम );
+बाह्य uint32_t ulPortSetInterruptMaskFromISR( व्योम );
 
 /* In the absence of a priority mask register, these functions and macros
  * globally enable and disable interrupts. */
-#define portENTER_CRITICAL()                    vPortEnterCritical();
-#define portEXIT_CRITICAL()                     vPortExitCritical();
-#define portENABLE_INTERRUPTS()                 vPortEnableInterrupts();
-#define portDISABLE_INTERRUPTS()                vPortDisableInterrupts();
-#define portSET_INTERRUPT_MASK_FROM_ISR()       ulPortSetInterruptMaskFromISR();
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  do { if( x == 0 ) portENABLE_INTERRUPTS(); } while( 0 )
+#घोषणा portENTER_CRITICAL()                    vPortEnterCritical();
+#घोषणा portEXIT_CRITICAL()                     vPortExitCritical();
+#घोषणा portENABLE_INTERRUPTS()                 vPortEnableInterrupts();
+#घोषणा portDISABLE_INTERRUPTS()                vPortDisableInterrupts();
+#घोषणा portSET_INTERRUPT_MASK_FROM_ISR()       ulPortSetInterruptMaskFromISR();
+#घोषणा portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  करो { अगर( x == 0 ) portENABLE_INTERRUPTS(); } जबतक( 0 )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#घोषणा portTASK_FUNCTION_PROTO( vFunction, pvParameters )    व्योम vFunction( व्योम * pvParameters )
+#घोषणा portTASK_FUNCTION( vFunction, pvParameters )          व्योम vFunction( व्योम * pvParameters )
 
 /* Tickless idle/low power functionality. */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#अगर_अघोषित portSUPPRESS_TICKS_AND_SLEEP
+    बाह्य व्योम vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+    #घोषणा portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
+#पूर्ण_अगर
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+व्योम FreeRTOS_Tick_Handler( व्योम );
 
 /**
  * @brief Returns the number of leading zeros in a 32 bit variable.
@@ -139,47 +139,47 @@ void FreeRTOS_Tick_Handler( void );
  *
  * @return The number of leading zeros in ulBitmap.
  */
-UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+UBaseType_t ul_Port_गिनती_Leading_Zeros( UBaseType_t ulBitmap );
 
 /* If configUSE_TASK_FPU_SUPPORT is set to 1 (or left undefined) then tasks are
  * created without an FPU context and must call vPortTaskUsesFPU() to give
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU
  * context by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
-    void vPortTaskUsesFPU( void );
-#else
+#अगर ( configUSE_TASK_FPU_SUPPORT != 2 )
+    व्योम vPortTaskUsesFPU( व्योम );
+#अन्यथा
     /* Each task has an FPU context already, so define this function as a
      * no-op. */
-    #define vPortTaskUsesFPU()
-#endif
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    #घोषणा vPortTaskUsesFPU()
+#पूर्ण_अगर
+#घोषणा portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#घोषणा portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
+#घोषणा portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#अगर_अघोषित configUSE_PORT_OPTIMISED_TASK_SELECTION
+    #घोषणा configUSE_PORT_OPTIMISED_TASK_SELECTION    1
+#पूर्ण_अगर
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#अगर configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Store, clear and get the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )  uxTopPriority = ( 31UL - ulPortCountLeadingZeros( ( uxTopReadyPriority ) ) )
+    #घोषणा portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
+    #घोषणा portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #घोषणा portGET_HIGHEST_PRIORITY( ux_शीर्ष_Priority, uxReadyPriorities )  ux_शीर्ष_Priority = ( 31UL - ul_Port_गिनती_Leading_Zeros( ( ux_शीर्ष_Ready_Priority ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#पूर्ण_अगर /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()               __asm volatile ( "NOP" )
-#define portINLINE              __inline
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#घोषणा portNOP()               __asm अस्थिर ( "NOP" )
+#घोषणा portINLINE              __inline
+#घोषणा portMEMORY_BARRIER()    __asm अस्थिर ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
     }
-#endif
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */

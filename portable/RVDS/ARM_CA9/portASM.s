@@ -26,7 +26,7 @@
 ; *
 ; */
 
-    INCLUDE portmacro.inc
+    समावेश portmacro.inc
 
     IMPORT  vApplicationIRQHandler
     IMPORT  vTaskSwitchContext
@@ -71,26 +71,26 @@ vPortRestoreTaskContext
 FreeRTOS_IRQ_Handler
 
     ; Return to the interrupted instruction.
-    SUB     lr, lr, #4
+    घटा     lr, lr, #4
 
     ; Push the return address and SPSR
-    PUSH    {lr}
+    दो    {lr}
     MRS     lr, SPSR
-    PUSH    {lr}
+    दो    {lr}
 
     ; Change to supervisor mode to allow reentry.
     CPS     #SVC_MODE
 
     ; Push used registers.
-    PUSH    {r0-r4, r12}
+    दो    {r0-r4, r12}
 
     ; Increment nesting count.  r3 holds the address of ulPortInterruptNesting
     ; for future use.  r1 holds the original ulPortInterruptNesting value for
     ; future use.
     LDR     r3, =ulPortInterruptNesting
     LDR     r1, [r3]
-    ADD     r4, r1, #1
-    STR     r4, [r3]
+    जमा     r4, r1, #1
+    रक्रिर     r4, [r3]
 
     ; Read value from the interrupt acknowledge register, which is stored in r0
     ; for future parameter and interrupt clearing use.
@@ -100,28 +100,28 @@ FreeRTOS_IRQ_Handler
     ; Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     ; future use.  _RB_ Does this ever actually need to be done provided the
     ; start of the stack is 8-byte aligned?
-    MOV     r2, sp
-    AND     r2, r2, #4
-    SUB     sp, sp, r2
+    डालो     r2, sp
+    और     r2, r2, #4
+    घटा     sp, sp, r2
 
     ; Call the interrupt handler.  r4 is pushed to maintain alignment.
-    PUSH    {r0-r4, lr}
+    दो    {r0-r4, lr}
     LDR     r1, =vApplicationIRQHandler
     BLX     r1
-    POP     {r0-r4, lr}
-    ADD     sp, sp, r2
+    लो     {r0-r4, lr}
+    जमा     sp, sp, r2
 
     CPSID   i
 
     ; Write the value read from ICCIAR to ICCEOIR
     LDR     r4, =ulICCEOIR
-    STR     r0, [r4]
+    रक्रिर     r0, [r4]
 
     ; Restore the old nesting count
-    STR     r1, [r3]
+    रक्रिर     r1, [r3]
 
     ; A context switch is never performed if the nesting count is not 0
-    CMP     r1, #0
+    भेद     r1, #0
     BNE     exit_without_switch
 
     ; Did the interrupt request a context switch?  r1 holds the address of
@@ -129,32 +129,32 @@ FreeRTOS_IRQ_Handler
     ; use.
     LDR     r1, =ulPortYieldRequired
     LDR     r0, [r1]
-    CMP     r0, #0
+    भेद     r0, #0
     BNE     switch_before_exit
 
 exit_without_switch
     ; No context switch.  Restore used registers, LR_irq and SPSR before
     ; returning.
-    POP     {r0-r4, r12}
+    लो     {r0-r4, r12}
     CPS     #IRQ_MODE
-    POP     {LR}
+    लो     {LR}
     MSR     SPSR_cxsf, LR
-    POP     {LR}
+    लो     {LR}
     MOVS    PC, LR
 
 switch_before_exit
     ; A context switch is to be performed.  Clear the context switch pending
     ; flag.
-    MOV     r0, #0
-    STR     r0, [r1]
+    डालो     r0, #0
+    रक्रिर     r0, [r1]
 
     ; Restore used registers, LR-irq and SPSR before saving the context
     ; to the task stack.
-    POP     {r0-r4, r12}
+    लो     {r0-r4, r12}
     CPS     #IRQ_MODE
-    POP     {LR}
+    लो     {LR}
     MSR     SPSR_cxsf, LR
-    POP     {LR}
+    लो     {LR}
     portSAVE_CONTEXT
 
     ; Call the function that selects the new task to execute.
@@ -168,4 +168,4 @@ switch_before_exit
     portRESTORE_CONTEXT
 
 
-    END
+    पूर्ण

@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#समावेश <FreeRTOS.h>
+#समावेश <task.h>
+#समावेश <queue.h>
+#समावेश <timers.h>
+#समावेश <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#समावेश <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+अटल व्योम exampleTask( व्योम * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+अटल व्योम exampleTask( व्योम * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( व्योम ) parameters;
 
-    for( ; ; )
+    क्रम( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,43 +62,43 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+पूर्णांक मुख्य( व्योम )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    अटल StaticTask_t exampleTaskTCB;
+    अटल ढेर_Type_t example_Task_ढेर[ config_MINIMAL_ढेर_आकार ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( व्योम ) म_लिखो( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( व्योम ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_MINIMAL_ढेर_आकार,
+                                शून्य,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_ढेर[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    क्रम( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    वापस 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#अगर ( config_CHECK_FOR_ढेर_OVERFLOW > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    व्योम v_Application_ढेर_Overflow_Hook( TaskHandle_t xTask,
+                                        अक्षर * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( व्योम ) xTask;
+        ( व्योम ) pcTaskName;
     }
 
-#endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
+#पूर्ण_अगर /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
 /*-----------------------------------------------------------*/

@@ -33,20 +33,20 @@
 
 /* #include "embARC.h" */
 
-#include "arc_freertos_exceptions.h"
+#समावेश "arc_freertos_exceptions.h"
 
-#ifdef __GNU__
-    extern void gnu_printf_setup( void );
-#endif
+#अगर_घोषित __GNU__
+    बाह्य व्योम gnu_printf_setup( व्योम );
+#पूर्ण_अगर
 
 /**
  * \brief  freertos related cpu exception initialization, all the interrupts handled by freertos must be not
  * fast irqs. If fiq is needed, please install the default firq_exc_entry or your own fast irq entry into
  * the specific interrupt exception.
  */
-void freertos_exc_init( void )
+व्योम freertos_exc_init( व्योम )
 {
-    #ifdef __GNU__
+    #अगर_घोषित __GNU__
         gnu_printf_setup();
-    #endif
+    #पूर्ण_अगर
 }

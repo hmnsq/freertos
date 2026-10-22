@@ -26,24 +26,24 @@
  *
  */
 
-#ifndef PORTMACRO_ASM_H
-#define PORTMACRO_ASM_H
+#अगर_अघोषित PORTMACRO_ASM_H
+#घोषणा PORTMACRO_ASM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+बाह्य "C" {
+#पूर्ण_अगर
 
-#include "FreeRTOSConfig.h"
+#समावेश "FreeRTOSConfig.h"
 
-#ifndef configTOTAL_MPU_REGIONS
-    #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#elif( configTOTAL_MPU_REGIONS == 12 )
-    #define portMPU_TOTAL_REGIONS ( 12UL )
-#elif( configTOTAL_MPU_REGIONS == 16 )
-    #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
-    #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#endif /* configTOTAL_MPU_REGIONS */
+#अगर_अघोषित config_योग_MPU_REGIONS
+    #त्रुटि "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
+#या_अगर( config_योग_MPU_REGIONS == 12 )
+    #घोषणा port_MPU_योग_REGIONS ( 12UL )
+#या_अगर( config_योग_MPU_REGIONS == 16 )
+    #घोषणा port_MPU_योग_REGIONS ( 16UL )
+#अन्यथा
+    #त्रुटि "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
+#पूर्ण_अगर /* configTOTAL_MPU_REGIONS */
 
 /*
  * The application write can disable Floating Point Unit (FPU) support by
@@ -56,11 +56,11 @@ extern "C" {
  * themselves by using the floating point registers. If the FPU support is
  * disabled, the use of such APIs may result in memory corruption.
  */
-#ifndef configENABLE_FPU
-    #define configENABLE_FPU    1
-#endif /* configENABLE_FPU */
+#अगर_अघोषित configENABLE_FPU
+    #घोषणा configENABLE_FPU    1
+#पूर्ण_अगर /* configENABLE_FPU */
 
-#define portENABLE_FPU configENABLE_FPU
+#घोषणा portENABLE_FPU configENABLE_FPU
 
 /* On the ArmV7-R Architecture the Operating mode of the Processor is set
  * using the Current Program Status Register (CPSR) Mode bits, [4:0]. The only
@@ -76,22 +76,22 @@ extern "C" {
  *
  * @ingroup Port Privilege
  */
-#define USER_MODE   0x10U
-#define FIQ_MODE    0x11U
-#define IRQ_MODE    0x12U
-#define SVC_MODE    0x13U
-#define MON_MODE    0x16U
-#define ABT_MODE    0x17U
-#define HYP_MODE    0x1AU
-#define UND_MODE    0x1BU
-#define SYS_MODE    0x1FU
+#घोषणा USER_MODE   0x10U
+#घोषणा FIQ_MODE    0x11U
+#घोषणा IRQ_MODE    0x12U
+#घोषणा SVC_MODE    0x13U
+#घोषणा MON_MODE    0x16U
+#घोषणा ABT_MODE    0x17U
+#घोषणा HYP_MODE    0x1AU
+#घोषणा UND_MODE    0x1BU
+#घोषणा SYS_MODE    0x1FU
 
 /**
  * @brief Flag used to mark that a FreeRTOS Task is privileged.
  *
  * @ingroup Port Privilege
  */
-#define portTASK_IS_PRIVILEGED_FLAG   ( 1UL << 1UL )
+#घोषणा portTASK_IS_PRIVILEGED_FLAG   ( 1UL << 1UL )
 
 /**
  * @brief SVC numbers for various scheduler operations.
@@ -100,8 +100,8 @@ extern "C" {
  *
  * @note These value must not be used in mpu_syscall_numbers.h.
  */
-#define portSVC_YIELD                 0x0100U
-#define portSVC_SYSTEM_CALL_EXIT      0x0104U
+#घोषणा portSVC_YIELD                 0x0100U
+#घोषणा portSVC_SYSTEM_CALL_EXIT      0x0104U
 
 /**
  * @brief Macros required to manipulate MPU.
@@ -113,110 +113,110 @@ extern "C" {
 
 /* MPU sub-region disable settings. This information is encoded in the MPU
  * Region Size and Enable Register. */
-#define portMPU_SUBREGION_0_DISABLE   ( 0x1UL << 8UL )
-#define portMPU_SUBREGION_1_DISABLE   ( 0x1UL << 9UL )
-#define portMPU_SUBREGION_2_DISABLE   ( 0x1UL << 10UL )
-#define portMPU_SUBREGION_3_DISABLE   ( 0x1UL << 11UL )
-#define portMPU_SUBREGION_4_DISABLE   ( 0x1UL << 12UL )
-#define portMPU_SUBREGION_5_DISABLE   ( 0x1UL << 13UL )
-#define portMPU_SUBREGION_6_DISABLE   ( 0x1UL << 14UL )
-#define portMPU_SUBREGION_7_DISABLE   ( 0x1UL << 15UL )
+#घोषणा portMPU_SUBREGION_0_DISABLE   ( 0x1UL << 8UL )
+#घोषणा portMPU_SUBREGION_1_DISABLE   ( 0x1UL << 9UL )
+#घोषणा portMPU_SUBREGION_2_DISABLE   ( 0x1UL << 10UL )
+#घोषणा portMPU_SUBREGION_3_DISABLE   ( 0x1UL << 11UL )
+#घोषणा portMPU_SUBREGION_4_DISABLE   ( 0x1UL << 12UL )
+#घोषणा portMPU_SUBREGION_5_DISABLE   ( 0x1UL << 13UL )
+#घोषणा portMPU_SUBREGION_6_DISABLE   ( 0x1UL << 14UL )
+#घोषणा portMPU_SUBREGION_7_DISABLE   ( 0x1UL << 15UL )
 
 /* Default MPU regions. */
-#define portFIRST_CONFIGURABLE_REGION ( 0 )
-#define portLAST_CONFIGURABLE_REGION  ( portMPU_TOTAL_REGIONS - 5UL )
-#define portSTACK_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION ( portMPU_TOTAL_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION   ( portMPU_TOTAL_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION     ( portMPU_TOTAL_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS \
+#घोषणा portFIRST_CONFIGURABLE_REGION ( 0 )
+#घोषणा portLAST_CONFIGURABLE_REGION  ( port_MPU_योग_REGIONS - 5UL )
+#घोषणा port_ढेर_REGION              ( port_MPU_योग_REGIONS - 4UL )
+#घोषणा portUNPRIVILEGED_FLASH_REGION ( port_MPU_योग_REGIONS - 3UL )
+#घोषणा portPRIVILEGED_FLASH_REGION   ( port_MPU_योग_REGIONS - 2UL )
+#घोषणा portPRIVILEGED_RAM_REGION     ( port_MPU_योग_REGIONS - 1UL )
+#घोषणा port_अंक_CONFIGURABLE_REGIONS \
     ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1UL )
 /* Plus one to make space for the stack region. */
-#define portTOTAL_NUM_REGIONS_IN_TCB        ( portNUM_CONFIGURABLE_REGIONS + 1UL )
+#घोषणा port_योग_अंक_REGIONS_IN_TCB        ( port_अंक_CONFIGURABLE_REGIONS + 1UL )
 
 /* MPU region sizes. This information is encoded in the MPU Region Size and
  * Enable Register. */
-#define portMPU_REGION_SIZE_32B             ( 0x04UL << 1UL )
-#define portMPU_REGION_SIZE_64B             ( 0x05UL << 1UL )
-#define portMPU_REGION_SIZE_128B            ( 0x06UL << 1UL )
-#define portMPU_REGION_SIZE_256B            ( 0x07UL << 1UL )
-#define portMPU_REGION_SIZE_512B            ( 0x08UL << 1UL )
-#define portMPU_REGION_SIZE_1KB             ( 0x09UL << 1UL )
-#define portMPU_REGION_SIZE_2KB             ( 0x0AUL << 1UL )
-#define portMPU_REGION_SIZE_4KB             ( 0x0BUL << 1UL )
-#define portMPU_REGION_SIZE_8KB             ( 0x0CUL << 1UL )
-#define portMPU_REGION_SIZE_16KB            ( 0x0DUL << 1UL )
-#define portMPU_REGION_SIZE_32KB            ( 0x0EUL << 1UL )
-#define portMPU_REGION_SIZE_64KB            ( 0x0FUL << 1UL )
-#define portMPU_REGION_SIZE_128KB           ( 0x10UL << 1UL )
-#define portMPU_REGION_SIZE_256KB           ( 0x11UL << 1UL )
-#define portMPU_REGION_SIZE_512KB           ( 0x12UL << 1UL )
-#define portMPU_REGION_SIZE_1MB             ( 0x13UL << 1UL )
-#define portMPU_REGION_SIZE_2MB             ( 0x14UL << 1UL )
-#define portMPU_REGION_SIZE_4MB             ( 0x15UL << 1UL )
-#define portMPU_REGION_SIZE_8MB             ( 0x16UL << 1UL )
-#define portMPU_REGION_SIZE_16MB            ( 0x17UL << 1UL )
-#define portMPU_REGION_SIZE_32MB            ( 0x18UL << 1UL )
-#define portMPU_REGION_SIZE_64MB            ( 0x19UL << 1UL )
-#define portMPU_REGION_SIZE_128MB           ( 0x1AUL << 1UL )
-#define portMPU_REGION_SIZE_256MB           ( 0x1BUL << 1UL )
-#define portMPU_REGION_SIZE_512MB           ( 0x1CUL << 1UL )
-#define portMPU_REGION_SIZE_1GB             ( 0x1DUL << 1UL )
-#define portMPU_REGION_SIZE_2GB             ( 0x1EUL << 1UL )
-#define portMPU_REGION_SIZE_4GB             ( 0x1FUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_32_B             ( 0x04UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_64_B             ( 0x05UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_128_B            ( 0x06UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_256_B            ( 0x07UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_512_B            ( 0x08UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_1_KB             ( 0x09UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_2_KB             ( 0x0AUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_4_KB             ( 0x0BUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_8_KB             ( 0x0CUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_16_KB            ( 0x0DUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_32_KB            ( 0x0EUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_64_KB            ( 0x0FUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_128_KB           ( 0x10UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_256_KB           ( 0x11UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_512_KB           ( 0x12UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_1_MB             ( 0x13UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_2_MB             ( 0x14UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_4_MB             ( 0x15UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_8_MB             ( 0x16UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_16_MB            ( 0x17UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_32_MB            ( 0x18UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_64_MB            ( 0x19UL << 1UL )
+#घोषणा port_MPU_REGION_आकार_128_MB           ( 0x1AUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_256_MB           ( 0x1BUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_512_MB           ( 0x1CUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_1_GB             ( 0x1DUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_2_GB             ( 0x1EUL << 1UL )
+#घोषणा port_MPU_REGION_आकार_4_GB             ( 0x1FUL << 1UL )
 
 /* MPU memory types. This information is encoded in the TEX, S, C and B bits
  * of the MPU Region Access Control Register. */
-#define portMPU_REGION_STRONGLY_ORDERED_SHAREABLE  ( 0x00UL ) /* TEX=000, S=NA, C=0, B=0. */
-#define portMPU_REGION_DEVICE_SHAREABLE            ( 0x01UL ) /* TEX=000, S=NA, C=0, B=1. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_NONSHARED   ( 0x02UL ) /* TEX=000, S=0, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_SHARED      ( 0x06UL ) /* TEX=000, S=1, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_NONSHARED   ( 0x03UL ) /* TEX=000, S=0, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_SHARED      ( 0x07UL ) /* TEX=000, S=1, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OINC_NONSHARED       ( 0x08UL ) /* TEX=001, S=0, C=0, B=0. */
-#define portMPU_REGION_NORMAL_OINC_SHARED          ( 0x0CUL ) /* TEX=001, S=1, C=0, B=0. */
-#define portMPU_REGION_NORMAL_OIWBWA_NONSHARED     ( 0x0BUL ) /* TEX=001, S=0, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OIWBWA_SHARED        ( 0x0FUL ) /* TEX=001, S=1, C=1, B=1. */
-#define portMPU_REGION_DEVICE_NONSHAREABLE         ( 0x10UL ) /* TEX=010, S=NA, C=0, B=0. */
+#घोषणा portMPU_REGION_STRONGLY_ORDERED_SHAREABLE  ( 0x00UL ) /* TEX=000, S=NA, C=0, B=0. */
+#घोषणा portMPU_REGION_DEVICE_SHAREABLE            ( 0x01UL ) /* TEX=000, S=NA, C=0, B=1. */
+#घोषणा portMPU_REGION_NORMAL_OIWTNOWA_NONSHARED   ( 0x02UL ) /* TEX=000, S=0, C=1, B=0. */
+#घोषणा portMPU_REGION_NORMAL_OIWTNOWA_SHARED      ( 0x06UL ) /* TEX=000, S=1, C=1, B=0. */
+#घोषणा portMPU_REGION_NORMAL_OIWBNOWA_NONSHARED   ( 0x03UL ) /* TEX=000, S=0, C=1, B=1. */
+#घोषणा portMPU_REGION_NORMAL_OIWBNOWA_SHARED      ( 0x07UL ) /* TEX=000, S=1, C=1, B=1. */
+#घोषणा portMPU_REGION_NORMAL_OINC_NONSHARED       ( 0x08UL ) /* TEX=001, S=0, C=0, B=0. */
+#घोषणा portMPU_REGION_NORMAL_OINC_SHARED          ( 0x0CUL ) /* TEX=001, S=1, C=0, B=0. */
+#घोषणा portMPU_REGION_NORMAL_OIWBWA_NONSHARED     ( 0x0BUL ) /* TEX=001, S=0, C=1, B=1. */
+#घोषणा portMPU_REGION_NORMAL_OIWBWA_SHARED        ( 0x0FUL ) /* TEX=001, S=1, C=1, B=1. */
+#घोषणा portMPU_REGION_DEVICE_NONSHAREABLE         ( 0x10UL ) /* TEX=010, S=NA, C=0, B=0. */
 
 /* MPU access permissions. This information is encoded in the XN and AP bits of
  * the MPU Region Access Control Register. */
-#define portMPU_REGION_AP_BITMASK                  ( 0x07UL << 8UL )
-#define portMPU_REGION_XN_BITMASK                  ( 0x01UL << 12UL )
+#घोषणा portMPU_REGION_AP_BITMASK                  ( 0x07UL << 8UL )
+#घोषणा portMPU_REGION_XN_BITMASK                  ( 0x01UL << 12UL )
 
-#define portMPU_REGION_PRIV_NA_USER_NA             ( 0x00UL << 8UL )
-#define portMPU_REGION_PRIV_NA_USER_NA_EXEC        ( portMPU_REGION_PRIV_NA_USER_NA ) /* Priv: X, Unpriv: X. */
-#define portMPU_REGION_PRIV_NA_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_NA_USER_NA | \
+#घोषणा portMPU_REGION_PRIV_NA_USER_NA             ( 0x00UL << 8UL )
+#घोषणा portMPU_REGION_PRIV_NA_USER_NA_EXEC        ( portMPU_REGION_PRIV_NA_USER_NA ) /* Priv: X, Unpriv: X. */
+#घोषणा portMPU_REGION_PRIV_NA_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_NA_USER_NA | \
                                                      portMPU_REGION_XN_BITMASK ) /* Priv: No Access, Unpriv: No Access. */
 
-#define portMPU_REGION_PRIV_RW_USER_NA             ( 0x01UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_NA_EXEC        ( portMPU_REGION_PRIV_RW_USER_NA ) /* Priv: RWX, Unpriv: X. */
-#define portMPU_REGION_PRIV_RW_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_NA | \
+#घोषणा portMPU_REGION_PRIV_RW_USER_NA             ( 0x01UL << 8UL )
+#घोषणा portMPU_REGION_PRIV_RW_USER_NA_EXEC        ( portMPU_REGION_PRIV_RW_USER_NA ) /* Priv: RWX, Unpriv: X. */
+#घोषणा portMPU_REGION_PRIV_RW_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_NA | \
                                                      portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: No access. */
 
-#define portMPU_REGION_PRIV_RW_USER_RO             ( 0x02UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_RO_EXEC        ( portMPU_REGION_PRIV_RW_USER_RO ) /* Priv: RWX, Unpriv: RX. */
-#define portMPU_REGION_PRIV_RW_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RO | \
+#घोषणा portMPU_REGION_PRIV_RW_USER_RO             ( 0x02UL << 8UL )
+#घोषणा portMPU_REGION_PRIV_RW_USER_RO_EXEC        ( portMPU_REGION_PRIV_RW_USER_RO ) /* Priv: RWX, Unpriv: RX. */
+#घोषणा portMPU_REGION_PRIV_RW_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RO | \
                                                      portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: R. */
 
-#define portMPU_REGION_PRIV_RW_USER_RW             ( 0x03UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_RW_EXEC        ( portMPU_REGION_PRIV_RW_USER_RW ) /* Priv: RWX, Unpriv: RWX. */
-#define portMPU_REGION_PRIV_RW_USER_RW_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RW | \
+#घोषणा portMPU_REGION_PRIV_RW_USER_RW             ( 0x03UL << 8UL )
+#घोषणा portMPU_REGION_PRIV_RW_USER_RW_EXEC        ( portMPU_REGION_PRIV_RW_USER_RW ) /* Priv: RWX, Unpriv: RWX. */
+#घोषणा portMPU_REGION_PRIV_RW_USER_RW_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RW | \
                                                      portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: RW. */
 
-#define portMPU_REGION_PRIV_RO_USER_NA             ( 0x05UL << 8UL )
-#define portMPU_REGION_PRIV_RO_USER_NA_EXEC        ( portMPU_REGION_PRIV_RO_USER_NA ) /* Priv: RX, Unpriv: X. */
-#define portMPU_REGION_PRIV_RO_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_NA | \
+#घोषणा portMPU_REGION_PRIV_RO_USER_NA             ( 0x05UL << 8UL )
+#घोषणा portMPU_REGION_PRIV_RO_USER_NA_EXEC        ( portMPU_REGION_PRIV_RO_USER_NA ) /* Priv: RX, Unpriv: X. */
+#घोषणा portMPU_REGION_PRIV_RO_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_NA | \
                                                      portMPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: No access. */
 
-#define portMPU_REGION_PRIV_RO_USER_RO             ( 0x06UL << 8UL )
-#define portMPU_REGION_PRIV_RO_USER_RO_EXEC        ( portMPU_REGION_PRIV_RO_USER_RO ) /* Priv: RX, Unpriv: RX. */
-#define portMPU_REGION_PRIV_RO_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_RO | \
+#घोषणा portMPU_REGION_PRIV_RO_USER_RO             ( 0x06UL << 8UL )
+#घोषणा portMPU_REGION_PRIV_RO_USER_RO_EXEC        ( portMPU_REGION_PRIV_RO_USER_RO ) /* Priv: RX, Unpriv: RX. */
+#घोषणा portMPU_REGION_PRIV_RO_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_RO | \
                                                      portMPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: R. */
 
 /* MPU region management. */
-#define portMPU_REGION_EXECUTE_NEVER               ( 0x01UL << 12UL )
-#define portMPU_REGION_ENABLE                      ( 0x01UL )
+#घोषणा portMPU_REGION_EXECUTE_NEVER               ( 0x01UL << 12UL )
+#घोषणा portMPU_REGION_ENABLE                      ( 0x01UL )
 
 /**
  * @brief The size (in words) of a task context.
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#अगर( portENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -250,8 +250,8 @@ extern "C" {
      * <------------------><------><---------><--------><---------><--------><----------><----->
      *           1            1        32         13         1         1          1        1
      */
-    #define CONTEXT_SIZE 51U
-#else
+    #घोषणा CONTEXT_आकार 51U
+#अन्यथा
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -260,20 +260,20 @@ extern "C" {
      * <------------------><--------><---------><--------><----------><----->
      *           1             13         1         1          1        1
      */
-    #define CONTEXT_SIZE 18U
-#endif /* CONTEXT_SIZE */
+    #घोषणा CONTEXT_आकार 18U
+#पूर्ण_अगर /* CONTEXT_SIZE */
 
 /**
  * @brief Offset of xSystemCallStackInfo from the start of a TCB.
  */
-#define portSYSTEM_CALL_INFO_OFFSET             \
+#घोषणा portSYSTEM_CALL_INFO_OFFSET             \
     ( ( 1U /* pxTopOfStack. */ +                \
-        ( portTOTAL_NUM_REGIONS_IN_TCB * 3U ) + \
+        ( port_योग_अंक_REGIONS_IN_TCB * 3U ) + \
         1U /* ulTaskFlags. */                   \
       ) * 4U )
 
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
 } /* extern C */
-#endif
+#पूर्ण_अगर
 
-#endif /* PORTMACRO_ASM_H */
+#पूर्ण_अगर /* PORTMACRO_ASM_H */

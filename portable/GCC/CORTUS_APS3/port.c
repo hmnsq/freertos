@@ -27,60 +27,60 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#समावेश <stdlib.h>
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#समावेश "FreeRTOS.h"
+#समावेश "task.h"
 
 /* Machine includes */
-#include <machine/counter.h>
-#include <machine/ic.h>
+#समावेश <machine/counter.h>
+#समावेश <machine/ic.h>
 /*-----------------------------------------------------------*/
 
 /* The initial PSR has the Previous Interrupt Enabled (PIEN) flag set. */
-#define portINITIAL_PSR    ( 0x00020000 )
+#घोषणा portINITIAL_PSR    ( 0x00020000 )
 
 /*-----------------------------------------------------------*/
 
 /*
  * Perform any hardware configuration necessary to generate the tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+अटल व्योम prvSetupTimerInterrupt( व्योम );
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ढेर_Type_t * px_Port_Initialise_ढेर( ढेर_Type_t * px_शीर्ष_Of_ढेर,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     व्योम * pvParameters )
 {
     /* Make space on the stack for the context - this leaves a couple of spaces
      * empty.  */
-    pxTopOfStack -= 20;
+    px_शीर्ष_Of_ढेर -= 20;
 
     /* Fill the registers with known values to assist debugging. */
-    pxTopOfStack[ 16 ] = 0;
-    pxTopOfStack[ 15 ] = portINITIAL_PSR;
-    pxTopOfStack[ 14 ] = ( uint32_t ) pxCode;
-    pxTopOfStack[ 13 ] = 0x00000000UL; /* R15. */
-    pxTopOfStack[ 12 ] = 0x00000000UL; /* R14. */
-    pxTopOfStack[ 11 ] = 0x0d0d0d0dUL;
-    pxTopOfStack[ 10 ] = 0x0c0c0c0cUL;
-    pxTopOfStack[ 9 ] = 0x0b0b0b0bUL;
-    pxTopOfStack[ 8 ] = 0x0a0a0a0aUL;
-    pxTopOfStack[ 7 ] = 0x09090909UL;
-    pxTopOfStack[ 6 ] = 0x08080808UL;
-    pxTopOfStack[ 5 ] = 0x07070707UL;
-    pxTopOfStack[ 4 ] = 0x06060606UL;
-    pxTopOfStack[ 3 ] = 0x05050505UL;
-    pxTopOfStack[ 2 ] = 0x04040404UL;
-    pxTopOfStack[ 1 ] = 0x03030303UL;
-    pxTopOfStack[ 0 ] = ( uint32_t ) pvParameters;
+    px_शीर्ष_Of_ढेर[ 16 ] = 0;
+    px_शीर्ष_Of_ढेर[ 15 ] = portINITIAL_PSR;
+    px_शीर्ष_Of_ढेर[ 14 ] = ( uint32_t ) pxCode;
+    px_शीर्ष_Of_ढेर[ 13 ] = 0x00000000UL; /* R15. */
+    px_शीर्ष_Of_ढेर[ 12 ] = 0x00000000UL; /* R14. */
+    px_शीर्ष_Of_ढेर[ 11 ] = 0x0d0d0d0dUL;
+    px_शीर्ष_Of_ढेर[ 10 ] = 0x0c0c0c0cUL;
+    px_शीर्ष_Of_ढेर[ 9 ] = 0x0b0b0b0bUL;
+    px_शीर्ष_Of_ढेर[ 8 ] = 0x0a0a0a0aUL;
+    px_शीर्ष_Of_ढेर[ 7 ] = 0x09090909UL;
+    px_शीर्ष_Of_ढेर[ 6 ] = 0x08080808UL;
+    px_शीर्ष_Of_ढेर[ 5 ] = 0x07070707UL;
+    px_शीर्ष_Of_ढेर[ 4 ] = 0x06060606UL;
+    px_शीर्ष_Of_ढेर[ 3 ] = 0x05050505UL;
+    px_शीर्ष_Of_ढेर[ 2 ] = 0x04040404UL;
+    px_शीर्ष_Of_ढेर[ 1 ] = 0x03030303UL;
+    px_शीर्ष_Of_ढेर[ 0 ] = ( uint32_t ) pvParameters;
 
-    return pxTopOfStack;
+    वापस px_शीर्ष_Of_ढेर;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( व्योम )
 {
     /* Set-up the timer interrupt. */
     prvSetupTimerInterrupt();
@@ -92,15 +92,15 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here. */
-    return 0;
+    वापस 0;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+अटल व्योम prvSetupTimerInterrupt( व्योम )
 {
     /* Enable timer interrupts */
     counter1->reload = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1;
-    counter1->value = counter1->reload;
+    counter1->मूल्य = counter1->reload;
     counter1->mask = 1;
 
     /* Set the IRQ Handler priority and enable it. */
@@ -109,19 +109,19 @@ static void prvSetupTimerInterrupt( void )
 /*-----------------------------------------------------------*/
 
 /* Trap 31 handler. */
-void interrupt31_handler( void ) __attribute__( ( naked ) );
-void interrupt31_handler( void )
+व्योम interrupt31_handler( व्योम ) __attribute__( ( naked ) );
+व्योम interrupt31_handler( व्योम )
 {
     portSAVE_CONTEXT();
-    __asm volatile ( "call vTaskSwitchContext" );
+    __asm अस्थिर ( "call vTaskSwitchContext" );
     portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-static void prvProcessTick( void ) __attribute__( ( noinline ) );
-static void prvProcessTick( void )
+अटल व्योम prvProcessTick( व्योम ) __attribute__( ( noinline ) );
+अटल व्योम prvProcessTick( व्योम )
 {
-    if( xTaskIncrementTick() != pdFALSE )
+    अगर( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -132,8 +132,8 @@ static void prvProcessTick( void )
 /*-----------------------------------------------------------*/
 
 /* Timer 1 interrupt handler, used for tick interrupt. */
-void interrupt7_handler( void ) __attribute__( ( naked ) );
-void interrupt7_handler( void )
+व्योम interrupt7_handler( व्योम ) __attribute__( ( naked ) );
+व्योम interrupt7_handler( व्योम )
 {
     portSAVE_CONTEXT();
     prvProcessTick();
@@ -141,7 +141,7 @@ void interrupt7_handler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+व्योम vPortEndScheduler( व्योम )
 {
     /* Nothing to do. Unlikely to want to end. */
 }

@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#अगर_अघोषित तथ्य_MODEL_H
+#घोषणा तथ्य_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#अगर __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #घोषणा pushm_x    pushm.w
+    #घोषणा popm_x     popm.w
+    #घोषणा धकेलो_x     धकेलो.w
+    #घोषणा निकालो_x      निकालो.w
+    #घोषणा mov_x      mov.w
+    #घोषणा cmp_x      cmp.w
+#पूर्ण_अगर
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#अगर __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #घोषणा pushm_x    pushm.a
+    #घोषणा popm_x     popm.a
+    #घोषणा धकेलो_x     pushx.a
+    #घोषणा निकालो_x      popx.a
+    #घोषणा mov_x      mov.w
+    #घोषणा cmp_x      cmp.w
+#पूर्ण_अगर
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#अगर __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #घोषणा pushm_x    pushm.a
+    #घोषणा popm_x     popm.a
+    #घोषणा धकेलो_x     pushx.a
+    #घोषणा निकालो_x      popx.a
+    #घोषणा mov_x      movx.a
+    #घोषणा cmp_x      cmpx.a
+#पूर्ण_अगर
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#अगर_अघोषित pushm_x
+    #त्रुटि The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#पूर्ण_अगर
 
-#endif /* DATA_MODEL_H */
+#पूर्ण_अगर /* DATA_MODEL_H */

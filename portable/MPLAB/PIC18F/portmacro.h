@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,75 +40,75 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#घोषणा portCHAR        अक्षर
+#घोषणा portFLOAT       भग्न
+#घोषणा portDOUBLE      द्विगुन
+#घोषणा portLONG        दीर्घ
+#घोषणा portSHORT       पूर्णांक
+#घोषणा port_ढेर_TYPE  uint8_t
+#घोषणा portBASE_TYPE   अक्षर
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+प्रकार port_ढेर_TYPE ढेर_Type_t;
+प्रकार चिन्हित अक्षर BaseType_t;
+प्रकार अचिन्हित अक्षर UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#अगर( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकार uint16_t TickType_t;
+    #घोषणा portMAX_DELAY ( TickType_t ) 0xffff
+#या_अगर ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    प्रकार uint32_t             TickType_t;
+    #घोषणा portMAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #त्रुटि configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
+#पूर्ण_अगर
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          1
-#define portGLOBAL_INT_ENABLE_BIT   0x80
-#define portSTACK_GROWTH            1
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#घोषणा portBYTE_ALIGNMENT          1
+#घोषणा portGLOBAL_INT_ENABLE_BIT   0x80
+#घोषणा port_ढेर_GROWTH            1
+#घोषणा portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    INTCONbits.GIEH = 0;
-#define portENABLE_INTERRUPTS()     INTCONbits.GIEH = 1;
+#घोषणा portDISABLE_INTERRUPTS()    INTCONbits.GIEH = 0;
+#घोषणा portENABLE_INTERRUPTS()     INTCONbits.GIEH = 1;
 
 /* Push the INTCON register onto the stack, then disable interrupts. */
-#define portENTER_CRITICAL()        POSTINC1 = INTCON;              \
+#घोषणा portENTER_CRITICAL()        POSTINC1 = INTCON;              \
                                     INTCONbits.GIEH = 0;
 
 /* Retrieve the INTCON register from the stack, and enable interrupts
 if they were saved as being enabled.  Don't modify any other bits
 within the INTCON register as these may have legitimately have been
 modified within the critical region. */
-#define portEXIT_CRITICAL()         _asm                                    \
+#घोषणा portEXIT_CRITICAL()         _asm                                    \
                                         MOVF    POSTDEC1, 1, 0              \
                                     _endasm                                 \
-                                    if( INDF1 & portGLOBAL_INT_ENABLE_BIT ) \
+                                    अगर( INDF1 & portGLOBAL_INT_ENABLE_BIT ) \
                                     {                                       \
                                         portENABLE_INTERRUPTS();            \
                                     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-#define portYIELD()             vPortYield()
+बाह्य व्योम vPortYield( व्योम );
+#घोषणा portYIELD()             vPortYield()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#घोषणा portTASK_FUNCTION_PROTO( vFunction, pvParameters ) व्योम vFunction( व्योम *pvParameters )
+#घोषणा portTASK_FUNCTION( vFunction, pvParameters ) व्योम vFunction( व्योम *pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Required by the kernel aware debugger. */
-#ifdef __DEBUG
-    #define portREMOVE_STATIC_QUALIFIER
-#endif
+#अगर_घोषित __DEBUG
+    #घोषणा portREMOVE_STATIC_QUALIFIER
+#पूर्ण_अगर
 
 
-#define portNOP()               _asm    \
+#घोषणा portNOP()               _asm    \
                                     NOP \
                                 _endasm
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */

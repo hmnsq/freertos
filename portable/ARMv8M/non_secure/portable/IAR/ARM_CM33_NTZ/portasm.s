@@ -15,12 +15,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -56,15 +56,15 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     EXTERN vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
+    सार्व xIsPrivileged
+    सार्व vResetPrivilege
+    सार्व vRestoreContextOfFirstTask
+    सार्व vRaisePrivilege
+    सार्व vStartFirstTask
+    सार्व ulSetInterruptMask
+    सार्व vClearInterruptMask
+    सार्व PendSV_Handler
+    सार्व SVC_Handler
 /*-----------------------------------------------------------*/
 
 /*---------------- Unprivileged Functions -------------------*/
@@ -77,7 +77,7 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
-    tst r0, #1                              /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1                              /* Perform r0 & 1 (bitwise और) and update the conditions flag. */
     ite ne
     movne r0, #0                            /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1                            /* CONTROL[0]==0. Return true to indicate that the processor is not privileged. */
@@ -183,7 +183,7 @@ vRestoreContextOfFirstTask:
     ldr r1, =ulFirstTaskLiteralPool         /* Get the location of the current TCB and the Id of the current core. */
     ldmia r1!, {r2, r3}
     ldr r2, [r2]                            /* r2 = Core Id */
-    ldr r1, [r3, r2, LSL #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
+    ldr r1, [r3, r2, भखस #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
 #endif /* if ( configNUMBER_OF_CORES == 1) */
     ldr  r0, [r1]                           /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
 
@@ -405,7 +405,7 @@ PendSV_Handler:
     ldr r1, =ulPendSVLiteralPool            /* Get the location of the current TCB and the Id of the current core. */
     ldmia r1!, {r2, r3}
     ldr r2, [r2]                            /* r2 = Core Id */
-    ldr r1, [r3, r2, LSL #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
+    ldr r1, [r3, r2, भखस #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
 #endif /* if ( configNUMBER_OF_CORES == 1) */
     str r0, [r1]                            /* Save the new top of stack in TCB. */
 
@@ -427,7 +427,7 @@ PendSV_Handler:
     ldr r1, =ulPendSVLiteralPool            /* Get the location of the current TCB and the Id of the current core. */
     ldmia r1!, {r2, r3}
     ldr r2, [r2]                            /* r2 = Core Id */
-    ldr r1, [r3, r2, LSL #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
+    ldr r1, [r3, r2, भखस #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
 #endif /* if ( configNUMBER_OF_CORES == 1) */
     ldr r0, [r1]                            /* The first item in pxCurrentTCB is the task top of stack. r0 now points to the top of stack. */
 
@@ -498,4 +498,4 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-    END
+    पूर्ण

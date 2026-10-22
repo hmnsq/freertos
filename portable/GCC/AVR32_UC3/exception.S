@@ -2,7 +2,7 @@
  * FreeRTOS Kernel <DEVELOPMENT BRANCH>
  * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
- * SPDX-License-Identifier: MIT AND BSD-3-Clause
+ * SPDX-License-Identifier: MIT और BSD-3-Clause
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -59,16 +59,16 @@
  * 3. The name of ATMEL may not be used to endorse or promote products derived
  * from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY AND
- * SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * यह SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' और ANY EXPRESS या IMPLIED
+ * WARRANTIES, INCLUDING, BUT नहीं LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY और FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY और
+ * SPECIFICALLY DISCLAIMED. अंदर NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, या CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT नहीं LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS या SERVICES;
+ * LOSS OF USE, DATA, या PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER अंदर CONTRACT, STRICT LIABILITY, या TORT
+ * (INCLUDING NEGLIGENCE या OTHERWISE) ARISING अंदर ANY WAY बाहर OF THE USE OF
+ * यह SOFTWARE, जोड़_मिल अगर ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 
@@ -100,7 +100,7 @@ _handle_Unrecoverable_Exception:
         rjmp $
 
         .org  0x004
-        // TLB Multiple Hit: UNUSED IN AVR32UC.
+        // TLB Multiple Hit: UNUSED अंदर AVR32UC.
 _handle_TLB_Multiple_Hit:
         rjmp $
 
@@ -150,12 +150,12 @@ _handle_Privilege_Violation:
         rjmp $
 
         .org  0x02C
-        // Floating-Point: UNUSED IN AVR32UC.
+        // Floating-Point: UNUSED अंदर AVR32UC.
 _handle_Floating_Point:
         rjmp $
 
         .org  0x030
-        // Coprocessor Absent: UNUSED IN AVR32UC.
+        // Coprocessor Absent: UNUSED अंदर AVR32UC.
 _handle_Coprocessor_Absent:
         rjmp $
 
@@ -180,22 +180,22 @@ _handle_DTLB_Protection_Write:
         rjmp $
 
         .org  0x044
-        // DTLB Modified: UNUSED IN AVR32UC.
+        // DTLB Modified: UNUSED अंदर AVR32UC.
 _handle_DTLB_Modified:
         rjmp $
 
         .org  0x050
-        // ITLB Miss: UNUSED IN AVR32UC.
+        // ITLB Miss: UNUSED अंदर AVR32UC.
 _handle_ITLB_Miss:
         rjmp $
 
         .org  0x060
-        // DTLB Miss (Read): UNUSED IN AVR32UC.
+        // DTLB Miss (Read): UNUSED अंदर AVR32UC.
 _handle_DTLB_Miss_Read:
         rjmp $
 
         .org  0x070
-        // DTLB Miss (Write): UNUSED IN AVR32UC.
+        // DTLB Miss (Write): UNUSED अंदर AVR32UC.
 _handle_DTLB_Miss_Write:
         rjmp $
 
@@ -320,7 +320,7 @@ ipr_val:
   .word (INT0 << AVR32_INTC_IPR0_INTLEV_OFFSET) | (_int0 - _evba),\
         (INT1 << AVR32_INTC_IPR0_INTLEV_OFFSET) | (_int1 - _evba),\
         (INT2 << AVR32_INTC_IPR0_INTLEV_OFFSET) | (_int2 - _evba),\
-        (INT3 << AVR32_INTC_IPR0_INTLEV_OFFSET) | (_int3 - _evba)
+        (विघ्न3 << AVR32_INTC_IPR0_INTLEV_OFFSET) | (_int3 - _evba)
 
 
 //! \endverbatim

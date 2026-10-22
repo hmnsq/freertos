@@ -33,9 +33,9 @@
 
     EXTERN    _interrupt_vector_table
 
-    PUBLIC    _vPortYield
-    PUBLIC    _vPortStartFirstTask
-    PUBLIC    _vPortTickISR
+    सार्व    _vPortYield
+    सार्व    _vPortStartFirstTask
+    सार्व    _vPortTickISR
 
 #if !defined(__IASMRL78__) || (__VER__ < 310)
     #error "This port requires the IAR Assembler for RL78 version 3.10 or later."
@@ -74,11 +74,11 @@ _vPortStartFirstTask:
 _vPortTickISR:
     portSAVE_CONTEXT               ; Save the context of the current task.
     RCALL    (_xTaskIncrementTick) ; Call the timer tick function.
-    CMPW    AX, #0x00
+    CMPW    कक्ष, #0x00
     SKZ
     RCALL    (_vTaskSwitchContext) ; Call the scheduler to select the next task.
     portRESTORE_CONTEXT            ; Restore the context of the next task to run.
     RETI
 ;-------------------------------------------------------------------------------
 
-    END
+    पूर्ण

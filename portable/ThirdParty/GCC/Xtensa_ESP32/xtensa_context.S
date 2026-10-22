@@ -20,21 +20,21 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS या IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE और NONINFRINGEMENT.
+ * अंदर NO EVENT SHALL THE AUTHORS या COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES या OTHER LIABILITY, WHETHER अंदर AN ACTION OF CONTRACT,
+ * TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर CONNECTION WITH THE
+ * SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  */
 
 /*******************************************************************************
 
-        XTENSA CONTEXT SAVE AND RESTORE ROUTINES
+        XTENSA CONTEXT SAVE और RESTORE ROUTINES
 
 Low-level Call0 functions for handling generic context save and restore of
 registers not specifically addressed by the interrupt vectors and handlers.
-Those registers (not handled by these functions) are PC, PS, A0, A1 (SP).
+Those registers (not handled by these functions) are PC, PS, A0, A1 (ढस).
 Except for the calls to RTOS functions, this code is generic to Xtensa.
 
 Note that in Call0 ABI, interrupt handlers are expected to preserve the callee-
@@ -77,11 +77,11 @@ _xt_context_save
 
     !! MUST BE CALLED ONLY BY 'CALL0' INSTRUCTION !!
 
-Saves all Xtensa processor state except PC, PS, A0, A1 (SP), A12, A13, in the
+Saves all Xtensa processor state except PC, PS, A0, A1 (ढस), A12, A13, in the
 interrupt stack frame defined in xtensa_rtos.h.
 Its counterpart is _xt_context_restore (which also restores A12, A13).
 
-Caller is expected to have saved PC, PS, A0, A1 (SP), A12, A13 in the frame.
+Caller is expected to have saved PC, PS, A0, A1 (ढस), A12, A13 in the frame.
 This function preserves A12 & A13 in order to provide the caller with 2 scratch
 regs that need not be saved over the call to this function. The choice of which
 2 regs to provide is governed by xthal_window_spill_nw and xthal_save_extra_nw,
@@ -91,7 +91,7 @@ Entry Conditions:
     A0  = Return address in caller.
     A1  = Stack pointer of interrupted thread or handler ("interruptee").
     Original A12, A13 have already been saved in the interrupt stack frame.
-    Other processor state except PC, PS, A0, A1 (SP), A12, A13, is as at the
+    Other processor state except PC, PS, A0, A1 (ढस), A12, A13, is as at the
     point of interruption.
     If windowed ABI, PS.EXCM = 1 (exceptions disabled).
 
@@ -132,7 +132,7 @@ _xt_context_save:
     s32i    a15, sp, XT_STK_A15
     #endif
 
-    rsr     a3,  SAR
+    rsr     a3,  हगद
     s32i    a3,  sp, XT_STK_SAR
 
     #if XCHAL_HAVE_LOOPS
@@ -181,7 +181,7 @@ _xt_context_save:
     l32i    a12, sp, XT_STK_A12         /* recover original a9,12,13 */
     l32i    a13, sp, XT_STK_A13
     l32i    a9,  sp, XT_STK_A9
-    addi    sp,  sp, XT_STK_FRMSZ       /* restore the interruptee's SP */
+    addi    sp,  sp, XT_STK_FRMSZ       /* restore the interruptee's ढस */
     call0   xthal_window_spill_nw       /* preserves only a4,5,8,9,12,13 */
     addi    sp,  sp, -XT_STK_FRMSZ
     l32i    a12, sp, XT_STK_TMP0        /* recover stuff from stack frame */
@@ -242,7 +242,7 @@ _xt_context_save:
     wsr     a3, ps
     rsr     a0, EPC1                   /* to be restored after SPILL_ALL_WINDOWS */
 
-    addi    sp,  sp, XT_STK_FRMSZ      /* restore the interruptee's SP */
+    addi    sp,  sp, XT_STK_FRMSZ      /* restore the interruptee's ढस */
     SPILL_ALL_WINDOWS
     addi    sp,  sp, -XT_STK_FRMSZ     /* return the current stack pointer and proceed with context save*/
 
@@ -270,12 +270,12 @@ _xt_context_restore
 
     !! MUST BE CALLED ONLY BY 'CALL0' INSTRUCTION !!
 
-Restores all Xtensa processor state except PC, PS, A0, A1 (SP) (and in Call0
+Restores all Xtensa processor state except PC, PS, A0, A1 (ढस) (and in Call0
 ABI, A14, A15 which are preserved by all interrupt handlers) from an interrupt
 stack frame defined in xtensa_rtos.h .
 Its counterpart is _xt_context_save (whose caller saved A12, A13).
 
-Caller is responsible to restore PC, PS, A0, A1 (SP).
+Caller is responsible to restore PC, PS, A0, A1 (ढस).
 
 Entry Conditions:
     A0  = Return address in caller.
@@ -284,7 +284,7 @@ Entry Conditions:
 Exit conditions:
     A0  = Return address in caller.
     A1  = Stack pointer of interrupted thread or handler ("interruptee").
-    Other processor state except PC, PS, A0, A1 (SP), is as at the point
+    Other processor state except PC, PS, A0, A1 (ढस), is as at the point
     of interruption.
 
 *******************************************************************************/
@@ -330,7 +330,7 @@ _xt_context_restore:
     If we are using overlays, this is a good spot to check if we need
     to restore an overlay for the incoming task. Here we have a bunch
     of registers to spare. Note that this step is going to use a few
-    bytes of storage below SP (SP-20 to SP-32) if an overlay is going
+    bytes of storage below ढस (ढस-20 to ढस-32) if an overlay is going
     to be restored.
     */
     l32i    a2,  sp, XT_STK_PC          /* retrieve PC */
@@ -354,7 +354,7 @@ _xt_context_restore:
 
     l32i    a3,  sp, XT_STK_SAR
     l32i    a2,  sp, XT_STK_A2
-    wsr     a3,  SAR
+    wsr     a3,  हगद
     l32i    a3,  sp, XT_STK_A3
     l32i    a4,  sp, XT_STK_A4
     l32i    a5,  sp, XT_STK_A5
@@ -385,7 +385,7 @@ _xt_context_restore:
 _xt_coproc_init
 
 Initializes global co-processor management data, setting all co-processors
-to "unowned". Leaves CPENABLE as it found it (does NOT clear it).
+to "unowned". Leaves CPENABLE as it found it (does नहीं clear it).
 
 Called during initialization of the RTOS, before any threads run.
 

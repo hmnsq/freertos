@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -60,18 +60,18 @@
     system mode to save the remaining system mode registers. */
     SRSDB   sp!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    दो    {R0-R12, R14}
 
     /* Push the critical nesting count. */
     LDR     R2, ulCriticalNestingConst
     LDR     R1, [R2]
-    PUSH    {R1}
+    दो    {R1}
 
     /* Does the task have a floating point context that needs saving?  If
     ulPortTaskHasFPUContext is 0 then no. */
     LDR     R2, ulPortTaskHasFPUContextConst
     LDR     R3, [R2]
-    CMP     R3, #0
+    भेद     R3, #0
 
     /* Save the floating point context, if any. */
     FMRXNE  R1,  FPSCR
@@ -80,12 +80,12 @@
     VPUSHNE {D16-D31}
 
     /* Save ulPortTaskHasFPUContext itself. */
-    PUSH    {R3}
+    दो    {R3}
 
     /* Save the stack pointer in the TCB. */
     LDR     R0, pxCurrentTCBConst
     LDR     R1, [R0]
-    STR     SP, [R1]
+    रक्रिर     ढस, [R1]
 
     .endm
 
@@ -93,17 +93,17 @@
 
 .macro portRESTORE_CONTEXT
 
-    /* Set the SP to point to the stack of the task being restored. */
+    /* Set the ढस to point to the stack of the task being restored. */
     LDR     R0, pxCurrentTCBConst
     LDR     R1, [R0]
-    LDR     SP, [R1]
+    LDR     ढस, [R1]
 
     /* Is there a floating point context to restore?  If the restored
     ulPortTaskHasFPUContext is zero then no. */
     LDR     R0, ulPortTaskHasFPUContextConst
-    POP     {R1}
-    STR     R1, [R0]
-    CMP     R1, #0
+    लो     {R1}
+    रक्रिर     R1, [R0]
+    भेद     R1, #0
 
     /* Restore the floating point context, if any. */
     VPOPNE  {D16-D31}
@@ -113,21 +113,21 @@
 
     /* Restore the critical section nesting depth. */
     LDR     R0, ulCriticalNestingConst
-    POP     {R1}
-    STR     R1, [R0]
+    लो     {R1}
+    रक्रिर     R1, [R0]
 
     /* Ensure the priority mask is correct for the critical nesting depth. */
     LDR     R2, ulICCPMRConst
     LDR     R2, [R2]
-    CMP     R1, #0
+    भेद     R1, #0
     MOVEQ   R4, #255
     LDRNE   R4, ulMaxAPIPriorityMaskConst
     LDRNE   R4, [R4]
-    STR     R4, [R2]
+    रक्रिर     R4, [R2]
 
-    /* Restore all system mode registers other than the SP (which is already
+    /* Restore all system mode registers other than the ढस (which is already
     being used). */
-    POP     {R0-R12, R14}
+    लो     {R0-R12, R14}
 
     /* Return to the task code, loading CPSR on the way. */
     RFEIA   sp!
@@ -147,9 +147,9 @@ FreeRTOS_SWI_Handler:
     portSAVE_CONTEXT
 
     /* Ensure bit 2 of the stack pointer is clear. */
-    MOV     r2, sp
-    AND     r2, r2, #4
-    SUB     sp, sp, r2
+    डालो     r2, sp
+    और     r2, r2, #4
+    घटा     sp, sp, r2
 
     LDR R0, vTaskSwitchContextConst
     BLX R0
@@ -170,26 +170,26 @@ vPortRestoreTaskContext:
 .type FreeRTOS_IRQ_Handler, %function
 FreeRTOS_IRQ_Handler:
     /* Return to the interrupted instruction. */
-    SUB     lr, lr, #4
+    घटा     lr, lr, #4
 
     /* Push the return address and SPSR. */
-    PUSH    {lr}
+    दो    {lr}
     MRS     lr, SPSR
-    PUSH    {lr}
+    दो    {lr}
 
     /* Change to supervisor mode to allow reentry. */
     CPS     #SVC_MODE
 
     /* Push used registers. */
-    PUSH    {r0-r4, r12}
+    दो    {r0-r4, r12}
 
     /* Increment nesting count.  r3 holds the address of ulPortInterruptNesting
     for future use.  r1 holds the original ulPortInterruptNesting value for
     future use. */
     LDR     r3, ulPortInterruptNestingConst
     LDR     r1, [r3]
-    ADD     r4, r1, #1
-    STR     r4, [r3]
+    जमा     r4, r1, #1
+    रक्रिर     r4, [r3]
 
     /* Read value from the interrupt acknowledge register, which is stored in r0
     for future parameter and interrupt clearing use. */
@@ -200,16 +200,16 @@ FreeRTOS_IRQ_Handler:
     /* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     future use.  _RB_ Does this ever actually need to be done provided the start
     of the stack is 8-byte aligned? */
-    MOV     r2, sp
-    AND     r2, r2, #4
-    SUB     sp, sp, r2
+    डालो     r2, sp
+    और     r2, r2, #4
+    घटा     sp, sp, r2
 
     /* Call the interrupt handler.  r4 pushed to maintain alignment. */
-    PUSH    {r0-r4, lr}
+    दो    {r0-r4, lr}
     LDR     r1, vApplicationIRQHandlerConst
     BLX     r1
-    POP     {r0-r4, lr}
-    ADD     sp, sp, r2
+    लो     {r0-r4, lr}
+    जमा     sp, sp, r2
 
     CPSID   i
     DSB
@@ -218,13 +218,13 @@ FreeRTOS_IRQ_Handler:
     /* Write the value read from ICCIAR to ICCEOIR. */
     LDR     r4, ulICCEOIRConst
     LDR     r4, [r4]
-    STR     r0, [r4]
+    रक्रिर     r0, [r4]
 
     /* Restore the old nesting count. */
-    STR     r1, [r3]
+    रक्रिर     r1, [r3]
 
     /* A context switch is never performed if the nesting count is not 0. */
-    CMP     r1, #0
+    भेद     r1, #0
     BNE     exit_without_switch
 
     /* Did the interrupt request a context switch?  r1 holds the address of
@@ -232,32 +232,32 @@ FreeRTOS_IRQ_Handler:
     use. */
     LDR     r1, =ulPortYieldRequired
     LDR     r0, [r1]
-    CMP     r0, #0
+    भेद     r0, #0
     BNE     switch_before_exit
 
 exit_without_switch:
     /* No context switch.  Restore used registers, LR_irq and SPSR before
     returning. */
-    POP     {r0-r4, r12}
+    लो     {r0-r4, r12}
     CPS     #IRQ_MODE
-    POP     {LR}
+    लो     {LR}
     MSR     SPSR_cxsf, LR
-    POP     {LR}
+    लो     {LR}
     MOVS    PC, LR
 
 switch_before_exit:
     /* A context switch is to be performed.  Clear the context switch pending
     flag. */
-    MOV     r0, #0
-    STR     r0, [r1]
+    डालो     r0, #0
+    रक्रिर     r0, [r1]
 
     /* Restore used registers, LR-irq and SPSR before saving the context
     to the task stack. */
-    POP     {r0-r4, r12}
+    लो     {r0-r4, r12}
     CPS     #IRQ_MODE
-    POP     {LR}
+    लो     {LR}
     MSR     SPSR_cxsf, LR
-    POP     {LR}
+    लो     {LR}
     portSAVE_CONTEXT
 
     /* Call the function that selects the new task to execute.
@@ -266,9 +266,9 @@ switch_before_exit:
     saving as a new LR will be loaded by portRESTORE_CONTEXT anyway.
     Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     future use. */
-    MOV     r2, sp
-    AND     r2, r2, #4
-    SUB     sp, sp, r2
+    डालो     r2, sp
+    और     r2, r2, #4
+    घटा     sp, sp, r2
 
     LDR     R0, vTaskSwitchContextConst
     BLX     R0
@@ -300,21 +300,21 @@ switch_before_exit:
 .weak vApplicationIRQHandler
 .type vApplicationIRQHandler, %function
 vApplicationIRQHandler:
-    PUSH    {LR}
+    दो    {LR}
     FMRX    R1,  FPSCR
     VPUSH   {D0-D7}
     VPUSH   {D16-D31}
-    PUSH    {R1}
+    दो    {R1}
 
     LDR     r1, vApplicationFPUSafeIRQHandlerConst
     BLX     r1
 
-    POP     {R0}
+    लो     {R0}
     VPOP    {D16-D31}
     VPOP    {D0-D7}
     VMSR    FPSCR, R0
 
-    POP {PC}
+    लो {PC}
 
 
 ulICCIARConst:  .word ulICCIARAddress

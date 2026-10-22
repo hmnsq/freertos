@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -55,7 +55,7 @@ dispatch:
  */
     SAVE_NONSCRATCH_REGS        /* save callee save registers */
     mov r1, dispatch_r
-    PUSH    r1          /* save return address */
+    दो    r1          /* save return address */
     ld  r0, [pxCurrentTCB]
     bl  dispatcher
 
@@ -88,7 +88,7 @@ start_dispatch:
  */
 dispatcher:
     ld  r1, [ulCriticalNesting]
-    PUSH    r1          /* save critical nesting */
+    दो    r1          /* save critical nesting */
     st  sp, [r0]        /* save stack pointer of current task, r0->pxCurrentTCB */
     jl  vTaskSwitchContext  /* change the value of pxCurrentTCB */
 /*
@@ -110,9 +110,9 @@ dispatcher_0:
     bset r0, r0, AUX_STATUS_BIT_SC
     flag r0
 #endif
-    POP r0      /* get critical nesting */
+    लो r0      /* get critical nesting */
     st  r0, [ulCriticalNesting]
-    POP r0      /* get return address  */
+    लो r0      /* get return address  */
     j   [r0]
 
 /*
@@ -125,8 +125,8 @@ dispatcher_0:
 start_r:
     seti    /* unlock cpu */
     mov blink, vPortEndTask /* set return address */
-    POP r1          /* get task function body */
-    POP r0          /* get task parameters */
+    लो r1          /* get task function body */
+    लो r0          /* get task parameters */
     j   [r1]
 
 /****** exceptions and interrupts handing ******/
@@ -148,7 +148,7 @@ exc_entry_cpu:
 /* change to exception stack if interrupt happened in task context */
     mov sp, _e_stack
 exc_handler_1:
-    PUSH    blink
+    दो    blink
 
 /* find the exception cause */
 #if ARC_FEATURE_CORE_700
@@ -164,7 +164,7 @@ exc_handler_1:
 
 /* interrupts are not allowed */
 ret_exc:
-    POP sp
+    लो sp
     mov r1, exc_nest_count
     ld  r0, [r1]
     sub r0, r0, 1
@@ -200,7 +200,7 @@ ret_exc_2:
     flag    r0
 
     mov r1, ret_exc_r   /* save return address */
-    PUSH    r1
+    दो    r1
 
     bl  dispatcher  /* r0->pxCurrentTCB */
 
@@ -251,7 +251,7 @@ exc_entry_int:
     flag r0
 #endif
 irq_handler_1:
-    PUSH    blink
+    दो    blink
 
 /* critical area */
 #if ARC_FEATURE_CORE_700
@@ -272,7 +272,7 @@ irq_hint_handled:
 ret_int:
     clri    /* disable interrupt */
 
-    POP sp
+    लो sp
     mov r1, exc_nest_count
     ld  r0, [r1]
     sub r0, r0, 1
@@ -300,12 +300,12 @@ ret_int_2:
     breq    r0, 0, ret_int_1
 
 /* r1 has old AUX_IRQ_LV12 */
-    PUSH    r1
+    दो    r1
 /* clear related bits in IRQ_ACT manually to simulate a irq return  */
 
     SAVE_CALLEE_REGS    /* save callee save registers */
     mov r1, ret_int_r   /* save return address */
-    PUSH    r1
+    दो    r1
 
     bl  dispatcher  /* r0->pxCurrentTCB */
 

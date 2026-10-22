@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -55,7 +55,7 @@ dispatch:
  */
     SAVE_NONSCRATCH_REGS        /* save callee save registers */
     mov r1, dispatch_r
-    PUSH    r1          /* save return address */
+    दो    r1          /* save return address */
     ld  r0, [pxCurrentTCB]
     bl  dispatcher
 
@@ -88,7 +88,7 @@ start_dispatch:
  */
 dispatcher:
     ld  r1, [ulCriticalNesting]
-    PUSH    r1          /* save critical nesting */
+    दो    r1          /* save critical nesting */
     st  sp, [r0]        /* save stack pointer of current task, r0->pxCurrentTCB */
     jl  vTaskSwitchContext  /* change the value of pxCurrentTCB */
 /*
@@ -122,9 +122,9 @@ dispatcher_0:
     kflag r0
 #endif
 #endif
-    POP r0      /* get critical nesting */
+    लो r0      /* get critical nesting */
     st  r0, [ulCriticalNesting]
-    POP r0      /* get return address  */
+    लो r0      /* get return address  */
     j   [r0]
 
 /*
@@ -137,8 +137,8 @@ dispatcher_0:
 start_r:
     seti    /* unlock cpu */
     mov blink, vPortEndTask /* set return address */
-    POP r1          /* get task function body */
-    POP r0          /* get task parameters */
+    लो r1          /* get task function body */
+    लो r0          /* get task parameters */
     j   [r1]
 
 /****** exceptions and interrupts handing ******/
@@ -159,7 +159,7 @@ exc_entry_cpu:
 /* change to exception stack if interrupt happened in task context */
     mov sp, _e_stack
 exc_handler_1:
-    PUSH    blink
+    दो    blink
 
     lr  r0, [AUX_ECR]
     lsr r0, r0, 16
@@ -171,7 +171,7 @@ exc_handler_1:
 
 /* interrupts are not allowed */
 ret_exc:
-    POP sp
+    लो sp
     mov r1, exc_nest_count
     ld  r0, [r1]
     sub r0, r0, 1
@@ -203,7 +203,7 @@ ret_exc_2:
     kflag   r0
 
     mov r1, ret_exc_r   /* save return address */
-    PUSH    r1
+    दो    r1
 
     bl  dispatcher  /* r0->pxCurrentTCB */
 
@@ -227,10 +227,10 @@ exc_entry_int:
     btst    r0, 0
     jnz exc_entry_firq
 #else
-    PUSH    r10
+    दो    r10
     lr  r10, [AUX_IRQ_ACT]
     btst    r10, 0
-    POP r10
+    लो r10
     jnz exc_entry_firq
 #endif
 #endif
@@ -259,7 +259,7 @@ exc_entry_int:
 #endif
 #endif
 irq_handler_1:
-    PUSH    blink
+    दो    blink
 
     lr  r0, [AUX_IRQ_CAUSE]
     mov r1, exc_int_handler_table
@@ -277,7 +277,7 @@ irq_hint_handled:
 ret_int:
     clri    /* disable interrupt */
 
-    POP sp
+    लो sp
     mov r1, exc_nest_count
     ld  r0, [r1]
     sub r0, r0, 1
@@ -305,13 +305,13 @@ ret_int_2:
     breq    r0, 0, ret_int_1
 
 /* r1 has old AUX_IRQ_ACT */
-    PUSH    r1
+    दो    r1
 /* clear related bits in IRQ_ACT manually to simulate a irq return  */
     sr  r2, [AUX_IRQ_ACT]
 
     SAVE_CALLEE_REGS    /* save callee save registers */
     mov r1, ret_int_r   /* save return address */
-    PUSH    r1
+    दो    r1
 
     bl  dispatcher  /* r0->pxCurrentTCB */
 
@@ -359,7 +359,7 @@ exc_entry_firq:
 /* change to exception stack if interrupt happened in task context */
     mov sp, _e_stack
 firq_handler_1:
-    PUSH    blink
+    दो    blink
 
     lr  r0, [AUX_IRQ_CAUSE]
     mov r1, exc_int_handler_table
@@ -375,7 +375,7 @@ firq_hint_handled:
 /* no interrupts are allowed from here */
 ret_firq:
     clri
-    POP sp
+    लो sp
 
     mov r1, exc_nest_count
     ld  r0, [r1]
@@ -416,12 +416,12 @@ ret_firq_2:
  * so pop them out
  */
 #if  ARC_FEATURE_RGF_BANKED_REGS == 16 && !defined(ARC_FEATURE_RF16)
-    POP     r9
-    POP     r8
-    POP     r7
-    POP     r6
-    POP     r5
-    POP     r4
+    लो     r9
+    लो     r8
+    लो     r7
+    लो     r6
+    लो     r5
+    लो     r4
 #endif
 
 /* for other cases, unbanked regs are already in interrupted context's stack,
@@ -438,44 +438,44 @@ ret_firq_2:
 
 #if ARC_FEATURE_RGF_BANKED_REGS == 4
 /* r4 - r12, gp, fp, r30, blink already saved */
-    PUSH    r0
-    PUSH    r1
-    PUSH    r2
-    PUSH    r3
+    दो    r0
+    दो    r1
+    दो    r2
+    दो    r3
 #elif ARC_FEATURE_RGF_BANKED_REGS == 8
 /* r4 - r9, r0, r11 gp, fp, r30, blink already saved */
-    PUSH    r0
-    PUSH    r1
-    PUSH    r2
-    PUSH    r3
-    PUSH    r12
+    दो    r0
+    दो    r1
+    दो    r2
+    दो    r3
+    दो    r12
 #elif ARC_FEATURE_RGF_BANKED_REGS >= 16
 /* nothing is saved, */
     SAVE_R0_TO_R12
 
     SAVE_R58_R59
-    PUSH    gp
-    PUSH    fp
-    PUSH    r30     /* general purpose */
-    PUSH    blink
+    दो    gp
+    दो    fp
+    दो    r30     /* general purpose */
+    दो    blink
 
 #if ARC_FEATURE_CODE_DENSITY
     SAVE_CODE_DENSITY
 #endif
     SAVE_LP_REGS
 #endif
-    PUSH    ilink
+    दो    ilink
     lr  r0, [AUX_STATUS32_P0]
-    PUSH    r0
+    दो    r0
     lr  r0, [AUX_IRQ_ACT]
-    PUSH    r0
+    दो    r0
     bclr    r0, r0, 0
     sr  r0, [AUX_IRQ_ACT]
 
     SAVE_CALLEE_REGS    /* save callee save registers */
 
     mov r1, ret_firq_r  /* save return address */
-    PUSH    r1
+    दो    r1
     ld  r0, [pxCurrentTCB]
     bl  dispatcher  /* r0->pxCurrentTCB */
 
@@ -483,33 +483,33 @@ ret_firq_r:
     RESTORE_CALLEE_REGS /* recover registers */
     POPAX   AUX_IRQ_ACT
     POPAX   AUX_STATUS32_P0
-    POP ilink
+    लो ilink
 
 #if ARC_FEATURE_RGF_NUM_BANKS > 1
 #if ARC_FEATURE_RGF_BANKED_REGS == 4
 /* r4 - r12, gp, fp, r30, blink already saved */
-    POP r3
-    POP r2
-    POP r1
-    POP r0
+    लो r3
+    लो r2
+    लो r1
+    लो r0
     RESTORE_FIQ_EXC_REGS
 #elif ARC_FEATURE_RGF_BANKED_REGS == 8
 /* r4 - r9, gp, fp, r30, blink already saved */
-    POP r12
-    POP r3
-    POP r2
-    POP r1
-    POP r0
+    लो r12
+    लो r3
+    लो r2
+    लो r1
+    लो r0
     RESTORE_FIQ_EXC_REGS
 #elif ARC_FEATURE_RGF_BANKED_REGS >= 16
     RESTORE_LP_REGS
 #if ARC_FEATURE_CODE_DENSITY
     RESTORE_CODE_DENSITY
 #endif
-    POP blink
-    POP r30
-    POP fp
-    POP gp
+    लो blink
+    लो r30
+    लो fp
+    लो gp
 
     RESTORE_R58_R59
     RESTORE_R0_TO_R12

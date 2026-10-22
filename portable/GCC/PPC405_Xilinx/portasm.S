@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -63,7 +63,7 @@
     lwz     R2, pxCurrentTCB@l( R2 )
 
     /* Store the stack pointer into the TCB */
-    stw     SP, 0( R2 )
+    stw     ढस, 0( R2 )
 
     /* Save the link register */
     stwu    R1, -24( R1 )
@@ -85,11 +85,11 @@
 
     /* Get the address of the TCB. */
     xor     R0, R0, R0
-    addis   SP, R0, pxCurrentTCB@ha
-    lwz     SP, pxCurrentTCB@l( R1 )
+    addis   ढस, R0, pxCurrentTCB@ha
+    lwz     ढस, pxCurrentTCB@l( R1 )
 
     /* Get the task stack pointer from the TCB. */
-    lwz     SP, 0( SP )
+    lwz     ढस, 0( ढस )
 
 .endm
 
@@ -98,11 +98,11 @@ vPortStartFirstTask:
 
     /* Get the address of the TCB. */
     xor     R0, R0, R0
-    addis   SP, R0, pxCurrentTCB@ha
-    lwz     SP, pxCurrentTCB@l( SP )
+    addis   ढस, R0, pxCurrentTCB@ha
+    lwz     ढस, pxCurrentTCB@l( ढस )
 
     /* Get the task stack pointer from the TCB. */
-    lwz     SP, 0( SP )
+    lwz     ढस, 0( ढस )
 
     /* Restore MSR register to SRR1. */
     lwz     R0, MSRField(R1)

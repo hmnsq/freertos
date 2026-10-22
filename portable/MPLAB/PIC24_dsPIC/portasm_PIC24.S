@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -34,57 +34,57 @@
 
 _vPortYield:
 
-        PUSH    SR                      /* Save the SR used by the task.... */
-        PUSH    W0                      /* ....then disable interrupts. */
-        MOV     #32, W0
-        MOV     W0, SR
-        PUSH    W1                      /* Save registers to the stack. */
-        PUSH.D  W2
-        PUSH.D  W4
-        PUSH.D  W6
-        PUSH.D  W8
-        PUSH.D  W10
-        PUSH.D  W12
-        PUSH    W14
-        PUSH    RCOUNT
-        PUSH    TBLPAG
+        दो    SR                      /* Save the SR used by the task.... */
+        दो    W0                      /* ....then disable interrupts. */
+        डालो     #32, W0
+        डालो     W0, SR
+        दो    W1                      /* Save registers to the stack. */
+        दो.D  W2
+        दो.D  W4
+        दो.D  W6
+        दो.D  W8
+        दो.D  W10
+        दो.D  W12
+        दो    W14
+        दो    RCOUNT
+        दो    TBLPAG
 
-        PUSH    CORCON
+        दो    CORCON
         #ifdef __HAS_EDS__
-            PUSH    DSRPAG
-            PUSH    DSWPAG
+            दो    DSRPAG
+            दो    DSWPAG
         #else
-            PUSH    PSVPAG
+            दो    PSVPAG
         #endif /* __HAS_EDS__ */
-        MOV     _uxCriticalNesting, W0      /* Save the critical nesting counter for the task. */
-        PUSH    W0
-        MOV     _pxCurrentTCB, W0           /* Save the new top of stack into the TCB. */
-        MOV     W15, [W0]
+        डालो     _uxCriticalNesting, W0      /* Save the critical nesting counter for the task. */
+        दो    W0
+        डालो     _pxCurrentTCB, W0           /* Save the new top of stack into the TCB. */
+        डालो     W15, [W0]
 
         call    _vTaskSwitchContext
 
-        MOV     _pxCurrentTCB, W0           /* Restore the stack pointer for the task. */
-        MOV     [W0], W15
-        POP     W0                          /* Restore the critical nesting counter for the task. */
-        MOV     W0, _uxCriticalNesting
+        डालो     _pxCurrentTCB, W0           /* Restore the stack pointer for the task. */
+        डालो     [W0], W15
+        लो     W0                          /* Restore the critical nesting counter for the task. */
+        डालो     W0, _uxCriticalNesting
         #ifdef __HAS_EDS__
-            POP     DSWPAG
-            POP     DSRPAG
+            लो     DSWPAG
+            लो     DSRPAG
         #else
-            POP     PSVPAG
+            लो     PSVPAG
         #endif /* __HAS_EDS__ */
-        POP     CORCON
-        POP     TBLPAG
-        POP     RCOUNT                      /* Restore the registers from the stack. */
-        POP     W14
-        POP.D   W12
-        POP.D   W10
-        POP.D   W8
-        POP.D   W6
-        POP.D   W4
-        POP.D   W2
-        POP.D   W0
-        POP     SR
+        लो     CORCON
+        लो     TBLPAG
+        लो     RCOUNT                      /* Restore the registers from the stack. */
+        लो     W14
+        लो.D   W12
+        लो.D   W10
+        लो.D   W8
+        लो.D   W6
+        लो.D   W4
+        लो.D   W2
+        लो.D   W0
+        लो     SR
 
         return
 

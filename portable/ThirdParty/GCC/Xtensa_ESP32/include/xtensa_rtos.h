@@ -49,71 +49,71 @@
 *
 *******************************************************************************/
 
-#ifndef XTENSA_RTOS_H
-#define XTENSA_RTOS_H
+#अगर_अघोषित XTENSA_RTOS_H
+#घोषणा XTENSA_RTOS_H
 
-#ifdef __ASSEMBLER__
-    #include    <xtensa/coreasm.h>
-#else
-    #include    <xtensa/config/core.h>
-#endif
+#अगर_घोषित __ASSEMBLER__
+    #समावेश    <xtensa/coreasm.h>
+#अन्यथा
+    #समावेश    <xtensa/config/core.h>
+#पूर्ण_अगर
 
-#include    <xtensa/corebits.h>
-#include    <xtensa/config/system.h>
-#include    "sdkconfig.h"
+#समावेश    <xtensa/corebits.h>
+#समावेश    <xtensa/config/system.h>
+#समावेश    "sdkconfig.h"
 
 /*
  * Include any RTOS specific definitions that are needed by this header.
  */
-#include    "FreeRTOSConfig.h"
+#समावेश    "FreeRTOSConfig.h"
 
 /*
  * Convert FreeRTOSConfig definitions to XTENSA definitions.
  * However these can still be overridden from the command line.
  */
 
-#ifndef XT_SIMULATOR
-    #if configXT_SIMULATOR
-        #define XT_SIMULATOR    1       /* Simulator mode */
-    #endif
-#endif
+#अगर_अघोषित XT_SIMULATOR
+    #अगर configXT_SIMULATOR
+        #घोषणा XT_SIMULATOR    1       /* Simulator mode */
+    #पूर्ण_अगर
+#पूर्ण_अगर
 
-#ifndef XT_BOARD
-    #if configXT_BOARD
-        #define XT_BOARD    1           /* Board mode */
-    #endif
-#endif
+#अगर_अघोषित XT_BOARD
+    #अगर configXT_BOARD
+        #घोषणा XT_BOARD    1           /* Board mode */
+    #पूर्ण_अगर
+#पूर्ण_अगर
 
-#ifndef XT_TIMER_INDEX
-    #if defined configXT_TIMER_INDEX
-        #define XT_TIMER_INDEX    configXT_TIMER_INDEX     /* Index of hardware timer to be used */
-    #endif
-#endif
+#अगर_अघोषित XT_TIMER_सूचकांक
+    #अगर defined config_XT_TIMER_सूचकांक
+        #घोषणा XT_TIMER_सूचकांक    config_XT_TIMER_सूचकांक     /* Index of hardware timer to be used */
+    #पूर्ण_अगर
+#पूर्ण_अगर
 
-#ifndef XT_INTEXC_HOOKS
-    #if configXT_INTEXC_HOOKS
-        #define XT_INTEXC_HOOKS    1    /* Enables exception hooks */
-    #endif
-#endif
+#अगर_अघोषित XT_INTEXC_HOOKS
+    #अगर configXT_INTEXC_HOOKS
+        #घोषणा XT_INTEXC_HOOKS    1    /* Enables exception hooks */
+    #पूर्ण_अगर
+#पूर्ण_अगर
 
-#if !defined( XT_SIMULATOR ) && !defined( XT_BOARD )
-    #error Either XT_SIMULATOR or XT_BOARD must be defined.
-#endif
+#अगर !defined( XT_SIMULATOR ) && !defined( XT_BOARD )
+    #त्रुटि Either XT_SIMULATOR or XT_BOARD must be defined.
+#पूर्ण_अगर
 
 
 /*
  * Name of RTOS (for messages).
  */
-#define XT_RTOS_NAME    FreeRTOS
+#घोषणा XT_RTOS_NAME    FreeRTOS
 
 /*
  * Check some Xtensa configuration requirements and report error if not met.
  * Error messages can be customize to the RTOS port.
  */
 
-#if !XCHAL_HAVE_XEA2
-    #error "FreeRTOS/Xtensa requires XEA2 (exception architecture 2)."
-#endif
+#अगर !XCHAL_HAVE_XEA2
+    #त्रुटि "FreeRTOS/Xtensa requires XEA2 (exception architecture 2)."
+#पूर्ण_अगर
 
 
 /*******************************************************************************
@@ -134,7 +134,7 @@
  * May only be called from assembly code by the 'call0' instruction.
  */
 /* void XT_RTOS_INT_ENTER(void) */
-#define XT_RTOS_INT_ENTER    _frxt_int_enter
+#घोषणा XT_RTOS_INT_ENTER    _frxt_int_enter
 
 /*
  * Inform RTOS of completion of an interrupt handler, and give control to
@@ -147,7 +147,7 @@
  * May only be called from assembly code by the 'call0' instruction.
  */
 /* void XT_RTOS_INT_EXIT(void) */
-#define XT_RTOS_INT_EXIT    _frxt_int_exit
+#घोषणा XT_RTOS_INT_EXIT    _frxt_int_exit
 
 /*
  * Inform RTOS of the occurrence of a tick timer interrupt.
@@ -156,10 +156,10 @@
  * RTOS may optionally define XT_TICK_PER_SEC in its own way (eg. macro).
  */
 /* void XT_RTOS_TIMER_INT(void) */
-#ifdef CONFIG_FREERTOS_SYSTICK_USES_CCOUNT
-    #define XT_RTOS_TIMER_INT    _frxt_timer_int
-#endif
-#define XT_TICK_PER_SEC          configTICK_RATE_HZ
+#अगर_घोषित CONFIG_FREERTOS_SYSTICK_USES_CCOUNT
+    #घोषणा XT_RTOS_TIMER_INT    _frxt_timer_int
+#पूर्ण_अगर
+#घोषणा XT_TICK_PER_SEC          configTICK_RATE_HZ
 
 /*
  * Return in a15 the base address of the co-processor state save area for the
@@ -171,7 +171,7 @@
  * The implementation may use only a2-4, a15 (all other regs must be preserved).
  */
 /* void* XT_RTOS_CP_STATE(void) */
-#define XT_RTOS_CP_STATE    _frxt_task_coproc_state
+#घोषणा XT_RTOS_CP_STATE    _frxt_task_coproc_state
 
 
 /*******************************************************************************
@@ -208,12 +208,12 @@
 *
 *******************************************************************************/
 
-#define XT_INTEXC_HOOK_NUM    ( 1 + XCHAL_NUM_INTLEVELS + XCHAL_HAVE_NMI )
+#घोषणा XT_INTEXC_HOOK_अंक    ( 1 + XCHAL_अंक_INTLEVELS + XCHAL_HAVE_NMI )
 
-#ifndef __ASSEMBLER__
-    typedef unsigned (* XT_INTEXC_HOOK)( unsigned cause );
-    extern volatile XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_NUM ];
-#endif
+#अगर_अघोषित __ASSEMBLER__
+    प्रकार अचिन्हित (* XT_INTEXC_HOOK)( अचिन्हित cause );
+    बाह्य अस्थिर XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_अंक ];
+#पूर्ण_अगर
 
 
 /*******************************************************************************
@@ -225,11 +225,11 @@
 *
 *******************************************************************************/
 
-#include    "xtensa_context.h"
+#समावेश    "xtensa_context.h"
 
-#ifdef XT_RTOS_TIMER_INT
-    #include    "xtensa_timer.h"
-#endif
+#अगर_घोषित XT_RTOS_TIMER_INT
+    #समावेश    "xtensa_timer.h"
+#पूर्ण_अगर
 
 
 /*******************************************************************************
@@ -238,7 +238,7 @@
 *
 *******************************************************************************/
 
-#define XTENSA_PORT_VERSION           1.4 .2
-#define XTENSA_PORT_VERSION_STRING    "1.4.2"
+#घोषणा XTENSA_PORT_VERSION           1.4 .2
+#घोषणा XTENSA_PORT_VERSION_STRING    "1.4.2"
 
-#endif /* XTENSA_RTOS_H */
+#पूर्ण_अगर /* XTENSA_RTOS_H */

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS या
+ * IMPLIED, INCLUDING BUT नहीं LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE और NONINFRINGEMENT. अंदर NO EVENT SHALL THE AUTHORS या
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES या OTHER LIABILITY, WHETHER
+ * अंदर AN ACTION OF CONTRACT, TORT या OTHERWISE, ARISING FROM, बाहर OF या अंदर
+ * CONNECTION WITH THE SOFTWARE या THE USE या OTHER DEALINGS अंदर THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -54,7 +54,7 @@
     .global vPortEnableInterrupts
     .global vPortDisableInterrupts
     .global ulPortSetInterruptMaskFromISR
-    .global ulPortCountLeadingZeros
+    .global ul_Port_गिनती_Leading_Zeros
 
     .weak   vApplicationSVCHandler
 /*-----------------------------------------------------------*/
@@ -63,20 +63,20 @@
 
     /* Save the LR and SPSR onto the system mode stack before switching to
      * system mode to save the remaining system mode registers. */
-    SRSDB   SP!, #SYS_MODE
+    SRSDB   ढस!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    दो    {R0-R12, R14}
 
     /* Push the critical nesting count. */
     LDR     R2, =ulCriticalNesting
     LDR     R1, [R2]
-    PUSH    {R1}
+    दो    {R1}
 
     /* Does the task have a floating point context that needs saving?  If
      * ulPortTaskHasFPUContext is 0 then no. */
     LDR     R2, =ulPortTaskHasFPUContext
     LDR     R3, [R2]
-    CMP     R3, #0
+    भेद     R3, #0
 
     /* Save the floating point context, if any. */
     VMRSNE  R1,  FPSCR
@@ -87,12 +87,12 @@
     PUSHNE  {R1}
 
     /* Save ulPortTaskHasFPUContext itself. */
-    PUSH    {R3}
+    दो    {R3}
 
     /* Save the stack pointer in the TCB. */
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
-    STR     SP, [R1]
+    रक्रिर     ढस, [R1]
 
     .endm
 
@@ -100,17 +100,17 @@
 
 .macro portRESTORE_CONTEXT
 
-    /* Set the SP to point to the stack of the task being restored. */
+    /* Set the ढस to point to the stack of the task being restored. */
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
-    LDR     SP, [R1]
+    LDR     ढस, [R1]
 
     /* Is there a floating point context to restore?  If the restored
      * ulPortTaskHasFPUContext is zero then no. */
     LDR     R0, =ulPortTaskHasFPUContext
-    POP     {R1}
-    STR     R1, [R0]
-    CMP     R1, #0
+    लो     {R1}
+    रक्रिर     R1, [R0]
+    भेद     R1, #0
 
     /* Restore the floating point context, if any. */
     POPNE   {R0}
@@ -122,15 +122,15 @@
 
     /* Restore the critical section nesting depth. */
     LDR     R0, =ulCriticalNesting
-    POP     {R1}
-    STR     R1, [R0]
+    लो     {R1}
+    रक्रिर     R1, [R0]
 
-    /* Restore all system mode registers other than the SP (which is already
+    /* Restore all system mode registers other than the ढस (which is already
     being used). */
-    POP     {R0-R12, R14}
+    लो     {R0-R12, R14}
 
     /* Return to the task code, loading CPSR on the way. */
-    RFEIA   SP!
+    RFEIA   ढस!
 
     .endm
 
@@ -158,9 +158,9 @@ vPortRestoreTaskContext:
 .align 4
 .type vPortInitialiseFPSCR, %function
 vPortInitialiseFPSCR:
-    MOV     R0, #0
+    डालो     R0, #0
     VMSR    FPSCR, R0
-    BX      LR
+    खक्ष      LR
 
 /*-----------------------------------------------------------*/
 
@@ -173,7 +173,7 @@ vPortInitialiseFPSCR:
 .type ulReadAPSR, %function
 ulReadAPSR:
     MRS R0, APSR
-    BX  LR
+    खक्ष  LR
 
 /*-----------------------------------------------------------*/
 
@@ -185,7 +185,7 @@ ulReadAPSR:
 vPortYield:
     SVC 0
     ISB
-    BX  LR
+    खक्ष  LR
 
 /*-----------------------------------------------------------*/
 
@@ -196,7 +196,7 @@ vPortYield:
 .type vPortEnableInterrupts, %function
 vPortEnableInterrupts:
     CPSIE   I
-    BX      LR
+    खक्ष      LR
 
 /*-----------------------------------------------------------*/
 
@@ -209,7 +209,7 @@ vPortDisableInterrupts:
     CPSID    I
     DSB
     ISB
-    BX      LR
+    खक्ष      LR
 
 /*-----------------------------------------------------------*/
 
@@ -220,11 +220,11 @@ vPortDisableInterrupts:
 .type ulPortSetInterruptMaskFromISR, %function
 ulPortSetInterruptMaskFromISR:
     MRS     R0, CPSR
-    AND     R0, R0, #CPSR_I_BIT
+    और     R0, R0, #CPSR_I_BIT
     CPSID   I
     DSB
     ISB
-    BX      LR
+    खक्ष      LR
 
 /*-----------------------------------------------------------*/
 
@@ -258,19 +258,19 @@ vApplicationSVCHandler:
 .weak vApplicationIRQHandler
 .type vApplicationIRQHandler, %function
 vApplicationIRQHandler:
-    PUSH    {LR}
+    दो    {LR}
 
     VMRS    R1, FPSCR
     VPUSH   {D0-D7}
-    PUSH    {R1}
+    दो    {R1}
 
     BLX     vApplicationFPUSafeIRQHandler
 
-    POP     {R0}
+    लो     {R0}
     VPOP    {D0-D7}
     VMSR    FPSCR, R0
 
-    POP     {PC}
+    लो     {PC}
 
 /*-----------------------------------------------------------*/
 
@@ -283,17 +283,17 @@ vApplicationFPUSafeIRQHandler:
 /*-----------------------------------------------------------*/
 
 /*
- * UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+ * UBaseType_t ul_Port_गिनती_Leading_Zeros( UBaseType_t ulBitmap );
  *
  * According to the Procedure Call Standard for the ARM Architecture (AAPCS):
  * - Parameter ulBitmap is passed in R0.
  * - Return value must be in R0.
  */
 .align 4
-.type ulPortCountLeadingZeros, %function
-ulPortCountLeadingZeros:
+.type ul_Port_गिनती_Leading_Zeros, %function
+ul_Port_गिनती_Leading_Zeros:
     CLZ     R0, R0
-    BX      LR
+    खक्ष      LR
 
 /*-----------------------------------------------------------*/
 
@@ -303,7 +303,7 @@ ulPortCountLeadingZeros:
 .align 4
 .type FreeRTOS_SVC_Handler, %function
 FreeRTOS_SVC_Handler:
-    PUSH    { R0-R1 }
+    दो    { R0-R1 }
 
     /* ---------------------------- Get Caller SVC Number ---------------------------- */
     MRS     R0, SPSR               /* R0 = CPSR at the time of SVC. */
@@ -314,18 +314,18 @@ FreeRTOS_SVC_Handler:
     BICEQ   R0, R0, #0xFF000000    /* And extract immidiate field (i.e. SVC number). */
 
     /* --------------------------------- SVC Routing --------------------------------- */
-    CMP     R0, #0
+    भेद     R0, #0
     BEQ     svcPortYield
     BNE     svcApplicationCall
 
 svcPortYield:
-    POP     { R0-R1 }
+    लो     { R0-R1 }
     portSAVE_CONTEXT
     BLX     vTaskSwitchContext
     portRESTORE_CONTEXT
 
 svcApplicationCall:
-    POP     { R0-R1 }
+    लो     { R0-R1 }
     portSAVE_CONTEXT
     BLX     vApplicationSVCHandler
     portRESTORE_CONTEXT
@@ -336,38 +336,38 @@ svcApplicationCall:
 .type FreeRTOS_IRQ_Handler, %function
 FreeRTOS_IRQ_Handler:
     /* Return to the interrupted instruction. */
-    SUB     LR, LR, #4
+    घटा     LR, LR, #4
 
     /* Push the return address and SPSR. */
-    PUSH    {LR}
+    दो    {LR}
     MRS     LR, SPSR
-    PUSH    {LR}
+    दो    {LR}
 
     /* Change to supervisor mode to allow reentry. */
     CPS     #SVC_MODE
 
     /* Push used registers. */
-    PUSH    {R0-R3, R12}
+    दो    {R0-R3, R12}
 
     /* Increment nesting count.  r3 holds the address of ulPortInterruptNesting
      * for future use.  r1 holds the original ulPortInterruptNesting value for
      * future use. */
     LDR     R3, =ulPortInterruptNesting
     LDR     R1, [R3]
-    ADD     R0, R1, #1
-    STR     R0, [R3]
+    जमा     R0, R1, #1
+    रक्रिर     R0, [R3]
 
     /* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
      * future use. */
-    MOV     R0, SP
-    AND     R2, R0, #4
-    SUB     SP, SP, R2
+    डालो     R0, ढस
+    और     R2, R0, #4
+    घटा     ढस, ढस, R2
 
     /* Call the interrupt handler. */
-    PUSH    {R0-R3, LR}
+    दो    {R0-R3, LR}
     BLX     vApplicationIRQHandler
-    POP     {R0-R3, LR}
-    ADD     SP, SP, R2
+    लो     {R0-R3, LR}
+    जमा     ढस, ढस, R2
 
     /* Disable IRQs incase vApplicationIRQHandler enabled them for re-entry. */
     CPSID   i
@@ -377,13 +377,13 @@ FreeRTOS_IRQ_Handler:
     /* Write to the EOI register. */
     LDR     R0, =ulICCEOIR
     LDR     R2, [R0]
-    STR     R0, [R2]
+    रक्रिर     R0, [R2]
 
     /* Restore the old nesting count. */
-    STR     R1, [R3]
+    रक्रिर     R1, [R3]
 
     /* A context switch is never performed if the nesting count is not 0. */
-    CMP     R1, #0
+    भेद     R1, #0
     BNE     exit_without_switch
 
     /* Did the interrupt request a context switch?  r1 holds the address of
@@ -391,32 +391,32 @@ FreeRTOS_IRQ_Handler:
      * use. */
     LDR     R1, =ulPortYieldRequired
     LDR     R0, [R1]
-    CMP     R0, #0
+    भेद     R0, #0
     BNE     switch_before_exit
 
 exit_without_switch:
     /* No context switch.  Restore used registers, LR_irq and SPSR before
      * returning. */
-    POP     {R0-R3, R12}
+    लो     {R0-R3, R12}
     CPS     #IRQ_MODE
-    POP     {LR}
+    लो     {LR}
     MSR     SPSR_cxsf, LR
-    POP     {LR}
+    लो     {LR}
     MOVS    PC, LR
 
 switch_before_exit:
     /* A context switch is to be performed.  Clear the context switch pending
      * flag. */
-    MOV     R0, #0
-    STR     R0, [R1]
+    डालो     R0, #0
+    रक्रिर     R0, [R1]
 
     /* Restore used registers, LR-irq and SPSR before saving the context
      * to the task stack. */
-    POP     {R0-R3, R12}
+    लो     {R0-R3, R12}
     CPS     #IRQ_MODE
-    POP     {LR}
+    लो     {LR}
     MSR     SPSR_cxsf, LR
-    POP     {LR}
+    लो     {LR}
     portSAVE_CONTEXT
 
     /* Call the function that selects the new task to execute.

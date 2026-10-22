@@ -26,52 +26,52 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef FREERTOS_SDK_CONFIG_H
-#define FREERTOS_SDK_CONFIG_H
+#अगर_अघोषित FREERTOS_SDK_CONFIG_H
+#घोषणा FREERTOS_SDK_CONFIG_H
 
-#ifndef __ASSEMBLER__
-    #include "FreeRTOSConfig.h"
-    #include "rp2040_config.h"
-    #ifndef PICO_USE_MALLOC_MUTEX
+#अगर_अघोषित __ASSEMBLER__
+    #समावेश "FreeRTOSConfig.h"
+    #समावेश "rp2040_config.h"
+    #अगर_अघोषित PICO_USE_MALLOC_MUTEX
         /* malloc needs to be made thread safe */
-        #define PICO_USE_MALLOC_MUTEX    1
-    #endif /* PICO_USE_MALLOC_MUTEX */
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+        #घोषणा PICO_USE_MALLOC_MUTEX    1
+    #पूर्ण_अगर /* PICO_USE_MALLOC_MUTEX */
+    #अगर ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* increase the amount of time it may reasonably take to wake us up */
-        #ifndef PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
-            #define PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
-        #endif
+        #अगर_अघोषित PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
+            #घोषणा PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
+        #पूर्ण_अगर
 
-        #define lock_owner_id_t                           uint32_t
-        extern uint32_t ulPortLockGetCurrentOwnerId( void );
-        #define lock_get_caller_owner_id()    ulPortLockGetCurrentOwnerId()
-        #define LOCK_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
+        #घोषणा lock_owner_id_t                           uint32_t
+        बाह्य uint32_t ulPortLockGetCurrentOwnerId( व्योम );
+        #घोषणा lock_get_caller_owner_id()    ulPortLockGetCurrentOwnerId()
+        #घोषणा LOCK_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
 
-        struct lock_core;
-        #ifndef lock_internal_spin_unlock_with_wait
-            extern void vPortLockInternalSpinUnlockWithWait( struct lock_core * pxLock,
+        काष्ठा lock_core;
+        #अगर_अघोषित lock_internal_spin_unlock_with_wait
+            बाह्य व्योम vPortLockInternalSpinUnlockWithWait( काष्ठा lock_core * pxLock,
                                                              uint32_t ulSave );
-            #define lock_internal_spin_unlock_with_wait( lock, save )    vPortLockInternalSpinUnlockWithWait( lock, save )
-        #endif
+            #घोषणा lock_internal_spin_unlock_with_wait( lock, save )    vPortLockInternalSpinUnlockWithWait( lock, save )
+        #पूर्ण_अगर
 
-        #ifndef lock_internal_spin_unlock_with_notify
-            extern void vPortLockInternalSpinUnlockWithNotify( struct lock_core * pxLock,
+        #अगर_अघोषित lock_internal_spin_unlock_with_notify
+            बाह्य व्योम vPortLockInternalSpinUnlockWithNotify( काष्ठा lock_core * pxLock,
                                                                uint32_t save );
-            #define lock_internal_spin_unlock_with_notify( lock, save )    vPortLockInternalSpinUnlockWithNotify( lock, save );
-        #endif
+            #घोषणा lock_internal_spin_unlock_with_notify( lock, save )    vPortLockInternalSpinUnlockWithNotify( lock, save );
+        #पूर्ण_अगर
 
-        #ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout
-            extern bool xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( struct lock_core * pxLock,
+        #अगर_अघोषित lock_internal_spin_unlock_with_best_effort_wait_or_timeout
+            बाह्य bool xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( काष्ठा lock_core * pxLock,
                                                                                 uint32_t ulSave,
                                                                                 absolute_time_t uxUntil );
-            #define lock_internal_spin_unlock_with_best_effort_wait_or_timeout( lock, save, until ) \
+            #घोषणा lock_internal_spin_unlock_with_best_effort_wait_or_timeout( lock, save, until ) \
     xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( lock, save, until )
-        #endif
-    #endif /* configSUPPORT_PICO_SYNC_INTEROP */
+        #पूर्ण_अगर
+    #पूर्ण_अगर /* configSUPPORT_PICO_SYNC_INTEROP */
 
-    #if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
-        extern void xPortSyncInternalYieldUntilBefore( absolute_time_t t );
-        #define sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
-    #endif /* configSUPPORT_PICO_TIME_INTEROP */
-#endif /* __ASSEMBLER__ */
-#endif /* ifndef FREERTOS_SDK_CONFIG_H */
+    #अगर ( configSUPPORT_PICO_TIME_INTEROP == 1 )
+        बाह्य व्योम xPortSyncInternalYieldUntilBefore( absolute_time_t t );
+        #घोषणा sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
+    #पूर्ण_अगर /* configSUPPORT_PICO_TIME_INTEROP */
+#पूर्ण_अगर /* __ASSEMBLER__ */
+#पूर्ण_अगर /* ifndef FREERTOS_SDK_CONFIG_H */

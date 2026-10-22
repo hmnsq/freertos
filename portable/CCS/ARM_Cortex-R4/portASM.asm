@@ -41,25 +41,25 @@ portSAVE_CONTEXT .macro
         DSB
 
         ; Push R0 as we are going to use it
-        STMDB   SP!, {R0}
+        STMDB   ढस!, {R0}
 
         ; Set R0 to point to the task stack pointer.
-        STMDB   SP,{SP}^
-        SUB SP, SP, #4
-        LDMIA   SP!,{R0}
+        STMDB   ढस,{ढस}^
+        घटा ढस, ढस, #4
+        LDMIA   ढस!,{R0}
 
         ; Push the return address onto the stack.
         STMDB   R0!, {LR}
 
         ; Now LR has been saved, it can be used instead of R0.
-        MOV LR, R0
+        डालो LR, R0
 
         ; Pop R0 so it can be saved onto the task stack.
-        LDMIA   SP!, {R0}
+        LDMIA   ढस!, {R0}
 
         ; Push all the system mode registers onto the task stack.
         STMDB   LR,{R0-LR}^
-        SUB LR, LR, #60
+        घटा LR, LR, #60
 
         ; Push the SPSR onto the task stack.
         MRS R0, SPSR
@@ -71,7 +71,7 @@ portSAVE_CONTEXT .macro
         LDR R0, [R0]
 
         ; Test the flag
-        CMP     R0, #0
+        भेद     R0, #0
 
         ; If the task is not using a floating point context then skip the
         ; saving of the FPU registers.
@@ -87,7 +87,7 @@ portSAVE_CONTEXT .macro
         ; Store the new top of stack for the task.
         LDR R0, pxCurrentTCBConst
         LDR R0, [R0]
-        STR LR, [R0]
+        रक्रिर LR, [R0]
 
         .endm
 
@@ -104,10 +104,10 @@ portRESTORE_CONTEXT .macro
         ; The floating point context flag is the first thing on the stack.
         LDR     R0, ulFPUContextConst
         LDMFD   LR!, {R1}
-        STR     R1, [R0]
+        रक्रिर     R1, [R0]
 
         ; Test the flag
-        CMP     R1, #0
+        भेद     R1, #0
 
         ; If the task is not using a floating point context then skip the
         ; VFP register loads.
@@ -151,13 +151,13 @@ vPortYieldProcessor:
         ; Within an IRQ ISR the link register has an offset from the true return
         ; address.  SWI doesn't do this. Add the offset manually so the ISR
         ; return code can be used.
-        ADD     LR, LR, #4
+        जमा     LR, LR, #4
 
         ; First save the context of the current task.
         portSAVE_CONTEXT
 
         ; Select the next task to execute. */
-        BL      vTaskSwitchContext
+        खन      vTaskSwitchContext
 
         ; Restore the context of the task selected to execute.
         portRESTORE_CONTEXT
@@ -177,7 +177,7 @@ vPortYeildWithinAPI:
         LDR     R0, [R0]
 
         ; Select the next task to execute. */
-        BL      vTaskSwitchContext
+        खन      vTaskSwitchContext
 
         ; Restore the context of the task selected to execute.
         portRESTORE_CONTEXT
@@ -195,15 +195,15 @@ vPortPreemptiveTick:
         ; Clear interrupt flag
         MOVW    R0, #0xFC88
         MOVT    R0, #0xFFFF
-        MOV     R1, #1
-        STR     R1, [R0]
+        डालो     R1, #1
+        रक्रिर     R1, [R0]
 
         ; Increment the tick count, making any adjustments to the blocked lists
         ; that may be necessary.
-        BL      xTaskIncrementTick
+        खन      xTaskIncrementTick
 
         ; Select the next task to execute.
-        CMP R0, #0
+        भेद R0, #0
         BLNE    vTaskSwitchContext
 
         ; Restore the context of the task selected to execute.
@@ -217,9 +217,9 @@ vPortPreemptiveTick:
 
 vPortInitialiseFPSCR:
 
-        MOV     R0, #0
+        डालो     R0, #0
         FMXR    FPSCR, R0
-        BX      LR
+        खक्ष      LR
 
     .endif ;__TI_VFP_SUPPORT__
 

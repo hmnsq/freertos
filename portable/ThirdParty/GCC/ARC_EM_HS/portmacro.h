@@ -26,19 +26,19 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#अगर_अघोषित PORTMACRO_H
+#घोषणा PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#अगर_घोषित __cplusplus
+    बाह्य "C" {
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
-#endif
+#अगर_अघोषित config_RECORD_ढेर_ऊपरी_ADDRESS
+    #घोषणा config_RECORD_ढेर_ऊपरी_ADDRESS    1
+#पूर्ण_अगर
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,85 +51,85 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     portLONG
+#घोषणा portCHAR          अक्षर
+#घोषणा portFLOAT         भग्न
+#घोषणा portDOUBLE        द्विगुन
+#घोषणा portLONG          दीर्घ
+#घोषणा portSHORT         लघु
+#घोषणा port_ढेर_TYPE    अचिन्हित पूर्णांक
+#घोषणा portBASE_TYPE     portLONG
 
-#ifndef Asm
-    #define Asm           __asm__ volatile
-#endif
+#अगर_अघोषित Asm
+    #घोषणा Asm           __asm__ अस्थिर
+#पूर्ण_अगर
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
-#endif /* NULL */
+#अगर_अघोषित शून्य
+    #घोषणा शून्य    0           /* invalid pointer */
+#पूर्ण_अगर /* NULL */
 
-#ifndef true
-    #define true    1           /* true */
-#endif /* true */
+#अगर_अघोषित true
+    #घोषणा true    1           /* true */
+#पूर्ण_अगर /* true */
 
-#ifndef false
-    #define false    0          /* false */
-#endif /* false */
+#अगर_अघोषित false
+    #घोषणा false    0          /* false */
+#पूर्ण_अगर /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकार port_ढेर_TYPE   ढेर_Type_t;
+प्रकार दीर्घ             BaseType_t;
+प्रकार अचिन्हित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#अगर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकार uint16_t     TickType_t;
+    #घोषणा portMAX_DELAY    ( TickType_t ) 0xffff
+#या_अगर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकार uint32_t     TickType_t;
+    #घोषणा portMAX_DELAY    ( TickType_t ) 0xffffffffUL
+#अन्यथा
+    #त्रुटि configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
+#पूर्ण_अगर
 
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
-#define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT         8
-#define portNOP()               Asm( "nop_s" );
-#define IPM_ENABLE_ALL             1
+#घोषणा portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#घोषणा port_ढेर_GROWTH           ( -1 )
+#घोषणा portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#घोषणा portBYTE_ALIGNMENT         8
+#घोषणा portNOP()               Asm( "nop_s" );
+#घोषणा IPM_ENABLE_ALL             1
 
-#define portYIELD_FROM_ISR()    vPortYieldFromIsr()
-#define portYIELD()             vPortYield()
+#घोषणा portYIELD_FROM_ISR()    vPortYieldFromIsr()
+#घोषणा portYIELD()             vPortYield()
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS() \
+#घोषणा portDISABLE_INTERRUPTS() \
     {                            \
         Asm( "clri" );           \
         Asm( "" ::: "memory" );  \
     }                            \
 
-#define portENABLE_INTERRUPTS() \
+#घोषणा portENABLE_INTERRUPTS() \
     {                           \
         Asm( "" ::: "memory" ); \
         Asm( "seti" );          \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+बाह्य अस्थिर अचिन्हित पूर्णांक ulCriticalNesting;
 
-#define portENTER_CRITICAL()     \
+#घोषणा portENTER_CRITICAL()     \
     {                            \
         portDISABLE_INTERRUPTS() \
         ulCriticalNesting++;     \
     }
 
 
-#define portEXIT_CRITICAL()                                    \
+#घोषणा portEXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        अगर( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            अगर( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
             {                                                  \
                 portENABLE_INTERRUPTS()                        \
             }                                                  \
@@ -137,24 +137,24 @@ extern volatile unsigned int ulCriticalNesting;
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#घोषणा portTASK_FUNCTION_PROTO( vFunction, pvParameters )    व्योम vFunction( व्योम * pvParameters )
+#घोषणा portTASK_FUNCTION( vFunction, pvParameters )          व्योम vFunction( व्योम * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#घोषणा portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              करो {} जबतक( 0 )     /* we use the timer */
+#घोषणा port_ALT_GET_RUN_TIME_गणक_मूल्य( dest )            ( dest = x_Tick_गिनती )
 
-#if defined( __MW__ )
-    extern void task_end_hook( void * pxTCB );
-    #define portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( void * ) pxTCB )
-#endif
+#अगर defined( __MW__ )
+    बाह्य व्योम task_end_hook( व्योम * pxTCB );
+    #घोषणा portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( व्योम * ) pxTCB )
+#पूर्ण_अगर
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+व्योम vPortYield( व्योम );
+व्योम vPortYieldFromIsr( व्योम );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#अगर_घोषित __cplusplus
     }
-#endif
+#पूर्ण_अगर
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#पूर्ण_अगर /* PORTMACRO_H */
