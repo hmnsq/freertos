@@ -27,13 +27,13 @@
  * vPortCPUReleaseMutexIntsDisabled will then use the appropriate function to do the
  * actual lock/unlock.
  */
-#include "soc/cpu.h"
-#include "portable.h"
+#अन्तर्भाव "soc/cpu.h"
+#अन्तर्भाव "portable.h"
 
 /* XOR one core ID with this value to get the other core ID */
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#जर ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
     #define CORE_ID_XOR_SWAP           ( CORE_ID_PRO ^ CORE_ID_APP )
-#else
+#अन्यथा
     #define CORE_ID_REGVAL_XOR_SWAP    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
 #endif
 
@@ -43,18 +43,18 @@
 #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledInternal
 #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledInternal
 #define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSet
-#include "portmux_impl.inc.h"
+#अन्तर्भाव "portmux_impl.inc.h"
 #undef PORTMUX_AQUIRE_MUX_FN_NAME
 #undef PORTMUX_RELEASE_MUX_FN_NAME
 #undef PORTMUX_COMPARE_SET_FN_NAME
 
 
-#if defined( CONFIG_SPIRAM_SUPPORT )
+#जर defined( CONFIG_SPIRAM_SUPPORT )
 
     #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledExtram
     #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledExtram
     #define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSetExtram
-    #include "portmux_impl.inc.h"
+    #अन्तर्भाव "portmux_impl.inc.h"
     #undef PORTMUX_AQUIRE_MUX_FN_NAME
     #undef PORTMUX_RELEASE_MUX_FN_NAME
     #undef PORTMUX_COMPARE_SET_FN_NAME
@@ -63,37 +63,37 @@
 
 
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int line
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const char * fnName, int line
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, line
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, line
-#else
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles
+    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, पूर्णांक timeout_cycles, स्थिरांक अक्षर * fnName, पूर्णांक ओळ
+    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, स्थिरांक अक्षर * fnName, पूर्णांक ओळ
+    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, ओळ
+    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, ओळ
+#अन्यथा
+    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, पूर्णांक timeout_cycles
     #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
     #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
     #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
 #endif
 
 
-static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
+स्थिर ओळीत bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #जर defined( CONFIG_SPIRAM_SUPPORT )
+        जर( esp_ptr_external_ram( mux ) )
         {
-            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+            परत vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
         }
     #endif
-    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+    परत vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
 }
 
 
-static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
+स्थिर ओळीत शून्य vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #जर defined( CONFIG_SPIRAM_SUPPORT )
+        जर( esp_ptr_external_ram( mux ) )
         {
             vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
-            return;
+            परत;
         }
     #endif
     vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );

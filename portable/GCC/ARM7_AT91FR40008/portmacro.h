@@ -54,7 +54,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -69,35 +69,35 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#define portCHAR          अक्षर
+#define portFLOAT         दशांश
+#define portDOUBLE        द्विगुण
+#define portLONG          दीर्घ
+#define portSHORT         लघु
+#define port_चळत_TYPE    uint32_t
+#define portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारव्याख्या port_चळत_TYPE   चळत_Type_t;
+प्रकारव्याख्या दीर्घ             BaseType_t;
+प्रकारव्याख्या अचिन्हित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#जर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारव्याख्या uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#किंवाजर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारव्याख्या uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#अन्यथा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_चळत_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
-#define portYIELD()    asm volatile ( "SWI 0" )
-#define portNOP()      asm volatile ( "NOP" )
+#define portYIELD()    यंत्र अस्थिर ( "SWI 0" )
+#define portNOP()      यंत्र अस्थिर ( "NOP" )
 
 /*
  * These define the timer to use for generating the tick interrupt.
@@ -120,11 +120,11 @@ typedef unsigned long    UBaseType_t;
 
 #define portRESTORE_CONTEXT()                                                 \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        बाह्य अस्थिर शून्य * अस्थिर pxCurrentTCB;                         \
+        बाह्य अस्थिर uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Set the LR to the task stack. */                                   \
-        asm volatile (                                                        \
+        यंत्र अस्थिर (                                                        \
             "LDR        R0, =pxCurrentTCB                               \n\t" \
             "LDR        R0, [R0]                                        \n\t" \
             "LDR        LR, [R0]                                        \n\t" \
@@ -150,18 +150,18 @@ typedef unsigned long    UBaseType_t;
             /* correct address. */                                            \
             "SUBS   PC, LR, #4                                          \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( शून्य ) ulCriticalNesting;                                           \
+        ( शून्य ) pxCurrentTCB;                                                \
     }
 /*-----------------------------------------------------------*/
 
 #define portSAVE_CONTEXT()                                                    \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        बाह्य अस्थिर शून्य * अस्थिर pxCurrentTCB;                         \
+        बाह्य अस्थिर uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Push R0 as we are going to use the register. */                    \
-        asm volatile (                                                        \
+        यंत्र अस्थिर (                                                        \
             "STMDB  SP!, {R0}                                           \n\t" \
                                                                               \
             /* Set R0 to point to the task stack pointer. */                  \
@@ -197,8 +197,8 @@ typedef unsigned long    UBaseType_t;
             "LDR    R0, [R0]                                            \n\t" \
             "STR    LR, [R0]                                            \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( शून्य ) ulCriticalNesting;                                           \
+        ( शून्य ) pxCurrentTCB;                                                \
     }
 
 #define portYIELD_FROM_ISR()    vTaskSwitchContext()
@@ -214,16 +214,16 @@ typedef unsigned long    UBaseType_t;
 
 #ifdef THUMB_INTERWORK
 
-    extern void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    extern void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    बाह्य शून्य vPortDisableInterruptsFromThumb( शून्य ) __attribute__( ( naked ) );
+    बाह्य शून्य vPortEnableInterruptsFromThumb( शून्य ) __attribute__( ( naked ) );
 
     #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
     #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
 
-#else
+#अन्यथा
 
     #define portDISABLE_INTERRUPTS()                                       \
-    asm volatile (                                                         \
+    यंत्र अस्थिर (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
@@ -231,7 +231,7 @@ typedef unsigned long    UBaseType_t;
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
     #define portENABLE_INTERRUPTS()                                        \
-    asm volatile (                                                         \
+    यंत्र अस्थिर (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
@@ -240,8 +240,8 @@ typedef unsigned long    UBaseType_t;
 
 #endif /* THUMB_INTERWORK */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+बाह्य शून्य vPortEnterCritical( शून्य );
+बाह्य शून्य vPortExitCritical( शून्य );
 
 #define portENTER_CRITICAL()    vPortEnterCritical();
 #define portEXIT_CRITICAL()     vPortExitCritical();
@@ -249,8 +249,8 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

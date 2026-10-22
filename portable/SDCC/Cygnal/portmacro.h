@@ -29,13 +29,13 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#if configUSE_PREEMPTION == 0
-    void vTimer2ISR( void ) interrupt 5;
-#else
-    void vTimer2ISR( void ) interrupt 5 _naked;
+#जर configUSE_PREEMPTION == 0
+    शून्य vTimer2ISR( शून्य ) interrupt 5;
+#अन्यथा
+    शून्य vTimer2ISR( शून्य ) interrupt 5 _naked;
 #endif
 
-void vSerialISR( void ) interrupt 4;
+शून्य vSerialISR( शून्य ) interrupt 4;
 
 
 /*-----------------------------------------------------------
@@ -49,43 +49,43 @@ void vSerialISR( void ) interrupt 4;
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      float
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#define portCHAR        अक्षर
+#define portFLOAT       दशांश
+#define portDOUBLE      दशांश
+#define portLONG        दीर्घ
+#define portSHORT       लघु
+#define port_चळत_TYPE  uint8_t
+#define portBASE_TYPE   अक्षर
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+प्रकारव्याख्या port_चळत_TYPE चळत_Type_t;
+प्रकारव्याख्या चिन्हित अक्षर BaseType_t;
+प्रकारव्याख्या अचिन्हित अक्षर UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#जर( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारव्याख्या uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#किंवाजर ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारव्याख्या uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#अन्यथा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 #define portENTER_CRITICAL()        _asm        \
-                                    push    ACC \
-                                    push    IE  \
+                                    ढकला    ACC \
+                                    ढकला    IE  \
                                     _endasm;    \
                                     EA = 0;
 
 #define portEXIT_CRITICAL()         _asm            \
-                                    pop     ACC     \
+                                    काढा     ACC     \
                                     _endasm;        \
                                     ACC &= 0x80;    \
                                     IE |= ACC;      \
                                     _asm            \
-                                    pop     ACC     \
+                                    काढा     ACC     \
                                     _endasm;
 
 #define portDISABLE_INTERRUPTS()    EA = 0;
@@ -94,12 +94,12 @@ typedef unsigned char UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          1
-#define portSTACK_GROWTH            ( 1 )
+#define port_चळत_GROWTH            ( 1 )
 #define portTICK_PERIOD_MS          ( ( uint32_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void ) _naked;
+शून्य vPortYield( शून्य ) _naked;
 #define portYIELD() vPortYield();
 /*-----------------------------------------------------------*/
 
@@ -110,7 +110,7 @@ void vPortYield( void ) _naked;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
 
 #endif /* PORTMACRO_H */

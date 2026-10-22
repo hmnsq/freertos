@@ -26,17 +26,17 @@
 ; *
 ; */
 
-    INCLUDE FreeRTOSConfig.h
-    INCLUDE portmacro.h
+    अन्तर्भाव FreeRTOSConfig.h
+    अन्तर्भाव portmacro.h
 
-    EXTERN  vTaskSwitchContext
-    EXTERN  ulPortYieldRequired
-    EXTERN  ulPortInterruptNesting
-    EXTERN  vApplicationIRQHandler
+    बाह्य  vTaskSwitchContext
+    बाह्य  ulPortYieldRequired
+    बाह्य  ulPortInterruptNesting
+    बाह्य  vApplicationIRQHandler
 
-    PUBLIC  FreeRTOS_SWI_Handler
-    PUBLIC  FreeRTOS_IRQ_Handler
-    PUBLIC  vPortRestoreTaskContext
+    सार्वजनिक  FreeRTOS_SWI_Handler
+    सार्वजनिक  FreeRTOS_IRQ_Handler
+    सार्वजनिक  vPortRestoreTaskContext
 
 SYS_MODE            EQU     0x1f
 SVC_MODE            EQU     0x13
@@ -45,7 +45,7 @@ IRQ_MODE            EQU     0x12
     SECTION .text:CODE:ROOT(2)
     ARM
 
-    INCLUDE portASM.h
+    अन्तर्भाव portASM.h
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; SVC handler is used to yield a task.
@@ -103,7 +103,7 @@ FreeRTOS_IRQ_Handler
     ; Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     ; future use.
     MOV     r2, sp
-    AND     r2, r2, #4
+    आणि     r2, r2, #4
     SUB     sp, sp, r2
 
     PUSH    {r0-r4, lr}
@@ -170,4 +170,4 @@ switch_before_exit
     ; Restore the context of, and branch to, the task selected to execute next.
     portRESTORE_CONTEXT
 
-    END
+    शेवट

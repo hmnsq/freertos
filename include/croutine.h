@@ -33,24 +33,24 @@
     #error "include FreeRTOS.h must appear in source files before include croutine.h"
 #endif
 
-#include "list.h"
+#अन्तर्भाव "list.h"
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
 /* Used to hide the implementation of the co-routine control block.  The
  * control block structure however has to be included in the header due to
  * the macro implementation of the co-routine functionality. */
-typedef void * CoRoutineHandle_t;
+प्रकारव्याख्या शून्य * CoRoutineHandle_t;
 
 /* Defines the prototype to which co-routine functions must conform. */
-typedef void (* crCOROUTINE_CODE)( CoRoutineHandle_t xHandle,
+प्रकारव्याख्या शून्य (* crCOROUTINE_CODE)( CoRoutineHandle_t xHandle,
                                    UBaseType_t uxIndex );
 
-typedef struct corCoRoutineControlBlock
+प्रकारव्याख्या संरचना corCoRoutineControlBlock
 {
     crCOROUTINE_CODE pxCoRoutineFunction;
     ListItem_t xGenericListItem; /**< List item used to place the CRCB in ready and blocked queues. */
@@ -178,7 +178,7 @@ BaseType_t xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode,
  * \defgroup vCoRoutineSchedule vCoRoutineSchedule
  * \ingroup Tasks
  */
-void vCoRoutineSchedule( void );
+शून्य vCoRoutineSchedule( शून्य );
 
 /**
  * croutine. h
@@ -212,8 +212,8 @@ void vCoRoutineSchedule( void );
  * \ingroup Tasks
  */
 #define crSTART( pxCRCB )                            \
-    switch( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
-        case 0:
+    निवड( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
+        स्थिती 0:
 
 /**
  * croutine. h
@@ -256,11 +256,11 @@ void vCoRoutineSchedule( void );
  * only.  The macros should not be used directly by application writers.
  */
 #define crSET_STATE0( xHandle )                                       \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); return; \
-    case ( __LINE__ * 2 ):
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); परत; \
+    स्थिती ( __LINE__ * 2 ):
 #define crSET_STATE1( xHandle )                                               \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); return; \
-    case ( ( __LINE__ * 2 ) + 1 ):
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); परत; \
+    स्थिती ( ( __LINE__ * 2 ) + 1 ):
 
 /**
  * croutine. h
@@ -311,13 +311,13 @@ void vCoRoutineSchedule( void );
  * \ingroup Tasks
  */
 #define crDELAY( xHandle, xTicksToDelay )                          \
-    do {                                                           \
-        if( ( xTicksToDelay ) > 0 )                                \
+    करा {                                                           \
+        जर( ( xTicksToDelay ) > 0 )                                \
         {                                                          \
-            vCoRoutineAddToDelayedList( ( xTicksToDelay ), NULL ); \
+            vCoRoutineAddToDelayedList( ( xTicksToDelay ), रिक्त ); \
         }                                                          \
         crSET_STATE0( ( xHandle ) );                               \
-    } while( 0 )
+    } पर्यंत( 0 )
 
 /**
  * @code{c}
@@ -405,19 +405,19 @@ void vCoRoutineSchedule( void );
  * \ingroup Tasks
  */
 #define crQUEUE_SEND( xHandle, pxQueue, pvItemToQueue, xTicksToWait, pxResult )           \
-    do {                                                                                  \
+    करा {                                                                                  \
         *( pxResult ) = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                           \
+        जर( *( pxResult ) == errQUEUE_BLOCKED )                                           \
         {                                                                                 \
             crSET_STATE0( ( xHandle ) );                                                  \
             *pxResult = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), 0 );                \
         }                                                                                 \
-        if( *pxResult == errQUEUE_YIELD )                                                 \
+        जर( *pxResult == errQUEUE_YIELD )                                                 \
         {                                                                                 \
             crSET_STATE1( ( xHandle ) );                                                  \
             *pxResult = pdPASS;                                                           \
         }                                                                                 \
-    } while( 0 )
+    } पर्यंत( 0 )
 
 /**
  * croutine. h
@@ -499,19 +499,19 @@ void vCoRoutineSchedule( void );
  * \ingroup Tasks
  */
 #define crQUEUE_RECEIVE( xHandle, pxQueue, pvBuffer, xTicksToWait, pxResult )           \
-    do {                                                                                \
+    करा {                                                                                \
         *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                         \
+        जर( *( pxResult ) == errQUEUE_BLOCKED )                                         \
         {                                                                               \
             crSET_STATE0( ( xHandle ) );                                                \
             *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), 0 );            \
         }                                                                               \
-        if( *( pxResult ) == errQUEUE_YIELD )                                           \
+        जर( *( pxResult ) == errQUEUE_YIELD )                                           \
         {                                                                               \
             crSET_STATE1( ( xHandle ) );                                                \
             *( pxResult ) = pdPASS;                                                     \
         }                                                                               \
-    } while( 0 )
+    } पर्यंत( 0 )
 
 /**
  * croutine. h
@@ -737,7 +737,7 @@ void vCoRoutineSchedule( void );
  * Removes the current co-routine from its ready list and places it in the
  * appropriate delayed list.
  */
-void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
+शून्य vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
                                  List_t * pxEventList );
 
 /*
@@ -747,14 +747,14 @@ void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
  * Removes the highest priority co-routine from the event list and places it in
  * the pending ready list.
  */
-BaseType_t xCoRoutineRemoveFromEventList( const List_t * pxEventList );
+BaseType_t xCoRoutineRemoveFromEventList( स्थिरांक List_t * pxEventList );
 
 
 /*
  * This function resets the internal state of the coroutine module. It must be
  * called by the application before restarting the scheduler.
  */
-void vCoRoutineResetState( void ) PRIVILEGED_FUNCTION;
+शून्य vCoRoutineResetState( शून्य ) PRIVILEGED_FUNCTION;
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

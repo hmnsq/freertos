@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
@@ -49,8 +49,8 @@
 
 /* The address of the pxCurrentTCB variable, but don't know or need to know its
  * type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+प्रकारव्याख्या शून्य TCB_t;
+बाह्य अस्थिर TCB_t * अस्थिर pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each time
  * a critical section is entered the count is incremented.  Each time a critical
@@ -60,25 +60,25 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+अस्थिर uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-extern void vApplicationSetupTimerInterrupt( void );
+बाह्य शून्य vApplicationSetupTimerInterrupt( शून्य );
 
 /*
  * Starts the scheduler by loading the context of the first Task to run.
  * (implemented in portasm.s).
  */
-extern void vPortStartFirstTask( void );
+बाह्य शून्य vPortStartFirstTask( शून्य );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+स्थिर शून्य prvTaskExitError( शून्य );
 
 /*-----------------------------------------------------------*/
 
@@ -88,122 +88,122 @@ static void prvTaskExitError( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+चळत_Type_t * px_Port_Initialise_चळत( चळत_Type_t * px_शीर्ष_Of_चळत,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
     uint32_t * pulLocal;
     /* With large data sizeof( StackType_t ) == 2, and
      * sizeof( StackType_t * ) == 4.  With small data
      * sizeof( StackType_t ) == 2 and sizeof( StackType_t * ) == 2. */
-#if __DATA_MODEL__ == __DATA_MODEL_FAR__
+#जर __DATA_MODEL__ == __DATA_MODEL_FAR__
     {
         /* Far pointer parameters are passed using the A:DE registers (24-bit).
          * Although they are stored in memory as a 32-bit value.  Hence decrement
          * the stack pointer, so 2 bytes are left for the contents of A, before
          * storing the pvParameters value. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        #if  __CALLING_CONVENTION__ == __CC_V2__
+        px_शीर्ष_Of_चळत--;
+        pulLocal = ( uint32_t * ) px_शीर्ष_Of_चळत;
+        #जर  __CALLING_CONVENTION__ == __CC_V2__
             /* V2: parameter via A:DE, do not push pvParameters on stack */
-        #else
+        #अन्यथा
             /* V1 or unknown: keep stack write */
             *pulLocal = ( uint32_t ) pvParameters;
-            pxTopOfStack--;
+            px_शीर्ष_Of_चळत--;
         #endif
         /* The return address is a 32-bit value. So decrement the stack pointer
          * in order to make extra room needed to store the correct value.  See the
          * comments above the prvTaskExitError() prototype at the top of this file. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_शीर्ष_Of_चळत--;
+        pulLocal = ( uint32_t * ) px_शीर्ष_Of_चळत;
         *pulLocal = ( uint32_t ) prvTaskExitError;
-        pxTopOfStack--;
+        px_शीर्ष_Of_चळत--;
         /* The task function start address combined with the PSW is also stored
          * as a 32-bit value. So leave a space for the second two bytes. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_शीर्ष_Of_चळत--;
+        pulLocal = ( uint32_t * ) px_शीर्ष_Of_चळत;
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_शीर्ष_Of_चळत--;
         /* Register image on task entry. */
-        #if  __CALLING_CONVENTION__ == __CC_V2__
+        #जर  __CALLING_CONVENTION__ == __CC_V2__
         {
             uint32_t p = ( uint32_t ) pvParameters;
             uint16_t de_init = (uint16_t)( p & 0xFFFFU );
             uint16_t ax_init = (uint16_t)( ((p >> 16) & 0xFFU) << 8 );
             /* AX register image */
-            *pxTopOfStack = ( StackType_t ) ax_init;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) ax_init;
+            px_शीर्ष_Of_चळत--;
             /* HL register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0x2222;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x2222;
+            px_शीर्ष_Of_चळत--;
             /* CS:ES register image */
-            *pxTopOfStack = ( StackType_t ) 0x0F00;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x0F00;
+            px_शीर्ष_Of_चळत--;
             /* DE register image */
-            *pxTopOfStack = ( StackType_t ) de_init;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) de_init;
+            px_शीर्ष_Of_चळत--;
         }
-        #else
+        #अन्यथा
             /* An initial value for the AX register. */
-            *pxTopOfStack = ( StackType_t ) 0x1111;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x1111;
+            px_शीर्ष_Of_चळत--;
             /* HL register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0x2222;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x2222;
+            px_शीर्ष_Of_चळत--;
             /* CS:ES register image */
-            *pxTopOfStack = ( StackType_t ) 0x0F00;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x0F00;
+            px_शीर्ष_Of_चळत--;
             /* DE register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0xDEDE;
-            pxTopOfStack--;
+            *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0xDEDE;
+            px_शीर्ष_Of_चळत--;
         #endif
         /* BC remains a dummy value (not used for parameter passing). */
-        *pxTopOfStack = ( StackType_t ) 0xBCBC;
-        pxTopOfStack--;
+        *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0xBCBC;
+        px_शीर्ष_Of_चळत--;
     }
-#else /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
+#अन्यथा /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
     {
        /* The return address, leaving space for the first two bytes of the
          * 32-bit value.  See the comments above the prvTaskExitError() prototype
          * at the top of this file. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_शीर्ष_Of_चळत--;
+        pulLocal = ( uint32_t * ) px_शीर्ष_Of_चळत;
         *pulLocal = ( uint32_t ) prvTaskExitError;
-        pxTopOfStack--;
+        px_शीर्ष_Of_चळत--;
         /* Task function.  Again as it is written as a 32-bit value a space is
          * left on the stack for the second two bytes. */
-        pxTopOfStack--;
+        px_शीर्ष_Of_चळत--;
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_शीर्ष_Of_चळत;
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_शीर्ष_Of_चळत--;
         /* The parameter is passed in AX. */
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
+        *px_शीर्ष_Of_चळत = ( चळत_Type_t ) pvParameters;
+        px_शीर्ष_Of_चळत--;
         /* An initial value for the HL register. */
-        *pxTopOfStack = ( StackType_t ) 0x2222;
-        pxTopOfStack--;
+        *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x2222;
+        px_शीर्ष_Of_चळत--;
         /* CS and ES registers. */
-        *pxTopOfStack = ( StackType_t ) 0x0F00;
-        pxTopOfStack--;
+        *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0x0F00;
+        px_शीर्ष_Of_चळत--;
         /* The remaining general purpose registers DE and BC */
-        *pxTopOfStack = ( StackType_t ) 0xDEDE;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xBCBC;
-        pxTopOfStack--;
+        *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0xDEDE;
+        px_शीर्ष_Of_चळत--;
+        *px_शीर्ष_Of_चळत = ( चळत_Type_t ) 0xBCBC;
+        px_शीर्ष_Of_चळत--;
     }
 #endif /* __DATA_MODEL__ */
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_शीर्ष_Of_चळत = ( चळत_Type_t ) portNO_CRITICAL_SECTION_NESTING;
     /* Return a pointer to the top of the stack that has been generated so
      * it can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    परत px_शीर्ष_Of_चळत;
 }
 
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+स्थिर शून्य prvTaskExitError( शून्य )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -214,13 +214,13 @@ static void prvTaskExitError( void )
     configASSERT( usCriticalNesting == ~0U );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    साठी( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
     /* Setup the hardware to generate the tick. Interrupts are disabled when
      * this function is called. */
@@ -230,11 +230,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    परत pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* It is unlikely that the RL78 port will get stopped. */
 }

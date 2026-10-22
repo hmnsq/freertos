@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS किंवा
+ * IMPLIED, INCLUDING BUT नाही LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE आणि NONINFRINGEMENT. मध्ये NO EVENT SHALL THE AUTHORS किंवा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES किंवा OTHER LIABILITY, WHETHER
+ * मध्ये AN ACTION OF CONTRACT, TORT किंवा OTHERWISE, ARISING FROM, OUT OF किंवा मध्ये
+ * CONNECTION WITH THE SOFTWARE किंवा THE USE किंवा OTHER DEALINGS मध्ये THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -38,12 +38,12 @@
     .extern pucPortTaskFPUContextBuffer
     .extern ulPortYieldPending
 
-    .global vPortStartFirstTask
-    .global vPortCentralInterruptWrapper
-    .global vPortAPICErrorHandlerWrapper
-    .global vPortTimerHandler
-    .global vPortYieldCall
-    .global vPortAPICSpuriousHandler
+    .वैश्विक vPortStartFirstTask
+    .वैश्विक vPortCentralInterruptWrapper
+    .वैश्विक vPortAPICErrorHandlerWrapper
+    .वैश्विक vPortTimerHandler
+    .वैश्विक vPortYieldCall
+    .वैश्विक vPortAPICSpuriousHandler
 
     .text
 
@@ -78,7 +78,7 @@ vPortYieldCall:
     /* Stack location is first item in the TCB. */
     movl    %esp, (%eax)
 
-    call vTaskSwitchContext
+    बोलवा vTaskSwitchContext
 
     /* Find the location of pxCurrentTCB again - a callee saved register could
     be used in place of eax to prevent this second load, but that then relies
@@ -133,7 +133,7 @@ vPortStartFirstTask:
 .func vPortAPICErrorHandlerWrapper
 vPortAPICErrorHandlerWrapper:
     pusha
-    call    vPortAPICErrorHandler
+    बोलवा    vPortAPICErrorHandler
     popa
     /* EOI. */
     movl    $0x00, (0xFEE000B0)
@@ -178,7 +178,7 @@ vPortTimerHandler:
     /* Increment nesting count. */
     add     $1, ulInterruptNesting
 
-    call    xTaskIncrementTick
+    बोलवा    xTaskIncrementTick
 
     sti
 
@@ -186,7 +186,7 @@ vPortTimerHandler:
     test    %eax, %eax
     je      _skip_context_switch
     cli
-    call    vTaskSwitchContext
+    बोलवा    vTaskSwitchContext
 
 _skip_context_switch:
     cli
@@ -247,7 +247,7 @@ _skip_context_switch:
         mul %ecx                        /* Calculate base vector for current register, 32 vectors per register. */
         add %ebx, %eax                  /* Add bit offset into register to get final vector number. */
         push %eax                       /* Vector number is function parameter. */
-        call vPortCentralInterruptHandler
+        बोलवा vPortCentralInterruptHandler
         pop %eax                        /* Remove parameter. */
 
     wrapper_epilogue:

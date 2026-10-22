@@ -23,10 +23,10 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
-extern void vPortStartTask( void );
+बाह्य शून्य vPortStartTask( शून्य );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
@@ -36,13 +36,13 @@ portLONG ulCriticalNesting = 0x9999UL;
  * and implement task switch after exit critical area */
 portLONG pendsvflag = 0;
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+चळत_Type_t * px_Port_Initialise_चळत( चळत_Type_t * px_शीर्ष_Of_चळत,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
-    StackType_t * stk = NULL;
+    चळत_Type_t * stk = रिक्त;
 
-    stk = pxTopOfStack;
+    stk = px_शीर्ष_Of_चळत;
 
     *( --stk ) = ( uint32_t ) pxCode;       /* Entry Point                                         */
     *( --stk ) = ( uint32_t ) 0xE0000140L;  /* PSR                                                 */
@@ -62,46 +62,46 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    परत stk;
 }
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
     ulCriticalNesting = 0UL;
 
     vPortStartTask();
 
-    return pdFALSE;
+    परत pdFALSE;
 }
 
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Not implemented as there is nothing to return to. */
 }
 
-void vPortEnterCritical( void )
+शून्य vPortEnterCritical( शून्य )
 {
     portDISABLE_INTERRUPTS();
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+शून्य vPortExitCritical( शून्य )
 {
-    if( ulCriticalNesting == 0 )
+    जर( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        पर्यंत( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    जर( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        जर( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,8 +109,8 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
-    void xPortSysTickHandler( void )
+#जर configUSE_PREEMPTION == 0
+    शून्य xPortSysTickHandler( शून्य )
     {
         portLONG ulDummy;
 
@@ -119,20 +119,20 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
-    void xPortSysTickHandler( void )
+#अन्यथा
+    शून्य xPortSysTickHandler( शून्य )
     {
         portLONG ulDummy;
 
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            जर( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            अन्यथा
             {
                 traceISR_EXIT();
             }
@@ -141,7 +141,7 @@ void vPortExitCritical( void )
     }
 #endif /* if configUSE_PREEMPTION == 0 */
 
-void vPortYieldHandler( void )
+शून्य vPortYieldHandler( शून्य )
 {
     uint32_t ulSavedInterruptMask;
 
@@ -152,17 +152,17 @@ void vPortYieldHandler( void )
     portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
 }
 
-__attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
-                                                              signed portCHAR * pcTaskName )
+__attribute__( ( weak ) ) शून्य v_Application_चळत_Overflow_Hook( xTaskHandle * pxTask,
+                                                              चिन्हित portCHAR * pcTaskName )
 {
-    for( ; ; )
+    साठी( ; ; )
     {
     }
 }
 
-__attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
+__attribute__( ( weak ) ) शून्य vApplicationMallocFailedHook( शून्य )
 {
-    for( ; ; )
+    साठी( ; ; )
     {
     }
 }

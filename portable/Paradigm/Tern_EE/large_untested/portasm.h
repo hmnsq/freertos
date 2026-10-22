@@ -26,50 +26,50 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+प्रकारव्याख्या शून्य TCB_t;
+बाह्य अस्थिर TCB_t * अस्थिर pxCurrentTCB;
+बाह्य शून्य vTaskSwitchContext( शून्य );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+शून्य portSWITCH_CONTEXT( शून्य );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+शून्य portFIRST_CONTEXT( शून्य );
 
 #define portSWITCH_CONTEXT()                                         \
-                        asm { mov   ax, seg pxCurrentTCB        } \
-                            asm { mov   ds, ax                      }  \
-                            asm { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */    \
-                            asm { mov   es:0x2[ bx ], ss            }   \
-                            asm { mov   es:[ bx ], sp               }   \
-                            asm { call  far ptr vTaskSwitchContext  }   /* Perform the switch. */   \
-                            asm { mov   ax, seg pxCurrentTCB        }   /* Restore the stack pointer from the TCB. */  \
-                            asm { mov   ds, ax                      }   \
-                            asm { les   bx, dword ptr pxCurrentTCB  }   \
-                            asm { mov   ss, es:[ bx + 2 ]           }      \
-                            asm { mov   sp, es:[ bx ]               }
+                        यंत्र { mov   ax, seg pxCurrentTCB        } \
+                            यंत्र { mov   ds, ax                      }  \
+                            यंत्र { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */    \
+                            यंत्र { mov   es:0x2[ bx ], ss            }   \
+                            यंत्र { mov   es:[ bx ], sp               }   \
+                            यंत्र { call  far ptr vTaskSwitchContext  }   /* Perform the switch. */   \
+                            यंत्र { mov   ax, seg pxCurrentTCB        }   /* Restore the stack pointer from the TCB. */  \
+                            यंत्र { mov   ds, ax                      }   \
+                            यंत्र { les   bx, dword ptr pxCurrentTCB  }   \
+                            यंत्र { mov   ss, es:[ bx + 2 ]           }      \
+                            यंत्र { mov   sp, es:[ bx ]               }
 
 #define portFIRST_CONTEXT()                                             \
-                            asm { mov   ax, seg pxCurrentTCB        }   \
-                            asm { mov   ds, ax                      }   \
-                            asm { les   bx, dword ptr pxCurrentTCB  }   \
-                            asm { mov   ss, es:[ bx + 2 ]           }   \
-                            asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
-                            asm { iret                              }
+                            यंत्र { mov   ax, seg pxCurrentTCB        }   \
+                            यंत्र { mov   ds, ax                      }   \
+                            यंत्र { les   bx, dword ptr pxCurrentTCB  }   \
+                            यंत्र { mov   ss, es:[ bx + 2 ]           }   \
+                            यंत्र { mov   sp, es:[ bx ]               }   \
+                            यंत्र { काढा   bp                          }   \
+                            यंत्र { काढा   di                          }   \
+                            यंत्र { काढा   si                          }   \
+                            यंत्र { काढा   ds                          }   \
+                            यंत्र { काढा   es                          }   \
+                            यंत्र { काढा   dx                          }   \
+                            यंत्र { काढा   cx                          }   \
+                            यंत्र { काढा   bx                          }   \
+                            यंत्र { काढा   ax                          }   \
+                            यंत्र { iret                              }

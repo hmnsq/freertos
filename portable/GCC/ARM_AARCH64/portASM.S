@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS किंवा
+ * IMPLIED, INCLUDING BUT नाही LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE आणि NONINFRINGEMENT. मध्ये NO EVENT SHALL THE AUTHORS किंवा
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES किंवा OTHER LIABILITY, WHETHER
+ * मध्ये AN ACTION OF CONTRACT, TORT किंवा OTHERWISE, ARISING FROM, OUT OF किंवा मध्ये
+ * CONNECTION WITH THE SOFTWARE किंवा THE USE किंवा OTHER DEALINGS मध्ये THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -41,9 +41,9 @@
     .extern ullICCIAR
     .extern _freertos_vector_table
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SWI_Handler
-    .global vPortRestoreTaskContext
+    .वैश्विक FreeRTOS_IRQ_Handler
+    .वैश्विक FreeRTOS_SWI_Handler
+    .वैश्विक vPortRestoreTaskContext
 
 
 .macro portSAVE_CONTEXT
@@ -304,7 +304,7 @@ FreeRTOS_IRQ_Handler:
     ADD     X6, X1, #1
     STR     X6, [X5]    /* Address of nesting count variable in X5. */
 
-    /* Maintain the interrupt nesting information across the function call. */
+    /* Maintain the interrupt nesting information across the function बोलवा. */
     STP     X1, X5, [SP, #-0x10]!
 
     /* Read value from the interrupt acknowledge register, which is stored in W0
@@ -313,7 +313,7 @@ FreeRTOS_IRQ_Handler:
     LDR     X3, [X2]
     LDR     W0, [X3]    /* ICCIAR in W0 as parameter. */
 
-    /* Maintain the ICCIAR value across the function call. */
+    /* Maintain the ICCIAR value across the function बोलवा. */
     STP     X0, X1, [SP, #-0x10]!
 
     /* Call the C handler. */

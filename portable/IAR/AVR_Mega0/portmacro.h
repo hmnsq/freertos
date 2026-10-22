@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,61 +46,61 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                int
-#define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#define portCHAR                 अक्षर
+#define portFLOAT                दशांश
+#define portDOUBLE               द्विगुण
+#define portLONG                 दीर्घ
+#define portSHORT                पूर्णांक
+#define port_चळत_TYPE           uint8_t
+#define portBASE_TYPE            अक्षर
 
 #define portPOINTER_SIZE_TYPE    uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+प्रकारव्याख्या port_चळत_TYPE   चळत_Type_t;
+प्रकारव्याख्या चिन्हित अक्षर      BaseType_t;
+प्रकारव्याख्या अचिन्हित अक्षर    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#जर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारव्याख्या uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#किंवाजर ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारव्याख्या uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#अन्यथा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+बाह्य शून्य vPortEnterCritical( शून्य );
+बाह्य शून्य vPortExitCritical( शून्य );
 
 #define portENTER_CRITICAL()        vPortEnterCritical()
 #define portEXIT_CRITICAL()         vPortExitCritical()
 
-#define portDISABLE_INTERRUPTS()    asm ( "cli" )
-#define portENABLE_INTERRUPTS()     asm ( "sei" )
+#define portDISABLE_INTERRUPTS()    यंत्र ( "cli" )
+#define portENABLE_INTERRUPTS()     यंत्र ( "sei" )
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_चळत_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    1
-#define portNOP()    asm ( "nop" )
+#define portNOP()    यंत्र ( "nop" )
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-extern void vPortYield( void );
+बाह्य शून्य vPortYield( शून्य );
 #define portYIELD()             vPortYield()
 
-extern void vPortYieldFromISR( void );
+बाह्य शून्य vPortYieldFromISR( शून्य );
 #define portYIELD_FROM_ISR()    vPortYieldFromISR()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
