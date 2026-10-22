@@ -34,37 +34,37 @@ Changes from V3.0.1
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#if !defined(_SERIES) || _SERIES != 18
+#जइ !defined(_SERIES) || _SERIES != 18
     #error "WizC supports FreeRTOS on the Microchip PIC18-series only"
 #endif
 
-#if !defined(QUICKCALL) || QUICKCALL != 1
+#जइ !defined(QUICKCALL) || QUICKCALL != 1
     #error "QuickCall must be enabled (see ProjectOptions/Optimisations)"
 #endif
 
-#include <stddef.h>
-#include <pic.h>
+#अन्तर्भाव <stddef.h>
+#अन्तर्भाव <pic.h>
 
-#define portCHAR        char
-#define portFLOAT       float
+#define portCHAR        वर्ण
+#define portFLOAT       भिन्न
 #define portDOUBLE      portFLOAT
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#define port_राशिः_TYPE  uint8_t
+#define portBASE_TYPE   वर्ण
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+प्रकारनिर्देश port_राशिः_TYPE राशिः_Type_t;
+प्रकारनिर्देश signed वर्ण BaseType_t;
+प्रकारनिर्देश unsigned वर्ण UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#जइ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारनिर्देश uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFF )
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
+#नोचेद्यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारनिर्देश uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
+#अण्णहा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -93,28 +93,28 @@ typedef unsigned char UBaseType_t;
  * Macros to modify the global interrupt enable bit in INTCON.
  */
 #define portDISABLE_INTERRUPTS()    \
-    do                              \
+    करेहि                              \
     {                               \
         bGIE=0;                     \
-    } while(bGIE)   // MicroChip recommends this check!
+    } जाव(bGIE)   // MicroChip recommends this check!
 
 #define portENABLE_INTERRUPTS()     \
-    do                              \
+    करेहि                              \
     {                               \
         bGIE=1;                     \
-    } while(0)
+    } जाव(0)
 
 /*-----------------------------------------------------------*/
 
 /*
  * Critical section macros.
  */
-extern uint8_t ucCriticalNesting;
+बाह्य uint8_t ucCriticalNesting;
 
 #define portNO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
 
 #define portENTER_CRITICAL()                                        \
-    do                                                              \
+    करेहि                                                              \
     {                                                               \
         portDISABLE_INTERRUPTS();                                   \
                                                                     \
@@ -125,12 +125,12 @@ extern uint8_t ucCriticalNesting;
          * many times portENTER_CRITICAL() has been called.         \
          */                                                         \
         ucCriticalNesting++;                                        \
-    } while(0)
+    } जाव(0)
 
 #define portEXIT_CRITICAL()                                         \
-    do                                                              \
+    करेहि                                                              \
     {                                                               \
-        if(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
+        जइ(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
         {                                                           \
             /*                                                      \
              * Decrement the nesting count as we are leaving a      \
@@ -143,11 +143,11 @@ extern uint8_t ucCriticalNesting;
          * If the nesting level has reached zero then               \
          * interrupts should be re-enabled.                         \
          */                                                         \
-        if( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
+        जइ( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
         {                                                           \
             portENABLE_INTERRUPTS();                                \
         }                                                           \
-    } while(0)
+    } जाव(0)
 
 /*-----------------------------------------------------------*/
 
@@ -156,18 +156,18 @@ extern uint8_t ucCriticalNesting;
  * portMINIMAL_STACK_SIZE. Some input to this calculation is
  * compile time determined, other input is port-defined (see port.c)
  */
-extern uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void );
-extern uint16_t usCalcMinStackSize;
+बाह्य uint16_t us_Port_CALCULATE_MINIMAL_राशिः_SIZE( शून्य );
+बाह्य uint16_t us_Calc_Min_राशिः_Size;
 
-#define portMINIMAL_STACK_SIZE                  \
-    ((usCalcMinStackSize == 0)                  \
-        ? usPortCALCULATE_MINIMAL_STACK_SIZE()  \
-        : usCalcMinStackSize )
+#define port_MINIMAL_राशिः_SIZE                  \
+    ((us_Calc_Min_राशिः_Size == 0)                  \
+        ? us_Port_CALCULATE_MINIMAL_राशिः_SIZE()  \
+        : us_Calc_Min_राशिः_Size )
 
 /*
  * WizC uses a downgrowing stack
  */
-#define portSTACK_GROWTH            ( -1 )
+#define port_राशिः_GROWTH            ( -1 )
 
 /*-----------------------------------------------------------*/
 
@@ -204,13 +204,13 @@ extern uint16_t usCalcMinStackSize;
  */
 
 #define portSAVE_CONTEXT( ucInterruptForced )                       \
-    do                                                              \
+    करेहि                                                              \
     {                                                               \
         portDISABLE_INTERRUPTS();                                   \
                                                                     \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Push the relevant SFR's onto the task's stack         \
+            ; प्रक्षिप_3 the relevant SFR's onto the task's राशिः         \
             ;                                                       \
             movff   STATUS,POSTDEC2                                 \
             movff   WREG,POSTDEC2                                   \
@@ -222,12 +222,12 @@ extern uint16_t usCalcMinStackSize;
             movff   FSR1H,POSTDEC2                                  \
             movff   FSR1L,POSTDEC2                                  \
             movff   TABLAT,POSTDEC2                                 \
-            if __ROMSIZE > 0x8000                                   \
+            जइ __ROMSIZE > 0x8000                                   \
                 movff   TBLPTRU,POSTDEC2                            \
             endif                                                   \
             movff   TBLPTRH,POSTDEC2                                \
             movff   TBLPTRL,POSTDEC2                                \
-            if __ROMSIZE > 0x8000                                   \
+            जइ __ROMSIZE > 0x8000                                   \
                 movff   PCLATU,POSTDEC2                             \
             endif                                                   \
             movff   PCLATH,POSTDEC2                                 \
@@ -242,48 +242,48 @@ extern uint16_t usCalcMinStackSize;
             decfsz  WREG,W,ACCESS                                   \
             SMARTJUMP _rtos_S1                                      \
             ;                                                       \
-            ; Save the pic call/return-stack belonging to the       \
+            ; Save the pic call/प्रत्यागम-राशिः belonging to the       \
             ; current task by copying it to the task's software-    \
-            ; stack. We save the hardware stack pointer (which      \
-            ; is the number of addresses on the stack) in the       \
-            ; W-register first because we need it later and it      \
-            ; is modified in the save-loop by executing pop's.      \
-            ; After the loop the W-register is stored on the        \
-            ; stack, too.                                           \
+            ; राशिः. We save the hardware राशिः pointer (which      \
+            ; is the सङ्ख्या of addresses on the राशिः) in the       \
+            ; W-पञ्जिका first because we need it later and it      \
+            ; is modified in the save-loop by executing निष्कासय's.      \
+            ; After the loop the W-पञ्जिका is stored on the        \
+            ; राशिः, too.                                           \
             ;                                                       \
             movf    STKPTR,W,ACCESS                                 \
             bz      _rtos_s3                                        \
         _rtos_S2:                                                   \
-            if __ROMSIZE > 0x8000                                   \
+            जइ __ROMSIZE > 0x8000                                   \
                 movff   TOSU,POSTDEC2                               \
             endif                                                   \
             movff   TOSH,POSTDEC2                                   \
             movff   TOSL,POSTDEC2                                   \
-            pop                                                     \
+            निष्कासय                                                     \
             tstfsz  STKPTR,ACCESS                                   \
             SMARTJUMP _rtos_S2                                      \
         _rtos_s3:                                                   \
             movwf   POSTDEC2,ACCESS                                 \
             ;                                                       \
-            ; Next the value for ucCriticalNesting used by the      \
-            ; task is stored on the stack. When                     \
+            ; Next the मानम् प्रति ucCriticalNesting used by the      \
+            ; task is stored on the राशिः. When                     \
             ; (ucInterruptForced == portINTERRUPTS_FORCED), we save \
             ; it as 0 (portNO_CRITICAL_SECTION_NESTING).            \
             ;                                                       \
-            if ucInterruptForced == portINTERRUPTS_FORCED           \
+            जइ ucInterruptForced == portINTERRUPTS_FORCED           \
                 clrf POSTDEC2,ACCESS                                \
-            else                                                    \
+            अण्णहा                                                    \
                 movff   ucCriticalNesting,POSTDEC2                  \
             endif                                                   \
             ;                                                       \
-            ; Save the new top of the software stack in the TCB.    \
+            ; Save the new शिखरम्_2 of the software राशिः in the TCB.    \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             movff   FSR2L,POSTINC0                                  \
             movff   FSR2H,POSTINC0                                  \
         _Pragma("asmend")                                           \
-    } while(0)
+    } जाव(0)
 
 /************************************************************/
 
@@ -291,45 +291,45 @@ extern uint16_t usCalcMinStackSize;
  * This is the reverse of portSAVE_CONTEXT.
  */
 #define portRESTORE_CONTEXT()                                       \
-    do                                                              \
+    करेहि                                                              \
     {                                                               \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Set FSR0 to point to pxCurrentTCB->pxTopOfStack.      \
+            ; Set FSR0 to point to pxCurrentTCB->px_शिखरम्_Of_राशिः.      \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             ;                                                       \
             ; De-reference FSR0 to set the address it holds into    \
-            ; FSR2 (i.e. *( pxCurrentTCB->pxTopOfStack ) ). FSR2    \
+            ; FSR2 (i.e. *( pxCurrentTCB->px_शिखरम्_Of_राशिः ) ). FSR2    \
             ; is used by wizC as stackpointer.                      \
             ;                                                       \
             movff   POSTINC0,FSR2L                                  \
             movff   POSTINC0,FSR2H                                  \
             ;                                                       \
-            ; Next, the value for ucCriticalNesting used by the     \
-            ; task is retrieved from the stack.                     \
+            ; Next, the मानम् प्रति ucCriticalNesting used by the     \
+            ; task is retrieved from the राशिः.                     \
             ;                                                       \
             movff   PREINC2,ucCriticalNesting                       \
             ;                                                       \
-            ; Rebuild the pic call/return-stack. The number of      \
-            ; return addresses is the next item on the task stack.  \
-            ; Save this number in PRODL. Then fetch the addresses   \
+            ; Rebuild the pic call/प्रत्यागम-राशिः. The सङ्ख्या of      \
+            ; प्रत्यागम addresses is the next item on the task राशिः.  \
+            ; Save this सङ्ख्या in PRODL. Then fetch the addresses   \
             ; and store them on the hardwarestack.                  \
             ; The datasheets say we can't use movff here...         \
             ;                                                       \
             movff   PREINC2,PRODL   // Use PRODL as tempregister    \
             clrf    STKPTR,ACCESS                                   \
         _rtos_R1:                                                   \
-            push                                                    \
+            प्रक्षिप                                                    \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSL,ACCESS                                     \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSH,ACCESS                                     \
-            if __ROMSIZE > 0x8000                                   \
+            जइ __ROMSIZE > 0x8000                                   \
                 movf    PREINC2,W,ACCESS                            \
                 movwf   TOSU,ACCESS                                 \
-            else                                                    \
+            अण्णहा                                                    \
                 clrf    TOSU,ACCESS                                 \
             endif                                                   \
             decfsz  PRODL,F,ACCESS                                  \
@@ -348,19 +348,19 @@ extern uint16_t usCalcMinStackSize;
             ;                                                       \
             ; Restore the sfr's forming the tasks context.          \
             ; We cannot yet restore bsr, w and status because       \
-            ; we need these registers for a final test.             \
+            ; we need these registers प्रति a final test.             \
             ;                                                       \
             movff   PREINC2,PCLATH                                  \
-            if __ROMSIZE > 0x8000                                   \
+            जइ __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,PCLATU                              \
-            else                                                    \
+            अण्णहा                                                    \
                 clrf    PCLATU,ACCESS                               \
             endif                                                   \
             movff   PREINC2,TBLPTRL                                 \
             movff   PREINC2,TBLPTRH                                 \
-            if __ROMSIZE > 0x8000                                   \
+            जइ __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,TBLPTRU                             \
-            else                                                    \
+            अण्णहा                                                    \
                 clrf    TBLPTRU,ACCESS                              \
             endif                                                   \
             movff   PREINC2,TABLAT                                  \
@@ -371,11 +371,11 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,PRODL                                   \
             movff   PREINC2,PRODH                                   \
             ;                                                       \
-            ; The return from portRESTORE_CONTEXT() depends on      \
-            ; the value of ucCriticalNesting. When it is zero,      \
+            ; The प्रत्यागम from portRESTORE_CONTEXT() depends on      \
+            ; the मानम् of ucCriticalNesting. When it is zero,      \
             ; interrupts need to be enabled. This is done via a     \
             ; retfie instruction because we need the                \
-            ; interrupt-enabling and the return to the restored     \
+            ; interrupt-enabling and the प्रत्यागम to the restored     \
             ; task to be uninterruptible.                           \
             ; Because bsr, status and W are affected by the test    \
             ; they are restored after the test.                     \
@@ -392,9 +392,9 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
             movff   PREINC2,STATUS                                  \
-            return  0       ; Return without affecting interrupts   \
+            प्रत्यागम  0       ; Return without affecting interrupts   \
         _Pragma("asmend")                                           \
-    } while(0)
+    } जाव(0)
 
 /*-----------------------------------------------------------*/
 
@@ -402,7 +402,7 @@ extern uint16_t usCalcMinStackSize;
 
 /*-----------------------------------------------------------*/
 
-extern void vPortYield( void );
+बाह्य शून्य vPortYield( शून्य );
 #define portYIELD()             vPortYield()
 
 #define portNOP()   _Pragma("asm")                                  \
@@ -412,14 +412,14 @@ extern void vPortYield( void );
 /*-----------------------------------------------------------*/
 
 #define portTASK_FUNCTION( xFunction, pvParameters )        \
-    void pointed xFunction( void *pvParameters )        \
+    शून्य pointed xFunction( शून्य *pvParameters )        \
     _Pragma(asmfunc xFunction)
 
 #define portTASK_FUNCTION_PROTO     portTASK_FUNCTION
 /*-----------------------------------------------------------*/
 
 
-#define volatile
-#define register
+#define चञ्चल
+#define पञ्जिका
 
 #endif /* PORTMACRO_H */

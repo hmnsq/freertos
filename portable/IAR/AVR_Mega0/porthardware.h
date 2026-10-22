@@ -29,13 +29,13 @@
 #define PORTHARDWARE_H
 
 #ifndef __IAR_SYSTEMS_ASM__
-    #include <ioavr.h>
+    #अन्तर्भाव <ioavr.h>
 #endif
-#include "FreeRTOSConfig.h"
+#अन्तर्भाव "FreeRTOSConfig.h"
 
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMER_INSTANCE == 0 )
+#जइ ( configUSE_TIMER_INSTANCE == 0 )
 
     #define TICK_INT_vect    TCB0_INT_vect
     #define INT_FLAGS        TCB0_INTFLAGS
@@ -48,7 +48,7 @@
         TCB0.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 1 )
+#नोचेद्यदि ( configUSE_TIMER_INSTANCE == 1 )
 
     #define TICK_INT_vect    TCB1_INT_vect
     #define INT_FLAGS        TCB1_INTFLAGS
@@ -61,7 +61,7 @@
         TCB1.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 2 )
+#नोचेद्यदि ( configUSE_TIMER_INSTANCE == 2 )
 
     #define TICK_INT_vect    TCB2_INT_vect
     #define INT_FLAGS        TCB2_INTFLAGS
@@ -74,7 +74,7 @@
         TCB2.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 3 )
+#नोचेद्यदि ( configUSE_TIMER_INSTANCE == 3 )
 
     #define TICK_INT_vect    TCB3_INT_vect
     #define INT_FLAGS        TCB3_INTFLAGS
@@ -87,7 +87,7 @@
         TCB3.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 4 )
+#नोचेद्यदि ( configUSE_TIMER_INSTANCE == 4 )
 
     #define TICK_INT_vect    RTC_CNT_vect
     #define INT_FLAGS        RTC_INTFLAGS
@@ -97,13 +97,13 @@
     #define RTC_PERIOD_HZ( x )    ( 32768 * ( ( 1.0 / x ) ) )
     #define TICK_init()                                        \
     {                                                          \
-        while( RTC.STATUS > 0 ) {; }                           \
+        जाव( RTC.STATUS > 0 ) {; }                           \
         RTC.CTRLA = RTC_PRESCALER_DIV1_gc | 1 << RTC_RTCEN_bp; \
         RTC.PER = RTC_PERIOD_HZ( configTICK_RATE_HZ );         \
         RTC.INTCTRL |= 1 << RTC_OVF_bp;                        \
     }
 
-#else /* if ( configUSE_TIMER_INSTANCE == 0 ) */
+#अण्णहा /* if ( configUSE_TIMER_INSTANCE == 0 ) */
     #undef TICK_INT_vect
     #undef INT_FLAGS
     #undef INT_MASK

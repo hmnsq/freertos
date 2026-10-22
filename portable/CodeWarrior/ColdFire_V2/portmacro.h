@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,32 +46,32 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        वर्ण
+#define portFLOAT       भिन्न
+#define portDOUBLE      द्विगुण
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_राशिः_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+प्रकारनिर्देश port_राशिः_TYPE राशिः_Type_t;
+प्रकारनिर्देश long BaseType_t;
+प्रकारनिर्देश unsigned long UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#जइ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारनिर्देश uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
+#नोचेद्यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारनिर्देश uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
+#अण्णहा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          4
-#define portSTACK_GROWTH            -1
+#define port_राशिः_GROWTH            -1
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 uint32_t ulPortSetIPL( uint32_t );
@@ -79,13 +79,13 @@ uint32_t ulPortSetIPL( uint32_t );
 #define portENABLE_INTERRUPTS()     ulPortSetIPL( 0 )
 
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+बाह्य शून्य vPortEnterCritical( शून्य );
+बाह्य शून्य vPortExitCritical( शून्य );
 #define portENTER_CRITICAL()        vPortEnterCritical()
 #define portEXIT_CRITICAL()         vPortExitCritical()
 
-extern UBaseType_t uxPortSetInterruptMaskFromISR( void );
-extern void vPortClearInterruptMaskFromISR( UBaseType_t );
+बाह्य UBaseType_t uxPortSetInterruptMaskFromISR( शून्य );
+बाह्य शून्य vPortClearInterruptMaskFromISR( UBaseType_t );
 #define portSET_INTERRUPT_MASK_FROM_ISR()   ulPortSetIPL( configMAX_SYSCALL_INTERRUPT_PRIORITY )
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedStatusRegister ) ulPortSetIPL( uxSavedStatusRegister )
 
@@ -93,7 +93,7 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 
 /* Task utilities. */
 
-#define portNOP()   asm volatile (  "nop" )
+#define portNOP()   asm चञ्चल (  "nop" )
 
 /* Note this will overwrite all other bits in the force register, it is done this way for speed. */
 #define portYIELD()         MCF_INTC0_INTFRCL = ( 1UL << configYIELD_INTERRUPT_VECTOR ); portNOP(); portNOP() /* -32 as we are using the high word of the 64bit mask. */
@@ -101,23 +101,23 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters ) __attribute__((noreturn))
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters ) __attribute__((noreturn))
+#define portTASK_FUNCTION( vFunction, pvParameters ) शून्य vFunction( शून्य *pvParameters )
 /*-----------------------------------------------------------*/
 
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    करेहि                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        जइ( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        अण्णहा                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } जाव( 0 )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

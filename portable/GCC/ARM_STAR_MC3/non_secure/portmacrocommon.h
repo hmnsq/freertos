@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -58,8 +58,8 @@
     #error configENABLE_TRUSTZONE must be defined in FreeRTOSConfig.h.  Set configENABLE_TRUSTZONE to 1 to enable TrustZone or 0 to disable TrustZone.
 #endif /* configENABLE_TRUSTZONE */
 
-#if ( configNUMBER_OF_CORES > 1 )
-    #if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
+#जइ ( config_सङ्ख्या_OF_CORES > 1 )
+    #जइ ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
         #error "Multi-core SMP is currently only validated for Cortex-M33 non-TrustZone non-MPU port."
     #endif /* if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 ) ) */
 
@@ -76,29 +76,29 @@
 /**
  * @brief Type definitions.
  */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          वर्ण
+#define portFLOAT         भिन्न
+#define portDOUBLE        द्विगुण
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_राशिः_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश port_राशिः_TYPE   राशिः_Type_t;
+प्रकारनिर्देश long             BaseType_t;
+प्रकारनिर्देश unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#जइ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारनिर्देश uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#नोचेद्यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारनिर्देश uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#अण्णहा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -106,41 +106,41 @@ typedef unsigned long    UBaseType_t;
 /**
  * Architecture specifics.
  */
-#define portSTACK_GROWTH                   ( -1 )
+#define port_राशिः_GROWTH                   ( -1 )
 #define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                 8
 #define portNOP()
 #define portINLINE                         __inline
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE               inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE               अन्तःस्थ __attribute__( ( always_inline ) )
 #endif
-#define portHAS_STACK_OVERFLOW_CHECKING    1
+#define port_HAS_राशिः_OVERFLOW_CHECKING    1
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Extern declarations.
  */
-extern BaseType_t xPortIsInsideInterrupt( void );
+बाह्य BaseType_t xPortIsInsideInterrupt( शून्य );
 
-extern void vPortYield( void ) /* PRIVILEGED_FUNCTION */;
+बाह्य शून्य vPortYield( शून्य ) /* PRIVILEGED_FUNCTION */;
 
-extern void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */;
-extern void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */;
+बाह्य शून्य vPortEnterCritical( शून्य ) /* PRIVILEGED_FUNCTION */;
+बाह्य शून्य vPortExitCritical( शून्य ) /* PRIVILEGED_FUNCTION */;
 
-extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
-extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+बाह्य uint32_t ulSetInterruptMask( शून्य ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+बाह्य शून्य vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
-#if ( configENABLE_TRUSTZONE == 1 )
-    extern void vPortAllocateSecureContext( uint32_t ulSecureStackSize ); /* __attribute__ (( naked )) */
-    extern void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */;
+#जइ ( configENABLE_TRUSTZONE == 1 )
+    बाह्य शून्य vPortAllocateSecureContext( uint32_t ul_Secure_राशिः_Size ); /* __attribute__ (( naked )) */
+    बाह्य शून्य vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */;
 #endif /* configENABLE_TRUSTZONE */
 
-#if ( configENABLE_MPU == 1 )
-    extern BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */;
-    extern void vResetPrivilege( void ) /* __attribute__ (( naked )) */;
+#जइ ( configENABLE_MPU == 1 )
+    बाह्य BaseType_t xIsPrivileged( शून्य ) /* __attribute__ (( naked )) */;
+    बाह्य शून्य vResetPrivilege( शून्य ) /* __attribute__ (( naked )) */;
 #endif /* configENABLE_MPU */
 
-#if ( configENABLE_PAC == 1 )
+#जइ ( configENABLE_PAC == 1 )
 
     /**
      * @brief Generates 128-bit task's random PAC key.
@@ -148,7 +148,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      * @param[out] pulTaskPacKey Pointer to a 4-word (128-bits) array to be
      *             filled with a 128-bit random number.
      */
-    void vApplicationGenerateTaskRandomPacKey( uint32_t * pulTaskPacKey );
+    शून्य v_Application_Generate_Task_Random_Pac_कुञ्चिका( uint32_t * pul_Task_Pac_कुञ्चिका );
 
 #endif /* configENABLE_PAC */
 /*-----------------------------------------------------------*/
@@ -156,10 +156,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
+#जइ ( configENABLE_MPU == 1 )
     #define portUSING_MPU_WRAPPERS    1
     #define portPRIVILEGE_BIT         ( 0x80000000UL )
-#else
+#अण्णहा
     #define portPRIVILEGE_BIT         ( 0x0UL )
 #endif /* configENABLE_MPU */
 
@@ -174,11 +174,11 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portUNPRIVILEGED_FLASH_REGION                 ( 1UL )
 #define portUNPRIVILEGED_SYSCALLS_REGION              ( 2UL )
 #define portPRIVILEGED_RAM_REGION                     ( 3UL )
-#define portSTACK_REGION                              ( 4UL )
+#define port_राशिः_REGION                              ( 4UL )
 #define portFIRST_CONFIGURABLE_REGION                 ( 5UL )
 #define portLAST_CONFIGURABLE_REGION                  ( configTOTAL_MPU_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS                  ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
-#define portTOTAL_NUM_REGIONS                         ( portNUM_CONFIGURABLE_REGIONS + 1 )       /* Plus one to make space for the stack region. */
+#define port_अङ्कः_CONFIGURABLE_REGIONS                  ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
+#define port_TOTAL_अङ्कः_REGIONS                         ( port_अङ्कः_CONFIGURABLE_REGIONS + 1 )       /* Plus one to make space for the stack region. */
 
 /* Device memory attributes used in MPU_MAIR registers.
  *
@@ -212,44 +212,44 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portMPU_REGION_EXECUTE_NEVER                  ( 1UL )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#जइ ( configENABLE_MPU == 1 )
 
     /**
      * @brief Settings to define an MPU region.
      */
-    typedef struct MPURegionSettings
+    प्रकारनिर्देश संरचना MPURegionSettings
     {
         uint32_t ulRBAR; /**< RBAR for the region. */
         uint32_t ulRLAR; /**< RLAR for the region. */
     } MPURegionSettings_t;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #जइ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-        #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
+        #ifndef config_SYSTEM_CALL_राशिः_SIZE
+            #error config_SYSTEM_CALL_राशिः_SIZE must be defined to the desired size of the system call राशिः in शब्दाः प्रति using MPU wrappers v2.
         #endif
 
         /**
          * @brief System call stack.
          */
-        typedef struct SYSTEM_CALL_STACK_INFO
+        प्रकारनिर्देश संरचना SYSTEM_CALL_राशिः_INFO
         {
-            uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-            uint32_t * pulSystemCallStack;
-            uint32_t * pulSystemCallStackLimit;
-            uint32_t * pulTaskStack;
+            uint32_t ul_System_Call_राशिः_Buffer[ config_SYSTEM_CALL_राशिः_SIZE ];
+            uint32_t * pul_System_Call_राशिः;
+            uint32_t * pul_System_Call_राशिः_Limit;
+            uint32_t * pul_Task_राशिः;
             uint32_t ulLinkRegisterAtSystemCallEntry;
-            uint32_t ulStackLimitRegisterAtSystemCallEntry;
-        } xSYSTEM_CALL_STACK_INFO;
+            uint32_t ul_राशिः_Limit_Register_At_System_Call_Entry;
+        } x_SYSTEM_CALL_राशिः_INFO;
 
     #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
     /**
      * @brief MPU settings as stored in the TCB.
      */
-    #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+    #जइ ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
 
-        #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
+        #जइ ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+------------------------------+------------+-----+
@@ -262,7 +262,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    59
 
-        #elif ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
+        #नोचेद्यदि ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+------------------------------+-----+
@@ -275,7 +275,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    55
 
-        #elif ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
+        #नोचेद्यदि ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+----------------------+------------+-----+
@@ -288,7 +288,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    58
 
-        #else /* if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
+        #अण्णहा /* if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
             /*
              * +-----------+---------------+----------+-----------------+----------------------+-----+
@@ -303,9 +303,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 
         #endif /* #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
-    #else /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+    #अण्णहा /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
 
-        #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
+        #जइ ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +----------+-----------------+------------------------------+------------+-----+
@@ -318,7 +318,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    26
 
-        #elif ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
+        #नोचेद्यदि ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
 
             /*
              * +----------+-----------------+------------------------------+-----+
@@ -331,7 +331,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    22
 
-        #elif ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
+        #नोचेद्यदि ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +----------+-----------------+----------------------+------------+-----+
@@ -344,7 +344,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    25
 
-        #else /* #if( configENABLE_TRUSTZONE == 1 ) */
+        #अण्णहा /* #if( configENABLE_TRUSTZONE == 1 ) */
 
             /*
              * +----------+-----------------+----------------------+-----+
@@ -362,22 +362,22 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     #endif /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
 
     /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-    #define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
+    #define port_राशिः_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
     #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
     /* Size of an Access Control List (ACL) entry in bits. */
     #define portACL_ENTRY_SIZE_BITS             ( 32U )
 
-    typedef struct MPU_SETTINGS
+    प्रकारनिर्देश संरचना MPU_SETTINGS
     {
         uint32_t ulMAIR0;                                              /**< MAIR0 for the task containing attributes for all the 4 per task regions. */
-        MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ]; /**< Settings for 4 per task regions. */
+        MPURegionSettings_t xRegionsSettings[ port_TOTAL_अङ्कः_REGIONS ]; /**< Settings for 4 per task regions. */
         uint32_t ulContext[ MAX_CONTEXT_SIZE ];
         uint32_t ulTaskFlags;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-            xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+        #जइ ( configUSE_MPU_WRAPPERS_V1 == 0 )
+            x_SYSTEM_CALL_राशिः_INFO x_System_Call_राशिः_Info;
+            #जइ ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif
         #endif
@@ -390,9 +390,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * @brief Validate priority of ISRs that are allowed to call FreeRTOS
  * system calls.
  */
-#if ( configASSERT_DEFINED == 1 )
-    #if ( portHAS_ARMV8M_MAIN_EXTENSION == 1 )
-        void vPortValidateInterruptPriority( void );
+#जइ ( configASSERT_DEFINED == 1 )
+    #जइ ( portHAS_ARMV8M_MAIN_EXTENSION == 1 )
+        शून्य vPortValidateInterruptPriority( शून्य );
         #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
     #endif
 #endif
@@ -411,29 +411,29 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Scheduler utilities.
  */
-#if ( configENABLE_MPU == 1 )
-    #define portYIELD()               __asm volatile ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
+#जइ ( configENABLE_MPU == 1 )
+    #define portYIELD()               __asm चञ्चल ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
     #define portYIELD_WITHIN_API()    vPortYield()
-#else
+#अण्णहा
     #define portYIELD()               vPortYield()
     #define portYIELD_WITHIN_API()    vPortYield()
 #endif
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( चञ्चल uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+    करेहि                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        जइ( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        अण्णहा                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } जाव( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -446,14 +446,14 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMask()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vClearInterruptMask( x )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#जइ ( config_सङ्ख्या_OF_CORES == 1 )
     #define portENTER_CRITICAL()                      vPortEnterCritical()
     #define portEXIT_CRITICAL()                       vPortExitCritical()
-#else /* ( configNUMBER_OF_CORES == 1 ) */
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
-    extern UBaseType_t vTaskEnterCriticalFromISR( void );
-    extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
+#अण्णहा /* ( configNUMBER_OF_CORES == 1 ) */
+    बाह्य शून्य vTaskEnterCritical( शून्य );
+    बाह्य शून्य vTaskExitCritical( शून्य );
+    बाह्य UBaseType_t vTaskEnterCriticalFromISR( शून्य );
+    बाह्य शून्य vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
 
     #define portENTER_CRITICAL()                      vTaskEnterCritical()
     #define portEXIT_CRITICAL()                       vTaskExitCritical()
@@ -466,7 +466,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * @brief Tickless idle/low power functionality.
  */
 #ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+    बाह्य शून्य vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
     #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
 #endif
 /*-----------------------------------------------------------*/
@@ -474,11 +474,11 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Task function macros as described on the FreeRTOS.org WEB site.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#जइ ( configENABLE_TRUSTZONE == 1 )
 
 /**
  * @brief Allocate a secure context for the task.
@@ -489,7 +489,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  *
  * @param[in] ulSecureStackSize The size of the secure stack to be allocated.
  */
-    #define portALLOCATE_SECURE_CONTEXT( ulSecureStackSize )    vPortAllocateSecureContext( ulSecureStackSize )
+    #define portALLOCATE_SECURE_CONTEXT( ul_Secure_राशिः_Size )    vPortAllocateSecureContext( ul_Secure_राशिः_Size )
 
 /**
  * @brief Called when a task is deleted to delete the task's secure context,
@@ -501,7 +501,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #endif /* configENABLE_TRUSTZONE */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#जइ ( configENABLE_MPU == 1 )
 
 /**
  * @brief Checks whether or not the processor is privileged.
@@ -517,23 +517,23 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * then it raises the privilege. If this is called from any other place,
  * the privilege is not raised.
  */
-    #define portRAISE_PRIVILEGE()    __asm volatile ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
+    #define portRAISE_PRIVILEGE()    __asm चञ्चल ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
  * register.
  */
     #define portRESET_PRIVILEGE()    vResetPrivilege()
-#else
+#अण्णहा
     #define portIS_PRIVILEGED()
     #define portRAISE_PRIVILEGE()
     #define portRESET_PRIVILEGE()
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#जइ ( configENABLE_MPU == 1 )
 
-    extern BaseType_t xPortIsTaskPrivileged( void );
+    बाह्य BaseType_t xPortIsTaskPrivileged( शून्य );
 
 /**
  * @brief Checks whether or not the calling task is privileged.
@@ -548,15 +548,15 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Barriers.
  */
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm चञ्चल ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Select correct value of configUSE_PORT_OPTIMISED_TASK_SELECTION
  * based on whether or not Mainline extension is implemented. */
 #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( configNUMBER_OF_CORES == 1 ) )
+    #जइ ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( config_सङ्ख्या_OF_CORES == 1 ) )
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #else
+    #अण्णहा
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
     #endif
 #endif /* #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -564,27 +564,27 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Port-optimised task selection.
  */
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#जइ ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /**
  * @brief Count the number of leading zeros in a 32-bit value.
  */
-    static portFORCE_INLINE uint32_t ulPortCountLeadingZeros( uint32_t ulBitmap )
+    स्थिर portFORCE_INLINE uint32_t ul_Port_गणनम्_Leading_Zeros( uint32_t ulBitmap )
     {
         uint32_t ulReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ulReturn ) : "r" ( ulBitmap ) : "memory" );
+        __asm चञ्चल ( "clz %0, %1" : "=r" ( ulReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ulReturn;
+        प्रत्यागम ulReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #जइ ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
     #endif
 
-    #if ( portHAS_ARMV8M_MAIN_EXTENSION == 0 )
-        #error ARMv8-M baseline implementations (such as Cortex-M23) do not support port-optimised task selection.  Please set configUSE_PORT_OPTIMISED_TASK_SELECTION to 0 or leave it undefined.
+    #जइ ( portHAS_ARMV8M_MAIN_EXTENSION == 0 )
+        #error ARMv8-M baseline implementations (such as Cortex-M23) करेहि not support port-optimised task selection.  Please set configUSE_PORT_OPTIMISED_TASK_SELECTION to 0 or leave it undefined.
     #endif
 
 /**
@@ -596,35 +596,35 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Get the priority of the highest-priority task that is ready to execute.
  */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ulPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_शिखरम्_Priority, uxReadyPriorities )    ux_शिखरम्_Priority = ( 31UL - ul_Port_गणनम्_Leading_Zeros( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 
-#if ( configNUMBER_OF_CORES > 1 )
-    typedef enum
+#जइ ( config_सङ्ख्या_OF_CORES > 1 )
+    प्रकारनिर्देश गणना
     {
         eIsrLock = 0,
         eTaskLock,
-        eLockCount
+        e_Lock_गणनम्
     } ePortRTOSLock;
 
-    extern volatile uint32_t ulCriticalNestings[ configNUMBER_OF_CORES ];
-    extern void vPortRecursiveLock( uint8_t ucCoreID,
-                                    ePortRTOSLock eLockNum,
+    बाह्य चञ्चल uint32_t ulCriticalNestings[ config_सङ्ख्या_OF_CORES ];
+    बाह्य शून्य vPortRecursiveLock( uint8_t ucCoreID,
+                                    ePortRTOSLock e_Lock_अङ्कः,
                                     BaseType_t uxAcquire );
-    extern uint8_t ucPortGetCoreID( void );
-    extern void vInterruptCore( uint8_t ucCoreID );
+    बाह्य uint8_t ucPortGetCoreID( शून्य );
+    बाह्य शून्य vInterruptCore( uint8_t ucCoreID );
 
     #define portGET_CORE_ID()                                  ucPortGetCoreID()
 
-    #define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( ulCriticalNestings[ ( uint8_t ) xCoreID ] )
-    #define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( ulCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
-    #define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]++ )
-    #define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]-- )
+    #define port_GET_CRITICAL_NESTING_गणनम्( xCoreID )          ( ulCriticalNestings[ ( uint8_t ) xCoreID ] )
+    #define port_SET_CRITICAL_NESTING_गणनम्( xCoreID, x )       ( ulCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
+    #define port_INCREMENT_CRITICAL_NESTING_गणनम्( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]++ )
+    #define port_DECREMENT_CRITICAL_NESTING_गणनम्( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]-- )
 
-    #define portMAX_CORE_COUNT                                 ( configNUMBER_OF_CORES )
+    #define port_MAX_CORE_गणनम्                                 ( config_सङ्ख्या_OF_CORES )
 
     #define portYIELD_CORE( xCoreID )                          vInterruptCore( xCoreID )
 
@@ -634,7 +634,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     #define portRELEASE_TASK_LOCK( xCoreID )                   vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdFALSE )
     #define portGET_TASK_LOCK( xCoreID )                       vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdTRUE )
 
-    #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+    #जइ ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
         uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister );
     #endif /* ( configENABLE_PAC == 1 || configENABLE_BTI == 1 ) */
 #endif
