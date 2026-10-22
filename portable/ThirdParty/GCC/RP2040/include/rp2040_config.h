@@ -39,9 +39,9 @@
  * that need them in case the user has set up distinct vector table offsets per core
  */
 #ifndef configUSE_DYNAMIC_EXCEPTION_HANDLERS
-    #if defined( PICO_NO_RAM_VECTOR_TABLE ) && ( PICO_NO_RAM_VECTOR_TABLE == 1 )
+    #ถ้า defined( PICO_NO_RAM_VECTOR_TABLE ) && ( PICO_NO_RAM_VECTOR_TABLE == 1 )
         #define configUSE_DYNAMIC_EXCEPTION_HANDLERS    0
-    #else
+    #มิฉะนั้น
         #define configUSE_DYNAMIC_EXCEPTION_HANDLERS    1
     #endif
 #endif
@@ -50,7 +50,7 @@
  * sem/mutex/queue etc. will work correctly when called from FreeRTOS tasks
  */
 #ifndef configSUPPORT_PICO_SYNC_INTEROP
-    #if LIB_PICO_SYNC
+    #ถ้า LIB_PICO_SYNC
         #define configSUPPORT_PICO_SYNC_INTEROP    1
     #endif
 #endif
@@ -60,12 +60,12 @@
  * tasks, and will actually block at the FreeRTOS level
  */
 #ifndef configSUPPORT_PICO_TIME_INTEROP
-    #if LIB_PICO_TIME
+    #ถ้า LIB_PICO_TIME
         #define configSUPPORT_PICO_TIME_INTEROP    1
     #endif
 #endif
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ถ้า ( configNUMBER_OF_CORES > 1 )
 
 /* configTICK_CORE indicates which core should handle the SysTick
  * interrupts */

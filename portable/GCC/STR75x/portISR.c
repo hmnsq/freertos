@@ -43,7 +43,7 @@
 /* Constants required to handle critical sections. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-volatile uint32_t ulCriticalNesting = 9999UL;
+ca_ncala uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
@@ -58,7 +58,7 @@ void vPortISRStartFirstTask( void )
 {
     /* Simply start the scheduler.  This is included here as it can only be
      * called from ARM mode. */
-    asm volatile (                                                        \
+    asm ca_ncala (                                                        \
         "LDR        R0, =pxCurrentTCB                               \n\t" \
         "LDR        R0, [R0]                                        \n\t" \
         "LDR        LR, [R0]                                        \n\t" \
@@ -91,7 +91,7 @@ void vPortTickISR( void )
 {
     /* Increment the RTOS tick count, then look for the highest priority
      * task that is ready to run. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ถ้า( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -115,7 +115,7 @@ void vPortTickISR( void )
 
     void vPortDisableInterruptsFromThumb( void )
     {
-        asm volatile (
+        asm ca_ncala (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -126,7 +126,7 @@ void vPortTickISR( void )
 
     void vPortEnableInterruptsFromThumb( void )
     {
-        asm volatile (
+        asm ca_ncala (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -141,7 +141,7 @@ void vPortTickISR( void )
 void vPortEnterCritical( void )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    asm volatile (
+    asm ca_ncala (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -157,17 +157,17 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ถ้า( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ถ้า( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
-            asm volatile (
+            asm ca_ncala (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */

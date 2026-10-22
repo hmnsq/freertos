@@ -46,9 +46,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -79,9 +79,9 @@ typedef uint32_t         TickType_t;
 /* Called at the end of an ISR that can cause a context switch. */
 #define portEND_SWITCHING_ISR( xSwitchRequired )      \
     {                                                 \
-        extern volatile uint32_t ulPortYieldRequired; \
+        extern ca_ncala uint32_t ulPortYieldRequired; \
                                                       \
-        if( xSwitchRequired != pdFALSE )              \
+        ถ้า( xSwitchRequired != pdFALSE )              \
         {                                             \
             ulPortYieldRequired = pdTRUE;             \
         }                                             \
@@ -112,7 +112,7 @@ extern uint32_t ulPortSetInterruptMaskFromISR( void );
 #define portENABLE_INTERRUPTS()                 vPortEnableInterrupts();
 #define portDISABLE_INTERRUPTS()                vPortDisableInterrupts();
 #define portSET_INTERRUPT_MASK_FROM_ISR()       ulPortSetInterruptMaskFromISR();
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  do { if( x == 0 ) portENABLE_INTERRUPTS(); } while( 0 )
+#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  do { ถ้า( x == 0 ) portENABLE_INTERRUPTS(); } ขณะ( 0 )
 
 /*-----------------------------------------------------------*/
 
@@ -146,9 +146,9 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU
  * context by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#ถ้า ( configUSE_TASK_FPU_SUPPORT != 2 )
     void vPortTaskUsesFPU( void );
-#else
+#มิฉะนั้น
     /* Each task has an FPU context already, so define this function as a
      * no-op. */
     #define vPortTaskUsesFPU()
@@ -163,7 +163,7 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ถ้า configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Store, clear and get the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -172,9 +172,9 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()               __asm volatile ( "NOP" )
+#define portNOP()               __asm ca_ncala ( "NOP" )
 #define portINLINE              __inline
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm ca_ncala ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

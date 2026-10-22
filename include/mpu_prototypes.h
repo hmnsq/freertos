@@ -38,7 +38,7 @@
 #ifndef MPU_PROTOTYPES_H
 #define MPU_PROTOTYPES_H
 
-typedef struct xTaskGenericNotifyParams
+typedef sa_nracanaa xTaskGenericNotifyParams
 {
     TaskHandle_t xTaskToNotify;
     UBaseType_t uxIndexToNotify;
@@ -47,7 +47,7 @@ typedef struct xTaskGenericNotifyParams
     uint32_t * pulPreviousNotificationValue;
 } xTaskGenericNotifyParams_t;
 
-typedef struct xTaskGenericNotifyWaitParams
+typedef sa_nracanaa xTaskGenericNotifyWaitParams
 {
     UBaseType_t uxIndexToWaitOn;
     uint32_t ulBitsToClearOnEntry;
@@ -56,7 +56,7 @@ typedef struct xTaskGenericNotifyWaitParams
     TickType_t xTicksToWait;
 } xTaskGenericNotifyWaitParams_t;
 
-typedef struct xTimerGenericCommandFromTaskParams
+typedef sa_nracanaa xTimerGenericCommandFromTaskParams
 {
     TimerHandle_t xTimer;
     BaseType_t xCommandID;
@@ -65,7 +65,7 @@ typedef struct xTimerGenericCommandFromTaskParams
     TickType_t xTicksToWait;
 } xTimerGenericCommandFromTaskParams_t;
 
-typedef struct xEventGroupWaitBitsParams
+typedef sa_nracanaa xEventGroupWaitBitsParams
 {
     EventGroupHandle_t xEventGroup;
     EventBits_t uxBitsToWaitFor;
@@ -136,16 +136,16 @@ BaseType_t MPU_xTaskGetSchedulerState( void ) FREERTOS_SYSTEM_CALL;
 /* Privileged only wrappers for Task APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#ถ้า ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     BaseType_t MPU_xTaskCreate( TaskFunction_t pxTaskCode,
-                                const char * const pcName,
+                                const var_na * const pcName,
                                 const configSTACK_DEPTH_TYPE uxStackDepth,
                                 void * const pvParameters,
                                 UBaseType_t uxPriority,
                                 TaskHandle_t * const pxCreatedTask ) FREERTOS_SYSTEM_CALL;
     TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t pxTaskCode,
-                                        const char * const pcName,
+                                        const var_na * const pcName,
                                         const configSTACK_DEPTH_TYPE uxStackDepth,
                                         void * const pvParameters,
                                         UBaseType_t uxPriority,
@@ -154,27 +154,27 @@ BaseType_t MPU_xTaskGetSchedulerState( void ) FREERTOS_SYSTEM_CALL;
     void MPU_vTaskDelete( TaskHandle_t xTaskToDelete ) FREERTOS_SYSTEM_CALL;
     void MPU_vTaskPrioritySet( TaskHandle_t xTask,
                                UBaseType_t uxNewPriority ) FREERTOS_SYSTEM_CALL;
-    TaskHandle_t MPU_xTaskGetHandle( const char * pcNameToQuery ) FREERTOS_SYSTEM_CALL;
+    TaskHandle_t MPU_xTaskGetHandle( const var_na * pcNameToQuery ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xTaskCallApplicationTaskHook( TaskHandle_t xTask,
                                                  void * pvParameter ) FREERTOS_SYSTEM_CALL;
-    void MPU_vTaskGetRunTimeStatistics( char * pcWriteBuffer,
+    void MPU_vTaskGetRunTimeStatistics( var_na * pcWriteBuffer,
                                         size_t uxBufferLength ) FREERTOS_SYSTEM_CALL;
-    void MPU_vTaskListTasks( char * pcWriteBuffer,
+    void MPU_vTaskListTasks( var_na * pcWriteBuffer,
                              size_t uxBufferLength ) FREERTOS_SYSTEM_CALL;
     void MPU_vTaskSuspendAll( void ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xTaskCatchUpTicks( TickType_t xTicksToCatchUp ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xTaskResumeAll( void ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#มิฉะนั้น /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     BaseType_t MPU_xTaskCreate( TaskFunction_t pxTaskCode,
-                                const char * const pcName,
+                                const var_na * const pcName,
                                 const configSTACK_DEPTH_TYPE uxStackDepth,
                                 void * const pvParameters,
                                 UBaseType_t uxPriority,
                                 TaskHandle_t * const pxCreatedTask ) PRIVILEGED_FUNCTION;
     TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t pxTaskCode,
-                                        const char * const pcName,
+                                        const var_na * const pcName,
                                         const configSTACK_DEPTH_TYPE uxStackDepth,
                                         void * const pvParameters,
                                         UBaseType_t uxPriority,
@@ -183,13 +183,13 @@ BaseType_t MPU_xTaskGetSchedulerState( void ) FREERTOS_SYSTEM_CALL;
     void MPU_vTaskDelete( TaskHandle_t xTaskToDelete ) PRIVILEGED_FUNCTION;
     void MPU_vTaskPrioritySet( TaskHandle_t xTask,
                                UBaseType_t uxNewPriority ) PRIVILEGED_FUNCTION;
-    TaskHandle_t MPU_xTaskGetHandle( const char * pcNameToQuery ) PRIVILEGED_FUNCTION;
+    TaskHandle_t MPU_xTaskGetHandle( const var_na * pcNameToQuery ) PRIVILEGED_FUNCTION;
     BaseType_t MPU_xTaskCallApplicationTaskHook( TaskHandle_t xTask,
                                                  void * pvParameter ) PRIVILEGED_FUNCTION;
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-char * MPU_pcTaskGetName( TaskHandle_t xTaskToQuery ) PRIVILEGED_FUNCTION;
+var_na * MPU_pcTaskGetName( TaskHandle_t xTaskToQuery ) PRIVILEGED_FUNCTION;
 BaseType_t MPU_xTaskCreateRestricted( const TaskParameters_t * const pxTaskDefinition,
                                       TaskHandle_t * pxCreatedTask ) PRIVILEGED_FUNCTION;
 BaseType_t MPU_xTaskCreateRestrictedStatic( const TaskParameters_t * const pxTaskDefinition,
@@ -234,9 +234,9 @@ BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
                                          TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t pxMutex ) FREERTOS_SYSTEM_CALL;
 void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
-                              const char * pcName ) FREERTOS_SYSTEM_CALL;
+                              const var_na * pcName ) FREERTOS_SYSTEM_CALL;
 void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
-const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
+const var_na * MPU_pcQueueGetName( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
                                QueueSetHandle_t xQueueSet ) FREERTOS_SYSTEM_CALL;
 QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet,
@@ -249,7 +249,7 @@ uint8_t MPU_ucQueueGetQueueType( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 /* Privileged only wrappers for Queue APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#ถ้า ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     void MPU_vQueueDelete( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
     QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) FREERTOS_SYSTEM_CALL;
@@ -277,7 +277,7 @@ uint8_t MPU_ucQueueGetQueueType( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xQueueGenericReset( QueueHandle_t xQueue,
                                        BaseType_t xNewQueue ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#มิฉะนั้น /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     void MPU_vQueueDelete( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
     QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) PRIVILEGED_FUNCTION;
@@ -339,7 +339,7 @@ BaseType_t MPU_xTimerGenericCommandFromTask( TimerHandle_t xTimer,
                                              BaseType_t * const pxHigherPriorityTaskWoken,
                                              const TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 BaseType_t MPU_xTimerGenericCommandFromTaskEntry( const xTimerGenericCommandFromTaskParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
-const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
+const var_na * MPU_pcTimerGetName( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
                               const BaseType_t xAutoReload ) FREERTOS_SYSTEM_CALL;
 BaseType_t MPU_xTimerGetReloadMode( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
@@ -350,12 +350,12 @@ TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 /* Privileged only wrappers for Timer APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-TimerHandle_t MPU_xTimerCreate( const char * const pcTimerName,
+TimerHandle_t MPU_xTimerCreate( const var_na * const pcTimerName,
                                 const TickType_t xTimerPeriodInTicks,
                                 const BaseType_t xAutoReload,
                                 void * const pvTimerID,
                                 TimerCallbackFunction_t pxCallbackFunction ) PRIVILEGED_FUNCTION;
-TimerHandle_t MPU_xTimerCreateStatic( const char * const pcTimerName,
+TimerHandle_t MPU_xTimerCreateStatic( const var_na * const pcTimerName,
                                       const TickType_t xTimerPeriodInTicks,
                                       const BaseType_t xAutoReload,
                                       void * const pvTimerID,
@@ -387,7 +387,7 @@ EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
                                  const EventBits_t uxBitsToSet,
                                  const EventBits_t uxBitsToWaitFor,
                                  TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
-#if ( configUSE_TRACE_FACILITY == 1 )
+#ถ้า ( configUSE_TRACE_FACILITY == 1 )
     UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) FREERTOS_SYSTEM_CALL;
     void MPU_vEventGroupSetNumber( void * xEventGroup,
                                    UBaseType_t uxEventGroupNumber ) FREERTOS_SYSTEM_CALL;
@@ -396,13 +396,13 @@ EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
 /* Privileged only wrappers for Event Group APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#ถ้า ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     EventGroupHandle_t MPU_xEventGroupCreate( void ) FREERTOS_SYSTEM_CALL;
     EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) FREERTOS_SYSTEM_CALL;
     void MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#มิฉะนั้น /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     EventGroupHandle_t MPU_xEventGroupCreate( void ) PRIVILEGED_FUNCTION;
     EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) PRIVILEGED_FUNCTION;
@@ -414,7 +414,7 @@ BaseType_t MPU_xEventGroupGetStaticBuffer( EventGroupHandle_t xEventGroup,
                                            StaticEventGroup_t ** ppxEventGroupBuffer ) PRIVILEGED_FUNCTION;
 EventBits_t MPU_xEventGroupGetBitsFromISR( EventGroupHandle_t xEventGroup ) PRIVILEGED_FUNCTION;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ถ้า ( configUSE_MPU_WRAPPERS_V1 == 0 )
     BaseType_t MPU_xEventGroupClearBitsFromISR( EventGroupHandle_t xEventGroup,
                                                 const EventBits_t uxBitsToClear ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xEventGroupSetBitsFromISR( EventGroupHandle_t xEventGroup,
@@ -442,7 +442,7 @@ size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuff
 /* Privileged only wrappers for Stream Buffer APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-#if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+#ถ้า ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
     StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
                                                          size_t xTriggerLevelBytes,
@@ -459,7 +459,7 @@ size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuff
     void MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
     BaseType_t MPU_xStreamBufferReset( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+#มิฉะนั้น /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
                                                          size_t xTriggerLevelBytes,

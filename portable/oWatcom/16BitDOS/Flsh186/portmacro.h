@@ -47,11 +47,11 @@
 
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
 #define portDOUBLE      long
 #define portLONG        long
-#define portSHORT       int
+#define portSHORT       จำนวนเต็ม
 #define portSTACK_TYPE  uint16_t
 #define portBASE_TYPE   short
 
@@ -60,13 +60,13 @@ typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ถ้า( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
         typedef uint16_t TickType_t;
         #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#มิฉะนั้น
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -89,7 +89,7 @@ void portENABLE_INTERRUPTS( void );
 /* Architecture specifics. */
 #define portSTACK_GROWTH        ( -1 )
 #define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define portYIELD()             __asm{ จำนวนเต็ม portSWITCH_INT_NUMBER }
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT      2
 #define portINITIAL_SW          ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */

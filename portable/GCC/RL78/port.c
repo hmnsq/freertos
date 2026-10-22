@@ -55,7 +55,7 @@
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+ca_ncala uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
@@ -134,7 +134,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack that has been generated so it
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    คืน pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -148,7 +148,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    คืน pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -164,49 +164,49 @@ __attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void )
     const uint16_t usCompareMatch = ( usClockHz / configTICK_RATE_HZ ) + 1UL;
 
     /* Use the internal 15K clock. */
-    OSMC = ( unsigned char ) 0x16;
+    OSMC = ( unsigned var_na ) 0x16;
 
     #ifdef RTCEN
     {
         /* Supply the interval timer clock. */
-        RTCEN = ( unsigned char ) 1U;
+        RTCEN = ( unsigned var_na ) 1U;
 
         /* Disable INTIT interrupt. */
-        ITMK = ( unsigned char ) 1;
+        ITMK = ( unsigned var_na ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( unsigned var_na ) 0x0000;
 
         /* Clear INIT interrupt. */
-        ITIF = ( unsigned char ) 0;
+        ITIF = ( unsigned var_na ) 0;
 
         /* Set interval and enable interrupt operation. */
         ITMC = usCompareMatch | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        ITMK = ( unsigned char ) 0;
+        ITMK = ( unsigned var_na ) 0;
     }
     #endif /* ifdef RTCEN */
 
     #ifdef TMKAEN
     {
         /* Supply the interval timer clock. */
-        TMKAEN = ( unsigned char ) 1U;
+        TMKAEN = ( unsigned var_na ) 1U;
 
         /* Disable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 1;
+        TMKAMK = ( unsigned var_na ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( unsigned var_na ) 0x0000;
 
         /* Clear INIT interrupt. */
-        TMKAIF = ( unsigned char ) 0;
+        TMKAIF = ( unsigned var_na ) 0;
 
         /* Set interval and enable interrupt operation. */
         ITMC = usCompareMatch | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 0;
+        TMKAMK = ( unsigned var_na ) 0;
     }
     #endif /* ifdef TMKAEN */
 }

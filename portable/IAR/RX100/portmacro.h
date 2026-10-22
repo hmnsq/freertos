@@ -53,9 +53,9 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -66,7 +66,7 @@ typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ถ้า ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -76,7 +76,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#มิฉะนั้น
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -88,7 +88,7 @@ typedef unsigned long    UBaseType_t;
 #define portNOP()    __no_operation()
 
 #define portYIELD()                     \
-    __asm volatile                      \
+    __asm ca_ncala                      \
     (                                   \
         "MOV.L #0x872E0, R15        \n" \
         "MOV.B #1, [R15]            \n" \
@@ -96,7 +96,7 @@ typedef unsigned long    UBaseType_t;
         ::: "R15"                       \
     )
 
-#define portYIELD_FROM_ISR( x )                           do { if( ( x ) != pdFALSE ) { portYIELD(); } } while( 0 )
+#define portYIELD_FROM_ISR( x )                           do { ถ้า( ( x ) != pdFALSE ) { portYIELD(); } } ขณะ( 0 )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -108,10 +108,10 @@ typedef unsigned long    UBaseType_t;
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
 #define portENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
-#if ( configASSERT_DEFINED == 1 )
+#ถ้า ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( __get_interrupt_level() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
+    #define portDISABLE_INTERRUPTS()                      ถ้า( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
+#มิฉะนั้น
     #define portDISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
 #endif
 
@@ -129,7 +129,7 @@ extern void vTaskExitCritical( void );
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    __set_interrupt_level( ( uint8_t ) ( uxSavedInterruptStatus ) )
 
 /* Tickless idle/low power functionality. */
-#if configUSE_TICKLESS_IDLE == 1
+#ถ้า configUSE_TICKLESS_IDLE == 1
     #ifndef portSUPPRESS_TICKS_AND_SLEEP
         extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
         #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )

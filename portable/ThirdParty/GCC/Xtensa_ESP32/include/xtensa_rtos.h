@@ -54,7 +54,7 @@
 
 #ifdef __ASSEMBLER__
     #include    <xtensa/coreasm.h>
-#else
+#มิฉะนั้น
     #include    <xtensa/config/core.h>
 #endif
 
@@ -73,30 +73,30 @@
  */
 
 #ifndef XT_SIMULATOR
-    #if configXT_SIMULATOR
+    #ถ้า configXT_SIMULATOR
         #define XT_SIMULATOR    1       /* Simulator mode */
     #endif
 #endif
 
 #ifndef XT_BOARD
-    #if configXT_BOARD
+    #ถ้า configXT_BOARD
         #define XT_BOARD    1           /* Board mode */
     #endif
 #endif
 
 #ifndef XT_TIMER_INDEX
-    #if defined configXT_TIMER_INDEX
+    #ถ้า defined configXT_TIMER_INDEX
         #define XT_TIMER_INDEX    configXT_TIMER_INDEX     /* Index of hardware timer to be used */
     #endif
 #endif
 
 #ifndef XT_INTEXC_HOOKS
-    #if configXT_INTEXC_HOOKS
+    #ถ้า configXT_INTEXC_HOOKS
         #define XT_INTEXC_HOOKS    1    /* Enables exception hooks */
     #endif
 #endif
 
-#if !defined( XT_SIMULATOR ) && !defined( XT_BOARD )
+#ถ้า !defined( XT_SIMULATOR ) && !defined( XT_BOARD )
     #error Either XT_SIMULATOR or XT_BOARD must be defined.
 #endif
 
@@ -111,7 +111,7 @@
  * Error messages can be customize to the RTOS port.
  */
 
-#if !XCHAL_HAVE_XEA2
+#ถ้า !XCHAL_HAVE_XEA2
     #error "FreeRTOS/Xtensa requires XEA2 (exception architecture 2)."
 #endif
 
@@ -212,7 +212,7 @@
 
 #ifndef __ASSEMBLER__
     typedef unsigned (* XT_INTEXC_HOOK)( unsigned cause );
-    extern volatile XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_NUM ];
+    extern ca_ncala XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_NUM ];
 #endif
 
 

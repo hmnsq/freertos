@@ -27,7 +27,7 @@
  */
 
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 extern void vTaskSwitchContext( void );
 
 /*
@@ -80,7 +80,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "pop    ds"                             \
                                         "popa"                                  \
                                         "iret"
-#else
+#มิฉะนั้น
 
     #pragma aux portSWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
                                         "mov    ds, ax"                                                                     \

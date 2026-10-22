@@ -50,9 +50,9 @@ extern void vPortYield( void );
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -63,13 +63,13 @@ typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 typedef void (* portvectorfunc)( void );
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ถ้า ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#มิฉะนั้น
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -81,30 +81,30 @@ typedef void (* portvectorfunc)( void );
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 
 
-static inline void vPortEnableInterrupt( void )
+static anta_hstha void vPortEnableInterrupt( void )
 {
     __enable_irq();
 }
 
-static inline void vPortDisableInterrupt( void )
+static anta_hstha void vPortDisableInterrupt( void )
 {
     __disable_irq();
 }
 
-static inline portLONG GetCurrentPSR( void )
+static anta_hstha portLONG GetCurrentPSR( void )
 {
-    return __get_PSR();
+    คืน __get_PSR();
 }
 
-static inline portLONG SaveLocalPSR( void )
+static anta_hstha portLONG SaveLocalPSR( void )
 {
     portLONG flags = __get_PSR();
 
     __disable_irq();
-    return flags;
+    คืน flags;
 }
 
-static inline void RestoreLocalPSR( portLONG newMask )
+static anta_hstha void RestoreLocalPSR( portLONG newMask )
 {
     __asm__ __volatile__ (
         "mtcr   %0, psr \n"
@@ -131,11 +131,11 @@ extern portLONG ulCriticalNesting;
 extern portLONG pendsvflag;
 
 #define portYIELD()              \
-    if( ulCriticalNesting == 0 ) \
+    ถ้า( ulCriticalNesting == 0 ) \
     {                            \
         vPortYield();            \
     }                            \
-    else                         \
+    มิฉะนั้น                         \
     {                            \
         pendsvflag = 1;          \
     }                            \
@@ -150,16 +150,16 @@ extern portLONG pendsvflag;
 
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do {                                         \
-        if( xSwitchRequired != pdFALSE )         \
+        ถ้า( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        มิฉะนั้น                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ขณะ( 0 )
 
 #define portYIELD_FROM_ISR( a )    vTaskSwitchContext()
 
