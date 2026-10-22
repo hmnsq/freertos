@@ -39,30 +39,30 @@ Changes from V2.6.1
 */
 
 
-#include <dos.h>
-#include <stdlib.h>
-#include "FreeRTOS.h"
+#ضمن <dos.h>
+#ضمن <stdlib.h>
+#ضمن "FreeRTOS.h"
 
 /*-----------------------------------------------------------*/
 
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+کەڵەکە_Type_t *px_Port_Initialise_کەڵەکە( کەڵەکە_Type_t *px_لووتکە_Of_کەڵەکە, TaskFunction_t pxCode, فراغ *pvParameters )
 {
-StackType_t DS_Reg = 0;
+کەڵەکە_Type_t DS_Reg = 0;
 
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x4444;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x5555;
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = 0x1111;
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = 0x2222;
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = 0x3333;
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = 0x4444;
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = 0x5555;
+    px_لووتکە_Of_کەڵەکە--;
 
 
     /*lint -e950 -e611 -e923 Lint doesn't like this much - but nothing I can do about it. */
@@ -71,50 +71,50 @@ StackType_t DS_Reg = 0;
     instruction to load the program counter, so first there would be the
     function call with parameters preamble. */
 
-    *pxTopOfStack = FP_SEG( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = FP_SEG( pvParameters );
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = FP_OFF( pvParameters );
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = FP_SEG( pxCode );
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = FP_OFF( pxCode );
+    px_لووتکە_Of_کەڵەکە--;
 
     /* Next the status register and interrupt return address. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = portINITIAL_SW;
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = FP_SEG( pxCode );
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = FP_OFF( pxCode );
+    px_لووتکە_Of_کەڵەکە--;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA; /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xAAAA; /* AX */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xBBBB; /* BX */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xCCCC; /* CX */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xDDDD; /* DX */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xEEEE; /* ES */
+    px_لووتکە_Of_کەڵەکە--;
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
 
-    *pxTopOfStack = DS_Reg;                     /* DS */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
+    *px_لووتکە_Of_کەڵەکە = DS_Reg;                     /* DS */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0x0123; /* SI */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xDDDD; /* DI */
+    px_لووتکە_Of_کەڵەکە--;
+    *px_لووتکە_Of_کەڵەکە = ( کەڵەکە_Type_t ) 0xBBBB; /* BP */
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    أرجع px_لووتکە_Of_کەڵەکە;
 }
 /*-----------------------------------------------------------*/

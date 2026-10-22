@@ -27,31 +27,31 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ضمن <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#ضمن "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#ضمن "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_FPU == 1 )
+#إذا ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ vRestoreContextOfFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -112,7 +112,7 @@
             "    ldmia r1!, {r2-r5}                           \n" /* r2 = original PSP, r3 = PSPLIM, r4 = CONTROL, r5 = LR. */
             "    subs r1, #16                                 \n"
             "    msr psp, r2                                  \n"
-            #if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+            #إذا ( configRUN_FREERTOS_SECURE_ONLY == 1 )
                 "    msr psplim, r3                           \n"
             #endif
             "    msr control, r4                              \n"
@@ -140,11 +140,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#وإلا /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ vRestoreContextOfFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -153,7 +153,7 @@
             "   ldr  r0, [r1]                                   \n" /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
             "                                                   \n"
             "   ldm  r0!, {r1-r2}                               \n" /* Read from stack - r1 = PSPLIM and r2 = EXC_RETURN. */
-            #if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+            #إذا ( configRUN_FREERTOS_SECURE_ONLY == 1 )
                 "   msr  psplim, r1                             \n" /* Set this task's PSPLIM value. */
             #endif
             "   movs r1, #2                                     \n" /* r1 = 2. */
@@ -168,9 +168,9 @@
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+BaseType_t xIsPrivileged( فراغ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -188,9 +188,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+فراغ vRaisePrivilege( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -204,9 +204,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+فراغ vResetPrivilege( فراغ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -220,9 +220,9 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+فراغ vStartFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -240,9 +240,9 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ulSetInterruptMask( فراغ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -254,9 +254,9 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 }
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+فراغ vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -267,11 +267,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ PendSV_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -294,9 +294,9 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "                                                 \n"
             " save_special_regs:                              \n"
             "    mrs r2, psp                                  \n" /* r2 = PSP. */
-            #if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+            #إذا ( configRUN_FREERTOS_SECURE_ONLY == 1 )
                 "    mrs r3, psplim                           \n" /* r3 = PSPLIM. */
-            #else
+            #وإلا
                 "    movs r3, #0                              \n" /* r3 = 0. 0 is stored in the PSPLIM slot. */
             #endif
             "    mrs r4, control                              \n" /* r4 = CONTROL. */
@@ -366,7 +366,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmia r1!, {r2-r5}                           \n" /* r2 = original PSP, r3 = PSPLIM, r4 = CONTROL, r5 = LR. */
             "    subs r1, #16                                 \n"
             "    msr psp, r2                                  \n"
-            #if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+            #إذا ( configRUN_FREERTOS_SECURE_ONLY == 1 )
                 "    msr psplim, r3                           \n"
             #endif
             "    msr control, r4                              \n"
@@ -394,11 +394,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#وإلا /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ PendSV_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -407,9 +407,9 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
             "   subs r0, r0, #40                                \n" /* Make space for PSPLIM, LR and the remaining registers on the stack. */
             "   str r0, [r1]                                    \n" /* Save the new top of stack in TCB. */
-            #if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+            #إذا ( configRUN_FREERTOS_SECURE_ONLY == 1 )
                 "   mrs r2, psplim                              \n" /* r2 = PSPLIM. */
-            #else
+            #وإلا
                 "   movs r2, #0                                 \n" /* r2 = 0. 0 is stored in the PSPLIM slot. */
             #endif
             "   mov r3, lr                                      \n" /* r3 = LR/EXC_RETURN. */
@@ -437,7 +437,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   msr psp, r0                                     \n" /* Remember the new top of stack for the task. */
             "   subs r0, r0, #40                                \n" /* Move to the starting of the saved context. */
             "   ldmia r0!, {r2-r7}                              \n" /* Read from stack - r2 = PSPLIM, r3 = LR and r4-r7 restored. */
-            #if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+            #إذا ( configRUN_FREERTOS_SECURE_ONLY == 1 )
                 "   msr psplim, r2                              \n" /* Restore the PSPLIM register value for the task. */
             #endif
             "   bx r3                                           \n"
@@ -447,11 +447,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ SVC_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             ".syntax unified                \n"
             ".extern vPortSVCHandler_C      \n"
@@ -485,16 +485,16 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( ژمارە_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "r3", "memory"
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#وإلا /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ SVC_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             "   .syntax unified                                 \n"
             "                                                   \n"

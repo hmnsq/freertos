@@ -35,8 +35,8 @@
 #endif
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Hardware specifics. */
 #define portTIMER_PRESCALE  8
@@ -74,7 +74,7 @@ override this behaviour by:
 #ifndef configTICK_INTERRUPT_VECTOR
     #define configTICK_INTERRUPT_VECTOR _TIMER_1_VECTOR
     #define configCLEAR_TICK_TIMER_INTERRUPT() IFS0CLR = _IFS0_T1IF_MASK
-#else
+#وإلا
     #ifndef configCLEAR_TICK_TIMER_INTERRUPT
         #error If configTICK_INTERRUPT_VECTOR is defined in application code then configCLEAR_TICK_TIMER_INTERRUPT must also be defined in application code.
     #endif
@@ -85,7 +85,7 @@ prvTaskExitError() in case it messes up unwinding of the stack in the
 debugger - in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
+#وإلا
     #define portTASK_RETURN_ADDRESS prvTaskExitError
 #endif
 
@@ -93,24 +93,24 @@ debugger - in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). *
 stack checking.  A problem in the ISR stack will trigger an assert, not call the
 stack overflow hook function (because the stack overflow hook is specific to a
 task stack, not the ISR stack). */
-#if( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#إذا( config_CHECK_FOR_کەڵەکە_OVERFLOW > 2 )
 
     /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
     the task stacks, and so will legitimately appear in many positions within
     the ISR stack. */
-    #define portISR_STACK_FILL_BYTE 0xee
+    #define port_ISR_کەڵەکە_FILL_BYTE 0xee
 
-    static const uint8_t ucExpectedStackBytes[] = {
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE };   \
+    ساكن ثابت uint8_t uc_Expected_کەڵەکە_Bytes[] = {
+                                    port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE,     \
+                                    port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE,     \
+                                    port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE,     \
+                                    port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE,     \
+                                    port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE, port_ISR_کەڵەکە_FILL_BYTE };   \
 
-    #define portCHECK_ISR_STACK() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else
+    #define port_CHECK_ISR_کەڵەکە() configASSERT( ( memcmp( ( فراغ * ) xISRStack, ( فراغ * ) uc_Expected_کەڵەکە_Bytes, حجم( uc_Expected_کەڵەکە_Bytes ) ) == 0 ) )
+#وإلا
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
+    #define port_CHECK_ISR_کەڵەکە()
 #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 /*-----------------------------------------------------------*/
@@ -122,7 +122,7 @@ task stack, not the ISR stack). */
  * following line of code has no effect.  The interrupt priority is set by the
  * call to ConfigIntTimer1() in vApplicationSetupTickTimerInterrupt().
  */
-extern void __attribute__( (interrupt(IPL1AUTO), vector( configTICK_INTERRUPT_VECTOR ))) vPortTickInterruptHandler( void );
+خارجي فراغ __attribute__( (interrupt(IPL1AUTO), vector( configTICK_INTERRUPT_VECTOR ))) vPortTickInterruptHandler( فراغ );
 
 /*
  * The software interrupt handler that performs the yield.  Note that, because
@@ -130,67 +130,67 @@ extern void __attribute__( (interrupt(IPL1AUTO), vector( configTICK_INTERRUPT_VE
  * code has no effect.  The interrupt priority is set by the call to
  * mConfigIntCoreSW0() in xPortStartScheduler().
  */
-void __attribute__( (interrupt(IPL1AUTO), vector(_CORE_SOFTWARE_0_VECTOR))) vPortYieldISR( void );
+فراغ __attribute__( (interrupt(IPL1AUTO), vector(_CORE_SOFTWARE_0_VECTOR))) vPortYieldISR( فراغ );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ساكن فراغ prvTaskExitError( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /* Records the interrupt nesting depth.  This is initialised to one as it is
 decremented to 0 when the first task starts. */
-volatile UBaseType_t uxInterruptNesting = 0x01;
+متطاير UBaseType_t uxInterruptNesting = 0x01;
 
 /* Stores the task stack pointer when a switch is made to use the system stack. */
-UBaseType_t uxSavedTaskStackPointer = 0;
+UBaseType_t ux_Saved_Task_کەڵەکە_Pointer = 0;
 
 /* The stack used by interrupt service routines that cause a context switch. */
-__attribute__ ((aligned(8))) StackType_t xISRStack[ configISR_STACK_SIZE ] = { 0 };
+__attribute__ ((aligned(8))) کەڵەکە_Type_t xISRStack[ config_ISR_کەڵەکە_SIZE ] = { 0 };
 
 /* The top of stack value ensures there is enough space to store 6 registers on
 the callers stack, as some functions seem to want to do this. */
-const StackType_t * const xISRStackTop = &( xISRStack[ ( configISR_STACK_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 8 ] );
+ثابت کەڵەکە_Type_t * ثابت x_ISRStack_لووتکە = &( xISRStack[ ( config_ISR_کەڵەکە_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 8 ] );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+کەڵەکە_Type_t *px_Port_Initialise_کەڵەکە( کەڵەکە_Type_t *px_لووتکە_Of_کەڵەکە, TaskFunction_t pxCode, فراغ *pvParameters )
 {
     /* Ensure 8 byte alignment is maintained when the context is popped from
      * stack. The size of the context is 33 words (132 bytes). */
-    pxTopOfStack--;
-    pxTopOfStack--;
+    px_لووتکە_Of_کەڵەکە--;
+    px_لووتکە_Of_کەڵەکە--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) 0xDEADBEEF;
+    px_لووتکە_Of_کەڵەکە--;
 
-    *pxTopOfStack = (StackType_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
+    px_لووتکە_Of_کەڵەکە--;
 
-    *pxTopOfStack = (StackType_t) _CP0_GET_CAUSE();
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) _CP0_GET_CAUSE();
+    px_لووتکە_Of_کەڵەکە--;
 
-    *pxTopOfStack = (StackType_t) portINITIAL_SR;/* CP0_STATUS */
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) portINITIAL_SR;/* CP0_STATUS */
+    px_لووتکە_Of_کەڵەکە--;
 
-    *pxTopOfStack = (StackType_t) pxCode;       /* CP0_EPC */
-    pxTopOfStack--;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) pxCode;       /* CP0_EPC */
+    px_لووتکە_Of_کەڵەکە--;
 
-    *pxTopOfStack = (StackType_t) portTASK_RETURN_ADDRESS;  /* ra */
-    pxTopOfStack -= 15;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) portTASK_RETURN_ADDRESS;  /* ra */
+    px_لووتکە_Of_کەڵەکە -= 15;
 
-    *pxTopOfStack = (StackType_t) pvParameters; /* Parameters to pass in. */
-    pxTopOfStack -= 15;
+    *px_لووتکە_Of_کەڵەکە = (کەڵەکە_Type_t) pvParameters; /* Parameters to pass in. */
+    px_لووتکە_Of_کەڵەکە -= 15;
 
-    return pxTopOfStack;
+    أرجع px_لووتکە_Of_کەڵەکە;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساكن فراغ prvTaskExitError( فراغ )
 {
     /* A function that implements a task must not exit or attempt to return to
     its caller as there is nothing to return to.  If a task wants to exit it
@@ -198,9 +198,9 @@ static void prvTaskExitError( void )
 
     Artificially force an assert() to be triggered if configASSERT() is
     defined, then stop here so application writers can catch the error. */
-    configASSERT( uxSavedTaskStackPointer == 0UL );
+    configASSERT( ux_Saved_Task_کەڵەکە_Pointer == 0UL );
     portDISABLE_INTERRUPTS();
-    for( ;; );
+    لكل( ;; );
 }
 /*-----------------------------------------------------------*/
 
@@ -213,9 +213,9 @@ static void prvTaskExitError( void )
  * vector number.  When Timer 1 is used the vector number is defined as
  * _TIMER_1_VECTOR.
  */
-__attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void )
+__attribute__(( weak )) فراغ vApplicationSetupTickTimerInterrupt( فراغ )
 {
-const uint32_t ulCompareMatch = ( (configPERIPHERAL_CLOCK_HZ / portTIMER_PRESCALE) / configTICK_RATE_HZ ) - 1;
+ثابت uint32_t ulCompareMatch = ( (configPERIPHERAL_CLOCK_HZ / portTIMER_PRESCALE) / configTICK_RATE_HZ ) - 1;
 
     T1CON = 0x0000;
     T1CONbits.TCKPS = portPRESCALE_BITS;
@@ -233,7 +233,7 @@ const uint32_t ulCompareMatch = ( (configPERIPHERAL_CLOCK_HZ / portTIMER_PRESCAL
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler(void)
+فراغ vPortEndScheduler(فراغ)
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
@@ -241,15 +241,15 @@ void vPortEndScheduler(void)
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-extern void vPortStartFirstTask( void );
-extern void *pxCurrentTCB;
+خارجي فراغ vPortStartFirstTask( فراغ );
+خارجي فراغ *pxCurrentTCB;
 
-    #if ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+    #إذا ( config_CHECK_FOR_کەڵەکە_OVERFLOW > 2 )
     {
         /* Fill the ISR stack to make it easy to asses how much is being used. */
-        memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+        memset( ( فراغ * ) xISRStack, port_ISR_کەڵەکە_FILL_BYTE, حجم( xISRStack ) );
     }
     #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
@@ -270,7 +270,7 @@ extern void *pxCurrentTCB;
 
     /* Kick off the highest priority task that has been created so far.
     Its stack location is loaded into uxSavedTaskStackPointer. */
-    uxSavedTaskStackPointer = *( UBaseType_t * ) pxCurrentTCB;
+    ux_Saved_Task_کەڵەکە_Pointer = *( UBaseType_t * ) pxCurrentTCB;
     vPortStartFirstTask();
 
     /* Should never get here as the tasks will now be executing!  Call the task
@@ -279,17 +279,17 @@ extern void *pxCurrentTCB;
     functionality by defining configTASK_RETURN_ADDRESS. */
     prvTaskExitError();
 
-    return pdFALSE;
+    أرجع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortIncrementTick( void )
+فراغ vPortIncrementTick( فراغ )
 {
 UBaseType_t uxSavedStatus;
 
     uxSavedStatus = uxPortSetInterruptMaskFromISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             /* Pend a context switch. */
             _CP0_BIS_CAUSE( portCORE_SW_0 );
@@ -298,14 +298,14 @@ UBaseType_t uxSavedStatus;
     vPortClearInterruptMaskFromISR( uxSavedStatus );
 
     /* Look for the ISR stack getting near or past its limit. */
-    portCHECK_ISR_STACK();
+    port_CHECK_ISR_کەڵەکە();
 
     /* Clear timer interrupt. */
     configCLEAR_TICK_TIMER_INTERRUPT();
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t uxPortSetInterruptMaskFromISR( void )
+UBaseType_t uxPortSetInterruptMaskFromISR( فراغ )
 {
 UBaseType_t uxSavedStatusRegister;
 
@@ -319,11 +319,11 @@ UBaseType_t uxSavedStatusRegister;
     lowered. */
     _CP0_SET_STATUS( ( ( uxSavedStatusRegister & ( ~portALL_IPL_BITS ) ) ) | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) );
 
-    return uxSavedStatusRegister;
+    أرجع uxSavedStatusRegister;
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMaskFromISR( UBaseType_t uxSavedStatusRegister )
+فراغ vPortClearInterruptMaskFromISR( UBaseType_t uxSavedStatusRegister )
 {
     _CP0_SET_STATUS( uxSavedStatusRegister );
 }
