@@ -26,11 +26,11 @@
  *
  */
 
-#ifndef __SECURE_HEAP_H__
-#define __SECURE_HEAP_H__
+#اگر_تعریف_نشده __SECURE_HEAP_H__
+#تعریف_کن __SECURE_HEAP_H__
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /**
  * @brief Allocates memory from heap.
@@ -40,27 +40,27 @@
  * @return Pointer to the memory region if the allocation is successful, NULL
  * otherwise.
  */
-void * pvPortMalloc( size_t xWantedSize );
+فراغ * pv_پورت_Malloc( size_t x_Wanted_اندازه );
 
 /**
  * @brief Frees the previously allocated memory.
  *
  * @param[in] pv Pointer to the memory to be freed.
  */
-void vPortFree( void * pv );
+فراغ v_پورت_Free( فراغ * pv );
 
 /**
  * @brief Get the free heap size.
  *
  * @return Free heap size.
  */
-size_t xPortGetFreeHeapSize( void );
+size_t x_پورت_Get_Free_انباشته_اندازه( فراغ );
 
 /**
  * @brief Get the minimum ever free heap size.
  *
  * @return Minimum ever free heap size.
  */
-size_t xPortGetMinimumEverFreeHeapSize( void );
+size_t x_پورت_Get_Minimum_Ever_Free_انباشته_اندازه( فراغ );
 
-#endif /* __SECURE_HEAP_H__ */
+#پایان_اگر /* __SECURE_HEAP_H__ */

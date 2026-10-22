@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#اگر_تعریف_نشده داده_MODEL_H
+#تعریف_کن داده_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #تعریف_کن pushm_x    pushm.w
+    #تعریف_کن popm_x     popm.w
+    #تعریف_کن افزودن_x     افزودن.w
+    #تعریف_کن برداشت_x      برداشت.w
+    #تعریف_کن mov_x      mov.w
+    #تعریف_کن cmp_x      cmp.w
+#پایان_اگر
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #تعریف_کن pushm_x    pushm.a
+    #تعریف_کن popm_x     popm.a
+    #تعریف_کن افزودن_x     pushx.a
+    #تعریف_کن برداشت_x      popx.a
+    #تعریف_کن mov_x      mov.w
+    #تعریف_کن cmp_x      cmp.w
+#پایان_اگر
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #تعریف_کن pushm_x    pushm.a
+    #تعریف_کن popm_x     popm.a
+    #تعریف_کن افزودن_x     pushx.a
+    #تعریف_کن برداشت_x      popx.a
+    #تعریف_کن mov_x      movx.a
+    #تعریف_کن cmp_x      cmpx.a
+#پایان_اگر
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#اگر_تعریف_نشده pushm_x
+    #خطا The assembler options must define one از the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#پایان_اگر
 
-#endif /* DATA_MODEL_H */
+#پایان_اگر /* DATA_MODEL_H */

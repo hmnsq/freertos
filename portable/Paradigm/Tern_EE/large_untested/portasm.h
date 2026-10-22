@@ -26,25 +26,25 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
+خارجي فراغ vTaskSwitchContext( فراغ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+فراغ پورت_SWITCH_CONTEXT( فراغ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+فراغ پورت_اولی_CONTEXT( فراغ );
 
-#define portSWITCH_CONTEXT()                                         \
+#تعریف_کن پورت_SWITCH_CONTEXT()                                         \
                         asm { mov   ax, seg pxCurrentTCB        } \
                             asm { mov   ds, ax                      }  \
                             asm { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */    \
@@ -57,19 +57,19 @@ void portFIRST_CONTEXT( void );
                             asm { mov   ss, es:[ bx + 2 ]           }      \
                             asm { mov   sp, es:[ bx ]               }
 
-#define portFIRST_CONTEXT()                                             \
+#تعریف_کن پورت_اولی_CONTEXT()                                             \
                             asm { mov   ax, seg pxCurrentTCB        }   \
                             asm { mov   ds, ax                      }   \
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { برداشت   bp                          }   \
+                            asm { برداشت   di                          }   \
+                            asm { برداشت   si                          }   \
+                            asm { برداشت   ds                          }   \
+                            asm { برداشت   es                          }   \
+                            asm { برداشت   dx                          }   \
+                            asm { برداشت   cx                          }   \
+                            asm { برداشت   bx                          }   \
+                            asm { برداشت   ax                          }   \
                             asm { iret                              }

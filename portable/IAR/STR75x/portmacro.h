@@ -27,8 +27,8 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,68 +40,68 @@
  *-----------------------------------------------------------
  */
 
-#include <intrinsics.h>
+#ضمن <intrinsics.h>
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کن پورت_CHAR          حرف
+#تعریف_کن پورت_FLOAT         عائم
+#تعریف_کن پورت_DOUBLE        مزدوج
+#تعریف_کن پورت_LONG          دراز
+#تعریف_کن پورت_SHORT         کوتاه
+#تعریف_کن پورت_پشته_TYPE    uint32_t
+#تعریف_کن پورت_پایه_TYPE     دراز
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+تعريفنوع دراز             پایه_Type_t;
+تعريفنوع بیعلامت دراز    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+#پایان_اگر
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
-#define portYIELD()    asm ( "SWI 0" )
-#define portNOP()      asm ( "NOP" )
+#تعریف_کن پورت_پشته_GROWTH      ( -1 )
+#تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_BYTE_ALIGNMENT    8
+#تعریف_کن پورت_YIELD()    asm ( "SWI 0" )
+#تعریف_کن پورت_NOP()      asm ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-__arm __interwork void vPortEnterCritical( void );
-__arm __interwork void vPortExitCritical( void );
+__arm __interwork فراغ v_پورت_Enter_Critical( فراغ );
+__arm __interwork فراغ v_پورت_Exit_Critical( فراغ );
 
-#define portDISABLE_INTERRUPTS()    __disable_interrupt()
-#define portENABLE_INTERRUPTS()     __enable_interrupt()
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    __disable_interrupt()
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     __enable_interrupt()
+#تعریف_کن پورت_ENTER_CRITICAL()        v_پورت_Enter_Critical()
+#تعریف_کن پورت_EXIT_CRITICAL()         v_پورت_Exit_Critical()
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
+#تعریف_کن پورت_انتها_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern void vTaskSwitchContext( void );  \
+        خارجي فراغ vTaskSwitchContext( فراغ );  \
                                                  \
-        if( xSwitchRequired )                    \
+        إذا( xSwitchRequired )                    \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
+            trace_ISR_EXIT_مقصد_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
@@ -110,13 +110,13 @@ __arm __interwork void vPortExitCritical( void );
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

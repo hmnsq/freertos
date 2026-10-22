@@ -26,52 +26,52 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef FREERTOS_SDK_CONFIG_H
-#define FREERTOS_SDK_CONFIG_H
+#اگر_تعریف_نشده FREERTOS_SDK_CONFIG_H
+#تعریف_کن FREERTOS_SDK_CONFIG_H
 
-#ifndef __ASSEMBLER__
-    #include "FreeRTOSConfig.h"
-    #include "rp2040_config.h"
-    #ifndef PICO_USE_MALLOC_MUTEX
+#اگر_تعریف_نشده __ASSEMBLER__
+    #ضمن "FreeRTOSConfig.h"
+    #ضمن "rp2040_config.h"
+    #اگر_تعریف_نشده PICO_USE_MALLOC_MUTEX
         /* malloc needs to be made thread safe */
-        #define PICO_USE_MALLOC_MUTEX    1
-    #endif /* PICO_USE_MALLOC_MUTEX */
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+        #تعریف_کن PICO_USE_MALLOC_MUTEX    1
+    #پایان_اگر /* PICO_USE_MALLOC_MUTEX */
+    #إذا ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* increase the amount of time it may reasonably take to wake us up */
-        #ifndef PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
-            #define PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
-        #endif
+        #اگر_تعریف_نشده PICO_زمان_SLEEP_OVERHEAD_ADJUST_US
+            #تعریف_کن PICO_زمان_SLEEP_OVERHEAD_ADJUST_US    150
+        #پایان_اگر
 
-        #define lock_owner_id_t                           uint32_t
-        extern uint32_t ulPortLockGetCurrentOwnerId( void );
-        #define lock_get_caller_owner_id()    ulPortLockGetCurrentOwnerId()
-        #define LOCK_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
+        #تعریف_کن قفل_owner_id_t                           uint32_t
+        خارجي uint32_t ul_پورت_قفل_Get_Current_Owner_Id( فراغ );
+        #تعریف_کن قفل_get_caller_owner_id()    ul_پورت_قفل_Get_Current_Owner_Id()
+        #تعریف_کن قفل_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
 
-        struct lock_core;
-        #ifndef lock_internal_spin_unlock_with_wait
-            extern void vPortLockInternalSpinUnlockWithWait( struct lock_core * pxLock,
+        بنية قفل_core;
+        #اگر_تعریف_نشده قفل_داخلی_spin_unlock_with_wait
+            خارجي فراغ v_پورت_قفل_داخلی_Spin_Unlock_With_Wait( بنية قفل_core * px_قفل,
                                                              uint32_t ulSave );
-            #define lock_internal_spin_unlock_with_wait( lock, save )    vPortLockInternalSpinUnlockWithWait( lock, save )
-        #endif
+            #تعریف_کن قفل_داخلی_spin_unlock_with_wait( قفل_3, save )    v_پورت_قفل_داخلی_Spin_Unlock_With_Wait( قفل_3, save )
+        #پایان_اگر
 
-        #ifndef lock_internal_spin_unlock_with_notify
-            extern void vPortLockInternalSpinUnlockWithNotify( struct lock_core * pxLock,
+        #اگر_تعریف_نشده قفل_داخلی_spin_unlock_with_notify
+            خارجي فراغ v_پورت_قفل_داخلی_Spin_Unlock_With_Notify( بنية قفل_core * px_قفل,
                                                                uint32_t save );
-            #define lock_internal_spin_unlock_with_notify( lock, save )    vPortLockInternalSpinUnlockWithNotify( lock, save );
-        #endif
+            #تعریف_کن قفل_داخلی_spin_unlock_with_notify( قفل_3, save )    v_پورت_قفل_داخلی_Spin_Unlock_With_Notify( قفل_3, save );
+        #پایان_اگر
 
-        #ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout
-            extern bool xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( struct lock_core * pxLock,
+        #اگر_تعریف_نشده قفل_داخلی_spin_unlock_with_بهترین_effort_wait_or_timeout
+            خارجي bool x_پورت_قفل_داخلی_Spin_Unlock_With_بهترین_Effort_Wait_Or_Timeout( بنية قفل_core * px_قفل,
                                                                                 uint32_t ulSave,
-                                                                                absolute_time_t uxUntil );
-            #define lock_internal_spin_unlock_with_best_effort_wait_or_timeout( lock, save, until ) \
-    xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( lock, save, until )
-        #endif
-    #endif /* configSUPPORT_PICO_SYNC_INTEROP */
+                                                                                absolute_زمان_t uxUntil );
+            #تعریف_کن قفل_داخلی_spin_unlock_with_بهترین_effort_wait_or_timeout( قفل_3, save, until ) \
+    x_پورت_قفل_داخلی_Spin_Unlock_With_بهترین_Effort_Wait_Or_Timeout( قفل_3, save, until )
+        #پایان_اگر
+    #پایان_اگر /* configSUPPORT_PICO_SYNC_INTEROP */
 
-    #if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
-        extern void xPortSyncInternalYieldUntilBefore( absolute_time_t t );
-        #define sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
-    #endif /* configSUPPORT_PICO_TIME_INTEROP */
-#endif /* __ASSEMBLER__ */
-#endif /* ifndef FREERTOS_SDK_CONFIG_H */
+    #إذا ( config_SUPPORT_PICO_زمان_INTEROP == 1 )
+        خارجي فراغ x_پورت_Sync_داخلی_Yield_Until_Before( absolute_زمان_t t );
+        #تعریف_کن sync_داخلی_yield_until_before( t )    x_پورت_Sync_داخلی_Yield_Until_Before( t )
+    #پایان_اگر /* configSUPPORT_PICO_TIME_INTEROP */
+#پایان_اگر /* __ASSEMBLER__ */
+#پایان_اگر /* ifndef FREERTOS_SDK_CONFIG_H */

@@ -32,32 +32,32 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to setup the initial stack. */
-#define portINITIAL_SPSR           ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT         ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#تعریف_کن پورت_INITIAL_SPSR           ( ( پشته_Type_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
+#تعریف_کن پورت_THUMB_نما_بیت         ( ( پشته_Type_t ) 0x20 )
+#تعریف_کن پورت_INSTRUCTION_اندازه       ( ( پشته_Type_t ) 4 )
 
 /* Constants required to setup the PIT. */
-#define portPIT_CLOCK_DIVISOR      ( ( uint32_t ) 16 )
-#define portPIT_COUNTER_VALUE      ( ( ( configCPU_CLOCK_HZ / portPIT_CLOCK_DIVISOR ) / 1000UL ) * portTICK_PERIOD_MS )
+#تعریف_کن پورت_PIT_CLOCK_مقسوم_علیه      ( ( uint32_t ) 16 )
+#تعریف_کن پورت_PIT_COUNTER_مقدار      ( ( ( configCPU_CLOCK_HZ / پورت_PIT_CLOCK_مقسوم_علیه ) / 1000UL ) * پورت_TICK_PERIOD_MS )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#تعریف_کن پورت_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
 
-#define portINT_LEVEL_SENSITIVE    0
-#define portPIT_ENABLE             ( ( uint16_t ) 0x1 << 24 )
-#define portPIT_INT_ENABLE         ( ( uint16_t ) 0x1 << 25 )
+#تعریف_کن پورت_INT_LEVEL_SENSITIVE    0
+#تعریف_کن پورت_PIT_ENABLE             ( ( uint16_t ) 0x1 << 24 )
+#تعریف_کن پورت_PIT_INT_ENABLE         ( ( uint16_t ) 0x1 << 25 )
 /*-----------------------------------------------------------*/
 
 /* Setup the PIT to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -72,17 +72,17 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+پشته_Type_t * px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته,
+                                     TaskFunction_t px_کد,
+                                     فراغ * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    پشته_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_بالاترین_از_پشته;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_بالاترین_از_پشته--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -90,92 +90,92 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) px_کد + پورت_INSTRUCTION_اندازه;
+    px_بالاترین_از_پشته--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x12121212;    /* R12 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x11111111;    /* R11 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x10101010;    /* R10 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x09090909;    /* R9 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x08080808;    /* R8 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x07070707;    /* R7 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x06060606;    /* R6 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x05050505;    /* R5 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x04040404;    /* R4 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x03030303;    /* R3 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x02020202;    /* R2 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x01010101;    /* R1 */
+    px_بالاترین_از_پشته--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pvParameters; /* R0 */
+    px_بالاترین_از_پشته--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) پورت_INITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    إذا( ( ( uint32_t ) px_کد & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_بالاترین_از_پشته |= پورت_THUMB_نما_بیت;
     }
 
-    pxTopOfStack--;
+    px_بالاترین_از_پشته--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_بالاترین_از_پشته = پورت_NO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    أرجع px_بالاترین_از_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+پایه_Type_t x_پورت_شروع_Scheduler( فراغ )
 {
-    extern void vPortStartFirstTask( void );
+    خارجي فراغ v_پورت_شروع_اولی_Task( فراغ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_راهاندازی_Timer_وقفه();
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_پورت_شروع_اولی_Task();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورت_انتها_Scheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#إذا configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
-    static __arm __irq void vPortNonPreemptiveTick( void );
-    static __arm __irq void vPortNonPreemptiveTick( void )
+    ساكن __arm __irq فراغ v_پورت_Non_Preemptive_Tick( فراغ );
+    ساكن __arm __irq فراغ v_پورت_Non_Preemptive_Tick( فراغ )
     {
         uint32_t ulDummy;
 
@@ -185,44 +185,44 @@ void vPortEndScheduler( void )
         xTaskIncrementTick();
 
         /* Clear the PIT interrupt. */
-        ulDummy = AT91C_BASE_PITC->PITC_PIVR;
+        ulDummy = AT91_C_پایه_PITC->PITC_PIVR;
 
         /* End the interrupt in the AIC. */
-        AT91C_BASE_AIC->AIC_EOICR = ulDummy;
+        AT91_C_پایه_AIC->AIC_EOICR = ulDummy;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#وإلا /* if configUSE_PREEMPTION == 0 */
 
 /* Currently the IAR port requires the preemptive tick function to be
  * defined in an asm file. */
 
-#endif /* if configUSE_PREEMPTION == 0 */
+#پایان_اگر /* if configUSE_PREEMPTION == 0 */
 
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ )
 {
-    AT91PS_PITC pxPIT = AT91C_BASE_PITC;
+    AT91PS_PITC pxPIT = AT91_C_پایه_PITC;
 
     /* Setup the AIC for PIT interrupts.  The interrupt routine chosen depends
      * on whether the preemptive or cooperative scheduler is being used. */
-    #if configUSE_PREEMPTION == 0
-        AT91F_AIC_ConfigureIt( AT91C_BASE_AIC, AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPortNonPreemptiveTick );
-    #else
-        extern void( vPortPreemptiveTick )( void );
-        AT91F_AIC_ConfigureIt( AT91C_BASE_AIC, AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPortPreemptiveTick );
-    #endif
+    #إذا configUSE_PREEMPTION == 0
+        AT91F_AIC_ConfigureIt( AT91_C_پایه_AIC, AT91C_ID_SYS, AT91_C_AIC_پیشین_HIGHEST, پورت_INT_LEVEL_SENSITIVE, ( فراغ ( * )( فراغ ) )v_پورت_Non_Preemptive_Tick );
+    #وإلا
+        خارجي فراغ( v_پورت_Preemptive_Tick )( فراغ );
+        AT91F_AIC_ConfigureIt( AT91_C_پایه_AIC, AT91C_ID_SYS, AT91_C_AIC_پیشین_HIGHEST, پورت_INT_LEVEL_SENSITIVE, ( فراغ ( * )( فراغ ) )v_پورت_Preemptive_Tick );
+    #پایان_اگر
 
     /* Configure the PIT period. */
-    pxPIT->PITC_PIMR = portPIT_ENABLE | portPIT_INT_ENABLE | portPIT_COUNTER_VALUE;
+    pxPIT->PITC_PIMR = پورت_PIT_ENABLE | پورت_PIT_INT_ENABLE | پورت_PIT_COUNTER_مقدار;
 
     /* Enable the interrupt.  Global interrupts are disabled at this point so
      * this is safe. */
-    AT91F_AIC_EnableIt( AT91C_BASE_AIC, AT91C_ID_SYS );
+    AT91F_AIC_EnableIt( AT91_C_پایه_AIC, AT91C_ID_SYS );
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ v_پورت_Enter_Critical( فراغ )
 {
     /* Disable interrupts first! */
     __disable_interrupt();
@@ -234,16 +234,16 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ v_پورت_Exit_Critical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    إذا( ulCriticalNesting > پورت_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        إذا( ulCriticalNesting == پورت_NO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

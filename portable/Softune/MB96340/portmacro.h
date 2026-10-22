@@ -27,18 +27,18 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* Standard includes. */
-#include <stddef.h>
+#ضمن <stddef.h>
 
 /* Constants denoting the available memory models.  These are used within
 FreeRTOSConfig.h to set the configMEMMODEL value. */
-#define portSMALL     0
-#define portMEDIUM    1
-#define portCOMPACT   2
-#define portLARGE     3
+#تعریف_کن پورت_SMALL     0
+#تعریف_کن پورت_MEDIUM    1
+#تعریف_کن پورت_COMPACT   2
+#تعریف_کن پورت_LARGE     3
 
 
 /*-----------------------------------------------------------
@@ -52,67 +52,67 @@ FreeRTOSConfig.h to set the configMEMMODEL value. */
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
+#تعریف_کن پورت_CHAR        حرف
+#تعریف_کن پورت_FLOAT       عائم
+#تعریف_کن پورت_DOUBLE      مزدوج
+#تعریف_کن پورت_LONG        دراز
+#تعریف_کن پورت_SHORT       کوتاه
+#تعریف_کن پورت_پشته_TYPE  uint16_t
+#تعریف_کن پورت_پایه_TYPE   کوتاه
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+تعريفنوع پورت_پشته_TYPE پشته_Type_t;
+تعريفنوع کوتاه پایه_Type_t;
+تعريفنوع بیعلامت کوتاه UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها )
+    تعريفنوع uint16_t TickType_t;
+    #تعریف_کن پورت_MAX_DELAY ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها  == TICK_TYPE_عرض_32_بیتها )
+    تعريفنوع uint32_t             TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+#پایان_اگر
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#if configKERNEL_INTERRUPT_PRIORITY != 6
-    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM value set in the following line - #06H being the default.
-#endif
-#define portDISABLE_INTERRUPTS()    __asm(" MOV ILM, #06h ")
-#define portENABLE_INTERRUPTS()     __asm(" MOV ILM, #07h ")
+#إذا config_KERNEL_وقفه_اولویت != 6
+    #خطا config_KERNEL_وقفه_اولویت (مجموعه درون FreeRTOSConfig.h) must تطابق the ILM مقدار مجموعه درون the following سطر - #06H being the افتراضي.
+#پایان_اگر
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    __asm(" MOV ILM, #06h ")
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     __asm(" MOV ILM, #07h ")
 
-#define portENTER_CRITICAL()                                \
+#تعریف_کن پورت_ENTER_CRITICAL()                                \
         {   __asm(" PUSHW PS ");                            \
-            portDISABLE_INTERRUPTS();                       \
+            پورت_DISABLE_INTERRUPTS();                       \
         }
 
-#define portEXIT_CRITICAL()                                 \
+#تعریف_کن پورت_EXIT_CRITICAL()                                 \
         {   __asm(" POPW PS ");                             \
         }
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH            ( -1 )
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT          2
-#define portNOP()                   __asm( " NOP " );
+#تعریف_کن پورت_پشته_GROWTH            ( -1 )
+#تعریف_کن پورت_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_BYTE_ALIGNMENT          2
+#تعریف_کن پورت_NOP()                   __asm( " NOP " );
 /*-----------------------------------------------------------*/
 
 /* portYIELD() uses SW interrupt */
-#define portYIELD()                 __asm( " INT #122 " );
+#تعریف_کن پورت_YIELD()                 __asm( " INT #122 " );
 
 /* portYIELD_FROM_ISR() uses delayed interrupt */
-#define portYIELD_FROM_ISR()         __asm( " SETB  03A4H:0 " );
+#تعریف_کن پورت_YIELD_FROM_ISR()         __asm( " SETB  03A4H:0 " );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 
-#define portMINIMAL_STACK_SIZE configMINIMAL_STACK_SIZE
+#تعریف_کن پورت_کمینه_پشته_اندازه config_کمینه_پشته_اندازه
 
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

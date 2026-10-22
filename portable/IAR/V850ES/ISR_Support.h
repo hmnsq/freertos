@@ -29,25 +29,25 @@
 EXTERN pxCurrentTCB
 EXTERN usCriticalNesting
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
 ;
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+پورت_SAVE_CONTEXT MACRO
 
-    add - 0x0C, sp;
-prepare stack to save necessary values
+    جمع_کن - 0x0C, sp;
+prepare پشته مقصد save necessary مقادیر
 st.w lp, 8[ sp ];
-store LP to stack
+store LP مقصد پشته
     stsr    0, r31
     st.w lp, 4[ sp ];
-store EIPC to stack
+store EIPC مقصد پشته
     stsr    1, lp
     st.w lp, 0[ sp ];
-store EIPSW to stack
-#if configDATA_MODE == 1; Using the Tiny data model
+store EIPSW مقصد پشته
+#إذا config_داده_نما == 1; Using the Tiny داده_2 model
 prepare {
     r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
 }, 76, sp;
@@ -68,7 +68,7 @@ sst.w r7, 24[ ep ]
 sst.w r6, 20[ ep ]
 sst.w r5, 16[ ep ]
 sst.w r4, 12[ ep ]
-#else; Using the Small / Large data model
+#وإلا; Using the Small / Large داده_2 model
 prepare {
     r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
 }, 72, sp;
@@ -88,38 +88,38 @@ sst.w r8, 24[ ep ]
 sst.w r7, 20[ ep ]
 sst.w r6, 16[ ep ]
 sst.w r5, 12[ ep ]
-#endif /* configDATA_MODE */
+#پایان_اگر /* configDATA_MODE */
 sst.w r2, 8[ ep ]
 sst.w r1, 4[ ep ]
 MOVHI hi1( usCriticalNesting ), r0, r1;
-save usCriticalNesting value to stack
+save usCriticalNesting مقدار مقصد پشته
 ld.w lw1( usCriticalNesting )[ r1 ], r2
 sst.w r2, 0[ ep ]
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-save SP to top of current TCB
+save SP مقصد بالاترین_2 از current TCB
 ld.w lw1( pxCurrentTCB )[ r1 ], r2
 st.w sp, 0[ r2 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+پورت_RESTORE_CONTEXT MACRO
 
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-get Stackpointer address
+get Stackpointer آدرس_2
 ld.w lw1( pxCurrentTCB )[ r1 ], sp
 MOV sp, r1
 ld.w    0[ r1 ], sp;
-load stackpointer
+بارگیری_2 stackpointer
 MOV sp, ep;
-set stack pointer to element pointer
+مجموعه پشته اشاره_گر_2 مقصد element اشاره_گر_2
 sld.w   0[ ep ], r1;
-load usCriticalNesting value from stack
+بارگیری_2 usCriticalNesting مقدار from پشته
 MOVHI hi1( usCriticalNesting ), r0, r2
 st.w r1, lw1( usCriticalNesting )[ r2 ]
 sld.w   4[ ep ], r1;
 restore general purpose registers
 sld.w   8[ ep ], r2
-#if configDATA_MODE == 1; Using Tiny data model
+#إذا config_داده_نما == 1; Using Tiny داده_2 model
     sld.w   12[ ep ], r4
     sld.w   16[ ep ], r5
     sld.w   20[ ep ], r6
@@ -139,7 +139,7 @@ sld.w   8[ ep ], r2
     dispose 76, {
         r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
     }
-#else; Using Small / Large data model
+#وإلا; Using Small / Large داده_2 model
     sld.w   12[ ep ], r5
     sld.w   16[ ep ], r6
     sld.w   20[ ep ], r7
@@ -158,17 +158,17 @@ sld.w   8[ ep ], r2
     dispose 72, {
         r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
     }
-#endif /* configDATA_MODE */
+#پایان_اگر /* configDATA_MODE */
 ld.w    0[ sp ], lp;
-restore EIPSW from stack
+restore EIPSW from پشته
 ldsr lp, 1
 ld.w    4[ sp ], lp;
-restore EIPC from stack
+restore EIPC from پشته
 ldsr lp, 0
 ld.w    8[ sp ], lp;
-restore LP from stack
-    add     0x0C, sp;
-set SP to right position
+restore LP from پشته
+    جمع_کن     0x0C, sp;
+مجموعه SP مقصد راست position
 
 RETI
 

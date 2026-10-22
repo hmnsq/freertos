@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -46,36 +46,36 @@
  *------------------------------------------------------------------------------
  */
 
-#ifndef configENABLE_MVE
-    #error configENABLE_MVE must be defined in FreeRTOSConfig.h. Set configENABLE_MVE to 1 to enable the MVE or 0 to disable the MVE.
-#endif /* configENABLE_MVE */
+#اگر_تعریف_نشده configENABLE_MVE
+    #خطا configENABLE_MVE must be defined درون FreeRTOSConfig.h. مجموعه_2 configENABLE_MVE مقصد 1 مقصد enable the MVE or 0 مقصد disable the MVE.
+#پایان_اگر /* configENABLE_MVE */
 /*-----------------------------------------------------------*/
 
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M55"
-#define portHAS_ARMV8M_MAIN_EXTENSION    1
-#define portARMV8M_MINOR_VERSION         1
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            0
+#تعریف_کن پورت_ARCH_NAME                    "Cortex-M55"
+#تعریف_کن پورت_HAS_ARMV8_M_MAIN_EXTENSION    1
+#تعریف_کن پورت_ARMV8_M_MINOR_نسخه         1
+#تعریف_کن پورت_DONT_DISCARD                 __attribute__( ( استفاده_شده ) )
+#تعریف_کن پورت_VALIDATED_FOR_SMP            0
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#ضمن "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    ul_مجموعه_وقفه_ماسک()
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     v_Clear_وقفه_ماسک( 0 )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

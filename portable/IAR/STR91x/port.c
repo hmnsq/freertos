@@ -32,35 +32,35 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "91x_lib.h"
+#ضمن "91x_lib.h"
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <assert.h>
+#ضمن <stdlib.h>
+#ضمن <assert.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
-#ifndef configUSE_WATCHDOG_TICK
-    #error configUSE_WATCHDOG_TICK must be set to either 1 or 0 in FreeRTOSConfig.h to use either the Watchdog or timer 2 to generate the tick interrupt respectively.
-#endif
+#اگر_تعریف_نشده configUSE_WATCHDOG_TICK
+    #خطا configUSE_WATCHDOG_TICK must be مجموعه مقصد either 1 or 0 درون FreeRTOSConfig.h مقصد use either the Watchdog or timer 2 مقصد generate the tick وقفه respectively.
+#پایان_اگر
 
 /* Constants required to setup the initial stack. */
-#ifndef _RUN_TASK_IN_ARM_MODE_
-    #define portINITIAL_SPSR       ( ( StackType_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
-#else
-    #define portINITIAL_SPSR       ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
-#endif
+#اگر_تعریف_نشده پیاپی_TASK_درون_ARM_نما
+    #تعریف_کن پورت_INITIAL_SPSR       ( ( پشته_Type_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
+#وإلا
+    #تعریف_کن پورت_INITIAL_SPSR       ( ( پشته_Type_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
+#پایان_اگر
 
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#تعریف_کن پورت_INSTRUCTION_اندازه       ( ( پشته_Type_t ) 4 )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#تعریف_کن پورت_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-#ifndef abs
-    #define abs( x )    ( ( x ) > 0 ? ( x ) : -( x ) )
-#endif
+#اگر_تعریف_نشده قدر_مطلق
+    #تعریف_کن قدر_مطلق( x )    ( ( x ) > 0 ? ( x ) : -( x ) )
+#پایان_اگر
 
 /**
  * Toggle a led using the following algorithm:
@@ -74,21 +74,21 @@
  * }
  *
  */
-#define TOGGLE_LED( port, pin )                                           \
-    if( ( ( ( ( port )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != Bit_RESET ) \
+#تعریف_کن TOGGLE_LED( پورت, pin )                                           \
+    إذا( ( ( ( ( پورت )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != بیت_RESET ) \
     {                                                                     \
-        ( port )->DR[ ( pin ) << 2 ] = 0x00;                              \
+        ( پورت )->DR[ ( pin ) << 2 ] = 0x00;                              \
     }                                                                     \
-    else                                                                  \
+    وإلا                                                                  \
     {                                                                     \
-        ( port )->DR[ ( pin ) << 2 ] = ( pin );                           \
+        ( پورت )->DR[ ( pin ) << 2 ] = ( pin );                           \
     }
 
 
 /*-----------------------------------------------------------*/
 
 /* Setup the watchdog to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -98,15 +98,15 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
 /* Tick interrupt routines for cooperative and preemptive operation
  * respectively.  The preemptive version is not defined as __irq as it is called
  * from an asm wrapper function. */
-void WDG_IRQHandler( void );
+فراغ WDG_IRQHandler( فراغ );
 
 /* VIC interrupt default handler. */
-static void prvDefaultHandler( void );
+ساكن فراغ prvDefaultHandler( فراغ );
 
-#if configUSE_WATCHDOG_TICK == 0
+#إذا configUSE_WATCHDOG_TICK == 0
     /* Used to update the OCR timer register */
-    static u16 s_nPulseLength;
-#endif
+    ساكن u16 s_n_Pulse_درازی;
+#پایان_اگر
 
 /*-----------------------------------------------------------*/
 
@@ -116,17 +116,17 @@ static void prvDefaultHandler( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+پشته_Type_t * px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته,
+                                     TaskFunction_t px_کد,
+                                     فراغ * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    پشته_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_بالاترین_از_پشته;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_بالاترین_از_پشته--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -134,73 +134,73 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) px_کد + پورت_INSTRUCTION_اندازه;
+    px_بالاترین_از_پشته--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x12121212;    /* R12 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x11111111;    /* R11 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x10101010;    /* R10 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x09090909;    /* R9 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x08080808;    /* R8 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x07070707;    /* R7 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x06060606;    /* R6 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x05050505;    /* R5 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x04040404;    /* R4 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x03030303;    /* R3 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x02020202;    /* R2 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x01010101;    /* R1 */
+    px_بالاترین_از_پشته--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pvParameters; /* R0 */
+    px_بالاترین_از_پشته--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) پورت_INITIAL_SPSR;
+    px_بالاترین_از_پشته--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_بالاترین_از_پشته = پورت_NO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    أرجع px_بالاترین_از_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+پایه_Type_t x_پورت_شروع_Scheduler( فراغ )
 {
-    extern void vPortStartFirstTask( void );
+    خارجي فراغ v_پورت_شروع_اولی_Task( فراغ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_راهاندازی_Timer_وقفه();
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_پورت_شروع_اولی_Task();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورت_انتها_Scheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -209,9 +209,9 @@ void vPortEndScheduler( void )
 
 /* This function is called from an asm wrapper, so does not require the __irq
  * keyword. */
-#if configUSE_WATCHDOG_TICK == 1
+#إذا configUSE_WATCHDOG_TICK == 1
 
-    static void prvFindFactors( u32 n,
+    ساكن فراغ prv_پیدا_کن_Factors( u32 n,
                                 u16 * a,
                                 u32 * b )
     {
@@ -225,26 +225,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 65536ul ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        لكل( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            إذا( قدر_مطلق( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            إذا( قدر_مطلق( err ) < قدر_مطلق( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                إذا( err == 0 )
                 {
-                    break;
+                    اكسر;
                 }
             }
         }
@@ -254,11 +254,11 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    static void prvSetupTimerInterrupt( void )
+    ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ )
     {
         WDG_InitTypeDef xWdg;
         uint16_t a;
-        uint32_t n = configCPU_PERIPH_HZ / configTICK_RATE_HZ, b;
+        uint32_t n = configCPU_PERIPH_HZ / config_TICK_نرخ_HZ, b;
 
         /* Configure the watchdog as a free running timer that generates a
          * periodic interrupt. */
@@ -266,7 +266,7 @@ void vPortEndScheduler( void )
         SCU_APBPeriphClockConfig( __WDG, ENABLE );
         WDG_DeInit();
         WDG_StructInit( &xWdg );
-        prvFindFactors( n, &a, &b );
+        prv_پیدا_کن_Factors( n, &a, &b );
         xWdg.WDG_Prescaler = a - 1;
         xWdg.WDG_Preload = b - 1;
         WDG_Init( &xWdg );
@@ -284,11 +284,11 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    void WDG_IRQHandler( void )
+    فراغ WDG_IRQHandler( فراغ )
     {
         {
             /* Increment the tick counter. */
-            if( xTaskIncrementTick() != pdFALSE )
+            إذا( xTaskIncrementTick() != pdFALSE )
             {
                 /* Select a new task to execute. */
                 vTaskSwitchContext();
@@ -299,9 +299,9 @@ void vPortEndScheduler( void )
         }
     }
 
-#else /* if configUSE_WATCHDOG_TICK == 1 */
+#وإلا /* if configUSE_WATCHDOG_TICK == 1 */
 
-    static void prvFindFactors( u32 n,
+    ساكن فراغ prv_پیدا_کن_Factors( u32 n,
                                 u8 * a,
                                 u16 * b )
     {
@@ -316,26 +316,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 256 ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        لكل( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            إذا( قدر_مطلق( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            إذا( قدر_مطلق( err ) < قدر_مطلق( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                إذا( err == 0 )
                 {
-                    break;
+                    اكسر;
                 }
             }
         }
@@ -345,26 +345,26 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    static void prvSetupTimerInterrupt( void )
+    ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ )
     {
         uint8_t a;
         uint16_t b;
-        uint32_t n = configCPU_PERIPH_HZ / configTICK_RATE_HZ;
+        uint32_t n = configCPU_PERIPH_HZ / config_TICK_نرخ_HZ;
 
         TIM_InitTypeDef timer;
 
         SCU_APBPeriphClockConfig( __TIM23, ENABLE );
         TIM_DeInit( TIM2 );
         TIM_StructInit( &timer );
-        prvFindFactors( n, &a, &b );
+        prv_پیدا_کن_Factors( n, &a, &b );
 
-        timer.TIM_Mode = TIM_OCM_CHANNEL_1;
+        timer.TIM_نما = TIM_OCM_CHANNEL_1;
         timer.TIM_OC1_Modes = TIM_TIMING;
-        timer.TIM_Clock_Source = TIM_CLK_APB;
-        timer.TIM_Clock_Edge = TIM_CLK_EDGE_RISING;
+        timer.TIM_Clock_منبع = TIM_CLK_APB;
+        timer.TIM_Clock_یال = TIM_CLK_یال_RISING;
         timer.TIM_Prescaler = a - 1;
-        timer.TIM_Pulse_Level_1 = TIM_HIGH;
-        timer.TIM_Pulse_Length_1 = s_nPulseLength = b - 1;
+        timer.TIM_Pulse_Level_1 = TIM_بالا;
+        timer.TIM_Pulse_درازی_1 = s_n_Pulse_درازی = b - 1;
 
         TIM_Init( TIM2, &timer );
         TIM_ITConfig( TIM2, TIM_IT_OC1, ENABLE );
@@ -377,17 +377,17 @@ void vPortEndScheduler( void )
         VIC1->DVAR = ( uint32_t ) prvDefaultHandler;
 
         TIM_CounterCmd( TIM2, TIM_CLEAR );
-        TIM_CounterCmd( TIM2, TIM_START );
+        TIM_CounterCmd( TIM2, TIM_شروع );
     }
     /*-----------------------------------------------------------*/
 
-    void TIM2_IRQHandler( void )
+    فراغ TIM2_IRQHandler( فراغ )
     {
         /* Reset the timer counter to avoid overflow. */
-        TIM2->OC1R += s_nPulseLength;
+        TIM2->OC1R += s_n_Pulse_درازی;
 
         /* Increment the tick counter. */
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             /* Select a new task to run. */
             vTaskSwitchContext();
@@ -397,14 +397,14 @@ void vPortEndScheduler( void )
         TIM2->SR &= ~TIM_FLAG_OC1;
     }
 
-#endif /* USE_WATCHDOG_TICK */
+#پایان_اگر /* USE_WATCHDOG_TICK */
 
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortEnterCritical( void )
+__arm __interwork فراغ v_پورت_Enter_Critical( فراغ )
 {
     /* Disable interrupts first! */
-    portDISABLE_INTERRUPTS();
+    پورت_DISABLE_INTERRUPTS();
 
     /* Now that interrupts are disabled, ulCriticalNesting can be accessed
      * directly.  Increment ulCriticalNesting to keep a count of how many times
@@ -413,23 +413,23 @@ __arm __interwork void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortExitCritical( void )
+__arm __interwork فراغ v_پورت_Exit_Critical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    إذا( ulCriticalNesting > پورت_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        إذا( ulCriticalNesting == پورت_NO_CRITICAL_NESTING )
         {
-            portENABLE_INTERRUPTS();
+            پورت_ENABLE_INTERRUPTS();
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvDefaultHandler( void )
+ساكن فراغ prvDefaultHandler( فراغ )
 {
 }

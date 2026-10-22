@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -49,39 +49,39 @@
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M23"
-#define portHAS_ARMV8M_MAIN_EXTENSION    0
-#define portARMV8M_MINOR_VERSION         0
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            0
+#تعریف_کن پورت_ARCH_NAME                    "Cortex-M23"
+#تعریف_کن پورت_HAS_ARMV8_M_MAIN_EXTENSION    0
+#تعریف_کن پورت_ARMV8_M_MINOR_نسخه         0
+#تعریف_کن پورت_DONT_DISCARD                 __attribute__( ( استفاده_شده ) )
+#تعریف_کن پورت_VALIDATED_FOR_SMP            0
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#ضمن "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#if ( configTOTAL_MPU_REGIONS == 16 )
-    #error 16 MPU regions are not yet supported for this port.
-#endif
+#إذا ( config_مجموع_MPU_REGIONS == 16 )
+    #خطا 16 MPU regions are not yet supported لكل this پورت.
+#پایان_اگر
 
-#ifndef configENABLE_MVE
-    #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M23.
-#endif
+#اگر_تعریف_نشده configENABLE_MVE
+    #تعریف_کن configENABLE_MVE    0
+#وإلاإذا ( configENABLE_MVE != 0 )
+    #خطا configENABLE_MVE must be چپ undefined, or defined مقصد 0 لكل the Cortex-M23.
+#پایان_اگر
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( " cpsie i " ::: "memory" )
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    __asm متطاير ( " cpsid i " ::: "memory" )
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     __asm متطاير ( " cpsie i " ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

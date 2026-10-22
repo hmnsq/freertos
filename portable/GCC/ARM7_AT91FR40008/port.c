@@ -37,34 +37,34 @@
 *----------------------------------------------------------*/
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Hardware specific definitions. */
-#include "AT91R40008.h"
-#include "pio.h"
-#include "aic.h"
-#include "tc.h"
+#ضمن "AT91R40008.h"
+#ضمن "pio.h"
+#ضمن "aic.h"
+#ضمن "tc.h"
 
 /* Constants required to setup the task context. */
-#define portINITIAL_SPSR                   ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT                 ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE               ( ( StackType_t ) 4 )
-#define portNO_CRITICAL_SECTION_NESTING    ( ( StackType_t ) 0 )
-#define portTICK_PRIORITY_6                ( 6 )
+#تعریف_کن پورت_INITIAL_SPSR                   ( ( پشته_Type_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
+#تعریف_کن پورت_THUMB_نما_بیت                 ( ( پشته_Type_t ) 0x20 )
+#تعریف_کن پورت_INSTRUCTION_اندازه               ( ( پشته_Type_t ) 4 )
+#تعریف_کن پورت_NO_CRITICAL_SECTION_NESTING    ( ( پشته_Type_t ) 0 )
+#تعریف_کن پورت_TICK_اولویت_6                ( 6 )
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ );
 
 /*
  * The scheduler can only be started from ARM mode, so
  * vPortISRStartFirstSTask() is defined in portISR.c.
  */
-extern void vPortISRStartFirstTask( void );
+خارجي فراغ v_پورت_ISRStart_اولی_Task( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -74,17 +74,17 @@ extern void vPortISRStartFirstTask( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+پشته_Type_t * px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته,
+                                     TaskFunction_t px_کد,
+                                     فراغ * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    پشته_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_بالاترین_از_پشته;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_بالاترین_از_پشته--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -92,81 +92,81 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) px_کد + پورت_INSTRUCTION_اندازه;
+    px_بالاترین_از_پشته--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x12121212;    /* R12 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x11111111;    /* R11 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x10101010;    /* R10 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x09090909;    /* R9 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x08080808;    /* R8 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x07070707;    /* R7 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x06060606;    /* R6 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x05050505;    /* R5 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x04040404;    /* R4 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x03030303;    /* R3 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x02020202;    /* R2 */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x01010101;    /* R1 */
+    px_بالاترین_از_پشته--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pvParameters; /* R0 */
+    px_بالاترین_از_پشته--;
 
     /* The last thing onto the stack is the status register, which is set for
      * system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) پورت_INITIAL_SPSR;
 
-    #ifdef THUMB_INTERWORK
+    #اگر_تعریف_شده THUMB_INTERWORK
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_بالاترین_از_پشته |= پورت_THUMB_نما_بیت;
     }
-    #endif
+    #پایان_اگر
 
-    pxTopOfStack--;
+    px_بالاترین_از_پشته--;
 
     /* Some optimisation levels use the stack differently to others.  This
      * means the interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
+    *px_بالاترین_از_پشته = پورت_NO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    أرجع px_بالاترین_از_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+پایه_Type_t x_پورت_شروع_Scheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_راهاندازی_Timer_وقفه();
 
     /* Start the first task. */
-    vPortISRStartFirstTask();
+    v_پورت_ISRStart_اولی_Task();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورت_انتها_Scheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -176,65 +176,65 @@ void vPortEndScheduler( void )
 /*
  * Setup the tick timer to generate the tick interrupts at the required frequency.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ )
 {
-    volatile uint32_t ulDummy;
+    متطاير uint32_t ulDummy;
 
     /* Enable clock to the tick timer... */
-    AT91C_BASE_PS->PS_PCER = portTIMER_CLK_ENABLE_BIT;
+    AT91_C_پایه_PS->PS_PCER = پورت_TIMER_CLK_ENABLE_بیت;
 
     /* Stop the tick timer... */
-    portTIMER_REG_BASE_PTR->TC_CCR = TC_CLKDIS;
+    پورت_TIMER_REG_پایه_PTR->TC_CCR = TC_CLKDIS;
 
     /* Start with tick timer interrupts disabled... */
-    portTIMER_REG_BASE_PTR->TC_IDR = 0xFFFFFFFF;
+    پورت_TIMER_REG_پایه_PTR->TC_IDR = 0xFFFFFFFF;
 
     /* Clear any pending tick timer interrupts... */
-    ulDummy = portTIMER_REG_BASE_PTR->TC_SR;
+    ulDummy = پورت_TIMER_REG_پایه_PTR->TC_SR;
 
     /* Store interrupt handler function address in tick timer vector register...
      * The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
-    #if configUSE_PREEMPTION == 1
+    #إذا configUSE_PREEMPTION == 1
     {
-        extern void( vPreemptiveTick )( void );
-        AT91C_BASE_AIC->AIC_SVR[ portTIMER_AIC_CHANNEL ] = ( uint32_t ) vPreemptiveTick;
+        خارجي فراغ( vPreemptiveTick )( فراغ );
+        AT91_C_پایه_AIC->AIC_SVR[ پورت_TIMER_AIC_CHANNEL ] = ( uint32_t ) vPreemptiveTick;
     }
-    #else // else use cooperative scheduler
+    #وإلا // else use cooperative scheduler
     {
-        extern void( vNonPreemptiveTick )( void );
-        AT91C_BASE_AIC->AIC_SVR[ portTIMER_AIC_CHANNEL ] = ( uint32_t ) vNonPreemptiveTick;
+        خارجي فراغ( vNonPreemptiveTick )( فراغ );
+        AT91_C_پایه_AIC->AIC_SVR[ پورت_TIMER_AIC_CHANNEL ] = ( uint32_t ) vNonPreemptiveTick;
     }
-    #endif
+    #پایان_اگر
 
     /* Tick timer interrupt level-sensitive, priority 6... */
-    AT91C_BASE_AIC->AIC_SMR[ portTIMER_AIC_CHANNEL ] = AIC_SRCTYPE_INT_LEVEL_SENSITIVE | portTICK_PRIORITY_6;
+    AT91_C_پایه_AIC->AIC_SMR[ پورت_TIMER_AIC_CHANNEL ] = AIC_SRCTYPE_INT_LEVEL_SENSITIVE | پورت_TICK_اولویت_6;
 
     /* Enable the tick timer interrupt...
      *
      * First at timer level */
-    portTIMER_REG_BASE_PTR->TC_IER = TC_CPCS;
+    پورت_TIMER_REG_پایه_PTR->TC_IER = TC_CPCS;
 
     /* Then at the AIC level. */
-    AT91C_BASE_AIC->AIC_IECR = ( 1 << portTIMER_AIC_CHANNEL );
+    AT91_C_پایه_AIC->AIC_IECR = ( 1 << پورت_TIMER_AIC_CHANNEL );
 
     /* Calculate timer compare value to achieve the desired tick rate... */
-    if( ( configCPU_CLOCK_HZ / ( configTICK_RATE_HZ * 2 ) ) <= 0xFFFF )
+    إذا( ( configCPU_CLOCK_HZ / ( config_TICK_نرخ_HZ * 2 ) ) <= 0xFFFF )
     {
         /* The tick rate is fast enough for us to use the faster timer input
          * clock (main clock / 2). */
-        portTIMER_REG_BASE_PTR->TC_CMR = TC_WAVE | TC_CLKS_MCK2 | TC_BURST_NONE | TC_CPCTRG;
-        portTIMER_REG_BASE_PTR->TC_RC = configCPU_CLOCK_HZ / ( configTICK_RATE_HZ * 2 );
+        پورت_TIMER_REG_پایه_PTR->TC_CMR = TC_WAVE | TC_CLKS_MCK2 | TC_مدت_NONE | TC_CPCTRG;
+        پورت_TIMER_REG_پایه_PTR->TC_RC = configCPU_CLOCK_HZ / ( config_TICK_نرخ_HZ * 2 );
     }
-    else
+    وإلا
     {
         /* We must use a slower timer input clock (main clock / 8) because the
          * tick rate is too slow for the faster input clock. */
-        portTIMER_REG_BASE_PTR->TC_CMR = TC_WAVE | TC_CLKS_MCK8 | TC_BURST_NONE | TC_CPCTRG;
-        portTIMER_REG_BASE_PTR->TC_RC = configCPU_CLOCK_HZ / ( configTICK_RATE_HZ * 8 );
+        پورت_TIMER_REG_پایه_PTR->TC_CMR = TC_WAVE | TC_CLKS_MCK8 | TC_مدت_NONE | TC_CPCTRG;
+        پورت_TIMER_REG_پایه_PTR->TC_RC = configCPU_CLOCK_HZ / ( config_TICK_نرخ_HZ * 8 );
     }
 
     /* Start tick timer... */
-    portTIMER_REG_BASE_PTR->TC_CCR = TC_SWTRG | TC_CLKEN;
+    پورت_TIMER_REG_پایه_PTR->TC_CCR = TC_SWTRG | TC_CLKEN;
 }
 /*-----------------------------------------------------------*/

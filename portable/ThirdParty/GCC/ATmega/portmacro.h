@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -45,35 +45,35 @@
  *-----------------------------------------------------------
  */
 
-#include <avr/wdt.h>
+#ضمن <avr/wdt.h>
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                int
+#تعریف_کن پورت_CHAR                 حرف
+#تعریف_کن پورت_FLOAT                عائم
+#تعریف_کن پورت_DOUBLE               مزدوج
+#تعریف_کن پورت_LONG                 دراز
+#تعریف_کن پورت_SHORT                صحيح
 
-#define portPOINTER_SIZE_TYPE    uint16_t
+#تعریف_کن پورت_اشاره_گر_اندازه_TYPE    uint16_t
 
-typedef uint8_t        StackType_t;
-typedef int8_t         BaseType_t;
-typedef uint8_t        UBaseType_t;
+تعريفنوع uint8_t        پشته_Type_t;
+تعريفنوع int8_t         پایه_Type_t;
+تعريفنوع uint8_t        UBaseType_t;
 
-#if configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS
-    typedef uint16_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها
+    تعريفنوع uint16_t   TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+    تعريفنوع uint32_t   TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+#پایان_اگر
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-#define portENTER_CRITICAL()                        \
+#تعریف_کن پورت_ENTER_CRITICAL()                        \
     __asm__ __volatile__ (                          \
         "in __tmp_reg__, __SREG__"        "\n\t"    \
         "cli"                             "\n\t"    \
@@ -82,7 +82,7 @@ typedef uint8_t        UBaseType_t;
         )
 
 
-#define portEXIT_CRITICAL()                         \
+#تعریف_کن پورت_EXIT_CRITICAL()                         \
     __asm__ __volatile__ (                          \
         "pop __tmp_reg__"                 "\n\t"    \
         "out __SREG__, __tmp_reg__"       "\n\t"    \
@@ -90,8 +90,8 @@ typedef uint8_t        UBaseType_t;
         )
 
 
-#define portDISABLE_INTERRUPTS()    __asm__ __volatile__ ( "cli" ::: "memory" )
-#define portENABLE_INTERRUPTS()     __asm__ __volatile__ ( "sei" ::: "memory" )
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    __asm__ __volatile__ ( "cli" ::: "memory" )
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     __asm__ __volatile__ ( "sei" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
@@ -100,9 +100,9 @@ typedef uint8_t        UBaseType_t;
  * Prefer to use the enhanced Watchdog Timer, but also Timer0 is ok.
  */
 
-#if defined( WDIE ) && defined( WDIF ) /* If Enhanced WDT with interrupt capability is available */
+#إذا defined( WDIE ) && defined( WDIF ) /* If Enhanced WDT with interrupt capability is available */
 
-    #define portUSE_WDTO    WDTO_15MS  /* use the Watchdog Timer for xTaskIncrementTick */
+    #تعریف_کن پورت_USE_WDTO    WDTO_15MS  /* use the Watchdog Timer for xTaskIncrementTick */
 
 /* Watchdog period options:         WDTO_15MS
  *                                  WDTO_30MS
@@ -114,54 +114,54 @@ typedef uint8_t        UBaseType_t;
  *                                  WDTO_2S
  */
 
-#else
+#وإلا
 
-    #define portUSE_TIMER0    /* use the 8-bit Timer0 for xTaskIncrementTick */
+    #تعریف_کن پورت_USE_TIMER0    /* use the 8-bit Timer0 for xTaskIncrementTick */
 
-#endif
+#پایان_اگر
 
-#define portSTACK_GROWTH    ( -1 )
+#تعریف_کن پورت_پشته_GROWTH    ( -1 )
 
 /* Timing for the scheduler.
  * Watchdog Timer is 128kHz nominal,
  * but 120 kHz at 5V DC and 25 degrees is actually more accurate,
  * from data sheet.
  */
-#if defined( portUSE_WDTO )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) _BV( portUSE_WDTO + 4 ) )
-#else
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#endif
+#إذا defined( پورت_USE_WDTO )
+    #تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) _BV( پورت_USE_WDTO + 4 ) )
+#وإلا
+    #تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#پایان_اگر
 
-#define portBYTE_ALIGNMENT        1
-#define portNOP()    __asm__ __volatile__ ( "nop" );
+#تعریف_کن پورت_BYTE_ALIGNMENT        1
+#تعریف_کن پورت_NOP()    __asm__ __volatile__ ( "nop" );
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-extern void vPortYield( void )      __attribute__( ( naked ) );
-#define portYIELD()             vPortYield()
+خارجي فراغ v_پورت_Yield( فراغ )      __attribute__( ( naked ) );
+#تعریف_کن پورت_YIELD()             v_پورت_Yield()
 
-extern void vPortYieldFromISR( void )   __attribute__( ( naked ) );
-#define portYIELD_FROM_ISR()    vPortYieldFromISR()
+خارجي فراغ v_پورت_Yield_From_ISR( فراغ )   __attribute__( ( naked ) );
+#تعریف_کن پورت_YIELD_FROM_ISR()    v_پورت_Yield_From_ISR()
 /*-----------------------------------------------------------*/
 
-#if defined( __AVR_3_BYTE_PC__ )
+#إذا defined( __AVR_3_BYTE_PC__ )
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 
 /* Add .lowtext tag from the avr linker script avr6.x for ATmega2560 and ATmega2561
  * to make sure functions are loaded in low memory.
  */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( section( ".lowtext" ) ) )
-#else
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#endif
+    #تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters ) __attribute__( ( section( ".lowtext" ) ) )
+#وإلا
+    #تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#پایان_اگر
 
-#define portTASK_FUNCTION( vFunction, pvParameters )              void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )              فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

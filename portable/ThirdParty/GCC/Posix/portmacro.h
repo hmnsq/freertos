@@ -27,17 +27,17 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
-#include <limits.h>
-#include <stdint.h>
+#ضمن <limits.h>
+#ضمن <stdint.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,84 +50,84 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           unsigned long
-#define portBASE_TYPE            long
-#define portPOINTER_SIZE_TYPE    intptr_t
+#تعریف_کن پورت_CHAR                 حرف
+#تعریف_کن پورت_FLOAT                عائم
+#تعریف_کن پورت_DOUBLE               مزدوج
+#تعریف_کن پورت_LONG                 دراز
+#تعریف_کن پورت_SHORT                کوتاه
+#تعریف_کن پورت_پشته_TYPE           بیعلامت دراز
+#تعریف_کن پورت_پایه_TYPE            دراز
+#تعریف_کن پورت_اشاره_گر_اندازه_TYPE    intptr_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+تعريفنوع دراز             پایه_Type_t;
+تعريفنوع بیعلامت دراز    UBaseType_t;
 
-typedef unsigned long    TickType_t;
-#define portMAX_DELAY              ( ( TickType_t ) ULONG_MAX )
+تعريفنوع بیعلامت دراز    TickType_t;
+#تعریف_کن پورت_MAX_DELAY              ( ( TickType_t ) ULONG_MAX )
 
-#define portTICK_TYPE_IS_ATOMIC    1
+#تعریف_کن پورت_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                   ( -1 )
-#define portHAS_STACK_OVERFLOW_CHECKING    ( 1 )
-#define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portTICK_RATE_MICROSECONDS         ( ( TickType_t ) 1000000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                 8
+#تعریف_کن پورت_پشته_GROWTH                   ( -1 )
+#تعریف_کن پورت_HAS_پشته_سرریز_CHECKING    ( 1 )
+#تعریف_کن پورت_TICK_PERIOD_MS                 ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_TICK_نرخ_MICROSECONDS         ( ( TickType_t ) 1000000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_BYTE_ALIGNMENT                 8
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
+خارجي فراغ v_پورت_Yield( فراغ );
 
-#define portYIELD()                vPortYield()
+#تعریف_کن پورت_YIELD()                v_پورت_Yield()
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#تعریف_کن پورت_انتها_SWITCHING_ISR( xSwitchRequired ) \
+    افعل                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            vPortYield();                        \
+            trace_ISR_EXIT_مقصد_SCHEDULER();        \
+            v_پورت_Yield();                        \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } طالما( 0 )
+#تعریف_کن پورت_YIELD_FROM_ISR( x )    پورت_انتها_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortDisableInterrupts( void );
-extern void vPortEnableInterrupts( void );
-#define portSET_INTERRUPT_MASK()      ( vPortDisableInterrupts() )
-#define portCLEAR_INTERRUPT_MASK()    ( vPortEnableInterrupts() )
+خارجي فراغ v_پورت_Disable_Interrupts( فراغ );
+خارجي فراغ v_پورت_Enable_Interrupts( فراغ );
+#تعریف_کن پورت_مجموعه_وقفه_ماسک()      ( v_پورت_Disable_Interrupts() )
+#تعریف_کن پورت_CLEAR_وقفه_ماسک()    ( v_پورت_Enable_Interrupts() )
 
-extern UBaseType_t xPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t xMask );
+خارجي UBaseType_t x_پورت_مجموعه_وقفه_ماسک( فراغ );
+خارجي فراغ v_پورت_Clear_وقفه_ماسک( UBaseType_t x_ماسک );
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portSET_INTERRUPT_MASK_FROM_ISR()         xPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
-#define portDISABLE_INTERRUPTS()                  portSET_INTERRUPT_MASK()
-#define portENABLE_INTERRUPTS()                   portCLEAR_INTERRUPT_MASK()
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
+خارجي فراغ v_پورت_Enter_Critical( فراغ );
+خارجي فراغ v_پورت_Exit_Critical( فراغ );
+#تعریف_کن پورت_مجموعه_وقفه_ماسک_FROM_ISR()         x_پورت_مجموعه_وقفه_ماسک()
+#تعریف_کن پورت_CLEAR_وقفه_ماسک_FROM_ISR( x )    v_پورت_Clear_وقفه_ماسک( x )
+#تعریف_کن پورت_DISABLE_INTERRUPTS()                  پورت_مجموعه_وقفه_ماسک()
+#تعریف_کن پورت_ENABLE_INTERRUPTS()                   پورت_CLEAR_وقفه_ماسک()
+#تعریف_کن پورت_ENTER_CRITICAL()                      v_پورت_Enter_Critical()
+#تعریف_کن پورت_EXIT_CRITICAL()                       v_پورت_Exit_Critical()
 
 /*-----------------------------------------------------------*/
 
-extern void vPortThreadDying( void * pxTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-extern void vPortCancelThread( void * pxTaskToDelete );
-#define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortThreadDying( ( pvTaskToDelete ), ( pxPendYield ) )
-#define portCLEAN_UP_TCB( pxTCB )                                  vPortCancelThread( pxTCB )
+خارجي فراغ v_پورت_Thread_Dying( فراغ * px_Task_مقصد_Delete,
+                              متطاير پایه_Type_t * pxPendYield );
+خارجي فراغ v_پورت_Cancel_Thread( فراغ * px_Task_مقصد_Delete );
+#تعریف_کن پورت_PRE_TASK_DELETE_HOOK( pv_Task_مقصد_Delete, pxPendYield )    v_پورت_Thread_Dying( ( pv_Task_مقصد_Delete ), ( pxPendYield ) )
+#تعریف_کن پورت_CLEAN_به_بالا_TCB( pxTCB )                                  v_پورت_Cancel_Thread( pxTCB )
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )         void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )               void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )         فراغ vFunction( فراغ * pvParameters ) __attribute__( ( noreturn ) )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )               فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
 /*
@@ -138,16 +138,16 @@ extern void vPortCancelThread( void * pxTaskToDelete );
  * Thus, only a compiler barrier is needed to prevent the compiler
  * reordering.
  */
-#define portMEMORY_BARRIER()                        __asm volatile ( "" ::: "memory" )
+#تعریف_کن پورت_حافظه_BARRIER()                        __asm متطاير ( "" ::: "memory" )
 
-extern uint32_t ulPortGetRunTime( void );
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* no-op */
-#define portGET_RUN_TIME_COUNTER_VALUE()            ulPortGetRunTime()
+خارجي uint32_t ul_پورت_Get_پیاپی_زمان( فراغ );
+#تعریف_کن پورت_CONFIGURE_TIMER_FOR_پیاپی_زمان_STATS()    /* no-op */
+#تعریف_کن پورت_GET_پیاپی_زمان_COUNTER_مقدار()            ul_پورت_Get_پیاپی_زمان()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

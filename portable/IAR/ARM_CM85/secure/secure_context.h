@@ -26,24 +26,24 @@
  *
  */
 
-#ifndef __SECURE_CONTEXT_H__
-#define __SECURE_CONTEXT_H__
+#اگر_تعریف_نشده __SECURE_CONTEXT_H__
+#تعریف_کن __SECURE_CONTEXT_H__
 
 /* Standard includes. */
-#include <stdint.h>
+#ضمن <stdint.h>
 
 /* FreeRTOS includes. */
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
 /**
  * @brief PSP value when no secure context is loaded.
  */
-#define securecontextNO_STACK              0x0
+#تعریف_کن securecontext_NO_پشته              0x0
 
 /**
  * @brief Invalid context ID.
  */
-#define securecontextINVALID_CONTEXT_ID    0UL
+#تعریف_کن securecontextINVALID_CONTEXT_ID    0UL
 /*-----------------------------------------------------------*/
 
 /**
@@ -52,19 +52,19 @@
  * @note Since stack grows down, pucStackStart is the highest address while
  * pucStackLimit is the first address of the allocated memory.
  */
-typedef struct SecureContext
+تعريفنوع بنية SecureContext
 {
-    uint8_t * pucCurrentStackPointer; /**< Current value of stack pointer (PSP). */
-    uint8_t * pucStackLimit;          /**< Last location of the stack memory (PSPLIM). */
-    uint8_t * pucStackStart;          /**< First location of the stack memory. */
-    void * pvTaskHandle;              /**< Task handle of the task this context is associated with. */
+    uint8_t * puc_Current_پشته_اشاره_گر; /**< Current value of stack pointer (PSP). */
+    uint8_t * puc_پشته_حد;          /**< Last location of the stack memory (PSPLIM). */
+    uint8_t * puc_پشته_شروع;          /**< First location of the stack memory. */
+    فراغ * pvTaskHandle;              /**< Task handle of the task this context is associated with. */
 } SecureContext_t;
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Opaque handle for a secure context.
  */
-typedef uint32_t SecureContextHandle_t;
+تعريفنوع uint32_t SecureContextHandle_t;
 /*-----------------------------------------------------------*/
 
 /**
@@ -76,7 +76,7 @@ typedef uint32_t SecureContextHandle_t;
  * @note This function must be called in the handler mode. It is no-op if called
  * in the thread mode.
  */
-void SecureContext_Init( void );
+فراغ SecureContext_Init( فراغ );
 
 /**
  * @brief Allocates a context on the secure side.
@@ -90,14 +90,14 @@ void SecureContext_Init( void );
  * @return Opaque context handle if context is successfully allocated, NULL
  * otherwise.
  */
-#if ( configENABLE_MPU == 1 )
-    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
+#إذا ( configENABLE_MPU == 1 )
+    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_پشته_اندازه,
                                                          uint32_t ulIsTaskPrivileged,
-                                                         void * pvTaskHandle );
-#else /* configENABLE_MPU */
-    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
-                                                         void * pvTaskHandle );
-#endif /* configENABLE_MPU */
+                                                         فراغ * pvTaskHandle );
+#وإلا /* configENABLE_MPU */
+    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_پشته_اندازه,
+                                                         فراغ * pvTaskHandle );
+#پایان_اگر /* configENABLE_MPU */
 
 /**
  * @brief Frees the given context.
@@ -108,8 +108,8 @@ void SecureContext_Init( void );
  * @param[in] xSecureContextHandle Context handle corresponding to the
  * context to be freed.
  */
-void SecureContext_FreeContext( SecureContextHandle_t xSecureContextHandle,
-                                void * pvTaskHandle );
+فراغ SecureContext_FreeContext( SecureContextHandle_t xSecureContextHandle,
+                                فراغ * pvTaskHandle );
 
 /**
  * @brief Loads the given context.
@@ -120,8 +120,8 @@ void SecureContext_FreeContext( SecureContextHandle_t xSecureContextHandle,
  * @param[in] xSecureContextHandle Context handle corresponding to the context
  * to be loaded.
  */
-void SecureContext_LoadContext( SecureContextHandle_t xSecureContextHandle,
-                                void * pvTaskHandle );
+فراغ Secure_Context_بارگیری_Context( SecureContextHandle_t xSecureContextHandle,
+                                فراغ * pvTaskHandle );
 
 /**
  * @brief Saves the given context.
@@ -132,7 +132,7 @@ void SecureContext_LoadContext( SecureContextHandle_t xSecureContextHandle,
  * @param[in] xSecureContextHandle Context handle corresponding to the context
  * to be saved.
  */
-void SecureContext_SaveContext( SecureContextHandle_t xSecureContextHandle,
-                                void * pvTaskHandle );
+فراغ SecureContext_SaveContext( SecureContextHandle_t xSecureContextHandle,
+                                فراغ * pvTaskHandle );
 
-#endif /* __SECURE_CONTEXT_H__ */
+#پایان_اگر /* __SECURE_CONTEXT_H__ */

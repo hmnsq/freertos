@@ -26,15 +26,15 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
-#ifdef __IAR_SYSTEMS_ICC__
+#اگر_تعریف_شده __IAR_SYSTEMS_ICC__
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,60 +47,60 @@
  *-----------------------------------------------------------
  */
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
-        #warning This port has not been tested with your selected memory model combination. If a far data model is required it is recommended to also use a far code model.
-    #endif
+    #إذا __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
+        #warning This پورت has not been tested with your selected حافظه model combination. If a far داده_2 model is required it is recommended مقصد also use a far کد model.
+    #پایان_اگر
 
-    #if __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
-        #warning This port has not been tested with your selected memory model combination. If a far code model is required it is recommended to also use a far data model.
-    #endif
+    #إذا __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
+        #warning This پورت has not been tested with your selected حافظه model combination. If a far کد model is required it is recommended مقصد also use a far داده_2 model.
+    #پایان_اگر
 
 /* Type definitions. */
 
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint16_t
-    #define portBASE_TYPE     short
+    #تعریف_کن پورت_CHAR          حرف
+    #تعریف_کن پورت_FLOAT         عائم
+    #تعریف_کن پورت_DOUBLE        مزدوج
+    #تعریف_کن پورت_LONG          دراز
+    #تعریف_کن پورت_SHORT         کوتاه
+    #تعریف_کن پورت_پشته_TYPE    uint16_t
+    #تعریف_کن پورت_پایه_TYPE     کوتاه
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef short            BaseType_t;
-    typedef unsigned short   UBaseType_t;
-
-
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__
-        #define portPOINTER_SIZE_TYPE    uint32_t
-    #else
-        #define portPOINTER_SIZE_TYPE    uint16_t
-    #endif
+    تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+    تعريفنوع کوتاه            پایه_Type_t;
+    تعريفنوع بیعلامت کوتاه   UBaseType_t;
 
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef unsigned int   TickType_t;
-        #define portMAX_DELAY    ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t       TickType_t;
-        #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+    #إذا __DATA_MODEL__ == __DATA_MODEL_FAR__
+        #تعریف_کن پورت_اشاره_گر_اندازه_TYPE    uint32_t
+    #وإلا
+        #تعریف_کن پورت_اشاره_گر_اندازه_TYPE    uint16_t
+    #پایان_اگر
+
+
+    #إذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها )
+        تعريفنوع بیعلامت صحيح   TickType_t;
+        #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffff
+    #وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+        تعريفنوع uint32_t       TickType_t;
+        #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+    #وإلا
+        #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+    #پایان_اگر
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-    #define portDISABLE_INTERRUPTS()    __asm( "DI" )
-    #define portENABLE_INTERRUPTS()     __asm( "EI" )
+    #تعریف_کن پورت_DISABLE_INTERRUPTS()    __asm( "DI" )
+    #تعریف_کن پورت_ENABLE_INTERRUPTS()     __asm( "EI" )
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-    #define portNO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
+    #تعریف_کن پورت_NO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
 
-    #define portENTER_CRITICAL()                                                  \
+    #تعریف_کن پورت_ENTER_CRITICAL()                                                  \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        خارجي متطاير uint16_t usCriticalNesting;                               \
                                                                                   \
-        portDISABLE_INTERRUPTS();                                                 \
+        پورت_DISABLE_INTERRUPTS();                                                 \
                                                                                   \
         /* Now that interrupts are disabled, ulCriticalNesting can be accessed */ \
         /* directly.  Increment ulCriticalNesting to keep a count of how many */  \
@@ -108,64 +108,64 @@
         usCriticalNesting++;                                                      \
     }
 
-    #define portEXIT_CRITICAL()                                                   \
+    #تعریف_کن پورت_EXIT_CRITICAL()                                                   \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        خارجي متطاير uint16_t usCriticalNesting;                               \
                                                                                   \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
+        إذا( usCriticalNesting > پورت_NO_CRITICAL_SECTION_NESTING )                 \
         {                                                                         \
             /* Decrement the nesting count when leaving a critical section. */    \
             usCriticalNesting--;                                                  \
                                                                                   \
             /* If the nesting level has reached zero then interrupts should be */ \
             /* re-enabled. */                                                     \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
+            إذا( usCriticalNesting == پورت_NO_CRITICAL_SECTION_NESTING )            \
             {                                                                     \
-                portENABLE_INTERRUPTS();                                          \
+                پورت_ENABLE_INTERRUPTS();                                          \
             }                                                                     \
         }                                                                         \
     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-    #define portNOP()                                         __asm( "NOP" )
-    #define portYIELD()                                       __asm( "BRK" )
-    #ifndef configREQUIRE_ASM_ISR_WRAPPER
-        #define configREQUIRE_ASM_ISR_WRAPPER    1
-    #endif
-    #if( configREQUIRE_ASM_ISR_WRAPPER == 1 )
+    #تعریف_کن پورت_NOP()                                         __asm( "NOP" )
+    #تعریف_کن پورت_YIELD()                                       __asm( "BRK" )
+    #اگر_تعریف_نشده configREQUIRE_ASM_ISR_WRAPPER
+        #تعریف_کن configREQUIRE_ASM_ISR_WRAPPER    1
+    #پایان_اگر
+    #إذا( configREQUIRE_ASM_ISR_WRAPPER == 1 )
         /* You must implement an assembly ISR wrapper (see the below for details) if you need an ISR to cause a context switch.
          * https://www.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/Renesas/RTOS_RL78_IAR_Demos#writing-interrupt-service-routines */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } while( 0 )
-    #else
+        #تعریف_کن پورت_YIELD_FROM_ISR( x_Higher_اولویت_Task_Woken )    افعل { إذا( x_Higher_اولویت_Task_Woken != pdFALSE ) vTaskSwitchContext(); } طالما( 0 )
+    #وإلا
         /* You must not implement an assembly ISR wrapper even if you need an ISR to cause a context switch.
          * The portYIELD, which is similar to role of an assembly ISR wrapper, runs only when a context switch is required. */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } while( 0 )
-    #endif
+        #تعریف_کن پورت_YIELD_FROM_ISR( x_Higher_اولویت_Task_Woken )    افعل { إذا( x_Higher_اولویت_Task_Woken != pdFALSE ) پورت_YIELD(); } طالما( 0 )
+    #پایان_اگر
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portBYTE_ALIGNMENT    2
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+    #تعریف_کن پورت_BYTE_ALIGNMENT    2
+    #تعریف_کن پورت_پشته_GROWTH      ( -1 )
+    #تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* __IAR_SYSTEMS_ICC__ */
+#پایان_اگر /* __IAR_SYSTEMS_ICC__ */
 
 ; /*----------------------------------------------------------------------------- */
   /* The macros below are processed for asm sources which include portmacro.h. */
   /*----------------------------------------------------------------------------- */
-#ifdef __IAR_SYSTEMS_ASM__
+#اگر_تعریف_شده __IAR_SYSTEMS_ASM__
 
     ; /* Functions and variables used by this file. */
       /*----------------------------------------------------------------------------- */
@@ -174,11 +174,11 @@
 
     ; /* Macro used to declutter calls, depends on the selected code model. */
       /*----------------------------------------------------------------------------- */
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
-        #define RCALL( X )    CALL F: X
-    #else
-        #define RCALL( X )    CALL X
-    #endif
+    #إذا __CODE_MODEL__ == __CODE_MODEL_FAR__
+        #تعریف_کن RCALL( X )    CALL F: X
+    #وإلا
+        #تعریف_کن RCALL( X )    CALL X
+    #پایان_اگر
 
 
     ;        /*-----------------------------------------------------------------------------
@@ -187,22 +187,22 @@
               * ; * memory mode) registers the _usCriticalNesting value and the Stack Pointer
               * ; * of the active Task onto the task stack.
               * ; *---------------------------------------------------------------------------*/
-portSAVE_CONTEXT MACRO
-    PUSH AX; /* Save AX Register to stack. */
-    PUSH HL
-    #if  __CODE_MODEL__ == __CODE_MODEL_FAR__
+پورت_SAVE_CONTEXT MACRO
+    افزودن_2 AX; /* Save AX Register to stack. */
+    افزودن_2 HL
+    #إذا  __CODE_MODEL__ == __CODE_MODEL_FAR__
         MOV A, CS; /* Save CS register. */
         XCH A, X
         MOV A, ES; /* Save ES register. */
-        PUSH AX
-    #else
+        افزودن_2 AX
+    #وإلا
         MOV A, CS; /* Save CS register. */
-        PUSH AX
-    #endif
-    PUSH DE;                     /* Save the remaining general purpose registers. */
-    PUSH BC
+        افزودن_2 AX
+    #پایان_اگر
+    افزودن_2 DE;                     /* Save the remaining general purpose registers. */
+    افزودن_2 BC
     MOVW AX, _usCriticalNesting; /* Save the _usCriticalNesting value. */
-    PUSH AX
+    افزودن_2 AX
     MOVW AX, _pxCurrentTCB;      /* Save the Task stack pointer. */
     MOVW HL, AX
     MOVW AX, SP
@@ -217,29 +217,29 @@ portSAVE_CONTEXT MACRO
  * ; * general purpose registers and the CS and ES (only in __far memory mode)
  * ; * of the selected task from the task stack.
  * ; *---------------------------------------------------------------------------*/
-portRESTORE_CONTEXT MACRO
+پورت_RESTORE_CONTEXT MACRO
     MOVW AX, _pxCurrentTCB; /* Restore the Task stack pointer. */
     MOVW HL, AX
     MOVW AX, [ HL ]
     MOVW SP, AX
-    POP AX; /* Restore _usCriticalNesting value. */
+    برداشت_2 AX; /* Restore _usCriticalNesting value. */
     MOVW _usCriticalNesting, AX
-    POP BC; /* Restore the necessary general purpose registers. */
-    POP DE
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
-        POP AX;   /* Restore the ES register. */
+    برداشت_2 BC; /* Restore the necessary general purpose registers. */
+    برداشت_2 DE
+    #إذا __CODE_MODEL__ == __CODE_MODEL_FAR__
+        برداشت_2 AX;   /* Restore the ES register. */
         MOV ES, A
         XCH A, X; /* Restore the CS register. */
         MOV CS, A
-    #else
-        POP AX
+    #وإلا
+        برداشت_2 AX
         MOV CS, A; /* Restore CS register. */
-    #endif
-    POP HL;        /* Restore general purpose register HL. */
-    POP AX;        /* Restore AX. */
+    #پایان_اگر
+    برداشت_2 HL;        /* Restore general purpose register HL. */
+    برداشت_2 AX;        /* Restore AX. */
     ENDM
     ;              /*----------------------------------------------------------------------------- */
 
-#endif /* __IAR_SYSTEMS_ASM__ */
+#پایان_اگر /* __IAR_SYSTEMS_ASM__ */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

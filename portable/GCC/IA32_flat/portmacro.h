@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,27 +46,27 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کن پورت_CHAR          حرف
+#تعریف_کن پورت_FLOAT         عائم
+#تعریف_کن پورت_DOUBLE        مزدوج
+#تعریف_کن پورت_LONG          دراز
+#تعریف_کن پورت_SHORT         کوتاه
+#تعریف_کن پورت_پشته_TYPE    uint32_t
+#تعریف_کن پورت_پایه_TYPE     دراز
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+تعريفنوع دراز             پایه_Type_t;
+تعريفنوع بیعلامت دراز    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
+تعريفنوع uint32_t         TickType_t;
+#تعریف_کن پورت_MAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    32
+#تعریف_کن پورت_پشته_GROWTH      ( -1 )
+#تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_BYTE_ALIGNMENT    32
 
 /*-----------------------------------------------------------*/
 
@@ -77,144 +77,144 @@ typedef uint32_t         TickType_t;
  * and 15 is the highest.  Therefore the following two interrupts are at the lowest
  * priority.  *NOTE 1* If the yield vector is changed then it must also be changed
  * in the portYIELD_INTERRUPT definition immediately below. */
-#define portAPIC_TIMER_INT_VECTOR       ( 0x21 )
-#define portAPIC_YIELD_INT_VECTOR       ( 0x20 )
+#تعریف_کن پورت_APIC_TIMER_INT_وکتور       ( 0x21 )
+#تعریف_کن پورت_APIC_YIELD_INT_وکتور       ( 0x20 )
 
 /* Build yield interrupt instruction. */
-#define portYIELD_INTERRUPT             "int $0x20"
+#تعریف_کن پورت_YIELD_وقفه             "int $0x20"
 
 /* APIC register addresses. */
-#define portAPIC_EOI                    ( *( ( volatile uint32_t * ) 0xFEE000B0UL ) )
+#تعریف_کن پورت_APIC_EOI                    ( *( ( متطاير uint32_t * ) 0xFEE000B0UL ) )
 
 /* APIC bit definitions. */
-#define portAPIC_ENABLE_BIT             ( 1UL << 8UL )
-#define portAPIC_TIMER_PERIODIC         ( 1UL << 17UL )
-#define portAPIC_DISABLE                ( 1UL << 16UL )
-#define portAPIC_NMI                    ( 4 << 8 )
-#define portAPIC_DIV_16                 ( 0x03 )
+#تعریف_کن پورت_APIC_ENABLE_بیت             ( 1UL << 8UL )
+#تعریف_کن پورت_APIC_TIMER_PERIODIC         ( 1UL << 17UL )
+#تعریف_کن پورت_APIC_DISABLE                ( 1UL << 16UL )
+#تعریف_کن پورت_APIC_NMI                    ( 4 << 8 )
+#تعریف_کن پورت_APIC_DIV_16                 ( 0x03 )
 
 /* Define local API register addresses. */
-#define portAPIC_ID_REGISTER            ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
-#define portAPIC_SPURIOUS_INT           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
-#define portAPIC_LVT_TIMER              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
-#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
-#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
-#define portAPIC_TASK_PRIORITY          ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
-#define portAPIC_LVT_ERROR              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
-#define portAPIC_ERROR_STATUS           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
-#define portAPIC_LDR                    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
-#define portAPIC_TMRDIV                 ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
-#define portAPIC_LVT_PERF               ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
-#define portAPIC_LVT_LINT0              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
-#define portAPIC_LVT_LINT1              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
+#تعریف_کن پورت_APIC_ID_ثبات            ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x20UL ) ) )
+#تعریف_کن پورت_APIC_SPURIOUS_INT           ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0xF0UL ) ) )
+#تعریف_کن پورت_APIC_LVT_TIMER              ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x320UL ) ) )
+#تعریف_کن پورت_APIC_TIMER_INITIAL_شمار    ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x380UL ) ) )
+#تعریف_کن پورت_APIC_TIMER_CURRENT_شمار    ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x390UL ) ) )
+#تعریف_کن پورت_APIC_TASK_اولویت          ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x80UL ) ) )
+#تعریف_کن پورت_APIC_LVT_ERROR              ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x370UL ) ) )
+#تعریف_کن پورت_APIC_ERROR_وضعیت           ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x280UL ) ) )
+#تعریف_کن پورت_APIC_LDR                    ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0xD0UL ) ) )
+#تعریف_کن پورت_APIC_TMRDIV                 ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x3E0UL ) ) )
+#تعریف_کن پورت_APIC_LVT_PERF               ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x340UL ) ) )
+#تعریف_کن پورت_APIC_LVT_LINT0              ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x350UL ) ) )
+#تعریف_کن پورت_APIC_LVT_LINT1              ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0x360UL ) ) )
 
 /* Don't yield if inside a critical section - instead hold the yield pending
  * so it is performed when the critical section is exited. */
-#define portYIELD()                                  \
+#تعریف_کن پورت_YIELD()                                  \
     {                                                \
-        extern volatile uint32_t ulCriticalNesting;  \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( ulCriticalNesting != 0 )                 \
+        خارجي متطاير uint32_t ulCriticalNesting;  \
+        خارجي متطاير uint32_t ul_پورت_Yield_Pending; \
+        إذا( ulCriticalNesting != 0 )                 \
         {                                            \
-            ulPortYieldPending = pdTRUE;             \
+            ul_پورت_Yield_Pending = pdTRUE;             \
         }                                            \
-        else                                         \
+        وإلا                                         \
         {                                            \
-            __asm volatile ( portYIELD_INTERRUPT );  \
+            __asm متطاير ( پورت_YIELD_وقفه );  \
         }                                            \
     }
 
 /* Called at the end of an ISR that can cause a context switch - pend a yield if
  * xSwitchRequired is not false. */
-#define portEND_SWITCHING_ISR( xSwitchRequired )     \
+#تعریف_کن پورت_انتها_SWITCHING_ISR( xSwitchRequired )     \
     {                                                \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( xSwitchRequired != pdFALSE )             \
+        خارجي متطاير uint32_t ul_پورت_Yield_Pending; \
+        إذا( xSwitchRequired != pdFALSE )             \
         {                                            \
-            ulPortYieldPending = 1;                  \
+            ul_پورت_Yield_Pending = 1;                  \
         }                                            \
     }
 
 /* Same as portEND_SWITCHING_ISR() - take your pick which name to use. */
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+#تعریف_کن پورت_YIELD_FROM_ISR( x )    پورت_انتها_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
 /* Critical sections for use in interrupts. */
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#تعریف_کن پورت_مجموعه_وقفه_ماسک_FROM_ISR()         ul_پورت_مجموعه_وقفه_ماسک()
+#تعریف_کن پورت_CLEAR_وقفه_ماسک_FROM_ISR( x )    v_پورت_Clear_وقفه_ماسک( x )
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+خارجي فراغ v_پورت_Enter_Critical( فراغ );
+خارجي فراغ v_پورت_Exit_Critical( فراغ );
+خارجي uint32_t ul_پورت_مجموعه_وقفه_ماسک( فراغ );
+خارجي فراغ v_پورت_Clear_وقفه_ماسک( uint32_t ul_New_ماسک_مقدار );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    __asm volatile ( "cli" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( "sti" )
+#تعریف_کن پورت_ENTER_CRITICAL()        v_پورت_Enter_Critical()
+#تعریف_کن پورت_EXIT_CRITICAL()         v_پورت_Exit_Critical()
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    __asm متطاير ( "cli" )
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     __asm متطاير ( "sti" )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورت_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    __asm volatile ( "bsr %1, %0\n\t"                                    \
-                     : "=r" ( uxTopPriority ) : "rm" ( uxReadyPriorities ) : "cc" )
+    #تعریف_کن پورت_GET_HIGHEST_اولویت( ux_بالاترین_اولویت, uxReadyPriorities ) \
+    __asm متطاير ( "bsr %1, %0\n\t"                                    \
+                     : "=r" ( ux_بالاترین_اولویت ) : "rm" ( uxReadyPriorities ) : "cc" )
 
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کن پورت_رکورد_READY_اولویت( ux_اولویت, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_اولویت ) )
+    #تعریف_کن پورت_RESET_READY_اولویت( ux_اولویت, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_اولویت ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#پایان_اگر /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()    __asm volatile ( "NOP" )
+#تعریف_کن پورت_NOP()    __asm متطاير ( "NOP" )
 
 /*-----------------------------------------------------------
 * Misc
 *----------------------------------------------------------*/
 
-#define portNUM_VECTORS     256
-#define portMAX_PRIORITY    15
-typedef void ( * ISR_Handler_t ) ( void );
+#تعریف_کن پورت_رقم_VECTORS     256
+#تعریف_کن پورت_MAX_اولویت    15
+تعريفنوع فراغ ( * ISR_Handler_t ) ( فراغ );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-#ifndef configSUPPORT_FPU
-    #define configSUPPORT_FPU    0
-#endif
+#اگر_تعریف_نشده configSUPPORT_FPU
+    #تعریف_کن configSUPPORT_FPU    0
+#پایان_اگر
 
-#if configSUPPORT_FPU == 1
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
-#endif
+#إذا configSUPPORT_FPU == 1
+    فراغ v_پورت_Task_استفاده_میکند_FPU( فراغ );
+    #تعریف_کن پورت_TASK_استفاده_میکند_FLOATING_نقطه()    v_پورت_Task_استفاده_میکند_FPU()
+#پایان_اگر
 
 /* See the comments under the configUSE_COMMON_INTERRUPT_ENTRY_POINT definition
  * below. */
-BaseType_t xPortRegisterCInterruptHandler( ISR_Handler_t pxHandler,
-                                           uint32_t ulVectorNumber );
-BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
-                                         uint32_t ulVectorNumber );
+پایه_Type_t x_پورت_ثبات_CInterrupt_Handler( ISR_Handler_t pxHandler,
+                                           uint32_t ul_وکتور_عدد );
+پایه_Type_t x_پورت_Install_وقفه_Handler( ISR_Handler_t pxHandler,
+                                         uint32_t ul_وکتور_عدد );
 
-#ifndef configAPIC_BASE
+#اگر_تعریف_نشده config_APIC_پایه
 
 /* configAPIC_BASE_ADDRESS sets the base address of the local APIC.  It can
  * be overridden in FreeRTOSConfig.h should it not be constant. */
-    #define configAPIC_BASE    0xFEE00000UL
-#endif
+    #تعریف_کن config_APIC_پایه    0xFEE00000UL
+#پایان_اگر
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+#اگر_تعریف_نشده config_USE_پورت_OPTIMISED_TASK_SELECTION
 
 /* The FreeRTOS scheduling algorithm selects the task that will enter the
  * Running state.  configUSE_PORT_OPTIMISED_TASK_SELECTION is used to set how
@@ -230,11 +230,11 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * This is the fastest method, but restricts the maximum number of unique RTOS
  * task priorities to 32 (the same task priority can be assigned to any number
  * of RTOS tasks). */
-    #warning configUSE_PORT_OPTIMISED_TASK_SELECTION was not defined in FreeRTOSConfig.h and has been defaulted to 1
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+    #warning config_USE_پورت_OPTIMISED_TASK_SELECTION was not defined درون FreeRTOSConfig.h and has been defaulted مقصد 1
+    #تعریف_کن config_USE_پورت_OPTIMISED_TASK_SELECTION    1
+#پایان_اگر
 
-#ifndef configUSE_COMMON_INTERRUPT_ENTRY_POINT
+#اگر_تعریف_نشده config_USE_COMMON_وقفه_مدخل_نقطه
 
 /* There are two ways of implementing interrupt handlers:
  *
@@ -252,11 +252,11 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  *
  *  This method can always be used.  It is slightly more complex than
  *  method 1 but benefits from a faster interrupt entry time. */
-    #warning configUSE_COMMON_INTERRUPT_ENTRY_POINT was not defined in FreeRTOSConfig.h and has been defaulted to 1.
-    #define configUSE_COMMON_INTERRUPT_ENTRY_POINT    1
-#endif
+    #warning config_USE_COMMON_وقفه_مدخل_نقطه was not defined درون FreeRTOSConfig.h and has been defaulted مقصد 1.
+    #تعریف_کن config_USE_COMMON_وقفه_مدخل_نقطه    1
+#پایان_اگر
 
-#ifndef configISR_STACK_SIZE
+#اگر_تعریف_نشده config_ISR_پشته_اندازه
 
 /* Interrupt entry code will switch the stack in use to a dedicated system
  * stack.
@@ -265,38 +265,38 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * on the system stack, and must be large enough to hold a potentially nested
  * interrupt stack frame. */
 
-    #error configISR_STACK_SIZE was not defined in FreeRTOSConfig.h.
-#endif
+    #خطا config_ISR_پشته_اندازه was not defined درون FreeRTOSConfig.h.
+#پایان_اگر
 
-#ifndef configMAX_API_CALL_INTERRUPT_PRIORITY
+#اگر_تعریف_نشده config_MAX_API_CALL_وقفه_اولویت
 
 /* Interrupt safe FreeRTOS functions (those that end in "FromISR" must not
  * be called from an interrupt that has a priority above that set by
  * configMAX_API_CALL_INTERRUPT_PRIORITY.  */
-    #warning configMAX_API_CALL_INTERRUPT_PRIORITY was not defined in FreeRTOSConfig.h and has been defaulted to 10
-    #define configMAX_API_CALL_INTERRUPT_PRIORITY    10
-#endif
+    #warning config_MAX_API_CALL_وقفه_اولویت was not defined درون FreeRTOSConfig.h and has been defaulted مقصد 10
+    #تعریف_کن config_MAX_API_CALL_وقفه_اولویت    10
+#پایان_اگر
 
-#ifndef configSUPPORT_FPU
-    #warning configSUPPORT_FPU was not defined in FreeRTOSConfig.h and has been defaulted to 0
-    #define configSUPPORT_FPU    0
-#endif
+#اگر_تعریف_نشده configSUPPORT_FPU
+    #warning configSUPPORT_FPU was not defined درون FreeRTOSConfig.h and has been defaulted مقصد 0
+    #تعریف_کن configSUPPORT_FPU    0
+#پایان_اگر
 
 /* The value written to the task priority register to raise the interrupt mask
  * to the maximum from which FreeRTOS API calls can be made. */
-#define portAPIC_PRIORITY_SHIFT        ( 4UL )
-#define portAPIC_MAX_SUB_PRIORITY      ( 0x0fUL )
-#define portMAX_API_CALL_PRIORITY      ( ( configMAX_API_CALL_INTERRUPT_PRIORITY << portAPIC_PRIORITY_SHIFT ) | portAPIC_MAX_SUB_PRIORITY )
+#تعریف_کن پورت_APIC_اولویت_لغزش        ( 4UL )
+#تعریف_کن پورت_APIC_MAX_SUB_اولویت      ( 0x0fUL )
+#تعریف_کن پورت_MAX_API_CALL_اولویت      ( ( config_MAX_API_CALL_وقفه_اولویت << پورت_APIC_اولویت_لغزش ) | پورت_APIC_MAX_SUB_اولویت )
 
 /* Asserts if interrupt safe FreeRTOS functions are called from a priority
  * above the max system call interrupt priority. */
-#define portAPIC_PROCESSOR_PRIORITY    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
-#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( portAPIC_PROCESSOR_PRIORITY ) <= ( portMAX_API_CALL_PRIORITY ) )
+#تعریف_کن پورت_APIC_PROCESSOR_اولویت    ( *( ( متطاير uint32_t * ) ( config_APIC_پایه + 0xA0UL ) ) )
+#تعریف_کن پورت_ASSERT_IF_وقفه_اولویت_INVALID()    configASSERT( ( پورت_APIC_PROCESSOR_اولویت ) <= ( پورت_MAX_API_CALL_اولویت ) )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

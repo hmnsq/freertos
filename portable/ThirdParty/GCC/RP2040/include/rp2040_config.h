@@ -26,69 +26,69 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef RP2040_CONFIG_H
-#define RP2040_CONFIG_H
+#اگر_تعریف_نشده RP2040_CONFIG_H
+#تعریف_کن RP2040_CONFIG_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /* configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 means set the exception handlers dynamically on cores
  * that need them in case the user has set up distinct vector table offsets per core
  */
-#ifndef configUSE_DYNAMIC_EXCEPTION_HANDLERS
-    #if defined( PICO_NO_RAM_VECTOR_TABLE ) && ( PICO_NO_RAM_VECTOR_TABLE == 1 )
-        #define configUSE_DYNAMIC_EXCEPTION_HANDLERS    0
-    #else
-        #define configUSE_DYNAMIC_EXCEPTION_HANDLERS    1
-    #endif
-#endif
+#اگر_تعریف_نشده configUSE_DYNAMIC_EXCEPTION_HANDLERS
+    #إذا defined( PICO_NO_RAM_وکتور_جدول ) && ( PICO_NO_RAM_وکتور_جدول == 1 )
+        #تعریف_کن configUSE_DYNAMIC_EXCEPTION_HANDLERS    0
+    #وإلا
+        #تعریف_کن configUSE_DYNAMIC_EXCEPTION_HANDLERS    1
+    #پایان_اگر
+#پایان_اگر
 
 /* configSUPPORT_PICO_SYNC_INTEROP == 1 means that SDK pico_sync
  * sem/mutex/queue etc. will work correctly when called from FreeRTOS tasks
  */
-#ifndef configSUPPORT_PICO_SYNC_INTEROP
-    #if LIB_PICO_SYNC
-        #define configSUPPORT_PICO_SYNC_INTEROP    1
-    #endif
-#endif
+#اگر_تعریف_نشده configSUPPORT_PICO_SYNC_INTEROP
+    #إذا LIB_PICO_SYNC
+        #تعریف_کن configSUPPORT_PICO_SYNC_INTEROP    1
+    #پایان_اگر
+#پایان_اگر
 
 /* configSUPPORT_PICO_SYNC_INTEROP == 1 means that SDK pico_time
  * sleep_ms/sleep_us/sleep_until will work correctly when called from FreeRTOS
  * tasks, and will actually block at the FreeRTOS level
  */
-#ifndef configSUPPORT_PICO_TIME_INTEROP
-    #if LIB_PICO_TIME
-        #define configSUPPORT_PICO_TIME_INTEROP    1
-    #endif
-#endif
+#اگر_تعریف_نشده config_SUPPORT_PICO_زمان_INTEROP
+    #إذا LIB_PICO_زمان
+        #تعریف_کن config_SUPPORT_PICO_زمان_INTEROP    1
+    #پایان_اگر
+#پایان_اگر
 
-#if ( configNUMBER_OF_CORES > 1 )
+#إذا ( config_عدد_از_CORES > 1 )
 
 /* configTICK_CORE indicates which core should handle the SysTick
  * interrupts */
-    #ifndef configTICK_CORE
-        #define configTICK_CORE    0
-    #endif
-#endif
+    #اگر_تعریف_نشده configTICK_CORE
+        #تعریف_کن configTICK_CORE    0
+    #پایان_اگر
+#پایان_اگر
 
 /* This SMP port requires two spin locks, which are claimed from the SDK.
  * the spin lock numbers to be used are defined statically and defaulted here
  * to the values nominally set aside for RTOS by the SDK */
-#ifndef configSMP_SPINLOCK_0
-    #define configSMP_SPINLOCK_0    PICO_SPINLOCK_ID_OS1
-#endif
+#اگر_تعریف_نشده configSMP_SPINLOCK_0
+    #تعریف_کن configSMP_SPINLOCK_0    PICO_SPINLOCK_ID_OS1
+#پایان_اگر
 
-#ifndef configSMP_SPINLOCK_1
-    #define configSMP_SPINLOCK_1    PICO_SPINLOCK_ID_OS2
-#endif
+#اگر_تعریف_نشده configSMP_SPINLOCK_1
+    #تعریف_کن configSMP_SPINLOCK_1    PICO_SPINLOCK_ID_OS2
+#پایان_اگر
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* ifndef RP2040_CONFIG_H */
+#پایان_اگر /* ifndef RP2040_CONFIG_H */

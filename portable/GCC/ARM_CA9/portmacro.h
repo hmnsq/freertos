@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,167 +46,167 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کن پورت_CHAR          حرف
+#تعریف_کن پورت_FLOAT         عائم
+#تعریف_کن پورت_DOUBLE        مزدوج
+#تعریف_کن پورت_LONG          دراز
+#تعریف_کن پورت_SHORT         کوتاه
+#تعریف_کن پورت_پشته_TYPE    uint32_t
+#تعریف_کن پورت_پایه_TYPE     دراز
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+تعريفنوع دراز             پایه_Type_t;
+تعريفنوع بیعلامت دراز    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+تعريفنوع uint32_t         TickType_t;
+#تعریف_کن پورت_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-#define portTICK_TYPE_IS_ATOMIC    1
+#تعریف_کن پورت_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
+#تعریف_کن پورت_پشته_GROWTH      ( -1 )
+#تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
+#تعریف_کن پورت_انتها_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint32_t ulPortYieldRequired;     \
+        خارجي uint32_t ul_پورت_Yield_Required;     \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            ulPortYieldRequired = pdTRUE;        \
+            ul_پورت_Yield_Required = pdTRUE;        \
         }                                        \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#define portYIELD()                __asm volatile ( "SWI 0" ::: "memory" );
+#تعریف_کن پورت_YIELD_FROM_ISR( x )    پورت_انتها_SWITCHING_ISR( x )
+#تعریف_کن پورت_YIELD()                __asm متطاير ( "SWI 0" ::: "memory" );
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
-extern void vPortInstallFreeRTOSVectorTable( void );
+خارجي فراغ v_پورت_Enter_Critical( فراغ );
+خارجي فراغ v_پورت_Exit_Critical( فراغ );
+خارجي uint32_t ul_پورت_مجموعه_وقفه_ماسک( فراغ );
+خارجي فراغ v_پورت_Clear_وقفه_ماسک( uint32_t ul_New_ماسک_مقدار );
+خارجي فراغ v_پورت_Install_Free_RTOSVector_جدول( فراغ );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-#define portENTER_CRITICAL()                      vPortEnterCritical();
-#define portEXIT_CRITICAL()                       vPortExitCritical();
-#define portDISABLE_INTERRUPTS()                  ulPortSetInterruptMask()
-#define portENABLE_INTERRUPTS()                   vPortClearInterruptMask( 0 )
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#تعریف_کن پورت_ENTER_CRITICAL()                      v_پورت_Enter_Critical();
+#تعریف_کن پورت_EXIT_CRITICAL()                       v_پورت_Exit_Critical();
+#تعریف_کن پورت_DISABLE_INTERRUPTS()                  ul_پورت_مجموعه_وقفه_ماسک()
+#تعریف_کن پورت_ENABLE_INTERRUPTS()                   v_پورت_Clear_وقفه_ماسک( 0 )
+#تعریف_کن پورت_مجموعه_وقفه_ماسک_FROM_ISR()         ul_پورت_مجموعه_وقفه_ماسک()
+#تعریف_کن پورت_CLEAR_وقفه_ماسک_FROM_ISR( x )    v_پورت_Clear_وقفه_ماسک( x )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+فراغ FreeRTOS_Tick_Handler( فراغ );
 
 /* If configUSE_TASK_FPU_SUPPORT is set to 1 (or left undefined) then tasks are
  * created without an FPU context and must call vPortTaskUsesFPU() to give
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU context
  * by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
-    void vPortTaskUsesFPU( void );
-#else
+#إذا ( configUSE_TASK_FPU_SUPPORT != 2 )
+    فراغ v_پورت_Task_استفاده_میکند_FPU( فراغ );
+#وإلا
 
 /* Each task has an FPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
-    #define vPortTaskUsesFPU()
-#endif
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    #تعریف_کن v_پورت_Task_استفاده_میکند_FPU()
+#پایان_اگر
+#تعریف_کن پورت_TASK_استفاده_میکند_FLOATING_نقطه()    v_پورت_Task_استفاده_میکند_FPU()
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#تعریف_کن پورت_پایینترین_وقفه_اولویت           ( ( ( uint32_t ) config_UNIQUE_وقفه_PRIORITIES ) - 1UL )
+#تعریف_کن پورت_پایینترین_USABLE_وقفه_اولویت    ( پورت_پایینترین_وقفه_اولویت - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#اگر_تعریف_نشده config_USE_پورت_OPTIMISED_TASK_SELECTION
+    #تعریف_کن config_USE_پورت_OPTIMISED_TASK_SELECTION    1
+#پایان_اگر
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورت_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کن پورت_رکورد_READY_اولویت( ux_اولویت, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_اولویت ) )
+    #تعریف_کن پورت_RESET_READY_اولویت( ux_اولویت, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_اولویت ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
+    #تعریف_کن پورت_GET_HIGHEST_اولویت( ux_بالاترین_اولویت, uxReadyPriorities )    ux_بالاترین_اولویت = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#پایان_اگر /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif /* configASSERT */
+#إذا ( configASSERT_DEFINED == 1 )
+    فراغ v_پورت_Validate_وقفه_اولویت( فراغ );
+    #تعریف_کن پورت_ASSERT_IF_وقفه_اولویت_INVALID()    v_پورت_Validate_وقفه_اولویت()
+#پایان_اگر /* configASSERT */
 
-#define portNOP()                                         __asm volatile ( "NOP" )
-#define portINLINE    __inline
+#تعریف_کن پورت_NOP()                                         __asm متطاير ( "NOP" )
+#تعریف_کن پورت_INLINE    __inline
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
-    #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 32
-    #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 64
-    #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 128
-    #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 256
-    #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
-#endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#إذا config_UNIQUE_وقفه_PRIORITIES == 16
+    #تعریف_کن پورت_اولویت_لغزش            4
+    #تعریف_کن پورت_MAX_دودویی_نقطه_مقدار    3
+#وإلاإذا config_UNIQUE_وقفه_PRIORITIES == 32
+    #تعریف_کن پورت_اولویت_لغزش            3
+    #تعریف_کن پورت_MAX_دودویی_نقطه_مقدار    2
+#وإلاإذا config_UNIQUE_وقفه_PRIORITIES == 64
+    #تعریف_کن پورت_اولویت_لغزش            2
+    #تعریف_کن پورت_MAX_دودویی_نقطه_مقدار    1
+#وإلاإذا config_UNIQUE_وقفه_PRIORITIES == 128
+    #تعریف_کن پورت_اولویت_لغزش            1
+    #تعریف_کن پورت_MAX_دودویی_نقطه_مقدار    0
+#وإلاإذا config_UNIQUE_وقفه_PRIORITIES == 256
+    #تعریف_کن پورت_اولویت_لغزش            0
+    #تعریف_کن پورت_MAX_دودویی_نقطه_مقدار    0
+#وإلا /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+    #خطا Invalid config_UNIQUE_وقفه_PRIORITIES setting.  config_UNIQUE_وقفه_PRIORITIES must be مجموعه مقصد the عدد از unique priorities implemented by the هدف hardware
+#پایان_اگر /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
 /* Interrupt controller access addresses. */
-#define portICCPMR_PRIORITY_MASK_OFFSET                      ( 0x04 )
-#define portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET              ( 0x0C )
-#define portICCEOIR_END_OF_INTERRUPT_OFFSET                  ( 0x10 )
-#define portICCBPR_BINARY_POINT_OFFSET                       ( 0x08 )
-#define portICCRPR_RUNNING_PRIORITY_OFFSET                   ( 0x14 )
+#تعریف_کن پورت_ICCPMR_اولویت_ماسک_جابه_جایی                      ( 0x04 )
+#تعریف_کن پورت_ICCIAR_وقفه_ACKNOWLEDGE_جابه_جایی              ( 0x0C )
+#تعریف_کن پورت_ICCEOIR_انتها_از_وقفه_جابه_جایی                  ( 0x10 )
+#تعریف_کن پورت_ICCBPR_دودویی_نقطه_جابه_جایی                       ( 0x08 )
+#تعریف_کن پورت_ICCRPR_RUNNING_اولویت_جابه_جایی                   ( 0x14 )
 
-#define portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS       ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET )
-#define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
-#define portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS    ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET )
-#define portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS        ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCEOIR_END_OF_INTERRUPT_OFFSET )
-#define portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS            ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET )
-#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
-#define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
+#تعریف_کن پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس       ( config_وقفه_CONTROLLER_پایه_آدرس + config_وقفه_CONTROLLER_CPU_INTERFACE_جابه_جایی )
+#تعریف_کن پورت_ICCPMR_اولویت_ماسک_ثبات                    ( *( ( متطاير uint32_t * ) ( پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس + پورت_ICCPMR_اولویت_ماسک_جابه_جایی ) ) )
+#تعریف_کن پورت_ICCIAR_وقفه_ACKNOWLEDGE_ثبات_آدرس    ( پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس + پورت_ICCIAR_وقفه_ACKNOWLEDGE_جابه_جایی )
+#تعریف_کن پورت_ICCEOIR_انتها_از_وقفه_ثبات_آدرس        ( پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس + پورت_ICCEOIR_انتها_از_وقفه_جابه_جایی )
+#تعریف_کن پورت_ICCPMR_اولویت_ماسک_ثبات_آدرس            ( پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس + پورت_ICCPMR_اولویت_ماسک_جابه_جایی )
+#تعریف_کن پورت_ICCBPR_دودویی_نقطه_ثبات                     ( *( ( ثابت متطاير uint32_t * ) ( پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس + پورت_ICCBPR_دودویی_نقطه_جابه_جایی ) ) )
+#تعریف_کن پورت_ICCRPR_RUNNING_اولویت_ثبات                 ( *( ( ثابت متطاير uint32_t * ) ( پورت_وقفه_CONTROLLER_CPU_INTERFACE_آدرس + پورت_ICCRPR_RUNNING_اولویت_جابه_جایی ) ) )
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#تعریف_کن پورت_حافظه_BARRIER()    __asm متطاير ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

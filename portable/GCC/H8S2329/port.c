@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 
 /*-----------------------------------------------------------
@@ -39,167 +39,167 @@
 /*-----------------------------------------------------------*/
 
 /* When the task starts interrupts should be enabled. */
-#define portINITIAL_CCR                    ( ( StackType_t ) 0x00 )
+#تعریف_کن پورت_INITIAL_CCR                    ( ( پشته_Type_t ) 0x00 )
 
 /* Hardware specific constants used to generate the RTOS tick from the TPU. */
-#define portCLEAR_ON_TGRA_COMPARE_MATCH    ( ( uint8_t ) 0x20 )
-#define portCLOCK_DIV_64                   ( ( uint8_t ) 0x03 )
-#define portCLOCK_DIV                      ( ( uint32_t ) 64 )
-#define portTGRA_INTERRUPT_ENABLE          ( ( uint8_t ) 0x01 )
-#define portTIMER_CHANNEL                  ( ( uint8_t ) 0x02 )
-#define portMSTP13                         ( ( uint16_t ) 0x2000 )
+#تعریف_کن پورت_CLEAR_ON_TGRA_COMPARE_تطابق    ( ( uint8_t ) 0x20 )
+#تعریف_کن پورت_CLOCK_DIV_64                   ( ( uint8_t ) 0x03 )
+#تعریف_کن پورت_CLOCK_DIV                      ( ( uint32_t ) 64 )
+#تعریف_کن پورت_TGRA_وقفه_ENABLE          ( ( uint8_t ) 0x01 )
+#تعریف_کن پورت_TIMER_CHANNEL                  ( ( uint8_t ) 0x02 )
+#تعریف_کن پورت_MSTP13                         ( ( uint16_t ) 0x2000 )
 
 /*
  * Setup TPU channel one for the RTOS tick at the requested frequency.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ );
 
 /*
  * The ISR used by portYIELD(). This is installed as a trap handler.
  */
-void vPortYield( void ) __attribute__( ( saveall, interrupt_handler ) );
+فراغ v_پورت_Yield( فراغ ) __attribute__( ( saveall, وقفه_handler ) );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+پشته_Type_t * px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته,
+                                     TaskFunction_t px_کد,
+                                     فراغ * pvParameters )
 {
-    uint32_t ulValue;
+    uint32_t ul_مقدار;
 
     /* This requires an even address. */
-    ulValue = ( uint32_t ) pxTopOfStack;
+    ul_مقدار = ( uint32_t ) px_بالاترین_از_پشته;
 
-    if( ulValue & 1UL )
+    إذا( ul_مقدار & 1UL )
     {
-        pxTopOfStack = pxTopOfStack - 1;
+        px_بالاترین_از_پشته = px_بالاترین_از_پشته - 1;
     }
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is just useful for debugging. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0xaa;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xbb;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xcc;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xdd;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0xaa;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0xbb;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0xcc;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0xdd;
 
     /* The initial stack mimics an interrupt stack.  First there is the program
      * counter (24 bits). */
-    ulValue = ( uint32_t ) pxCode;
+    ul_مقدار = ( uint32_t ) px_کد;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
+    px_بالاترین_از_پشته--;
+    ul_مقدار >>= 8UL;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
+    px_بالاترین_از_پشته--;
+    ul_مقدار >>= 8UL;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
 
     /* Followed by the CCR. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_CCR;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = پورت_INITIAL_CCR;
 
     /* Next all the general purpose registers - with the parameters being passed
      * in ER0.  The parameter order must match that used by the compiler when the
      * "saveall" function attribute is used. */
 
     /* ER6 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x66;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x66;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x66;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x66;
 
     /* ER0 */
-    ulValue = ( uint32_t ) pvParameters;
+    ul_مقدار = ( uint32_t ) pvParameters;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
+    px_بالاترین_از_پشته--;
+    ul_مقدار >>= 8UL;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
+    px_بالاترین_از_پشته--;
+    ul_مقدار >>= 8UL;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
+    px_بالاترین_از_پشته--;
+    ul_مقدار >>= 8UL;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ( ul_مقدار & 0xff );
 
     /* ER1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x11;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x11;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x11;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x11;
 
     /* ER2 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x22;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x22;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x22;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x22;
 
     /* ER3 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x33;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x33;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x33;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x33;
 
     /* ER4 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x44;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x44;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x44;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x44;
 
     /* ER5 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x55;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x55;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x55;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = 0x55;
 
-    return pxTopOfStack;
+    أرجع px_بالاترین_از_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+پایه_Type_t x_پورت_شروع_Scheduler( فراغ )
 {
-    extern void * pxCurrentTCB;
+    خارجي فراغ * pxCurrentTCB;
 
     /* Setup the hardware to generate the tick. */
-    prvSetupTimerInterrupt();
+    prv_راهاندازی_Timer_وقفه();
 
     /* Restore the context of the first task that is going to run.  This
      * mirrors the function epilogue code generated by the compiler when the
      * "saveall" function attribute is used. */
-    asm volatile (
+    asm متطاير (
         "MOV.L      @_pxCurrentTCB, ER6         \n\t"
         "MOV.L      @ER6, ER7                   \n\t"
         "LDM.L      @SP+, (ER4-ER5)             \n\t"
@@ -208,14 +208,14 @@ BaseType_t xPortStartScheduler( void )
         "RTE                                    \n\t"
         );
 
-    ( void ) pxCurrentTCB;
+    ( فراغ ) pxCurrentTCB;
 
     /* Should not get here. */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورت_انتها_Scheduler( فراغ )
 {
     /* It is unlikely that the h8 port will get stopped. */
 }
@@ -226,11 +226,11 @@ void vPortEndScheduler( void )
  * attribute is used so the context is saved by the compiler prologue.  All
  * we have to do is save the stack pointer.
  */
-void vPortYield( void )
+فراغ v_پورت_Yield( فراغ )
 {
-    portSAVE_STACK_POINTER();
+    پورت_SAVE_پشته_اشاره_گر();
     vTaskSwitchContext();
-    portRESTORE_STACK_POINTER();
+    پورت_RESTORE_پشته_اشاره_گر();
 }
 /*-----------------------------------------------------------*/
 
@@ -238,19 +238,19 @@ void vPortYield( void )
  * The interrupt handler installed for the RTOS tick depends on whether the
  * preemptive or cooperative scheduler is being used.
  */
-#if ( configUSE_PREEMPTION == 1 )
+#إذا ( configUSE_PREEMPTION == 1 )
 
 /*
  * The preemptive scheduler is used so the ISR calls vTaskSwitchContext().
  * The function prologue saves the context so all we have to do is save
  * the stack pointer.
  */
-    void vTickISR( void ) __attribute__( ( saveall, interrupt_handler ) );
-    void vTickISR( void )
+    فراغ vTickISR( فراغ ) __attribute__( ( saveall, وقفه_handler ) );
+    فراغ vTickISR( فراغ )
     {
-        portSAVE_STACK_POINTER();
+        پورت_SAVE_پشته_اشاره_گر();
 
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -258,18 +258,18 @@ void vPortYield( void )
         /* Clear the interrupt. */
         TSR1 &= ~0x01;
 
-        portRESTORE_STACK_POINTER();
+        پورت_RESTORE_پشته_اشاره_گر();
     }
 
-#else /* if ( configUSE_PREEMPTION == 1 ) */
+#وإلا /* if ( configUSE_PREEMPTION == 1 ) */
 
 /*
  * The cooperative scheduler is being used so all we have to do is
  * periodically increment the tick.  This can just be a normal ISR and
  * the "saveall" attribute is not required.
  */
-    void vTickISR( void ) __attribute__( ( interrupt_handler ) );
-    void vTickISR( void )
+    فراغ vTickISR( فراغ ) __attribute__( ( وقفه_handler ) );
+    فراغ vTickISR( فراغ )
     {
         xTaskIncrementTick();
 
@@ -277,28 +277,28 @@ void vPortYield( void )
         TSR1 &= ~0x01;
     }
 
-#endif /* if ( configUSE_PREEMPTION == 1 ) */
+#پایان_اگر /* if ( configUSE_PREEMPTION == 1 ) */
 /*-----------------------------------------------------------*/
 
 /*
  * Setup timer 1 compare match to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_راهاندازی_Timer_وقفه( فراغ )
 {
-    const uint32_t ulCompareMatch = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / portCLOCK_DIV;
+    ثابت uint32_t ul_Compare_تطابق = ( configCPU_CLOCK_HZ / config_TICK_نرخ_HZ ) / پورت_CLOCK_DIV;
 
     /* Turn the module on. */
-    MSTPCR &= ~portMSTP13;
+    MSTPCR &= ~پورت_MSTP13;
 
     /* Configure timer 1. */
-    TCR1 = portCLEAR_ON_TGRA_COMPARE_MATCH | portCLOCK_DIV_64;
+    TCR1 = پورت_CLEAR_ON_TGRA_COMPARE_تطابق | پورت_CLOCK_DIV_64;
 
     /* Configure the compare match value for a tick of configTICK_RATE_HZ. */
-    TGR1A = ulCompareMatch;
+    TGR1A = ul_Compare_تطابق;
 
     /* Start the timer and enable the interrupt - we can do this here as
      * interrupts are globally disabled when this function is called. */
-    TIER1 |= portTGRA_INTERRUPT_ENABLE;
-    TSTR |= portTIMER_CHANNEL;
+    TIER1 |= پورت_TGRA_وقفه_ENABLE;
+    TSTR |= پورت_TIMER_CHANNEL;
 }
 /*-----------------------------------------------------------*/

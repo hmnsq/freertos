@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+    #تعریف_کن PORTMACRO_H
 
-    #ifdef __cplusplus
-        extern "C"
+    #اگر_تعریف_شده __cplusplus
+        خارجي "C"
         {
-    #endif
+    #پایان_اگر
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -46,148 +46,148 @@
 
 /* Type definitions - These are a bit legacy and not really used now, other
  * than portSTACK_TYPE and portBASE_TYPE. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #تعریف_کن پورت_CHAR          حرف
+    #تعریف_کن پورت_FLOAT         عائم
+    #تعریف_کن پورت_DOUBLE        مزدوج
+    #تعریف_کن پورت_LONG          دراز
+    #تعریف_کن پورت_SHORT         کوتاه
+    #تعریف_کن پورت_پشته_TYPE    uint32_t
+    #تعریف_کن پورت_پایه_TYPE     دراز
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+    تعريفنوع دراز             پایه_Type_t;
+    تعريفنوع بیعلامت دراز    UBaseType_t;
 
 /* Defines the maximum time when using a wait command in a task */
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    #إذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها )
+        تعريفنوع uint16_t     TickType_t;
+        #تعریف_کن پورت_MAX_DELAY              ( TickType_t ) 0xffff
+    #وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+        تعريفنوع uint32_t     TickType_t;
+        #تعریف_کن پورت_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-        #define portTICK_TYPE_IS_ATOMIC    1
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+        #تعریف_کن پورت_TICK_TYPE_IS_ATOMIC    1
+    #وإلا
+        #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+    #پایان_اگر
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics */
 
-    #define portSTSR( reg )              __stsr( ( reg ) )
-    #define portLDSR( reg, val )         __ldsr( ( reg ), ( val ) )
-    #define portSTSR_CCRH( reg, sel )    __stsr_rh( ( reg ), ( sel ) )
-    #define portSYNCM()                  __syncm()
+    #تعریف_کن پورت_STSR( reg )              __stsr( ( reg ) )
+    #تعریف_کن پورت_LDSR( reg, val )         __ldsr( ( reg ), ( val ) )
+    #تعریف_کن پورت_STSR_CCRH( reg, sel )    __stsr_rh( ( reg ), ( sel ) )
+    #تعریف_کن پورت_SYNCM()                  __syncm()
 
 /* Determine the descending of the stack from high address to address */
-    #define portSTACK_GROWTH      ( -1 )
+    #تعریف_کن پورت_پشته_GROWTH      ( -1 )
 
 /* Determine the time (in milliseconds) corresponding to each tick */
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+    #تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
 
 /* It is a multiple of 4 (the two lower-order bits of the address = 0),
  * otherwise it will cause MAE (Misaligned Exception) according to the manual */
-    #define portBYTE_ALIGNMENT    ( 4 )
+    #تعریف_کن پورت_BYTE_ALIGNMENT    ( 4 )
 
 /* Interrupt control macros. */
 
-    #define portENABLE_INTERRUPTS()     __EI() /* Macro to enable all maskable interrupts. */
-    #define portDISABLE_INTERRUPTS()    __DI() /* Macro to disable all maskable interrupts. */
-    #define taskENABLE_INTERRUPTS()     portENABLE_INTERRUPTS()
-    #define taskDISABLE_INTERRUPTS()    portDISABLE_INTERRUPTS()
+    #تعریف_کن پورت_ENABLE_INTERRUPTS()     __EI() /* Macro to enable all maskable interrupts. */
+    #تعریف_کن پورت_DISABLE_INTERRUPTS()    __DI() /* Macro to disable all maskable interrupts. */
+    #تعریف_کن taskENABLE_INTERRUPTS()     پورت_ENABLE_INTERRUPTS()
+    #تعریف_کن taskDISABLE_INTERRUPTS()    پورت_DISABLE_INTERRUPTS()
 
 /* SMP build which means configNUM_CORES is relevant */
-    #define portSUPPORT_SMP              1
+    #تعریف_کن پورت_SUPPORT_SMP              1
 
-    #define portMAX_CORE_COUNT           2
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES    1
-    #endif
+    #تعریف_کن پورت_MAX_CORE_شمار           2
+    #اگر_تعریف_نشده config_عدد_از_CORES
+        #تعریف_کن config_عدد_از_CORES    1
+    #پایان_اگر
 
 /*-----------------------------------------------------------*/
 /* Scheduler utilities */
 
 /* Called at the end of an ISR that can cause a context switch */
-    extern void vPortSetSwitch( BaseType_t xSwitchRequired );
+    خارجي فراغ v_پورت_مجموعه_Switch( پایه_Type_t xSwitchRequired );
 
-    #define portEND_SWITCHING_ISR( x )    vPortSetSwitch( x )
+    #تعریف_کن پورت_انتها_SWITCHING_ISR( x )    v_پورت_مجموعه_Switch( x )
 
-    #define portYIELD_FROM_ISR( x )       portEND_SWITCHING_ISR( x )
+    #تعریف_کن پورت_YIELD_FROM_ISR( x )       پورت_انتها_SWITCHING_ISR( x )
 
 /* Use to transfer control from one task to perform other tasks of
  * higher priority */
-    extern void vPortYield( void );
+    خارجي فراغ v_پورت_Yield( فراغ );
 
-    #define portYIELD()    vPortYield()
-    #if ( configNUMBER_OF_CORES > 1 )
+    #تعریف_کن پورت_YIELD()    v_پورت_Yield()
+    #إذا ( config_عدد_از_CORES > 1 )
 
 /* Return the core ID on which the code is running. */
-        extern BaseType_t xPortGET_CORE_ID();
+        خارجي پایه_Type_t x_پورت_GET_CORE_ID();
 
-        #define portGET_CORE_ID()    xPortGET_CORE_ID()
-        #define coreid    xPortGET_CORE_ID()
+        #تعریف_کن پورت_GET_CORE_ID()    x_پورت_GET_CORE_ID()
+        #تعریف_کن coreid    x_پورت_GET_CORE_ID()
 
 /* Request the core ID x to yield. */
-        extern void vPortYieldCore( uint32_t coreID );
+        خارجي فراغ v_پورت_Yield_Core( uint32_t coreID );
 
-        #define portYIELD_CORE( x )                vPortYieldCore( x )
+        #تعریف_کن پورت_YIELD_CORE( x )                v_پورت_Yield_Core( x )
 
-        #define portENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
-        #define portEXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
+        #تعریف_کن پورت_ENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
+        #تعریف_کن پورت_EXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
 
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #پایان_اگر /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( configNUMBER_OF_CORES == 1 )
-        #define portGET_ISR_LOCK( xCoreID )
-        #define portRELEASE_ISR_LOCK( xCoreID )
-        #define portGET_TASK_LOCK( xCoreID )
-        #define portRELEASE_TASK_LOCK( xCoreID )
-    #else
-        extern void vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr );
-        extern void vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr );
+    #إذا ( config_عدد_از_CORES == 1 )
+        #تعریف_کن پورت_GET_ISR_قفل( xCoreID )
+        #تعریف_کن پورت_RELEASE_ISR_قفل( xCoreID )
+        #تعریف_کن پورت_GET_TASK_قفل( xCoreID )
+        #تعریف_کن پورت_RELEASE_TASK_قفل( xCoreID )
+    #وإلا
+        خارجي فراغ v_پورت_Recursive_قفل_Acquire( پایه_Type_t xCoreID, پایه_Type_t xFromIsr );
+        خارجي فراغ v_پورت_Recursive_قفل_Release( پایه_Type_t xCoreID, پایه_Type_t xFromIsr );
 
-        #define portGET_ISR_LOCK( xCoreID )         vPortRecursiveLockAcquire( ( xCoreID ), pdTRUE )
-        #define portRELEASE_ISR_LOCK( xCoreID )     vPortRecursiveLockRelease( ( xCoreID ), pdTRUE )
-        #define portGET_TASK_LOCK( xCoreID )        vPortRecursiveLockAcquire( ( xCoreID ), pdFALSE )
-        #define portRELEASE_TASK_LOCK( xCoreID )    vPortRecursiveLockRelease( ( xCoreID ), pdFALSE )
-    #endif /* if ( configNUMBER_OF_CORES == 1 ) */
+        #تعریف_کن پورت_GET_ISR_قفل( xCoreID )         v_پورت_Recursive_قفل_Acquire( ( xCoreID ), pdTRUE )
+        #تعریف_کن پورت_RELEASE_ISR_قفل( xCoreID )     v_پورت_Recursive_قفل_Release( ( xCoreID ), pdTRUE )
+        #تعریف_کن پورت_GET_TASK_قفل( xCoreID )        v_پورت_Recursive_قفل_Acquire( ( xCoreID ), pdFALSE )
+        #تعریف_کن پورت_RELEASE_TASK_قفل( xCoreID )    v_پورت_Recursive_قفل_Release( ( xCoreID ), pdFALSE )
+    #پایان_اگر /* if ( configNUMBER_OF_CORES == 1 ) */
 
 /*-----------------------------------------------------------*/
 /* Critical section management. */
 
 /* The critical nesting functions defined within tasks.c */
 
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
+    خارجي فراغ vTaskEnterCritical( فراغ );
+    خارجي فراغ vTaskExitCritical( فراغ );
 
 /* Macro to mark the start of a critical code region */
-    #define portENTER_CRITICAL()    vTaskEnterCritical()
+    #تعریف_کن پورت_ENTER_CRITICAL()    vTaskEnterCritical()
 
 /* Macro to mark the end of a critical code region */
-    #define portEXIT_CRITICAL()     vTaskExitCritical()
+    #تعریف_کن پورت_EXIT_CRITICAL()     vTaskExitCritical()
 
 /*-----------------------------------------------------------*/
 /* Macros to set and clear the interrupt mask. */
-    portLONG xPortSetInterruptMask();
-    void vPortClearInterruptMask( portLONG );
+    پورت_LONG x_پورت_مجموعه_وقفه_ماسک();
+    فراغ v_پورت_Clear_وقفه_ماسک( پورت_LONG );
 
-    #define portSET_INTERRUPT_MASK()                  xPortSetInterruptMask()
-    #define portCLEAR_INTERRUPT_MASK( x )             vPortClearInterruptMask( ( x ) )
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         xPortSetInterruptMask()
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( ( x ) )
+    #تعریف_کن پورت_مجموعه_وقفه_ماسک()                  x_پورت_مجموعه_وقفه_ماسک()
+    #تعریف_کن پورت_CLEAR_وقفه_ماسک( x )             v_پورت_Clear_وقفه_ماسک( ( x ) )
+    #تعریف_کن پورت_مجموعه_وقفه_ماسک_FROM_ISR()         x_پورت_مجموعه_وقفه_ماسک()
+    #تعریف_کن پورت_CLEAR_وقفه_ماسک_FROM_ISR( x )    v_پورت_Clear_وقفه_ماسک( ( x ) )
 
 /*-----------------------------------------------------------*/
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
-    #ifdef __cplusplus
+    #اگر_تعریف_شده __cplusplus
 }
-    #endif
-#endif /* PORTMACRO_H */
+    #پایان_اگر
+#پایان_اگر /* PORTMACRO_H */

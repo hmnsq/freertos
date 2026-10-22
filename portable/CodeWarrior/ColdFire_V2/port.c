@@ -27,27 +27,27 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#تعریف_کن پورت_INITIAL_FORMAT_وکتور       ( ( پشته_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#تعریف_کن پورت_INITIAL_وضعیت_ثبات     ( ( پشته_Type_t ) 0x2000)
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ساكن uint32_t ulCriticalNesting = 0x9999UL;
 
 
-#define portSAVE_CONTEXT()              \
+#تعریف_کن پورت_SAVE_CONTEXT()              \
     lea.l       (-60, %sp), %sp;        \
     movem.l     %d0-%fp, (%sp);         \
     move.l      pxCurrentTCB, %a0;      \
     move.l      %sp, (%a0);
 
-#define portRESTORE_CONTEXT()           \
+#تعریف_کن پورت_RESTORE_CONTEXT()           \
     move.l      pxCurrentTCB, %a0;      \
     move.l      (%a0), %sp;             \
     movem.l     (%sp), %d0-%fp;         \
@@ -58,90 +58,90 @@ static uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+پشته_Type_t *px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته, TaskFunction_t px_کد, فراغ *pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pvParameters;
+    px_بالاترین_از_پشته--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = (پشته_Type_t) 0xDEADBEEF;
+    px_بالاترین_از_پشته--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) px_کد;
+    px_بالاترین_از_پشته--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پورت_INITIAL_FORMAT_وکتور << 16UL ) | ( پورت_INITIAL_وضعیت_ثبات );
+    px_بالاترین_از_پشته--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x0; /*FP*/
+    px_بالاترین_از_پشته -= 14; /* A5 to D0. */
 
-    return pxTopOfStack;
+    أرجع px_بالاترین_از_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+پایه_Type_t x_پورت_شروع_Scheduler( فراغ )
 {
-extern void vPortStartFirstTask( void );
+خارجي فراغ v_پورت_شروع_اولی_Task( فراغ );
 
     ulCriticalNesting = 0UL;
 
     /* Configure the interrupts used by this port. */
-    vApplicationSetupInterrupts();
+    v_Application_راهاندازی_Interrupts();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_پورت_شروع_اولی_Task();
 
-    return pdFALSE;
+    أرجع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورت_انتها_Scheduler( فراغ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ v_پورت_Enter_Critical( فراغ )
 {
-    if( ulCriticalNesting == 0UL )
+    إذا( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        افعل
         {
-            portDISABLE_INTERRUPTS();
-            if( MCF_INTC0_INTFRCH == 0UL )
+            پورت_DISABLE_INTERRUPTS();
+            إذا( MCF_INTC0_INTFRCH == 0UL )
             {
-                break;
+                اكسر;
             }
 
-            portENABLE_INTERRUPTS();
+            پورت_ENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } طالما( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ v_پورت_Exit_Critical( فراغ )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    إذا( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        پورت_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+فراغ v_پورت_Yield_Handler( فراغ )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_وقفه_ماسک;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_وقفه_ماسک = پورت_مجموعه_وقفه_ماسک_FROM_ISR();
         /* Note this will clear all forced interrupts - this is done for speed. */
         MCF_INTC0_INTFRCL = 0;
         vTaskSwitchContext();
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    پورت_CLEAR_وقفه_ماسک_FROM_ISR( ul_Saved_وقفه_ماسک );
 }
 /*-----------------------------------------------------------*/

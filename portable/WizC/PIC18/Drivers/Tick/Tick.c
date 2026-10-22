@@ -37,12 +37,12 @@ Changes from V3.0.0
 Changes from V3.0.1
 */
 
-#include <FreeRTOS.h>
-#include <task.h>
+#ضمن <FreeRTOS.h>
+#ضمن <task.h>
 
 /* IO port constants. */
-#define portBIT_SET     (1)
-#define portBIT_CLEAR   (0)
+#تعریف_کن پورت_بیت_مجموعه     (1)
+#تعریف_کن پورت_بیت_CLEAR   (0)
 
 /*
  * Hardware setup for the tick.
@@ -50,34 +50,34 @@ Changes from V3.0.1
  * and requested tickrate, a prescaled value with a matching
  * prescaler are determined.
  */
-#define portTIMER_COMPARE_BASE          ((APROCFREQ/4)/configTICK_RATE_HZ)
+#تعریف_کن پورت_TIMER_COMPARE_پایه          ((APROCFREQ/4)/config_TICK_نرخ_HZ)
 
-#if portTIMER_COMPARE_BASE   < 0x10000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE)
-    #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
-    #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x20000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 2)
-    #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
-    #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#elif portTIMER_COMPARE_BASE < 0x40000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 4)
-    #define portTIMER_COMPARE_PS1       (portBIT_SET)
-    #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x80000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 8)
-    #define portTIMER_COMPARE_PS1       (portBIT_SET)
-    #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#else
-    #error "TickRate out of range"
-#endif
+#إذا پورت_TIMER_COMPARE_پایه   < 0x10000
+    #تعریف_کن پورت_TIMER_COMPARE_مقدار     (پورت_TIMER_COMPARE_پایه)
+    #تعریف_کن پورت_TIMER_COMPARE_PS1       (پورت_بیت_CLEAR)
+    #تعریف_کن پورت_TIMER_COMPARE_PS0       (پورت_بیت_CLEAR)
+#وإلاإذا پورت_TIMER_COMPARE_پایه < 0x20000
+    #تعریف_کن پورت_TIMER_COMPARE_مقدار     (پورت_TIMER_COMPARE_پایه / 2)
+    #تعریف_کن پورت_TIMER_COMPARE_PS1       (پورت_بیت_CLEAR)
+    #تعریف_کن پورت_TIMER_COMPARE_PS0       (پورت_بیت_مجموعه)
+#وإلاإذا پورت_TIMER_COMPARE_پایه < 0x40000
+    #تعریف_کن پورت_TIMER_COMPARE_مقدار     (پورت_TIMER_COMPARE_پایه / 4)
+    #تعریف_کن پورت_TIMER_COMPARE_PS1       (پورت_بیت_مجموعه)
+    #تعریف_کن پورت_TIMER_COMPARE_PS0       (پورت_بیت_CLEAR)
+#وإلاإذا پورت_TIMER_COMPARE_پایه < 0x80000
+    #تعریف_کن پورت_TIMER_COMPARE_مقدار     (پورت_TIMER_COMPARE_پایه / 8)
+    #تعریف_کن پورت_TIMER_COMPARE_PS1       (پورت_بیت_مجموعه)
+    #تعریف_کن پورت_TIMER_COMPARE_PS0       (پورت_بیت_مجموعه)
+#وإلا
+    #خطا "TickRate out of range"
+#پایان_اگر
 
 /*-----------------------------------------------------------*/
 
 /*
  * Setup a timer for a regular tick.
  */
-void portSetupTick( void )
+فراغ پورت_راهاندازی_Tick( فراغ )
 {
     /*
      * Interrupts are disabled when this function is called.
@@ -91,28 +91,28 @@ void portSetupTick( void )
     /*
      * Set the compare match value.
      */
-    CCPR1H = ( uint8_t ) ( ( portTIMER_COMPARE_VALUE >> 8 ) & 0xff );
-    CCPR1L = ( uint8_t )   ( portTIMER_COMPARE_VALUE & 0xff );
+    CCPR1H = ( uint8_t ) ( ( پورت_TIMER_COMPARE_مقدار >> 8 ) & 0xff );
+    CCPR1L = ( uint8_t )   ( پورت_TIMER_COMPARE_مقدار & 0xff );
 
     /*
      * Set Compare Special Event Trigger Mode
      */
-    bCCP1M3     = portBIT_SET;
-    bCCP1M2     = portBIT_CLEAR;
-    bCCP1M1     = portBIT_SET;
-    bCCP1M0     = portBIT_SET;
+    bCCP1M3     = پورت_بیت_مجموعه;
+    bCCP1M2     = پورت_بیت_CLEAR;
+    bCCP1M1     = پورت_بیت_مجموعه;
+    bCCP1M0     = پورت_بیت_مجموعه;
 
     /*
      * Enable CCP1 interrupt
      */
-    bCCP1IE     = portBIT_SET;
+    bCCP1IE     = پورت_بیت_مجموعه;
 
     /*
      * We are only going to use the global interrupt bit, so disable
      * interruptpriorities and enable peripheral interrupts.
      */
-    bIPEN       = portBIT_CLEAR;
-    bPEIE       = portBIT_SET;
+    bIPEN       = پورت_بیت_CLEAR;
+    bPEIE       = پورت_بیت_مجموعه;
 
     /*
      * Set up timer1
@@ -128,12 +128,12 @@ void portSetupTick( void )
     /*
      * Setup the timer
      */
-    bRD16       = portBIT_SET;              // 16-bit
-    bT1CKPS1    = portTIMER_COMPARE_PS1;    // prescaler
-    bT1CKPS0    = portTIMER_COMPARE_PS0;    // prescaler
-    bT1OSCEN    = portBIT_SET;              // Oscillator enable
-    bT1SYNC     = portBIT_SET;              // No external clock sync
-    bTMR1CS     = portBIT_CLEAR;            // Internal clock
+    bRD16       = پورت_بیت_مجموعه;              // 16-bit
+    bT1CKPS1    = پورت_TIMER_COMPARE_PS1;    // prescaler
+    bT1CKPS0    = پورت_TIMER_COMPARE_PS0;    // prescaler
+    bT1OSCEN    = پورت_بیت_مجموعه;              // Oscillator enable
+    bT1SYNC     = پورت_بیت_مجموعه;              // No external clock sync
+    bTMR1CS     = پورت_بیت_CLEAR;            // Internal clock
 
-    bTMR1ON     = portBIT_SET;              // Start timer1
+    bTMR1ON     = پورت_بیت_مجموعه;              // Start timer1
 }

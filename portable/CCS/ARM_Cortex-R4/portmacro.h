@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef __PORTMACRO_H__
-#define __PORTMACRO_H__
+#اگر_تعریف_نشده __PORTMACRO_H__
+#تعریف_کن __PORTMACRO_H__
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,80 +40,80 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#تعریف_کن پورت_CHAR        حرف
+#تعریف_کن پورت_FLOAT       عائم
+#تعریف_کن پورت_DOUBLE      مزدوج
+#تعریف_کن پورت_LONG        دراز
+#تعریف_کن پورت_SHORT       کوتاه
+#تعریف_کن پورت_پشته_TYPE  uint32_t
+#تعریف_کن پورت_پایه_TYPE   دراز
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+تعريفنوع پورت_پشته_TYPE پشته_Type_t;
+تعريفنوع دراز پایه_Type_t;
+تعريفنوع بیعلامت دراز UBaseType_t;
 
-#if (configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS)
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY (TickType_t) 0xFFFF
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY (TickType_t) 0xFFFFFFFFF
+#إذا (config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها)
+    تعريفنوع uint16_t TickType_t;
+    #تعریف_کن پورت_MAX_DELAY (TickType_t) 0xFFFF
+#وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+    تعريفنوع uint32_t TickType_t;
+    #تعریف_کن پورت_MAX_DELAY (TickType_t) 0xFFFFFFFFF
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC 1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کن پورت_TICK_TYPE_IS_ATOMIC 1
+#وإلا
+    #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+#پایان_اگر
 
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH    (-1)
-#define portTICK_PERIOD_MS    ((TickType_t) 1000 / configTICK_RATE_HZ)
-#define portBYTE_ALIGNMENT  8
+#تعریف_کن پورت_پشته_GROWTH    (-1)
+#تعریف_کن پورت_TICK_PERIOD_MS    ((TickType_t) 1000 / config_TICK_نرخ_HZ)
+#تعریف_کن پورت_BYTE_ALIGNMENT  8
 
 /* Critical section handling. */
-extern void vPortEnterCritical(void);
-extern void vPortExitCritical(void);
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    asm( " CPSID I" )
-#define portENABLE_INTERRUPTS()     asm( " CPSIE I" )
+خارجي فراغ v_پورت_Enter_Critical(فراغ);
+خارجي فراغ v_پورت_Exit_Critical(فراغ);
+#تعریف_کن پورت_ENTER_CRITICAL()        v_پورت_Enter_Critical()
+#تعریف_کن پورت_EXIT_CRITICAL()         v_پورت_Exit_Critical()
+#تعریف_کن پورت_DISABLE_INTERRUPTS()    asm( " CPSID I" )
+#تعریف_کن پورت_ENABLE_INTERRUPTS()     asm( " CPSIE I" )
 
 /* Scheduler utilities. */
-#pragma SWI_ALIAS( vPortYield, 0 )
-extern void vPortYield( void );
-#define portYIELD()                 vPortYield()
-#define portSYS_SSIR1_REG           ( * ( ( volatile uint32_t * ) 0xFFFFFFB0 ) )
-#define portSYS_SSIR1_SSKEY         ( 0x7500UL )
-#define portYIELD_WITHIN_API()      { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  asm( " DSB " ); asm( " ISB " ); }
-#define portYIELD_FROM_ISR( x )     do { if( x != pdFALSE ) { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  ( void ) portSYS_SSIR1_REG; } } while( 0 )
+#رهنمود SWI_ALIAS( v_پورت_Yield, 0 )
+خارجي فراغ v_پورت_Yield( فراغ );
+#تعریف_کن پورت_YIELD()                 v_پورت_Yield()
+#تعریف_کن پورت_SYS_SSIR1_REG           ( * ( ( متطاير uint32_t * ) 0xFFFFFFB0 ) )
+#تعریف_کن پورت_SYS_SSIR1_SSKEY         ( 0x7500UL )
+#تعریف_کن پورت_YIELD_WITHIN_API()      { پورت_SYS_SSIR1_REG = پورت_SYS_SSIR1_SSKEY;  asm( " DSB " ); asm( " ISB " ); }
+#تعریف_کن پورت_YIELD_FROM_ISR( x )     افعل { إذا( x != pdFALSE ) { پورت_SYS_SSIR1_REG = پورت_SYS_SSIR1_SSKEY;  ( فراغ ) پورت_SYS_SSIR1_REG; } } طالما( 0 )
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
-#endif
+#اگر_تعریف_نشده config_USE_پورت_OPTIMISED_TASK_SELECTION
+    #تعریف_کن config_USE_پورت_OPTIMISED_TASK_SELECTION 1
+#پایان_اگر
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورت_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #إذا( configMAX_PRIORITIES > 32 )
+        #خطا config_USE_پورت_OPTIMISED_TASK_SELECTION can only be مجموعه مقصد 1 when configMAX_PRIORITIES is less than or equal مقصد 32.  It is very rare that a system requires بیشتر than 10 مقصد 15 difference priorities as tasks that share a اولویت will time برش.
+    #پایان_اگر
 
     /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کن پورت_رکورد_READY_اولویت( ux_اولویت, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( ux_اولویت ) )
+    #تعریف_کن پورت_RESET_READY_اولویت( ux_اولویت, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( ux_اولویت ) )
 
     /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31 - __clz( ( uxReadyPriorities ) ) )
+    #تعریف_کن پورت_GET_HIGHEST_اولویت( ux_بالاترین_اولویت, uxReadyPriorities ) ux_بالاترین_اولویت = ( 31 - __clz( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#پایان_اگر /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION(vFunction, pvParameters)       void vFunction(void *pvParameters)
-#define portTASK_FUNCTION_PROTO(vFunction, pvParameters) void vFunction(void *pvParameters)
+#تعریف_کن پورت_TASK_FUNCTION(vFunction, pvParameters)       فراغ vFunction(فراغ *pvParameters)
+#تعریف_کن پورت_TASK_FUNCTION_PROTO(vFunction, pvParameters) فراغ vFunction(فراغ *pvParameters)
 
-#endif /* __PORTMACRO_H__ */
+#پایان_اگر /* __PORTMACRO_H__ */

@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -48,9 +48,9 @@
 
 /* When the FIT configurator or the Smart Configurator is used, platform.h has to be
  * used. */
-#ifndef configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H
-    #define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H    0
-#endif
+#اگر_تعریف_نشده config_INCLUDE_PLATFORM_H_INSTEAD_از_IODEFINE_H
+    #تعریف_کن config_INCLUDE_PLATFORM_H_INSTEAD_از_IODEFINE_H    0
+#پایان_اگر
 
 /* If configUSE_TASK_DPFPU_SUPPORT is set to 1 (or undefined) then each task will
  * be created without a DPFPU context, and a task must call vTaskUsesDPFPU() before
@@ -58,54 +58,54 @@
  * tasks are created with a DPFPU context by default, and calling vTaskUsesDPFPU() has
  * no effect.  If configUSE_TASK_DPFPU_SUPPORT is set to 0 then tasks never take care
  * of any DPFPU context (even if DPFPU registers are used). */
-#ifndef configUSE_TASK_DPFPU_SUPPORT
-    #define configUSE_TASK_DPFPU_SUPPORT    1
-#endif
+#اگر_تعریف_نشده configUSE_TASK_DPFPU_SUPPORT
+    #تعریف_کن configUSE_TASK_DPFPU_SUPPORT    1
+#پایان_اگر
 
 /*-----------------------------------------------------------*/
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کن پورت_CHAR          حرف
+#تعریف_کن پورت_FLOAT         عائم
+#تعریف_کن پورت_DOUBLE        مزدوج
+#تعریف_کن پورت_LONG          دراز
+#تعریف_کن پورت_SHORT         کوتاه
+#تعریف_کن پورت_پشته_TYPE    uint32_t
+#تعریف_کن پورت_پایه_TYPE     دراز
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+تعريفنوع دراز             پایه_Type_t;
+تعريفنوع بیعلامت دراز    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#إذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کن پورت_MAX_DELAY              ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کن پورت_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کن پورت_TICK_TYPE_IS_ATOMIC    1
+#وإلا
+    #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+#پایان_اگر
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    __asm volatile ( "NOP" )
+#تعریف_کن پورت_BYTE_ALIGNMENT    8         /* Could make four, according to manual. */
+#تعریف_کن پورت_پشته_GROWTH      -1
+#تعریف_کن پورت_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_NOP()    __asm متطاير ( "NOP" )
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
-#define portYIELD()                     \
-    __asm volatile                      \
+#تعریف_کن پورت_YIELD()                     \
+    __asm متطاير                      \
     (                                   \
         "PUSH.L R10                 \n" \
         "MOV.L  #0x872E0, R10       \n" \
@@ -115,17 +115,17 @@ typedef unsigned long    UBaseType_t;
         ::: "cc"                        \
     )
 
-#define portYIELD_FROM_ISR( x )    do { if( ( x ) != pdFALSE ) portYIELD( ); } while( 0 )
+#تعریف_کن پورت_YIELD_FROM_ISR( x )    افعل { إذا( ( x ) != pdFALSE ) پورت_YIELD( ); } طالما( 0 )
 
 /* Workaround to reduce errors/warnings caused by e2 studio CDT's INDEXER and CODAN. */
-#ifdef __CDT_PARSER__
-    #ifndef __asm
-        #define __asm    asm
-    #endif
-    #ifndef __attribute__
-        #define __attribute__( ... )
-    #endif
-#endif
+#اگر_تعریف_شده __CDT_PARSER__
+    #اگر_تعریف_نشده __asm
+        #تعریف_کن __asm    asm
+    #پایان_اگر
+    #اگر_تعریف_نشده __attribute__
+        #تعریف_کن __attribute__( ... )
+    #پایان_اگر
+#پایان_اگر
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -136,34 +136,34 @@ typedef unsigned long    UBaseType_t;
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-#define portENABLE_INTERRUPTS()                           __asm volatile ( "MVTIPL  #0" )
-#if ( configASSERT_DEFINED == 1 )
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( ulPortGetIPL() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm volatile( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#else
-    #define portDISABLE_INTERRUPTS()                      __asm volatile ( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#endif
+#تعریف_کن پورت_ENABLE_INTERRUPTS()                           __asm متطاير ( "MVTIPL  #0" )
+#إذا ( configASSERT_DEFINED == 1 )
+    #تعریف_کن پورت_ASSERT_IF_وقفه_اولویت_INVALID()    configASSERT( ( ul_پورت_Get_IPL() <= config_MAX_SYSCALL_وقفه_اولویت ) )
+    #تعریف_کن پورت_DISABLE_INTERRUPTS()                      إذا( ul_پورت_Get_IPL() < config_MAX_SYSCALL_وقفه_اولویت ) __asm متطاير( "MVTIPL  %0" ::"i" ( config_MAX_SYSCALL_وقفه_اولویت ) )
+#وإلا
+    #تعریف_کن پورت_DISABLE_INTERRUPTS()                      __asm متطاير ( "MVTIPL  %0" ::"i" ( config_MAX_SYSCALL_وقفه_اولویت ) )
+#پایان_اگر
 
 /* Critical nesting counts are stored in the TCB. */
-#define portCRITICAL_NESTING_IN_TCB    ( 1 )
+#تعریف_کن پورت_CRITICAL_NESTING_درون_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()    vTaskEnterCritical()
-#define portEXIT_CRITICAL()     vTaskExitCritical()
+خارجي فراغ vTaskEnterCritical( فراغ );
+خارجي فراغ vTaskExitCritical( فراغ );
+#تعریف_کن پورت_ENTER_CRITICAL()    vTaskEnterCritical()
+#تعریف_کن پورت_EXIT_CRITICAL()     vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-uint32_t ulPortGetIPL( void ) __attribute__( ( naked ) );
-void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
-#define portSET_INTERRUPT_MASK_FROM_ISR()                              ulPortGetIPL(); portDISABLE_INTERRUPTS()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    vPortSetIPL( uxSavedInterruptStatus )
+uint32_t ul_پورت_Get_IPL( فراغ ) __attribute__( ( naked ) );
+فراغ v_پورت_مجموعه_IPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
+#تعریف_کن پورت_مجموعه_وقفه_ماسک_FROM_ISR()                              ul_پورت_Get_IPL(); پورت_DISABLE_INTERRUPTS()
+#تعریف_کن پورت_CLEAR_وقفه_ماسک_FROM_ISR( ux_Saved_وقفه_وضعیت )    v_پورت_مجموعه_IPL( ux_Saved_وقفه_وضعیت )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
@@ -172,25 +172,25 @@ void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
-    void vPortTaskUsesDPFPU( void );
-#else
+#إذا ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    فراغ v_پورت_Task_استفاده_میکند_DPFPU( فراغ );
+#وإلا
 
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
-    #define vPortTaskUsesDPFPU()
-#endif
-#define portTASK_USES_DPFPU()             vPortTaskUsesDPFPU()
+    #تعریف_کن v_پورت_Task_استفاده_میکند_DPFPU()
+#پایان_اگر
+#تعریف_کن پورت_TASK_استفاده_میکند_DPFPU()             v_پورت_Task_استفاده_میکند_DPFPU()
 
 /* Definition to allow compatibility with existing FreeRTOS Demo using flop.c. */
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesDPFPU()
+#تعریف_کن پورت_TASK_استفاده_میکند_FLOATING_نقطه()    v_پورت_Task_استفاده_میکند_DPFPU()
 
-#define portMEMORY_BARRIER()              __asm volatile ( "" ::: "memory" )
+#تعریف_کن پورت_حافظه_BARRIER()              __asm متطاير ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

@@ -33,15 +33,15 @@ EXTERN ulCriticalNesting
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+پورت_SAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+افزودن_3 R0 as we are going مقصد use the سجل.
    STMDB SP !, {
     R0
 }
 
-Set R0 to point to the task stack pointer.
+مجموعه_2 R0 مقصد نقطه_2 مقصد the task پشته اشاره_گر_2.
    STMDB SP, {
     SP
 }
@@ -53,22 +53,22 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+افزودن_3 the أرجع آدرس_2 onto the پشته.
           STMDB R0 !, {
            LR
        }
 
-       Now we have saved LR we can use it instead of R0.
+       Now we have saved LR we can use it instead از R0.
           MOV LR, R0
 
 ;
 
-Pop R0 so we can save it onto the system mode stack.
+برداشت_3 R0 so we can save it onto the system نما_2 پشته.
    LDMIA SP !, {
     R0
 }
 
-Push all the system mode registers onto the task stack.
+افزودن_3 all the system نما_2 registers onto the task پشته.
    STMDB LR, {
     R0 - LR
 }
@@ -77,7 +77,7 @@ NOP
 SUB LR, LR, # 60
 
 ;
-Push the SPSR onto the task stack.
+افزودن_3 the SPSR onto the task پشته.
    MRS R0, SPSR
 STMDB LR !, {
     R0
@@ -89,9 +89,9 @@ STMDB LR !, {
     R0
 }
 
-Store the new top of stack
+Store the new بالاترین_2 از پشته
 
-for the task.
+لكل the task.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 STR LR, [ R0 ]
@@ -99,18 +99,18 @@ STR LR, [ R0 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+پورت_RESTORE_CONTEXT MACRO
 
 ;
-Set the LR to the task stack.
+مجموعه_2 the LR مقصد the task پشته.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 LDR LR, [ R0 ]
 
 ;
-The critical nesting depth is the first item on the stack.
+The critical nesting عمق is the اولی_2 قلم on the پشته.
    ;
-Load it into the ulCriticalNesting variable.
+بارگیری it into the ulCriticalNesting variable.
    LDR R0, = ulCriticalNesting
              LDMFD LR !, {
     R1
@@ -119,16 +119,16 @@ Load it into the ulCriticalNesting variable.
 STR R1, [ R0 ]
 
 ;
-Get the SPSR from the stack.
+Get the SPSR from the پشته.
    LDMFD LR !, {
     R0
 }
 MSR SPSR_cxsf, R0
 
 ;
-Restore all system mode registers
+Restore all system نما_2 registers
 
-for the task.
+لكل the task.
    LDMFD LR, {
     R0 - R14
 }
@@ -137,15 +137,15 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the أرجع آدرس_2.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And أرجع -correcting the offset درون the LR مقصد obtain the
 ;
 
-correct address.
+correct آدرس_2.
    SUBS PC, LR, # 4
 
 ENDM

@@ -36,8 +36,8 @@
     .global SVC_Handler
     .global vPortStartFirstTask
     .global vPortEnableVFP
-    .global ulPortSetInterruptMask
-    .global vPortClearInterruptMask
+    .global ul_پورت_مجموعه_وقفه_ماسک
+    .global v_پورت_Clear_وقفه_ماسک
 
 ;-----------------------------------------------------------
 
@@ -211,13 +211,13 @@ vPortEnableVFP .type func
     .section .text
     .thumb
     .align 4
-ulPortSetInterruptMask:
+ul_پورت_مجموعه_وقفه_ماسک:
     mrs r0, basepri
     ldr.w r1, =ulMaxSyscallInterruptPriorityConst
     ldr r1, [r1]
     msr basepri, r1
     bx r14
-    .size   ulPortSetInterruptMask, $-ulPortSetInterruptMask
+    .size   ul_پورت_مجموعه_وقفه_ماسک, $-ul_پورت_مجموعه_وقفه_ماسک
     .endsec
 
 ;-----------------------------------------------------------
@@ -225,10 +225,10 @@ ulPortSetInterruptMask:
     .section .text
     .thumb
     .align 4
-vPortClearInterruptMask:
+v_پورت_Clear_وقفه_ماسک:
     msr basepri, r0
     bx r14
-    .size   vPortClearInterruptMask, $-vPortClearInterruptMask
+    .size   v_پورت_Clear_وقفه_ماسک, $-v_پورت_Clear_وقفه_ماسک
     .endsec
 
 ;-----------------------------------------------------------

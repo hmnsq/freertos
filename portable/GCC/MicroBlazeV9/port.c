@@ -32,59 +32,59 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Standard includes. */
-#include <string.h>
+#ضمن <string.h>
 
 /* Hardware includes. */
-#include <xintc_i.h>
-#include <xil_exception.h>
-#include <microblaze_exceptions_g.h>
-#include <microblaze_instructions.h>
+#ضمن <xintc_i.h>
+#ضمن <xil_exception.h>
+#ضمن <microblaze_exceptions_g.h>
+#ضمن <microblaze_instructions.h>
 
 /* Tasks are started with a critical section nesting of 0 - however, prior to
  * the scheduler being commenced interrupts should not be enabled, so the critical
  * nesting variable is initialised to a non-zero value. */
-#define portINITIAL_NESTING_VALUE    ( 0xff )
+#تعریف_کن پورت_INITIAL_NESTING_مقدار    ( 0xff )
 
 /* The bit within the MSR register that enabled/disables interrupts and
  * exceptions respectively. */
-#define portMSR_IE                   ( 0x02U )
-#define portMSR_EE                   ( 0x100U )
+#تعریف_کن پورت_MSR_IE                   ( 0x02U )
+#تعریف_کن پورت_MSR_EE                   ( 0x100U )
 
 /* If the floating point unit is included in the MicroBlaze build, then the
  * FSR register is saved as part of the task context.  portINITIAL_FSR is the value
  * given to the FSR register when the initial context is set up for a task being
  * created. */
-#define portINITIAL_FSR              ( 0U )
+#تعریف_کن پورت_INITIAL_FSR              ( 0U )
 /*
  * Global counter used for calculation of run time statistics of tasks.
  * Defined only when the relevant option is turned on
  */
-#if (configGENERATE_RUN_TIME_STATS==1)
-    volatile uint32_t ulHighFrequencyTimerTicks;
-#endif
+#إذا (config_GENERATE_پیاپی_زمان_STATS==1)
+    متطاير uint32_t ul_بالا_Frequency_Timer_Ticks;
+#پایان_اگر
 
 /*-----------------------------------------------------------*/
 
 /*
  * Initialise the interrupt controller instance.
  */
-static int32_t prvInitialiseInterruptController( void );
+ساكن int32_t prv_Initialise_وقفه_Controller( فراغ );
 
 /* Ensure the interrupt controller instance variable is initialised before it is
  * used, and that the initialisation only happens once.
  */
-static int32_t prvEnsureInterruptControllerIsInitialised( void );
+ساكن int32_t prv_Ensure_وقفه_Controller_Is_Initialised( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+متطاير UBaseType_t uxCriticalNesting = پورت_INITIAL_NESTING_مقدار;
 
 /* This port uses a separate stack for interrupts.  This prevents the stack of
  * every task needing to be large enough to hold an entire interrupt stack on top
@@ -99,11 +99,11 @@ uint32_t * pulISRStack;
  * an unusual mechanism, but is used for this port because a single interrupt can
  * cause the servicing of multiple peripherals - and it is inefficient to call
  * vTaskSwitchContext() multiple times as each peripheral is serviced. */
-volatile uint32_t ulTaskSwitchRequested = 0UL;
+متطاير uint32_t ulTaskSwitchRequested = 0UL;
 
 /* The instance of the interrupt controller used by this port.  This is required
  * by the Xilinx library API functions. */
-static XIntc xInterruptControllerInstance;
+ساكن XIntc x_وقفه_Controller_Instance;
 
 /*-----------------------------------------------------------*/
 
@@ -113,159 +113,159 @@ static XIntc xInterruptControllerInstance;
  *
  * See the portable.h header file.
  */
-#if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         StackType_t * pxEndOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters )
-#else
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters )
-#endif
+#إذا ( پورت_HAS_پشته_سرریز_CHECKING == 1 )
+    پشته_Type_t * px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته,
+                                         پشته_Type_t * px_انتها_از_پشته,
+                                         TaskFunction_t px_کد,
+                                         فراغ * pvParameters )
+#وإلا
+    پشته_Type_t * px_پورت_Initialise_پشته( پشته_Type_t * px_بالاترین_از_پشته,
+                                         TaskFunction_t px_کد,
+                                         فراغ * pvParameters )
+#پایان_اگر
 {
-    extern void *_SDA2_BASE_;
-    extern void *_SDA_BASE_;
-    const UINTPTR ulR2 = ( UINTPTR ) &_SDA2_BASE_;
-    const UINTPTR ulR13 = ( UINTPTR ) &_SDA_BASE_;
+    خارجي فراغ *SDA2_پایه;
+    خارجي فراغ *SDA_پایه;
+    ثابت UINTPTR ulR2 = ( UINTPTR ) &SDA2_پایه;
+    ثابت UINTPTR ulR13 = ( UINTPTR ) &SDA_پایه;
 
-    extern void _start1( void );
+    خارجي فراغ _start1( فراغ );
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is essential for the Microblaze port and these lines must
      * not be omitted. */
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x00000000;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x00000000;
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x00000000;
+    px_بالاترین_از_پشته--;
 
-    #if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
+    #إذا ( پورت_HAS_پشته_سرریز_CHECKING == 1 )
         /* Store the stack limits. */
-        *pxTopOfStack = ( StackType_t ) ( pxTopOfStack + 3 );
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) pxEndOfStack;
-        pxTopOfStack--;
-    #endif
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) ( px_بالاترین_از_پشته + 3 );
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) px_انتها_از_پشته;
+        px_بالاترین_از_پشته--;
+    #پایان_اگر
 
-    #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
+    #إذا ( XPAR_MICROBLAZE_USE_FPU != 0 )
         /* The FSR value placed in the initial task context is just 0. */
-        *pxTopOfStack = portINITIAL_FSR;
-        pxTopOfStack--;
-    #endif
+        *px_بالاترین_از_پشته = پورت_INITIAL_FSR;
+        px_بالاترین_از_پشته--;
+    #پایان_اگر
 
     /* The MSR value placed in the initial task context should have interrupts
      * disabled.  Each task will enable interrupts automatically when it enters
      * the running state for the first time. */
-    *pxTopOfStack = mfmsr() & ~portMSR_IE;
+    *px_بالاترین_از_پشته = mfmsr() & ~پورت_MSR_IE;
 
-    #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
+    #إذا ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
     {
         /* Ensure exceptions are enabled for the task. */
-        *pxTopOfStack |= portMSR_EE;
+        *px_بالاترین_از_پشته |= پورت_MSR_EE;
     }
-    #endif
+    #پایان_اگر
 
-    pxTopOfStack--;
+    px_بالاترین_از_پشته--;
 
     /* First stack an initial value for the critical section nesting.  This
      * is initialised to zero. */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x00;
 
     /* R0 is always zero. */
     /* R1 is the SP. */
 
     /* Place an initial value for all the general purpose registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ulR2;         /* R2 - read only small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03;         /* R3 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04;         /* R4 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R5 contains the function call parameters. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ulR2;         /* R2 - read only small data area. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x03;         /* R3 - return values and temporaries. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x04;         /* R4 - return values and temporaries. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) pvParameters; /* R5 contains the function call parameters. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06;   /* R6 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07;   /* R7 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) NULL;   /* R8 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09;   /* R9 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0a;   /* R10 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0b;   /* R11 - temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0c;   /* R12 - temporaries. */
-        pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 8;
-    #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+    #اگر_تعریف_شده پورت_PRE_بارگیری_پشته_FOR_DEBUGGING
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x06;   /* R6 - other parameters and temporaries. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x07;   /* R7 - other parameters and temporaries. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) عدم;   /* R8 - other parameters and temporaries. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x09;   /* R9 - other parameters and temporaries. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x0a;   /* R10 - other parameters and temporaries. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x0b;   /* R11 - temporaries. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x0c;   /* R12 - temporaries. */
+        px_بالاترین_از_پشته--;
+    #وإلا /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+        px_بالاترین_از_پشته -= 8;
+    #پایان_اگر /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
-    *pxTopOfStack = ( StackType_t ) ulR13;   /* R13 - read/write small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;  /* R14 - return address for interrupt. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) _start1; /* R15 - return address for subroutine. */
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) ulR13;   /* R13 - read/write small data area. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) px_کد;  /* R14 - return address for interrupt. */
+    px_بالاترین_از_پشته--;
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) _start1; /* R15 - return address for subroutine. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10;   /* R16 - return address for trap (debugger). */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11;   /* R17 - return address for exceptions, if configured. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x12;   /* R18 - reserved for assembler and compiler temporaries. */
-        pxTopOfStack--;
-    #else
-        pxTopOfStack -= 4;
-    #endif
+    #اگر_تعریف_شده پورت_PRE_بارگیری_پشته_FOR_DEBUGGING
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x10;   /* R16 - return address for trap (debugger). */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x11;   /* R17 - return address for exceptions, if configured. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x12;   /* R18 - reserved for assembler and compiler temporaries. */
+        px_بالاترین_از_پشته--;
+    #وإلا
+        px_بالاترین_از_پشته -= 4;
+    #پایان_اگر
 
-    *pxTopOfStack = ( StackType_t ) 0x00;   /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
+    *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x00;   /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x14;   /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x15;   /* R21 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x16;   /* R22 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x17;   /* R23 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x18;   /* R24 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x19;   /* R25 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1a;   /* R26 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1b;   /* R27 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1c;   /* R28 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1d;   /* R29 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1e;   /* R30 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1f;   /* R31 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 13;
-    #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+    #اگر_تعریف_شده پورت_PRE_بارگیری_پشته_FOR_DEBUGGING
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x14;   /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x15;   /* R21 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x16;   /* R22 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x17;   /* R23 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x18;   /* R24 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x19;   /* R25 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x1a;   /* R26 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x1b;   /* R27 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x1c;   /* R28 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x1d;   /* R29 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x1e;   /* R30 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+        *px_بالاترین_از_پشته = ( پشته_Type_t ) 0x1f;   /* R31 - must be saved across function calls. Callee-save. */
+        px_بالاترین_از_پشته--;
+    #وإلا /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+        px_بالاترین_از_پشته -= 13;
+    #پایان_اگر /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
     /* Return a pointer to the top of the stack that has been generated so this
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    أرجع px_بالاترین_از_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+پایه_Type_t x_پورت_شروع_Scheduler( فراغ )
 {
-    extern void ( vPortStartFirstTask )( void );
-    extern UINTPTR _stack[];
+    خارجي فراغ ( v_پورت_شروع_اولی_Task )( فراغ );
+    خارجي UINTPTR پشته_3[];
 
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called.
@@ -276,10 +276,10 @@ BaseType_t xPortStartScheduler( void )
      * timer peripherals defined or available.  An example definition of
      * vApplicationSetupTimerInterrupt() is provided in the official demo
      * application that accompanies this port. */
-    vApplicationSetupTimerInterrupt();
+    v_Application_راهاندازی_Timer_وقفه();
 
     /* Reuse the stack from main() as the stack for the interrupts/exceptions. */
-    pulISRStack = ( UINTPTR * ) _stack;
+    pulISRStack = ( UINTPTR * ) پشته_3;
 
     /* Ensure there is enough space for the functions called from the interrupt
      * service routines to write back into the stack frame of the caller. */
@@ -287,14 +287,14 @@ BaseType_t xPortStartScheduler( void )
 
     /* Restore the context of the first task that is going to run.  From here
      * on, the created tasks will be executing. */
-    vPortStartFirstTask();
+    v_پورت_شروع_اولی_Task();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    أرجع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورت_انتها_Scheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -305,138 +305,138 @@ void vPortEndScheduler( void )
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-void vPortYield( void )
+فراغ v_پورت_Yield( فراغ )
 {
-    extern void VPortYieldASM( void );
+    خارجي فراغ VPortYieldASM( فراغ );
 
     /* Perform the context switch in a critical section to assure it is
      * not interrupted by the tick ISR.  It is not a problem to do this as
      * each task maintains its own interrupt status. */
-    portENTER_CRITICAL();
+    پورت_ENTER_CRITICAL();
 	  {
 		    /* Jump directly to the yield function to ensure there is no
 		    * compiler generated prologue code. */
-        #ifdef __arch64__
-            asm volatile (	"brealid r14, VPortYieldASM		\n\t" \
+        #اگر_تعریف_شده __arch64__
+            asm متطاير (	"brealid r14, VPortYieldASM		\n\t" \
         		         				"or r0, r0, r0					      \n\t" );
-        #else
-         		asm volatile (	"bralid r14, VPortYieldASM		\n\t" \
+        #وإلا
+         		asm متطاير (	"bralid r14, VPortYieldASM		\n\t" \
 				                 		"or r0, r0, r0					      \n\t" );
-        #endif
+        #پایان_اگر
   	}
-	  portEXIT_CRITICAL();
+	  پورت_EXIT_CRITICAL();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnableInterrupt( uint8_t ucInterruptID )
+فراغ v_پورت_Enable_وقفه( uint8_t uc_وقفه_ID )
 {
     int32_t lReturn;
 
     /* An API function is provided to enable an interrupt in the interrupt
      * controller because the interrupt controller instance variable is private
      * to this file. */
-    lReturn = prvEnsureInterruptControllerIsInitialised();
+    lReturn = prv_Ensure_وقفه_Controller_Is_Initialised();
 
-    if( lReturn == pdPASS )
+    إذا( lReturn == pdPASS )
     {
         /* Critical section protects read/modify/writer operation inside
          * XIntc_Enable(). */
-        portENTER_CRITICAL();
+        پورت_ENTER_CRITICAL();
         {
-            XIntc_Enable( &xInterruptControllerInstance, ucInterruptID );
+            XIntc_Enable( &x_وقفه_Controller_Instance, uc_وقفه_ID );
         }
-        portEXIT_CRITICAL();
+        پورت_EXIT_CRITICAL();
     }
 
     configASSERT( lReturn == pdPASS );
 }
 /*-----------------------------------------------------------*/
 
-void vPortDisableInterrupt( uint8_t ucInterruptID )
+فراغ v_پورت_Disable_وقفه( uint8_t uc_وقفه_ID )
 {
     int32_t lReturn;
 
     /* An API function is provided to disable an interrupt in the interrupt
      * controller because the interrupt controller instance variable is private
      * to this file. */
-    lReturn = prvEnsureInterruptControllerIsInitialised();
+    lReturn = prv_Ensure_وقفه_Controller_Is_Initialised();
 
-    if( lReturn == pdPASS )
+    إذا( lReturn == pdPASS )
     {
-        XIntc_Disable( &xInterruptControllerInstance, ucInterruptID );
+        XIntc_Disable( &x_وقفه_Controller_Instance, uc_وقفه_ID );
     }
 
     configASSERT( lReturn == pdPASS );
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
+پایه_Type_t x_پورت_Install_وقفه_Handler( uint8_t uc_وقفه_ID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef )
+                                         فراغ * pv_Call_پشت_Ref )
 {
     int32_t lReturn;
 
     /* An API function is provided to install an interrupt handler because the
      * interrupt controller instance variable is private to this file. */
 
-    lReturn = prvEnsureInterruptControllerIsInitialised();
+    lReturn = prv_Ensure_وقفه_Controller_Is_Initialised();
 
-    if( lReturn == pdPASS )
+    إذا( lReturn == pdPASS )
     {
-        lReturn = XIntc_Connect( &xInterruptControllerInstance, ucInterruptID, pxHandler, pvCallBackRef );
+        lReturn = XIntc_Connect( &x_وقفه_Controller_Instance, uc_وقفه_ID, pxHandler, pv_Call_پشت_Ref );
     }
 
-    if( lReturn == XST_SUCCESS )
+    إذا( lReturn == XST_SUCCESS )
     {
         lReturn = pdPASS;
     }
 
     configASSERT( lReturn == pdPASS );
 
-    return lReturn;
+    أرجع lReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortRemoveInterruptHandler( uint8_t ucInterruptID )
+فراغ v_پورت_Remove_وقفه_Handler( uint8_t uc_وقفه_ID )
 {
     int32_t lReturn;
 
     /* An API function is provided to remove an interrupt handler because the
      * interrupt controller instance variable is private to this file. */
 
-    lReturn = prvEnsureInterruptControllerIsInitialised();
+    lReturn = prv_Ensure_وقفه_Controller_Is_Initialised();
 
-    if( lReturn == pdPASS )
+    إذا( lReturn == pdPASS )
     {
-        XIntc_Disconnect( &xInterruptControllerInstance, ucInterruptID );
+        XIntc_Disconnect( &x_وقفه_Controller_Instance, uc_وقفه_ID );
     }
 
     configASSERT( lReturn == pdPASS );
 }
 /*-----------------------------------------------------------*/
 
-static int32_t prvEnsureInterruptControllerIsInitialised( void )
+ساكن int32_t prv_Ensure_وقفه_Controller_Is_Initialised( فراغ )
 {
-    static int32_t lInterruptControllerInitialised = pdFALSE;
+    ساكن int32_t l_وقفه_Controller_Initialised = pdFALSE;
     int32_t lReturn;
 
     /* Ensure the interrupt controller instance variable is initialised before
      * it is used, and that the initialisation only happens once. */
-    if( lInterruptControllerInitialised != pdTRUE )
+    إذا( l_وقفه_Controller_Initialised != pdTRUE )
     {
-        lReturn = prvInitialiseInterruptController();
+        lReturn = prv_Initialise_وقفه_Controller();
 
-        if( lReturn == pdPASS )
+        إذا( lReturn == pdPASS )
         {
-            lInterruptControllerInitialised = pdTRUE;
+            l_وقفه_Controller_Initialised = pdTRUE;
         }
     }
-    else
+    وإلا
     {
         lReturn = pdPASS;
     }
 
-    return lReturn;
+    أرجع lReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -444,12 +444,12 @@ static int32_t prvEnsureInterruptControllerIsInitialised( void )
  * Handler for the timer interrupt.  This is the handler that the application
  * defined callback function vApplicationSetupTimerInterrupt() should install.
  */
-void vPortTickISR( void * pvUnused )
+فراغ v_پورت_Tick_ISR( فراغ * pv_استفادهنشده )
 {
-    extern void vApplicationClearTimerInterrupt( void );
+    خارجي فراغ v_Application_Clear_Timer_وقفه( فراغ );
 
 	/* Ensure the unused parameter does not generate a compiler warning. */
-	( void ) pvUnused;
+	( فراغ ) pv_استفادهنشده;
 
     /* The Xilinx implementation of generating run time task stats uses the same timer used for generating
 	   * FreeRTOS ticks. In case user decides to generate run time stats the tick handler is called more
@@ -457,10 +457,10 @@ void vPortTickISR( void * pvUnused )
 	   * the FreeRTOS tick once per 10 interrupts.
 	   * For handling generation of run time stats, it increments a pre-defined counter every time the
 	   * interrupt handler executes. */
-#if (configGENERATE_RUN_TIME_STATS == 1)
-    ulHighFrequencyTimerTicks++;
-    if (!(ulHighFrequencyTimerTicks % 10))
-#endif
+#إذا (config_GENERATE_پیاپی_زمان_STATS == 1)
+    ul_بالا_Frequency_Timer_Ticks++;
+    إذا (!(ul_بالا_Frequency_Timer_Ticks % 10))
+#پایان_اگر
     {
         /* This port uses an application defined callback function to clear the tick
          * interrupt because the kernel will run on lots of different MicroBlaze and
@@ -468,10 +468,10 @@ void vPortTickISR( void * pvUnused )
          * defined or available.  An example definition of
          * vApplicationClearTimerInterrupt() is provided in the official demo
          * application that accompanies this port. */
-        vApplicationClearTimerInterrupt();
+        v_Application_Clear_Timer_وقفه();
 
         /* Increment the RTOS tick - this might cause a task to unblock. */
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             /* Force vTaskSwitchContext() to be called as the interrupt exits. */
             ulTaskSwitchRequested = 1;
@@ -480,66 +480,66 @@ void vPortTickISR( void * pvUnused )
 }
 /*-----------------------------------------------------------*/
 
-static int32_t prvInitialiseInterruptController( void )
+ساكن int32_t prv_Initialise_وقفه_Controller( فراغ )
 {
-    int32_t lStatus;
+    int32_t l_وضعیت;
 
-    lStatus = XIntc_Initialize( &xInterruptControllerInstance, configINTERRUPT_CONTROLLER_TO_USE );
+    l_وضعیت = XIntc_Initialize( &x_وقفه_Controller_Instance, config_وقفه_CONTROLLER_مقصد_USE );
 
-    if( lStatus == XST_SUCCESS )
+    إذا( l_وضعیت == XST_SUCCESS )
     {
         /* Initialise the exception table. */
         Xil_ExceptionInit();
 
         /* Service all pending interrupts each time the handler is entered. */
-        XIntc_SetIntrSvcOption( xInterruptControllerInstance.BaseAddress, XIN_SVC_ALL_ISRS_OPTION );
+        XIntc_مجموعه_Intr_Svc_Option( x_وقفه_Controller_Instance.پایه_آدرس, XIN_SVC_ALL_ISRS_OPTION );
 
         /* Install exception handlers if the MicroBlaze is configured to handle
          * exceptions, and the application defined constant
          * configINSTALL_EXCEPTION_HANDLERS is set to 1. */
-        #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
+        #إذا ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
         {
-            vPortExceptionsInstallHandlers();
+            v_پورت_Exceptions_Install_Handlers();
         }
-        #endif /* MICROBLAZE_EXCEPTIONS_ENABLED */
+        #پایان_اگر /* MICROBLAZE_EXCEPTIONS_ENABLED */
 
         /* Start the interrupt controller.  Interrupts are enabled when the
          * scheduler starts. */
-        lStatus = XIntc_Start( &xInterruptControllerInstance, XIN_REAL_MODE );
+        l_وضعیت = XIntc_شروع( &x_وقفه_Controller_Instance, XIN_REAL_نما );
 
-        if( lStatus == XST_SUCCESS )
+        إذا( l_وضعیت == XST_SUCCESS )
         {
-            lStatus = pdPASS;
+            l_وضعیت = pdPASS;
         }
-        else
+        وإلا
         {
-            lStatus = pdFAIL;
+            l_وضعیت = pdFAIL;
         }
     }
 
-    configASSERT( lStatus == pdPASS );
+    configASSERT( l_وضعیت == pdPASS );
 
-    return lStatus;
+    أرجع l_وضعیت;
 }
 
-#if( configGENERATE_RUN_TIME_STATS == 1 )
+#إذا( config_GENERATE_پیاپی_زمان_STATS == 1 )
 /*
  * For Xilinx implementation this is a dummy function that does a redundant operation
  * of zeroing out the global counter.
  * It is called by FreeRTOS kernel.
  */
-void xCONFIGURE_TIMER_FOR_RUN_TIME_STATS (void)
+فراغ x_CONFIGURE_TIMER_FOR_پیاپی_زمان_STATS (فراغ)
 {
-	ulHighFrequencyTimerTicks = 0;
+	ul_بالا_Frequency_Timer_Ticks = 0;
 }
 /*
  * For Xilinx implementation this function returns the global counter used for
  * run time task stats calculation.
  * It is called by FreeRTOS kernel task handling logic.
  */
-uint32_t xGET_RUN_TIME_COUNTER_VALUE (void)
+uint32_t x_GET_پیاپی_زمان_COUNTER_مقدار (فراغ)
 {
-	return ulHighFrequencyTimerTicks;
+	أرجع ul_بالا_Frequency_Timer_Ticks;
 }
-#endif
+#پایان_اگر
 /*-----------------------------------------------------------*/

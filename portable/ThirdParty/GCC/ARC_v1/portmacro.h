@@ -26,20 +26,20 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
-#include "embARC.h"
+#اگر_تعریف_نشده PORTMACRO_H
+#تعریف_کن PORTMACRO_H
+#ضمن "embARC.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شده __cplusplus
+    خارجي "C" {
+#پایان_اگر
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
-#endif
+#اگر_تعریف_نشده config_رکورد_پشته_بالا_آدرس
+    #تعریف_کن config_رکورد_پشته_بالا_آدرس    1
+#پایان_اگر
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -52,103 +52,103 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     portLONG
+#تعریف_کن پورت_CHAR          حرف
+#تعریف_کن پورت_FLOAT         عائم
+#تعریف_کن پورت_DOUBLE        مزدوج
+#تعریف_کن پورت_LONG          دراز
+#تعریف_کن پورت_SHORT         کوتاه
+#تعریف_کن پورت_پشته_TYPE    بیعلامت صحيح
+#تعریف_کن پورت_پایه_TYPE     پورت_LONG
 
-#ifndef Asm
-    #define Asm           __asm__ volatile
-#endif
+#اگر_تعریف_نشده Asm
+    #تعریف_کن Asm           __asm__ متطاير
+#پایان_اگر
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
-#endif /* NULL */
+#اگر_تعریف_نشده عدم
+    #تعریف_کن عدم    0           /* invalid pointer */
+#پایان_اگر /* NULL */
 
-#ifndef true
-    #define true    1           /* true */
-#endif /* true */
+#اگر_تعریف_نشده true
+    #تعریف_کن true    1           /* true */
+#پایان_اگر /* true */
 
-#ifndef false
-    #define false    0          /* false */
-#endif /* false */
+#اگر_تعریف_نشده false
+    #تعریف_کن false    0          /* false */
+#پایان_اگر /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورت_پشته_TYPE   پشته_Type_t;
+تعريفنوع دراز             پایه_Type_t;
+تعريفنوع بیعلامت دراز    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_16_بیتها )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_عرض_درون_بیتها == TICK_TYPE_عرض_32_بیتها )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کن پورت_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #خطا config_TICK_TYPE_عرض_درون_بیتها مجموعه مقصد unsupported tick type عرض.
+#پایان_اگر
 
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
-#define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT         8
-#define portNOP()               Asm( "nop_s" );
-#define IPM_ENABLE_ALL             1
+#تعریف_کن پورت_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#تعریف_کن پورت_پشته_GROWTH           ( -1 )
+#تعریف_کن پورت_TICK_PERIOD_MS         ( ( TickType_t ) 1000 / config_TICK_نرخ_HZ )
+#تعریف_کن پورت_BYTE_ALIGNMENT         8
+#تعریف_کن پورت_NOP()               Asm( "nop_s" );
+#تعریف_کن IPM_ENABLE_ALL             1
 
-#define portYIELD_FROM_ISR()    vPortYieldFromIsr()
-#define portYIELD()             vPortYield()
+#تعریف_کن پورت_YIELD_FROM_ISR()    v_پورت_Yield_From_Isr()
+#تعریف_کن پورت_YIELD()             v_پورت_Yield()
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS() \
+#تعریف_کن پورت_DISABLE_INTERRUPTS() \
     {                            \
-        arc_lock();              \
+        arc_قفل();              \
     }                            \
 
-#define portENABLE_INTERRUPTS() \
+#تعریف_کن پورت_ENABLE_INTERRUPTS() \
     {                           \
         arc_unlock();           \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+خارجي متطاير بیعلامت صحيح ulCriticalNesting;
 
-#define portENTER_CRITICAL()     \
+#تعریف_کن پورت_ENTER_CRITICAL()     \
     {                            \
-        portDISABLE_INTERRUPTS() \
+        پورت_DISABLE_INTERRUPTS() \
         ulCriticalNesting++;     \
     }
 
 
-#define portEXIT_CRITICAL()                                    \
+#تعریف_کن پورت_EXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        إذا( ulCriticalNesting > پورت_NO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            إذا( ulCriticalNesting == پورت_NO_CRITICAL_NESTING ) \
             {                                                  \
-                portENABLE_INTERRUPTS()                        \
+                پورت_ENABLE_INTERRUPTS()                        \
             }                                                  \
         }                                                      \
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کن پورت_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#تعریف_کن پورت_CONFIGURE_TIMER_FOR_پیاپی_زمان_STATS()              افعل {} طالما( 0 )     /* we use the timer */
+#تعریف_کن پورت_ALT_GET_پیاپی_زمان_COUNTER_مقدار( dest )            ( dest = x_Tick_شمار )
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+فراغ v_پورت_Yield( فراغ );
+فراغ v_پورت_Yield_From_Isr( فراغ );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شده __cplusplus
     }
-#endif
+#پایان_اگر
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#پایان_اگر /* PORTMACRO_H */

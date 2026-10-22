@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
+خارجي فراغ vTaskSwitchContext( فراغ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+فراغ پورت_SWITCH_CONTEXT( فراغ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+فراغ پورت_اولی_CONTEXT( فراغ );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -50,9 +50,9 @@ are a couple of extra bytes left of the ISR stack (presumably for use by the
 debugger).  The true stack pointer is then stored in the bp register.  We add
 2 to the stack pointer to remove the extra bytes before we restore our context. */
 
-#ifdef DEBUG_BUILD
+#اگر_تعریف_شده DEBUG_BUILD
 
-    #pragma aux portSWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
+    #رهنمود aux پورت_SWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
                                         "mov    ds, ax"                                                                     \
                                         "les    bx, pxCurrentTCB"           /* Save the stack pointer into the TCB. */      \
                                         "mov    es:0x2[ bx ], ss"                                                           \
@@ -68,7 +68,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
 
 
 
-    #pragma aux portFIRST_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
+    #رهنمود aux پورت_اولی_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
                                         "mov    ds, ax"                         \
                                         "les    bx, dword ptr pxCurrentTCB"     \
                                         "mov    ss, es:[ bx + 2 ]"              \
@@ -80,9 +80,9 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "pop    ds"                             \
                                         "popa"                                  \
                                         "iret"
-#else
+#وإلا
 
-    #pragma aux portSWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
+    #رهنمود aux پورت_SWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
                                         "mov    ds, ax"                                                                     \
                                         "les    bx, pxCurrentTCB"           /* Save the stack pointer into the TCB. */      \
                                         "mov    es:0x2[ bx ], ss"                                                           \
@@ -95,7 +95,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "mov    sp, es:[ bx ]"
 
 
-    #pragma aux portFIRST_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
+    #رهنمود aux پورت_اولی_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
                                         "mov    ds, ax"                         \
                                         "les    bx, dword ptr pxCurrentTCB"     \
                                         "mov    ss, es:[ bx + 2 ]"              \
@@ -106,4 +106,4 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "pop    ds"                             \
                                         "popa"                                  \
                                         "iret"
-#endif
+#پایان_اگر
