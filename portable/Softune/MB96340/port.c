@@ -70,7 +70,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * task  control  block  so  it  can  be retrieved the next time the task
  * executes.
  */
-#if( ( configMEMMODEL == portSMALL ) || ( configMEMMODEL == portMEDIUM ) )
+#만약( ( configMEMMODEL == portSMALL ) || ( configMEMMODEL == portMEDIUM ) )
 
     #define portSAVE_CONTEXT()                                          \
             {   __asm(" POPW  A ");                                     \
@@ -233,7 +233,7 @@ _xGet_DPR_ADB_bank:
     SWAP
     MOV A, ADB
     ORW A
-    #if configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
+    #만약 configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
         RETP
     #elif configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
         RET
@@ -246,7 +246,7 @@ _xGet_DTB_PCB_bank:
     SWAP
     MOV A, PCB
     ORW A
-    #if configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
+    #만약 configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
         RETP
     #elif configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
         RET
@@ -277,7 +277,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     first.  When using the COMPACT or LARGE memory model the pointer would be 24
     bits, and when using the SMALL or MEDIUM memory model the pointer would be 16
     bits. */
-    #if( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
+    #만약( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
     {
         *pxTopOfStack = ( StackType_t ) ( ( uint32_t ) ( pvParameters ) >> 16 );
         pxTopOfStack--;
@@ -290,7 +290,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     /* This is redundant push to the stack. This is required in order to introduce
     an offset so that the task accesses a parameter correctly that is passed on to
     the task stack. */
-    #if( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
+    #만약( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
     {
         *pxTopOfStack = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
         pxTopOfStack--;
@@ -311,7 +311,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     pxTopOfStack--;
 
     /* DTB | PCB */
-    #if configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
+    #만약 configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
     {
         *pxTopOfStack = xGet_DTB_PCB_bank();
         pxTopOfStack--;
@@ -320,7 +320,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
     /* DTB | PCB, in case of MEDIUM and LARGE memory models, PCB would be used
     along with PC to indicate the start address of the function. */
-    #if( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
+    #만약( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
     {
         *pxTopOfStack = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
         pxTopOfStack--;
@@ -356,7 +356,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0x8888; /* RW0 */
 
-    return pxTopOfStack;
+    반환 pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -387,7 +387,7 @@ BaseType_t xPortStartScheduler( void )
 
 
     /* Should not get here. */
-    return pdTRUE;
+    반환 pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -404,7 +404,7 @@ void vPortEndScheduler( void )
  * scheduler is being used or not.
  */
 
-#if configUSE_PREEMPTION == 1
+#만약 configUSE_PREEMPTION == 1
 
     /*
      * Tick ISR for preemptive scheduler.  We can use a __nosavereg attribute
@@ -428,7 +428,7 @@ void vPortEndScheduler( void )
 
         /* Increment the tick count then switch to the highest priority task
         that is ready to run. */
-        if( xTaskIncrementTick() != pdFALSE )
+        만약( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -443,7 +443,7 @@ void vPortEndScheduler( void )
         __EI();
     }
 
-#else
+#아니면
 
     /*
      * Tick ISR for the cooperative scheduler.  All this does is increment the

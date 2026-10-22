@@ -33,9 +33,9 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#만약 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #만약 ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -76,7 +76,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#아니면
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -136,7 +136,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    만약( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -188,7 +188,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * any floating point instructions. */
     *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
 
-    return pxTopOfStack;
+    반환 pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -203,7 +203,7 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    위해( ; ; )
     {
     }
 }
@@ -220,7 +220,7 @@ BaseType_t xPortStartScheduler( void )
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    만약( ulAPSR != portAPSR_USER_MODE )
     {
         /* Start the timer that generates the tick ISR. */
         portDISABLE_INTERRUPTS();
@@ -236,7 +236,7 @@ BaseType_t xPortStartScheduler( void )
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
     ( void ) prvTaskExitError;
-    return 0;
+    반환 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -262,7 +262,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    만약( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
@@ -271,7 +271,7 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    만약( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -279,7 +279,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        만약( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -296,7 +296,7 @@ void FreeRTOS_Tick_Handler( void )
     ulInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    만약( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }

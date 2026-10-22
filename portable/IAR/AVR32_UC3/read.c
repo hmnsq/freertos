@@ -96,24 +96,24 @@ extern volatile avr32_usart_t * volatile stdio_usart_base;
  * \return The number of bytes read, \c 0 at the end of the file, or
  *         \c _LLIO_ERROR on failure.
  */
-size_t __read( int handle,
+size_t __read( 정수 handle,
                uint8_t * buffer,
                size_t size )
 {
-    int nChars = 0;
+    정수 nChars = 0;
 
     /* This implementation only reads from stdin. */
     /* For all other file handles, it returns failure. */
-    if( handle != _LLIO_STDIN )
+    만약( handle != _LLIO_STDIN )
     {
-        return _LLIO_ERROR;
+        반환 _LLIO_ERROR;
     }
 
-    for( ; size > 0; --size )
+    위해( ; size > 0; --size )
     {
-        int c = usart_getchar( stdio_usart_base );
+        정수 c = usart_getchar( stdio_usart_base );
 
-        if( c < 0 )
+        만약( c < 0 )
         {
             break;
         }
@@ -122,7 +122,7 @@ size_t __read( int handle,
         ++nChars;
     }
 
-    return nChars;
+    반환 nChars;
 }
 
 

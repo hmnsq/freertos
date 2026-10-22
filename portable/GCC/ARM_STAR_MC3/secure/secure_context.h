@@ -90,11 +90,11 @@ void SecureContext_Init( void );
  * @return Opaque context handle if context is successfully allocated, NULL
  * otherwise.
  */
-#if ( configENABLE_MPU == 1 )
+#만약 ( configENABLE_MPU == 1 )
     SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
                                                          uint32_t ulIsTaskPrivileged,
                                                          void * pvTaskHandle );
-#else /* configENABLE_MPU */
+#아니면 /* configENABLE_MPU */
     SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
                                                          void * pvTaskHandle );
 #endif /* configENABLE_MPU */

@@ -256,10 +256,10 @@ void vCoRoutineSchedule( void );
  * only.  The macros should not be used directly by application writers.
  */
 #define crSET_STATE0( xHandle )                                       \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); return; \
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); 반환; \
     case ( __LINE__ * 2 ):
 #define crSET_STATE1( xHandle )                                               \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); return; \
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); 반환; \
     case ( ( __LINE__ * 2 ) + 1 ):
 
 /**
@@ -312,12 +312,12 @@ void vCoRoutineSchedule( void );
  */
 #define crDELAY( xHandle, xTicksToDelay )                          \
     do {                                                           \
-        if( ( xTicksToDelay ) > 0 )                                \
+        만약( ( xTicksToDelay ) > 0 )                                \
         {                                                          \
             vCoRoutineAddToDelayedList( ( xTicksToDelay ), NULL ); \
         }                                                          \
         crSET_STATE0( ( xHandle ) );                               \
-    } while( 0 )
+    } 동안( 0 )
 
 /**
  * @code{c}
@@ -407,17 +407,17 @@ void vCoRoutineSchedule( void );
 #define crQUEUE_SEND( xHandle, pxQueue, pvItemToQueue, xTicksToWait, pxResult )           \
     do {                                                                                  \
         *( pxResult ) = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                           \
+        만약( *( pxResult ) == errQUEUE_BLOCKED )                                           \
         {                                                                                 \
             crSET_STATE0( ( xHandle ) );                                                  \
             *pxResult = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), 0 );                \
         }                                                                                 \
-        if( *pxResult == errQUEUE_YIELD )                                                 \
+        만약( *pxResult == errQUEUE_YIELD )                                                 \
         {                                                                                 \
             crSET_STATE1( ( xHandle ) );                                                  \
             *pxResult = pdPASS;                                                           \
         }                                                                                 \
-    } while( 0 )
+    } 동안( 0 )
 
 /**
  * croutine. h
@@ -501,17 +501,17 @@ void vCoRoutineSchedule( void );
 #define crQUEUE_RECEIVE( xHandle, pxQueue, pvBuffer, xTicksToWait, pxResult )           \
     do {                                                                                \
         *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                         \
+        만약( *( pxResult ) == errQUEUE_BLOCKED )                                         \
         {                                                                               \
             crSET_STATE0( ( xHandle ) );                                                \
             *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), 0 );            \
         }                                                                               \
-        if( *( pxResult ) == errQUEUE_YIELD )                                           \
+        만약( *( pxResult ) == errQUEUE_YIELD )                                           \
         {                                                                               \
             crSET_STATE1( ( xHandle ) );                                                \
             *( pxResult ) = pdPASS;                                                     \
         }                                                                               \
-    } while( 0 )
+    } 동안( 0 )
 
 /**
  * croutine. h

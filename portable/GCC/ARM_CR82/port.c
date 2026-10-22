@@ -67,23 +67,23 @@
     #error configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  Refer to Cortex-A equivalent: /* https://www.freertos.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors */
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
+#만약 configMAX_API_CALL_INTERRUPT_PRIORITY == 0
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0"
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
+#만약 configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_PRIORITIES as the lower the numeric priority value the higher the logical interrupt priority"
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#만약 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #만약 ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice."
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* In case security extensions are implemented. */
-#if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
+#만약 configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )"
 #endif
 
@@ -91,7 +91,7 @@
     #error configCLEAR_TICK_INTERRUPT must be defined in FreeRTOSConfig.h to clear which ever interrupt was used to generate the tick interrupt.
 #endif
 
-#if configNUMBER_OF_CORES < 1
+#만약 configNUMBER_OF_CORES < 1
     #error configNUMBER_OF_CORES must be set to 1 or greater.  If the application is not using multiple cores then set configNUMBER_OF_CORES to 1.
 #endif /* configNUMBER_OF_CORES < 1 */
 
@@ -99,7 +99,7 @@
     #error configENABLE_MPU must be defined in FreeRTOSConfig.h. Set configENABLE_MPU to 1 to enable the MPU or 0 to disable the MPU.
 #endif /* #if ( configENABLE_MPU == 1 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 != 0) )
+#만약 ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 != 0) )
     #error Arm Cortex-R82 port supports only MPU Wrapper V2.
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 != 0) */
 
@@ -164,7 +164,7 @@
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#만약 ( configENABLE_MPU == 1 )
 
     /**
      * @brief Setup the Memory Protection Unit (MPU).
@@ -236,7 +236,7 @@ extern void vGIC_EnableCPUInterface( void );
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
+#만약 ( configNUMBER_OF_CORES == 1 )
 
     PRIVILEGED_DATA volatile uint64_t ullCriticalNesting = 0ULL;
 
@@ -251,7 +251,7 @@ extern void vGIC_EnableCPUInterface( void );
      * if the nesting depth is 0. */
     PRIVILEGED_DATA uint64_t ullPortInterruptNesting = 0;
 
-#else /* #if ( configNUMBER_OF_CORES == 1 ) */
+#아니면 /* #if ( configNUMBER_OF_CORES == 1 ) */
     PRIVILEGED_DATA volatile uint64_t ullCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
 
     /* Flags to check if the secondary cores are ready. */
@@ -273,13 +273,13 @@ extern void vGIC_EnableCPUInterface( void );
 
 #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
 
-#if ( configENABLE_MPU == 1 )
+#만약 ( configENABLE_MPU == 1 )
     /* Set to pdTRUE when the scheduler is started. */
     PRIVILEGED_DATA static BaseType_t xSchedulerRunning = pdFALSE;
 #endif /* ( configENABLE_MPU == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#만약 ( configENABLE_MPU == 1 )
 
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          TaskFunction_t pxCode,
@@ -295,23 +295,23 @@ extern void vGIC_EnableCPUInterface( void );
          */
 
         /* 1) FPU flag and 2) Critical nesting. */
-        #if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
+        #만약 ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
             xMPUSettings->ullContext[ ulIndex++ ] = portNO_FLOATING_POINT_CONTEXT; /* FPU flag */
             xMPUSettings->ullContext[ ulIndex++ ] = portNO_CRITICAL_NESTING;       /* Critical nesting */
         #elif ( configUSE_TASK_FPU_SUPPORT == portTASK_HAVE_FPU_CONTEXT_BY_DEFAULT )
             xMPUSettings->ullContext[ ulIndex++ ] = pdTRUE;                        /* FPU flag */
             xMPUSettings->ullContext[ ulIndex++ ] = portNO_CRITICAL_NESTING;       /* Critical nesting */
-            #if ( configNUMBER_OF_CORES == 1 )
+            #만약 ( configNUMBER_OF_CORES == 1 )
                 ullPortTaskHasFPUContext = pdTRUE;
-            #else
+            #아니면
                 ullPortTaskHasFPUContext[ portGET_CORE_ID() ] = pdTRUE;
             #endif
-        #else
+        #아니면
             #error "Invalid configUSE_TASK_FPU_SUPPORT setting - must be 1 or 2."
         #endif
 
         /* 3) Optional FPU save area immediately after the flag+critical pair. */
-        #if ( configUSE_TASK_FPU_SUPPORT == portTASK_HAVE_FPU_CONTEXT_BY_DEFAULT )
+        #만약 ( configUSE_TASK_FPU_SUPPORT == portTASK_HAVE_FPU_CONTEXT_BY_DEFAULT )
             memset( &xMPUSettings->ullContext[ ulIndex ], 0x00, portFPU_REGISTER_WORDS * sizeof( StackType_t ) );
             ulIndex += portFPU_REGISTER_WORDS;
         #endif
@@ -319,11 +319,11 @@ extern void vGIC_EnableCPUInterface( void );
         /* 4) ELR (PC) and 5) SPSR (PSTATE). */
         xMPUSettings->ullContext[ ulIndex++ ] = ( StackType_t ) pxCode; /* ELR */
 
-        if( xRunPrivileged == pdTRUE )
+        만약( xRunPrivileged == pdTRUE )
         {
             xMPUSettings->ullContext[ ulIndex++ ] = portINITIAL_PSTATE_EL1;    /* SPSR */
         }
-        else
+        아니면
         {
             xMPUSettings->ullContext[ ulIndex++ ] = portINITIAL_PSTATE_EL0;    /* SPSR */
         }
@@ -377,21 +377,21 @@ extern void vGIC_EnableCPUInterface( void );
         xMPUSettings->ullContext[ ulIndex++ ] = ( StackType_t ) pvParameters; /* X0 */
         xMPUSettings->ullContext[ ulIndex++ ] = 0x0101010101010101ULL;        /* X1 */
 
-        if( xRunPrivileged == pdTRUE )
+        만약( xRunPrivileged == pdTRUE )
         {
             xMPUSettings->ullTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
         }
-        else
+        아니면
         {
             xMPUSettings->ullTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
         }
 
         xMPUSettings->ullTaskUnprivilegedSP = ( ( uint64_t ) pxTopOfStack & portMPU_PRBAR_EL1_ADDRESS_MASK );
 
-        return &( xMPUSettings->ullContext[ 0 ] );
+        반환 &( xMPUSettings->ullContext[ 0 ] );
     }
 
-#else /* #if ( configENABLE_MPU == 1 ) */
+#아니면 /* #if ( configENABLE_MPU == 1 ) */
 
     /*
     * See header file for description.
@@ -475,7 +475,7 @@ extern void vGIC_EnableCPUInterface( void );
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) pxCode; /* Exception return address. */
 
-        #if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
+        #만약 ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
         {
             /* The task will start with a critical nesting count of 0 as interrupts are
             * enabled. */
@@ -502,26 +502,26 @@ extern void vGIC_EnableCPUInterface( void );
 
             pxTopOfStack--;
             *pxTopOfStack = pdTRUE;
-            #if ( configNUMBER_OF_CORES == 1 )
+            #만약 ( configNUMBER_OF_CORES == 1 )
             ullPortTaskHasFPUContext = pdTRUE;
-            #else
+            #아니면
             ullPortTaskHasFPUContext[ portGET_CORE_ID() ] = pdTRUE;
             #endif
         }
-        #else /* if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT ) */
+        #아니면 /* if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT ) */
         {
             #error "Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be set to 1, 2, or left undefined."
         }
         #endif /* if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT ) */
 
-        return pxTopOfStack;
+        반환 pxTopOfStack;
 
     }
 
 #endif /* #if ( configENABLE_MPU == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#만약 ( configENABLE_MPU == 1 )
 
     /**
      * @brief Store a task's MPU settings in its TCB.
@@ -542,12 +542,12 @@ extern void vGIC_EnableCPUInterface( void );
         uint64_t ullRegionStartAddress, ullRegionEndAddress;
         uint8_t  ucIndex = 0, ucRegionNumber;
 
-        #if defined( __ARMCC_VERSION )
+        #만약 defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
             extern uint64_t * __privileged_sram_start__;
             extern uint64_t * __privileged_sram_end__;
-        #else
+        #아니면
             /* Declaration when these variable are exported from linker scripts. */
             extern uint64_t __privileged_sram_start__[];
             extern uint64_t __privileged_sram_end__[];
@@ -561,7 +561,7 @@ extern void vGIC_EnableCPUInterface( void );
          * which case the stack region parameters will be valid. At all other
          * times the stack parameters will not be valid and it is assumed that
          * the stack region has already been configured. */
-        if( xStackDepth > 0 )
+        만약( xStackDepth > 0 )
         {
             ullRegionStartAddress = ( uint64_t ) pxBottomOfStack;
             ullRegionEndAddress = ( uint64_t ) pxBottomOfStack + ( xStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) - 1;
@@ -571,13 +571,13 @@ extern void vGIC_EnableCPUInterface( void );
              * region is already protected using an MPU region and ARMv8-R does
              * not allow overlapping MPU regions.
              */
-            if( ( ullRegionStartAddress >= ( uint64_t ) __privileged_sram_start__ ) &&
+            만약( ( ullRegionStartAddress >= ( uint64_t ) __privileged_sram_start__ ) &&
                 ( ullRegionEndAddress <= ( uint64_t ) __privileged_sram_end__ ) )
             {
                 xMPUSettings->xRegionsSettings[ portSTACK_REGION_INDEX ].ullPrbarEl1 = 0;
                 xMPUSettings->xRegionsSettings[ portSTACK_REGION_INDEX ].ullPrlarEl1 = 0;
             }
-            else
+            아니면
             {
                 /* Define the region that allows access to the stack. */
                 ullRegionStartAddress &= portMPU_PRBAR_EL1_ADDRESS_MASK;
@@ -595,14 +595,14 @@ extern void vGIC_EnableCPUInterface( void );
         }
 
         /* User supplied configurable regions. */
-        for( ucRegionNumber = 1; ucRegionNumber <= portNUM_CONFIGURABLE_REGIONS; ucRegionNumber++ )
+        위해( ucRegionNumber = 1; ucRegionNumber <= portNUM_CONFIGURABLE_REGIONS; ucRegionNumber++ )
         {
             /* If xRegions is NULL i.e. the task has not specified any MPU
              * region, the else part ensures that all the configurable MPU
              * regions are invalidated.
              * The minimum region size is 64 Bytes.
              */
-            if( xRegions != NULL )
+            만약( xRegions != NULL )
             {
                 /* Configure the region only if the base address is non-NULL.
                  * The user may choose to use only a subset of the available MPU regions.
@@ -610,7 +610,7 @@ extern void vGIC_EnableCPUInterface( void );
                  * address) from being configured and from triggering the size-check
                  * assertion below.
                  */
-                if ( xRegions[ ucIndex ].pvBaseAddress != NULL )
+                만약 ( xRegions[ ucIndex ].pvBaseAddress != NULL )
                 {
                     configASSERT( xRegions[ ucIndex ].ulLengthInBytes >= 64UL );
 
@@ -625,10 +625,10 @@ extern void vGIC_EnableCPUInterface( void );
                     ullRegionEndAddress &= portMPU_PRLAR_EL1_ADDRESS_MASK;
 
                     /* Checks for overlaps with another user defined regions and stack region, which are already configured. */
-                    for( uint8_t ucUserRegionNumber = 0; ucUserRegionNumber < portNUM_CONFIGURABLE_REGIONS; ucUserRegionNumber++ )
+                    위해( uint8_t ucUserRegionNumber = 0; ucUserRegionNumber < portNUM_CONFIGURABLE_REGIONS; ucUserRegionNumber++ )
                     {
                         /* Check for overlap. */
-                        if( ( portIS_ADDRESS_WITHIN_RANGE( ullRegionStartAddress,
+                        만약( ( portIS_ADDRESS_WITHIN_RANGE( ullRegionStartAddress,
                                                         ( xMPUSettings->xRegionsSettings[ ucUserRegionNumber ].ullPrbarEl1 & portMPU_PRBAR_EL1_ADDRESS_MASK ),
                                                         ( xMPUSettings->xRegionsSettings[ ucUserRegionNumber ].ullPrlarEl1 & portMPU_PRLAR_EL1_ADDRESS_MASK ) ) ||
                             ( portIS_ADDRESS_WITHIN_RANGE( ullRegionEndAddress,
@@ -641,7 +641,7 @@ extern void vGIC_EnableCPUInterface( void );
                     }
 
                     /* Checks for overlaps with kernel programmed regions which are already programmed as part of vSetupMPU. */
-                    for (uint8_t ucProgrammedRegionIndex = 0; ucProgrammedRegionIndex < 4; ucProgrammedRegionIndex++)
+                    위해 (uint8_t ucProgrammedRegionIndex = 0; ucProgrammedRegionIndex < 4; ucProgrammedRegionIndex++)
                     {
                         __asm volatile ( "msr PRSELR_EL1, %0" : : "r" ( ( uint64_t ) ucProgrammedRegionIndex ) );
 
@@ -652,7 +652,7 @@ extern void vGIC_EnableCPUInterface( void );
                         ullPrlarEl1RegValue &= portMPU_PRLAR_EL1_ADDRESS_MASK;
 
                         /* Check for overlap. */
-                        if( ( portIS_ADDRESS_WITHIN_RANGE( ullRegionStartAddress,
+                        만약( ( portIS_ADDRESS_WITHIN_RANGE( ullRegionStartAddress,
                                                         ullPrbarEl1RegValue,
                                                         ullPrlarEl1RegValue ) ) ||
                             ( portIS_ADDRESS_WITHIN_RANGE( ullRegionEndAddress,
@@ -668,31 +668,31 @@ extern void vGIC_EnableCPUInterface( void );
                     xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 = ( ullRegionStartAddress );
 
                     /* RO/RW. */
-                    if( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_READ_ONLY ) != 0 )
+                    만약( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_READ_ONLY ) != 0 )
                     {
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 |= ( portMPU_REGION_READ_ONLY );
                     }
-                    else
+                    아니면
                     {
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 |= ( portMPU_REGION_READ_WRITE );
                     }
 
                     /* XN. */
-                    if( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_EXECUTE_NEVER ) != 0 )
+                    만약( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_EXECUTE_NEVER ) != 0 )
                     {
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 |= ( portMPU_REGION_EXECUTE_NEVER );
                     }
 
                     /* SH. */
-                    if( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_INNER_SHAREABLE ) != 0 )
+                    만약( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_INNER_SHAREABLE ) != 0 )
                     {
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 |= ( portMPU_REGION_INNER_SHAREABLE );
                     }
-                    else if( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_OUTER_SHAREABLE ) != 0 )
+                    아니면 만약( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_OUTER_SHAREABLE ) != 0 )
                     {
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 |= ( portMPU_REGION_OUTER_SHAREABLE );
                     }
-                    else
+                    아니면
                     {
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 |= ( portMPU_REGION_NON_SHAREABLE );
                     }
@@ -702,19 +702,19 @@ extern void vGIC_EnableCPUInterface( void );
                                                                                 ( portMPU_PRLAR_EL1_REGION_ENABLE );
 
                     /* Normal memory/ Device memory. */
-                    if( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_DEVICE_MEMORY ) != 0 )
+                    만약( ( xRegions[ ucIndex ].ulParameters & tskMPU_REGION_DEVICE_MEMORY ) != 0 )
                     {
                         /* Attr1 in MAIR_EL1 is configured as device memory. */
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrlarEl1 |= portMPU_PRLAR_EL1_ATTR_INDEX1;
                     }
-                    else
+                    아니면
                     {
                         /* Attr0 in MAIR_EL1 is configured as normal memory. */
                         xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrlarEl1 |= portMPU_PRLAR_EL1_ATTR_INDEX0;
                     }
                 }
             }
-            else
+            아니면
             {
                 /* Invalidate the region. */
                 xMPUSettings->xRegionsSettings[ ucRegionNumber ].ullPrbarEl1 = 0UL;
@@ -729,7 +729,7 @@ extern void vGIC_EnableCPUInterface( void );
 
     void vSetupMPU( void ) /* PRIVILEGED_FUNCTION */
     {
-        #if defined( __ARMCC_VERSION )
+        #만약 defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts.
              */
@@ -741,7 +741,7 @@ extern void vGIC_EnableCPUInterface( void );
             extern uint64_t * __unprivileged_flash_end__;
             extern uint64_t * __privileged_sram_start__;
             extern uint64_t * __privileged_sram_end__;
-        #else /* if defined( __ARMCC_VERSION ) */
+        #아니면 /* if defined( __ARMCC_VERSION ) */
             /* Declaration when these variable are exported from linker scripts. */
             extern uint64_t __privileged_functions_start__[];
             extern uint64_t __privileged_functions_end__[];
@@ -850,20 +850,20 @@ extern void vGIC_EnableCPUInterface( void );
     {
         BaseType_t xTaskIsPrivileged = pdFALSE;
 
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             extern TaskHandle_t pxCurrentTCB;
             xMPU_SETTINGS * pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
-        #else
+        #아니면
             extern TaskHandle_t pxCurrentTCBs[ configNUMBER_OF_CORES ];
             xMPU_SETTINGS * pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCBs[ portGET_CORE_ID_FROM_ISR() ] );
         #endif
 
-        if( ( pxMpuSettings->ullTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        만약( ( pxMpuSettings->ullTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             xTaskIsPrivileged = pdTRUE;
         }
 
-        return xTaskIsPrivileged;
+        반환 xTaskIsPrivileged;
     }
     /*-----------------------------------------------------------*/
 
@@ -871,17 +871,17 @@ extern void vGIC_EnableCPUInterface( void );
     {
         uint32_t ulAccessPermissions = 0;
 
-        if( ( ullPrbarEl1Value & portMPU_PRBAR_EL1_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_ONLY )
+        만약( ( ullPrbarEl1Value & portMPU_PRBAR_EL1_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_ONLY )
         {
             ulAccessPermissions = tskMPU_READ_PERMISSION;
         }
 
-        if( ( ullPrbarEl1Value & portMPU_PRBAR_EL1_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_WRITE )
+        만약( ( ullPrbarEl1Value & portMPU_PRBAR_EL1_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_WRITE )
         {
             ulAccessPermissions = ( tskMPU_READ_PERMISSION | tskMPU_WRITE_PERMISSION );
         }
 
-        return ulAccessPermissions;
+        반환 ulAccessPermissions;
     }
     /*-----------------------------------------------------------*/
 
@@ -895,7 +895,7 @@ extern void vGIC_EnableCPUInterface( void );
         BaseType_t xAccessGranted = pdFALSE;
         const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
 
-        if( xSchedulerRunning == pdFALSE )
+        만약( xSchedulerRunning == pdFALSE )
         {
             /* Grant access to all the kernel objects before the scheduler
              * is started. It is necessary because there is no task running
@@ -903,23 +903,23 @@ extern void vGIC_EnableCPUInterface( void );
              * task. */
             xAccessGranted = pdTRUE;
         }
-        else if( ( xTaskMpuSettings->ullTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        아니면 만약( ( xTaskMpuSettings->ullTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        아니면
         {
-            if( portADD_UINT64_WILL_OVERFLOW( ( ( uint64_t ) pvBuffer ), ( ( uint64_t ) xBufferLength - 1ULL ) ) == pdFALSE )
+            만약( portADD_UINT64_WILL_OVERFLOW( ( ( uint64_t ) pvBuffer ), ( ( uint64_t ) xBufferLength - 1ULL ) ) == pdFALSE )
             {
                 ullBufferStartAddress = ( uint64_t ) pvBuffer;
                 ullBufferEndAddress = ( ( ( uint64_t ) pvBuffer ) + ( uint64_t ) xBufferLength - 1ULL );
 
-                for( i = 0; i < portTOTAL_NUM_REGIONS; i++ )
+                위해( i = 0; i < portTOTAL_NUM_REGIONS; i++ )
                 {
                     /* Is the MPU region enabled? */
-                    if( ( xTaskMpuSettings->xRegionsSettings[ i ].ullPrlarEl1 & portMPU_PRLAR_EL1_REGION_ENABLE ) == portMPU_PRLAR_EL1_REGION_ENABLE )
+                    만약( ( xTaskMpuSettings->xRegionsSettings[ i ].ullPrlarEl1 & portMPU_PRLAR_EL1_REGION_ENABLE ) == portMPU_PRLAR_EL1_REGION_ENABLE )
                     {
-                        if( portIS_ADDRESS_WITHIN_RANGE( ullBufferStartAddress,
+                        만약( portIS_ADDRESS_WITHIN_RANGE( ullBufferStartAddress,
                                                          portEXTRACT_FIRST_ADDRESS_FROM_PRBAR_EL1( xTaskMpuSettings->xRegionsSettings[ i ].ullPrbarEl1 ),
                                                          portEXTRACT_LAST_ADDRESS_FROM_PRLAR_EL1( xTaskMpuSettings->xRegionsSettings[ i ].ullPrlarEl1 ) ) &&
                             portIS_ADDRESS_WITHIN_RANGE( ullBufferEndAddress,
@@ -936,16 +936,16 @@ extern void vGIC_EnableCPUInterface( void );
             }
         }
 
-        return xAccessGranted;
+        반환 xAccessGranted;
     }
     /*-----------------------------------------------------------*/
 
     void vSystemCallEnter( uint64_t * pullPrivilegedOnlyTaskStack,
                            uint8_t ucSystemCallNumber ) /* PRIVILEGED_FUNCTION */
     {
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             extern TaskHandle_t pxCurrentTCB;
-        #else
+        #아니면
             extern TaskHandle_t pxCurrentTCBs[ configNUMBER_OF_CORES ];
         #endif
         extern UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ];
@@ -953,21 +953,21 @@ extern void vGIC_EnableCPUInterface( void );
         uint64_t ullSystemCallLocation;  /* Address where SVC was raised. */
         __asm volatile ( "MRS %0, ELR_EL1" : "=r" ( ullSystemCallLocation ) );
 
-        #if defined( __ARMCC_VERSION )
+        #만약 defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts.
              */
             extern uint64_t * __syscalls_flash_start__;
             extern uint64_t * __syscalls_flash_end__;
-        #else
+        #아니면
             /* Declaration when these variable are exported from linker scripts. */
             extern uint64_t __syscalls_flash_start__[];
             extern uint64_t __syscalls_flash_end__[];
         #endif /* #if defined( __ARMCC_VERSION ) */
 
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
-        #else
+        #아니면
             pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCBs[ portGET_CORE_ID_FROM_ISR() ] );
         #endif
 
@@ -978,7 +978,7 @@ extern void vGIC_EnableCPUInterface( void );
          *    because the assembly SVC handler checks that before calling
          *    this function.
          */
-        if( ( ullSystemCallLocation >= ( uint64_t ) __syscalls_flash_start__ ) &&
+        만약( ( ullSystemCallLocation >= ( uint64_t ) __syscalls_flash_start__ ) &&
             ( ullSystemCallLocation <= ( uint64_t ) __syscalls_flash_end__ ) &&
             ( uxSystemCallImplementations[ ucSystemCallNumber ] != 0 ) )
         {
@@ -1025,29 +1025,29 @@ extern void vGIC_EnableCPUInterface( void );
 
     void vSystemCallExit( uint64_t ullSystemCallReturnValue ) /* PRIVILEGED_FUNCTION */
     {
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             extern TaskHandle_t pxCurrentTCB;
-        #else
+        #아니면
             extern TaskHandle_t pxCurrentTCBs[ configNUMBER_OF_CORES ];
         #endif
         xMPU_SETTINGS * pxMpuSettings;
         uint64_t ullSystemCallLocation; /* Address where SVC was raised. */
         __asm volatile ( "MRS %0, ELR_EL1" : "=r" ( ullSystemCallLocation ) );
 
-        #if defined( __ARMCC_VERSION )
+        #만약 defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
             extern uint64_t * __privileged_functions_start__;
             extern uint64_t * __privileged_functions_end__;
-        #else
+        #아니면
             /* Declaration when these variable are exported from linker scripts. */
             extern uint64_t __privileged_functions_start__[];
             extern uint64_t __privileged_functions_end__[];
         #endif /* #if defined( __ARMCC_VERSION ) */
 
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
-        #else
+        #아니면
             pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCBs[ portGET_CORE_ID_FROM_ISR() ] );
         #endif
 
@@ -1056,7 +1056,7 @@ extern void vGIC_EnableCPUInterface( void );
          * raising SVC directly). This SVC is only raised from
          * vRequestSystemCallExit which is in the privileged code section.
          */
-        if( ( ullSystemCallLocation >= ( uint64_t ) __privileged_functions_start__ ) &&
+        만약( ( ullSystemCallLocation >= ( uint64_t ) __privileged_functions_start__ ) &&
             ( ullSystemCallLocation <= ( uint64_t ) __privileged_functions_end__ ) )
         {
             __asm volatile (
@@ -1075,7 +1075,7 @@ extern void vGIC_EnableCPUInterface( void );
     }
     /*-----------------------------------------------------------*/
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #만약 ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
         void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
                                              int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
@@ -1119,7 +1119,7 @@ extern void vGIC_EnableCPUInterface( void );
             BaseType_t xAccessGranted = pdFALSE;
             const xMPU_SETTINGS * xTaskMpuSettings;
 
-            if( xSchedulerRunning == pdFALSE )
+            만약( xSchedulerRunning == pdFALSE )
             {
                 /* Grant access to all the kernel objects before the scheduler
                  * is started. It is necessary because there is no task running
@@ -1127,30 +1127,30 @@ extern void vGIC_EnableCPUInterface( void );
                  * task. */
                 xAccessGranted = pdTRUE;
             }
-            else
+            아니면
             {
                 xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
 
                 ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
                 ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
 
-                if( ( xTaskMpuSettings->ullTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+                만약( ( xTaskMpuSettings->ullTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
                 {
                     xAccessGranted = pdTRUE;
                 }
-                else
+                아니면
                 {
-                    if( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
+                    만약( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
                     {
                         xAccessGranted = pdTRUE;
                     }
                 }
             }
 
-            return xAccessGranted;
+            반환 xAccessGranted;
         }
         /*-----------------------------------------------------------*/
-    #else /* configENABLE_ACCESS_CONTROL_LIST == 1 */
+    #아니면 /* configENABLE_ACCESS_CONTROL_LIST == 1 */
 
         BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
         {
@@ -1158,7 +1158,7 @@ extern void vGIC_EnableCPUInterface( void );
 
             /* If Access Control List feature is not used, all the tasks have
              * access to all the kernel objects. */
-            return pdTRUE;
+            반환 pdTRUE;
         }
         /*-----------------------------------------------------------*/
 
@@ -1170,7 +1170,7 @@ BaseType_t xPortStartScheduler( void )
 {
     uint64_t ullAPSR;
 
-    #if ( configASSERT_DEFINED == 1 )
+    #만약 ( configASSERT_DEFINED == 1 )
     {
         volatile uint8_t ucOriginalPriority;
         volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + portINTERRUPT_PRIORITY_REGISTER_OFFSET );
@@ -1189,7 +1189,7 @@ BaseType_t xPortStartScheduler( void )
         ucMaxPriorityValue = *pucFirstUserPriorityRegister;
 
         /* Shift to the least significant bits. */
-        while( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
+        동안( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
         {
             ucMaxPriorityValue >>= ( uint8_t ) 0x01;
         }
@@ -1210,7 +1210,7 @@ BaseType_t xPortStartScheduler( void )
 
     configASSERT( ullAPSR == portEL1 );
 
-    #if ( configENABLE_MPU == 1 )
+    #만약 ( configENABLE_MPU == 1 )
     {
         /* Setup the Memory Protection Unit (MPU). */
         vSetupMPU();
@@ -1224,7 +1224,7 @@ BaseType_t xPortStartScheduler( void )
     __asm volatile ( "MSR DAIFSET, #2\n"
                      "DSB SY\n"
                      "ISB SY\n" ::: "memory" );
-    #if ( configNUMBER_OF_CORES > 1 )
+    #만약 ( configNUMBER_OF_CORES > 1 )
         /* Start the timer that generates the tick ISR. */
         configSETUP_TICK_INTERRUPT();
         ucPrimaryCoreInitDoneFlag = 1;
@@ -1235,29 +1235,29 @@ BaseType_t xPortStartScheduler( void )
         /* Hold the primary core here until all the secondary cores are ready, this would be achieved only when
          * all elements of ucSecondaryCoresReadyFlags are set.
          */
-        while( 1 )
+        동안( 1 )
         {
             BaseType_t xAllCoresReady = pdTRUE;
-            for( uint8_t ucCoreID = 0; ucCoreID < ( configNUMBER_OF_CORES - 1 ); ucCoreID++ )
+            위해( uint8_t ucCoreID = 0; ucCoreID < ( configNUMBER_OF_CORES - 1 ); ucCoreID++ )
             {
-                if( ucSecondaryCoresReadyFlags[ ucCoreID ] != pdTRUE )
+                만약( ucSecondaryCoresReadyFlags[ ucCoreID ] != pdTRUE )
                 {
                     xAllCoresReady = pdFALSE;
                     break;
                 }
             }
 
-            if ( xAllCoresReady == pdTRUE )
+            만약 ( xAllCoresReady == pdTRUE )
             {
                 break;
             }
         }
-    #else /* if ( configNUMBER_OF_CORES > 1 ) */
+    #아니면 /* if ( configNUMBER_OF_CORES > 1 ) */
         /* Start the timer that generates the tick ISR. */
         configSETUP_TICK_INTERRUPT();
     #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( configENABLE_MPU == 1 )
+    #만약 ( configENABLE_MPU == 1 )
         xSchedulerRunning = pdTRUE;
 
         /* Enable the Memory Protection Unit (MPU)
@@ -1272,7 +1272,7 @@ BaseType_t xPortStartScheduler( void )
     /* Start the first task executing. */
     vPortRestoreTaskContext();
 
-    return 0;
+    반환 0;
 }
 
 /*-----------------------------------------------------------*/
@@ -1286,7 +1286,7 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
 
 /*-----------------------------------------------------------*/
 
-#if  ( configNUMBER_OF_CORES == 1 )
+#만약  ( configNUMBER_OF_CORES == 1 )
     PRIVILEGED_FUNCTION void vPortEnterCritical( void )
     {
         /* Mask interrupts up to the max syscall interrupt priority. */
@@ -1302,7 +1302,7 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
          * functions that end in "FromISR" can be used in an interrupt.  Only assert if
          * the critical nesting count is 1 to protect against recursive calls if the
          * assert function also uses a critical section. */
-        if( ullCriticalNesting == 1ULL )
+        만약( ullCriticalNesting == 1ULL )
         {
             configASSERT( ullPortInterruptNesting == 0 );
         }
@@ -1312,7 +1312,7 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
 
     PRIVILEGED_FUNCTION void vPortExitCritical( void )
     {
-        if( ullCriticalNesting > portNO_CRITICAL_NESTING )
+        만약( ullCriticalNesting > portNO_CRITICAL_NESTING )
         {
             /* Decrement the nesting count as the critical section is being
              * exited. */
@@ -1320,7 +1320,7 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
 
             /* If the nesting level has reached zero then all interrupt
              * priorities must be re-enabled. */
-            if( ullCriticalNesting == portNO_CRITICAL_NESTING )
+            만약( ullCriticalNesting == portNO_CRITICAL_NESTING )
             {
                 /* Critical nesting has reached zero so all interrupt priorities
                  * should be unmasked. */
@@ -1341,7 +1341,7 @@ void FreeRTOS_Tick_Handler( void )
     configASSERT( ullRunningInterruptPriority == ( portLOWEST_USABLE_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) );
 
     /* Interrupts should not be enabled before this point. */
-    #if ( configASSERT_DEFINED == 1 )
+    #만약 ( configASSERT_DEFINED == 1 )
     {
         uint64_t ullMaskBits;
 
@@ -1358,20 +1358,20 @@ void FreeRTOS_Tick_Handler( void )
      */
     UBaseType_t uxInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
-    #if ( configNUMBER_OF_CORES > 1 )
+    #만약 ( configNUMBER_OF_CORES > 1 )
         UBaseType_t x = portENTER_CRITICAL_FROM_ISR();
     #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    만약( xTaskIncrementTick() != pdFALSE )
     {
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             ullPortYieldRequired = pdTRUE;
-        #else
+        #아니면
             ullPortYieldRequired[ portGET_CORE_ID_FROM_ISR() ] = pdTRUE;
         #endif
     }
-    #if ( configNUMBER_OF_CORES > 1 )
+    #만약 ( configNUMBER_OF_CORES > 1 )
         portEXIT_CRITICAL_FROM_ISR(x);
     #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
@@ -1384,15 +1384,15 @@ void FreeRTOS_Tick_Handler( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
+#만약 ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
 
     void vPortTaskUsesFPU( void )
     {
         /* A task is registering the fact that it needs an FPU context.  Set the
          * FPU flag (which is saved as part of the task context). */
-        #if  ( configNUMBER_OF_CORES == 1 )
+        #만약  ( configNUMBER_OF_CORES == 1 )
             ullPortTaskHasFPUContext = pdTRUE;
-        #else
+        #아니면
             ullPortTaskHasFPUContext[ portGET_CORE_ID() ] = pdTRUE;
         #endif
 
@@ -1406,12 +1406,12 @@ void FreeRTOS_Tick_Handler( void )
 
 void vPortClearInterruptMask( UBaseType_t uxNewMaskValue )
 {
-    if( uxNewMaskValue == portUNMASK_VALUE )
+    만약( uxNewMaskValue == portUNMASK_VALUE )
     {
         /* Unmask all interrupt priorities. */
         portCLEAR_INTERRUPT_PRIORITIES_MASK();
     }
-    else
+    아니면
     {
         __asm volatile (
             "SVC %0 \n"
@@ -1453,7 +1453,7 @@ UBaseType_t uxPortSetInterruptMask( void )
         : "x0", "memory"
     );
 
-    return ullPMRValue;
+    반환 ullPMRValue;
 }
 
 /* EL1/ISR variant to avoid SVC from interrupt context. */
@@ -1463,7 +1463,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
 
     __asm volatile ( "MRS %0, ICC_PMR_EL1" : "=r" ( ullPMRValue ) );
 
-    if( ullPMRValue != ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
+    만약( ullPMRValue != ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
     {
         __asm volatile ( "MSR DAIFSET, #2        \n"
                          "DSB SY                 \n"
@@ -1477,12 +1477,12 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
                          ::"r" ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) : "memory" );
     }
 
-    return ullPMRValue;
+    반환 ullPMRValue;
 }
 
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#만약 ( configASSERT_DEFINED == 1 )
 
     void vPortValidateInterruptPriority( void )
     {
@@ -1536,7 +1536,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#만약 ( configNUMBER_OF_CORES > 1 )
 
     /* Which core owns the lock? Keep in privileged, shareable RAM. */
     PRIVILEGED_DATA volatile uint64_t ullOwnedByCore[ portMAX_CORE_COUNT ];
@@ -1609,7 +1609,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
             : "memory", "w1", "w2", "w3"
         );
 
-        return ulRet;
+        반환 ulRet;
     }
 
 /*-----------------------------------------------------------*/
@@ -1618,7 +1618,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
     static inline uint64_t prvGet64( volatile uint64_t * x )
     {
         __asm( "dsb sy" );
-        return *x;
+        반환 *x;
     }
 
 /*-----------------------------------------------------------*/
@@ -1644,28 +1644,28 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
         uint32_t ulLockBit = 1u << eLockNum;
 
         /* Lock acquire */
-        if( uxAcquire )
+        만약( uxAcquire )
         {
             /* Check if spinlock is available.
              * If spinlock is not available check if the core owns the lock.
              * If the core owns the lock wait increment the lock count by the core.
              * If core does not own the lock wait for the spinlock.
              */
-            if( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
+            만약( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
             {
                 /* Check if the core owns the spinlock. */
-                if( prvGet64( &ullOwnedByCore[ ucCoreID ] ) & ulLockBit )
+                만약( prvGet64( &ullOwnedByCore[ ucCoreID ] ) & ulLockBit )
                 {
                     configASSERT( prvGet64( &ullRecursionCountByLock[ eLockNum ] ) != 255u );
                     prvSet64( &ullRecursionCountByLock[ eLockNum ], ( prvGet64( &ullRecursionCountByLock[ eLockNum ] ) + 1 ) );
-                    return;
+                    반환;
                 }
 
                 /* Preload the gate word into the cache. */
                 uint32_t dummy = ulGateWord[ eLockNum ];
                 dummy++;
 
-                while( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
+                동안( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
                 {
                    /* Follow Arm's recommended way of sleeping
                     * sevl is used to prime the wait loop.
@@ -1697,7 +1697,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
             prvSet64( &ullOwnedByCore[ ucCoreID ], ( prvGet64( &ullOwnedByCore[ ucCoreID ] ) | ulLockBit ) );
         }
         /* Lock release. */
-        else
+        아니면
         {
             /* Assert the lock is not free already. */
             configASSERT( ( prvGet64( &ullOwnedByCore[ ucCoreID ] ) & ulLockBit ) != 0 );
@@ -1706,7 +1706,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
             /* Reduce ullRecursionCountByLock by 1. */
             prvSet64( &ullRecursionCountByLock[ eLockNum ], ( prvGet64( &ullRecursionCountByLock[ eLockNum ] ) - 1 ) );
 
-            if( !prvGet64( &ullRecursionCountByLock[ eLockNum ] ) )
+            만약( !prvGet64( &ullRecursionCountByLock[ eLockNum ] ) )
             {
                 prvSet64( &ullOwnedByCore[ ucCoreID ], ( prvGet64( &ullOwnedByCore[ ucCoreID ] ) & ~ulLockBit ) );
                 prvSpinUnlock( &ulGateWord[ eLockNum ] );
@@ -1732,7 +1732,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
             : "i" ( portSVC_GET_CORE_ID )
             : "x0", "memory"
         );
-        return ucCoreID;
+        반환 ucCoreID;
     }
 
 /*-----------------------------------------------------------*/
@@ -1742,7 +1742,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
         uint64_t ullMpidrEl1;
         __asm volatile ( "MRS %0, MPIDR_EL1" : "=r" ( ullMpidrEl1 ) );
 
-        return ( uint8_t ) ( ullMpidrEl1 & 0xff );
+        반환 ( uint8_t ) ( ullMpidrEl1 & 0xff );
     }
 
 /*------------------------------------------------------------*/
@@ -1754,7 +1754,7 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
 
         configASSERT( ullRunningInterruptPriority == ( portLOWEST_USABLE_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) );
         /* Interrupts should not be enabled before this point. */
-        #if ( configASSERT_DEFINED == 1 )
+        #만약 ( configASSERT_DEFINED == 1 )
         {
             uint64_t ullMaskBits;
 
@@ -1772,9 +1772,9 @@ UBaseType_t uxPortSetInterruptMaskFromISR( void )
         UBaseType_t uxInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         UBaseType_t uxSavedInterruptStatus = portENTER_CRITICAL_FROM_ISR();
-        #if ( configNUMBER_OF_CORES == 1 )
+        #만약 ( configNUMBER_OF_CORES == 1 )
             ullPortYieldRequired = pdTRUE;
-        #else
+        #아니면
             ullPortYieldRequired[ portGET_CORE_ID_FROM_ISR() ] = pdTRUE;
         #endif
         portEXIT_CRITICAL_FROM_ISR( uxSavedInterruptStatus );

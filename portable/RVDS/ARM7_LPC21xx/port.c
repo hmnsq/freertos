@@ -140,7 +140,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    만약( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -155,7 +155,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * as part of the task context and is initially set to zero. */
     *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    반환 pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -169,7 +169,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    반환 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -181,7 +181,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#만약 configUSE_PREEMPTION == 0
 
 /*
  * The cooperative scheduler requires a normal IRQ service routine to
@@ -198,7 +198,7 @@ void vPortEndScheduler( void )
         VICVectAddr = portCLEAR_VIC_INTERRUPT; /* Acknowledge the Interrupt */
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#아니면 /* if configUSE_PREEMPTION == 0 */
 
 /*
  **************************************************************************
@@ -226,7 +226,7 @@ static void prvSetupTimerInterrupt( void )
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #만약 portPRESCALE_VALUE != 0
     {
         ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
     }
@@ -243,11 +243,11 @@ static void prvSetupTimerInterrupt( void )
 
     /* The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
-    #if configUSE_PREEMPTION == 1
+    #만약 configUSE_PREEMPTION == 1
     {
         VICVectAddr0 = ( uint32_t ) vPreemptiveTick;
     }
-    #else
+    #아니면
     {
         VICVectAddr0 = ( uint32_t ) vNonPreemptiveTick;
     }
@@ -275,14 +275,14 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    만약( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        만약( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL(). */
             __enable_irq();

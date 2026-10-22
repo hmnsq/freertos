@@ -41,11 +41,11 @@
 #include "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#만약 ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     #include "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#아니면 /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     #include "iodefine.h"
 
@@ -58,7 +58,7 @@
 
 /* The peripheral clock is divided by this value before being supplying the
  * CMT. */
-#if ( configUSE_TICKLESS_IDLE == 0 )
+#만약 ( configUSE_TICKLESS_IDLE == 0 )
     /* If tickless idle is not used then the divisor can be fixed. */
     #define portCLOCK_DIVISOR    8UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
@@ -67,7 +67,7 @@
     #define portCLOCK_DIVISOR    128UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
     #define portCLOCK_DIVISOR    32UL
-#else
+#아니면
     #define portCLOCK_DIVISOR    8UL
 #endif
 
@@ -97,12 +97,12 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#만약 ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vPortSoftwareInterruptISR, VECT( ICU, SWINT ) )
     R_BSP_ATTRIB_INTERRUPT void vPortSoftwareInterruptISR( void ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#아니면 /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     void vPortSoftwareInterruptISR( void ) __attribute__( ( naked ) );
 
@@ -112,12 +112,12 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#만약 ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vPortTickISR, _VECT( configTICK_VECTOR ) )
     R_BSP_ATTRIB_INTERRUPT void vPortTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#아니면 /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     void vPortTickISR( void ) __attribute__( ( interrupt ) );
 
@@ -142,7 +142,7 @@ static void prvSetupTimerInterrupt( void );
  * executes the pre and post sleep macros, and actually calls the wait
  * instruction.
  */
-#if configUSE_TICKLESS_IDLE == 1
+#만약 configUSE_TICKLESS_IDLE == 1
     static void prvSleep( TickType_t xExpectedIdleTime );
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -154,7 +154,7 @@ extern void * pxCurrentTCB;
 /* Calculate how many clock increments make up a single tick period. */
 static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
 
-#if configUSE_TICKLESS_IDLE == 1
+#만약 configUSE_TICKLESS_IDLE == 1
 
 /* Holds the maximum number of ticks that can be suppressed - which is
  * basically how far into the future an interrupt can be generated. Set
@@ -233,7 +233,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #아니면 /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         /* Leave space for the registers that will get popped from the stack
          * when the task first starts executing. */
@@ -247,14 +247,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x87654321;                   /* Accumulator. */
 
-    return pxTopOfStack;
+    반환 pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
 BaseType_t xPortStartScheduler( void )
 {
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    만약( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate
          * the tick interrupt.  This way the application can decide which
@@ -285,7 +285,7 @@ BaseType_t xPortStartScheduler( void )
     prvSetupTimerInterrupt();
 
     /* Should not get here. */
-    return pdFAIL;
+    반환 pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -431,14 +431,14 @@ void vPortTickISR( void )
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portDISABLE_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        만약( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
     portENABLE_INTERRUPTS_FROM_KERNEL_ISR();
 
-    #if configUSE_TICKLESS_IDLE == 1
+    #만약 configUSE_TICKLESS_IDLE == 1
     {
         /* The CPU woke because of a tick. */
         ulTickFlag = pdTRUE;
@@ -461,7 +461,7 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    반환 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -499,7 +499,7 @@ static void prvSetupTimerInterrupt( void )
     CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
 
     /* Divide the PCLK. */
-    #if portCLOCK_DIVISOR == 512
+    #만약 portCLOCK_DIVISOR == 512
     {
         CMT0.CMCR.BIT.CKS = 3;
     }
@@ -515,7 +515,7 @@ static void prvSetupTimerInterrupt( void )
     {
         CMT0.CMCR.BIT.CKS = 0;
     }
-    #else /* if portCLOCK_DIVISOR == 512 */
+    #아니면 /* if portCLOCK_DIVISOR == 512 */
     {
         #error Invalid portCLOCK_DIVISOR setting
     }
@@ -532,7 +532,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#만약 configUSE_TICKLESS_IDLE == 1
 
     static void prvSleep( TickType_t xExpectedIdleTime )
     {
@@ -542,7 +542,7 @@ static void prvSetupTimerInterrupt( void )
         /* xExpectedIdleTime being set to 0 by configPRE_SLEEP_PROCESSING()
          * means the application defined code has already executed the WAIT
          * instruction. */
-        if( xExpectedIdleTime > 0 )
+        만약( xExpectedIdleTime > 0 )
         {
             __asm volatile ( "WAIT" );
         }
@@ -554,7 +554,7 @@ static void prvSetupTimerInterrupt( void )
 #endif /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#만약 configUSE_TICKLESS_IDLE == 1
 
     void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
@@ -564,7 +564,7 @@ static void prvSetupTimerInterrupt( void )
         /* THIS FUNCTION IS CALLED WITH THE SCHEDULER SUSPENDED. */
 
         /* Make sure the CMT reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        만약( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
         {
             xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
         }
@@ -573,7 +573,7 @@ static void prvSetupTimerInterrupt( void )
          * periods. */
         ulMatchValue = ulMatchValueForOneTick * xExpectedIdleTime;
 
-        if( ulMatchValue > ulStoppedTimerCompensation )
+        만약( ulMatchValue > ulStoppedTimerCompensation )
         {
             /* Compensate for the fact that the CMT is going to be stopped
              * momentarily. */
@@ -586,7 +586,7 @@ static void prvSetupTimerInterrupt( void )
          * kernel with respect to calendar time. */
         CMT.CMSTR0.BIT.STR0 = 0;
 
-        while( CMT.CMSTR0.BIT.STR0 == 1 )
+        동안( CMT.CMSTR0.BIT.STR0 == 1 )
         {
             /* Nothing to do here. */
         }
@@ -605,13 +605,13 @@ static void prvSetupTimerInterrupt( void )
          * requires processing. */
         eSleepAction = eTaskConfirmSleepModeStatus();
 
-        if( eSleepAction == eAbortSleep )
+        만약( eSleepAction == eAbortSleep )
         {
             /* Restart tick. */
             CMT.CMSTR0.BIT.STR0 = 1;
             __asm volatile ( "SETPSW i" );
         }
-        else if( eSleepAction == eNoTasksWaitingTimeout )
+        아니면 만약( eSleepAction == eNoTasksWaitingTimeout )
         {
             /* Protection off. */
             SYSTEM.PRCR.WORD = portUNLOCK_KEY;
@@ -629,7 +629,7 @@ static void prvSetupTimerInterrupt( void )
             /* Restart the CMT. */
             CMT.CMSTR0.BIT.STR0 = 1;
         }
-        else
+        아니면
         {
             /* Protection off. */
             SYSTEM.PRCR.WORD = portUNLOCK_KEY;
@@ -661,14 +661,14 @@ static void prvSetupTimerInterrupt( void )
              * kernel with respect to calendar time. */
             CMT.CMSTR0.BIT.STR0 = 0;
 
-            while( CMT.CMSTR0.BIT.STR0 == 1 )
+            동안( CMT.CMSTR0.BIT.STR0 == 1 )
             {
                 /* Nothing to do here. */
             }
 
             ulCurrentCount = ( uint32_t ) CMT0.CMCNT;
 
-            if( ulTickFlag != pdFALSE )
+            만약( ulTickFlag != pdFALSE )
             {
                 /* The tick interrupt has already executed, although because
                  * this function is called with the scheduler suspended the actual
@@ -686,7 +686,7 @@ static void prvSetupTimerInterrupt( void )
                  * later in this function. */
                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
             }
-            else
+            아니면
             {
                 /* Something other than the tick interrupt ended the sleep.
                  * How many complete tick periods passed while the processor was

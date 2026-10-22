@@ -8,7 +8,7 @@
 
 BaseType_t xPortStartScheduler( void )
 {
-    return pdTRUE;
+    반환 pdTRUE;
 }
 
 void vPortEndScheduler( void )
@@ -23,7 +23,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     ( void ) pvParameters;
     ( void ) * pxCode;
 
-    return NULL;
+    반환 NULL;
 }
 
 void vPortYield( void )
@@ -31,11 +31,11 @@ void vPortYield( void )
     /* Save the current Context */
 
     /* Switch to the highest priority task that is ready to run. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #만약 ( configNUMBER_OF_CORES == 1 )
     {
         vTaskSwitchContext();
     }
-    #else
+    #아니면
     {
         vTaskSwitchContext( portGET_CORE_ID() );
     }
@@ -49,16 +49,16 @@ static void prvTickISR( void )
     /* Interrupts must have been enabled for the ISR to fire, so we have to
      * save the context with interrupts enabled. */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #만약 ( configNUMBER_OF_CORES == 1 )
     {
         /* Maintain the tick count. */
-        if( xTaskIncrementTick() != pdFALSE )
+        만약( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch to the highest priority task that is ready to run. */
             vTaskSwitchContext();
         }
     }
-    #else
+    #아니면
     {
         UBaseType_t ulPreviousMask;
 
@@ -68,7 +68,7 @@ static void prvTickISR( void )
         ulPreviousMask = taskENTER_CRITICAL_FROM_ISR();
 
         /* Maintain the tick count. */
-        if( xTaskIncrementTick() != pdFALSE )
+        만약( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch to the highest priority task that is ready to run. */
             vTaskSwitchContext( portGET_CORE_ID() );
