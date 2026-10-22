@@ -54,9 +54,9 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -66,7 +66,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᨀᨘ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -76,7 +76,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ᨀᨘᨁ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -85,14 +85,14 @@ typedef unsigned long    UBaseType_t;
 #define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
 #define portSTACK_GROWTH      -1
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    __asm volatile ( "NOP" )
+#define portNOP()    __asm ca_ncala ( "NOP" )
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
 #define portYIELD()                     \
-    __asm volatile                      \
+    __asm ca_ncala                      \
     (                                   \
         "PUSH.L R10                 \n" \
         "MOV.L  #0x872E0, R10       \n" \
@@ -101,7 +101,7 @@ typedef unsigned long    UBaseType_t;
         "POP    R10                 \n" \
     )
 
-#define portYIELD_FROM_ISR( x )                           if( x != pdFALSE ) portYIELD( )
+#define portYIELD_FROM_ISR( x )                           ᨀᨘ( x != pdFALSE ) portYIELD( )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -112,12 +112,12 @@ typedef unsigned long    UBaseType_t;
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-#define portENABLE_INTERRUPTS()                           __asm volatile ( "MVTIPL    #0" )
-#if ( configASSERT_DEFINED == 1 )
+#define portENABLE_INTERRUPTS()                           __asm ca_ncala ( "MVTIPL    #0" )
+#ᨀᨘ ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( ulPortGetIPL() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm volatile( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#else
-    #define portDISABLE_INTERRUPTS()                      __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+    #define portDISABLE_INTERRUPTS()                      ᨀᨘ( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm ca_ncala( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#ᨀᨘᨁ
+    #define portDISABLE_INTERRUPTS()                      __asm ca_ncala ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
 #endif
 
 /* Critical nesting counts are stored in the TCB. */
@@ -141,7 +141,7 @@ void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
-#define portMEMORY_BARRIER()                                  __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()                                  __asm ca_ncala ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

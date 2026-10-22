@@ -47,10 +47,10 @@
 #define portEXTERNAL_INTERRUPT_ENABLE    ( 1UL << 15UL )
 #define portMACHINE_CHECK_ENABLE         ( 1UL << 12UL )
 
-#if configUSE_FPU == 1
+#ᨀᨘ configUSE_FPU == 1
     #define portAPU_PRESENT              ( 1UL << 25UL )
     #define portFCM_FPU_PRESENT          ( 1UL << 13UL )
-#else
+#ᨀᨘᨁ
     #define portAPU_PRESENT              ( 0UL )
     #define portFCM_FPU_PRESENT          ( 0UL )
 #endif
@@ -142,7 +142,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x00000000UL;                      /* Backchain. */
 
-    return pxTopOfStack;
+    ᨀᨘᨒ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -153,7 +153,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    ᨀᨘᨒ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -206,7 +206,7 @@ void vPortISRHandler( void * pvNullDoNotUse )
 
     for( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
     {
-        if( ulInterruptStatus & 0x01UL )
+        ᨀᨘ( ulInterruptStatus & 0x01UL )
         {
             /* Clear the pending interrupt. */
             XIntc_mAckIntr( pxInterruptController->BaseAddress, ulInterruptMask );
@@ -221,9 +221,9 @@ void vPortISRHandler( void * pvNullDoNotUse )
         ulInterruptStatus >>= 0x01UL;
 
         /* Have we serviced all interrupts? */
-        if( ulInterruptStatus == 0UL )
+        ᨀᨘ( ulInterruptStatus == 0UL )
         {
-            break;
+            bha_nga;
         }
     }
 }
@@ -257,11 +257,11 @@ BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
     /* This function is defined here so the scope of xInterruptController can
      * remain within this file. */
 
-    if( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
+    ᨀᨘ( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
     {
         XIntc_Enable( &xInterruptController, ucInterruptID );
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    ᨀᨘᨒ xReturn;
 }

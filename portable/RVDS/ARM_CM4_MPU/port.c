@@ -51,14 +51,14 @@
 /* Unprivileged critical sections are not supported when using MPU wrappers
  * version 2. Default the option to 0 and reject an explicit value of 1. */
 #ifndef configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
         #define configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS    0
-    #else
+    #ᨀᨘᨁ
         #warning "configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS is not defined. We recommend defining it to 0 in FreeRTOSConfig.h for better security."
         #define configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS    1
     #endif
-#else
-    #if ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) )
+#ᨀᨘᨁ
+    #ᨀᨘ ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) )
         #error configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS is not supported with MPU wrappers version 2 ( configUSE_MPU_WRAPPERS_V1 == 0 ).
     #endif
 #endif
@@ -67,25 +67,25 @@
 typedef void ( * portISR_t )( void );
 
 /* Constants required to access and manipulate the NVIC. */
-#define portNVIC_SYSTICK_CTRL_REG                 ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG                 ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG        ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_SHPR3_REG                        ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
-#define portNVIC_SHPR2_REG                        ( *( ( volatile uint32_t * ) 0xe000ed1c ) )
-#define portNVIC_SYS_CTRL_STATE_REG               ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
+#define portNVIC_SYSTICK_CTRL_REG                 ( *( ( ca_ncala uint32_t * ) 0xe000e010 ) )
+#define portNVIC_SYSTICK_LOAD_REG                 ( *( ( ca_ncala uint32_t * ) 0xe000e014 ) )
+#define portNVIC_SYSTICK_CURRENT_VALUE_REG        ( *( ( ca_ncala uint32_t * ) 0xe000e018 ) )
+#define portNVIC_SHPR3_REG                        ( *( ( ca_ncala uint32_t * ) 0xe000ed20 ) )
+#define portNVIC_SHPR2_REG                        ( *( ( ca_ncala uint32_t * ) 0xe000ed1c ) )
+#define portNVIC_SYS_CTRL_STATE_REG               ( *( ( ca_ncala uint32_t * ) 0xe000ed24 ) )
 #define portNVIC_MEM_FAULT_ENABLE                 ( 1UL << 16UL )
 
 /* Constants used to detect Cortex-M7 r0p0 and r0p1 cores, and ensure
  * that a work around is active for errata 837070. */
-#define portCPUID                                 ( *( ( volatile uint32_t * ) 0xE000ed00 ) )
+#define portCPUID                                 ( *( ( ca_ncala uint32_t * ) 0xE000ed00 ) )
 #define portCORTEX_M7_r0p1_ID                     ( 0x410FC271UL )
 #define portCORTEX_M7_r0p0_ID                     ( 0x410FC270UL )
 
 /* Constants required to access and manipulate the MPU. */
-#define portMPU_TYPE_REG                          ( *( ( volatile uint32_t * ) 0xe000ed90 ) )
-#define portMPU_REGION_BASE_ADDRESS_REG           ( *( ( volatile uint32_t * ) 0xe000ed9C ) )
-#define portMPU_REGION_ATTRIBUTE_REG              ( *( ( volatile uint32_t * ) 0xe000edA0 ) )
-#define portMPU_CTRL_REG                          ( *( ( volatile uint32_t * ) 0xe000ed94 ) )
+#define portMPU_TYPE_REG                          ( *( ( ca_ncala uint32_t * ) 0xe000ed90 ) )
+#define portMPU_REGION_BASE_ADDRESS_REG           ( *( ( ca_ncala uint32_t * ) 0xe000ed9C ) )
+#define portMPU_REGION_ATTRIBUTE_REG              ( *( ( ca_ncala uint32_t * ) 0xe000edA0 ) )
+#define portMPU_CTRL_REG                          ( *( ( ca_ncala uint32_t * ) 0xe000ed94 ) )
 #define portEXPECTED_MPU_TYPE_VALUE               ( configTOTAL_MPU_REGIONS << 8UL )
 #define portMPU_ENABLE                            ( 0x01UL )
 #define portMPU_BACKGROUND_ENABLE                 ( 1UL << 2UL )
@@ -106,7 +106,7 @@ typedef void ( * portISR_t )( void );
 #define portNVIC_SVC_PRI                          ( ( ( uint32_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY - 1UL ) << 24UL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR                                 ( ( volatile uint32_t * ) 0xe000ef34UL ) /* Floating point context control register. */
+#define portFPCCR                                 ( ( ca_ncala uint32_t * ) 0xe000ef34UL ) /* Floating point context control register. */
 #define portASPEN_AND_LSPEN_BITS                  ( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
@@ -123,7 +123,7 @@ typedef void ( * portISR_t )( void );
 /* Constants required to check the validity of an interrupt priority. */
 #define portFIRST_USER_INTERRUPT_NUMBER           ( 16 )
 #define portNVIC_IP_REGISTERS_OFFSET_16           ( 0xE000E3F0 )
-#define portAIRCR_REG                             ( *( ( volatile uint32_t * ) 0xE000ED0C ) )
+#define portAIRCR_REG                             ( *( ( ca_ncala uint32_t * ) 0xE000ED0C ) )
 #define portMAX_8_BIT_VALUE                       ( ( uint8_t ) 0xff )
 #define portTOP_BIT_OF_BYTE                       ( ( uint8_t ) 0x80 )
 #define portMAX_PRIGROUP_BITS                     ( ( uint8_t ) 7 )
@@ -163,7 +163,7 @@ typedef void ( * portISR_t )( void );
  * switches can only occur when uxCriticalNesting is zero. */
 PRIVILEGED_DATA static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
 /*
  * This variable is set to pdTRUE when the scheduler is started.
@@ -227,10 +227,10 @@ static uint32_t prvPortGetIPSR( void );
  * FreeRTOS API functions are not called from interrupts that have been assigned
  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
  */
-#if ( configASSERT_DEFINED == 1 )
+#ᨀᨘ ( configASSERT_DEFINED == 1 )
     static uint8_t ucMaxSysCallPriority = 0;
     static uint32_t ulMaxPRIGROUPValue = 0;
-    static const volatile uint8_t * const pcInterruptPriorityRegisters = ( const uint8_t * ) portNVIC_IP_REGISTERS_OFFSET_16;
+    static const ca_ncala uint8_t * const pcInterruptPriorityRegisters = ( const uint8_t * ) portNVIC_IP_REGISTERS_OFFSET_16;
 #endif /* configASSERT_DEFINED */
 
 /**
@@ -258,22 +258,22 @@ void vPortSwitchToUserMode( void );
 /**
  * @brief Enter critical section.
  */
-#if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
+#ᨀᨘ ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
     void vPortEnterCritical( void ) FREERTOS_SYSTEM_CALL;
-#else
+#ᨀᨘᨁ
     void vPortEnterCritical( void ) PRIVILEGED_FUNCTION;
 #endif
 
 /**
  * @brief Exit from critical section.
  */
-#if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
+#ᨀᨘ ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
     void vPortExitCritical( void ) FREERTOS_SYSTEM_CALL;
-#else
+#ᨀᨘᨁ
     void vPortExitCritical( void ) PRIVILEGED_FUNCTION;
 #endif
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
 /**
  * @brief Triggers lazy stacking of FPU registers.
@@ -282,7 +282,7 @@ void vPortSwitchToUserMode( void );
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
 /**
  * @brief Sets up the system call stack so that upon returning from
@@ -298,7 +298,7 @@ void vPortSwitchToUserMode( void );
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
 /**
  * @brief Raise SVC for exiting from a system call.
@@ -307,7 +307,7 @@ void vPortSwitchToUserMode( void );
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
 /**
  * @brief Sets up the task stack so that upon returning from
@@ -338,12 +338,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      BaseType_t xRunPrivileged,
                                      xMPU_SETTINGS * xMPUSettings )
 {
-    if( xRunPrivileged == pdTRUE )
+    ᨀᨘ( xRunPrivileged == pdTRUE )
     {
         xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
         xMPUSettings->ulContext[ 0 ] = portINITIAL_CONTROL_IF_PRIVILEGED;
     }
-    else
+    ᨀᨘᨁ
     {
         xMPUSettings->ulTaskFlags &= ( ~( portTASK_IS_PRIVILEGED_FLAG ) );
         xMPUSettings->ulContext[ 0 ] = portINITIAL_CONTROL_IF_UNPRIVILEGED;
@@ -369,7 +369,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     xMPUSettings->ulContext[ 17 ] = ( ( uint32_t ) pxCode ) & portSTART_ADDRESS_MASK; /* PC. */
     xMPUSettings->ulContext[ 18 ] = portINITIAL_XPSR;                                 /* xPSR. */
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
     {
         /* Ensure that the system call stack is double word aligned. */
         xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1 ] );
@@ -381,7 +381,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     }
     #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    return &( xMPUSettings->ulContext[ 19 ] );
+    ᨀᨘᨒ &( xMPUSettings->ulContext[ 19 ] );
 }
 /*-----------------------------------------------------------*/
 
@@ -390,11 +390,11 @@ void vSVCHandler_C( uint32_t * pulParam )
     uint8_t ucSVCNumber;
     uint32_t ulPC;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+    #ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 1 )
         uint32_t ulReg;
     #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-    #if ( ( configUSE_MPU_WRAPPERS_V1 == 1 ) && ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 ) )
+    #ᨀᨘ ( ( configUSE_MPU_WRAPPERS_V1 == 1 ) && ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 ) )
         extern uint32_t __syscalls_flash_start__;
         extern uint32_t __syscalls_flash_end__;
     #endif /* #if ( ( configUSE_MPU_WRAPPERS_V1 == 1 ) && ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 ) ) */
@@ -406,29 +406,29 @@ void vSVCHandler_C( uint32_t * pulParam )
 
     switch( ucSVCNumber )
     {
-        case portSVC_START_SCHEDULER:
+        pak_sa portSVC_START_SCHEDULER:
             prvRestoreContextOfFirstTask();
-            break;
+            bha_nga;
 
-        case portSVC_YIELD:
+        pak_sa portSVC_YIELD:
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
 
             /* Barriers are normally not required
              * but do ensure the code is completely
              * within the specified behaviour for the
              * architecture. */
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm ca_ncala ( "dsb" );
+            __asm ca_ncala ( "isb" );
 
-            break;
+            bha_nga;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 1 )
-        #if ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 )
-            case portSVC_RAISE_PRIVILEGE: /* Only raise the privilege, if the
+    #ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 1 )
+        #ᨀᨘ ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 )
+            pak_sa portSVC_RAISE_PRIVILEGE: /* Only raise the privilege, if the
                                            * svc was raised from any of the
                                            * system calls. */
 
-                if( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
+                ᨀᨘ( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
                     ( ulPC <= ( uint32_t ) __syscalls_flash_end__ ) )
                 {
                     __asm
@@ -441,9 +441,9 @@ void vSVCHandler_C( uint32_t * pulParam )
                     }
                 }
 
-                break;
-        #else /* if ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 ) */
-            case portSVC_RAISE_PRIVILEGE:
+                bha_nga;
+        #ᨀᨘᨁ /* if ( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 ) */
+            pak_sa portSVC_RAISE_PRIVILEGE:
                 __asm
                 {
                     /* *INDENT-OFF* */
@@ -452,17 +452,17 @@ void vSVCHandler_C( uint32_t * pulParam )
                     msr control, ulReg /* Write back new control value. */
                     /* *INDENT-ON* */
                 }
-                break;
+                bha_nga;
         #endif /* #if( configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY == 1 ) */
     #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
         default: /* Unknown SVC call. */
-            break;
+            bha_nga;
     }
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     __asm void prvTriggerLazyStacking( void ) /* PRIVILEGED_FUNCTION */
     {
@@ -478,7 +478,7 @@ void vSVCHandler_C( uint32_t * pulParam )
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     void vSystemCallEnter( uint32_t * pulTaskStack,
                            uint32_t ulLR,
@@ -507,7 +507,7 @@ void vSVCHandler_C( uint32_t * pulParam )
          *    because the assembly SVC handler checks that before calling
          *    this function.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
+        ᨀᨘ( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __syscalls_flash_end__ ) &&
             ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack == NULL ) &&
             ( uxSystemCallImplementations[ ucSystemCallNumber ] != ( UBaseType_t ) 0 ) )
@@ -518,13 +518,13 @@ void vSVCHandler_C( uint32_t * pulParam )
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+            ᨀᨘ( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
             {
                 /* Extended frame i.e. FPU in use. */
                 ulHardwareSavedExceptionFrameSize = 26;
                 prvTriggerLazyStacking();
             }
-            else
+            ᨀᨘᨁ
             {
                 /* Standard frame i.e. FPU not in use. */
                 ulHardwareSavedExceptionFrameSize = 8;
@@ -571,11 +571,11 @@ void vSVCHandler_C( uint32_t * pulParam )
 
             /* Record if the hardware used padding to force the stack pointer
              * to be double word aligned. */
-            if( ( pulTaskStack[ portOFFSET_TO_PSR ] & portPSR_STACK_PADDING_MASK ) == portPSR_STACK_PADDING_MASK )
+            ᨀᨘ( ( pulTaskStack[ portOFFSET_TO_PSR ] & portPSR_STACK_PADDING_MASK ) == portPSR_STACK_PADDING_MASK )
             {
                 pxMpuSettings->ulTaskFlags |= portSTACK_FRAME_HAS_PADDING_FLAG;
             }
-            else
+            ᨀᨘᨁ
             {
                 pxMpuSettings->ulTaskFlags &= ( ~portSTACK_FRAME_HAS_PADDING_FLAG );
             }
@@ -590,7 +590,7 @@ void vSVCHandler_C( uint32_t * pulParam )
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     __asm void vRequestSystemCallExit( void ) /* PRIVILEGED_FUNCTION */
     {
@@ -602,7 +602,7 @@ void vSVCHandler_C( uint32_t * pulParam )
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     void vSystemCallExit( uint32_t * pulSystemCallStack,
                           uint32_t ulLR ) /* PRIVILEGED_FUNCTION */
@@ -626,7 +626,7 @@ void vSVCHandler_C( uint32_t * pulParam )
          *    application is not attempting to exit without entering a system
          *    call.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
+        ᨀᨘ( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __privileged_functions_end__ ) &&
             ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack != NULL ) )
         {
@@ -636,13 +636,13 @@ void vSVCHandler_C( uint32_t * pulParam )
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+            ᨀᨘ( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
             {
                 /* Extended frame i.e. FPU in use. */
                 ulHardwareSavedExceptionFrameSize = 26;
                 prvTriggerLazyStacking();
             }
-            else
+            ᨀᨘᨁ
             {
                 /* Standard frame i.e. FPU not in use. */
                 ulHardwareSavedExceptionFrameSize = 8;
@@ -680,11 +680,11 @@ void vSVCHandler_C( uint32_t * pulParam )
             /* If the hardware used padding to force the stack pointer
              * to be double word aligned, set the stacked xPSR bit[9],
              * otherwise clear it. */
-            if( ( pxMpuSettings->ulTaskFlags & portSTACK_FRAME_HAS_PADDING_FLAG ) == portSTACK_FRAME_HAS_PADDING_FLAG )
+            ᨀᨘ( ( pxMpuSettings->ulTaskFlags & portSTACK_FRAME_HAS_PADDING_FLAG ) == portSTACK_FRAME_HAS_PADDING_FLAG )
             {
                 pulTaskStack[ portOFFSET_TO_PSR ] |= portPSR_STACK_PADDING_MASK;
             }
-            else
+            ᨀᨘᨁ
             {
                 pulTaskStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
             }
@@ -702,16 +702,16 @@ BaseType_t xPortIsTaskPrivileged( void ) /* PRIVILEGED_FUNCTION */
     BaseType_t xTaskIsPrivileged = pdFALSE;
     const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
 
-    if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+    ᨀᨘ( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
     {
         xTaskIsPrivileged = pdTRUE;
     }
 
-    return xTaskIsPrivileged;
+    ᨀᨘᨒ xTaskIsPrivileged;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     __asm void vPortSVCHandler( void )
     {
@@ -745,7 +745,7 @@ syscall_exit
 /* *INDENT-ON* */
     }
 
-#else /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ᨀᨘᨁ /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
     __asm void vPortSVCHandler( void )
     {
@@ -760,7 +760,7 @@ syscall_exit
         ite eq
         mrseq r0, msp
         mrsne r0, psp
-    #else
+    #ᨀᨘᨁ
         mrs r0, psp
     #endif
 
@@ -796,7 +796,7 @@ __asm void prvRestoreContextOfFirstTask( void )
     ldmia r2!, {r4-r11}         /* Read 4 sets of MPU registers [MPU Region # 0 - 3]. */
     stmia r0, {r4-r11}          /* Write 4 sets of MPU registers [MPU Region # 0 - 3]. */
 
-    #if ( configTOTAL_MPU_REGIONS == 16 )
+    #ᨀᨘ ( configTOTAL_MPU_REGIONS == 16 )
         ldmia r2!, {r4-r11}     /* Read 4 sets of MPU registers [MPU Region # 4 - 7]. */
         stmia r0, {r4-r11}      /* Write 4 sets of MPU registers. [MPU Region # 4 - 7]. */
         ldmia r2!, {r4-r11}     /* Read 4 sets of MPU registers [MPU Region # 8 - 11]. */
@@ -839,9 +839,9 @@ BaseType_t xPortStartScheduler( void )
 
     /* Errata 837070 workaround must only be enabled on Cortex-M7 r0p0
      * and r0p1 cores. */
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #ᨀᨘ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         configASSERT( ( portCPUID == portCORTEX_M7_r0p1_ID ) || ( portCPUID == portCORTEX_M7_r0p0_ID ) );
-    #else
+    #ᨀᨘᨁ
 
         /* When using this port on a Cortex-M7 r0p0 or r0p1 core, define
          * configENABLE_ERRATA_837070_WORKAROUND to 1 in your
@@ -862,7 +862,7 @@ BaseType_t xPortStartScheduler( void )
      * configCHECK_HANDLER_INSTALLATION to 0 in their FreeRTOSConfig.h. Direct
      * routing, which is validated here when configCHECK_HANDLER_INSTALLATION
      * is 1, should be preferred when possible. */
-    #if ( configCHECK_HANDLER_INSTALLATION == 1 )
+    #ᨀᨘ ( configCHECK_HANDLER_INSTALLATION == 1 )
     {
         const portISR_t * const pxVectorTable = portSCB_VTOR_REG;
 
@@ -884,12 +884,12 @@ BaseType_t xPortStartScheduler( void )
     }
     #endif /* configCHECK_HANDLER_INSTALLATION */
 
-    #if ( configASSERT_DEFINED == 1 )
+    #ᨀᨘ ( configASSERT_DEFINED == 1 )
     {
-        volatile uint8_t ucOriginalPriority;
-        volatile uint32_t ulImplementedPrioBits = 0;
-        volatile uint8_t * const pucFirstUserPriorityRegister = ( uint8_t * ) ( portNVIC_IP_REGISTERS_OFFSET_16 + portFIRST_USER_INTERRUPT_NUMBER );
-        volatile uint8_t ucMaxPriorityValue;
+        ca_ncala uint8_t ucOriginalPriority;
+        ca_ncala uint32_t ulImplementedPrioBits = 0;
+        ca_ncala uint8_t * const pucFirstUserPriorityRegister = ( uint8_t * ) ( portNVIC_IP_REGISTERS_OFFSET_16 + portFIRST_USER_INTERRUPT_NUMBER );
+        ca_ncala uint8_t ucMaxPriorityValue;
 
         /* Determine the maximum priority from which ISR safe FreeRTOS API
          * functions can be called.  ISR safe functions are those that end in
@@ -924,13 +924,13 @@ BaseType_t xPortStartScheduler( void )
         /* Calculate the maximum acceptable priority group value for the number
          * of bits read back. */
 
-        while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+        ᨀᨛ( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
         {
             ulImplementedPrioBits++;
             ucMaxPriorityValue <<= ( uint8_t ) 0x01;
         }
 
-        if( ulImplementedPrioBits == 8 )
+        ᨀᨘ( ulImplementedPrioBits == 8 )
         {
             /* When the hardware implements 8 priority bits, there is no way for
              * the software to configure PRIGROUP to not have sub-priorities. As
@@ -952,7 +952,7 @@ BaseType_t xPortStartScheduler( void )
             configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & 0x1U ) == 0U );
             ulMaxPRIGROUPValue = 0;
         }
-        else
+        ᨀᨘᨁ
         {
             ulMaxPRIGROUPValue = portMAX_PRIGROUP_BITS - ulImplementedPrioBits;
         }
@@ -984,7 +984,7 @@ BaseType_t xPortStartScheduler( void )
     /* Initialise the critical nesting count ready for the first task. */
     uxCriticalNesting = 0;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
     {
         xSchedulerRunning = pdTRUE;
     }
@@ -1000,7 +1000,7 @@ BaseType_t xPortStartScheduler( void )
     prvStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᨀᨘᨒ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -1043,8 +1043,8 @@ void vPortEndScheduler( void )
 
 void vPortEnterCritical( void )
 {
-    #if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
-        if( portIS_PRIVILEGED() == pdFALSE )
+    #ᨀᨘ ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
+        ᨀᨘ( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1056,12 +1056,12 @@ void vPortEnterCritical( void )
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        ᨀᨘᨁ
         {
             portDISABLE_INTERRUPTS();
             uxCriticalNesting++;
         }
-    #else /* if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) */
+    #ᨀᨘᨁ /* if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) */
         portDISABLE_INTERRUPTS();
         uxCriticalNesting++;
     #endif /* if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) */
@@ -1070,8 +1070,8 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    #if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
-        if( portIS_PRIVILEGED() == pdFALSE )
+    #ᨀᨘ ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 )
+        ᨀᨘ( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1079,7 +1079,7 @@ void vPortExitCritical( void )
             configASSERT( uxCriticalNesting );
             uxCriticalNesting--;
 
-            if( uxCriticalNesting == 0 )
+            ᨀᨘ( uxCriticalNesting == 0 )
             {
                 portENABLE_INTERRUPTS();
             }
@@ -1089,21 +1089,21 @@ void vPortExitCritical( void )
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        ᨀᨘᨁ
         {
             configASSERT( uxCriticalNesting );
             uxCriticalNesting--;
 
-            if( uxCriticalNesting == 0 )
+            ᨀᨘ( uxCriticalNesting == 0 )
             {
                 portENABLE_INTERRUPTS();
             }
         }
-    #else /* if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) */
+    #ᨀᨘᨁ /* if ( configALLOW_UNPRIVILEGED_CRITICAL_SECTIONS == 1 ) */
         configASSERT( uxCriticalNesting );
         uxCriticalNesting--;
 
-        if( uxCriticalNesting == 0 )
+        ᨀᨘ( uxCriticalNesting == 0 )
         {
             portENABLE_INTERRUPTS();
         }
@@ -1144,13 +1144,13 @@ __asm void xPortPendSVHandler( void )
 
     /*---------- Select next task. --------- */
     mov r0, #configMAX_SYSCALL_INTERRUPT_PRIORITY
-#if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+#ᨀᨘ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
     cpsid i                             /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
 #endif
     msr basepri, r0
     dsb
     isb
-#if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+#ᨀᨘ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
     cpsie i                             /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
 #endif
     bl vTaskSwitchContext
@@ -1172,7 +1172,7 @@ __asm void xPortPendSVHandler( void )
     ldmia r2!, {r4-r11}                 /* Read 4 sets of MPU registers [MPU Region # 0 - 3]. */
     stmia r0, {r4-r11}                  /* Write 4 sets of MPU registers [MPU Region # 0 - 3]. */
 
-#if ( configTOTAL_MPU_REGIONS == 16 )
+#ᨀᨘ ( configTOTAL_MPU_REGIONS == 16 )
     ldmia r2!, {r4-r11}                 /* Read 4 sets of MPU registers [MPU Region # 4 - 7]. */
     stmia r0, {r4-r11}                  /* Write 4 sets of MPU registers. [MPU Region # 4 - 7]. */
     ldmia r2!, {r4-r11}                 /* Read 4 sets of MPU registers [MPU Region # 8 - 11]. */
@@ -1216,13 +1216,13 @@ void xPortSysTickHandler( void )
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ᨀᨘ( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
             /* Pend a context switch. */
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
         }
-        else
+        ᨀᨘᨁ
         {
             traceISR_EXIT();
         }
@@ -1279,7 +1279,7 @@ static void prvSetupMPU( void )
     configASSERT( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE );
 
     /* Check the expected MPU is present. */
-    if( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE )
+    ᨀᨘ( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE )
     {
         /* First setup the unprivileged flash for unprivileged read only access. */
         portMPU_REGION_BASE_ADDRESS_REG = ( ( uint32_t ) __FLASH_segment_start__ ) | /* Base address. */
@@ -1341,11 +1341,11 @@ static uint32_t prvGetMPURegionSizeSetting( uint32_t ulActualSizeInBytes )
      * ulReturnValue. */
     for( ulRegionSize = 32UL; ulReturnValue < 31UL; ( ulRegionSize <<= 1UL ) )
     {
-        if( ulActualSizeInBytes <= ulRegionSize )
+        ᨀᨘ( ulActualSizeInBytes <= ulRegionSize )
         {
-            break;
+            bha_nga;
         }
-        else
+        ᨀᨘᨁ
         {
             ulReturnValue++;
         }
@@ -1353,7 +1353,7 @@ static uint32_t prvGetMPURegionSizeSetting( uint32_t ulActualSizeInBytes )
 
     /* Shift the code by one before returning so it can be written directly
      * into the correct bit position of the attribute register. */
-    return( ulReturnValue << 1UL );
+    ᨀᨘᨒ( ulReturnValue << 1UL );
 }
 /*-----------------------------------------------------------*/
 
@@ -1399,7 +1399,7 @@ void vPortSwitchToUserMode( void )
 /*-----------------------------------------------------------*/
 
 void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                const struct xMEMORY_REGION * const xRegions,
+                                const sa_nracanaa xMEMORY_REGION * const xRegions,
                                 StackType_t * pxBottomOfStack,
                                 configSTACK_DEPTH_TYPE uxStackDepth )
 {
@@ -1412,7 +1412,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
     int32_t lIndex;
     uint32_t ul;
 
-    if( xRegions == NULL )
+    ᨀᨘ( xRegions == NULL )
     {
         /* No MPU regions are specified so allow access to all RAM. */
         xMPUSettings->xRegion[ 0 ].ulRegionBaseAddress =
@@ -1442,13 +1442,13 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
             xMPUSettings->xRegionSettings[ ul ].ulRegionPermissions = 0UL;
         }
     }
-    else
+    ᨀᨘᨁ
     {
         /* This function is called automatically when the task is created - in
          * which case the stack region parameters will be valid.  At all other
          * times the stack parameters will not be valid and it is assumed that the
          * stack region has already been configured. */
-        if( uxStackDepth > 0 )
+        ᨀᨘ( uxStackDepth > 0 )
         {
             /* Define the region that allows access to the stack. */
             xMPUSettings->xRegion[ 0 ].ulRegionBaseAddress =
@@ -1459,13 +1459,13 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
             xMPUSettings->xRegion[ 0 ].ulRegionAttribute =
                 ( portMPU_REGION_READ_WRITE ) |
                 ( portMPU_REGION_EXECUTE_NEVER ) |
-                ( prvGetMPURegionSizeSetting( uxStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) ) |
+                ( prvGetMPURegionSizeSetting( uxStackDepth * ( configSTACK_DEPTH_TYPE ) parimaa_na( StackType_t ) ) ) |
                 ( ( configTEX_S_C_B_SRAM & portMPU_RASR_TEX_S_C_B_MASK ) << portMPU_RASR_TEX_S_C_B_LOCATION ) |
                 ( portMPU_REGION_ENABLE );
 
             xMPUSettings->xRegionSettings[ 0 ].ulRegionStartAddress = ( uint32_t ) pxBottomOfStack;
             xMPUSettings->xRegionSettings[ 0 ].ulRegionEndAddress = ( uint32_t ) ( ( uint32_t ) ( pxBottomOfStack ) +
-                                                                                   ( uxStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) - 1UL );
+                                                                                   ( uxStackDepth * ( configSTACK_DEPTH_TYPE ) parimaa_na( StackType_t ) ) - 1UL );
             xMPUSettings->xRegionSettings[ 0 ].ulRegionPermissions = ( tskMPU_READ_PERMISSION |
                                                                        tskMPU_WRITE_PERMISSION );
         }
@@ -1474,7 +1474,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
 
         for( ul = 1UL; ul <= portNUM_CONFIGURABLE_REGIONS; ul++ )
         {
-            if( ( xRegions[ lIndex ] ).ulLengthInBytes > 0UL )
+            ᨀᨘ( ( xRegions[ lIndex ] ).ulLengthInBytes > 0UL )
             {
                 /* Translate the generic region definition contained in
                  * xRegions into the CM4 specific MPU settings that are then
@@ -1493,18 +1493,18 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                 xMPUSettings->xRegionSettings[ ul ].ulRegionEndAddress = ( uint32_t ) ( ( uint32_t ) xRegions[ lIndex ].pvBaseAddress + xRegions[ lIndex ].ulLengthInBytes - 1UL );
                 xMPUSettings->xRegionSettings[ ul ].ulRegionPermissions = 0UL;
 
-                if( ( ( xRegions[ lIndex ].ulParameters & portMPU_REGION_READ_ONLY ) == portMPU_REGION_READ_ONLY ) ||
+                ᨀᨘ( ( ( xRegions[ lIndex ].ulParameters & portMPU_REGION_READ_ONLY ) == portMPU_REGION_READ_ONLY ) ||
                     ( ( xRegions[ lIndex ].ulParameters & portMPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY ) == portMPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY ) )
                 {
                     xMPUSettings->xRegionSettings[ ul ].ulRegionPermissions = tskMPU_READ_PERMISSION;
                 }
 
-                if( ( xRegions[ lIndex ].ulParameters & portMPU_REGION_READ_WRITE ) == portMPU_REGION_READ_WRITE )
+                ᨀᨘ( ( xRegions[ lIndex ].ulParameters & portMPU_REGION_READ_WRITE ) == portMPU_REGION_READ_WRITE )
                 {
                     xMPUSettings->xRegionSettings[ ul ].ulRegionPermissions = ( tskMPU_READ_PERMISSION | tskMPU_WRITE_PERMISSION );
                 }
             }
-            else
+            ᨀᨘᨁ
             {
                 /* Invalidate the region. */
                 xMPUSettings->xRegion[ ul ].ulRegionBaseAddress = ( ( ul - 1UL ) | portMPU_REGION_VALID );
@@ -1520,7 +1520,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
                                                 size_t xBufferLength,
@@ -1532,7 +1532,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
 
 
-        if( xSchedulerRunning == pdFALSE )
+        ᨀᨘ( xSchedulerRunning == pdFALSE )
         {
             /* Grant access to all the kernel objects before the scheduler
              * is started. It is necessary because there is no task running
@@ -1540,20 +1540,20 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
              * task. */
             xAccessGranted = pdTRUE;
         }
-        else if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        ᨀᨘᨁ ᨀᨘ( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        ᨀᨘᨁ
         {
-            if( portADD_UINT32_WILL_OVERFLOW( ( ( uint32_t ) pvBuffer ), ( ( uint32_t ) xBufferLength - 1UL ) ) == pdFALSE )
+            ᨀᨘ( portADD_UINT32_WILL_OVERFLOW( ( ( uint32_t ) pvBuffer ), ( ( uint32_t ) xBufferLength - 1UL ) ) == pdFALSE )
             {
                 ulBufferStartAddress = ( uint32_t ) pvBuffer;
                 ulBufferEndAddress = ( ( ( uint32_t ) pvBuffer ) + ( uint32_t ) xBufferLength - 1UL );
 
                 for( i = 0; i < portTOTAL_NUM_REGIONS_IN_TCB; i++ )
                 {
-                    if( portIS_ADDRESS_WITHIN_RANGE( ulBufferStartAddress,
+                    ᨀᨘ( portIS_ADDRESS_WITHIN_RANGE( ulBufferStartAddress,
                                                      xTaskMpuSettings->xRegionSettings[ i ].ulRegionStartAddress,
                                                      xTaskMpuSettings->xRegionSettings[ i ].ulRegionEndAddress ) &&
                         portIS_ADDRESS_WITHIN_RANGE( ulBufferEndAddress,
@@ -1562,13 +1562,13 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                         portIS_AUTHORIZED( ulAccessRequested, xTaskMpuSettings->xRegionSettings[ i ].ulRegionPermissions ) )
                     {
                         xAccessGranted = pdTRUE;
-                        break;
+                        bha_nga;
                     }
                 }
             }
         }
 
-        return xAccessGranted;
+        ᨀᨘᨒ xAccessGranted;
     }
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
@@ -1585,7 +1585,7 @@ __asm uint32_t prvPortGetIPSR( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#ᨀᨘ ( configASSERT_DEFINED == 1 )
 
     void vPortValidateInterruptPriority( void )
     {
@@ -1596,7 +1596,7 @@ __asm uint32_t prvPortGetIPSR( void )
         ulCurrentInterrupt = prvPortGetIPSR();
 
         /* Is the interrupt number a user defined interrupt? */
-        if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+        ᨀᨘ( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
         {
             /* Look up the interrupt's priority. */
             ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];
@@ -1646,7 +1646,7 @@ __asm uint32_t prvPortGetIPSR( void )
 #endif /* configASSERT_DEFINED */
 /*-----------------------------------------------------------*/
 
-#if ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#ᨀᨘ ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
     void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
                                          int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
@@ -1665,7 +1665,7 @@ __asm uint32_t prvPortGetIPSR( void )
 #endif /* #if ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#ᨀᨘ ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
     void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
                                           int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
@@ -1684,9 +1684,9 @@ __asm uint32_t prvPortGetIPSR( void )
 #endif /* #if ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ᨀᨘ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #ᨀᨘ ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
         BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
         {
@@ -1694,7 +1694,7 @@ __asm uint32_t prvPortGetIPSR( void )
             BaseType_t xAccessGranted = pdFALSE;
             const xMPU_SETTINGS * xTaskMpuSettings;
 
-            if( xSchedulerRunning == pdFALSE )
+            ᨀᨘ( xSchedulerRunning == pdFALSE )
             {
                 /* Grant access to all the kernel objects before the scheduler
                  * is started. It is necessary because there is no task running
@@ -1702,30 +1702,30 @@ __asm uint32_t prvPortGetIPSR( void )
                  * task. */
                 xAccessGranted = pdTRUE;
             }
-            else
+            ᨀᨘᨁ
             {
                 xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
 
                 ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
                 ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
 
-                if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+                ᨀᨘ( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
                 {
                     xAccessGranted = pdTRUE;
                 }
-                else
+                ᨀᨘᨁ
                 {
-                    if( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
+                    ᨀᨘ( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
                     {
                         xAccessGranted = pdTRUE;
                     }
                 }
             }
 
-            return xAccessGranted;
+            ᨀᨘᨒ xAccessGranted;
         }
 
-    #else /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #ᨀᨘᨁ /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
         BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
         {
@@ -1733,7 +1733,7 @@ __asm uint32_t prvPortGetIPSR( void )
 
             /* If Access Control List feature is not used, all the tasks have
              * access to all the kernel objects. */
-            return pdTRUE;
+            ᨀᨘᨒ pdTRUE;
         }
 
     #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */

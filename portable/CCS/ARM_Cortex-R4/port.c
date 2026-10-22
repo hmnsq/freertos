@@ -38,17 +38,17 @@ uint32_t ulCriticalNesting = 9999;
 /*-----------------------------------------------------------*/
 
 /* Registers required to configure the RTI. */
-#define portRTI_GCTRL_REG       ( * ( ( volatile uint32_t * ) 0xFFFFFC00 ) )
-#define portRTI_TBCTRL_REG      ( * ( ( volatile uint32_t * ) 0xFFFFFC04 ) )
-#define portRTI_COMPCTRL_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC0C ) )
-#define portRTI_CNT0_FRC0_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC10 ) )
-#define portRTI_CNT0_UC0_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC14 ) )
-#define portRTI_CNT0_CPUC0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC18 ) )
-#define portRTI_CNT0_COMP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC50 ) )
-#define portRTI_CNT0_UDCP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC54 ) )
-#define portRTI_SETINTENA_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC80 ) )
-#define portRTI_CLEARINTENA_REG ( * ( ( volatile uint32_t * ) 0xFFFFFC84 ) )
-#define portRTI_INTFLAG_REG     ( * ( ( volatile uint32_t * ) 0xFFFFFC88 ) )
+#define portRTI_GCTRL_REG       ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC00 ) )
+#define portRTI_TBCTRL_REG      ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC04 ) )
+#define portRTI_COMPCTRL_REG    ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC0C ) )
+#define portRTI_CNT0_FRC0_REG   ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC10 ) )
+#define portRTI_CNT0_UC0_REG    ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC14 ) )
+#define portRTI_CNT0_CPUC0_REG  ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC18 ) )
+#define portRTI_CNT0_COMP0_REG  ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC50 ) )
+#define portRTI_CNT0_UDCP0_REG  ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC54 ) )
+#define portRTI_SETINTENA_REG   ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC80 ) )
+#define portRTI_CLEARINTENA_REG ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC84 ) )
+#define portRTI_INTFLAG_REG     ( * ( ( ca_ncala uint32_t * ) 0xFFFFFC88 ) )
 
 
 /* Constants required to set up the initial stack of each task. */
@@ -84,7 +84,7 @@ StackType_t *pxOriginalTOS;
 
     pxOriginalTOS = pxTopOfStack;
 
-    #if __TI_VFP_SUPPORT__
+    #ᨀᨘ __TI_VFP_SUPPORT__
     {
         /* Ensure the stack is correctly aligned on exit. */
         pxTopOfStack--;
@@ -132,7 +132,7 @@ StackType_t *pxOriginalTOS;
         *pxTopOfStack = ( StackType_t ) 0x01010101; /* R1 */
         pxTopOfStack--;
     }
-    #else
+    #ᨀᨘᨁ
     {
         pxTopOfStack -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
     }
@@ -145,7 +145,7 @@ StackType_t *pxOriginalTOS;
     /* Set the status register for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    ᨀᨘ( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* The task will start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -162,7 +162,7 @@ StackType_t *pxOriginalTOS;
     }
     #endif
 
-    return pxTopOfStack;
+    ᨀᨘᨒ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -212,7 +212,7 @@ BaseType_t xPortStartScheduler(void)
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return pdFAIL;
+    ᨀᨘᨒ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -227,7 +227,7 @@ void vPortEndScheduler(void)
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#ᨀᨘ configUSE_PREEMPTION == 0
 
     /* The cooperative scheduler requires a normal IRQ service routine to
      * simply increment the system tick. */
@@ -241,7 +241,7 @@ void vPortEndScheduler(void)
         xTaskIncrementTick();
     }
 
- #else
+ #ᨀᨘᨁ
 
     /*
      **************************************************************************
@@ -277,14 +277,14 @@ void vPortEnterCritical( void )
  */
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > 0 )
+    ᨀᨘ( ulCriticalNesting > 0 )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
         re-enabled. */
-        if( ulCriticalNesting == 0 )
+        ᨀᨘ( ulCriticalNesting == 0 )
         {
             /* Enable interrupts as per portENABLE_INTERRUPTS(). */
             portENABLE_INTERRUPTS();
@@ -293,7 +293,7 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-#if __TI_VFP_SUPPORT__
+#ᨀᨘ __TI_VFP_SUPPORT__
 
     void vPortTaskUsesFPU( void )
     {

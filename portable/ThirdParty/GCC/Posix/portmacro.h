@@ -50,9 +50,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
+#define portCHAR                 var_na
 #define portFLOAT                float
-#define portDOUBLE               double
+#define portDOUBLE               dviguu_na
 #define portLONG                 long
 #define portSHORT                short
 #define portSTACK_TYPE           unsigned long
@@ -86,16 +86,16 @@ extern void vPortYield( void );
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ᨀᨘ( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vPortYield();                        \
         }                                        \
-        else                                     \
+        ᨀᨘᨁ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ᨀᨛ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -120,7 +120,7 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 extern void vPortThreadDying( void * pxTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
+                              ca_ncala BaseType_t * pxPendYield );
 extern void vPortCancelThread( void * pxTaskToDelete );
 #define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortThreadDying( ( pvTaskToDelete ), ( pxPendYield ) )
 #define portCLEAN_UP_TCB( pxTCB )                                  vPortCancelThread( pxTCB )
@@ -138,7 +138,7 @@ extern void vPortCancelThread( void * pxTaskToDelete );
  * Thus, only a compiler barrier is needed to prevent the compiler
  * reordering.
  */
-#define portMEMORY_BARRIER()                        __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()                        __asm ca_ncala ( "" ::: "memory" )
 
 extern uint32_t ulPortGetRunTime( void );
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* no-op */

@@ -20,17 +20,17 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS OR IMPLIED, INCLUDING BUT na LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE ca NONINFRINGEMENT.
+ * anta_h NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER anta_h AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR anta_h CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS anta_h THE SOFTWARE.
  */
 
 /*******************************************************************************
 
-        XTENSA CONTEXT SAVE AND RESTORE ROUTINES
+        XTENSA CONTEXT SAVE ca RESTORE ROUTINES
 
 Low-level Call0 functions for handling generic context save and restore of
 registers not specifically addressed by the interrupt vectors and handlers.
@@ -385,7 +385,7 @@ _xt_context_restore:
 _xt_coproc_init
 
 Initializes global co-processor management data, setting all co-processors
-to "unowned". Leaves CPENABLE as it found it (does NOT clear it).
+to "unowned". Leaves CPENABLE as it found it (does na clear it).
 
 Called during initialization of the RTOS, before any threads run.
 
