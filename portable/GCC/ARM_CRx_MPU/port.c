@@ -159,7 +159,7 @@ PRIVILEGED_FUNCTION void vPortExitCritical( void );
  * @return Location where to restore the task's context from.
  */
 /* PRIVILEGED_FUNCTION */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters,
                                      BaseType_t xRunPrivileged,
@@ -169,7 +169,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * expected by the portRESTORE_CONTEXT() macro. */
     UBaseType_t ulIndex = CONTEXT_SIZE - 1U;
 
-    xSYSTEM_CALL_STACK_INFO * xSysCallInfo = NULL;
+    x_SYSTEM_CALL_सालानसान_INFO * xSysCallInfo = NULL;
 
     if( xRunPrivileged == pdTRUE )
     {
@@ -193,111 +193,111 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     ulIndex--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pxCode; /* PC. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) pxCode; /* PC. */
     ulIndex--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) portTASK_RETURN_ADDRESS; /* LR. */
     ulIndex--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pxTopOfStack; /* SP. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) px_इताअस_Of_सालानसान; /* SP. */
     ulIndex--;
 
     /* General Purpose Registers. */
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x12121212; /* R12. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x12121212; /* R12. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x11111111; /* R11. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x11111111; /* R11. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x10101010; /* R10. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x10101010; /* R10. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x09090909; /* R9. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x09090909; /* R9. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x08080808; /* R8. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x08080808; /* R8. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x07070707; /* R7. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x07070707; /* R7. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x06060606; /* R6. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x06060606; /* R6. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x05050505; /* R5. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x05050505; /* R5. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x04040404; /* R4. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x04040404; /* R4. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x03030303; /* R3. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x03030303; /* R3. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x02020202; /* R2. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x02020202; /* R2. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x01010101; /* R1. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x01010101; /* R1. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pvParameters; /* R0. */
+    xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) pvParameters; /* R0. */
     ulIndex--;
 
     #if( portENABLE_FPU == 1 )
     {
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000015; /* S31. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000015; /* S31. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1500000; /* S30. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1500000; /* S30. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000014; /* S29. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000014; /* S29. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1400000; /* S28. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1400000; /* S28. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000013; /* S27. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000013; /* S27. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1300000; /* S26. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1300000; /* S26. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000012; /* S25. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000012; /* S25. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1200000; /* S24. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1200000; /* S24. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000011; /* S23. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000011; /* S23. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1100000; /* S22. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1100000; /* S22. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000010; /* S21. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000010; /* S21. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1000000; /* S20. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1000000; /* S20. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000009; /* S19. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000009; /* S19. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD9000000; /* S18. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD9000000; /* S18. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000008; /* S17. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000008; /* S17. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD8000000; /* S16. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD8000000; /* S16. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000007; /* S15. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000007; /* S15. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD7000000; /* S14. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD7000000; /* S14. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000006; /* S13. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000006; /* S13. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD6000000; /* S12. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD6000000; /* S12. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000005; /* S11. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000005; /* S11. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD5000000; /* S10. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD5000000; /* S10. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000004; /* S9. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000004; /* S9. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD4000000; /* S8. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD4000000; /* S8. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000003; /* S7. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000003; /* S7. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD3000000; /* S6. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD3000000; /* S6. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000002; /* S5. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000002; /* S5. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD2000000; /* S4. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD2000000; /* S4. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000001; /* S3. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000001; /* S3. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1000000; /* S2. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD1000000; /* S2. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000000; /* S1. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000000; /* S1. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000000; /* S0. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0xD0000000; /* S0. */
         ulIndex--;
 
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x00000000; /* FPSR. */
+        xMPUSettings->ulContext[ ulIndex ] = ( सालानसान_Type_t ) 0x00000000; /* FPSR. */
         ulIndex--;
     }
     #endif /* portENABLE_FPU */
@@ -306,13 +306,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     xMPUSettings->ulContext[ ulIndex ] = portNO_CRITICAL_NESTING;
 
     /* Ensure that the system call stack is double word aligned. */
-    xSysCallInfo = &( xMPUSettings->xSystemCallStackInfo );
-    xSysCallInfo->pulSystemCallStackPointer = &( xSysCallInfo->ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1U ] );
-    xSysCallInfo->pulSystemCallStackPointer = ( uint32_t * ) ( ( ( uint32_t ) ( xSysCallInfo->pulSystemCallStackPointer ) ) &
+    xSysCallInfo = &( xMPUSettings->x_System_Call_सालानसान_Info );
+    xSysCallInfo->pul_System_Call_सालानसान_Pointer = &( xSysCallInfo->ul_System_Call_सालानसान_Buffer[ config_SYSTEM_CALL_सालानसान_SIZE - 1U ] );
+    xSysCallInfo->pul_System_Call_सालानसान_Pointer = ( uint32_t * ) ( ( ( uint32_t ) ( xSysCallInfo->pul_System_Call_सालानसान_Pointer ) ) &
                                                                ( ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) ) );
 
     /* This is not NULL only for the duration of a system call. */
-    xSysCallInfo->pulTaskStackPointer = NULL;
+    xSysCallInfo->pul_Task_सालानसान_Pointer = NULL;
 
     /* Set the System Call to return to vPortSystemCallExit. */
     xSysCallInfo->pulSystemCallExitAddress = ( uint32_t * ) ( &vPortSystemCallExit );
@@ -337,8 +337,8 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 /* PRIVILEGED_FUNCTION */
 void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                 const struct xMEMORY_REGION * const xRegions,
-                                StackType_t * pxBottomOfStack,
-                                uint32_t ulStackDepth )
+                                सालानसान_Type_t * px_Bottom_Of_सालानसान,
+                                uint32_t ul_सालानसान_Depth )
 {
     #if defined( __ARMCC_VERSION )
         /* Declaration when these variable are defined in code instead of being
@@ -366,7 +366,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         /* MPU Settings is zero'd out in the TCB before this function is called.
          * We, therefore, do not need to explicitly zero out unused MPU regions
          * in xMPUSettings. */
-        ulIndex = portSTACK_REGION;
+        ulIndex = port_सालानसान_REGION;
 
         xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) __SRAM_segment_start__;
         xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
@@ -376,7 +376,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
     }
     else
     {
-        for( ulIndex = 0UL; ulIndex < portNUM_CONFIGURABLE_REGIONS; ulIndex++ )
+        for( ulIndex = 0UL; ulIndex < port_नुमेरो_CONFIGURABLE_REGIONS; ulIndex++ )
         {
             /* If a length has been provided, the region is in use. */
             if( ( xRegions[ ulIndex ] ).ulLengthInBytes > 0UL )
@@ -406,17 +406,17 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
          * which case the stack region parameters will be valid. At all other
          * times the stack parameters will not be valid and it is assumed that the
          * stack region has already been configured. */
-        if( ulStackDepth != 0x0UL )
+        if( ul_सालानसान_Depth != 0x0UL )
         {
-            ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulStackDepth * ( uint32_t ) sizeof( StackType_t ) );
+            ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ul_सालानसान_Depth * ( uint32_t ) sizeof( सालानसान_Type_t ) );
 
             /* MPU region base address must be aligned to the region size
              * boundary. */
             ulRegionLengthDecoded = 2UL << ( ulRegionLengthEncoded >> 1UL );
-            configASSERT( ( ( uint32_t ) pxBottomOfStack % ( ulRegionLengthDecoded ) ) == 0U );
+            configASSERT( ( ( uint32_t ) px_Bottom_Of_सालानसान % ( ulRegionLengthDecoded ) ) == 0U );
 
-            ulIndex = portSTACK_REGION;
-            xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) pxBottomOfStack;
+            ulIndex = port_सालानसान_REGION;
+            xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) px_Bottom_Of_सालानसान;
             xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
                                                               portMPU_REGION_ENABLE );
             xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = ( portMPU_REGION_PRIV_RW_USER_RW_NOEXEC |
@@ -473,10 +473,10 @@ BaseType_t xPortStartScheduler( void )
 /* PRIVILEGED_FUNCTION */
 static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
 {
-    uint32_t ulRegionSize, ulReturnValue = 4U;
+    uint32_t ulRegionSize, ul_Return_हालागा = 4U;
 
     /* 32 bytes is the smallest valid region for Cortex R4 and R5 CPUs. */
-    for( ulRegionSize = 0x20UL; ulReturnValue < 0x1FUL; ( ulRegionSize <<= 1UL ) )
+    for( ulRegionSize = 0x20UL; ul_Return_हालागा < 0x1FUL; ( ulRegionSize <<= 1UL ) )
     {
         if( ulActualMPURegionSize <= ulRegionSize )
         {
@@ -484,13 +484,13 @@ static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
         }
         else
         {
-            ulReturnValue++;
+            ul_Return_हालागा++;
         }
     }
 
     /* Shift the code by one before returning so it can be written directly
      * into the correct bit position of the attribute register. */
-    return ulReturnValue << 1UL;
+    return ul_Return_हालागा << 1UL;
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -648,7 +648,7 @@ BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
         }
         else
         {
-            for( ulRegionIndex = 0x0UL; ulRegionIndex < portTOTAL_NUM_REGIONS_IN_TCB; ulRegionIndex++ )
+            for( ulRegionIndex = 0x0UL; ulRegionIndex < port_TOTAL_नुमेरो_REGIONS_IN_TCB; ulRegionIndex++ )
             {
                 xAccessGranted = prvMPURegionAuthorizesBuffer( &( xTaskMPUSettings->xRegion[ ulRegionIndex ] ),
                                                                ( uint32_t ) pvBuffer,

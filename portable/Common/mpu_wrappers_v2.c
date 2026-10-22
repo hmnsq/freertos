@@ -52,7 +52,7 @@
 #if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     #ifndef configPROTECTED_KERNEL_OBJECT_POOL_SIZE
-        #error configPROTECTED_KERNEL_OBJECT_POOL_SIZE must be defined to maximum number of kernel objects in the application.
+        #error configPROTECTED_KERNEL_OBJECT_POOL_SIZE must be defined to maximum नुमेरो of kernel objects in the application.
     #endif
 
 /**
@@ -602,12 +602,12 @@
 
         void MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
                                    TaskStatus_t * pxTaskStatus,
-                                   BaseType_t xGetFreeStackSpace,
+                                   BaseType_t x_Get_Free_सालानसान_Space,
                                    eTaskState eState ) PRIVILEGED_FUNCTION;
 
         void MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
                                    TaskStatus_t * pxTaskStatus,
-                                   BaseType_t xGetFreeStackSpace,
+                                   BaseType_t x_Get_Free_सालानसान_Space,
                                    eTaskState eState ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
@@ -623,7 +623,7 @@
             {
                 if( xTask == NULL )
                 {
-                    vTaskGetInfo( xTask, pxTaskStatus, xGetFreeStackSpace, eState );
+                    vTaskGetInfo( xTask, pxTaskStatus, x_Get_Free_सालानसान_Space, eState );
                 }
                 else
                 {
@@ -639,7 +639,7 @@
 
                             if( xInternalTaskHandle != NULL )
                             {
-                                vTaskGetInfo( xInternalTaskHandle, pxTaskStatus, xGetFreeStackSpace, eState );
+                                vTaskGetInfo( xInternalTaskHandle, pxTaskStatus, x_Get_Free_सालानसान_Space, eState );
                             }
                         }
                     }
@@ -744,25 +744,25 @@
     #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    TickType_t MPU_xTaskGetTickCountImpl( void ) PRIVILEGED_FUNCTION;
+    TickType_t MPU_x_Task_Get_Tick_बिलांग_Impl( void ) PRIVILEGED_FUNCTION;
 
-    TickType_t MPU_xTaskGetTickCountImpl( void ) /* PRIVILEGED_FUNCTION */
+    TickType_t MPU_x_Task_Get_Tick_बिलांग_Impl( void ) /* PRIVILEGED_FUNCTION */
     {
         TickType_t xReturn;
 
-        xReturn = xTaskGetTickCount();
+        xReturn = x_Task_Get_Tick_बिलांग();
 
         return xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasksImpl( void ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_ux_Task_Get_नुमेरो_Of_Tasks_Impl( void ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasksImpl( void ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_ux_Task_Get_नुमेरो_Of_Tasks_Impl( void ) /* PRIVILEGED_FUNCTION */
     {
         UBaseType_t uxReturn;
 
-        uxReturn = uxTaskGetNumberOfTasks();
+        uxReturn = ux_Task_Get_नुमेरो_Of_Tasks();
 
         return uxReturn;
     }
@@ -885,10 +885,10 @@
     #if ( configUSE_APPLICATION_TASK_TAG == 1 )
 
         void MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
-                                                 TaskHookFunction_t pxTagValue ) PRIVILEGED_FUNCTION;
+                                                 TaskHookFunction_t px_Tag_हालागा ) PRIVILEGED_FUNCTION;
 
         void MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
-                                                 TaskHookFunction_t pxTagValue ) /* PRIVILEGED_FUNCTION */
+                                                 TaskHookFunction_t px_Tag_हालागा ) /* PRIVILEGED_FUNCTION */
         {
             TaskHandle_t xInternalTaskHandle = NULL;
             int32_t lIndex;
@@ -896,7 +896,7 @@
 
             if( xTask == NULL )
             {
-                vTaskSetApplicationTaskTag( xTask, pxTagValue );
+                vTaskSetApplicationTaskTag( xTask, px_Tag_हालागा );
             }
             else
             {
@@ -912,7 +912,7 @@
 
                         if( xInternalTaskHandle != NULL )
                         {
-                            vTaskSetApplicationTaskTag( xInternalTaskHandle, pxTagValue );
+                            vTaskSetApplicationTaskTag( xInternalTaskHandle, px_Tag_हालागा );
                         }
                     }
                 }
@@ -963,15 +963,15 @@
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #if ( config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
         void MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
                                                         BaseType_t xIndex,
-                                                        void * pvValue ) PRIVILEGED_FUNCTION;
+                                                        void * pv_हालागा ) PRIVILEGED_FUNCTION;
 
         void MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
                                                         BaseType_t xIndex,
-                                                        void * pvValue ) /* PRIVILEGED_FUNCTION */
+                                                        void * pv_हालागा ) /* PRIVILEGED_FUNCTION */
         {
             int32_t lIndex;
             TaskHandle_t xInternalTaskHandle = NULL;
@@ -979,7 +979,7 @@
 
             if( xTaskToSet == NULL )
             {
-                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pvValue );
+                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pv_हालागा );
             }
             else
             {
@@ -995,7 +995,7 @@
 
                         if( xInternalTaskHandle != NULL )
                         {
-                            vTaskSetThreadLocalStoragePointer( xInternalTaskHandle, xIndex, pvValue );
+                            vTaskSetThreadLocalStoragePointer( xInternalTaskHandle, xIndex, pv_हालागा );
                         }
                     }
                 }
@@ -1005,7 +1005,7 @@
     #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #if ( config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
         void * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
                                                            BaseType_t xIndex ) PRIVILEGED_FUNCTION;
@@ -1088,11 +1088,11 @@
     #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
+    #if ( INCLUDE_ux_Task_Get_सालानसान_माताअस_Water_Mark == 1 )
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMarkImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMarkImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = 0;
             int32_t lIndex;
@@ -1101,7 +1101,7 @@
 
             if( xTask == NULL )
             {
-                uxReturn = uxTaskGetStackHighWaterMark( xTask );
+                uxReturn = ux_Task_Get_सालानसान_माताअस_Water_Mark( xTask );
             }
             else
             {
@@ -1117,7 +1117,7 @@
 
                         if( xInternalTaskHandle != NULL )
                         {
-                            uxReturn = uxTaskGetStackHighWaterMark( xInternalTaskHandle );
+                            uxReturn = ux_Task_Get_सालानसान_माताअस_Water_Mark( xInternalTaskHandle );
                         }
                     }
                 }
@@ -1129,20 +1129,20 @@
     #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
+    #if ( INCLUDE_ux_Task_Get_सालानसान_माताअस_Water_Mark2 == 1 )
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        config_सालानसान_DEPTH_TYPE MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        config_सालानसान_DEPTH_TYPE MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            configSTACK_DEPTH_TYPE uxReturn = 0;
+            config_सालानसान_DEPTH_TYPE uxReturn = 0;
             int32_t lIndex;
             TaskHandle_t xInternalTaskHandle = NULL;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
 
             if( xTask == NULL )
             {
-                uxReturn = uxTaskGetStackHighWaterMark2( xTask );
+                uxReturn = ux_Task_Get_सालानसान_माताअस_Water_Mark2( xTask );
             }
             else
             {
@@ -1158,7 +1158,7 @@
 
                         if( xInternalTaskHandle != NULL )
                         {
-                            uxReturn = uxTaskGetStackHighWaterMark2( xInternalTaskHandle );
+                            uxReturn = ux_Task_Get_सालानसान_माताअस_Water_Mark2( xInternalTaskHandle );
                         }
                     }
                 }
@@ -1267,18 +1267,18 @@
 
         BaseType_t MPU_xTaskGenericNotify( TaskHandle_t xTaskToNotify,
                                            UBaseType_t uxIndexToNotify,
-                                           uint32_t ulValue,
+                                           uint32_t ul_हालागा,
                                            eNotifyAction eAction,
-                                           uint32_t * pulPreviousNotificationValue ) /* FREERTOS_SYSTEM_CALL */
+                                           uint32_t * pul_Previous_Notification_हालागा ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn = pdFAIL;
             xTaskGenericNotifyParams_t xParams;
 
             xParams.xTaskToNotify = xTaskToNotify;
             xParams.uxIndexToNotify = uxIndexToNotify;
-            xParams.ulValue = ulValue;
+            xParams.ul_हालागा = ul_हालागा;
             xParams.eAction = eAction;
-            xParams.pulPreviousNotificationValue = pulPreviousNotificationValue;
+            xParams.pul_Previous_Notification_हालागा = pul_Previous_Notification_हालागा;
 
             xReturn = MPU_xTaskGenericNotifyEntry( &( xParams ) );
 
@@ -1292,7 +1292,7 @@
             BaseType_t xReturn = pdFAIL;
             int32_t lIndex;
             TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xIsPreviousNotificationValueWriteable = pdFALSE;
+            BaseType_t x_Is_Previous_Notification_हालागा_Writeable = pdFALSE;
             BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
             BaseType_t xAreParamsReadable = pdFALSE;
 
@@ -1309,18 +1309,18 @@
                     ( ( pxParams->eAction == eNoAction ) ||
                       ( pxParams->eAction == eSetBits ) ||
                       ( pxParams->eAction == eIncrement ) ||
-                      ( pxParams->eAction == eSetValueWithOverwrite ) ||
-                      ( pxParams->eAction == eSetValueWithoutOverwrite ) ) )
+                      ( pxParams->eAction == e_Set_हालागा_With_Overwrite ) ||
+                      ( pxParams->eAction == e_Set_हालागा_Without_Overwrite ) ) )
                 {
-                    if( pxParams->pulPreviousNotificationValue != NULL )
+                    if( pxParams->pul_Previous_Notification_हालागा != NULL )
                     {
-                        xIsPreviousNotificationValueWriteable = xPortIsAuthorizedToAccessBuffer( pxParams->pulPreviousNotificationValue,
+                        x_Is_Previous_Notification_हालागा_Writeable = xPortIsAuthorizedToAccessBuffer( pxParams->pul_Previous_Notification_हालागा,
                                                                                                  sizeof( uint32_t ),
                                                                                                  tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pulPreviousNotificationValue == NULL ) ||
-                        ( xIsPreviousNotificationValueWriteable == pdTRUE ) )
+                    if( ( pxParams->pul_Previous_Notification_हालागा == NULL ) ||
+                        ( x_Is_Previous_Notification_हालागा_Writeable == pdTRUE ) )
                     {
                         lIndex = ( int32_t ) ( pxParams->xTaskToNotify );
 
@@ -1336,9 +1336,9 @@
                                 {
                                     xReturn = xTaskGenericNotify( xInternalTaskHandle,
                                                                   pxParams->uxIndexToNotify,
-                                                                  pxParams->ulValue,
+                                                                  pxParams->ul_हालागा,
                                                                   pxParams->eAction,
-                                                                  pxParams->pulPreviousNotificationValue );
+                                                                  pxParams->pul_Previous_Notification_हालागा );
                                 }
                             }
                         }
@@ -1357,7 +1357,7 @@
         BaseType_t MPU_xTaskGenericNotifyWait( UBaseType_t uxIndexToWaitOn,
                                                uint32_t ulBitsToClearOnEntry,
                                                uint32_t ulBitsToClearOnExit,
-                                               uint32_t * pulNotificationValue,
+                                               uint32_t * pul_Notification_हालागा,
                                                TickType_t xTicksToWait )
         {
             BaseType_t xReturn = pdFAIL;
@@ -1366,7 +1366,7 @@
             xParams.uxIndexToWaitOn = uxIndexToWaitOn;
             xParams.ulBitsToClearOnEntry = ulBitsToClearOnEntry;
             xParams.ulBitsToClearOnExit = ulBitsToClearOnExit;
-            xParams.pulNotificationValue = pulNotificationValue;
+            xParams.pul_Notification_हालागा = pul_Notification_हालागा;
             xParams.xTicksToWait = xTicksToWait;
 
             xReturn = MPU_xTaskGenericNotifyWaitEntry( &( xParams ) );
@@ -1379,7 +1379,7 @@
         BaseType_t MPU_xTaskGenericNotifyWaitImpl( const xTaskGenericNotifyWaitParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
-            BaseType_t xIsNotificationValueWritable = pdFALSE;
+            BaseType_t x_Is_Notification_हालागा_Writable = pdFALSE;
             BaseType_t xAreParamsReadable = pdFALSE;
 
             if( pxParams != NULL )
@@ -1393,20 +1393,20 @@
             {
                 if( pxParams->uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
                 {
-                    if( pxParams->pulNotificationValue != NULL )
+                    if( pxParams->pul_Notification_हालागा != NULL )
                     {
-                        xIsNotificationValueWritable = xPortIsAuthorizedToAccessBuffer( pxParams->pulNotificationValue,
+                        x_Is_Notification_हालागा_Writable = xPortIsAuthorizedToAccessBuffer( pxParams->pul_Notification_हालागा,
                                                                                         sizeof( uint32_t ),
                                                                                         tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pulNotificationValue == NULL ) ||
-                        ( xIsNotificationValueWritable == pdTRUE ) )
+                    if( ( pxParams->pul_Notification_हालागा == NULL ) ||
+                        ( x_Is_Notification_हालागा_Writable == pdTRUE ) )
                     {
                         xReturn = xTaskGenericNotifyWait( pxParams->uxIndexToWaitOn,
                                                           pxParams->ulBitsToClearOnEntry,
                                                           pxParams->ulBitsToClearOnExit,
-                                                          pxParams->pulNotificationValue,
+                                                          pxParams->pul_Notification_हालागा,
                                                           pxParams->xTicksToWait );
                     }
                 }
@@ -1421,18 +1421,18 @@
     #if ( configUSE_TASK_NOTIFICATIONS == 1 )
 
         uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t uxIndexToWaitOn,
-                                                  BaseType_t xClearCountOnExit,
+                                                  BaseType_t x_Clear_बिलांग_On_Exit,
                                                   TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
 
         uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t uxIndexToWaitOn,
-                                                  BaseType_t xClearCountOnExit,
+                                                  BaseType_t x_Clear_बिलांग_On_Exit,
                                                   TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
             uint32_t ulReturn = 0;
 
             if( uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, xClearCountOnExit, xTicksToWait );
+                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, x_Clear_बिलांग_On_Exit, xTicksToWait );
             }
 
             return ulReturn;
@@ -1489,11 +1489,11 @@
 
     #if ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        uint32_t MPU_ulTaskGenericNotifyValueClearImpl( TaskHandle_t xTask,
+        uint32_t MPU_ul_Task_Generic_Notify_हालागा_Clear_Impl( TaskHandle_t xTask,
                                                         UBaseType_t uxIndexToClear,
                                                         uint32_t ulBitsToClear ) PRIVILEGED_FUNCTION;
 
-        uint32_t MPU_ulTaskGenericNotifyValueClearImpl( TaskHandle_t xTask,
+        uint32_t MPU_ul_Task_Generic_Notify_हालागा_Clear_Impl( TaskHandle_t xTask,
                                                         UBaseType_t uxIndexToClear,
                                                         uint32_t ulBitsToClear ) /* PRIVILEGED_FUNCTION */
         {
@@ -1506,7 +1506,7 @@
             {
                 if( xTask == NULL )
                 {
-                    ulReturn = ulTaskGenericNotifyValueClear( xTask, uxIndexToClear, ulBitsToClear );
+                    ulReturn = ul_Task_Generic_Notify_हालागा_Clear( xTask, uxIndexToClear, ulBitsToClear );
                 }
                 else
                 {
@@ -1522,7 +1522,7 @@
 
                             if( xInternalTaskHandle != NULL )
                             {
-                                ulReturn = ulTaskGenericNotifyValueClear( xInternalTaskHandle, uxIndexToClear, ulBitsToClear );
+                                ulReturn = ul_Task_Generic_Notify_हालागा_Clear( xInternalTaskHandle, uxIndexToClear, ulBitsToClear );
                             }
                         }
                     }
@@ -1544,7 +1544,7 @@
 
         BaseType_t MPU_xTaskCreate( TaskFunction_t pvTaskCode,
                                     const char * const pcName,
-                                    const configSTACK_DEPTH_TYPE uxStackDepth,
+                                    const config_सालानसान_DEPTH_TYPE ux_सालानसान_Depth,
                                     void * pvParameters,
                                     UBaseType_t uxPriority,
                                     TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
@@ -1560,7 +1560,7 @@
                 /* xTaskCreate() can only be used to create privileged tasks in MPU port. */
                 if( ( uxPriority & portPRIVILEGE_BIT ) != 0 )
                 {
-                    xReturn = xTaskCreate( pvTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, &( xInternalTaskHandle ) );
+                    xReturn = xTaskCreate( pvTaskCode, pcName, ux_सालानसान_Depth, pvParameters, uxPriority, &( xInternalTaskHandle ) );
 
                     if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
                     {
@@ -1588,10 +1588,10 @@
 
         TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t pxTaskCode,
                                             const char * const pcName,
-                                            const configSTACK_DEPTH_TYPE uxStackDepth,
+                                            const config_सालानसान_DEPTH_TYPE ux_सालानसान_Depth,
                                             void * const pvParameters,
                                             UBaseType_t uxPriority,
-                                            StackType_t * const puxStackBuffer,
+                                            सालानसान_Type_t * const pux_सालानसान_Buffer,
                                             StaticTask_t * const pxTaskBuffer ) /* PRIVILEGED_FUNCTION */
         {
             TaskHandle_t xExternalTaskHandle = NULL;
@@ -1602,7 +1602,7 @@
 
             if( lIndex != -1 )
             {
-                xInternalTaskHandle = xTaskCreateStatic( pxTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, puxStackBuffer, pxTaskBuffer );
+                xInternalTaskHandle = xTaskCreateStatic( pxTaskCode, pcName, ux_सालानसान_Depth, pvParameters, uxPriority, pux_सालानसान_Buffer, pxTaskBuffer );
 
                 if( xInternalTaskHandle != NULL )
                 {
@@ -1886,7 +1886,7 @@
     #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
         BaseType_t MPU_xTaskGetStaticBuffers( TaskHandle_t xTask,
-                                              StackType_t ** ppuxStackBuffer,
+                                              सालानसान_Type_t ** ppux_सालानसान_Buffer,
                                               StaticTask_t ** ppxTaskBuffer ) /* PRIVILEGED_FUNCTION */
         {
             TaskHandle_t xInternalTaskHandle = NULL;
@@ -1896,7 +1896,7 @@
             if( xTask == NULL )
             {
                 xInternalTaskHandle = xTaskGetCurrentTaskHandle();
-                xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppuxStackBuffer, ppxTaskBuffer );
+                xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppux_सालानसान_Buffer, ppxTaskBuffer );
             }
             else
             {
@@ -1908,7 +1908,7 @@
 
                     if( xInternalTaskHandle != NULL )
                     {
-                        xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppuxStackBuffer, ppxTaskBuffer );
+                        xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppux_सालानसान_Buffer, ppxTaskBuffer );
                     }
                 }
             }
@@ -2110,9 +2110,9 @@
 
         BaseType_t MPU_xTaskGenericNotifyFromISR( TaskHandle_t xTaskToNotify,
                                                   UBaseType_t uxIndexToNotify,
-                                                  uint32_t ulValue,
+                                                  uint32_t ul_हालागा,
                                                   eNotifyAction eAction,
-                                                  uint32_t * pulPreviousNotificationValue,
+                                                  uint32_t * pul_Previous_Notification_हालागा,
                                                   BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
         {
             BaseType_t xReturn = pdFAIL;
@@ -2127,7 +2127,7 @@
 
                 if( xInternalTaskHandle != NULL )
                 {
-                    xReturn = xTaskGenericNotifyFromISR( xInternalTaskHandle, uxIndexToNotify, ulValue, eAction, pulPreviousNotificationValue, pxHigherPriorityTaskWoken );
+                    xReturn = xTaskGenericNotifyFromISR( xInternalTaskHandle, uxIndexToNotify, ul_हालागा, eAction, pul_Previous_Notification_हालागा, pxHigherPriorityTaskWoken );
                 }
             }
 
@@ -2829,8 +2829,8 @@
 
     #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t uxCountValue,
-                                                         UBaseType_t uxInitialCount ) /* PRIVILEGED_FUNCTION */
+        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t ux_बिलांग_हालागा,
+                                                         UBaseType_t ux_Initial_बिलांग ) /* PRIVILEGED_FUNCTION */
         {
             QueueHandle_t xInternalQueueHandle = NULL;
             QueueHandle_t xExternalQueueHandle = NULL;
@@ -2840,7 +2840,7 @@
 
             if( lIndex != -1 )
             {
-                xInternalQueueHandle = xQueueCreateCountingSemaphore( uxCountValue, uxInitialCount );
+                xInternalQueueHandle = xQueueCreateCountingSemaphore( ux_बिलांग_हालागा, ux_Initial_बिलांग );
 
                 if( xInternalQueueHandle != NULL )
                 {
@@ -2861,8 +2861,8 @@
 
     #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( const UBaseType_t uxMaxCount,
-                                                               const UBaseType_t uxInitialCount,
+        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( const UBaseType_t ux_Max_बिलांग,
+                                                               const UBaseType_t ux_Initial_बिलांग,
                                                                StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
         {
             QueueHandle_t xInternalQueueHandle = NULL;
@@ -2873,7 +2873,7 @@
 
             if( lIndex != -1 )
             {
-                xInternalQueueHandle = xQueueCreateCountingSemaphoreStatic( uxMaxCount, uxInitialCount, pxStaticQueue );
+                xInternalQueueHandle = xQueueCreateCountingSemaphoreStatic( ux_Max_बिलांग, ux_Initial_बिलांग, pxStaticQueue );
 
                 if( xInternalQueueHandle != NULL )
                 {
@@ -3472,7 +3472,7 @@
 
         BaseType_t MPU_xTimerGenericCommandFromTask( TimerHandle_t xTimer,
                                                      const BaseType_t xCommandID,
-                                                     const TickType_t xOptionalValue,
+                                                     const TickType_t x_Optional_हालागा,
                                                      BaseType_t * const pxHigherPriorityTaskWoken,
                                                      const TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
@@ -3481,7 +3481,7 @@
 
             xParams.xTimer = xTimer;
             xParams.xCommandID = xCommandID;
-            xParams.xOptionalValue = xOptionalValue;
+            xParams.x_Optional_हालागा = x_Optional_हालागा;
             xParams.pxHigherPriorityTaskWoken = pxHigherPriorityTaskWoken;
             xParams.xTicksToWait = xTicksToWait;
 
@@ -3536,7 +3536,7 @@
                                 {
                                     xReturn = xTimerGenericCommandFromTask( xInternalTimerHandle,
                                                                             pxParams->xCommandID,
-                                                                            pxParams->xOptionalValue,
+                                                                            pxParams->x_Optional_हालागा,
                                                                             pxParams->pxHigherPriorityTaskWoken,
                                                                             pxParams->xTicksToWait );
                                 }
@@ -3862,7 +3862,7 @@
 
         BaseType_t MPU_xTimerGenericCommandFromISR( TimerHandle_t xTimer,
                                                     const BaseType_t xCommandID,
-                                                    const TickType_t xOptionalValue,
+                                                    const TickType_t x_Optional_हालागा,
                                                     BaseType_t * const pxHigherPriorityTaskWoken,
                                                     const TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
         {
@@ -3878,7 +3878,7 @@
 
                 if( xInternalTimerHandle != NULL )
                 {
-                    xReturn = xTimerGenericCommandFromISR( xInternalTimerHandle, xCommandID, xOptionalValue, pxHigherPriorityTaskWoken, xTicksToWait );
+                    xReturn = xTimerGenericCommandFromISR( xInternalTimerHandle, xCommandID, x_Optional_हालागा, pxHigherPriorityTaskWoken, xTicksToWait );
                 }
             }
 
@@ -4131,9 +4131,9 @@
 
     #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        UBaseType_t MPU_uxEventGroupGetNumberImpl( void * xEventGroup ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Event_Group_Get_नुमेरो_Impl( void * xEventGroup ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxEventGroupGetNumberImpl( void * xEventGroup ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Event_Group_Get_नुमेरो_Impl( void * xEventGroup ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t xReturn = 0;
             EventGroupHandle_t xInternalEventGroupHandle = NULL;
@@ -4152,7 +4152,7 @@
 
                     if( xInternalEventGroupHandle != NULL )
                     {
-                        xReturn = uxEventGroupGetNumber( xInternalEventGroupHandle );
+                        xReturn = ux_Event_Group_Get_नुमेरो( xInternalEventGroupHandle );
                     }
                 }
             }
@@ -4165,11 +4165,11 @@
 
     #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        void MPU_vEventGroupSetNumberImpl( void * xEventGroup,
-                                           UBaseType_t uxEventGroupNumber ) PRIVILEGED_FUNCTION;
+        void MPU_v_Event_Group_Set_नुमेरो_Impl( void * xEventGroup,
+                                           UBaseType_t ux_Event_Group_नुमेरो ) PRIVILEGED_FUNCTION;
 
-        void MPU_vEventGroupSetNumberImpl( void * xEventGroup,
-                                           UBaseType_t uxEventGroupNumber ) /* PRIVILEGED_FUNCTION */
+        void MPU_v_Event_Group_Set_नुमेरो_Impl( void * xEventGroup,
+                                           UBaseType_t ux_Event_Group_नुमेरो ) /* PRIVILEGED_FUNCTION */
         {
             EventGroupHandle_t xInternalEventGroupHandle = NULL;
             int32_t lIndex;
@@ -4187,7 +4187,7 @@
 
                     if( xInternalEventGroupHandle != NULL )
                     {
-                        vEventGroupSetNumber( xInternalEventGroupHandle, uxEventGroupNumber );
+                        v_Event_Group_Set_नुमेरो( xInternalEventGroupHandle, ux_Event_Group_नुमेरो );
                     }
                 }
             }
@@ -5059,7 +5059,7 @@
  * The index in the array MUST match the corresponding system call number
  * defined in mpu_wrappers.h.
  */
-    PRIVILEGED_DATA UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ] =
+    PRIVILEGED_DATA UBaseType_t uxSystemCallImplementations[ नुमेरो_SYSTEM_CALLS ] =
     {
         #if ( configUSE_TASK_NOTIFICATIONS == 1 )
             ( UBaseType_t ) MPU_xTaskGenericNotifyImpl,                     /* SYSTEM_CALL_xTaskGenericNotify. */
@@ -5133,8 +5133,8 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskResume. */
         #endif
 
-        ( UBaseType_t ) MPU_xTaskGetTickCountImpl,                          /* SYSTEM_CALL_xTaskGetTickCount. */
-        ( UBaseType_t ) MPU_uxTaskGetNumberOfTasksImpl,                     /* SYSTEM_CALL_uxTaskGetNumberOfTasks. */
+        ( UBaseType_t ) MPU_x_Task_Get_Tick_बिलांग_Impl,                          /* SYSTEM_CALL_xTaskGetTickCount. */
+        ( UBaseType_t ) MPU_ux_Task_Get_नुमेरो_Of_Tasks_Impl,                     /* SYSTEM_CALL_uxTaskGetNumberOfTasks. */
 
         #if ( configGENERATE_RUN_TIME_STATS == 1 )
             ( UBaseType_t ) MPU_ulTaskGetRunTimeCounterImpl,                /* SYSTEM_CALL_ulTaskGetRunTimeCounter. */
@@ -5160,7 +5160,7 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetApplicationTaskTag. */
         #endif
 
-        #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+        #if ( config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS != 0 )
             ( UBaseType_t ) MPU_vTaskSetThreadLocalStoragePointerImpl,      /* SYSTEM_CALL_vTaskSetThreadLocalStoragePointer. */
             ( UBaseType_t ) MPU_pvTaskGetThreadLocalStoragePointerImpl,     /* SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer. */
         #else
@@ -5174,14 +5174,14 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetSystemState. */
         #endif
 
-        #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
-            ( UBaseType_t ) MPU_uxTaskGetStackHighWaterMarkImpl,            /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
+        #if ( INCLUDE_ux_Task_Get_सालानसान_माताअस_Water_Mark == 1 )
+            ( UBaseType_t ) MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Impl,            /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
         #else
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
         #endif
 
-        #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
-            ( UBaseType_t ) MPU_uxTaskGetStackHighWaterMark2Impl,           /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
+        #if ( INCLUDE_ux_Task_Get_सालानसान_माताअस_Water_Mark2 == 1 )
+            ( UBaseType_t ) MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Impl,           /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
         #else
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
         #endif
@@ -5204,7 +5204,7 @@
         #if ( configUSE_TASK_NOTIFICATIONS == 1 )
             ( UBaseType_t ) MPU_ulTaskGenericNotifyTakeImpl,                /* SYSTEM_CALL_ulTaskGenericNotifyTake. */
             ( UBaseType_t ) MPU_xTaskGenericNotifyStateClearImpl,           /* SYSTEM_CALL_xTaskGenericNotifyStateClear. */
-            ( UBaseType_t ) MPU_ulTaskGenericNotifyValueClearImpl,          /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
+            ( UBaseType_t ) MPU_ul_Task_Generic_Notify_हालागा_Clear_Impl,          /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
         #else
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGenericNotifyTake. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotifyStateClear. */
@@ -5280,8 +5280,8 @@
             ( UBaseType_t ) MPU_xEventGroupSyncImpl,                        /* SYSTEM_CALL_xEventGroupSync. */
 
             #if ( configUSE_TRACE_FACILITY == 1 )
-                ( UBaseType_t ) MPU_uxEventGroupGetNumberImpl,              /* SYSTEM_CALL_uxEventGroupGetNumber. */
-                ( UBaseType_t ) MPU_vEventGroupSetNumberImpl,               /* SYSTEM_CALL_vEventGroupSetNumber. */
+                ( UBaseType_t ) MPU_ux_Event_Group_Get_नुमेरो_Impl,              /* SYSTEM_CALL_uxEventGroupGetNumber. */
+                ( UBaseType_t ) MPU_v_Event_Group_Set_नुमेरो_Impl,               /* SYSTEM_CALL_vEventGroupSetNumber. */
             #else
                 ( UBaseType_t ) 0,                                          /* SYSTEM_CALL_uxEventGroupGetNumber. */
                 ( UBaseType_t ) 0,                                          /* SYSTEM_CALL_vEventGroupSetNumber. */

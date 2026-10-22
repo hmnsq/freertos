@@ -52,10 +52,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint8_t
+#define port_सालानसान_TYPE    uint8_t
 #define portBASE_TYPE     char
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef signed char      BaseType_t;
 typedef unsigned char    UBaseType_t;
 
@@ -72,7 +72,7 @@ typedef unsigned char    UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portYIELD()    asm volatile ( "TRAPA #0" )
 #define portNOP()      asm volatile ( "NOP" )
@@ -98,7 +98,7 @@ typedef unsigned char    UBaseType_t;
  * interrupt service routines.  These macros save and restore the stack
  * pointer to the TCB. */
 
-#define portSAVE_STACK_POINTER()                  \
+#define port_SAVE_सालानसान_POINTER()                  \
     extern void * pxCurrentTCB;                   \
                                                   \
     asm volatile (                                \
@@ -108,7 +108,7 @@ typedef unsigned char    UBaseType_t;
     ( void ) pxCurrentTCB;
 
 
-#define portRESTORE_STACK_POINTER()               \
+#define port_RESTORE_सालानसान_POINTER()               \
     extern void * pxCurrentTCB;                   \
                                                   \
     asm volatile (                                \
@@ -121,7 +121,7 @@ typedef unsigned char    UBaseType_t;
 
 /* Macros to allow a context switch from within an application ISR. */
 
-#define portENTER_SWITCHING_ISR()    portSAVE_STACK_POINTER(); {
+#define portENTER_SWITCHING_ISR()    port_SAVE_सालानसान_POINTER(); {
 #define portEXIT_SWITCHING_ISR( x )             \
     if( x )                                     \
     {                                           \
@@ -129,7 +129,7 @@ typedef unsigned char    UBaseType_t;
         vTaskSwitchContext();                   \
     }                                           \
 }                                               \
-    portRESTORE_STACK_POINTER();
+    port_RESTORE_सालानसान_POINTER();
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */

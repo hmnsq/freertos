@@ -51,10 +51,10 @@
     #define portDOUBLE        double
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
+    #define port_सालानसान_TYPE    uint32_t
     #define portBASE_TYPE     long
 
-    typedef portSTACK_TYPE   StackType_t;
+    typedef port_सालानसान_TYPE   सालानसान_Type_t;
     typedef long             BaseType_t;
     typedef unsigned long    UBaseType_t;
 
@@ -83,7 +83,7 @@
     #define portSYNCM()                  __syncm()
 
 /* Determine the descending of the stack from high address to address */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_सालानसान_GROWTH      ( -1 )
 
 /* Determine the time (in milliseconds) corresponding to each tick */
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
@@ -102,9 +102,9 @@
 /* SMP build which means configNUM_CORES is relevant */
     #define portSUPPORT_SMP              1
 
-    #define portMAX_CORE_COUNT           2
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES    1
+    #define port_MAX_CORE_बिलांग           2
+    #ifndef config_नुमेरो_OF_CORES
+        #define config_नुमेरो_OF_CORES    1
     #endif
 
 /*-----------------------------------------------------------*/
@@ -122,7 +122,7 @@
     extern void vPortYield( void );
 
     #define portYIELD()    vPortYield()
-    #if ( configNUMBER_OF_CORES > 1 )
+    #if ( config_नुमेरो_OF_CORES > 1 )
 
 /* Return the core ID on which the code is running. */
         extern BaseType_t xPortGET_CORE_ID();
@@ -140,7 +140,7 @@
 
     #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
         #define portGET_ISR_LOCK( xCoreID )
         #define portRELEASE_ISR_LOCK( xCoreID )
         #define portGET_TASK_LOCK( xCoreID )

@@ -56,7 +56,7 @@
 
 #define portPOINTER_SIZE_TYPE    uint16_t
 
-typedef uint8_t        StackType_t;
+typedef uint8_t        सालानसान_Type_t;
 typedef int8_t         BaseType_t;
 typedef uint8_t        UBaseType_t;
 
@@ -120,7 +120,7 @@ typedef uint8_t        UBaseType_t;
 
 #endif
 
-#define portSTACK_GROWTH    ( -1 )
+#define port_सालानसान_GROWTH    ( -1 )
 
 /* Timing for the scheduler.
  * Watchdog Timer is 128kHz nominal,

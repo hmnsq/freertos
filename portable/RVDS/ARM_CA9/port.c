@@ -81,19 +81,19 @@
  * number of bits implemented by the interrupt controller. */
 #if configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
+    #define port_MAX_दालावाहान_POINT_हालागा    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
     #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
+    #define port_MAX_दालावाहान_POINT_हालागा    2
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 64
     #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
+    #define port_MAX_दालावाहान_POINT_हालागा    1
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 128
     #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
     #error "Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware"
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
@@ -104,36 +104,36 @@
 
 /* In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority. */
-#define portUNMASK_VALUE                                     ( 0xFFUL )
+#define port_UNMASK_हालागा                                     ( 0xFFUL )
 
 /* Tasks are not created with a floating point context, but can be given a
  * floating point context after they have been created.  A variable is stored as
  * part of the tasks context that holds portNO_FLOATING_POINT_CONTEXT if the task
  * does not have an FPU context, or any other value if the task does have an FPU
  * context. */
-#define portNO_FLOATING_POINT_CONTEXT                        ( ( StackType_t ) 0 )
+#define portNO_FLOATING_POINT_CONTEXT                        ( ( सालानसान_Type_t ) 0 )
 
 /* Interrupt controller access addresses. */
 #define portICCPMR_PRIORITY_MASK_OFFSET                      ( 0x04 )
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET              ( 0x0C )
 #define portICCEOIR_END_OF_INTERRUPT_OFFSET                  ( 0x10 )
-#define portICCBPR_BINARY_POINT_OFFSET                       ( 0x08 )
+#define port_ICCBPR_दालावाहान_POINT_OFFSET                       ( 0x08 )
 #define portICCRPR_RUNNING_PRIORITY_OFFSET                   ( 0x14 )
 #define portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS       ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET )
 #define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS    ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET )
 #define portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS        ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCEOIR_END_OF_INTERRUPT_OFFSET )
 #define portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS            ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET )
-#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
+#define port_ICCBPR_दालावाहान_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + port_ICCBPR_दालावाहान_POINT_OFFSET ) ) )
 #define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
 
 /* Used by portASSERT_IF_INTERRUPT_PRIORITY_INVALID() when ensuring the binary
  * point is zero. */
-#define portBINARY_POINT_BITS                                ( ( uint8_t ) 0x03 )
+#define port_दालावाहान_POINT_BITS                                ( ( uint8_t ) 0x03 )
 
 /* Constants required to setup the initial task context. */
-#define portINITIAL_SPSR                                     ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT                                   ( ( StackType_t ) 0x20 )
+#define portINITIAL_SPSR                                     ( ( सालानसान_Type_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
+#define portTHUMB_MODE_BIT                                   ( ( सालानसान_Type_t ) 0x20 )
 #define portTHUMB_MODE_ADDRESS                               ( 0x01UL )
 
 /* Masks all bits in the APSR other than the mode bits. */
@@ -147,7 +147,7 @@
 #define portCLEAR_INTERRUPT_MASK()                            \
     {                                                         \
         __disable_irq();                                      \
-        portICCPMR_PRIORITY_MASK_REGISTER = portUNMASK_VALUE; \
+        portICCPMR_PRIORITY_MASK_REGISTER = port_UNMASK_हालागा; \
         __asm( "DSB        \n"                                \
                "ISB        \n" );                             \
         __enable_irq();                                       \
@@ -199,7 +199,7 @@ uint32_t ulPortInterruptNesting = 0UL;
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -209,67 +209,67 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * The fist real value on the stack is the status register, which is set for
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address. */
-    *pxTopOfStack = NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_इताअस_Of_सालानसान = NULL;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = NULL;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = NULL;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portINITIAL_SPSR;
 
     if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_इताअस_Of_सालानसान |= portTHUMB_MODE_BIT;
     }
 
-    pxTopOfStack--;
+    px_इताअस_Of_सालानसान--;
 
     /* Next the return address, which in this case is the start of the task. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
+    px_इताअस_Of_सालानसान--;
 
     /* Next all the registers other than the stack pointer. */
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;       /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;       /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;       /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;       /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;       /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;       /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;       /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;       /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;       /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;       /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;       /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;       /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;     /* R0 */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) prvTaskExitError; /* R14 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x12121212;       /* R12 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x11111111;       /* R11 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x10101010;       /* R10 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x09090909;       /* R9 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x08080808;       /* R8 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x07070707;       /* R7 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x06060606;       /* R6 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x05050505;       /* R5 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x04040404;       /* R4 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x03030303;       /* R3 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x02020202;       /* R2 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x01010101;       /* R1 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;     /* R0 */
+    px_इताअस_Of_सालानसान--;
 
     /* The task will start with a critical nesting count of 0 as interrupts are
      * enabled. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = portNO_CRITICAL_NESTING;
+    px_इताअस_Of_सालानसान--;
 
     /* The task will start without a floating point context.  A task that uses
      * the floating point hardware must call vPortTaskUsesFPU() before executing
      * any floating point instructions. */
-    *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+    *px_इताअस_Of_सालानसान = portNO_FLOATING_POINT_CONTEXT;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -305,9 +305,9 @@ BaseType_t xPortStartScheduler( void )
         /* Only continue if the binary point value is set to its lowest possible
          * setting.  See the comments in vPortValidateInterruptPriority() below for
          * more information. */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( port_ICCBPR_दालावाहान_POINT_REGISTER & port_दालावाहान_POINT_BITS ) <= port_MAX_दालावाहान_POINT_हालागा );
 
-        if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+        if( ( port_ICCBPR_दालावाहान_POINT_REGISTER & port_दालावाहान_POINT_BITS ) <= port_MAX_दालावाहान_POINT_हालागा )
         {
             /* Start the timer that generates the tick ISR. */
             configSETUP_TICK_INTERRUPT();
@@ -410,9 +410,9 @@ void vPortTaskUsesFPU( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+void vPortClearInterruptMask( uint32_t ul_New_Mask_हालागा )
 {
-    if( ulNewMaskValue == pdFALSE )
+    if( ul_New_Mask_हालागा == pdFALSE )
     {
         portCLEAR_INTERRUPT_MASK();
     }
@@ -478,7 +478,7 @@ uint32_t ulPortSetInterruptMask( void )
          * The priority grouping is configured by the GIC's binary point register
          * (ICCBPR).  Writing 0 to ICCBPR will ensure it is set to its lowest
          * possible value (which may be above 0). */
-        configASSERT( portICCBPR_BINARY_POINT_REGISTER <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( port_ICCBPR_दालावाहान_POINT_REGISTER <= port_MAX_दालावाहान_POINT_हालागा );
     }
 
 #endif /* configASSERT_DEFINED */

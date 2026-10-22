@@ -52,10 +52,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -179,15 +179,15 @@ typedef unsigned long    UBaseType_t;
     #define configTEX_S_C_B_SRAM          ( 0x07UL )
 #endif
 
-#define portSTACK_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
+#define port_सालानसान_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
 #define portGENERAL_PERIPHERALS_REGION    ( configTOTAL_MPU_REGIONS - 4UL )
 #define portUNPRIVILEGED_FLASH_REGION     ( configTOTAL_MPU_REGIONS - 3UL )
 #define portPRIVILEGED_FLASH_REGION       ( configTOTAL_MPU_REGIONS - 2UL )
 #define portPRIVILEGED_RAM_REGION         ( configTOTAL_MPU_REGIONS - 1UL )
 #define portFIRST_CONFIGURABLE_REGION     ( 0UL )
 #define portLAST_CONFIGURABLE_REGION      ( configTOTAL_MPU_REGIONS - 6UL )
-#define portNUM_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
-#define portTOTAL_NUM_REGIONS_IN_TCB      ( portNUM_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
+#define port_नुमेरो_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
+#define port_TOTAL_नुमेरो_REGIONS_IN_TCB      ( port_नुमेरो_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
 
 typedef struct MPU_REGION_REGISTERS
 {
@@ -204,17 +204,17 @@ typedef struct MPU_REGION_SETTINGS
 
 #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #ifndef configSYSTEM_CALL_STACK_SIZE
+    #ifndef config_SYSTEM_CALL_सालानसान_SIZE
         #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
     #endif
 
-    typedef struct SYSTEM_CALL_STACK_INFO
+    typedef struct SYSTEM_CALL_सालानसान_INFO
     {
-        uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-        uint32_t * pulSystemCallStack;
-        uint32_t * pulTaskStack;
+        uint32_t ul_System_Call_सालानसान_Buffer[ config_SYSTEM_CALL_सालानसान_SIZE ];
+        uint32_t * pul_System_Call_सालानसान;
+        uint32_t * pul_Task_सालानसान;
         uint32_t ulLinkRegisterAtSystemCallEntry;
-    } xSYSTEM_CALL_STACK_INFO;
+    } x_SYSTEM_CALL_सालानसान_INFO;
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
@@ -233,18 +233,18 @@ typedef struct MPU_REGION_SETTINGS
 #define portACL_ENTRY_SIZE_BITS             ( 32U )
 
 /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-#define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
+#define port_सालानसान_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
 #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
 typedef struct MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    xMPU_REGION_SETTINGS xRegionSettings[ portTOTAL_NUM_REGIONS_IN_TCB ];
+    xMPU_REGION_REGISTERS xRegion[ port_TOTAL_नुमेरो_REGIONS_IN_TCB ];
+    xMPU_REGION_SETTINGS xRegionSettings[ port_TOTAL_नुमेरो_REGIONS_IN_TCB ];
     uint32_t ulContext[ MAX_CONTEXT_SIZE ];
     uint32_t ulTaskFlags;
 
     #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-        xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
+        x_SYSTEM_CALL_सालानसान_INFO x_System_Call_सालानसान_Info;
         #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
             uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
         #endif
@@ -252,7 +252,7 @@ typedef struct MPU_SETTINGS
 } xMPU_SETTINGS;
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
+#define port_सालानसान_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT        8
 
@@ -331,7 +331,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/

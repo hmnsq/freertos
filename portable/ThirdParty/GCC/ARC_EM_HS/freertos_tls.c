@@ -55,7 +55,7 @@
     extern void __mw_run_tls_dtor();
     extern void __mw_run_tls_ctor();
 
-    extern uint32_t exc_nest_count;
+    extern uint32_t exc_nest_बिलांग;
 
 /*
  * Linker generated symbols to mark .tls section addresses
@@ -187,7 +187,7 @@
             executable_requires_tls_section();
         }
 
-        if( exc_nest_count > 0 ) /* In ISR */
+        if( exc_nest_बिलांग > 0 ) /* In ISR */
         {
             return get_isr_tls();
         }

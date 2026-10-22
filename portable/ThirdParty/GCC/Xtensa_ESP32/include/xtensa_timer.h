@@ -68,7 +68,7 @@
  * not be on a high priority interrupt - an error will be reported in invalid).
  * Otherwise select the first low or medium priority interrupt timer available.
  */
-#if XCHAL_NUM_TIMERS == 0
+#if XCHAL_नुमेरो_TIMERS == 0
 
     #error "This Xtensa configuration is unsupported, it has no timers."
 
@@ -157,12 +157,12 @@
  * Derivation of clock divisor for timer tick and interrupt (one per tick).
  */
 #ifdef XT_CLOCK_FREQ
-    #define XT_TICK_DIVISOR    ( XT_CLOCK_FREQ / XT_TICK_PER_SEC )
+    #define XT_TICK_पांगहाति    ( XT_CLOCK_FREQ / XT_TICK_PER_SEC )
 #endif
 
 #ifndef __ASSEMBLER__
-    extern unsigned _xt_tick_divisor;
-    extern void _xt_tick_divisor_init( void );
+    extern unsigned xt_tick_पांगहाति;
+    extern void xt_tick_पांगहाति_init( void );
 #endif
 
 #endif /* XTENSA_TIMER_H */

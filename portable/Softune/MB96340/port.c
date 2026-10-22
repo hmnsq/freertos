@@ -36,12 +36,12 @@
 /*
  * Get current value of DPR and ADB registers
  */
-StackType_t xGet_DPR_ADB_bank( void );
+सालानसान_Type_t xGet_DPR_ADB_bank( void );
 
 /*
  * Get current value of DTB and PCB registers
  */
-StackType_t xGet_DTB_PCB_bank( void );
+सालानसान_Type_t xGet_DTB_PCB_bank( void );
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.  This uses RLT0, but
@@ -261,16 +261,16 @@ _xGet_DTB_PCB_bank:
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0x1111;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2222;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x3333;
+    px_इताअस_Of_सालानसान--;
 
     /* Once the task is called the task  would  push  the  pointer to the
     parameter onto the stack. Hence here the pointer would be copied to the stack
@@ -279,42 +279,42 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     bits. */
     #if( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
     {
-        *pxTopOfStack = ( StackType_t ) ( ( uint32_t ) ( pvParameters ) >> 16 );
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ( uint32_t ) ( pvParameters ) >> 16 );
+        px_इताअस_Of_सालानसान--;
     }
     #endif
 
-    *pxTopOfStack = ( StackType_t ) ( pvParameters );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( pvParameters );
+    px_इताअस_Of_सालानसान--;
 
     /* This is redundant push to the stack. This is required in order to introduce
     an offset so that the task accesses a parameter correctly that is passed on to
     the task stack. */
     #if( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
     {
-        *pxTopOfStack = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
+        px_इताअस_Of_सालानसान--;
     }
     #endif
 
     /* This is redundant push to the stack. This is required in order to introduce
     an offset so the task correctly accesses the parameter passed on the task stack. */
-    *pxTopOfStack = ( StackType_t ) ( pxCode );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( pxCode );
+    px_इताअस_Of_सालानसान--;
 
     /* PS - User Mode, ILM=7, RB=0, Interrupts enabled,USP */
-    *pxTopOfStack = 0xE0C0;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0xE0C0;
+    px_इताअस_Of_सालानसान--;
 
     /* PC */
-    *pxTopOfStack = ( StackType_t ) ( pxCode );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( pxCode );
+    px_इताअस_Of_सालानसान--;
 
     /* DTB | PCB */
     #if configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
     {
-        *pxTopOfStack = xGet_DTB_PCB_bank();
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = xGet_DTB_PCB_bank();
+        px_इताअस_Of_सालानसान--;
     }
     #endif
 
@@ -322,51 +322,51 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     along with PC to indicate the start address of the function. */
     #if( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
     {
-        *pxTopOfStack = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
+        px_इताअस_Of_सालानसान--;
     }
     #endif
 
     /* DPR | ADB  */
-    *pxTopOfStack = xGet_DPR_ADB_bank();
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = xGet_DPR_ADB_bank();
+    px_इताअस_Of_सालानसान--;
 
     /* AL */
-    *pxTopOfStack = ( StackType_t ) 0x9999;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x9999;
+    px_इताअस_Of_सालानसान--;
 
     /* AH */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xAAAA;
+    px_इताअस_Of_सालानसान--;
 
     /* Next the general purpose registers. */
-    *pxTopOfStack = ( StackType_t ) 0x7777; /* RW7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x6666; /* RW6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x5555; /* RW5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x4444; /* RW4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x3333; /* RW3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x2222; /* RW2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1111; /* RW1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x8888; /* RW0 */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x7777; /* RW7 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x6666; /* RW6 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x5555; /* RW5 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x4444; /* RW4 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x3333; /* RW3 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x2222; /* RW2 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1111; /* RW1 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x8888; /* RW0 */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
 static void prvSetupRLT0Interrupt( void )
 {
 /* The peripheral clock divided by 16 is used by the timer. */
-const uint16_t usReloadValue = ( uint16_t ) ( ( ( configCLKP1_CLOCK_HZ / configTICK_RATE_HZ ) / 16UL ) - 1UL );
+const uint16_t us_Reload_हालागा = ( uint16_t ) ( ( ( configCLKP1_CLOCK_HZ / configTICK_RATE_HZ ) / 16UL ) - 1UL );
 
     /* set reload value = 34999+1, TICK Interrupt after 10 ms @ 56MHz of CLKP1 */
-    TMRLR0 = usReloadValue;
+    TMRLR0 = us_Reload_हालागा;
 
     /* prescaler 1:16, reload, interrupt enable, count enable, trigger */
     TMCSR0 = 0x041B;

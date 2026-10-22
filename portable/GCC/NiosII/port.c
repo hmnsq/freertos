@@ -45,7 +45,7 @@
 #include "task.h"
 
 /* Interrupts are enabled. */
-#define portINITIAL_ESTATUS    ( StackType_t ) 0x01
+#define portINITIAL_ESTATUS    ( सालानसान_Type_t ) 0x01
 
 int _alt_ic_isr_register( alt_u32 ic_id,
                           alt_u32 irq,
@@ -66,50 +66,50 @@ void vPortSysTickHandler( void * context );
 
 /*-----------------------------------------------------------*/
 
-static void prvReadGp( uint32_t * ulValue )
+static void prvReadGp( uint32_t * ul_हालागा )
 {
-    asm ( "stw gp, (%0)" ::"r" ( ulValue ) );
+    asm ( "stw gp, (%0)" ::"r" ( ul_हालागा ) );
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
-    StackType_t * pxFramePointer = pxTopOfStack - 1;
-    StackType_t xGlobalPointer;
+    सालानसान_Type_t * pxFramePointer = px_इताअस_Of_सालानसान - 1;
+    सालानसान_Type_t xGlobalPointer;
 
     prvReadGp( &xGlobalPointer );
 
     /* End of stack marker. */
-    *pxTopOfStack = 0xdeadbeef;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0xdeadbeef;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = ( StackType_t ) pxFramePointer;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxFramePointer;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = xGlobalPointer;
+    *px_इताअस_Of_सालानसान = xGlobalPointer;
 
     /* Space for R23 to R16. */
-    pxTopOfStack -= 9;
+    px_इताअस_Of_सालानसान -= 9;
 
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = portINITIAL_ESTATUS;
+    *px_इताअस_Of_सालानसान = portINITIAL_ESTATUS;
 
     /* Space for R15 to R5. */
-    pxTopOfStack -= 12;
+    px_इताअस_Of_सालानसान -= 12;
 
-    *pxTopOfStack = ( StackType_t ) pvParameters;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
 
     /* Space for R3 to R1, muldiv and RA. */
-    pxTopOfStack -= 5;
+    px_इताअस_Of_सालानसान -= 5;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

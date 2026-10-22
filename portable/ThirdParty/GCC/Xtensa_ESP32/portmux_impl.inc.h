@@ -24,7 +24,7 @@ static inline bool __attribute__( ( always_inline ) )
     PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux,
                                 int timeout_cycles,
                                 const char * fnName,
-                                int line )
+                                int लिन्या )
     {
 #else
     PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux, int timeout_cycles )
@@ -59,7 +59,7 @@ static inline bool __attribute__( ( always_inline ) )
                     if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
                 #endif
                 {
-                    ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, line );
+                    ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, लिन्या );
                     mux->owner = portMUX_FREE_VAL;
                 }
             #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
@@ -102,8 +102,8 @@ static inline bool __attribute__( ( always_inline ) )
                     if( ccount_now - ccount_start > ( unsigned ) timeout_cycles )
                     {
                         #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                            ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->lastLockedFn, mux->lastLockedLine, fnName, line );
-                            ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->count );
+                            ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->lastLockedFn, mux->last_Locked_लिन्या, fnName, लिन्या );
+                            ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->बिलांग );
                         #endif
                         return false;
                     }
@@ -111,23 +111,23 @@ static inline bool __attribute__( ( always_inline ) )
             } while( 1 );
 
             assert( res == coreID || res == portMUX_FREE_VAL );           /* any other value implies memory corruption or uninitialized mux */
-            assert( ( res == portMUX_FREE_VAL ) == ( mux->count == 0 ) ); /* we're first to lock iff count is zero */
-            assert( mux->count < 0xFF );                                  /* Bad count value implies memory corruption */
+            assert( ( res == portMUX_FREE_VAL ) == ( mux->बिलांग == 0 ) ); /* we're first to lock iff count is zero */
+            assert( mux->बिलांग < 0xFF );                                  /* Bad count value implies memory corruption */
 
             /* now we own it, we can increment the refcount */
-            mux->count++;
+            mux->बिलांग++;
 
 
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                 if( res == portMUX_FREE_VAL ) /*initial lock */
                 {
                     mux->lastLockedFn = fnName;
-                    mux->lastLockedLine = line;
+                    mux->last_Locked_लिन्या = लिन्या;
                 }
                 else
                 {
-                    ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->count - 1,
-                                mux->lastLockedFn, mux->lastLockedLine, fnName, line );
+                    ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->बिलांग - 1,
+                                mux->lastLockedFn, mux->last_Locked_लिन्या, fnName, लिन्या );
                 }
             #endif /* CONFIG_FREERTOS_PORTMUX_DEBUG */
         #endif /* CONFIG_FREERTOS_UNICORE */
@@ -137,7 +137,7 @@ static inline bool __attribute__( ( always_inline ) )
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
         static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux,
                                                         const char * fnName,
-                                                        int line )
+                                                        int लिन्या )
         {
 #else
         static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux )
@@ -149,9 +149,9 @@ static inline bool __attribute__( ( always_inline ) )
                 portBASE_TYPE coreID;
                 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                     const char * lastLockedFn = mux->lastLockedFn;
-                    int lastLockedLine = mux->lastLockedLine;
+                    int last_Locked_लिन्या = mux->last_Locked_लिन्या;
                     mux->lastLockedFn = fnName;
-                    mux->lastLockedLine = line;
+                    mux->last_Locked_लिन्या = लिन्या;
                     uint32_t owner = mux->owner;
 
                     #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
@@ -172,23 +172,23 @@ static inline bool __attribute__( ( always_inline ) )
                     if( coreID != mux->owner )
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p was already unlocked!\n", mux );
-                        ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", lastLockedFn, lastLockedLine, fnName, line );
+                        ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", lastLockedFn, last_Locked_लिन्या, fnName, लिन्या );
                     }
                 #endif
 
                 assert( coreID == mux->owner ); /* This is a mutex we didn't lock, or it's corrupt */
 
-                mux->count--;
+                mux->बिलांग--;
 
-                if( mux->count == 0 )
+                if( mux->बिलांग == 0 )
                 {
                     mux->owner = portMUX_FREE_VAL;
                 }
                 else
                 {
-                    assert( mux->count < 0x100 ); /* Indicates memory corruption */
+                    assert( mux->बिलांग < 0x100 ); /* Indicates memory corruption */
                     #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG_RECURSIVE
-                        ets_printf( "Recursive unlock: count=%d last locked %s line %d, curr %s line %d\n", mux->count, lastLockedFn, lastLockedLine, fnName, line );
+                        ets_printf( "Recursive unlock: count=%d last locked %s line %d, curr %s line %d\n", mux->बिलांग, lastLockedFn, last_Locked_लिन्या, fnName, लिन्या );
                     #endif
                 }
             #endif //!CONFIG_FREERTOS_UNICORE

@@ -10,7 +10,7 @@
 
 static hwtimer_t xKernelTimer;
 
-uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ] = { pdFALSE };
+uint32_t ulPortYieldRequired[ port_MAX_CORE_बिलांग ] = { pdFALSE };
 
 /* When this port was designed, it was assumed that pxCurrentTCBs would always
    exist and that it would always be an array containing pointers to the current
@@ -109,7 +109,7 @@ static int prvCoreInit( void )
         : "r11"
         );
 
-    rtos_irq_enable( configNUMBER_OF_CORES );
+    rtos_irq_enable( config_नुमेरो_OF_CORES );
 
     /*
      * All threads wait here until all have enabled IRQs
@@ -150,7 +150,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
     #endif
 
     /* Populate the TCBContainer depending on whether we're singlecore or SMP */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
     {
         asm volatile (
             "ldaw %0, dp[pxCurrentTCB]\n\t"
@@ -195,7 +195,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -205,7 +205,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * Grow the thread's stack by portTHREAD_CONTEXT_STACK_GROWTH
      * so we can push the context onto it.
      */
-    pxTopOfStack -= portTHREAD_CONTEXT_STACK_GROWTH;
+    px_इताअस_Of_सालानसान -= port_THREAD_CONTEXT_सालानसान_GROWTH;
 
     uint32_t dp;
     uint32_t cp;
@@ -231,37 +231,37 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * KEDI is also set to enable dual issue mode
      * upon kernel entry.
      */
-    pxTopOfStack[ 1 ] = ( StackType_t ) pxCode;       /* SP[1]  := SPC */
-    pxTopOfStack[ 2 ] = XS1_SR_IEBLE_MASK
+    px_इताअस_Of_सालानसान[ 1 ] = ( सालानसान_Type_t ) pxCode;       /* SP[1]  := SPC */
+    px_इताअस_Of_सालानसान[ 2 ] = XS1_SR_IEBLE_MASK
                         | XS1_SR_KEDI_MASK;           /* SP[2]  := SSR */
-    pxTopOfStack[ 3 ] = 0x00000000;                   /* SP[3]  := SED */
-    pxTopOfStack[ 4 ] = 0x00000000;                   /* SP[4]  := ET */
-    pxTopOfStack[ 5 ] = dp;                           /* SP[5]  := DP */
-    pxTopOfStack[ 6 ] = cp;                           /* SP[6]  := CP */
-    pxTopOfStack[ 7 ] = 0x00000000;                   /* SP[7]  := LR */
-    pxTopOfStack[ 8 ] = ( StackType_t ) pvParameters; /* SP[8]  := R0 */
-    pxTopOfStack[ 9 ] = 0x01010101;                   /* SP[9]  := R1 */
-    pxTopOfStack[ 10 ] = 0x02020202;                  /* SP[10] := R2 */
-    pxTopOfStack[ 11 ] = 0x03030303;                  /* SP[11] := R3 */
-    pxTopOfStack[ 12 ] = 0x04040404;                  /* SP[12] := R4 */
-    pxTopOfStack[ 13 ] = 0x05050505;                  /* SP[13] := R5 */
-    pxTopOfStack[ 14 ] = 0x06060606;                  /* SP[14] := R6 */
-    pxTopOfStack[ 15 ] = 0x07070707;                  /* SP[15] := R7 */
-    pxTopOfStack[ 16 ] = 0x08080808;                  /* SP[16] := R8 */
-    pxTopOfStack[ 17 ] = 0x09090909;                  /* SP[17] := R9 */
-    pxTopOfStack[ 18 ] = 0x10101010;                  /* SP[18] := R10 */
-    pxTopOfStack[ 19 ] = 0x11111111;                  /* SP[19] := R11 */
-    pxTopOfStack[ 20 ] = 0x00000000;                  /* SP[20] := vH and vSR */
-    memset( &pxTopOfStack[ 21 ], 0, 32 );             /* SP[21 - 28] := vR   */
-    memset( &pxTopOfStack[ 29 ], 1, 32 );             /* SP[29 - 36] := vD   */
-    memset( &pxTopOfStack[ 37 ], 2, 32 );             /* SP[37 - 44] := vC   */
+    px_इताअस_Of_सालानसान[ 3 ] = 0x00000000;                   /* SP[3]  := SED */
+    px_इताअस_Of_सालानसान[ 4 ] = 0x00000000;                   /* SP[4]  := ET */
+    px_इताअस_Of_सालानसान[ 5 ] = dp;                           /* SP[5]  := DP */
+    px_इताअस_Of_सालानसान[ 6 ] = cp;                           /* SP[6]  := CP */
+    px_इताअस_Of_सालानसान[ 7 ] = 0x00000000;                   /* SP[7]  := LR */
+    px_इताअस_Of_सालानसान[ 8 ] = ( सालानसान_Type_t ) pvParameters; /* SP[8]  := R0 */
+    px_इताअस_Of_सालानसान[ 9 ] = 0x01010101;                   /* SP[9]  := R1 */
+    px_इताअस_Of_सालानसान[ 10 ] = 0x02020202;                  /* SP[10] := R2 */
+    px_इताअस_Of_सालानसान[ 11 ] = 0x03030303;                  /* SP[11] := R3 */
+    px_इताअस_Of_सालानसान[ 12 ] = 0x04040404;                  /* SP[12] := R4 */
+    px_इताअस_Of_सालानसान[ 13 ] = 0x05050505;                  /* SP[13] := R5 */
+    px_इताअस_Of_सालानसान[ 14 ] = 0x06060606;                  /* SP[14] := R6 */
+    px_इताअस_Of_सालानसान[ 15 ] = 0x07070707;                  /* SP[15] := R7 */
+    px_इताअस_Of_सालानसान[ 16 ] = 0x08080808;                  /* SP[16] := R8 */
+    px_इताअस_Of_सालानसान[ 17 ] = 0x09090909;                  /* SP[17] := R9 */
+    px_इताअस_Of_सालानसान[ 18 ] = 0x10101010;                  /* SP[18] := R10 */
+    px_इताअस_Of_सालानसान[ 19 ] = 0x11111111;                  /* SP[19] := R11 */
+    px_इताअस_Of_सालानसान[ 20 ] = 0x00000000;                  /* SP[20] := vH and vSR */
+    memset( &px_इताअस_Of_सालानसान[ 21 ], 0, 32 );             /* SP[21 - 28] := vR   */
+    memset( &px_इताअस_Of_सालानसान[ 29 ], 1, 32 );             /* SP[29 - 36] := vD   */
+    memset( &px_इताअस_Of_सालानसान[ 37 ], 2, 32 );             /* SP[37 - 44] := vC   */
 
     /*debug_printf( "Top of stack is now %p for task %p\n", pxTopOfStack, pxCode ); */
 
     /*
      * Returns the new top of the stack
      */
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -272,7 +272,7 @@ void vPortStartSMPScheduler( void );
  */
 BaseType_t xPortStartScheduler( void )
 {
-    if( ( configNUMBER_OF_CORES > portMAX_CORE_COUNT ) || ( configNUMBER_OF_CORES <= 0 ) )
+    if( ( config_नुमेरो_OF_CORES > port_MAX_CORE_बिलांग ) || ( config_नुमेरो_OF_CORES <= 0 ) )
     {
         return pdFAIL;
     }

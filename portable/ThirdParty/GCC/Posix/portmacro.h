@@ -55,11 +55,11 @@
 #define portDOUBLE               double
 #define portLONG                 long
 #define portSHORT                short
-#define portSTACK_TYPE           unsigned long
+#define port_सालानसान_TYPE           unsigned long
 #define portBASE_TYPE            long
 #define portPOINTER_SIZE_TYPE    intptr_t
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -71,8 +71,8 @@ typedef unsigned long    TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                   ( -1 )
-#define portHAS_STACK_OVERFLOW_CHECKING    ( 1 )
+#define port_सालानसान_GROWTH                   ( -1 )
+#define port_HAS_सालानसान_OVERFLOW_CHECKING    ( 1 )
 #define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICK_RATE_MICROSECONDS         ( ( TickType_t ) 1000000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                 8
@@ -142,7 +142,7 @@ extern void vPortCancelThread( void * pxTaskToDelete );
 
 extern uint32_t ulPortGetRunTime( void );
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* no-op */
-#define portGET_RUN_TIME_COUNTER_VALUE()            ulPortGetRunTime()
+#define port_GET_RUN_TIME_COUNTER_हालागा()            ulPortGetRunTime()
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

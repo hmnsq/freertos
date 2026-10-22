@@ -51,10 +51,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -64,7 +64,7 @@ typedef uint32_t         TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    32
 
@@ -97,8 +97,8 @@ typedef uint32_t         TickType_t;
 #define portAPIC_ID_REGISTER            ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
 #define portAPIC_SPURIOUS_INT           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
 #define portAPIC_LVT_TIMER              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
-#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
-#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
+#define port_APIC_TIMER_INITIAL_बिलांग    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
+#define port_APIC_TIMER_CURRENT_बिलांग    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
 #define portAPIC_TASK_PRIORITY          ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
 #define portAPIC_LVT_ERROR              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
 #define portAPIC_ERROR_STATUS           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
@@ -149,7 +149,7 @@ typedef uint32_t         TickType_t;
 extern void vPortEnterCritical( void );
 extern void vPortExitCritical( void );
 extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+extern void vPortClearInterruptMask( uint32_t ul_New_Mask_हालागा );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
@@ -170,9 +170,9 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities ) \
     __asm volatile ( "bsr %1, %0\n\t"                                    \
-                     : "=r" ( uxTopPriority ) : "rm" ( uxReadyPriorities ) : "cc" )
+                     : "=r" ( ux_इताअस_Priority ) : "rm" ( uxReadyPriorities ) : "cc" )
 
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
     #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
@@ -185,7 +185,7 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 * Misc
 *----------------------------------------------------------*/
 
-#define portNUM_VECTORS     256
+#define port_नुमेरो_VECTORS     256
 #define portMAX_PRIORITY    15
 typedef void ( * ISR_Handler_t ) ( void );
 
@@ -203,9 +203,9 @@ typedef void ( * ISR_Handler_t ) ( void );
 /* See the comments under the configUSE_COMMON_INTERRUPT_ENTRY_POINT definition
  * below. */
 BaseType_t xPortRegisterCInterruptHandler( ISR_Handler_t pxHandler,
-                                           uint32_t ulVectorNumber );
+                                           uint32_t ul_Vector_नुमेरो );
 BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
-                                         uint32_t ulVectorNumber );
+                                         uint32_t ul_Vector_नुमेरो );
 
 #ifndef configAPIC_BASE
 
@@ -256,7 +256,7 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
     #define configUSE_COMMON_INTERRUPT_ENTRY_POINT    1
 #endif
 
-#ifndef configISR_STACK_SIZE
+#ifndef config_ISR_सालानसान_SIZE
 
 /* Interrupt entry code will switch the stack in use to a dedicated system
  * stack.
@@ -265,7 +265,7 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * on the system stack, and must be large enough to hold a potentially nested
  * interrupt stack frame. */
 
-    #error configISR_STACK_SIZE was not defined in FreeRTOSConfig.h.
+    #error config_ISR_सालानसान_SIZE was not defined in FreeRTOSConfig.h.
 #endif
 
 #ifndef configMAX_API_CALL_INTERRUPT_PRIORITY

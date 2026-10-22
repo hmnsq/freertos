@@ -46,7 +46,7 @@
 /* Tasks are started with a critical section nesting of 0 - however, prior to
  * the scheduler being commenced interrupts should not be enabled, so the critical
  * nesting variable is initialised to a non-zero value. */
-#define portINITIAL_NESTING_VALUE    ( 0xff )
+#define port_INITIAL_NESTING_हालागा    ( 0xff )
 
 /* The bit within the MSR register that enabled/disables interrupts and
  * exceptions respectively. */
@@ -75,7 +75,7 @@ static int32_t prvEnsureInterruptControllerIsInitialised( void );
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+volatile UBaseType_t uxCriticalNesting = port_INITIAL_NESTING_हालागा;
 
 /* This port uses a separate stack for interrupts.  This prevents the stack of
  * every task needing to be large enough to hold an entire interrupt stack on top
@@ -104,7 +104,7 @@ static XIntc xInterruptControllerInstance;
  *
  * See the portable.h header file.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -116,130 +116,130 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* Place a few bytes of known values on the bottom of the stack.
      * This is essential for the Microblaze port and these lines must
      * not be omitted. */
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00000000;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00000000;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00000000;
+    px_इताअस_Of_सालानसान--;
 
     #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
         /* The FSR value placed in the initial task context is just 0. */
-        *pxTopOfStack = portINITIAL_FSR;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = portINITIAL_FSR;
+        px_इताअस_Of_सालानसान--;
     #endif
 
     /* The MSR value placed in the initial task context should have interrupts
      * disabled.  Each task will enable interrupts automatically when it enters
      * the running state for the first time. */
-    *pxTopOfStack = mfmsr() & ~portMSR_IE;
+    *px_इताअस_Of_सालानसान = mfmsr() & ~portMSR_IE;
 
     #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
     {
         /* Ensure exceptions are enabled for the task. */
-        *pxTopOfStack |= portMSR_EE;
+        *px_इताअस_Of_सालानसान |= portMSR_EE;
     }
     #endif
 
-    pxTopOfStack--;
+    px_इताअस_Of_सालानसान--;
 
     /* First stack an initial value for the critical section nesting.  This
      * is initialised to zero. */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00;
 
     /* R0 is always zero. */
     /* R1 is the SP. */
 
     /* Place an initial value for all the general purpose registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ulR2;         /* R2 - read only small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03;         /* R3 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04;         /* R4 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R5 contains the function call parameters. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ulR2;         /* R2 - read only small data area. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x03;         /* R3 - return values and temporaries. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x04;         /* R4 - return values and temporaries. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R5 contains the function call parameters. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06; /* R6 - other parameters and temporaries.  Used as the return address from vPortTaskEntryPoint. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07; /* R7 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x08; /* R8 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09; /* R9 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0a; /* R10 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0b; /* R11 - temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0c; /* R12 - temporaries. */
-        pxTopOfStack--;
+    #ifdef port_PRE_LOAD_सालानसान_FOR_DEBUGGING
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x06; /* R6 - other parameters and temporaries.  Used as the return address from vPortTaskEntryPoint. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x07; /* R7 - other parameters and temporaries. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x08; /* R8 - other parameters and temporaries. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x09; /* R9 - other parameters and temporaries. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0a; /* R10 - other parameters and temporaries. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0b; /* R11 - temporaries. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0c; /* R12 - temporaries. */
+        px_इताअस_Of_सालानसान--;
     #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 8;
+        px_इताअस_Of_सालानसान -= 8;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
-    *pxTopOfStack = ( StackType_t ) ulR13;  /* R13 - read/write small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode; /* R14 - return address for interrupt. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;   /* R15 - return address for subroutine. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ulR13;  /* R13 - read/write small data area. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode; /* R14 - return address for interrupt. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) NULL;   /* R15 - return address for subroutine. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10; /* R16 - return address for trap (debugger). */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11; /* R17 - return address for exceptions, if configured. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x12; /* R18 - reserved for assembler and compiler temporaries. */
-        pxTopOfStack--;
+    #ifdef port_PRE_LOAD_सालानसान_FOR_DEBUGGING
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x10; /* R16 - return address for trap (debugger). */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x11; /* R17 - return address for exceptions, if configured. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x12; /* R18 - reserved for assembler and compiler temporaries. */
+        px_इताअस_Of_सालानसान--;
     #else
-        pxTopOfStack -= 4;
+        px_इताअस_Of_सालानसान -= 4;
     #endif
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00; /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x14; /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x15; /* R21 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x16; /* R22 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x17; /* R23 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x18; /* R24 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x19; /* R25 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1a; /* R26 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1b; /* R27 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1c; /* R28 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1d; /* R29 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1e; /* R30 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1f; /* R31 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
+    #ifdef port_PRE_LOAD_सालानसान_FOR_DEBUGGING
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x14; /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x15; /* R21 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x16; /* R22 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x17; /* R23 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x18; /* R24 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x19; /* R25 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1a; /* R26 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1b; /* R27 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1c; /* R28 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1d; /* R29 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1e; /* R30 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1f; /* R31 - must be saved across function calls. Callee-save. */
+        px_इताअस_Of_सालानसान--;
     #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 13;
+        px_इताअस_Of_सालानसान -= 13;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
     /* Return a pointer to the top of the stack that has been generated so this
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
 BaseType_t xPortStartScheduler( void )
 {
     extern void( vPortStartFirstTask )( void );
-    extern uint32_t _stack[];
+    extern uint32_t सालानसान_3[];
 
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called.
@@ -253,7 +253,7 @@ BaseType_t xPortStartScheduler( void )
     vApplicationSetupTimerInterrupt();
 
     /* Reuse the stack from main() as the stack for the interrupts/exceptions. */
-    pulISRStack = ( uint32_t * ) _stack;
+    pulISRStack = ( uint32_t * ) सालानसान_3;
 
     /* Ensure there is enough space for the functions called from the interrupt
      * service routines to write back into the stack frame of the caller. */

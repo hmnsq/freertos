@@ -56,10 +56,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef int32_t          BaseType_t;
 typedef uint32_t         UBaseType_t;
 
@@ -79,7 +79,7 @@ typedef uint32_t         UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                ( -1 )
+#define port_सालानसान_GROWTH                ( -1 )
 #define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT              8
 #define portDONT_DISCARD                __attribute__( ( used ) )
@@ -88,7 +88,7 @@ typedef uint32_t         UBaseType_t;
  * as our FreeRTOSConfig.h header cannot be included by ASM code - which is what this affects in the SDK */
 #define portUSE_DIVIDER_SAVE_RESTORE    !PICO_DIVIDER_DISABLE_INTERRUPTS
 #if portUSE_DIVIDER_SAVE_RESTORE
-    #define portSTACK_LIMIT_PADDING     4
+    #define port_सालानसान_LIMIT_PADDING     4
 #endif
 
 /*-----------------------------------------------------------*/
@@ -127,19 +127,19 @@ extern void vPortYield( void );
 /*-----------------------------------------------------------*/
 
 /* Multi-core */
-#define portMAX_CORE_COUNT    2
+#define port_MAX_CORE_बिलांग    2
 
 /* Check validity of number of cores specified in config */
-#if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
+#if ( config_नुमेरो_OF_CORES < 1 || port_MAX_CORE_बिलांग < config_नुमेरो_OF_CORES )
     #error "Invalid number of cores specified in config!"
 #endif
 
-#if ( configTICK_CORE < 0 || configTICK_CORE > configNUMBER_OF_CORES )
+#if ( configTICK_CORE < 0 || configTICK_CORE > config_नुमेरो_OF_CORES )
     #error "Invalid tick core specified in config!"
 #endif
 /* FreeRTOS core id is always zero based, so always 0 if we're running on only one core */
-#if configNUMBER_OF_CORES == portMAX_CORE_COUNT
-    #define portGET_CORE_ID()    get_core_num()
+#if config_नुमेरो_OF_CORES == port_MAX_CORE_बिलांग
+    #define portGET_CORE_ID()    get_core_नुमेरो()
 #else
     #define portGET_CORE_ID()    0
 #endif
@@ -162,11 +162,11 @@ void vYieldCore( int xCoreID );
 /* Critical nesting count management. */
 #define portCRITICAL_NESTING_IN_TCB    0
 
-extern UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ];
-#define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( uxCriticalNestings[ ( xCoreID ) ] )
-#define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( uxCriticalNestings[ ( xCoreID ) ] = ( x ) )
-#define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]++ )
-#define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]-- )
+extern UBaseType_t uxCriticalNestings[ config_नुमेरो_OF_CORES ];
+#define port_GET_CRITICAL_NESTING_बिलांग( xCoreID )          ( uxCriticalNestings[ ( xCoreID ) ] )
+#define port_SET_CRITICAL_NESTING_बिलांग( xCoreID, x )       ( uxCriticalNestings[ ( xCoreID ) ] = ( x ) )
+#define port_INCREMENT_CRITICAL_NESTING_बिलांग( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]++ )
+#define port_DECREMENT_CRITICAL_NESTING_बिलांग( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]-- )
 
 /*-----------------------------------------------------------*/
 
@@ -189,7 +189,7 @@ extern void vClearInterruptMaskFromISR( uint32_t ulMask )  __attribute__( ( nake
 #define portDISABLE_INTERRUPTS()                  __asm volatile ( " cpsid i " ::: "memory" )
 #define portENABLE_INTERRUPTS()                   __asm volatile ( " cpsie i " ::: "memory" )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
     extern void vPortEnterCritical( void );
     extern void vPortExitCritical( void );
     #define portENTER_CRITICAL()    vPortEnterCritical()
@@ -205,7 +205,7 @@ extern void vClearInterruptMaskFromISR( uint32_t ulMask )  __attribute__( ( nake
     #define portEXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
 #endif /* if ( configNUMBER_OF_CORES == 1 ) */
 
-#define portRTOS_SPINLOCK_COUNT    2
+#define port_RTOS_SPINLOCK_बिलांग    2
 
 #if PICO_SDK_VERSION_MAJOR < 2
 __force_inline static bool spin_try_lock_unsafe(spin_lock_t *lock) {
@@ -217,45 +217,45 @@ __force_inline static bool spin_try_lock_unsafe(spin_lock_t *lock) {
  * static vars, the method is always called with a compile time constant for
  * uxAcquire, and the compiler should do the right thing! */
 static inline void vPortRecursiveLock( BaseType_t xCoreID,
-                                       uint32_t ulLockNum,
+                                       uint32_t ul_Lock_नुमेरो,
                                        spin_lock_t * pxSpinLock,
                                        BaseType_t uxAcquire )
 {
-    static volatile uint8_t ucOwnedByCore[ portMAX_CORE_COUNT ][portRTOS_SPINLOCK_COUNT];
-    static volatile uint8_t ucRecursionCountByLock[ portRTOS_SPINLOCK_COUNT ];
+    static volatile uint8_t ucOwnedByCore[ port_MAX_CORE_बिलांग ][port_RTOS_SPINLOCK_बिलांग];
+    static volatile uint8_t uc_Recursion_बिलांग_By_Lock[ port_RTOS_SPINLOCK_बिलांग ];
 
-    configASSERT( ulLockNum < portRTOS_SPINLOCK_COUNT );
+    configASSERT( ul_Lock_नुमेरो < port_RTOS_SPINLOCK_बिलांग );
 
     if( uxAcquire )
     {
         if (!spin_try_lock_unsafe(pxSpinLock)) {
-            if( ucOwnedByCore[ xCoreID ][ ulLockNum ] )
+            if( ucOwnedByCore[ xCoreID ][ ul_Lock_नुमेरो ] )
             {
-                configASSERT( ucRecursionCountByLock[ ulLockNum ] != 255u );
-                ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] + 1;
+                configASSERT( uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] != 255u );
+                uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] = uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] + 1;
                 return;
             }
             spin_lock_unsafe_blocking(pxSpinLock);
         }
-        configASSERT( ucRecursionCountByLock[ ulLockNum ] == 0 );
-        ucRecursionCountByLock[ ulLockNum ] = 1;
-        ucOwnedByCore[ xCoreID ][ ulLockNum ] = 1;
+        configASSERT( uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] == 0 );
+        uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] = 1;
+        ucOwnedByCore[ xCoreID ][ ul_Lock_नुमेरो ] = 1;
     }
     else
     {
-        configASSERT( ( ucOwnedByCore[ xCoreID ] [ulLockNum ] ) != 0 );
-        configASSERT( ucRecursionCountByLock[ ulLockNum ] != 0 );
+        configASSERT( ( ucOwnedByCore[ xCoreID ] [ul_Lock_नुमेरो ] ) != 0 );
+        configASSERT( uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] != 0 );
 
-        ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] - 1;
-        if ( ucRecursionCountByLock[ ulLockNum ] == 0U )
+        uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] = uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] - 1;
+        if ( uc_Recursion_बिलांग_By_Lock[ ul_Lock_नुमेरो ] == 0U )
         {
-            ucOwnedByCore[ xCoreID ] [ ulLockNum ] = 0;
+            ucOwnedByCore[ xCoreID ] [ ul_Lock_नुमेरो ] = 0;
             spin_unlock_unsafe(pxSpinLock);
         }
     }
 }
 
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
     #define portGET_ISR_LOCK( xCoreID )
     #define portRELEASE_ISR_LOCK( xCoreID )
     #define portGET_TASK_LOCK( xCoreID )

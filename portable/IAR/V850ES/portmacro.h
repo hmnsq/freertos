@@ -51,10 +51,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
+#define port_सालानसान_TYPE    unsigned int
 #define portBASE_TYPE     int
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -80,7 +80,7 @@ typedef unsigned long    UBaseType_t;
 
 #define portENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;            \
+        extern volatile /*uint16_t*/ port_सालानसान_TYPE usCriticalNesting;            \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -92,7 +92,7 @@ typedef unsigned long    UBaseType_t;
 
 #define portEXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;              \
+        extern volatile /*uint16_t*/ port_सालानसान_TYPE usCriticalNesting;              \
                                                                                     \
         if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
@@ -123,7 +123,7 @@ extern void vTaskSwitchContext( void );
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 

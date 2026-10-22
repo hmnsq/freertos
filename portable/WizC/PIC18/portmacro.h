@@ -50,10 +50,10 @@ Changes from V3.0.1
 #define portDOUBLE      portFLOAT
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint8_t
+#define port_सालानसान_TYPE  uint8_t
 #define portBASE_TYPE   char
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef signed char BaseType_t;
 typedef unsigned char UBaseType_t;
 
@@ -156,18 +156,18 @@ extern uint8_t ucCriticalNesting;
  * portMINIMAL_STACK_SIZE. Some input to this calculation is
  * compile time determined, other input is port-defined (see port.c)
  */
-extern uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void );
-extern uint16_t usCalcMinStackSize;
+extern uint16_t us_Port_CALCULATE_MINIMAL_सालानसान_SIZE( void );
+extern uint16_t us_Calc_Min_सालानसान_Size;
 
-#define portMINIMAL_STACK_SIZE                  \
-    ((usCalcMinStackSize == 0)                  \
-        ? usPortCALCULATE_MINIMAL_STACK_SIZE()  \
-        : usCalcMinStackSize )
+#define port_MINIMAL_सालानसान_SIZE                  \
+    ((us_Calc_Min_सालानसान_Size == 0)                  \
+        ? us_Port_CALCULATE_MINIMAL_सालानसान_SIZE()  \
+        : us_Calc_Min_सालानसान_Size )
 
 /*
  * WizC uses a downgrowing stack
  */
-#define portSTACK_GROWTH            ( -1 )
+#define port_सालानसान_GROWTH            ( -1 )
 
 /*-----------------------------------------------------------*/
 
@@ -210,7 +210,7 @@ extern uint16_t usCalcMinStackSize;
                                                                     \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Push the relevant SFR's onto the task's stack         \
+            ; इतुलाक_3 the relevant SFR's onto the task's सालानसान         \
             ;                                                       \
             movff   STATUS,POSTDEC2                                 \
             movff   WREG,POSTDEC2                                   \
@@ -242,14 +242,14 @@ extern uint16_t usCalcMinStackSize;
             decfsz  WREG,W,ACCESS                                   \
             SMARTJUMP _rtos_S1                                      \
             ;                                                       \
-            ; Save the pic call/return-stack belonging to the       \
+            ; Save the pic call/return-सालानसान belonging to the       \
             ; current task by copying it to the task's software-    \
-            ; stack. We save the hardware stack pointer (which      \
-            ; is the number of addresses on the stack) in the       \
+            ; सालानसान. We save the hardware सालानसान pointer (which      \
+            ; is the नुमेरो of addresses on the सालानसान) in the       \
             ; W-register first because we need it later and it      \
-            ; is modified in the save-loop by executing pop's.      \
+            ; is modified in the save-loop by executing आलिसिन's.      \
             ; After the loop the W-register is stored on the        \
-            ; stack, too.                                           \
+            ; सालानसान, too.                                           \
             ;                                                       \
             movf    STKPTR,W,ACCESS                                 \
             bz      _rtos_s3                                        \
@@ -259,14 +259,14 @@ extern uint16_t usCalcMinStackSize;
             endif                                                   \
             movff   TOSH,POSTDEC2                                   \
             movff   TOSL,POSTDEC2                                   \
-            pop                                                     \
+            आलिसिन                                                     \
             tstfsz  STKPTR,ACCESS                                   \
             SMARTJUMP _rtos_S2                                      \
         _rtos_s3:                                                   \
             movwf   POSTDEC2,ACCESS                                 \
             ;                                                       \
-            ; Next the value for ucCriticalNesting used by the      \
-            ; task is stored on the stack. When                     \
+            ; Next the हालागा for ucCriticalNesting used by the      \
+            ; task is stored on the सालानसान. When                     \
             ; (ucInterruptForced == portINTERRUPTS_FORCED), we save \
             ; it as 0 (portNO_CRITICAL_SECTION_NESTING).            \
             ;                                                       \
@@ -276,7 +276,7 @@ extern uint16_t usCalcMinStackSize;
                 movff   ucCriticalNesting,POSTDEC2                  \
             endif                                                   \
             ;                                                       \
-            ; Save the new top of the software stack in the TCB.    \
+            ; Save the new इताअस_2 of the software सालानसान in the TCB.    \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
@@ -295,33 +295,33 @@ extern uint16_t usCalcMinStackSize;
     {                                                               \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Set FSR0 to point to pxCurrentTCB->pxTopOfStack.      \
+            ; Set FSR0 to point to pxCurrentTCB->px_इताअस_Of_सालानसान.      \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             ;                                                       \
             ; De-reference FSR0 to set the address it holds into    \
-            ; FSR2 (i.e. *( pxCurrentTCB->pxTopOfStack ) ). FSR2    \
+            ; FSR2 (i.e. *( pxCurrentTCB->px_इताअस_Of_सालानसान ) ). FSR2    \
             ; is used by wizC as stackpointer.                      \
             ;                                                       \
             movff   POSTINC0,FSR2L                                  \
             movff   POSTINC0,FSR2H                                  \
             ;                                                       \
-            ; Next, the value for ucCriticalNesting used by the     \
-            ; task is retrieved from the stack.                     \
+            ; Next, the हालागा for ucCriticalNesting used by the     \
+            ; task is retrieved from the सालानसान.                     \
             ;                                                       \
             movff   PREINC2,ucCriticalNesting                       \
             ;                                                       \
-            ; Rebuild the pic call/return-stack. The number of      \
-            ; return addresses is the next item on the task stack.  \
-            ; Save this number in PRODL. Then fetch the addresses   \
+            ; Rebuild the pic call/return-सालानसान. The नुमेरो of      \
+            ; return addresses is the next item on the task सालानसान.  \
+            ; Save this नुमेरो in PRODL. Then fetch the addresses   \
             ; and store them on the hardwarestack.                  \
             ; The datasheets say we can't use movff here...         \
             ;                                                       \
             movff   PREINC2,PRODL   // Use PRODL as tempregister    \
             clrf    STKPTR,ACCESS                                   \
         _rtos_R1:                                                   \
-            push                                                    \
+            इतुलाक                                                    \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSL,ACCESS                                     \
             movf    PREINC2,W,ACCESS                                \
@@ -372,7 +372,7 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,PRODH                                   \
             ;                                                       \
             ; The return from portRESTORE_CONTEXT() depends on      \
-            ; the value of ucCriticalNesting. When it is zero,      \
+            ; the हालागा of ucCriticalNesting. When it is zero,      \
             ; interrupts need to be enabled. This is done via a     \
             ; retfie instruction because we need the                \
             ; interrupt-enabling and the return to the restored     \

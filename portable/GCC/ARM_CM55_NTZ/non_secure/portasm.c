@@ -139,7 +139,7 @@
          * Source: GCC/RP2350_ARM_NTZ/non_secure/portasm.c
          * Upstream commit: 8b2955f6d97bf4cd582db9f5b62d9eb1587b76d7
          */
-        #if ( configNUMBER_OF_CORES == 1)
+        #if ( config_नुमेरो_OF_CORES == 1)
             "   ldr  r2, =pxCurrentTCB                          \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr  r1, [r2]                                   \n" /* Read pxCurrentTCB. */
         #else /* if ( configNUMBER_OF_CORES == 1) */
@@ -170,7 +170,7 @@
             "   mov  r0, #0                                     \n"
             "   msr  basepri, r0                                \n" /* Ensure that interrupts are enabled when the first task starts. */
             "   bx   r2                                         \n" /* Finally, branch to EXC_RETURN. */
-        #if ( configNUMBER_OF_CORES > 1 )
+        #if ( config_नुमेरो_OF_CORES > 1 )
             "                                                   \n"
             "     .align 4                                      \n"
             "ulFirstTaskLiteralPool:                            \n"
@@ -448,7 +448,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
          * Source: GCC/RP2350_ARM_NTZ/non_secure/portasm.c
          * Upstream commit: 8b2955f6d97bf4cd582db9f5b62d9eb1587b76d7
          */
-        #if ( configNUMBER_OF_CORES == 1)
+        #if ( config_नुमेरो_OF_CORES == 1)
             "   ldr r2, =pxCurrentTCB                           \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
         #else /* if ( configNUMBER_OF_CORES == 1) */
@@ -463,14 +463,14 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   msr basepri, r0                                 \n" /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
             "   dsb                                             \n"
             "   isb                                             \n"
-        #if ( configNUMBER_OF_CORES > 1)
+        #if ( config_नुमेरो_OF_CORES > 1)
             "   mov r0, r2                                      \n" /* r0 = ucPortGetCoreID() */
         #endif /* if ( configNUMBER_OF_CORES == 1) */
             "   bl vTaskSwitchContext                           \n"
             "   mov r0, #0                                      \n" /* r0 = 0. */
             "   msr basepri, r0                                 \n" /* Enable interrupts. */
             "                                                   \n"
-        #if ( configNUMBER_OF_CORES == 1)
+        #if ( config_नुमेरो_OF_CORES == 1)
             "   ldr r2, =pxCurrentTCB                           \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
         #else /* if ( configNUMBER_OF_CORES == 1) */
@@ -501,7 +501,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "   msr psplim, r2                                  \n" /* Restore the PSPLIM register value for the task. */
             "   msr psp, r0                                     \n" /* Remember the new top of stack for the task. */
             "   bx r3                                           \n"
-        #if ( configNUMBER_OF_CORES > 1 )
+        #if ( config_नुमेरो_OF_CORES > 1 )
             "   .align 4                           \n"
             "   ulPendSVLiteralPool:               \n"
             "   .word %c1                          \n" /* CORE_ID_REGISTER */
@@ -550,7 +550,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( नुमेरो_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "memory"
         );
     }

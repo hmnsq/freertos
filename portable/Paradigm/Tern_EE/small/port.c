@@ -42,7 +42,7 @@
 #include "portasm.h"
 
 /* The timer increments every four clocks, hence the divide by 4. */
-#define portPRESCALE_VALUE ( 16 )
+#define port_PRESCALE_हालागा ( 16 )
 #define portTIMER_COMPARE ( configCPU_CLOCK_HZ  / ( configTICK_RATE_HZ * 4UL ) )
 
 /* From the RDC data sheet. */
@@ -73,9 +73,9 @@ static void __interrupt __far prvYieldProcessor( void );
 
 /*-----------------------------------------------------------*/
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
-StackType_t DS_Reg = 0;
+सालानसान_Type_t DS_Reg = 0;
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
@@ -83,53 +83,53 @@ StackType_t DS_Reg = 0;
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0x1111;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2222;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x3333;
+    px_इताअस_Of_सालानसान--;
 
     /* We are going to start the scheduler using a return from interrupt
     instruction to load the program counter, so first there would be the
     function call with parameters preamble. */
 
-    *pxTopOfStack = FP_OFF( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = FP_OFF( pvParameters );
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = FP_OFF( pxCode );
+    px_इताअस_Of_सालानसान--;
 
     /* Next the status register and interrupt return address. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = portINITIAL_SW;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = FP_SEG( pxCode );
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = FP_OFF( pxCode );
+    px_इताअस_Of_सालानसान--;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA; /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xAAAA; /* AX */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xBBBB; /* BX */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xCCCC; /* CX */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xDDDD; /* DX */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xEEEE; /* ES */
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = DS_Reg;                     /* DS */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
+    *px_इताअस_Of_सालानसान = DS_Reg;                     /* DS */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0123; /* SI */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xDDDD; /* DI */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xBBBB; /* BP */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -139,7 +139,7 @@ BaseType_t xPortStartScheduler( void )
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    setvect( port_SWITCH_INT_नुमेरो, prvYieldProcessor );
 
     /* Setup the tick interrupt. */
     prvSetupTimerInterrupt();
@@ -195,11 +195,11 @@ void vPortEndScheduler( void )
 
 static void prvSetupTimerInterrupt( void )
 {
-const uint32_t ulCompareValue = portTIMER_COMPARE;
+const uint32_t ul_Compare_हालागा = portTIMER_COMPARE;
 uint16_t usTimerCompare;
 
-    usTimerCompare = ( uint16_t ) ( ulCompareValue >> 4 );
-    t2_init( portENABLE_TIMER, portPRESCALE_VALUE, NULL );
+    usTimerCompare = ( uint16_t ) ( ul_Compare_हालागा >> 4 );
+    t2_init( portENABLE_TIMER, port_PRESCALE_हालागा, NULL );
 
     #if( configUSE_PREEMPTION == 1 )
         /* Tick service routine used by the scheduler when preemptive scheduling is

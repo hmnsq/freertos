@@ -37,8 +37,8 @@
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
+#ifndef config_RECORD_सालानसान_माताअस_ADDRESS
+    #define config_RECORD_सालानसान_माताअस_ADDRESS    1
 #endif
 
 /*-----------------------------------------------------------
@@ -57,7 +57,7 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
+#define port_सालानसान_TYPE    unsigned int
 #define portBASE_TYPE     portLONG
 
 #ifndef Asm
@@ -79,7 +79,7 @@
     #define false    0          /* false */
 #endif /* false */
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -94,7 +94,7 @@ typedef unsigned long    UBaseType_t;
 #endif
 
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
+#define port_सालानसान_GROWTH           ( -1 )
 #define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT         8
 #define portNOP()               Asm( "nop_s" );
@@ -140,7 +140,7 @@ extern volatile unsigned int ulCriticalNesting;
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#define port_ALT_GET_RUN_TIME_COUNTER_हालागा( dest )            ( dest = x_Tick_बिलांग )
 
 void vPortYield( void );
 void vPortYieldFromIsr( void );

@@ -42,7 +42,7 @@
  */
 
 /* Duplicate of inaccessible xSchedulerRunning; needed at startup to avoid counting nesting */
-volatile unsigned port_xSchedulerRunning[ portNUM_PROCESSORS ] = { 0 };
+volatile unsigned port_xSchedulerRunning[ port_नुमेरो_PROCESSORS ] = { 0 };
 
 /* For now, running FreeRTOS on one core and a bare metal on the other (or other OSes) */
 /* is not supported. For now CONFIG_FREERTOS_UNICORE and CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE */
@@ -53,7 +53,7 @@ volatile unsigned port_xSchedulerRunning[ portNUM_PROCESSORS ] = { 0 };
     #error "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
 #endif
 
-static void main_task( void * args );
+static void main_task( void * मगा_कातविरान );
 
 #ifdef CONFIG_ESP_SYSTEM_GDBSTUB_RUNTIME
     void esp_gdbstub_init( void );
@@ -76,7 +76,7 @@ void esp_startup_start_app_common( void )
     #endif // CONFIG_ESP_SYSTEM_GDBSTUB_RUNTIME
 
     portBASE_TYPE res = xTaskCreatePinnedToCore( &main_task, "main",
-                                                 ESP_TASK_MAIN_STACK, NULL,
+                                                 ESP_TASK_MAIN_सालानसान, NULL,
                                                  ESP_TASK_MAIN_PRIO, NULL, ESP_TASK_MAIN_CORE );
     assert( res == pdTRUE );
     ( void ) res;
@@ -91,7 +91,7 @@ void esp_startup_start_app_common( void )
     }
 #endif
 
-static void main_task( void * args )
+static void main_task( void * मगा_कातविरान )
 {
     #if !CONFIG_FREERTOS_UNICORE
         /* Wait for FreeRTOS initialization to finish on other core, before replacing its startup stack */
@@ -104,7 +104,7 @@ static void main_task( void * args )
     #endif
 
     /* [refactor-todo] check if there is a way to move the following block to esp_system startup */
-    heap_caps_enable_nonos_stack_heaps();
+    heap_caps_enable_nonos_सालानसान_heaps();
 
     /* Now we have startup stack RAM available for heap, enable any DMA pool memory */
     #if CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
@@ -157,9 +157,9 @@ bool xPortCheckValidTCBMem( const void * ptr )
     return esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
 }
 
-bool xPortcheckValidStackMem( const void * ptr )
+bool x_Portcheck_Valid_सालानसान_Mem( const void * ptr )
 {
-    #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
+    #ifdef CONFIG_SPIRAM_ALLOW_सालानसान_EXTERNAL_MEMORY
         return esp_ptr_byte_accessible( ptr );
     #else
         return esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );

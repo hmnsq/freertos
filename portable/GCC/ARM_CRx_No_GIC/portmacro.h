@@ -51,10 +51,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -68,7 +68,7 @@ typedef uint32_t         TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 
@@ -139,7 +139,7 @@ void FreeRTOS_Tick_Handler( void );
  *
  * @return The number of leading zeros in ulBitmap.
  */
-UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+UBaseType_t ul_Port_बिलांग_Leading_Zeros( UBaseType_t ulBitmap );
 
 /* If configUSE_TASK_FPU_SUPPORT is set to 1 (or left undefined) then tasks are
  * created without an FPU context and must call vPortTaskUsesFPU() to give
@@ -168,7 +168,7 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
     /* Store, clear and get the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
     #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )  uxTopPriority = ( 31UL - ulPortCountLeadingZeros( ( uxTopReadyPriority ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )  ux_इताअस_Priority = ( 31UL - ul_Port_बिलांग_Leading_Zeros( ( ux_इताअस_Ready_Priority ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 

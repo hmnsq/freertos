@@ -113,10 +113,10 @@
     #define portDOUBLE        double
     #define portLONG          int32_t
     #define portSHORT         int16_t
-    #define portSTACK_TYPE    uint8_t
+    #define port_सालानसान_TYPE    uint8_t
     #define portBASE_TYPE     int
 
-    typedef portSTACK_TYPE           StackType_t;
+    typedef port_सालानसान_TYPE           सालानसान_Type_t;
     typedef portBASE_TYPE            BaseType_t;
     typedef unsigned portBASE_TYPE   UBaseType_t;
 
@@ -258,17 +258,17 @@
 /*Because the ROM routines don't necessarily handle a stack in external RAM correctly, we force */
 /*the stack memory to always be internal. */
     #define portTcbMemoryCaps      ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
-    #define portStackMemoryCaps    ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
+    #define port_सालानसान_Memory_Caps    ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
 
     #define pvPortMallocTcbMem( size )        heap_caps_malloc( size, portTcbMemoryCaps )
-    #define pvPortMallocStackMem( size )      heap_caps_malloc( size, portStackMemoryCaps )
+    #define pv_Port_Malloc_सालानसान_Mem( size )      heap_caps_malloc( size, port_सालानसान_Memory_Caps )
 
 /*xTaskCreateStatic uses these functions to check incoming memory. */
     #define portVALID_TCB_MEM( ptr )          ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
-    #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
-        #define portVALID_STACK_MEM( ptr )    esp_ptr_byte_accessible( ptr )
+    #ifdef CONFIG_SPIRAM_ALLOW_सालानसान_EXTERNAL_MEMORY
+        #define port_VALID_सालानसान_MEM( ptr )    esp_ptr_byte_accessible( ptr )
     #else
-        #define portVALID_STACK_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
+        #define port_VALID_सालानसान_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
     #endif
 
 /*
@@ -301,13 +301,13 @@
                     );
             #else
                 /* No S32C1I, so do this by disabling and re-enabling interrupts (slower) */
-                uint32_t intlevel, old_value;
+                uint32_t intlevel, old_हालागा;
                 __asm__ __volatile__ ( "rsil %0, " XTSTR( XCHAL_EXCM_LEVEL ) "\n"
                                        : "=r" ( intlevel ) );
 
-                old_value = *addr;
+                old_हालागा = *addr;
 
-                if( old_value == compare )
+                if( old_हालागा == compare )
                 {
                     *addr = *set;
                 }
@@ -316,7 +316,7 @@
                                        "wsr %0, ps\n"
                                        : : "r" ( intlevel ) );
 
-                *set = old_value;
+                *set = old_हालागा;
             #endif /* if ( XCHAL_HAVE_S32C1I > 0 ) */
         #endif /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
     }
@@ -339,20 +339,20 @@
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_सालानसान_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT    4
     #define portNOP()    XT_NOP()
 /*-----------------------------------------------------------*/
 
 /* Fine resolution time */
-    #define portGET_RUN_TIME_COUNTER_VALUE()    xthal_get_ccount()
+    #define port_GET_RUN_TIME_COUNTER_हालागा()    xthal_get_ccount()
 /*ccount or esp_timer are initialized elsewhere */
     #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
 
     #ifdef CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER
 /* Coarse resolution time (us) */
-        #define portALT_GET_RUN_TIME_COUNTER_VALUE( x )    do { x = ( uint32_t ) esp_timer_get_time(); } while( 0 )
+        #define port_ALT_GET_RUN_TIME_COUNTER_हालागा( x )    do { x = ( uint32_t ) esp_timer_get_time(); } while( 0 )
     #endif
 
 
@@ -373,14 +373,14 @@
  * Below C++20, we haven't found any good alternative to using ##__VA_ARGS__.
  */
     #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
+        #define port_GET_ARGUMENT_बिलांग( ... )                        port_GET_ARGUMENT_बिलांग_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
     #else
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0, ## __VA_ARGS__, 1, 0 )
+        #define port_GET_ARGUMENT_बिलांग( ... )                        port_GET_ARGUMENT_बिलांग_INNER( 0, ## __VA_ARGS__, 1, 0 )
     #endif
-    #define portGET_ARGUMENT_COUNT_INNER( zero, one, count, ... )    count
+    #define port_GET_ARGUMENT_बिलांग_INNER( zero, one, बिलांग, ... )    बिलांग
 
-    _Static_assert( portGET_ARGUMENT_COUNT() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
-    _Static_assert( portGET_ARGUMENT_COUNT( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
+    _Static_assert( port_GET_ARGUMENT_बिलांग() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
+    _Static_assert( port_GET_ARGUMENT_बिलांग( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
 
     #define portYIELD()    vPortYield()
 
@@ -389,9 +389,9 @@
  * might result in undesired behaviour
  */
     #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
+        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( port_GET_ARGUMENT_बिलांग( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
     #else
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ), ## __VA_ARGS__ )
+        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( port_GET_ARGUMENT_बिलांग( __VA_ARGS__ ), ## __VA_ARGS__ )
     #endif
 
     static inline BaseType_t xPortGetCoreID();
@@ -408,8 +408,8 @@
 /* The field is normally used for memory protection. FreeRTOS should create another general purpose field. */
     typedef struct
     {
-        #if XCHAL_CP_NUM > 0
-            volatile StackType_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
+        #if XCHAL_CP_नुमेरो > 0
+            volatile सालानसान_Type_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
         #endif
 
         #if portUSING_MPU_WRAPPERS
@@ -428,7 +428,7 @@
     } xMPU_SETTINGS;
 
 /* Main hack to use MPU_wrappers even when no MPU is defined (warning: mpu_setting should not be accessed; otherwise move this above xMPU_SETTINGS) */
-    #if ( XCHAL_CP_NUM > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
+    #if ( XCHAL_CP_नुमेरो > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
         #undef portUSING_MPU_WRAPPERS
         #define portUSING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
         #define MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
@@ -460,7 +460,7 @@
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
+            #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
 
         #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -495,7 +495,7 @@
  * Callback to set a watchpoint on the end of the stack. Called every context switch to change the stack
  * watchpoint around.
  */
-    void vPortSetStackWatchpoint( void * pxStackStart );
+    void v_Port_Set_सालानसान_Watchpoint( void * px_सालानसान_Start );
 
 /*
  * Returns true if the current core is in ISR context; low prio ISR, med prio ISR or timer tick ISR. High prio ISRs
@@ -521,8 +521,8 @@
         struct xMEMORY_REGION;
         void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                         const struct xMEMORY_REGION * const xRegions,
-                                        StackType_t * pxBottomOfStack,
-                                        configSTACK_DEPTH_TYPE uxStackDepth ) PRIVILEGED_FUNCTION;
+                                        सालानसान_Type_t * px_Bottom_Of_सालानसान,
+                                        config_सालानसान_DEPTH_TYPE ux_सालानसान_Depth ) PRIVILEGED_FUNCTION;
         void vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings );
     #endif
 
@@ -561,7 +561,7 @@
     #if configASSERT_2
         #include <stdio.h>
         void exit( int );
-        #define configASSERT( x )    if( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
+        #define configASSERT( x )    if( !( x ) ) { porttrace_इलिम्बाग( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
     #endif
 
 /* Barriers */

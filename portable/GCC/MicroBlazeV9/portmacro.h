@@ -56,15 +56,15 @@
 #define portLONG              long
 #define portSHORT             short
 #ifdef __arch64__
-    #define portSTACK_TYPE    size_t
+    #define port_सालानसान_TYPE    size_t
     typedef uint64_t        UBaseType_t;
 #else
-    #define portSTACK_TYPE    uint32_t
+    #define port_सालानसान_TYPE    uint32_t
     typedef unsigned long   UBaseType_t;
 #endif
 #define portBASE_TYPE         long
 
-typedef portSTACK_TYPE      StackType_t;
+typedef port_सालानसान_TYPE      सालानसान_Type_t;
 typedef long                BaseType_t;
 
 
@@ -134,7 +134,7 @@ extern volatile uint32_t ulTaskSwitchRequested;
 #if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) static inline uint8_t uc_Port_बिलांग_Leading_Zeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
@@ -154,7 +154,7 @@ extern volatile uint32_t ulTaskSwitchRequested;
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31UL - ( uint32_t ) uc_Port_बिलांग_Leading_Zeros( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -166,14 +166,14 @@ extern volatile uint32_t ulTaskSwitchRequested;
 #else
     #define portBYTE_ALIGNMENT    4
 #endif
-#define portSTACK_GROWTH          ( -1 )
+#define port_सालानसान_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()    asm volatile ( "NOP" )
 #define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
-#if ( XPAR_MICROBLAZE_USE_STACK_PROTECTION )
-    #define portHAS_STACK_OVERFLOW_CHECKING    1
+#if ( XPAR_MICROBLAZE_USE_सालानसान_PROTECTION )
+    #define port_HAS_सालानसान_OVERFLOW_CHECKING    1
 #endif
 /*-----------------------------------------------------------*/
 

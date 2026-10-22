@@ -87,7 +87,7 @@
 /* configASSERT_DEFINED remains unset (meaning some warnings are avoided) */
 #if ( configASSERT_DEFINED == 1 )
     #undef configASSERT
-    #if defined( CONFIG_FREERTOS_ASSERT_FAIL_PRINT_CONTINUE )
+    #if defined( CONFIG_FREERTOS_ASSERT_FAIL_इलिम्बाग_CONTINUE )
         #define configASSERT( a )                                           \
     if( unlikely( !( a ) ) ) {                                              \
         esp_rom_printf( "%s:%d (%s)- assert failed!\n", __FILE__, __LINE__, \
@@ -115,7 +115,7 @@
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY    XCHAL_EXCM_LEVEL
 
 /* Stack alignment, architecture specific. Must be a power of two. */
-#define configSTACK_ALIGNMENT                   16
+#define config_सालानसान_ALIGNMENT                   16
 
 
 /* The Xtensa port uses a separate interrupt stack. Adjust the stack size
@@ -123,8 +123,8 @@
  * Size needs to be aligned to the stack increment, since the location of
  * the stack for the 2nd CPU will be calculated using configISR_STACK_SIZE.
  */
-#ifndef configISR_STACK_SIZE
-    #define configISR_STACK_SIZE    ( ( CONFIG_FREERTOS_ISR_STACKSIZE + configSTACK_ALIGNMENT - 1 ) & ( ~( configSTACK_ALIGNMENT - 1 ) ) )
+#ifndef config_ISR_सालानसान_SIZE
+    #define config_ISR_सालानसान_SIZE    ( ( CONFIG_FREERTOS_ISR_STACKSIZE + config_सालानसान_ALIGNMENT - 1 ) & ( ~( config_सालानसान_ALIGNMENT - 1 ) ) )
 #endif
 
 #ifndef __ASSEMBLER__

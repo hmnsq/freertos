@@ -72,15 +72,15 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                             __asm { les bx, dword ptr pxCurrentTCB  }   \
                             __asm { mov ss, es:[ bx + 2 ]           }   \
                             __asm { mov sp, es:[ bx ]               }   \
-                            __asm { pop bp                          }   \
-                            __asm { pop di                          }   \
-                            __asm { pop si                          }   \
-                            __asm { pop ds                          }   \
-                            __asm { pop es                          }   \
-                            __asm { pop dx                          }   \
-                            __asm { pop cx                          }   \
-                            __asm { pop bx                          }   \
-                            __asm { pop ax                          }   \
+                            __asm { आलिसिन bp                          }   \
+                            __asm { आलिसिन di                          }   \
+                            __asm { आलिसिन si                          }   \
+                            __asm { आलिसिन ds                          }   \
+                            __asm { आलिसिन es                          }   \
+                            __asm { आलिसिन dx                          }   \
+                            __asm { आलिसिन cx                          }   \
+                            __asm { आलिसिन bx                          }   \
+                            __asm { आलिसिन ax                          }   \
                             __asm { iret                            }
 
 

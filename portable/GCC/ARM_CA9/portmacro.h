@@ -51,10 +51,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -68,7 +68,7 @@ typedef uint32_t         TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 
@@ -98,7 +98,7 @@ typedef uint32_t         TickType_t;
 extern void vPortEnterCritical( void );
 extern void vPortExitCritical( void );
 extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+extern void vPortClearInterruptMask( uint32_t ul_New_Mask_हालागा );
 extern void vPortInstallFreeRTOSVectorTable( void );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
@@ -153,7 +153,7 @@ void FreeRTOS_Tick_Handler( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -169,28 +169,28 @@ void FreeRTOS_Tick_Handler( void );
  * number of bits implemented by the interrupt controller. */
 #if configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
+    #define port_MAX_दालावाहान_POINT_हालागा    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
     #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
+    #define port_MAX_दालावाहान_POINT_हालागा    2
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 64
     #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
+    #define port_MAX_दालावाहान_POINT_हालागा    1
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 128
     #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
+    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the नुमेरो of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
 /* Interrupt controller access addresses. */
 #define portICCPMR_PRIORITY_MASK_OFFSET                      ( 0x04 )
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET              ( 0x0C )
 #define portICCEOIR_END_OF_INTERRUPT_OFFSET                  ( 0x10 )
-#define portICCBPR_BINARY_POINT_OFFSET                       ( 0x08 )
+#define port_ICCBPR_दालावाहान_POINT_OFFSET                       ( 0x08 )
 #define portICCRPR_RUNNING_PRIORITY_OFFSET                   ( 0x14 )
 
 #define portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS       ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET )
@@ -198,7 +198,7 @@ void FreeRTOS_Tick_Handler( void );
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS    ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET )
 #define portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS        ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCEOIR_END_OF_INTERRUPT_OFFSET )
 #define portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS            ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET )
-#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
+#define port_ICCBPR_दालावाहान_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + port_ICCBPR_दालावाहान_POINT_OFFSET ) ) )
 #define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
 
 #define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )

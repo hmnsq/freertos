@@ -45,7 +45,7 @@ extern "C" {
 
 /* ------------------------------ FreeRTOS Config Check ------------------------------ */
 
-#ifndef configSYSTEM_CALL_STACK_SIZE
+#ifndef config_SYSTEM_CALL_सालानसान_SIZE
     #error "Define configSYSTEM_CALL_STACK_SIZE to a length, in bytes, " \
             "to use when an unprivileged task makes a FreeRTOS Kernel call. "
 #endif /* configSYSTEM_CALL_STACK_SIZE */
@@ -79,8 +79,8 @@ extern "C" {
      * @param[in] uxPriority Priority of the task that is ready.
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxTopReadyPriority ) \
-        ( uxTopReadyPriority ) |= ( 1UL << ( uxPriority ) )
+    #define portRECORD_READY_PRIORITY( uxPriority, ux_इताअस_Ready_Priority ) \
+        ( ux_इताअस_Ready_Priority ) |= ( 1UL << ( uxPriority ) )
 
     /**
      * @brief Mark that a task of the given priority is no longer ready.
@@ -90,8 +90,8 @@ extern "C" {
      * @param[in] uxPriority Priority of the task that is no longer ready.
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      */
-    #define portRESET_READY_PRIORITY( uxPriority, uxTopReadyPriority ) \
-        ( uxTopReadyPriority ) &= ~( 1UL << ( uxPriority ) )
+    #define portRESET_READY_PRIORITY( uxPriority, ux_इताअस_Ready_Priority ) \
+        ( ux_इताअस_Ready_Priority ) &= ~( 1UL << ( uxPriority ) )
 
     /**
      * @brief Determine the highest priority ready task's priority.
@@ -101,8 +101,8 @@ extern "C" {
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      * @param[in] uxTopPriority The highest priority ready task's priority.
      */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxTopReadyPriority ) \
-        ( uxTopPriority ) = ( 31UL - ulPortCountLeadingZeros( ( uxTopReadyPriority ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, ux_इताअस_Ready_Priority ) \
+        ( ux_इताअस_Priority ) = ( 31UL - ul_Port_बिलांग_Leading_Zeros( ( ux_इताअस_Ready_Priority ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -126,7 +126,7 @@ extern "C" {
  *
  * @ingroup Task Context
  */
-#define portTHUMB_MODE_BIT      ( ( StackType_t ) 0x20 )
+#define portTHUMB_MODE_BIT      ( ( सालानसान_Type_t ) 0x20 )
 
 /**
  * @brief Bitmask to check if an address is of Thumb Code.
@@ -140,7 +140,7 @@ extern "C" {
  *
  * @ingroup Port Interface Specifications
  */
-typedef uint32_t StackType_t;
+typedef uint32_t सालानसान_Type_t;
 
 /**
  * @brief Signed data type equal to the data word operating size of the CPU.
@@ -169,7 +169,7 @@ typedef uint32_t TickType_t;
  *
  * @ingroup Port Interface Specifications
  */
-#define portSTACK_GROWTH   ( -1 )
+#define port_सालानसान_GROWTH   ( -1 )
 
 /**
  * @brief Specifies stack pointer alignment requirements of the target CPU.
@@ -347,7 +347,7 @@ void vMPUDisableBackgroundRegion( void );
  * @note This is an internal function and assumes that the inputs to this
  * function are checked before calling this function.
  */
-void vMPUSetRegion( uint32_t ulRegionNumber,
+void vMPUSetRegion( uint32_t ul_Region_नुमेरो,
                     uint32_t ulBaseAddress,
                     uint32_t ulRegionSize,
                     uint32_t ulRegionPermissions );
@@ -424,7 +424,7 @@ void prvTaskExitError( void );
  *
  * @return The number of leading zeros in ulBitmap.
  */
-UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+UBaseType_t ul_Port_बिलांग_Leading_Zeros( UBaseType_t ulBitmap );
 
 /**
  * @brief End the FreeRTOS scheduler.
@@ -488,14 +488,14 @@ typedef struct MPU_REGION_REGISTERS
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct SYSTEM_CALL_STACK_INFO
+typedef struct SYSTEM_CALL_सालानसान_INFO
 {
-    uint32_t * pulTaskStackPointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
+    uint32_t * pul_Task_सालानसान_Pointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
     uint32_t * pulLinkRegisterAtSystemCallEntry; /**< Link Register of the task when it made a FreeRTOS System Call. */
-    uint32_t * pulSystemCallStackPointer; /**< Stack Pointer to use for executing a FreeRTOS System Call. */
+    uint32_t * pul_System_Call_सालानसान_Pointer; /**< Stack Pointer to use for executing a FreeRTOS System Call. */
     uint32_t * pulSystemCallExitAddress; /**< System call exit address. */
-    uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ]; /**< Buffer to be used as stack when performing a FreeRTOS System Call. */
-} xSYSTEM_CALL_STACK_INFO;
+    uint32_t ul_System_Call_सालानसान_Buffer[ config_SYSTEM_CALL_सालानसान_SIZE ]; /**< Buffer to be used as stack when performing a FreeRTOS System Call. */
+} x_SYSTEM_CALL_सालानसान_INFO;
 
 /**
  * @brief Per-Task MPU settings structure stored in the TCB.
@@ -510,9 +510,9 @@ typedef struct SYSTEM_CALL_STACK_INFO
  */
 typedef struct MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
+    xMPU_REGION_REGISTERS xRegion[ port_TOTAL_नुमेरो_REGIONS_IN_TCB ];
     uint32_t ulTaskFlags;
-    xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
+    x_SYSTEM_CALL_सालानसान_INFO x_System_Call_सालानसान_Info;
     uint32_t ulContext[ CONTEXT_SIZE ]; /**< Buffer used to store task context. */
 
     #if( configENABLE_ACCESS_CONTROL_LIST == 1 )

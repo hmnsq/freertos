@@ -57,10 +57,10 @@ __asm BaseType_t MPU_xTaskDelayUntil( TickType_t * const pxPreviousWakeTime,
     PRESERVE8
     extern MPU_xTaskDelayUntilImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskDelayUntil_Unpriv
 MPU_xTaskDelayUntil_Priv
         b MPU_xTaskDelayUntilImpl
@@ -80,10 +80,10 @@ __asm BaseType_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CA
     PRESERVE8
     extern MPU_xTaskAbortDelayImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskAbortDelay_Unpriv
 MPU_xTaskAbortDelay_Priv
         b MPU_xTaskAbortDelayImpl
@@ -103,10 +103,10 @@ __asm void MPU_vTaskDelay( const TickType_t xTicksToDelay ) /* FREERTOS_SYSTEM_C
     PRESERVE8
     extern MPU_vTaskDelayImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskDelay_Unpriv
 MPU_vTaskDelay_Priv
         b MPU_vTaskDelayImpl
@@ -126,10 +126,10 @@ __asm UBaseType_t MPU_uxTaskPriorityGet( const TaskHandle_t xTask ) /* FREERTOS_
     PRESERVE8
     extern MPU_uxTaskPriorityGetImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_uxTaskPriorityGet_Unpriv
 MPU_uxTaskPriorityGet_Priv
         b MPU_uxTaskPriorityGetImpl
@@ -149,10 +149,10 @@ __asm eTaskState MPU_eTaskGetState( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL
     PRESERVE8
     extern MPU_eTaskGetStateImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_eTaskGetState_Unpriv
 MPU_eTaskGetState_Priv
         b MPU_eTaskGetStateImpl
@@ -167,21 +167,21 @@ MPU_eTaskGetState_Unpriv
 
 void MPU_vTaskGetInfo( TaskHandle_t xTask,
                        TaskStatus_t * pxTaskStatus,
-                       BaseType_t xGetFreeStackSpace,
+                       BaseType_t x_Get_Free_सालानसान_Space,
                        eTaskState eState ) FREERTOS_SYSTEM_CALL;
 
 __asm void MPU_vTaskGetInfo( TaskHandle_t xTask,
                              TaskStatus_t * pxTaskStatus,
-                             BaseType_t xGetFreeStackSpace,
+                             BaseType_t x_Get_Free_सालानसान_Space,
                              eTaskState eState ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
     extern MPU_vTaskGetInfoImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskGetInfo_Unpriv
 MPU_vTaskGetInfo_Priv
         b MPU_vTaskGetInfoImpl
@@ -201,10 +201,10 @@ __asm TaskHandle_t MPU_xTaskGetIdleTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
     PRESERVE8
     extern MPU_xTaskGetIdleTaskHandleImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGetIdleTaskHandle_Unpriv
 MPU_xTaskGetIdleTaskHandle_Priv
         b MPU_xTaskGetIdleTaskHandleImpl
@@ -224,10 +224,10 @@ __asm void MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) /* FREERTOS_SYSTEM_CA
     PRESERVE8
     extern MPU_vTaskSuspendImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskSuspend_Unpriv
 MPU_vTaskSuspend_Priv
         b MPU_vTaskSuspendImpl
@@ -247,10 +247,10 @@ __asm void MPU_vTaskResume( TaskHandle_t xTaskToResume ) /* FREERTOS_SYSTEM_CALL
     PRESERVE8
     extern MPU_vTaskResumeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskResume_Unpriv
 MPU_vTaskResume_Priv
         b MPU_vTaskResumeImpl
@@ -261,40 +261,40 @@ MPU_vTaskResume_Unpriv
 #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-TickType_t MPU_xTaskGetTickCount( void ) FREERTOS_SYSTEM_CALL;
+TickType_t MPU_x_Task_Get_Tick_बिलांग( void ) FREERTOS_SYSTEM_CALL;
 
-__asm TickType_t MPU_xTaskGetTickCount( void ) /* FREERTOS_SYSTEM_CALL */
+__asm TickType_t MPU_x_Task_Get_Tick_बिलांग( void ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGetTickCountImpl
+    extern MPU_x_Task_Get_Tick_बिलांग_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xTaskGetTickCount_Unpriv
-MPU_xTaskGetTickCount_Priv
-        b MPU_xTaskGetTickCountImpl
-MPU_xTaskGetTickCount_Unpriv
+    आलिसिन {r0}
+    bne MPU_x_Task_Get_Tick_बिलांग_Unpriv
+MPU_x_Task_Get_Tick_बिलांग_Priv
+        b MPU_x_Task_Get_Tick_बिलांग_Impl
+MPU_x_Task_Get_Tick_बिलांग_Unpriv
         svc #SYSTEM_CALL_xTaskGetTickCount
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_ux_Task_Get_नुमेरो_Of_Tasks( void ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_ux_Task_Get_नुमेरो_Of_Tasks( void ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetNumberOfTasksImpl
+    extern MPU_ux_Task_Get_नुमेरो_Of_Tasks_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxTaskGetNumberOfTasks_Unpriv
-MPU_uxTaskGetNumberOfTasks_Priv
-        b MPU_uxTaskGetNumberOfTasksImpl
-MPU_uxTaskGetNumberOfTasks_Unpriv
+    आलिसिन {r0}
+    bne MPU_ux_Task_Get_नुमेरो_Of_Tasks_Unpriv
+MPU_ux_Task_Get_नुमेरो_Of_Tasks_Priv
+        b MPU_ux_Task_Get_नुमेरो_Of_Tasks_Impl
+MPU_ux_Task_Get_नुमेरो_Of_Tasks_Unpriv
         svc #SYSTEM_CALL_uxTaskGetNumberOfTasks
 }
 /*-----------------------------------------------------------*/
@@ -308,10 +308,10 @@ __asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounter( const TaskHandle_
     PRESERVE8
     extern MPU_ulTaskGetRunTimeCounterImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_ulTaskGetRunTimeCounter_Unpriv
 MPU_ulTaskGetRunTimeCounter_Priv
         b MPU_ulTaskGetRunTimeCounterImpl
@@ -331,10 +331,10 @@ __asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercent( const TaskHandle_
     PRESERVE8
     extern MPU_ulTaskGetRunTimePercentImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_ulTaskGetRunTimePercent_Unpriv
 MPU_ulTaskGetRunTimePercent_Priv
         b MPU_ulTaskGetRunTimePercentImpl
@@ -354,10 +354,10 @@ __asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( void ) /* FRE
     PRESERVE8
     extern MPU_ulTaskGetIdleRunTimePercentImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_ulTaskGetIdleRunTimePercent_Unpriv
 MPU_ulTaskGetIdleRunTimePercent_Priv
         b MPU_ulTaskGetIdleRunTimePercentImpl
@@ -377,10 +377,10 @@ __asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( void ) /* FRE
     PRESERVE8
     extern MPU_ulTaskGetIdleRunTimeCounterImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_ulTaskGetIdleRunTimeCounter_Unpriv
 MPU_ulTaskGetIdleRunTimeCounter_Priv
         b MPU_ulTaskGetIdleRunTimeCounterImpl
@@ -402,10 +402,10 @@ __asm void MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
     PRESERVE8
     extern MPU_vTaskSetApplicationTaskTagImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskSetApplicationTaskTag_Unpriv
 MPU_vTaskSetApplicationTaskTag_Priv
         b MPU_vTaskSetApplicationTaskTagImpl
@@ -425,10 +425,10 @@ __asm TaskHookFunction_t MPU_xTaskGetApplicationTaskTag( TaskHandle_t xTask ) /*
     PRESERVE8
     extern MPU_xTaskGetApplicationTaskTagImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGetApplicationTaskTag_Unpriv
 MPU_xTaskGetApplicationTaskTag_Priv
         b MPU_xTaskGetApplicationTaskTagImpl
@@ -439,23 +439,23 @@ MPU_xTaskGetApplicationTaskTag_Unpriv
 #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+#if ( config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
 void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
                                             BaseType_t xIndex,
-                                            void * pvValue ) FREERTOS_SYSTEM_CALL;
+                                            void * pv_हालागा ) FREERTOS_SYSTEM_CALL;
 
 __asm void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
                                                   BaseType_t xIndex,
-                                                  void * pvValue ) /* FREERTOS_SYSTEM_CALL */
+                                                  void * pv_हालागा ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
     extern MPU_vTaskSetThreadLocalStoragePointerImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskSetThreadLocalStoragePointer_Unpriv
 MPU_vTaskSetThreadLocalStoragePointer_Priv
         b MPU_vTaskSetThreadLocalStoragePointerImpl
@@ -466,7 +466,7 @@ MPU_vTaskSetThreadLocalStoragePointer_Unpriv
 #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+#if ( config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
 void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
                                                BaseType_t xIndex ) FREERTOS_SYSTEM_CALL;
@@ -477,10 +477,10 @@ __asm void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
     PRESERVE8
     extern MPU_pvTaskGetThreadLocalStoragePointerImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_pvTaskGetThreadLocalStoragePointer_Unpriv
 MPU_pvTaskGetThreadLocalStoragePointer_Priv
         b MPU_pvTaskGetThreadLocalStoragePointerImpl
@@ -504,10 +504,10 @@ __asm UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * const pxTaskStatusArr
     PRESERVE8
     extern MPU_uxTaskGetSystemStateImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_uxTaskGetSystemState_Unpriv
 MPU_uxTaskGetSystemState_Priv
         b MPU_uxTaskGetSystemStateImpl
@@ -518,46 +518,46 @@ MPU_uxTaskGetSystemState_Unpriv
 #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
+#if ( INCLUDE_ux_Task_Get_सालानसान_माताअस_Water_Mark == 1 )
 
-UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetStackHighWaterMarkImpl
+    extern MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxTaskGetStackHighWaterMark_Unpriv
-MPU_uxTaskGetStackHighWaterMark_Priv
-        b MPU_uxTaskGetStackHighWaterMarkImpl
-MPU_uxTaskGetStackHighWaterMark_Unpriv
+    आलिसिन {r0}
+    bne MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Unpriv
+MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Priv
+        b MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Impl
+MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark_Unpriv
         svc #SYSTEM_CALL_uxTaskGetStackHighWaterMark
 }
 
 #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
+#if ( INCLUDE_ux_Task_Get_सालानसान_माताअस_Water_Mark2 == 1 )
 
-configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+config_सालानसान_DEPTH_TYPE MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm config_सालानसान_DEPTH_TYPE MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetStackHighWaterMark2Impl
+    extern MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxTaskGetStackHighWaterMark2_Unpriv
-MPU_uxTaskGetStackHighWaterMark2_Priv
-        b MPU_uxTaskGetStackHighWaterMark2Impl
-MPU_uxTaskGetStackHighWaterMark2_Unpriv
+    आलिसिन {r0}
+    bne MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Unpriv
+MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Priv
+        b MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Impl
+MPU_ux_Task_Get_सालानसान_माताअस_Water_Mark2_Unpriv
         svc #SYSTEM_CALL_uxTaskGetStackHighWaterMark2
 }
 
@@ -573,10 +573,10 @@ __asm TaskHandle_t MPU_xTaskGetCurrentTaskHandle( void ) /* FREERTOS_SYSTEM_CALL
     PRESERVE8
     extern MPU_xTaskGetCurrentTaskHandleImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGetCurrentTaskHandle_Unpriv
 MPU_xTaskGetCurrentTaskHandle_Priv
         b MPU_xTaskGetCurrentTaskHandleImpl
@@ -596,10 +596,10 @@ __asm BaseType_t MPU_xTaskGetSchedulerState( void ) /* FREERTOS_SYSTEM_CALL */
     PRESERVE8
     extern MPU_xTaskGetSchedulerStateImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGetSchedulerState_Unpriv
 MPU_xTaskGetSchedulerState_Priv
         b MPU_xTaskGetSchedulerStateImpl
@@ -617,10 +617,10 @@ __asm void MPU_vTaskSetTimeOutState( TimeOut_t * const pxTimeOut ) /* FREERTOS_S
     PRESERVE8
     extern MPU_vTaskSetTimeOutStateImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTaskSetTimeOutState_Unpriv
 MPU_vTaskSetTimeOutState_Priv
         b MPU_vTaskSetTimeOutStateImpl
@@ -638,10 +638,10 @@ __asm BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * const pxTimeOut,
     PRESERVE8
     extern MPU_xTaskCheckForTimeOutImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskCheckForTimeOut_Unpriv
 MPU_xTaskCheckForTimeOut_Priv
         b MPU_xTaskCheckForTimeOutImpl
@@ -659,10 +659,10 @@ __asm BaseType_t MPU_xTaskGenericNotifyEntry( const xTaskGenericNotifyParams_t *
     PRESERVE8
     extern MPU_xTaskGenericNotifyImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGenericNotify_Unpriv
 MPU_xTaskGenericNotify_Priv
         b MPU_xTaskGenericNotifyImpl
@@ -682,10 +682,10 @@ __asm BaseType_t MPU_xTaskGenericNotifyWaitEntry( const xTaskGenericNotifyWaitPa
     PRESERVE8
     extern MPU_xTaskGenericNotifyWaitImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGenericNotifyWait_Unpriv
 MPU_xTaskGenericNotifyWait_Priv
         b MPU_xTaskGenericNotifyWaitImpl
@@ -699,20 +699,20 @@ MPU_xTaskGenericNotifyWait_Unpriv
 #if ( configUSE_TASK_NOTIFICATIONS == 1 )
 
 uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                      BaseType_t xClearCountOnExit,
+                                      BaseType_t x_Clear_बिलांग_On_Exit,
                                       TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
 __asm uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                            BaseType_t xClearCountOnExit,
+                                            BaseType_t x_Clear_बिलांग_On_Exit,
                                             TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
     extern MPU_ulTaskGenericNotifyTakeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_ulTaskGenericNotifyTake_Unpriv
 MPU_ulTaskGenericNotifyTake_Priv
         b MPU_ulTaskGenericNotifyTakeImpl
@@ -734,10 +734,10 @@ __asm BaseType_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
     PRESERVE8
     extern MPU_xTaskGenericNotifyStateClearImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTaskGenericNotifyStateClear_Unpriv
 MPU_xTaskGenericNotifyStateClear_Priv
         b MPU_xTaskGenericNotifyStateClearImpl
@@ -750,25 +750,25 @@ MPU_xTaskGenericNotifyStateClear_Unpriv
 
 #if ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
+uint32_t MPU_ul_Task_Generic_Notify_हालागा_Clear( TaskHandle_t xTask,
                                             UBaseType_t uxIndexToClear,
                                             uint32_t ulBitsToClear ) FREERTOS_SYSTEM_CALL;
 
-__asm uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
+__asm uint32_t MPU_ul_Task_Generic_Notify_हालागा_Clear( TaskHandle_t xTask,
                                                   UBaseType_t uxIndexToClear,
                                                   uint32_t ulBitsToClear ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGenericNotifyValueClearImpl
+    extern MPU_ul_Task_Generic_Notify_हालागा_Clear_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_ulTaskGenericNotifyValueClear_Unpriv
-MPU_ulTaskGenericNotifyValueClear_Priv
-        b MPU_ulTaskGenericNotifyValueClearImpl
-MPU_ulTaskGenericNotifyValueClear_Unpriv
+    आलिसिन {r0}
+    bne MPU_ul_Task_Generic_Notify_हालागा_Clear_Unpriv
+MPU_ul_Task_Generic_Notify_हालागा_Clear_Priv
+        b MPU_ul_Task_Generic_Notify_हालागा_Clear_Impl
+MPU_ul_Task_Generic_Notify_हालागा_Clear_Unpriv
         svc #SYSTEM_CALL_ulTaskGenericNotifyValueClear
 }
 
@@ -788,10 +788,10 @@ __asm BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue,
     PRESERVE8
     extern MPU_xQueueGenericSendImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueGenericSend_Unpriv
 MPU_xQueueGenericSend_Priv
         b MPU_xQueueGenericSendImpl
@@ -807,10 +807,10 @@ __asm UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t xQueue ) /* FR
     PRESERVE8
     extern MPU_uxQueueMessagesWaitingImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_uxQueueMessagesWaiting_Unpriv
 MPU_uxQueueMessagesWaiting_Priv
         b MPU_uxQueueMessagesWaitingImpl
@@ -826,10 +826,10 @@ __asm UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue ) /* FR
     PRESERVE8
     extern MPU_uxQueueSpacesAvailableImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_uxQueueSpacesAvailable_Unpriv
 MPU_uxQueueSpacesAvailable_Priv
         b MPU_uxQueueSpacesAvailableImpl
@@ -849,10 +849,10 @@ __asm BaseType_t MPU_xQueueReceive( QueueHandle_t xQueue,
     PRESERVE8
     extern MPU_xQueueReceiveImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueReceive_Unpriv
 MPU_xQueueReceive_Priv
         b MPU_xQueueReceiveImpl
@@ -872,10 +872,10 @@ __asm BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue,
     PRESERVE8
     extern MPU_xQueuePeekImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueuePeek_Unpriv
 MPU_xQueuePeek_Priv
         b MPU_xQueuePeekImpl
@@ -893,10 +893,10 @@ __asm BaseType_t MPU_xQueueSemaphoreTake( QueueHandle_t xQueue,
     PRESERVE8
     extern MPU_xQueueSemaphoreTakeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueSemaphoreTake_Unpriv
 MPU_xQueueSemaphoreTake_Priv
         b MPU_xQueueSemaphoreTakeImpl
@@ -914,10 +914,10 @@ __asm TaskHandle_t MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore ) /* FREER
     PRESERVE8
     extern MPU_xQueueGetMutexHolderImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueGetMutexHolder_Unpriv
 MPU_xQueueGetMutexHolder_Priv
         b MPU_xQueueGetMutexHolderImpl
@@ -939,10 +939,10 @@ __asm BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
     PRESERVE8
     extern MPU_xQueueTakeMutexRecursiveImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueTakeMutexRecursive_Unpriv
 MPU_xQueueTakeMutexRecursive_Priv
         b MPU_xQueueTakeMutexRecursiveImpl
@@ -962,10 +962,10 @@ __asm BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t pxMutex ) /* FREERT
     PRESERVE8
     extern MPU_xQueueGiveMutexRecursiveImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueGiveMutexRecursive_Unpriv
 MPU_xQueueGiveMutexRecursive_Priv
         b MPU_xQueueGiveMutexRecursiveImpl
@@ -987,10 +987,10 @@ __asm QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet
     PRESERVE8
     extern MPU_xQueueSelectFromSetImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueSelectFromSet_Unpriv
 MPU_xQueueSelectFromSet_Priv
         b MPU_xQueueSelectFromSetImpl
@@ -1012,10 +1012,10 @@ __asm BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
     PRESERVE8
     extern MPU_xQueueAddToSetImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xQueueAddToSet_Unpriv
 MPU_xQueueAddToSet_Priv
         b MPU_xQueueAddToSetImpl
@@ -1037,10 +1037,10 @@ __asm void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
     PRESERVE8
     extern MPU_vQueueAddToRegistryImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vQueueAddToRegistry_Unpriv
 MPU_vQueueAddToRegistry_Priv
         b MPU_vQueueAddToRegistryImpl
@@ -1060,10 +1060,10 @@ __asm void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_
     PRESERVE8
     extern MPU_vQueueUnregisterQueueImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vQueueUnregisterQueue_Unpriv
 MPU_vQueueUnregisterQueue_Priv
         b MPU_vQueueUnregisterQueueImpl
@@ -1083,10 +1083,10 @@ __asm const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM
     PRESERVE8
     extern MPU_pcQueueGetNameImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_pcQueueGetName_Unpriv
 MPU_pcQueueGetName_Priv
         b MPU_pcQueueGetNameImpl
@@ -1106,10 +1106,10 @@ __asm void * MPU_pvTimerGetTimerID( const TimerHandle_t xTimer ) /* FREERTOS_SYS
     PRESERVE8
     extern MPU_pvTimerGetTimerIDImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_pvTimerGetTimerID_Unpriv
 MPU_pvTimerGetTimerID_Priv
         b MPU_pvTimerGetTimerIDImpl
@@ -1131,10 +1131,10 @@ __asm void MPU_vTimerSetTimerID( TimerHandle_t xTimer,
     PRESERVE8
     extern MPU_vTimerSetTimerIDImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTimerSetTimerID_Unpriv
 MPU_vTimerSetTimerID_Priv
         b MPU_vTimerSetTimerIDImpl
@@ -1154,10 +1154,10 @@ __asm BaseType_t MPU_xTimerIsTimerActive( TimerHandle_t xTimer ) /* FREERTOS_SYS
     PRESERVE8
     extern MPU_xTimerIsTimerActiveImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTimerIsTimerActive_Unpriv
 MPU_xTimerIsTimerActive_Priv
         b MPU_xTimerIsTimerActiveImpl
@@ -1177,10 +1177,10 @@ __asm TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( void ) /* FREERTOS_SYSTEM
     PRESERVE8
     extern MPU_xTimerGetTimerDaemonTaskHandleImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTimerGetTimerDaemonTaskHandle_Unpriv
 MPU_xTimerGetTimerDaemonTaskHandle_Priv
         b MPU_xTimerGetTimerDaemonTaskHandleImpl
@@ -1200,10 +1200,10 @@ __asm BaseType_t MPU_xTimerGenericCommandFromTaskEntry( const xTimerGenericComma
     PRESERVE8
     extern MPU_xTimerGenericCommandFromTaskImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTimerGenericCommandFromTask_Unpriv
 MPU_xTimerGenericCommandFromTask_Priv
         b MPU_xTimerGenericCommandFromTaskImpl
@@ -1223,10 +1223,10 @@ __asm const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM
     PRESERVE8
     extern MPU_pcTimerGetNameImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_pcTimerGetName_Unpriv
 MPU_pcTimerGetName_Priv
         b MPU_pcTimerGetNameImpl
@@ -1248,10 +1248,10 @@ __asm void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
     PRESERVE8
     extern MPU_vTimerSetReloadModeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_vTimerSetReloadMode_Unpriv
 MPU_vTimerSetReloadMode_Priv
         b MPU_vTimerSetReloadModeImpl
@@ -1271,10 +1271,10 @@ __asm BaseType_t MPU_xTimerGetReloadMode( TimerHandle_t xTimer ) /* FREERTOS_SYS
     PRESERVE8
     extern MPU_xTimerGetReloadModeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTimerGetReloadMode_Unpriv
 MPU_xTimerGetReloadMode_Priv
         b MPU_xTimerGetReloadModeImpl
@@ -1294,10 +1294,10 @@ __asm UBaseType_t MPU_uxTimerGetReloadMode( TimerHandle_t xTimer ) /* FREERTOS_S
     PRESERVE8
     extern MPU_uxTimerGetReloadModeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_uxTimerGetReloadMode_Unpriv
 MPU_uxTimerGetReloadMode_Priv
         b MPU_uxTimerGetReloadModeImpl
@@ -1317,10 +1317,10 @@ __asm TickType_t MPU_xTimerGetPeriod( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_
     PRESERVE8
     extern MPU_xTimerGetPeriodImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTimerGetPeriod_Unpriv
 MPU_xTimerGetPeriod_Priv
         b MPU_xTimerGetPeriodImpl
@@ -1340,10 +1340,10 @@ __asm TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) /* FREERTOS_SYS
     PRESERVE8
     extern MPU_xTimerGetExpiryTimeImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xTimerGetExpiryTime_Unpriv
 MPU_xTimerGetExpiryTime_Priv
         b MPU_xTimerGetExpiryTimeImpl
@@ -1363,10 +1363,10 @@ __asm EventBits_t MPU_xEventGroupWaitBitsEntry( const xEventGroupWaitBitsParams_
     PRESERVE8
     extern MPU_xEventGroupWaitBitsImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xEventGroupWaitBits_Unpriv
 MPU_xEventGroupWaitBits_Priv
         b MPU_xEventGroupWaitBitsImpl
@@ -1388,10 +1388,10 @@ __asm EventBits_t MPU_xEventGroupClearBits( EventGroupHandle_t xEventGroup,
     PRESERVE8
     extern MPU_xEventGroupClearBitsImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xEventGroupClearBits_Unpriv
 MPU_xEventGroupClearBits_Priv
         b MPU_xEventGroupClearBitsImpl
@@ -1413,10 +1413,10 @@ __asm EventBits_t MPU_xEventGroupSetBits( EventGroupHandle_t xEventGroup,
     PRESERVE8
     extern MPU_xEventGroupSetBitsImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xEventGroupSetBits_Unpriv
 MPU_xEventGroupSetBits_Priv
         b MPU_xEventGroupSetBitsImpl
@@ -1442,10 +1442,10 @@ __asm EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
     PRESERVE8
     extern MPU_xEventGroupSyncImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xEventGroupSync_Unpriv
 MPU_xEventGroupSync_Priv
         b MPU_xEventGroupSyncImpl
@@ -1458,21 +1458,21 @@ MPU_xEventGroupSync_Unpriv
 
 #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_ux_Event_Group_Get_नुमेरो( void * xEventGroup ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_ux_Event_Group_Get_नुमेरो( void * xEventGroup ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxEventGroupGetNumberImpl
+    extern MPU_ux_Event_Group_Get_नुमेरो_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxEventGroupGetNumber_Unpriv
-MPU_uxEventGroupGetNumber_Priv
-        b MPU_uxEventGroupGetNumberImpl
-MPU_uxEventGroupGetNumber_Unpriv
+    आलिसिन {r0}
+    bne MPU_ux_Event_Group_Get_नुमेरो_Unpriv
+MPU_ux_Event_Group_Get_नुमेरो_Priv
+        b MPU_ux_Event_Group_Get_नुमेरो_Impl
+MPU_ux_Event_Group_Get_नुमेरो_Unpriv
         svc #SYSTEM_CALL_uxEventGroupGetNumber
 }
 
@@ -1481,23 +1481,23 @@ MPU_uxEventGroupGetNumber_Unpriv
 
 #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-void MPU_vEventGroupSetNumber( void * xEventGroup,
-                               UBaseType_t uxEventGroupNumber ) FREERTOS_SYSTEM_CALL;
+void MPU_v_Event_Group_Set_नुमेरो( void * xEventGroup,
+                               UBaseType_t ux_Event_Group_नुमेरो ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vEventGroupSetNumber( void * xEventGroup,
-                                     UBaseType_t uxEventGroupNumber ) /* FREERTOS_SYSTEM_CALL */
+__asm void MPU_v_Event_Group_Set_नुमेरो( void * xEventGroup,
+                                     UBaseType_t ux_Event_Group_नुमेरो ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vEventGroupSetNumberImpl
+    extern MPU_v_Event_Group_Set_नुमेरो_Impl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_vEventGroupSetNumber_Unpriv
-MPU_vEventGroupSetNumber_Priv
-        b MPU_vEventGroupSetNumberImpl
-MPU_vEventGroupSetNumber_Unpriv
+    आलिसिन {r0}
+    bne MPU_v_Event_Group_Set_नुमेरो_Unpriv
+MPU_v_Event_Group_Set_नुमेरो_Priv
+        b MPU_v_Event_Group_Set_नुमेरो_Impl
+MPU_v_Event_Group_Set_नुमेरो_Unpriv
         svc #SYSTEM_CALL_vEventGroupSetNumber
 }
 
@@ -1519,10 +1519,10 @@ __asm size_t MPU_xStreamBufferSend( StreamBufferHandle_t xStreamBuffer,
     PRESERVE8
     extern MPU_xStreamBufferSendImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferSend_Unpriv
 MPU_xStreamBufferSend_Priv
         b MPU_xStreamBufferSendImpl
@@ -1548,10 +1548,10 @@ __asm size_t MPU_xStreamBufferReceive( StreamBufferHandle_t xStreamBuffer,
     PRESERVE8
     extern MPU_xStreamBufferReceiveImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferReceive_Unpriv
 MPU_xStreamBufferReceive_Priv
         b MPU_xStreamBufferReceiveImpl
@@ -1571,10 +1571,10 @@ __asm BaseType_t MPU_xStreamBufferIsFull( StreamBufferHandle_t xStreamBuffer ) /
     PRESERVE8
     extern MPU_xStreamBufferIsFullImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferIsFull_Unpriv
 MPU_xStreamBufferIsFull_Priv
         b MPU_xStreamBufferIsFullImpl
@@ -1594,10 +1594,10 @@ __asm BaseType_t MPU_xStreamBufferIsEmpty( StreamBufferHandle_t xStreamBuffer ) 
     PRESERVE8
     extern MPU_xStreamBufferIsEmptyImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferIsEmpty_Unpriv
 MPU_xStreamBufferIsEmpty_Priv
         b MPU_xStreamBufferIsEmptyImpl
@@ -1617,10 +1617,10 @@ __asm size_t MPU_xStreamBufferSpacesAvailable( StreamBufferHandle_t xStreamBuffe
     PRESERVE8
     extern MPU_xStreamBufferSpacesAvailableImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferSpacesAvailable_Unpriv
 MPU_xStreamBufferSpacesAvailable_Priv
         b MPU_xStreamBufferSpacesAvailableImpl
@@ -1640,10 +1640,10 @@ __asm size_t MPU_xStreamBufferBytesAvailable( StreamBufferHandle_t xStreamBuffer
     PRESERVE8
     extern MPU_xStreamBufferBytesAvailableImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferBytesAvailable_Unpriv
 MPU_xStreamBufferBytesAvailable_Priv
         b MPU_xStreamBufferBytesAvailableImpl
@@ -1665,10 +1665,10 @@ __asm BaseType_t MPU_xStreamBufferSetTriggerLevel( StreamBufferHandle_t xStreamB
     PRESERVE8
     extern MPU_xStreamBufferSetTriggerLevelImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferSetTriggerLevel_Unpriv
 MPU_xStreamBufferSetTriggerLevel_Priv
         b MPU_xStreamBufferSetTriggerLevelImpl
@@ -1688,10 +1688,10 @@ __asm size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStre
     PRESERVE8
     extern MPU_xStreamBufferNextMessageLengthBytesImpl
 
-    push {r0}
+    इतुलाक {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    आलिसिन {r0}
     bne MPU_xStreamBufferNextMessageLengthBytes_Unpriv
 MPU_xStreamBufferNextMessageLengthBytes_Priv
         b MPU_xStreamBufferNextMessageLengthBytesImpl

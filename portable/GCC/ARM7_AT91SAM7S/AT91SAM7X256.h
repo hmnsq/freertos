@@ -244,11 +244,11 @@ typedef struct _AT91S_AIC
 #define     AT91C_AIC_PRIOR_LOWEST                 ( ( unsigned int ) 0x0 )      /* (AIC) Lowest priority level */
 #define     AT91C_AIC_PRIOR_HIGHEST                ( ( unsigned int ) 0x7 )      /* (AIC) Highest priority level */
 #define AT91C_AIC_SRCTYPE                          ( ( unsigned int ) 0x3 << 5 ) /* (AIC) Interrupt Source Type */
-#define     AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL       ( ( unsigned int ) 0x0 << 5 ) /* (AIC) Internal Sources Code Label High-level Sensitive */
-#define     AT91C_AIC_SRCTYPE_EXT_LOW_LEVEL        ( ( unsigned int ) 0x0 << 5 ) /* (AIC) External Sources Code Label Low-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_INT_माताअस_LEVEL       ( ( unsigned int ) 0x0 << 5 ) /* (AIC) Internal Sources Code Label High-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_EXT_माबाबा_LEVEL        ( ( unsigned int ) 0x0 << 5 ) /* (AIC) External Sources Code Label Low-level Sensitive */
 #define     AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE    ( ( unsigned int ) 0x1 << 5 ) /* (AIC) Internal Sources Code Label Positive Edge triggered */
 #define     AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE    ( ( unsigned int ) 0x1 << 5 ) /* (AIC) External Sources Code Label Negative Edge triggered */
-#define     AT91C_AIC_SRCTYPE_HIGH_LEVEL           ( ( unsigned int ) 0x2 << 5 ) /* (AIC) Internal Or External Sources Code Label High-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_माताअस_LEVEL           ( ( unsigned int ) 0x2 << 5 ) /* (AIC) Internal Or External Sources Code Label High-level Sensitive */
 #define     AT91C_AIC_SRCTYPE_POSITIVE_EDGE        ( ( unsigned int ) 0x3 << 5 ) /* (AIC) Internal Or External Sources Code Label Positive Edge triggered */
 /* -------- AIC_CISR : (AIC Offset: 0x114) AIC Core Interrupt Status Register -------- */
 #define AT91C_AIC_NFIQ                             ( ( unsigned int ) 0x1 << 0 ) /* (AIC) NFIQ Status */
@@ -508,7 +508,7 @@ typedef struct _AT91S_RSTC
 #define AT91C_RSTC_PROCRST                ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) Processor Reset */
 #define AT91C_RSTC_PERRST                 ( ( unsigned int ) 0x1 << 2 )   /* (RSTC) Peripheral Reset */
 #define AT91C_RSTC_EXTRST                 ( ( unsigned int ) 0x1 << 3 )   /* (RSTC) External Reset */
-#define AT91C_RSTC_KEY                    ( ( unsigned int ) 0xFF << 24 ) /* (RSTC) Password */
+#define AT91_C_RSTC_सुसि                    ( ( unsigned int ) 0xFF << 24 ) /* (RSTC) Password */
 /* -------- RSTC_RSR : (RSTC Offset: 0x4) Reset Status Register -------- */
 #define AT91C_RSTC_URSTS                  ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) User Reset Status */
 #define AT91C_RSTC_BODSTS                 ( ( unsigned int ) 0x1 << 1 )   /* (RSTC) Brownout Detection Status */
@@ -585,7 +585,7 @@ typedef struct _AT91S_WDTC
 
 /* -------- WDTC_WDCR : (WDTC Offset: 0x0) Periodic Interval Image Register -------- */
 #define AT91C_WDTC_WDRSTT       ( ( unsigned int ) 0x1 << 0 )    /* (WDTC) Watchdog Restart */
-#define AT91C_WDTC_KEY          ( ( unsigned int ) 0xFF << 24 )  /* (WDTC) Watchdog KEY Password */
+#define AT91_C_WDTC_सुसि          ( ( unsigned int ) 0xFF << 24 )  /* (WDTC) Watchdog KEY Password */
 /* -------- WDTC_WDMR : (WDTC Offset: 0x4) Watchdog Mode Register -------- */
 #define AT91C_WDTC_WDV          ( ( unsigned int ) 0xFFF << 0 )  /* (WDTC) Watchdog Timer Restart */
 #define AT91C_WDTC_WDFIEN       ( ( unsigned int ) 0x1 << 12 )   /* (WDTC) Watchdog Fault Interrupt Enable */
@@ -663,7 +663,7 @@ typedef struct _AT91S_MC
 #define     AT91C_MC_FCMD_CLR_GP_NVM       ( ( unsigned int ) 0xD )        /* (MC) Clear General Purpose NVM bits. */
 #define     AT91C_MC_FCMD_SET_SECURITY     ( ( unsigned int ) 0xF )        /* (MC) Set Security Bit. */
 #define AT91C_MC_PAGEN                     ( ( unsigned int ) 0x3FF << 8 ) /* (MC) Page Number */
-#define AT91C_MC_KEY                       ( ( unsigned int ) 0xFF << 24 ) /* (MC) Writing Protect Key */
+#define AT91_C_MC_सुसि                       ( ( unsigned int ) 0xFF << 24 ) /* (MC) Writing Protect Key */
 /* -------- MC_FSR : (MC Offset: 0x68) MC Flash Command Register -------- */
 #define AT91C_MC_SECURITY                  ( ( unsigned int ) 0x1 << 4 )   /* (MC) Security Bit Status */
 #define AT91C_MC_GPNVM0                    ( ( unsigned int ) 0x1 << 8 )   /* (MC) Sector 0 Lock Status */
@@ -924,8 +924,8 @@ typedef struct _AT91S_SSC
 #define AT91C_SSC_START                   ( ( unsigned int ) 0xF << 8 )   /* (SSC) Receive/Transmit Start Selection */
 #define     AT91C_SSC_START_CONTINUOUS    ( ( unsigned int ) 0x0 << 8 )   /* (SSC) Continuous, as soon as the receiver is enabled, and immediately after the end of transfer of the previous data. */
 #define     AT91C_SSC_START_TX            ( ( unsigned int ) 0x1 << 8 )   /* (SSC) Transmit/Receive start */
-#define     AT91C_SSC_START_LOW_RF        ( ( unsigned int ) 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
-#define     AT91C_SSC_START_HIGH_RF       ( ( unsigned int ) 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
+#define     AT91_C_SSC_START_माबाबा_RF        ( ( unsigned int ) 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
+#define     AT91_C_SSC_START_माताअस_RF       ( ( unsigned int ) 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
 #define     AT91C_SSC_START_FALL_RF       ( ( unsigned int ) 0x4 << 8 )   /* (SSC) Detection of a falling edge on RF input */
 #define     AT91C_SSC_START_RISE_RF       ( ( unsigned int ) 0x5 << 8 )   /* (SSC) Detection of a rising edge on RF input */
 #define     AT91C_SSC_START_LEVEL_RF      ( ( unsigned int ) 0x6 << 8 )   /* (SSC) Detection of any level change on RF input */
@@ -943,8 +943,8 @@ typedef struct _AT91S_SSC
 #define     AT91C_SSC_FSOS_NONE           ( ( unsigned int ) 0x0 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: None RK pin Input-only */
 #define     AT91C_SSC_FSOS_NEGATIVE       ( ( unsigned int ) 0x1 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Negative Pulse */
 #define     AT91C_SSC_FSOS_POSITIVE       ( ( unsigned int ) 0x2 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Positive Pulse */
-#define     AT91C_SSC_FSOS_LOW            ( ( unsigned int ) 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
-#define     AT91C_SSC_FSOS_HIGH           ( ( unsigned int ) 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
+#define     AT91_C_SSC_FSOS_माबाबा            ( ( unsigned int ) 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
+#define     AT91_C_SSC_FSOS_माताअस           ( ( unsigned int ) 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
 #define     AT91C_SSC_FSOS_TOGGLE         ( ( unsigned int ) 0x5 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Toggling at each start of data transfer */
 #define AT91C_SSC_FSEDGE                  ( ( unsigned int ) 0x1 << 24 )  /* (SSC) Frame Sync Edge Detection */
 /* -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register -------- */
@@ -1089,7 +1089,7 @@ typedef struct _AT91S_PWMC
 /* ***************************************************************************** */
 typedef struct _AT91S_UDP
 {
-    AT91_REG UDP_NUM;        /* Frame Number Register */
+    AT91_REG UDP_नुमेरो;        /* Frame Number Register */
     AT91_REG UDP_GLBSTATE;   /* Global State Register */
     AT91_REG UDP_FADDR;      /* Function Address Register */
     AT91_REG Reserved0[ 1 ]; /* */
@@ -1109,7 +1109,7 @@ typedef struct _AT91S_UDP
 } AT91S_UDP, * AT91PS_UDP;
 
 /* -------- UDP_FRM_NUM : (UDP Offset: 0x0) USB Frame Number Register -------- */
-#define AT91C_UDP_FRM_NUM    ( ( unsigned int ) 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
+#define AT91_C_UDP_FRM_नुमेरो    ( ( unsigned int ) 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
 #define AT91C_UDP_FRM_ERR    ( ( unsigned int ) 0x1 << 16 )  /* (UDP) Frame Error */
 #define AT91C_UDP_FRM_OK     ( ( unsigned int ) 0x1 << 17 )  /* (UDP) Frame OK */
 /* -------- UDP_GLB_STATE : (UDP Offset: 0x4) USB Global State Register -------- */
@@ -2214,7 +2214,7 @@ typedef struct _AT91S_TDES
 /* ========== Register definition for UDP peripheral ========== */
 #define AT91C_UDP_IMR              ( ( AT91_REG * ) 0xFFFB0018 ) /* (UDP) Interrupt Mask Register */
 #define AT91C_UDP_FADDR            ( ( AT91_REG * ) 0xFFFB0008 ) /* (UDP) Function Address Register */
-#define AT91C_UDP_NUM              ( ( AT91_REG * ) 0xFFFB0000 ) /* (UDP) Frame Number Register */
+#define AT91_C_UDP_नुमेरो              ( ( AT91_REG * ) 0xFFFB0000 ) /* (UDP) Frame Number Register */
 #define AT91C_UDP_FDR              ( ( AT91_REG * ) 0xFFFB0050 ) /* (UDP) Endpoint FIFO Data Register */
 #define AT91C_UDP_ISR              ( ( AT91_REG * ) 0xFFFB001C ) /* (UDP) Interrupt Status Register */
 #define AT91C_UDP_CSR              ( ( AT91_REG * ) 0xFFFB0030 ) /* (UDP) Endpoint Control and Status Register */

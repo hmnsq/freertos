@@ -89,8 +89,8 @@
 
 
 /* Constants required to setup the task context. */
-#define portINITIAL_SR             ( ( StackType_t ) 0x00400000 ) /* AVR32 : [M2:M0]=001 I1M=0 I0M=0, GM=0 */
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 0 )
+#define portINITIAL_SR             ( ( सालानसान_Type_t ) 0x00400000 ) /* AVR32 : [M2:M0]=001 I1M=0 I0M=0, GM=0 */
+#define portINSTRUCTION_SIZE       ( ( सालानसान_Type_t ) 0 )
 
 /* Each task maintains its own critical nesting variable. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
@@ -263,7 +263,7 @@ void vPortExitCritical( void )
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -271,26 +271,26 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * expected by the portRESTORE_CONTEXT() macro. */
 
     /* When the task starts, it will expect to find the function parameter in R12. */
-    pxTopOfStack--;
-    *pxTopOfStack-- = ( StackType_t ) 0x08080808;                    /* R8 */
-    *pxTopOfStack-- = ( StackType_t ) 0x09090909;                    /* R9 */
-    *pxTopOfStack-- = ( StackType_t ) 0x0A0A0A0A;                    /* R10 */
-    *pxTopOfStack-- = ( StackType_t ) 0x0B0B0B0B;                    /* R11 */
-    *pxTopOfStack-- = ( StackType_t ) pvParameters;                  /* R12 */
-    *pxTopOfStack-- = ( StackType_t ) 0xDEADBEEF;                    /* R14/LR */
-    *pxTopOfStack-- = ( StackType_t ) pxCode + portINSTRUCTION_SIZE; /* R15/PC */
-    *pxTopOfStack-- = ( StackType_t ) portINITIAL_SR;                /* SR */
-    *pxTopOfStack-- = ( StackType_t ) 0xFF0000FF;                    /* R0 */
-    *pxTopOfStack-- = ( StackType_t ) 0x01010101;                    /* R1 */
-    *pxTopOfStack-- = ( StackType_t ) 0x02020202;                    /* R2 */
-    *pxTopOfStack-- = ( StackType_t ) 0x03030303;                    /* R3 */
-    *pxTopOfStack-- = ( StackType_t ) 0x04040404;                    /* R4 */
-    *pxTopOfStack-- = ( StackType_t ) 0x05050505;                    /* R5 */
-    *pxTopOfStack-- = ( StackType_t ) 0x06060606;                    /* R6 */
-    *pxTopOfStack-- = ( StackType_t ) 0x07070707;                    /* R7 */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x08080808;                    /* R8 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x09090909;                    /* R9 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x0A0A0A0A;                    /* R10 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x0B0B0B0B;                    /* R11 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) pvParameters;                  /* R12 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xDEADBEEF;                    /* R14/LR */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) pxCode + portINSTRUCTION_SIZE; /* R15/PC */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) portINITIAL_SR;                /* SR */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xFF0000FF;                    /* R0 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x01010101;                    /* R1 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x02020202;                    /* R2 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x03030303;                    /* R3 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x04040404;                    /* R4 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x05050505;                    /* R5 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x06060606;                    /* R6 */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x07070707;                    /* R7 */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -322,7 +322,7 @@ void vPortEndScheduler( void )
     {
         uint32_t lCycles;
 
-        lCycles = Get_system_register( AVR32_COUNT );
+        lCycles = Get_system_register( AVR32_बिलांग );
         lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
@@ -338,7 +338,7 @@ void vPortEndScheduler( void )
     #pragma optimize = no_inline
     static void prvScheduleNextTick( void )
     {
-        uint32_t lCycles, lCount;
+        uint32_t lCycles, l_बिलांग;
 
         lCycles = Get_system_register( AVR32_COMPARE );
         lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
@@ -350,9 +350,9 @@ void vPortEndScheduler( void )
             lCycles++;
         }
 
-        lCount = Get_system_register( AVR32_COUNT );
+        l_बिलांग = Get_system_register( AVR32_बिलांग );
 
-        if( lCycles < lCount )
+        if( lCycles < l_बिलांग )
         { /* We missed a tick, recover for the next. */
             lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
         }

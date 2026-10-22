@@ -200,26 +200,26 @@ class KernelHeaderChecker(HeaderChecker):
 
         with open(path, encoding="utf-8", errors="ignore") as file:
             chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
+            मगा_लिन्या = [("%s\n" % लिन्या) for लिन्या in chunk.strip().splitlines()][
                 : len(self.header) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            if (len(मगा_लिन्या) > 0) and (मगा_लिन्या[0].find("#!") == 0):
+                मगा_लिन्या.remove(मगा_लिन्या[0])
+            if (len(मगा_लिन्या) > 0) and (len(मगा_लिन्या[-1].strip()) == 0):
+                मगा_लिन्या.remove(मगा_लिन्या[-1])
 
         # Split lines in sections.
         headers = dict()
         headers["text"] = []
         headers["copyright"] = []
         headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
+        for लिन्या in मगा_लिन्या:
+            if self.armCollabRegex.match(लिन्या):
+                headers["copyright"].append(लिन्या)
+            elif "SPDX-License-Identifier:" in लिन्या:
+                headers["spdx"].append(लिन्या)
             else:
-                headers["text"].append(line)
+                headers["text"].append(लिन्या)
 
         text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
         spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
@@ -240,7 +240,7 @@ class KernelHeaderChecker(HeaderChecker):
 
 def main():
     parser = HeaderChecker.configArgParser()
-    args   = parser.parse_args()
+    मगा_कातविरान   = parser.parse_मगा_कातविरान()
 
     # Configure the checks then run
     checker = KernelHeaderChecker(KERNEL_HEADER,
@@ -253,7 +253,7 @@ def main():
                                   asm_ext=KERNEL_ASM_EXTENSIONS)
     checker.ignoreFile(os.path.split(__file__)[-1])
 
-    rc = checker.processArgs(args)
+    rc = checker.process_मगा_कातविरान(मगा_कातविरान)
     if rc:
         checker.showHelp(__file__)
 

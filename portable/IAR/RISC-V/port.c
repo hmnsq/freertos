@@ -66,17 +66,17 @@
  * of the stack used by main.  Using the linker script method will repurpose the
  * stack that was used by main before the scheduler was started for use as the
  * interrupt stack after the scheduler has started. */
-#ifdef configISR_STACK_SIZE_WORDS
-static __attribute__( ( aligned( 16 ) ) ) StackType_t xISRStack[ configISR_STACK_SIZE_WORDS ] = { 0 };
-const StackType_t xISRStackTop = ( StackType_t ) &( xISRStack[ configISR_STACK_SIZE_WORDS & ~portBYTE_ALIGNMENT_MASK ] );
+#ifdef config_ISR_सालानसान_SIZE_मगा_सालिता
+static __attribute__( ( aligned( 16 ) ) ) सालानसान_Type_t xISRStack[ config_ISR_सालानसान_SIZE_मगा_सालिता ] = { 0 };
+const सालानसान_Type_t x_ISRStack_इताअस = ( सालानसान_Type_t ) &( xISRStack[ config_ISR_सालानसान_SIZE_मगा_सालिता & ~portBYTE_ALIGNMENT_MASK ] );
 
 /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
  * the task stacks, and so will legitimately appear in many positions within
  * the ISR stack. */
-    #define portISR_STACK_FILL_BYTE    0xee
+    #define port_ISR_सालानसान_FILL_BYTE    0xee
 #else
     extern const uint32_t __freertos_irq_stack_top[];
-    const StackType_t xISRStackTop = ( StackType_t ) __freertos_irq_stack_top;
+    const सालानसान_Type_t x_ISRStack_इताअस = ( सालानसान_Type_t ) __freertos_irq_stack_top;
 #endif
 
 /**
@@ -112,22 +112,22 @@ size_t xTaskReturnAddress = ( size_t ) portTASK_RETURN_ADDRESS;
  * stack checking.  A problem in the ISR stack will trigger an assert, not call
  * the stack overflow hook function (because the stack overflow hook is specific
  * to a task stack, not the ISR stack). */
-#if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#if defined( config_ISR_सालानसान_SIZE_मगा_सालिता ) && ( config_CHECK_FOR_सालानसान_OVERFLOW > 2 )
     #warning "This path not tested, or even compiled yet."
 
-    static const uint8_t ucExpectedStackBytes[] =
+    static const uint8_t uc_Expected_सालानसान_Bytes[] =
     {
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE
+        port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, \
+        port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, \
+        port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, \
+        port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, \
+        port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE
     }; \
 
-    #define portCHECK_ISR_STACK()    configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
+    #define port_CHECK_ISR_सालानसान()    configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) uc_Expected_सालानसान_Bytes, sizeof( uc_Expected_सालानसान_Bytes ) ) == 0 ) )
 #else /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
+    #define port_CHECK_ISR_सालानसान()
 #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 /*-----------------------------------------------------------*/
@@ -161,9 +161,9 @@ static void prvTaskExitError( void )
 
     void vPortSetupTimerInterrupt( void )
     {
-        uint32_t ulCurrentTimeHigh, ulCurrentTimeLow;
-        volatile uint32_t * const pulTimeHigh = ( uint32_t * ) ( ( configMTIME_BASE_ADDRESS ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
-        volatile uint32_t * const pulTimeLow = ( uint32_t * ) ( configMTIME_BASE_ADDRESS );
+        uint32_t ul_Current_Time_माताअस, ul_Current_Time_माबाबा;
+        volatile uint32_t * const pul_Time_माताअस = ( uint32_t * ) ( ( configMTIME_BASE_ADDRESS ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
+        volatile uint32_t * const pul_Time_माबाबा = ( uint32_t * ) ( configMTIME_BASE_ADDRESS );
         volatile uint32_t ulHartId;
 
         __asm volatile ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
@@ -172,13 +172,13 @@ static void prvTaskExitError( void )
 
         do
         {
-            ulCurrentTimeHigh = *pulTimeHigh;
-            ulCurrentTimeLow = *pulTimeLow;
-        } while( ulCurrentTimeHigh != *pulTimeHigh );
+            ul_Current_Time_माताअस = *pul_Time_माताअस;
+            ul_Current_Time_माबाबा = *pul_Time_माबाबा;
+        } while( ul_Current_Time_माताअस != *pul_Time_माताअस );
 
-        ullNextTime = ( uint64_t ) ulCurrentTimeHigh;
+        ullNextTime = ( uint64_t ) ul_Current_Time_माताअस;
         ullNextTime <<= 32ULL; /* High 4-byte word is 32-bits up. */
-        ullNextTime |= ( uint64_t ) ulCurrentTimeLow;
+        ullNextTime |= ( uint64_t ) ul_Current_Time_माबाबा;
         ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
         *pullMachineTimerCompareRegister = ullNextTime;
 
@@ -198,11 +198,11 @@ BaseType_t xPortStartScheduler( void )
         /* Check alignment of the interrupt stack - which is the same as the
          * stack that was being used by main() prior to the scheduler being
          * started. */
-        configASSERT( ( xISRStackTop & portBYTE_ALIGNMENT_MASK ) == 0 );
+        configASSERT( ( x_ISRStack_इताअस & portBYTE_ALIGNMENT_MASK ) == 0 );
 
-        #ifdef configISR_STACK_SIZE_WORDS
+        #ifdef config_ISR_सालानसान_SIZE_मगा_सालिता
         {
-            memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+            memset( ( void * ) xISRStack, port_ISR_सालानसान_FILL_BYTE, sizeof( xISRStack ) );
         }
         #endif /* configISR_STACK_SIZE_WORDS */
     }

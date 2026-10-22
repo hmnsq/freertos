@@ -54,22 +54,22 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DPSW    ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DCMR    ( ( StackType_t ) 0x00000000 )
-#define portINITIAL_DECNT   ( ( StackType_t ) 0x00000001 )
+#define portINITIAL_PSW     ( ( सालानसान_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( सालानसान_Type_t ) 0x00000100 )
+#define portINITIAL_DPSW    ( ( सालानसान_Type_t ) 0x00000100 )
+#define portINITIAL_DCMR    ( ( सालानसान_Type_t ) 0x00000000 )
+#define portINITIAL_DECNT   ( ( सालानसान_Type_t ) 0x00000001 )
 
 /* Tasks are not created with a DPFPU context, but can be given a DPFPU context
  * after they have been created.  A variable is stored as part of the tasks context
  * that holds portNO_DPFPU_CONTEXT if the task does not have a DPFPU context, or
  * any other value if the task does have a DPFPU context. */
-#define portNO_DPFPU_CONTEXT    ( ( StackType_t ) 0 )
-#define portHAS_DPFPU_CONTEXT   ( ( StackType_t ) 1 )
+#define portNO_DPFPU_CONTEXT    ( ( सालानसान_Type_t ) 0 )
+#define portHAS_DPFPU_CONTEXT   ( ( सालानसान_Type_t ) 1 )
 
 /* The space on the stack required to hold the DPFPU data registers.  This is 16
  * 64-bit registers. */
-#define portDPFPU_DATA_REGISTER_WORDS   ( 16 * 2 )
+#define port_DPFPU_DATA_REGISTER_मगा_सालिता   ( 16 * 2 )
 
 /*-----------------------------------------------------------*/
 
@@ -114,7 +114,7 @@ void vTickISR( void );
  * then a DPFPU context must be saved and restored for the task. */
 #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
+    सालानसान_Type_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
 
 #endif /* configUSE_TASK_DPFPU_SUPPORT */
 
@@ -128,82 +128,82 @@ extern void vTaskSwitchContext( void );
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_इताअस_Of_सालानसान = 0x00;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_PSW;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
         {
-            pxTopOfStack--;
-            *pxTopOfStack = 0xffffffff; /* r15. */
-            pxTopOfStack--;
-            *pxTopOfStack = 0xeeeeeeee;
-            pxTopOfStack--;
-            *pxTopOfStack = 0xdddddddd;
-            pxTopOfStack--;
-            *pxTopOfStack = 0xcccccccc;
-            pxTopOfStack--;
-            *pxTopOfStack = 0xbbbbbbbb;
-            pxTopOfStack--;
-            *pxTopOfStack = 0xaaaaaaaa;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x99999999;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x88888888;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x77777777;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x66666666;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x55555555;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x44444444;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x33333333;
-            pxTopOfStack--;
-            *pxTopOfStack = 0x22222222;
-            pxTopOfStack--;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0xffffffff; /* r15. */
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0xeeeeeeee;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0xdddddddd;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0xcccccccc;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0xbbbbbbbb;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0xaaaaaaaa;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x99999999;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x88888888;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x77777777;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x66666666;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x55555555;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x44444444;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x33333333;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = 0x22222222;
+            px_इताअस_Of_सालानसान--;
         }
     #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
-            pxTopOfStack -= 15;
+            px_इताअस_Of_सालानसान -= 15;
         }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 0. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R1 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_FPSW;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x11111111; /* Accumulator 1. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22222222; /* Accumulator 1. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33333333; /* Accumulator 1. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x44444444; /* Accumulator 0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x55555555; /* Accumulator 0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x66666666; /* Accumulator 0. */
 
     #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
         {
             /* The task will start without a DPFPU context.  A task that
              * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
              * executing any floating point instructions. */
-            pxTopOfStack--;
-            *pxTopOfStack = portNO_DPFPU_CONTEXT;
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = portNO_DPFPU_CONTEXT;
         }
     #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
         {
@@ -211,51 +211,51 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
              * space for the registers - and ensure they are initialised if desired. */
             #ifdef USE_FULL_REGISTER_INITIALISATION
                 {
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1515.1515; /* DR15. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1414.1414; /* DR14. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1313.1313; /* DR13. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1212.1212; /* DR12. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1111.1111; /* DR11. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 1010.1010; /* DR10. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  909.0909; /* DR9. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  808.0808; /* DR8. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  707.0707; /* DR7. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  606.0606; /* DR6. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  505.0505; /* DR5. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  404.0404; /* DR4. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  303.0303; /* DR3. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  202.0202; /* DR2. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack =  101.0101; /* DR1. */
-                    pxTopOfStack -= 2;
-                    *(double *)pxTopOfStack = 9876.54321;/* DR0. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 1515.1515; /* DR15. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 1414.1414; /* DR14. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 1313.1313; /* DR13. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 1212.1212; /* DR12. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 1111.1111; /* DR11. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 1010.1010; /* DR10. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  909.0909; /* DR9. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  808.0808; /* DR8. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  707.0707; /* DR7. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  606.0606; /* DR6. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  505.0505; /* DR5. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  404.0404; /* DR4. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  303.0303; /* DR3. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  202.0202; /* DR2. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान =  101.0101; /* DR1. */
+                    px_इताअस_Of_सालानसान -= 2;
+                    *(double *)px_इताअस_Of_सालानसान = 9876.54321;/* DR0. */
                 }
             #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
                 {
-                    pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-                    memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+                    px_इताअस_Of_सालानसान -= port_DPFPU_DATA_REGISTER_मगा_सालिता;
+                    memset( px_इताअस_Of_सालानसान, 0x00, port_DPFPU_DATA_REGISTER_मगा_सालिता * sizeof( सालानसान_Type_t ) );
                 }
             #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
-            pxTopOfStack--;
-            *pxTopOfStack = portINITIAL_DECNT; /* DECNT. */
-            pxTopOfStack--;
-            *pxTopOfStack = portINITIAL_DCMR;  /* DCMR. */
-            pxTopOfStack--;
-            *pxTopOfStack = portINITIAL_DPSW;  /* DPSW. */
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = portINITIAL_DECNT; /* DECNT. */
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = portINITIAL_DCMR;  /* DCMR. */
+            px_इताअस_Of_सालानसान--;
+            *px_इताअस_Of_सालानसान = portINITIAL_DPSW;  /* DPSW. */
         }
     #elif ( configUSE_TASK_DPFPU_SUPPORT == 0 )
         {
@@ -263,11 +263,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         }
     #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
         {
-            #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
+            #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or कालिवा undefined.
         }
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -352,7 +352,7 @@ static void prvStartFirstTask( void )
 
         /* The restored ulPortTaskHasDPFPUContext is to be zero here.
          * So, it is never necessary to restore the DPFPU context here. */
-        POP R15
+        आलिसिन_2 R15
         MOV.L # _ulPortTaskHasDPFPUContext, R14
         MOV.L R15, [ R14 ]
 
@@ -364,31 +364,31 @@ static void prvStartFirstTask( void )
 
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator low 32 bits. */
     MVTACLO R15, A0
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator high 32 bits. */
     MVTACHI R15, A0
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator guard. */
     MVTACGU R15, A0
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator low 32 bits. */
     MVTACLO R15, A1
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator high 32 bits. */
     MVTACHI R15, A1
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator guard. */
     MVTACGU R15, A1
-    POP R15
+    आलिसिन_2 R15
 
     /* Floating point status word. */
     MVTC R15, FPSW
@@ -424,7 +424,7 @@ static void prvYieldHandler( void )
      * the interrupt occurred from the interrupt stack to the user stack.
      *
      * R15 is saved before it is clobbered. */
-    PUSH.L R15
+    इतुलाक_2.L R15
 
     /* Read the user stack pointer. */
     MVFC USP, R15
@@ -449,19 +449,19 @@ static void prvYieldHandler( void )
 
     /* Save the FPSW and accumulators. */
     MVFC FPSW, R15
-    PUSH.L R15
+    इतुलाक_2.L R15
     MVFACGU # 0, A1, R15
-    PUSH.L R15
+    इतुलाक_2.L R15
     MVFACHI # 0, A1, R15
-    PUSH.L R15
+    इतुलाक_2.L R15
     MVFACLO # 0, A1, R15 /* Low order word. */
-    PUSH.L R15
+    इतुलाक_2.L R15
     MVFACGU # 0, A0, R15
-    PUSH.L R15
+    इतुलाक_2.L R15
     MVFACHI # 0, A0, R15
-    PUSH.L R15
+    इतुलाक_2.L R15
     MVFACLO # 0, A0, R15 /* Low order word. */
-    PUSH.L R15
+    इतुलाक_2.L R15
 
     #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
@@ -478,7 +478,7 @@ static void prvYieldHandler( void )
         ?:
 
         /* Save ulPortTaskHasDPFPUContext itself. */
-        PUSH.L R15
+        इतुलाक_2.L R15
 
     #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
 
@@ -520,7 +520,7 @@ static void prvYieldHandler( void )
 
         /* Is there a DPFPU context to restore?  If the restored
          * ulPortTaskHasDPFPUContext is zero then no. */
-        POP R15
+        आलिसिन_2 R15
         MOV.L # _ulPortTaskHasDPFPUContext, R14
         MOV.L R15, [ R14 ]
         CMP # 0, R15
@@ -539,31 +539,31 @@ static void prvYieldHandler( void )
 
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator low 32 bits. */
     MVTACLO R15, A0
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator high 32 bits. */
     MVTACHI R15, A0
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator guard. */
     MVTACGU R15, A0
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator low 32 bits. */
     MVTACLO R15, A1
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator high 32 bits. */
     MVTACHI R15, A1
-    POP R15
+    आलिसिन_2 R15
 
     /* Accumulator guard. */
     MVTACGU R15, A1
-    POP R15
+    आलिसिन_2 R15
     MVTC R15, FPSW
     POPM R1-R15
     RTE

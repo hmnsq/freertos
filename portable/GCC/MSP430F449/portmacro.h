@@ -51,11 +51,11 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         int
-#define portSTACK_TYPE    uint16_t
+#define port_सालानसान_TYPE    uint16_t
 #define portBASE_TYPE     short
 #define portPOINTER_SIZE_TYPE uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef short            BaseType_t;
 typedef unsigned short   UBaseType_t;
 
@@ -117,7 +117,7 @@ extern void vPortYield( void ) __attribute__( ( naked ) );
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 
 /* GCC used to define these but doesn't any more */

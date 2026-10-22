@@ -58,7 +58,7 @@
     #error configENABLE_TRUSTZONE must be defined in FreeRTOSConfig.h.  Set configENABLE_TRUSTZONE to 1 to enable TrustZone or 0 to disable TrustZone.
 #endif /* configENABLE_TRUSTZONE */
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
     #if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
         #error "Multi-core SMP is currently only validated for Cortex-M33 non-TrustZone non-MPU port."
     #endif /* if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 ) ) */
@@ -81,10 +81,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -106,7 +106,7 @@ typedef unsigned long    UBaseType_t;
 /**
  * Architecture specifics.
  */
-#define portSTACK_GROWTH                   ( -1 )
+#define port_सालानसान_GROWTH                   ( -1 )
 #define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                 8
 #define portNOP()
@@ -114,7 +114,7 @@ typedef unsigned long    UBaseType_t;
 #ifndef portFORCE_INLINE
     #define portFORCE_INLINE               inline __attribute__( ( always_inline ) )
 #endif
-#define portHAS_STACK_OVERFLOW_CHECKING    1
+#define port_HAS_सालानसान_OVERFLOW_CHECKING    1
 /*-----------------------------------------------------------*/
 
 /**
@@ -131,7 +131,7 @@ extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGE
 extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
 #if ( configENABLE_TRUSTZONE == 1 )
-    extern void vPortAllocateSecureContext( uint32_t ulSecureStackSize ); /* __attribute__ (( naked )) */
+    extern void vPortAllocateSecureContext( uint32_t ul_Secure_सालानसान_Size ); /* __attribute__ (( naked )) */
     extern void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */;
 #endif /* configENABLE_TRUSTZONE */
 
@@ -148,7 +148,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      * @param[out] pulTaskPacKey Pointer to a 4-word (128-bits) array to be
      *             filled with a 128-bit random number.
      */
-    void vApplicationGenerateTaskRandomPacKey( uint32_t * pulTaskPacKey );
+    void v_Application_Generate_Task_Random_Pac_सुसि( uint32_t * pul_Task_Pac_सुसि );
 
 #endif /* configENABLE_PAC */
 /*-----------------------------------------------------------*/
@@ -174,11 +174,11 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portUNPRIVILEGED_FLASH_REGION                 ( 1UL )
 #define portUNPRIVILEGED_SYSCALLS_REGION              ( 2UL )
 #define portPRIVILEGED_RAM_REGION                     ( 3UL )
-#define portSTACK_REGION                              ( 4UL )
+#define port_सालानसान_REGION                              ( 4UL )
 #define portFIRST_CONFIGURABLE_REGION                 ( 5UL )
 #define portLAST_CONFIGURABLE_REGION                  ( configTOTAL_MPU_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS                  ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
-#define portTOTAL_NUM_REGIONS                         ( portNUM_CONFIGURABLE_REGIONS + 1 )       /* Plus one to make space for the stack region. */
+#define port_नुमेरो_CONFIGURABLE_REGIONS                  ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
+#define port_TOTAL_नुमेरो_REGIONS                         ( port_नुमेरो_CONFIGURABLE_REGIONS + 1 )       /* Plus one to make space for the stack region. */
 
 /* Device memory attributes used in MPU_MAIR registers.
  *
@@ -225,22 +225,22 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 
     #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-        #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
+        #ifndef config_SYSTEM_CALL_सालानसान_SIZE
+            #error config_SYSTEM_CALL_सालानसान_SIZE must be defined to the desired size of the system call सालानसान in मगा_सालिता for using MPU wrappers v2.
         #endif
 
         /**
          * @brief System call stack.
          */
-        typedef struct SYSTEM_CALL_STACK_INFO
+        typedef struct SYSTEM_CALL_सालानसान_INFO
         {
-            uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-            uint32_t * pulSystemCallStack;
-            uint32_t * pulSystemCallStackLimit;
-            uint32_t * pulTaskStack;
+            uint32_t ul_System_Call_सालानसान_Buffer[ config_SYSTEM_CALL_सालानसान_SIZE ];
+            uint32_t * pul_System_Call_सालानसान;
+            uint32_t * pul_System_Call_सालानसान_Limit;
+            uint32_t * pul_Task_सालानसान;
             uint32_t ulLinkRegisterAtSystemCallEntry;
-            uint32_t ulStackLimitRegisterAtSystemCallEntry;
-        } xSYSTEM_CALL_STACK_INFO;
+            uint32_t ul_सालानसान_Limit_Register_At_System_Call_Entry;
+        } x_SYSTEM_CALL_सालानसान_INFO;
 
     #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
@@ -362,7 +362,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     #endif /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
 
     /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-    #define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
+    #define port_सालानसान_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
     #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
     /* Size of an Access Control List (ACL) entry in bits. */
@@ -371,12 +371,12 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     typedef struct MPU_SETTINGS
     {
         uint32_t ulMAIR0;                                              /**< MAIR0 for the task containing attributes for all the 4 per task regions. */
-        MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ]; /**< Settings for 4 per task regions. */
+        MPURegionSettings_t xRegionsSettings[ port_TOTAL_नुमेरो_REGIONS ]; /**< Settings for 4 per task regions. */
         uint32_t ulContext[ MAX_CONTEXT_SIZE ];
         uint32_t ulTaskFlags;
 
         #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-            xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
+            x_SYSTEM_CALL_सालानसान_INFO x_System_Call_सालानसान_Info;
             #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif
@@ -446,7 +446,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMask()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vClearInterruptMask( x )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
     #define portENTER_CRITICAL()                      vPortEnterCritical()
     #define portEXIT_CRITICAL()                       vPortExitCritical()
 #else /* ( configNUMBER_OF_CORES == 1 ) */
@@ -489,7 +489,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  *
  * @param[in] ulSecureStackSize The size of the secure stack to be allocated.
  */
-    #define portALLOCATE_SECURE_CONTEXT( ulSecureStackSize )    vPortAllocateSecureContext( ulSecureStackSize )
+    #define portALLOCATE_SECURE_CONTEXT( ul_Secure_सालानसान_Size )    vPortAllocateSecureContext( ul_Secure_सालानसान_Size )
 
 /**
  * @brief Called when a task is deleted to delete the task's secure context,
@@ -554,7 +554,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /* Select correct value of configUSE_PORT_OPTIMISED_TASK_SELECTION
  * based on whether or not Mainline extension is implemented. */
 #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( configNUMBER_OF_CORES == 1 ) )
+    #if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( config_नुमेरो_OF_CORES == 1 ) )
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
     #else
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
@@ -569,7 +569,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Count the number of leading zeros in a 32-bit value.
  */
-    static portFORCE_INLINE uint32_t ulPortCountLeadingZeros( uint32_t ulBitmap )
+    static portFORCE_INLINE uint32_t ul_Port_बिलांग_Leading_Zeros( uint32_t ulBitmap )
     {
         uint32_t ulReturn;
 
@@ -596,35 +596,35 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Get the priority of the highest-priority task that is ready to execute.
  */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ulPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31UL - ul_Port_बिलांग_Leading_Zeros( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
     typedef enum
     {
         eIsrLock = 0,
         eTaskLock,
-        eLockCount
+        e_Lock_बिलांग
     } ePortRTOSLock;
 
-    extern volatile uint32_t ulCriticalNestings[ configNUMBER_OF_CORES ];
+    extern volatile uint32_t ulCriticalNestings[ config_नुमेरो_OF_CORES ];
     extern void vPortRecursiveLock( uint8_t ucCoreID,
-                                    ePortRTOSLock eLockNum,
+                                    ePortRTOSLock e_Lock_नुमेरो,
                                     BaseType_t uxAcquire );
     extern uint8_t ucPortGetCoreID( void );
     extern void vInterruptCore( uint8_t ucCoreID );
 
     #define portGET_CORE_ID()                                  ucPortGetCoreID()
 
-    #define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( ulCriticalNestings[ ( uint8_t ) xCoreID ] )
-    #define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( ulCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
-    #define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]++ )
-    #define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]-- )
+    #define port_GET_CRITICAL_NESTING_बिलांग( xCoreID )          ( ulCriticalNestings[ ( uint8_t ) xCoreID ] )
+    #define port_SET_CRITICAL_NESTING_बिलांग( xCoreID, x )       ( ulCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
+    #define port_INCREMENT_CRITICAL_NESTING_बिलांग( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]++ )
+    #define port_DECREMENT_CRITICAL_NESTING_बिलांग( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]-- )
 
-    #define portMAX_CORE_COUNT                                 ( configNUMBER_OF_CORES )
+    #define port_MAX_CORE_बिलांग                                 ( config_नुमेरो_OF_CORES )
 
     #define portYIELD_CORE( xCoreID )                          vInterruptCore( xCoreID )
 

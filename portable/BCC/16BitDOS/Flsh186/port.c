@@ -56,7 +56,7 @@ Changes from V2.6.1
 
 #define portTIMER_EOI_TYPE      ( 8 )
 #define portRESET_PIC()         portOUTPUT_WORD( ( uint16_t ) 0xff22, portTIMER_EOI_TYPE )
-#define portTIMER_INT_NUMBER    0x12
+#define port_TIMER_INT_नुमेरो    0x12
 
 #define portTIMER_1_CONTROL_REGISTER    ( ( uint16_t ) 0xff5e )
 #define portTIMER_0_CONTROL_REGISTER    ( ( uint16_t ) 0xff56 )
@@ -105,21 +105,21 @@ BaseType_t xPortStartScheduler( void )
 
     /* Remember what was on the interrupts we are going to use
     so we can put them back later if required. */
-    pxOldSwitchISR = _dos_getvect( portSWITCH_INT_NUMBER );
+    pxOldSwitchISR = _dos_getvect( port_SWITCH_INT_नुमेरो );
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    _dos_setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    _dos_setvect( port_SWITCH_INT_नुमेरो, prvYieldProcessor );
 
     #if( configUSE_PREEMPTION == 1 )
     {
         /* Put our tick switch function on the timer interrupt. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
+        _dos_setvect( port_TIMER_INT_नुमेरो, prvPreemptiveTick );
     }
     #else
     {
         /* We want the timer interrupt to just increment the tick count. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvNonPreemptiveTick );
+        _dos_setvect( port_TIMER_INT_नुमेरो, prvNonPreemptiveTick );
     }
     #endif
 
@@ -197,7 +197,7 @@ uint16_t usTimer0Control;
     {
         /* Put back the switch interrupt routines that was in place
         before the scheduler started. */
-        _dos_setvect( portSWITCH_INT_NUMBER, pxOldSwitchISR );
+        _dos_setvect( port_SWITCH_INT_नुमेरो, pxOldSwitchISR );
     }
 
     /* Disable the timer used for the tick to ensure the scheduler is
@@ -206,7 +206,7 @@ uint16_t usTimer0Control;
     portOUTPUT_WORD( portTIMER_1_CONTROL_REGISTER, usTimerDisable );
 
     /* Restart the DOS tick. */
-    usTimer0Control = portINPUT_WORD( portTIMER_0_CONTROL_REGISTER );
+    usTimer0Control = port_पासोक_WORD( portTIMER_0_CONTROL_REGISTER );
     usTimer0Control |= portTIMER_INTERRUPT_ENABLE;
     portOUTPUT_WORD( portTIMER_0_CONTROL_REGISTER, usTimer0Control );
 
@@ -217,25 +217,25 @@ uint16_t usTimer0Control;
 
 static void prvSetTickFrequency( uint32_t ulTickRateHz )
 {
-const uint16_t usMaxCountRegister = 0xff5a;
+const uint16_t us_Max_बिलांग_Register = 0xff5a;
 const uint16_t usTimerPriorityRegister = 0xff32;
 const uint16_t usTimerEnable = 0xC000;
 const uint16_t usRetrigger = 0x0001;
-const uint16_t usTimerHighPriority = 0x0000;
+const uint16_t us_Timer_माताअस_Priority = 0x0000;
 uint16_t usTimer0Control;
 
 /* ( CPU frequency / 4 ) / clock 2 max count [inpw( 0xff62 ) = 7] */
 
 const uint32_t ulClockFrequency = ( uint32_t ) 0x7f31a0UL;
 
-uint32_t ulTimerCount = ulClockFrequency / ulTickRateHz;
+uint32_t ul_Timer_बिलांग = ulClockFrequency / ulTickRateHz;
 
     portOUTPUT_WORD( portTIMER_1_CONTROL_REGISTER, usTimerEnable | portTIMER_INTERRUPT_ENABLE | usRetrigger );
-    portOUTPUT_WORD( usMaxCountRegister, ( uint16_t ) ulTimerCount );
-    portOUTPUT_WORD( usTimerPriorityRegister, usTimerHighPriority );
+    portOUTPUT_WORD( us_Max_बिलांग_Register, ( uint16_t ) ul_Timer_बिलांग );
+    portOUTPUT_WORD( usTimerPriorityRegister, us_Timer_माताअस_Priority );
 
     /* Stop the DOS tick - don't do this if you want to maintain a TOD clock. */
-    usTimer0Control = portINPUT_WORD( portTIMER_0_CONTROL_REGISTER );
+    usTimer0Control = port_पासोक_WORD( portTIMER_0_CONTROL_REGISTER );
     usTimer0Control &= ~portTIMER_INTERRUPT_ENABLE;
     portOUTPUT_WORD( portTIMER_0_CONTROL_REGISTER, usTimer0Control );
 }

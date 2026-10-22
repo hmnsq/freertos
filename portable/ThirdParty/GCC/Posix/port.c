@@ -94,15 +94,15 @@ typedef struct THREAD
  */
 static inline Thread_t * prvGetThreadFromTask( TaskHandle_t xTask )
 {
-    StackType_t * pxTopOfStack = *( StackType_t ** ) xTask;
+    सालानसान_Type_t * px_इताअस_Of_सालानसान = *( सालानसान_Type_t ** ) xTask;
 
-    return ( Thread_t * ) ( pxTopOfStack + 1 );
+    return ( Thread_t * ) ( px_इताअस_Of_सालानसान + 1 );
 }
 
 /*-----------------------------------------------------------*/
 
 static pthread_once_t hSigSetupThread = PTHREAD_ONCE_INIT;
-static pthread_once_t hThreadKeyOnce = PTHREAD_ONCE_INIT;
+static pthread_once_t h_Thread_सुसि_Once = PTHREAD_ONCE_INIT;
 static sigset_t xAllSignals;
 static sigset_t xSchedulerOriginalSignalMask;
 static pthread_t hMainThread = ( pthread_t ) NULL;
@@ -111,7 +111,7 @@ static BaseType_t xSchedulerEnd = pdFALSE;
 static pthread_t hTimerTickThread;
 static bool xTimerTickThreadShouldRun;
 static uint64_t prvStartTimeNs;
-static pthread_key_t xThreadKey = 0;
+static pthread_key_t x_Thread_सुसि = 0;
 /*-----------------------------------------------------------*/
 
 static void prvSetupSignalsAndSchedulerPolicy( void );
@@ -124,24 +124,24 @@ static void prvResumeThread( Thread_t * xThreadId );
 static void vPortSystemTickHandler( int sig );
 static void vPortStartFirstTask( void );
 static void prvPortYieldFromISR( void );
-static void prvThreadKeyDestructor( void * pvData );
-static void prvInitThreadKey( void );
+static void prv_Thread_सुसि_Destructor( void * pvData );
+static void prv_Init_Thread_सुसि( void );
 static void prvMarkAsFreeRTOSThread( void );
 static BaseType_t prvIsFreeRTOSThread( void );
-static void prvDestroyThreadKey( void );
+static void prv_Destroy_Thread_सुसि( void );
 /*-----------------------------------------------------------*/
 
-static void prvThreadKeyDestructor( void * pvData )
+static void prv_Thread_सुसि_Destructor( void * pvData )
 {
     free( pvData );
 }
 /*-----------------------------------------------------------*/
 
-static void prvInitThreadKey( void )
+static void prv_Init_Thread_सुसि( void )
 {
-    pthread_key_create( &xThreadKey, prvThreadKeyDestructor );
+    pthread_key_create( &x_Thread_सुसि, prv_Thread_सुसि_Destructor );
     /* Destroy xThreadKey when the process exits. */
-    atexit( prvDestroyThreadKey );
+    atexit( prv_Destroy_Thread_सुसि );
 }
 /*-----------------------------------------------------------*/
 
@@ -149,14 +149,14 @@ static void prvMarkAsFreeRTOSThread( void )
 {
     uint8_t * pucThreadData = NULL;
 
-    ( void ) pthread_once( &hThreadKeyOnce, prvInitThreadKey );
+    ( void ) pthread_once( &h_Thread_सुसि_Once, prv_Init_Thread_सुसि );
 
     pucThreadData = malloc( 1 );
     configASSERT( pucThreadData != NULL );
 
     *pucThreadData = 1;
 
-    pthread_setspecific( xThreadKey, pucThreadData );
+    pthread_setspecific( x_Thread_सुसि, pucThreadData );
 }
 /*-----------------------------------------------------------*/
 
@@ -165,9 +165,9 @@ static BaseType_t prvIsFreeRTOSThread( void )
     uint8_t * pucThreadData = NULL;
     BaseType_t xRet = pdFALSE;
 
-    ( void ) pthread_once( &hThreadKeyOnce, prvInitThreadKey );
+    ( void ) pthread_once( &h_Thread_सुसि_Once, prv_Init_Thread_सुसि );
 
-    pucThreadData = ( uint8_t * ) pthread_getspecific( xThreadKey );
+    pucThreadData = ( uint8_t * ) pthread_getspecific( x_Thread_सुसि );
 
     if( ( pucThreadData != NULL ) && ( *pucThreadData == 1 ) )
     {
@@ -178,9 +178,9 @@ static BaseType_t prvIsFreeRTOSThread( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvDestroyThreadKey( void )
+static void prv_Destroy_Thread_सुसि( void )
 {
-    pthread_key_delete( xThreadKey );
+    pthread_key_delete( x_Thread_सुसि );
 }
 /*-----------------------------------------------------------*/
 
@@ -208,14 +208,14 @@ static void prvPortSetCurrentThreadName( const char * pxThreadName )
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     StackType_t * pxEndOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
+                                     सालानसान_Type_t * px_End_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     Thread_t * thread;
     pthread_attr_t xThreadAttributes;
-    size_t ulStackSize;
+    size_t ul_सालानसान_Size;
     int iRet;
 
     ( void ) pthread_once( &hSigSetupThread, prvSetupSignalsAndSchedulerPolicy );
@@ -223,13 +223,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /*
      * Store the additional thread data at the start of the stack.
      */
-    thread = ( Thread_t * ) ( pxTopOfStack + 1 ) - 1;
-    pxTopOfStack = ( StackType_t * ) thread - 1;
+    thread = ( Thread_t * ) ( px_इताअस_Of_सालानसान + 1 ) - 1;
+    px_इताअस_Of_सालानसान = ( सालानसान_Type_t * ) thread - 1;
 
     /* Ensure that there is enough space to store Thread_t on the stack. */
-    ulStackSize = ( size_t ) ( pxTopOfStack + 1 - pxEndOfStack ) * sizeof( *pxTopOfStack );
-    configASSERT( ulStackSize > sizeof( Thread_t ) );
-    ( void ) ulStackSize; /* suppress set but not used warning */
+    ul_सालानसान_Size = ( size_t ) ( px_इताअस_Of_सालानसान + 1 - px_End_Of_सालानसान ) * sizeof( *px_इताअस_Of_सालानसान );
+    configASSERT( ul_सालानसान_Size > sizeof( Thread_t ) );
+    ( void ) ul_सालानसान_Size; /* suppress set but not used warning */
 
     thread->pxCode = pxCode;
     thread->pvParams = pvParameters;
@@ -251,7 +251,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     vPortExitCritical();
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -307,12 +307,12 @@ BaseType_t xPortStartScheduler( void )
      * memset the internal struct members for MacOS/Linux Compatibility */
     #if __APPLE__
         hSigSetupThread.__sig = _PTHREAD_ONCE_SIG_init;
-        hThreadKeyOnce.__sig = _PTHREAD_ONCE_SIG_init;
+        h_Thread_सुसि_Once.__sig = _PTHREAD_ONCE_SIG_init;
         memset( ( void * ) &hSigSetupThread.__opaque, 0, sizeof( hSigSetupThread.__opaque ) );
-        memset( ( void * ) &hThreadKeyOnce.__opaque, 0, sizeof( hThreadKeyOnce.__opaque ) );
+        memset( ( void * ) &h_Thread_सुसि_Once.__opaque, 0, sizeof( h_Thread_सुसि_Once.__opaque ) );
     #else /* Linux PTHREAD library*/
         hSigSetupThread = ( pthread_once_t ) PTHREAD_ONCE_INIT;
-        hThreadKeyOnce = ( pthread_once_t ) PTHREAD_ONCE_INIT;
+        h_Thread_सुसि_Once = ( pthread_once_t ) PTHREAD_ONCE_INIT;
     #endif /* __APPLE__*/
 
     /* Restore original signal mask. */

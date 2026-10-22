@@ -41,7 +41,7 @@
 #include "task.h"
 #include "list.h"
 
-#if configCHECK_FOR_STACK_OVERFLOW > 0
+#if config_CHECK_FOR_सालानसान_OVERFLOW > 0
     #error "Stack checking cannot be used with this port, as, unlike most ports, the pxTopOfStack member of the TCB is consumed CSA.  CSA starvation, loosely equivalent to stack overflow, will result in a trap exception."
     /* The stack pointer is accessible using portCSA_TO_ADDRESS( portCSA_TO_ADDRESS( pxCurrentTCB->pxTopOfStack )[ 0 ] )[ 2 ]; */
 #endif /* configCHECK_FOR_STACK_OVERFLOW */
@@ -64,7 +64,7 @@
 #define portSYSCALL_TRAP                                ( 6 )
 
 /* Each CSA contains 16 words of data. */
-#define portNUM_WORDS_IN_CSA                            ( 16 )
+#define port_नुमेरो_मगा_सालिता_IN_CSA                            ( 16 )
 
 /* The interrupt enable bit in the PCP_SRC register. */
 #define portENABLE_CPU_INTERRUPT                        ( 1U << 12U )
@@ -92,11 +92,11 @@ static void prvInterruptYield( int iTrapIdentification );
 extern volatile uint32_t * pxCurrentTCB;
 
 /* Precalculate the compare match value at compile time. */
-static const uint32_t ulCompareMatchValue = ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ );
+static const uint32_t ul_Compare_Match_हालागा = ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ );
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -155,14 +155,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     portEXIT_CRITICAL();
 
     /* Clear the upper CSA. */
-    memset( pulUpperCSA, 0, portNUM_WORDS_IN_CSA * sizeof( uint32_t ) );
+    memset( pulUpperCSA, 0, port_नुमेरो_मगा_सालिता_IN_CSA * sizeof( uint32_t ) );
 
     /* Upper Context. */
-    pulUpperCSA[ 2 ] = ( uint32_t ) pxTopOfStack;      /* A10; Stack Return aka Stack Pointer */
+    pulUpperCSA[ 2 ] = ( uint32_t ) px_इताअस_Of_सालानसान;      /* A10; Stack Return aka Stack Pointer */
     pulUpperCSA[ 1 ] = portSYSTEM_PROGRAM_STATUS_WORD; /* PSW  */
 
     /* Clear the lower CSA. */
-    memset( pulLowerCSA, 0, portNUM_WORDS_IN_CSA * sizeof( uint32_t ) );
+    memset( pulLowerCSA, 0, port_नुमेरो_मगा_सालिता_IN_CSA * sizeof( uint32_t ) );
 
     /* Lower Context. */
     pulLowerCSA[ 8 ] = ( uint32_t ) pvParameters; /* A4;  Address Type Parameter Register */
@@ -172,12 +172,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pulLowerCSA[ 0 ] = ( portINITIAL_PCXI_UPPER_CONTEXT_WORD | ( uint32_t ) portADDRESS_TO_CSA( pulUpperCSA ) );
 
     /* Save the link to the CSA in the top of stack. */
-    pxTopOfStack = ( uint32_t * ) portADDRESS_TO_CSA( pulLowerCSA );
+    px_इताअस_Of_सालानसान = ( uint32_t * ) portADDRESS_TO_CSA( pulLowerCSA );
 
     /* DSync to ensure that buffering is not a problem. */
     _dsync();
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -268,7 +268,7 @@ static void prvSetupTimerInterrupt( void )
     STM_CMCON.reg |= ( 0x1fUL - __CLZ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ ) );
 
     /* Take into account the current time so a tick doesn't happen immediately. */
-    STM_CMP0.reg = ulCompareMatchValue + STM_TIM0.reg;
+    STM_CMP0.reg = ul_Compare_Match_हालागा + STM_TIM0.reg;
 
     if( 0 != _install_int_handler( configKERNEL_INTERRUPT_PRIORITY, prvSystemTickHandler, 0 ) )
     {
@@ -320,7 +320,7 @@ static void prvSystemTickHandler( int iArg )
      * Changing the tick source to a timer that has an automatic reset on compare
      * match (such as a GPTA timer) will reduce the maximum possible additional
      * period to exactly 1 times the desired period. */
-    STM_CMP0.reg += ulCompareMatchValue;
+    STM_CMP0.reg += ul_Compare_Match_हालागा;
 
     /* Kernel API calls require Critical Sections. */
     ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();

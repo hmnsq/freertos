@@ -143,7 +143,7 @@ typedef struct A_BLOCK_LINK
  * the block in front it and/or the block behind it if the memory blocks are
  * adjacent to each other.
  */
-static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert ) PRIVILEGED_FUNCTION;
+static void prv_इसिंगित_Block_Into_Free_List( BlockLink_t * px_Block_To_इसिंगित ) PRIVILEGED_FUNCTION;
 
 /*
  * Called automatically to setup the required heap structures the first time
@@ -165,8 +165,8 @@ PRIVILEGED_DATA static BlockLink_t * pxEnd = NULL;
  * number of free bytes remaining, but says nothing about fragmentation. */
 PRIVILEGED_DATA static size_t xFreeBytesRemaining = ( size_t ) 0U;
 PRIVILEGED_DATA static size_t xMinimumEverFreeBytesRemaining = ( size_t ) 0U;
-PRIVILEGED_DATA static size_t xNumberOfSuccessfulAllocations = ( size_t ) 0U;
-PRIVILEGED_DATA static size_t xNumberOfSuccessfulFrees = ( size_t ) 0U;
+PRIVILEGED_DATA static size_t x_नुमेरो_Of_Successful_Allocations = ( size_t ) 0U;
+PRIVILEGED_DATA static size_t x_नुमेरो_Of_Successful_Frees = ( size_t ) 0U;
 
 /*-----------------------------------------------------------*/
 
@@ -309,7 +309,7 @@ void * pvPortMalloc( size_t xWantedSize )
                      * by the application and has no "next" block. */
                     heapALLOCATE_BLOCK( pxBlock );
                     pxBlock->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( NULL );
-                    xNumberOfSuccessfulAllocations++;
+                    x_नुमेरो_Of_Successful_Allocations++;
                 }
                 else
                 {
@@ -392,8 +392,8 @@ void vPortFree( void * pv )
                     /* Add this block to the list of free blocks. */
                     xFreeBytesRemaining += pxLink->xBlockSize;
                     traceFREE( pv, pxLink->xBlockSize );
-                    prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
-                    xNumberOfSuccessfulFrees++;
+                    prv_इसिंगित_Block_Into_Free_List( ( ( BlockLink_t * ) pxLink ) );
+                    x_नुमेरो_Of_Successful_Frees++;
                 }
                 ( void ) xTaskResumeAll();
             }
@@ -434,18 +434,18 @@ void vPortInitialiseBlocks( void )
 }
 /*-----------------------------------------------------------*/
 
-void * pvPortCalloc( size_t xNum,
+void * pvPortCalloc( size_t x_नुमेरो,
                      size_t xSize )
 {
     void * pv = NULL;
 
-    if( heapMULTIPLY_WILL_OVERFLOW( xNum, xSize ) == 0 )
+    if( heapMULTIPLY_WILL_OVERFLOW( x_नुमेरो, xSize ) == 0 )
     {
-        pv = pvPortMalloc( xNum * xSize );
+        pv = pvPortMalloc( x_नुमेरो * xSize );
 
         if( pv != NULL )
         {
-            ( void ) memset( pv, 0, xNum * xSize );
+            ( void ) memset( pv, 0, x_नुमेरो * xSize );
         }
     }
 
@@ -501,14 +501,14 @@ static void prvHeapInit( void ) /* PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert ) /* PRIVILEGED_FUNCTION */
+static void prv_इसिंगित_Block_Into_Free_List( BlockLink_t * px_Block_To_इसिंगित ) /* PRIVILEGED_FUNCTION */
 {
     BlockLink_t * pxIterator;
     uint8_t * puc;
 
     /* Iterate through the list until a block is found that has a higher address
      * than the block being inserted. */
-    for( pxIterator = &xStart; heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) < pxBlockToInsert; pxIterator = heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) )
+    for( pxIterator = &xStart; heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) < px_Block_To_इसिंगित; pxIterator = heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) )
     {
         /* Nothing to do here, just iterate to the right position. */
     }
@@ -522,10 +522,10 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert ) /* PRIVI
      * make a contiguous block of memory? */
     puc = ( uint8_t * ) pxIterator;
 
-    if( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) pxBlockToInsert )
+    if( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) px_Block_To_इसिंगित )
     {
-        pxIterator->xBlockSize += pxBlockToInsert->xBlockSize;
-        pxBlockToInsert = pxIterator;
+        pxIterator->xBlockSize += px_Block_To_इसिंगित->xBlockSize;
+        px_Block_To_इसिंगित = pxIterator;
     }
     else
     {
@@ -534,33 +534,33 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert ) /* PRIVI
 
     /* Do the block being inserted, and the block it is being inserted before
      * make a contiguous block of memory? */
-    puc = ( uint8_t * ) pxBlockToInsert;
+    puc = ( uint8_t * ) px_Block_To_इसिंगित;
 
-    if( ( puc + pxBlockToInsert->xBlockSize ) == ( uint8_t * ) heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) )
+    if( ( puc + px_Block_To_इसिंगित->xBlockSize ) == ( uint8_t * ) heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) )
     {
         if( heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock ) != pxEnd )
         {
             /* Form one big block from the two blocks. */
-            pxBlockToInsert->xBlockSize += heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock )->xBlockSize;
-            pxBlockToInsert->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock )->pxNextFreeBlock;
+            px_Block_To_इसिंगित->xBlockSize += heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock )->xBlockSize;
+            px_Block_To_इसिंगित->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxIterator->pxNextFreeBlock )->pxNextFreeBlock;
         }
         else
         {
-            pxBlockToInsert->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxEnd );
+            px_Block_To_इसिंगित->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxEnd );
         }
     }
     else
     {
-        pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;
+        px_Block_To_इसिंगित->pxNextFreeBlock = pxIterator->pxNextFreeBlock;
     }
 
     /* If the block being inserted plugged a gap, so was merged with the block
      * before and the block after, then it's pxNextFreeBlock pointer will have
      * already been set, and should not be set here as that would make it point
      * to itself. */
-    if( pxIterator != pxBlockToInsert )
+    if( pxIterator != px_Block_To_इसिंगित )
     {
-        pxIterator->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( pxBlockToInsert );
+        pxIterator->pxNextFreeBlock = heapPROTECT_BLOCK_POINTER( px_Block_To_इसिंगित );
     }
     else
     {
@@ -608,13 +608,13 @@ void vPortGetHeapStats( HeapStats_t * pxHeapStats )
 
     pxHeapStats->xSizeOfLargestFreeBlockInBytes = xMaxSize;
     pxHeapStats->xSizeOfSmallestFreeBlockInBytes = xMinSize;
-    pxHeapStats->xNumberOfFreeBlocks = xBlocks;
+    pxHeapStats->x_नुमेरो_Of_Free_Blocks = xBlocks;
 
     taskENTER_CRITICAL();
     {
         pxHeapStats->xAvailableHeapSpaceInBytes = xFreeBytesRemaining;
-        pxHeapStats->xNumberOfSuccessfulAllocations = xNumberOfSuccessfulAllocations;
-        pxHeapStats->xNumberOfSuccessfulFrees = xNumberOfSuccessfulFrees;
+        pxHeapStats->x_नुमेरो_Of_Successful_Allocations = x_नुमेरो_Of_Successful_Allocations;
+        pxHeapStats->x_नुमेरो_Of_Successful_Frees = x_नुमेरो_Of_Successful_Frees;
         pxHeapStats->xMinimumEverFreeBytesRemaining = xMinimumEverFreeBytesRemaining;
     }
     taskEXIT_CRITICAL();
@@ -632,7 +632,7 @@ void vPortHeapResetState( void )
 
     xFreeBytesRemaining = ( size_t ) 0U;
     xMinimumEverFreeBytesRemaining = ( size_t ) 0U;
-    xNumberOfSuccessfulAllocations = ( size_t ) 0U;
-    xNumberOfSuccessfulFrees = ( size_t ) 0U;
+    x_नुमेरो_Of_Successful_Allocations = ( size_t ) 0U;
+    x_नुमेरो_Of_Successful_Frees = ( size_t ) 0U;
 }
 /*-----------------------------------------------------------*/

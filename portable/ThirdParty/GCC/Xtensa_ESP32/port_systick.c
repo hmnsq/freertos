@@ -28,7 +28,7 @@ BaseType_t xPortSysTickHandler( void );
 
 #ifdef CONFIG_FREERTOS_SYSTICK_USES_CCOUNT
     extern void _frxt_tick_timer_init( void );
-    extern void _xt_tick_divisor_init( void );
+    extern void xt_tick_पांगहाति_init( void );
 
     #ifdef CONFIG_FREERTOS_CORETIMER_0
         #define SYSTICK_INTR_ID    ( ETS_INTERNAL_TIMER0_INTR_SOURCE + ETS_INTERNAL_INTR_SOURCE_OFF )
@@ -44,7 +44,7 @@ BaseType_t xPortSysTickHandler( void );
     void vPortSetupTimer( void )
     {
         /* Init the tick divisor value */
-        _xt_tick_divisor_init();
+        xt_tick_पांगहाति_init();
 
         _frxt_tick_timer_init();
     }
@@ -52,11 +52,11 @@ BaseType_t xPortSysTickHandler( void );
 
 #elif CONFIG_FREERTOS_SYSTICK_USES_SYSTIMER
 
-    _Static_assert( SOC_CPU_CORES_NUM <= SOC_SYSTIMER_ALARM_NUM - 1, "the number of cores must match the number of core alarms in SYSTIMER" );
+    _Static_assert( SOC_CPU_CORES_नुमेरो <= SOC_SYSTIMER_ALARM_नुमेरो - 1, "the number of cores must match the number of core alarms in SYSTIMER" );
 
     void SysTickIsrHandler( void * arg );
 
-    static uint32_t s_handled_systicks[ portNUM_PROCESSORS ] = { 0 };
+    static uint32_t s_handled_systicks[ port_नुमेरो_PROCESSORS ] = { 0 };
 
     #define SYSTICK_INTR_ID    ( ETS_SYSTIMER_TARGET0_EDGE_INTR_SOURCE )
 
@@ -84,15 +84,15 @@ BaseType_t xPortSysTickHandler( void );
         if( cpuid == 0 )
         {
             systimer_hal_init( &systimer_hal );
-            systimer_ll_set_counter_value( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK, 0 );
-            systimer_ll_apply_counter_value( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK );
+            systimer_ll_set_counter_हालागा( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK, 0 );
+            systimer_ll_apply_counter_हालागा( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK );
 
-            for( cpuid = 0; cpuid < SOC_CPU_CORES_NUM; cpuid++ )
+            for( cpuid = 0; cpuid < SOC_CPU_CORES_नुमेरो; cpuid++ )
             {
                 systimer_hal_counter_can_stall_by_cpu( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, cpuid, false );
             }
 
-            for( cpuid = 0; cpuid < portNUM_PROCESSORS; ++cpuid )
+            for( cpuid = 0; cpuid < port_नुमेरो_PROCESSORS; ++cpuid )
             {
                 uint32_t alarm_id = SYSTIMER_LL_ALARM_OS_TICK_CORE0 + cpuid;
 
@@ -108,7 +108,7 @@ BaseType_t xPortSysTickHandler( void );
                     systimer_hal_enable_counter( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK );
                     #ifndef CONFIG_FREERTOS_UNICORE
                         /* SysTick of core 0 and core 1 are shifted by half of period */
-                        systimer_hal_counter_value_advance( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, 1000000UL / CONFIG_FREERTOS_HZ / 2 );
+                        systimer_hal_counter_हालागा_advance( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, 1000000UL / CONFIG_FREERTOS_HZ / 2 );
                     #endif
                 }
             }
@@ -141,7 +141,7 @@ BaseType_t xPortSysTickHandler( void );
         {
             systimer_ll_clear_alarm_int( systimer_hal->dev, alarm_id );
 
-            uint32_t diff = systimer_hal_get_counter_value( systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK ) / systimer_ll_get_alarm_period( systimer_hal->dev, alarm_id ) - s_handled_systicks[ cpuid ];
+            uint32_t diff = systimer_hal_get_counter_हालागा( systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK ) / systimer_ll_get_alarm_period( systimer_hal->dev, alarm_id ) - s_handled_systicks[ cpuid ];
 
             if( diff > 0 )
             {

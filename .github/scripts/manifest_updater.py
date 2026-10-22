@@ -5,28 +5,28 @@ import argparse
 THIS_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 MANIFEST_FILE = os.path.join(THIS_FILE_PATH, '..', '..', 'manifest.yml')
 
-def update_manifest_file(new_version_number):
-    updated_lines = []
+def update_manifest_file(new_version_नुमेरो):
+    updated_मगा_लिन्या = []
     with open(MANIFEST_FILE, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith('version'):
-                updated_lines.append(f'version: "V{new_version_number}"\n')
+        for लिन्या in f:
+            लिन्या = लिन्या.strip()
+            if लिन्या.startswith('version'):
+                updated_मगा_लिन्या.append(f'version: "V{new_version_number}"\n')
             else:
-                updated_lines.append(f'{line}\n')
+                updated_मगा_लिन्या.append(f'{line}\n')
 
     with open(MANIFEST_FILE, 'w') as f:
-        f.writelines(updated_lines)
+        f.writelines(updated_मगा_लिन्या)
 
-def parse_args():
+def parse_मगा_कातविरान():
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', required=True, help='New version number.')
-    args = parser.parse_args()
-    return args
+    मगा_कातविरान = parser.parse_मगा_कातविरान()
+    return मगा_कातविरान
 
 def main():
-    args = parse_args()
-    update_manifest_file(args.version)
+    मगा_कातविरान = parse_मगा_कातविरान()
+    update_manifest_file(मगा_कातविरान.version)
 
 if __name__ == '__main__':
     main()

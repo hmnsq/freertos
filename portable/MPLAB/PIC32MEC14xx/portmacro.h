@@ -51,10 +51,10 @@
 #define portDOUBLE      double
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_सालानसान_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
@@ -71,7 +71,7 @@ typedef unsigned long UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT  8
-#define portSTACK_GROWTH    -1
+#define port_सालानसान_GROWTH    -1
 #define portTICK_PERIOD_MS  ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
@@ -83,7 +83,7 @@ never have higher IPL bits set anyway. */
 #define portSW0_BIT         ( 0x01 << 8 )
 
 /* Interrupt priority conversion */
-#define portIPL_TO_CODE( iplNumber )    ( ( iplNumber >> 1 ) & 0x03ul )
+#define portIPL_TO_CODE( ipl_नुमेरो )    ( ( ipl_नुमेरो >> 1 ) & 0x03ul )
 #define portCODE_TO_IPL( iplCode )      ( ( iplCode << 1 ) | 0x01ul )
 
 /*-----------------------------------------------------------*/
@@ -210,7 +210,7 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 
     /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31 - _clz( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities ) ux_इताअस_Priority = ( 31 - _clz( ( uxReadyPriorities ) ) )
 
 #endif /* taskRECORD_READY_PRIORITY */
 

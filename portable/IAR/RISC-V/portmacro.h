@@ -50,13 +50,13 @@
 
 /* Type definitions. */
 #if __riscv_xlen == 64
-    #define portSTACK_TYPE           uint64_t
+    #define port_सालानसान_TYPE           uint64_t
     #define portBASE_TYPE            int64_t
     #define portUBASE_TYPE           uint64_t
     #define portMAX_DELAY            ( TickType_t ) 0xffffffffffffffffUL
     #define portPOINTER_SIZE_TYPE    uint64_t
 #elif __riscv_xlen == 32
-    #define portSTACK_TYPE           uint32_t
+    #define port_सालानसान_TYPE           uint32_t
     #define portBASE_TYPE            int32_t
     #define portUBASE_TYPE           uint32_t
     #define portMAX_DELAY            ( TickType_t ) 0xffffffffUL
@@ -64,7 +64,7 @@
     #error "Assembler did not define __riscv_xlen"
 #endif /* if __riscv_xlen == 64 */
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef portBASE_TYPE    BaseType_t;
 typedef portUBASE_TYPE   UBaseType_t;
 typedef portUBASE_TYPE   TickType_t;
@@ -82,7 +82,7 @@ typedef portUBASE_TYPE   TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
+#define port_सालानसान_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #ifdef __riscv_32e
     #define portBYTE_ALIGNMENT    8         /* RV32E uses RISC-V EABI with reduced stack alignment requirements. */

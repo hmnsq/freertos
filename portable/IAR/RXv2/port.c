@@ -44,8 +44,8 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( सालानसान_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( सालानसान_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
@@ -70,76 +70,76 @@ extern void * pxCurrentTCB;
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_इताअस_Of_सालानसान = 0x00;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_PSW;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xffffffff; /* r15. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xeeeeeeee;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xdddddddd;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xcccccccc;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xbbbbbbbb;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xaaaaaaaa;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x99999999;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x88888888;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x77777777;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x66666666;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x55555555;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x44444444;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x33333333;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x22222222;
+        px_इताअस_Of_सालानसान--;
     }
     #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_इताअस_Of_सालानसान -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 1. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R1 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_FPSW;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x11111111; /* Accumulator 0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22222222; /* Accumulator 0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33333333; /* Accumulator 0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x44444444; /* Accumulator 1. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x55555555; /* Accumulator 1. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

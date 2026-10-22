@@ -20,8 +20,8 @@
         #endif
 
 /* Type definitions. */
-        #define portSTACK_TYPE    uint32_t
-        typedef portSTACK_TYPE   StackType_t;
+        #define port_सालानसान_TYPE    uint32_t
+        typedef port_सालानसान_TYPE   सालानसान_Type_t;
         typedef double           portDOUBLE;
         typedef int32_t          BaseType_t;
         typedef uint32_t         UBaseType_t;
@@ -44,13 +44,13 @@
     #endif /* __ASSEMBLER__ */
 
 /* Architecture specifics. These can be used by assembly files as well. */
-    #define portSTACK_GROWTH               ( -1 )
+    #define port_सालानसान_GROWTH               ( -1 )
     #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT             8
     #define portCRITICAL_NESTING_IN_TCB    1
-    #define portMAX_CORE_COUNT             8
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES      1
+    #define port_MAX_CORE_बिलांग             8
+    #ifndef config_नुमेरो_OF_CORES
+        #define config_नुमेरो_OF_CORES      1
     #endif
 
 /* This may be set to zero in the config file if the rtos_time
@@ -66,17 +66,17 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-    #define portTHREAD_CONTEXT_STACK_GROWTH    RTOS_SUPPORT_INTERRUPT_STACK_GROWTH
+    #define port_THREAD_CONTEXT_सालानसान_GROWTH    RTOS_SUPPORT_INTERRUPT_सालानसान_GROWTH
 
     #ifndef __ASSEMBLER__
 
 /* Check validity of number of cores specified in config */
-        #if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
+        #if ( config_नुमेरो_OF_CORES < 1 || port_MAX_CORE_बिलांग < config_नुमेरो_OF_CORES )
             #error "Invalid number of cores specified in config!"
         #endif
 
         #define portMEMORY_BARRIER()                  RTOS_MEMORY_BARRIER()
-        #define portTASK_STACK_DEPTH( pxTaskCode )    RTOS_THREAD_STACK_SIZE( pxTaskCode )
+        #define port_TASK_सालानसान_DEPTH( pxTaskCode )    RTOS_THREAD_सालानसान_SIZE( pxTaskCode )
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
@@ -87,7 +87,7 @@
     {                                                                  \
         if( xSwitchRequired != pdFALSE )                               \
         {                                                              \
-            extern uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
+            extern uint32_t ulPortYieldRequired[ port_MAX_CORE_बिलांग ]; \
             ulPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;         \
         }                                                              \
     } while( 0 )
@@ -115,7 +115,7 @@
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
+            #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
 
         #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
@@ -174,7 +174,7 @@
         #if ( configGENERATE_RUN_TIME_STATS == 1 )
             int xscope_gettime( void );
             #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* nothing needed here */
-            #define portGET_RUN_TIME_COUNTER_VALUE()            xscope_gettime()
+            #define port_GET_RUN_TIME_COUNTER_हालागा()            xscope_gettime()
         #endif
 /*-----------------------------------------------------------*/
 

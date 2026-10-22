@@ -52,10 +52,10 @@ uint32_t ulCriticalNesting = 9999;
 
 
 /* Constants required to set up the initial stack of each task. */
-#define portINITIAL_SPSR        ( ( StackType_t ) 0x1F )
-#define portINITIAL_FPSCR       ( ( StackType_t ) 0x00 )
-#define portINSTRUCTION_SIZE    ( ( StackType_t ) 0x04 )
-#define portTHUMB_MODE_BIT      ( ( StackType_t ) 0x20 )
+#define portINITIAL_SPSR        ( ( सालानसान_Type_t ) 0x1F )
+#define portINITIAL_FPSCR       ( ( सालानसान_Type_t ) 0x00 )
+#define portINSTRUCTION_SIZE    ( ( सालानसान_Type_t ) 0x04 )
+#define portTHUMB_MODE_BIT      ( ( सालानसान_Type_t ) 0x20 )
 
 /* The number of words on the stack frame between the saved Top Of Stack and
 R0 (in which the parameters are passed. */
@@ -78,16 +78,16 @@ uint32_t ulTaskHasFPUContext = 0;
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
-StackType_t *pxOriginalTOS;
+सालानसान_Type_t *pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_इताअस_Of_सालानसान;
 
     #if __TI_VFP_SUPPORT__
     {
         /* Ensure the stack is correctly aligned on exit. */
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
     }
     #endif
 
@@ -97,72 +97,72 @@ StackType_t *pxOriginalTOS;
     /* First on the stack is the return address - which is the start of the as
     the task has not executed yet.  The offset is added to make the return
     address appear as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode + portINSTRUCTION_SIZE;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = ( StackType_t ) 0x00000000; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00000000; /* R14 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_इताअस_Of_सालानसान--;
 
     #ifdef portPRELOAD_TASK_REGISTERS
     {
-        *pxTopOfStack = ( StackType_t ) 0x12121212; /* R12 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11111111; /* R11 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10101010; /* R10 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09090909; /* R9 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x08080808; /* R8 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07070707; /* R7 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06060606; /* R6 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x05050505; /* R5 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x04040404; /* R4 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x03030303; /* R3 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x02020202; /* R2 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x01010101; /* R1 */
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x12121212; /* R12 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x11111111; /* R11 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x10101010; /* R10 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x09090909; /* R9 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x08080808; /* R8 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x07070707; /* R7 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x06060606; /* R6 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x05050505; /* R5 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x04040404; /* R4 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x03030303; /* R3 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x02020202; /* R2 */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x01010101; /* R1 */
+        px_इताअस_Of_सालानसान--;
     }
     #else
     {
-        pxTopOfStack -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
+        px_इताअस_Of_सालानसान -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
     }
     #endif
 
     /* Function parameters are passed in R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R0 */
+    px_इताअस_Of_सालानसान--;
 
     /* Set the status register for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
 
     if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* The task will start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_इताअस_Of_सालानसान |= portTHUMB_MODE_BIT;
     }
 
     #ifdef __TI_VFP_SUPPORT__
     {
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* The last thing on the stack is the tasks ulUsingFPU value, which by
         default is set to indicate that the stack frame does not include FPU
         registers. */
-        *pxTopOfStack = pdFALSE;
+        *px_इताअस_Of_सालानसान = pdFALSE;
     }
     #endif
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

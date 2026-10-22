@@ -65,16 +65,16 @@ static void exampleTask( void * parameters )
 int main( void )
 {
     static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    static सालानसान_Type_t example_Task_सालानसान[ config_MINIMAL_सालानसान_SIZE ];
 
     ( void ) printf( "Example FreeRTOS Project\n" );
 
     ( void ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
+                                config_MINIMAL_सालानसान_SIZE,
                                 NULL,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_सालानसान[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
@@ -89,9 +89,9 @@ int main( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#if ( config_CHECK_FOR_सालानसान_OVERFLOW > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
+    void v_Application_सालानसान_Overflow_Hook( TaskHandle_t xTask,
                                         char * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,

@@ -31,10 +31,10 @@
 #include "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR       ( ( सालानसान_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#define portINITIAL_STATUS_REGISTER     ( ( सालानसान_Type_t ) 0x2000)
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
@@ -58,25 +58,25 @@ static uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) 0xDEADBEEF;
+    px_इताअस_Of_सालानसान--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0; /*FP*/
+    px_इताअस_Of_सालानसान -= 14; /* A5 to D0. */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

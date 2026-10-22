@@ -99,10 +99,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -124,7 +124,7 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    4
 #define portNOP()    { __asm__ __volatile__ ( "nop" ); }
@@ -343,7 +343,7 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                             \
+            [ लिन्या_3 ] "i" ( __LINE__ )                                                                             \
             );                                                                                                    \
     }
 
@@ -368,7 +368,7 @@ extern void * pvPortRealloc( void * pv,
             "cp.w    r0, 1\n\t"         /* Compare the mode bits with supervisor mode(b'001) */                   \
             "brhi    LABEL_INT_SKIP_RESTORE_CONTEXT_%[LINE]"                                                      \
             :                                                                                                     \
-            :[ LINE ] "i" ( __LINE__ )                                                                            \
+            :[ लिन्या_3 ] "i" ( __LINE__ )                                                                            \
             );                                                                                                    \
                                                                                                                   \
         /* Else */                                                                                                \
@@ -403,7 +403,7 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                             \
+            [ लिन्या_3 ] "i" ( __LINE__ )                                                                             \
             );                                                                                                    \
     }
 
@@ -616,7 +616,7 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                                                                             \
+            [ लिन्या_3 ] "i" ( __LINE__ )                                                                                                                             \
             );                                                                                                                                                    \
     }
 
@@ -645,7 +645,7 @@ extern void * pvPortRealloc( void * pv,
             "cp.w    r12, 1                                                                         \n\t" /* Check if Switch context is required. */              \
             "brne    LABEL_ISR_RESTORE_CONTEXT_%[LINE]"                                                                                                           \
             :                                                                                                                                                     \
-            :[ LINE ] "i" ( __LINE__ )                                                                                                                            \
+            :[ लिन्या_3 ] "i" ( __LINE__ )                                                                                                                            \
             );                                                                                                                                                    \
                                                                                                                                                                   \
         /* A critical section has to be used here because vTaskSwitchContext handles FreeRTOS linked lists. */                                                    \
@@ -682,7 +682,7 @@ extern void * pvPortRealloc( void * pv,
             :                                                                                                                                                     \
             :[ ulCriticalNesting ] "i" ( &ulCriticalNesting ),                                                                                                    \
             [ pxCurrentTCB ] "i" ( &pxCurrentTCB ),                                                                                                               \
-            [ LINE ] "i" ( __LINE__ )                                                                                                                             \
+            [ लिन्या_3 ] "i" ( __LINE__ )                                                                                                                             \
             );                                                                                                                                                    \
     }
 

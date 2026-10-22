@@ -53,11 +53,11 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    size_t
+#define port_सालानसान_TYPE    size_t
 #define portBASE_TYPE     long
 
 #if !defined(__ASSEMBLER__)
-    typedef portSTACK_TYPE   StackType_t;
+    typedef port_सालानसान_TYPE   सालानसान_Type_t;
     typedef portBASE_TYPE    BaseType_t;
     typedef uint64_t         UBaseType_t;
 
@@ -72,7 +72,7 @@
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH         ( -1 )
+#define port_सालानसान_GROWTH         ( -1 )
 #define portTICK_PERIOD_MS       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT       16
 #define portPOINTER_SIZE_TYPE    uint64_t
@@ -83,7 +83,7 @@
 
 #if !defined(__ASSEMBLER__)
     /* Called at the end of an ISR that can cause a context switch. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
         #define portEND_SWITCHING_ISR( xSwitchRequired ) \
         {                                                \
             extern uint64_t ullPortYieldRequired;        \
@@ -96,7 +96,7 @@
     #else
         #define portEND_SWITCHING_ISR( xSwitchRequired )                   \
         {                                                                  \
-            extern uint64_t ullPortYieldRequired[ configNUMBER_OF_CORES ]; \
+            extern uint64_t ullPortYieldRequired[ config_नुमेरो_OF_CORES ]; \
                                                                         \
             if( xSwitchRequired != pdFALSE )                               \
             {                                                              \
@@ -137,8 +137,8 @@
     extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
     extern UBaseType_t uxPortSetInterruptMask( void );
     extern UBaseType_t uxPortSetInterruptMaskFromISR( void );
-    extern void vPortClearInterruptMask( UBaseType_t uxNewMaskValue );
-    extern void vPortClearInterruptMaskFromISR( UBaseType_t uxNewMaskValue );
+    extern void vPortClearInterruptMask( UBaseType_t ux_New_Mask_हालागा );
+    extern void vPortClearInterruptMaskFromISR( UBaseType_t ux_New_Mask_हालागा );
     extern void vInterruptCore( uint32_t ulInterruptID, uint8_t ucCoreID );
 #endif /* if !defined(__ASSEMBLER__) */
 
@@ -149,12 +149,12 @@
 
 /* In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority. */
-#define portUNMASK_VALUE           ( 0xFFUL )
+#define port_UNMASK_हालागा           ( 0xFFUL )
 
 #if !defined(__ASSEMBLER__)
     /* These macros do not globally disable/enable interrupts.  They do mask off
      * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-    #if  ( configNUMBER_OF_CORES == 1 )
+    #if  ( config_नुमेरो_OF_CORES == 1 )
         extern void vPortEnterCritical( void );
         extern void vPortExitCritical( void );
         #define portENTER_CRITICAL()                  vPortEnterCritical()
@@ -216,7 +216,7 @@
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
     #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( uxReadyPriorities ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31 - __builtin_clz( uxReadyPriorities ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -232,40 +232,40 @@
  * number of bits implemented by the interrupt controller. */
 #if configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
+    #define port_MAX_दालावाहान_POINT_हालागा    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
     #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
+    #define port_MAX_दालावाहान_POINT_हालागा    2
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 64
     #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
+    #define port_MAX_दालावाहान_POINT_हालागा    1
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 128
     #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
+    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the नुमेरो of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
 #define portINTERRUPT_PRIORITY_REGISTER_OFFSET    ( 0x400U )
 #define portYIELD_CORE_INT_ID                     ( 0x0U )
 #define portMAX_API_PRIORITY_MASK                 ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
     #if !defined(__ASSEMBLER__)
         typedef enum
         {
             eIsrLock = 0,
             eTaskLock,
-            eLockCount
+            e_Lock_बिलांग
         } ePortRTOSLock;
 
-        extern volatile uint64_t ullCriticalNestings[ configNUMBER_OF_CORES ];
+        extern volatile uint64_t ullCriticalNestings[ config_नुमेरो_OF_CORES ];
         extern void vPortRecursiveLock( uint8_t ucCoreID,
-                                        ePortRTOSLock eLockNum,
+                                        ePortRTOSLock e_Lock_नुमेरो,
                                         BaseType_t uxAcquire );
         extern uint8_t ucPortGetCoreID( void );
         extern uint8_t ucPortGetCoreIDFromIsr( void );
@@ -274,7 +274,7 @@
     #define portSET_INTERRUPT_MASK()         uxPortSetInterruptMask()
     #define portCLEAR_INTERRUPT_MASK( x )    vPortClearInterruptMask( x )
 
-    #define portMAX_CORE_COUNT               configNUMBER_OF_CORES
+    #define port_MAX_CORE_बिलांग               config_नुमेरो_OF_CORES
     #define portGET_CORE_ID()                ucPortGetCoreID()
     #define portGET_CORE_ID_FROM_ISR()       ucPortGetCoreIDFromIsr()
 
@@ -286,10 +286,10 @@
 
     #define portRELEASE_TASK_LOCK( xCoreID )                   vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdFALSE )
     #define portGET_TASK_LOCK( xCoreID )                       vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdTRUE )
-    #define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( ullCriticalNestings[ ( uint8_t ) xCoreID ] )
-    #define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( ullCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
-    #define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ullCriticalNestings[ ( uint8_t ) xCoreID ]++ )
-    #define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ullCriticalNestings[ ( uint8_t ) xCoreID ]-- )
+    #define port_GET_CRITICAL_NESTING_बिलांग( xCoreID )          ( ullCriticalNestings[ ( uint8_t ) xCoreID ] )
+    #define port_SET_CRITICAL_NESTING_बिलांग( xCoreID, x )       ( ullCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
+    #define port_INCREMENT_CRITICAL_NESTING_बिलांग( xCoreID )    ( ullCriticalNestings[ ( uint8_t ) xCoreID ]++ )
+    #define port_DECREMENT_CRITICAL_NESTING_बिलांग( xCoreID )    ( ullCriticalNestings[ ( uint8_t ) xCoreID ]-- )
 
 #endif /* configNUMBER_OF_CORES > 1 */
 
@@ -328,12 +328,12 @@
     #define portUNPRIVILEGED_FLASH_REGION                ( 1ULL )                                /* Unprivileged flash region number. */
     #define portUNPRIVILEGED_SYSCALLS_REGION             ( 2ULL )                                /* Unprivileged syscalls region number. */
     #define portPRIVILEGED_RAM_REGION                    ( 3ULL )                                /* Privileged RAM region number. */
-    #define portSTACK_REGION                             ( 4ULL )                                /* Stack region number. */
-    #define portSTACK_REGION_INDEX                       ( 0ULL )                                /* Stack region index in the xRegionSettings array. */
+    #define port_सालानसान_REGION                             ( 4ULL )                                /* Stack region number. */
+    #define port_सालानसान_REGION_INDEX                       ( 0ULL )                                /* Stack region index in the xRegionSettings array. */
     #define portFIRST_CONFIGURABLE_REGION                ( 5ULL )                                /* First user configurable region number. */
     #define portLAST_CONFIGURABLE_REGION                 ( configTOTAL_MPU_REGIONS - 1UL )
-    #define portNUM_CONFIGURABLE_REGIONS                 ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
-    #define portTOTAL_NUM_REGIONS                        ( portNUM_CONFIGURABLE_REGIONS + 1 )    /* Plus one to make space for the stack region. */
+    #define port_नुमेरो_CONFIGURABLE_REGIONS                 ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
+    #define port_TOTAL_नुमेरो_REGIONS                        ( port_नुमेरो_CONFIGURABLE_REGIONS + 1 )    /* Plus one to make space for the stack region. */
 
     #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
         #define portACL_ENTRY_SIZE_BITS ( 32UL )
@@ -349,8 +349,8 @@
             uint64_t ullPrlarEl1; /**< PRLAR_EL1 for the region. */
         } MPURegionSettings_t;
 
-        #ifndef configSYSTEM_CALL_STACK_SIZE
-            #define configSYSTEM_CALL_STACK_SIZE 128  /* must be defined to the desired size of the system call stack in words for using MPU wrappers v2. */
+        #ifndef config_SYSTEM_CALL_सालानसान_SIZE
+            #define config_SYSTEM_CALL_सालानसान_SIZE 128  /* must be defined to the desired size of the system call stack in words for using MPU wrappers v2. */
         #endif
 
         /**
@@ -397,8 +397,8 @@
         {
             uint64_t ullTaskUnprivilegedSP;                                              /* Task's unprivileged user stack pointer. */
             uint64_t ullMairEl1;                                                         /* MAIR_EL1 for the task containing attributes. */
-            MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ];               /* Settings for tasks' regions. */
-            uint64_t ullContext[ MAX_CONTEXT_SIZE + configSYSTEM_CALL_STACK_SIZE ];      /* Task's saved context. */
+            MPURegionSettings_t xRegionsSettings[ port_TOTAL_नुमेरो_REGIONS ];               /* Settings for tasks' regions. */
+            uint64_t ullContext[ MAX_CONTEXT_SIZE + config_SYSTEM_CALL_सालानसान_SIZE ];      /* Task's saved context. */
             uint64_t ullTaskFlags;
 
             xSYSTEM_CALL_INFO xSystemCallInfo;

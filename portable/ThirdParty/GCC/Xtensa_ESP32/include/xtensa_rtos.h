@@ -208,11 +208,11 @@
 *
 *******************************************************************************/
 
-#define XT_INTEXC_HOOK_NUM    ( 1 + XCHAL_NUM_INTLEVELS + XCHAL_HAVE_NMI )
+#define XT_INTEXC_HOOK_नुमेरो    ( 1 + XCHAL_नुमेरो_INTLEVELS + XCHAL_HAVE_NMI )
 
 #ifndef __ASSEMBLER__
     typedef unsigned (* XT_INTEXC_HOOK)( unsigned cause );
-    extern volatile XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_NUM ];
+    extern volatile XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_नुमेरो ];
 #endif
 
 

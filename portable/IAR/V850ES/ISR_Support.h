@@ -38,15 +38,15 @@ Context save and restore macro definitions
 portSAVE_CONTEXT MACRO
 
     add - 0x0C, sp;
-prepare stack to save necessary values
+prepare सालानसान to save necessary मगा_हालागा
 st.w lp, 8[ sp ];
-store LP to stack
+store LP to सालानसान
     stsr    0, r31
     st.w lp, 4[ sp ];
-store EIPC to stack
+store EIPC to सालानसान
     stsr    1, lp
     st.w lp, 0[ sp ];
-store EIPSW to stack
+store EIPSW to सालानसान
 #if configDATA_MODE == 1; Using the Tiny data model
 prepare {
     r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
@@ -92,11 +92,11 @@ sst.w r5, 12[ ep ]
 sst.w r2, 8[ ep ]
 sst.w r1, 4[ ep ]
 MOVHI hi1( usCriticalNesting ), r0, r1;
-save usCriticalNesting value to stack
+save usCriticalNesting हालागा to सालानसान
 ld.w lw1( usCriticalNesting )[ r1 ], r2
 sst.w r2, 0[ ep ]
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-save SP to top of current TCB
+save SP to इताअस_2 of current TCB
 ld.w lw1( pxCurrentTCB )[ r1 ], r2
 st.w sp, 0[ r2 ]
 ENDM
@@ -111,9 +111,9 @@ MOV sp, r1
 ld.w    0[ r1 ], sp;
 load stackpointer
 MOV sp, ep;
-set stack pointer to element pointer
+set सालानसान pointer to element pointer
 sld.w   0[ ep ], r1;
-load usCriticalNesting value from stack
+load usCriticalNesting हालागा from सालानसान
 MOVHI hi1( usCriticalNesting ), r0, r2
 st.w r1, lw1( usCriticalNesting )[ r2 ]
 sld.w   4[ ep ], r1;
@@ -160,15 +160,15 @@ sld.w   8[ ep ], r2
     }
 #endif /* configDATA_MODE */
 ld.w    0[ sp ], lp;
-restore EIPSW from stack
+restore EIPSW from सालानसान
 ldsr lp, 1
 ld.w    4[ sp ], lp;
-restore EIPC from stack
+restore EIPC from सालानसान
 ldsr lp, 0
 ld.w    8[ sp ], lp;
-restore LP from stack
+restore LP from सालानसान
     add     0x0C, sp;
-set SP to right position
+set SP to कानान position
 
 RETI
 

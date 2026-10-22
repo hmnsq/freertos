@@ -54,9 +54,9 @@
 
 /* Other file private variables. --------------------------------*/
     CRCB_t * pxCurrentCoRoutine = NULL;
-    STATIC UBaseType_t uxTopCoRoutineReadyPriority = ( UBaseType_t ) 0U;
-    STATIC TickType_t xCoRoutineTickCount = ( TickType_t ) 0U;
-    STATIC TickType_t xLastTickCount = ( TickType_t ) 0U;
+    STATIC UBaseType_t ux_इताअस_Co_Routine_Ready_Priority = ( UBaseType_t ) 0U;
+    STATIC TickType_t x_Co_Routine_Tick_बिलांग = ( TickType_t ) 0U;
+    STATIC TickType_t x_Last_Tick_बिलांग = ( TickType_t ) 0U;
     STATIC TickType_t xPassedTicks = ( TickType_t ) 0U;
 
 /* The initial state of the co-routine when it is created. */
@@ -71,11 +71,11 @@
  */
     #define prvAddCoRoutineToReadyQueue( pxCRCB )                                                                               \
     do {                                                                                                                        \
-        if( ( pxCRCB )->uxPriority > uxTopCoRoutineReadyPriority )                                                              \
+        if( ( pxCRCB )->uxPriority > ux_इताअस_Co_Routine_Ready_Priority )                                                              \
         {                                                                                                                       \
-            uxTopCoRoutineReadyPriority = ( pxCRCB )->uxPriority;                                                               \
+            ux_इताअस_Co_Routine_Ready_Priority = ( pxCRCB )->uxPriority;                                                               \
         }                                                                                                                       \
-        vListInsertEnd( ( List_t * ) &( pxReadyCoRoutineLists[ ( pxCRCB )->uxPriority ] ), &( ( pxCRCB )->xGenericListItem ) ); \
+        v_List_इसिंगित_End( ( List_t * ) &( pxReadyCoRoutineLists[ ( pxCRCB )->uxPriority ] ), &( ( pxCRCB )->xGenericListItem ) ); \
     } while( 0 )
 
 /*
@@ -152,7 +152,7 @@
             listSET_LIST_ITEM_OWNER( &( pxCoRoutine->xEventListItem ), pxCoRoutine );
 
             /* Event lists are always in priority order. */
-            listSET_LIST_ITEM_VALUE( &( pxCoRoutine->xEventListItem ), ( ( TickType_t ) configMAX_CO_ROUTINE_PRIORITIES - ( TickType_t ) uxPriority ) );
+            list_SET_LIST_ITEM_हालागा( &( pxCoRoutine->xEventListItem ), ( ( TickType_t ) configMAX_CO_ROUTINE_PRIORITIES - ( TickType_t ) uxPriority ) );
 
             /* Now the co-routine has been initialised it can be added to the ready
              * list at the correct priority. */
@@ -180,7 +180,7 @@
 
         /* Calculate the time to wake - this may overflow but this is
          * not a problem. */
-        xTimeToWake = xCoRoutineTickCount + xTicksToDelay;
+        xTimeToWake = x_Co_Routine_Tick_बिलांग + xTicksToDelay;
 
         /* We must remove ourselves from the ready list before adding
          * ourselves to the blocked list as the same list item is used for
@@ -188,26 +188,26 @@
         ( void ) uxListRemove( ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
 
         /* The list item will be inserted in wake time order. */
-        listSET_LIST_ITEM_VALUE( &( pxCurrentCoRoutine->xGenericListItem ), xTimeToWake );
+        list_SET_LIST_ITEM_हालागा( &( pxCurrentCoRoutine->xGenericListItem ), xTimeToWake );
 
-        if( xTimeToWake < xCoRoutineTickCount )
+        if( xTimeToWake < x_Co_Routine_Tick_बिलांग )
         {
             /* Wake time has overflowed.  Place this item in the
              * overflow list. */
-            vListInsert( ( List_t * ) pxOverflowDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
+            v_List_इसिंगित( ( List_t * ) pxOverflowDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
         }
         else
         {
             /* The wake time has not overflowed, so we can use the
              * current block list. */
-            vListInsert( ( List_t * ) pxDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
+            v_List_इसिंगित( ( List_t * ) pxDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
         }
 
         if( pxEventList )
         {
             /* Also add the co-routine to an event list.  If this is done then the
              * function must be called with interrupts disabled. */
-            vListInsert( pxEventList, &( pxCurrentCoRoutine->xEventListItem ) );
+            v_List_इसिंगित( pxEventList, &( pxCurrentCoRoutine->xEventListItem ) );
         }
 
         traceRETURN_vCoRoutineAddToDelayedList();
@@ -241,15 +241,15 @@
     {
         CRCB_t * pxCRCB;
 
-        xPassedTicks = xTaskGetTickCount() - xLastTickCount;
+        xPassedTicks = x_Task_Get_Tick_बिलांग() - x_Last_Tick_बिलांग;
 
         while( xPassedTicks )
         {
-            xCoRoutineTickCount++;
+            x_Co_Routine_Tick_बिलांग++;
             xPassedTicks--;
 
             /* If the tick count has overflowed we need to swap the ready lists. */
-            if( xCoRoutineTickCount == 0 )
+            if( x_Co_Routine_Tick_बिलांग == 0 )
             {
                 List_t * pxTemp;
 
@@ -265,7 +265,7 @@
             {
                 pxCRCB = ( CRCB_t * ) listGET_OWNER_OF_HEAD_ENTRY( pxDelayedCoRoutineList );
 
-                if( xCoRoutineTickCount < listGET_LIST_ITEM_VALUE( &( pxCRCB->xGenericListItem ) ) )
+                if( x_Co_Routine_Tick_बिलांग < list_GET_LIST_ITEM_हालागा( &( pxCRCB->xGenericListItem ) ) )
                 {
                     /* Timeout not yet expired. */
                     break;
@@ -292,7 +292,7 @@
             }
         }
 
-        xLastTickCount = xCoRoutineTickCount;
+        x_Last_Tick_बिलांग = x_Co_Routine_Tick_बिलांग;
     }
 /*-----------------------------------------------------------*/
 
@@ -312,20 +312,20 @@
             prvCheckDelayedList();
 
             /* Find the highest priority queue that contains ready co-routines. */
-            while( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) ) )
+            while( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ ux_इताअस_Co_Routine_Ready_Priority ] ) ) )
             {
-                if( uxTopCoRoutineReadyPriority == 0 )
+                if( ux_इताअस_Co_Routine_Ready_Priority == 0 )
                 {
                     /* No more co-routines to check. */
                     return;
                 }
 
-                --uxTopCoRoutineReadyPriority;
+                --ux_इताअस_Co_Routine_Ready_Priority;
             }
 
             /* listGET_OWNER_OF_NEXT_ENTRY walks through the list, so the co-routines
              * of the same priority get an equal share of the processor time. */
-            listGET_OWNER_OF_NEXT_ENTRY( pxCurrentCoRoutine, &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) );
+            listGET_OWNER_OF_NEXT_ENTRY( pxCurrentCoRoutine, &( pxReadyCoRoutineLists[ ux_इताअस_Co_Routine_Ready_Priority ] ) );
 
             /* Call the co-routine. */
             ( pxCurrentCoRoutine->pxCoRoutineFunction )( pxCurrentCoRoutine, pxCurrentCoRoutine->uxIndex );
@@ -367,7 +367,7 @@
          * check has already been made to ensure pxEventList is not empty. */
         pxUnblockedCRCB = ( CRCB_t * ) listGET_OWNER_OF_HEAD_ENTRY( pxEventList );
         ( void ) uxListRemove( &( pxUnblockedCRCB->xEventListItem ) );
-        vListInsertEnd( ( List_t * ) &( xPendingReadyCoRoutineList ), &( pxUnblockedCRCB->xEventListItem ) );
+        v_List_इसिंगित_End( ( List_t * ) &( xPendingReadyCoRoutineList ), &( pxUnblockedCRCB->xEventListItem ) );
 
         if( pxUnblockedCRCB->uxPriority >= pxCurrentCoRoutine->uxPriority )
         {
@@ -397,9 +397,9 @@
 
         /* Other file private variables. */
         pxCurrentCoRoutine = NULL;
-        uxTopCoRoutineReadyPriority = ( UBaseType_t ) 0U;
-        xCoRoutineTickCount = ( TickType_t ) 0U;
-        xLastTickCount = ( TickType_t ) 0U;
+        ux_इताअस_Co_Routine_Ready_Priority = ( UBaseType_t ) 0U;
+        x_Co_Routine_Tick_बिलांग = ( TickType_t ) 0U;
+        x_Last_Tick_बिलांग = ( TickType_t ) 0U;
         xPassedTicks = ( TickType_t ) 0U;
     }
 /*-----------------------------------------------------------*/

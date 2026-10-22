@@ -52,10 +52,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint16_t
+#define port_सालानसान_TYPE    uint16_t
 #define portBASE_TYPE     short
 
-typedef portSTACK_TYPE     StackType_t;
+typedef port_सालानसान_TYPE     सालानसान_Type_t;
 typedef short              BaseType_t;
 typedef unsigned short     UBaseType_t;
 
@@ -118,7 +118,7 @@ extern void vPortStart( void );
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 

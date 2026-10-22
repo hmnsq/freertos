@@ -32,7 +32,7 @@
 
 /* This port uses xTaskGetCurrentTaskHandle to get TCB stack, it is required to
  * enable this API. */
-#if ( ( INCLUDE_xTaskGetCurrentTaskHandle != 1 ) && ( configNUMBER_OF_CORES == 1 ) )
+#if ( ( INCLUDE_xTaskGetCurrentTaskHandle != 1 ) && ( config_नुमेरो_OF_CORES == 1 ) )
     #error INCLUDE_xTaskGetCurrentTaskHandle must be set to 1 in single core.
 #endif
 
@@ -46,9 +46,9 @@
 
 /* PSW.EBV and PSW.CUx bits are kept as current status */
 #define portINITIAL_PSW_MASK         ( 0x000f8000 )
-#define portCURRENT_PSW_VALUE        ( portSTSR( portPSW_REGISTER_ID ) )
-#define portCURRENT_SR_ZERO_VALUE    ( ( StackType_t ) 0x00000000 )
-#define portCURRENT_FPSR_VALUE       ( portSTSR( portFPSR_REGISTER_ID ) )
+#define port_CURRENT_PSW_हालागा        ( portSTSR( portPSW_REGISTER_ID ) )
+#define port_CURRENT_SR_ZERO_हालागा    ( ( सालानसान_Type_t ) 0x00000000 )
+#define port_CURRENT_FPSR_हालागा       ( portSTSR( portFPSR_REGISTER_ID ) )
 
 /* Mask for FPU configuration bits (FN, PEM, RM, FS) */
 #define portINITIAL_FPSR_MASK        ( 0x00ae0000 )
@@ -62,7 +62,7 @@
 #define portOSTM0CTL_ADDR            ( 0xFFD70020 )
 #define portOSTM0TS_ADDR             ( 0xFFD70014 )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
 /* IPIR  base address, the peripheral is used for Inter-Processor communication
  * Hardware supports 4 channels which is offset by 0x0, 0x4, 0x8, 0xC bytes from
@@ -84,36 +84,36 @@
 #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
 /* Macros required to set up the initial stack. */
-#define portSTACK_INITIAL_VALUE_R1     ( ( StackType_t ) 0x01010101 )
-#define portSTACK_INITIAL_VALUE_R2     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x02 )
-#define portSTACK_INITIAL_VALUE_R3     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x03 )
-#define portSTACK_INITIAL_VALUE_R4     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x04 )
-#define portSTACK_INITIAL_VALUE_R5     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x05 )
-#define portSTACK_INITIAL_VALUE_R6     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x06 )
-#define portSTACK_INITIAL_VALUE_R7     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x07 )
-#define portSTACK_INITIAL_VALUE_R8     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x08 )
-#define portSTACK_INITIAL_VALUE_R9     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x09 )
-#define portSTACK_INITIAL_VALUE_R10    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x10 )
-#define portSTACK_INITIAL_VALUE_R11    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x11 )
-#define portSTACK_INITIAL_VALUE_R12    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x12 )
-#define portSTACK_INITIAL_VALUE_R13    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x13 )
-#define portSTACK_INITIAL_VALUE_R14    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x14 )
-#define portSTACK_INITIAL_VALUE_R15    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x15 )
-#define portSTACK_INITIAL_VALUE_R16    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x16 )
-#define portSTACK_INITIAL_VALUE_R17    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x17 )
-#define portSTACK_INITIAL_VALUE_R18    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x18 )
-#define portSTACK_INITIAL_VALUE_R19    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x19 )
-#define portSTACK_INITIAL_VALUE_R20    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x20 )
-#define portSTACK_INITIAL_VALUE_R21    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x21 )
-#define portSTACK_INITIAL_VALUE_R22    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x22 )
-#define portSTACK_INITIAL_VALUE_R23    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x23 )
-#define portSTACK_INITIAL_VALUE_R24    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x24 )
-#define portSTACK_INITIAL_VALUE_R25    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x25 )
-#define portSTACK_INITIAL_VALUE_R26    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x26 )
-#define portSTACK_INITIAL_VALUE_R27    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x27 )
-#define portSTACK_INITIAL_VALUE_R28    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x28 )
-#define portSTACK_INITIAL_VALUE_R29    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x29 )
-#define portSTACK_INITIAL_VALUE_R30    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x30 )
+#define port_सालानसान_INITIAL_हालागा_R1     ( ( सालानसान_Type_t ) 0x01010101 )
+#define port_सालानसान_INITIAL_हालागा_R2     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x02 )
+#define port_सालानसान_INITIAL_हालागा_R3     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x03 )
+#define port_सालानसान_INITIAL_हालागा_R4     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x04 )
+#define port_सालानसान_INITIAL_हालागा_R5     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x05 )
+#define port_सालानसान_INITIAL_हालागा_R6     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x06 )
+#define port_सालानसान_INITIAL_हालागा_R7     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x07 )
+#define port_सालानसान_INITIAL_हालागा_R8     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x08 )
+#define port_सालानसान_INITIAL_हालागा_R9     ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x09 )
+#define port_सालानसान_INITIAL_हालागा_R10    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x10 )
+#define port_सालानसान_INITIAL_हालागा_R11    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x11 )
+#define port_सालानसान_INITIAL_हालागा_R12    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x12 )
+#define port_सालानसान_INITIAL_हालागा_R13    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x13 )
+#define port_सालानसान_INITIAL_हालागा_R14    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x14 )
+#define port_सालानसान_INITIAL_हालागा_R15    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x15 )
+#define port_सालानसान_INITIAL_हालागा_R16    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x16 )
+#define port_सालानसान_INITIAL_हालागा_R17    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x17 )
+#define port_सालानसान_INITIAL_हालागा_R18    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x18 )
+#define port_सालानसान_INITIAL_हालागा_R19    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x19 )
+#define port_सालानसान_INITIAL_हालागा_R20    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x20 )
+#define port_सालानसान_INITIAL_हालागा_R21    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x21 )
+#define port_सालानसान_INITIAL_हालागा_R22    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x22 )
+#define port_सालानसान_INITIAL_हालागा_R23    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x23 )
+#define port_सालानसान_INITIAL_हालागा_R24    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x24 )
+#define port_सालानसान_INITIAL_हालागा_R25    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x25 )
+#define port_सालानसान_INITIAL_हालागा_R26    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x26 )
+#define port_सालानसान_INITIAL_हालागा_R27    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x27 )
+#define port_सालानसान_INITIAL_हालागा_R28    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x28 )
+#define port_सालानसान_INITIAL_हालागा_R29    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x29 )
+#define port_सालानसान_INITIAL_हालागा_R30    ( ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1 * 0x30 )
 
 /***********************************************************
 * Typedef definitions
@@ -197,7 +197,7 @@ static void prvTaskExitError( void );
  */
 static void prvSetupTimerInterrupt( void );
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
 /*
  * Functions implement spin-lock between cores by atomic accesses to Exclusive
@@ -216,7 +216,7 @@ extern void vPortStartFirstTask( void );
 
 /* Scheduler request on each cores which are starting first task and switching
  * context */
-volatile BaseType_t xPortScheduleStatus[ configNUMBER_OF_CORES ] = { 0 };
+volatile BaseType_t xPortScheduleStatus[ config_नुमेरो_OF_CORES ] = { 0 };
 
 /* Counts the interrupt nesting depth. A context switch is only performed if
  * the nesting depth is 0. In addition, the interrupt shares same stack
@@ -224,15 +224,15 @@ volatile BaseType_t xPortScheduleStatus[ configNUMBER_OF_CORES ] = { 0 };
  * may be overflowed.
  * It is necessary to control maximum stack depth.
  */
-volatile UBaseType_t uxInterruptNesting[ configNUMBER_OF_CORES ] = { 0 };
+volatile UBaseType_t uxInterruptNesting[ config_नुमेरो_OF_CORES ] = { 0 };
 volatile const UBaseType_t uxPortMaxInterruptDepth = configMAX_INT_NESTING;
 
 /* Count number of nested locks by same cores. The lock is completely released
  * only if this count is decreased to 0, the lock is separated for task
  * and isr */
-UBaseType_t uxLockNesting[ configNUMBER_OF_CORES ][ 2 ] = { 0 };
+UBaseType_t uxLockNesting[ config_नुमेरो_OF_CORES ][ 2 ] = { 0 };
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
 /* Pointer to exclusive access memory */
     volatile BaseType_t * pxPortExclusiveReg = ( volatile BaseType_t * ) ( portMEV_BASE_ADDR );
@@ -242,7 +242,7 @@ UBaseType_t uxLockNesting[ configNUMBER_OF_CORES ][ 2 ] = { 0 };
  * to switch context. */
 void vPortTickISR( void );
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
 /* Yield specific cores by send inter-processor interrupt */
     void vPortYieldCore( uint32_t xCoreID );
@@ -304,7 +304,7 @@ void vPortClearInterruptMask( portLONG uxSavedInterruptStatus )
  */
 BaseType_t xPortGET_CORE_ID( void )
 {
-    #if ( configNUMBER_OF_CORES > 1 )
+    #if ( config_नुमेरो_OF_CORES > 1 )
         return ( portSTSR_CCRH( 0, 2 ) >> 16 ) - 1;
     #else
 
@@ -358,93 +358,93 @@ void vPortSetSwitch( BaseType_t xSwitchRequired )
  * @param[in]  pxCode        Task function, stored as initial PC for the task
  * @param[in]  pvParameters  Parameters for task
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* Simulate the stack frame as it would be created by
      * a context switch interrupt. */
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError;            /* R31 (LP) */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R5;  /* R5 (TP)  */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;                /* R6       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R7;  /* R7       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R8;  /* R8       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R9;  /* R9       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R10; /* R10      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R11; /* R11      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R12; /* R12      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R13; /* R13      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R14; /* R14      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R15; /* R15      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R16; /* R16      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R17; /* R17      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R18; /* R18      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R19; /* R19      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R20; /* R20      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R21; /* R21      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R22; /* R22      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R23; /* R23      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R24; /* R24      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R25; /* R25      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R26; /* R26      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R27; /* R27      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R28; /* R28      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R29; /* R29      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R30; /* R30 (EP) */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R1;  /* R1        */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R2;  /* R2        */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) prvTaskExitError;            /* R31 (LP) */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R5;  /* R5 (TP)  */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;                /* R6       */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R7;  /* R7       */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R8;  /* R8       */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R9;  /* R9       */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R10; /* R10      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R11; /* R11      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R12; /* R12      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R13; /* R13      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R14; /* R14      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R15; /* R15      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R16; /* R16      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R17; /* R17      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R18; /* R18      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R19; /* R19      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R20; /* R20      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R21; /* R21      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R22; /* R22      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R23; /* R23      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R24; /* R24      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R25; /* R25      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R26; /* R26      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R27; /* R27      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R28; /* R28      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R29; /* R29      */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R30; /* R30 (EP) */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R1;  /* R1        */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_सालानसान_INITIAL_हालागा_R2;  /* R2        */
 
-    pxTopOfStack--;
+    px_इताअस_Of_सालानसान--;
 
     /* Keep System pre-configuration (HV, CUx, EBV) as current setting in
      * PSW register */
-    *pxTopOfStack = ( StackType_t ) ( portCURRENT_PSW_VALUE & portINITIAL_PSW_MASK ); /* EIPSW */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;                                           /* EIPC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                        /* EIIC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( portCURRENT_PSW_VALUE & portINITIAL_PSW_MASK ); /* CTPSW */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                        /* CTPC */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( port_CURRENT_PSW_हालागा & portINITIAL_PSW_MASK ); /* EIPSW */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;                                           /* EIPC */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_CURRENT_SR_ZERO_हालागा;                        /* EIIC */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( port_CURRENT_PSW_हालागा & portINITIAL_PSW_MASK ); /* CTPSW */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_CURRENT_SR_ZERO_हालागा;                        /* CTPC */
 
 /* __FPU is defined by CCRH compiler if FPU is enabled */
     #if ( configENABLE_FPU == 1 )
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) ( portCURRENT_FPSR_VALUE & portINITIAL_FPSR_MASK ); /* FPSR */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                          /* FPEPC */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( port_CURRENT_FPSR_हालागा & portINITIAL_FPSR_MASK ); /* FPSR */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) port_CURRENT_SR_ZERO_हालागा;                          /* FPEPC */
     #endif /* (configENABLE_FPU == 1) */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 
 /*-----------------------------------------------------------*/
@@ -454,7 +454,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
  */
 BaseType_t xPortStartScheduler( void )
 {
-    #if ( configNUMBER_OF_CORES > 1 )
+    #if ( config_नुमेरो_OF_CORES > 1 )
         BaseType_t xCurrentCore = xPortGET_CORE_ID();
     #endif
 
@@ -466,9 +466,9 @@ BaseType_t xPortStartScheduler( void )
     /* Setup the tick interrupt */
     configSETUP_TICK_INTERRUPT();
 
-    #if ( configNUMBER_OF_CORES > 1 )
+    #if ( config_नुमेरो_OF_CORES > 1 )
         /* Start scheduler on other cores */
-        for( uint16_t xCoreID = 0; xCoreID < configNUMBER_OF_CORES; xCoreID++ )
+        for( uint16_t xCoreID = 0; xCoreID < config_नुमेरो_OF_CORES; xCoreID++ )
         {
             if( xCoreID != xCurrentCore )
             {
@@ -497,7 +497,7 @@ BaseType_t xPortStartScheduler( void )
      * Call vTaskSwitchContext() so link time optimization does not remove
      * the symbol. */
     vTaskSwitchContext(
-        #if ( configNUMBER_OF_CORES > 1 )
+        #if ( config_नुमेरो_OF_CORES > 1 )
             xCurrentCore
         #endif
         );
@@ -550,7 +550,7 @@ void vPortEndScheduler( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
     void vPortYieldCore( uint32_t xCoreID )
     {
@@ -604,7 +604,7 @@ void vPortTickISR( void )
     /* In case of multicores with SMP,  xTaskIncrementTick is required to
      * called in critical section to avoid conflict resource as this function
      * could be called by xTaskResumeAll() from any cores. */
-    #if ( configNUMBER_OF_CORES > 1 )
+    #if ( config_नुमेरो_OF_CORES > 1 )
         BaseType_t xSavedInterruptStatus;
 
         xSavedInterruptStatus = portENTER_CRITICAL_FROM_ISR();
@@ -617,7 +617,7 @@ void vPortTickISR( void )
             xPortScheduleStatus[ xPortGET_CORE_ID() ] = PORT_SCHEDULER_TASKSWITCH;
         }
     }
-    #if ( configNUMBER_OF_CORES > 1 )
+    #if ( config_नुमेरो_OF_CORES > 1 )
         portEXIT_CRITICAL_FROM_ISR( xSavedInterruptStatus );
     #endif
 }
@@ -649,7 +649,7 @@ static void prvSetupTimerInterrupt( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
 /*
  * These functions implement spin-lock mechanism among cores using hardware

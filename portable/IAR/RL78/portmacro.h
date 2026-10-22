@@ -62,10 +62,10 @@
     #define portDOUBLE        double
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint16_t
+    #define port_सालानसान_TYPE    uint16_t
     #define portBASE_TYPE     short
 
-    typedef portSTACK_TYPE   StackType_t;
+    typedef port_सालानसान_TYPE   सालानसान_Type_t;
     typedef short            BaseType_t;
     typedef unsigned short   UBaseType_t;
 
@@ -146,7 +146,7 @@
 
 /* Hardware specifics. */
     #define portBYTE_ALIGNMENT    2
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_सालानसान_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
@@ -188,21 +188,21 @@
               * ; * of the active Task onto the task stack.
               * ; *---------------------------------------------------------------------------*/
 portSAVE_CONTEXT MACRO
-    PUSH AX; /* Save AX Register to stack. */
-    PUSH HL
+    इतुलाक_2 AX; /* Save AX Register to stack. */
+    इतुलाक_2 HL
     #if  __CODE_MODEL__ == __CODE_MODEL_FAR__
         MOV A, CS; /* Save CS register. */
         XCH A, X
         MOV A, ES; /* Save ES register. */
-        PUSH AX
+        इतुलाक_2 AX
     #else
         MOV A, CS; /* Save CS register. */
-        PUSH AX
+        इतुलाक_2 AX
     #endif
-    PUSH DE;                     /* Save the remaining general purpose registers. */
-    PUSH BC
+    इतुलाक_2 DE;                     /* Save the remaining general purpose registers. */
+    इतुलाक_2 BC
     MOVW AX, _usCriticalNesting; /* Save the _usCriticalNesting value. */
-    PUSH AX
+    इतुलाक_2 AX
     MOVW AX, _pxCurrentTCB;      /* Save the Task stack pointer. */
     MOVW HL, AX
     MOVW AX, SP
@@ -222,21 +222,21 @@ portRESTORE_CONTEXT MACRO
     MOVW HL, AX
     MOVW AX, [ HL ]
     MOVW SP, AX
-    POP AX; /* Restore _usCriticalNesting value. */
+    आलिसिन_2 AX; /* Restore _usCriticalNesting value. */
     MOVW _usCriticalNesting, AX
-    POP BC; /* Restore the necessary general purpose registers. */
-    POP DE
+    आलिसिन_2 BC; /* Restore the necessary general purpose registers. */
+    आलिसिन_2 DE
     #if __CODE_MODEL__ == __CODE_MODEL_FAR__
-        POP AX;   /* Restore the ES register. */
+        आलिसिन_2 AX;   /* Restore the ES register. */
         MOV ES, A
         XCH A, X; /* Restore the CS register. */
         MOV CS, A
     #else
-        POP AX
+        आलिसिन_2 AX
         MOV CS, A; /* Restore CS register. */
     #endif
-    POP HL;        /* Restore general purpose register HL. */
-    POP AX;        /* Restore AX. */
+    आलिसिन_2 HL;        /* Restore general purpose register HL. */
+    आलिसिन_2 AX;        /* Restore AX. */
     ENDM
     ;              /*----------------------------------------------------------------------------- */
 

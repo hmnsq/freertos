@@ -108,24 +108,24 @@ in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). */
 stack checking.  A problem in the ISR stack will trigger an assert, not call the
 stack overflow hook function (because the stack overflow hook is specific to a
 task stack, not the ISR stack). */
-#if( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#if( config_CHECK_FOR_सालानसान_OVERFLOW > 2 )
 
     /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
     the task stacks, and so will legitimately appear in many positions within
     the ISR stack. */
-    #define portISR_STACK_FILL_BYTE 0xee
+    #define port_ISR_सालानसान_FILL_BYTE 0xee
 
-    static const uint8_t ucExpectedStackBytes[] = {
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE };   \
+    static const uint8_t uc_Expected_सालानसान_Bytes[] = {
+                            port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE,     \
+                            port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE,     \
+                            port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE,     \
+                            port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE,     \
+                            port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE, port_ISR_सालानसान_FILL_BYTE };   \
 
-    #define portCHECK_ISR_STACK() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
+    #define port_CHECK_ISR_सालानसान() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) uc_Expected_सालानसान_Bytes, sizeof( uc_Expected_सालानसान_Bytes ) ) == 0 ) )
 #else
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
+    #define port_CHECK_ISR_सालानसान()
 #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 
@@ -143,47 +143,47 @@ decremented to 0 when the first task starts. */
 volatile UBaseType_t uxInterruptNesting = 0x01;
 
 /* Stores the task stack pointer when a switch is made to use the system stack. */
-UBaseType_t uxSavedTaskStackPointer = 0;
+UBaseType_t ux_Saved_Task_सालानसान_Pointer = 0;
 
 /* The stack used by interrupt service routines that cause a context switch. */
-StackType_t xISRStack[ configISR_STACK_SIZE ] = { 0 };
+सालानसान_Type_t xISRStack[ config_ISR_सालानसान_SIZE ] = { 0 };
 
 /* The top of stack value ensures there is enough space to store 6 registers on
 the callers stack, as some functions seem to want to do this. */
-const StackType_t * const xISRStackTop = &( xISRStack[ configISR_STACK_SIZE - 7 ] );
+const सालानसान_Type_t * const x_ISRStack_इताअस = &( xISRStack[ config_ISR_सालानसान_SIZE - 7 ] );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
     /* Ensure byte alignment is maintained when leaving this function. */
-    pxTopOfStack--;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) 0xDEADBEEF;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) ulPortGetCP0Cause();
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) ulPortGetCP0Cause();
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) portINITIAL_SR;   /* CP0_STATUS */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) portINITIAL_SR;   /* CP0_STATUS */
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) pxCode;       /* CP0_EPC */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) pxCode;       /* CP0_EPC */
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = (StackType_t) portTASK_RETURN_ADDRESS;  /* ra */
-    pxTopOfStack -= 15;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) portTASK_RETURN_ADDRESS;  /* ra */
+    px_इताअस_Of_सालानसान -= 15;
 
-    *pxTopOfStack = (StackType_t) pvParameters; /* Parameters to pass in. */
-    pxTopOfStack -= 15;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) pvParameters; /* Parameters to pass in. */
+    px_इताअस_Of_सालानसान -= 15;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -204,7 +204,7 @@ static void prvTaskExitError( void )
 
     Artificially force an assert() to be triggered if configASSERT() is
     defined, then stop here so application writers can catch the error. */
-    configASSERT( uxSavedTaskStackPointer == 0UL );
+    configASSERT( ux_Saved_Task_सालानसान_Pointer == 0UL );
     portDISABLE_INTERRUPTS();
     for( ;; );
 }
@@ -253,10 +253,10 @@ BaseType_t xPortStartScheduler( void )
 extern void vPortStartFirstTask( void );
 extern void *pxCurrentTCB;
 
-    #if ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+    #if ( config_CHECK_FOR_सालानसान_OVERFLOW > 2 )
     {
         /* Fill the ISR stack to make it easy to asses how much is being used. */
-        memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+        memset( ( void * ) xISRStack, port_ISR_सालानसान_FILL_BYTE, sizeof( xISRStack ) );
     }
     #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
@@ -277,7 +277,7 @@ extern void *pxCurrentTCB;
 
     /* Start the highest priority task that has been created so far.  Its stack
     location is loaded into uxSavedTaskStackPointer. */
-    uxSavedTaskStackPointer = *( UBaseType_t * ) pxCurrentTCB;
+    ux_Saved_Task_सालानसान_Pointer = *( UBaseType_t * ) pxCurrentTCB;
     vPortStartFirstTask();
 
     /* Should never get here as the tasks will now be executing!  Call the task
@@ -308,7 +308,7 @@ uint32_t ulCause;
     vPortClearInterruptMaskFromISR( uxSavedStatus );
 
     /* Look for the ISR stack getting near or past its limit. */
-    portCHECK_ISR_STACK();
+    port_CHECK_ISR_सालानसान();
 
     /* Clear timer interrupt. */
     configCLEAR_TICK_TIMER_INTERRUPT();

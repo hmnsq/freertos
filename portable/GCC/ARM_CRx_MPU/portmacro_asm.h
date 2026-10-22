@@ -125,14 +125,14 @@ extern "C" {
 /* Default MPU regions. */
 #define portFIRST_CONFIGURABLE_REGION ( 0 )
 #define portLAST_CONFIGURABLE_REGION  ( portMPU_TOTAL_REGIONS - 5UL )
-#define portSTACK_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
+#define port_सालानसान_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
 #define portUNPRIVILEGED_FLASH_REGION ( portMPU_TOTAL_REGIONS - 3UL )
 #define portPRIVILEGED_FLASH_REGION   ( portMPU_TOTAL_REGIONS - 2UL )
 #define portPRIVILEGED_RAM_REGION     ( portMPU_TOTAL_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS \
+#define port_नुमेरो_CONFIGURABLE_REGIONS \
     ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1UL )
 /* Plus one to make space for the stack region. */
-#define portTOTAL_NUM_REGIONS_IN_TCB        ( portNUM_CONFIGURABLE_REGIONS + 1UL )
+#define port_TOTAL_नुमेरो_REGIONS_IN_TCB        ( port_नुमेरो_CONFIGURABLE_REGIONS + 1UL )
 
 /* MPU region sizes. This information is encoded in the MPU Region Size and
  * Enable Register. */
@@ -268,7 +268,7 @@ extern "C" {
  */
 #define portSYSTEM_CALL_INFO_OFFSET             \
     ( ( 1U /* pxTopOfStack. */ +                \
-        ( portTOTAL_NUM_REGIONS_IN_TCB * 3U ) + \
+        ( port_TOTAL_नुमेरो_REGIONS_IN_TCB * 3U ) + \
         1U /* ulTaskFlags. */                   \
       ) * 4U )
 

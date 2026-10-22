@@ -53,7 +53,7 @@ Changes from V4.0.1
 
 /*lint -e950 Non ANSI reserved words okay in this file only. */
 
-#define portTIMER_INT_NUMBER    0x08
+#define port_TIMER_INT_नुमेरो    0x08
 
 /* Setup hardware for required tick interrupt rate. */
 static void prvSetTickFrequency( uint32_t ulTickRateHz );
@@ -113,31 +113,31 @@ pxISR pxOriginalTickISR;
 
     /* Remember what was on the interrupts we are going to use
     so we can put them back later if required. */
-    pxOldSwitchISR = _dos_getvect( portSWITCH_INT_NUMBER );
-    pxOriginalTickISR = _dos_getvect( portTIMER_INT_NUMBER );
-    pxOldSwitchISRPlus1 = _dos_getvect( portSWITCH_INT_NUMBER + 1 );
+    pxOldSwitchISR = _dos_getvect( port_SWITCH_INT_नुमेरो );
+    pxOriginalTickISR = _dos_getvect( port_TIMER_INT_नुमेरो );
+    pxOldSwitchISRPlus1 = _dos_getvect( port_SWITCH_INT_नुमेरो + 1 );
 
     prvSetTickFrequency( configTICK_RATE_HZ );
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    _dos_setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    _dos_setvect( port_SWITCH_INT_नुमेरो, prvYieldProcessor );
 
     /* Put the old tick on a different interrupt number so we can
     call it when we want. */
-    _dos_setvect( portSWITCH_INT_NUMBER + 1, pxOriginalTickISR );
+    _dos_setvect( port_SWITCH_INT_नुमेरो + 1, pxOriginalTickISR );
 
     /* The ISR used depends on whether the preemptive or cooperative
     scheduler is being used. */
     #if( configUSE_PREEMPTION == 1 )
     {
         /* Put our tick switch function on the timer interrupt. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
+        _dos_setvect( port_TIMER_INT_नुमेरो, prvPreemptiveTick );
     }
     #else
     {
         /* We want the timer interrupt to just increment the tick count. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvNonPreemptiveTick );
+        _dos_setvect( port_TIMER_INT_नुमेरो, prvNonPreemptiveTick );
     }
     #endif
 
@@ -207,7 +207,7 @@ static void prvPortResetPIC( void )
     if( sDOSTickCounter <= 0 )
     {
         sDOSTickCounter = ( int16_t ) portTICKS_PER_DOS_TICK;
-        __asm{ int  portSWITCH_INT_NUMBER + 1 };
+        __asm{ int  port_SWITCH_INT_नुमेरो + 1 };
     }
     else
     {
@@ -241,14 +241,14 @@ void ( __interrupt __far *pxOriginalTickISR )();
     if( xSchedulerRunning == pdTRUE )
     {
         /* Set the DOS tick back onto the timer ticker. */
-        pxOriginalTickISR = _dos_getvect( portSWITCH_INT_NUMBER + 1 );
-        _dos_setvect( portTIMER_INT_NUMBER, pxOriginalTickISR );
+        pxOriginalTickISR = _dos_getvect( port_SWITCH_INT_नुमेरो + 1 );
+        _dos_setvect( port_TIMER_INT_नुमेरो, pxOriginalTickISR );
         prvSetTickFrequencyDefault();
 
         /* Put back the switch interrupt routines that was in place
         before the scheduler started. */
-        _dos_setvect( portSWITCH_INT_NUMBER, pxOldSwitchISR );
-        _dos_setvect( portSWITCH_INT_NUMBER + 1, pxOldSwitchISRPlus1 );
+        _dos_setvect( port_SWITCH_INT_नुमेरो, pxOldSwitchISR );
+        _dos_setvect( port_SWITCH_INT_नुमेरो + 1, pxOldSwitchISRPlus1 );
     }
     /* The tick timer is back how DOS wants it.  We can re-enable
     interrupts without the scheduler being called. */

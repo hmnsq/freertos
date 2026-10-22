@@ -56,10 +56,10 @@ portSTACK_TYPE and portBASE_TYPE. */
 #define portDOUBLE      double
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_सालानसान_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
@@ -80,7 +80,7 @@ typedef unsigned long UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT              8   /* Could make four, according to manual. */
-#define portSTACK_GROWTH                -1
+#define port_सालानसान_GROWTH                -1
 #define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()                       nop()
 
@@ -91,14 +91,14 @@ static void vPortYield( void )
     /* Save clobbered register - may not actually be necessary if inline asm
     functions are considered to use the same rules as function calls by the
     compiler. */
-    PUSH.L R5
+    इतुलाक_2.L R5
     /* Set ITU SWINTR. */
     MOV.L #553696, R5
     MOV.B #1, [R5]
     /* Read back to ensure the value is taken before proceeding. */
     MOV.L [R5], R5
     /* Restore clobbered register to its previous value. */
-    POP R5
+    आलिसिन_2 R5
 }
 #define portYIELD() vPortYield()
 #define portYIELD_FROM_ISR( x ) do { if( x != pdFALSE ) portYIELD(); } while( 0 )

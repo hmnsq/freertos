@@ -76,107 +76,107 @@ extern uint32_t ulPortGetGBR( void );
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* Mark the end of the stack - used for debugging only and can be removed. */
-    *pxTopOfStack = 0x11111111UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333UL;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0x11111111UL;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22222222UL;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33333333UL;
+    px_इताअस_Of_सालानसान--;
 
     /* SR. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = portINITIAL_SR;
+    px_इताअस_Of_सालानसान--;
 
     /* PC. */
-    *pxTopOfStack = ( uint32_t ) pxCode;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( uint32_t ) pxCode;
+    px_इताअस_Of_सालानसान--;
 
     /* PR. */
-    *pxTopOfStack = 15;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 15;
+    px_इताअस_Of_सालानसान--;
 
     /* 14. */
-    *pxTopOfStack = 14;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 14;
+    px_इताअस_Of_सालानसान--;
 
     /* R13. */
-    *pxTopOfStack = 13;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 13;
+    px_इताअस_Of_सालानसान--;
 
     /* R12. */
-    *pxTopOfStack = 12;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 12;
+    px_इताअस_Of_सालानसान--;
 
     /* R11. */
-    *pxTopOfStack = 11;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 11;
+    px_इताअस_Of_सालानसान--;
 
     /* R10. */
-    *pxTopOfStack = 10;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 10;
+    px_इताअस_Of_सालानसान--;
 
     /* R9. */
-    *pxTopOfStack = 9;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 9;
+    px_इताअस_Of_सालानसान--;
 
     /* R8. */
-    *pxTopOfStack = 8;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 8;
+    px_इताअस_Of_सालानसान--;
 
     /* R7. */
-    *pxTopOfStack = 7;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 7;
+    px_इताअस_Of_सालानसान--;
 
     /* R6. */
-    *pxTopOfStack = 6;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 6;
+    px_इताअस_Of_सालानसान--;
 
     /* R5. */
-    *pxTopOfStack = 5;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 5;
+    px_इताअस_Of_सालानसान--;
 
     /* R4. */
-    *pxTopOfStack = ( uint32_t ) pvParameters;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( uint32_t ) pvParameters;
+    px_इताअस_Of_सालानसान--;
 
     /* R3. */
-    *pxTopOfStack = 3;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 3;
+    px_इताअस_Of_सालानसान--;
 
     /* R2. */
-    *pxTopOfStack = 2;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 2;
+    px_इताअस_Of_सालानसान--;
 
     /* R1. */
-    *pxTopOfStack = 1;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 1;
+    px_इताअस_Of_सालानसान--;
 
     /* R0 */
-    *pxTopOfStack = 0;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0;
+    px_इताअस_Of_सालानसान--;
 
     /* MACL. */
-    *pxTopOfStack = 16;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 16;
+    px_इताअस_Of_सालानसान--;
 
     /* MACH. */
-    *pxTopOfStack = 17;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 17;
+    px_इताअस_Of_सालानसान--;
 
     /* GBR. */
-    *pxTopOfStack = ulPortGetGBR();
+    *px_इताअस_Of_सालानसान = ulPortGetGBR();
 
     /* GBR = global base register.
     * VBR = vector base register.
     * TBR = jump table base register.
     * R15 is the stack pointer. */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

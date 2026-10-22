@@ -45,10 +45,10 @@
 #define portDOUBLE      long
 #define portLONG        long
 #define portSHORT       int
-#define portSTACK_TYPE  uint16_t
+#define port_सालानसान_TYPE  uint16_t
 #define portBASE_TYPE   portSHORT
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
@@ -76,19 +76,19 @@ typedef unsigned short UBaseType_t;
 
 /* Hardware specifics. */
 #define portNOP()               __asm{ nop }
-#define portSTACK_GROWTH        ( -1 )
-#define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define port_सालानसान_GROWTH        ( -1 )
+#define port_SWITCH_INT_नुमेरो   0x80
+#define portYIELD()             __asm{ int port_SWITCH_INT_नुमेरो }
 #define portDOS_TICK_RATE       ( 18.20648 )
 #define portTICK_PERIOD_MS      ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICKS_PER_DOS_TICK  ( ( uint16_t ) ( ( ( portDOUBLE ) configTICK_RATE_HZ / portDOS_TICK_RATE ) + 0.5 ) )
-#define portINITIAL_SW          ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#define portINITIAL_SW          ( ( port_सालानसान_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
 #define portBYTE_ALIGNMENT      ( 2 )
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )             inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )   outp( xAddr, ucValue )
+#define port_पासोक_BYTE( xAddr )             inp( xAddr )
+#define portOUTPUT_BYTE( xAddr, uc_हालागा )   outp( xAddr, uc_हालागा )
 
 /*-----------------------------------------------------------*/
 

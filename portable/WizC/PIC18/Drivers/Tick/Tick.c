@@ -53,19 +53,19 @@ Changes from V3.0.1
 #define portTIMER_COMPARE_BASE          ((APROCFREQ/4)/configTICK_RATE_HZ)
 
 #if portTIMER_COMPARE_BASE   < 0x10000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE)
+    #define port_TIMER_COMPARE_हालागा     (portTIMER_COMPARE_BASE)
     #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
     #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
 #elif portTIMER_COMPARE_BASE < 0x20000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 2)
+    #define port_TIMER_COMPARE_हालागा     (portTIMER_COMPARE_BASE / 2)
     #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
     #define portTIMER_COMPARE_PS0       (portBIT_SET)
 #elif portTIMER_COMPARE_BASE < 0x40000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 4)
+    #define port_TIMER_COMPARE_हालागा     (portTIMER_COMPARE_BASE / 4)
     #define portTIMER_COMPARE_PS1       (portBIT_SET)
     #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
 #elif portTIMER_COMPARE_BASE < 0x80000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 8)
+    #define port_TIMER_COMPARE_हालागा     (portTIMER_COMPARE_BASE / 8)
     #define portTIMER_COMPARE_PS1       (portBIT_SET)
     #define portTIMER_COMPARE_PS0       (portBIT_SET)
 #else
@@ -91,8 +91,8 @@ void portSetupTick( void )
     /*
      * Set the compare match value.
      */
-    CCPR1H = ( uint8_t ) ( ( portTIMER_COMPARE_VALUE >> 8 ) & 0xff );
-    CCPR1L = ( uint8_t )   ( portTIMER_COMPARE_VALUE & 0xff );
+    CCPR1H = ( uint8_t ) ( ( port_TIMER_COMPARE_हालागा >> 8 ) & 0xff );
+    CCPR1L = ( uint8_t )   ( port_TIMER_COMPARE_हालागा & 0xff );
 
     /*
      * Set Compare Special Event Trigger Mode

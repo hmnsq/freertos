@@ -93,7 +93,7 @@ void SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext )
         " save_ctx_therad_mode:             \n"
         "   bx lr                           \n"
         "                                   \n"
-        ::"i" ( securecontextNO_STACK ) : "r1", "memory"
+        ::"i" ( securecontext_NO_सालानसान ) : "r1", "memory"
     );
 }
 /*-----------------------------------------------------------*/

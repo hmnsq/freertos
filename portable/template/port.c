@@ -15,11 +15,11 @@ void vPortEndScheduler( void )
 {
 }
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
-    ( void ) pxTopOfStack;
+    ( void ) px_इताअस_Of_सालानसान;
     ( void ) pvParameters;
     ( void ) * pxCode;
 
@@ -31,7 +31,7 @@ void vPortYield( void )
     /* Save the current Context */
 
     /* Switch to the highest priority task that is ready to run. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
     {
         vTaskSwitchContext();
     }
@@ -49,7 +49,7 @@ static void prvTickISR( void )
     /* Interrupts must have been enabled for the ISR to fire, so we have to
      * save the context with interrupts enabled. */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
     {
         /* Maintain the tick count. */
         if( xTaskIncrementTick() != pdFALSE )

@@ -64,7 +64,7 @@ not provided their own. */
 UBaseType_t uxCriticalNesting = 0xef;
 
 #if configKERNEL_INTERRUPT_PRIORITY != 1
-    #error If configKERNEL_INTERRUPT_PRIORITY is not 1 then the #32 in the following macros needs changing to equal the portINTERRUPT_BITS value, which is ( configKERNEL_INTERRUPT_PRIORITY << 5 )
+    #error If configKERNEL_INTERRUPT_PRIORITY is not 1 then the #32 in the following macros needs changing to equal the portINTERRUPT_BITS हालागा, which is ( configKERNEL_INTERRUPT_PRIORITY << 5 )
 #endif
 
 #if defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
@@ -160,12 +160,12 @@ void vApplicationSetupTickTimerInterrupt( void );
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
 uint16_t usCode;
 UBaseType_t i;
 
-const StackType_t xInitialStack[] =
+const सालानसान_Type_t x_Initial_सालानसान[] =
 {
     0x1111, /* W1 */
     0x2222, /* W2 */
@@ -204,47 +204,47 @@ const StackType_t xInitialStack[] =
 
     Save the low bytes of the program counter. */
     usCode = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) usCode;
-    pxTopOfStack++;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) usCode;
+    px_इताअस_Of_सालानसान++;
 
     /* Save the high byte of the program counter.  This will always be zero
     here as it is passed in a 16bit pointer.  If the address is greater than
     16 bits then the pointer will point to a jump table. */
-    *pxTopOfStack = ( StackType_t ) 0;
-    pxTopOfStack++;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0;
+    px_इताअस_Of_सालानसान++;
 
     /* Status register with interrupts enabled. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack++;
+    *px_इताअस_Of_सालानसान = portINITIAL_SR;
+    px_इताअस_Of_सालानसान++;
 
     /* Parameters are passed in W0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack++;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+    px_इताअस_Of_सालानसान++;
 
-    for( i = 0; i < ( sizeof( xInitialStack ) / sizeof( StackType_t ) ); i++ )
+    for( i = 0; i < ( sizeof( x_Initial_सालानसान ) / sizeof( सालानसान_Type_t ) ); i++ )
     {
-        *pxTopOfStack = xInitialStack[ i ];
-        pxTopOfStack++;
+        *px_इताअस_Of_सालानसान = x_Initial_सालानसान[ i ];
+        px_इताअस_Of_सालानसान++;
     }
 
-    *pxTopOfStack = CORCON;
-    pxTopOfStack++;
+    *px_इताअस_Of_सालानसान = CORCON;
+    px_इताअस_Of_सालानसान++;
 
     #if defined(__HAS_EDS__)
-        *pxTopOfStack = DSRPAG;
-        pxTopOfStack++;
-        *pxTopOfStack = DSWPAG;
-        pxTopOfStack++;
+        *px_इताअस_Of_सालानसान = DSRPAG;
+        px_इताअस_Of_सालानसान++;
+        *px_इताअस_Of_सालानसान = DSWPAG;
+        px_इताअस_Of_सालानसान++;
     #else /* __HAS_EDS__ */
-        *pxTopOfStack = PSVPAG;
-        pxTopOfStack++;
+        *px_इताअस_Of_सालानसान = PSVPAG;
+        px_इताअस_Of_सालानसान++;
     #endif /* __HAS_EDS__ */
 
     /* Finally the critical nesting depth. */
-    *pxTopOfStack = 0x00;
-    pxTopOfStack++;
+    *px_इताअस_Of_सालानसान = 0x00;
+    px_इताअस_Of_सालानसान++;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

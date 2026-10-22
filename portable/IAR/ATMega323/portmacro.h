@@ -58,11 +58,11 @@
 #define portDOUBLE               double
 #define portLONG                 long
 #define portSHORT                int
-#define portSTACK_TYPE           uint8_t
+#define port_सालानसान_TYPE           uint8_t
 #define portBASE_TYPE            char
 #define portPOINTER_SIZE_TYPE    uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef signed char      BaseType_t;
 typedef unsigned char    UBaseType_t;
 
@@ -89,7 +89,7 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    1
 #define portNOP()    asm ( "nop" )
@@ -100,7 +100,7 @@ void vPortYield( void );
 #define portYIELD()                vPortYield()
 
 #ifdef IAR_MEGA_AVR
-    #define outb( PORT, VALUE )    PORT = VALUE
+    #define outb( PORT, हालागा_3 )    PORT = हालागा_3
 #endif
 /*-----------------------------------------------------------*/
 

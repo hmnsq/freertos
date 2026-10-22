@@ -42,10 +42,10 @@ extern "C" {
 #define portDOUBLE               double
 #define portLONG                 long
 #define portSHORT                short
-#define portSTACK_TYPE           size_t
+#define port_सालानसान_TYPE           size_t
 #define portPOINTER_SIZE_TYPE    size_t
 
-typedef portSTACK_TYPE           StackType_t;
+typedef port_सालानसान_TYPE           सालानसान_Type_t;
 
 #if defined( __x86_64__ ) || defined( _M_X64 )
     #define portBASE_TYPE    long long
@@ -82,7 +82,7 @@ typedef portSTACK_TYPE           StackType_t;
 #endif
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH          ( -1 )
+#define port_सालानसान_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portINLINE                __inline
 
@@ -138,9 +138,9 @@ void vPortExitCritical( void );
 
     #ifdef __GNUC__
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
+        #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    \
         __asm volatile ( "bsr %1, %0\n\t"                                       \
-                         : "=r" ( uxTopPriority )                               \
+                         : "=r" ( ux_इताअस_Priority )                               \
                          : "rm" ( uxReadyPriorities )                           \
                          : "cc" )
 
@@ -152,18 +152,18 @@ void vPortExitCritical( void );
         #if defined( __x86_64__ ) || defined( _M_X64 )
             #pragma intrinsic(_BitScanReverse64)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
+            #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    \
             do                                                                      \
             {                                                                       \
-                unsigned long ulTopPriority;                                        \
-                _BitScanReverse64( &ulTopPriority, ( uxReadyPriorities ) );         \
-                uxTopPriority = ulTopPriority;                                      \
+                unsigned long ul_इताअस_Priority;                                        \
+                _BitScanReverse64( &ul_इताअस_Priority, ( uxReadyPriorities ) );         \
+                ux_इताअस_Priority = ul_इताअस_Priority;                                      \
             } while( 0 )
 
         #else /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
             #pragma intrinsic(_BitScanReverse)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( uxTopPriority ), ( uxReadyPriorities ) )
+            #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( ux_इताअस_Priority ), ( uxReadyPriorities ) )
 
         #endif /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
 
@@ -189,7 +189,7 @@ void vPortExitCritical( void );
  * Each bit can be used to represent an individual interrupt - with the first
  * two bits being used for the Yield and Tick interrupts respectively.
  */
-void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
+void vPortGenerateSimulatedInterrupt( uint32_t ul_Interrupt_नुमेरो );
 
 /*
  * Raise a simulated interrupt represented by the bit mask in ulInterruptMask.
@@ -197,7 +197,7 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
  * two bits being used for the Yield and Tick interrupts respectively. This function
  * can be called in a windows thread.
  */
-void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumber );
+void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ul_Interrupt_नुमेरो );
 
 /*
  * Install an interrupt handler to be called by the simulated interrupt handler
@@ -208,7 +208,7 @@ void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumbe
  * Interrupt handler functions must return a non-zero value if executing the
  * handler resulted in a task switch being required.
  */
-void vPortSetInterruptHandler( uint32_t ulInterruptNumber,
+void vPortSetInterruptHandler( uint32_t ul_Interrupt_नुमेरो,
                                uint32_t ( * pvHandler )( void ) );
 
 #ifdef __cplusplus

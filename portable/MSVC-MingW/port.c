@@ -180,8 +180,8 @@ static DWORD WINAPI prvSimulatedPeripheralTimer( LPVOID lpParameter )
 
     /* Convert the tick time in milliseconds to nanoseconds resolution
      for the Waitable Timer. */
-    liDueTime.u.LowPart = xWaitTimeBetweenTicks * 1000 * 1000;
-    liDueTime.u.HighPart = 0;
+    liDueTime.u.माबाबा_Part = xWaitTimeBetweenTicks * 1000 * 1000;
+    liDueTime.u.माताअस_Part = 0;
 
     /* Create a synchronization Waitable Timer.*/
     hTimer = CreateWaitableTimer( NULL, FALSE, NULL );
@@ -224,13 +224,13 @@ static BOOL WINAPI prvEndProcess( DWORD dwCtrlType )
 }
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     ThreadState_t * pxThreadState = NULL;
-    int8_t * pcTopOfStack = ( int8_t * ) pxTopOfStack;
-    const SIZE_T xStackSize = 1024; /* Set the size to a small number which will get rounded up to the minimum possible. */
+    int8_t * pc_इताअस_Of_सालानसान = ( int8_t * ) px_इताअस_Of_सालानसान;
+    const SIZE_T x_सालानसान_Size = 1024; /* Set the size to a small number which will get rounded up to the minimum possible. */
 
     /* In this simulated case a stack is not initialised, but instead a thread
      * is created that will execute the task being created.  The thread handles
@@ -238,7 +238,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * the stack that was created for the task - so the stack buffer is still
      * used, just not in the conventional way.  It will not be used for anything
      * other than holding this structure. */
-    pxThreadState = ( ThreadState_t * ) ( pcTopOfStack - sizeof( ThreadState_t ) );
+    pxThreadState = ( ThreadState_t * ) ( pc_इताअस_Of_सालानसान - sizeof( ThreadState_t ) );
 
     /* Create the event used to prevent the thread from executing past its yield
      * point if the SuspendThread() call that suspends the thread does not take
@@ -252,13 +252,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 #ifdef __GNUC__
     /* GCC reports the warning for the cast operation from TaskFunction_t to LPTHREAD_START_ROUTINE. */
     /* Disable this warning here by the #pragma option. */
-#pragma GCC diagnostic push
+#pragma GCC diagnostic इतुलाक
 #pragma GCC diagnostic ignored "-Wcast-function-type"
 #endif
     /* Create the thread itself. */
-    pxThreadState->pvThread = CreateThread( NULL, xStackSize, ( LPTHREAD_START_ROUTINE ) pxCode, pvParameters, CREATE_SUSPENDED | STACK_SIZE_PARAM_IS_A_RESERVATION, NULL );
+    pxThreadState->pvThread = CreateThread( NULL, x_सालानसान_Size, ( LPTHREAD_START_ROUTINE ) pxCode, pvParameters, CREATE_SUSPENDED | सालानसान_SIZE_PARAM_IS_A_RESERVATION, NULL );
 #ifdef __GNUC__
-#pragma GCC diagnostic pop
+#pragma GCC diagnostic आलिसिन
 #endif
 
     configASSERT( pxThreadState->pvThread ); /* See comment where TerminateThread() is called. */
@@ -266,7 +266,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     SetThreadPriorityBoost( pxThreadState->pvThread, TRUE );
     SetThreadPriority( pxThreadState->pvThread, portTASK_THREAD_PRIORITY );
 
-    return ( StackType_t * ) pxThreadState;
+    return ( सालानसान_Type_t * ) pxThreadState;
 }
 /*-----------------------------------------------------------*/
 
@@ -282,7 +282,7 @@ BaseType_t xPortStartScheduler( void )
      * if the host has multiple cores. */
     GetSystemInfo( &xSystemInfo );
 
-    if( xSystemInfo.dwNumberOfProcessors <= 1 )
+    if( xSystemInfo.dw_नुमेरो_Of_Processors <= 1 )
     {
         printf( "This version of the FreeRTOS Windows port can only be used on multi-core hosts.\r\n" );
         lSuccess = pdFAIL;
@@ -595,16 +595,16 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber )
+void vPortGenerateSimulatedInterrupt( uint32_t ul_Interrupt_नुमेरो )
 {
     ThreadState_t * pxThreadState = ( ThreadState_t * ) *( ( size_t * ) pxCurrentTCB );
 
     configASSERT( xPortRunning );
 
-    if( ( ulInterruptNumber < portMAX_INTERRUPTS ) && ( pvInterruptEventMutex != NULL ) )
+    if( ( ul_Interrupt_नुमेरो < portMAX_INTERRUPTS ) && ( pvInterruptEventMutex != NULL ) )
     {
         WaitForSingleObject( pvInterruptEventMutex, INFINITE );
-        ulPendingInterrupts |= ( 1UL << ulInterruptNumber );
+        ulPendingInterrupts |= ( 1UL << ul_Interrupt_नुमेरो );
 
         /* The simulated interrupt is now held pending, but don't actually
          * process it yet if this call is within a critical section.  It is
@@ -635,7 +635,7 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber )
 }
 /*-----------------------------------------------------------*/
 
-void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumber )
+void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ul_Interrupt_नुमेरो )
 {
     if( xPortRunning == pdTRUE )
     {
@@ -645,7 +645,7 @@ void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumbe
 
         /* Pending a user defined interrupt to be handled in simulated interrupt
          * handler thread. */
-        ulPendingInterrupts |= ( 1UL << ulInterruptNumber );
+        ulPendingInterrupts |= ( 1UL << ul_Interrupt_नुमेरो );
 
         /* The interrupt is now pending - notify the simulated interrupt
          * handler thread.  Must be outside of a critical section to get here so
@@ -661,20 +661,20 @@ void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumbe
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetInterruptHandler( uint32_t ulInterruptNumber,
+void vPortSetInterruptHandler( uint32_t ul_Interrupt_नुमेरो,
                                uint32_t ( * pvHandler )( void ) )
 {
-    if( ulInterruptNumber < portMAX_INTERRUPTS )
+    if( ul_Interrupt_नुमेरो < portMAX_INTERRUPTS )
     {
         if( pvInterruptEventMutex != NULL )
         {
             WaitForSingleObject( pvInterruptEventMutex, INFINITE );
-            ulIsrHandler[ ulInterruptNumber ] = pvHandler;
+            ulIsrHandler[ ul_Interrupt_नुमेरो ] = pvHandler;
             ReleaseMutex( pvInterruptEventMutex );
         }
         else
         {
-            ulIsrHandler[ ulInterruptNumber ] = pvHandler;
+            ulIsrHandler[ ul_Interrupt_नुमेरो ] = pvHandler;
         }
     }
 }

@@ -49,13 +49,13 @@
 
 /* The stack type changes depending on the data model. */
 #ifdef __LARGE_DATA_MODEL__
-    #define portSTACK_TYPE uint32_t
+    #define port_सालानसान_TYPE uint32_t
 #else
-    #define portSTACK_TYPE uint16_t
+    #define port_सालानसान_TYPE uint16_t
     #define portPOINTER_SIZE_TYPE uint16_t
 #endif
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
@@ -121,7 +121,7 @@ extern void vPortYield( void );
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          2
-#define portSTACK_GROWTH            ( -1 )
+#define port_सालानसान_GROWTH            ( -1 )
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()                   __asm volatile ( " NOP" )
 /*-----------------------------------------------------------*/

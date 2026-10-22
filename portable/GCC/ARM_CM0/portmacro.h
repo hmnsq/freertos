@@ -59,10 +59,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -85,7 +85,7 @@ typedef unsigned long    UBaseType_t;
  * Architecture specifics.
  */
 #define portARCH_NAME                      "Cortex-M0+"
-#define portSTACK_GROWTH                   ( -1 )
+#define port_सालानसान_GROWTH                   ( -1 )
 #define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                 8
 #define portNOP()
@@ -139,11 +139,11 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portPRIVILEGED_RAM_REGION           ( 7UL )
 #define portPRIVILEGED_FLASH_REGION         ( 6UL )
 #define portUNPRIVILEGED_FLASH_REGION       ( 5UL )
-#define portSTACK_REGION                    ( 4UL )
+#define port_सालानसान_REGION                    ( 4UL )
 #define portFIRST_CONFIGURABLE_REGION       ( 0UL )
 #define portLAST_CONFIGURABLE_REGION        ( 3UL )
-#define portNUM_CONFIGURABLE_REGIONS        ( 4UL )
-#define portTOTAL_NUM_REGIONS               ( portNUM_CONFIGURABLE_REGIONS + 1UL ) /* Plus one to make space for the stack region. */
+#define port_नुमेरो_CONFIGURABLE_REGIONS        ( 4UL )
+#define port_TOTAL_नुमेरो_REGIONS               ( port_नुमेरो_CONFIGURABLE_REGIONS + 1UL ) /* Plus one to make space for the stack region. */
 
 /* MPU region sizes. This information is encoded in the SIZE bits of the MPU
  * Region Attribute and Size Register (RASR). */
@@ -206,20 +206,20 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 
     #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-        #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
+        #ifndef config_SYSTEM_CALL_सालानसान_SIZE
+            #error config_SYSTEM_CALL_सालानसान_SIZE must be defined to the desired size of the system call सालानसान in मगा_सालिता for using MPU wrappers v2.
         #endif
 
         /**
          * @brief System call stack.
          */
-        typedef struct SYSTEM_CALL_STACK_INFO
+        typedef struct SYSTEM_CALL_सालानसान_INFO
         {
-            uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-            uint32_t * pulSystemCallStack;
-            uint32_t * pulTaskStack;
+            uint32_t ul_System_Call_सालानसान_Buffer[ config_SYSTEM_CALL_सालानसान_SIZE ];
+            uint32_t * pul_System_Call_सालानसान;
+            uint32_t * pul_Task_सालानसान;
             uint32_t ulLinkRegisterAtSystemCallEntry;
-        } xSYSTEM_CALL_STACK_INFO;
+        } x_SYSTEM_CALL_सालानसान_INFO;
 
     #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
@@ -239,7 +239,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     #define CONTEXT_SIZE    20
 
     /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-    #define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
+    #define port_सालानसान_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
     #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
     /* Size of an Access Control List (ACL) entry in bits. */
@@ -247,12 +247,12 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 
     typedef struct MPU_SETTINGS
     {
-        MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ]; /**< Settings for 4 per task regions. */
+        MPURegionSettings_t xRegionsSettings[ port_TOTAL_नुमेरो_REGIONS ]; /**< Settings for 4 per task regions. */
         uint32_t ulContext[ CONTEXT_SIZE ];
         uint32_t ulTaskFlags;
 
         #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-            xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
+            x_SYSTEM_CALL_सालानसान_INFO x_System_Call_सालानसान_Info;
             #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif

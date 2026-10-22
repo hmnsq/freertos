@@ -41,7 +41,7 @@
 *----------------------------------------------------------*/
 
 /* Start tasks with interrupts enabled. */
-#define portFLAGS_INT_ENABLED    ( ( StackType_t ) 0x80 )
+#define portFLAGS_INT_ENABLED    ( ( सालानसान_Type_t ) 0x80 )
 
 #if defined( portUSE_WDTO )
     #warning "Watchdog Timer used for scheduler."
@@ -94,7 +94,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
 
     static __inline__
     __attribute__( ( __always_inline__ ) )
-    void wdt_interrupt_enable( const uint8_t value )
+    void wdt_interrupt_enable( const uint8_t हालागा )
     {
         if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
@@ -108,8 +108,8 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 : /* no outputs */
                 : "I" ( _SFR_IO_ADDR( _WD_CONTROL_REG ) ),
                 "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( ( हालागा & 0x08 ? _WD_PS3_MASK : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | ( हालागा & 0x07 ) ) )
                 : "r0"
                 );
         }
@@ -125,8 +125,8 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 : /* no outputs */
                 : "n" ( _SFR_MEM_ADDR( _WD_CONTROL_REG ) ),
                 "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( ( हालागा & 0x08 ? _WD_PS3_MASK : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | ( हालागा & 0x07 ) ) )
                 : "r0"
                 );
         }
@@ -161,7 +161,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
 
     static __inline__
     __attribute__( ( __always_inline__ ) )
-    void wdt_interrupt_reset_enable( const uint8_t value )
+    void wdt_interrupt_reset_enable( const uint8_t हालागा )
     {
         if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
@@ -175,8 +175,8 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 : /* no outputs */
                 : "I" ( _SFR_IO_ADDR( _WD_CONTROL_REG ) ),
                 "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( ( हालागा & 0x08 ? _WD_PS3_MASK : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( हालागा & 0x07 ) ) )
                 : "r0"
                 );
         }
@@ -192,8 +192,8 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 : /* no outputs */
                 : "n" ( _SFR_MEM_ADDR( _WD_CONTROL_REG ) ),
                 "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( ( हालागा & 0x08 ? _WD_PS3_MASK : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( हालागा & 0x07 ) ) )
                 : "r0"
                 );
         }
@@ -527,7 +527,7 @@ static void prvSetupTimerInterrupt( void );
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -539,12 +539,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* The start of the task code will be popped off the stack last, so place
      * it on first. */
     usAddress = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_इताअस_Of_सालानसान--;
 
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_इताअस_Of_सालानसान--;
 
     #if defined( __AVR_3_BYTE_PC__ )
 
@@ -558,26 +558,26 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * In order to do this properly, we would need to get a full 3-byte pointer to
          * pxCode. That requires a change to GCC. Not likely to happen any time soon.
          */
-        *pxTopOfStack = 0;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = 0;
+        px_इताअस_Of_सालानसान--;
     #endif
 
     /* Next simulate the stack as if after a call to portSAVE_CONTEXT().
      *  portSAVE_CONTEXT places the flags on the stack immediately after r0
      *  to ensure the interrupts get disabled as soon as possible, and so ensuring
      *  the stack use is minimal should a context switch interrupt occur. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00; /* R0 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portFLAGS_INT_ENABLED;
+    px_इताअस_Of_सालानसान--;
 
     #if defined( __AVR_3_BYTE_PC__ )
 
         /* If we have an ATmega256x, we are also saving the EIND register.
          * We should default to 0.
          */
-        *pxTopOfStack = ( StackType_t ) 0x00; /* EIND */
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00; /* EIND */
+        px_इताअस_Of_सालानसान--;
     #endif
 
     #if defined( __AVR_HAVE_RAMPZ__ )
@@ -585,28 +585,28 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         /* We are saving the RAMPZ register.
          * We should default to 0.
          */
-        *pxTopOfStack = ( StackType_t ) 0x00; /* RAMPZ */
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00; /* RAMPZ */
+        px_इताअस_Of_सालानसान--;
     #endif
 
     /* Now the remaining registers. The compiler expects R1 to be 0. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R1 */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00; /* R1 */
 
     /* Leave R2 - R23 untouched */
-    pxTopOfStack -= 23;
+    px_इताअस_Of_सालानसान -= 23;
 
     /* Place the parameter on the stack in the expected location. */
     usAddress = ( uint16_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_इताअस_Of_सालानसान--;
 
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
 
     /* Leave register R26 - R31 untouched */
-    pxTopOfStack -= 7;
+    px_इताअस_Of_सालानसान -= 7;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -707,7 +707,7 @@ void vPortYieldFromTick( void )
     static void prvSetupTimerInterrupt( void )
     {
         uint32_t ulCompareMatch;
-        uint8_t ucLowByte;
+        uint8_t uc_माबाबा_Byte;
 
         /* Using 8bit Timer0 to generate the tick. Correct fuses must be
          * selected for the configCPU_CLOCK_HZ clock.*/
@@ -722,8 +722,8 @@ void vPortYieldFromTick( void )
 
         /* Setup compare match value for compare match A. Interrupts are disabled
          * before this is called so we need not worry here. */
-        ucLowByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-        portOCRL = ucLowByte;
+        uc_माबाबा_Byte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
+        portOCRL = uc_माबाबा_Byte;
 
         /* Setup clock source and compare match behaviour. */
         portTCCRa = portCLEAR_COUNTER_ON_MATCH;
@@ -731,9 +731,9 @@ void vPortYieldFromTick( void )
 
 
         /* Enable the interrupt - this is okay as interrupt are currently globally disabled. */
-        ucLowByte = portTIMSK;
-        ucLowByte |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
-        portTIMSK = ucLowByte;
+        uc_माबाबा_Byte = portTIMSK;
+        uc_माबाबा_Byte |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
+        portTIMSK = uc_माबाबा_Byte;
     }
 
 #endif /* if defined( portUSE_WDTO ) */

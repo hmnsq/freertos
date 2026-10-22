@@ -102,7 +102,7 @@ void SVC_Handler( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
  * @param[in] ulSecureStackSize The size of the stack to be allocated on the
  * secure side for the calling task.
  */
-void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) __attribute__( ( naked ) );
+void vPortAllocateSecureContext( uint32_t ul_Secure_सालानसान_Size ) __attribute__( ( naked ) );
 
 /**
  * @brief Free the task's secure context.

@@ -39,7 +39,7 @@
 /*-----------------------------------------------------------*/
 
 /* When the task starts interrupts should be enabled. */
-#define portINITIAL_CCR                    ( ( StackType_t ) 0x00 )
+#define portINITIAL_CCR                    ( ( सालानसान_Type_t ) 0x00 )
 
 /* Hardware specific constants used to generate the RTOS tick from the TPU. */
 #define portCLEAR_ON_TGRA_COMPARE_MATCH    ( ( uint8_t ) 0x20 )
@@ -64,128 +64,128 @@ void vPortYield( void ) __attribute__( ( saveall, interrupt_handler ) );
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
-    uint32_t ulValue;
+    uint32_t ul_हालागा;
 
     /* This requires an even address. */
-    ulValue = ( uint32_t ) pxTopOfStack;
+    ul_हालागा = ( uint32_t ) px_इताअस_Of_सालानसान;
 
-    if( ulValue & 1UL )
+    if( ul_हालागा & 1UL )
     {
-        pxTopOfStack = pxTopOfStack - 1;
+        px_इताअस_Of_सालानसान = px_इताअस_Of_सालानसान - 1;
     }
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is just useful for debugging. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0xaa;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xbb;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xcc;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xdd;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0xaa;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0xbb;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0xcc;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0xdd;
 
     /* The initial stack mimics an interrupt stack.  First there is the program
      * counter (24 bits). */
-    ulValue = ( uint32_t ) pxCode;
+    ul_हालागा = ( uint32_t ) pxCode;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
+    px_इताअस_Of_सालानसान--;
+    ul_हालागा >>= 8UL;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
+    px_इताअस_Of_सालानसान--;
+    ul_हालागा >>= 8UL;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
 
     /* Followed by the CCR. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_CCR;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_CCR;
 
     /* Next all the general purpose registers - with the parameters being passed
      * in ER0.  The parameter order must match that used by the compiler when the
      * "saveall" function attribute is used. */
 
     /* ER6 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x66;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x66;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x66;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x66;
 
     /* ER0 */
-    ulValue = ( uint32_t ) pvParameters;
+    ul_हालागा = ( uint32_t ) pvParameters;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
+    px_इताअस_Of_सालानसान--;
+    ul_हालागा >>= 8UL;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
+    px_इताअस_Of_सालानसान--;
+    ul_हालागा >>= 8UL;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
+    px_इताअस_Of_सालानसान--;
+    ul_हालागा >>= 8UL;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ( ul_हालागा & 0xff );
 
     /* ER1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x11;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x11;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x11;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x11;
 
     /* ER2 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x22;
 
     /* ER3 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x33;
 
     /* ER4 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x44;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x44;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x44;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x44;
 
     /* ER5 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x55;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x55;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x55;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x55;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -228,9 +228,9 @@ void vPortEndScheduler( void )
  */
 void vPortYield( void )
 {
-    portSAVE_STACK_POINTER();
+    port_SAVE_सालानसान_POINTER();
     vTaskSwitchContext();
-    portRESTORE_STACK_POINTER();
+    port_RESTORE_सालानसान_POINTER();
 }
 /*-----------------------------------------------------------*/
 
@@ -248,7 +248,7 @@ void vPortYield( void )
     void vTickISR( void ) __attribute__( ( saveall, interrupt_handler ) );
     void vTickISR( void )
     {
-        portSAVE_STACK_POINTER();
+        port_SAVE_सालानसान_POINTER();
 
         if( xTaskIncrementTick() != pdFALSE )
         {
@@ -258,7 +258,7 @@ void vPortYield( void )
         /* Clear the interrupt. */
         TSR1 &= ~0x01;
 
-        portRESTORE_STACK_POINTER();
+        port_RESTORE_सालानसान_POINTER();
     }
 
 #else /* if ( configUSE_PREEMPTION == 1 ) */

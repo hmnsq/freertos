@@ -47,44 +47,44 @@
 /**
  * @brief Set the secure PRIMASK value.
  */
-#define secureportSET_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+#define secureportSET_SECURE_PRIMASK( ul_Primask_हालागा ) \
+    __asm volatile ( "msr primask, %0" : : "r" ( ul_Primask_हालागा ) : "memory" )
 
 /**
  * @brief Set the non-secure PRIMASK value.
  */
-#define secureportSET_NON_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask_ns, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+#define secureportSET_NON_SECURE_PRIMASK( ul_Primask_हालागा ) \
+    __asm volatile ( "msr primask_ns, %0" : : "r" ( ul_Primask_हालागा ) : "memory" )
 
 /**
  * @brief Read the PSP value in the given variable.
  */
-#define secureportREAD_PSP( pucOutCurrentStackPointer ) \
-    __asm volatile ( "mrs %0, psp"  : "=r" ( pucOutCurrentStackPointer ) )
+#define secureportREAD_PSP( puc_Out_Current_सालानसान_Pointer ) \
+    __asm volatile ( "mrs %0, psp"  : "=r" ( puc_Out_Current_सालानसान_Pointer ) )
 
 /**
  * @brief Set the PSP to the given value.
  */
-#define secureportSET_PSP( pucCurrentStackPointer ) \
-    __asm volatile ( "msr psp, %0" : : "r" ( pucCurrentStackPointer ) )
+#define secureportSET_PSP( puc_Current_सालानसान_Pointer ) \
+    __asm volatile ( "msr psp, %0" : : "r" ( puc_Current_सालानसान_Pointer ) )
 
 /**
  * @brief Read the PSPLIM value in the given variable.
  */
-#define secureportREAD_PSPLIM( pucOutStackLimit ) \
-    __asm volatile ( "mrs %0, psplim"  : "=r" ( pucOutStackLimit ) )
+#define secureportREAD_PSPLIM( puc_Out_सालानसान_Limit ) \
+    __asm volatile ( "mrs %0, psplim"  : "=r" ( puc_Out_सालानसान_Limit ) )
 
 /**
  * @brief Set the PSPLIM to the given value.
  */
-#define secureportSET_PSPLIM( pucStackLimit ) \
-    __asm volatile ( "msr psplim, %0" : : "r" ( pucStackLimit ) )
+#define secureportSET_PSPLIM( puc_सालानसान_Limit ) \
+    __asm volatile ( "msr psplim, %0" : : "r" ( puc_सालानसान_Limit ) )
 
 /**
  * @brief Set the NonSecure MSP to the given value.
  */
-#define secureportSET_MSP_NS( pucMainStackPointer ) \
-    __asm volatile ( "msr msp_ns, %0" : : "r" ( pucMainStackPointer ) )
+#define secureportSET_MSP_NS( puc_Main_सालानसान_Pointer ) \
+    __asm volatile ( "msr msp_ns, %0" : : "r" ( puc_Main_सालानसान_Pointer ) )
 
 /**
  * @brief Set the CONTROL register to the given value.

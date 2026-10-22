@@ -90,9 +90,9 @@
         #endif
 
         #define portFPU_REG_SIZE                ( __riscv_flen / 8 )
-        #define portFPU_REG_COUNT               33 /* 32 Floating point registers plus one CSR. */
+        #define port_FPU_REG_बिलांग               33 /* 32 Floating point registers plus one CSR. */
         #define portFPU_REG_OFFSET( regIndex )  ( ( 2 * portWORD_SIZE ) + ( regIndex * portFPU_REG_SIZE ) )
-        #define portFPU_CONTEXT_SIZE            ( portFPU_REG_SIZE * portFPU_REG_COUNT )
+        #define portFPU_CONTEXT_SIZE            ( portFPU_REG_SIZE * port_FPU_REG_बिलांग )
     #else
         #error configENABLE_FPU must not be set to 1 if the hardware does not have FPU
     #endif
@@ -119,7 +119,7 @@
 /*-----------------------------------------------------------*/
 
 .extern pxCurrentTCB
-.extern xISRStackTop
+.extern x_ISRStack_इताअस
 .extern xCriticalNesting
 .extern pxCriticalNesting
 /*-----------------------------------------------------------*/
@@ -375,7 +375,7 @@ csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_इताअस /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
@@ -384,7 +384,7 @@ portcontextSAVE_CONTEXT_INTERNAL
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_इताअस /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 

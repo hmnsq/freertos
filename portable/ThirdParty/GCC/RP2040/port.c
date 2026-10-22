@@ -49,13 +49,13 @@
 /* Constants required to manipulate the NVIC. */
 #define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
 #define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
+#define port_NVIC_SYSTICK_CURRENT_हालागा_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
 #define portNVIC_INT_CTRL_REG                 ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
 #define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
 #define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
 #define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
+#define port_NVIC_SYSTICK_बिलांग_FLAG_BIT       ( 1UL << 16UL )
 #define portNVIC_PENDSVSET_BIT                ( 1UL << 28UL )
 #define portMIN_INTERRUPT_PRIORITY            ( 255UL )
 #define portNVIC_PENDSV_PRI                   ( portMIN_INTERRUPT_PRIORITY << 16UL )
@@ -65,7 +65,7 @@
 #define portINITIAL_XPSR                      ( 0x01000000 )
 
 /* The systick is a 24-bit counter. */
-#define portMAX_24_BIT_NUMBER                 ( 0xffffffUL )
+#define port_MAX_24_BIT_नुमेरो                 ( 0xffffffUL )
 
 /* A fiddle factor to estimate the number of SysTick counts that would have
  * occurred while the SysTick counter is stopped during tickless idle
@@ -112,15 +112,15 @@ static void prvTaskExitError( void );
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. This is initialized to 0 to allow vPortEnter/ExitCritical
  * to be called before the scheduler is started */
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
     static UBaseType_t uxCriticalNesting;
 #else /* #if ( configNUMBER_OF_CORES == 1 ) */
-UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
+UBaseType_t uxCriticalNestings[ config_नुमेरो_OF_CORES ] = { 0 };
 #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( configSUPPORT_PICO_SYNC_INTEROP == 1 || configNUMBER_OF_CORES > 1 )
+#if ( configSUPPORT_PICO_SYNC_INTEROP == 1 || config_नुमेरो_OF_CORES > 1 )
     #include "hardware/irq.h"
 #endif /* ( configSUPPORT_PICO_SYNC_INTEROP == 1 || configNUMBER_OF_CORES > 1 ) */
 #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
@@ -131,7 +131,7 @@ UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
         #define pEventGroup    ( &xStaticEventGroup )
     #endif /* configSUPPORT_STATIC_ALLOCATION */
     static EventGroupHandle_t xEventGroup;
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
         static EventBits_t uxCrossCoreEventBits;
         static spin_lock_t * pxCrossCoreSpinLock; /* protects uxCrossCoreEventBits */
     #endif
@@ -162,37 +162,37 @@ UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
 
 /*-----------------------------------------------------------*/
 
-#define INVALID_PRIMARY_CORE_NUM    0xffu
+#define INVALID_PRIMARY_CORE_नुमेरो    0xffu
 /* The primary core number (the own which has the SysTick handler) */
-static uint8_t ucPrimaryCoreNum = INVALID_PRIMARY_CORE_NUM;
+static uint8_t uc_Primary_Core_नुमेरो = INVALID_PRIMARY_CORE_नुमेरो;
 
 /* Note: portIS_FREE_RTOS_CORE() also returns false until the scheduler is started */
-#if ( configNUMBER_OF_CORES != 1 )
-    #define portIS_FREE_RTOS_CORE()    ( ucPrimaryCoreNum != INVALID_PRIMARY_CORE_NUM )
+#if ( config_नुमेरो_OF_CORES != 1 )
+    #define portIS_FREE_RTOS_CORE()    ( uc_Primary_Core_नुमेरो != INVALID_PRIMARY_CORE_नुमेरो )
 #else
-    #define portIS_FREE_RTOS_CORE()    ( ucPrimaryCoreNum == get_core_num() )
+    #define portIS_FREE_RTOS_CORE()    ( uc_Primary_Core_नुमेरो == get_core_नुमेरो() )
 #endif
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
-    pxTopOfStack--;                                          /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-    *pxTopOfStack = portINITIAL_XPSR;                        /* xPSR */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;                  /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR */
-    pxTopOfStack -= 5;                                       /* R12, R3, R2 and R1. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0 */
-    pxTopOfStack -= 8;                                       /* R11..R4. */
+    px_इताअस_Of_सालानसान--;                                          /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+    *px_इताअस_Of_सालानसान = portINITIAL_XPSR;                        /* xPSR */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;                  /* PC */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portTASK_RETURN_ADDRESS; /* LR */
+    px_इताअस_Of_सालानसान -= 5;                                       /* R12, R3, R2 and R1. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;            /* R0 */
+    px_इताअस_Of_सालानसान -= 8;                                       /* R11..R4. */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -214,7 +214,7 @@ void vPortSVCHandler( void )
 
 void vPortStartFirstTask( void )
 {
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
         __asm volatile (
             "   .syntax unified             \n"
             "   ldr  r2, pxCurrentTCBConst1 \n" /* Obtain location of pxCurrentTCB. */
@@ -237,7 +237,7 @@ void vPortStartFirstTask( void )
     #else /* if ( configNUMBER_OF_CORES == 1 ) */
         __asm volatile (
             "    .syntax unified                    \n"
-            #if configRESET_STACK_POINTER
+            #if config_RESET_सालानसान_POINTER
                 "   ldr  r0, =0xE000ED08            \n" /* Use the NVIC offset register to locate the stack. */
                 "   ldr r0, [r0]                    \n"
                 "   ldr r0, [r0]                    \n"
@@ -280,7 +280,7 @@ void vPortStartFirstTask( void )
         /* And explicitly clear any other IRQ flags. */
         multicore_fifo_clear_irq();
 
-        #if ( configNUMBER_OF_CORES != 1 )
+        #if ( config_नुमेरो_OF_CORES != 1 )
             portYIELD_FROM_ISR( pdTRUE );
         #elif ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
             BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -294,14 +294,14 @@ void vPortStartFirstTask( void )
     }
 #endif /* if ( LIB_PICO_MULTICORE == 1 ) && ( configSUPPORT_PICO_SYNC_INTEROP == 1 ) */
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
 
 /*
  * See header file for description.
  */
     static BaseType_t xPortStartSchedulerOnCore()
     {
-        if( ucPrimaryCoreNum == get_core_num() )
+        if( uc_Primary_Core_नुमेरो == get_core_नुमेरो() )
         {
             /* Start the timer that generates the tick ISR.  Interrupts are disabled
              * here already. */
@@ -324,7 +324,7 @@ void vPortStartFirstTask( void )
         /* Install FIFO handler to receive interrupt from other core */
         multicore_fifo_clear_irq();
         multicore_fifo_drain();
-        uint32_t ulIRQNum = SIO_IRQ_PROC0 + get_core_num();
+        uint32_t ulIRQNum = SIO_IRQ_PROC0 + get_core_नुमेरो();
         irq_set_priority( ulIRQNum, portMIN_INTERRUPT_PRIORITY );
         irq_set_exclusive_handler( ulIRQNum, prvFIFOInterruptHandler );
         irq_set_enabled( ulIRQNum, 1 );
@@ -356,14 +356,14 @@ void vPortStartFirstTask( void )
  */
     BaseType_t xPortStartScheduler( void )
     {
-        configASSERT( ucPrimaryCoreNum == INVALID_PRIMARY_CORE_NUM );
+        configASSERT( uc_Primary_Core_नुमेरो == INVALID_PRIMARY_CORE_नुमेरो );
 
         /* No one else should use these! */
         spin_lock_claim( configSMP_SPINLOCK_0 );
         spin_lock_claim( configSMP_SPINLOCK_1 );
 
-        ucPrimaryCoreNum = configTICK_CORE;
-        configASSERT( get_core_num() == 0 ); /* we must be started on core 0 */
+        uc_Primary_Core_नुमेरो = configTICK_CORE;
+        configASSERT( get_core_नुमेरो() == 0 ); /* we must be started on core 0 */
         multicore_reset_core1();
         multicore_launch_core1( prvDisableInterruptsAndPortStartSchedulerOnCore );
 
@@ -397,15 +397,15 @@ void vPortStartFirstTask( void )
         /* Initialise the critical nesting count ready for the first task. */
         uxCriticalNesting = 0;
 
-        ucPrimaryCoreNum = get_core_num();
+        uc_Primary_Core_नुमेरो = get_core_नुमेरो();
         #if ( LIB_PICO_MULTICORE == 1 )
             #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
                 multicore_fifo_clear_irq();
                 multicore_fifo_drain();
-                uint32_t irq_num = SIO_IRQ_PROC0 + get_core_num();
-                irq_set_priority( irq_num, portMIN_INTERRUPT_PRIORITY );
-                irq_set_exclusive_handler( irq_num, prvFIFOInterruptHandler );
-                irq_set_enabled( irq_num, 1 );
+                uint32_t irq_नुमेरो = SIO_IRQ_PROC0 + get_core_नुमेरो();
+                irq_set_priority( irq_नुमेरो, portMIN_INTERRUPT_PRIORITY );
+                irq_set_exclusive_handler( irq_नुमेरो, prvFIFOInterruptHandler );
+                irq_set_enabled( irq_नुमेरो, 1 );
             #endif
         #endif
 
@@ -449,7 +449,7 @@ void vPortYield( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
     void vPortEnterCritical( void )
     {
         portDISABLE_INTERRUPTS();
@@ -460,7 +460,7 @@ void vPortYield( void )
 #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
     void vPortExitCritical( void )
     {
         configASSERT( uxCriticalNesting );
@@ -505,7 +505,7 @@ void vYieldCore( int xCoreID )
 
     configASSERT( xCoreID != ( int ) portGET_CORE_ID() );
 
-    #if configNUMBER_OF_CORES != 1
+    #if config_नुमेरो_OF_CORES != 1
 
         /* Non blocking, will cause interrupt on other core if the queue isn't already full,
          * in which case an IRQ must be pending */
@@ -518,7 +518,7 @@ void vYieldCore( int xCoreID )
 void xPortPendSVHandler( void )
 {
     /* This is a naked function. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #if ( config_नुमेरो_OF_CORES == 1 )
         __asm volatile
         (
             "   .syntax unified                     \n"
@@ -725,14 +725,14 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
     #if ( configUSE_TICKLESS_IDLE == 1 )
     {
         ulTimerCountsForOneTick = ( clock_get_hz( clk_sys ) / configTICK_RATE_HZ );
-        xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
+        xMaximumPossibleSuppressedTicks = port_MAX_24_BIT_नुमेरो / ulTimerCountsForOneTick;
         ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR;
     }
     #endif /* configUSE_TICKLESS_IDLE */
 
     /* Stop and reset the SysTick. */
     portNVIC_SYSTICK_CTRL_REG = 0UL;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    port_NVIC_SYSTICK_CURRENT_हालागा_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
     portNVIC_SYSTICK_LOAD_REG = ( clock_get_hz( clk_sys ) / configTICK_RATE_HZ ) - 1UL;
@@ -744,7 +744,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 
     __attribute__( ( weak ) ) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements;
+        uint32_t ul_Reload_हालागा, ulCompleteTickPeriods, ulCompletedSysTickDecrements;
         TickType_t xModifiableIdleTime;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
@@ -762,11 +762,11 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         /* Calculate the reload value required to wait xExpectedIdleTime
          * tick periods.  -1 is used because this code will execute part way
          * through one of the tick periods. */
-        ulReloadValue = portNVIC_SYSTICK_CURRENT_VALUE_REG + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+        ul_Reload_हालागा = port_NVIC_SYSTICK_CURRENT_हालागा_REG + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
 
-        if( ulReloadValue > ulStoppedTimerCompensation )
+        if( ul_Reload_हालागा > ulStoppedTimerCompensation )
         {
-            ulReloadValue -= ulStoppedTimerCompensation;
+            ul_Reload_हालागा -= ulStoppedTimerCompensation;
         }
 
         /* Enter a critical section but don't use the taskENTER_CRITICAL()
@@ -781,7 +781,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         {
             /* Restart from whatever is left in the count register to complete
              * this tick period. */
-            portNVIC_SYSTICK_LOAD_REG = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            portNVIC_SYSTICK_LOAD_REG = port_NVIC_SYSTICK_CURRENT_हालागा_REG;
 
             /* Restart SysTick. */
             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
@@ -797,11 +797,11 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         else
         {
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            portNVIC_SYSTICK_LOAD_REG = ul_Reload_हालागा;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            port_NVIC_SYSTICK_CURRENT_हालागा_REG = 0UL;
 
             /* Restart SysTick. */
             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
@@ -852,25 +852,25 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
              * correct for the entire expected idle time) or if the SysTick is yet
              * to count to zero (in which case an interrupt other than the SysTick
              * must have brought the system out of sleep mode). */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            if( ( portNVIC_SYSTICK_CTRL_REG & port_NVIC_SYSTICK_बिलांग_FLAG_BIT ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_Load_हालागा;
 
                 /* The tick interrupt is already pending, and the SysTick count
                  * reloaded with ulReloadValue.  Reset the
                  * portNVIC_SYSTICK_LOAD_REG with whatever remains of this tick
                  * period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_Load_हालागा = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_हालागा - port_NVIC_SYSTICK_CURRENT_हालागा_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long. */
-                if( ( ulCalculatedLoadValue < ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                if( ( ul_Calculated_Load_हालागा < ulStoppedTimerCompensation ) || ( ul_Calculated_Load_हालागा > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_Load_हालागा = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                portNVIC_SYSTICK_LOAD_REG = ul_Calculated_Load_हालागा;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
@@ -883,7 +883,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
                  * Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - portNVIC_SYSTICK_CURRENT_VALUE_REG;
+                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - port_NVIC_SYSTICK_CURRENT_हालागा_REG;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -897,7 +897,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
             /* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG
              * again, then set portNVIC_SYSTICK_LOAD_REG back to its standard
              * value. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            port_NVIC_SYSTICK_CURRENT_हालागा_REG = 0UL;
             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
             vTaskStepTick( ulCompleteTickPeriods );
             portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
@@ -941,12 +941,12 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
             /* Note: since ROM as at 0x00000000, these can't be confused with
              * valid task handles (pointers) in RAM */
             /* We make all exception handler/core combinations distinct owners */
-            return get_core_num() + exception * 2;
+            return get_core_नुमेरो() + exception * 2;
         }
 
         /* Note: since ROM as at 0x00000000, this can't be confused with
          * valid task handles (pointers) in RAM */
-        return get_core_num();
+        return get_core_नुमेरो();
     }
 
     static inline EventBits_t prvGetEventGroupBit( spin_lock_t * spinLock )
@@ -954,10 +954,10 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         uint32_t ulBit;
 
         #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-            ulBit = 1u << ( spin_lock_get_num( spinLock ) & 0x7u );
+            ulBit = 1u << ( spin_lock_get_नुमेरो( spinLock ) & 0x7u );
         #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
             /* Avoid potential use of SIO divider for % here out of abundance of caution */
-            ulBit = spin_lock_get_num( spinLock );
+            ulBit = spin_lock_get_नुमेरो( spinLock );
             if (ulBit >= 24) ulBit -= 24;
             ulBit = 1u << ulBit;
         #endif /* configTICK_TYPE_WIDTH_IN_BITS */
@@ -1055,7 +1055,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         else
         {
             __sev();
-            #if ( configNUMBER_OF_CORES == 1 )
+            #if ( config_नुमेरो_OF_CORES == 1 )
                 if( pxCrossCoreSpinLock != pxLock->spin_lock )
                 {
                     spin_lock_unsafe_blocking( pxCrossCoreSpinLock );
@@ -1127,8 +1127,8 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         {
             /* This must be done even before the scheduler is started, as the spin lock
              * is used by the overrides of the SDK wait/notify primitives */
-            #if ( configNUMBER_OF_CORES == 1 )
-                pxCrossCoreSpinLock = spin_lock_instance( next_striped_spin_lock_num() );
+            #if ( config_नुमेरो_OF_CORES == 1 )
+                pxCrossCoreSpinLock = spin_lock_instance( next_striped_spin_lock_नुमेरो() );
             #endif /* configNUMBER_OF_CORES == 1 */
 
             /* The event group is not used prior to scheduler init, but is initialized

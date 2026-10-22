@@ -63,38 +63,38 @@
 
 
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int line
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const char * fnName, int line
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, line
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, line
+    #define PORTMUX_AQUIRE_MUX_FN_मगा_कातविरान     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int लिन्या
+    #define PORTMUX_RELEASE_MUX_FN_मगा_कातविरान    portMUX_TYPE * mux, const char * fnName, int लिन्या
+    #define PORTMUX_AQUIRE_MUX_FN_CALL_मगा_कातविरान( x )     x, timeout_cycles, fnName, लिन्या
+    #define PORTMUX_RELEASE_MUX_FN_CALL_मगा_कातविरान( x )    x, fnName, लिन्या
 #else
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
+    #define PORTMUX_AQUIRE_MUX_FN_मगा_कातविरान     portMUX_TYPE * mux, int timeout_cycles
+    #define PORTMUX_RELEASE_MUX_FN_मगा_कातविरान    portMUX_TYPE * mux
+    #define PORTMUX_AQUIRE_MUX_FN_CALL_मगा_कातविरान( x )     x, timeout_cycles
+    #define PORTMUX_RELEASE_MUX_FN_CALL_मगा_कातविरान( x )    x
 #endif
 
 
-static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
+static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_मगा_कातविरान )
 {
     #if defined( CONFIG_SPIRAM_SUPPORT )
         if( esp_ptr_external_ram( mux ) )
         {
-            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_मगा_कातविरान( mux ) );
         }
     #endif
-    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_मगा_कातविरान( mux ) );
 }
 
 
-static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
+static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_मगा_कातविरान )
 {
     #if defined( CONFIG_SPIRAM_SUPPORT )
         if( esp_ptr_external_ram( mux ) )
         {
-            vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
+            vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_मगा_कातविरान( mux ) );
             return;
         }
     #endif
-    vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
+    vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_मगा_कातविरान( mux ) );
 }

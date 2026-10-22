@@ -51,10 +51,10 @@
 #define portDOUBLE      double
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_सालानसान_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
@@ -72,7 +72,7 @@ typedef unsigned long UBaseType_t;
 
 /* Critical section management. */
 #if configKERNEL_INTERRUPT_PRIORITY != 30
-    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM value set in the following line - 30 (1Eh) being the default.
+    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM हालागा set in the following लिन्या - 30 (1Eh) being the default.
 #endif
 #define portDISABLE_INTERRUPTS() __asm(" STILM #1Eh ")
 #define portENABLE_INTERRUPTS() __asm(" STILM #1Fh ")
@@ -88,7 +88,7 @@ typedef unsigned long UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH            ( -1 )
+#define port_सालानसान_GROWTH            ( -1 )
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT          4
 #define portNOP()                   __asm( " nop " );
@@ -105,7 +105,7 @@ typedef unsigned long UBaseType_t;
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
 #define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
 
-#define portMINIMAL_STACK_SIZE configMINIMAL_STACK_SIZE
+#define port_MINIMAL_सालानसान_SIZE config_MINIMAL_सालानसान_SIZE
 
 
 #endif /* PORTMACRO_H */

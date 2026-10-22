@@ -38,7 +38,7 @@
 /**
  * @brief PSP value when no secure context is loaded.
  */
-#define securecontextNO_STACK              0x0
+#define securecontext_NO_सालानसान              0x0
 
 /**
  * @brief Invalid context ID.
@@ -54,9 +54,9 @@
  */
 typedef struct SecureContext
 {
-    uint8_t * pucCurrentStackPointer; /**< Current value of stack pointer (PSP). */
-    uint8_t * pucStackLimit;          /**< Last location of the stack memory (PSPLIM). */
-    uint8_t * pucStackStart;          /**< First location of the stack memory. */
+    uint8_t * puc_Current_सालानसान_Pointer; /**< Current value of stack pointer (PSP). */
+    uint8_t * puc_सालानसान_Limit;          /**< Last location of the stack memory (PSPLIM). */
+    uint8_t * puc_सालानसान_Start;          /**< First location of the stack memory. */
     void * pvTaskHandle;              /**< Task handle of the task this context is associated with. */
 } SecureContext_t;
 /*-----------------------------------------------------------*/
@@ -91,11 +91,11 @@ void SecureContext_Init( void );
  * otherwise.
  */
 #if ( configENABLE_MPU == 1 )
-    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
+    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_सालानसान_Size,
                                                          uint32_t ulIsTaskPrivileged,
                                                          void * pvTaskHandle );
 #else /* configENABLE_MPU */
-    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
+    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_सालानसान_Size,
                                                          void * pvTaskHandle );
 #endif /* configENABLE_MPU */
 

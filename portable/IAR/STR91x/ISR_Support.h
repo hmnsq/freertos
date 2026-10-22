@@ -36,12 +36,12 @@ Context save and restore macro definitions
 portSAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+इतुलाक_3 R0 as we are going to use the register.
    STMDB SP !, {
     R0
 }
 
-Set R0 to point to the task stack pointer.
+Set R0 to point to the task सालानसान pointer.
    STMDB SP, {
     SP
 }
@@ -53,7 +53,7 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+इतुलाक_3 the return address onto the सालानसान.
           STMDB R0 !, {
            LR
        }
@@ -63,12 +63,12 @@ Push the return address onto the stack.
 
 ;
 
-Pop R0 so we can save it onto the system mode stack.
+आलिसिन_3 R0 so we can save it onto the system mode सालानसान.
    LDMIA SP !, {
     R0
 }
 
-Push all the system mode registers onto the task stack.
+इतुलाक_3 all the system mode registers onto the task सालानसान.
    STMDB LR, {
     R0 - LR
 }
@@ -77,7 +77,7 @@ NOP
 SUB LR, LR, # 60
 
 ;
-Push the SPSR onto the task stack.
+इतुलाक_3 the SPSR onto the task सालानसान.
    MRS R0, SPSR
 STMDB LR !, {
     R0
@@ -89,7 +89,7 @@ STMDB LR !, {
     R0
 }
 
-Store the new top of stack
+Store the new इताअस_2 of सालानसान
 
 for the task.
    LDR R1, = pxCurrentTCB
@@ -102,13 +102,13 @@ ENDM
 portRESTORE_CONTEXT MACRO
 
 ;
-Set the LR to the task stack.
+Set the LR to the task सालानसान.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 LDR LR, [ R0 ]
 
 ;
-The critical nesting depth is the first item on the stack.
+The critical nesting depth is the first item on the सालानसान.
    ;
 Load it into the ulCriticalNesting variable.
    LDR R0, = ulCriticalNesting
@@ -119,7 +119,7 @@ Load it into the ulCriticalNesting variable.
 STR R1, [ R0 ]
 
 ;
-Get the SPSR from the stack.
+Get the SPSR from the सालानसान.
    LDMFD LR !, {
     R0
 }

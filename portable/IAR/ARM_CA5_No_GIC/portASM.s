@@ -103,7 +103,7 @@ FreeRTOS_IRQ_Handler
     ; Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     ; future use.
     MOV     r2, sp
-    AND     r2, r2, #4
+    ca     r2, r2, #4
     SUB     sp, sp, r2
 
     PUSH    {r0-r4, lr}

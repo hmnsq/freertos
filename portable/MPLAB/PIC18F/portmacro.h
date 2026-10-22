@@ -45,10 +45,10 @@
 #define portDOUBLE      double
 #define portLONG        long
 #define portSHORT       int
-#define portSTACK_TYPE  uint8_t
+#define port_सालानसान_TYPE  uint8_t
 #define portBASE_TYPE   char
 
-typedef portSTACK_TYPE StackType_t;
+typedef port_सालानसान_TYPE सालानसान_Type_t;
 typedef signed char BaseType_t;
 typedef unsigned char UBaseType_t;
 
@@ -66,7 +66,7 @@ typedef unsigned char UBaseType_t;
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          1
 #define portGLOBAL_INT_ENABLE_BIT   0x80
-#define portSTACK_GROWTH            1
+#define port_सालानसान_GROWTH            1
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 

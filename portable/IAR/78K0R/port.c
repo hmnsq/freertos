@@ -82,7 +82,7 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -92,72 +92,72 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     {
         /* Parameters are passed in on the stack, and written using a 32bit value
          * hence a space is left for the second two bytes. */
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* Write in the parameter value. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( uint32_t ) pvParameters;
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* These values are just spacers.  The return address of the function
          * would normally be written here. */
-        *pxTopOfStack = ( StackType_t ) 0xcdcd;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xcdcd;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xcdcd;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xcdcd;
+        px_इताअस_Of_सालानसान--;
 
         /* The start address / PSW value is also written in as a 32bit value,
          * so leave a space for the second two bytes. */
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* An initial value for the AX register. */
-        *pxTopOfStack = ( StackType_t ) 0x1111;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1111;
+        px_इताअस_Of_सालानसान--;
     }
     #else /* if configMEMORY_MODE == 1 */
     {
         /* Task function address is written to the stack first.  As it is
          * written as a 32bit value a space is left on the stack for the second
          * two bytes. */
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
 
         /* The parameter is passed in AX. */
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+        px_इताअस_Of_सालानसान--;
     }
     #endif /* if configMEMORY_MODE == 1 */
 
     /* An initial value for the HL register. */
-    *pxTopOfStack = ( StackType_t ) 0x2222;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x2222;
+    px_इताअस_Of_सालानसान--;
 
     /* CS and ES registers. */
-    *pxTopOfStack = ( StackType_t ) 0x0F00;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0F00;
+    px_इताअस_Of_सालानसान--;
 
     /* Finally the remaining general purpose registers DE and BC */
-    *pxTopOfStack = ( StackType_t ) 0xDEDE;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBCBC;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xDEDE;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xBCBC;
+    px_इताअस_Of_सालानसान--;
 
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portNO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

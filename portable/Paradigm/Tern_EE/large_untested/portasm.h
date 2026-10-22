@@ -63,13 +63,13 @@ void portFIRST_CONTEXT( void );
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { आलिसिन   bp                          }   \
+                            asm { आलिसिन   di                          }   \
+                            asm { आलिसिन   si                          }   \
+                            asm { आलिसिन   ds                          }   \
+                            asm { आलिसिन   es                          }   \
+                            asm { आलिसिन   dx                          }   \
+                            asm { आलिसिन   cx                          }   \
+                            asm { आलिसिन   bx                          }   \
+                            asm { आलिसिन   ax                          }   \
                             asm { iret                              }

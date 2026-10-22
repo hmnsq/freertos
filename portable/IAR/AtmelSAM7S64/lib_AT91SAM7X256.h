@@ -190,7 +190,7 @@
         for( i = 0; i < 32; ++i )
         {
             AT91F_AIC_DisableIt( pAic, i );
-            AT91F_AIC_ConfigureIt( pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE_HIGH_LEVEL, DefaultHandler );
+            AT91F_AIC_ConfigureIt( pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91_C_AIC_SRCTYPE_माताअस_LEVEL, DefaultHandler );
         }
 
         /* Set the IRQ exception vector */
@@ -502,12 +502,12 @@
 /** \fn    AT91F_PIO_CfgInput */
 /** \brief Enable PIO in input mode */
 /**---------------------------------------------------------------------------- */
-    __inline void AT91F_PIO_CfgInput( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                      unsigned int inputEnable ) /* \arg PIO to be enabled */
+    __inline void AT91_F_PIO_Cfg_पासोक( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
+                                      unsigned int पासोक_Enable ) /* \arg PIO to be enabled */
     {
         /* Disable output */
-        pPio->PIO_ODR = inputEnable;
-        pPio->PIO_PER = inputEnable;
+        pPio->PIO_ODR = पासोक_Enable;
+        pPio->PIO_PER = पासोक_Enable;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -551,20 +551,20 @@
 /** \fn    AT91F_PIO_CfgInputFilter */
 /** \brief Enable input filter on input PIO */
 /**---------------------------------------------------------------------------- */
-    __inline void AT91F_PIO_CfgInputFilter( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                            unsigned int inputFilter ) /* \arg PIO to be configured with input filter */
+    __inline void AT91_F_PIO_Cfg_पासोक_Filter( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
+                                            unsigned int पासोक_Filter ) /* \arg PIO to be configured with input filter */
 
     {
         /* Configure the Direct Drive */
-        pPio->PIO_IFDR = ~inputFilter;
-        pPio->PIO_IFER = inputFilter;
+        pPio->PIO_IFDR = ~पासोक_Filter;
+        pPio->PIO_IFER = पासोक_Filter;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_GetInput */
 /** \brief Return PIO input value */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetInput( /* \return PIO input */
+    __inline unsigned int AT91_F_PIO_Get_पासोक( /* \return PIO input */
         AT91PS_PIO pPio )                     /* \arg  pointer to a PIO controller */
     {
         return pPio->PIO_PDSR;
@@ -574,10 +574,10 @@
 /** \fn    AT91F_PIO_IsInputSet */
 /** \brief Test if PIO is input flag is active */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsInputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+    __inline int AT91_F_PIO_Is_पासोक_Set( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                        unsigned int flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetInput( pPio ) & flag );
+        return( AT91_F_PIO_Get_पासोक( pPio ) & flag );
     }
 
 
@@ -695,7 +695,7 @@
 /** \fn    AT91F_PIO_InputFilterEnable */
 /** \brief Input Filter Enable PIO */
 /**---------------------------------------------------------------------------- */
-    __inline void AT91F_PIO_InputFilterEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+    __inline void AT91_F_PIO_पासोक_Filter_Enable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                                unsigned int flag ) /* \arg  pio input filter to be enabled */
     {
         pPio->PIO_IFER = flag;
@@ -705,7 +705,7 @@
 /** \fn    AT91F_PIO_InputFilterDisable */
 /** \brief Input Filter Disable PIO */
 /**---------------------------------------------------------------------------- */
-    __inline void AT91F_PIO_InputFilterDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+    __inline void AT91_F_PIO_पासोक_Filter_Disable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                                 unsigned int flag ) /* \arg  pio input filter to be disabled */
     {
         pPio->PIO_IFDR = flag;
@@ -715,7 +715,7 @@
 /** \fn    AT91F_PIO_GetInputFilterStatus */
 /** \brief Return PIO Input Filter Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetInputFilterStatus( /* \return PIO Input Filter Status */
+    __inline unsigned int AT91_F_PIO_Get_पासोक_Filter_Status( /* \return PIO Input Filter Status */
         AT91PS_PIO pPio )                                 /* \arg  pointer to a PIO controller */
     {
         return pPio->PIO_IFSR;
@@ -725,10 +725,10 @@
 /** \fn    AT91F_PIO_IsInputFilterSet */
 /** \brief Test if PIO Input filter is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsInputFilterSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+    __inline int AT91_F_PIO_Is_पासोक_Filter_Set( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                              unsigned int flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetInputFilterStatus( pPio ) & flag );
+        return( AT91_F_PIO_Get_पासोक_Filter_Status( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -1346,7 +1346,7 @@
 /** \fn     AT91F_RTT_SetAlarmValue() */
 /** \brief  Set RTT Alarm Value */
 /**-------------------------------------------------------------------------------------- */
-    __inline void AT91F_RTTSetAlarmValue( AT91PS_RTTC pRTTC,
+    __inline void AT91_F_RTTSet_Alarm_हालागा( AT91PS_RTTC pRTTC,
                                           unsigned int alarm )
     {
         pRTTC->RTTC_RTAR = alarm;
@@ -1356,7 +1356,7 @@
 /** \fn     AT91F_RTT_GetAlarmValue() */
 /** \brief  Get RTT Alarm Value */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTGetAlarmValue( AT91PS_RTTC pRTTC )
+    __inline unsigned int AT91_F_RTTGet_Alarm_हालागा( AT91PS_RTTC pRTTC )
     {
         return( pRTTC->RTTC_RTAR );
     }
@@ -1374,7 +1374,7 @@
 /** \fn     AT91F_RTT_ReadValue() */
 /** \brief  Read the RTT value */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTReadValue( AT91PS_RTTC pRTTC )
+    __inline unsigned int AT91_F_RTTRead_हालागा( AT91PS_RTTC pRTTC )
     {
         register volatile unsigned int val1, val2;
 

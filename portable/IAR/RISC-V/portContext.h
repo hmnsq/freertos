@@ -59,7 +59,7 @@
 #endif
 
 EXTERN pxCurrentTCB
-EXTERN xISRStackTop
+EXTERN x_ISRStack_इताअस
 EXTERN xCriticalNesting
 EXTERN pxCriticalNesting
 
@@ -118,7 +118,7 @@ csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_इताअस /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 
@@ -127,7 +127,7 @@ portcontextSAVE_CONTEXT_INTERNAL
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_इताअस /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 

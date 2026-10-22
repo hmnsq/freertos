@@ -244,11 +244,11 @@ typedef struct _AT91S_AIC
 #define     AT91C_AIC_PRIOR_LOWEST                 ( ( unsigned int ) 0x0 )      /* (AIC) Lowest priority level */
 #define     AT91C_AIC_PRIOR_HIGHEST                ( ( unsigned int ) 0x7 )      /* (AIC) Highest priority level */
 #define AT91C_AIC_SRCTYPE                          ( ( unsigned int ) 0x3 << 5 ) /* (AIC) Interrupt Source Type */
-#define     AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL       ( ( unsigned int ) 0x0 << 5 ) /* (AIC) Internal Sources Code Label High-level Sensitive */
-#define     AT91C_AIC_SRCTYPE_EXT_LOW_LEVEL        ( ( unsigned int ) 0x0 << 5 ) /* (AIC) External Sources Code Label Low-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_INT_माताअस_LEVEL       ( ( unsigned int ) 0x0 << 5 ) /* (AIC) Internal Sources Code Label High-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_EXT_माबाबा_LEVEL        ( ( unsigned int ) 0x0 << 5 ) /* (AIC) External Sources Code Label Low-level Sensitive */
 #define     AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE    ( ( unsigned int ) 0x1 << 5 ) /* (AIC) Internal Sources Code Label Positive Edge triggered */
 #define     AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE    ( ( unsigned int ) 0x1 << 5 ) /* (AIC) External Sources Code Label Negative Edge triggered */
-#define     AT91C_AIC_SRCTYPE_HIGH_LEVEL           ( ( unsigned int ) 0x2 << 5 ) /* (AIC) Internal Or External Sources Code Label High-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_माताअस_LEVEL           ( ( unsigned int ) 0x2 << 5 ) /* (AIC) Internal Or External Sources Code Label High-level Sensitive */
 #define     AT91C_AIC_SRCTYPE_POSITIVE_EDGE        ( ( unsigned int ) 0x3 << 5 ) /* (AIC) Internal Or External Sources Code Label Positive Edge triggered */
 /* -------- AIC_CISR : (AIC Offset: 0x114) AIC Core Interrupt Status Register -------- */
 #define AT91C_AIC_NFIQ                             ( ( unsigned int ) 0x1 << 0 ) /* (AIC) NFIQ Status */
@@ -508,7 +508,7 @@ typedef struct _AT91S_RSTC
 #define AT91C_RSTC_PROCRST                ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) Processor Reset */
 #define AT91C_RSTC_PERRST                 ( ( unsigned int ) 0x1 << 2 )   /* (RSTC) Peripheral Reset */
 #define AT91C_RSTC_EXTRST                 ( ( unsigned int ) 0x1 << 3 )   /* (RSTC) External Reset */
-#define AT91C_RSTC_KEY                    ( ( unsigned int ) 0xFF << 24 ) /* (RSTC) Password */
+#define AT91_C_RSTC_सुसि                    ( ( unsigned int ) 0xFF << 24 ) /* (RSTC) Password */
 /* -------- RSTC_RSR : (RSTC Offset: 0x4) Reset Status Register -------- */
 #define AT91C_RSTC_URSTS                  ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) User Reset Status */
 #define AT91C_RSTC_BODSTS                 ( ( unsigned int ) 0x1 << 1 )   /* (RSTC) Brownout Detection Status */
@@ -585,7 +585,7 @@ typedef struct _AT91S_WDTC
 
 /* -------- WDTC_WDCR : (WDTC Offset: 0x0) Periodic Interval Image Register -------- */
 #define AT91C_WDTC_WDRSTT       ( ( unsigned int ) 0x1 << 0 )    /* (WDTC) Watchdog Restart */
-#define AT91C_WDTC_KEY          ( ( unsigned int ) 0xFF << 24 )  /* (WDTC) Watchdog KEY Password */
+#define AT91_C_WDTC_सुसि          ( ( unsigned int ) 0xFF << 24 )  /* (WDTC) Watchdog KEY Password */
 /* -------- WDTC_WDMR : (WDTC Offset: 0x4) Watchdog Mode Register -------- */
 #define AT91C_WDTC_WDV          ( ( unsigned int ) 0xFFF << 0 )  /* (WDTC) Watchdog Timer Restart */
 #define AT91C_WDTC_WDFIEN       ( ( unsigned int ) 0x1 << 12 )   /* (WDTC) Watchdog Fault Interrupt Enable */
@@ -663,7 +663,7 @@ typedef struct _AT91S_MC
 #define     AT91C_MC_FCMD_CLR_GP_NVM       ( ( unsigned int ) 0xD )        /* (MC) Clear General Purpose NVM bits. */
 #define     AT91C_MC_FCMD_SET_SECURITY     ( ( unsigned int ) 0xF )        /* (MC) Set Security Bit. */
 #define AT91C_MC_PAGEN                     ( ( unsigned int ) 0x3FF << 8 ) /* (MC) Page Number */
-#define AT91C_MC_KEY                       ( ( unsigned int ) 0xFF << 24 ) /* (MC) Writing Protect Key */
+#define AT91_C_MC_सुसि                       ( ( unsigned int ) 0xFF << 24 ) /* (MC) Writing Protect Key */
 /* -------- MC_FSR : (MC Offset: 0x68) MC Flash Command Register -------- */
 #define AT91C_MC_SECURITY                  ( ( unsigned int ) 0x1 << 4 )   /* (MC) Security Bit Status */
 #define AT91C_MC_GPNVM0                    ( ( unsigned int ) 0x1 << 8 )   /* (MC) Sector 0 Lock Status */
@@ -924,8 +924,8 @@ typedef struct _AT91S_SSC
 #define AT91C_SSC_START                   ( ( unsigned int ) 0xF << 8 )   /* (SSC) Receive/Transmit Start Selection */
 #define     AT91C_SSC_START_CONTINUOUS    ( ( unsigned int ) 0x0 << 8 )   /* (SSC) Continuous, as soon as the receiver is enabled, and immediately after the end of transfer of the previous data. */
 #define     AT91C_SSC_START_TX            ( ( unsigned int ) 0x1 << 8 )   /* (SSC) Transmit/Receive start */
-#define     AT91C_SSC_START_LOW_RF        ( ( unsigned int ) 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
-#define     AT91C_SSC_START_HIGH_RF       ( ( unsigned int ) 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
+#define     AT91_C_SSC_START_माबाबा_RF        ( ( unsigned int ) 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
+#define     AT91_C_SSC_START_माताअस_RF       ( ( unsigned int ) 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
 #define     AT91C_SSC_START_FALL_RF       ( ( unsigned int ) 0x4 << 8 )   /* (SSC) Detection of a falling edge on RF input */
 #define     AT91C_SSC_START_RISE_RF       ( ( unsigned int ) 0x5 << 8 )   /* (SSC) Detection of a rising edge on RF input */
 #define     AT91C_SSC_START_LEVEL_RF      ( ( unsigned int ) 0x6 << 8 )   /* (SSC) Detection of any level change on RF input */
@@ -943,8 +943,8 @@ typedef struct _AT91S_SSC
 #define     AT91C_SSC_FSOS_NONE           ( ( unsigned int ) 0x0 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: None RK pin Input-only */
 #define     AT91C_SSC_FSOS_NEGATIVE       ( ( unsigned int ) 0x1 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Negative Pulse */
 #define     AT91C_SSC_FSOS_POSITIVE       ( ( unsigned int ) 0x2 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Positive Pulse */
-#define     AT91C_SSC_FSOS_LOW            ( ( unsigned int ) 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
-#define     AT91C_SSC_FSOS_HIGH           ( ( unsigned int ) 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
+#define     AT91_C_SSC_FSOS_माबाबा            ( ( unsigned int ) 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
+#define     AT91_C_SSC_FSOS_माताअस           ( ( unsigned int ) 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
 #define     AT91C_SSC_FSOS_TOGGLE         ( ( unsigned int ) 0x5 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Toggling at each start of data transfer */
 #define AT91C_SSC_FSEDGE                  ( ( unsigned int ) 0x1 << 24 )  /* (SSC) Frame Sync Edge Detection */
 /* -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register -------- */
@@ -1089,7 +1089,7 @@ typedef struct _AT91S_PWMC
 /* ***************************************************************************** */
 typedef struct _AT91S_UDP
 {
-    AT91_REG UDP_NUM;        /* Frame Number Register */
+    AT91_REG UDP_नुमेरो;        /* Frame Number Register */
     AT91_REG UDP_GLBSTATE;   /* Global State Register */
     AT91_REG UDP_FADDR;      /* Function Address Register */
     AT91_REG Reserved0[ 1 ]; /* */
@@ -1109,7 +1109,7 @@ typedef struct _AT91S_UDP
 } AT91S_UDP, * AT91PS_UDP;
 
 /* -------- UDP_FRM_NUM : (UDP Offset: 0x0) USB Frame Number Register -------- */
-#define AT91C_UDP_FRM_NUM    ( ( unsigned int ) 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
+#define AT91_C_UDP_FRM_नुमेरो    ( ( unsigned int ) 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
 #define AT91C_UDP_FRM_ERR    ( ( unsigned int ) 0x1 << 16 )  /* (UDP) Frame Error */
 #define AT91C_UDP_FRM_OK     ( ( unsigned int ) 0x1 << 17 )  /* (UDP) Frame OK */
 /* -------- UDP_GLB_STATE : (UDP Offset: 0x4) USB Global State Register -------- */
@@ -2214,7 +2214,7 @@ typedef struct _AT91S_TDES
 /* ========== Register definition for UDP peripheral ========== */
 #define AT91C_UDP_IMR              ( ( AT91_REG * ) 0xFFFB0018 ) /* (UDP) Interrupt Mask Register */
 #define AT91C_UDP_FADDR            ( ( AT91_REG * ) 0xFFFB0008 ) /* (UDP) Function Address Register */
-#define AT91C_UDP_NUM              ( ( AT91_REG * ) 0xFFFB0000 ) /* (UDP) Frame Number Register */
+#define AT91_C_UDP_नुमेरो              ( ( AT91_REG * ) 0xFFFB0000 ) /* (UDP) Frame Number Register */
 #define AT91C_UDP_FDR              ( ( AT91_REG * ) 0xFFFB0050 ) /* (UDP) Endpoint FIFO Data Register */
 #define AT91C_UDP_ISR              ( ( AT91_REG * ) 0xFFFB001C ) /* (UDP) Interrupt Status Register */
 #define AT91C_UDP_CSR              ( ( AT91_REG * ) 0xFFFB0030 ) /* (UDP) Endpoint Control and Status Register */
@@ -2761,16 +2761,16 @@ typedef struct _AT91S_TDES
     -( AIC ) Highest priority level
     AT91C_AIC_SRCTYPE EQU( 0x3 << 5 );
     -( AIC ) Interrupt Source Type
-    AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL EQU( 0x0 << 5 );
-    -( AIC ) Internal Sources Code Label High - level Sensitive
-    AT91C_AIC_SRCTYPE_EXT_LOW_LEVEL EQU( 0x0 << 5 );
-    -( AIC ) External Sources Code Label Low - level Sensitive
+    AT91_C_AIC_SRCTYPE_INT_माताअस_LEVEL EQU( 0x0 << 5 );
+    -( AIC ) Internal Sources Code Label माताअस - level Sensitive
+    AT91_C_AIC_SRCTYPE_EXT_माबाबा_LEVEL EQU( 0x0 << 5 );
+    -( AIC ) External Sources Code Label माबाबा - level Sensitive
     AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE EQU( 0x1 << 5 );
     -( AIC ) Internal Sources Code Label Positive Edge triggered
     AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE EQU( 0x1 << 5 );
     -( AIC ) External Sources Code Label Negative Edge triggered
-    AT91C_AIC_SRCTYPE_HIGH_LEVEL EQU( 0x2 << 5 );
-    -( AIC ) Internal Or External Sources Code Label High - level Sensitive
+    AT91_C_AIC_SRCTYPE_माताअस_LEVEL EQU( 0x2 << 5 );
+    -( AIC ) Internal Or External Sources Code Label माताअस - level Sensitive
     AT91C_AIC_SRCTYPE_POSITIVE_EDGE EQU( 0x3 << 5 );
     -( AIC ) Internal Or External Sources Code Label Positive Edge triggered
 /* - -------- AIC_CISR : (AIC Offset: 0x114) AIC Core Interrupt Status Register -------- */
@@ -2836,9 +2836,9 @@ AT91C_US_CHMODE EQU( 0x3 << 14 );
 AT91C_US_CHMODE_NORMAL EQU( 0x0 << 14 );
 -( DBGU ) Normal Mode: The USART channel operates as an RX / TX USART.
    AT91C_US_CHMODE_AUTO EQU( 0x1 << 14 );
--( DBGU ) Automatic Echo: Receiver Data Input is connected to the TXD pin.
+-( DBGU ) Automatic Echo: Receiver Data पासोक is connected to the TXD pin.
    AT91C_US_CHMODE_LOCAL EQU( 0x2 << 14 );
--( DBGU ) Local Loopback: Transmitter Output Signal is connected to Receiver Input Signal.
+-( DBGU ) Local Loopback: Transmitter Output Signal is connected to Receiver पासोक Signal.
    AT91C_US_CHMODE_REMOTE EQU( 0x3 << 14 );
 -( DBGU ) Remote Loopback: RXD pin is internally connected to TXD pin.
 /* - -------- DBGU_IER : (DBGU Offset: 0x8) Debug Unit Interrupt Enable Register -------- */
@@ -3000,7 +3000,7 @@ AT91C_RSTC_PERRST EQU( 0x1 << 2 );
 -( RSTC ) Peripheral Reset
 AT91C_RSTC_EXTRST EQU( 0x1 << 3 );
 -( RSTC ) External Reset
-AT91C_RSTC_KEY EQU( 0xFF << 24 );
+AT91_C_RSTC_सुसि EQU( 0xFF << 24 );
 -( RSTC ) Password
 /* - -------- RSTC_RSR : (RSTC Offset: 0x4) Reset Status Register -------- */
 AT91C_RSTC_URSTS EQU( 0x1 << 0 );
@@ -3018,7 +3018,7 @@ AT91C_RSTC_RSTTYP_POWERUP EQU( 0x0 << 8 );
    AT91C_RSTC_RSTTYP_SOFTWARE EQU( 0x3 << 8 );
 -( RSTC ) Software Reset.Processor reset required by the software.
    AT91C_RSTC_RSTTYP_USER EQU( 0x4 << 8 );
--( RSTC ) User Reset.NRST pin detected low.
+-( RSTC ) User Reset.NRST pin detected माबाबा_2.
    AT91C_RSTC_RSTTYP_BROWNOUT EQU( 0x5 << 8 );
 -( RSTC ) Brownout Reset occurred.
    AT91C_RSTC_NRSTL EQU( 0x1 << 16 );
@@ -3040,7 +3040,7 @@ AT91C_RSTC_BODIEN EQU( 0x1 << 16 );
 /* - ***************************************************************************** */
 /* - -------- RTTC_RTMR : (RTTC Offset: 0x0) Real-time Mode Register -------- */
 AT91C_RTTC_RTPRES EQU( 0xFFFF << 0 );
--( RTTC ) Real - time Timer Prescaler Value
+-( RTTC ) Real - time Timer Prescaler हालागा_2
 AT91C_RTTC_ALMIEN EQU( 0x1 << 16 );
 -( RTTC ) Alarm Interrupt Enable
 AT91C_RTTC_RTTINCIEN EQU( 0x1 << 17 );
@@ -3049,10 +3049,10 @@ AT91C_RTTC_RTTRST EQU( 0x1 << 18 );
 -( RTTC ) Real Time Timer Restart
 /* - -------- RTTC_RTAR : (RTTC Offset: 0x4) Real-time Alarm Register -------- */
 AT91C_RTTC_ALMV EQU( 0x0 << 0 );
--( RTTC ) Alarm Value
+-( RTTC ) Alarm हालागा_2
 /* - -------- RTTC_RTVR : (RTTC Offset: 0x8) Current Real-time Value Register -------- */
 AT91C_RTTC_CRTV EQU( 0x0 << 0 );
--( RTTC ) Current Real - time Value
+-( RTTC ) Current Real - time हालागा_2
 /* - -------- RTTC_RTSR : (RTTC Offset: 0xc) Real-time Status Register -------- */
 AT91C_RTTC_ALMS EQU( 0x1 << 0 );
 -( RTTC ) Real - time Alarm Status
@@ -3064,7 +3064,7 @@ AT91C_RTTC_RTTINC EQU( 0x1 << 1 );
 /* - ***************************************************************************** */
 /* - -------- PITC_PIMR : (PITC Offset: 0x0) Periodic Interval Mode Register -------- */
 AT91C_PITC_PIV EQU( 0xFFFFF << 0 );
--( PITC ) Periodic Interval Value
+-( PITC ) Periodic Interval हालागा_2
 AT91C_PITC_PITEN EQU( 0x1 << 24 );
 -( PITC ) Periodic Interval Timer Enabled
 AT91C_PITC_PITIEN EQU( 0x1 << 25 );
@@ -3074,7 +3074,7 @@ AT91C_PITC_PITS EQU( 0x1 << 0 );
 -( PITC ) Periodic Interval Timer Status
 /* - -------- PITC_PIVR : (PITC Offset: 0x8) Periodic Interval Value Register -------- */
 AT91C_PITC_CPIV EQU( 0xFFFFF << 0 );
--( PITC ) Current Periodic Interval Value
+-( PITC ) Current Periodic Interval हालागा_2
 AT91C_PITC_PICNT EQU( 0xFFF << 20 );
 -( PITC ) Periodic Interval Counter
 /* - -------- PITC_PIIR : (PITC Offset: 0xc) Periodic Interval Image Register -------- */
@@ -3085,8 +3085,8 @@ AT91C_PITC_PICNT EQU( 0xFFF << 20 );
 /* - -------- WDTC_WDCR : (WDTC Offset: 0x0) Periodic Interval Image Register -------- */
 AT91C_WDTC_WDRSTT EQU( 0x1 << 0 );
 -( WDTC ) Watchdog Restart
-AT91C_WDTC_KEY EQU( 0xFF << 24 );
--( WDTC ) Watchdog KEY Password
+AT91_C_WDTC_सुसि EQU( 0xFF << 24 );
+-( WDTC ) Watchdog सुसि Password
 /* - -------- WDTC_WDMR : (WDTC Offset: 0x4) Watchdog Mode Register -------- */
 AT91C_WDTC_WDV EQU( 0xFFF << 0 );
 -( WDTC ) Watchdog Timer Restart
@@ -3099,7 +3099,7 @@ AT91C_WDTC_WDRPROC EQU( 0x1 << 14 );
 AT91C_WDTC_WDDIS EQU( 0x1 << 15 );
 -( WDTC ) Watchdog Disable
 AT91C_WDTC_WDD EQU( 0xFFF << 16 );
--( WDTC ) Watchdog Delta Value
+-( WDTC ) Watchdog Delta हालागा_2
 AT91C_WDTC_WDDBGHLT EQU( 0x1 << 28 );
 -( WDTC ) Watchdog Debug Halt
 AT91C_WDTC_WDIDLEHLT EQU( 0x1 << 29 );
@@ -3188,7 +3188,7 @@ for Read, 4
 
 for Write operations
 AT91C_MC_FMCN EQU( 0xFF << 16 );
--( MC ) Flash Microsecond Cycle Number
+-( MC ) Flash Microsecond Cycle नुमेरो_2
 /* - -------- MC_FCR : (MC Offset: 0x64) MC Flash Command Register -------- */
 AT91C_MC_FCMD EQU( 0xF << 0 );
 -( MC ) Flash Command
@@ -3209,9 +3209,9 @@ AT91C_MC_FCMD_START_PROG EQU( 0x1 );
    AT91C_MC_FCMD_SET_SECURITY EQU( 0xF );
 -( MC ) Set Security Bit.
    AT91C_MC_PAGEN EQU( 0x3FF << 8 );
--( MC ) Page Number
-AT91C_MC_KEY EQU( 0xFF << 24 );
--( MC ) Writing Protect Key
+-( MC ) Page नुमेरो_2
+AT91_C_MC_सुसि EQU( 0xFF << 24 );
+-( MC ) Writing Protect सुसि_2
 /* - -------- MC_FSR : (MC Offset: 0x68) MC Flash Command Register -------- */
 AT91C_MC_SECURITY EQU( 0x1 << 4 );
 -( MC ) Security Bit Status
@@ -3413,7 +3413,7 @@ AT91C_US_USMODE_ISO7816_0 EQU( 0x4 );
 AT91C_US_USMODE_SWHSH EQU( 0xC );
 -( USART ) Software Handshaking
 AT91C_US_CLKS EQU( 0x3 << 4 );
--( USART ) Clock Selection ( Baud Rate generator Input Clock
+-( USART ) Clock Selection ( Baud Rate generator पासोक Clock
                              AT91C_US_CLKS_CLOCK EQU( 0x0 << 4 );
                              -( USART ) Clock
                              AT91C_US_CLKS_FDIV1 EQU( 0x1 << 4 );
@@ -3423,7 +3423,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                              AT91C_US_CLKS_EXT EQU( 0x3 << 4 );
                              -( USART ) External( SCK )
                              AT91C_US_CHRL EQU( 0x3 << 6 );
-                             -( USART ) Clock Selection ( Baud Rate generator Input Clock
+                             -( USART ) Clock Selection ( Baud Rate generator पासोक Clock
                                                           AT91C_US_CHRL_5_BITS EQU( 0x0 << 6 );
                                                           -( USART ) Character Length : 5 bits
                                                           AT91C_US_CHRL_6_BITS EQU( 0x1 << 6 );
@@ -3435,7 +3435,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_US_SYNC EQU( 0x1 << 8 );
                                                           -( USART ) Synchronous Mode Select
                                                           AT91C_US_NBSTOP EQU( 0x3 << 12 );
-                                                          -( USART ) Number of Stop bits
+                                                          -( USART ) नुमेरो_2 of Stop bits
                                                           AT91C_US_NBSTOP_1_BIT EQU( 0x0 << 12 );
                                                           -( USART ) 1 stop bit
                                                           AT91C_US_NBSTOP_15_BIT EQU( 0x1 << 12 );
@@ -3455,37 +3455,37 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_US_DSNACK EQU( 0x1 << 21 );
                                                           -( USART ) Disable Successive NACK
                                                           AT91C_US_MAX_ITER EQU( 0x1 << 24 );
-                                                          -( USART ) Number of Repetitions
+                                                          -( USART ) नुमेरो_2 of Repetitions
                                                           AT91C_US_FILTER EQU( 0x1 << 28 );
-                                                          -( USART ) Receive Line Filter
+                                                          -( USART ) Receive लिन्या_2 Filter
 /* - -------- US_IER : (USART Offset: 0x8) Debug Unit Interrupt Enable Register -------- */
                                                           AT91C_US_RXBRK EQU( 0x1 << 2 );
                                                           -( USART ) Break Received / End of Break
                                                           AT91C_US_TIMEOUT EQU( 0x1 << 8 );
                                                           -( USART ) Receiver Time - out
                                                           AT91C_US_ITERATION EQU( 0x1 << 10 );
-                                                          -( USART ) Max number of Repetitions Reached
+                                                          -( USART ) Max नुमेरो of Repetitions Reached
                                                           AT91C_US_NACK EQU( 0x1 << 13 );
                                                           -( USART ) Non Acknowledge
                                                           AT91C_US_RIIC EQU( 0x1 << 16 );
-                                                          -( USART ) Ring INdicator Input Change Flag
+                                                          -( USART ) Ring INdicator पासोक Change Flag
                                                           AT91C_US_DSRIC EQU( 0x1 << 17 );
-                                                          -( USART ) Data Set Ready Input Change Flag
+                                                          -( USART ) Data Set Ready पासोक Change Flag
                                                           AT91C_US_DCDIC EQU( 0x1 << 18 );
                                                           -( USART ) Data Carrier Flag
                                                           AT91C_US_CTSIC EQU( 0x1 << 19 );
-                                                          -( USART ) Clear To Send Input Change Flag
+                                                          -( USART ) Clear To Send पासोक Change Flag
 /* - -------- US_IDR : (USART Offset: 0xc) Debug Unit Interrupt Disable Register -------- */
 /* - -------- US_IMR : (USART Offset: 0x10) Debug Unit Interrupt Mask Register -------- */
 /* - -------- US_CSR : (USART Offset: 0x14) Debug Unit Channel Status Register -------- */
                                                           AT91C_US_RI EQU( 0x1 << 20 );
-                                                          -( USART ) Image of RI Input
+                                                          -( USART ) Image of RI पासोक
                                                           AT91C_US_DSR EQU( 0x1 << 21 );
-                                                          -( USART ) Image of DSR Input
+                                                          -( USART ) Image of DSR पासोक
                                                           AT91C_US_DCD EQU( 0x1 << 22 );
-                                                          -( USART ) Image of DCD Input
+                                                          -( USART ) Image of DCD पासोक
                                                           AT91C_US_CTS EQU( 0x1 << 23 );
-                                                          -( USART ) Image of CTS Input
+                                                          -( USART ) Image of CTS पासोक
 
 /* - ***************************************************************************** */
 /* -              SOFTWARE API DEFINITION  FOR Synchronous Serial Controller Interface */
@@ -3513,7 +3513,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_SSC_CKO EQU( 0x7 << 2 );
                                                           -( SSC ) Receive / Transmit Clock Output Mode Selection
                                                           AT91C_SSC_CKO_NONE EQU( 0x0 << 2 );
-                                                          -( SSC ) Receive / Transmit Clock Output Mode:None RK pin: Input - only
+                                                          -( SSC ) Receive / Transmit Clock Output Mode:None RK pin: पासोक - only
                                                           AT91C_SSC_CKO_CONTINUOUS EQU( 0x1 << 2 );
                                                           -( SSC ) Continuous Receive / Transmit Clock RK pin:Output
                                                           AT91C_SSC_CKO_DATA_TX EQU( 0x2 << 2 );
@@ -3526,18 +3526,18 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           -( SSC ) Continuous, as soon as the receiver is enabled, and immediately after the end of transfer of the previous data.
                                                              AT91C_SSC_START_TX EQU( 0x1 << 8 );
                                                           -( SSC ) Transmit / Receive start
-                                                          AT91C_SSC_START_LOW_RF EQU( 0x2 << 8 );
-                                                          -( SSC ) Detection of a low level on RF input
-                                                          AT91C_SSC_START_HIGH_RF EQU( 0x3 << 8 );
-                                                          -( SSC ) Detection of a high level on RF input
+                                                          AT91_C_SSC_START_माबाबा_RF EQU( 0x2 << 8 );
+                                                          -( SSC ) Detection of a माबाबा_2 level on RF पासोक_2
+                                                          AT91_C_SSC_START_माताअस_RF EQU( 0x3 << 8 );
+                                                          -( SSC ) Detection of a माताअस_2 level on RF पासोक_2
                                                           AT91C_SSC_START_FALL_RF EQU( 0x4 << 8 );
-                                                          -( SSC ) Detection of a falling edge on RF input
+                                                          -( SSC ) Detection of a falling edge on RF पासोक_2
                                                           AT91C_SSC_START_RISE_RF EQU( 0x5 << 8 );
-                                                          -( SSC ) Detection of a rising edge on RF input
+                                                          -( SSC ) Detection of a rising edge on RF पासोक_2
                                                           AT91C_SSC_START_LEVEL_RF EQU( 0x6 << 8 );
-                                                          -( SSC ) Detection of any level change on RF input
+                                                          -( SSC ) Detection of any level change on RF पासोक_2
                                                           AT91C_SSC_START_EDGE_RF EQU( 0x7 << 8 );
-                                                          -( SSC ) Detection of any edge on RF input
+                                                          -( SSC ) Detection of any edge on RF पासोक_2
                                                           AT91C_SSC_START_0 EQU( 0x8 << 8 );
                                                           -( SSC ) Compare 0
                                                           AT91C_SSC_STTDLY EQU( 0xFF << 16 );
@@ -3552,21 +3552,21 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_SSC_MSBF EQU( 0x1 << 7 );
                                                           -( SSC ) Most Significant Bit First
                                                           AT91C_SSC_DATNB EQU( 0xF << 8 );
-                                                          -( SSC ) Data Number per Frame
+                                                          -( SSC ) Data नुमेरो_2 per Frame
                                                           AT91C_SSC_FSLEN EQU( 0xF << 16 );
                                                           -( SSC ) Receive / Transmit Frame Sync length
                                                           AT91C_SSC_FSOS EQU( 0x7 << 20 );
                                                           -( SSC ) Receive / Transmit Frame Sync Output Selection
                                                           AT91C_SSC_FSOS_NONE EQU( 0x0 << 20 );
-                                                          -( SSC ) Selected Receive / Transmit Frame Sync Signal:None RK pin Input - only
+                                                          -( SSC ) Selected Receive / Transmit Frame Sync Signal:None RK pin पासोक - only
                                                           AT91C_SSC_FSOS_NEGATIVE EQU( 0x1 << 20 );
                                                           -( SSC ) Selected Receive / Transmit Frame Sync Signal:Negative Pulse
                                                           AT91C_SSC_FSOS_POSITIVE EQU( 0x2 << 20 );
                                                           -( SSC ) Selected Receive / Transmit Frame Sync Signal:Positive Pulse
-                                                          AT91C_SSC_FSOS_LOW EQU( 0x3 << 20 );
-                                                          -( SSC ) Selected Receive / Transmit Frame Sync Signal:Driver Low during data transfer
-                                                          AT91C_SSC_FSOS_HIGH EQU( 0x4 << 20 );
-                                                          -( SSC ) Selected Receive / Transmit Frame Sync Signal:Driver High during data transfer
+                                                          AT91_C_SSC_FSOS_माबाबा EQU( 0x3 << 20 );
+                                                          -( SSC ) Selected Receive / Transmit Frame Sync Signal:Driver माबाबा during data transfer
+                                                          AT91_C_SSC_FSOS_माताअस EQU( 0x4 << 20 );
+                                                          -( SSC ) Selected Receive / Transmit Frame Sync Signal:Driver माताअस during data transfer
                                                           AT91C_SSC_FSOS_TOGGLE EQU( 0x5 << 20 );
                                                           -( SSC ) Selected Receive / Transmit Frame Sync Signal:Toggling at each start of data transfer
                                                           AT91C_SSC_FSEDGE EQU( 0x1 << 24 );
@@ -3574,7 +3574,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
 /* - -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register -------- */
 /* - -------- SSC_TFMR : (SSC Offset: 0x1c) SSC Transmit Frame Mode Register -------- */
                                                           AT91C_SSC_DATDEF EQU( 0x1 << 5 );
-                                                          -( SSC ) Data Default Value
+                                                          -( SSC ) Data Default हालागा_2
                                                           AT91C_SSC_FSDEN EQU( 0x1 << 23 );
                                                           -( SSC ) Frame Sync Data Enable
 /* - -------- SSC_SR : (SSC Offset: 0x40) SSC Status Register -------- */
@@ -3637,9 +3637,9 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           -( TWI ) Device Address
 /* - -------- TWI_CWGR : (TWI Offset: 0x10) TWI Clock Waveform Generator Register -------- */
                                                           AT91C_TWI_CLDIV EQU( 0xFF << 0 );
-                                                          -( TWI ) Clock Low Divider
+                                                          -( TWI ) Clock माबाबा Divider
                                                           AT91C_TWI_CHDIV EQU( 0xFF << 8 );
-                                                          -( TWI ) Clock High Divider
+                                                          -( TWI ) Clock माताअस Divider
                                                           AT91C_TWI_CKDIV EQU( 0x7 << 16 );
                                                           -( TWI ) Clock Divider
 /* - -------- TWI_SR : (TWI Offset: 0x20) TWI Status Register -------- */
@@ -3697,13 +3697,13 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PWMC_DIVA EQU( 0xFF << 0 );
                                                           -( PWMC ) CLKA divide factor.
                                                              AT91C_PWMC_PREA EQU( 0xF << 8 );
-                                                          -( PWMC ) Divider Input Clock Prescaler A
+                                                          -( PWMC ) Divider पासोक Clock Prescaler A
                                                           AT91C_PWMC_PREA_MCK EQU( 0x0 << 8 );
                                                           -( PWMC )
                                                           AT91C_PWMC_DIVB EQU( 0xFF << 16 );
                                                           -( PWMC ) CLKB divide factor.
                                                              AT91C_PWMC_PREB EQU( 0xF << 24 );
-                                                          -( PWMC ) Divider Input Clock Prescaler B
+                                                          -( PWMC ) Divider पासोक Clock Prescaler B
                                                           AT91C_PWMC_PREB_MCK EQU( 0x0 << 24 );
                                                           -( PWMC )
 /* - -------- PWMC_ENA : (PWMC Offset: 0x4) PWMC Enable Register -------- */
@@ -3726,8 +3726,8 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
 /* -              SOFTWARE API DEFINITION  FOR USB Device Interface */
 /* - ***************************************************************************** */
 /* - -------- UDP_FRM_NUM : (UDP Offset: 0x0) USB Frame Number Register -------- */
-                                                          AT91C_UDP_FRM_NUM EQU( 0x7FF << 0 );
-                                                          -( UDP ) Frame Number as Defined in the Packet Field Formats
+                                                          AT91_C_UDP_FRM_नुमेरो EQU( 0x7FF << 0 );
+                                                          -( UDP ) Frame नुमेरो_2 as Defined in the Packet Field Formats
                                                           AT91C_UDP_FRM_ERR EQU( 0x1 << 16 );
                                                           -( UDP ) Frame Error
                                                           AT91C_UDP_FRM_OK EQU( 0x1 << 17 );
@@ -3745,7 +3745,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           -( UDP ) Remote Wake Up Enable
 /* - -------- UDP_FADDR : (UDP Offset: 0x8) USB Function Address Register -------- */
                                                           AT91C_UDP_FADD EQU( 0xFF << 0 );
-                                                          -( UDP ) Function Address Value
+                                                          -( UDP ) Function Address हालागा_2
                                                           AT91C_UDP_FEN EQU( 0x1 << 8 );
                                                           -( UDP ) Function Enable
 /* - -------- UDP_IER : (UDP Offset: 0x10) USB Interrupt Enable Register -------- */
@@ -3828,7 +3828,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_UDP_EPEDS EQU( 0x1 << 15 );
                                                           -( UDP ) Endpoint Enable Disable
                                                           AT91C_UDP_RXBYTECNT EQU( 0x7FF << 16 );
-                                                          -( UDP ) Number Of Bytes Available in the FIFO
+                                                          -( UDP ) नुमेरो_2 Of Bytes Available in the FIFO
 /* - -------- UDP_TXVC : (UDP Offset: 0x74) Transceiver Control Register -------- */
                                                           AT91C_UDP_TXVDIS EQU( 0x1 << 8 );
                                                           -( UDP )
@@ -3907,7 +3907,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_TC_EEVT EQU( 0x3 << 10 );
                                                           -( TC ) External Event Selection
                                                           AT91C_TC_EEVT_TIOB EQU( 0x0 << 10 );
-                                                          -( TC ) Signal selected as external event:TIOB TIOB direction: input
+                                                          -( TC ) Signal selected as external event:TIOB TIOB direction: पासोक_2
                                                           AT91C_TC_EEVT_XC0 EQU( 0x1 << 10 );
                                                           -( TC ) Signal selected as external event:XC0 TIOB direction: output
                                                           AT91C_TC_EEVT_XC1 EQU( 0x2 << 10 );
@@ -4134,7 +4134,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
 /* - -------- CAN_MFID : (CAN_MB Offset: 0xc) CAN Message Family ID Register -------- */
 /* - -------- CAN_MSR : (CAN_MB Offset: 0x10) CAN Message Status Register -------- */
                                                           AT91C_CAN_MTIMESTAMP EQU( 0xFFFF << 0 );
-                                                          -( CAN_MB ) Timer Value
+                                                          -( CAN_MB ) Timer हालागा_2
                                                           AT91C_CAN_MDLC EQU( 0xF << 16 );
                                                           -( CAN_MB ) Mailbox Data Length Code
                                                           AT91C_CAN_MRTR EQU( 0x1 << 20 );
@@ -4162,7 +4162,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_CANEN EQU( 0x1 << 0 );
                                                           -( CAN ) CAN Controller Enable
                                                           AT91C_CAN_LPM EQU( 0x1 << 1 );
-                                                          -( CAN ) Disable / Enable Low Power Mode
+                                                          -( CAN ) Disable / Enable माबाबा Power Mode
                                                           AT91C_CAN_ABM EQU( 0x1 << 2 );
                                                           -( CAN ) Disable / Enable Autobaud / Listen Mode
                                                           AT91C_CAN_OVL EQU( 0x1 << 3 );
@@ -4275,7 +4275,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
 /* - ***************************************************************************** */
 /* - -------- EMAC_NCR : (EMAC Offset: 0x0)  -------- */
                                                           AT91C_EMAC_LB EQU( 0x1 << 0 );
-                                                          -( EMAC ) Loopback.Optional.When set, loopback signal is at high level.
+                                                          -( EMAC ) Loopback.Optional.When set, loopback signal is at माताअस_2 level.
                                                              AT91C_EMAC_LLB EQU( 0x1 << 1 );
                                                           -( EMAC ) Loopback local.
                                                              AT91C_EMAC_RE EQU( 0x1 << 2 );
@@ -4578,7 +4578,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_AES_SWRST EQU( 0x1 << 8 );
                                                           -( AES ) Software Reset
                                                           AT91C_AES_LOADSEED EQU( 0x1 << 16 );
-                                                          -( AES ) Random Number Generator Seed Loading
+                                                          -( AES ) Random नुमेरो_2 Generator Seed Loading
 /* - -------- AES_MR : (AES Offset: 0x4) Mode Register -------- */
                                                           AT91C_AES_CIPHER EQU( 0x1 << 0 );
                                                           -( AES ) Processing Mode
@@ -4619,7 +4619,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                              AT91C_AES_CFBS_8_BIT EQU( 0x4 << 16 );
                                                           -( AES ) 8 - bit.
                                                              AT91C_AES_CKEY EQU( 0xF << 20 );
-                                                          -( AES ) Countermeasure Key
+                                                          -( AES ) Countermeasure सुसि_2
                                                           AT91C_AES_CTYPE EQU( 0x1F << 24 );
                                                           -( AES ) Countermeasure Type
                                                           AT91C_AES_CTYPE_TYPE1_EN EQU( 0x1 << 24 );
@@ -4651,15 +4651,15 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_AES_URAT EQU( 0x7 << 12 );
                                                           -( AES ) Unspecified Register Access Type Status
                                                           AT91C_AES_URAT_IN_DAT_WRITE_DATPROC EQU( 0x0 << 12 );
-                                                          -( AES ) Input data register written during the data processing in PDC mode.
+                                                          -( AES ) पासोक data register written during the data processing in PDC mode.
                                                              AT91C_AES_URAT_OUT_DAT_READ_DATPROC EQU( 0x1 << 12 );
                                                           -( AES ) Output data register read during the data processing.
                                                              AT91C_AES_URAT_MODEREG_WRITE_DATPROC EQU( 0x2 << 12 );
                                                           -( AES ) Mode register written during the data processing.
                                                              AT91C_AES_URAT_OUT_DAT_READ_SUBKEY EQU( 0x3 << 12 );
-                                                          -( AES ) Output data register read during the sub - keys generation.
+                                                          -( AES ) Output data register read during the sub - मगा_सुसि generation.
                                                              AT91C_AES_URAT_MODEREG_WRITE_SUBKEY EQU( 0x4 << 12 );
-                                                          -( AES ) Mode register written during the sub - keys generation.
+                                                          -( AES ) Mode register written during the sub - मगा_सुसि generation.
                                                              AT91C_AES_URAT_WO_REG_READ EQU( 0x5 << 12 );
                                                           -( AES ) Write - only register read access.
 
@@ -4677,7 +4677,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_TDES_TDESMOD EQU( 0x1 << 1 );
                                                           -( TDES ) Single or Triple DES Mode
                                                           AT91C_TDES_KEYMOD EQU( 0x1 << 4 );
-                                                          -( TDES ) Key Mode
+                                                          -( TDES ) सुसि_2 Mode
                                                           AT91C_TDES_SMOD EQU( 0x3 << 8 );
                                                           -( TDES ) Start Mode
                                                           AT91C_TDES_SMOD_MANUAL EQU( 0x0 << 8 );
@@ -4727,7 +4727,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_TDES_URAT EQU( 0x3 << 12 );
                                                           -( TDES ) Unspecified Register Access Type Status
                                                           AT91C_TDES_URAT_IN_DAT_WRITE_DATPROC EQU( 0x0 << 12 );
-                                                          -( TDES ) Input data register written during the data processing in PDC mode.
+                                                          -( TDES ) पासोक data register written during the data processing in PDC mode.
                                                              AT91C_TDES_URAT_OUT_DAT_READ_DATPROC EQU( 0x1 << 12 );
                                                           -( TDES ) Output data register read during the data processing.
                                                              AT91C_TDES_URAT_MODEREG_WRITE_DATPROC EQU( 0x2 << 12 );
@@ -4840,7 +4840,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIOA_PER EQU( 0xFFFFF400 );
                                                           -( PIOA ) PIO Enable Register
                                                           AT91C_PIOA_IFDR EQU( 0xFFFFF424 );
-                                                          -( PIOA ) Input Filter Disable Register
+                                                          -( PIOA ) पासोक Filter Disable Register
                                                           AT91C_PIOA_OWDR EQU( 0xFFFFF4A4 );
                                                           -( PIOA ) Output Write Disable Register
                                                           AT91C_PIOA_MDSR EQU( 0xFFFFF458 );
@@ -4858,7 +4858,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIOA_OWER EQU( 0xFFFFF4A0 );
                                                           -( PIOA ) Output Write Enable Register
                                                           AT91C_PIOA_IFER EQU( 0xFFFFF420 );
-                                                          -( PIOA ) Input Filter Enable Register
+                                                          -( PIOA ) पासोक Filter Enable Register
                                                           AT91C_PIOA_PDSR EQU( 0xFFFFF43C );
                                                           -( PIOA ) Pin Data Status Register
                                                           AT91C_PIOA_PPUER EQU( 0xFFFFF464 );
@@ -4876,7 +4876,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIOA_PDR EQU( 0xFFFFF404 );
                                                           -( PIOA ) PIO Disable Register
                                                           AT91C_PIOA_IFSR EQU( 0xFFFFF428 );
-                                                          -( PIOA ) Input Filter Status Register
+                                                          -( PIOA ) पासोक Filter Status Register
                                                           AT91C_PIOA_OER EQU( 0xFFFFF410 );
                                                           -( PIOA ) Output Enable Register
                                                           AT91C_PIOA_PSR EQU( 0xFFFFF408 );
@@ -4905,7 +4905,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIOB_ABSR EQU( 0xFFFFF678 );
                                                           -( PIOB ) AB Select Status Register
                                                           AT91C_PIOB_IFDR EQU( 0xFFFFF624 );
-                                                          -( PIOB ) Input Filter Disable Register
+                                                          -( PIOB ) पासोक Filter Disable Register
                                                           AT91C_PIOB_PDSR EQU( 0xFFFFF63C );
                                                           -( PIOB ) Pin Data Status Register
                                                           AT91C_PIOB_IDR EQU( 0xFFFFF644 );
@@ -4917,7 +4917,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIOB_ODR EQU( 0xFFFFF614 );
                                                           -( PIOB ) Output Disable Registerr
                                                           AT91C_PIOB_IFSR EQU( 0xFFFFF628 );
-                                                          -( PIOB ) Input Filter Status Register
+                                                          -( PIOB ) पासोक Filter Status Register
                                                           AT91C_PIOB_PPUER EQU( 0xFFFFF664 );
                                                           -( PIOB ) Pull - up Enable Register
                                                           AT91C_PIOB_SODR EQU( 0xFFFFF630 );
@@ -4931,7 +4931,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIOB_MDSR EQU( 0xFFFFF658 );
                                                           -( PIOB ) Multi - driver Status Register
                                                           AT91C_PIOB_IFER EQU( 0xFFFFF620 );
-                                                          -( PIOB ) Input Filter Enable Register
+                                                          -( PIOB ) पासोक Filter Enable Register
                                                           AT91C_PIOB_BSR EQU( 0xFFFFF674 );
                                                           -( PIOB ) Select B Register
                                                           AT91C_PIOB_MDDR EQU( 0xFFFFF654 );
@@ -4991,12 +4991,12 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_RTTC_RTMR EQU( 0xFFFFFD20 );
                                                           -( RTTC ) Real - time Mode Register
                                                           AT91C_RTTC_RTVR EQU( 0xFFFFFD28 );
-                                                          -( RTTC ) Real - time Value Register
+                                                          -( RTTC ) Real - time हालागा_2 Register
                                                           AT91C_RTTC_RTAR EQU( 0xFFFFFD24 );
                                                           -( RTTC ) Real - time Alarm Register
 /* - ========== Register definition for PITC peripheral ========== */
                                                           AT91C_PITC_PIVR EQU( 0xFFFFFD38 );
-                                                          -( PITC ) Period Interval Value Register
+                                                          -( PITC ) Period Interval हालागा_2 Register
                                                           AT91C_PITC_PISR EQU( 0xFFFFFD34 );
                                                           -( PITC ) Period Interval Status Register
                                                           AT91C_PITC_PIIR EQU( 0xFFFFFD3C );
@@ -5353,8 +5353,8 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           -( UDP ) Interrupt Mask Register
                                                           AT91C_UDP_FADDR EQU( 0xFFFB0008 );
                                                           -( UDP ) Function Address Register
-                                                          AT91C_UDP_NUM EQU( 0xFFFB0000 );
-                                                          -( UDP ) Frame Number Register
+                                                          AT91_C_UDP_नुमेरो EQU( 0xFFFB0000 );
+                                                          -( UDP ) Frame नुमेरो_2 Register
                                                           AT91C_UDP_FDR EQU( 0xFFFB0050 );
                                                           -( UDP ) Endpoint FIFO Data Register
                                                           AT91C_UDP_ISR EQU( 0xFFFB001C );
@@ -5391,7 +5391,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_TC0_IDR EQU( 0xFFFA0028 );
                                                           -( TC0 ) Interrupt Disable Register
                                                           AT91C_TC0_CV EQU( 0xFFFA0010 );
-                                                          -( TC0 ) Counter Value
+                                                          -( TC0 ) Counter हालागा_2
                                                           AT91C_TC0_IMR EQU( 0xFFFA002C );
                                                           -( TC0 ) Interrupt Mask Register
 /* - ========== Register definition for TC1 peripheral ========== */
@@ -5414,14 +5414,14 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_TC1_IMR EQU( 0xFFFA006C );
                                                           -( TC1 ) Interrupt Mask Register
                                                           AT91C_TC1_CV EQU( 0xFFFA0050 );
-                                                          -( TC1 ) Counter Value
+                                                          -( TC1 ) Counter हालागा_2
 /* - ========== Register definition for TC2 peripheral ========== */
                                                           AT91C_TC2_CMR EQU( 0xFFFA0084 );
                                                           -( TC2 ) Channel Mode Register( Capture Mode / Waveform Mode )
                                                           AT91C_TC2_CCR EQU( 0xFFFA0080 );
                                                           -( TC2 ) Channel Control Register
                                                           AT91C_TC2_CV EQU( 0xFFFA0090 );
-                                                          -( TC2 ) Counter Value
+                                                          -( TC2 ) Counter हालागा_2
                                                           AT91C_TC2_RA EQU( 0xFFFA0094 );
                                                           -( TC2 ) Register A
                                                           AT91C_TC2_RB EQU( 0xFFFA0098 );
@@ -5443,7 +5443,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           -( TCB ) TC Block Control Register
 /* - ========== Register definition for CAN_MB0 peripheral ========== */
                                                           AT91C_CAN_MB0_MDL EQU( 0xFFFD0214 );
-                                                          -( CAN_MB0 ) MailBox Data Low Register
+                                                          -( CAN_MB0 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB0_MAM EQU( 0xFFFD0204 );
                                                           -( CAN_MB0 ) MailBox Acceptance Mask Register
                                                           AT91C_CAN_MB0_MCR EQU( 0xFFFD021C );
@@ -5455,12 +5455,12 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB0_MFID EQU( 0xFFFD020C );
                                                           -( CAN_MB0 ) MailBox Family ID Register
                                                           AT91C_CAN_MB0_MDH EQU( 0xFFFD0218 );
-                                                          -( CAN_MB0 ) MailBox Data High Register
+                                                          -( CAN_MB0 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB0_MMR EQU( 0xFFFD0200 );
                                                           -( CAN_MB0 ) MailBox Mode Register
 /* - ========== Register definition for CAN_MB1 peripheral ========== */
                                                           AT91C_CAN_MB1_MDL EQU( 0xFFFD0234 );
-                                                          -( CAN_MB1 ) MailBox Data Low Register
+                                                          -( CAN_MB1 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB1_MID EQU( 0xFFFD0228 );
                                                           -( CAN_MB1 ) MailBox ID Register
                                                           AT91C_CAN_MB1_MMR EQU( 0xFFFD0220 );
@@ -5470,7 +5470,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB1_MAM EQU( 0xFFFD0224 );
                                                           -( CAN_MB1 ) MailBox Acceptance Mask Register
                                                           AT91C_CAN_MB1_MDH EQU( 0xFFFD0238 );
-                                                          -( CAN_MB1 ) MailBox Data High Register
+                                                          -( CAN_MB1 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB1_MCR EQU( 0xFFFD023C );
                                                           -( CAN_MB1 ) MailBox Control Register
                                                           AT91C_CAN_MB1_MFID EQU( 0xFFFD022C );
@@ -5479,11 +5479,11 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB2_MCR EQU( 0xFFFD025C );
                                                           -( CAN_MB2 ) MailBox Control Register
                                                           AT91C_CAN_MB2_MDH EQU( 0xFFFD0258 );
-                                                          -( CAN_MB2 ) MailBox Data High Register
+                                                          -( CAN_MB2 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB2_MID EQU( 0xFFFD0248 );
                                                           -( CAN_MB2 ) MailBox ID Register
                                                           AT91C_CAN_MB2_MDL EQU( 0xFFFD0254 );
-                                                          -( CAN_MB2 ) MailBox Data Low Register
+                                                          -( CAN_MB2 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB2_MMR EQU( 0xFFFD0240 );
                                                           -( CAN_MB2 ) MailBox Mode Register
                                                           AT91C_CAN_MB2_MAM EQU( 0xFFFD0244 );
@@ -5506,16 +5506,16 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB3_MSR EQU( 0xFFFD0270 );
                                                           -( CAN_MB3 ) MailBox Status Register
                                                           AT91C_CAN_MB3_MDL EQU( 0xFFFD0274 );
-                                                          -( CAN_MB3 ) MailBox Data Low Register
+                                                          -( CAN_MB3 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB3_MDH EQU( 0xFFFD0278 );
-                                                          -( CAN_MB3 ) MailBox Data High Register
+                                                          -( CAN_MB3 ) MailBox Data माताअस Register
 /* - ========== Register definition for CAN_MB4 peripheral ========== */
                                                           AT91C_CAN_MB4_MID EQU( 0xFFFD0288 );
                                                           -( CAN_MB4 ) MailBox ID Register
                                                           AT91C_CAN_MB4_MMR EQU( 0xFFFD0280 );
                                                           -( CAN_MB4 ) MailBox Mode Register
                                                           AT91C_CAN_MB4_MDH EQU( 0xFFFD0298 );
-                                                          -( CAN_MB4 ) MailBox Data High Register
+                                                          -( CAN_MB4 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB4_MFID EQU( 0xFFFD028C );
                                                           -( CAN_MB4 ) MailBox Family ID Register
                                                           AT91C_CAN_MB4_MSR EQU( 0xFFFD0290 );
@@ -5523,7 +5523,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB4_MCR EQU( 0xFFFD029C );
                                                           -( CAN_MB4 ) MailBox Control Register
                                                           AT91C_CAN_MB4_MDL EQU( 0xFFFD0294 );
-                                                          -( CAN_MB4 ) MailBox Data Low Register
+                                                          -( CAN_MB4 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB4_MAM EQU( 0xFFFD0284 );
                                                           -( CAN_MB4 ) MailBox Acceptance Mask Register
 /* - ========== Register definition for CAN_MB5 peripheral ========== */
@@ -5534,13 +5534,13 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB5_MFID EQU( 0xFFFD02AC );
                                                           -( CAN_MB5 ) MailBox Family ID Register
                                                           AT91C_CAN_MB5_MDH EQU( 0xFFFD02B8 );
-                                                          -( CAN_MB5 ) MailBox Data High Register
+                                                          -( CAN_MB5 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB5_MID EQU( 0xFFFD02A8 );
                                                           -( CAN_MB5 ) MailBox ID Register
                                                           AT91C_CAN_MB5_MMR EQU( 0xFFFD02A0 );
                                                           -( CAN_MB5 ) MailBox Mode Register
                                                           AT91C_CAN_MB5_MDL EQU( 0xFFFD02B4 );
-                                                          -( CAN_MB5 ) MailBox Data Low Register
+                                                          -( CAN_MB5 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB5_MAM EQU( 0xFFFD02A4 );
                                                           -( CAN_MB5 ) MailBox Acceptance Mask Register
 /* - ========== Register definition for CAN_MB6 peripheral ========== */
@@ -5553,22 +5553,22 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_CAN_MB6_MSR EQU( 0xFFFD02D0 );
                                                           -( CAN_MB6 ) MailBox Status Register
                                                           AT91C_CAN_MB6_MDL EQU( 0xFFFD02D4 );
-                                                          -( CAN_MB6 ) MailBox Data Low Register
+                                                          -( CAN_MB6 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB6_MCR EQU( 0xFFFD02DC );
                                                           -( CAN_MB6 ) MailBox Control Register
                                                           AT91C_CAN_MB6_MDH EQU( 0xFFFD02D8 );
-                                                          -( CAN_MB6 ) MailBox Data High Register
+                                                          -( CAN_MB6 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB6_MMR EQU( 0xFFFD02C0 );
                                                           -( CAN_MB6 ) MailBox Mode Register
 /* - ========== Register definition for CAN_MB7 peripheral ========== */
                                                           AT91C_CAN_MB7_MCR EQU( 0xFFFD02FC );
                                                           -( CAN_MB7 ) MailBox Control Register
                                                           AT91C_CAN_MB7_MDH EQU( 0xFFFD02F8 );
-                                                          -( CAN_MB7 ) MailBox Data High Register
+                                                          -( CAN_MB7 ) MailBox Data माताअस Register
                                                           AT91C_CAN_MB7_MFID EQU( 0xFFFD02EC );
                                                           -( CAN_MB7 ) MailBox Family ID Register
                                                           AT91C_CAN_MB7_MDL EQU( 0xFFFD02F4 );
-                                                          -( CAN_MB7 ) MailBox Data Low Register
+                                                          -( CAN_MB7 ) MailBox Data माबाबा Register
                                                           AT91C_CAN_MB7_MID EQU( 0xFFFD02E8 );
                                                           -( CAN_MB7 ) MailBox ID Register
                                                           AT91C_CAN_MB7_MMR EQU( 0xFFFD02E0 );
@@ -5606,7 +5606,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_EMAC_ISR EQU( 0xFFFDC024 );
                                                           -( EMAC ) Interrupt Status Register
                                                           AT91C_EMAC_SA4H EQU( 0xFFFDC0B4 );
-                                                          -( EMAC ) Specific Address 4 Top, Last 2 bytes
+                                                          -( EMAC ) Specific Address 4 इताअस, Last 2 bytes
                                                           AT91C_EMAC_SA1L EQU( 0xFFFDC098 );
                                                           -( EMAC ) Specific Address 1 Bottom, First 4 bytes
                                                           AT91C_EMAC_ELE EQU( 0xFFFDC078 );
@@ -5634,7 +5634,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_EMAC_IDR EQU( 0xFFFDC02C );
                                                           -( EMAC ) Interrupt Disable Register
                                                           AT91C_EMAC_RSE EQU( 0xFFFDC074 );
-                                                          -( EMAC ) Receive Symbol Errors Register
+                                                          -( EMAC ) Receive सिम्बोलो Errors Register
                                                           AT91C_EMAC_ECOL EQU( 0xFFFDC060 );
                                                           -( EMAC ) Excessive Collision Register
                                                           AT91C_EMAC_TID EQU( 0xFFFDC0B8 );
@@ -5644,11 +5644,11 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_EMAC_TBQP EQU( 0xFFFDC01C );
                                                           -( EMAC ) Transmit Buffer Queue Pointer
                                                           AT91C_EMAC_USRIO EQU( 0xFFFDC0C0 );
-                                                          -( EMAC ) USER Input / Output Register
+                                                          -( EMAC ) USER पासोक / Output Register
                                                           AT91C_EMAC_PTR EQU( 0xFFFDC038 );
                                                           -( EMAC ) Pause Time Register
                                                           AT91C_EMAC_SA2H EQU( 0xFFFDC0A4 );
-                                                          -( EMAC ) Specific Address 2 Top, Last 2 bytes
+                                                          -( EMAC ) Specific Address 2 इताअस, Last 2 bytes
                                                           AT91C_EMAC_ROV EQU( 0xFFFDC070 );
                                                           -( EMAC ) Receive Overrun Errors Register
                                                           AT91C_EMAC_ALE EQU( 0xFFFDC054 );
@@ -5662,7 +5662,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_EMAC_NCFGR EQU( 0xFFFDC004 );
                                                           -( EMAC ) Network Configuration Register
                                                           AT91C_EMAC_HRT EQU( 0xFFFDC094 );
-                                                          -( EMAC ) Hash Address Top[ 63 : 32 ]
+                                                          -( EMAC ) Hash Address इताअस[ 63 : 32 ]
                                                           AT91C_EMAC_USF EQU( 0xFFFDC080 );
                                                           -( EMAC ) Undersize Frames Register
                                                           AT91C_EMAC_FCSE EQU( 0xFFFDC050 );
@@ -5692,11 +5692,11 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_EMAC_IER EQU( 0xFFFDC028 );
                                                           -( EMAC ) Interrupt Enable Register
                                                           AT91C_EMAC_SA1H EQU( 0xFFFDC09C );
-                                                          -( EMAC ) Specific Address 1 Top, Last 2 bytes
+                                                          -( EMAC ) Specific Address 1 इताअस, Last 2 bytes
                                                           AT91C_EMAC_CSE EQU( 0xFFFDC068 );
                                                           -( EMAC ) Carrier Sense Error Register
                                                           AT91C_EMAC_SA3H EQU( 0xFFFDC0AC );
-                                                          -( EMAC ) Specific Address 3 Top, Last 2 bytes
+                                                          -( EMAC ) Specific Address 3 इताअस, Last 2 bytes
                                                           AT91C_EMAC_RRE EQU( 0xFFFDC06C );
                                                           -( EMAC ) Receive Resource Error Register
                                                           AT91C_EMAC_STE EQU( 0xFFFDC084 );
@@ -5790,7 +5790,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_AES_ODATAxR EQU( 0xFFFA4050 );
                                                           -( AES ) Output Data x Register
                                                           AT91C_AES_IDATAxR EQU( 0xFFFA4040 );
-                                                          -( AES ) Input Data x Register
+                                                          -( AES ) पासोक Data x Register
                                                           AT91C_AES_CR EQU( 0xFFFA4000 );
                                                           -( AES ) Control Register
                                                           AT91C_AES_IDR EQU( 0xFFFA4014 );
@@ -5800,7 +5800,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_AES_IER EQU( 0xFFFA4010 );
                                                           -( AES ) Interrupt Enable Register
                                                           AT91C_AES_KEYWxR EQU( 0xFFFA4020 );
-                                                          -( AES ) Key Word x Register
+                                                          -( AES ) सुसि_2 Word x Register
                                                           AT91C_AES_ISR EQU( 0xFFFA401C );
                                                           -( AES ) Interrupt Status Register
 /* - ========== Register definition for PDC_TDES peripheral ========== */
@@ -5826,9 +5826,9 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           -( PDC_TDES ) PDC Transfer Control Register
 /* - ========== Register definition for TDES peripheral ========== */
                                                           AT91C_TDES_KEY2WxR EQU( 0xFFFA8028 );
-                                                          -( TDES ) Key 2 Word x Register
+                                                          -( TDES ) सुसि_2 2 Word x Register
                                                           AT91C_TDES_KEY3WxR EQU( 0xFFFA8030 );
-                                                          -( TDES ) Key 3 Word x Register
+                                                          -( TDES ) सुसि_2 3 Word x Register
                                                           AT91C_TDES_IDR EQU( 0xFFFA8014 );
                                                           -( TDES ) Interrupt Disable Register
                                                           AT91C_TDES_VR EQU( 0xFFFA80FC );
@@ -5848,9 +5848,9 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_TDES_ISR EQU( 0xFFFA801C );
                                                           -( TDES ) Interrupt Status Register
                                                           AT91C_TDES_IDATAxR EQU( 0xFFFA8040 );
-                                                          -( TDES ) Input Data x Register
+                                                          -( TDES ) पासोक Data x Register
                                                           AT91C_TDES_KEY1WxR EQU( 0xFFFA8020 );
-                                                          -( TDES ) Key 1 Word x Register
+                                                          -( TDES ) सुसि_2 1 Word x Register
 
 /* - ***************************************************************************** */
 /* -               PIO DEFINITIONS FOR AT91SAM7X256 */
@@ -5892,7 +5892,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PA15_NPCS03 EQU( AT91C_PIO_PA15 );
                                                           -SPI 0 Peripheral Chip Select 3
                                                           AT91C_PA15_TCLK2 EQU( AT91C_PIO_PA15 );
-                                                          -Timer Counter 2 external clock input
+                                                          -Timer Counter 2 external clock पासोक_2
                                                           AT91C_PIO_PA16 EQU( 1 << 16 );
                                                           -Pin Controlled by PA16
                                                           AT91C_PA16_MISO0 EQU( AT91C_PIO_PA16 );
@@ -5968,7 +5968,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIO_PA29 EQU( 1 << 29 );
                                                           -Pin Controlled by PA29
                                                           AT91C_PA29_FIQ EQU( AT91C_PIO_PA29 );
-                                                          -AIC Fast Interrupt Input
+                                                          -AIC Fast Interrupt पासोक
                                                           AT91C_PA29_NPCS13 EQU( AT91C_PIO_PA29 );
                                                           -SPI 1 Peripheral Chip Select 3
                                                           AT91C_PIO_PA3 EQU( 1 << 3 );
@@ -6042,7 +6042,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PB12_ETXER EQU( AT91C_PIO_PB12 );
                                                           -Ethernet MAC Transmit Coding Error
                                                           AT91C_PB12_TCLK0 EQU( AT91C_PIO_PB12 );
-                                                          -Timer Counter 0 external clock input
+                                                          -Timer Counter 0 external clock पासोक_2
                                                           AT91C_PIO_PB13 EQU( 1 << 13 );
                                                           -Pin Controlled by PB13
                                                           AT91C_PB13_ERX2 EQU( AT91C_PIO_PB13 );
@@ -6082,7 +6082,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PB19_PWM0 EQU( AT91C_PIO_PB19 );
                                                           -PWM Channel 0
                                                           AT91C_PB19_TCLK1 EQU( AT91C_PIO_PB19 );
-                                                          -Timer Counter 1 external clock input
+                                                          -Timer Counter 1 external clock पासोक_2
                                                           AT91C_PIO_PB2 EQU( 1 << 2 );
                                                           -Pin Controlled by PB2
                                                           AT91C_PB2_ETX0 EQU( AT91C_PIO_PB2 );
@@ -6180,7 +6180,7 @@ AT91C_US_CLKS EQU( 0x3 << 4 );
                                                           AT91C_PIO_PB9 EQU( 1 << 9 );
                                                           -Pin Controlled by PB9
                                                           AT91C_PB9_EMDIO EQU( AT91C_PIO_PB9 );
-                                                          -Ethernet MAC Management Data Input / Output
+                                                          -Ethernet MAC Management Data पासोक / Output
 
 /* - ***************************************************************************** */
 /* -               PERIPHERAL ID DEFINITIONS FOR AT91SAM7X256 */

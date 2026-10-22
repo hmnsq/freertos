@@ -41,7 +41,7 @@
 not the MCLK. */
 #define portACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
 #define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
-#define portFLAGS_INT_ENABLED           ( ( StackType_t ) 0x08 )
+#define portFLAGS_INT_ENABLED           ( ( सालानसान_Type_t ) 0x08 )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
@@ -73,10 +73,10 @@ void vPortSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
-uint16_t *pusTopOfStack;
-uint32_t *pulTopOfStack, ulTemp;
+uint16_t *pus_इताअस_Of_सालानसान;
+uint32_t *pul_इताअस_Of_सालानसान, ulTemp;
 
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -94,66 +94,66 @@ uint32_t *pulTopOfStack, ulTemp;
     and code model used. */
     if( sizeof( pxCode ) == sizeof( uint16_t ) )
     {
-        pusTopOfStack = ( uint16_t * ) pxTopOfStack;
+        pus_इताअस_Of_सालानसान = ( uint16_t * ) px_इताअस_Of_सालानसान;
         ulTemp = ( uint32_t ) pxCode;
-        *pusTopOfStack = ( uint16_t ) ulTemp;
+        *pus_इताअस_Of_सालानसान = ( uint16_t ) ulTemp;
     }
     else
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
-        pusTopOfStack = ( uint16_t * ) pxTopOfStack;
-        pusTopOfStack--;
-        pulTopOfStack = ( uint32_t * ) pusTopOfStack;
-        *pulTopOfStack = ( uint32_t ) pxCode;
+        pus_इताअस_Of_सालानसान = ( uint16_t * ) px_इताअस_Of_सालानसान;
+        pus_इताअस_Of_सालानसान--;
+        pul_इताअस_Of_सालानसान = ( uint32_t * ) pus_इताअस_Of_सालानसान;
+        *pul_इताअस_Of_सालानसान = ( uint32_t ) pxCode;
     }
 
-    pusTopOfStack--;
-    *pusTopOfStack = portFLAGS_INT_ENABLED;
-    pusTopOfStack -= ( sizeof( StackType_t ) / 2 );
+    pus_इताअस_Of_सालानसान--;
+    *pus_इताअस_Of_सालानसान = portFLAGS_INT_ENABLED;
+    pus_इताअस_Of_सालानसान -= ( sizeof( सालानसान_Type_t ) / 2 );
 
     /* From here on the size of stacked items depends on the memory model. */
-    pxTopOfStack = ( StackType_t * ) pusTopOfStack;
+    px_इताअस_Of_सालानसान = ( सालानसान_Type_t * ) pus_इताअस_Of_सालानसान;
 
     /* Next the general purpose registers. */
-    #ifdef PRELOAD_REGISTER_VALUES
-        *pxTopOfStack = ( StackType_t ) 0xffff;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xdddd;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x9999;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x8888;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x5555;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x6666;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x5555;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x4444;
-        pxTopOfStack--;
+    #ifdef PRELOAD_REGISTER_मगा_हालागा
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xffff;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xeeee;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xdddd;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xbbbb;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xaaaa;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x9999;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x8888;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x5555;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x6666;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x5555;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x4444;
+        px_इताअस_Of_सालानसान--;
     #else
-        pxTopOfStack -= 3;
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack -= 9;
+        px_इताअस_Of_सालानसान -= 3;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+        px_इताअस_Of_सालानसान -= 9;
     #endif
 
     /* A variable is used to keep track of the critical section nesting.
     This variable has to be stored as part of the task context and is
     initially set to zero. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portNO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 

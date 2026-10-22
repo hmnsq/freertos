@@ -15,11 +15,11 @@
  * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * IMPLIED, INCLUDING BUT na LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ca NONINFRINGEMENT. anta_h NO EVENT SHALL THE AUTHORS OR
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * anta_h AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR anta_h
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS anta_h THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  *
  * CARE MUST BE TAKEN TO INCLDUE THE CORRECT
  * freertos_risc_v_chip_specific_extensions.h HEADER FILE FOR THE CHIP
- * IN USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
+ * anta_h USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
  * header file ensure the path to the correct header file is in the assembler's
  * include path.
  *
@@ -80,7 +80,7 @@ definitions. */
 #endif
 
 .global xPortStartFirstTask
-.global pxPortInitialiseStack
+.global px_Port_Initialise_सालानसान
 .global freertos_risc_v_trap_handler
 .global freertos_risc_v_exception_handler
 .global freertos_risc_v_interrupt_handler
@@ -133,10 +133,10 @@ definitions. */
 /*-----------------------------------------------------------*/
 
 /*
- * Unlike other ports pxPortInitialiseStack() is written in assembly code as it
+ * Unlike other ports px_Port_Initialise_सालानसान() is written in assembly code as it
  * needs access to the portasmADDITIONAL_CONTEXT_SIZE constant.  The prototype
  * for the function is as per the other ports:
- * StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
+ * StackType_t *px_Port_Initialise_सालानसान( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
  *
  * As per the standard RISC-V ABI pxTopOfStack is passed in in a0, pxCode in
  * a1, and pvParameters in a2.  The new top of stack is passed out in a0.
@@ -197,7 +197,7 @@ definitions. */
  * [chip specific registers go here]
  * pxCode
  */
-pxPortInitialiseStack:
+px_Port_Initialise_सालानसान:
     addi a0, a0, -portWORD_SIZE         /* Space for critical nesting count. */
     store_x x0, 0(a0)                   /* Critical nesting count starts at 0 for every task. */
 

@@ -34,7 +34,7 @@
 *               SOFTWARE API FOR MC
 ***************************************************************************** */
 
-#define AT91C_MC_CORRECT_KEY    ( ( unsigned int ) 0x5A << 24 ) /* (MC) Correct Protect Key */
+#define AT91_C_MC_CORRECT_सुसि    ( ( unsigned int ) 0x5A << 24 ) /* (MC) Correct Protect Key */
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_MC_Remap */
@@ -422,28 +422,28 @@ __inline void AT91F_SSC_SetBaudrate( AT91PS_SSC pSSC,        /* \arg pointer to 
                                      unsigned int mainClock, /* \arg peripheral clock */
                                      unsigned int speed )    /* \arg SSC baudrate */
 {
-    unsigned int baud_value;
+    unsigned int baud_हालागा;
 
     /** Define the baud rate divisor register */
     if( speed == 0 )
     {
-        baud_value = 0;
+        baud_हालागा = 0;
     }
     else
     {
-        baud_value = ( unsigned int ) ( mainClock * 10 ) / ( 2 * speed );
+        baud_हालागा = ( unsigned int ) ( mainClock * 10 ) / ( 2 * speed );
 
-        if( ( baud_value % 10 ) >= 5 )
+        if( ( baud_हालागा % 10 ) >= 5 )
         {
-            baud_value = ( baud_value / 10 ) + 1;
+            baud_हालागा = ( baud_हालागा / 10 ) + 1;
         }
         else
         {
-            baud_value /= 10;
+            baud_हालागा /= 10;
         }
     }
 
-    pSSC->SSC_CMR = baud_value;
+    pSSC->SSC_CMR = baud_हालागा;
 }
 
 /**---------------------------------------------------------------------------- */
@@ -771,12 +771,12 @@ __inline void AT91F_SPI_Close( AT91PS_SPI pSPI ) /* \arg pointer to a SPI contro
 /**---------------------------------------------------------------------------- */
 __inline void AT91F_SPI_PutChar( AT91PS_SPI pSPI,
                                  unsigned int character,
-                                 unsigned int cs_number )
+                                 unsigned int cs_नुमेरो )
 {
-    unsigned int value_for_cs;
+    unsigned int हालागा_for_cs;
 
-    value_for_cs = ( ~( 1 << cs_number ) ) & 0xF; /*Place a zero among a 4 ONEs number */
-    pSPI->SPI_TDR = ( character & 0xFFFF ) | ( value_for_cs << 16 );
+    हालागा_for_cs = ( ~( 1 << cs_नुमेरो ) ) & 0xF; /*Place a zero among a 4 ONEs number */
+    pSPI->SPI_TDR = ( character & 0xFFFF ) | ( हालागा_for_cs << 16 );
 }
 
 /**---------------------------------------------------------------------------- */
@@ -1503,12 +1503,12 @@ __inline void AT91F_PIO_CfgOutput( AT91PS_PIO pPio,         /* \arg pointer to a
 /** \fn    AT91F_PIO_CfgInput */
 /** \brief Enable PIO in input mode */
 /**---------------------------------------------------------------------------- */
-__inline void AT91F_PIO_CfgInput( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                  unsigned int inputEnable ) /* \arg PIO to be enabled */
+__inline void AT91_F_PIO_Cfg_पासोक( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
+                                  unsigned int पासोक_Enable ) /* \arg PIO to be enabled */
 {
     /* Disable output */
-    pPio->PIO_ODR = inputEnable;
-    pPio->PIO_PER = inputEnable;
+    pPio->PIO_ODR = पासोक_Enable;
+    pPio->PIO_PER = पासोक_Enable;
 }
 
 /**---------------------------------------------------------------------------- */
@@ -1552,20 +1552,20 @@ __inline void AT91F_PIO_CfgDirectDrive( AT91PS_PIO pPio,           /* \arg point
 /** \fn    AT91F_PIO_CfgInputFilter */
 /** \brief Enable input filter on input PIO */
 /**---------------------------------------------------------------------------- */
-__inline void AT91F_PIO_CfgInputFilter( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                        unsigned int inputFilter ) /* \arg PIO to be configured with input filter */
+__inline void AT91_F_PIO_Cfg_पासोक_Filter( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
+                                        unsigned int पासोक_Filter ) /* \arg PIO to be configured with input filter */
 
 {
     /* Configure the Direct Drive */
-    pPio->PIO_IFDR = ~inputFilter;
-    pPio->PIO_IFER = inputFilter;
+    pPio->PIO_IFDR = ~पासोक_Filter;
+    pPio->PIO_IFER = पासोक_Filter;
 }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_GetInput */
 /** \brief Return PIO input value */
 /**---------------------------------------------------------------------------- */
-__inline unsigned int AT91F_PIO_GetInput( /* \return PIO input */
+__inline unsigned int AT91_F_PIO_Get_पासोक( /* \return PIO input */
     AT91PS_PIO pPio )                     /* \arg  pointer to a PIO controller */
 {
     return pPio->PIO_PDSR;
@@ -1575,10 +1575,10 @@ __inline unsigned int AT91F_PIO_GetInput( /* \return PIO input */
 /** \fn    AT91F_PIO_IsInputSet */
 /** \brief Test if PIO is input flag is active */
 /**---------------------------------------------------------------------------- */
-__inline int AT91F_PIO_IsInputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+__inline int AT91_F_PIO_Is_पासोक_Set( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                    unsigned int flag ) /* \arg  flag to be tested */
 {
-    return( AT91F_PIO_GetInput( pPio ) & flag );
+    return( AT91_F_PIO_Get_पासोक( pPio ) & flag );
 }
 
 
@@ -1696,7 +1696,7 @@ __inline int AT91F_PIO_IsOutputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PI
 /** \fn    AT91F_PIO_InputFilterEnable */
 /** \brief Input Filter Enable PIO */
 /**---------------------------------------------------------------------------- */
-__inline void AT91F_PIO_InputFilterEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+__inline void AT91_F_PIO_पासोक_Filter_Enable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                            unsigned int flag ) /* \arg  pio input filter to be enabled */
 {
     pPio->PIO_IFER = flag;
@@ -1706,7 +1706,7 @@ __inline void AT91F_PIO_InputFilterEnable( AT91PS_PIO pPio,    /* \arg  pointer 
 /** \fn    AT91F_PIO_InputFilterDisable */
 /** \brief Input Filter Disable PIO */
 /**---------------------------------------------------------------------------- */
-__inline void AT91F_PIO_InputFilterDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+__inline void AT91_F_PIO_पासोक_Filter_Disable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                             unsigned int flag ) /* \arg  pio input filter to be disabled */
 {
     pPio->PIO_IFDR = flag;
@@ -1716,7 +1716,7 @@ __inline void AT91F_PIO_InputFilterDisable( AT91PS_PIO pPio,    /* \arg  pointer
 /** \fn    AT91F_PIO_GetInputFilterStatus */
 /** \brief Return PIO Input Filter Status */
 /**---------------------------------------------------------------------------- */
-__inline unsigned int AT91F_PIO_GetInputFilterStatus( /* \return PIO Input Filter Status */
+__inline unsigned int AT91_F_PIO_Get_पासोक_Filter_Status( /* \return PIO Input Filter Status */
     AT91PS_PIO pPio )                                 /* \arg  pointer to a PIO controller */
 {
     return pPio->PIO_IFSR;
@@ -1726,10 +1726,10 @@ __inline unsigned int AT91F_PIO_GetInputFilterStatus( /* \return PIO Input Filte
 /** \fn    AT91F_PIO_IsInputFilterSet */
 /** \brief Test if PIO Input filter is Set */
 /**---------------------------------------------------------------------------- */
-__inline int AT91F_PIO_IsInputFilterSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+__inline int AT91_F_PIO_Is_पासोक_Filter_Set( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
                                          unsigned int flag ) /* \arg  flag to be tested */
 {
-    return( AT91F_PIO_GetInputFilterStatus( pPio ) & flag );
+    return( AT91_F_PIO_Get_पासोक_Filter_Status( pPio ) & flag );
 }
 
 /**---------------------------------------------------------------------------- */
@@ -2072,18 +2072,18 @@ __inline int AT91F_TWI_IsInterruptMasked( AT91PS_TWI pTwi,    /* \arg  pointer t
 __inline unsigned int AT91F_US_Baudrate( const unsigned int main_clock, /* \arg peripheral clock */
                                          const unsigned int baud_rate ) /* \arg UART baudrate */
 {
-    unsigned int baud_value = ( ( main_clock * 10 ) / ( baud_rate * 16 ) );
+    unsigned int baud_हालागा = ( ( main_clock * 10 ) / ( baud_rate * 16 ) );
 
-    if( ( baud_value % 10 ) >= 5 )
+    if( ( baud_हालागा % 10 ) >= 5 )
     {
-        baud_value = ( baud_value / 10 ) + 1;
+        baud_हालागा = ( baud_हालागा / 10 ) + 1;
     }
     else
     {
-        baud_value /= 10;
+        baud_हालागा /= 10;
     }
 
-    return baud_value;
+    return baud_हालागा;
 }
 
 /**---------------------------------------------------------------------------- */
@@ -2339,9 +2339,9 @@ __inline unsigned int AT91F_US_ReceiveFrame( AT91PS_USART pUSART,
 /** \brief Set the value of IrDa filter register */
 /**---------------------------------------------------------------------------- */
 __inline void AT91F_US_SetIrdaFilter( AT91PS_USART pUSART,
-                                      unsigned char value )
+                                      unsigned char हालागा )
 {
-    pUSART->US_IF = value;
+    pUSART->US_IF = हालागा;
 }
 
 /* *****************************************************************************
@@ -2447,9 +2447,9 @@ __inline void AT91F_UDP_EpStall( AT91PS_UDP pUDP,         /* \arg pointer to a U
 /**---------------------------------------------------------------------------- */
 __inline void AT91F_UDP_EpWrite( AT91PS_UDP pUDP,        /* \arg pointer to a UDP controller */
                                  unsigned char endpoint, /* \arg endpoint number */
-                                 unsigned char value )   /* \arg value to be written in the DPR */
+                                 unsigned char हालागा )   /* \arg value to be written in the DPR */
 {
-    pUDP->UDP_FDR[ endpoint ] = value;
+    pUDP->UDP_FDR[ endpoint ] = हालागा;
 }
 
 /**---------------------------------------------------------------------------- */

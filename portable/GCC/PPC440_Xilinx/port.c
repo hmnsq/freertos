@@ -97,52 +97,52 @@ static XIntc xInterruptController;
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* Place a known value at the bottom of the stack for debugging. */
-    *pxTopOfStack = 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = 0xDEADBEEF;
+    px_इताअस_Of_सालानसान--;
 
     /* EABI stack frame. */
-    pxTopOfStack -= 20; /* Previous backchain and LR, R31 to R4 inclusive. */
+    px_इताअस_Of_सालानसान -= 20; /* Previous backchain and LR, R31 to R4 inclusive. */
 
     /* Parameters in R13. */
-    *pxTopOfStack = ( StackType_t ) &_SDA_BASE_; /* address of the first small data area */
-    pxTopOfStack -= 10;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) &_SDA_BASE_; /* address of the first small data area */
+    px_इताअस_Of_सालानसान -= 10;
 
     /* Parameters in R3. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+    px_इताअस_Of_सालानसान--;
 
     /* Parameters in R2. */
-    *pxTopOfStack = ( StackType_t ) &_SDA2_BASE_; /* address of the second small data area */
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) &_SDA2_BASE_; /* address of the second small data area */
+    px_इताअस_Of_सालानसान--;
 
     /* R1 is the stack pointer so is omitted. */
 
-    *pxTopOfStack = 0x10000001UL;                      /* R0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* USPRG0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* CR. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* XER. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* CTR. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) vPortEndScheduler; /* LR. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;            /* SRR0. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_MSR;                   /* SRR1. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) vPortEndScheduler; /* Next LR. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* Backchain. */
+    *px_इताअस_Of_सालानसान = 0x10000001UL;                      /* R0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x00000000UL;                      /* USPRG0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x00000000UL;                      /* CR. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x00000000UL;                      /* XER. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x00000000UL;                      /* CTR. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) vPortEndScheduler; /* LR. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;            /* SRR0. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_MSR;                   /* SRR1. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) vPortEndScheduler; /* Next LR. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x00000000UL;                      /* Backchain. */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -190,7 +190,7 @@ static void prvSetupTimerInterrupt( void )
 void vPortISRHandler( void * pvNullDoNotUse )
 {
     uint32_t ulInterruptStatus, ulInterruptMask = 1UL;
-    BaseType_t xInterruptNumber;
+    BaseType_t x_Interrupt_नुमेरो;
     XIntc_Config * pxInterruptController;
     XIntc_VectorTableEntry * pxTable;
 
@@ -204,7 +204,7 @@ void vPortISRHandler( void * pvNullDoNotUse )
     /* Which interrupts are pending? */
     ulInterruptStatus = XIntc_mGetIntrStatus( pxInterruptController->BaseAddress );
 
-    for( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
+    for( x_Interrupt_नुमेरो = 0; x_Interrupt_नुमेरो < XPAR_INTC_MAX_नुमेरो_INTR_INPUTS; x_Interrupt_नुमेरो++ )
     {
         if( ulInterruptStatus & 0x01UL )
         {
@@ -212,7 +212,7 @@ void vPortISRHandler( void * pvNullDoNotUse )
             XIntc_mAckIntr( pxInterruptController->BaseAddress, ulInterruptMask );
 
             /* Call the registered handler. */
-            pxTable = &( pxInterruptController->HandlerTable[ xInterruptNumber ] );
+            pxTable = &( pxInterruptController->HandlerTable[ x_Interrupt_नुमेरो ] );
             pxTable->Handler( pxTable->CallBackRef );
         }
 

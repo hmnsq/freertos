@@ -132,12 +132,12 @@ static void prvHeapInit( void ) PRIVILEGED_FUNCTION;
  * the block.  Small blocks at the start of the list and large blocks at the end
  * of the list.
  */
-#define prvInsertBlockIntoFreeList( pxBlockToInsert )                                                                               \
+#define prv_इसिंगित_Block_Into_Free_List( px_Block_To_इसिंगित )                                                                               \
     {                                                                                                                               \
         BlockLink_t * pxIterator;                                                                                                   \
         size_t xBlockSize;                                                                                                          \
                                                                                                                                     \
-        xBlockSize = pxBlockToInsert->xBlockSize;                                                                                   \
+        xBlockSize = px_Block_To_इसिंगित->xBlockSize;                                                                                   \
                                                                                                                                     \
         /* Iterate through the list until a block is found that has a larger size */                                                \
         /* than the block we are inserting. */                                                                                      \
@@ -148,8 +148,8 @@ static void prvHeapInit( void ) PRIVILEGED_FUNCTION;
                                                                                                                                     \
         /* Update the list to include the block being inserted in the correct */                                                    \
         /* position. */                                                                                                             \
-        pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;                                                             \
-        pxIterator->pxNextFreeBlock = pxBlockToInsert;                                                                              \
+        px_Block_To_इसिंगित->pxNextFreeBlock = pxIterator->pxNextFreeBlock;                                                             \
+        pxIterator->pxNextFreeBlock = px_Block_To_इसिंगित;                                                                              \
     }
 /*-----------------------------------------------------------*/
 
@@ -257,7 +257,7 @@ void * pvPortMalloc( size_t xWantedSize )
                         /* Insert the new block into the list of free blocks.
                          * The list of free blocks is sorted by their size, we have to
                          * iterate to find the right place to insert new block. */
-                        prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
+                        prv_इसिंगित_Block_Into_Free_List( ( pxNewBlockLink ) );
                     }
 
                     xFreeBytesRemaining -= pxBlock->xBlockSize;
@@ -326,7 +326,7 @@ void vPortFree( void * pv )
                 vTaskSuspendAll();
                 {
                     /* Add this block to the list of free blocks. */
-                    prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
+                    prv_इसिंगित_Block_Into_Free_List( ( ( BlockLink_t * ) pxLink ) );
                     xFreeBytesRemaining += pxLink->xBlockSize;
                     traceFREE( pv, pxLink->xBlockSize );
                 }
@@ -349,18 +349,18 @@ void vPortInitialiseBlocks( void )
 }
 /*-----------------------------------------------------------*/
 
-void * pvPortCalloc( size_t xNum,
+void * pvPortCalloc( size_t x_नुमेरो,
                      size_t xSize )
 {
     void * pv = NULL;
 
-    if( heapMULTIPLY_WILL_OVERFLOW( xNum, xSize ) == 0 )
+    if( heapMULTIPLY_WILL_OVERFLOW( x_नुमेरो, xSize ) == 0 )
     {
-        pv = pvPortMalloc( xNum * xSize );
+        pv = pvPortMalloc( x_नुमेरो * xSize );
 
         if( pv != NULL )
         {
-            ( void ) memset( pv, 0, xNum * xSize );
+            ( void ) memset( pv, 0, x_नुमेरो * xSize );
         }
     }
 

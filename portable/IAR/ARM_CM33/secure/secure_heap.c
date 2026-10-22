@@ -120,7 +120,7 @@ static void prvHeapInit( void );
  *
  * @param[in] pxBlockToInsert The block being freed.
  */
-static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert );
+static void prv_इसिंगित_Block_Into_Free_List( BlockLink_t * px_Block_To_इसिंगित );
 /*-----------------------------------------------------------*/
 
 /**
@@ -189,14 +189,14 @@ static void prvHeapInit( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
+static void prv_इसिंगित_Block_Into_Free_List( BlockLink_t * px_Block_To_इसिंगित )
 {
     BlockLink_t * pxIterator;
     uint8_t * puc;
 
     /* Iterate through the list until a block is found that has a higher address
      * than the block being inserted. */
-    for( pxIterator = &xStart; pxIterator->pxNextFreeBlock < pxBlockToInsert; pxIterator = pxIterator->pxNextFreeBlock )
+    for( pxIterator = &xStart; pxIterator->pxNextFreeBlock < px_Block_To_इसिंगित; pxIterator = pxIterator->pxNextFreeBlock )
     {
         /* Nothing to do here, just iterate to the right position. */
     }
@@ -205,10 +205,10 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
      * make a contiguous block of memory? */
     puc = ( uint8_t * ) pxIterator;
 
-    if( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) pxBlockToInsert )
+    if( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) px_Block_To_इसिंगित )
     {
-        pxIterator->xBlockSize += pxBlockToInsert->xBlockSize;
-        pxBlockToInsert = pxIterator;
+        pxIterator->xBlockSize += px_Block_To_इसिंगित->xBlockSize;
+        px_Block_To_इसिंगित = pxIterator;
     }
     else
     {
@@ -217,33 +217,33 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
 
     /* Do the block being inserted, and the block it is being inserted before
      * make a contiguous block of memory? */
-    puc = ( uint8_t * ) pxBlockToInsert;
+    puc = ( uint8_t * ) px_Block_To_इसिंगित;
 
-    if( ( puc + pxBlockToInsert->xBlockSize ) == ( uint8_t * ) pxIterator->pxNextFreeBlock )
+    if( ( puc + px_Block_To_इसिंगित->xBlockSize ) == ( uint8_t * ) pxIterator->pxNextFreeBlock )
     {
         if( pxIterator->pxNextFreeBlock != pxEnd )
         {
             /* Form one big block from the two blocks. */
-            pxBlockToInsert->xBlockSize += pxIterator->pxNextFreeBlock->xBlockSize;
-            pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock->pxNextFreeBlock;
+            px_Block_To_इसिंगित->xBlockSize += pxIterator->pxNextFreeBlock->xBlockSize;
+            px_Block_To_इसिंगित->pxNextFreeBlock = pxIterator->pxNextFreeBlock->pxNextFreeBlock;
         }
         else
         {
-            pxBlockToInsert->pxNextFreeBlock = pxEnd;
+            px_Block_To_इसिंगित->pxNextFreeBlock = pxEnd;
         }
     }
     else
     {
-        pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;
+        px_Block_To_इसिंगित->pxNextFreeBlock = pxIterator->pxNextFreeBlock;
     }
 
     /* If the block being inserted plugged a gap, so was merged with the block
      * before and the block after, then it's pxNextFreeBlock pointer will have
      * already been set, and should not be set here as that would make it point
      * to itself. */
-    if( pxIterator != pxBlockToInsert )
+    if( pxIterator != px_Block_To_इसिंगित )
     {
-        pxIterator->pxNextFreeBlock = pxBlockToInsert;
+        pxIterator->pxNextFreeBlock = px_Block_To_इसिंगित;
     }
     else
     {
@@ -455,7 +455,7 @@ void vPortFree( void * pv )
                     /* Add this block to the list of free blocks. */
                     xFreeBytesRemaining += pxLink->xBlockSize;
                     traceFREE( pv, pxLink->xBlockSize );
-                    prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
+                    prv_इसिंगित_Block_Into_Free_List( ( ( BlockLink_t * ) pxLink ) );
                 }
                 secureportENABLE_NON_SECURE_INTERRUPTS();
             }

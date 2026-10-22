@@ -31,18 +31,18 @@
 #include "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR       ( ( सालानसान_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#define portINITIAL_STATUS_REGISTER     ( ( सालानसान_Type_t ) 0x2000)
 
 /* The clock prescale into the timer peripheral. */
-#define portPRESCALE_VALUE              ( ( uint8_t ) 10 )
+#define port_PRESCALE_हालागा              ( ( uint8_t ) 10 )
 
 /* The clock frequency into the RTC. */
 #define portRTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
 
-asm void interrupt VectorNumber_VL1swi vPortYieldISR( void );
+asm void interrupt Vector_नुमेरो_VL1swi vPortYieldISR( void );
 static void prvSetupTimerInterrupt( void );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
@@ -51,7 +51,7 @@ static uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
 
 uint32_t ulOriginalA5;
@@ -59,26 +59,26 @@ uint32_t ulOriginalA5;
     __asm{ MOVE.L A5, ulOriginalA5 };
 
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = (सालानसान_Type_t) 0xDEADBEEF;
+    px_इताअस_Of_सालानसान--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_इताअस_Of_सालानसान = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_इताअस_Of_सालानसान--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0; /*FP*/
+    px_इताअस_Of_सालानसान -= 14; /* A5 to D0. */
 
     /* Parameter in A0. */
-    *( pxTopOfStack + 8 ) = ( StackType_t ) pvParameters;
+    *( px_इताअस_Of_सालानसान + 8 ) = ( सालानसान_Type_t ) pvParameters;
 
     /* A5 must be maintained as it is reserved by the compiler. */
-    *( pxTopOfStack + 13 ) = ulOriginalA5;
+    *( px_इताअस_Of_सालानसान + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -164,7 +164,7 @@ uint32_t ulSavedInterruptMask;
 }
 /*-----------------------------------------------------------*/
 
-void interrupt VectorNumber_Vrtc vPortTickISR( void )
+void interrupt Vector_नुमेरो_Vrtc vPortTickISR( void )
 {
 uint32_t ulSavedInterruptMask;
 

@@ -78,17 +78,17 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *      16 bytes: Free space on stack
  */
 #if _ROMSIZE > 0x8000
-    #define portSTACK_FSR_BYTES             ( 15 )
-    #define portSTACK_CALLRETURN_ENTRY_SIZE (  3 )
+    #define port_सालानसान_FSR_BYTES             ( 15 )
+    #define port_सालानसान_CALLRETURN_ENTRY_SIZE (  3 )
 #else
-    #define portSTACK_FSR_BYTES             ( 13 )
-    #define portSTACK_CALLRETURN_ENTRY_SIZE (  2 )
+    #define port_सालानसान_FSR_BYTES             ( 13 )
+    #define port_सालानसान_CALLRETURN_ENTRY_SIZE (  2 )
 #endif
 
-#define portSTACK_MINIMAL_CALLRETURN_DEPTH  ( 10 )
-#define portSTACK_OTHER_BYTES               ( 20 )
+#define port_सालानसान_MINIMAL_CALLRETURN_DEPTH  ( 10 )
+#define port_सालानसान_OTHER_BYTES               ( 20 )
 
-uint16_t usCalcMinStackSize     = 0;
+uint16_t us_Calc_Min_सालानसान_Size     = 0;
 
 /*-----------------------------------------------------------*/
 
@@ -106,7 +106,7 @@ register uint8_t ucCriticalNesting = 0x7F;
  * Initialise the stack of a new task.
  * See portSAVE_CONTEXT macro for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+सालानसान_Type_t *px_Port_Initialise_सालानसान( सालानसान_Type_t *px_इताअस_Of_सालानसान, TaskFunction_t pxCode, void *pvParameters )
 {
 uint8_t ucScratch;
     /*
@@ -136,38 +136,38 @@ uint8_t ucScratch;
      * First store the function parameters.  This is where the task expects
      * to find them when it starts running.
      */
-    *pxTopOfStack-- = ( StackType_t ) ( (( uint16_t ) pvParameters >> 8) & 0x00ff );
-    *pxTopOfStack-- = ( StackType_t ) (  ( uint16_t ) pvParameters       & 0x00ff );
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) ( (( uint16_t ) pvParameters >> 8) & 0x00ff );
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) (  ( uint16_t ) pvParameters       & 0x00ff );
 
     /*
      * Next are all the registers that form part of the task context.
      */
-    *pxTopOfStack-- = ( StackType_t ) 0x11; /* STATUS. */
-    *pxTopOfStack-- = ( StackType_t ) 0x22; /* WREG. */
-    *pxTopOfStack-- = ( StackType_t ) 0x33; /* BSR. */
-    *pxTopOfStack-- = ( StackType_t ) 0x44; /* PRODH. */
-    *pxTopOfStack-- = ( StackType_t ) 0x55; /* PRODL. */
-    *pxTopOfStack-- = ( StackType_t ) 0x66; /* FSR0H. */
-    *pxTopOfStack-- = ( StackType_t ) 0x77; /* FSR0L. */
-    *pxTopOfStack-- = ( StackType_t ) 0x88; /* FSR1H. */
-    *pxTopOfStack-- = ( StackType_t ) 0x99; /* FSR1L. */
-    *pxTopOfStack-- = ( StackType_t ) 0xAA; /* TABLAT. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x11; /* STATUS. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x22; /* WREG. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x33; /* BSR. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x44; /* PRODH. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x55; /* PRODL. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x66; /* FSR0H. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x77; /* FSR0L. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x88; /* FSR1H. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x99; /* FSR1L. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xAA; /* TABLAT. */
 #if _ROMSIZE > 0x8000
-    *pxTopOfStack-- = ( StackType_t ) 0x00; /* TBLPTRU. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0x00; /* TBLPTRU. */
 #endif
-    *pxTopOfStack-- = ( StackType_t ) 0xCC; /* TBLPTRH. */
-    *pxTopOfStack-- = ( StackType_t ) 0xDD; /* TBLPTRL. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xCC; /* TBLPTRH. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xDD; /* TBLPTRL. */
 #if _ROMSIZE > 0x8000
-    *pxTopOfStack-- = ( StackType_t ) 0xEE; /* PCLATU. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xEE; /* PCLATU. */
 #endif
-    *pxTopOfStack-- = ( StackType_t ) 0xFF; /* PCLATH. */
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0xFF; /* PCLATH. */
 
     /*
      * Next the compiler's scratchspace.
      */
     while(ucScratch-- > 0)
     {
-        *pxTopOfStack-- = ( StackType_t ) 0;
+        *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0;
     }
 
     /*
@@ -177,16 +177,16 @@ uint8_t ucScratch;
      * functionpointers to point above 64kB in ROM.
      */
 #if _ROMSIZE > 0x8000
-    *pxTopOfStack-- = ( StackType_t ) 0;
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 0;
 #endif
-    *pxTopOfStack-- = ( StackType_t ) ( ( ( uint16_t ) pxCode >> 8 ) & 0x00ff );
-    *pxTopOfStack-- = ( StackType_t ) ( (   uint16_t ) pxCode        & 0x00ff );
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) ( ( ( uint16_t ) pxCode >> 8 ) & 0x00ff );
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) ( (   uint16_t ) pxCode        & 0x00ff );
 
     /*
      * Store the number of return addresses on the hardware stack.
      * So far only the address of the task entry point.
      */
-    *pxTopOfStack-- = ( StackType_t ) 1;
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) 1;
 
     /*
      * The code generated by wizC does not maintain separate
@@ -195,31 +195,31 @@ uint8_t ucScratch;
      * track of the critical section nesting.  This variable has to be stored
      * as part of the task context and is initially set to zero.
      */
-    *pxTopOfStack-- = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_इताअस_Of_सालानसान-- = ( सालानसान_Type_t ) portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
-uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void )
+uint16_t us_Port_CALCULATE_MINIMAL_सालानसान_SIZE( void )
 {
     /*
      * Fetch the size of compiler's scratchspace.
      */
     _Pragma("asm")
         movlw   OVERHEADPAGE0-LOCOPTSIZE+MAXLOCOPTSIZE
-        movlb   usCalcMinStackSize>>8
-        movwf   usCalcMinStackSize,BANKED
+        movlb   us_Calc_Min_सालानसान_Size>>8
+        movwf   us_Calc_Min_सालानसान_Size,BANKED
     _Pragma("asmend")
 
     /*
      * Add minimum needed stackspace
      */
-    usCalcMinStackSize  +=  ( portSTACK_FSR_BYTES )
-        +   ( portSTACK_MINIMAL_CALLRETURN_DEPTH * portSTACK_CALLRETURN_ENTRY_SIZE )
-        +   ( portSTACK_OTHER_BYTES );
+    us_Calc_Min_सालानसान_Size  +=  ( port_सालानसान_FSR_BYTES )
+        +   ( port_सालानसान_MINIMAL_CALLRETURN_DEPTH * port_सालानसान_CALLRETURN_ENTRY_SIZE )
+        +   ( port_सालानसान_OTHER_BYTES );
 
-    return(usCalcMinStackSize);
+    return(us_Calc_Min_सालानसान_Size);
 }
 
 /*-----------------------------------------------------------*/

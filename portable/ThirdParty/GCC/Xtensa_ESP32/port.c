@@ -100,8 +100,8 @@ _Static_assert( tskNO_AFFINITY == CONFIG_FREERTOS_NO_AFFINITY, "incorrect tskNO_
 
 /*-----------------------------------------------------------*/
 
-extern volatile int port_xSchedulerRunning[ portNUM_PROCESSORS ];
-unsigned port_interruptNesting[ portNUM_PROCESSORS ] = { 0 }; /* Interrupt nesting level. Increased/decreased in portasm.c, _frxt_int_enter/_frxt_int_exit */
+extern volatile int port_xSchedulerRunning[ port_नुमेरो_PROCESSORS ];
+unsigned port_interruptNesting[ port_नुमेरो_PROCESSORS ] = { 0 }; /* Interrupt nesting level. Increased/decreased in portasm.c, _frxt_int_enter/_frxt_int_exit */
 
 /*-----------------------------------------------------------*/
 
@@ -126,22 +126,22 @@ void _xt_user_exit( void );
  */
 /* *INDENT-OFF* */
 #if portUSING_MPU_WRAPPERS
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+    सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                          TaskFunction_t pxCode,
                                          void * pvParameters,
                                          BaseType_t xRunPrivileged )
 #else
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+    सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                          TaskFunction_t pxCode,
                                          void * pvParameters )
 #endif
 /* *INDENT-ON* */
 {
-    StackType_t * sp;
-    StackType_t * tp;
+    सालानसान_Type_t * sp;
+    सालानसान_Type_t * tp;
     XtExcFrame * frame;
 
-    #if XCHAL_CP_NUM > 0
+    #if XCHAL_CP_नुमेरो > 0
         uint32_t * p;
     #endif
 
@@ -166,10 +166,10 @@ void _xt_user_exit( void );
      */
 
     /* Create interrupt stack frame aligned to 16 byte boundary */
-    sp = ( StackType_t * ) ( ( ( UBaseType_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz - XT_STK_FRMSZ ) & ~0xf );
+    sp = ( सालानसान_Type_t * ) ( ( ( UBaseType_t ) px_इताअस_Of_सालानसान - XT_CP_SIZE - thread_local_sz - XT_STK_FRMSZ ) & ~0xf );
 
     /* Clear the entire frame (do not use memset() because we don't depend on C library) */
-    for( tp = sp; tp <= pxTopOfStack; ++tp )
+    for( tp = sp; tp <= px_इताअस_Of_सालानसान; ++tp )
     {
         *tp = 0;
     }
@@ -213,7 +213,7 @@ void _xt_user_exit( void );
     #endif
 
     /* Init threadptr register and set up TLS run-time area. */
-    task_thread_local_start = ( void * ) ( ( ( uint32_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz ) & ~0xf );
+    task_thread_local_start = ( void * ) ( ( ( uint32_t ) px_इताअस_Of_सालानसान - XT_CP_SIZE - thread_local_sz ) & ~0xf );
     memcpy( task_thread_local_start, &_thread_local_start, thread_local_sz );
     threadptr = ( uint32_t * ) ( sp + XT_STK_EXTRA );
 
@@ -230,13 +230,13 @@ void _xt_user_exit( void );
     const uint32_t base = ( tcb_size + tls_section_alignment - 1 ) & ( ~( tls_section_alignment - 1 ) );
     *threadptr = ( uint32_t ) task_thread_local_start - ( ( uint32_t ) &_thread_local_start - ( uint32_t ) &_flash_rodata_start ) - base;
 
-    #if XCHAL_CP_NUM > 0
+    #if XCHAL_CP_नुमेरो > 0
         /* Init the coprocessor save area (see xtensa_context.h) */
 
         /* No access to TCB here, so derive indirectly. Stack growth is top to bottom.
          * //p = (uint32_t *) xMPUSettings->coproc_area;
          */
-        p = ( uint32_t * ) ( ( ( uint32_t ) pxTopOfStack - XT_CP_SIZE ) & ~0xf );
+        p = ( uint32_t * ) ( ( ( uint32_t ) px_इताअस_Of_सालानसान - XT_CP_SIZE ) & ~0xf );
         configASSERT( ( uint32_t ) p >= frame->a1 );
         p[ 0 ] = 0;
         p[ 1 ] = 0;
@@ -262,7 +262,7 @@ BaseType_t xPortStartScheduler( void )
     portDISABLE_INTERRUPTS();
     /* Interrupts are disabled at this point and stack contains PS with enabled interrupts when task context is restored */
 
-    #if XCHAL_CP_NUM > 0
+    #if XCHAL_CP_नुमेरो > 0
         /* Initialize co-processor management for tasks. Leave CPENABLE alone. */
         _xt_coproc_init();
     #endif
@@ -307,13 +307,13 @@ void vPortYieldOtherCore( BaseType_t coreid )
 #if portUSING_MPU_WRAPPERS
     void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                     const struct xMEMORY_REGION * const xRegions,
-                                    StackType_t * pxBottomOfStack,
-                                    configSTACK_DEPTH_TYPE uxStackDepth )
+                                    सालानसान_Type_t * px_Bottom_Of_सालानसान,
+                                    config_सालानसान_DEPTH_TYPE ux_सालानसान_Depth )
     {
-        #if XCHAL_CP_NUM > 0
-            xMPUSettings->coproc_area = ( StackType_t * ) ( ( uint32_t ) ( pxBottomOfStack + uxStackDepth - 1 ) );
-            xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( portPOINTER_SIZE_TYPE ) xMPUSettings->coproc_area ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
-            xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( uint32_t ) xMPUSettings->coproc_area - XT_CP_SIZE ) & ~0xf );
+        #if XCHAL_CP_नुमेरो > 0
+            xMPUSettings->coproc_area = ( सालानसान_Type_t * ) ( ( uint32_t ) ( px_Bottom_Of_सालानसान + ux_सालानसान_Depth - 1 ) );
+            xMPUSettings->coproc_area = ( सालानसान_Type_t * ) ( ( ( portPOINTER_SIZE_TYPE ) xMPUSettings->coproc_area ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
+            xMPUSettings->coproc_area = ( सालानसान_Type_t * ) ( ( ( uint32_t ) xMPUSettings->coproc_area - XT_CP_SIZE ) & ~0xf );
 
             /* NOTE: we cannot initialize the coprocessor save area here because FreeRTOS is going to
              * clear the stack area after we return. This is done in pxPortInitialiseStack().
@@ -401,10 +401,10 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
     #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
         esp_rom_printf( "Initializing mux %p\n", mux );
         mux->lastLockedFn = "(never locked)";
-        mux->lastLockedLine = -1;
+        mux->last_Locked_लिन्या = -1;
     #endif
     mux->owner = portMUX_FREE_VAL;
-    mux->count = 0;
+    mux->बिलांग = 0;
 }
 
 #include "portmux_impl.h"
@@ -415,21 +415,21 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
     void vPortCPUAcquireMutex( portMUX_TYPE * mux,
                                const char * fnName,
-                               int line )
+                               int लिन्या )
     {
         unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
-        vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT, fnName, line );
+        vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT, fnName, लिन्या );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
 
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
                                       int timeout_cycles,
                                       const char * fnName,
-                                      int line )
+                                      int लिन्या )
     {
         unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
-        bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles, fnName, line );
+        bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles, fnName, लिन्या );
 
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
         return result;
@@ -464,11 +464,11 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
     void vPortCPUReleaseMutex( portMUX_TYPE * mux,
                                const char * fnName,
-                               int line )
+                               int लिन्या )
     {
         unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
-        vPortCPUReleaseMutexIntsDisabled( mux, fnName, line );
+        vPortCPUReleaseMutexIntsDisabled( mux, fnName, लिन्या );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
 #else
@@ -481,10 +481,10 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
     }
 #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
-#define STACK_WATCH_AREA_SIZE       ( 32 )
-#define STACK_WATCH_POINT_NUMBER    ( SOC_CPU_WATCHPOINTS_NUM - 1 )
+#define सालानसान_WATCH_AREA_SIZE       ( 32 )
+#define सालानसान_WATCH_POINT_नुमेरो    ( SOC_CPU_WATCHPOINTS_नुमेरो - 1 )
 
-void vPortSetStackWatchpoint( void * pxStackStart )
+void v_Port_Set_सालानसान_Watchpoint( void * px_सालानसान_Start )
 {
     /*Set watchpoint 1 to watch the last 32 bytes of the stack. */
     /*Unfortunately, the Xtensa watchpoints can't set a watchpoint on a random [base - base+n] region because */
@@ -492,10 +492,10 @@ void vPortSetStackWatchpoint( void * pxStackStart )
     /*bytes of the stack we can actually watch. In general, this can cause the watchpoint to be triggered at most */
     /*28 bytes early. The value 32 is chosen because it's larger than the stack canary, which in FreeRTOS is 20 bytes. */
     /*This way, we make sure we trigger before/when the stack canary is corrupted, not after. */
-    int addr = ( int ) pxStackStart;
+    int addr = ( int ) px_सालानसान_Start;
 
     addr = ( addr + 31 ) & ( ~31 );
-    esp_cpu_set_watchpoint( STACK_WATCH_POINT_NUMBER, ( char * ) addr, 32, ESP_WATCHPOINT_STORE );
+    esp_cpu_set_watchpoint( सालानसान_WATCH_POINT_नुमेरो, ( char * ) addr, 32, ESP_WATCHPOINT_STORE );
 }
 
 #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )

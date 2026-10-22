@@ -84,7 +84,7 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_CM_CALL_DEPTH_OVERFLOW                                    2
 #define portTIN_CM_CALL_DEPTH_UNDEFLOW                                    3
 #define portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
-#define portTIN_CM_CALL_STACK_UNDERFLOW                                   5
+#define port_TIN_CM_CALL_सालानसान_UNDERFLOW                                   5
 #define portTIN_CM_CONTEXT_TYPE                                           6
 #define portTIN_CM_NESTING_ERROR                                          7
 
@@ -226,7 +226,7 @@ void vContextManagementTrap( int iTrapIdentification )
         case portTIN_CM_CALL_DEPTH_OVERFLOW:
         case portTIN_CM_CALL_DEPTH_UNDEFLOW:
         case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
+        case port_TIN_CM_CALL_सालानसान_UNDERFLOW:
         case portTIN_CM_CONTEXT_TYPE:
         case portTIN_CM_NESTING_ERROR:
         default:

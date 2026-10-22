@@ -22,13 +22,13 @@
 #define portDOUBLE               double
 #define portLONG                 long
 #define portSHORT                int
-#define portSTACK_TYPE           uint8_t
+#define port_सालानसान_TYPE           uint8_t
 #define portBASE_TYPE            char
 
-#define portSTACK_GROWTH         ( -1 )
+#define port_सालानसान_GROWTH         ( -1 )
 #define portBYTE_ALIGNMENT       4
 #define portPOINTER_SIZE_TYPE    size_t
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef signed char      BaseType_t;
 typedef unsigned char    UBaseType_t;
 
@@ -63,9 +63,9 @@ typedef unsigned char    UBaseType_t;
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities ) \
     do {                                                                 \
-        uxTopPriority = 0;                                               \
+        ux_इताअस_Priority = 0;                                               \
     } while( 0 )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -76,7 +76,7 @@ typedef unsigned char    UBaseType_t;
 /* Enable the interrupts */
 #define portENABLE_INTERRUPTS()     do {} while( 0 )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#if ( config_नुमेरो_OF_CORES == 1 )
 /* preserve current interrupt state and then disable interrupts */
     #define portENTER_CRITICAL()    do {} while( 0 )
 
@@ -108,7 +108,7 @@ extern void vPortYield( void );
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#if ( config_नुमेरो_OF_CORES > 1 )
     /* Return the core ID on which the code is running. */
     #define portGET_CORE_ID()                0
 

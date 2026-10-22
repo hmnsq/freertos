@@ -49,7 +49,7 @@ volatile unsigned int context_switch_reqflg; /* task context switch request flag
  * >1 in int/exc processing
  * @}
  */
-uint32_t exc_nest_count;
+uint32_t exc_nest_बिलांग;
 /* --------------------------------------------------------------------------*/
 
 /**
@@ -96,31 +96,31 @@ static void prvSetupTimerInterrupt( void )
  * It's not efficient but simple.
  *
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_इताअस_Of_सालानसान--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R0 */
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode; /* function body */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode; /* function body */
 
     /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) start_r; /* dispatch return address */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) start_r; /* dispatch return address */
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;
-    return pxTopOfStack;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portNO_CRITICAL_NESTING;
+    return px_इताअस_Of_सालानसान;
 }
 
 /* --------------------------------------------------------------------------*/
@@ -199,7 +199,7 @@ void vPortEndTask( void )
     }
 }
 
-#if ARC_FEATURE_STACK_CHECK
+#if ARC_FEATURE_सालानसान_CHECK
 
 /*
  * !!! Note !!!
@@ -209,7 +209,7 @@ void vPortEndTask( void )
  */
     typedef struct tskTaskControlBlock       /* The old naming convention is used to prevent breaking kernel aware debuggers. */
     {
-        volatile StackType_t * pxTopOfStack; /*< Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */
+        volatile सालानसान_Type_t * px_इताअस_Of_सालानसान; /*< Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */
 
         #if ( portUSING_MPU_WRAPPERS == 1 )
             xMPU_SETTINGS xMPUSettings; /*< The MPU settings are defined as part of the port layer.  THIS MUST BE THE SECOND MEMBER OF THE TCB STRUCT. */
@@ -218,11 +218,11 @@ void vPortEndTask( void )
         ListItem_t xStateListItem;                  /*< The list that the state list item of a task is reference from denotes the state of that task (Ready, Blocked, Suspended ). */
         ListItem_t xEventListItem;                  /*< Used to reference a task from an event list. */
         UBaseType_t uxPriority;                     /*< The priority of the task.  0 is the lowest priority. */
-        StackType_t * pxStack;                      /*< Points to the start of the stack. */
+        सालानसान_Type_t * px_सालानसान;                      /*< Points to the start of the stack. */
         char pcTaskName[ configMAX_TASK_NAME_LEN ]; /*< Descriptive name given to the task when created.  Facilitates debugging only. */ /*lint !e971 Unqualified char types are allowed for strings and single characters only. */
 
-        #if ( ( portSTACK_GROWTH > 0 ) || ( configRECORD_STACK_HIGH_ADDRESS == 1 ) )
-            StackType_t * pxEndOfStack; /*< Points to the highest valid address for the stack. */
+        #if ( ( port_सालानसान_GROWTH > 0 ) || ( config_RECORD_सालानसान_माताअस_ADDRESS == 1 ) )
+            सालानसान_Type_t * px_End_Of_सालानसान; /*< Points to the highest valid address for the stack. */
         #endif
 
         #if ( portCRITICAL_NESTING_IN_TCB == 1 )
@@ -231,7 +231,7 @@ void vPortEndTask( void )
 
         #if ( configUSE_TRACE_FACILITY == 1 )
             UBaseType_t uxTCBNumber;  /*< Stores a number that increments each time a TCB is created.  It allows debuggers to determine when a task has been deleted and then recreated. */
-            UBaseType_t uxTaskNumber; /*< Stores a number specifically for use by third party trace code. */
+            UBaseType_t ux_Task_नुमेरो; /*< Stores a number specifically for use by third party trace code. */
         #endif
 
         #if ( configUSE_MUTEXES == 1 )
@@ -243,8 +243,8 @@ void vPortEndTask( void )
             TaskHookFunction_t pxTaskTag;
         #endif
 
-        #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS > 0 )
-            void * pvThreadLocalStoragePointers[ configNUM_THREAD_LOCAL_STORAGE_POINTERS ];
+        #if ( config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS > 0 )
+            void * pvThreadLocalStoragePointers[ config_नुमेरो_THREAD_LOCAL_STORAGE_POINTERS ];
         #endif
 
         #if ( configGENERATE_RUN_TIME_STATS == 1 )
@@ -256,7 +256,7 @@ void vPortEndTask( void )
         #endif
 
         #if ( configUSE_TASK_NOTIFICATIONS == 1 )
-            volatile uint32_t ulNotifiedValue;
+            volatile uint32_t ul_Notified_हालागा;
             volatile uint8_t ucNotifyState;
         #endif
 
@@ -276,17 +276,17 @@ void vPortEndTask( void )
     } tskTCB;
 
 
-    void vPortSetStackCheck( TaskHandle_t old,
+    void v_Port_Set_सालानसान_Check( TaskHandle_t old,
                              TaskHandle_t new )
     {
         if( new != NULL )
         {
             #if ARC_FEATURE_SEC_PRESENT
-                arc_aux_write( AUX_S_KSTACK_BASE, ( uint32_t ) ( new->pxEndOfStack ) );
-                arc_aux_write( AUX_S_KSTACK_TOP, ( uint32_t ) ( new->pxStack ) );
+                arc_aux_write( AUX_S_KSTACK_BASE, ( uint32_t ) ( new->px_End_Of_सालानसान ) );
+                arc_aux_write( AUX_S_KSTACK_इताअस, ( uint32_t ) ( new->px_सालानसान ) );
             #else
-                arc_aux_write( AUX_KSTACK_BASE, ( uint32_t ) ( new->pxEndOfStack ) );
-                arc_aux_write( AUX_KSTACK_TOP, ( uint32_t ) ( new->pxStack ) );
+                arc_aux_write( AUX_KSTACK_BASE, ( uint32_t ) ( new->px_End_Of_सालानसान ) );
+                arc_aux_write( AUX_KSTACK_इताअस, ( uint32_t ) ( new->px_सालानसान ) );
             #endif
         }
     }

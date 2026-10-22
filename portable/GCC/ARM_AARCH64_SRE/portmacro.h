@@ -51,10 +51,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    size_t
+#define port_सालानसान_TYPE    size_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef portBASE_TYPE    BaseType_t;
 typedef uint64_t         UBaseType_t;
 
@@ -68,7 +68,7 @@ typedef uint64_t         TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH         ( -1 )
+#define port_सालानसान_GROWTH         ( -1 )
 #define portTICK_PERIOD_MS       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT       16
 #define portPOINTER_SIZE_TYPE    uint64_t
@@ -102,7 +102,7 @@ typedef uint64_t         TickType_t;
 extern void vPortEnterCritical( void );
 extern void vPortExitCritical( void );
 extern UBaseType_t uxPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t uxNewMaskValue );
+extern void vPortClearInterruptMask( UBaseType_t ux_New_Mask_हालागा );
 extern void vPortInstallFreeRTOSVectorTable( void );
 
 #define portDISABLE_INTERRUPTS()                       \
@@ -165,7 +165,7 @@ void FreeRTOS_Tick_Handler( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( uxReadyPriorities ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31 - __builtin_clz( uxReadyPriorities ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -181,21 +181,21 @@ void FreeRTOS_Tick_Handler( void );
  * number of bits implemented by the interrupt controller. */
 #if configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
+    #define port_MAX_दालावाहान_POINT_हालागा    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
     #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
+    #define port_MAX_दालावाहान_POINT_हालागा    2
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 64
     #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
+    #define port_MAX_दालावाहान_POINT_हालागा    1
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 128
     #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
+    #define port_MAX_दालावाहान_POINT_हालागा    0
 #else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
+    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the नुमेरो of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
 #define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )

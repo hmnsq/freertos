@@ -49,7 +49,7 @@
  */
 
 .macro SPILL_ALL_WINDOWS
-#if XCHAL_NUM_AREGS == 64
+#if XCHAL_नुमेरो_AREGS == 64
     and a12, a12, a12
     rotw 3
     and a12, a12, a12
@@ -60,7 +60,7 @@
     rotw 3
     and a12, a12, a12
     rotw 4
-#elif XCHAL_NUM_AREGS == 32
+#elif XCHAL_नुमेरो_AREGS == 32
     and a12, a12, a12
     rotw 3
     and a12, a12, a12
@@ -68,7 +68,7 @@
     and a4, a4, a4
     rotw 2
 #else /* if XCHAL_NUM_AREGS == 64 */
-    #error Unrecognized XCHAL_NUM_AREGS
+    #error Unrecognized XCHAL_नुमेरो_AREGS
 #endif /* if XCHAL_NUM_AREGS == 64 */
    .endm
 

@@ -47,28 +47,28 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW    ( ( StackType_t ) 0x00030000 )
+#define portINITIAL_PSW    ( ( सालानसान_Type_t ) 0x00030000 )
 
 /* The peripheral clock is divided by this value before being supplying the
  * CMT. */
 #if ( configUSE_TICKLESS_IDLE == 0 )
     /* If tickless idle is not used then the divisor can be fixed. */
-    #define portCLOCK_DIVISOR    8UL
+    #define port_CLOCK_पांगहाति    8UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
-    #define portCLOCK_DIVISOR    512UL
+    #define port_CLOCK_पांगहाति    512UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 6000000 )
-    #define portCLOCK_DIVISOR    128UL
+    #define port_CLOCK_पांगहाति    128UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
-    #define portCLOCK_DIVISOR    32UL
+    #define port_CLOCK_पांगहाति    32UL
 #else
-    #define portCLOCK_DIVISOR    8UL
+    #define port_CLOCK_पांगहाति    8UL
 #endif
 
 
 /* Keys required to lock and unlock access to certain system registers
  * respectively. */
-#define portUNLOCK_KEY    0xA50B
-#define portLOCK_KEY      0xA500
+#define port_UNLOCK_सुसि    0xA50B
+#define port_LOCK_सुसि      0xA500
 
 /*-----------------------------------------------------------*/
 
@@ -114,7 +114,7 @@ extern void * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /* Calculate how many clock increments make up a single tick period. */
-static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
+static const uint32_t ul_Match_हालागा_For_One_Tick = ( ( configPERIPHERAL_CLOCK_HZ / port_CLOCK_पांगहाति ) / configTICK_RATE_HZ );
 
 #if configUSE_TICKLESS_IDLE == 1
 
@@ -122,7 +122,7 @@ static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / p
  * basically how far into the future an interrupt can be generated. Set
  * during initialisation.  This is the maximum possible value that the
  * compare match register can hold divided by ulMatchValueForOneTick. */
-    static const TickType_t xMaximumPossibleSuppressedTicks = USHRT_MAX / ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
+    static const TickType_t xMaximumPossibleSuppressedTicks = USHRT_MAX / ( ( configPERIPHERAL_CLOCK_HZ / port_CLOCK_पांगहाति ) / configTICK_RATE_HZ );
 
 /* Flag set from the tick interrupt to allow the sleep processing to know if
  * sleep mode was exited because of a tick interrupt, or an interrupt
@@ -135,7 +135,7 @@ static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / p
  * compensate for the lost time.  The large difference between the divided CMT
  * clock and the CPU clock means it is likely ulStoppedTimerCompensation will
  * equal zero - and be optimised away. */
-    static const uint32_t ulStoppedTimerCompensation = 100UL / ( configCPU_CLOCK_HZ / ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) );
+    static const uint32_t ulStoppedTimerCompensation = 100UL / ( configCPU_CLOCK_HZ / ( configPERIPHERAL_CLOCK_HZ / port_CLOCK_पांगहाति ) );
 
 #endif /* if configUSE_TICKLESS_IDLE == 1 */
 
@@ -144,72 +144,72 @@ static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / p
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
     /* Offset to end up on 8 byte boundary. */
-    pxTopOfStack--;
+    px_इताअस_Of_सालानसान--;
 
     /* R0 is not included as it is the stack pointer. */
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_इताअस_Of_सालानसान = 0x00;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x00;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_PSW;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0x12345678; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaabbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x12345678; /* r15. */
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xaaaabbbb;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xdddddddd;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xcccccccc;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xbbbbbbbb;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0xaaaaaaaa;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x99999999;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x88888888;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x77777777;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x66666666;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x55555555;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x44444444;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x33333333;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = 0x22222222;
+        px_इताअस_Of_सालानसान--;
     }
     #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         /* Leave space for the registers that will get popped from the stack
          * when the task first starts executing. */
-        pxTopOfStack -= 15;
+        px_इताअस_Of_सालानसान -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678;                   /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321;                   /* Accumulator. */
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R1 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x12345678;                   /* Accumulator. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x87654321;                   /* Accumulator. */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -275,7 +275,7 @@ __interrupt static void prvTickISR( void )
 
         /* If this is the first tick since exiting tickless mode then the CMT
          * compare match value needs resetting. */
-        CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
+        CMT0.CMCOR = ( uint16_t ) ul_Match_हालागा_For_One_Tick;
     }
     #endif
 }
@@ -292,40 +292,40 @@ void vPortEndScheduler( void )
 static void prvSetupTimerInterrupt( void )
 {
     /* Unlock. */
-    SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+    SYSTEM.PRCR.WORD = port_UNLOCK_सुसि;
 
     /* Enable CMT0. */
     MSTP( CMT0 ) = 0;
 
     /* Lock again. */
-    SYSTEM.PRCR.WORD = portLOCK_KEY;
+    SYSTEM.PRCR.WORD = port_LOCK_सुसि;
 
     /* Interrupt on compare match. */
     CMT0.CMCR.BIT.CMIE = 1;
 
     /* Set the compare match value. */
-    CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
+    CMT0.CMCOR = ( uint16_t ) ul_Match_हालागा_For_One_Tick;
 
     /* Divide the PCLK. */
-    #if portCLOCK_DIVISOR == 512
+    #if port_CLOCK_पांगहाति == 512
     {
         CMT0.CMCR.BIT.CKS = 3;
     }
-    #elif portCLOCK_DIVISOR == 128
+    #elif port_CLOCK_पांगहाति == 128
     {
         CMT0.CMCR.BIT.CKS = 2;
     }
-    #elif portCLOCK_DIVISOR == 32
+    #elif port_CLOCK_पांगहाति == 32
     {
         CMT0.CMCR.BIT.CKS = 1;
     }
-    #elif portCLOCK_DIVISOR == 8
+    #elif port_CLOCK_पांगहाति == 8
     {
         CMT0.CMCR.BIT.CKS = 0;
     }
     #else /* if portCLOCK_DIVISOR == 512 */
     {
-        #error Invalid portCLOCK_DIVISOR setting
+        #error Invalid port_CLOCK_पांगहाति setting
     }
     #endif /* if portCLOCK_DIVISOR == 512 */
 
@@ -367,7 +367,7 @@ static void prvSetupTimerInterrupt( void )
 
     void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
-        uint32_t ulMatchValue, ulCompleteTickPeriods, ulCurrentCount;
+        uint32_t ul_Match_हालागा, ulCompleteTickPeriods, ul_Current_बिलांग;
         eSleepModeStatus eSleepAction;
 
         /* THIS FUNCTION IS CALLED WITH THE SCHEDULER SUSPENDED. */
@@ -380,13 +380,13 @@ static void prvSetupTimerInterrupt( void )
 
         /* Calculate the reload value required to wait xExpectedIdleTime tick
          * periods. */
-        ulMatchValue = ulMatchValueForOneTick * xExpectedIdleTime;
+        ul_Match_हालागा = ul_Match_हालागा_For_One_Tick * xExpectedIdleTime;
 
-        if( ulMatchValue > ulStoppedTimerCompensation )
+        if( ul_Match_हालागा > ulStoppedTimerCompensation )
         {
             /* Compensate for the fact that the CMT is going to be stopped
              * momentarily. */
-            ulMatchValue -= ulStoppedTimerCompensation;
+            ul_Match_हालागा -= ulStoppedTimerCompensation;
         }
 
         /* Stop the CMT momentarily.  The time the CMT is stopped for is
@@ -423,13 +423,13 @@ static void prvSetupTimerInterrupt( void )
         else if( eSleepAction == eNoTasksWaitingTimeout )
         {
             /* Protection off. */
-            SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+            SYSTEM.PRCR.WORD = port_UNLOCK_सुसि;
 
             /* Ready for software standby with all clocks stopped. */
             SYSTEM.SBYCR.BIT.SSBY = 1;
 
             /* Protection on. */
-            SYSTEM.PRCR.WORD = portLOCK_KEY;
+            SYSTEM.PRCR.WORD = port_LOCK_सुसि;
 
             /* Sleep until something happens.  Calling prvSleep() will
              * automatically reset the i bit in the PSW. */
@@ -441,7 +441,7 @@ static void prvSetupTimerInterrupt( void )
         else
         {
             /* Protection off. */
-            SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+            SYSTEM.PRCR.WORD = port_UNLOCK_सुसि;
 
             /* Ready for deep sleep mode. */
             SYSTEM.MSTPCRC.BIT.DSLPE = 1;
@@ -449,12 +449,12 @@ static void prvSetupTimerInterrupt( void )
             SYSTEM.SBYCR.BIT.SSBY = 0;
 
             /* Protection on. */
-            SYSTEM.PRCR.WORD = portLOCK_KEY;
+            SYSTEM.PRCR.WORD = port_LOCK_सुसि;
 
             /* Adjust the match value to take into account that the current
              * time slice is already partially complete. */
-            ulMatchValue -= ( uint32_t ) CMT0.CMCNT;
-            CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+            ul_Match_हालागा -= ( uint32_t ) CMT0.CMCNT;
+            CMT0.CMCOR = ( uint16_t ) ul_Match_हालागा;
 
             /* Restart the CMT to count up to the new match value. */
             CMT0.CMCNT = 0;
@@ -475,7 +475,7 @@ static void prvSetupTimerInterrupt( void )
                 /* Nothing to do here. */
             }
 
-            ulCurrentCount = ( uint32_t ) CMT0.CMCNT;
+            ul_Current_बिलांग = ( uint32_t ) CMT0.CMCNT;
 
             if( ulTickFlag != pdFALSE )
             {
@@ -484,8 +484,8 @@ static void prvSetupTimerInterrupt( void )
                  * tick processing will not occur until after this function has
                  * exited.  Reset the match value with whatever remains of this
                  * tick period. */
-                ulMatchValue = ulMatchValueForOneTick - ulCurrentCount;
-                CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+                ul_Match_हालागा = ul_Match_हालागा_For_One_Tick - ul_Current_बिलांग;
+                CMT0.CMCOR = ( uint16_t ) ul_Match_हालागा;
 
                 /* The tick interrupt handler will already have pended the tick
                  * processing in the kernel.  As the pending tick will be
@@ -500,12 +500,12 @@ static void prvSetupTimerInterrupt( void )
                 /* Something other than the tick interrupt ended the sleep.
                  * How many complete tick periods passed while the processor was
                  * sleeping? */
-                ulCompleteTickPeriods = ulCurrentCount / ulMatchValueForOneTick;
+                ulCompleteTickPeriods = ul_Current_बिलांग / ul_Match_हालागा_For_One_Tick;
 
                 /* The match value is set to whatever fraction of a single tick
                  * period remains. */
-                ulMatchValue = ulCurrentCount - ( ulCompleteTickPeriods * ulMatchValueForOneTick );
-                CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+                ul_Match_हालागा = ul_Current_बिलांग - ( ulCompleteTickPeriods * ul_Match_हालागा_For_One_Tick );
+                CMT0.CMCOR = ( uint16_t ) ul_Match_हालागा;
             }
 
             /* Restart the CMT so it runs up to the match value.  The match value

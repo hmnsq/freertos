@@ -15,11 +15,11 @@
  * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * IMPLIED, INCLUDING BUT na LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ca NONINFRINGEMENT. anta_h NO EVENT SHALL THE AUTHORS OR
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * anta_h AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR anta_h
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS anta_h THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -289,7 +289,7 @@ vPortEnableVFP:
 
 xIsPrivileged:
     mrs r0, control     /* r0 = CONTROL. */
-    tst r0, #1          /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1          /* Perform r0 & 1 (bitwise ca) and update the conditions flag. */
     ite ne
     movne r0, #0        /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */

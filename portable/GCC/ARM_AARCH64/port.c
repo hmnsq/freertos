@@ -85,24 +85,24 @@
 
 /* In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority. */
-#define portUNMASK_VALUE                 ( 0xFFUL )
+#define port_UNMASK_हालागा                 ( 0xFFUL )
 
 /* Tasks are not created with a floating point context, but can be given a
  * floating point context after they have been created.  A variable is stored as
  * part of the tasks context that holds portNO_FLOATING_POINT_CONTEXT if the task
  * does not have an FPU context, or any other value if the task does have an FPU
  * context. */
-#define portNO_FLOATING_POINT_CONTEXT    ( ( StackType_t ) 0 )
+#define portNO_FLOATING_POINT_CONTEXT    ( ( सालानसान_Type_t ) 0 )
 
 /* Constants required to setup the initial task context. */
-#define portSP_ELx                       ( ( StackType_t ) 0x01 )
-#define portSP_EL0                       ( ( StackType_t ) 0x00 )
+#define portSP_ELx                       ( ( सालानसान_Type_t ) 0x01 )
+#define portSP_EL0                       ( ( सालानसान_Type_t ) 0x00 )
 
 #if defined( GUEST )
-    #define portEL1                      ( ( StackType_t ) 0x04 )
+    #define portEL1                      ( ( सालानसान_Type_t ) 0x04 )
     #define portINITIAL_PSTATE           ( portEL1 | portSP_EL0 )
 #else
-    #define portEL3                      ( ( StackType_t ) 0x0c )
+    #define portEL3                      ( ( सालानसान_Type_t ) 0x0c )
     /* At the time of writing, the BSP only supports EL3. */
     #define portINITIAL_PSTATE           ( portEL3 | portSP_EL0 )
 #endif
@@ -110,7 +110,7 @@
 
 /* Used by portASSERT_IF_INTERRUPT_PRIORITY_INVALID() when ensuring the binary
  * point is zero. */
-#define portBINARY_POINT_BITS      ( ( uint8_t ) 0x03 )
+#define port_दालावाहान_POINT_BITS      ( ( uint8_t ) 0x03 )
 
 /* Masks all bits in the APSR other than the mode bits. */
 #define portAPSR_MODE_BITS_MASK    ( 0x0C )
@@ -122,7 +122,7 @@
 #define portCLEAR_INTERRUPT_MASK()                            \
     {                                                         \
         portDISABLE_INTERRUPTS();                             \
-        portICCPMR_PRIORITY_MASK_REGISTER = portUNMASK_VALUE; \
+        portICCPMR_PRIORITY_MASK_REGISTER = port_UNMASK_हालागा; \
         __asm volatile ( "DSB SY     \n"                      \
                          "ISB SY     \n" );                   \
         portENABLE_INTERRUPTS();                              \
@@ -130,12 +130,12 @@
 
 /* Hardware specifics used when sanity checking the configuration. */
 #define portINTERRUPT_PRIORITY_REGISTER_OFFSET    0x400UL
-#define portMAX_8_BIT_VALUE                       ( ( uint8_t ) 0xff )
+#define port_MAX_8_BIT_हालागा                       ( ( uint8_t ) 0xff )
 #define portBIT_0_SET                             ( ( uint8_t ) 0x01 )
 
 /* The space on the stack required to hold the FPU registers.
  * There are 32 128-bit registers.*/
-#define portFPU_REGISTER_WORDS     ( 32 * 2 )
+#define port_FPU_REGISTER_मगा_सालिता     ( 32 * 2 )
 
 /*-----------------------------------------------------------*/
 
@@ -176,7 +176,7 @@ __attribute__( ( used ) ) const uint64_t ullMaxAPIPriorityMask = ( configMAX_API
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -184,104 +184,104 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * expected by the portRESTORE_CONTEXT() macro. */
 
     /* First all the general purpose registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0101010101010101ULL;        /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0303030303030303ULL;        /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0202020202020202ULL;        /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0505050505050505ULL;        /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0404040404040404ULL;        /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0707070707070707ULL;        /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0606060606060606ULL;        /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0909090909090909ULL;        /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x0808080808080808ULL;        /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1111111111111111ULL;        /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1010101010101010ULL;        /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1313131313131313ULL;        /* R13 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1212121212121212ULL;        /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1515151515151515ULL;        /* R15 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1414141414141414ULL;        /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1717171717171717ULL;        /* R17 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1616161616161616ULL;        /* R16 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1919191919191919ULL;        /* R19 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x1818181818181818ULL;        /* R18 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2121212121212121ULL;        /* R21 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2020202020202020ULL;        /* R20 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2323232323232323ULL;        /* R23 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222222222222222ULL;        /* R22 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2525252525252525ULL;        /* R25 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2424242424242424ULL;        /* R24 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2727272727272727ULL;        /* R27 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2626262626262626ULL;        /* R26 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2929292929292929ULL;        /* R29 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2828282828282828ULL;        /* R28 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00;         /* XZR - has no effect, used so there are an even number of registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00;         /* R30 - procedure call link register. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0101010101010101ULL;        /* R1 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters; /* R0 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0303030303030303ULL;        /* R3 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0202020202020202ULL;        /* R2 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0505050505050505ULL;        /* R5 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0404040404040404ULL;        /* R4 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0707070707070707ULL;        /* R7 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0606060606060606ULL;        /* R6 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0909090909090909ULL;        /* R9 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x0808080808080808ULL;        /* R8 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1111111111111111ULL;        /* R11 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1010101010101010ULL;        /* R10 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1313131313131313ULL;        /* R13 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1212121212121212ULL;        /* R12 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1515151515151515ULL;        /* R15 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1414141414141414ULL;        /* R14 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1717171717171717ULL;        /* R17 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1616161616161616ULL;        /* R16 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1919191919191919ULL;        /* R19 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x1818181818181818ULL;        /* R18 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2121212121212121ULL;        /* R21 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2020202020202020ULL;        /* R20 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2323232323232323ULL;        /* R23 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2222222222222222ULL;        /* R22 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2525252525252525ULL;        /* R25 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2424242424242424ULL;        /* R24 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2727272727272727ULL;        /* R27 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2626262626262626ULL;        /* R26 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2929292929292929ULL;        /* R29 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = 0x2828282828282828ULL;        /* R28 */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00;         /* XZR - has no effect, used so there are an even number of registers. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x00;         /* R30 - procedure call link register. */
 
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSTATE;
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = portINITIAL_PSTATE;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode; /* Exception return address. */
+    px_इताअस_Of_सालानसान--;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pxCode; /* Exception return address. */
 
     #if ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /* The task will start with a critical nesting count of 0 as interrupts are
         * enabled. */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_CRITICAL_NESTING;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = portNO_CRITICAL_NESTING;
 
         /* The task will start without a floating point context.  A task that
          * uses the floating point hardware must call vPortTaskUsesFPU() before
          * executing any floating point instructions. */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = portNO_FLOATING_POINT_CONTEXT;
     }
     #elif ( configUSE_TASK_FPU_SUPPORT == 2 )
     {
         /* The task will start with a floating point context.  Leave enough
          * space for the registers - and ensure they are initialised to 0. */
-        pxTopOfStack -= portFPU_REGISTER_WORDS;
-        memset( pxTopOfStack, 0x00, portFPU_REGISTER_WORDS * sizeof( StackType_t ) );
+        px_इताअस_Of_सालानसान -= port_FPU_REGISTER_मगा_सालिता;
+        memset( px_इताअस_Of_सालानसान, 0x00, port_FPU_REGISTER_मगा_सालिता * sizeof( सालानसान_Type_t ) );
 
         /* The task will start with a critical nesting count of 0 as interrupts are
         * enabled. */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_CRITICAL_NESTING;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = portNO_CRITICAL_NESTING;
 
-        pxTopOfStack--;
-        *pxTopOfStack = pdTRUE;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = pdTRUE;
         ullPortTaskHasFPUContext = pdTRUE;
     }
     #else /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
@@ -290,7 +290,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     }
     #endif /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 /*-----------------------------------------------------------*/
 
@@ -302,7 +302,7 @@ BaseType_t xPortStartScheduler( void )
     {
         volatile uint8_t ucOriginalPriority;
         volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + portINTERRUPT_PRIORITY_REGISTER_OFFSET );
-        volatile uint8_t ucMaxPriorityValue;
+        volatile uint8_t uc_Max_Priority_हालागा;
 
         /* Determine how many priority bits are implemented in the GIC.
          *
@@ -311,21 +311,21 @@ BaseType_t xPortStartScheduler( void )
 
         /* Determine the number of priority bits available.  First write to
          * all possible bits. */
-        *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+        *pucFirstUserPriorityRegister = port_MAX_8_BIT_हालागा;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+        uc_Max_Priority_हालागा = *pucFirstUserPriorityRegister;
 
         /* Shift to the least significant bits. */
-        while( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
+        while( ( uc_Max_Priority_हालागा & portBIT_0_SET ) != portBIT_0_SET )
         {
-            ucMaxPriorityValue >>= ( uint8_t ) 0x01;
+            uc_Max_Priority_हालागा >>= ( uint8_t ) 0x01;
         }
 
         /* Sanity check configUNIQUE_INTERRUPT_PRIORITIES matches the read
          * value. */
 
-        configASSERT( ucMaxPriorityValue >= portLOWEST_INTERRUPT_PRIORITY );
+        configASSERT( uc_Max_Priority_हालागा >= portLOWEST_INTERRUPT_PRIORITY );
 
 
         /* Restore the clobbered interrupt priority register to its original
@@ -353,9 +353,9 @@ BaseType_t xPortStartScheduler( void )
         /* Only continue if the binary point value is set to its lowest possible
          * setting.  See the comments in vPortValidateInterruptPriority() below for
          * more information. */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( port_ICCBPR_दालावाहान_POINT_REGISTER & port_दालावाहान_POINT_BITS ) <= port_MAX_दालावाहान_POINT_हालागा );
 
-        if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+        if( ( port_ICCBPR_दालावाहान_POINT_REGISTER & port_दालावाहान_POINT_BITS ) <= port_MAX_दालावाहान_POINT_हालागा )
         {
             /* Interrupts are turned off in the CPU itself to ensure a tick does
              * not execute while the scheduler is being started.  Interrupts are
@@ -483,9 +483,9 @@ void FreeRTOS_Tick_Handler( void )
 #endif /* configUSE_TASK_FPU_SUPPORT */
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( UBaseType_t uxNewMaskValue )
+void vPortClearInterruptMask( UBaseType_t ux_New_Mask_हालागा )
 {
-    if( uxNewMaskValue == pdFALSE )
+    if( ux_New_Mask_हालागा == pdFALSE )
     {
         portCLEAR_INTERRUPT_MASK();
     }
@@ -549,7 +549,7 @@ UBaseType_t uxPortSetInterruptMask( void )
          * The priority grouping is configured by the GIC's binary point register
          * (ICCBPR).  Writing 0 to ICCBPR will ensure it is set to its lowest
          * possible value (which may be above 0). */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( port_ICCBPR_दालावाहान_POINT_REGISTER & port_दालावाहान_POINT_BITS ) <= port_MAX_दालावाहान_POINT_हालागा );
     }
 
 #endif /* configASSERT_DEFINED */

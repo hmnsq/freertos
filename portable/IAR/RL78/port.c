@@ -88,7 +88,7 @@ static void prvTaskExitError( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters )
 {
@@ -102,28 +102,28 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * Although they are stored in memory as a 32-bit value.  Hence decrement
          * the stack pointer, so 2 bytes are left for the contents of A, before
          * storing the pvParameters value. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_इताअस_Of_सालानसान--;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         #if  __CALLING_CONVENTION__ == __CC_V2__
             /* V2: parameter via A:DE, do not push pvParameters on stack */
         #else
             /* V1 or unknown: keep stack write */
             *pulLocal = ( uint32_t ) pvParameters;
-            pxTopOfStack--;
+            px_इताअस_Of_सालानसान--;
         #endif
         /* The return address is a 32-bit value. So decrement the stack pointer
          * in order to make extra room needed to store the correct value.  See the
          * comments above the prvTaskExitError() prototype at the top of this file. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_इताअस_Of_सालानसान--;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( uint32_t ) prvTaskExitError;
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
         /* The task function start address combined with the PSW is also stored
          * as a 32-bit value. So leave a space for the second two bytes. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_इताअस_Of_सालानसान--;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
         /* Register image on task entry. */
         #if  __CALLING_CONVENTION__ == __CC_V2__
         {
@@ -131,74 +131,74 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
             uint16_t de_init = (uint16_t)( p & 0xFFFFU );
             uint16_t ax_init = (uint16_t)( ((p >> 16) & 0xFFU) << 8 );
             /* AX register image */
-            *pxTopOfStack = ( StackType_t ) ax_init;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) ax_init;
+            px_इताअस_Of_सालानसान--;
             /* HL register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0x2222;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x2222;
+            px_इताअस_Of_सालानसान--;
             /* CS:ES register image */
-            *pxTopOfStack = ( StackType_t ) 0x0F00;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0F00;
+            px_इताअस_Of_सालानसान--;
             /* DE register image */
-            *pxTopOfStack = ( StackType_t ) de_init;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) de_init;
+            px_इताअस_Of_सालानसान--;
         }
         #else
             /* An initial value for the AX register. */
-            *pxTopOfStack = ( StackType_t ) 0x1111;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x1111;
+            px_इताअस_Of_सालानसान--;
             /* HL register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0x2222;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x2222;
+            px_इताअस_Of_सालानसान--;
             /* CS:ES register image */
-            *pxTopOfStack = ( StackType_t ) 0x0F00;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0F00;
+            px_इताअस_Of_सालानसान--;
             /* DE register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0xDEDE;
-            pxTopOfStack--;
+            *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xDEDE;
+            px_इताअस_Of_सालानसान--;
         #endif
         /* BC remains a dummy value (not used for parameter passing). */
-        *pxTopOfStack = ( StackType_t ) 0xBCBC;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xBCBC;
+        px_इताअस_Of_सालानसान--;
     }
 #else /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
     {
        /* The return address, leaving space for the first two bytes of the
          * 32-bit value.  See the comments above the prvTaskExitError() prototype
          * at the top of this file. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_इताअस_Of_सालानसान--;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( uint32_t ) prvTaskExitError;
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
         /* Task function.  Again as it is written as a 32-bit value a space is
          * left on the stack for the second two bytes. */
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_इताअस_Of_सालानसान;
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_इताअस_Of_सालानसान--;
         /* The parameter is passed in AX. */
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) pvParameters;
+        px_इताअस_Of_सालानसान--;
         /* An initial value for the HL register. */
-        *pxTopOfStack = ( StackType_t ) 0x2222;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x2222;
+        px_इताअस_Of_सालानसान--;
         /* CS and ES registers. */
-        *pxTopOfStack = ( StackType_t ) 0x0F00;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0x0F00;
+        px_इताअस_Of_सालानसान--;
         /* The remaining general purpose registers DE and BC */
-        *pxTopOfStack = ( StackType_t ) 0xDEDE;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xBCBC;
-        pxTopOfStack--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xDEDE;
+        px_इताअस_Of_सालानसान--;
+        *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) 0xBCBC;
+        px_इताअस_Of_सालानसान--;
     }
 #endif /* __DATA_MODEL__ */
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_इताअस_Of_सालानसान = ( सालानसान_Type_t ) portNO_CRITICAL_SECTION_NESTING;
     /* Return a pointer to the top of the stack that has been generated so
      * it can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    return px_इताअस_Of_सालानसान;
 }
 
 /*-----------------------------------------------------------*/

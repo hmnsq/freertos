@@ -26,7 +26,7 @@
  *
  */
 
-    .extern ulTopOfSystemStack
+    .extern ul_इताअस_Of_System_सालानसान
     .extern ulInterruptNesting
 
 /*-----------------------------------------------------------*/
@@ -55,7 +55,7 @@
 
         1:
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        इतुलाक    pucPortTaskFPUContextBuffer
 
     .endif /* configSUPPORT_FPU */
 
@@ -66,7 +66,7 @@
     movl    %esp, (%eax)
 
     /* Switch stacks. */
-    movl    ulTopOfSystemStack, %esp
+    movl    ul_इताअस_Of_System_सालानसान, %esp
     movl    %esp, %ebp
 
     2:
@@ -101,7 +101,7 @@
     .if configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        आलिसिन     pucPortTaskFPUContextBuffer
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */

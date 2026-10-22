@@ -80,7 +80,7 @@ typedef void ( * portISR_t )( void );
 /* Constants required to access and manipulate the NVIC. */
 #define portNVIC_SYSTICK_CTRL_REG                 ( *( ( volatile uint32_t * ) 0xe000e010 ) )
 #define portNVIC_SYSTICK_LOAD_REG                 ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG        ( *( ( volatile uint32_t * ) 0xe000e018 ) )
+#define port_NVIC_SYSTICK_CURRENT_हालागा_REG        ( *( ( volatile uint32_t * ) 0xe000e018 ) )
 #define portNVIC_SHPR3_REG                        ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
 #define portNVIC_SHPR2_REG                        ( *( ( volatile uint32_t * ) 0xe000ed1c ) )
 #define portNVIC_SYS_CTRL_STATE_REG               ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
@@ -97,7 +97,7 @@ typedef void ( * portISR_t )( void );
 #define portMPU_REGION_BASE_ADDRESS_REG           ( *( ( volatile uint32_t * ) 0xe000ed9C ) )
 #define portMPU_REGION_ATTRIBUTE_REG              ( *( ( volatile uint32_t * ) 0xe000edA0 ) )
 #define portMPU_CTRL_REG                          ( *( ( volatile uint32_t * ) 0xe000ed94 ) )
-#define portEXPECTED_MPU_TYPE_VALUE               ( configTOTAL_MPU_REGIONS << 8UL )
+#define port_EXPECTED_MPU_TYPE_हालागा               ( configTOTAL_MPU_REGIONS << 8UL )
 #define portMPU_ENABLE                            ( 0x01UL )
 #define portMPU_BACKGROUND_ENABLE                 ( 1UL << 2UL )
 #define portPRIVILEGED_EXECUTION_START_ADDRESS    ( 0UL )
@@ -131,18 +131,18 @@ typedef void ( * portISR_t )( void );
 #define portVECTOR_INDEX_PENDSV                   ( 14 )
 
 /* Constants required to check the validity of an interrupt priority. */
-#define portFIRST_USER_INTERRUPT_NUMBER           ( 16 )
+#define port_FIRST_USER_INTERRUPT_नुमेरो           ( 16 )
 #define portNVIC_IP_REGISTERS_OFFSET_16           ( 0xE000E3F0 )
 #define portAIRCR_REG                             ( *( ( volatile uint32_t * ) 0xE000ED0C ) )
-#define portMAX_8_BIT_VALUE                       ( ( uint8_t ) 0xff )
-#define portTOP_BIT_OF_BYTE                       ( ( uint8_t ) 0x80 )
+#define port_MAX_8_BIT_हालागा                       ( ( uint8_t ) 0xff )
+#define port_इताअस_BIT_OF_BYTE                       ( ( uint8_t ) 0x80 )
 #define portMAX_PRIGROUP_BITS                     ( ( uint8_t ) 7 )
 #define portPRIORITY_GROUP_MASK                   ( 0x07UL << 8UL )
 #define portPRIGROUP_SHIFT                        ( 8UL )
 
 /* Constants used during system call enter and exit. */
-#define portPSR_STACK_PADDING_MASK                ( 1UL << 9UL )
-#define portEXC_RETURN_STACK_FRAME_TYPE_MASK      ( 1UL << 4UL )
+#define port_PSR_सालानसान_PADDING_MASK                ( 1UL << 9UL )
+#define port_EXC_RETURN_सालानसान_FRAME_TYPE_MASK      ( 1UL << 4UL )
 
 /* Offsets in the stack to the parameters when inside the SVC handler. */
 #define portOFFSET_TO_LR                          ( 5 )
@@ -152,7 +152,7 @@ typedef void ( * portISR_t )( void );
 
 /* For strict compliance with the Cortex-M spec the task start address should
  * have bit-0 clear, as it is loaded into the PC on exit from an ISR. */
-#define portSTART_ADDRESS_MASK    ( ( StackType_t ) 0xfffffffeUL )
+#define portSTART_ADDRESS_MASK    ( ( सालानसान_Type_t ) 0xfffffffeUL )
 
 /* Does addr lie within [start, end] address range? */
 #define portIS_ADDRESS_WITHIN_RANGE( addr, start, end ) \
@@ -261,9 +261,9 @@ void vPortSwitchToUserMode( void );
  * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
  * @param ucSystemCallNumber The system call number of the system call.
  */
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    void vSystemCallEnter( uint32_t * pul_Task_सालानसान,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) PRIVILEGED_FUNCTION;
+                           uint8_t uc_System_Call_नुमेरो ) PRIVILEGED_FUNCTION;
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
@@ -285,7 +285,7 @@ void vPortSwitchToUserMode( void );
  * @param pulSystemCallStack The current SP when the SVC was raised.
  * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
  */
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    void vSystemCallExit( uint32_t * pul_System_Call_सालानसान,
                           uint32_t ulLR ) PRIVILEGED_FUNCTION;
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
@@ -328,7 +328,7 @@ static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+सालानसान_Type_t * px_Port_Initialise_सालानसान( सालानसान_Type_t * px_इताअस_Of_सालानसान,
                                      TaskFunction_t pxCode,
                                      void * pvParameters,
                                      BaseType_t xRunPrivileged,
@@ -355,7 +355,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     xMPUSettings->ulContext[ 8 ] = 0x11111111;                                        /* r11. */
     xMPUSettings->ulContext[ 9 ] = portINITIAL_EXC_RETURN;                            /* EXC_RETURN. */
 
-    xMPUSettings->ulContext[ 10 ] = ( uint32_t ) ( pxTopOfStack - 8 );                /* PSP with the hardware saved stack. */
+    xMPUSettings->ulContext[ 10 ] = ( uint32_t ) ( px_इताअस_Of_सालानसान - 8 );                /* PSP with the hardware saved stack. */
     xMPUSettings->ulContext[ 11 ] = ( uint32_t ) pvParameters;                        /* r0. */
     xMPUSettings->ulContext[ 12 ] = 0x01010101;                                       /* r1. */
     xMPUSettings->ulContext[ 13 ] = 0x02020202;                                       /* r2. */
@@ -368,12 +368,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
     {
         /* Ensure that the system call stack is double word aligned. */
-        xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1 ] );
-        xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->xSystemCallStackInfo.pulSystemCallStack ) &
+        xMPUSettings->x_System_Call_सालानसान_Info.pul_System_Call_सालानसान = &( xMPUSettings->x_System_Call_सालानसान_Info.ul_System_Call_सालानसान_Buffer[ config_SYSTEM_CALL_सालानसान_SIZE - 1 ] );
+        xMPUSettings->x_System_Call_सालानसान_Info.pul_System_Call_सालानसान = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->x_System_Call_सालानसान_Info.pul_System_Call_सालानसान ) &
                                                                                  ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) );
 
         /* This is not NULL only for the duration of a system call. */
-        xMPUSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+        xMPUSettings->x_System_Call_सालानसान_Info.pul_Task_सालानसान = NULL;
     }
     #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
@@ -414,7 +414,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( नुमेरो_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "memory"
         );
     }
@@ -426,7 +426,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         /* Assumes psp was in use. */
         __asm volatile
         (
-            #ifndef USE_PROCESS_STACK /* Code should not be required if a main() is using the process stack. */
+            #ifndef USE_PROCESS_सालानसान /* Code should not be required if a main() is using the process stack. */
                 "   tst lr, #4                      \n"
                 "   ite eq                          \n"
                 "   mrseq r0, msp                   \n"
@@ -524,14 +524,14 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
 
 #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    void vSystemCallEnter( uint32_t * pul_Task_सालानसान,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) /* PRIVILEGED_FUNCTION */
+                           uint8_t uc_System_Call_नुमेरो ) /* PRIVILEGED_FUNCTION */
     {
         extern TaskHandle_t pxCurrentTCB;
-        extern UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ];
+        extern UBaseType_t uxSystemCallImplementations[ नुमेरो_SYSTEM_CALLS ];
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulSystemCallStack;
+        uint32_t * pul_System_Call_सालानसान;
         uint32_t ulHardwareSavedExceptionFrameSize, ulSystemCallLocation, i;
 
         #if defined( __ARMCC_VERSION )
@@ -545,7 +545,7 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
             extern uint32_t __syscalls_flash_end__[];
         #endif /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulTaskStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_Task_सालानसान[ portOFFSET_TO_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -562,16 +562,16 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
          */
         if( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __syscalls_flash_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack == NULL ) &&
-            ( uxSystemCallImplementations[ ucSystemCallNumber ] != ( UBaseType_t ) 0 ) )
+            ( pxMpuSettings->x_System_Call_सालानसान_Info.pul_Task_सालानसान == NULL ) &&
+            ( uxSystemCallImplementations[ uc_System_Call_नुमेरो ] != ( UBaseType_t ) 0 ) )
         {
-            pulSystemCallStack = pxMpuSettings->xSystemCallStackInfo.pulSystemCallStack;
+            pul_System_Call_सालानसान = pxMpuSettings->x_System_Call_सालानसान_Info.pul_System_Call_सालानसान;
 
             /* Hardware Saved Stack Frame Size upon Exception entry:
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+            if( ( ulLR & port_EXC_RETURN_सालानसान_FRAME_TYPE_MASK ) == 0UL )
             {
                 /* Extended frame i.e. FPU in use. */
                 ulHardwareSavedExceptionFrameSize = 26;
@@ -588,16 +588,16 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
             }
 
             /* Make space on the system call stack for the stack frame. */
-            pulSystemCallStack = pulSystemCallStack - ulHardwareSavedExceptionFrameSize;
+            pul_System_Call_सालानसान = pul_System_Call_सालानसान - ulHardwareSavedExceptionFrameSize;
 
             /* Copy the stack frame. */
             for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
             {
-                pulSystemCallStack[ i ] = pulTaskStack[ i ];
+                pul_System_Call_सालानसान[ i ] = pul_Task_सालानसान[ i ];
             }
 
             /* Use the pulSystemCallStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulSystemCallStack ) );
+            __asm volatile ( "msr psp, %0" : : "r" ( pul_System_Call_सालानसान ) );
 
             /* Raise the privilege for the duration of the system call. */
             __asm volatile (
@@ -609,35 +609,35 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
 
             /* Remember the location where we should copy the stack frame when we exit from
              * the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = pulTaskStack + ulHardwareSavedExceptionFrameSize;
+            pxMpuSettings->x_System_Call_सालानसान_Info.pul_Task_सालानसान = pul_Task_सालानसान + ulHardwareSavedExceptionFrameSize;
 
             /* Store the value of the Link Register before the SVC was raised.
              * It contains the address of the caller of the System Call entry
              * point (i.e. the caller of the MPU_<API>). We need to restore it
              * when we exit from the system call. */
-            pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry = pulTaskStack[ portOFFSET_TO_LR ];
+            pxMpuSettings->x_System_Call_सालानसान_Info.ulLinkRegisterAtSystemCallEntry = pul_Task_सालानसान[ portOFFSET_TO_LR ];
 
             /* Start executing the system call upon returning from this handler. */
-            pulSystemCallStack[ portOFFSET_TO_PC ] = uxSystemCallImplementations[ ucSystemCallNumber ];
+            pul_System_Call_सालानसान[ portOFFSET_TO_PC ] = uxSystemCallImplementations[ uc_System_Call_नुमेरो ];
             /* Raise a request to exit from the system call upon finishing the
              * system call. */
-            pulSystemCallStack[ portOFFSET_TO_LR ] = ( uint32_t ) vRequestSystemCallExit;
+            pul_System_Call_सालानसान[ portOFFSET_TO_LR ] = ( uint32_t ) vRequestSystemCallExit;
 
             /* Record if the hardware used padding to force the stack pointer
              * to be double word aligned. */
-            if( ( pulTaskStack[ portOFFSET_TO_PSR ] & portPSR_STACK_PADDING_MASK ) == portPSR_STACK_PADDING_MASK )
+            if( ( pul_Task_सालानसान[ portOFFSET_TO_PSR ] & port_PSR_सालानसान_PADDING_MASK ) == port_PSR_सालानसान_PADDING_MASK )
             {
-                pxMpuSettings->ulTaskFlags |= portSTACK_FRAME_HAS_PADDING_FLAG;
+                pxMpuSettings->ulTaskFlags |= port_सालानसान_FRAME_HAS_PADDING_FLAG;
             }
             else
             {
-                pxMpuSettings->ulTaskFlags &= ( ~portSTACK_FRAME_HAS_PADDING_FLAG );
+                pxMpuSettings->ulTaskFlags &= ( ~port_सालानसान_FRAME_HAS_PADDING_FLAG );
             }
 
             /* We ensure in pxPortInitialiseStack that the system call stack is
              * double word aligned and therefore, there is no need of padding.
              * Clear the bit[9] of stacked xPSR. */
-            pulSystemCallStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+            pul_System_Call_सालानसान[ portOFFSET_TO_PSR ] &= ( ~port_PSR_सालानसान_PADDING_MASK );
         }
     }
 
@@ -656,12 +656,12 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
 
 #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    void vSystemCallExit( uint32_t * pul_System_Call_सालानसान,
                           uint32_t ulLR ) /* PRIVILEGED_FUNCTION */
     {
         extern TaskHandle_t pxCurrentTCB;
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulTaskStack;
+        uint32_t * pul_Task_सालानसान;
         uint32_t ulHardwareSavedExceptionFrameSize, ulSystemCallLocation, i;
 
         #if defined( __ARMCC_VERSION )
@@ -675,7 +675,7 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
             extern uint32_t __privileged_functions_end__[];
         #endif /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulSystemCallStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_System_Call_सालानसान[ portOFFSET_TO_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -689,15 +689,15 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
          */
         if( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __privileged_functions_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack != NULL ) )
+            ( pxMpuSettings->x_System_Call_सालानसान_Info.pul_Task_सालानसान != NULL ) )
         {
-            pulTaskStack = pxMpuSettings->xSystemCallStackInfo.pulTaskStack;
+            pul_Task_सालानसान = pxMpuSettings->x_System_Call_सालानसान_Info.pul_Task_सालानसान;
 
             /* Hardware Saved Stack Frame Size upon Exception entry:
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+            if( ( ulLR & port_EXC_RETURN_सालानसान_FRAME_TYPE_MASK ) == 0UL )
             {
                 /* Extended frame i.e. FPU in use. */
                 ulHardwareSavedExceptionFrameSize = 26;
@@ -714,16 +714,16 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
             }
 
             /* Make space on the task stack for the stack frame. */
-            pulTaskStack = pulTaskStack - ulHardwareSavedExceptionFrameSize;
+            pul_Task_सालानसान = pul_Task_सालानसान - ulHardwareSavedExceptionFrameSize;
 
             /* Copy the stack frame. */
             for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
             {
-                pulTaskStack[ i ] = pulSystemCallStack[ i ];
+                pul_Task_सालानसान[ i ] = pul_System_Call_सालानसान[ i ];
             }
 
             /* Use the pulTaskStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulTaskStack ) );
+            __asm volatile ( "msr psp, %0" : : "r" ( pul_Task_सालानसान ) );
 
             /* Drop the privilege before returning to the thread mode. */
             __asm volatile (
@@ -735,24 +735,24 @@ void vSVCHandler_C( uint32_t * pulParam ) /* PRIVILEGED_FUNCTION */
 
             /* Return to the caller of the System Call entry point (i.e. the
              * caller of the MPU_<API>). */
-            pulTaskStack[ portOFFSET_TO_PC ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_सालानसान[ portOFFSET_TO_PC ] = pxMpuSettings->x_System_Call_सालानसान_Info.ulLinkRegisterAtSystemCallEntry;
             /* Ensure that LR has a valid value.*/
-            pulTaskStack[ portOFFSET_TO_LR ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_सालानसान[ portOFFSET_TO_LR ] = pxMpuSettings->x_System_Call_सालानसान_Info.ulLinkRegisterAtSystemCallEntry;
 
             /* If the hardware used padding to force the stack pointer
              * to be double word aligned, set the stacked xPSR bit[9],
              * otherwise clear it. */
-            if( ( pxMpuSettings->ulTaskFlags & portSTACK_FRAME_HAS_PADDING_FLAG ) == portSTACK_FRAME_HAS_PADDING_FLAG )
+            if( ( pxMpuSettings->ulTaskFlags & port_सालानसान_FRAME_HAS_PADDING_FLAG ) == port_सालानसान_FRAME_HAS_PADDING_FLAG )
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] |= portPSR_STACK_PADDING_MASK;
+                pul_Task_सालानसान[ portOFFSET_TO_PSR ] |= port_PSR_सालानसान_PADDING_MASK;
             }
             else
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+                pul_Task_सालानसान[ portOFFSET_TO_PSR ] &= ( ~port_PSR_सालानसान_PADDING_MASK );
             }
 
             /* This is not NULL only for the duration of the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            pxMpuSettings->x_System_Call_सालानसान_Info.pul_Task_सालानसान = NULL;
         }
     }
 
@@ -887,8 +887,8 @@ BaseType_t xPortStartScheduler( void )
     {
         volatile uint8_t ucOriginalPriority;
         volatile uint32_t ulImplementedPrioBits = 0;
-        volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( portNVIC_IP_REGISTERS_OFFSET_16 + portFIRST_USER_INTERRUPT_NUMBER );
-        volatile uint8_t ucMaxPriorityValue;
+        volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( portNVIC_IP_REGISTERS_OFFSET_16 + port_FIRST_USER_INTERRUPT_नुमेरो );
+        volatile uint8_t uc_Max_Priority_हालागा;
 
         /* Determine the maximum priority from which ISR safe FreeRTOS API
          * functions can be called.  ISR safe functions are those that end in
@@ -900,13 +900,13 @@ BaseType_t xPortStartScheduler( void )
 
         /* Determine the number of priority bits available.  First write to all
          * possible bits. */
-        *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+        *pucFirstUserPriorityRegister = port_MAX_8_BIT_हालागा;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+        uc_Max_Priority_हालागा = *pucFirstUserPriorityRegister;
 
         /* Use the same mask on the maximum system call priority. */
-        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
+        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & uc_Max_Priority_हालागा;
 
         /* Check that the maximum system call priority is nonzero after
          * accounting for the number of priority bits supported by the
@@ -918,15 +918,15 @@ BaseType_t xPortStartScheduler( void )
 
         /* Check that the bits not implemented in hardware are zero in
          * configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( ~ucMaxPriorityValue ) ) == 0U );
+        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( ~uc_Max_Priority_हालागा ) ) == 0U );
 
         /* Calculate the maximum acceptable priority group value for the number
          * of bits read back. */
 
-        while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+        while( ( uc_Max_Priority_हालागा & port_इताअस_BIT_OF_BYTE ) == port_इताअस_BIT_OF_BYTE )
         {
             ulImplementedPrioBits++;
-            ucMaxPriorityValue <<= ( uint8_t ) 0x01;
+            uc_Max_Priority_हालागा <<= ( uint8_t ) 0x01;
         }
 
         if( ulImplementedPrioBits == 8 )
@@ -1226,7 +1226,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 {
     /* Stop and clear the SysTick. */
     portNVIC_SYSTICK_CTRL_REG = 0UL;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    port_NVIC_SYSTICK_CURRENT_हालागा_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
     portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
@@ -1276,10 +1276,10 @@ static void prvSetupMPU( void )
     configASSERT( ( configTOTAL_MPU_REGIONS == 8 ) || ( configTOTAL_MPU_REGIONS == 16 ) );
 
     /* Ensure that the configTOTAL_MPU_REGIONS is configured correctly. */
-    configASSERT( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE );
+    configASSERT( portMPU_TYPE_REG == port_EXPECTED_MPU_TYPE_हालागा );
 
     /* Check the expected MPU is present. */
-    if( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE )
+    if( portMPU_TYPE_REG == port_EXPECTED_MPU_TYPE_हालागा )
     {
         /* First setup the unprivileged flash for unprivileged read only access. */
         portMPU_REGION_BASE_ADDRESS_REG = ( ( uint32_t ) __FLASH_segment_start__ ) | /* Base address. */
@@ -1335,11 +1335,11 @@ static void prvSetupMPU( void )
 
 static uint32_t prvGetMPURegionSizeSetting( uint32_t ulActualSizeInBytes )
 {
-    uint32_t ulRegionSize, ulReturnValue = 4;
+    uint32_t ulRegionSize, ul_Return_हालागा = 4;
 
     /* 32 is the smallest region size, 31 is the largest valid value for
      * ulReturnValue. */
-    for( ulRegionSize = 32UL; ulReturnValue < 31UL; ( ulRegionSize <<= 1UL ) )
+    for( ulRegionSize = 32UL; ul_Return_हालागा < 31UL; ( ulRegionSize <<= 1UL ) )
     {
         if( ulActualSizeInBytes <= ulRegionSize )
         {
@@ -1347,13 +1347,13 @@ static uint32_t prvGetMPURegionSizeSetting( uint32_t ulActualSizeInBytes )
         }
         else
         {
-            ulReturnValue++;
+            ul_Return_हालागा++;
         }
     }
 
     /* Shift the code by one before returning so it can be written directly
      * into the correct bit position of the attribute register. */
-    return( ulReturnValue << 1UL );
+    return( ul_Return_हालागा << 1UL );
 }
 /*-----------------------------------------------------------*/
 
@@ -1400,8 +1400,8 @@ void vPortSwitchToUserMode( void )
 
 void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                 const struct xMEMORY_REGION * const xRegions,
-                                StackType_t * pxBottomOfStack,
-                                configSTACK_DEPTH_TYPE uxStackDepth )
+                                सालानसान_Type_t * px_Bottom_Of_सालानसान,
+                                config_सालानसान_DEPTH_TYPE ux_सालानसान_Depth )
 {
     #if defined( __ARMCC_VERSION )
 
@@ -1428,7 +1428,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         xMPUSettings->xRegion[ 0 ].ulRegionBaseAddress =
             ( ( uint32_t ) __SRAM_segment_start__ ) | /* Base address. */
             ( portMPU_REGION_VALID ) |
-            ( portSTACK_REGION );                     /* Region number. */
+            ( port_सालानसान_REGION );                     /* Region number. */
 
         xMPUSettings->xRegion[ 0 ].ulRegionAttribute =
             ( portMPU_REGION_READ_WRITE ) |
@@ -1443,7 +1443,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                                                    tskMPU_WRITE_PERMISSION );
 
         /* Invalidate user configurable regions. */
-        for( ul = 1UL; ul <= portNUM_CONFIGURABLE_REGIONS; ul++ )
+        for( ul = 1UL; ul <= port_नुमेरो_CONFIGURABLE_REGIONS; ul++ )
         {
             xMPUSettings->xRegion[ ul ].ulRegionBaseAddress = ( ( ul - 1UL ) | portMPU_REGION_VALID );
             xMPUSettings->xRegion[ ul ].ulRegionAttribute = 0UL;
@@ -1458,31 +1458,31 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
          * which case the stack region parameters will be valid.  At all other
          * times the stack parameters will not be valid and it is assumed that the
          * stack region has already been configured. */
-        if( uxStackDepth > 0 )
+        if( ux_सालानसान_Depth > 0 )
         {
             /* Define the region that allows access to the stack. */
             xMPUSettings->xRegion[ 0 ].ulRegionBaseAddress =
-                ( ( uint32_t ) pxBottomOfStack ) |
+                ( ( uint32_t ) px_Bottom_Of_सालानसान ) |
                 ( portMPU_REGION_VALID ) |
-                ( portSTACK_REGION ); /* Region number. */
+                ( port_सालानसान_REGION ); /* Region number. */
 
             xMPUSettings->xRegion[ 0 ].ulRegionAttribute =
                 ( portMPU_REGION_READ_WRITE ) |
                 ( portMPU_REGION_EXECUTE_NEVER ) |
-                ( prvGetMPURegionSizeSetting( uxStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) ) |
+                ( prvGetMPURegionSizeSetting( ux_सालानसान_Depth * ( config_सालानसान_DEPTH_TYPE ) sizeof( सालानसान_Type_t ) ) ) |
                 ( ( configTEX_S_C_B_SRAM & portMPU_RASR_TEX_S_C_B_MASK ) << portMPU_RASR_TEX_S_C_B_LOCATION ) |
                 ( portMPU_REGION_ENABLE );
 
-            xMPUSettings->xRegionSettings[ 0 ].ulRegionStartAddress = ( uint32_t ) pxBottomOfStack;
-            xMPUSettings->xRegionSettings[ 0 ].ulRegionEndAddress = ( uint32_t ) ( ( uint32_t ) ( pxBottomOfStack ) +
-                                                                                   ( uxStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) - 1UL );
+            xMPUSettings->xRegionSettings[ 0 ].ulRegionStartAddress = ( uint32_t ) px_Bottom_Of_सालानसान;
+            xMPUSettings->xRegionSettings[ 0 ].ulRegionEndAddress = ( uint32_t ) ( ( uint32_t ) ( px_Bottom_Of_सालानसान ) +
+                                                                                   ( ux_सालानसान_Depth * ( config_सालानसान_DEPTH_TYPE ) sizeof( सालानसान_Type_t ) ) - 1UL );
             xMPUSettings->xRegionSettings[ 0 ].ulRegionPermissions = ( tskMPU_READ_PERMISSION |
                                                                        tskMPU_WRITE_PERMISSION );
         }
 
         lIndex = 0;
 
-        for( ul = 1UL; ul <= portNUM_CONFIGURABLE_REGIONS; ul++ )
+        for( ul = 1UL; ul <= port_नुमेरो_CONFIGURABLE_REGIONS; ul++ )
         {
             if( ( xRegions[ lIndex ] ).ulLengthInBytes > 0UL )
             {
@@ -1560,7 +1560,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                 ulBufferStartAddress = ( uint32_t ) pvBuffer;
                 ulBufferEndAddress = ( ( ( uint32_t ) pvBuffer ) + ( uint32_t ) xBufferLength - 1UL );
 
-                for( i = 0; i < portTOTAL_NUM_REGIONS_IN_TCB; i++ )
+                for( i = 0; i < port_TOTAL_नुमेरो_REGIONS_IN_TCB; i++ )
                 {
                     if( portIS_ADDRESS_WITHIN_RANGE( ulBufferStartAddress,
                                                      xTaskMpuSettings->xRegionSettings[ i ].ulRegionStartAddress,
@@ -1594,7 +1594,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
         /* Is the interrupt number a user defined interrupt? */
-        if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+        if( ulCurrentInterrupt >= port_FIRST_USER_INTERRUPT_नुमेरो )
         {
             /* Look up the interrupt's priority. */
             ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];

@@ -17,19 +17,19 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-#define RTOS_SUPPORT_INTERRUPT_STACK_GROWTH        ( 44 + 1 )
+#define RTOS_SUPPORT_INTERRUPT_सालानसान_GROWTH        ( 44 + 1 )
 
 /**
  * The word offset into the stack where R1 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R1_STACK_OFFSET     9
+#define RTOS_SUPPORT_INTERRUPT_R1_सालानसान_OFFSET     9
 
 /**
  * The word offset into the stack where R11 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R11_STACK_OFFSET    19
+#define RTOS_SUPPORT_INTERRUPT_R11_सालानसान_OFFSET    19
 
 /**
  * The RTOS provided handler that should run when a
@@ -49,7 +49,7 @@
  * Note that the IRQ routines require a lock and
  * will share the first one with the RTOS.
  */
-#define RTOS_LOCK_COUNT            2
+#define RTOS_LOCK_बिलांग            2
 
 /**
  * Remaps all calls to debug_printf() to rtos_printf().
@@ -63,18 +63,18 @@
     #if configENABLE_DEBUG_PRINTF
 
 /* ensure that debug_printf is enabled */
-        #ifdef DEBUG_PRINT_ENABLE
-            #undef DEBUG_PRINT_ENABLE
+        #ifdef DEBUG_इलिम्बाग_ENABLE
+            #undef DEBUG_इलिम्बाग_ENABLE
         #endif
-        #define DEBUG_PRINT_ENABLE                        1
+        #define DEBUG_इलिम्बाग_ENABLE                        1
 
         #ifndef configTASKS_DEBUG
             #define configTASKS_DEBUG                     0
         #endif
         #if configTASKS_DEBUG == 1
-            #define DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
+            #define DEBUG_इलिम्बाग_ENABLE_FREERTOS_TASKS     1
         #else
-            #define DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
+            #define DEBUG_इलिम्बाग_DISABLE_FREERTOS_TASKS    1
         #endif
 
     #else /* configENABLE_DEBUG_PRINTF */
@@ -83,11 +83,11 @@
         #ifdef DEBUG_UNIT
             #undef DEBUG_UNIT
         #endif
-        #ifdef DEBUG_PRINT_ENABLE
-            #undef DEBUG_PRINT_ENABLE
+        #ifdef DEBUG_इलिम्बाग_ENABLE
+            #undef DEBUG_इलिम्बाग_ENABLE
         #endif
 
-        #define DEBUG_PRINT_ENABLE    0
+        #define DEBUG_इलिम्बाग_ENABLE    0
 
     #endif /* configENABLE_DEBUG_PRINTF */
 #endif /* ifdef configENABLE_DEBUG_PRINTF */

@@ -41,7 +41,7 @@
  * Bit[0] - 0 --> Thread mode is privileged.
  * Bit[1] - 1 --> Thread mode uses PSP.
  */
-#define securecontextCONTROL_VALUE_PRIVILEGED      0x02
+#define securecontext_CONTROL_हालागा_PRIVILEGED      0x02
 
 /**
  * @brief CONTROL value for un-privileged tasks.
@@ -49,17 +49,17 @@
  * Bit[0] - 1 --> Thread mode is un-privileged.
  * Bit[1] - 1 --> Thread mode uses PSP.
  */
-#define securecontextCONTROL_VALUE_UNPRIVILEGED    0x03
+#define securecontext_CONTROL_हालागा_UNPRIVILEGED    0x03
 
 /**
  * @brief Size of stack seal values in bytes.
  */
-#define securecontextSTACK_SEAL_SIZE               8
+#define securecontext_सालानसान_SEAL_SIZE               8
 
 /**
  * @brief Stack seal value as recommended by ARM.
  */
-#define securecontextSTACK_SEAL_VALUE              0xFEF5EDA5
+#define securecontext_सालानसान_SEAL_हालागा              0xFEF5EDA5
 
 /**
  * @brief Maximum number of secure contexts.
@@ -105,9 +105,9 @@ static uint32_t ulGetSecureContext( void * pvTaskHandle )
 
     for( i = 0; i < secureconfigMAX_SECURE_CONTEXTS; i++ )
     {
-        if( ( xSecureContexts[ i ].pucCurrentStackPointer == NULL ) &&
-            ( xSecureContexts[ i ].pucStackLimit == NULL ) &&
-            ( xSecureContexts[ i ].pucStackStart == NULL ) &&
+        if( ( xSecureContexts[ i ].puc_Current_सालानसान_Pointer == NULL ) &&
+            ( xSecureContexts[ i ].puc_सालानसान_Limit == NULL ) &&
+            ( xSecureContexts[ i ].puc_सालानसान_Start == NULL ) &&
             ( xSecureContexts[ i ].pvTaskHandle == NULL ) &&
             ( ulSecureContextIndex == secureconfigMAX_SECURE_CONTEXTS ) )
         {
@@ -128,9 +128,9 @@ static uint32_t ulGetSecureContext( void * pvTaskHandle )
 
 static void vReturnSecureContext( uint32_t ulSecureContextIndex )
 {
-    xSecureContexts[ ulSecureContextIndex ].pucCurrentStackPointer = NULL;
-    xSecureContexts[ ulSecureContextIndex ].pucStackLimit = NULL;
-    xSecureContexts[ ulSecureContextIndex ].pucStackStart = NULL;
+    xSecureContexts[ ulSecureContextIndex ].puc_Current_सालानसान_Pointer = NULL;
+    xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Limit = NULL;
+    xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Start = NULL;
     xSecureContexts[ ulSecureContextIndex ].pvTaskHandle = NULL;
 }
 /*-----------------------------------------------------------*/
@@ -151,27 +151,27 @@ secureportNON_SECURE_CALLABLE void SecureContext_Init( void )
         ulSecureContextsInitialized = 1;
 
         /* No stack for thread mode until a task's context is loaded. */
-        secureportSET_PSPLIM( securecontextNO_STACK );
-        secureportSET_PSP( securecontextNO_STACK );
+        secureportSET_PSPLIM( securecontext_NO_सालानसान );
+        secureportSET_PSP( securecontext_NO_सालानसान );
 
         /* Initialize all secure contexts. */
         for( i = 0; i < secureconfigMAX_SECURE_CONTEXTS; i++ )
         {
-            xSecureContexts[ i ].pucCurrentStackPointer = NULL;
-            xSecureContexts[ i ].pucStackLimit = NULL;
-            xSecureContexts[ i ].pucStackStart = NULL;
+            xSecureContexts[ i ].puc_Current_सालानसान_Pointer = NULL;
+            xSecureContexts[ i ].puc_सालानसान_Limit = NULL;
+            xSecureContexts[ i ].puc_सालानसान_Start = NULL;
             xSecureContexts[ i ].pvTaskHandle = NULL;
         }
 
         #if ( configENABLE_MPU == 1 )
         {
             /* Configure thread mode to use PSP and to be unprivileged. */
-            secureportSET_CONTROL( securecontextCONTROL_VALUE_UNPRIVILEGED );
+            secureportSET_CONTROL( securecontext_CONTROL_हालागा_UNPRIVILEGED );
         }
         #else /* configENABLE_MPU */
         {
             /* Configure thread mode to use PSP and to be privileged. */
-            secureportSET_CONTROL( securecontextCONTROL_VALUE_PRIVILEGED );
+            secureportSET_CONTROL( securecontext_CONTROL_हालागा_PRIVILEGED );
         }
         #endif /* configENABLE_MPU */
     }
@@ -179,33 +179,33 @@ secureportNON_SECURE_CALLABLE void SecureContext_Init( void )
 /*-----------------------------------------------------------*/
 
 #if ( configENABLE_MPU == 1 )
-    secureportNON_SECURE_CALLABLE SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
+    secureportNON_SECURE_CALLABLE SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_सालानसान_Size,
                                                                                        uint32_t ulIsTaskPrivileged,
                                                                                        void * pvTaskHandle )
 #else /* configENABLE_MPU */
-    secureportNON_SECURE_CALLABLE SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
+    secureportNON_SECURE_CALLABLE SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_सालानसान_Size,
                                                                                        void * pvTaskHandle )
 #endif /* configENABLE_MPU */
 {
-    uint8_t * pucStackMemory = NULL;
-    uint8_t * pucStackLimit;
+    uint8_t * puc_सालानसान_Memory = NULL;
+    uint8_t * puc_सालानसान_Limit;
     uint32_t ulIPSR, ulSecureContextIndex;
     SecureContextHandle_t xSecureContextHandle = securecontextINVALID_CONTEXT_ID;
 
     #if ( configENABLE_MPU == 1 )
-        uint32_t * pulCurrentStackPointer = NULL;
+        uint32_t * pul_Current_सालानसान_Pointer = NULL;
     #endif /* configENABLE_MPU */
 
     /* Read the Interrupt Program Status Register (IPSR) and Process Stack Limit
      * Register (PSPLIM) value. */
     secureportREAD_IPSR( ulIPSR );
-    secureportREAD_PSPLIM( pucStackLimit );
+    secureportREAD_PSPLIM( puc_सालानसान_Limit );
 
     /* Do nothing if the processor is running in the Thread Mode. IPSR is zero
      * when the processor is running in the Thread Mode.
      * Also do nothing, if a secure context us already loaded. PSPLIM is set to
      * securecontextNO_STACK when no secure context is loaded. */
-    if( ( ulIPSR != 0 ) && ( pucStackLimit == securecontextNO_STACK ) )
+    if( ( ulIPSR != 0 ) && ( puc_सालानसान_Limit == securecontext_NO_सालानसान ) )
     {
         /* Obtain a free secure context. */
         ulSecureContextIndex = ulGetSecureContext( pvTaskHandle );
@@ -214,20 +214,20 @@ secureportNON_SECURE_CALLABLE void SecureContext_Init( void )
         if( ulSecureContextIndex < secureconfigMAX_SECURE_CONTEXTS )
         {
             /* Allocate the stack space if possible. */
-            if( ( ulSecureStackSize < securecontextSTACK_SEAL_SIZE ) ||
-                ( ulSecureStackSize > ( UINT32_MAX - securecontextSTACK_SEAL_SIZE ) ) )
+            if( ( ul_Secure_सालानसान_Size < securecontext_सालानसान_SEAL_SIZE ) ||
+                ( ul_Secure_सालानसान_Size > ( UINT32_MAX - securecontext_सालानसान_SEAL_SIZE ) ) )
             {
                 /* Reject stacks that are too small (the CONTROL word would be
                  * written before the allocation, corrupting the secure heap)
                  * and sizes that would overflow when the seal size is added. */
-                pucStackMemory = NULL;
+                puc_सालानसान_Memory = NULL;
             }
             else
             {
-                pucStackMemory = pvPortMalloc( ulSecureStackSize + securecontextSTACK_SEAL_SIZE );
+                puc_सालानसान_Memory = pvPortMalloc( ul_Secure_सालानसान_Size + securecontext_सालानसान_SEAL_SIZE );
             }
 
-            if( pucStackMemory != NULL )
+            if( puc_सालानसान_Memory != NULL )
             {
                 /* Since stack grows down, the starting point will be the last
                 * location. Note that this location is next to the last
@@ -235,15 +235,15 @@ secureportNON_SECURE_CALLABLE void SecureContext_Init( void )
                 * because the hardware decrements the stack pointer before
                 * writing i.e. if stack pointer is 0x2, a push operation will
                 * decrement the stack pointer to 0x1 and then write at 0x1. */
-                xSecureContexts[ ulSecureContextIndex ].pucStackStart = pucStackMemory + ulSecureStackSize;
+                xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Start = puc_सालानसान_Memory + ul_Secure_सालानसान_Size;
 
                 /* Seal the created secure process stack. */
-                *( uint32_t * ) ( pucStackMemory + ulSecureStackSize ) = securecontextSTACK_SEAL_VALUE;
-                *( uint32_t * ) ( pucStackMemory + ulSecureStackSize + 4 ) = securecontextSTACK_SEAL_VALUE;
+                *( uint32_t * ) ( puc_सालानसान_Memory + ul_Secure_सालानसान_Size ) = securecontext_सालानसान_SEAL_हालागा;
+                *( uint32_t * ) ( puc_सालानसान_Memory + ul_Secure_सालानसान_Size + 4 ) = securecontext_सालानसान_SEAL_हालागा;
 
                 /* The stack cannot go beyond this location. This value is
                  * programmed in the PSPLIM register on context switch.*/
-                xSecureContexts[ ulSecureContextIndex ].pucStackLimit = pucStackMemory;
+                xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Limit = puc_सालानसान_Memory;
 
                 xSecureContexts[ ulSecureContextIndex ].pvTaskHandle = pvTaskHandle;
 
@@ -252,27 +252,27 @@ secureportNON_SECURE_CALLABLE void SecureContext_Init( void )
                     /* Store the correct CONTROL value for the task on the stack.
                      * This value is programmed in the CONTROL register on
                      * context switch. */
-                    pulCurrentStackPointer = ( uint32_t * ) xSecureContexts[ ulSecureContextIndex ].pucStackStart;
-                    pulCurrentStackPointer--;
+                    pul_Current_सालानसान_Pointer = ( uint32_t * ) xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Start;
+                    pul_Current_सालानसान_Pointer--;
 
                     if( ulIsTaskPrivileged )
                     {
-                        *( pulCurrentStackPointer ) = securecontextCONTROL_VALUE_PRIVILEGED;
+                        *( pul_Current_सालानसान_Pointer ) = securecontext_CONTROL_हालागा_PRIVILEGED;
                     }
                     else
                     {
-                        *( pulCurrentStackPointer ) = securecontextCONTROL_VALUE_UNPRIVILEGED;
+                        *( pul_Current_सालानसान_Pointer ) = securecontext_CONTROL_हालागा_UNPRIVILEGED;
                     }
 
                     /* Store the current stack pointer. This value is programmed in
                      * the PSP register on context switch. */
-                    xSecureContexts[ ulSecureContextIndex ].pucCurrentStackPointer = ( uint8_t * ) pulCurrentStackPointer;
+                    xSecureContexts[ ulSecureContextIndex ].puc_Current_सालानसान_Pointer = ( uint8_t * ) pul_Current_सालानसान_Pointer;
                 }
                 #else /* configENABLE_MPU */
                 {
                     /* Current SP is set to the starting of the stack. This
                      * value programmed in the PSP register on context switch. */
-                    xSecureContexts[ ulSecureContextIndex ].pucCurrentStackPointer = xSecureContexts[ ulSecureContextIndex ].pucStackStart;
+                    xSecureContexts[ ulSecureContextIndex ].puc_Current_सालानसान_Pointer = xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Start;
                 }
                 #endif /* configENABLE_MPU */
 
@@ -290,12 +290,12 @@ secureportNON_SECURE_CALLABLE void SecureContext_FreeContext( SecureContextHandl
                                                               void * pvTaskHandle )
 {
     uint32_t ulIPSR, ulSecureContextIndex;
-    uint8_t * pucStackLimit;
+    uint8_t * puc_सालानसान_Limit;
 
     /* Read the Interrupt Program Status Register (IPSR) and Process Stack Limit
      * Register (PSPLIM) value. */
     secureportREAD_IPSR( ulIPSR );
-    secureportREAD_PSPLIM( pucStackLimit );
+    secureportREAD_PSPLIM( puc_सालानसान_Limit );
 
     /* Do nothing if the processor is running in the Thread Mode. IPSR is zero
      * when the processor is running in the Thread Mode. */
@@ -314,10 +314,10 @@ secureportNON_SECURE_CALLABLE void SecureContext_FreeContext( SecureContextHandl
              * so it is used only as an additional ownership match, not as
              * authority. */
             if( ( xSecureContexts[ ulSecureContextIndex ].pvTaskHandle == pvTaskHandle ) &&
-                ( xSecureContexts[ ulSecureContextIndex ].pucStackLimit != pucStackLimit ) )
+                ( xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Limit != puc_सालानसान_Limit ) )
             {
                 /* Free the stack space. */
-                vPortFree( xSecureContexts[ ulSecureContextIndex ].pucStackLimit );
+                vPortFree( xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Limit );
 
                 /* Return the secure context back to the free secure contexts pool. */
                 vReturnSecureContext( ulSecureContextIndex );
@@ -330,18 +330,18 @@ secureportNON_SECURE_CALLABLE void SecureContext_FreeContext( SecureContextHandl
 secureportNON_SECURE_CALLABLE void SecureContext_LoadContext( SecureContextHandle_t xSecureContextHandle,
                                                               void * pvTaskHandle )
 {
-    uint8_t * pucStackLimit;
+    uint8_t * puc_सालानसान_Limit;
     uint32_t ulSecureContextIndex;
 
     if( ( xSecureContextHandle > 0UL ) && ( xSecureContextHandle <= secureconfigMAX_SECURE_CONTEXTS ) )
     {
         ulSecureContextIndex = xSecureContextHandle - 1UL;
 
-        secureportREAD_PSPLIM( pucStackLimit );
+        secureportREAD_PSPLIM( puc_सालानसान_Limit );
 
         /* Ensure that no secure context is loaded and the task is loading it's
          * own context. */
-        if( ( pucStackLimit == securecontextNO_STACK ) &&
+        if( ( puc_सालानसान_Limit == securecontext_NO_सालानसान ) &&
             ( xSecureContexts[ ulSecureContextIndex ].pvTaskHandle == pvTaskHandle ) )
         {
             SecureContext_LoadContextAsm( &( xSecureContexts[ ulSecureContextIndex ] ) );
@@ -353,18 +353,18 @@ secureportNON_SECURE_CALLABLE void SecureContext_LoadContext( SecureContextHandl
 secureportNON_SECURE_CALLABLE void SecureContext_SaveContext( SecureContextHandle_t xSecureContextHandle,
                                                               void * pvTaskHandle )
 {
-    uint8_t * pucStackLimit;
+    uint8_t * puc_सालानसान_Limit;
     uint32_t ulSecureContextIndex;
 
     if( ( xSecureContextHandle > 0UL ) && ( xSecureContextHandle <= secureconfigMAX_SECURE_CONTEXTS ) )
     {
         ulSecureContextIndex = xSecureContextHandle - 1UL;
 
-        secureportREAD_PSPLIM( pucStackLimit );
+        secureportREAD_PSPLIM( puc_सालानसान_Limit );
 
         /* Ensure that task's context is loaded and the task is saving its own
          * context. */
-        if( ( xSecureContexts[ ulSecureContextIndex ].pucStackLimit == pucStackLimit ) &&
+        if( ( xSecureContexts[ ulSecureContextIndex ].puc_सालानसान_Limit == puc_सालानसान_Limit ) &&
             ( xSecureContexts[ ulSecureContextIndex ].pvTaskHandle == pvTaskHandle ) )
         {
             SecureContext_SaveContextAsm( &( xSecureContexts[ ulSecureContextIndex ] ) );

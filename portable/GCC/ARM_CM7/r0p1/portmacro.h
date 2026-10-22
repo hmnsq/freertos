@@ -52,10 +52,10 @@
 #define portDOUBLE        double
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_सालानसान_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
+typedef port_सालानसान_TYPE   सालानसान_Type_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
@@ -75,7 +75,7 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_सालानसान_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 #define portDONT_DISCARD      __attribute__( ( used ) )
@@ -145,7 +145,7 @@ extern void vPortExitCritical( void );
 #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) static inline uint8_t uc_Port_बिलांग_Leading_Zeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
@@ -165,7 +165,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_इताअस_Priority, uxReadyPriorities )    ux_इताअस_Priority = ( 31UL - ( uint32_t ) uc_Port_बिलांग_Leading_Zeros( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -247,11 +247,11 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
 }
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
+portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ul_New_Mask_हालागा )
 {
     __asm volatile
     (
-        "   msr basepri, %0 " ::"r" ( ulNewMaskValue ) : "memory"
+        "   msr basepri, %0 " ::"r" ( ul_New_Mask_हालागा ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
