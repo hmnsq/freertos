@@ -31,11 +31,11 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
-#include <machine/cpu.h>
+#अन्तर्भाव <machine/cpu.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -48,49 +48,49 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#define portCHAR          वर्ण
+#define portFLOAT         भिन्न
+#define portDOUBLE        द्विगुण
+#define portLONG          दीर्घ
+#define portSHORT         लघु
+#define port_ढेर_TYPE    uint32_t
+#define portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश port_ढेर_TYPE   ढेर_Type_t;
+प्रकारनिर्देश दीर्घ             BaseType_t;
+प्रकारनिर्देश अचिन्हित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारनिर्देश uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#नोचेद्यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारनिर्देश uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#अन्यथा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH               ( -1 )
+#define port_ढेर_GROWTH               ( -1 )
 #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT             4
-#define portNOP()    __asm__ volatile ( "mov r0, r0" )
+#define portNOP()    __asm__ चञ्चल ( "mov r0, r0" )
 #define portCRITICAL_NESTING_IN_TCB    1
 #define portIRQ_TRAP_YIELD             31
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
-extern void vPortYield( void );
+बाह्य शून्य vPortYield( शून्य );
 
 /*---------------------------------------------------------------------------*/
 
-#define portYIELD()    asm __volatile__ ( " trap #%0 " : : "i" ( portIRQ_TRAP_YIELD ) : "memory" )
+#define portYIELD()    यंत्र __volatile__ ( " trap #%0 " : : "i" ( portIRQ_TRAP_YIELD ) : "memory" )
 /*---------------------------------------------------------------------------*/
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+बाह्य शून्य vTaskEnterCritical( शून्य );
+बाह्य शून्य vTaskExitCritical( शून्य );
 #define portENTER_CRITICAL()    vTaskEnterCritical()
 #define portEXIT_CRITICAL()     vTaskExitCritical()
 /*---------------------------------------------------------------------------*/
@@ -101,12 +101,12 @@ extern void vTaskExitCritical( void );
 
 /*---------------------------------------------------------------------------*/
 
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    कुरु { यदि( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext( ); } यावत्( 0 )
 
 /*---------------------------------------------------------------------------*/
 
 #define portSAVE_CONTEXT()                                                                                      \
-    asm __volatile__                                                                                            \
+    यंत्र __volatile__                                                                                            \
     (                                                                                                           \
         "sub    r1, #68                 \n" /* Make space on the stack for the context. */                      \
         "std    r2, [r1] +  0           \n"                                                                     \
@@ -126,7 +126,7 @@ extern void vTaskExitCritical( void );
 /*---------------------------------------------------------------------------*/
 
 #define portRESTORE_CONTEXT()                                                                                 \
-    asm __volatile__ (                                                                                        \
+    यंत्र __volatile__ (                                                                                        \
         "ld     r2, [r0]+short(pxCurrentTCB)    \n" /* Load the TCB to find the stack pointer and context. */ \
         "ld     r1, [r2]                \n"                                                                   \
         "movhi  r2, #16384              \n"         /* Set the pointer to the IC. */                          \
@@ -146,8 +146,8 @@ extern void vTaskExitCritical( void );
 /*---------------------------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 /*---------------------------------------------------------------------------*/
 
 /* *INDENT-OFF* */

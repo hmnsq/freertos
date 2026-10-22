@@ -29,44 +29,44 @@
 #ifndef PORT_ASM_H
 #define PORT_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+प्रकारनिर्देश शून्य TCB_t;
+बाह्य चञ्चल TCB_t * चञ्चल pxCurrentTCB;
+बाह्य शून्य vTaskSwitchContext( शून्य );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portEND_SWITCHING_ISR( void );
+शून्य portEND_SWITCHING_ISR( शून्य );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+शून्य portFIRST_CONTEXT( शून्य );
 
 #define portEND_SWITCHING_ISR()                                         \
-                            asm { mov   bx, [pxCurrentTCB]          }   \
-                            asm { mov   word ptr [bx], sp           }   \
-                            asm { call  far ptr vTaskSwitchContext  }   \
-                            asm { mov   bx, [pxCurrentTCB]          }   \
-                            asm { mov   sp, [bx]                    }
+                            यंत्र { mov   bx, [pxCurrentTCB]          }   \
+                            यंत्र { mov   word ptr [bx], sp           }   \
+                            यंत्र { call  far ptr vTaskSwitchContext  }   \
+                            यंत्र { mov   bx, [pxCurrentTCB]          }   \
+                            यंत्र { mov   sp, [bx]                    }
 
 #define portFIRST_CONTEXT()                                         \
-                            asm { mov   bx, [pxCurrentTCB]          }   \
-                            asm { mov   sp, [bx]                    }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
-                            asm { iret                              }
+                            यंत्र { mov   bx, [pxCurrentTCB]          }   \
+                            यंत्र { mov   sp, [bx]                    }   \
+                            यंत्र { निकालो   bp                          }   \
+                            यंत्र { निकालो   di                          }   \
+                            यंत्र { निकालो   si                          }   \
+                            यंत्र { निकालो   ds                          }   \
+                            यंत्र { निकालो   es                          }   \
+                            यंत्र { निकालो   dx                          }   \
+                            यंत्र { निकालो   cx                          }   \
+                            यंत्र { निकालो   bx                          }   \
+                            यंत्र { निकालो   ax                          }   \
+                            यंत्र { iret                              }
 
 
 #endif

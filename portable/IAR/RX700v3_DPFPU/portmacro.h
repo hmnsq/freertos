@@ -31,11 +31,11 @@
 #define PORTMACRO_H
 
 /* Hardware specifics. */
-#include <intrinsics.h>
+#अन्तर्भाव <intrinsics.h>
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -69,29 +69,29 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#define portCHAR          वर्ण
+#define portFLOAT         भिन्न
+#define portDOUBLE        द्विगुण
+#define portLONG          दीर्घ
+#define portSHORT         लघु
+#define port_ढेर_TYPE    uint32_t
+#define portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश port_ढेर_TYPE   ढेर_Type_t;
+प्रकारनिर्देश दीर्घ             BaseType_t;
+प्रकारनिर्देश अचिन्हित दीर्घ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारनिर्देश uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#नोचेद्यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारनिर्देश uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#अन्यथा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -99,7 +99,7 @@ typedef unsigned long    UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
+#define port_ढेर_GROWTH      -1
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()    __no_operation()
 
@@ -108,7 +108,7 @@ typedef unsigned long    UBaseType_t;
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
 #define portYIELD()                     \
-    __asm volatile                      \
+    __asm चञ्चल                      \
     (                                   \
         "PUSH.L R10                 \n" \
         "MOV.L  #0x872E0, R10       \n" \
@@ -118,18 +118,18 @@ typedef unsigned long    UBaseType_t;
         portCDT_NO_PARSE( ::: ) "cc"    \
     )
 
-#define portYIELD_FROM_ISR( x )    do { if( ( x ) != pdFALSE ) portYIELD( ); } while( 0 )
+#define portYIELD_FROM_ISR( x )    कुरु { यदि( ( x ) != pdFALSE ) portYIELD( ); } यावत्( 0 )
 
 /* Workaround to reduce errors/warnings caused by e2 studio CDT's INDEXER and CODAN. */
 #ifdef __CDT_PARSER__
     #ifndef __asm
-        #define __asm    asm
+        #define __asm    यंत्र
     #endif
     #ifndef __attribute__
         #define __attribute__( ... )
     #endif
     #define portCDT_NO_PARSE( token )
-#else
+#अन्यथा
     #define portCDT_NO_PARSE( token )    token
 #endif
 
@@ -143,10 +143,10 @@ typedef unsigned long    UBaseType_t;
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
 #define portENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
-#if ( configASSERT_DEFINED == 1 )
+#यदि ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( __get_interrupt_level() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
+    #define portDISABLE_INTERRUPTS()                      यदि( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
+#अन्यथा
     #define portDISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
 #endif
 
@@ -154,8 +154,8 @@ typedef unsigned long    UBaseType_t;
 #define portCRITICAL_NESTING_IN_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+बाह्य शून्य vTaskEnterCritical( शून्य );
+बाह्य शून्य vTaskExitCritical( शून्य );
 #define portENTER_CRITICAL()                                           vTaskEnterCritical()
 #define portEXIT_CRITICAL()                                            vTaskExitCritical()
 
@@ -166,8 +166,8 @@ extern void vTaskExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /*-----------------------------------------------------------*/
 
@@ -176,9 +176,9 @@ extern void vTaskExitCritical( void );
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
-    void vPortTaskUsesDPFPU( void );
-#else
+#यदि ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    शून्य vPortTaskUsesDPFPU( शून्य );
+#अन्यथा
 
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */

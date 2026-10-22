@@ -32,12 +32,12 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
-#include <limits.h>
-#include <stdint.h>
+#अन्तर्भाव <limits.h>
+#अन्तर्भाव <stdint.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,66 +50,66 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           unsigned long
-#define portBASE_TYPE            long
+#define portCHAR                 वर्ण
+#define portFLOAT                भिन्न
+#define portDOUBLE               द्विगुण
+#define portLONG                 दीर्घ
+#define portSHORT                लघु
+#define port_ढेर_TYPE           अचिन्हित दीर्घ
+#define portBASE_TYPE            दीर्घ
 #define portPOINTER_SIZE_TYPE    intptr_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश port_ढेर_TYPE   ढेर_Type_t;
+प्रकारनिर्देश दीर्घ             BaseType_t;
+प्रकारनिर्देश अचिन्हित दीर्घ    UBaseType_t;
 
-typedef unsigned long    TickType_t;
-#define portMAX_DELAY              ( ( TickType_t ) ULONG_MAX )
+प्रकारनिर्देश अचिन्हित दीर्घ    TickType_t;
+#define portMAX_DELAY              ( ( TickType_t ) अच_दीर्घ_उच्च )
 
 #define portTICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                   ( -1 )
-#define portHAS_STACK_OVERFLOW_CHECKING    ( 1 )
+#define port_ढेर_GROWTH                   ( -1 )
+#define port_HAS_ढेर_OVERFLOW_CHECKING    ( 1 )
 #define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICK_RATE_MICROSECONDS         ( ( TickType_t ) 1000000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                 8
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
+बाह्य शून्य vPortYield( शून्य );
 
 #define portYIELD()                vPortYield()
 
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    कुरु                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        यदि( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vPortYield();                        \
         }                                        \
-        else                                     \
+        अन्यथा                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } यावत्( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortDisableInterrupts( void );
-extern void vPortEnableInterrupts( void );
+बाह्य शून्य vPortDisableInterrupts( शून्य );
+बाह्य शून्य vPortEnableInterrupts( शून्य );
 #define portSET_INTERRUPT_MASK()      ( vPortDisableInterrupts() )
 #define portCLEAR_INTERRUPT_MASK()    ( vPortEnableInterrupts() )
 
-extern UBaseType_t xPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t xMask );
+बाह्य UBaseType_t xPortSetInterruptMask( शून्य );
+बाह्य शून्य vPortClearInterruptMask( UBaseType_t xMask );
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+बाह्य शून्य vPortEnterCritical( शून्य );
+बाह्य शून्य vPortExitCritical( शून्य );
 #define portSET_INTERRUPT_MASK_FROM_ISR()         xPortSetInterruptMask()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
 #define portDISABLE_INTERRUPTS()                  portSET_INTERRUPT_MASK()
@@ -119,15 +119,15 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-extern void vPortThreadDying( void * pxTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-extern void vPortCancelThread( void * pxTaskToDelete );
+बाह्य शून्य vPortThreadDying( शून्य * pxTaskToDelete,
+                              चञ्चल BaseType_t * pxPendYield );
+बाह्य शून्य vPortCancelThread( शून्य * pxTaskToDelete );
 #define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortThreadDying( ( pvTaskToDelete ), ( pxPendYield ) )
 #define portCLEAN_UP_TCB( pxTCB )                                  vPortCancelThread( pxTCB )
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )         void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )               void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )         शून्य vFunction( शून्य * pvParameters ) __attribute__( ( noreturn ) )
+#define portTASK_FUNCTION( vFunction, pvParameters )               शून्य vFunction( शून्य * pvParameters )
 /*-----------------------------------------------------------*/
 
 /*
@@ -138,11 +138,11 @@ extern void vPortCancelThread( void * pxTaskToDelete );
  * Thus, only a compiler barrier is needed to prevent the compiler
  * reordering.
  */
-#define portMEMORY_BARRIER()                        __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()                        __asm चञ्चल ( "" ::: "memory" )
 
-extern uint32_t ulPortGetRunTime( void );
+बाह्य uint32_t ulPortGetRunTime( शून्य );
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* no-op */
-#define portGET_RUN_TIME_COUNTER_VALUE()            ulPortGetRunTime()
+#define port_GET_RUN_TIME_COUNTER_मूल्य()            ulPortGetRunTime()
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
