@@ -37,20 +37,20 @@
  */
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
 /* Include stdint for integer types of specific bit widths. */
-#include <stdint.h>
+#ضمن <stdint.h>
 
 /* ------------------------------ FreeRTOS Config Check ------------------------------ */
 
-#ifndef configSYSTEM_CALL_STACK_SIZE
+#ifndef config_SYSTEM_CALL_مكدس_SIZE
     #error "Define configSYSTEM_CALL_STACK_SIZE to a length, in bytes, " \
             "to use when an unprivileged task makes a FreeRTOS Kernel call. "
 #endif /* configSYSTEM_CALL_STACK_SIZE */
 
-#if( configUSE_MPU_WRAPPERS_V1 == 1 )
+#إذا( configUSE_MPU_WRAPPERS_V1 == 1 )
     #error This port is usable with MPU wrappers V2 only.
 #endif /* configUSE_MPU_WRAPPERS_V1 */
 
@@ -61,10 +61,10 @@ extern "C" {
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#إذا( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #إذا( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when " \
                 "configMAX_PRIORITIES is less than or equal to 32. " \
                 "It is very rare that a system requires more than 10 to 15 difference " \
@@ -79,8 +79,8 @@ extern "C" {
      * @param[in] uxPriority Priority of the task that is ready.
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxTopReadyPriority ) \
-        ( uxTopReadyPriority ) |= ( 1UL << ( uxPriority ) )
+    #define portRECORD_READY_PRIORITY( uxPriority, ux_قمة_Ready_Priority ) \
+        ( ux_قمة_Ready_Priority ) |= ( 1UL << ( uxPriority ) )
 
     /**
      * @brief Mark that a task of the given priority is no longer ready.
@@ -90,8 +90,8 @@ extern "C" {
      * @param[in] uxPriority Priority of the task that is no longer ready.
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      */
-    #define portRESET_READY_PRIORITY( uxPriority, uxTopReadyPriority ) \
-        ( uxTopReadyPriority ) &= ~( 1UL << ( uxPriority ) )
+    #define portRESET_READY_PRIORITY( uxPriority, ux_قمة_Ready_Priority ) \
+        ( ux_قمة_Ready_Priority ) &= ~( 1UL << ( uxPriority ) )
 
     /**
      * @brief Determine the highest priority ready task's priority.
@@ -101,14 +101,14 @@ extern "C" {
      * @param[in] uxTopReadyPriority Bitmap of the ready tasks priorities.
      * @param[in] uxTopPriority The highest priority ready task's priority.
      */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxTopReadyPriority ) \
-        ( uxTopPriority ) = ( 31UL - ulPortCountLeadingZeros( ( uxTopReadyPriority ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_قمة_Priority, ux_قمة_Ready_Priority ) \
+        ( ux_قمة_Priority ) = ( 31UL - ul_Port_عدد_Leading_Zeros( ( ux_قمة_Ready_Priority ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* ------------------------------ Port Type Definitions ------------------------------ */
 
-#include "portmacro_asm.h"
+#ضمن "portmacro_asm.h"
 
 /**
  * @brief Critical section nesting value.
@@ -126,7 +126,7 @@ extern "C" {
  *
  * @ingroup Task Context
  */
-#define portTHUMB_MODE_BIT      ( ( StackType_t ) 0x20 )
+#define portTHUMB_MODE_BIT      ( ( مكدس_Type_t ) 0x20 )
 
 /**
  * @brief Bitmask to check if an address is of Thumb Code.
@@ -140,21 +140,21 @@ extern "C" {
  *
  * @ingroup Port Interface Specifications
  */
-typedef uint32_t StackType_t;
+تعريفنوع uint32_t مكدس_Type_t;
 
 /**
  * @brief Signed data type equal to the data word operating size of the CPU.
  *
  * @ingroup Port Interface Specifications
  */
-typedef int32_t BaseType_t;
+تعريفنوع int32_t BaseType_t;
 
 /**
  * @brief Unsigned data type equal to the data word operating size of the CPU.
  *
  * @ingroup Port Interface Specifications
  */
-typedef uint32_t UBaseType_t;
+تعريفنوع uint32_t UBaseType_t;
 
 /**
  * @brief Data type used for the FreeRTOS Tick Counter.
@@ -162,14 +162,14 @@ typedef uint32_t UBaseType_t;
  * @note Using 32-bit tick type on a 32-bit architecture ensures that reads of
  * the tick count do not need to be guarded with a critical section.
  */
-typedef uint32_t TickType_t;
+تعريفنوع uint32_t TickType_t;
 
 /**
  * @brief Marks the direction the stack grows on the targeted CPU.
  *
  * @ingroup Port Interface Specifications
  */
-#define portSTACK_GROWTH   ( -1 )
+#define port_مكدس_GROWTH   ( -1 )
 
 /**
  * @brief Specifies stack pointer alignment requirements of the target CPU.
@@ -187,7 +187,7 @@ typedef uint32_t TickType_t;
  * code uses it.
  */
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) \
-    void vFunction( void * pvParameters )
+    فراغ vFunction( فراغ * pvParameters )
 
 /**
  * @brief Task function prototype macro as described on FreeRTOS.org.
@@ -198,14 +198,14 @@ typedef uint32_t TickType_t;
  * code uses it.
  */
 #define portTASK_FUNCTION( vFunction, pvParameters ) \
-    void vFunction( void * pvParameters )
+    فراغ vFunction( فراغ * pvParameters )
 
 /**
  * @brief The no-op ARM assembly instruction.
  *
  * @ingroup Port Interface Specifications
  */
-#define portNOP()                                    __asm volatile( "NOP" )
+#define portNOP()                                    __asm متطاير( "NOP" )
 
 /**
  * @brief The inline GCC label.
@@ -219,7 +219,7 @@ typedef uint32_t TickType_t;
  *
  * @ingroup Port Interface Specifications
  */
-#define portMEMORY_BARRIER()                         __asm volatile( "" ::: "memory" )
+#define portMEMORY_BARRIER()                         __asm متطاير( "" ::: "memory" )
 
 /**
  * @brief Ensure a symbol isn't removed from the compilation unit.
@@ -256,21 +256,21 @@ typedef uint32_t TickType_t;
  *
  * @ingroup Scheduler
  */
-void FreeRTOS_SVC_Handler( void );
+فراغ FreeRTOS_SVC_Handler( فراغ );
 
 /**
  * @brief FreeRTOS Interrupt Handler.
  *
  * @ingroup Scheduler
  */
-void FreeRTOS_IRQ_Handler( void );
+فراغ FreeRTOS_IRQ_Handler( فراغ );
 
 /**
  * @brief Yield the CPU.
  *
  * @ingroup Scheduler
  */
-void vPortYield( void );
+فراغ vPortYield( فراغ );
 
 #define portYIELD() vPortYield()
 
@@ -279,7 +279,7 @@ void vPortYield( void );
  *
  * @ingroup Interrupt Management
  */
-void vPortEnableInterrupts( void );
+فراغ vPortEnableInterrupts( فراغ );
 
 #define portENABLE_INTERRUPTS() vPortEnableInterrupts()
 
@@ -288,7 +288,7 @@ void vPortEnableInterrupts( void );
  *
  * @ingroup Interrupt Management
  */
-void vPortDisableInterrupts( void );
+فراغ vPortDisableInterrupts( فراغ );
 
 #define portDISABLE_INTERRUPTS() vPortDisableInterrupts()
 
@@ -297,42 +297,42 @@ void vPortDisableInterrupts( void );
  *
  * @ingroup Port Privilege
  */
-void vPortSystemCallExit( void );
+فراغ vPortSystemCallExit( فراغ );
 
 /**
  * @brief Start executing first task.
  *
  * @ingroup Scheduler
  */
-void vPortStartFirstTask( void );
+فراغ vPortStartFirstTask( فراغ );
 
 /**
  * @brief Enable the onboard MPU.
  *
  * @ingroup MPU Control
  */
-void vMPUEnable( void );
+فراغ vMPUEnable( فراغ );
 
 /**
  * @brief Disable the onboard MPU.
  *
  * @ingroup MPU Control
  */
-void vMPUDisable( void );
+فراغ vMPUDisable( فراغ );
 
 /**
  * @brief Enable the MPU Background Region.
  *
  * @ingroup MPU Control
  */
-void vMPUEnableBackgroundRegion( void );
+فراغ vMPUEnableBackgroundRegion( فراغ );
 
 /**
  * @brief Disable the MPU Background Region.
  *
  * @ingroup MPU Control
  */
-void vMPUDisableBackgroundRegion( void );
+فراغ vMPUDisableBackgroundRegion( فراغ );
 
 /**
  * @brief Set permissions for an MPU Region.
@@ -347,7 +347,7 @@ void vMPUDisableBackgroundRegion( void );
  * @note This is an internal function and assumes that the inputs to this
  * function are checked before calling this function.
  */
-void vMPUSetRegion( uint32_t ulRegionNumber,
+فراغ vMPUSetRegion( uint32_t ul_Region_رقم,
                     uint32_t ulBaseAddress,
                     uint32_t ulRegionSize,
                     uint32_t ulRegionPermissions );
@@ -359,7 +359,7 @@ void vMPUSetRegion( uint32_t ulRegionNumber,
  *
  * @ingroup Critical Section
  */
-void vPortEnterCritical( void );
+فراغ vPortEnterCritical( فراغ );
 
 #define portENTER_CRITICAL() vPortEnterCritical()
 
@@ -368,7 +368,7 @@ void vPortEnterCritical( void );
  *
  * @ingroup Critical Section
  */
-void vPortExitCritical( void );
+فراغ vPortExitCritical( فراغ );
 
 #define portEXIT_CRITICAL() vPortExitCritical()
 
@@ -382,7 +382,7 @@ void vPortExitCritical( void );
  *
  * @return pdTRUE, if the processor is privileged, pdFALSE otherwise.
  */
-BaseType_t xPortIsPrivileged( void );
+BaseType_t xPortIsPrivileged( فراغ );
 
 #define portIS_PRIVILEGED() xPortIsPrivileged()
 
@@ -397,7 +397,7 @@ BaseType_t xPortIsPrivileged( void );
  *
  * @return pdTRUE if the task is privileged, pdFALSE otherwise.
  */
-BaseType_t xPortIsTaskPrivileged( void );
+BaseType_t xPortIsTaskPrivileged( فراغ );
 
 #define portIS_TASK_PRIVILEGED() xPortIsTaskPrivileged()
 
@@ -409,11 +409,11 @@ BaseType_t xPortIsTaskPrivileged( void );
  * @note This function is used as the default return address for tasks if
  * configTASK_RETURN_ADDRESS is not defined in FreeRTOSConfig.h.
  */
-void prvTaskExitError( void );
+فراغ prvTaskExitError( فراغ );
 
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
+#وإلا
     #define portTASK_RETURN_ADDRESS prvTaskExitError
 #endif /* configTASK_RETURN_ADDRESS */
 
@@ -424,7 +424,7 @@ void prvTaskExitError( void );
  *
  * @return The number of leading zeros in ulBitmap.
  */
-UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+UBaseType_t ul_Port_عدد_Leading_Zeros( UBaseType_t ulBitmap );
 
 /**
  * @brief End the FreeRTOS scheduler.
@@ -433,7 +433,7 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
  *
  * @ingroup Scheduler
  */
-void vPortEndScheduler( void );
+فراغ vPortEndScheduler( فراغ );
 
 /* --------------------------------- MPU Definitions --------------------------------- */
 
@@ -471,7 +471,7 @@ void vPortEndScheduler( void );
  * @note The ordering of this struct MUST be in sync with the ordering in
  * portRESTORE_CONTEXT.
  */
-typedef struct MPU_REGION_REGISTERS
+تعريفنوع بنية MPU_REGION_REGISTERS
 {
     uint32_t ulRegionSize;        /* Information for MPU Region Size and Enable Register. */
     uint32_t ulRegionAttribute;   /* Information for MPU Region Access Control Register. */
@@ -488,14 +488,14 @@ typedef struct MPU_REGION_REGISTERS
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct SYSTEM_CALL_STACK_INFO
+تعريفنوع بنية SYSTEM_CALL_مكدس_INFO
 {
-    uint32_t * pulTaskStackPointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
+    uint32_t * pul_Task_مكدس_Pointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
     uint32_t * pulLinkRegisterAtSystemCallEntry; /**< Link Register of the task when it made a FreeRTOS System Call. */
-    uint32_t * pulSystemCallStackPointer; /**< Stack Pointer to use for executing a FreeRTOS System Call. */
+    uint32_t * pul_System_Call_مكدس_Pointer; /**< Stack Pointer to use for executing a FreeRTOS System Call. */
     uint32_t * pulSystemCallExitAddress; /**< System call exit address. */
-    uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ]; /**< Buffer to be used as stack when performing a FreeRTOS System Call. */
-} xSYSTEM_CALL_STACK_INFO;
+    uint32_t ul_System_Call_مكدس_Buffer[ config_SYSTEM_CALL_مكدس_SIZE ]; /**< Buffer to be used as stack when performing a FreeRTOS System Call. */
+} x_SYSTEM_CALL_مكدس_INFO;
 
 /**
  * @brief Per-Task MPU settings structure stored in the TCB.
@@ -508,14 +508,14 @@ typedef struct SYSTEM_CALL_STACK_INFO
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct MPU_SETTINGS
+تعريفنوع بنية MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
+    xMPU_REGION_REGISTERS xRegion[ port_TOTAL_رقم_REGIONS_IN_TCB ];
     uint32_t ulTaskFlags;
-    xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
+    x_SYSTEM_CALL_مكدس_INFO x_System_Call_مكدس_Info;
     uint32_t ulContext[ CONTEXT_SIZE ]; /**< Buffer used to store task context. */
 
-    #if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #إذا( configENABLE_ACCESS_CONTROL_LIST == 1 )
         uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE
                                         / portACL_ENTRY_SIZE_BITS )
                                       + 1UL ];
