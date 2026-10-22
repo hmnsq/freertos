@@ -26,12 +26,12 @@
  *
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "croutine.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
+#અન્તર્ભાવ "croutine.h"
 
 /* Remove the whole file if co-routines are not being used. */
-#if ( configUSE_CO_ROUTINES != 0 )
+#જો ( configUSE_CO_ROUTINES != 0 )
 
 /*
  * Some kernel aware debuggers require data to be viewed to be global, rather
@@ -39,8 +39,8 @@
  */
     #ifdef portREMOVE_STATIC_QUALIFIER
         #define STATIC
-    #else
-        #define STATIC    static
+    #નહીંતર
+        #define STATIC    સ્થિર
     #endif
 
 
@@ -48,15 +48,15 @@
     STATIC List_t pxReadyCoRoutineLists[ configMAX_CO_ROUTINE_PRIORITIES ]; /**< Prioritised ready co-routines. */
     STATIC List_t xDelayedCoRoutineList1;                                   /**< Delayed co-routines. */
     STATIC List_t xDelayedCoRoutineList2;                                   /**< Delayed co-routines (two lists are used - one for delays that have overflowed the current tick count. */
-    STATIC List_t * pxDelayedCoRoutineList = NULL;                          /**< Points to the delayed co-routine list currently being used. */
-    STATIC List_t * pxOverflowDelayedCoRoutineList = NULL;                  /**< Points to the delayed co-routine list currently being used to hold co-routines that have overflowed the current tick count. */
+    STATIC List_t * pxDelayedCoRoutineList = ખાલી;                          /**< Points to the delayed co-routine list currently being used. */
+    STATIC List_t * pxOverflowDelayedCoRoutineList = ખાલી;                  /**< Points to the delayed co-routine list currently being used to hold co-routines that have overflowed the current tick count. */
     STATIC List_t xPendingReadyCoRoutineList;                               /**< Holds co-routines that have been readied by an external event.  They cannot be added directly to the ready lists as the ready lists cannot be accessed by interrupts. */
 
 /* Other file private variables. --------------------------------*/
-    CRCB_t * pxCurrentCoRoutine = NULL;
-    STATIC UBaseType_t uxTopCoRoutineReadyPriority = ( UBaseType_t ) 0U;
-    STATIC TickType_t xCoRoutineTickCount = ( TickType_t ) 0U;
-    STATIC TickType_t xLastTickCount = ( TickType_t ) 0U;
+    CRCB_t * pxCurrentCoRoutine = ખાલી;
+    STATIC UBaseType_t ux_ટોચ_Co_Routine_Ready_Priority = ( UBaseType_t ) 0U;
+    STATIC TickType_t x_Co_Routine_Tick_ગણતરી = ( TickType_t ) 0U;
+    STATIC TickType_t x_Last_Tick_ગણતરી = ( TickType_t ) 0U;
     STATIC TickType_t xPassedTicks = ( TickType_t ) 0U;
 
 /* The initial state of the co-routine when it is created. */
@@ -70,19 +70,19 @@
  * used from within an ISR.
  */
     #define prvAddCoRoutineToReadyQueue( pxCRCB )                                                                               \
-    do {                                                                                                                        \
-        if( ( pxCRCB )->uxPriority > uxTopCoRoutineReadyPriority )                                                              \
+    કરો {                                                                                                                        \
+        જો( ( pxCRCB )->uxPriority > ux_ટોચ_Co_Routine_Ready_Priority )                                                              \
         {                                                                                                                       \
-            uxTopCoRoutineReadyPriority = ( pxCRCB )->uxPriority;                                                               \
+            ux_ટોચ_Co_Routine_Ready_Priority = ( pxCRCB )->uxPriority;                                                               \
         }                                                                                                                       \
-        vListInsertEnd( ( List_t * ) &( pxReadyCoRoutineLists[ ( pxCRCB )->uxPriority ] ), &( ( pxCRCB )->xGenericListItem ) ); \
-    } while( 0 )
+        v_List_ઉમેરો_End( ( List_t * ) &( pxReadyCoRoutineLists[ ( pxCRCB )->uxPriority ] ), &( ( pxCRCB )->xGenericListItem ) ); \
+    } જ્યારે( 0 )
 
 /*
  * Utility to ready all the lists used by the scheduler.  This is called
  * automatically upon the creation of the first co-routine.
  */
-    STATIC void prvInitialiseCoRoutineLists( void );
+    STATIC શૂન્ય prvInitialiseCoRoutineLists( શૂન્ય );
 
 /*
  * Co-routines that are readied by an interrupt cannot be placed directly into
@@ -90,7 +90,7 @@
  * in the pending ready list in order that they can later be moved to the ready
  * list by the co-routine scheduler.
  */
-    STATIC void prvCheckPendingReadyList( void );
+    STATIC શૂન્ય prvCheckPendingReadyList( શૂન્ય );
 
 /*
  * Macro that looks at the list of co-routines that are currently delayed to
@@ -100,7 +100,7 @@
  * meaning once one co-routine has been found whose timer has not expired
  * we need not look any further down the list.
  */
-    STATIC void prvCheckDelayedList( void );
+    STATIC શૂન્ય prvCheckDelayedList( શૂન્ય );
 
 /*-----------------------------------------------------------*/
 
@@ -117,20 +117,20 @@
         /* MISRA Ref 11.5.1 [Malloc memory assignment] */
         /* More details at: https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/MISRA.md#rule-115 */
         /* coverity[misra_c_2012_rule_11_5_violation] */
-        pxCoRoutine = ( CRCB_t * ) pvPortMalloc( sizeof( CRCB_t ) );
+        pxCoRoutine = ( CRCB_t * ) pvPortMalloc( કદ( CRCB_t ) );
 
-        if( pxCoRoutine )
+        જો( pxCoRoutine )
         {
             /* If pxCurrentCoRoutine is NULL then this is the first co-routine to
             * be created and the co-routine data structures need initialising. */
-            if( pxCurrentCoRoutine == NULL )
+            જો( pxCurrentCoRoutine == ખાલી )
             {
                 pxCurrentCoRoutine = pxCoRoutine;
                 prvInitialiseCoRoutineLists();
             }
 
             /* Check the priority is within limits. */
-            if( uxPriority >= configMAX_CO_ROUTINE_PRIORITIES )
+            જો( uxPriority >= configMAX_CO_ROUTINE_PRIORITIES )
             {
                 uxPriority = configMAX_CO_ROUTINE_PRIORITIES - 1;
             }
@@ -152,7 +152,7 @@
             listSET_LIST_ITEM_OWNER( &( pxCoRoutine->xEventListItem ), pxCoRoutine );
 
             /* Event lists are always in priority order. */
-            listSET_LIST_ITEM_VALUE( &( pxCoRoutine->xEventListItem ), ( ( TickType_t ) configMAX_CO_ROUTINE_PRIORITIES - ( TickType_t ) uxPriority ) );
+            list_SET_LIST_ITEM_કિંમત( &( pxCoRoutine->xEventListItem ), ( ( TickType_t ) configMAX_CO_ROUTINE_PRIORITIES - ( TickType_t ) uxPriority ) );
 
             /* Now the co-routine has been initialised it can be added to the ready
              * list at the correct priority. */
@@ -160,18 +160,18 @@
 
             xReturn = pdPASS;
         }
-        else
+        નહીંતર
         {
             xReturn = errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY;
         }
 
         traceRETURN_xCoRoutineCreate( xReturn );
 
-        return xReturn;
+        પાછા xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
+    શૂન્ય vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
                                      List_t * pxEventList )
     {
         TickType_t xTimeToWake;
@@ -180,46 +180,46 @@
 
         /* Calculate the time to wake - this may overflow but this is
          * not a problem. */
-        xTimeToWake = xCoRoutineTickCount + xTicksToDelay;
+        xTimeToWake = x_Co_Routine_Tick_ગણતરી + xTicksToDelay;
 
         /* We must remove ourselves from the ready list before adding
          * ourselves to the blocked list as the same list item is used for
          * both lists. */
-        ( void ) uxListRemove( ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
+        ( શૂન્ય ) uxListRemove( ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
 
         /* The list item will be inserted in wake time order. */
-        listSET_LIST_ITEM_VALUE( &( pxCurrentCoRoutine->xGenericListItem ), xTimeToWake );
+        list_SET_LIST_ITEM_કિંમત( &( pxCurrentCoRoutine->xGenericListItem ), xTimeToWake );
 
-        if( xTimeToWake < xCoRoutineTickCount )
+        જો( xTimeToWake < x_Co_Routine_Tick_ગણતરી )
         {
             /* Wake time has overflowed.  Place this item in the
              * overflow list. */
-            vListInsert( ( List_t * ) pxOverflowDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
+            v_List_ઉમેરો( ( List_t * ) pxOverflowDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
         }
-        else
+        નહીંતર
         {
             /* The wake time has not overflowed, so we can use the
              * current block list. */
-            vListInsert( ( List_t * ) pxDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
+            v_List_ઉમેરો( ( List_t * ) pxDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
         }
 
-        if( pxEventList )
+        જો( pxEventList )
         {
             /* Also add the co-routine to an event list.  If this is done then the
              * function must be called with interrupts disabled. */
-            vListInsert( pxEventList, &( pxCurrentCoRoutine->xEventListItem ) );
+            v_List_ઉમેરો( pxEventList, &( pxCurrentCoRoutine->xEventListItem ) );
         }
 
         traceRETURN_vCoRoutineAddToDelayedList();
     }
 /*-----------------------------------------------------------*/
 
-    STATIC void prvCheckPendingReadyList( void )
+    STATIC શૂન્ય prvCheckPendingReadyList( શૂન્ય )
     {
         /* Are there any co-routines waiting to get moved to the ready list?  These
          * are co-routines that have been readied by an ISR.  The ISR cannot access
          * the ready lists itself. */
-        while( listLIST_IS_EMPTY( &xPendingReadyCoRoutineList ) == pdFALSE )
+        જ્યારે( listLIST_IS_EMPTY( &xPendingReadyCoRoutineList ) == pdFALSE )
         {
             CRCB_t * pxUnblockedCRCB;
 
@@ -227,29 +227,29 @@
             portDISABLE_INTERRUPTS();
             {
                 pxUnblockedCRCB = ( CRCB_t * ) listGET_OWNER_OF_HEAD_ENTRY( ( &xPendingReadyCoRoutineList ) );
-                ( void ) uxListRemove( &( pxUnblockedCRCB->xEventListItem ) );
+                ( શૂન્ય ) uxListRemove( &( pxUnblockedCRCB->xEventListItem ) );
             }
             portENABLE_INTERRUPTS();
 
-            ( void ) uxListRemove( &( pxUnblockedCRCB->xGenericListItem ) );
+            ( શૂન્ય ) uxListRemove( &( pxUnblockedCRCB->xGenericListItem ) );
             prvAddCoRoutineToReadyQueue( pxUnblockedCRCB );
         }
     }
 /*-----------------------------------------------------------*/
 
-    STATIC void prvCheckDelayedList( void )
+    STATIC શૂન્ય prvCheckDelayedList( શૂન્ય )
     {
         CRCB_t * pxCRCB;
 
-        xPassedTicks = xTaskGetTickCount() - xLastTickCount;
+        xPassedTicks = x_Task_Get_Tick_ગણતરી() - x_Last_Tick_ગણતરી;
 
-        while( xPassedTicks )
+        જ્યારે( xPassedTicks )
         {
-            xCoRoutineTickCount++;
+            x_Co_Routine_Tick_ગણતરી++;
             xPassedTicks--;
 
             /* If the tick count has overflowed we need to swap the ready lists. */
-            if( xCoRoutineTickCount == 0 )
+            જો( x_Co_Routine_Tick_ગણતરી == 0 )
             {
                 List_t * pxTemp;
 
@@ -261,14 +261,14 @@
             }
 
             /* See if this tick has made a timeout expire. */
-            while( listLIST_IS_EMPTY( pxDelayedCoRoutineList ) == pdFALSE )
+            જ્યારે( listLIST_IS_EMPTY( pxDelayedCoRoutineList ) == pdFALSE )
             {
                 pxCRCB = ( CRCB_t * ) listGET_OWNER_OF_HEAD_ENTRY( pxDelayedCoRoutineList );
 
-                if( xCoRoutineTickCount < listGET_LIST_ITEM_VALUE( &( pxCRCB->xGenericListItem ) ) )
+                જો( x_Co_Routine_Tick_ગણતરી < list_GET_LIST_ITEM_કિંમત( &( pxCRCB->xGenericListItem ) ) )
                 {
                     /* Timeout not yet expired. */
-                    break;
+                    તોડો;
                 }
 
                 portDISABLE_INTERRUPTS();
@@ -278,12 +278,12 @@
                      *  have been moved to the pending ready list and the following
                      *  line is still valid.  Also the pvContainer parameter will have
                      *  been set to NULL so the following lines are also valid. */
-                    ( void ) uxListRemove( &( pxCRCB->xGenericListItem ) );
+                    ( શૂન્ય ) uxListRemove( &( pxCRCB->xGenericListItem ) );
 
                     /* Is the co-routine waiting on an event also? */
-                    if( pxCRCB->xEventListItem.pxContainer )
+                    જો( pxCRCB->xEventListItem.pxContainer )
                     {
-                        ( void ) uxListRemove( &( pxCRCB->xEventListItem ) );
+                        ( શૂન્ય ) uxListRemove( &( pxCRCB->xEventListItem ) );
                     }
                 }
                 portENABLE_INTERRUPTS();
@@ -292,18 +292,18 @@
             }
         }
 
-        xLastTickCount = xCoRoutineTickCount;
+        x_Last_Tick_ગણતરી = x_Co_Routine_Tick_ગણતરી;
     }
 /*-----------------------------------------------------------*/
 
-    void vCoRoutineSchedule( void )
+    શૂન્ય vCoRoutineSchedule( શૂન્ય )
     {
         traceENTER_vCoRoutineSchedule();
 
         /* Only run a co-routine after prvInitialiseCoRoutineLists() has been
          * called.  prvInitialiseCoRoutineLists() is called automatically when a
          * co-routine is created. */
-        if( pxDelayedCoRoutineList != NULL )
+        જો( pxDelayedCoRoutineList != ખાલી )
         {
             /* See if any co-routines readied by events need moving to the ready lists. */
             prvCheckPendingReadyList();
@@ -312,20 +312,20 @@
             prvCheckDelayedList();
 
             /* Find the highest priority queue that contains ready co-routines. */
-            while( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) ) )
+            જ્યારે( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ ux_ટોચ_Co_Routine_Ready_Priority ] ) ) )
             {
-                if( uxTopCoRoutineReadyPriority == 0 )
+                જો( ux_ટોચ_Co_Routine_Ready_Priority == 0 )
                 {
                     /* No more co-routines to check. */
-                    return;
+                    પાછા;
                 }
 
-                --uxTopCoRoutineReadyPriority;
+                --ux_ટોચ_Co_Routine_Ready_Priority;
             }
 
             /* listGET_OWNER_OF_NEXT_ENTRY walks through the list, so the co-routines
              * of the same priority get an equal share of the processor time. */
-            listGET_OWNER_OF_NEXT_ENTRY( pxCurrentCoRoutine, &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) );
+            listGET_OWNER_OF_NEXT_ENTRY( pxCurrentCoRoutine, &( pxReadyCoRoutineLists[ ux_ટોચ_Co_Routine_Ready_Priority ] ) );
 
             /* Call the co-routine. */
             ( pxCurrentCoRoutine->pxCoRoutineFunction )( pxCurrentCoRoutine, pxCurrentCoRoutine->uxIndex );
@@ -335,11 +335,11 @@
     }
 /*-----------------------------------------------------------*/
 
-    STATIC void prvInitialiseCoRoutineLists( void )
+    STATIC શૂન્ય prvInitialiseCoRoutineLists( શૂન્ય )
     {
         UBaseType_t uxPriority;
 
-        for( uxPriority = 0; uxPriority < configMAX_CO_ROUTINE_PRIORITIES; uxPriority++ )
+        માટે( uxPriority = 0; uxPriority < configMAX_CO_ROUTINE_PRIORITIES; uxPriority++ )
         {
             vListInitialise( ( List_t * ) &( pxReadyCoRoutineLists[ uxPriority ] ) );
         }
@@ -355,7 +355,7 @@
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t xCoRoutineRemoveFromEventList( const List_t * pxEventList )
+    BaseType_t xCoRoutineRemoveFromEventList( અચલ List_t * pxEventList )
     {
         CRCB_t * pxUnblockedCRCB;
         BaseType_t xReturn;
@@ -366,21 +366,21 @@
          * event lists and the pending ready list.  This function assumes that a
          * check has already been made to ensure pxEventList is not empty. */
         pxUnblockedCRCB = ( CRCB_t * ) listGET_OWNER_OF_HEAD_ENTRY( pxEventList );
-        ( void ) uxListRemove( &( pxUnblockedCRCB->xEventListItem ) );
-        vListInsertEnd( ( List_t * ) &( xPendingReadyCoRoutineList ), &( pxUnblockedCRCB->xEventListItem ) );
+        ( શૂન્ય ) uxListRemove( &( pxUnblockedCRCB->xEventListItem ) );
+        v_List_ઉમેરો_End( ( List_t * ) &( xPendingReadyCoRoutineList ), &( pxUnblockedCRCB->xEventListItem ) );
 
-        if( pxUnblockedCRCB->uxPriority >= pxCurrentCoRoutine->uxPriority )
+        જો( pxUnblockedCRCB->uxPriority >= pxCurrentCoRoutine->uxPriority )
         {
             xReturn = pdTRUE;
         }
-        else
+        નહીંતર
         {
             xReturn = pdFALSE;
         }
 
         traceRETURN_xCoRoutineRemoveFromEventList( xReturn );
 
-        return xReturn;
+        પાછા xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -389,17 +389,17 @@
  * This function must be called by the application before restarting the
  * scheduler.
  */
-    void vCoRoutineResetState( void )
+    શૂન્ય vCoRoutineResetState( શૂન્ય )
     {
         /* Lists for ready and blocked co-routines. */
-        pxDelayedCoRoutineList = NULL;
-        pxOverflowDelayedCoRoutineList = NULL;
+        pxDelayedCoRoutineList = ખાલી;
+        pxOverflowDelayedCoRoutineList = ખાલી;
 
         /* Other file private variables. */
-        pxCurrentCoRoutine = NULL;
-        uxTopCoRoutineReadyPriority = ( UBaseType_t ) 0U;
-        xCoRoutineTickCount = ( TickType_t ) 0U;
-        xLastTickCount = ( TickType_t ) 0U;
+        pxCurrentCoRoutine = ખાલી;
+        ux_ટોચ_Co_Routine_Ready_Priority = ( UBaseType_t ) 0U;
+        x_Co_Routine_Tick_ગણતરી = ( TickType_t ) 0U;
+        x_Last_Tick_ગણતરી = ( TickType_t ) 0U;
         xPassedTicks = ( TickType_t ) 0U;
     }
 /*-----------------------------------------------------------*/

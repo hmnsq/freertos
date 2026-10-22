@@ -31,21 +31,21 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#અન્તર્ભાવ "string.h"
 
 /* Hardware specifics. */
-#include <machine.h>
+#અન્તર્ભાવ <machine.h>
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( ઢગલો_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( ઢગલો_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
@@ -53,102 +53,102 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-extern void prvStartFirstTask( void );
+બાહ્ય શૂન્ય prvStartFirstTask( શૂન્ય );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt શૂન્ય vTickISR( શૂન્ય );
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+બાહ્ય શૂન્ય * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ઢગલો_Type_t * px_Port_Initialise_ઢગલો( ઢગલો_Type_t * px_ટોચ_Of_ઢગલો,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     શૂન્ય * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_ટોચ_Of_ઢગલો = 0x00;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = portINITIAL_PSW;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0xffffffff; /* r15. */
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0xeeeeeeee;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0xdddddddd;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0xcccccccc;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0xbbbbbbbb;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0xaaaaaaaa;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x99999999;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x88888888;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x77777777;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x66666666;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x55555555;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x44444444;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x33333333;
+        px_ટોચ_Of_ઢગલો--;
+        *px_ટોચ_Of_ઢગલો = 0x22222222;
+        px_ટોચ_Of_ઢગલો--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #નહીંતર /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_ટોચ_Of_ઢગલો -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 1. */
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) pvParameters; /* R1 */
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = portINITIAL_FPSW;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x11111111; /* Accumulator 0. */
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x22222222; /* Accumulator 0. */
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x33333333; /* Accumulator 0. */
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x44444444; /* Accumulator 1. */
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x55555555; /* Accumulator 1. */
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    પાછા px_ટોચ_Of_ઢગલો;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    બાહ્ય શૂન્ય vApplicationSetupTimerInterrupt( શૂન્ય );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    જો( pxCurrentTCB != ખાલી )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -169,12 +169,12 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    પાછા pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector = configTICK_VECTOR
-__interrupt void vTickISR( void )
+__interrupt શૂન્ય vTickISR( શૂન્ય )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -183,7 +183,7 @@ __interrupt void vTickISR( void )
      * necessitates. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        જો( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -192,10 +192,10 @@ __interrupt void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ખાલી );
 }
 /*-----------------------------------------------------------*/

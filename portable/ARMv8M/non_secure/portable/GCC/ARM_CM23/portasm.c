@@ -27,37 +27,37 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#અન્તર્ભાવ <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#અન્તર્ભાવ "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#અન્તર્ભાવ "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_FPU == 1 )
+#જો ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#જો ( configENABLE_MPU == 1 )
     #define SECURE_CONTEXT_OFFSET   -20
-#else
+#નહીંતર
     #define SECURE_CONTEXT_OFFSET   0
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#જો ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    શૂન્ય vRestoreContextOfFirstTask( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm અસ્થિર
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -145,11 +145,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#નહીંતર /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    શૂન્ય vRestoreContextOfFirstTask( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm અસ્થિર
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -172,9 +172,9 @@
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+BaseType_t xIsPrivileged( શૂન્ય ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -192,9 +192,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+શૂન્ય vRaisePrivilege( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -208,9 +208,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+શૂન્ય vResetPrivilege( શૂન્ય ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -224,9 +224,9 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+શૂન્ય vStartFirstTask( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -244,9 +244,9 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ulSetInterruptMask( શૂન્ય ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -258,9 +258,9 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 }
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+શૂન્ય vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -271,11 +271,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#જો ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    શૂન્ય PendSV_Handler( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm અસ્થિર
         (
             " .syntax unified                                 \n"
             " .extern SecureContext_SaveContext               \n"
@@ -421,11 +421,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#નહીંતર /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    શૂન્ય PendSV_Handler( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm અસ્થિર
         (
             "   .syntax unified                                 \n"
             "   .extern SecureContext_SaveContext               \n"
@@ -509,11 +509,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#જો ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    શૂન્ય SVC_Handler( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm અસ્થિર
         (
             ".syntax unified                \n"
             ".extern vPortSVCHandler_C      \n"
@@ -547,16 +547,16 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( અંક_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "r3", "memory"
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#નહીંતર /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    શૂન્ય SVC_Handler( શૂન્ય ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm અસ્થિર
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -577,9 +577,9 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) /* __attribute__ (( naked )) */
+શૂન્ય vPortAllocateSecureContext( uint32_t ul_Secure_ઢગલો_Size ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -590,9 +590,9 @@ void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) /* __attribute__ (
 }
 /*-----------------------------------------------------------*/
 
-void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+શૂન્ય vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm અસ્થિર
     (
         "   .syntax unified                                 \n"
         "                                                   \n"

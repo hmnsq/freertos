@@ -23,10 +23,10 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
-extern void vPortStartTask( void );
+બાહ્ય શૂન્ય vPortStartTask( શૂન્ય );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
@@ -36,13 +36,13 @@ portLONG ulCriticalNesting = 0x9999UL;
  * and implement task switch after exit critical area */
 portLONG pendsvflag = 0;
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ઢગલો_Type_t * px_Port_Initialise_ઢગલો( ઢગલો_Type_t * px_ટોચ_Of_ઢગલો,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     શૂન્ય * pvParameters )
 {
-    StackType_t * stk = NULL;
+    ઢગલો_Type_t * stk = ખાલી;
 
-    stk = pxTopOfStack;
+    stk = px_ટોચ_Of_ઢગલો;
 
     *( --stk ) = ( uint32_t ) pxCode;       /* Entry Point                                         */
     *( --stk ) = ( uint32_t ) 0xE0000140L;  /* PSR                                                 */
@@ -62,46 +62,46 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    પાછા stk;
 }
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
     ulCriticalNesting = 0UL;
 
     vPortStartTask();
 
-    return pdFALSE;
+    પાછા pdFALSE;
 }
 
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
     /* Not implemented as there is nothing to return to. */
 }
 
-void vPortEnterCritical( void )
+શૂન્ય vPortEnterCritical( શૂન્ય )
 {
     portDISABLE_INTERRUPTS();
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+શૂન્ય vPortExitCritical( શૂન્ય )
 {
-    if( ulCriticalNesting == 0 )
+    જો( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        જ્યારે( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    જો( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        જો( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,8 +109,8 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
-    void xPortSysTickHandler( void )
+#જો configUSE_PREEMPTION == 0
+    શૂન્ય xPortSysTickHandler( શૂન્ય )
     {
         portLONG ulDummy;
 
@@ -119,20 +119,20 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
-    void xPortSysTickHandler( void )
+#નહીંતર
+    શૂન્ય xPortSysTickHandler( શૂન્ય )
     {
         portLONG ulDummy;
 
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            જો( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            નહીંતર
             {
                 traceISR_EXIT();
             }
@@ -141,7 +141,7 @@ void vPortExitCritical( void )
     }
 #endif /* if configUSE_PREEMPTION == 0 */
 
-void vPortYieldHandler( void )
+શૂન્ય vPortYieldHandler( શૂન્ય )
 {
     uint32_t ulSavedInterruptMask;
 
@@ -152,17 +152,17 @@ void vPortYieldHandler( void )
     portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
 }
 
-__attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
+__attribute__( ( weak ) ) શૂન્ય v_Application_ઢગલો_Overflow_Hook( xTaskHandle * pxTask,
                                                               signed portCHAR * pcTaskName )
 {
-    for( ; ; )
+    માટે( ; ; )
     {
     }
 }
 
-__attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
+__attribute__( ( weak ) ) શૂન્ય vApplicationMallocFailedHook( શૂન્ય )
 {
-    for( ; ; )
+    માટે( ; ; )
     {
     }
 }

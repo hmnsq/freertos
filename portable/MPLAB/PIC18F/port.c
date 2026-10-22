@@ -56,11 +56,11 @@ Changes from V3.2.0
 */
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
 /* MPLAB library include file. */
-#include "timers.h"
+#અન્તર્ભાવ "timers.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the PIC port.
@@ -88,8 +88,8 @@ constant defines the size of memory area which must be saved. */
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+પ્રકારવ્યાખ્યા શૂન્ય TCB_t;
+બાહ્ય અસ્થિર TCB_t * અસ્થિર pxCurrentTCB;
 
 /* IO port constants. */
 #define portBIT_SET     ( ( uint8_t ) 1 )
@@ -99,25 +99,25 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * The serial port ISR's are defined in serial.c, but are called from portable
  * as they use the same vector as the tick ISR.
  */
-void vSerialTxISR( void );
-void vSerialRxISR( void );
+શૂન્ય vSerialTxISR( શૂન્ય );
+શૂન્ય vSerialRxISR( શૂન્ય );
 
 /*
  * Perform hardware setup to enable ticks.
  */
-static void prvSetupTimerInterrupt( void );
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય );
 
 /*
  * ISR to maintain the tick, and perform tick context switches if the
  * preemptive scheduler is being used.
  */
-static void prvTickISR( void );
+સ્થિર શૂન્ય prvTickISR( શૂન્ય );
 
 /*
  * ISR placed on the low priority vector.  This calls the appropriate ISR for
  * the actual interrupt.
  */
-static void prvLowInterrupt( void );
+સ્થિર શૂન્ય prv_નીચલું_Interrupt( શૂન્ય );
 
 /*
  * Macro that pushes all the registers that make up the context of a task onto
@@ -206,13 +206,13 @@ static void prvLowInterrupt( void );
     _endasm                                                                     \
                                                                                 \
         /* Store each address from the hardware stack. */                       \
-        while( STKPTR > ( uint8_t ) 0 )                             \
+        જ્યારે( STKPTR > ( uint8_t ) 0 )                             \
         {                                                                       \
             _asm                                                                \
                 MOVFF   TOSL, PREINC1                                           \
                 MOVFF   TOSH, PREINC1                                           \
                 MOVFF   TOSU, PREINC1                                           \
-                POP                                                             \
+                કાઢો_2                                                             \
             _endasm                                                             \
         }                                                                       \
                                                                                 \
@@ -258,10 +258,10 @@ static void prvLowInterrupt( void );
     /* Fill the hardware stack from our software stack. */                      \
     STKPTR = 0;                                                                 \
                                                                                 \
-    while( STKPTR < FSR0L )                                                     \
+    જ્યારે( STKPTR < FSR0L )                                                     \
     {                                                                           \
         _asm                                                                    \
-            PUSH                                                                \
+            ધકેલો_2                                                                \
             MOVF    POSTDEC1, 0, 0                                              \
             MOVWF   TOSU, 0                                                     \
             MOVF    POSTDEC1, 0, 0                                              \
@@ -318,7 +318,7 @@ static void prvLowInterrupt( void );
     of the tasks context.  It is perfectly legitimate for another task to       \
     have modified any other bits.  We therefore only restore the top two bits.  \
     */                                                                          \
-    if( WREG & portGLOBAL_INTERRUPT_FLAG )                                      \
+    જો( WREG & portGLOBAL_INTERRUPT_FLAG )                                      \
     {                                                                           \
         _asm                                                                    \
             MOVFF   POSTDEC1, STATUS                                            \
@@ -327,7 +327,7 @@ static void prvLowInterrupt( void );
             RETFIE  0                                                           \
         _endasm                                                                 \
     }                                                                           \
-    else                                                                        \
+    નહીંતર                                                                        \
     {                                                                           \
         _asm                                                                    \
             MOVFF   POSTDEC1, STATUS                                            \
@@ -343,7 +343,7 @@ static void prvLowInterrupt( void );
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ઢગલો_Type_t *px_Port_Initialise_ઢગલો( ઢગલો_Type_t *px_ટોચ_Of_ઢગલો, TaskFunction_t pxCode, શૂન્ય *pvParameters )
 {
 uint32_t ulAddress;
 uint8_t ucBlock;
@@ -351,12 +351,12 @@ uint8_t ucBlock;
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x11;
-    pxTopOfStack++;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack++;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = 0x11;
+    px_ટોચ_Of_ઢગલો++;
+    *px_ટોચ_Of_ઢગલો = 0x22;
+    px_ટોચ_Of_ઢગલો++;
+    *px_ટોચ_Of_ઢગલો = 0x33;
+    px_ટોચ_Of_ઢગલો++;
 
 
     /* Simulate how the stack would look after a call to vPortYield() generated
@@ -365,113 +365,113 @@ uint8_t ucBlock;
     First store the function parameters.  This is where the task will expect to
     find them when it starts running. */
     ulAddress = ( uint32_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ulAddress & ( uint32_t ) 0x00ff );
+    px_ટોચ_Of_ઢગલો++;
 
     ulAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ulAddress & ( uint32_t ) 0x00ff );
+    px_ટોચ_Of_ઢગલો++;
 
     /* Next we just leave a space.  When a context is saved the stack pointer
     is incremented before it is used so as not to corrupt whatever the stack
     pointer is actually pointing to.  This is especially necessary during
     function epilogue code generated by the compiler. */
-    *pxTopOfStack = 0x44;
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = 0x44;
+    px_ટોચ_Of_ઢગલો++;
 
     /* Next are all the registers that form part of the task context. */
 
-    *pxTopOfStack = ( StackType_t ) 0x66; /* WREG. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x66; /* WREG. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0xcc; /* Status. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xcc; /* Status. */
+    px_ટોચ_Of_ઢગલો++;
 
     /* INTCON is saved with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITAL_INTERRUPT_STATE; /* INTCON */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) portINITAL_INTERRUPT_STATE; /* INTCON */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x11; /* BSR. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x11; /* BSR. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x22; /* FSR2L. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x22; /* FSR2L. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x33; /* FSR2H. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x33; /* FSR2H. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x44; /* FSR0L. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x44; /* FSR0L. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x55; /* FSR0H. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x55; /* FSR0H. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x66; /* TABLAT. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x66; /* TABLAT. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* TBLPTRU. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x00; /* TBLPTRU. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x88; /* TBLPTRUH. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x88; /* TBLPTRUH. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x99; /* TBLPTRUL. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x99; /* TBLPTRUL. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0xaa; /* PRODH. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xaa; /* PRODH. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0xbb; /* PRODL. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xbb; /* PRODL. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* PCLATU. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x00; /* PCLATU. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* PCLATH. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x00; /* PCLATH. */
+    px_ટોચ_Of_ઢગલો++;
 
     /* Next the .tmpdata and MATH_DATA sections. */
-    for( ucBlock = 0; ucBlock <= portCOMPILER_MANAGED_MEMORY_SIZE; ucBlock++ )
+    માટે( ucBlock = 0; ucBlock <= portCOMPILER_MANAGED_MEMORY_SIZE; ucBlock++ )
     {
-        *pxTopOfStack = ( StackType_t ) ucBlock;
-        *pxTopOfStack++;
+        *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ucBlock;
+        *px_ટોચ_Of_ઢગલો++;
     }
 
     /* Store the top of the global data section. */
-    *pxTopOfStack = ( StackType_t ) portCOMPILER_MANAGED_MEMORY_SIZE; /* Low. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) portCOMPILER_MANAGED_MEMORY_SIZE; /* Low. */
+    px_ટોચ_Of_ઢગલો++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* High. */
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x00; /* High. */
+    px_ટોચ_Of_ઢગલો++;
 
     /* The only function return address so far is the address of the
     task. */
     ulAddress = ( uint32_t ) pxCode;
 
     /* TOS low. */
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ulAddress & ( uint32_t ) 0x00ff );
+    px_ટોચ_Of_ઢગલો++;
     ulAddress >>= 8;
 
     /* TOS high. */
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ulAddress & ( uint32_t ) 0x00ff );
+    px_ટોચ_Of_ઢગલો++;
     ulAddress >>= 8;
 
     /* TOS even higher. */
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ulAddress & ( uint32_t ) 0x00ff );
+    px_ટોચ_Of_ઢગલો++;
 
     /* Store the number of return addresses on the hardware stack - so far only
     the address of the task entry point. */
-    *pxTopOfStack = ( StackType_t ) 1;
-    pxTopOfStack++;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 1;
+    px_ટોચ_Of_ઢગલો++;
 
-    return pxTopOfStack;
+    પાછા px_ટોચ_Of_ઢગલો;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
     /* Setup a timer for the tick ISR is using the preemptive scheduler. */
     prvSetupTimerInterrupt();
@@ -480,14 +480,14 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here.  Use the function name to stop compiler warnings. */
-    ( void ) prvLowInterrupt;
-    ( void ) prvTickISR;
+    ( શૂન્ય ) prv_નીચલું_Interrupt;
+    ( શૂન્ય ) prvTickISR;
 
-    return pdTRUE;
+    પાછા pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
     /* It is unlikely that the scheduler for the PIC port will get stopped
     once running.  If required disable the tick interrupt here, then return
@@ -500,7 +500,7 @@ void vPortEndScheduler( void )
  * but does not increment the tick count.  It must be identical to the
  * tick context switch in how it stores the stack of a task.
  */
-void vPortYield( void )
+શૂન્ય vPortYield( શૂન્ય )
 {
     /* This can get called with interrupts either enabled or disabled.  We
     will save the INTCON register with the interrupt enable bits unmodified. */
@@ -517,32 +517,32 @@ void vPortYield( void )
 /*
  * Vector for ISR.  Nothing here must alter any registers!
  */
-#pragma code high_vector=0x08
-static void prvLowInterrupt( void )
+#pragma code ઉપલું_vector=0x08
+સ્થિર શૂન્ય prv_નીચલું_Interrupt( શૂન્ય )
 {
     /* Was the interrupt the tick? */
-    if( PIR1bits.CCP1IF )
+    જો( PIR1bits.CCP1IF )
     {
         _asm
-            goto prvTickISR
+            જાઓ prvTickISR
         _endasm
     }
 
     /* Was the interrupt a byte being received? */
-    if( PIR1bits.RCIF )
+    જો( PIR1bits.RCIF )
     {
         _asm
-            goto vSerialRxISR
+            જાઓ vSerialRxISR
         _endasm
     }
 
     /* Was the interrupt the Tx register becoming empty? */
-    if( PIR1bits.TXIF )
+    જો( PIR1bits.TXIF )
     {
-        if( PIE1bits.TXIE )
+        જો( PIE1bits.TXIE )
         {
             _asm
-                goto vSerialTxISR
+                જાઓ vSerialTxISR
             _endasm
         }
     }
@@ -557,7 +557,7 @@ static void prvLowInterrupt( void )
  * performs a context switch.  This must be identical to the manual
  * context switch in how it stores the context of a task.
  */
-static void prvTickISR( void )
+સ્થિર શૂન્ય prvTickISR( શૂન્ય )
 {
     /* Interrupts must have been enabled for the ISR to fire, so we have to
     save the context with interrupts enabled. */
@@ -565,7 +565,7 @@ static void prvTickISR( void )
     PIR1bits.CCP1IF = 0;
 
     /* Maintain the tick count. */
-    if( xTaskIncrementTick() != pdFALSE )
+    જો( xTaskIncrementTick() != pdFALSE )
     {
         /* Switch to the highest priority task that is ready to run. */
         vTaskSwitchContext();
@@ -578,10 +578,10 @@ static void prvTickISR( void )
 /*
  * Setup a timer for a regular tick.
  */
-static void prvSetupTimerInterrupt( void )
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય )
 {
-const uint32_t ulConstCompareValue = ( ( configCPU_CLOCK_HZ / portTIMER_FOSC_SCALE ) / configTICK_RATE_HZ );
-uint32_t ulCompareValue;
+અચલ uint32_t ul_Const_Compare_કિંમત = ( ( configCPU_CLOCK_HZ / portTIMER_FOSC_SCALE ) / configTICK_RATE_HZ );
+uint32_t ul_Compare_કિંમત;
 uint8_t ucByte;
 
     /* Interrupts are disabled when this function is called.
@@ -594,10 +594,10 @@ uint8_t ucByte;
     TMR1L = ( uint8_t ) 0x00;
 
     /* Set the compare match value. */
-    ulCompareValue = ulConstCompareValue;
-    CCPR1L = ( uint8_t ) ( ulCompareValue & ( uint32_t ) 0xff );
-    ulCompareValue >>= ( uint32_t ) 8;
-    CCPR1H = ( uint8_t ) ( ulCompareValue & ( uint32_t ) 0xff );
+    ul_Compare_કિંમત = ul_Const_Compare_કિંમત;
+    CCPR1L = ( uint8_t ) ( ul_Compare_કિંમત & ( uint32_t ) 0xff );
+    ul_Compare_કિંમત >>= ( uint32_t ) 8;
+    CCPR1H = ( uint8_t ) ( ul_Compare_કિંમત & ( uint32_t ) 0xff );
 
     CCP1CONbits.CCP1M0 = portBIT_SET;   /*< Compare match mode. */
     CCP1CONbits.CCP1M1 = portBIT_SET;   /*< Compare match mode. */

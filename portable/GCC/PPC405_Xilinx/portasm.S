@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS અથવા
+ * IMPLIED, INCLUDING BUT નહીં LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE અને NONINFRINGEMENT. માં NO EVENT SHALL THE AUTHORS અથવા
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES અથવા OTHER LIABILITY, WHETHER
+ * માં AN ACTION OF CONTRACT, TORT અથવા OTHERWISE, ARISING FROM, OUT OF અથવા માં
+ * CONNECTION WITH THE SOFTWARE અથવા THE USE અથવા OTHER DEALINGS માં THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -33,12 +33,12 @@
     .extern xTaskIncrementTick
     .extern vPortISRHandler
 
-    .global vPortStartFirstTask
-    .global vPortYield
-    .global vPortTickISR
-    .global vPortISRWrapper
-    .global vPortSaveFPURegisters
-    .global vPortRestoreFPURegisters
+    .વૈશ્વિક vPortStartFirstTask
+    .વૈશ્વિક vPortYield
+    .વૈશ્વિક vPortTickISR
+    .વૈશ્વિક vPortISRWrapper
+    .વૈશ્વિક vPortSaveFPURegisters
+    .વૈશ્વિક vPortRestoreFPURegisters
 
 .set    BChainField, 0
 .set    NextLRField, BChainField + 4

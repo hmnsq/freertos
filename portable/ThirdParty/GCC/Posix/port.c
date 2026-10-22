@@ -57,149 +57,149 @@
 #ifdef __linux__
     #define _GNU_SOURCE
 #endif
-#include "portmacro.h"
-#include <errno.h>
-#include <pthread.h>
-#include <limits.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/times.h>
-#include <time.h>
-#include <unistd.h>
+#અન્તર્ભાવ "portmacro.h"
+#અન્તર્ભાવ <errno.h>
+#અન્તર્ભાવ <pthread.h>
+#અન્તર્ભાવ <limits.h>
+#અન્તર્ભાવ <signal.h>
+#અન્તર્ભાવ <stdio.h>
+#અન્તર્ભાવ <stdlib.h>
+#અન્તર્ભાવ <string.h>
+#અન્તર્ભાવ <sys/time.h>
+#અન્તર્ભાવ <sys/times.h>
+#અન્તર્ભાવ <time.h>
+#અન્તર્ભાવ <unistd.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "timers.h"
-#include "utils/wait_for_event.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
+#અન્તર્ભાવ "timers.h"
+#અન્તર્ભાવ "utils/wait_for_event.h"
 /*-----------------------------------------------------------*/
 
 #define SIG_RESUME    SIGUSR1
 
-typedef struct THREAD
+પ્રકારવ્યાખ્યા સંરચના THREAD
 {
     pthread_t pthread;
     TaskFunction_t pxCode;
-    void * pvParams;
+    શૂન્ય * pvParams;
     BaseType_t xDying;
-    struct event * ev;
+    સંરચના event * ev;
 } Thread_t;
 
 /*
  * The additional per-thread data is stored at the beginning of the
  * task's stack.
  */
-static inline Thread_t * prvGetThreadFromTask( TaskHandle_t xTask )
+સ્થિર અંતઃરેખ Thread_t * prvGetThreadFromTask( TaskHandle_t xTask )
 {
-    StackType_t * pxTopOfStack = *( StackType_t ** ) xTask;
+    ઢગલો_Type_t * px_ટોચ_Of_ઢગલો = *( ઢગલો_Type_t ** ) xTask;
 
-    return ( Thread_t * ) ( pxTopOfStack + 1 );
+    પાછા ( Thread_t * ) ( px_ટોચ_Of_ઢગલો + 1 );
 }
 
 /*-----------------------------------------------------------*/
 
-static pthread_once_t hSigSetupThread = PTHREAD_ONCE_INIT;
-static pthread_once_t hThreadKeyOnce = PTHREAD_ONCE_INIT;
-static sigset_t xAllSignals;
-static sigset_t xSchedulerOriginalSignalMask;
-static pthread_t hMainThread = ( pthread_t ) NULL;
-static volatile BaseType_t uxCriticalNesting;
-static BaseType_t xSchedulerEnd = pdFALSE;
-static pthread_t hTimerTickThread;
-static bool xTimerTickThreadShouldRun;
-static uint64_t prvStartTimeNs;
-static pthread_key_t xThreadKey = 0;
+સ્થિર pthread_once_t hSigSetupThread = PTHREAD_ONCE_INIT;
+સ્થિર pthread_once_t h_Thread_ચાવી_Once = PTHREAD_ONCE_INIT;
+સ્થિર sigset_t xAllSignals;
+સ્થિર sigset_t xSchedulerOriginalSignalMask;
+સ્થિર pthread_t hMainThread = ( pthread_t ) ખાલી;
+સ્થિર અસ્થિર BaseType_t uxCriticalNesting;
+સ્થિર BaseType_t xSchedulerEnd = pdFALSE;
+સ્થિર pthread_t hTimerTickThread;
+સ્થિર bool xTimerTickThreadShouldRun;
+સ્થિર uint64_t prvStartTimeNs;
+સ્થિર pthread_key_t x_Thread_ચાવી = 0;
 /*-----------------------------------------------------------*/
 
-static void prvSetupSignalsAndSchedulerPolicy( void );
-static void prvSetupTimerInterrupt( void );
-static void * prvWaitForStart( void * pvParams );
-static void prvSwitchThread( Thread_t * xThreadToResume,
+સ્થિર શૂન્ય prvSetupSignalsAndSchedulerPolicy( શૂન્ય );
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય );
+સ્થિર શૂન્ય * prvWaitForStart( શૂન્ય * pvParams );
+સ્થિર શૂન્ય prvSwitchThread( Thread_t * xThreadToResume,
                              Thread_t * xThreadToSuspend );
-static void prvSuspendSelf( Thread_t * thread );
-static void prvResumeThread( Thread_t * xThreadId );
-static void vPortSystemTickHandler( int sig );
-static void vPortStartFirstTask( void );
-static void prvPortYieldFromISR( void );
-static void prvThreadKeyDestructor( void * pvData );
-static void prvInitThreadKey( void );
-static void prvMarkAsFreeRTOSThread( void );
-static BaseType_t prvIsFreeRTOSThread( void );
-static void prvDestroyThreadKey( void );
+સ્થિર શૂન્ય prvSuspendSelf( Thread_t * thread );
+સ્થિર શૂન્ય prvResumeThread( Thread_t * xThreadId );
+સ્થિર શૂન્ય vPortSystemTickHandler( પૂર્ણાંક sig );
+સ્થિર શૂન્ય vPortStartFirstTask( શૂન્ય );
+સ્થિર શૂન્ય prvPortYieldFromISR( શૂન્ય );
+સ્થિર શૂન્ય prv_Thread_ચાવી_Destructor( શૂન્ય * pvData );
+સ્થિર શૂન્ય prv_Init_Thread_ચાવી( શૂન્ય );
+સ્થિર શૂન્ય prvMarkAsFreeRTOSThread( શૂન્ય );
+સ્થિર BaseType_t prvIsFreeRTOSThread( શૂન્ય );
+સ્થિર શૂન્ય prv_Destroy_Thread_ચાવી( શૂન્ય );
 /*-----------------------------------------------------------*/
 
-static void prvThreadKeyDestructor( void * pvData )
+સ્થિર શૂન્ય prv_Thread_ચાવી_Destructor( શૂન્ય * pvData )
 {
-    free( pvData );
+    મુક્ત( pvData );
 }
 /*-----------------------------------------------------------*/
 
-static void prvInitThreadKey( void )
+સ્થિર શૂન્ય prv_Init_Thread_ચાવી( શૂન્ય )
 {
-    pthread_key_create( &xThreadKey, prvThreadKeyDestructor );
+    pthread_key_create( &x_Thread_ચાવી, prv_Thread_ચાવી_Destructor );
     /* Destroy xThreadKey when the process exits. */
-    atexit( prvDestroyThreadKey );
+    atexit( prv_Destroy_Thread_ચાવી );
 }
 /*-----------------------------------------------------------*/
 
-static void prvMarkAsFreeRTOSThread( void )
+સ્થિર શૂન્ય prvMarkAsFreeRTOSThread( શૂન્ય )
 {
-    uint8_t * pucThreadData = NULL;
+    uint8_t * pucThreadData = ખાલી;
 
-    ( void ) pthread_once( &hThreadKeyOnce, prvInitThreadKey );
+    ( શૂન્ય ) pthread_once( &h_Thread_ચાવી_Once, prv_Init_Thread_ચાવી );
 
     pucThreadData = malloc( 1 );
-    configASSERT( pucThreadData != NULL );
+    configASSERT( pucThreadData != ખાલી );
 
     *pucThreadData = 1;
 
-    pthread_setspecific( xThreadKey, pucThreadData );
+    pthread_setspecific( x_Thread_ચાવી, pucThreadData );
 }
 /*-----------------------------------------------------------*/
 
-static BaseType_t prvIsFreeRTOSThread( void )
+સ્થિર BaseType_t prvIsFreeRTOSThread( શૂન્ય )
 {
-    uint8_t * pucThreadData = NULL;
+    uint8_t * pucThreadData = ખાલી;
     BaseType_t xRet = pdFALSE;
 
-    ( void ) pthread_once( &hThreadKeyOnce, prvInitThreadKey );
+    ( શૂન્ય ) pthread_once( &h_Thread_ચાવી_Once, prv_Init_Thread_ચાવી );
 
-    pucThreadData = ( uint8_t * ) pthread_getspecific( xThreadKey );
+    pucThreadData = ( uint8_t * ) pthread_getspecific( x_Thread_ચાવી );
 
-    if( ( pucThreadData != NULL ) && ( *pucThreadData == 1 ) )
+    જો( ( pucThreadData != ખાલી ) && ( *pucThreadData == 1 ) )
     {
         xRet = pdTRUE;
     }
 
-    return xRet;
+    પાછા xRet;
 }
 /*-----------------------------------------------------------*/
 
-static void prvDestroyThreadKey( void )
+સ્થિર શૂન્ય prv_Destroy_Thread_ચાવી( શૂન્ય )
 {
-    pthread_key_delete( xThreadKey );
+    pthread_key_delete( x_Thread_ચાવી );
 }
 /*-----------------------------------------------------------*/
 
-static void prvFatalError( const char * pcCall,
-                           int iErrno ) __attribute__( ( __noreturn__ ) );
+સ્થિર શૂન્ય prvFatalError( અચલ અક્ષર * pcCall,
+                           પૂર્ણાંક iErrno ) __attribute__( ( __noreturn__ ) );
 
-void prvFatalError( const char * pcCall,
-                    int iErrno )
+શૂન્ય prvFatalError( અચલ અક્ષર * pcCall,
+                    પૂર્ણાંક iErrno )
 {
     fprintf( stderr, "%s: %s\n", pcCall, strerror( iErrno ) );
     abort();
 }
 /*-----------------------------------------------------------*/
 
-static void prvPortSetCurrentThreadName( const char * pxThreadName )
+સ્થિર શૂન્ય prvPortSetCurrentThreadName( અચલ અક્ષર * pxThreadName )
 {
     #ifdef __APPLE__
         pthread_setname_np( pxThreadName );
-    #else
+    #નહીંતર
         pthread_setname_np( pthread_self(), pxThreadName );
     #endif
 }
@@ -208,28 +208,28 @@ static void prvPortSetCurrentThreadName( const char * pxThreadName )
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     StackType_t * pxEndOfStack,
+ઢગલો_Type_t * px_Port_Initialise_ઢગલો( ઢગલો_Type_t * px_ટોચ_Of_ઢગલો,
+                                     ઢગલો_Type_t * px_End_Of_ઢગલો,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     શૂન્ય * pvParameters )
 {
     Thread_t * thread;
     pthread_attr_t xThreadAttributes;
-    size_t ulStackSize;
-    int iRet;
+    size_t ul_ઢગલો_Size;
+    પૂર્ણાંક iRet;
 
-    ( void ) pthread_once( &hSigSetupThread, prvSetupSignalsAndSchedulerPolicy );
+    ( શૂન્ય ) pthread_once( &hSigSetupThread, prvSetupSignalsAndSchedulerPolicy );
 
     /*
      * Store the additional thread data at the start of the stack.
      */
-    thread = ( Thread_t * ) ( pxTopOfStack + 1 ) - 1;
-    pxTopOfStack = ( StackType_t * ) thread - 1;
+    thread = ( Thread_t * ) ( px_ટોચ_Of_ઢગલો + 1 ) - 1;
+    px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t * ) thread - 1;
 
     /* Ensure that there is enough space to store Thread_t on the stack. */
-    ulStackSize = ( size_t ) ( pxTopOfStack + 1 - pxEndOfStack ) * sizeof( *pxTopOfStack );
-    configASSERT( ulStackSize > sizeof( Thread_t ) );
-    ( void ) ulStackSize; /* suppress set but not used warning */
+    ul_ઢગલો_Size = ( size_t ) ( px_ટોચ_Of_ઢગલો + 1 - px_End_Of_ઢગલો ) * કદ( *px_ટોચ_Of_ઢગલો );
+    configASSERT( ul_ઢગલો_Size > કદ( Thread_t ) );
+    ( શૂન્ય ) ul_ઢગલો_Size; /* suppress set but not used warning */
 
     thread->pxCode = pxCode;
     thread->pvParams = pvParameters;
@@ -244,18 +244,18 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     iRet = pthread_create( &thread->pthread, &xThreadAttributes,
                            prvWaitForStart, thread );
 
-    if( iRet != 0 )
+    જો( iRet != 0 )
     {
         prvFatalError( "pthread_create", iRet );
     }
 
     vPortExitCritical();
 
-    return pxTopOfStack;
+    પાછા px_ટોચ_Of_ઢગલો;
 }
 /*-----------------------------------------------------------*/
 
-void vPortStartFirstTask( void )
+શૂન્ય vPortStartFirstTask( શૂન્ય )
 {
     Thread_t * pxFirstThread = prvGetThreadFromTask( xTaskGetCurrentTaskHandle() );
 
@@ -267,9 +267,9 @@ void vPortStartFirstTask( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
-    int iSignal;
+    પૂર્ણાંક iSignal;
     sigset_t xSignals;
 
     hMainThread = pthread_self();
@@ -286,13 +286,13 @@ BaseType_t xPortStartScheduler( void )
      */
     sigemptyset( &xSignals );
     sigaddset( &xSignals, SIG_RESUME );
-    ( void ) pthread_sigmask( SIG_BLOCK, &xSignals, NULL );
+    ( શૂન્ય ) pthread_sigmask( SIG_BLOCK, &xSignals, ખાલી );
 
     /* Start the first task. */
     vPortStartFirstTask();
 
     /* Wait until signaled by vPortEndScheduler(). */
-    while( xSchedulerEnd != pdTRUE )
+    જ્યારે( xSchedulerEnd != pdTRUE )
     {
         sigwait( &xSignals, &iSignal );
     }
@@ -305,31 +305,31 @@ BaseType_t xPortStartScheduler( void )
 
     /* Reset pthread_once_t, needed to restart the scheduler again.
      * memset the internal struct members for MacOS/Linux Compatibility */
-    #if __APPLE__
+    #જો __APPLE__
         hSigSetupThread.__sig = _PTHREAD_ONCE_SIG_init;
-        hThreadKeyOnce.__sig = _PTHREAD_ONCE_SIG_init;
-        memset( ( void * ) &hSigSetupThread.__opaque, 0, sizeof( hSigSetupThread.__opaque ) );
-        memset( ( void * ) &hThreadKeyOnce.__opaque, 0, sizeof( hThreadKeyOnce.__opaque ) );
-    #else /* Linux PTHREAD library*/
+        h_Thread_ચાવી_Once.__sig = _PTHREAD_ONCE_SIG_init;
+        memset( ( શૂન્ય * ) &hSigSetupThread.__opaque, 0, કદ( hSigSetupThread.__opaque ) );
+        memset( ( શૂન્ય * ) &h_Thread_ચાવી_Once.__opaque, 0, કદ( h_Thread_ચાવી_Once.__opaque ) );
+    #નહીંતર /* Linux PTHREAD library*/
         hSigSetupThread = ( pthread_once_t ) PTHREAD_ONCE_INIT;
-        hThreadKeyOnce = ( pthread_once_t ) PTHREAD_ONCE_INIT;
+        h_Thread_ચાવી_Once = ( pthread_once_t ) PTHREAD_ONCE_INIT;
     #endif /* __APPLE__*/
 
     /* Restore original signal mask. */
-    ( void ) pthread_sigmask( SIG_SETMASK, &xSchedulerOriginalSignalMask, NULL );
+    ( શૂન્ય ) pthread_sigmask( SIG_SETMASK, &xSchedulerOriginalSignalMask, ખાલી );
 
-    return 0;
+    પાછા 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
     Thread_t * pxCurrentThread;
     BaseType_t xIsFreeRTOSThread;
 
     /* Stop the timer tick thread. */
     xTimerTickThreadShouldRun = false;
-    pthread_join( hTimerTickThread, NULL );
+    pthread_join( hTimerTickThread, ખાલી );
 
     /* Check whether the current thread is a FreeRTOS thread.
      * This has to happen before the scheduler is signaled to exit
@@ -338,10 +338,10 @@ void vPortEndScheduler( void )
 
     /* Signal the scheduler to exit its loop. */
     xSchedulerEnd = pdTRUE;
-    ( void ) pthread_kill( hMainThread, SIG_RESUME );
+    ( શૂન્ય ) pthread_kill( hMainThread, SIG_RESUME );
 
     /* Waiting to be deleted here. */
-    if( xIsFreeRTOSThread == pdTRUE )
+    જો( xIsFreeRTOSThread == pdTRUE )
     {
         pxCurrentThread = prvGetThreadFromTask( xTaskGetCurrentTaskHandle() );
         event_wait( pxCurrentThread->ev );
@@ -351,9 +351,9 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+શૂન્ય vPortEnterCritical( શૂન્ય )
 {
-    if( uxCriticalNesting == 0 )
+    જો( uxCriticalNesting == 0 )
     {
         vPortDisableInterrupts();
     }
@@ -362,19 +362,19 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+શૂન્ય vPortExitCritical( શૂન્ય )
 {
     uxCriticalNesting--;
 
     /* If we have reached 0 then re-enable the interrupts. */
-    if( uxCriticalNesting == 0 )
+    જો( uxCriticalNesting == 0 )
     {
         vPortEnableInterrupts();
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvPortYieldFromISR( void )
+સ્થિર શૂન્ય prvPortYieldFromISR( શૂન્ય )
 {
     Thread_t * xThreadToSuspend;
     Thread_t * xThreadToResume;
@@ -389,7 +389,7 @@ static void prvPortYieldFromISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+શૂન્ય vPortYield( શૂન્ય )
 {
     /* This must never be called from outside of a FreeRTOS-owned thread, or
      * the thread could get stuck in a suspended state. */
@@ -403,45 +403,45 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortDisableInterrupts( void )
+શૂન્ય vPortDisableInterrupts( શૂન્ય )
 {
-    if( prvIsFreeRTOSThread() == pdTRUE )
+    જો( prvIsFreeRTOSThread() == pdTRUE )
     {
-        pthread_sigmask( SIG_BLOCK, &xAllSignals, NULL );
+        pthread_sigmask( SIG_BLOCK, &xAllSignals, ખાલી );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnableInterrupts( void )
+શૂન્ય vPortEnableInterrupts( શૂન્ય )
 {
-    if( prvIsFreeRTOSThread() == pdTRUE )
+    જો( prvIsFreeRTOSThread() == pdTRUE )
     {
-        pthread_sigmask( SIG_UNBLOCK, &xAllSignals, NULL );
+        pthread_sigmask( SIG_UNBLOCK, &xAllSignals, ખાલી );
     }
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t xPortSetInterruptMask( void )
+UBaseType_t xPortSetInterruptMask( શૂન્ય )
 {
     /* Interrupts are always disabled inside ISRs (signals
      * handlers). */
-    return ( UBaseType_t ) 0;
+    પાછા ( UBaseType_t ) 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( UBaseType_t uxMask )
+શૂન્ય vPortClearInterruptMask( UBaseType_t uxMask )
 {
-    ( void ) uxMask;
+    ( શૂન્ય ) uxMask;
 }
 /*-----------------------------------------------------------*/
 
-static uint64_t prvGetTimeNs( void )
+સ્થિર uint64_t prvGetTimeNs( શૂન્ય )
 {
-    struct timespec t;
+    સંરચના timespec t;
 
     clock_gettime( CLOCK_MONOTONIC, &t );
 
-    return ( uint64_t ) t.tv_sec * ( uint64_t ) 1000000000UL + ( uint64_t ) t.tv_nsec;
+    પાછા ( uint64_t ) t.tv_sec * ( uint64_t ) 1000000000UL + ( uint64_t ) t.tv_nsec;
 }
 /*-----------------------------------------------------------*/
 
@@ -449,15 +449,15 @@ static uint64_t prvGetTimeNs( void )
  * to adjust timing according to full demo requirements */
 /* static uint64_t prvTickCount; */
 
-static void * prvTimerTickHandler( void * arg )
+સ્થિર શૂન્ય * prvTimerTickHandler( શૂન્ય * arg )
 {
-    ( void ) arg;
+    ( શૂન્ય ) arg;
 
     prvMarkAsFreeRTOSThread();
 
     prvPortSetCurrentThreadName( "Scheduler timer" );
 
-    while( xTimerTickThreadShouldRun )
+    જ્યારે( xTimerTickThreadShouldRun )
     {
         /*
          * signal to the active task to cause tick handling or
@@ -468,7 +468,7 @@ static void * prvTimerTickHandler( void * arg )
         usleep( portTICK_RATE_MICROSECONDS );
     }
 
-    return NULL;
+    પાછા ખાલી;
 }
 /*-----------------------------------------------------------*/
 
@@ -476,29 +476,29 @@ static void * prvTimerTickHandler( void * arg )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+શૂન્ય prvSetupTimerInterrupt( શૂન્ય )
 {
     xTimerTickThreadShouldRun = true;
-    pthread_create( &hTimerTickThread, NULL, prvTimerTickHandler, NULL );
+    pthread_create( &hTimerTickThread, ખાલી, prvTimerTickHandler, ખાલી );
 
     prvStartTimeNs = prvGetTimeNs();
 }
 /*-----------------------------------------------------------*/
 
-static void vPortSystemTickHandler( int sig )
+સ્થિર શૂન્ય vPortSystemTickHandler( પૂર્ણાંક sig )
 {
-    if( prvIsFreeRTOSThread() == pdTRUE )
+    જો( prvIsFreeRTOSThread() == pdTRUE )
     {
         Thread_t * pxThreadToSuspend;
         Thread_t * pxThreadToResume;
 
-        ( void ) sig;
+        ( શૂન્ય ) sig;
 
         uxCriticalNesting++; /* Signals are blocked in this signal handler. */
 
         pxThreadToSuspend = prvGetThreadFromTask( xTaskGetCurrentTaskHandle() );
 
-        if( xTaskIncrementTick() != pdFALSE )
+        જો( xTaskIncrementTick() != pdFALSE )
         {
             /* Select Next Task. */
             vTaskSwitchContext();
@@ -510,25 +510,25 @@ static void vPortSystemTickHandler( int sig )
 
         uxCriticalNesting--;
     }
-    else
+    નહીંતર
     {
         fprintf( stderr, "vPortSystemTickHandler called from non-FreeRTOS thread\n" );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortThreadDying( void * pxTaskToDelete,
-                       volatile BaseType_t * pxPendYield )
+શૂન્ય vPortThreadDying( શૂન્ય * pxTaskToDelete,
+                       અસ્થિર BaseType_t * pxPendYield )
 {
     Thread_t * pxThread = prvGetThreadFromTask( pxTaskToDelete );
 
-    ( void ) pxPendYield;
+    ( શૂન્ય ) pxPendYield;
 
     pxThread->xDying = pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortCancelThread( void * pxTaskToDelete )
+શૂન્ય vPortCancelThread( શૂન્ય * pxTaskToDelete )
 {
     Thread_t * pxThreadToCancel = prvGetThreadFromTask( pxTaskToDelete );
 
@@ -537,12 +537,12 @@ void vPortCancelThread( void * pxTaskToDelete )
      */
     pthread_cancel( pxThreadToCancel->pthread );
     event_signal( pxThreadToCancel->ev );
-    pthread_join( pxThreadToCancel->pthread, NULL );
+    pthread_join( pxThreadToCancel->pthread, ખાલી );
     event_delete( pxThreadToCancel->ev );
 }
 /*-----------------------------------------------------------*/
 
-static void * prvWaitForStart( void * pvParams )
+સ્થિર શૂન્ય * prvWaitForStart( શૂન્ય * pvParams )
 {
     Thread_t * pxThread = pvParams;
 
@@ -567,16 +567,16 @@ static void * prvWaitForStart( void * pvParams )
      * catch the error. */
     configASSERT( pdFALSE );
 
-    return NULL;
+    પાછા ખાલી;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSwitchThread( Thread_t * pxThreadToResume,
+સ્થિર શૂન્ય prvSwitchThread( Thread_t * pxThreadToResume,
                              Thread_t * pxThreadToSuspend )
 {
     BaseType_t uxSavedCriticalNesting;
 
-    if( pxThreadToSuspend != pxThreadToResume )
+    જો( pxThreadToSuspend != pxThreadToResume )
     {
         /*
          * Switch tasks.
@@ -589,9 +589,9 @@ static void prvSwitchThread( Thread_t * pxThreadToResume,
 
         prvResumeThread( pxThreadToResume );
 
-        if( pxThreadToSuspend->xDying == pdTRUE )
+        જો( pxThreadToSuspend->xDying == pdTRUE )
         {
-            pthread_exit( NULL );
+            pthread_exit( ખાલી );
         }
 
         prvSuspendSelf( pxThreadToSuspend );
@@ -601,7 +601,7 @@ static void prvSwitchThread( Thread_t * pxThreadToResume,
 }
 /*-----------------------------------------------------------*/
 
-static void prvSuspendSelf( Thread_t * thread )
+સ્થિર શૂન્ય prvSuspendSelf( Thread_t * thread )
 {
     /*
      * Suspend this thread by waiting for a pthread_cond_signal event.
@@ -622,19 +622,19 @@ static void prvSuspendSelf( Thread_t * thread )
 
 /*-----------------------------------------------------------*/
 
-static void prvResumeThread( Thread_t * xThreadId )
+સ્થિર શૂન્ય prvResumeThread( Thread_t * xThreadId )
 {
-    if( pthread_self() != xThreadId->pthread )
+    જો( pthread_self() != xThreadId->pthread )
     {
         event_signal( xThreadId->ev );
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupSignalsAndSchedulerPolicy( void )
+સ્થિર શૂન્ય prvSetupSignalsAndSchedulerPolicy( શૂન્ય )
 {
-    struct sigaction sigtick;
-    int iRet;
+    સંરચના sigaction sigtick;
+    પૂર્ણાંક iRet;
 
     hMainThread = pthread_self();
 
@@ -652,7 +652,7 @@ static void prvSetupSignalsAndSchedulerPolicy( void )
      * When a thread is resumed for the first time, all signals
      * will be unblocked.
      */
-    ( void ) pthread_sigmask( SIG_SETMASK,
+    ( શૂન્ય ) pthread_sigmask( SIG_SETMASK,
                               &xAllSignals,
                               &xSchedulerOriginalSignalMask );
 
@@ -660,21 +660,21 @@ static void prvSetupSignalsAndSchedulerPolicy( void )
     sigtick.sa_handler = vPortSystemTickHandler;
     sigfillset( &sigtick.sa_mask );
 
-    iRet = sigaction( SIGALRM, &sigtick, NULL );
+    iRet = sigaction( SIGALRM, &sigtick, ખાલી );
 
-    if( iRet == -1 )
+    જો( iRet == -1 )
     {
         prvFatalError( "sigaction", errno );
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetRunTime( void )
+uint32_t ulPortGetRunTime( શૂન્ય )
 {
-    struct tms xTimes;
+    સંરચના tms xTimes;
 
     times( &xTimes );
 
-    return ( uint32_t ) xTimes.tms_utime;
+    પાછા ( uint32_t ) xTimes.tms_utime;
 }
 /*-----------------------------------------------------------*/

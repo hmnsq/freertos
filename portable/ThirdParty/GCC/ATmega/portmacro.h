@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -45,28 +45,28 @@
  *-----------------------------------------------------------
  */
 
-#include <avr/wdt.h>
+#અન્તર્ભાવ <avr/wdt.h>
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
+#define portCHAR                 અક્ષર
+#define portFLOAT                દશાંશ
+#define portDOUBLE               દ્વિગુણ
 #define portLONG                 long
-#define portSHORT                int
+#define portSHORT                પૂર્ણાંક
 
 #define portPOINTER_SIZE_TYPE    uint16_t
 
-typedef uint8_t        StackType_t;
-typedef int8_t         BaseType_t;
-typedef uint8_t        UBaseType_t;
+પ્રકારવ્યાખ્યા uint8_t        ઢગલો_Type_t;
+પ્રકારવ્યાખ્યા int8_t         BaseType_t;
+પ્રકારવ્યાખ્યા uint8_t        UBaseType_t;
 
-#if configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS
-    typedef uint16_t   TickType_t;
+#જો configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS
+    પ્રકારવ્યાખ્યા uint16_t   TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t   TickType_t;
+#અથવાજો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    પ્રકારવ્યાખ્યા uint32_t   TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#નહીંતર
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -100,7 +100,7 @@ typedef uint8_t        UBaseType_t;
  * Prefer to use the enhanced Watchdog Timer, but also Timer0 is ok.
  */
 
-#if defined( WDIE ) && defined( WDIF ) /* If Enhanced WDT with interrupt capability is available */
+#જો defined( WDIE ) && defined( WDIF ) /* If Enhanced WDT with interrupt capability is available */
 
     #define portUSE_WDTO    WDTO_15MS  /* use the Watchdog Timer for xTaskIncrementTick */
 
@@ -114,22 +114,22 @@ typedef uint8_t        UBaseType_t;
  *                                  WDTO_2S
  */
 
-#else
+#નહીંતર
 
     #define portUSE_TIMER0    /* use the 8-bit Timer0 for xTaskIncrementTick */
 
 #endif
 
-#define portSTACK_GROWTH    ( -1 )
+#define port_ઢગલો_GROWTH    ( -1 )
 
 /* Timing for the scheduler.
  * Watchdog Timer is 128kHz nominal,
  * but 120 kHz at 5V DC and 25 degrees is actually more accurate,
  * from data sheet.
  */
-#if defined( portUSE_WDTO )
+#જો defined( portUSE_WDTO )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) _BV( portUSE_WDTO + 4 ) )
-#else
+#નહીંતર
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #endif
 
@@ -138,25 +138,25 @@ typedef uint8_t        UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-extern void vPortYield( void )      __attribute__( ( naked ) );
+બાહ્ય શૂન્ય vPortYield( શૂન્ય )      __attribute__( ( naked ) );
 #define portYIELD()             vPortYield()
 
-extern void vPortYieldFromISR( void )   __attribute__( ( naked ) );
+બાહ્ય શૂન્ય vPortYieldFromISR( શૂન્ય )   __attribute__( ( naked ) );
 #define portYIELD_FROM_ISR()    vPortYieldFromISR()
 /*-----------------------------------------------------------*/
 
-#if defined( __AVR_3_BYTE_PC__ )
+#જો defined( __AVR_3_BYTE_PC__ )
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 
 /* Add .lowtext tag from the avr linker script avr6.x for ATmega2560 and ATmega2561
  * to make sure functions are loaded in low memory.
  */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( section( ".lowtext" ) ) )
-#else
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters ) __attribute__( ( section( ".lowtext" ) ) )
+#નહીંતર
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
 #endif
 
-#define portTASK_FUNCTION( vFunction, pvParameters )              void vFunction( void * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )              શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

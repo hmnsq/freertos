@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,33 +47,33 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          અક્ષર
+#define portFLOAT         દશાંશ
+#define portDOUBLE        દ્વિગુણ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#define port_ઢગલો_TYPE    uint8_t
+#define portBASE_TYPE     અક્ષર
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+પ્રકારવ્યાખ્યા port_ઢગલો_TYPE   ઢગલો_Type_t;
+પ્રકારવ્યાખ્યા signed અક્ષર      BaseType_t;
+પ્રકારવ્યાખ્યા unsigned અક્ષર    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#જો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    પ્રકારવ્યાખ્યા uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#અથવાજો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    પ્રકારવ્યાખ્યા uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#નહીંતર
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    1
-#define portSTACK_GROWTH      ( -1 )
+#define port_ઢગલો_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portYIELD()    __asm( "swi" );
 /*-----------------------------------------------------------*/
@@ -90,7 +90,7 @@ typedef unsigned char    UBaseType_t;
  */
 #define portENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        બાહ્ય અસ્થિર UBaseType_t uxCriticalNesting; \
                                                        \
         portDISABLE_INTERRUPTS();                      \
         uxCriticalNesting++;                           \
@@ -103,10 +103,10 @@ typedef unsigned char    UBaseType_t;
  */
 #define  portEXIT_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        બાહ્ય અસ્થિર UBaseType_t uxCriticalNesting; \
                                                        \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        જો( uxCriticalNesting == 0 )                   \
         {                                              \
             portENABLE_INTERRUPTS();                   \
         }                                              \
@@ -135,11 +135,11 @@ typedef unsigned char    UBaseType_t;
     #define portRESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; શૂન્ય *            \n\
+        .globl uxCriticalNesting        ; અક્ષર              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; ઢગલો_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         movb 1,sp+,0x30             ; PPAGE             \n\
@@ -154,17 +154,17 @@ typedef unsigned char    UBaseType_t;
     #define portSAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; શૂન્ય *            \n\
+        .globl uxCriticalNesting        ; અક્ષર              \n\
                                             \n\
         movb 0x30, 1,-sp            ; PPAGE             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; ઢગલો_2             \n\
         " );                   \
     }
-#else /* ifdef BANKED_MODEL */
+#નહીંતર /* ifdef BANKED_MODEL */
 
 /*
  * These macros are as per the BANKED versions above, but without saving
@@ -174,11 +174,11 @@ typedef unsigned char    UBaseType_t;
     #define portRESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; શૂન્ય *            \n\
+        .globl uxCriticalNesting        ; અક્ષર              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; ઢગલો_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         " );                      \
@@ -187,13 +187,13 @@ typedef unsigned char    UBaseType_t;
     #define portSAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; શૂન્ય *            \n\
+        .globl uxCriticalNesting        ; અક્ષર              \n\
                                             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; ઢગલો_2             \n\
         " );                   \
     }
 #endif /* ifdef BANKED_MODEL */
@@ -241,8 +241,8 @@ typedef unsigned char    UBaseType_t;
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

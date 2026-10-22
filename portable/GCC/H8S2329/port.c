@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
 
 /*-----------------------------------------------------------
@@ -39,7 +39,7 @@
 /*-----------------------------------------------------------*/
 
 /* When the task starts interrupts should be enabled. */
-#define portINITIAL_CCR                    ( ( StackType_t ) 0x00 )
+#define portINITIAL_CCR                    ( ( ઢગલો_Type_t ) 0x00 )
 
 /* Hardware specific constants used to generate the RTOS tick from the TPU. */
 #define portCLEAR_ON_TGRA_COMPARE_MATCH    ( ( uint8_t ) 0x20 )
@@ -52,146 +52,146 @@
 /*
  * Setup TPU channel one for the RTOS tick at the requested frequency.
  */
-static void prvSetupTimerInterrupt( void );
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય );
 
 /*
  * The ISR used by portYIELD(). This is installed as a trap handler.
  */
-void vPortYield( void ) __attribute__( ( saveall, interrupt_handler ) );
+શૂન્ય vPortYield( શૂન્ય ) __attribute__( ( saveall, interrupt_handler ) );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ઢગલો_Type_t * px_Port_Initialise_ઢગલો( ઢગલો_Type_t * px_ટોચ_Of_ઢગલો,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     શૂન્ય * pvParameters )
 {
-    uint32_t ulValue;
+    uint32_t ul_કિંમત;
 
     /* This requires an even address. */
-    ulValue = ( uint32_t ) pxTopOfStack;
+    ul_કિંમત = ( uint32_t ) px_ટોચ_Of_ઢગલો;
 
-    if( ulValue & 1UL )
+    જો( ul_કિંમત & 1UL )
     {
-        pxTopOfStack = pxTopOfStack - 1;
+        px_ટોચ_Of_ઢગલો = px_ટોચ_Of_ઢગલો - 1;
     }
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is just useful for debugging. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0xaa;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xbb;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xcc;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xdd;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0xaa;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0xbb;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0xcc;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0xdd;
 
     /* The initial stack mimics an interrupt stack.  First there is the program
      * counter (24 bits). */
-    ulValue = ( uint32_t ) pxCode;
+    ul_કિંમત = ( uint32_t ) pxCode;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    ul_કિંમત >>= 8UL;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    ul_કિંમત >>= 8UL;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
 
     /* Followed by the CCR. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_CCR;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = portINITIAL_CCR;
 
     /* Next all the general purpose registers - with the parameters being passed
      * in ER0.  The parameter order must match that used by the compiler when the
      * "saveall" function attribute is used. */
 
     /* ER6 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x66;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x66;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x66;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x66;
 
     /* ER0 */
-    ulValue = ( uint32_t ) pvParameters;
+    ul_કિંમત = ( uint32_t ) pvParameters;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    ul_કિંમત >>= 8UL;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    ul_કિંમત >>= 8UL;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
+    px_ટોચ_Of_ઢગલો--;
+    ul_કિંમત >>= 8UL;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ul_કિંમત & 0xff );
 
     /* ER1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x11;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x11;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x11;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x11;
 
     /* ER2 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x22;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x22;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x22;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x22;
 
     /* ER3 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x33;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x33;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x33;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x33;
 
     /* ER4 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x44;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x44;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x44;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x44;
 
     /* ER5 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x55;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x55;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x55;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = 0x55;
 
-    return pxTopOfStack;
+    પાછા px_ટોચ_Of_ઢગલો;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
-    extern void * pxCurrentTCB;
+    બાહ્ય શૂન્ય * pxCurrentTCB;
 
     /* Setup the hardware to generate the tick. */
     prvSetupTimerInterrupt();
@@ -199,7 +199,7 @@ BaseType_t xPortStartScheduler( void )
     /* Restore the context of the first task that is going to run.  This
      * mirrors the function epilogue code generated by the compiler when the
      * "saveall" function attribute is used. */
-    asm volatile (
+    asm અસ્થિર (
         "MOV.L      @_pxCurrentTCB, ER6         \n\t"
         "MOV.L      @ER6, ER7                   \n\t"
         "LDM.L      @SP+, (ER4-ER5)             \n\t"
@@ -208,14 +208,14 @@ BaseType_t xPortStartScheduler( void )
         "RTE                                    \n\t"
         );
 
-    ( void ) pxCurrentTCB;
+    ( શૂન્ય ) pxCurrentTCB;
 
     /* Should not get here. */
-    return pdTRUE;
+    પાછા pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
     /* It is unlikely that the h8 port will get stopped. */
 }
@@ -226,11 +226,11 @@ void vPortEndScheduler( void )
  * attribute is used so the context is saved by the compiler prologue.  All
  * we have to do is save the stack pointer.
  */
-void vPortYield( void )
+શૂન્ય vPortYield( શૂન્ય )
 {
-    portSAVE_STACK_POINTER();
+    port_SAVE_ઢગલો_POINTER();
     vTaskSwitchContext();
-    portRESTORE_STACK_POINTER();
+    port_RESTORE_ઢગલો_POINTER();
 }
 /*-----------------------------------------------------------*/
 
@@ -238,19 +238,19 @@ void vPortYield( void )
  * The interrupt handler installed for the RTOS tick depends on whether the
  * preemptive or cooperative scheduler is being used.
  */
-#if ( configUSE_PREEMPTION == 1 )
+#જો ( configUSE_PREEMPTION == 1 )
 
 /*
  * The preemptive scheduler is used so the ISR calls vTaskSwitchContext().
  * The function prologue saves the context so all we have to do is save
  * the stack pointer.
  */
-    void vTickISR( void ) __attribute__( ( saveall, interrupt_handler ) );
-    void vTickISR( void )
+    શૂન્ય vTickISR( શૂન્ય ) __attribute__( ( saveall, interrupt_handler ) );
+    શૂન્ય vTickISR( શૂન્ય )
     {
-        portSAVE_STACK_POINTER();
+        port_SAVE_ઢગલો_POINTER();
 
-        if( xTaskIncrementTick() != pdFALSE )
+        જો( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -258,18 +258,18 @@ void vPortYield( void )
         /* Clear the interrupt. */
         TSR1 &= ~0x01;
 
-        portRESTORE_STACK_POINTER();
+        port_RESTORE_ઢગલો_POINTER();
     }
 
-#else /* if ( configUSE_PREEMPTION == 1 ) */
+#નહીંતર /* if ( configUSE_PREEMPTION == 1 ) */
 
 /*
  * The cooperative scheduler is being used so all we have to do is
  * periodically increment the tick.  This can just be a normal ISR and
  * the "saveall" attribute is not required.
  */
-    void vTickISR( void ) __attribute__( ( interrupt_handler ) );
-    void vTickISR( void )
+    શૂન્ય vTickISR( શૂન્ય ) __attribute__( ( interrupt_handler ) );
+    શૂન્ય vTickISR( શૂન્ય )
     {
         xTaskIncrementTick();
 
@@ -283,9 +283,9 @@ void vPortYield( void )
 /*
  * Setup timer 1 compare match to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય )
 {
-    const uint32_t ulCompareMatch = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / portCLOCK_DIV;
+    અચલ uint32_t ulCompareMatch = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / portCLOCK_DIV;
 
     /* Turn the module on. */
     MSTPCR &= ~portMSTP13;

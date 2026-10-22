@@ -29,23 +29,23 @@
 #ifndef PORT_ASM_H
 #define PORT_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+પ્રકારવ્યાખ્યા શૂન્ય TCB_t;
+બાહ્ય અસ્થિર TCB_t * અસ્થિર pxCurrentTCB;
+બાહ્ય શૂન્ય vTaskSwitchContext( શૂન્ય );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portEND_SWITCHING_ISR( void );
+શૂન્ય portEND_SWITCHING_ISR( શૂન્ય );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+શૂન્ય portFIRST_CONTEXT( શૂન્ય );
 
 #define portEND_SWITCHING_ISR()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
@@ -57,15 +57,15 @@ void portFIRST_CONTEXT( void );
 #define portFIRST_CONTEXT()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { કાઢો   bp                          }   \
+                            asm { કાઢો   di                          }   \
+                            asm { કાઢો   si                          }   \
+                            asm { કાઢો   ds                          }   \
+                            asm { કાઢો   es                          }   \
+                            asm { કાઢો   dx                          }   \
+                            asm { કાઢો   cx                          }   \
+                            asm { કાઢો   bx                          }   \
+                            asm { કાઢો   ax                          }   \
                             asm { iret                              }
 
 

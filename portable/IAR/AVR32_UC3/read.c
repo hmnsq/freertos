@@ -72,9 +72,9 @@
  */
 
 
-#include <yfuns.h>
-#include <avr32/io.h>
-#include "usart.h"
+#અન્તર્ભાવ <yfuns.h>
+#અન્તર્ભાવ <avr32/io.h>
+#અન્તર્ભાવ "usart.h"
 
 
 _STD_BEGIN
@@ -83,7 +83,7 @@ _STD_BEGIN
 #pragma module_name = "?__read"
 
 
-extern volatile avr32_usart_t * volatile stdio_usart_base;
+બાહ્ય અસ્થિર avr32_usart_t * અસ્થિર stdio_usart_base;
 
 
 /*! \brief Reads a number of bytes, at most \a size, into the memory area
@@ -96,33 +96,33 @@ extern volatile avr32_usart_t * volatile stdio_usart_base;
  * \return The number of bytes read, \c 0 at the end of the file, or
  *         \c _LLIO_ERROR on failure.
  */
-size_t __read( int handle,
+size_t __read( પૂર્ણાંક handle,
                uint8_t * buffer,
                size_t size )
 {
-    int nChars = 0;
+    પૂર્ણાંક nChars = 0;
 
     /* This implementation only reads from stdin. */
     /* For all other file handles, it returns failure. */
-    if( handle != _LLIO_STDIN )
+    જો( handle != _LLIO_STDIN )
     {
-        return _LLIO_ERROR;
+        પાછા _LLIO_ERROR;
     }
 
-    for( ; size > 0; --size )
+    માટે( ; size > 0; --size )
     {
-        int c = usart_getchar( stdio_usart_base );
+        પૂર્ણાંક c = usart_getchar( stdio_usart_base );
 
-        if( c < 0 )
+        જો( c < 0 )
         {
-            break;
+            તોડો;
         }
 
         *buffer++ = c;
         ++nChars;
     }
 
-    return nChars;
+    પાછા nChars;
 }
 
 

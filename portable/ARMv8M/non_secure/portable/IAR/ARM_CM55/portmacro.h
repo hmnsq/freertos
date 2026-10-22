@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -62,7 +62,7 @@
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#અન્તર્ભાવ "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
 /**

@@ -38,58 +38,58 @@
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
 
-#include <stdlib.h>
+#અન્તર્ભાવ <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
+#જો ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+    #error This file must not be used જો configSUPPORT_DYNAMIC_ALLOCATION is 0
 #endif
 
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+શૂન્ય * pvPortMalloc( size_t xWantedSize )
 {
-    void * pvReturn;
+    શૂન્ય * pvReturn;
 
     vTaskSuspendAll();
     {
         pvReturn = malloc( xWantedSize );
         traceMALLOC( pvReturn, xWantedSize );
     }
-    ( void ) xTaskResumeAll();
+    ( શૂન્ય ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #જો ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        જો( pvReturn == ખાલી )
         {
             vApplicationMallocFailedHook();
         }
     }
     #endif
 
-    return pvReturn;
+    પાછા pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+શૂન્ય vPortFree( શૂન્ય * pv )
 {
-    if( pv != NULL )
+    જો( pv != ખાલી )
     {
         vTaskSuspendAll();
         {
-            free( pv );
+            મુક્ત( pv );
             traceFREE( pv, 0 );
         }
-        ( void ) xTaskResumeAll();
+        ( શૂન્ય ) xTaskResumeAll();
     }
 }
 /*-----------------------------------------------------------*/
@@ -99,7 +99,7 @@ void vPortFree( void * pv )
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+શૂન્ય vPortHeapResetState( શૂન્ય )
 {
     /* No state needs to be re-initialised in heap_3. */
 }

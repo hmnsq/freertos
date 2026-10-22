@@ -31,7 +31,7 @@
 #define PORTMACRO_H
 
 /* Standard includes. */
-#include <stddef.h>
+#અન્તર્ભાવ <stddef.h>
 
 /* Constants denoting the available memory models.  These are used within
 FreeRTOSConfig.h to set the configMEMMODEL value. */
@@ -52,33 +52,33 @@ FreeRTOSConfig.h to set the configMEMMODEL value. */
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        અક્ષર
+#define portFLOAT       દશાંશ
+#define portDOUBLE      દ્વિગુણ
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint16_t
+#define port_ઢગલો_TYPE  uint16_t
 #define portBASE_TYPE   short
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+પ્રકારવ્યાખ્યા port_ઢગલો_TYPE ઢગલો_Type_t;
+પ્રકારવ્યાખ્યા short BaseType_t;
+પ્રકારવ્યાખ્યા unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#જો( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    પ્રકારવ્યાખ્યા uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#અથવાજો ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    પ્રકારવ્યાખ્યા uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#નહીંતર
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#if configKERNEL_INTERRUPT_PRIORITY != 6
-    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM value set in the following line - #06H being the default.
+#જો configKERNEL_INTERRUPT_PRIORITY != 6
+    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM કિંમત set in the following લીટી - #06H being the મૂળભૂત.
 #endif
 #define portDISABLE_INTERRUPTS()    __asm(" MOV ILM, #06h ")
 #define portENABLE_INTERRUPTS()     __asm(" MOV ILM, #07h ")
@@ -95,7 +95,7 @@ typedef unsigned short UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH            ( -1 )
+#define port_ઢગલો_GROWTH            ( -1 )
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT          2
 #define portNOP()                   __asm( " NOP " );
@@ -109,10 +109,10 @@ typedef unsigned short UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) શૂન્ય vFunction( શૂન્ય *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) શૂન્ય vFunction( શૂન્ય *pvParameters )
 
-#define portMINIMAL_STACK_SIZE configMINIMAL_STACK_SIZE
+#define port_MINIMAL_ઢગલો_SIZE config_MINIMAL_ઢગલો_SIZE
 
 
 #endif /* PORTMACRO_H */

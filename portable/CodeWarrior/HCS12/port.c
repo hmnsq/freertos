@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
 
 /*-----------------------------------------------------------
@@ -40,23 +40,23 @@
  * Configure a timer to generate the RTOS tick at the frequency specified
  * within FreeRTOSConfig.h.
  */
-static void prvSetupTimerInterrupt( void );
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય );
 
 /* Interrupt service routines have to be in non-banked memory - as does the
 scheduler startup function. */
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 
     /* Manual context switch function.  This is the SWI ISR. */
-    void interrupt vPortYield( void );
+    શૂન્ય interrupt vPortYield( શૂન્ય );
 
     /* Tick context switch function.  This is the timer ISR. */
-    void interrupt vPortTickInterrupt( void );
+    શૂન્ય interrupt vPortTickInterrupt( શૂન્ય );
 
     /* Simply called by xPortStartScheduler().  xPortStartScheduler() does not
     start the scheduler directly because the header file containing the
     xPortStartScheduler() prototype is part of the common kernel code, and
     therefore cannot use the CODE_SEG pragma. */
-    static BaseType_t xBankedStartScheduler( void );
+    સ્થિર BaseType_t xBankedStartScheduler( શૂન્ય );
 
 #pragma CODE_SEG DEFAULT
 
@@ -66,14 +66,14 @@ until the nesting depth reaches 0.  This variable simply tracks the nesting
 depth.  Each task maintains its own critical nesting depth variable so
 uxCriticalNesting is saved and restored from the task stack during a context
 switch. */
-volatile UBaseType_t uxCriticalNesting = 0xff;
+અસ્થિર UBaseType_t uxCriticalNesting = 0xff;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ઢગલો_Type_t *px_Port_Initialise_ઢગલો( ઢગલો_Type_t *px_ટોચ_Of_ઢગલો, TaskFunction_t pxCode, શૂન્ય *pvParameters )
 {
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -95,66 +95,66 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
 
     /* The address of the task function is placed in the stack byte at a time. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pxCode) ) + 1 );
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pxCode) ) + 0 );
-    pxTopOfStack--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) *( ((ઢગલો_Type_t *) (&pxCode) ) + 1 );
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) *( ((ઢગલો_Type_t *) (&pxCode) ) + 0 );
+    px_ટોચ_Of_ઢગલો--;
 
     /* Next are all the registers that form part of the task context. */
 
     /* Y register */
-    *pxTopOfStack = ( StackType_t ) 0xff;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xee;
-    pxTopOfStack--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xff;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xee;
+    px_ટોચ_Of_ઢગલો--;
 
     /* X register */
-    *pxTopOfStack = ( StackType_t ) 0xdd;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xcc;
-    pxTopOfStack--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xdd;
+    px_ટોચ_Of_ઢગલો--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0xcc;
+    px_ટોચ_Of_ઢગલો--;
 
     /* A register contains parameter high byte. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pvParameters) ) + 0 );
-    pxTopOfStack--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) *( ((ઢગલો_Type_t *) (&pvParameters) ) + 0 );
+    px_ટોચ_Of_ઢગલો--;
 
     /* B register contains parameter low byte. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pvParameters) ) + 1 );
-    pxTopOfStack--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) *( ((ઢગલો_Type_t *) (&pvParameters) ) + 1 );
+    px_ટોચ_Of_ઢગલો--;
 
     /* CCR: Note that when the task starts interrupts will be enabled since
     "I" bit of CCR is cleared */
-    *pxTopOfStack = ( StackType_t ) 0x00;
-    pxTopOfStack--;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x00;
+    px_ટોચ_Of_ઢગલો--;
 
     #ifdef BANKED_MODEL
         /* The page of the task. */
-        *pxTopOfStack = ( StackType_t ) ( ( int ) pxCode );
-        pxTopOfStack--;
+        *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) ( ( પૂર્ણાંક ) pxCode );
+        px_ટોચ_Of_ઢગલો--;
     #endif
 
     /* Finally the critical nesting depth is initialised with 0 (not within
     a critical section). */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_ટોચ_Of_ઢગલો = ( ઢગલો_Type_t ) 0x00;
 
-    return pxTopOfStack;
+    પાછા px_ટોચ_Of_ઢગલો;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
     /* It is unlikely that the HCS12 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+સ્થિર શૂન્ય prvSetupTimerInterrupt( શૂન્ય )
 {
     TickTimer_SetFreqHz( configTICK_RATE_HZ );
     TickTimer_Enable();
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
     /* xPortStartScheduler() does not start the scheduler directly because
     the header file containing the xPortStartScheduler() prototype is part
@@ -162,13 +162,13 @@ BaseType_t xPortStartScheduler( void )
     Instead it simply calls the locally defined xBankedStartScheduler() -
     which does use the CODE_SEG pragma. */
 
-    return xBankedStartScheduler();
+    પાછા xBankedStartScheduler();
 }
 /*-----------------------------------------------------------*/
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 
-static BaseType_t xBankedStartScheduler( void )
+સ્થિર BaseType_t xBankedStartScheduler( શૂન્ય )
 {
     /* Configure the timer that will generate the RTOS tick.  Interrupts are
     disabled when this function is called. */
@@ -181,7 +181,7 @@ static BaseType_t xBankedStartScheduler( void )
     __asm( "rti" );
 
     /* Should not get here! */
-    return pdFALSE;
+    પાછા pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -193,7 +193,7 @@ static BaseType_t xBankedStartScheduler( void )
  * Manual context switch forced by calling portYIELD().  This is the SWI
  * handler.
  */
-void interrupt vPortYield( void )
+શૂન્ય interrupt vPortYield( શૂન્ય )
 {
     portSAVE_CONTEXT();
     vTaskSwitchContext();
@@ -206,15 +206,15 @@ void interrupt vPortYield( void )
  * being used then this simply increments the tick count.  If the
  * preemptive scheduler is being used a context switch can occur.
  */
-void interrupt vPortTickInterrupt( void )
+શૂન્ય interrupt vPortTickInterrupt( શૂન્ય )
 {
-    #if configUSE_PREEMPTION == 1
+    #જો configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        જો( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -225,7 +225,7 @@ void interrupt vPortTickInterrupt( void )
         to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else
+    #નહીંતર
     {
         xTaskIncrementTick();
         TFLG1 = 1;

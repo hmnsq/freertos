@@ -31,14 +31,14 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
 /* IAR includes. */
 #ifdef __ICCARM__
 
-    #include <intrinsics.h>
+    #અન્તર્ભાવ <intrinsics.h>
 
 
 
@@ -53,19 +53,19 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          અક્ષર
+    #define portFLOAT         દશાંશ
+    #define portDOUBLE        દ્વિગુણ
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
+    #define port_ઢગલો_TYPE    uint32_t
     #define portBASE_TYPE     long
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    પ્રકારવ્યાખ્યા port_ઢગલો_TYPE   ઢગલો_Type_t;
+    પ્રકારવ્યાખ્યા long             BaseType_t;
+    પ્રકારવ્યાખ્યા unsigned long    UBaseType_t;
 
-    typedef uint32_t         TickType_t;
+    પ્રકારવ્યાખ્યા uint32_t         TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
@@ -75,7 +75,7 @@
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_ઢગલો_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT    8
 
@@ -86,26 +86,26 @@
 /* Called at the end of an ISR that can cause a context switch. */
     #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                                \
-        extern uint32_t ulPortYieldRequired;         \
+        બાહ્ય uint32_t ulPortYieldRequired;         \
                                                      \
-        if( xSwitchRequired != pdFALSE )             \
+        જો( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldRequired = pdTRUE;            \
         }                                            \
     }
 
     #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-    #define portYIELD()                __asm volatile ( "SWI 0" ); __ISB()
+    #define portYIELD()                __asm અસ્થિર ( "SWI 0" ); __ISB()
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    extern uint32_t ulPortSetInterruptMask( void );
-    extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+    બાહ્ય શૂન્ય vPortEnterCritical( શૂન્ય );
+    બાહ્ય શૂન્ય vPortExitCritical( શૂન્ય );
+    બાહ્ય uint32_t ulPortSetInterruptMask( શૂન્ય );
+    બાહ્ય શૂન્ય vPortClearInterruptMask( uint32_t ul_New_Mask_કિંમત );
 
     #define portENTER_CRITICAL()                      vPortEnterCritical();
     #define portEXIT_CRITICAL()                       vPortExitCritical();
@@ -119,16 +119,16 @@
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-    void FreeRTOS_Tick_Handler( void );
+    શૂન્ય FreeRTOS_Tick_Handler( શૂન્ય );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-    void vPortTaskUsesFPU( void );
+    શૂન્ય vPortTaskUsesFPU( શૂન્ય );
     #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 
 /* Architecture specific optimisations. */
@@ -136,7 +136,7 @@
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
     #endif
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #જો configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
         #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -144,11 +144,11 @@
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __CLZ( uxReadyPriorities ) )
+        #define portGET_HIGHEST_PRIORITY( ux_ટોચ_Priority, uxReadyPriorities )    ux_ટોચ_Priority = ( 31 - __CLZ( uxReadyPriorities ) )
 
     #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #define portNOP()    __asm volatile ( "NOP" )
+    #define portNOP()    __asm અસ્થિર ( "NOP" )
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be
  * fixed in the source code because to do so would cause other compilers to

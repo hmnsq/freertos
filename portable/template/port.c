@@ -3,39 +3,39 @@
  * license and copyright intentionally withheld to promote copying into user code.
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
+#અન્તર્ભાવ "FreeRTOS.h"
+#અન્તર્ભાવ "task.h"
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( શૂન્ય )
 {
-    return pdTRUE;
+    પાછા pdTRUE;
 }
 
-void vPortEndScheduler( void )
+શૂન્ય vPortEndScheduler( શૂન્ય )
 {
 }
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ઢગલો_Type_t * px_Port_Initialise_ઢગલો( ઢગલો_Type_t * px_ટોચ_Of_ઢગલો,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     શૂન્ય * pvParameters )
 {
-    ( void ) pxTopOfStack;
-    ( void ) pvParameters;
-    ( void ) * pxCode;
+    ( શૂન્ય ) px_ટોચ_Of_ઢગલો;
+    ( શૂન્ય ) pvParameters;
+    ( શૂન્ય ) * pxCode;
 
-    return NULL;
+    પાછા ખાલી;
 }
 
-void vPortYield( void )
+શૂન્ય vPortYield( શૂન્ય )
 {
     /* Save the current Context */
 
     /* Switch to the highest priority task that is ready to run. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #જો ( config_સંખ્યા_OF_CORES == 1 )
     {
         vTaskSwitchContext();
     }
-    #else
+    #નહીંતર
     {
         vTaskSwitchContext( portGET_CORE_ID() );
     }
@@ -44,21 +44,21 @@ void vPortYield( void )
     /* Start executing the task we have just switched to. */
 }
 
-static void prvTickISR( void )
+સ્થિર શૂન્ય prvTickISR( શૂન્ય )
 {
     /* Interrupts must have been enabled for the ISR to fire, so we have to
      * save the context with interrupts enabled. */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #જો ( config_સંખ્યા_OF_CORES == 1 )
     {
         /* Maintain the tick count. */
-        if( xTaskIncrementTick() != pdFALSE )
+        જો( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch to the highest priority task that is ready to run. */
             vTaskSwitchContext();
         }
     }
-    #else
+    #નહીંતર
     {
         UBaseType_t ulPreviousMask;
 
@@ -68,7 +68,7 @@ static void prvTickISR( void )
         ulPreviousMask = taskENTER_CRITICAL_FROM_ISR();
 
         /* Maintain the tick count. */
-        if( xTaskIncrementTick() != pdFALSE )
+        જો( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch to the highest priority task that is ready to run. */
             vTaskSwitchContext( portGET_CORE_ID() );

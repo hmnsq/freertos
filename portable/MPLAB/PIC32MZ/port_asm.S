@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS અથવા
+ * IMPLIED, INCLUDING BUT નહીં LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE અને NONINFRINGEMENT. માં NO EVENT SHALL THE AUTHORS અથવા
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES અથવા OTHER LIABILITY, WHETHER
+ * માં AN ACTION OF CONTRACT, TORT અથવા OTHERWISE, ARISING FROM, OUT OF અથવા માં
+ * CONNECTION WITH THE SOFTWARE અથવા THE USE અથવા OTHER DEALINGS માં THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -37,10 +37,10 @@
     .extern xISRStackTop
     .extern ulTaskHasFPUContext
 
-    .global vPortStartFirstTask
-    .global vPortYieldISR
-    .global vPortTickInterruptHandler
-    .global vPortInitialiseFPSCR
+    .વૈશ્વિક vPortStartFirstTask
+    .વૈશ્વિક vPortYieldISR
+    .વૈશ્વિક vPortTickInterruptHandler
+    .વૈશ્વિક vPortInitialiseFPSCR
 
 
 /******************************************************************/
@@ -57,48 +57,48 @@
     #ifdef configTICK_INTERRUPT_VECTOR
         #if (configTICK_INTERRUPT_VECTOR == _CORE_TIMER_VECTOR)
             .equ     __vector_dispatch_0, vPortTickInterruptHandler
-            .global  __vector_dispatch_0
+            .વૈશ્વિક  __vector_dispatch_0
             .section .vector_0, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_1_VECTOR)
             .equ     __vector_dispatch_4, vPortTickInterruptHandler
-            .global  __vector_dispatch_4
+            .વૈશ્વિક  __vector_dispatch_4
             .section .vector_4, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_2_VECTOR)
             .equ     __vector_dispatch_9, vPortTickInterruptHandler
-            .global  __vector_dispatch_9
+            .વૈશ્વિક  __vector_dispatch_9
             .section .vector_9, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_3_VECTOR)
             .equ     __vector_dispatch_14, vPortTickInterruptHandler
-            .global  __vector_dispatch_14
+            .વૈશ્વિક  __vector_dispatch_14
             .section .vector_14, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_4_VECTOR)
             .equ     __vector_dispatch_19, vPortTickInterruptHandler
-            .global  __vector_dispatch_19
+            .વૈશ્વિક  __vector_dispatch_19
             .section .vector_19, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_5_VECTOR)
             .equ     __vector_dispatch_24, vPortTickInterruptHandler
-            .global  __vector_dispatch_24
+            .વૈશ્વિક  __vector_dispatch_24
             .section .vector_24, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_6_VECTOR)
             .equ     __vector_dispatch_28, vPortTickInterruptHandler
-            .global  __vector_dispatch_28
+            .વૈશ્વિક  __vector_dispatch_28
             .section .vector_28, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_7_VECTOR)
             .equ     __vector_dispatch_32, vPortTickInterruptHandler
-            .global  __vector_dispatch_32
+            .વૈશ્વિક  __vector_dispatch_32
             .section .vector_32, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_8_VECTOR)
             .equ     __vector_dispatch_36, vPortTickInterruptHandler
-            .global  __vector_dispatch_36
+            .વૈશ્વિક  __vector_dispatch_36
             .section .vector_36, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_9_VECTOR)
             .equ     __vector_dispatch_40, vPortTickInterruptHandler
-            .global  __vector_dispatch_40
+            .વૈશ્વિક  __vector_dispatch_40
             .section .vector_40, code, keep
         #endif
     #else
         .equ     __vector_dispatch_4, vPortTickInterruptHandler
-        .global  __vector_dispatch_4
+        .વૈશ્વિક  __vector_dispatch_4
         .section .vector_4, code, keep
     #endif
 
@@ -143,7 +143,7 @@ vPortStartFirstTask:
     *  into the correct vector
     ***************************************************************/
     .equ     __vector_dispatch_1, vPortYieldISR
-    .global  __vector_dispatch_1
+    .વૈશ્વિક  __vector_dispatch_1
     .section .vector_1, code
 
     .ent  vPortYieldISR
@@ -721,7 +721,7 @@ vPortInitialiseFPSCR:
     .set        noat
     .section    .text, code
     .ent        vPortFPUReadback
-    .global     vPortFPUReadback
+    .વૈશ્વિક     vPortFPUReadback
 
 vPortFPUReadback:
     sdc1        $f0, 0(a0)

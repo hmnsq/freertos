@@ -38,7 +38,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -53,60 +53,60 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
+#define portCHAR                 અક્ષર
+#define portFLOAT                દશાંશ
+#define portDOUBLE               દ્વિગુણ
 #define portLONG                 long
-#define portSHORT                int
-#define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#define portSHORT                પૂર્ણાંક
+#define port_ઢગલો_TYPE           uint8_t
+#define portBASE_TYPE            અક્ષર
 
 #define portPOINTER_SIZE_TYPE    uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+પ્રકારવ્યાખ્યા port_ઢગલો_TYPE   ઢગલો_Type_t;
+પ્રકારવ્યાખ્યા signed અક્ષર      BaseType_t;
+પ્રકારવ્યાખ્યા unsigned અક્ષર    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#જો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    પ્રકારવ્યાખ્યા uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#અથવાજો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    પ્રકારવ્યાખ્યા uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#નહીંતર
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 #define portENTER_CRITICAL()                            \
-    asm volatile ( "in      __tmp_reg__, __SREG__" ::); \
-    asm volatile ( "cli" ::);                           \
-    asm volatile ( "push    __tmp_reg__" ::)
+    asm અસ્થિર ( "in      __tmp_reg__, __SREG__" ::); \
+    asm અસ્થિર ( "cli" ::);                           \
+    asm અસ્થિર ( "push    __tmp_reg__" ::)
 
 #define portEXIT_CRITICAL()                   \
-    asm volatile ( "pop     __tmp_reg__" ::); \
-    asm volatile ( "out     __SREG__, __tmp_reg__" ::)
+    asm અસ્થિર ( "pop     __tmp_reg__" ::); \
+    asm અસ્થિર ( "out     __SREG__, __tmp_reg__" ::)
 
-#define portDISABLE_INTERRUPTS()    asm volatile ( "cli" ::);
-#define portENABLE_INTERRUPTS()     asm volatile ( "sei" ::);
+#define portDISABLE_INTERRUPTS()    asm અસ્થિર ( "cli" ::);
+#define portENABLE_INTERRUPTS()     asm અસ્થિર ( "sei" ::);
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_ઢગલો_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    1
-#define portNOP()    asm volatile ( "nop" );
+#define portNOP()    asm અસ્થિર ( "nop" );
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-extern void vPortYield( void ) __attribute__( ( naked ) );
+બાહ્ય શૂન્ય vPortYield( શૂન્ય ) __attribute__( ( naked ) );
 #define portYIELD()    vPortYield()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

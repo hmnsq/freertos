@@ -30,16 +30,16 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#include <intrinsics.h>
+#અન્તર્ભાવ <intrinsics.h>
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
 /* Hardware specifics. */
-#include "machine.h"
+#અન્તર્ભાવ "machine.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -53,42 +53,42 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          અક્ષર
+#define portFLOAT         દશાંશ
+#define portDOUBLE        દ્વિગુણ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ઢગલો_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+પ્રકારવ્યાખ્યા port_ઢગલો_TYPE   ઢગલો_Type_t;
+પ્રકારવ્યાખ્યા long             BaseType_t;
+પ્રકારવ્યાખ્યા unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#જો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    પ્રકારવ્યાખ્યા uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#અથવાજો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    પ્રકારવ્યાખ્યા uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#નહીંતર
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
+#define port_ઢગલો_GROWTH      -1
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()    __no_operation()
 
 #define portYIELD()                     \
-    __asm volatile                      \
+    __asm અસ્થિર                      \
     (                                   \
         "MOV.L #0x872E0, R15        \n" \
         "MOV.B #1, [R15]            \n" \
@@ -96,7 +96,7 @@ typedef unsigned long    UBaseType_t;
         ::: "R15"                       \
     )
 
-#define portYIELD_FROM_ISR( x )                           do { if( ( x ) != pdFALSE ) { portYIELD(); } } while( 0 )
+#define portYIELD_FROM_ISR( x )                           કરો { જો( ( x ) != pdFALSE ) { portYIELD(); } } જ્યારે( 0 )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -108,10 +108,10 @@ typedef unsigned long    UBaseType_t;
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
 #define portENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
-#if ( configASSERT_DEFINED == 1 )
+#જો ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( __get_interrupt_level() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
+    #define portDISABLE_INTERRUPTS()                      જો( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
+#નહીંતર
     #define portDISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
 #endif
 
@@ -119,8 +119,8 @@ typedef unsigned long    UBaseType_t;
 #define portCRITICAL_NESTING_IN_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+બાહ્ય શૂન્ય vTaskEnterCritical( શૂન્ય );
+બાહ્ય શૂન્ય vTaskExitCritical( શૂન્ય );
 #define portENTER_CRITICAL()                                           vTaskEnterCritical()
 #define portEXIT_CRITICAL()                                            vTaskExitCritical()
 
@@ -129,9 +129,9 @@ extern void vTaskExitCritical( void );
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    __set_interrupt_level( ( uint8_t ) ( uxSavedInterruptStatus ) )
 
 /* Tickless idle/low power functionality. */
-#if configUSE_TICKLESS_IDLE == 1
+#જો configUSE_TICKLESS_IDLE == 1
     #ifndef portSUPPRESS_TICKS_AND_SLEEP
-        extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+        બાહ્ય શૂન્ય vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
         #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
     #endif
 #endif
@@ -139,8 +139,8 @@ extern void vTaskExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /* Prevent warnings of undefined behaviour: the order of volatile accesses is
  * undefined - all warnings have been manually checked and are not an issue, and

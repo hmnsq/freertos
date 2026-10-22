@@ -30,18 +30,18 @@
 #define PORTMACRO_ASM_H
 
 #ifdef __cplusplus
-extern "C" {
+બાહ્ય "C" {
 #endif
 
-#include "FreeRTOSConfig.h"
+#અન્તર્ભાવ "FreeRTOSConfig.h"
 
 #ifndef configTOTAL_MPU_REGIONS
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#elif( configTOTAL_MPU_REGIONS == 12 )
+#અથવાજો( configTOTAL_MPU_REGIONS == 12 )
     #define portMPU_TOTAL_REGIONS ( 12UL )
-#elif( configTOTAL_MPU_REGIONS == 16 )
+#અથવાજો( configTOTAL_MPU_REGIONS == 16 )
     #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
+#નહીંતર
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
 #endif /* configTOTAL_MPU_REGIONS */
 
@@ -125,14 +125,14 @@ extern "C" {
 /* Default MPU regions. */
 #define portFIRST_CONFIGURABLE_REGION ( 0 )
 #define portLAST_CONFIGURABLE_REGION  ( portMPU_TOTAL_REGIONS - 5UL )
-#define portSTACK_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
+#define port_ઢગલો_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
 #define portUNPRIVILEGED_FLASH_REGION ( portMPU_TOTAL_REGIONS - 3UL )
 #define portPRIVILEGED_FLASH_REGION   ( portMPU_TOTAL_REGIONS - 2UL )
 #define portPRIVILEGED_RAM_REGION     ( portMPU_TOTAL_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS \
+#define port_અંક_CONFIGURABLE_REGIONS \
     ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1UL )
 /* Plus one to make space for the stack region. */
-#define portTOTAL_NUM_REGIONS_IN_TCB        ( portNUM_CONFIGURABLE_REGIONS + 1UL )
+#define port_TOTAL_અંક_REGIONS_IN_TCB        ( port_અંક_CONFIGURABLE_REGIONS + 1UL )
 
 /* MPU region sizes. This information is encoded in the MPU Region Size and
  * Enable Register. */
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#જો( portENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -251,7 +251,7 @@ extern "C" {
      *           1            1        32         13         1         1          1        1
      */
     #define CONTEXT_SIZE 51U
-#else
+#નહીંતર
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -268,7 +268,7 @@ extern "C" {
  */
 #define portSYSTEM_CALL_INFO_OFFSET             \
     ( ( 1U /* pxTopOfStack. */ +                \
-        ( portTOTAL_NUM_REGIONS_IN_TCB * 3U ) + \
+        ( port_TOTAL_અંક_REGIONS_IN_TCB * 3U ) + \
         1U /* ulTaskFlags. */                   \
       ) * 4U )
 

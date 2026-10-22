@@ -30,7 +30,7 @@
     #define PORTMACRO_H
 
     #ifdef __cplusplus
-        extern "C"
+        બાહ્ય "C"
         {
     #endif
 
@@ -46,30 +46,30 @@
 
 /* Type definitions - These are a bit legacy and not really used now, other
  * than portSTACK_TYPE and portBASE_TYPE. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          અક્ષર
+    #define portFLOAT         દશાંશ
+    #define portDOUBLE        દ્વિગુણ
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
+    #define port_ઢગલો_TYPE    uint32_t
     #define portBASE_TYPE     long
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    પ્રકારવ્યાખ્યા port_ઢગલો_TYPE   ઢગલો_Type_t;
+    પ્રકારવ્યાખ્યા long             BaseType_t;
+    પ્રકારવ્યાખ્યા unsigned long    UBaseType_t;
 
 /* Defines the maximum time when using a wait command in a task */
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
+    #જો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        પ્રકારવ્યાખ્યા uint16_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
+    #અથવાજો ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        પ્રકારવ્યાખ્યા uint32_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
         #define portTICK_TYPE_IS_ATOMIC    1
-    #else
+    #નહીંતર
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 
@@ -83,7 +83,7 @@
     #define portSYNCM()                  __syncm()
 
 /* Determine the descending of the stack from high address to address */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_ઢગલો_GROWTH      ( -1 )
 
 /* Determine the time (in milliseconds) corresponding to each tick */
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
@@ -102,16 +102,16 @@
 /* SMP build which means configNUM_CORES is relevant */
     #define portSUPPORT_SMP              1
 
-    #define portMAX_CORE_COUNT           2
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES    1
+    #define port_MAX_CORE_ગણતરી           2
+    #ifndef config_સંખ્યા_OF_CORES
+        #define config_સંખ્યા_OF_CORES    1
     #endif
 
 /*-----------------------------------------------------------*/
 /* Scheduler utilities */
 
 /* Called at the end of an ISR that can cause a context switch */
-    extern void vPortSetSwitch( BaseType_t xSwitchRequired );
+    બાહ્ય શૂન્ય vPortSetSwitch( BaseType_t xSwitchRequired );
 
     #define portEND_SWITCHING_ISR( x )    vPortSetSwitch( x )
 
@@ -119,19 +119,19 @@
 
 /* Use to transfer control from one task to perform other tasks of
  * higher priority */
-    extern void vPortYield( void );
+    બાહ્ય શૂન્ય vPortYield( શૂન્ય );
 
     #define portYIELD()    vPortYield()
-    #if ( configNUMBER_OF_CORES > 1 )
+    #જો ( config_સંખ્યા_OF_CORES > 1 )
 
 /* Return the core ID on which the code is running. */
-        extern BaseType_t xPortGET_CORE_ID();
+        બાહ્ય BaseType_t xPortGET_CORE_ID();
 
         #define portGET_CORE_ID()    xPortGET_CORE_ID()
         #define coreid    xPortGET_CORE_ID()
 
 /* Request the core ID x to yield. */
-        extern void vPortYieldCore( uint32_t coreID );
+        બાહ્ય શૂન્ય vPortYieldCore( uint32_t coreID );
 
         #define portYIELD_CORE( x )                vPortYieldCore( x )
 
@@ -140,14 +140,14 @@
 
     #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #જો ( config_સંખ્યા_OF_CORES == 1 )
         #define portGET_ISR_LOCK( xCoreID )
         #define portRELEASE_ISR_LOCK( xCoreID )
         #define portGET_TASK_LOCK( xCoreID )
         #define portRELEASE_TASK_LOCK( xCoreID )
-    #else
-        extern void vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr );
-        extern void vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr );
+    #નહીંતર
+        બાહ્ય શૂન્ય vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr );
+        બાહ્ય શૂન્ય vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr );
 
         #define portGET_ISR_LOCK( xCoreID )         vPortRecursiveLockAcquire( ( xCoreID ), pdTRUE )
         #define portRELEASE_ISR_LOCK( xCoreID )     vPortRecursiveLockRelease( ( xCoreID ), pdTRUE )
@@ -160,8 +160,8 @@
 
 /* The critical nesting functions defined within tasks.c */
 
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
+    બાહ્ય શૂન્ય vTaskEnterCritical( શૂન્ય );
+    બાહ્ય શૂન્ય vTaskExitCritical( શૂન્ય );
 
 /* Macro to mark the start of a critical code region */
     #define portENTER_CRITICAL()    vTaskEnterCritical()
@@ -172,7 +172,7 @@
 /*-----------------------------------------------------------*/
 /* Macros to set and clear the interrupt mask. */
     portLONG xPortSetInterruptMask();
-    void vPortClearInterruptMask( portLONG );
+    શૂન્ય vPortClearInterruptMask( portLONG );
 
     #define portSET_INTERRUPT_MASK()                  xPortSetInterruptMask()
     #define portCLEAR_INTERRUPT_MASK( x )             vPortClearInterruptMask( ( x ) )
@@ -182,8 +182,8 @@
 /*-----------------------------------------------------------*/
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /*-----------------------------------------------------------*/
 

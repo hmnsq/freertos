@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#અન્તર્ભાવ <FreeRTOS.h>
+#અન્તર્ભાવ <task.h>
+#અન્તર્ભાવ <queue.h>
+#અન્તર્ભાવ <timers.h>
+#અન્તર્ભાવ <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#અન્તર્ભાવ <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+સ્થિર શૂન્ય exampleTask( શૂન્ય * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+સ્થિર શૂન્ય exampleTask( શૂન્ય * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( શૂન્ય ) parameters;
 
-    for( ; ; )
+    માટે( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,42 +62,42 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+પૂર્ણાંક મુખ્ય( શૂન્ય )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    સ્થિર StaticTask_t exampleTaskTCB;
+    સ્થિર ઢગલો_Type_t example_Task_ઢગલો[ config_MINIMAL_ઢગલો_SIZE ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( શૂન્ય ) printf( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( શૂન્ય ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_MINIMAL_ઢગલો_SIZE,
+                                ખાલી,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_ઢગલો[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    માટે( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    પાછા 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#જો ( config_CHECK_FOR_ઢગલો_OVERFLOW > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    શૂન્ય v_Application_ઢગલો_Overflow_Hook( TaskHandle_t xTask,
+                                        અક્ષર * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( શૂન્ય ) xTask;
+        ( શૂન્ય ) pcTaskName;
     }
 
 #endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */

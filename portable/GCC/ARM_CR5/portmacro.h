@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    બાહ્ય "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,25 +46,25 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          અક્ષર
+#define portFLOAT         દશાંશ
+#define portDOUBLE        દ્વિગુણ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ઢગલો_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+પ્રકારવ્યાખ્યા port_ઢગલો_TYPE   ઢગલો_Type_t;
+પ્રકારવ્યાખ્યા long             BaseType_t;
+પ્રકારવ્યાખ્યા unsigned long    UBaseType_t;
 
-typedef uint32_t         TickType_t;
+પ્રકારવ્યાખ્યા uint32_t         TickType_t;
 #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_ઢગલો_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 
@@ -75,27 +75,27 @@ typedef uint32_t         TickType_t;
 /* Called at the end of an ISR that can cause a context switch. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint32_t ulPortYieldRequired;     \
+        બાહ્ય uint32_t ulPortYieldRequired;     \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        જો( xSwitchRequired != pdFALSE )         \
         {                                        \
             ulPortYieldRequired = pdTRUE;        \
         }                                        \
     }
 
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#define portYIELD()                __asm volatile ( "SWI 0" ::: "memory" );
+#define portYIELD()                __asm અસ્થિર ( "SWI 0" ::: "memory" );
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
-extern void vPortInstallFreeRTOSVectorTable( void );
+બાહ્ય શૂન્ય vPortEnterCritical( શૂન્ય );
+બાહ્ય શૂન્ય vPortExitCritical( શૂન્ય );
+બાહ્ય uint32_t ulPortSetInterruptMask( શૂન્ય );
+બાહ્ય શૂન્ય vPortClearInterruptMask( uint32_t ul_New_Mask_કિંમત );
+બાહ્ય શૂન્ય vPortInstallFreeRTOSVectorTable( શૂન્ય );
 
 /*
  * These macros do not globally disable/enable interrupts. They do mask off
@@ -115,14 +115,14 @@ extern void vPortInstallFreeRTOSVectorTable( void );
  * not required for this port but included in case common demo code that uses these
  * macros is used.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    શૂન્ય vFunction( શૂન્ય * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          શૂન્ય vFunction( શૂન્ય * pvParameters )
 
 /*
  * Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick.
  */
-void FreeRTOS_Tick_Handler( void );
+શૂન્ય FreeRTOS_Tick_Handler( શૂન્ય );
 
 /*
  * If configUSE_TASK_FPU_SUPPORT is set to 1, then tasks are created without an
@@ -130,10 +130,10 @@ void FreeRTOS_Tick_Handler( void );
  * prior to any FPU instructions. If configUSE_TASK_FPU_SUPPORT is set to 2,
  * then all tasks have an FPU context allocated by default.
  */
-#if ( configUSE_TASK_FPU_SUPPORT == 1 )
-    void vPortTaskUsesFPU( void );
+#જો ( configUSE_TASK_FPU_SUPPORT == 1 )
+    શૂન્ય vPortTaskUsesFPU( શૂન્ય );
     #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
-#elif ( configUSE_TASK_FPU_SUPPORT == 2 )
+#અથવાજો ( configUSE_TASK_FPU_SUPPORT == 2 )
 
 /*
  * Each task has an FPU context already, so define this function away to
@@ -151,7 +151,7 @@ void FreeRTOS_Tick_Handler( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#જો configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -159,57 +159,57 @@ void FreeRTOS_Tick_Handler( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( uxReadyPriorities ) )
+    #define portGET_HIGHEST_PRIORITY( ux_ટોચ_Priority, uxReadyPriorities )    ux_ટોચ_Priority = ( 31 - __builtin_clz( uxReadyPriorities ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
+#જો ( configASSERT_DEFINED == 1 )
+    શૂન્ય vPortValidateInterruptPriority( શૂન્ય );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif /* configASSERT */
 
-#define portNOP()                                         __asm volatile ( "NOP" )
+#define portNOP()                                         __asm અસ્થિર ( "NOP" )
 
 
 /*
  * The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller.
  */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
+#જો configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 32
+    #define port_MAX_દ્વિઅંકી_POINT_કિંમત    3
+#અથવાજો configUNIQUE_INTERRUPT_PRIORITIES == 32
     #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 64
+    #define port_MAX_દ્વિઅંકી_POINT_કિંમત    2
+#અથવાજો configUNIQUE_INTERRUPT_PRIORITIES == 64
     #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 128
+    #define port_MAX_દ્વિઅંકી_POINT_કિંમત    1
+#અથવાજો configUNIQUE_INTERRUPT_PRIORITIES == 128
     #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 256
+    #define port_MAX_દ્વિઅંકી_POINT_કિંમત    0
+#અથવાજો configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
+    #define port_MAX_દ્વિઅંકી_POINT_કિંમત    0
+#નહીંતર /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the સંખ્યા of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
 /* Interrupt controller access addresses. */
 #define portICCPMR_PRIORITY_MASK_OFFSET                      ( 0x04 )
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET              ( 0x0C )
 #define portICCEOIR_END_OF_INTERRUPT_OFFSET                  ( 0x10 )
-#define portICCBPR_BINARY_POINT_OFFSET                       ( 0x08 )
+#define port_ICCBPR_દ્વિઅંકી_POINT_OFFSET                       ( 0x08 )
 #define portICCRPR_RUNNING_PRIORITY_OFFSET                   ( 0x14 )
 
 #define portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS       ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET )
-#define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
+#define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( અસ્થિર uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS    ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET )
 #define portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS        ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCEOIR_END_OF_INTERRUPT_OFFSET )
 #define portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS            ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET )
-#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
-#define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
+#define port_ICCBPR_દ્વિઅંકી_POINT_REGISTER                     ( *( ( અચલ અસ્થિર uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + port_ICCBPR_દ્વિઅંકી_POINT_OFFSET ) ) )
+#define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( અચલ અસ્થિર uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm અસ્થિર ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
