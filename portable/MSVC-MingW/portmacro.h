@@ -37,9 +37,9 @@ extern "C" {
 *   Defines
 ******************************************************************************/
 /* Type definitions. */
-#define portCHAR                 char
+#define portCHAR                 var_na
 #define portFLOAT                float
-#define portDOUBLE               double
+#define portDOUBLE               dviguu_na
 #define portLONG                 long
 #define portSHORT                short
 #define portSTACK_TYPE           size_t
@@ -47,18 +47,18 @@ extern "C" {
 
 typedef portSTACK_TYPE           StackType_t;
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#ប្រសិនបើ defined( __x86_64__ ) || defined( _M_X64 )
     #define portBASE_TYPE    long long
     typedef long long            BaseType_t;
     typedef unsigned long long   UBaseType_t;
-#else
+#បើមិនដូច្នេះ
     #define portBASE_TYPE    long
     typedef long                 BaseType_t;
     typedef unsigned long        UBaseType_t;
 #endif
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ប្រសិនបើ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -72,12 +72,12 @@ typedef portSTACK_TYPE           StackType_t;
     typedef uint64_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#ប្រសិនបើ defined( __x86_64__ ) || defined( _M_X64 )
 /* 64-bit tick type on a 64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
 #endif
-#else
+#បើមិនដូច្នេះ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -86,26 +86,26 @@ typedef portSTACK_TYPE           StackType_t;
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portINLINE                __inline
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#ប្រសិនបើ defined( __x86_64__ ) || defined( _M_X64 )
     #define portBYTE_ALIGNMENT    8
-#else
+#បើមិនដូច្នេះ
     #define portBYTE_ALIGNMENT    4
 #endif
 
 #define portYIELD()    vPortGenerateSimulatedInterrupt( portINTERRUPT_YIELD )
 
 
-extern volatile BaseType_t xInsideInterrupt;
-#define portSOFTWARE_BARRIER()    while( xInsideInterrupt != pdFALSE )
+extern ca_ncala BaseType_t xInsideInterrupt;
+#define portSOFTWARE_BARRIER()    ខណៈពេល( xInsideInterrupt != pdFALSE )
 
 
 /* Simulated interrupts return pdFALSE if no context switch should be performed,
  * or a non-zero number if a context switch should be performed. */
-#define portYIELD_FROM_ISR( x )       return x
+#define portYIELD_FROM_ISR( x )       ត្រឡប់ x
 #define portEND_SWITCHING_ISR( x )    portYIELD_FROM_ISR( ( x ) )
 
 void vPortCloseRunningThread( void * pvTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
+                              ca_ncala BaseType_t * pxPendYield );
 void vPortDeleteThread( void * pvThreadToDelete );
 #define portCLEAN_UP_TCB( pxTCB )                                  vPortDeleteThread( pxTCB )
 #define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortCloseRunningThread( ( pvTaskToDelete ), ( pxPendYield ) )
@@ -125,10 +125,10 @@ void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ប្រសិនបើ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #ប្រសិនបើ ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -139,17 +139,17 @@ void vPortExitCritical( void );
     #ifdef __GNUC__
 
         #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-        __asm volatile ( "bsr %1, %0\n\t"                                       \
+        __asm ca_ncala ( "bsr %1, %0\n\t"                                       \
                          : "=r" ( uxTopPriority )                               \
                          : "rm" ( uxReadyPriorities )                           \
                          : "cc" )
 
-    #else /* __GNUC__ */
+    #បើមិនដូច្នេះ /* __GNUC__ */
         #include <intrin.h>
 
         /* BitScanReverse returns the bit position of the most significant '1'
          * in the word. */
-        #if defined( __x86_64__ ) || defined( _M_X64 )
+        #ប្រសិនបើ defined( __x86_64__ ) || defined( _M_X64 )
             #pragma intrinsic(_BitScanReverse64)
 
             #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
@@ -158,9 +158,9 @@ void vPortExitCritical( void );
                 unsigned long ulTopPriority;                                        \
                 _BitScanReverse64( &ulTopPriority, ( uxReadyPriorities ) );         \
                 uxTopPriority = ulTopPriority;                                      \
-            } while( 0 )
+            } ខណៈពេល( 0 )
 
-        #else /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+        #បើមិនដូច្នេះ /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
             #pragma intrinsic(_BitScanReverse)
 
             #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( uxTopPriority ), ( uxReadyPriorities ) )

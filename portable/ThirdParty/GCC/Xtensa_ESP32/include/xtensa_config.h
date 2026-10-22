@@ -109,10 +109,10 @@
 #ifdef XT_INTEXC_HOOKS
     #ifdef __XTENSA_CALL0_ABI__
         #define STK_INTEXC_EXTRA     0x200
-    #else
+    #បើមិនដូច្នេះ
         #define STK_INTEXC_EXTRA     0x180
     #endif
-#else
+#បើមិនដូច្នេះ
     #define STK_INTEXC_EXTRA         0
 #endif
 
@@ -124,7 +124,7 @@
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
     #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_SIZE )
-#else
+#បើមិនដូច្នេះ
     #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_SIZE )
 #endif
 
@@ -138,12 +138,12 @@
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
     #define XT_USER_SIZE    0x200
-#else
+#បើមិនដូច្នេះ
     #define XT_USER_SIZE    0x400
 #endif
 
 /* Minimum recommended stack size. */
-#define XT_STACK_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / sizeof( unsigned char ) )
+#define XT_STACK_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / parimaa_na( unsigned var_na ) )
 
 /* OS overhead with and without C library thread context. */
 #define XT_STACK_EXTRA         ( XT_XTRA_SIZE )

@@ -130,7 +130,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* The status register is set for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    ប្រសិនបើ( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -143,7 +143,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ត្រឡប់ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -159,7 +159,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ត្រឡប់ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -170,7 +170,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#ប្រសិនបើ configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
@@ -191,7 +191,7 @@ void vPortEndScheduler( void )
         AT91C_BASE_AIC->AIC_EOICR = ulDummy;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#បើមិនដូច្នេះ /* if configUSE_PREEMPTION == 0 */
 
 /* Currently the IAR port requires the preemptive tick function to be
  * defined in an asm file. */
@@ -206,9 +206,9 @@ static void prvSetupTimerInterrupt( void )
 
     /* Setup the AIC for PIT interrupts.  The interrupt routine chosen depends
      * on whether the preemptive or cooperative scheduler is being used. */
-    #if configUSE_PREEMPTION == 0
+    #ប្រសិនបើ configUSE_PREEMPTION == 0
         AT91F_AIC_ConfigureIt( AT91C_BASE_AIC, AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPortNonPreemptiveTick );
-    #else
+    #បើមិនដូច្នេះ
         extern void( vPortPreemptiveTick )( void );
         AT91F_AIC_ConfigureIt( AT91C_BASE_AIC, AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPortPreemptiveTick );
     #endif
@@ -236,14 +236,14 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ប្រសិនបើ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ប្រសិនបើ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

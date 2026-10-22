@@ -29,9 +29,9 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#if configUSE_PREEMPTION == 0
+#ប្រសិនបើ configUSE_PREEMPTION == 0
     void vTimer2ISR( void ) interrupt 5;
-#else
+#បើមិនដូច្នេះ
     void vTimer2ISR( void ) interrupt 5 _naked;
 #endif
 
@@ -49,25 +49,25 @@ void vSerialISR( void ) interrupt 4;
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
 #define portDOUBLE      float
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#define portBASE_TYPE   var_na
 
 typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+typedef signed var_na BaseType_t;
+typedef unsigned var_na UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ប្រសិនបើ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#បើមិនដូច្នេះ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/

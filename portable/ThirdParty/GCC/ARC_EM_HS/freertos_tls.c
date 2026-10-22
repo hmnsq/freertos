@@ -26,7 +26,7 @@
  *
  */
 
-#if defined( __MW__ )
+#ប្រសិនបើ defined( __MW__ )
 
     #include <stdint.h>
     #include <stdlib.h>
@@ -44,7 +44,7 @@
 
     #ifdef ENABLE_FREERTOS_TLS_DEBUG
         #define TLS_DEBUG( fmt, ... )    EMBARC_PRINTF( fmt, ## __VA_ARGS__ )
-    #else
+    #បើមិនដូច្នេះ
         #define TLS_DEBUG( fmt, ... )
     #endif
 
@@ -61,14 +61,14 @@
  * Linker generated symbols to mark .tls section addresses
  * first byte .. last byte
  */
-    extern char _ftls[], _etls[];
+    extern var_na _ftls[], _etls[];
     #pragma weak _ftls
     #pragma weak _etls
 
     void executable_requires_tls_section( void )
     {
-        #if _ARC
-            for( ; ; )
+        #ប្រសិនបើ _ARC
+            សម្រាប់( ; ; )
             {
                 _flag( 1 );
                 _nop();
@@ -87,32 +87,32 @@
         uint32_t len = ( uint32_t ) ( _etls - _ftls );
         void * tls = NULL;
 
-        #if FREERTOS_HEAP_SEL == 3
+        #ប្រសិនបើ FREERTOS_HEAP_SEL == 3
         #warning "FreeRTOS TLS support is not compatible with heap 3 solution(FREERTOS_HEAP_SEL=3)!"
         #warning "You can change FREERTOS_HEAP_SEL in freertos.mk to select other heap solution."
-        #else
+        #បើមិនដូច្នេះ
             tls = pvPortMalloc( len );
         #endif
 
-        if( tls )
+        ប្រសិនបើ( tls )
         {
             TLS_DEBUG( "Malloc task tls:%dbytes\r\n", len );
             memcpy( tls, _ftls, len );
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return tls;
+        ត្រឡប់ tls;
     }
 
     static void free_task_tls( void * pxTCB )
     {
         TaskHandle_t task2free = ( TaskHandle_t ) pxTCB;
 
-        if( task2free != NULL )
+        ប្រសិនបើ( task2free != NULL )
         {
             void * tls = pvTaskGetThreadLocalStoragePointer( task2free, 0 );
 
-            if( tls )
+            ប្រសិនបើ( tls )
             {
                 TLS_DEBUG( "Free task tls\r\n" );
                 __mw_run_tls_dtor();
@@ -130,15 +130,15 @@
     static void * get_isr_tls( void )
     {
         /* In an ISR */
-        static int first = 1;
+        static ចំនួនគត់ first = 1;
 
-        if( _Rarely( first ) )
+        ប្រសិនបើ( _Rarely( first ) )
         {
             first = 0;
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return ( void * ) _ftls;
+        ត្រឡប់ ( void * ) _ftls;
     }
     #pragma off_inline(get_isr_tls)
 
@@ -148,32 +148,32 @@
 
         cur_task = xTaskGetCurrentTaskHandle();
 
-        if( cur_task == NULL )
+        ប្រសិនបើ( cur_task == NULL )
         {
-            return get_isr_tls();
+            ត្រឡប់ get_isr_tls();
         }
 
         void * tls = pvTaskGetThreadLocalStoragePointer( cur_task, 0 );
 
-        if( tls == NULL )
+        ប្រសិនបើ( tls == NULL )
         {
             tls = init_task_tls();
 
-            if( tls )
+            ប្រសិនបើ( tls )
             {
                 vTaskSetThreadLocalStoragePointer( cur_task, 0, tls );
             }
-            else
+            បើមិនដូច្នេះ
             {
                 tls = get_isr_tls();
             }
         }
 
-        return tls;
+        ត្រឡប់ tls;
     }
     #pragma off_inline(get_task_tls)
 
-    #if _ARC /* for ARC XCALLs need to preserve flags */
+    #ប្រសិនបើ _ARC /* for ARC XCALLs need to preserve flags */
         extern void * _Preserve_flags _mwget_tls( void );
     #endif
 
@@ -182,25 +182,25 @@
  */
     void * _mwget_tls( void )
     {
-        if( _ftls == ( char * ) 0 )
+        ប្រសិនបើ( _ftls == ( var_na * ) 0 )
         {
             executable_requires_tls_section();
         }
 
-        if( exc_nest_count > 0 ) /* In ISR */
+        ប្រសិនបើ( exc_nest_count > 0 ) /* In ISR */
         {
-            return get_isr_tls();
+            ត្រឡប់ get_isr_tls();
         }
-        else /* In Task */
+        បើមិនដូច្នេះ /* In Task */
         {
-            return get_task_tls();
+            ត្រឡប់ get_task_tls();
         }
     }
 
 
 /* simple interface of thread safe */
     typedef xSemaphoreHandle _lock_t;
-    #if configUSE_RECURSIVE_MUTEXES != 1
+    #ប្រសិនបើ configUSE_RECURSIVE_MUTEXES != 1
         #error "configUSE_RECURSIVE_MUTEXES in FreeRTOSConfig.h need to 1"
     #endif
 
@@ -211,7 +211,7 @@
 
     void _mwmutex_delete( _lock_t * mutex_ptr )
     {
-        if( ( *mutex_ptr ) != NULL )
+        ប្រសិនបើ( ( *mutex_ptr ) != NULL )
         {
             vSemaphoreDelete( *mutex_ptr );
         }
@@ -219,9 +219,9 @@
 
     void _mwmutex_lock( _lock_t mutex )
     {
-        if( ( mutex ) != NULL )
+        ប្រសិនបើ( ( mutex ) != NULL )
         {
-            while( xSemaphoreTakeRecursive( mutex, portMAX_DELAY ) != pdTRUE )
+            ខណៈពេល( xSemaphoreTakeRecursive( mutex, portMAX_DELAY ) != pdTRUE )
             {
             }
         }
@@ -229,12 +229,12 @@
 
     void _mwmutex_unlock( _lock_t mutex )
     {
-        if( ( mutex ) != NULL )
+        ប្រសិនបើ( ( mutex ) != NULL )
         {
             xSemaphoreGiveRecursive( mutex );
         }
     }
 
-#else /* if defined( __MW__ ) */
+#បើមិនដូច្នេះ /* if defined( __MW__ ) */
 
 #endif /* __MW__ */

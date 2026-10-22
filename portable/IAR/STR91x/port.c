@@ -49,7 +49,7 @@
 /* Constants required to setup the initial stack. */
 #ifndef _RUN_TASK_IN_ARM_MODE_
     #define portINITIAL_SPSR       ( ( StackType_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
-#else
+#បើមិនដូច្នេះ
     #define portINITIAL_SPSR       ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
 #endif
 
@@ -75,11 +75,11 @@
  *
  */
 #define TOGGLE_LED( port, pin )                                           \
-    if( ( ( ( ( port )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != Bit_RESET ) \
+    ប្រសិនបើ( ( ( ( ( port )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != Bit_RESET ) \
     {                                                                     \
         ( port )->DR[ ( pin ) << 2 ] = 0x00;                              \
     }                                                                     \
-    else                                                                  \
+    បើមិនដូច្នេះ                                                                  \
     {                                                                     \
         ( port )->DR[ ( pin ) << 2 ] = ( pin );                           \
     }
@@ -103,7 +103,7 @@ void WDG_IRQHandler( void );
 /* VIC interrupt default handler. */
 static void prvDefaultHandler( void );
 
-#if configUSE_WATCHDOG_TICK == 0
+#ប្រសិនបើ configUSE_WATCHDOG_TICK == 0
     /* Used to update the OCR timer register */
     static u16 s_nPulseLength;
 #endif
@@ -180,7 +180,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ត្រឡប់ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -196,7 +196,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ត្រឡប់ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -209,7 +209,7 @@ void vPortEndScheduler( void )
 
 /* This function is called from an asm wrapper, so does not require the __irq
  * keyword. */
-#if configUSE_WATCHDOG_TICK == 1
+#ប្រសិនបើ configUSE_WATCHDOG_TICK == 1
 
     static void prvFindFactors( u32 n,
                                 u16 * a,
@@ -225,26 +225,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 65536ul ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        សម្រាប់( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            ប្រសិនបើ( abs( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            ប្រសិនបើ( abs( err ) < abs( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                ប្រសិនបើ( err == 0 )
                 {
-                    break;
+                    bha_nga;
                 }
             }
         }
@@ -288,7 +288,7 @@ void vPortEndScheduler( void )
     {
         {
             /* Increment the tick counter. */
-            if( xTaskIncrementTick() != pdFALSE )
+            ប្រសិនបើ( xTaskIncrementTick() != pdFALSE )
             {
                 /* Select a new task to execute. */
                 vTaskSwitchContext();
@@ -299,7 +299,7 @@ void vPortEndScheduler( void )
         }
     }
 
-#else /* if configUSE_WATCHDOG_TICK == 1 */
+#បើមិនដូច្នេះ /* if configUSE_WATCHDOG_TICK == 1 */
 
     static void prvFindFactors( u32 n,
                                 u8 * a,
@@ -316,26 +316,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 256 ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        សម្រាប់( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            ប្រសិនបើ( abs( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            ប្រសិនបើ( abs( err ) < abs( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                ប្រសិនបើ( err == 0 )
                 {
-                    break;
+                    bha_nga;
                 }
             }
         }
@@ -387,7 +387,7 @@ void vPortEndScheduler( void )
         TIM2->OC1R += s_nPulseLength;
 
         /* Increment the tick counter. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ប្រសិនបើ( xTaskIncrementTick() != pdFALSE )
         {
             /* Select a new task to run. */
             vTaskSwitchContext();
@@ -415,14 +415,14 @@ __arm __interwork void vPortEnterCritical( void )
 
 __arm __interwork void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ប្រសិនបើ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ប្រសិនបើ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             portENABLE_INTERRUPTS();
         }

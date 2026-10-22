@@ -50,9 +50,9 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -62,7 +62,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ប្រសិនបើ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -88,7 +88,7 @@ void vPortYield( void );
 #define portYIELD()                vPortYield()
 
 extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x )    do { if( x != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+#define portYIELD_FROM_ISR( x )    do { ប្រសិនបើ( x != pdFALSE ) vTaskSwitchContext( ); } ខណៈពេល( 0 )
 
 /*
  * This function tells the kernel that the task referenced by xTask is going to
@@ -109,8 +109,8 @@ void vPortRestoreFlopRegisters( void * pulBuffer );
  * context should be saved.  If pxTaskTag is NULL then the task does not use
  * a floating point context.
  */
-#define traceTASK_SWITCHED_OUT()    do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
-#define traceTASK_SWITCHED_IN()     do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
+#define traceTASK_SWITCHED_OUT()    do { ប្រសិនបើ( pxCurrentTCB->pxTaskTag != NULL ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } ខណៈពេល( 0 )
+#define traceTASK_SWITCHED_IN()     do { ប្រសិនបើ( pxCurrentTCB->pxTaskTag != NULL ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } ខណៈពេល( 0 )
 
 /*
  * These macros should be called directly, but through the taskENTER_CRITICAL()

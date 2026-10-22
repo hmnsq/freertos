@@ -46,9 +46,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -84,7 +84,7 @@ typedef uint32_t         TickType_t;
 #define portYIELD_INTERRUPT             "int $0x20"
 
 /* APIC register addresses. */
-#define portAPIC_EOI                    ( *( ( volatile uint32_t * ) 0xFEE000B0UL ) )
+#define portAPIC_EOI                    ( *( ( ca_ncala uint32_t * ) 0xFEE000B0UL ) )
 
 /* APIC bit definitions. */
 #define portAPIC_ENABLE_BIT             ( 1UL << 8UL )
@@ -94,33 +94,33 @@ typedef uint32_t         TickType_t;
 #define portAPIC_DIV_16                 ( 0x03 )
 
 /* Define local API register addresses. */
-#define portAPIC_ID_REGISTER            ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
-#define portAPIC_SPURIOUS_INT           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
-#define portAPIC_LVT_TIMER              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
-#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
-#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
-#define portAPIC_TASK_PRIORITY          ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
-#define portAPIC_LVT_ERROR              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
-#define portAPIC_ERROR_STATUS           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
-#define portAPIC_LDR                    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
-#define portAPIC_TMRDIV                 ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
-#define portAPIC_LVT_PERF               ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
-#define portAPIC_LVT_LINT0              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
-#define portAPIC_LVT_LINT1              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
+#define portAPIC_ID_REGISTER            ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
+#define portAPIC_SPURIOUS_INT           ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
+#define portAPIC_LVT_TIMER              ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
+#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
+#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
+#define portAPIC_TASK_PRIORITY          ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
+#define portAPIC_LVT_ERROR              ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
+#define portAPIC_ERROR_STATUS           ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
+#define portAPIC_LDR                    ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
+#define portAPIC_TMRDIV                 ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
+#define portAPIC_LVT_PERF               ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
+#define portAPIC_LVT_LINT0              ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
+#define portAPIC_LVT_LINT1              ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
 
 /* Don't yield if inside a critical section - instead hold the yield pending
  * so it is performed when the critical section is exited. */
 #define portYIELD()                                  \
     {                                                \
-        extern volatile uint32_t ulCriticalNesting;  \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( ulCriticalNesting != 0 )                 \
+        extern ca_ncala uint32_t ulCriticalNesting;  \
+        extern ca_ncala uint32_t ulPortYieldPending; \
+        ប្រសិនបើ( ulCriticalNesting != 0 )                 \
         {                                            \
             ulPortYieldPending = pdTRUE;             \
         }                                            \
-        else                                         \
+        បើមិនដូច្នេះ                                         \
         {                                            \
-            __asm volatile ( portYIELD_INTERRUPT );  \
+            __asm ca_ncala ( portYIELD_INTERRUPT );  \
         }                                            \
     }
 
@@ -128,8 +128,8 @@ typedef uint32_t         TickType_t;
  * xSwitchRequired is not false. */
 #define portEND_SWITCHING_ISR( xSwitchRequired )     \
     {                                                \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( xSwitchRequired != pdFALSE )             \
+        extern ca_ncala uint32_t ulPortYieldPending; \
+        ប្រសិនបើ( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldPending = 1;                  \
         }                                            \
@@ -155,8 +155,8 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
 #define portENTER_CRITICAL()        vPortEnterCritical()
 #define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    __asm volatile ( "cli" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( "sti" )
+#define portDISABLE_INTERRUPTS()    __asm ca_ncala ( "cli" )
+#define portENABLE_INTERRUPTS()     __asm ca_ncala ( "sti" )
 
 /*-----------------------------------------------------------*/
 
@@ -167,11 +167,11 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ប្រសិនបើ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    __asm volatile ( "bsr %1, %0\n\t"                                    \
+    __asm ca_ncala ( "bsr %1, %0\n\t"                                    \
                      : "=r" ( uxTopPriority ) : "rm" ( uxReadyPriorities ) : "cc" )
 
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -179,7 +179,7 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()    __asm volatile ( "NOP" )
+#define portNOP()    __asm ca_ncala ( "NOP" )
 
 /*-----------------------------------------------------------
 * Misc
@@ -195,7 +195,7 @@ typedef void ( * ISR_Handler_t ) ( void );
     #define configSUPPORT_FPU    0
 #endif
 
-#if configSUPPORT_FPU == 1
+#ប្រសិនបើ configSUPPORT_FPU == 1
     void vPortTaskUsesFPU( void );
     #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 #endif
@@ -290,7 +290,7 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
 
 /* Asserts if interrupt safe FreeRTOS functions are called from a priority
  * above the max system call interrupt priority. */
-#define portAPIC_PROCESSOR_PRIORITY    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
+#define portAPIC_PROCESSOR_PRIORITY    ( *( ( ca_ncala uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
 #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( portAPIC_PROCESSOR_PRIORITY ) <= ( portMAX_API_CALL_PRIORITY ) )
 
 /* *INDENT-OFF* */

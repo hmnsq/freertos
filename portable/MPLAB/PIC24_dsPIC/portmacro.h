@@ -46,9 +46,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint16_t
@@ -60,7 +60,7 @@ typedef portSTACK_TYPE StackType_t;
 typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ប្រសិនបើ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 /* 16-bit tick type on a 16-bit architecture, so reads of the tick count do
@@ -69,7 +69,7 @@ typedef unsigned short UBaseType_t;
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#បើមិនដូច្នេះ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -81,7 +81,7 @@ typedef unsigned short UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    SET_CPU_IPL( configKERNEL_INTERRUPT_PRIORITY ); __asm volatile ( "NOP" )
+#define portDISABLE_INTERRUPTS()    SET_CPU_IPL( configKERNEL_INTERRUPT_PRIORITY ); __asm ca_ncala ( "NOP" )
 #define portENABLE_INTERRUPTS()     SET_CPU_IPL( 0 )
 
 /* Note that exiting a critical sectino will set the IPL bits to 0, no matter
@@ -94,7 +94,7 @@ extern void vPortExitCritical( void );
 
 /* Task utilities. */
 extern void vPortYield( void );
-#define portYIELD()             asm volatile ( "CALL _vPortYield            \n"     \
+#define portYIELD()             asm ca_ncala ( "CALL _vPortYield            \n"     \
                                                 "NOP                      " );
 /*-----------------------------------------------------------*/
 
@@ -108,7 +108,7 @@ extern void vPortYield( void );
     #define portREMOVE_STATIC_QUALIFIER
 #endif
 
-#define portNOP()               asm volatile ( "NOP" )
+#define portNOP()               asm ca_ncala ( "NOP" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

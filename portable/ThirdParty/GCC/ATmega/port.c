@@ -43,7 +43,7 @@
 /* Start tasks with interrupts enabled. */
 #define portFLAGS_INT_ENABLED    ( ( StackType_t ) 0x80 )
 
-#if defined( portUSE_WDTO )
+#ប្រសិនបើ defined( portUSE_WDTO )
     #warning "Watchdog Timer used for scheduler."
     #define portSCHEDULER_ISR    WDT_vect
 
@@ -61,7 +61,7 @@
     #define portTIMSK                               TIMSK0
     #define portTIFR                                TIFR0
 
-#else /* if defined( portUSE_WDTO ) */
+#បើមិនដូច្នេះ /* if defined( portUSE_WDTO ) */
     #error "No Timer defined for scheduler"
 #endif /* if defined( portUSE_WDTO ) */
 
@@ -70,7 +70,7 @@
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -90,13 +90,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *  Updated to match avr-libc 2.0.0
  */
 
-#if defined( portUSE_WDTO )
+#ប្រសិនបើ defined( portUSE_WDTO )
 
     static __inline__
     __attribute__( ( __always_inline__ ) )
     void wdt_interrupt_enable( const uint8_t value )
     {
-        if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
+        ប្រសិនបើ( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -113,7 +113,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 : "r0"
                 );
         }
-        else
+        បើមិនដូច្នេះ
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -157,13 +157,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *  Updated to match avr-libc 2.0.0
  */
 
-#if defined( portUSE_WDTO )
+#ប្រសិនបើ defined( portUSE_WDTO )
 
     static __inline__
     __attribute__( ( __always_inline__ ) )
     void wdt_interrupt_reset_enable( const uint8_t value )
     {
-        if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
+        ប្រសិនបើ( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -180,7 +180,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 : "r0"
                 );
         }
-        else
+        បើមិនដូច្នេះ
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -227,7 +227,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * The interrupts will have been disabled during the call to portSAVE_CONTEXT()
  * so we need not worry about reading/writing to the stack pointer.
  */
-#if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
+#ប្រសិនបើ defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
 /* 3-Byte PC Save  with RAMPZ */
     #define portSAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
@@ -325,7 +325,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#else /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#បើមិនដូច្នេះ /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /* 2-Byte PC Save */
     #define portSAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
@@ -377,7 +377,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * Opposite to portSAVE_CONTEXT().  Interrupts will have been disabled during
  * the context save so we can write to the stack pointer.
  */
-#if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
+#ប្រសិនបើ defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
 /* 3-Byte PC Restore with RAMPZ */
     #define portRESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
@@ -471,7 +471,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#else /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#បើមិនដូច្នេះ /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /* 2-Byte PC Restore */
     #define portRESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
@@ -546,7 +546,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
     pxTopOfStack--;
 
-    #if defined( __AVR_3_BYTE_PC__ )
+    #ប្រសិនបើ defined( __AVR_3_BYTE_PC__ )
 
         /* The AVR ATmega2560/ATmega2561 have 256KBytes of program memory and a 17-bit
          * program counter. When a code address is stored on the stack, it takes 3 bytes
@@ -571,7 +571,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack = portFLAGS_INT_ENABLED;
     pxTopOfStack--;
 
-    #if defined( __AVR_3_BYTE_PC__ )
+    #ប្រសិនបើ defined( __AVR_3_BYTE_PC__ )
 
         /* If we have an ATmega256x, we are also saving the EIND register.
          * We should default to 0.
@@ -580,7 +580,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         pxTopOfStack--;
     #endif
 
-    #if defined( __AVR_HAVE_RAMPZ__ )
+    #ប្រសិនបើ defined( __AVR_HAVE_RAMPZ__ )
 
         /* We are saving the RAMPZ register.
          * We should default to 0.
@@ -606,7 +606,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* Leave register R26 - R31 untouched */
     pxTopOfStack -= 7;
 
-    return pxTopOfStack;
+    ត្រឡប់ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -623,7 +623,7 @@ BaseType_t xPortStartScheduler( void )
     __asm__ __volatile__ ( "ret" );
 
     /* Should not get here. */
-    return pdTRUE;
+    ត្រឡប់ pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -674,7 +674,7 @@ void vPortYieldFromTick( void )
 {
     portSAVE_CONTEXT();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    ប្រសិនបើ( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -685,7 +685,7 @@ void vPortYieldFromTick( void )
 }
 /*-----------------------------------------------------------*/
 
-#if defined( portUSE_WDTO )
+#ប្រសិនបើ defined( portUSE_WDTO )
 
 /*
  * Setup WDT to generate a tick interrupt.
@@ -740,7 +740,7 @@ void vPortYieldFromTick( void )
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#ប្រសិនបើ configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler. We can use a naked attribute as
@@ -759,7 +759,7 @@ void vPortYieldFromTick( void )
         vPortYieldFromTick();
         __asm__ __volatile__ ( "reti" );
     }
-#else /* if configUSE_PREEMPTION == 1 */
+#បើមិនដូច្នេះ /* if configUSE_PREEMPTION == 1 */
 
 /*
  * Tick ISR for the cooperative scheduler. All this does is increment the

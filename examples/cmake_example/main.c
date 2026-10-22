@@ -54,7 +54,7 @@ static void exampleTask( void * parameters )
     /* Unused parameters. */
     ( void ) parameters;
 
-    for( ; ; )
+    សម្រាប់( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,7 +62,7 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+ចំនួនគត់ main( void )
 {
     static StaticTask_t exampleTaskTCB;
     static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
@@ -80,19 +80,19 @@ int main( void )
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    សម្រាប់( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    ត្រឡប់ 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#ប្រសិនបើ ( configCHECK_FOR_STACK_OVERFLOW > 0 )
 
     void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+                                        var_na * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
