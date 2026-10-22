@@ -41,7 +41,7 @@
 #include "task.h"
 #include "list.h"
 
-#if configCHECK_FOR_STACK_OVERFLOW > 0
+#ако configCHECK_FOR_STACK_OVERFLOW > 0
     #error "Stack checking cannot be used with this port, as, unlike most ports, the pxTopOfStack member of the TCB is consumed CSA.  CSA starvation, loosely equivalent to stack overflow, will result in a trap exception."
     /* The stack pointer is accessible using portCSA_TO_ADDRESS( portCSA_TO_ADDRESS( pxCurrentTCB->pxTopOfStack )[ 0 ] )[ 2 ]; */
 #endif /* configCHECK_FOR_STACK_OVERFLOW */
@@ -73,18 +73,18 @@
 /*
  * Perform any hardware configuration necessary to generate the tick interrupt.
  */
-static void prvSystemTickHandler( int ) __attribute__( ( longcall ) );
+static void prvSystemTickHandler( цео ) __attribute__( ( longcall ) );
 static void prvSetupTimerInterrupt( void );
 
 /*
  * Trap handler for yields.
  */
-static void prvTrapYield( int iTrapIdentification );
+static void prvTrapYield( цео iTrapIdentification );
 
 /*
  * Priority 1 interrupt handler for yields pended from an interrupt.
  */
-static void prvInterruptYield( int iTrapIdentification );
+static void prvInterruptYield( цео iTrapIdentification );
 
 /*-----------------------------------------------------------*/
 
@@ -130,14 +130,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         /* Consume two free CSAs. */
         pulLowerCSA = portCSA_TO_ADDRESS( __MFCR( $FCX ) );
 
-        if( NULL != pulLowerCSA )
+        ако( NULL != pulLowerCSA )
         {
             /* The Lower Links to the Upper. */
             pulUpperCSA = portCSA_TO_ADDRESS( pulLowerCSA[ 0 ] );
         }
 
         /* Check that we have successfully reserved two CSAs. */
-        if( ( NULL != pulLowerCSA ) && ( NULL != pulUpperCSA ) )
+        ако( ( NULL != pulLowerCSA ) && ( NULL != pulUpperCSA ) )
         {
             /* Remove the two consumed CSAs from the free CSA list. */
             _disable();
@@ -146,7 +146,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
             _isync();
             _enable();
         }
-        else
+        инако
         {
             /* Simply trigger a context list depletion trap. */
             _svlcx();
@@ -177,7 +177,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* DSync to ensure that buffering is not a problem. */
     _dsync();
 
-    return pxTopOfStack;
+    врати pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -198,7 +198,7 @@ int32_t xPortStartScheduler( void )
     vTrapInstallHandlers();
 
     /* Install the Syscall Handler for yield calls. */
-    if( 0 == _install_trap_handler( portSYSCALL_TRAP, prvTrapYield ) )
+    ако( 0 == _install_trap_handler( portSYSCALL_TRAP, prvTrapYield ) )
     {
         /* Failed to install the yield handler, force an assert. */
         configASSERT( ( ( volatile void * ) NULL ) );
@@ -208,7 +208,7 @@ int32_t xPortStartScheduler( void )
      * switches from an ISR.  See mod_SRC in the TriCore manual. */
     CPU_SRC0.reg = ( portENABLE_CPU_INTERRUPT ) | ( configKERNEL_YIELD_PRIORITY );
 
-    if( 0 == _install_int_handler( configKERNEL_YIELD_PRIORITY, prvInterruptYield, 0 ) )
+    ако( 0 == _install_int_handler( configKERNEL_YIELD_PRIORITY, prvInterruptYield, 0 ) )
     {
         /* Failed to install the yield handler, force an assert. */
         configASSERT( ( ( volatile void * ) NULL ) );
@@ -244,7 +244,7 @@ int32_t xPortStartScheduler( void )
     __asm volatile ( "rfe" );
 
     /* Will not get here. */
-    return 0;
+    врати 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -254,7 +254,7 @@ static void prvSetupTimerInterrupt( void )
     unlock_wdtcon();
     {
         /* Wait until access to Endint protected register is enabled. */
-        while( 0 != ( WDT_CON0.reg & 0x1UL ) )
+        док( 0 != ( WDT_CON0.reg & 0x1UL ) )
         {
         }
 
@@ -270,7 +270,7 @@ static void prvSetupTimerInterrupt( void )
     /* Take into account the current time so a tick doesn't happen immediately. */
     STM_CMP0.reg = ulCompareMatchValue + STM_TIM0.reg;
 
-    if( 0 != _install_int_handler( configKERNEL_INTERRUPT_PRIORITY, prvSystemTickHandler, 0 ) )
+    ако( 0 != _install_int_handler( configKERNEL_INTERRUPT_PRIORITY, prvSystemTickHandler, 0 ) )
     {
         /* Set-up the interrupt. */
         STM_SRC0.reg = ( configKERNEL_INTERRUPT_PRIORITY | 0x00005000UL );
@@ -281,7 +281,7 @@ static void prvSetupTimerInterrupt( void )
         STM_ISRR.reg &= ~( 0x07UL );
         STM_ICR.reg |= 0x1UL;
     }
-    else
+    инако
     {
         /* Failed to install the Tick Interrupt. */
         configASSERT( ( ( volatile void * ) NULL ) );
@@ -289,7 +289,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvSystemTickHandler( int iArg )
+static void prvSystemTickHandler( цео iArg )
 {
     uint32_t ulSavedInterruptMask;
     uint32_t * pxUpperCSA = NULL;
@@ -330,7 +330,7 @@ static void prvSystemTickHandler( int iArg )
     }
     portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
 
-    if( lYieldRequired != pdFALSE )
+    ако( lYieldRequired != pdFALSE )
     {
         /* Save the context of a task.
          * The upper context is automatically saved when entering a trap or interrupt.
@@ -406,7 +406,7 @@ void vPortReclaimCSA( uint32_t * pxTCB )
      * everything in the pointer to the next CSA, other than the link address.
      * If this is NULL, then the CSA currently being pointed to is the last in
      * the chain. */
-    while( 0UL != ( pulNextCSA[ 0 ] & portCSA_FCX_MASK ) )
+    док( 0UL != ( pulNextCSA[ 0 ] & portCSA_FCX_MASK ) )
     {
         /* Clear all bits of the pointer to the next in the chain, other
          * than the address bits themselves. */
@@ -443,7 +443,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvTrapYield( int iTrapIdentification )
+static void prvTrapYield( цео iTrapIdentification )
 {
     uint32_t * pxUpperCSA = NULL;
     uint32_t xUpperCSA = 0UL;
@@ -491,7 +491,7 @@ static void prvTrapYield( int iTrapIdentification )
 }
 /*-----------------------------------------------------------*/
 
-static void prvInterruptYield( int iId )
+static void prvInterruptYield( цео iId )
 {
     uint32_t * pxUpperCSA = NULL;
     uint32_t xUpperCSA = 0UL;
@@ -542,6 +542,6 @@ uint32_t uxPortSetInterruptMaskFromISR( void )
     _enable();
 
     /* Return just the interrupt mask bits. */
-    return( uxReturn & portCCPN_MASK );
+    врати( uxReturn & portCCPN_MASK );
 }
 /*-----------------------------------------------------------*/

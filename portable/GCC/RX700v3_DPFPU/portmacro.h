@@ -78,7 +78,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ако ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -88,7 +88,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#инако
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -115,7 +115,7 @@ typedef unsigned long    UBaseType_t;
         ::: "cc"                        \
     )
 
-#define portYIELD_FROM_ISR( x )    do { if( ( x ) != pdFALSE ) portYIELD( ); } while( 0 )
+#define portYIELD_FROM_ISR( x )    do { ако( ( x ) != pdFALSE ) portYIELD( ); } док( 0 )
 
 /* Workaround to reduce errors/warnings caused by e2 studio CDT's INDEXER and CODAN. */
 #ifdef __CDT_PARSER__
@@ -137,10 +137,10 @@ typedef unsigned long    UBaseType_t;
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
 #define portENABLE_INTERRUPTS()                           __asm volatile ( "MVTIPL  #0" )
-#if ( configASSERT_DEFINED == 1 )
+#ако ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( ulPortGetIPL() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm volatile( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#else
+    #define portDISABLE_INTERRUPTS()                      ако( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm volatile( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#инако
     #define portDISABLE_INTERRUPTS()                      __asm volatile ( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
 #endif
 
@@ -172,9 +172,9 @@ void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#ако ( configUSE_TASK_DPFPU_SUPPORT == 1 )
     void vPortTaskUsesDPFPU( void );
-#else
+#инако
 
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */

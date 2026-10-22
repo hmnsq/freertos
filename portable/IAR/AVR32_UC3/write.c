@@ -100,36 +100,36 @@ __no_init volatile avr32_usart_t * volatile stdio_usart_base;
  *
  * \return The number of bytes written, or \c _LLIO_ERROR on failure.
  */
-size_t __write( int handle,
+size_t __write( цео handle,
                 const uint8_t * buffer,
                 size_t size )
 {
     size_t nChars = 0;
 
-    if( buffer == 0 )
+    ако( buffer == 0 )
     {
         /* This means that we should flush internal buffers. */
-        return 0;
+        врати 0;
     }
 
     /* This implementation only writes to stdout and stderr. */
     /* For all other file handles, it returns failure. */
-    if( ( handle != _LLIO_STDOUT ) && ( handle != _LLIO_STDERR ) )
+    ако( ( handle != _LLIO_STDOUT ) && ( handle != _LLIO_STDERR ) )
     {
-        return _LLIO_ERROR;
+        врати _LLIO_ERROR;
     }
 
-    for( ; size != 0; --size )
+    за( ; size != 0; --size )
     {
-        if( usart_putchar( stdio_usart_base, *buffer++ ) < 0 )
+        ако( usart_putchar( stdio_usart_base, *buffer++ ) < 0 )
         {
-            return _LLIO_ERROR;
+            врати _LLIO_ERROR;
         }
 
         ++nChars;
     }
 
-    return nChars;
+    врати nChars;
 }
 
 

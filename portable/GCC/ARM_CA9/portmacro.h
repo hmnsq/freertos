@@ -81,7 +81,7 @@ typedef uint32_t         TickType_t;
     {                                            \
         extern uint32_t ulPortYieldRequired;     \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        ако( xSwitchRequired != pdFALSE )         \
         {                                        \
             ulPortYieldRequired = pdTRUE;        \
         }                                        \
@@ -127,9 +127,9 @@ void FreeRTOS_Tick_Handler( void );
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU context
  * by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#ако ( configUSE_TASK_FPU_SUPPORT != 2 )
     void vPortTaskUsesFPU( void );
-#else
+#инако
 
 /* Each task has an FPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
@@ -145,7 +145,7 @@ void FreeRTOS_Tick_Handler( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ако configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -157,7 +157,7 @@ void FreeRTOS_Tick_Handler( void );
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
+#ако ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif /* configASSERT */
@@ -167,7 +167,7 @@ void FreeRTOS_Tick_Handler( void );
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
+#ако configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
     #define portMAX_BINARY_POINT_VALUE    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
@@ -182,7 +182,7 @@ void FreeRTOS_Tick_Handler( void );
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
     #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#инако /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
     #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 

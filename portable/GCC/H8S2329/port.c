@@ -73,7 +73,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* This requires an even address. */
     ulValue = ( uint32_t ) pxTopOfStack;
 
-    if( ulValue & 1UL )
+    ако( ulValue & 1UL )
     {
         pxTopOfStack = pxTopOfStack - 1;
     }
@@ -185,7 +185,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x55;
 
-    return pxTopOfStack;
+    врати pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -211,7 +211,7 @@ BaseType_t xPortStartScheduler( void )
     ( void ) pxCurrentTCB;
 
     /* Should not get here. */
-    return pdTRUE;
+    врати pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -238,7 +238,7 @@ void vPortYield( void )
  * The interrupt handler installed for the RTOS tick depends on whether the
  * preemptive or cooperative scheduler is being used.
  */
-#if ( configUSE_PREEMPTION == 1 )
+#ако ( configUSE_PREEMPTION == 1 )
 
 /*
  * The preemptive scheduler is used so the ISR calls vTaskSwitchContext().
@@ -250,7 +250,7 @@ void vPortYield( void )
     {
         portSAVE_STACK_POINTER();
 
-        if( xTaskIncrementTick() != pdFALSE )
+        ако( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -261,7 +261,7 @@ void vPortYield( void )
         portRESTORE_STACK_POINTER();
     }
 
-#else /* if ( configUSE_PREEMPTION == 1 ) */
+#инако /* if ( configUSE_PREEMPTION == 1 ) */
 
 /*
  * The cooperative scheduler is being used so all we have to do is

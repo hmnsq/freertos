@@ -296,7 +296,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    врати pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -313,7 +313,7 @@ BaseType_t xPortStartScheduler( void )
     asm volatile ( "ret" );
 
     /* Should not get here. */
-    return pdTRUE;
+    врати pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -350,7 +350,7 @@ void vPortYieldFromTick( void )
 {
     portSAVE_CONTEXT();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    ако( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -400,7 +400,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#ако configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a naked attribute as
@@ -413,7 +413,7 @@ static void prvSetupTimerInterrupt( void )
         vPortYieldFromTick();
         asm volatile ( "reti" );
     }
-#else
+#инако
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the

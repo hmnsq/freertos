@@ -34,11 +34,11 @@ Changes from V3.0.1
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#if !defined(_SERIES) || _SERIES != 18
+#ако !defined(_SERIES) || _SERIES != 18
     #error "WizC supports FreeRTOS on the Microchip PIC18-series only"
 #endif
 
-#if !defined(QUICKCALL) || QUICKCALL != 1
+#ако !defined(QUICKCALL) || QUICKCALL != 1
     #error "QuickCall must be enabled (see ProjectOptions/Optimisations)"
 #endif
 
@@ -58,13 +58,13 @@ typedef signed char BaseType_t;
 typedef unsigned char UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ако( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFF )
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
+#инако
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -96,13 +96,13 @@ typedef unsigned char UBaseType_t;
     do                              \
     {                               \
         bGIE=0;                     \
-    } while(bGIE)   // MicroChip recommends this check!
+    } док(bGIE)   // MicroChip recommends this check!
 
 #define portENABLE_INTERRUPTS()     \
     do                              \
     {                               \
         bGIE=1;                     \
-    } while(0)
+    } док(0)
 
 /*-----------------------------------------------------------*/
 
@@ -125,12 +125,12 @@ extern uint8_t ucCriticalNesting;
          * many times portENTER_CRITICAL() has been called.         \
          */                                                         \
         ucCriticalNesting++;                                        \
-    } while(0)
+    } док(0)
 
 #define portEXIT_CRITICAL()                                         \
     do                                                              \
     {                                                               \
-        if(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
+        ако(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
         {                                                           \
             /*                                                      \
              * Decrement the nesting count as we are leaving a      \
@@ -143,11 +143,11 @@ extern uint8_t ucCriticalNesting;
          * If the nesting level has reached zero then               \
          * interrupts should be re-enabled.                         \
          */                                                         \
-        if( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
+        ако( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
         {                                                           \
             portENABLE_INTERRUPTS();                                \
         }                                                           \
-    } while(0)
+    } док(0)
 
 /*-----------------------------------------------------------*/
 
@@ -222,12 +222,12 @@ extern uint16_t usCalcMinStackSize;
             movff   FSR1H,POSTDEC2                                  \
             movff   FSR1L,POSTDEC2                                  \
             movff   TABLAT,POSTDEC2                                 \
-            if __ROMSIZE > 0x8000                                   \
+            ако __ROMSIZE > 0x8000                                   \
                 movff   TBLPTRU,POSTDEC2                            \
             endif                                                   \
             movff   TBLPTRH,POSTDEC2                                \
             movff   TBLPTRL,POSTDEC2                                \
-            if __ROMSIZE > 0x8000                                   \
+            ако __ROMSIZE > 0x8000                                   \
                 movff   PCLATU,POSTDEC2                             \
             endif                                                   \
             movff   PCLATH,POSTDEC2                                 \
@@ -242,7 +242,7 @@ extern uint16_t usCalcMinStackSize;
             decfsz  WREG,W,ACCESS                                   \
             SMARTJUMP _rtos_S1                                      \
             ;                                                       \
-            ; Save the pic call/return-stack belonging to the       \
+            ; Save the pic call/врати-stack belonging to the       \
             ; current task by copying it to the task's software-    \
             ; stack. We save the hardware stack pointer (which      \
             ; is the number of addresses on the stack) in the       \
@@ -254,7 +254,7 @@ extern uint16_t usCalcMinStackSize;
             movf    STKPTR,W,ACCESS                                 \
             bz      _rtos_s3                                        \
         _rtos_S2:                                                   \
-            if __ROMSIZE > 0x8000                                   \
+            ако __ROMSIZE > 0x8000                                   \
                 movff   TOSU,POSTDEC2                               \
             endif                                                   \
             movff   TOSH,POSTDEC2                                   \
@@ -265,14 +265,14 @@ extern uint16_t usCalcMinStackSize;
         _rtos_s3:                                                   \
             movwf   POSTDEC2,ACCESS                                 \
             ;                                                       \
-            ; Next the value for ucCriticalNesting used by the      \
+            ; Next the value за ucCriticalNesting used by the      \
             ; task is stored on the stack. When                     \
             ; (ucInterruptForced == portINTERRUPTS_FORCED), we save \
             ; it as 0 (portNO_CRITICAL_SECTION_NESTING).            \
             ;                                                       \
-            if ucInterruptForced == portINTERRUPTS_FORCED           \
+            ако ucInterruptForced == portINTERRUPTS_FORCED           \
                 clrf POSTDEC2,ACCESS                                \
-            else                                                    \
+            инако                                                    \
                 movff   ucCriticalNesting,POSTDEC2                  \
             endif                                                   \
             ;                                                       \
@@ -283,7 +283,7 @@ extern uint16_t usCalcMinStackSize;
             movff   FSR2L,POSTINC0                                  \
             movff   FSR2H,POSTINC0                                  \
         _Pragma("asmend")                                           \
-    } while(0)
+    } док(0)
 
 /************************************************************/
 
@@ -307,13 +307,13 @@ extern uint16_t usCalcMinStackSize;
             movff   POSTINC0,FSR2L                                  \
             movff   POSTINC0,FSR2H                                  \
             ;                                                       \
-            ; Next, the value for ucCriticalNesting used by the     \
+            ; Next, the value за ucCriticalNesting used by the     \
             ; task is retrieved from the stack.                     \
             ;                                                       \
             movff   PREINC2,ucCriticalNesting                       \
             ;                                                       \
-            ; Rebuild the pic call/return-stack. The number of      \
-            ; return addresses is the next item on the task stack.  \
+            ; Rebuild the pic call/врати-stack. The number of      \
+            ; врати addresses is the next item on the task stack.  \
             ; Save this number in PRODL. Then fetch the addresses   \
             ; and store them on the hardwarestack.                  \
             ; The datasheets say we can't use movff here...         \
@@ -326,10 +326,10 @@ extern uint16_t usCalcMinStackSize;
             movwf   TOSL,ACCESS                                     \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSH,ACCESS                                     \
-            if __ROMSIZE > 0x8000                                   \
+            ако __ROMSIZE > 0x8000                                   \
                 movf    PREINC2,W,ACCESS                            \
                 movwf   TOSU,ACCESS                                 \
-            else                                                    \
+            инако                                                    \
                 clrf    TOSU,ACCESS                                 \
             endif                                                   \
             decfsz  PRODL,F,ACCESS                                  \
@@ -348,19 +348,19 @@ extern uint16_t usCalcMinStackSize;
             ;                                                       \
             ; Restore the sfr's forming the tasks context.          \
             ; We cannot yet restore bsr, w and status because       \
-            ; we need these registers for a final test.             \
+            ; we need these registers за a final test.             \
             ;                                                       \
             movff   PREINC2,PCLATH                                  \
-            if __ROMSIZE > 0x8000                                   \
+            ако __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,PCLATU                              \
-            else                                                    \
+            инако                                                    \
                 clrf    PCLATU,ACCESS                               \
             endif                                                   \
             movff   PREINC2,TBLPTRL                                 \
             movff   PREINC2,TBLPTRH                                 \
-            if __ROMSIZE > 0x8000                                   \
+            ако __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,TBLPTRU                             \
-            else                                                    \
+            инако                                                    \
                 clrf    TBLPTRU,ACCESS                              \
             endif                                                   \
             movff   PREINC2,TABLAT                                  \
@@ -371,11 +371,11 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,PRODL                                   \
             movff   PREINC2,PRODH                                   \
             ;                                                       \
-            ; The return from portRESTORE_CONTEXT() depends on      \
+            ; The врати from portRESTORE_CONTEXT() depends on      \
             ; the value of ucCriticalNesting. When it is zero,      \
             ; interrupts need to be enabled. This is done via a     \
             ; retfie instruction because we need the                \
-            ; interrupt-enabling and the return to the restored     \
+            ; interrupt-enabling and the врати to the restored     \
             ; task to be uninterruptible.                           \
             ; Because bsr, status and W are affected by the test    \
             ; they are restored after the test.                     \
@@ -392,9 +392,9 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
             movff   PREINC2,STATUS                                  \
-            return  0       ; Return without affecting interrupts   \
+            врати  0       ; Return without affecting interrupts   \
         _Pragma("asmend")                                           \
-    } while(0)
+    } док(0)
 
 /*-----------------------------------------------------------*/
 

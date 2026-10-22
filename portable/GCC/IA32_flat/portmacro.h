@@ -114,11 +114,11 @@ typedef uint32_t         TickType_t;
     {                                                \
         extern volatile uint32_t ulCriticalNesting;  \
         extern volatile uint32_t ulPortYieldPending; \
-        if( ulCriticalNesting != 0 )                 \
+        ако( ulCriticalNesting != 0 )                 \
         {                                            \
             ulPortYieldPending = pdTRUE;             \
         }                                            \
-        else                                         \
+        инако                                         \
         {                                            \
             __asm volatile ( portYIELD_INTERRUPT );  \
         }                                            \
@@ -129,7 +129,7 @@ typedef uint32_t         TickType_t;
 #define portEND_SWITCHING_ISR( xSwitchRequired )     \
     {                                                \
         extern volatile uint32_t ulPortYieldPending; \
-        if( xSwitchRequired != pdFALSE )             \
+        ако( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldPending = 1;                  \
         }                                            \
@@ -167,7 +167,7 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ако configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
@@ -195,7 +195,7 @@ typedef void ( * ISR_Handler_t ) ( void );
     #define configSUPPORT_FPU    0
 #endif
 
-#if configSUPPORT_FPU == 1
+#ако configSUPPORT_FPU == 1
     void vPortTaskUsesFPU( void );
     #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 #endif

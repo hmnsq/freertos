@@ -60,7 +60,7 @@ typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ако ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -70,7 +70,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#инако
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -90,16 +90,16 @@ extern void vPortYield( void );
 #define portEND_SWITCHING_ISR( xSwitchRequired )         \
     do                                                   \
     {                                                    \
-        if( xSwitchRequired != pdFALSE )                 \
+        ако( xSwitchRequired != pdFALSE )                 \
         {                                                \
             traceISR_EXIT_TO_SCHEDULER();                \
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET; \
         }                                                \
-        else                                             \
+        инако                                             \
         {                                                \
             traceISR_EXIT();                             \
         }                                                \
-    } while( 0 )
+    } док( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -149,16 +149,16 @@ portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
     /* Obtain the number of the currently executing interrupt. */
     __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    ако( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    инако
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    врати xReturn;
 }
 
 /*-----------------------------------------------------------*/

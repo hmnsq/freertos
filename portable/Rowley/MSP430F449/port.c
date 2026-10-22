@@ -129,7 +129,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    врати pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
