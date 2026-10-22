@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the MSP430 port.
@@ -42,8 +42,8 @@ not the MCLK. */
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each
 time a critical section is entered the count is incremented.  Each time a
@@ -53,7 +53,7 @@ being re-enabled if the count is zero.
 usCriticalNesting will get set to zero when the scheduler starts, but must
 not be initialised to zero as this will cause problems during the startup
 sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متطاير uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 
@@ -61,7 +61,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-void prvSetupTimerInterrupt( void );
+فراغ prvSetupTimerInterrupt( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -70,7 +70,7 @@ void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -129,11 +129,11 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the MSP430 port will get stopped.  If required simply
     disable the tick interrupt here. */
@@ -144,7 +144,7 @@ void vPortEndScheduler( void )
  * Hardware initialisation to generate the RTOS tick.  This uses timer 0
  * but could alternatively use the watchdog timer or timer 1.
  */
-void prvSetupTimerInterrupt( void )
+فراغ prvSetupTimerInterrupt( فراغ )
 {
     /* Ensure the timer is stopped. */
     TACTL = 0;

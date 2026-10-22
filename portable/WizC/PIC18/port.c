@@ -42,10 +42,10 @@ Changes from V3.0.1
 */
 
 /* Scheduler include files. */
-#include <FreeRTOS.h>
-#include <task.h>
+#ضمن <FreeRTOS.h>
+#ضمن <task.h>
 
-#include <malloc.h>
+#ضمن <malloc.h>
 
 /*---------------------------------------------------------------------------
  * Implementation of functions defined in portable.h for the WizC PIC18 port.
@@ -55,8 +55,8 @@ Changes from V3.0.1
  * We require the address of the pxCurrentTCB variable, but don't want to
  * know any details of its type.
  */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /*
  * Define minimal-stack constants
@@ -77,10 +77,10 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *       1 byte : ucCriticalNesting
  *      16 bytes: Free space on stack
  */
-#if _ROMSIZE > 0x8000
+#אם _ROMSIZE > 0x8000
     #define portSTACK_FSR_BYTES             ( 15 )
     #define portSTACK_CALLRETURN_ENTRY_SIZE (  3 )
-#else
+#אחרת
     #define portSTACK_FSR_BYTES             ( 13 )
     #define portSTACK_CALLRETURN_ENTRY_SIZE (  2 )
 #endif
@@ -98,7 +98,7 @@ uint16_t usCalcMinStackSize     = 0;
  * and portEXIT_CRITICAL() can be called without interrupts
  * being enabled before the scheduler starts.
  */
-register uint8_t ucCriticalNesting = 0x7F;
+سجل uint8_t ucCriticalNesting = 0x7F;
 
 /*-----------------------------------------------------------*/
 
@@ -106,7 +106,7 @@ register uint8_t ucCriticalNesting = 0x7F;
  * Initialise the stack of a new task.
  * See portSAVE_CONTEXT macro for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 uint8_t ucScratch;
     /*
@@ -115,7 +115,7 @@ uint8_t ucScratch;
      */
     _Pragma("asm")
         movlw   OVERHEADPAGE0-LOCOPTSIZE+MAXLOCOPTSIZE
-        movwf   PRODL,ACCESS        ; PRODL is used as temp register
+        movwf   PRODL,ACCESS        ; PRODL is used as temp سجل
     _Pragma("asmend")
     ucScratch = PRODL;
 
@@ -152,12 +152,12 @@ uint8_t ucScratch;
     *pxTopOfStack-- = ( StackType_t ) 0x88; /* FSR1H. */
     *pxTopOfStack-- = ( StackType_t ) 0x99; /* FSR1L. */
     *pxTopOfStack-- = ( StackType_t ) 0xAA; /* TABLAT. */
-#if _ROMSIZE > 0x8000
+#אם _ROMSIZE > 0x8000
     *pxTopOfStack-- = ( StackType_t ) 0x00; /* TBLPTRU. */
 #endif
     *pxTopOfStack-- = ( StackType_t ) 0xCC; /* TBLPTRH. */
     *pxTopOfStack-- = ( StackType_t ) 0xDD; /* TBLPTRL. */
-#if _ROMSIZE > 0x8000
+#אם _ROMSIZE > 0x8000
     *pxTopOfStack-- = ( StackType_t ) 0xEE; /* PCLATU. */
 #endif
     *pxTopOfStack-- = ( StackType_t ) 0xFF; /* PCLATH. */
@@ -165,7 +165,7 @@ uint8_t ucScratch;
     /*
      * Next the compiler's scratchspace.
      */
-    while(ucScratch-- > 0)
+    כלעוד(ucScratch-- > 0)
     {
         *pxTopOfStack-- = ( StackType_t ) 0;
     }
@@ -176,7 +176,7 @@ uint8_t ucScratch;
      * stack, too. TOSU is always written as zero here because wizC does not allow
      * functionpointers to point above 64kB in ROM.
      */
-#if _ROMSIZE > 0x8000
+#אם _ROMSIZE > 0x8000
     *pxTopOfStack-- = ( StackType_t ) 0;
 #endif
     *pxTopOfStack-- = ( StackType_t ) ( ( ( uint16_t ) pxCode >> 8 ) & 0x00ff );
@@ -197,11 +197,11 @@ uint8_t ucScratch;
      */
     *pxTopOfStack-- = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void )
+uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( فراغ )
 {
     /*
      * Fetch the size of compiler's scratchspace.
@@ -219,14 +219,14 @@ uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void )
         +   ( portSTACK_MINIMAL_CALLRETURN_DEPTH * portSTACK_CALLRETURN_ENTRY_SIZE )
         +   ( portSTACK_OTHER_BYTES );
 
-    return(usCalcMinStackSize);
+    החזר(usCalcMinStackSize);
 }
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void portSetupTick( void );
+    خارجي فراغ portSetupTick( فراغ );
 
     /*
      * Setup a timer for the tick ISR for the preemptive scheduler.
@@ -241,12 +241,12 @@ BaseType_t xPortStartScheduler( void )
     /*
      * This point should never be reached during execution.
      */
-    return pdTRUE;
+    החזר pdTRUE;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /*
      * It is unlikely that the scheduler for the PIC port will get stopped
@@ -263,7 +263,7 @@ void vPortEndScheduler( void )
  * but does not increment the tick count.  It must be identical to the
  * tick context switch in how it stores the stack of a task.
  */
-void vPortYield( void )
+فراغ vPortYield( فراغ )
 {
     /*
      * Save the context of the current task.
@@ -282,11 +282,11 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+#אם( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
-    void *pvPortMalloc( uint16_t usWantedSize )
+    فراغ *pvPortMalloc( uint16_t usWantedSize )
     {
-    void *pvReturn;
+    فراغ *pvReturn;
 
         vTaskSuspendAll();
         {
@@ -294,22 +294,22 @@ void vPortYield( void )
         }
         xTaskResumeAll();
 
-        return pvReturn;
+        החזר pvReturn;
     }
 
 #endif /* configSUPPORT_STATIC_ALLOCATION */
 
 /*-----------------------------------------------------------*/
 
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+#אם( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
-    void vPortFree( void *pv )
+    فراغ vPortFree( فراغ *pv )
     {
-        if( pv )
+        אם( pv )
         {
             vTaskSuspendAll();
             {
-                free( pv );
+                حرر( pv );
             }
             xTaskResumeAll();
         }

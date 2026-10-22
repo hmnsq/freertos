@@ -30,23 +30,23 @@
 * Implementation of functions defined in portable.h for the RXv3 DPFPU port.
 *----------------------------------------------------------*/
 
-#warning Testing for DFPU support in this port is not yet complete
+#warning Testing עבור DFPU support in this port is not yet complete
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ضمن "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#אם ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #ضمن "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#אחרת /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #ضمن "iodefine.h"
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -77,26 +77,26 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void );
+ساكن فراغ prvStartFirstTask( فراغ );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-__interrupt void vSoftwareInterruptISR( void );
+__interrupt فراغ vSoftwareInterruptISR( فراغ );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt فراغ vTickISR( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /* Saved as part of the task context.  If ulPortTaskHasDPFPUContext is non-zero
  * then a DPFPU context must be saved and restored for the task. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#אם ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
     StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
 
@@ -104,8 +104,8 @@ __interrupt void vTickISR( void );
 
 /* This is accessed by the inline assembler functions so is file scope for
  * convenience. */
-extern void * pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+خارجي فراغ * pxCurrentTCB;
+خارجي فراغ vTaskSwitchContext( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -114,7 +114,7 @@ extern void vTaskSwitchContext( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
@@ -159,7 +159,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #אחרת /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         pxTopOfStack -= 15;
     }
@@ -181,7 +181,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 0. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #אם ( configUSE_TASK_DPFPU_SUPPORT == 1 )
     {
         /* The task will start without a DPFPU context.  A task that
          * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
@@ -189,49 +189,49 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         pxTopOfStack--;
         *pxTopOfStack = portNO_DPFPU_CONTEXT;
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+    #وإلاإذا ( configUSE_TASK_DPFPU_SUPPORT == 2 )
     {
         /* The task will start with a DPFPU context.  Leave enough
          * space for the registers - and ensure they are initialised if desired. */
         #ifdef USE_FULL_REGISTER_INITIALISATION
         {
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1515.1515;  /* DR15. */
+            *( مزدوج * ) pxTopOfStack = 1515.1515;  /* DR15. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1414.1414;  /* DR14. */
+            *( مزدوج * ) pxTopOfStack = 1414.1414;  /* DR14. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1313.1313;  /* DR13. */
+            *( مزدوج * ) pxTopOfStack = 1313.1313;  /* DR13. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1212.1212;  /* DR12. */
+            *( مزدوج * ) pxTopOfStack = 1212.1212;  /* DR12. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1111.1111;  /* DR11. */
+            *( مزدوج * ) pxTopOfStack = 1111.1111;  /* DR11. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1010.1010;  /* DR10. */
+            *( مزدوج * ) pxTopOfStack = 1010.1010;  /* DR10. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 909.0909;   /* DR9. */
+            *( مزدوج * ) pxTopOfStack = 909.0909;   /* DR9. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 808.0808;   /* DR8. */
+            *( مزدوج * ) pxTopOfStack = 808.0808;   /* DR8. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 707.0707;   /* DR7. */
+            *( مزدوج * ) pxTopOfStack = 707.0707;   /* DR7. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 606.0606;   /* DR6. */
+            *( مزدوج * ) pxTopOfStack = 606.0606;   /* DR6. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 505.0505;   /* DR5. */
+            *( مزدوج * ) pxTopOfStack = 505.0505;   /* DR5. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 404.0404;   /* DR4. */
+            *( مزدوج * ) pxTopOfStack = 404.0404;   /* DR4. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 303.0303;   /* DR3. */
+            *( مزدوج * ) pxTopOfStack = 303.0303;   /* DR3. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 202.0202;   /* DR2. */
+            *( مزدوج * ) pxTopOfStack = 202.0202;   /* DR2. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 101.0101;   /* DR1. */
+            *( مزدوج * ) pxTopOfStack = 101.0101;   /* DR1. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 9876.54321; /* DR0. */
+            *( مزدوج * ) pxTopOfStack = 9876.54321; /* DR0. */
         }
-        #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+        #אחרת /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
             pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * حجم( StackType_t ) );
         }
         #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
         pxTopOfStack--;
@@ -241,23 +241,23 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         pxTopOfStack--;
         *pxTopOfStack = portINITIAL_DPSW;  /* DPSW. */
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 0 )
+    #وإلاإذا ( configUSE_TASK_DPFPU_SUPPORT == 0 )
     {
         /* Omit DPFPU support. */
     }
-    #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #אחרת /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
     {
         #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
     }
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#אם ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    void vPortTaskUsesDPFPU( void )
+    فراغ vPortTaskUsesDPFPU( فراغ )
     {
         /* A task is registering the fact that it needs a DPFPU context.  Set the
          * DPFPU flag (which is saved as part of the task context). */
@@ -267,12 +267,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 #endif /* configUSE_TASK_DPFPU_SUPPORT */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    خارجي فراغ vApplicationSetupTimerInterrupt( فراغ );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    אם( pxCurrentTCB != عدم )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -293,24 +293,24 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    החזר pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == عدم );
 
     /* The following line is just to prevent the symbol getting optimised away. */
-    ( void ) vTaskSwitchContext();
+    ( فراغ ) vTaskSwitchContext();
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+ساكن فراغ prvStartFirstTask( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -329,7 +329,7 @@ static void prvStartFirstTask( void )
         /* Restore the registers from the stack of the task pointed to by
          * pxCurrentTCB. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #אם ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* The restored ulPortTaskHasDPFPUContext is to be zero here.
              * So, it is never necessary to restore the DPFPU context here. */
@@ -337,7 +337,7 @@ static void prvStartFirstTask( void )
             "MOV.L      #_ulPortTaskHasDPFPUContext, R14    \n" \
             "MOV.L      R15, [R14]                          \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #وإلاإذا ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context. */
             "DPOPM.L    DPSW-DECNT              \n" \
             "DPOPM.D    DR0-DR15                \n" \
@@ -385,9 +385,9 @@ static void prvStartFirstTask( void )
 /*-----------------------------------------------------------*/
 
 #pragma vector = VECT( ICU, SWINT )
-__interrupt void vSoftwareInterruptISR( void )
+__interrupt فراغ vSoftwareInterruptISR( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -436,7 +436,7 @@ __interrupt void vSoftwareInterruptISR( void )
         "MVFACLO    #0, A0, R15                 \n" /* Low order word. */ \
         "PUSH.L     R15                         \n"                       \
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #אם ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Does the task have a DPFPU context that needs saving?  If
              * ulPortTaskHasDPFPUContext is 0 then no. */
@@ -453,7 +453,7 @@ __interrupt void vSoftwareInterruptISR( void )
             /* Save ulPortTaskHasDPFPUContext itself. */
             "PUSH.L     R15                         \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #وإلاإذا ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Save the DPFPU context, always. */
             "DPUSHM.D   DR0-DR15                    \n" \
             "DPUSHM.L   DPSW-DECNT                  \n" \
@@ -488,7 +488,7 @@ __interrupt void vSoftwareInterruptISR( void )
         /* Restore the context of the new task.  The PSW (Program Status Word) and
          * PC will be popped by the RTE instruction. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #אם ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Is there a DPFPU context to restore?  If the restored
              * ulPortTaskHasDPFPUContext is zero then no. */
@@ -503,7 +503,7 @@ __interrupt void vSoftwareInterruptISR( void )
             "DPOPM.D    DR0-DR15                    \n" \
             "__lab2:                                \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #وإلاإذا ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context, always. */
             "DPOPM.L    DPSW-DECNT                  \n" \
             "DPOPM.D    DR0-DR15                    \n" \
@@ -546,7 +546,7 @@ __interrupt void vSoftwareInterruptISR( void )
 /*-----------------------------------------------------------*/
 
 #pragma vector = _VECT( configTICK_VECTOR )
-__interrupt void vTickISR( void )
+__interrupt فراغ vTickISR( فراغ )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -555,7 +555,7 @@ __interrupt void vTickISR( void )
      * necessitates.  Ensure IPL is at the max syscall value first. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        אם( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

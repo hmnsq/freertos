@@ -32,15 +32,15 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "wdg.h"
-#include "eic.h"
+#ضمن "wdg.h"
+#ضمن "eic.h"
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to setup the initial stack. */
 #define portINITIAL_SPSR           ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
@@ -55,7 +55,7 @@
 /*-----------------------------------------------------------*/
 
 /* Setup the watchdog to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -65,8 +65,8 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
 /* Tick interrupt routines for cooperative and preemptive operation
  * respectively.  The preemptive version is not defined as __irq as it is called
  * from an asm wrapper function. */
-__arm __irq void vPortNonPreemptiveTick( void );
-void vPortPreemptiveTick( void );
+__arm __irq فراغ vPortNonPreemptiveTick( فراغ );
+فراغ vPortPreemptiveTick( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -78,7 +78,7 @@ void vPortPreemptiveTick( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     StackType_t * pxOriginalTOS;
 
@@ -134,7 +134,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* The status register is set for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    אם( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -147,13 +147,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vPortStartFirstTask( void );
+    خارجي فراغ vPortStartFirstTask( فراغ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -163,11 +163,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    החזר 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -176,7 +176,7 @@ void vPortEndScheduler( void )
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
-__arm __irq void vPortNonPreemptiveTick( void )
+__arm __irq فراغ vPortNonPreemptiveTick( فراغ )
 {
     /* Increment the tick count - which may wake some tasks but as the
      * preemptive scheduler is not being used any woken task is not given
@@ -191,10 +191,10 @@ __arm __irq void vPortNonPreemptiveTick( void )
 
 /* This function is called from an asm wrapper, so does not require the __irq
  * keyword. */
-void vPortPreemptiveTick( void )
+فراغ vPortPreemptiveTick( فراغ )
 {
     /* Increment the tick counter. */
-    if( xTaskIncrementTick() != pdFALSE )
+    אם( xTaskIncrementTick() != pdFALSE )
     {
         /* Select a new task to execute. */
         vTaskSwitchContext();
@@ -206,7 +206,7 @@ void vPortPreemptiveTick( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     /* Set the watchdog up to generate a periodic tick. */
     WDG_ECITConfig( DISABLE );
@@ -225,7 +225,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortEnterCritical( void )
+__arm __interwork فراغ vPortEnterCritical( فراغ )
 {
     /* Disable interrupts first! */
     __disable_interrupt();
@@ -237,16 +237,16 @@ __arm __interwork void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortExitCritical( void )
+__arm __interwork فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    אם( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        אם( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

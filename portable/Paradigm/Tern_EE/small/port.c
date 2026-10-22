@@ -33,13 +33,13 @@
  *----------------------------------------------------------*/
 
 /* Library includes. */
-#include <embedded.h>
-#include <ae.h>
+#ضمن <embedded.h>
+#ضمن <ae.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "portasm.h"
 
 /* The timer increments every four clocks, hence the divide by 4. */
 #define portPRESCALE_VALUE ( 16 )
@@ -54,26 +54,26 @@
 #define portCLEAR_INTERRUPT 0x0008
 
 /* Setup the hardware to generate the required tick frequency. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#אם( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    ساكن فراغ __interrupt __far prvPreemptiveTick( فراغ );
+#אחרת
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
+    ساكن فراغ __interrupt __far prvNonPreemptiveTick( فراغ );
 #endif
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+ساكن فراغ __interrupt __far prvYieldProcessor( فراغ );
 
 /*-----------------------------------------------------------*/
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 StackType_t DS_Reg = 0;
 
@@ -129,11 +129,11 @@ StackType_t DS_Reg = 0;
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* This is called with interrupts already disabled. */
 
@@ -148,17 +148,17 @@ BaseType_t xPortStartScheduler( void )
     portFIRST_CONTEXT();
 
     /* Should not get here! */
-    return pdFALSE;
+    החזר pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
-    static void __interrupt __far prvPreemptiveTick( void )
+#אם( configUSE_PREEMPTION == 1 )
+    ساكن فراغ __interrupt __far prvPreemptiveTick( فراغ )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        אם( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
             portEND_SWITCHING_ISR();
@@ -167,8 +167,8 @@ is being used. */
         /* Reset interrupt. */
         outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#אחרת
+    ساكن فراغ __interrupt __far prvNonPreemptiveTick( فراغ )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
@@ -180,32 +180,32 @@ is being used. */
 #endif
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+ساكن فراغ __interrupt __far prvYieldProcessor( فراغ )
 {
     /* Switch in the context of the next task to be run. */
     portEND_SWITCHING_ISR();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
-const uint32_t ulCompareValue = portTIMER_COMPARE;
+ثابت uint32_t ulCompareValue = portTIMER_COMPARE;
 uint16_t usTimerCompare;
 
     usTimerCompare = ( uint16_t ) ( ulCompareValue >> 4 );
-    t2_init( portENABLE_TIMER, portPRESCALE_VALUE, NULL );
+    t2_init( portENABLE_TIMER, portPRESCALE_VALUE, عدم );
 
-    #if( configUSE_PREEMPTION == 1 )
+    #אם( configUSE_PREEMPTION == 1 )
         /* Tick service routine used by the scheduler when preemptive scheduling is
         being used. */
         t1_init( portENABLE_TIMER_AND_INTERRUPT, usTimerCompare, usTimerCompare, prvPreemptiveTick );
-    #else
+    #אחרת
         /* Tick service routine used by the scheduler when cooperative scheduling is
         being used. */
         t1_init( portENABLE_TIMER_AND_INTERRUPT, usTimerCompare, usTimerCompare, prvNonPreemptiveTick );

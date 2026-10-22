@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS או
+ * IMPLIED, INCLUDING BUT לא LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE וגם NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS או
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES או OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT או OTHERWISE, ARISING FROM, OUT OF או في
+ * CONNECTION WITH THE SOFTWARE או THE USE או OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -32,7 +32,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System نادي numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -43,23 +43,23 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     #define configRUN_FREERTOS_SECURE_ONLY 0
 #endif
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
+    خارجي pxCurrentTCB
+    خارجي vTaskSwitchContext
+    خارجي vPortSVCHandler_C
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    خارجي vSystemCallEnter
+    خارجي vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
+    عام xIsPrivileged
+    عام vResetPrivilege
+    عام vRestoreContextOfFirstTask
+    عام vRaisePrivilege
+    عام vStartFirstTask
+    عام ulSetInterruptMask
+    عام vClearInterruptMask
+    عام PendSV_Handler
+    عام SVC_Handler
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -77,8 +77,8 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
     movs r1, #1                             /* r1 = 1. */
-    tst r0, r1                              /* Perform r0 & r1 (bitwise AND) and update the conditions flag. */
-    beq running_privileged                  /* If the result of previous AND operation was 0, branch. */
+    tst r0, r1                              /* Perform r0 & r1 (bitwise וגם) and update the conditions flag. */
+    beq running_privileged                  /* If the result of previous וגם operation was 0, branch. */
     movs r0, #0                             /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     bx lr                                   /* Return. */
     running_privileged:
@@ -226,7 +226,7 @@ vStartFirstTask:
     cpsie i                                 /* Globally enable interrupts. */
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System نادي to start the first task. portSVC_START_SCHEDULER = 102. */
     nop
 /*-----------------------------------------------------------*/
 
@@ -453,4 +453,4 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-    END
+    סוף

@@ -12,27 +12,27 @@
             #define _clock_defined
         #endif
 
-        #include <xs1.h>
-        #include "rtos_support.h"
+        #ضمن <xs1.h>
+        #ضمن "rtos_support.h"
 
         #ifdef __cplusplus
-        extern "C" {
+        خارجي "C" {
         #endif
 
 /* Type definitions. */
         #define portSTACK_TYPE    uint32_t
-        typedef portSTACK_TYPE   StackType_t;
-        typedef double           portDOUBLE;
-        typedef int32_t          BaseType_t;
-        typedef uint32_t         UBaseType_t;
+        تعريفنوع portSTACK_TYPE   StackType_t;
+        تعريفنوع مزدوج           portDOUBLE;
+        تعريفنوع int32_t          BaseType_t;
+        تعريفنوع uint32_t         UBaseType_t;
 
         #define portBASE_TYPE    BaseType_t
 
-        #if ( configUSE_16_BIT_TICKS == 1 )
-            typedef uint16_t     TickType_t;
+        #אם ( configUSE_16_BIT_TICKS == 1 )
+            تعريفنوع uint16_t     TickType_t;
             #define portMAX_DELAY              ( TickType_t ) 0xffff
-        #else
-            typedef uint32_t     TickType_t;
+        #אחרת
+            تعريفنوع uint32_t     TickType_t;
             #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
@@ -71,7 +71,7 @@
     #ifndef __ASSEMBLER__
 
 /* Check validity of number of cores specified in config */
-        #if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
+        #אם ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
             #error "Invalid number of cores specified in config!"
         #endif
 
@@ -80,17 +80,17 @@
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-        #define portYIELD()    asm volatile ( "KCALLI_lu6 0" ::: "memory" )
+        #define portYIELD()    asm متطاير ( "KCALLI_lu6 0" ::: "memory" )
 
         #define portEND_SWITCHING_ISR( xSwitchRequired )               \
-    do                                                                 \
+    עשה                                                                 \
     {                                                                  \
-        if( xSwitchRequired != pdFALSE )                               \
+        אם( xSwitchRequired != pdFALSE )                               \
         {                                                              \
-            extern uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
+            خارجي uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
             ulPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;         \
         }                                                              \
-    } while( 0 )
+    } כלעוד( 0 )
 
         #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
@@ -98,7 +98,7 @@
 /* SMP utilities. */
         #define portGET_CORE_ID()      rtos_core_id_get()
 
-        void vPortYieldOtherCore( int xOtherCoreID );
+        فراغ vPortYieldOtherCore( صحيح xOtherCoreID );
         #define portYIELD_CORE( x )    vPortYieldOtherCore( x )
 /*-----------------------------------------------------------*/
 
@@ -107,7 +107,7 @@
             #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
         #endif
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #אם configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
             #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -152,34 +152,34 @@
 
         #define portASSERT_IF_IN_ISR()                    configASSERT( portCHECK_IF_IN_ISR() == 0 )
 
-        #define portGET_ISR_LOCK( xCoreID )               do{ ( void )( xCoreID ); rtos_lock_acquire( 0 ); } while( 0 )
-        #define portRELEASE_ISR_LOCK( xCoreID )           do{ ( void )( xCoreID ); rtos_lock_release( 0 ); } while( 0 )
-        #define portGET_TASK_LOCK( xCoreID )              do{ ( void )( xCoreID ); rtos_lock_acquire( 1 ); } while( 0 )
-        #define portRELEASE_TASK_LOCK( xCoreID )          do{ ( void )( xCoreID ); rtos_lock_release( 1 ); } while( 0 )
+        #define portGET_ISR_LOCK( xCoreID )               עשה{ ( فراغ )( xCoreID ); rtos_lock_acquire( 0 ); } כלעוד( 0 )
+        #define portRELEASE_ISR_LOCK( xCoreID )           עשה{ ( فراغ )( xCoreID ); rtos_lock_release( 0 ); } כלעוד( 0 )
+        #define portGET_TASK_LOCK( xCoreID )              עשה{ ( فراغ )( xCoreID ); rtos_lock_acquire( 1 ); } כלעוד( 0 )
+        #define portRELEASE_TASK_LOCK( xCoreID )          עשה{ ( فراغ )( xCoreID ); rtos_lock_release( 1 ); } כלעוד( 0 )
 
 
-        void vTaskEnterCritical( void );
-        void vTaskExitCritical( void );
+        فراغ vTaskEnterCritical( فراغ );
+        فراغ vTaskExitCritical( فراغ );
         #define portENTER_CRITICAL()    vTaskEnterCritical()
         #define portEXIT_CRITICAL()     vTaskExitCritical()
 
-        extern UBaseType_t vTaskEnterCriticalFromISR( void );
-        extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
+        خارجي UBaseType_t vTaskEnterCriticalFromISR( فراغ );
+        خارجي فراغ vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
         #define portENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
         #define portEXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
 
 /*-----------------------------------------------------------*/
 
 /* Runtime stats support */
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            int xscope_gettime( void );
+        #אם ( configGENERATE_RUN_TIME_STATS == 1 )
+            صحيح xscope_gettime( فراغ );
             #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* nothing needed here */
             #define portGET_RUN_TIME_COUNTER_VALUE()            xscope_gettime()
         #endif
 /*-----------------------------------------------------------*/
 
 /* Maps sprintf and snprintf to the lite version in lib_rtos_support */
-        #if ( configUSE_DEBUG_SPRINTF == 1 )
+        #אם ( configUSE_DEBUG_SPRINTF == 1 )
             #define sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
             #define snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
         #endif
@@ -190,16 +190,16 @@
 
 /* Timer callback function macros. For xcc this ensures they get added to the timer callback
  * group so that stack usage for certain functions in timers.c can be calculated. */
-        #define portTIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    void vFunction( TimerHandle_t xTimer )
-        #define portTIMER_CALLBACK_FUNCTION( vFunction, xTimer )          portTIMER_CALLBACK_ATTRIBUTE void vFunction( TimerHandle_t xTimer )
+        #define portTIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    فراغ vFunction( TimerHandle_t xTimer )
+        #define portTIMER_CALLBACK_FUNCTION( vFunction, xTimer )          portTIMER_CALLBACK_ATTRIBUTE فراغ vFunction( TimerHandle_t xTimer )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-        #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-        #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+        #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+        #define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
 

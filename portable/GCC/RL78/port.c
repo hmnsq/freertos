@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
@@ -55,20 +55,20 @@
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متطاير uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-__attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void );
+__attribute__( ( weak ) ) فراغ vApplicationSetupTimerInterrupt( فراغ );
 
 /*
  * Starts the scheduler by loading the context of the first task to run.
  * (defined in portasm.S).
  */
-extern void vPortStartFirstTask( void );
+خارجي فراغ vPortStartFirstTask( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -80,7 +80,7 @@ extern void vPortStartFirstTask( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     uint32_t * pulLocal;
 
@@ -134,11 +134,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack that has been generated so it
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
@@ -148,65 +148,65 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    החזר pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the RL78 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void )
+__attribute__( ( weak ) ) فراغ vApplicationSetupTimerInterrupt( فراغ )
 {
-    const uint16_t usClockHz = 15000UL; /* Internal clock. */
-    const uint16_t usCompareMatch = ( usClockHz / configTICK_RATE_HZ ) + 1UL;
+    ثابت uint16_t usClockHz = 15000UL; /* Internal clock. */
+    ثابت uint16_t usCompareMatch = ( usClockHz / configTICK_RATE_HZ ) + 1UL;
 
     /* Use the internal 15K clock. */
-    OSMC = ( unsigned char ) 0x16;
+    OSMC = ( unsigned حرف ) 0x16;
 
     #ifdef RTCEN
     {
         /* Supply the interval timer clock. */
-        RTCEN = ( unsigned char ) 1U;
+        RTCEN = ( unsigned حرف ) 1U;
 
         /* Disable INTIT interrupt. */
-        ITMK = ( unsigned char ) 1;
+        ITMK = ( unsigned حرف ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( unsigned حرف ) 0x0000;
 
         /* Clear INIT interrupt. */
-        ITIF = ( unsigned char ) 0;
+        ITIF = ( unsigned حرف ) 0;
 
         /* Set interval and enable interrupt operation. */
         ITMC = usCompareMatch | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        ITMK = ( unsigned char ) 0;
+        ITMK = ( unsigned حرف ) 0;
     }
     #endif /* ifdef RTCEN */
 
     #ifdef TMKAEN
     {
         /* Supply the interval timer clock. */
-        TMKAEN = ( unsigned char ) 1U;
+        TMKAEN = ( unsigned حرف ) 1U;
 
         /* Disable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 1;
+        TMKAMK = ( unsigned حرف ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( unsigned حرف ) 0x0000;
 
         /* Clear INIT interrupt. */
-        TMKAIF = ( unsigned char ) 0;
+        TMKAIF = ( unsigned حرف ) 0;
 
         /* Set interval and enable interrupt operation. */
         ITMC = usCompareMatch | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 0;
+        TMKAMK = ( unsigned حرف ) 0;
     }
     #endif /* ifdef TMKAEN */
 }

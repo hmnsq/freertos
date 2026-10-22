@@ -32,13 +32,13 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "xtime_l.h"
-#include "xintc.h"
-#include "xintc_i.h"
+#ضمن "xtime_l.h"
+#ضمن "xintc.h"
+#ضمن "xintc_i.h"
 
 /*-----------------------------------------------------------*/
 
@@ -47,10 +47,10 @@
 #define portEXTERNAL_INTERRUPT_ENABLE    ( 1UL << 15UL )
 #define portMACHINE_CHECK_ENABLE         ( 1UL << 12UL )
 
-#if configUSE_FPU == 1
+#אם configUSE_FPU == 1
     #define portAPU_PRESENT              ( 1UL << 25UL )
     #define portFCM_FPU_PRESENT          ( 1UL << 13UL )
-#else
+#אחרת
     #define portAPU_PRESENT              ( 0UL )
     #define portFCM_FPU_PRESENT          ( 0UL )
 #endif
@@ -58,36 +58,36 @@
 #define portINITIAL_MSR                  ( portCRITICAL_INTERRUPT_ENABLE | portEXTERNAL_INTERRUPT_ENABLE | portMACHINE_CHECK_ENABLE | portAPU_PRESENT | portFCM_FPU_PRESENT )
 
 
-extern const unsigned _SDA_BASE_;
-extern const unsigned _SDA2_BASE_;
+خارجي ثابت unsigned _SDA_BASE_;
+خارجي ثابت unsigned _SDA2_BASE_;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the system timer to generate the tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * The handler for the tick interrupt - defined in portasm.s.
  */
-extern void vPortTickISR( void );
+خارجي فراغ vPortTickISR( فراغ );
 
 /*
  * The handler for the yield function - defined in portasm.s.
  */
-extern void vPortYield( void );
+خارجي فراغ vPortYield( فراغ );
 
 /*
  * Function to start the scheduler running by starting the highest
  * priority task that has thus far been created.
  */
-extern void vPortStartFirstTask( void );
+خارجي فراغ vPortStartFirstTask( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /* Structure used to hold the state of the interrupt controller. */
-static XIntc xInterruptController;
+ساكن XIntc xInterruptController;
 
 /*-----------------------------------------------------------*/
 
@@ -99,7 +99,7 @@ static XIntc xInterruptController;
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* Place a known value at the bottom of the stack for debugging. */
     *pxTopOfStack = 0xDEADBEEF;
@@ -142,25 +142,25 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x00000000UL;                      /* Backchain. */
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     prvSetupTimerInterrupt();
-    XExc_RegisterHandler( XEXC_ID_SYSTEM_CALL, ( XExceptionHandler ) vPortYield, ( void * ) 0 );
+    XExc_RegisterHandler( XEXC_ID_SYSTEM_CALL, ( XExceptionHandler ) vPortYield, ( فراغ * ) 0 );
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    החזר pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented. */
-    for( ; ; )
+    עבור( ; ; )
     {
     }
 }
@@ -169,9 +169,9 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
-    const uint32_t ulInterval = ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL );
+    ثابت uint32_t ulInterval = ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL );
 
     XTime_PITClearInterrupt();
     XTime_FITClearInterrupt();
@@ -179,7 +179,7 @@ static void prvSetupTimerInterrupt( void )
     XTime_WDTDisableInterrupt();
     XTime_FITDisableInterrupt();
 
-    XExc_RegisterHandler( XEXC_ID_PIT_INT, ( XExceptionHandler ) vPortTickISR, ( void * ) 0 );
+    XExc_RegisterHandler( XEXC_ID_PIT_INT, ( XExceptionHandler ) vPortTickISR, ( فراغ * ) 0 );
 
     XTime_PITEnableAutoReload();
     XTime_PITSetInterval( ulInterval );
@@ -187,7 +187,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortISRHandler( void * pvNullDoNotUse )
+فراغ vPortISRHandler( فراغ * pvNullDoNotUse )
 {
     uint32_t ulInterruptStatus, ulInterruptMask = 1UL;
     BaseType_t xInterruptNumber;
@@ -195,7 +195,7 @@ void vPortISRHandler( void * pvNullDoNotUse )
     XIntc_VectorTableEntry * pxTable;
 
     /* Just to remove compiler warning. */
-    ( void ) pvNullDoNotUse;
+    ( فراغ ) pvNullDoNotUse;
 
     /* Get the configuration by using the device ID - in this case it is
      * assumed that only one interrupt controller is being used. */
@@ -204,9 +204,9 @@ void vPortISRHandler( void * pvNullDoNotUse )
     /* Which interrupts are pending? */
     ulInterruptStatus = XIntc_mGetIntrStatus( pxInterruptController->BaseAddress );
 
-    for( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
+    עבור( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
     {
-        if( ulInterruptStatus & 0x01UL )
+        אם( ulInterruptStatus & 0x01UL )
         {
             /* Clear the pending interrupt. */
             XIntc_mAckIntr( pxInterruptController->BaseAddress, ulInterruptMask );
@@ -221,17 +221,17 @@ void vPortISRHandler( void * pvNullDoNotUse )
         ulInterruptStatus >>= 0x01UL;
 
         /* Have we serviced all interrupts? */
-        if( ulInterruptStatus == 0UL )
+        אם( ulInterruptStatus == 0UL )
         {
-            break;
+            اكسر;
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetupInterruptController( void )
+فراغ vPortSetupInterruptController( فراغ )
 {
-    extern void vPortISRWrapper( void );
+    خارجي فراغ vPortISRWrapper( فراغ );
 
     /* Perform all library calls necessary to initialise the exception table
      * and interrupt controller.  This assumes only one interrupt controller is in
@@ -242,7 +242,7 @@ void vPortSetupInterruptController( void )
     /* The library functions save the context - we then jump to a wrapper to
      * save the stack into the TCB.  The wrapper then calls the handler defined
      * above. */
-    XExc_RegisterHandler( XEXC_ID_NON_CRITICAL_INT, ( XExceptionHandler ) vPortISRWrapper, NULL );
+    XExc_RegisterHandler( XEXC_ID_NON_CRITICAL_INT, ( XExceptionHandler ) vPortISRWrapper, عدم );
     XIntc_Initialize( &xInterruptController, XPAR_XPS_INTC_0_DEVICE_ID );
     XIntc_Start( &xInterruptController, XIN_REAL_MODE );
 }
@@ -250,18 +250,18 @@ void vPortSetupInterruptController( void )
 
 BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef )
+                                         فراغ * pvCallBackRef )
 {
     BaseType_t xReturn = pdFAIL;
 
     /* This function is defined here so the scope of xInterruptController can
      * remain within this file. */
 
-    if( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
+    אם( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
     {
         XIntc_Enable( &xInterruptController, ucInterruptID );
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    החזר xReturn;
 }

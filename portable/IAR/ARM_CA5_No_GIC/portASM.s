@@ -26,17 +26,17 @@
 ; *
 ; */
 
-    INCLUDE FreeRTOSConfig.h
-    INCLUDE portmacro.h
+    ضمن FreeRTOSConfig.h
+    ضمن portmacro.h
 
-    EXTERN  vTaskSwitchContext
-    EXTERN  ulPortYieldRequired
-    EXTERN  ulPortInterruptNesting
-    EXTERN  vApplicationIRQHandler
+    خارجي  vTaskSwitchContext
+    خارجي  ulPortYieldRequired
+    خارجي  ulPortInterruptNesting
+    خارجي  vApplicationIRQHandler
 
-    PUBLIC  FreeRTOS_SWI_Handler
-    PUBLIC  FreeRTOS_IRQ_Handler
-    PUBLIC  vPortRestoreTaskContext
+    عام  FreeRTOS_SWI_Handler
+    عام  FreeRTOS_IRQ_Handler
+    عام  vPortRestoreTaskContext
 
 SYS_MODE            EQU     0x1f
 SVC_MODE            EQU     0x13
@@ -45,7 +45,7 @@ IRQ_MODE            EQU     0x12
     SECTION .text:CODE:ROOT(2)
     ARM
 
-    INCLUDE portASM.h
+    ضمن portASM.h
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; SVC handler is used to yield a task.
@@ -103,7 +103,7 @@ FreeRTOS_IRQ_Handler
     ; Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     ; future use.
     MOV     r2, sp
-    AND     r2, r2, #4
+    וגם     r2, r2, #4
     SUB     sp, sp, r2
 
     PUSH    {r0-r4, lr}
@@ -170,4 +170,4 @@ switch_before_exit
     ; Restore the context of, and branch to, the task selected to execute next.
     portRESTORE_CONTEXT
 
-    END
+    סוף

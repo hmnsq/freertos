@@ -53,19 +53,19 @@
 #define XTENSA_RTOS_H
 
 #ifdef __ASSEMBLER__
-    #include    <xtensa/coreasm.h>
-#else
-    #include    <xtensa/config/core.h>
+    #ضمن    <xtensa/coreasm.h>
+#אחרת
+    #ضمن    <xtensa/config/core.h>
 #endif
 
-#include    <xtensa/corebits.h>
-#include    <xtensa/config/system.h>
-#include    "sdkconfig.h"
+#ضمن    <xtensa/corebits.h>
+#ضمن    <xtensa/config/system.h>
+#ضمن    "sdkconfig.h"
 
 /*
  * Include any RTOS specific definitions that are needed by this header.
  */
-#include    "FreeRTOSConfig.h"
+#ضمن    "FreeRTOSConfig.h"
 
 /*
  * Convert FreeRTOSConfig definitions to XTENSA definitions.
@@ -73,30 +73,30 @@
  */
 
 #ifndef XT_SIMULATOR
-    #if configXT_SIMULATOR
+    #אם configXT_SIMULATOR
         #define XT_SIMULATOR    1       /* Simulator mode */
     #endif
 #endif
 
 #ifndef XT_BOARD
-    #if configXT_BOARD
+    #אם configXT_BOARD
         #define XT_BOARD    1           /* Board mode */
     #endif
 #endif
 
 #ifndef XT_TIMER_INDEX
-    #if defined configXT_TIMER_INDEX
+    #אם defined configXT_TIMER_INDEX
         #define XT_TIMER_INDEX    configXT_TIMER_INDEX     /* Index of hardware timer to be used */
     #endif
 #endif
 
 #ifndef XT_INTEXC_HOOKS
-    #if configXT_INTEXC_HOOKS
+    #אם configXT_INTEXC_HOOKS
         #define XT_INTEXC_HOOKS    1    /* Enables exception hooks */
     #endif
 #endif
 
-#if !defined( XT_SIMULATOR ) && !defined( XT_BOARD )
+#אם !defined( XT_SIMULATOR ) && !defined( XT_BOARD )
     #error Either XT_SIMULATOR or XT_BOARD must be defined.
 #endif
 
@@ -111,7 +111,7 @@
  * Error messages can be customize to the RTOS port.
  */
 
-#if !XCHAL_HAVE_XEA2
+#אם !XCHAL_HAVE_XEA2
     #error "FreeRTOS/Xtensa requires XEA2 (exception architecture 2)."
 #endif
 
@@ -211,8 +211,8 @@
 #define XT_INTEXC_HOOK_NUM    ( 1 + XCHAL_NUM_INTLEVELS + XCHAL_HAVE_NMI )
 
 #ifndef __ASSEMBLER__
-    typedef unsigned (* XT_INTEXC_HOOK)( unsigned cause );
-    extern volatile XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_NUM ];
+    تعريفنوع unsigned (* XT_INTEXC_HOOK)( unsigned cause );
+    خارجي متطاير XT_INTEXC_HOOK _xt_intexc_hooks[ XT_INTEXC_HOOK_NUM ];
 #endif
 
 
@@ -225,10 +225,10 @@
 *
 *******************************************************************************/
 
-#include    "xtensa_context.h"
+#ضمن    "xtensa_context.h"
 
 #ifdef XT_RTOS_TIMER_INT
-    #include    "xtensa_timer.h"
+    #ضمن    "xtensa_timer.h"
 #endif
 
 

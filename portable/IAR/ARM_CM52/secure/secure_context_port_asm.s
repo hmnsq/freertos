@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS או
+ * IMPLIED, INCLUDING BUT לא LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE וגם NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS או
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES או OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT או OTHERWISE, ARISING FROM, OUT OF או في
+ * CONNECTION WITH THE SOFTWARE או THE USE או OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -36,8 +36,8 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-    PUBLIC SecureContext_LoadContextAsm
-    PUBLIC SecureContext_SaveContextAsm
+    عام SecureContext_LoadContextAsm
+    عام SecureContext_SaveContextAsm
 /*-----------------------------------------------------------*/
 
 SecureContext_LoadContextAsm:
@@ -83,4 +83,4 @@ SecureContext_SaveContextAsm:
         bx lr
 /*-----------------------------------------------------------*/
 
-    END
+    סוף

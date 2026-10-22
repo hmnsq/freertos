@@ -27,8 +27,8 @@
  */
 
 /* FreeRTOS includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------*/
 
@@ -38,17 +38,17 @@ uint32_t ulCriticalNesting = 9999;
 /*-----------------------------------------------------------*/
 
 /* Registers required to configure the RTI. */
-#define portRTI_GCTRL_REG       ( * ( ( volatile uint32_t * ) 0xFFFFFC00 ) )
-#define portRTI_TBCTRL_REG      ( * ( ( volatile uint32_t * ) 0xFFFFFC04 ) )
-#define portRTI_COMPCTRL_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC0C ) )
-#define portRTI_CNT0_FRC0_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC10 ) )
-#define portRTI_CNT0_UC0_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC14 ) )
-#define portRTI_CNT0_CPUC0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC18 ) )
-#define portRTI_CNT0_COMP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC50 ) )
-#define portRTI_CNT0_UDCP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC54 ) )
-#define portRTI_SETINTENA_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC80 ) )
-#define portRTI_CLEARINTENA_REG ( * ( ( volatile uint32_t * ) 0xFFFFFC84 ) )
-#define portRTI_INTFLAG_REG     ( * ( ( volatile uint32_t * ) 0xFFFFFC88 ) )
+#define portRTI_GCTRL_REG       ( * ( ( متطاير uint32_t * ) 0xFFFFFC00 ) )
+#define portRTI_TBCTRL_REG      ( * ( ( متطاير uint32_t * ) 0xFFFFFC04 ) )
+#define portRTI_COMPCTRL_REG    ( * ( ( متطاير uint32_t * ) 0xFFFFFC0C ) )
+#define portRTI_CNT0_FRC0_REG   ( * ( ( متطاير uint32_t * ) 0xFFFFFC10 ) )
+#define portRTI_CNT0_UC0_REG    ( * ( ( متطاير uint32_t * ) 0xFFFFFC14 ) )
+#define portRTI_CNT0_CPUC0_REG  ( * ( ( متطاير uint32_t * ) 0xFFFFFC18 ) )
+#define portRTI_CNT0_COMP0_REG  ( * ( ( متطاير uint32_t * ) 0xFFFFFC50 ) )
+#define portRTI_CNT0_UDCP0_REG  ( * ( ( متطاير uint32_t * ) 0xFFFFFC54 ) )
+#define portRTI_SETINTENA_REG   ( * ( ( متطاير uint32_t * ) 0xFFFFFC80 ) )
+#define portRTI_CLEARINTENA_REG ( * ( ( متطاير uint32_t * ) 0xFFFFFC84 ) )
+#define portRTI_INTFLAG_REG     ( * ( ( متطاير uint32_t * ) 0xFFFFFC88 ) )
 
 
 /* Constants required to set up the initial stack of each task. */
@@ -64,7 +64,7 @@ R0 (in which the parameters are passed. */
 /*-----------------------------------------------------------*/
 
 /* vPortStartFirstSTask() is defined in portASM.asm */
-extern void vPortStartFirstTask( void );
+خارجي فراغ vPortStartFirstTask( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -78,13 +78,13 @@ uint32_t ulTaskHasFPUContext = 0;
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 StackType_t *pxOriginalTOS;
 
     pxOriginalTOS = pxTopOfStack;
 
-    #if __TI_VFP_SUPPORT__
+    #אם __TI_VFP_SUPPORT__
     {
         /* Ensure the stack is correctly aligned on exit. */
         pxTopOfStack--;
@@ -132,7 +132,7 @@ StackType_t *pxOriginalTOS;
         *pxTopOfStack = ( StackType_t ) 0x01010101; /* R1 */
         pxTopOfStack--;
     }
-    #else
+    #אחרת
     {
         pxTopOfStack -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
     }
@@ -145,7 +145,7 @@ StackType_t *pxOriginalTOS;
     /* Set the status register for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    אם( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* The task will start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -162,11 +162,11 @@ StackType_t *pxOriginalTOS;
     }
     #endif
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt(void)
+ساكن فراغ prvSetupTimerInterrupt(فراغ)
 {
     /* Disable timer 0. */
     portRTI_GCTRL_REG &= 0xFFFFFFFEUL;
@@ -199,7 +199,7 @@ static void prvSetupTimerInterrupt(void)
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler(void)
+BaseType_t xPortStartScheduler(فراغ)
 {
     /* Start the timer that generates the tick ISR. */
     prvSetupTimerInterrupt();
@@ -212,14 +212,14 @@ BaseType_t xPortStartScheduler(void)
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return pdFAIL;
+    החזר pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-void vPortEndScheduler(void)
+فراغ vPortEndScheduler(فراغ)
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
@@ -227,11 +227,11 @@ void vPortEndScheduler(void)
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#אם configUSE_PREEMPTION == 0
 
     /* The cooperative scheduler requires a normal IRQ service routine to
      * simply increment the system tick. */
-    __interrupt void vPortNonPreemptiveTick( void )
+    __interrupt فراغ vPortNonPreemptiveTick( فراغ )
     {
         /* clear clock interrupt flag */
         portRTI_INTFLAG_REG = 0x00000001;
@@ -241,7 +241,7 @@ void vPortEndScheduler(void)
         xTaskIncrementTick();
     }
 
- #else
+ #אחרת
 
     /*
      **************************************************************************
@@ -250,7 +250,7 @@ void vPortEndScheduler(void)
      * is set to 1 in portmacro.h
      **************************************************************************
      */
-    void vPortPreemptiveTick( void );
+    فراغ vPortPreemptiveTick( فراغ );
 
 #endif
 /*-----------------------------------------------------------*/
@@ -259,7 +259,7 @@ void vPortEndScheduler(void)
 /*
  * Disable interrupts, and keep a count of the nesting depth.
  */
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS(); */
     portDISABLE_INTERRUPTS();
@@ -275,16 +275,16 @@ void vPortEnterCritical( void )
  * Decrement the critical nesting count, and if it has reached zero, re-enable
  * interrupts.
  */
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > 0 )
+    אם( ulCriticalNesting > 0 )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
         re-enabled. */
-        if( ulCriticalNesting == 0 )
+        אם( ulCriticalNesting == 0 )
         {
             /* Enable interrupts as per portENABLE_INTERRUPTS(). */
             portENABLE_INTERRUPTS();
@@ -293,11 +293,11 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-#if __TI_VFP_SUPPORT__
+#אם __TI_VFP_SUPPORT__
 
-    void vPortTaskUsesFPU( void )
+    فراغ vPortTaskUsesFPU( فراغ )
     {
-    extern void vPortInitialiseFPSCR( void );
+    خارجي فراغ vPortInitialiseFPSCR( فراغ );
 
         /* A task is registering the fact that it needs an FPU context.  Set the
         FPU flag (saved as part of the task context. */

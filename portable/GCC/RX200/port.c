@@ -31,20 +31,20 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ضمن "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#אם ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #ضمن "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#אחרת /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #ضمن "iodefine.h"
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -60,8 +60,8 @@
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm متطاير ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm متطاير ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
 
 /*-----------------------------------------------------------*/
 
@@ -69,7 +69,7 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+ساكن فراغ prvStartFirstTask( فراغ ) __attribute__( ( naked ) );
 
 
 /*
@@ -77,14 +77,14 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#אם ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_ATTRIB_INTERRUPT فراغ vSoftwareInterruptISR( فراغ ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#אחרת /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    فراغ vSoftwareInterruptISR( فراغ ) __attribute__( ( naked ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
@@ -92,20 +92,20 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#אם ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_ATTRIB_INTERRUPT فراغ vTickISR( فراغ ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#אחרת /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vTickISR( void ) __attribute__( ( interrupt ) );
+    فراغ vTickISR( فراغ ) __attribute__( ( interrupt ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+خارجي فراغ * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -114,7 +114,7 @@ extern void * pxCurrentTCB;
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
@@ -159,7 +159,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #אחרת /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         pxTopOfStack -= 15;
     }
@@ -181,16 +181,16 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    خارجي فراغ vApplicationSetupTimerInterrupt( فراغ );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    אם( pxCurrentTCB != عدم )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -211,21 +211,21 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    החזר pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == عدم );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+ساكن فراغ prvStartFirstTask( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -283,9 +283,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+فراغ vSoftwareInterruptISR( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -397,16 +397,16 @@ void vSoftwareInterruptISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vTickISR( void )
+فراغ vTickISR( فراغ )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW I" );
+    __asm متطاير ( "SETPSW I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portMASK_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        אם( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -415,9 +415,9 @@ void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ulPortGetIPL( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -425,13 +425,13 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    החזר 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+فراغ vPortSetIPL( uint32_t ulNewIPL )
 {
-    __asm volatile
+    __asm متطاير
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \

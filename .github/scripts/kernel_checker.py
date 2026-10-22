@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+استورد os
+استورد re
+من common.header_checker استورد HeaderChecker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -166,7 +166,7 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
+מחלקה KernelHeaderChecker(HeaderChecker):
     def __init__(
         self,
         header,
@@ -179,33 +179,33 @@ class KernelHeaderChecker(HeaderChecker):
         third_party_patterns=None,
         copyright_regex = None
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
+        أعلى().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
                          py_ext, asm_ext, third_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
         self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
+        עבור pattern في KERNEL_ARM_COLLAB_FILES_PATTERNS:
             self.armCollabFilesPatternList.append(re.compile(pattern))
 
     def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+        עבור pattern في self.armCollabFilesPatternList:
+            אם pattern.match(path):
+                החזר אמת
+        החזר שקר
 
     def checkArmCollabFile(self, path):
-        isValid = False
+        isValid = שקר
         file_ext = os.path.splitext(path)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
+        with open(path, encoding="utf-8", errors="ignore") كـ file:
+            chunk = file.اقرأ(len("".join(self.header)) + self.padding)
+            lines = [("%s\n" % line) עבור line في chunk.strip().splitlines()][
                 : len(self.header) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
+            אם (len(lines) > 0) וגם (lines[0].find("#!") == 0):
                 lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
+            אם (len(lines) > 0) וגם (len(lines[-1].strip()) == 0):
                 lines.remove(lines[-1])
 
         # Split lines in sections.
@@ -213,29 +213,29 @@ class KernelHeaderChecker(HeaderChecker):
         headers["text"] = []
         headers["copyright"] = []
         headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
+        עבור line في lines:
+            אם self.armCollabRegex.match(line):
                 headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
+            وإلاإذا "SPDX-License-Identifier:" في line:
                 headers["spdx"].append(line)
-            else:
+            אחרת:
                 headers["text"].append(line)
 
         text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
         spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
 
-        if text_equal and spdx_equal:
+        אם text_equal וגם spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            אם len(headers["copyright"]) == 3 או len(headers["copyright"]) == 2:
+                isValid = אמת
 
-        return isValid
+        החזר isValid
 
     def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
+        isValid = שקר
+        אם self.isArmCollabFile(path):
             isValid = self.checkArmCollabFile(path)
-        return isValid
+        החזר isValid
 
 
 def main():
@@ -254,10 +254,10 @@ def main():
     checker.ignoreFile(os.path.split(__file__)[-1])
 
     rc = checker.processArgs(args)
-    if rc:
+    אם rc:
         checker.showHelp(__file__)
 
-    return rc
+    החזר rc
 
-if __name__ == '__main__':
+אם __name__ == '__main__':
     exit(main())

@@ -27,8 +27,8 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 
 #define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
@@ -42,16 +42,16 @@
 /* The clock frequency into the RTC. */
 #define portRTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
 
-asm void interrupt VectorNumber_VL1swi vPortYieldISR( void );
-static void prvSetupTimerInterrupt( void );
+asm فراغ interrupt VectorNumber_VL1swi vPortYieldISR( فراغ );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ساكن uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 
 uint32_t ulOriginalA5;
@@ -78,13 +78,13 @@ uint32_t ulOriginalA5;
     /* A5 must be maintained as it is reserved by the compiler. */
     *( pxTopOfStack + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-extern void vPortStartFirstTask( void );
+خارجي فراغ vPortStartFirstTask( فراغ );
 
     ulCriticalNesting = 0UL;
 
@@ -94,11 +94,11 @@ extern void vPortStartFirstTask( void );
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    החזר pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     /* Prescale by 1 - ie no prescale. */
     RTCSC |= 8;
@@ -112,45 +112,45 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
-    if( ulCriticalNesting == 0UL )
+    אם( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        עשה
         {
             portDISABLE_INTERRUPTS();
-            if( INTC_FRC == 0UL )
+            אם( INTC_FRC == 0UL )
             {
-                break;
+                اكسر;
             }
 
             portENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } כלעוד( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    אם( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+فراغ vPortYieldHandler( فراغ )
 {
 uint32_t ulSavedInterruptMask;
 
@@ -164,7 +164,7 @@ uint32_t ulSavedInterruptMask;
 }
 /*-----------------------------------------------------------*/
 
-void interrupt VectorNumber_Vrtc vPortTickISR( void )
+فراغ interrupt VectorNumber_Vrtc vPortTickISR( فراغ )
 {
 uint32_t ulSavedInterruptMask;
 
@@ -174,7 +174,7 @@ uint32_t ulSavedInterruptMask;
     /* Increment the RTOS tick. */
     ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        אם( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

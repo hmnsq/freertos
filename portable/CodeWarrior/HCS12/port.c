@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 
 /*-----------------------------------------------------------
@@ -40,23 +40,23 @@
  * Configure a timer to generate the RTOS tick at the frequency specified
  * within FreeRTOSConfig.h.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /* Interrupt service routines have to be in non-banked memory - as does the
 scheduler startup function. */
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 
     /* Manual context switch function.  This is the SWI ISR. */
-    void interrupt vPortYield( void );
+    فراغ interrupt vPortYield( فراغ );
 
     /* Tick context switch function.  This is the timer ISR. */
-    void interrupt vPortTickInterrupt( void );
+    فراغ interrupt vPortTickInterrupt( فراغ );
 
     /* Simply called by xPortStartScheduler().  xPortStartScheduler() does not
     start the scheduler directly because the header file containing the
     xPortStartScheduler() prototype is part of the common kernel code, and
     therefore cannot use the CODE_SEG pragma. */
-    static BaseType_t xBankedStartScheduler( void );
+    ساكن BaseType_t xBankedStartScheduler( فراغ );
 
 #pragma CODE_SEG DEFAULT
 
@@ -66,14 +66,14 @@ until the nesting depth reaches 0.  This variable simply tracks the nesting
 depth.  Each task maintains its own critical nesting depth variable so
 uxCriticalNesting is saved and restored from the task stack during a context
 switch. */
-volatile UBaseType_t uxCriticalNesting = 0xff;
+متطاير UBaseType_t uxCriticalNesting = 0xff;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -129,7 +129,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
     #ifdef BANKED_MODEL
         /* The page of the task. */
-        *pxTopOfStack = ( StackType_t ) ( ( int ) pxCode );
+        *pxTopOfStack = ( StackType_t ) ( ( صحيح ) pxCode );
         pxTopOfStack--;
     #endif
 
@@ -137,24 +137,24 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     a critical section). */
     *pxTopOfStack = ( StackType_t ) 0x00;
 
-    return pxTopOfStack;
+    החזר pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the HCS12 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     TickTimer_SetFreqHz( configTICK_RATE_HZ );
     TickTimer_Enable();
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* xPortStartScheduler() does not start the scheduler directly because
     the header file containing the xPortStartScheduler() prototype is part
@@ -162,13 +162,13 @@ BaseType_t xPortStartScheduler( void )
     Instead it simply calls the locally defined xBankedStartScheduler() -
     which does use the CODE_SEG pragma. */
 
-    return xBankedStartScheduler();
+    החזר xBankedStartScheduler();
 }
 /*-----------------------------------------------------------*/
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 
-static BaseType_t xBankedStartScheduler( void )
+ساكن BaseType_t xBankedStartScheduler( فراغ )
 {
     /* Configure the timer that will generate the RTOS tick.  Interrupts are
     disabled when this function is called. */
@@ -181,7 +181,7 @@ static BaseType_t xBankedStartScheduler( void )
     __asm( "rti" );
 
     /* Should not get here! */
-    return pdFALSE;
+    החזר pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -193,7 +193,7 @@ static BaseType_t xBankedStartScheduler( void )
  * Manual context switch forced by calling portYIELD().  This is the SWI
  * handler.
  */
-void interrupt vPortYield( void )
+فراغ interrupt vPortYield( فراغ )
 {
     portSAVE_CONTEXT();
     vTaskSwitchContext();
@@ -206,15 +206,15 @@ void interrupt vPortYield( void )
  * being used then this simply increments the tick count.  If the
  * preemptive scheduler is being used a context switch can occur.
  */
-void interrupt vPortTickInterrupt( void )
+فراغ interrupt vPortTickInterrupt( فراغ )
 {
-    #if configUSE_PREEMPTION == 1
+    #אם configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        אם( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -225,7 +225,7 @@ void interrupt vPortTickInterrupt( void )
         to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else
+    #אחרת
     {
         xTaskIncrementTick();
         TFLG1 = 1;
