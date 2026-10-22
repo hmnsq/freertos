@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    बाह्य "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,36 +46,36 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#define portCHAR          वर्ण
+#define portFLOAT         भिन्न
+#define portDOUBLE        द्विगुण
+#define portLONG          दीर्घ
+#define portSHORT         लघु
+#define port_ढेर_TYPE    uint32_t
+#define portBASE_TYPE     दीर्घ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+प्रकारनिर्देश port_ढेर_TYPE   ढेर_Type_t;
+प्रकारनिर्देश दीर्घ             BaseType_t;
+प्रकारनिर्देश अचिन्हित दीर्घ    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    प्रकारनिर्देश uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#नोचेद्यदि ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    प्रकारनिर्देश uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#अन्यथा
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_ढेर_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 
@@ -86,9 +86,9 @@ typedef unsigned long    UBaseType_t;
 /* Called at the end of an ISR that can cause a context switch. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint32_t ulPortYieldRequired;     \
+        बाह्य uint32_t ulPortYieldRequired;     \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        यदि( xSwitchRequired != pdFALSE )         \
         {                                        \
             ulPortYieldRequired = pdTRUE;        \
         }                                        \
@@ -102,10 +102,10 @@ typedef unsigned long    UBaseType_t;
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+बाह्य शून्य vPortEnterCritical( शून्य );
+बाह्य शून्य vPortExitCritical( शून्य );
+बाह्य uint32_t ulPortSetInterruptMask( शून्य );
+बाह्य शून्य vPortClearInterruptMask( uint32_t ul_New_Mask_मूल्य );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
@@ -121,16 +121,16 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    शून्य vFunction( शून्य * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          शून्य vFunction( शून्य * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+शून्य FreeRTOS_Tick_Handler( शून्य );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-void vPortTaskUsesFPU( void );
+शून्य vPortTaskUsesFPU( शून्य );
 #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 
 #define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
@@ -141,7 +141,7 @@ void vPortTaskUsesFPU( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#यदि configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -149,12 +149,12 @@ void vPortTaskUsesFPU( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __clz( uxReadyPriorities ) )
+    #define portGET_HIGHEST_PRIORITY( ux_शीर्ष_Priority, uxReadyPriorities )    ux_शीर्ष_Priority = ( 31 - __clz( uxReadyPriorities ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
+#यदि ( configASSERT_DEFINED == 1 )
+    शून्य vPortValidateInterruptPriority( शून्य );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
 
