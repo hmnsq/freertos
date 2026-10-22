@@ -46,7 +46,7 @@ not the MCLK. */
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each
 time a critical section is entered the count is incremented.  Each time a
@@ -56,7 +56,7 @@ being re-enabled if the count is zero.
 usCriticalNesting will get set to zero when the scheduler starts, but must
 not be initialised to zero as this will cause problems during the startup
 sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+ca_ncala uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 
@@ -92,13 +92,13 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Data types are need either 16 bits or 32 bits depending on the data
     and code model used. */
-    if( sizeof( pxCode ) == sizeof( uint16_t ) )
+    གལ་ཏེ( parimaa_na( pxCode ) == parimaa_na( uint16_t ) )
     {
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
         ulTemp = ( uint32_t ) pxCode;
         *pusTopOfStack = ( uint16_t ) ulTemp;
     }
-    else
+    དེ་མིན
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
@@ -109,7 +109,7 @@ uint32_t *pulTopOfStack, ulTemp;
 
     pusTopOfStack--;
     *pusTopOfStack = portFLAGS_INT_ENABLED;
-    pusTopOfStack -= ( sizeof( StackType_t ) / 2 );
+    pusTopOfStack -= ( parimaa_na( StackType_t ) / 2 );
 
     /* From here on the size of stacked items depends on the memory model. */
     pxTopOfStack = ( StackType_t * ) pusTopOfStack;
@@ -140,7 +140,7 @@ uint32_t *pulTopOfStack, ulTemp;
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x4444;
         pxTopOfStack--;
-    #else
+    #དེ་མིན
         pxTopOfStack -= 3;
         *pxTopOfStack = ( StackType_t ) pvParameters;
         pxTopOfStack -= 9;
@@ -153,7 +153,7 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ཕྱིར pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -179,10 +179,10 @@ interrupt void vTickISREntry( void )
 extern void vPortTickISR( void );
 
     __bic_SR_register_on_exit( SCG1 + SCG0 + OSCOFF + CPUOFF );
-    #if configUSE_PREEMPTION == 1
+    #གལ་ཏེ configUSE_PREEMPTION == 1
         extern void vPortPreemptiveTickISR( void );
         vPortPreemptiveTickISR();
-    #else
+    #དེ་མིན
         extern void vPortCooperativeTickISR( void );
         vPortCooperativeTickISR();
     #endif

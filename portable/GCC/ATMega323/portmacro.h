@@ -53,50 +53,50 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
+#define portCHAR                 var_na
 #define portFLOAT                float
-#define portDOUBLE               double
+#define portDOUBLE               dviguu_na
 #define portLONG                 long
-#define portSHORT                int
+#define portSHORT                ཧྲིལ
 #define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#define portBASE_TYPE            var_na
 
 #define portPOINTER_SIZE_TYPE    uint16_t
 
 typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+typedef signed var_na      BaseType_t;
+typedef unsigned var_na    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#གལ་ཏེ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#དེ་མིན
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 #define portENTER_CRITICAL()                            \
-    asm volatile ( "in      __tmp_reg__, __SREG__" ::); \
-    asm volatile ( "cli" ::);                           \
-    asm volatile ( "push    __tmp_reg__" ::)
+    asm ca_ncala ( "in      __tmp_reg__, __SREG__" ::); \
+    asm ca_ncala ( "cli" ::);                           \
+    asm ca_ncala ( "push    __tmp_reg__" ::)
 
 #define portEXIT_CRITICAL()                   \
-    asm volatile ( "pop     __tmp_reg__" ::); \
-    asm volatile ( "out     __SREG__, __tmp_reg__" ::)
+    asm ca_ncala ( "pop     __tmp_reg__" ::); \
+    asm ca_ncala ( "out     __SREG__, __tmp_reg__" ::)
 
-#define portDISABLE_INTERRUPTS()    asm volatile ( "cli" ::);
-#define portENABLE_INTERRUPTS()     asm volatile ( "sei" ::);
+#define portDISABLE_INTERRUPTS()    asm ca_ncala ( "cli" ::);
+#define portENABLE_INTERRUPTS()     asm ca_ncala ( "sei" ::);
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
 #define portSTACK_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    1
-#define portNOP()    asm volatile ( "nop" );
+#define portNOP()    asm ca_ncala ( "nop" );
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */

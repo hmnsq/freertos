@@ -51,7 +51,7 @@ portSAVE_CONTEXT macro
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating point context, གལ་ཏེ any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
     VPUSHNE {D16-D31}
@@ -83,7 +83,7 @@ portRESTORE_CONTEXT macro
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating point context, གལ་ཏེ any
     POPNE   {R0}
     VPOPNE  {D16-D31}
     VPOPNE  {D0-D15}
@@ -94,7 +94,7 @@ portRESTORE_CONTEXT macro
     POP     {R1}
     STR     R1, [R0]
 
-    ; Ensure the priority mask is correct for the critical nesting depth
+    ; Ensure the priority mask is correct ཆེད་དུ the critical nesting depth
     LDR     R2, =portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS
     CMP     R1, #0
     MOVEQ   R4, #255

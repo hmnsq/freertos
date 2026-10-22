@@ -33,22 +33,22 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#གལ་ཏེ ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #གལ་ཏེ ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configISR_STACK_SIZE < ( configMINIMAL_STACK_SIZE * 2 ) )
+#གལ་ཏེ ( configISR_STACK_SIZE < ( configMINIMAL_STACK_SIZE * 2 ) )
     #warning configISR_STACK_SIZE is probably too small!
 #endif /* ( configISR_STACK_SIZE < configMINIMAL_STACK_SIZE * 2 ) */
 
-#if ( ( configMAX_API_CALL_INTERRUPT_PRIORITY > portMAX_PRIORITY ) || ( configMAX_API_CALL_INTERRUPT_PRIORITY < 2 ) )
+#གལ་ཏེ ( ( configMAX_API_CALL_INTERRUPT_PRIORITY > portMAX_PRIORITY ) || ( configMAX_API_CALL_INTERRUPT_PRIORITY < 2 ) )
     #error configMAX_API_CALL_INTERRUPT_PRIORITY must be between 2 and 15
 #endif
 
-#if ( ( configSUPPORT_FPU == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 0 ) )
+#གལ་ཏེ ( ( configSUPPORT_FPU == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 0 ) )
     #error configSUPPORT_DYNAMIC_ALLOCATION must be set to 1 to use this port with an FPU
 #endif
 
@@ -140,11 +140,11 @@ static BaseType_t prvCheckValidityOfVectorNumber( uint32_t ulVectorNumber );
  * variable must be initialised to a non zero value to ensure interrupts don't
  * inadvertently become unmasked before the scheduler starts. It is set to zero
  * before the first task starts executing. */
-volatile uint32_t ulCriticalNesting = 9999UL;
+ca_ncala uint32_t ulCriticalNesting = 9999UL;
 
 /* A structure used to map the various fields of an IDT entry into separate
  * structure members. */
-struct IDTEntry
+sa_nracanaa IDTEntry
 {
     uint16_t usISRLow;          /* Low 16 bits of handler address. */
     uint16_t usSegmentSelector; /* Flat model means this is not changed. */
@@ -153,22 +153,22 @@ struct IDTEntry
     uint16_t usISRHigh;         /* High 16 bits of handler address. */
 }
 __attribute__( ( packed ) );
-typedef struct IDTEntry IDTEntry_t;
+typedef sa_nracanaa IDTEntry IDTEntry_t;
 
 
 /* Use to pass the location of the IDT to the CPU. */
-struct IDTPointer
+sa_nracanaa IDTPointer
 {
     uint16_t usTableLimit;
     uint32_t ulTableBase; /* The address of the first entry in xInterruptDescriptorTable. */
 }
 __attribute__( ( __packed__ ) );
-typedef struct IDTPointer IDTPointer_t;
+typedef sa_nracanaa IDTPointer IDTPointer_t;
 
 /* The IDT itself. */
 static __attribute__( ( aligned( 32 ) ) ) IDTEntry_t xInterruptDescriptorTable[ portNUM_VECTORS ];
 
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+#གལ་ཏེ ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
 
 /* A table in which application defined interrupt handlers are stored.  These
  * are called by the central interrupt handler if a common interrupt entry
@@ -177,7 +177,7 @@ static ISR_Handler_t xInterruptHandlerTable[ portNUM_VECTORS ] = { NULL };
 
 #endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
 
-#if ( configSUPPORT_FPU == 1 )
+#གལ་ཏེ ( configSUPPORT_FPU == 1 )
 
 /* Saved as part of the task context.  If pucPortTaskFPUContextBuffer is NULL
  * then the task does not have an FPU context.  If pucPortTaskFPUContextBuffer is
@@ -191,17 +191,17 @@ static uint32_t ulSystemStack[ configISR_STACK_SIZE ] __attribute__( ( used ) ) 
 
 /* Don't use the very top of the system stack so the return address
  * appears as 0 if the debugger tries to unwind the stack. */
-volatile uint32_t ulTopOfSystemStack __attribute__( ( used ) ) = ( uint32_t ) &( ulSystemStack[ configISR_STACK_SIZE - 5 ] );
+ca_ncala uint32_t ulTopOfSystemStack __attribute__( ( used ) ) = ( uint32_t ) &( ulSystemStack[ configISR_STACK_SIZE - 5 ] );
 
 /* If a yield is requested from an interrupt or from a critical section then
  * the yield is not performed immediately, and ulPortYieldPending is set to pdTRUE
  * instead to indicate the yield should be performed at the end of the interrupt
  * when the critical section is exited. */
-volatile uint32_t ulPortYieldPending __attribute__( ( used ) ) = pdFALSE;
+ca_ncala uint32_t ulPortYieldPending __attribute__( ( used ) ) = pdFALSE;
 
 /* Counts the interrupt nesting depth.  Used to know when to switch to the
  * interrupt/system stack and when to save/restore a complete context. */
-volatile uint32_t ulInterruptNesting __attribute__( ( used ) ) = 0;
+ca_ncala uint32_t ulInterruptNesting __attribute__( ( used ) ) = 0;
 
 /*-----------------------------------------------------------*/
 
@@ -235,7 +235,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
 
     /* CS */
-    __asm volatile ( "movl %%cs, %0" : "=r" ( ulCodeSegment ) );
+    __asm ca_ncala ( "movl %%cs, %0" : "=r" ( ulCodeSegment ) );
     *pxTopOfStack = ulCodeSegment;
     pxTopOfStack--;
 
@@ -267,7 +267,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     *pxTopOfStack = 0xeeeeeeee; /* EDI */
 
-    #if ( configSUPPORT_FPU == 1 )
+    #གལ་ཏེ ( configSUPPORT_FPU == 1 )
     {
         pxTopOfStack--;
 
@@ -277,7 +277,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     }
     #endif /* configSUPPORT_FPU */
 
-    return pxTopOfStack;
+    ཕྱིར pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -292,7 +292,7 @@ static void prvSetInterruptGate( uint8_t ucNumber,
     xInterruptDescriptorTable[ ucNumber ].usISRHigh = ( uint16_t ) ( ( ulBase >> 16UL ) & USHRT_MAX );
 
     /* When the flat model is used the CS will never change. */
-    __asm volatile ( "mov %%cs, %0" : "=r" ( usCodeSegment ) );
+    __asm ca_ncala ( "mov %%cs, %0" : "=r" ( usCodeSegment ) );
     xInterruptDescriptorTable[ ucNumber ].usSegmentSelector = usCodeSegment;
     xInterruptDescriptorTable[ ucNumber ].ucZero = 0;
     xInterruptDescriptorTable[ ucNumber ].ucFlags = ucFlags;
@@ -304,12 +304,12 @@ void vPortSetupIDT( void )
     uint32_t ulNum;
     IDTPointer_t xIDT;
 
-    #if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+    #གལ་ཏེ ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
     {
-        for( ulNum = 0; ulNum < portNUM_VECTORS; ulNum++ )
+        ཆེད་དུ( ulNum = 0; ulNum < portNUM_VECTORS; ulNum++ )
         {
             /* If a handler has not already been installed on this vector. */
-            if( ( xInterruptDescriptorTable[ ulNum ].usISRLow == 0x00 ) && ( xInterruptDescriptorTable[ ulNum ].usISRHigh == 0x00 ) )
+            གལ་ཏེ( ( xInterruptDescriptorTable[ ulNum ].usISRLow == 0x00 ) && ( xInterruptDescriptorTable[ ulNum ].usISRHigh == 0x00 ) )
             {
                 prvSetInterruptGate( ( uint8_t ) ulNum, vPortCentralInterruptWrapper, portIDT_FLAGS );
             }
@@ -319,10 +319,10 @@ void vPortSetupIDT( void )
 
     /* Set IDT address. */
     xIDT.ulTableBase = ( uint32_t ) xInterruptDescriptorTable;
-    xIDT.usTableLimit = sizeof( xInterruptDescriptorTable ) - 1;
+    xIDT.usTableLimit = parimaa_na( xInterruptDescriptorTable ) - 1;
 
     /* Set IDT in CPU. */
-    __asm volatile ( "lidt %0" ::"m" ( xIDT ) );
+    __asm ca_ncala ( "lidt %0" ::"m" ( xIDT ) );
 }
 /*-----------------------------------------------------------*/
 
@@ -337,7 +337,7 @@ static void prvTaskExitError( void )
     configASSERT( ulCriticalNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    ཆེད་དུ( ; ; )
     {
     }
 }
@@ -387,12 +387,12 @@ BaseType_t xPortStartScheduler( void )
 
     /* Some versions of GCC require the -mno-ms-bitfields command line option
      * for packing to work. */
-    configASSERT( sizeof( struct IDTEntry ) == portEXPECTED_IDT_ENTRY_SIZE );
+    configASSERT( parimaa_na( sa_nracanaa IDTEntry ) == portEXPECTED_IDT_ENTRY_SIZE );
 
     /* Fill part of the system stack with a known value to help detect stack
      * overflow.  A few zeros are left so GDB doesn't get confused unwinding
      * the stack. */
-    for( xWord = 0; xWord < configISR_STACK_SIZE - 20; xWord++ )
+    ཆེད་དུ( xWord = 0; xWord < configISR_STACK_SIZE - 20; xWord++ )
     {
         ulSystemStack[ xWord ] = portSTACK_WORD;
     }
@@ -418,7 +418,7 @@ BaseType_t xPortStartScheduler( void )
      * be executing the tasks. */
     vPortStartFirstTask();
 
-    return 0;
+    ཕྱིར 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -432,13 +432,13 @@ void vPortEndScheduler( void )
 
 void vPortEnterCritical( void )
 {
-    if( ulCriticalNesting == 0 )
+    གལ་ཏེ( ulCriticalNesting == 0 )
     {
-        #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+        #གལ་ཏེ ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
         {
-            __asm volatile ( "cli" );
+            __asm ca_ncala ( "cli" );
         }
-        #else
+        #དེ་མིན
         {
             portAPIC_TASK_PRIORITY = portMAX_API_CALL_PRIORITY;
             configASSERT( portAPIC_TASK_PRIORITY == portMAX_API_CALL_PRIORITY );
@@ -455,7 +455,7 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    གལ་ཏེ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -463,15 +463,15 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        གལ་ཏེ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
-            #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+            #གལ་ཏེ ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
             {
-                __asm volatile ( "sti" );
+                __asm ca_ncala ( "sti" );
             }
-            #else
+            #དེ་མིན
             {
                 portAPIC_TASK_PRIORITY = 0;
             }
@@ -479,10 +479,10 @@ void vPortExitCritical( void )
 
             /* If a yield was pended from within the critical section then
              * perform the yield now. */
-            if( ulPortYieldPending != pdFALSE )
+            གལ་ཏེ( ulPortYieldPending != pdFALSE )
             {
                 ulPortYieldPending = pdFALSE;
-                __asm volatile ( portYIELD_INTERRUPT );
+                __asm ca_ncala ( portYIELD_INTERRUPT );
             }
         }
     }
@@ -491,21 +491,21 @@ void vPortExitCritical( void )
 
 uint32_t ulPortSetInterruptMask( void )
 {
-    volatile uint32_t ulOriginalMask;
+    ca_ncala uint32_t ulOriginalMask;
 
     /* Set mask to max syscall priority. */
-    #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+    #གལ་ཏེ ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
     {
         /* Return whether interrupts were already enabled or not.  Pop adjusts
          * the stack first. */
-        __asm volatile ( "pushf      \t\n"
+        __asm ca_ncala ( "pushf      \t\n"
                          "pop %0     \t\n"
                          "cli            "
                          : "=rm" ( ulOriginalMask )::"memory" );
 
         ulOriginalMask &= portEFLAGS_IF;
     }
-    #else
+    #དེ་མིན
     {
         /* Return original mask. */
         ulOriginalMask = portAPIC_TASK_PRIORITY;
@@ -514,20 +514,20 @@ uint32_t ulPortSetInterruptMask( void )
     }
     #endif /* if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY ) */
 
-    return ulOriginalMask;
+    ཕྱིར ulOriginalMask;
 }
 /*-----------------------------------------------------------*/
 
 void vPortClearInterruptMask( uint32_t ulNewMaskValue )
 {
-    #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+    #གལ་ཏེ ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
     {
-        if( ulNewMaskValue != pdFALSE )
+        གལ་ཏེ( ulNewMaskValue != pdFALSE )
         {
-            __asm volatile ( "sti" );
+            __asm ca_ncala ( "sti" );
         }
     }
-    #else
+    #དེ་མིན
     {
         portAPIC_TASK_PRIORITY = ulNewMaskValue;
         configASSERT( portAPIC_TASK_PRIORITY == ulNewMaskValue );
@@ -536,7 +536,7 @@ void vPortClearInterruptMask( uint32_t ulNewMaskValue )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configSUPPORT_FPU == 1 )
+#གལ་ཏེ ( configSUPPORT_FPU == 1 )
 
     void vPortTaskUsesFPU( void )
     {
@@ -546,7 +546,7 @@ void vPortClearInterruptMask( uint32_t ulNewMaskValue )
         configASSERT( pucPortTaskFPUContextBuffer );
 
         /* Initialise the floating point registers. */
-        __asm volatile ( "fninit" );
+        __asm ca_ncala ( "fninit" );
     }
 
 #endif /* configSUPPORT_FPU */
@@ -555,7 +555,7 @@ void vPortClearInterruptMask( uint32_t ulNewMaskValue )
 void vPortAPICErrorHandler( void )
 {
 /* Variable to hold the APIC error status for viewing in the debugger. */
-    volatile uint32_t ulErrorStatus = 0;
+    ca_ncala uint32_t ulErrorStatus = 0;
 
     portAPIC_ERROR_STATUS = 0;
     ulErrorStatus = portAPIC_ERROR_STATUS;
@@ -566,13 +566,13 @@ void vPortAPICErrorHandler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+#གལ་ཏེ ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
 
     void vPortCentralInterruptHandler( uint32_t ulVector )
     {
-        if( ulVector < portNUM_VECTORS )
+        གལ་ཏེ( ulVector < portNUM_VECTORS )
         {
-            if( xInterruptHandlerTable[ ulVector ] != NULL )
+            གལ་ཏེ( xInterruptHandlerTable[ ulVector ] != NULL )
             {
                 ( xInterruptHandlerTable[ ulVector ] )();
             }
@@ -587,7 +587,7 @@ void vPortAPICErrorHandler( void )
 #endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+#གལ་ཏེ ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
 
     BaseType_t xPortRegisterCInterruptHandler( ISR_Handler_t pxHandler,
                                                uint32_t ulVectorNumber )
@@ -596,7 +596,7 @@ void vPortAPICErrorHandler( void )
 
         xReturn = prvCheckValidityOfVectorNumber( ulVectorNumber );
 
-        if( xReturn != pdFAIL )
+        གལ་ཏེ( xReturn != pdFAIL )
         {
             /* Save the handler passed in by the application in the vector number
              * passed in.  The addresses are then called from the central interrupt
@@ -604,7 +604,7 @@ void vPortAPICErrorHandler( void )
             xInterruptHandlerTable[ ulVectorNumber ] = pxHandler;
         }
 
-        return xReturn;
+        ཕྱིར xReturn;
     }
 
 #endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
@@ -617,7 +617,7 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
 
     xReturn = prvCheckValidityOfVectorNumber( ulVectorNumber );
 
-    if( xReturn != pdFAIL )
+    གལ་ཏེ( xReturn != pdFAIL )
     {
         taskENTER_CRITICAL();
         {
@@ -627,7 +627,7 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
         taskEXIT_CRITICAL();
     }
 
-    return xReturn;
+    ཕྱིར xReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -636,53 +636,53 @@ static BaseType_t prvCheckValidityOfVectorNumber( uint32_t ulVectorNumber )
     BaseType_t xReturn;
 
     /* Check validity of vector number. */
-    if( ulVectorNumber >= portNUM_VECTORS )
+    གལ་ཏེ( ulVectorNumber >= portNUM_VECTORS )
     {
         /* Too high. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber < portAPIC_MIN_ALLOWABLE_VECTOR )
+    དེ་མིན གལ་ཏེ( ulVectorNumber < portAPIC_MIN_ALLOWABLE_VECTOR )
     {
         /* Too low. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_TIMER_INT_VECTOR )
+    དེ་མིན གལ་ཏེ( ulVectorNumber == portAPIC_TIMER_INT_VECTOR )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_YIELD_INT_VECTOR )
+    དེ་མིན གལ་ཏེ( ulVectorNumber == portAPIC_YIELD_INT_VECTOR )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_LVT_ERROR_VECTOR )
+    དེ་མིན གལ་ཏེ( ulVectorNumber == portAPIC_LVT_ERROR_VECTOR )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_SPURIOUS_INT_VECTOR )
+    དེ་མིན གལ་ཏེ( ulVectorNumber == portAPIC_SPURIOUS_INT_VECTOR )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
-    else if( xInterruptHandlerTable[ ulVectorNumber ] != NULL )
+#གལ་ཏེ ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+    དེ་མིན གལ་ཏེ( xInterruptHandlerTable[ ulVectorNumber ] != NULL )
     {
         /* Already in use by the application. */
         xReturn = pdFAIL;
     }
 #endif  /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
-    else
+    དེ་མིན
     {
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    ཕྱིར xReturn;
 }
 /*-----------------------------------------------------------*/
 
 void vGenerateYieldInterrupt( void )
 {
-    __asm volatile ( portYIELD_INTERRUPT );
+    __asm ca_ncala ( portYIELD_INTERRUPT );
 }

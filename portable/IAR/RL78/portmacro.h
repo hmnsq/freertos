@@ -47,19 +47,19 @@
  *-----------------------------------------------------------
  */
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
+    #གལ་ཏེ __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
         #warning This port has not been tested with your selected memory model combination. If a far data model is required it is recommended to also use a far code model.
     #endif
 
-    #if __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #གལ་ཏེ __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
         #warning This port has not been tested with your selected memory model combination. If a far code model is required it is recommended to also use a far data model.
     #endif
 
 /* Type definitions. */
 
-    #define portCHAR          char
+    #define portCHAR          var_na
     #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portDOUBLE        dviguu_na
     #define portLONG          long
     #define portSHORT         short
     #define portSTACK_TYPE    uint16_t
@@ -70,20 +70,20 @@
     typedef unsigned short   UBaseType_t;
 
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__
+    #གལ་ཏེ __DATA_MODEL__ == __DATA_MODEL_FAR__
         #define portPOINTER_SIZE_TYPE    uint32_t
-    #else
+    #དེ་མིན
         #define portPOINTER_SIZE_TYPE    uint16_t
     #endif
 
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef unsigned int   TickType_t;
+    #གལ་ཏེ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        typedef unsigned ཧྲིལ   TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffff
     #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
         typedef uint32_t       TickType_t;
         #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-    #else
+    #དེ་མིན
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
@@ -98,7 +98,7 @@
 
     #define portENTER_CRITICAL()                                                  \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        extern ca_ncala uint16_t usCriticalNesting;                               \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -110,16 +110,16 @@
 
     #define portEXIT_CRITICAL()                                                   \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        extern ca_ncala uint16_t usCriticalNesting;                               \
                                                                                   \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
+        གལ་ཏེ( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
         {                                                                         \
             /* Decrement the nesting count when leaving a critical section. */    \
             usCriticalNesting--;                                                  \
                                                                                   \
             /* If the nesting level has reached zero then interrupts should be */ \
             /* re-enabled. */                                                     \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
+            གལ་ཏེ( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
             {                                                                     \
                 portENABLE_INTERRUPTS();                                          \
             }                                                                     \
@@ -133,14 +133,14 @@
     #ifndef configREQUIRE_ASM_ISR_WRAPPER
         #define configREQUIRE_ASM_ISR_WRAPPER    1
     #endif
-    #if( configREQUIRE_ASM_ISR_WRAPPER == 1 )
+    #གལ་ཏེ( configREQUIRE_ASM_ISR_WRAPPER == 1 )
         /* You must implement an assembly ISR wrapper (see the below for details) if you need an ISR to cause a context switch.
          * https://www.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/Renesas/RTOS_RL78_IAR_Demos#writing-interrupt-service-routines */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } while( 0 )
-    #else
+        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { གལ་ཏེ( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } སྐབས( 0 )
+    #དེ་མིན
         /* You must not implement an assembly ISR wrapper even if you need an ISR to cause a context switch.
          * The portYIELD, which is similar to role of an assembly ISR wrapper, runs only when a context switch is required. */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } while( 0 )
+        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { གལ་ཏེ( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } སྐབས( 0 )
     #endif
 /*-----------------------------------------------------------*/
 
@@ -174,9 +174,9 @@
 
     ; /* Macro used to declutter calls, depends on the selected code model. */
       /*----------------------------------------------------------------------------- */
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #གལ་ཏེ __CODE_MODEL__ == __CODE_MODEL_FAR__
         #define RCALL( X )    CALL F: X
-    #else
+    #དེ་མིན
         #define RCALL( X )    CALL X
     #endif
 
@@ -190,12 +190,12 @@
 portSAVE_CONTEXT MACRO
     PUSH AX; /* Save AX Register to stack. */
     PUSH HL
-    #if  __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #གལ་ཏེ  __CODE_MODEL__ == __CODE_MODEL_FAR__
         MOV A, CS; /* Save CS register. */
         XCH A, X
         MOV A, ES; /* Save ES register. */
         PUSH AX
-    #else
+    #དེ་མིན
         MOV A, CS; /* Save CS register. */
         PUSH AX
     #endif
@@ -226,12 +226,12 @@ portRESTORE_CONTEXT MACRO
     MOVW _usCriticalNesting, AX
     POP BC; /* Restore the necessary general purpose registers. */
     POP DE
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #གལ་ཏེ __CODE_MODEL__ == __CODE_MODEL_FAR__
         POP AX;   /* Restore the ES register. */
         MOV ES, A
         XCH A, X; /* Restore the CS register. */
         MOV CS, A
-    #else
+    #དེ་མིན
         POP AX
         MOV CS, A; /* Restore CS register. */
     #endif

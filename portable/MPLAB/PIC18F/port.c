@@ -89,7 +89,7 @@ constant defines the size of memory area which must be saved. */
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 
 /* IO port constants. */
 #define portBIT_SET     ( ( uint8_t ) 1 )
@@ -206,7 +206,7 @@ static void prvLowInterrupt( void );
     _endasm                                                                     \
                                                                                 \
         /* Store each address from the hardware stack. */                       \
-        while( STKPTR > ( uint8_t ) 0 )                             \
+        སྐབས( STKPTR > ( uint8_t ) 0 )                             \
         {                                                                       \
             _asm                                                                \
                 MOVFF   TOSL, PREINC1                                           \
@@ -258,7 +258,7 @@ static void prvLowInterrupt( void );
     /* Fill the hardware stack from our software stack. */                      \
     STKPTR = 0;                                                                 \
                                                                                 \
-    while( STKPTR < FSR0L )                                                     \
+    སྐབས( STKPTR < FSR0L )                                                     \
     {                                                                           \
         _asm                                                                    \
             PUSH                                                                \
@@ -318,7 +318,7 @@ static void prvLowInterrupt( void );
     of the tasks context.  It is perfectly legitimate for another task to       \
     have modified any other bits.  We therefore only restore the top two bits.  \
     */                                                                          \
-    if( WREG & portGLOBAL_INTERRUPT_FLAG )                                      \
+    གལ་ཏེ( WREG & portGLOBAL_INTERRUPT_FLAG )                                      \
     {                                                                           \
         _asm                                                                    \
             MOVFF   POSTDEC1, STATUS                                            \
@@ -327,7 +327,7 @@ static void prvLowInterrupt( void );
             RETFIE  0                                                           \
         _endasm                                                                 \
     }                                                                           \
-    else                                                                        \
+    དེ་མིན                                                                        \
     {                                                                           \
         _asm                                                                    \
             MOVFF   POSTDEC1, STATUS                                            \
@@ -431,7 +431,7 @@ uint8_t ucBlock;
     pxTopOfStack++;
 
     /* Next the .tmpdata and MATH_DATA sections. */
-    for( ucBlock = 0; ucBlock <= portCOMPILER_MANAGED_MEMORY_SIZE; ucBlock++ )
+    ཆེད་དུ( ucBlock = 0; ucBlock <= portCOMPILER_MANAGED_MEMORY_SIZE; ucBlock++ )
     {
         *pxTopOfStack = ( StackType_t ) ucBlock;
         *pxTopOfStack++;
@@ -467,7 +467,7 @@ uint8_t ucBlock;
     *pxTopOfStack = ( StackType_t ) 1;
     pxTopOfStack++;
 
-    return pxTopOfStack;
+    ཕྱིར pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -483,7 +483,7 @@ BaseType_t xPortStartScheduler( void )
     ( void ) prvLowInterrupt;
     ( void ) prvTickISR;
 
-    return pdTRUE;
+    ཕྱིར pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -521,7 +521,7 @@ void vPortYield( void )
 static void prvLowInterrupt( void )
 {
     /* Was the interrupt the tick? */
-    if( PIR1bits.CCP1IF )
+    གལ་ཏེ( PIR1bits.CCP1IF )
     {
         _asm
             goto prvTickISR
@@ -529,7 +529,7 @@ static void prvLowInterrupt( void )
     }
 
     /* Was the interrupt a byte being received? */
-    if( PIR1bits.RCIF )
+    གལ་ཏེ( PIR1bits.RCIF )
     {
         _asm
             goto vSerialRxISR
@@ -537,9 +537,9 @@ static void prvLowInterrupt( void )
     }
 
     /* Was the interrupt the Tx register becoming empty? */
-    if( PIR1bits.TXIF )
+    གལ་ཏེ( PIR1bits.TXIF )
     {
-        if( PIE1bits.TXIE )
+        གལ་ཏེ( PIE1bits.TXIE )
         {
             _asm
                 goto vSerialTxISR
@@ -565,7 +565,7 @@ static void prvTickISR( void )
     PIR1bits.CCP1IF = 0;
 
     /* Maintain the tick count. */
-    if( xTaskIncrementTick() != pdFALSE )
+    གལ་ཏེ( xTaskIncrementTick() != pdFALSE )
     {
         /* Switch to the highest priority task that is ready to run. */
         vTaskSwitchContext();
