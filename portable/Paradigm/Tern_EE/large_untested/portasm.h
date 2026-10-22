@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+प्रकारनिर्देश शून्य TCB_t;
+बाह्य चञ्चल TCB_t * चञ्चल pxCurrentTCB;
+बाह्य शून्य vTaskSwitchContext( शून्य );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+शून्य portSWITCH_CONTEXT( शून्य );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+शून्य portFIRST_CONTEXT( शून्य );
 
 #define portSWITCH_CONTEXT()                                         \
                         asm { mov   ax, seg pxCurrentTCB        } \
@@ -63,13 +63,13 @@ void portFIRST_CONTEXT( void );
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { काढा   bp                          }   \
+                            asm { काढा   di                          }   \
+                            asm { काढा   si                          }   \
+                            asm { काढा   ds                          }   \
+                            asm { काढा   es                          }   \
+                            asm { काढा   dx                          }   \
+                            asm { काढा   cx                          }   \
+                            asm { काढा   bx                          }   \
+                            asm { काढा   ax                          }   \
                             asm { iret                              }

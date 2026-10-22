@@ -35,20 +35,20 @@ portSAVE_CONTEXT macro
     IMPORT usCriticalNesting
 
     /* Save the remaining registers. */
-    push   r4
-    push   r5
-    push   r6
-    push   r7
-    push   r8
-    push   r9
-    push   r10
-    push   r11
-    push   r12
-    push   r13
-    push   r14
-    push   r15
+    ढकला   r4
+    ढकला   r5
+    ढकला   r6
+    ढकला   r7
+    ढकला   r8
+    ढकला   r9
+    ढकला   r10
+    ढकला   r11
+    ढकला   r12
+    ढकला   r13
+    ढकला   r14
+    ढकला   r15
     mov.w  &usCriticalNesting, r14
-    push   r14
+    ढकला   r14
     mov.w  &pxCurrentTCB, r12
     mov.w  r1, 0(r12)
     endm
@@ -57,20 +57,20 @@ portSAVE_CONTEXT macro
 portRESTORE_CONTEXT macro
     mov.w  &pxCurrentTCB, r12
     mov.w  @r12, r1
-    pop    r15
+    काढा    r15
     mov.w  r15, &usCriticalNesting
-    pop    r15
-    pop    r14
-    pop    r13
-    pop    r12
-    pop    r11
-    pop    r10
-    pop    r9
-    pop    r8
-    pop    r7
-    pop    r6
-    pop    r5
-    pop    r4
+    काढा    r15
+    काढा    r14
+    काढा    r13
+    काढा    r12
+    काढा    r11
+    काढा    r10
+    काढा    r9
+    काढा    r8
+    काढा    r7
+    काढा    r6
+    काढा    r5
+    काढा    r4
 
     /* The last thing on the stack will be the status register.
      * Ensure the power down bits are clear ready for the next
