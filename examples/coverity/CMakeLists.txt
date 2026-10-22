@@ -26,7 +26,7 @@ target_include_directories(freertos_config
 if (DEFINED FREERTOS_SMP_EXAMPLE AND FREERTOS_SMP_EXAMPLE STREQUAL "1")
     message(STATUS "Build FreeRTOS SMP example")
     # Adding the following configurations to build SMP template port
-    add_compile_options( -DconfigNUMBER_OF_CORES=2 -DconfigUSE_PASSIVE_IDLE_HOOK=0 )
+    add_compile_options( -Dconfig_نمبر_OF_CORES=2 -DconfigUSE_PASSIVE_IDLE_HOOK=0 )
 endif()
 
 # Select the heap. Values between 1-5 will pick a heap.

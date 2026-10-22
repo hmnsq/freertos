@@ -16,7 +16,7 @@
 
 /*
 This file contains the default handlers for the high interrupt levels as well as some specialized exceptions.
-The default behaviour is to just exit the interrupt or call the panic handler on the exceptions
+The default behaviour is to just exit the interrupt or نادي the panic handler on the exceptions
 */
 
 
