@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಶೂನ್ಯ TCB_t;
+ಬಾಹ್ಯ ಅಸ್ಥಿರ TCB_t * ಅಸ್ಥಿರ pxCurrentTCB;
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskSwitchContext( ಶೂನ್ಯ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+ಶೂನ್ಯ ಪೋರ್ಟ್_SWITCH_CONTEXT( ಶೂನ್ಯ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+ಶೂನ್ಯ ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT( ಶೂನ್ಯ );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -50,9 +50,9 @@ are a couple of extra bytes left of the ISR stack (presumably for use by the
 debugger).  The true stack pointer is then stored in the bp register.  We add
 2 to the stack pointer to remove the extra bytes before we restore our context. */
 
-#ifdef DEBUG_BUILD
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ DEBUG_BUILD
 
-    #pragma aux portSWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
+    #ಸೂಚನೆ aux ಪೋರ್ಟ್_SWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
                                         "mov    ds, ax"                                                                     \
                                         "les    bx, pxCurrentTCB"           /* Save the stack pointer into the TCB. */      \
                                         "mov    es:0x2[ bx ], ss"                                                           \
@@ -68,7 +68,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
 
 
 
-    #pragma aux portFIRST_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
+    #ಸೂಚನೆ aux ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
                                         "mov    ds, ax"                         \
                                         "les    bx, dword ptr pxCurrentTCB"     \
                                         "mov    ss, es:[ bx + 2 ]"              \
@@ -80,9 +80,9 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "pop    ds"                             \
                                         "popa"                                  \
                                         "iret"
-#else
+#ಇಲ್ಲದಿದ್ದರೆ
 
-    #pragma aux portSWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
+    #ಸೂಚನೆ aux ಪೋರ್ಟ್_SWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
                                         "mov    ds, ax"                                                                     \
                                         "les    bx, pxCurrentTCB"           /* Save the stack pointer into the TCB. */      \
                                         "mov    es:0x2[ bx ], ss"                                                           \
@@ -95,7 +95,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "mov    sp, es:[ bx ]"
 
 
-    #pragma aux portFIRST_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
+    #ಸೂಚನೆ aux ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT =     "mov    ax, seg pxCurrentTCB"           \
                                         "mov    ds, ax"                         \
                                         "les    bx, dword ptr pxCurrentTCB"     \
                                         "mov    ss, es:[ bx + 2 ]"              \
@@ -106,4 +106,4 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "pop    ds"                             \
                                         "popa"                                  \
                                         "iret"
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

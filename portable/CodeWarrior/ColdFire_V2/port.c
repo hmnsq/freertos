@@ -27,27 +27,27 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_FORMAT_ಸದಿಶ       ( ( ರಾಶಿ_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್     ( ( ರಾಶಿ_Type_t ) 0x2000)
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ಸ್ಥಿರ uint32_t ulCriticalNesting = 0x9999UL;
 
 
-#define portSAVE_CONTEXT()              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SAVE_CONTEXT()              \
     lea.l       (-60, %sp), %sp;        \
     movem.l     %d0-%fp, (%sp);         \
     move.l      pxCurrentTCB, %a0;      \
     move.l      %sp, (%a0);
 
-#define portRESTORE_CONTEXT()           \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESTORE_CONTEXT()           \
     move.l      pxCurrentTCB, %a0;      \
     move.l      (%a0), %sp;             \
     movem.l     (%sp), %d0-%fp;         \
@@ -58,90 +58,90 @@ static uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ರಾಶಿ_Type_t *px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ, TaskFunction_t px_ಸಂಕೇತ, ಶೂನ್ಯ *pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pvParameters;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) 0xDEADBEEF;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) px_ಸಂಕೇತ;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ಪೋರ್ಟ್_INITIAL_FORMAT_ಸದಿಶ << 16UL ) | ( ಪೋರ್ಟ್_INITIAL_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್ );
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x0; /*FP*/
+    px_ತುದಿ_ದ_ರಾಶಿ -= 14; /* A5 to D0. */
 
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
-extern void vPortStartFirstTask( void );
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ );
 
     ulCriticalNesting = 0UL;
 
     /* Configure the interrupts used by this port. */
-    vApplicationSetupInterrupts();
+    v_Application_ಸಿದ್ಧತೆ_Interrupts();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task();
 
-    return pdFALSE;
+    ಹಿಂತಿರುಗಿ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Enter_Critical( ಶೂನ್ಯ )
 {
-    if( ulCriticalNesting == 0UL )
+    ಆದರೆ( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        ಮಾಡು
         {
-            portDISABLE_INTERRUPTS();
-            if( MCF_INTC0_INTFRCH == 0UL )
+            ಪೋರ್ಟ್_DISABLE_INTERRUPTS();
+            ಆದರೆ( MCF_INTC0_INTFRCH == 0UL )
             {
-                break;
+                ನಿಲ್ಲಿಸು;
             }
 
-            portENABLE_INTERRUPTS();
+            ಪೋರ್ಟ್_ENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } ಆಗ( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Exit_Critical( ಶೂನ್ಯ )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    ಆದರೆ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        ಪೋರ್ಟ್_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Yield_Handler( ಶೂನ್ಯ )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_ಅಡಚಣೆ_ಮುಖವಾಡ;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_ಅಡಚಣೆ_ಮುಖವಾಡ = ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR();
         /* Note this will clear all forced interrupts - this is done for speed. */
         MCF_INTC0_INTFRCL = 0;
         vTaskSwitchContext();
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    ಪೋರ್ಟ್_CLEAR_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR( ul_Saved_ಅಡಚಣೆ_ಮುಖವಾಡ );
 }
 /*-----------------------------------------------------------*/

@@ -39,38 +39,38 @@
 *******************************************************************************/
 
 
-#ifdef XT_BOARD
-    #include "xtensa/xtbsp.h"
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ XT_BOARD
+    #ಅನ್ತರ್ಭಾವ "xtensa/xtbsp.h"
+#ಆದರೆ_ಅಂತ್ಯ
 
-#include "xtensa_rtos.h"
-#include "sdkconfig.h"
-#include "esp_idf_version.h"
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #include    "esp_clk.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32
-        #include "esp32/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/clk.h"
-    #endif
-#endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+#ಅನ್ತರ್ಭಾವ "xtensa_rtos.h"
+#ಅನ್ತರ್ಭಾವ "sdkconfig.h"
+#ಅನ್ತರ್ಭಾವ "esp_idf_version.h"
+#ಆದರೆ ( ESP_IDF_ಆವೃತ್ತಿ < ESP_IDF_ಆವೃತ್ತಿ_VAL( 4, 2, 0 ) )
+    #ಅನ್ತರ್ಭಾವ    "esp_clk.h"
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ಆದರೆ CONFIG_IDF_ಗುರಿ_ESP32
+        #ಅನ್ತರ್ಭಾವ "esp32/clk.h"
+    #ಅಥವಾಆದರೆ CONFIG_IDF_ಗುರಿ_ESP32_S2
+        #ಅನ್ತರ್ಭಾವ "esp32s2/clk.h"
+    #ಅಥವಾಆದರೆ CONFIG_IDF_ಗುರಿ_ESP32_S3
+        #ಅನ್ತರ್ಭಾವ "esp32s3/clk.h"
+    #ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
-#ifdef XT_RTOS_TIMER_INT
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ XT_RTOS_TIMER_INT
 
-    unsigned _xt_tick_divisor = 0; /* cached number of cycles per tick */
+    ಚಿಹ್ನೆರಹಿತ xt_tick_ಭಾಜಕ = 0; /* cached number of cycles per tick */
 
-    void _xt_tick_divisor_init( void )
+    ಶೂನ್ಯ xt_tick_ಭಾಜಕ_init( ಶೂನ್ಯ )
     {
-        _xt_tick_divisor = esp_clk_cpu_freq() / XT_TICK_PER_SEC;
+        xt_tick_ಭಾಜಕ = esp_clk_cpu_freq() / XT_TICK_ಪ್ರತಿ_SEC;
     }
 
 /* Deprecated, to be removed */
-    int xt_clock_freq( void )
+    ಪೂರ್ಣಾಂಕ xt_clock_freq( ಶೂನ್ಯ )
     {
-        return esp_clk_cpu_freq();
+        ಹಿಂತಿರುಗಿ esp_clk_cpu_freq();
     }
 
-#endif /* XT_RTOS_TIMER_INT */
+#ಆದರೆ_ಅಂತ್ಯ /* XT_RTOS_TIMER_INT */

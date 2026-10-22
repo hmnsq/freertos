@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ಅಥವಾ
+ * IMPLIED, INCLUDING BUT ಅಲ್ಲ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ಮತ್ತು NONINFRINGEMENT. ಒಳಗೆ NO EVENT SHALL THE AUTHORS ಅಥವಾ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ಅಥವಾ OTHER LIABILITY, WHETHER
+ * ಒಳಗೆ AN ACTION OF CONTRACT, TORT ಅಥವಾ OTHERWISE, ARISING FROM, OUT OF ಅಥವಾ ಒಳಗೆ
+ * CONNECTION WITH THE SOFTWARE ಅಥವಾ THE USE ಅಥವಾ OTHER DEALINGS ಒಳಗೆ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,18 +31,18 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    ಬಾಹ್ಯ pxCurrentTCB
+    ಬಾಹ್ಯ vTaskSwitchContext
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC vPortEnableVFP
+    ಸಾರ್ವಜನಿಕ x_ಪೋರ್ಟ್_Pend_SVHandler
+    ಸಾರ್ವಜನಿಕ v_ಪೋರ್ಟ್_SVCHandler
+    ಸಾರ್ವಜನಿಕ vPortStartFirstTask
+    ಸಾರ್ವಜನಿಕ v_ಪೋರ್ಟ್_Enable_VFP
 
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_ಪೋರ್ಟ್_Pend_SVHandler:
     mrs r0, psp
     isb
     /* Get the location of the current TCB. */
@@ -97,7 +97,7 @@ xPortPendSVHandler:
 
 /*-----------------------------------------------------------*/
 
-vPortSVCHandler:
+v_ಪೋರ್ಟ್_SVCHandler:
     /* Get the location of the current TCB. */
     ldr r3, =pxCurrentTCB
     ldr r1, [r3]
@@ -134,7 +134,7 @@ vPortStartFirstTask
 
 /*-----------------------------------------------------------*/
 
-vPortEnableVFP:
+v_ಪೋರ್ಟ್_Enable_VFP:
     /* The FPU enable bits are in the CPACR. */
     ldr.w r0, =0xE000ED88
     ldr r1, [r0]
@@ -146,4 +146,4 @@ vPortEnableVFP:
 
 
 
-    END
+    ಅಂತ್ಯ

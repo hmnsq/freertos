@@ -31,115 +31,115 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 /* Constants required to manipulate the NVIC. */
-#define portNVIC_SYSTICK_CTRL       ( ( volatile uint32_t * ) 0xe000e010 )
-#define portNVIC_SYSTICK_LOAD       ( ( volatile uint32_t * ) 0xe000e014 )
-#define portNVIC_SHPR3_REG          ( ( volatile uint32_t * ) 0xe000ed20 )
-#define portNVIC_SYSTICK_CLK        0x00000004
-#define portNVIC_SYSTICK_INT        0x00000002
-#define portNVIC_SYSTICK_ENABLE     0x00000001
-#define portMIN_INTERRUPT_PRIORITY  ( 255UL )
-#define portNVIC_PENDSV_PRI         ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 16UL )
-#define portNVIC_SYSTICK_PRI        ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 24UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SYSTICK_CTRL       ( ( ಅಸ್ಥಿರ uint32_t * ) 0xe000e010 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SYSTICK_ತುಂಬು       ( ( ಅಸ್ಥಿರ uint32_t * ) 0xe000e014 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SHPR3_REG          ( ( ಅಸ್ಥಿರ uint32_t * ) 0xe000ed20 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SYSTICK_CLK        0x00000004
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SYSTICK_INT        0x00000002
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SYSTICK_ENABLE     0x00000001
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MIN_ಅಡಚಣೆ_ಆದ್ಯತೆ  ( 255UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_PENDSV_PRI         ( ( ( uint32_t ) ಪೋರ್ಟ್_MIN_ಅಡಚಣೆ_ಆದ್ಯತೆ ) << 16UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_SYSTICK_PRI        ( ( ( uint32_t ) ಪೋರ್ಟ್_MIN_ಅಡಚಣೆ_ಆದ್ಯತೆ ) << 24UL )
 
 /* Masks off all bits but the VECTACTIVE bits in the ICSR register. */
-#define portVECTACTIVE_MASK         ( 0xFFUL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_VECTACTIVE_ಮುಖವಾಡ         ( 0xFFUL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR                   ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
-#define portASPEN_AND_LSPEN_BITS    ( 0x3UL << 30UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_FPCCR                   ( ( ಅಸ್ಥಿರ uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ASPEN_AND_LSPEN_ಬಿಟ್ಟುಗಳು    ( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
-#define portINITIAL_XPSR            ( 0x01000000 )
-#define portINITIAL_EXC_RETURN      ( 0xfffffffd )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_XPSR            ( 0x01000000 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_EXC_RETURN      ( 0xfffffffd )
 
 /* Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case it messes up unwinding of the stack in the
  * debugger. */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ config_TASK_RETURN_ವಿಳಾಸ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ    config_TASK_RETURN_ವಿಳಾಸ
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ    prvTaskExitError
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* For strict compliance with the Cortex-M spec the task start address should
  * have bit-0 clear, as it is loaded into the PC on exit from an ISR. */
-#define portSTART_ADDRESS_MASK    ( ( StackType_t ) 0xfffffffeUL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಆರಂಭ_ವಿಳಾಸ_ಮುಖವಾಡ    ( ( ರಾಶಿ_Type_t ) 0xfffffffeUL )
 
 /* The priority used by the kernel is assigned to a variable to make access
  * from inline assembler easier. */
-const uint32_t ulKernelPriority = portMIN_INTERRUPT_PRIORITY;
+ಸ್ಥಿರಾಂಕ uint32_t ul_Kernel_ಆದ್ಯತೆ = ಪೋರ್ಟ್_MIN_ಅಡಚಣೆ_ಆದ್ಯತೆ;
 
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. */
-static uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
+ಸ್ಥಿರ uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ );
 
 /*
  * Exception handlers.
  */
-void SysTick_Handler( void );
+ಶೂನ್ಯ SysTick_Handler( ಶೂನ್ಯ );
 
 /*
  * Functions defined in port_asm.asm.
  */
-extern void vPortEnableVFP( void );
-extern void vPortStartFirstTask( void );
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Enable_VFP( ಶೂನ್ಯ );
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ಸ್ಥಿರ ಶೂನ್ಯ prvTaskExitError( ಶೂನ್ಯ );
 
 /* This exists purely to allow the const to be used from within the
  * port_asm.asm assembly file. */
-const uint32_t ulMaxSyscallInterruptPriorityConst = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+ಸ್ಥಿರಾಂಕ uint32_t ul_Max_Syscall_ಅಡಚಣೆ_ಆದ್ಯತೆ_Const = config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ರಾಶಿ_Type_t * px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ,
+                                     TaskFunction_t px_ಸಂಕೇತ,
+                                     ಶೂನ್ಯ * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
 
     /* Offset added to account for the way the MCU uses the stack on entry/exit
      * of interrupts, and to ensure alignment. */
-    pxTopOfStack--;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = portINITIAL_XPSR;                                    /* xPSR */
-    pxTopOfStack--;
-    *pxTopOfStack = ( ( StackType_t ) pxCode ) & portSTART_ADDRESS_MASK; /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS;             /* LR */
+    *px_ತುದಿ_ದ_ರಾಶಿ = ಪೋರ್ಟ್_INITIAL_XPSR;                                    /* xPSR */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ( ರಾಶಿ_Type_t ) px_ಸಂಕೇತ ) & ಪೋರ್ಟ್_ಆರಂಭ_ವಿಳಾಸ_ಮುಖವಾಡ; /* PC */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ;             /* LR */
 
     /* Save code space by skipping register initialisation. */
-    pxTopOfStack -= 5;                            /* R12, R3, R2 and R1. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
+    px_ತುದಿ_ದ_ರಾಶಿ -= 5;                            /* R12, R3, R2 and R1. */
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pvParameters; /* R0 */
 
     /* A save method is being used that requires each task to maintain its
      * own exec return value. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_EXC_RETURN;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ಪೋರ್ಟ್_INITIAL_EXC_RETURN;
 
-    pxTopOfStack -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
+    px_ತುದಿ_ದ_ರಾಶಿ -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ಸ್ಥಿರ ಶೂನ್ಯ prvTaskExitError( ಶೂನ್ಯ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -148,9 +148,9 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error. */
     configASSERT( ulCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    ಪೋರ್ಟ್_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    ಗಾಗಿ( ; ; )
     {
     }
 }
@@ -159,38 +159,38 @@ static void prvTaskExitError( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
     /* configMAX_SYSCALL_INTERRUPT_PRIORITY must not be set to 0.
      * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
-    configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) );
+    configASSERT( ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) );
 
     /* Make PendSV and SysTick the lowest priority interrupts. */
-    *( portNVIC_SHPR3_REG ) |= portNVIC_PENDSV_PRI;
-    *( portNVIC_SHPR3_REG ) |= portNVIC_SYSTICK_PRI;
+    *( ಪೋರ್ಟ್_NVIC_SHPR3_REG ) |= ಪೋರ್ಟ್_NVIC_PENDSV_PRI;
+    *( ಪೋರ್ಟ್_NVIC_SHPR3_REG ) |= ಪೋರ್ಟ್_NVIC_SYSTICK_PRI;
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ();
 
     /* Initialise the critical nesting count ready for the first task. */
     ulCriticalNesting = 0;
 
     /* Ensure the VFP is enabled - it should be anyway. */
-    vPortEnableVFP();
+    v_ಪೋರ್ಟ್_Enable_VFP();
 
     /* Lazy save always. */
-    *( portFPCCR ) |= portASPEN_AND_LSPEN_BITS;
+    *( ಪೋರ್ಟ್_FPCCR ) |= ಪೋರ್ಟ್_ASPEN_AND_LSPEN_ಬಿಟ್ಟುಗಳು;
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task();
 
     /* Should not get here! */
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -198,10 +198,10 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Yield( ಶೂನ್ಯ )
 {
     /* Set a PendSV to request a context switch. */
-    *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
+    *( ಪೋರ್ಟ್_NVIC_INT_CTRL ) = ಪೋರ್ಟ್_NVIC_PENDSVSET;
 
     /* Barriers are normally not required but do ensure the code is completely
      * within the specified behaviour for the architecture. */
@@ -210,9 +210,9 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Enter_Critical( ಶೂನ್ಯ )
 {
-    portDISABLE_INTERRUPTS();
+    ಪೋರ್ಟ್_DISABLE_INTERRUPTS();
     ulCriticalNesting++;
     __DSB();
     __ISB();
@@ -222,44 +222,44 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    ಆದರೆ( ulCriticalNesting == 1 )
     {
-        configASSERT( ( ( *( portNVIC_INT_CTRL ) ) & portVECTACTIVE_MASK ) == 0 );
+        configASSERT( ( ( *( ಪೋರ್ಟ್_NVIC_INT_CTRL ) ) & ಪೋರ್ಟ್_VECTACTIVE_ಮುಖವಾಡ ) == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Exit_Critical( ಶೂನ್ಯ )
 {
     configASSERT( ulCriticalNesting );
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ಆದರೆ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        ಪೋರ್ಟ್_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void SysTick_Handler( void )
+ಶೂನ್ಯ SysTick_Handler( ಶೂನ್ಯ )
 {
     uint32_t ulDummy;
 
-    ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
+    ulDummy = ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR();
     traceISR_ENTER();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ಆದರೆ( xTaskIncrementTick() != pdFALSE )
         {
-            traceISR_EXIT_TO_SCHEDULER();
+            trace_ISR_EXIT_ಗಮ್ಯ_SCHEDULER();
             /* Pend a context switch. */
-            *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
+            *( ಪೋರ್ಟ್_NVIC_INT_CTRL ) = ಪೋರ್ಟ್_NVIC_PENDSVSET;
         }
-        else
+        ಇಲ್ಲದಿದ್ದರೆ
         {
             traceISR_EXIT();
         }
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
+    ಪೋರ್ಟ್_CLEAR_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR( ulDummy );
 }
 /*-----------------------------------------------------------*/
 
@@ -267,9 +267,9 @@ void SysTick_Handler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
     /* Configure SysTick to interrupt at the requested rate. */
-    *( portNVIC_SYSTICK_LOAD ) = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
-    *( portNVIC_SYSTICK_CTRL ) = portNVIC_SYSTICK_CLK | portNVIC_SYSTICK_INT | portNVIC_SYSTICK_ENABLE;
+    *( ಪೋರ್ಟ್_NVIC_SYSTICK_ತುಂಬು ) = ( configCPU_CLOCK_HZ / config_TICK_ದರ_HZ ) - 1UL;
+    *( ಪೋರ್ಟ್_NVIC_SYSTICK_CTRL ) = ಪೋರ್ಟ್_NVIC_SYSTICK_CLK | ಪೋರ್ಟ್_NVIC_SYSTICK_INT | ಪೋರ್ಟ್_NVIC_SYSTICK_ENABLE;
 }

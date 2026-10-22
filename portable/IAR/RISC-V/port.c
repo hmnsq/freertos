@@ -31,33 +31,33 @@
  *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portmacro.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
+#ಅನ್ತರ್ಭಾವ "portmacro.h"
 
 /* Standard includes. */
-#include "string.h"
+#ಅನ್ತರ್ಭಾವ "string.h"
 
-#ifdef configCLINT_BASE_ADDRESS
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ config_CLINT_ತಳ_ವಿಳಾಸ
     #warning "The configCLINT_BASE_ADDRESS constant has been deprecated.  configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS are currently being derived from the (possibly 0) configCLINT_BASE_ADDRESS setting.  Please update to define configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS directly in place of configCLINT_BASE_ADDRESS.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef configMTIME_BASE_ADDRESS
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_MTIME_ತಳ_ವಿಳಾಸ
     #warning "configMTIME_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  If the target chip includes a memory-mapped mtime register then set configMTIME_BASE_ADDRESS to the mapped address.  Otherwise set configMTIME_BASE_ADDRESS to 0.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef configMTIMECMP_BASE_ADDRESS
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_MTIMECMP_ತಳ_ವಿಳಾಸ
     #warning "configMTIMECMP_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  If the target chip includes a memory-mapped mtimecmp register then set configMTIMECMP_BASE_ADDRESS to the mapped address.  Otherwise set configMTIMECMP_BASE_ADDRESS to 0.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case it messes up unwinding of the stack in the
  * debugger. */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ config_TASK_RETURN_ವಿಳಾಸ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ    config_TASK_RETURN_ವಿಳಾಸ
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ    prvTaskExitError
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* The stack used by interrupt service routines.  Set configISR_STACK_SIZE_WORDS
  * to use a statically allocated array as the interrupt stack.  Alternative leave
@@ -66,39 +66,39 @@
  * of the stack used by main.  Using the linker script method will repurpose the
  * stack that was used by main before the scheduler was started for use as the
  * interrupt stack after the scheduler has started. */
-#ifdef configISR_STACK_SIZE_WORDS
-static __attribute__( ( aligned( 16 ) ) ) StackType_t xISRStack[ configISR_STACK_SIZE_WORDS ] = { 0 };
-const StackType_t xISRStackTop = ( StackType_t ) &( xISRStack[ configISR_STACK_SIZE_WORDS & ~portBYTE_ALIGNMENT_MASK ] );
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ config_ISR_ರಾಶಿ_ಗಾತ್ರ_ಪದಗಳು
+ಸ್ಥಿರ __attribute__( ( aligned( 16 ) ) ) ರಾಶಿ_Type_t xISRStack[ config_ISR_ರಾಶಿ_ಗಾತ್ರ_ಪದಗಳು ] = { 0 };
+ಸ್ಥಿರಾಂಕ ರಾಶಿ_Type_t x_ISRStack_ತುದಿ = ( ರಾಶಿ_Type_t ) &( xISRStack[ config_ISR_ರಾಶಿ_ಗಾತ್ರ_ಪದಗಳು & ~ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ] );
 
 /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
  * the task stacks, and so will legitimately appear in many positions within
  * the ISR stack. */
-    #define portISR_STACK_FILL_BYTE    0xee
-#else
-    extern const uint32_t __freertos_irq_stack_top[];
-    const StackType_t xISRStackTop = ( StackType_t ) __freertos_irq_stack_top;
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE    0xee
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಬಾಹ್ಯ ಸ್ಥಿರಾಂಕ uint32_t __freertos_irq_stack_top[];
+    ಸ್ಥಿರಾಂಕ ರಾಶಿ_Type_t x_ISRStack_ತುದಿ = ( ರಾಶಿ_Type_t ) __freertos_irq_stack_top;
+#ಆದರೆ_ಅಂತ್ಯ
 
 /**
  * @brief Used to catch tasks that attempt to return from their implementing
  * function.
  */
-static void prvTaskExitError( void );
+ಸ್ಥಿರ ಶೂನ್ಯ prvTaskExitError( ಶೂನ್ಯ );
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void ) __attribute__( ( weak ) );
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ ) __attribute__( ( weak ) );
 
 /*-----------------------------------------------------------*/
 
 /* Used to program the machine timer compare register. */
-uint64_t ullNextTime = 0ULL;
-const uint64_t * pullNextTime = &ullNextTime;
-const size_t uxTimerIncrementsForOneTick = ( size_t ) ( ( configCPU_CLOCK_HZ ) / ( configTICK_RATE_HZ ) ); /* Assumes increment won't go over 32-bits. */
-volatile uint64_t * pullMachineTimerCompareRegister = NULL;
+uint64_t ull_ಮುಂದಿನ_ಸಮಯ = 0ULL;
+ಸ್ಥಿರಾಂಕ uint64_t * pull_ಮುಂದಿನ_ಸಮಯ = &ull_ಮುಂದಿನ_ಸಮಯ;
+ಸ್ಥಿರಾಂಕ size_t uxTimerIncrementsForOneTick = ( size_t ) ( ( configCPU_CLOCK_HZ ) / ( config_TICK_ದರ_HZ ) ); /* Assumes increment won't go over 32-bits. */
+ಅಸ್ಥಿರ uint64_t * pull_Machine_Timer_Compare_ರಿಜಿಸ್ಟರ್ = ಖಾಲಿ;
 
 /* Holds the critical nesting value - deliberately non-zero at start up to
  * ensure interrupts are not accidentally enabled before the scheduler starts. */
@@ -106,35 +106,35 @@ size_t xCriticalNesting = ( size_t ) 0xaaaaaaaa;
 size_t * pxCriticalNesting = &xCriticalNesting;
 
 /* Used to catch tasks that attempt to return from their implementing function. */
-size_t xTaskReturnAddress = ( size_t ) portTASK_RETURN_ADDRESS;
+size_t x_Task_Return_ವಿಳಾಸ = ( size_t ) ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ;
 
 /* Set configCHECK_FOR_STACK_OVERFLOW to 3 to add ISR stack checking to task
  * stack checking.  A problem in the ISR stack will trigger an assert, not call
  * the stack overflow hook function (because the stack overflow hook is specific
  * to a task stack, not the ISR stack). */
-#if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#ಆದರೆ defined( config_ISR_ರಾಶಿ_ಗಾತ್ರ_ಪದಗಳು ) && ( config_CHECK_FOR_ರಾಶಿ_ಅತಿಪ್ರವಾಹ > 2 )
     #warning "This path not tested, or even compiled yet."
 
-    static const uint8_t ucExpectedStackBytes[] =
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ uint8_t uc_Expected_ರಾಶಿ_ಬೈಟುಗಳು[] =
     {
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE
+        ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, \
+        ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, \
+        ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, \
+        ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, \
+        ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE
     }; \
 
-    #define portCHECK_ISR_STACK()    configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHECK_ISR_ರಾಶಿ()    configASSERT( ( memcmp( ( ಶೂನ್ಯ * ) xISRStack, ( ಶೂನ್ಯ * ) uc_Expected_ರಾಶಿ_ಬೈಟುಗಳು, ಗಾತ್ರ( uc_Expected_ರಾಶಿ_ಬೈಟುಗಳು ) ) == 0 ) )
+#ಇಲ್ಲದಿದ್ದರೆ /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
-#endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHECK_ISR_ರಾಶಿ()
+#ಆದರೆ_ಅಂತ್ಯ /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ಸ್ಥಿರ ಶೂನ್ಯ prvTaskExitError( ಶೂನ್ಯ )
 {
-    volatile uint32_t ulDummy = 0UL;
+    ಅಸ್ಥಿರ uint32_t ulDummy = 0UL;
 
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
@@ -142,9 +142,9 @@ static void prvTaskExitError( void )
      * to be triggered if configASSERT() is defined, then stop here so
      * application writers can catch the error. */
     configASSERT( xCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    ಪೋರ್ಟ್_DISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    ಆಗ( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -157,83 +157,83 @@ static void prvTaskExitError( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 )
+#ಆದರೆ ( config_MTIME_ತಳ_ವಿಳಾಸ != 0 ) && ( config_MTIMECMP_ತಳ_ವಿಳಾಸ != 0 )
 
-    void vPortSetupTimerInterrupt( void )
+    ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
     {
-        uint32_t ulCurrentTimeHigh, ulCurrentTimeLow;
-        volatile uint32_t * const pulTimeHigh = ( uint32_t * ) ( ( configMTIME_BASE_ADDRESS ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
-        volatile uint32_t * const pulTimeLow = ( uint32_t * ) ( configMTIME_BASE_ADDRESS );
-        volatile uint32_t ulHartId;
+        uint32_t ul_Current_ಸಮಯ_ಮೇಲಿನ, ul_Current_ಸಮಯ_ಕೆಳಗಿನ;
+        ಅಸ್ಥಿರ uint32_t * ಸ್ಥಿರಾಂಕ pul_ಸಮಯ_ಮೇಲಿನ = ( uint32_t * ) ( ( config_MTIME_ತಳ_ವಿಳಾಸ ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
+        ಅಸ್ಥಿರ uint32_t * ಸ್ಥಿರಾಂಕ pul_ಸಮಯ_ಕೆಳಗಿನ = ( uint32_t * ) ( config_MTIME_ತಳ_ವಿಳಾಸ );
+        ಅಸ್ಥಿರ uint32_t ulHartId;
 
-        __asm volatile ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
+        __asm ಅಸ್ಥಿರ ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
 
-        pullMachineTimerCompareRegister = ( volatile uint64_t * ) ( configMTIMECMP_BASE_ADDRESS + ( ulHartId * sizeof( uint64_t ) ) );
+        pull_Machine_Timer_Compare_ರಿಜಿಸ್ಟರ್ = ( ಅಸ್ಥಿರ uint64_t * ) ( config_MTIMECMP_ತಳ_ವಿಳಾಸ + ( ulHartId * ಗಾತ್ರ( uint64_t ) ) );
 
-        do
+        ಮಾಡು
         {
-            ulCurrentTimeHigh = *pulTimeHigh;
-            ulCurrentTimeLow = *pulTimeLow;
-        } while( ulCurrentTimeHigh != *pulTimeHigh );
+            ul_Current_ಸಮಯ_ಮೇಲಿನ = *pul_ಸಮಯ_ಮೇಲಿನ;
+            ul_Current_ಸಮಯ_ಕೆಳಗಿನ = *pul_ಸಮಯ_ಕೆಳಗಿನ;
+        } ಆಗ( ul_Current_ಸಮಯ_ಮೇಲಿನ != *pul_ಸಮಯ_ಮೇಲಿನ );
 
-        ullNextTime = ( uint64_t ) ulCurrentTimeHigh;
-        ullNextTime <<= 32ULL; /* High 4-byte word is 32-bits up. */
-        ullNextTime |= ( uint64_t ) ulCurrentTimeLow;
-        ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
-        *pullMachineTimerCompareRegister = ullNextTime;
+        ull_ಮುಂದಿನ_ಸಮಯ = ( uint64_t ) ul_Current_ಸಮಯ_ಮೇಲಿನ;
+        ull_ಮುಂದಿನ_ಸಮಯ <<= 32ULL; /* High 4-byte word is 32-bits up. */
+        ull_ಮುಂದಿನ_ಸಮಯ |= ( uint64_t ) ul_Current_ಸಮಯ_ಕೆಳಗಿನ;
+        ull_ಮುಂದಿನ_ಸಮಯ += ( uint64_t ) uxTimerIncrementsForOneTick;
+        *pull_Machine_Timer_Compare_ರಿಜಿಸ್ಟರ್ = ull_ಮುಂದಿನ_ಸಮಯ;
 
         /* Prepare the time to use after the next tick interrupt. */
-        ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
+        ull_ಮುಂದಿನ_ಸಮಯ += ( uint64_t ) uxTimerIncrementsForOneTick;
     }
 
-#endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
+#ಆದರೆ_ಅಂತ್ಯ /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
-    extern void xPortStartFirstTask( void );
+    ಬಾಹ್ಯ ಶೂನ್ಯ x_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ );
 
-    #if ( configASSERT_DEFINED == 1 )
+    #ಆದರೆ ( configASSERT_DEFINED == 1 )
     {
         /* Check alignment of the interrupt stack - which is the same as the
          * stack that was being used by main() prior to the scheduler being
          * started. */
-        configASSERT( ( xISRStackTop & portBYTE_ALIGNMENT_MASK ) == 0 );
+        configASSERT( ( x_ISRStack_ತುದಿ & ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ) == 0 );
 
-        #ifdef configISR_STACK_SIZE_WORDS
+        #ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ config_ISR_ರಾಶಿ_ಗಾತ್ರ_ಪದಗಳು
         {
-            memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+            memset( ( ಶೂನ್ಯ * ) xISRStack, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಗಾತ್ರ( xISRStack ) );
         }
-        #endif /* configISR_STACK_SIZE_WORDS */
+        #ಆದರೆ_ಅಂತ್ಯ /* configISR_STACK_SIZE_WORDS */
     }
-    #endif /* configASSERT_DEFINED */
+    #ಆದರೆ_ಅಂತ್ಯ /* configASSERT_DEFINED */
 
     /* If there is a CLINT then it is ok to use the default implementation
      * in this file, otherwise vPortSetupTimerInterrupt() must be implemented to
      * configure whichever clock is to be used to generate the tick interrupt. */
-    vPortSetupTimerInterrupt();
+    v_ಪೋರ್ಟ್_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ();
 
-    #if ( ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) )
+    #ಆದರೆ ( ( config_MTIME_ತಳ_ವಿಳಾಸ != 0 ) && ( config_MTIMECMP_ತಳ_ವಿಳಾಸ != 0 ) )
     {
         /* Enable mtime and external interrupts.  1<<7 for timer interrupt,
          * 1<<11 for external interrupt.  _RB_ What happens here when mtime is
          * not present as with pulpino? */
-        __asm volatile ( "csrs 0x304, %0" ::"r" ( 0x880 ) ); /* 0x304 is mie. */
+        __asm ಅಸ್ಥಿರ ( "csrs 0x304, %0" ::"r" ( 0x880 ) ); /* 0x304 is mie. */
     }
-    #endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
+    #ಆದರೆ_ಅಂತ್ಯ /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 
-    xPortStartFirstTask();
+    x_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task();
 
     /* Should not get here as after calling xPortStartFirstTask() only tasks
      * should be executing. */
-    return pdFAIL;
+    ಹಿಂತಿರುಗಿ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* Not implemented. */
-    for( ; ; )
+    ಗಾಗಿ( ; ; )
     {
     }
 }

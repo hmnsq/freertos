@@ -27,27 +27,27 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ಅನ್ತರ್ಭಾವ <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನಿಸು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#ಅನ್ತರ್ಭಾವ "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#ಅನ್ತರ್ಭಾವ "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_MPU == 1 )
+#ಆದರೆ ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ v_Restore_Context_ದ_ಮೊದಲ_Task( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -129,15 +129,15 @@
             "    bx lr                                        \n"
             "                                                 \n"
             " .align 4                                        \n"
-            ::"i" ( portSVC_START_SCHEDULER ) : "memory"
+            ::"i" ( ಪೋರ್ಟ್_SVC_ಆರಂಭ_SCHEDULER ) : "memory"
         );
     }
 
-#else /* configENABLE_MPU */
+#ಇಲ್ಲದಿದ್ದರೆ /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ v_Restore_Context_ದ_ಮೊದಲ_Task( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -158,13 +158,13 @@
         );
     }
 
-#endif /* configENABLE_MPU */
+#ಆದರೆ_ಅಂತ್ಯ /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+ತಳ_Type_t xIsPrivileged( ಶೂನ್ಯ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -185,9 +185,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ಶೂನ್ಯ vRaisePrivilege( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -202,9 +202,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+ಶೂನ್ಯ vResetPrivilege( ಶೂನ್ಯ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -219,12 +219,12 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ಶೂನ್ಯ v_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
     /* Don't reset the MSP stack as is done on CM3/4 devices. The reason is that
      * the Vector Table Offset Register (VTOR) is optional in CM0+ architecture
      * and therefore, may not be available on all the devices. */
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         " .syntax unified                                 \n"
         " cpsie i                                         \n" /* Globally enable interrupts. */
@@ -234,15 +234,15 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
         " nop                                             \n"
         "                                                 \n"
         " .align 4                                        \n"
-        ::"i" ( portSVC_START_SCHEDULER ) : "memory"
+        ::"i" ( ಪೋರ್ಟ್_SVC_ಆರಂಭ_SCHEDULER ) : "memory"
     );
 }
 
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ul_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ( ಶೂನ್ಯ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -255,9 +255,9 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+ಶೂನ್ಯ v_Clear_ಅಡಚಣೆ_ಮುಖವಾಡ( __attribute__( ( ಬಳಸದ ) ) uint32_t ul_ಮುಖವಾಡ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -269,11 +269,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ಆದರೆ ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ PendSV_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -387,11 +387,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#ಇಲ್ಲದಿದ್ದರೆ /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ PendSV_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -433,15 +433,15 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#endif /* configENABLE_MPU */
+#ಆದರೆ_ಅಂತ್ಯ /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ಆದರೆ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ SVC_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .syntax unified                \n"
             " .extern vPortSVCHandler_C      \n"
@@ -488,16 +488,16 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             " .align 4                       \n"
             "                                \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( ಅಂಕೆ_SYSTEM_CALLS ), "i" ( ಪೋರ್ಟ್_SVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "r3", "memory"
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ಇಲ್ಲದಿದ್ದರೆ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ SVC_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .syntax unified                \n"
             " .extern vPortSVCHandler_C      \n"
@@ -521,6 +521,6 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ಆದರೆ_ಅಂತ್ಯ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /*-----------------------------------------------------------*/

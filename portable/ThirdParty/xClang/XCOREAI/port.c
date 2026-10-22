@@ -1,16 +1,16 @@
 /* Copyright (c) 2019, XMOS Ltd, All rights reserved */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include <string.h>
-#include <xs1.h>
-#include <xcore/hwtimer.h>
-#include <xcore/triggerable.h>
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <xs1.h>
+#ಅನ್ತರ್ಭಾವ <xcore/hwtimer.h>
+#ಅನ್ತರ್ಭಾವ <xcore/triggerable.h>
 
-static hwtimer_t xKernelTimer;
+ಸ್ಥಿರ hwtimer_t xKernelTimer;
 
-uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ] = { pdFALSE };
+uint32_t ul_ಪೋರ್ಟ್_Yield_Required[ ಪೋರ್ಟ್_MAX_CORE_ಎಣಿಕೆ ] = { pdFALSE };
 
 /* When this port was designed, it was assumed that pxCurrentTCBs would always
    exist and that it would always be an array containing pointers to the current
@@ -19,26 +19,26 @@ uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ] = { pdFALSE };
    of indirection - we populate this pointer-to-pointer in the RTOS kernel entry
    function below. This makes this port agnostic to whether it is running on SMP
    or singlecore RTOS. */
-void ** xcorePvtTCBContainer;
+ಶೂನ್ಯ ** xcorePvtTCBContainer;
 
 /*-----------------------------------------------------------*/
 
-void vIntercoreInterruptISR( void )
+ಶೂನ್ಯ v_Intercore_ಅಡಚಣೆ_ISR( ಶೂನ್ಯ )
 {
-    int xCoreID;
+    ಪೂರ್ಣಾಂಕ xCoreID;
 
 /*	debug_printf( "In KCALL: %u\n", ulData ); */
     xCoreID = rtos_core_id_get();
-    ulPortYieldRequired[ xCoreID ] = pdTRUE;
+    ul_ಪೋರ್ಟ್_Yield_Required[ xCoreID ] = pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
+DEFINE_RTOS_ಅಡಚಣೆ_CALLBACK( pxKernelTimerISR, pv_ದತ್ತಾಂಶ )
 {
-    uint32_t ulLastTrigger;
+    uint32_t ul_ಕೊನೆಯ_Trigger;
     uint32_t ulNow;
-    int xCoreID;
-    UBaseType_t uxSavedInterruptStatus;
+    ಪೂರ್ಣಾಂಕ xCoreID;
+    UBaseType_t ux_Saved_ಅಡಚಣೆ_ಸ್ಥಿತಿ;
 
     xCoreID = 0;
 
@@ -47,38 +47,38 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
     /* Need the next interrupt to be scheduled relative to
      * the current trigger time, rather than the current
      * time. */
-    ulLastTrigger = hwtimer_get_trigger_time( xKernelTimer );
+    ul_ಕೊನೆಯ_Trigger = hwtimer_get_trigger_ಸಮಯ( xKernelTimer );
 
     /* Check to see if the ISR is late. If it is, we don't
      * want to schedule the next interrupt to be in the past. */
-    ulNow = hwtimer_get_time( xKernelTimer );
+    ulNow = hwtimer_get_ಸಮಯ( xKernelTimer );
 
-    if( ulNow - ulLastTrigger >= configCPU_CLOCK_HZ / configTICK_RATE_HZ )
+    ಆದರೆ( ulNow - ul_ಕೊನೆಯ_Trigger >= configCPU_CLOCK_HZ / config_TICK_ದರ_HZ )
     {
-        ulLastTrigger = ulNow;
+        ul_ಕೊನೆಯ_Trigger = ulNow;
     }
 
-    ulLastTrigger += configCPU_CLOCK_HZ / configTICK_RATE_HZ;
-    hwtimer_change_trigger_time( xKernelTimer, ulLastTrigger );
+    ul_ಕೊನೆಯ_Trigger += configCPU_CLOCK_HZ / config_TICK_ದರ_HZ;
+    hwtimer_change_trigger_ಸಮಯ( xKernelTimer, ul_ಕೊನೆಯ_Trigger );
 
-    #if configUPDATE_RTOS_TIME_FROM_TICK_ISR == 1
-        rtos_time_increment( RTOS_TICK_PERIOD( configTICK_RATE_HZ ) );
-    #endif
+    #ಆದರೆ config_UPDATE_RTOS_ಸಮಯ_FROM_TICK_ISR == 1
+        rtos_ಸಮಯ_increment( RTOS_TICK_PERIOD( config_TICK_ದರ_HZ ) );
+    #ಆದರೆ_ಅಂತ್ಯ
 
-    uxSavedInterruptStatus = taskENTER_CRITICAL_FROM_ISR();
+    ux_Saved_ಅಡಚಣೆ_ಸ್ಥಿತಿ = taskENTER_CRITICAL_FROM_ISR();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    ಆದರೆ( xTaskIncrementTick() != pdFALSE )
     {
-        ulPortYieldRequired[ xCoreID ] = pdTRUE;
+        ul_ಪೋರ್ಟ್_Yield_Required[ xCoreID ] = pdTRUE;
     }
 
-    taskEXIT_CRITICAL_FROM_ISR( uxSavedInterruptStatus );
+    taskEXIT_CRITICAL_FROM_ISR( ux_Saved_ಅಡಚಣೆ_ಸ್ಥಿತಿ );
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldOtherCore( int xOtherCoreID )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Yield_Other_Core( ಪೂರ್ಣಾಂಕ xOtherCoreID )
 {
-    int xCoreID;
+    ಪೂರ್ಣಾಂಕ xCoreID;
 
     /*
      * This function must be called from within a critical section.
@@ -94,14 +94,14 @@ void vPortYieldOtherCore( int xOtherCoreID )
 }
 /*-----------------------------------------------------------*/
 
-static int prvCoreInit( void )
+ಸ್ಥಿರ ಪೂರ್ಣಾಂಕ prvCoreInit( ಶೂನ್ಯ )
 {
-    int xCoreID;
+    ಪೂರ್ಣಾಂಕ xCoreID;
 
-    xCoreID = rtos_core_register();
+    xCoreID = rtos_core_ರಿಜಿಸ್ಟರ್();
     debug_printf( "Logical Core %d initializing as FreeRTOS Core %d\n", get_logical_core_id(), xCoreID );
 
-    asm volatile (
+    asm ಅಸ್ಥಿರ (
         "ldap r11, kexcept\n\t"
         "set kep, r11\n\t"
         :
@@ -109,59 +109,59 @@ static int prvCoreInit( void )
         : "r11"
         );
 
-    rtos_irq_enable( configNUMBER_OF_CORES );
+    rtos_irq_enable( config_ಸಂಖ್ಯೆ_ದ_CORES );
 
     /*
      * All threads wait here until all have enabled IRQs
      */
-    while( rtos_irq_ready() == pdFALSE )
+    ಆಗ( rtos_irq_ready() == pdFALSE )
     {
     }
 
-    if( xCoreID == 0 )
+    ಆದರೆ( xCoreID == 0 )
     {
         uint32_t ulNow;
-        ulNow = hwtimer_get_time( xKernelTimer );
+        ulNow = hwtimer_get_ಸಮಯ( xKernelTimer );
 /*		debug_printf( "The time is now (%u)\n", ulNow ); */
 
-        ulNow += configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+        ulNow += configCPU_CLOCK_HZ / config_TICK_ದರ_HZ;
 
-        triggerable_setup_interrupt_callback( xKernelTimer, NULL, RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR ) );
-        hwtimer_set_trigger_time( xKernelTimer, ulNow );
+        triggerable_ಸಿದ್ಧತೆ_ಅಡಚಣೆ_callback( xKernelTimer, ಖಾಲಿ, RTOS_ಅಡಚಣೆ_CALLBACK( pxKernelTimerISR ) );
+        hwtimer_ಗಣ_trigger_ಸಮಯ( xKernelTimer, ulNow );
         triggerable_enable_trigger( xKernelTimer );
     }
 
-    return xCoreID;
+    ಹಿಂತಿರುಗಿ xCoreID;
 }
 /*-----------------------------------------------------------*/
 
-DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
+DEFINE_RTOS_KERNEL_ನಮೂದು( ಶೂನ್ಯ, v_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler_On_Core, ಶೂನ್ಯ )
 {
-    int xCoreID;
+    ಪೂರ್ಣಾಂಕ xCoreID;
 
     xCoreID = prvCoreInit();
 
-    #if ( configUSE_CORE_INIT_HOOK == 1 )
+    #ಆದರೆ ( configUSE_CORE_INIT_HOOK == 1 )
     {
-        extern void vApplicationCoreInitHook( BaseType_t xCoreID );
+        ಬಾಹ್ಯ ಶೂನ್ಯ vApplicationCoreInitHook( ತಳ_Type_t xCoreID );
 
         vApplicationCoreInitHook( xCoreID );
     }
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 
     /* Populate the TCBContainer depending on whether we're singlecore or SMP */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES == 1 )
     {
-        asm volatile (
+        asm ಅಸ್ಥಿರ (
             "ldaw %0, dp[pxCurrentTCB]\n\t"
             : "=r"(xcorePvtTCBContainer)
             : /* no inputs */
             : /* no clobbers */
             );
     }
-    #else
+    #ಇಲ್ಲದಿದ್ದರೆ
     {
-        asm volatile (
+        asm ಅಸ್ಥಿರ (
             "ldaw %0, dp[pxCurrentTCBs]\n\t"
             : "=r"(xcorePvtTCBContainer)
             : /* no inputs */
@@ -169,7 +169,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
             );
     }
 
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 
     debug_printf( "FreeRTOS Core %d initialized\n", xCoreID );
 
@@ -177,7 +177,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
      * Restore the context of the first thread
      * to run and jump into it.
      */
-    asm volatile (
+    asm ಅಸ್ಥಿರ (
         "mov r6, %0\n\t"                       /* R6 must be the FreeRTOS core ID. In singlecore this is always 0. */
         "ldw r5, dp[xcorePvtTCBContainer]\n\t" /* R5 must be the TCB list which is indexed by R6 */
         "bu _freertos_restore_ctx\n\t"
@@ -195,9 +195,9 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ರಾಶಿ_Type_t * px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ,
+                                     TaskFunction_t px_ಸಂಕೇತ,
+                                     ಶೂನ್ಯ * pvParameters )
 {
     /*debug_printf( "Top of stack was %p for task %p\n", pxTopOfStack, pxCode ); */
 
@@ -205,7 +205,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * Grow the thread's stack by portTHREAD_CONTEXT_STACK_GROWTH
      * so we can push the context onto it.
      */
-    pxTopOfStack -= portTHREAD_CONTEXT_STACK_GROWTH;
+    px_ತುದಿ_ದ_ರಾಶಿ -= ಪೋರ್ಟ್_THREAD_CONTEXT_ರಾಶಿ_GROWTH;
 
     uint32_t dp;
     uint32_t cp;
@@ -213,7 +213,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /*
      * We need to get the current CP and DP pointers.
      */
-    asm volatile (
+    asm ಅಸ್ಥಿರ (
         "ldaw r11, cp[0]\n\t"      /* get CP into R11 */
         "mov %0, r11\n\t"          /* get R11 (CP) into cp */
         "ldaw r11, dp[0]\n\t"      /* get DP into R11 */
@@ -231,62 +231,62 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * KEDI is also set to enable dual issue mode
      * upon kernel entry.
      */
-    pxTopOfStack[ 1 ] = ( StackType_t ) pxCode;       /* SP[1]  := SPC */
-    pxTopOfStack[ 2 ] = XS1_SR_IEBLE_MASK
-                        | XS1_SR_KEDI_MASK;           /* SP[2]  := SSR */
-    pxTopOfStack[ 3 ] = 0x00000000;                   /* SP[3]  := SED */
-    pxTopOfStack[ 4 ] = 0x00000000;                   /* SP[4]  := ET */
-    pxTopOfStack[ 5 ] = dp;                           /* SP[5]  := DP */
-    pxTopOfStack[ 6 ] = cp;                           /* SP[6]  := CP */
-    pxTopOfStack[ 7 ] = 0x00000000;                   /* SP[7]  := LR */
-    pxTopOfStack[ 8 ] = ( StackType_t ) pvParameters; /* SP[8]  := R0 */
-    pxTopOfStack[ 9 ] = 0x01010101;                   /* SP[9]  := R1 */
-    pxTopOfStack[ 10 ] = 0x02020202;                  /* SP[10] := R2 */
-    pxTopOfStack[ 11 ] = 0x03030303;                  /* SP[11] := R3 */
-    pxTopOfStack[ 12 ] = 0x04040404;                  /* SP[12] := R4 */
-    pxTopOfStack[ 13 ] = 0x05050505;                  /* SP[13] := R5 */
-    pxTopOfStack[ 14 ] = 0x06060606;                  /* SP[14] := R6 */
-    pxTopOfStack[ 15 ] = 0x07070707;                  /* SP[15] := R7 */
-    pxTopOfStack[ 16 ] = 0x08080808;                  /* SP[16] := R8 */
-    pxTopOfStack[ 17 ] = 0x09090909;                  /* SP[17] := R9 */
-    pxTopOfStack[ 18 ] = 0x10101010;                  /* SP[18] := R10 */
-    pxTopOfStack[ 19 ] = 0x11111111;                  /* SP[19] := R11 */
-    pxTopOfStack[ 20 ] = 0x00000000;                  /* SP[20] := vH and vSR */
-    memset( &pxTopOfStack[ 21 ], 0, 32 );             /* SP[21 - 28] := vR   */
-    memset( &pxTopOfStack[ 29 ], 1, 32 );             /* SP[29 - 36] := vD   */
-    memset( &pxTopOfStack[ 37 ], 2, 32 );             /* SP[37 - 44] := vC   */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 1 ] = ( ರಾಶಿ_Type_t ) px_ಸಂಕೇತ;       /* SP[1]  := SPC */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 2 ] = XS1_SR_IEBLE_ಮುಖವಾಡ
+                        | XS1_SR_KEDI_ಮುಖವಾಡ;           /* SP[2]  := SSR */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 3 ] = 0x00000000;                   /* SP[3]  := SED */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 4 ] = 0x00000000;                   /* SP[4]  := ET */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 5 ] = dp;                           /* SP[5]  := DP */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 6 ] = cp;                           /* SP[6]  := CP */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 7 ] = 0x00000000;                   /* SP[7]  := LR */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 8 ] = ( ರಾಶಿ_Type_t ) pvParameters; /* SP[8]  := R0 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 9 ] = 0x01010101;                   /* SP[9]  := R1 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 10 ] = 0x02020202;                  /* SP[10] := R2 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 11 ] = 0x03030303;                  /* SP[11] := R3 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 12 ] = 0x04040404;                  /* SP[12] := R4 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 13 ] = 0x05050505;                  /* SP[13] := R5 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 14 ] = 0x06060606;                  /* SP[14] := R6 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 15 ] = 0x07070707;                  /* SP[15] := R7 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 16 ] = 0x08080808;                  /* SP[16] := R8 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 17 ] = 0x09090909;                  /* SP[17] := R9 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 18 ] = 0x10101010;                  /* SP[18] := R10 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 19 ] = 0x11111111;                  /* SP[19] := R11 */
+    px_ತುದಿ_ದ_ರಾಶಿ[ 20 ] = 0x00000000;                  /* SP[20] := vH and vSR */
+    memset( &px_ತುದಿ_ದ_ರಾಶಿ[ 21 ], 0, 32 );             /* SP[21 - 28] := vR   */
+    memset( &px_ತುದಿ_ದ_ರಾಶಿ[ 29 ], 1, 32 );             /* SP[29 - 36] := vD   */
+    memset( &px_ತುದಿ_ದ_ರಾಶಿ[ 37 ], 2, 32 );             /* SP[37 - 44] := vC   */
 
     /*debug_printf( "Top of stack is now %p for task %p\n", pxTopOfStack, pxCode ); */
 
     /*
      * Returns the new top of the stack
      */
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-void vPortStartSMPScheduler( void );
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಆರಂಭ_SMPScheduler( ಶೂನ್ಯ );
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
-    if( ( configNUMBER_OF_CORES > portMAX_CORE_COUNT ) || ( configNUMBER_OF_CORES <= 0 ) )
+    ಆದರೆ( ( config_ಸಂಖ್ಯೆ_ದ_CORES > ಪೋರ್ಟ್_MAX_CORE_ಎಣಿಕೆ ) || ( config_ಸಂಖ್ಯೆ_ದ_CORES <= 0 ) )
     {
-        return pdFAIL;
+        ಹಿಂತಿರುಗಿ pdFAIL;
     }
 
     rtos_locks_initialize();
     xKernelTimer = hwtimer_alloc();
 
-    vPortStartSMPScheduler();
+    v_ಪೋರ್ಟ್_ಆರಂಭ_SMPScheduler();
 
-    return pdPASS;
+    ಹಿಂತಿರುಗಿ pdPASS;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* Do not implement. */
 }

@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ ದತ್ತಾಂಶ_MODEL_H
+#ವ್ಯಾಖ್ಯಾನಿಸು ದತ್ತಾಂಶ_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#ಆದರೆ __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #ವ್ಯಾಖ್ಯಾನಿಸು pushm_x    pushm.w
+    #ವ್ಯಾಖ್ಯಾನಿಸು popm_x     popm.w
+    #ವ್ಯಾಖ್ಯಾನಿಸು ತಳ್ಳು_x     ತಳ್ಳು.w
+    #ವ್ಯಾಖ್ಯಾನಿಸು ತೆಗೆ_x      ತೆಗೆ_2.w
+    #ವ್ಯಾಖ್ಯಾನಿಸು mov_x      mov.w
+    #ವ್ಯಾಖ್ಯಾನಿಸು cmp_x      cmp.w
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#ಆದರೆ __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #ವ್ಯಾಖ್ಯಾನಿಸು pushm_x    pushm.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು popm_x     popm.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು ತಳ್ಳು_x     pushx.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು ತೆಗೆ_x      popx.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು mov_x      mov.w
+    #ವ್ಯಾಖ್ಯಾನಿಸು cmp_x      cmp.w
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#ಆದರೆ __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #ವ್ಯಾಖ್ಯಾನಿಸು pushm_x    pushm.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು popm_x     popm.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು ತಳ್ಳು_x     pushx.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು ತೆಗೆ_x      popx.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು mov_x      movx.a
+    #ವ್ಯಾಖ್ಯಾನಿಸು cmp_x      cmpx.a
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ pushm_x
+    #ದೋಷ The assembler options must define one ದ the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#ಆದರೆ_ಅಂತ್ಯ
 
-#endif /* DATA_MODEL_H */
+#ಆದರೆ_ಅಂತ್ಯ /* DATA_MODEL_H */

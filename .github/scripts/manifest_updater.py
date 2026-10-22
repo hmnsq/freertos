@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
-import os
-import argparse
+ಆಮದು os
+ಆಮದು argparse
 
-THIS_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-MANIFEST_FILE = os.path.join(THIS_FILE_PATH, '..', '..', 'manifest.yml')
+THIS_FILE_ಮಾರ್ಗ = os.ಮಾರ್ಗ.dirname(os.ಮಾರ್ಗ.abspath(__file__))
+MANIFEST_FILE = os.ಮಾರ್ಗ.join(THIS_FILE_ಮಾರ್ಗ, '..', '..', 'manifest.yml')
 
-def update_manifest_file(new_version_number):
-    updated_lines = []
-    with open(MANIFEST_FILE, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith('version'):
-                updated_lines.append(f'version: "V{new_version_number}"\n')
-            else:
-                updated_lines.append(f'{line}\n')
+ವ್ಯಾಖ್ಯಾನ update_manifest_file(new_ಆವೃತ್ತಿ_ಸಂಖ್ಯೆ):
+    updated_ಸಾಲುಗಳು = []
+    ಜೊತೆ open(MANIFEST_FILE, 'r') ಇವ f:
+        ಗಾಗಿ ಸಾಲು ಒಳಗೆ f:
+            ಸಾಲು = ಸಾಲು.strip()
+            ಆದರೆ ಸಾಲು.startswith('version'):
+                updated_ಸಾಲುಗಳು.append(f'version: "V{new_version_number}"\n')
+            ಇಲ್ಲದಿದ್ದರೆ:
+                updated_ಸಾಲುಗಳು.append(f'{line}\n')
 
-    with open(MANIFEST_FILE, 'w') as f:
-        f.writelines(updated_lines)
+    ಜೊತೆ open(MANIFEST_FILE, 'w') ಇವ f:
+        f.writelines(updated_ಸಾಲುಗಳು)
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--version', required=True, help='New version number.')
-    args = parser.parse_args()
-    return args
+ವ್ಯಾಖ್ಯಾನ parse_ವಾದಗಳು():
+    parser = argparse.ವಾದ_Parser()
+    parser.ಕೂಡಿಸು_ವಾದ('-v', '--version', required=ನಿಜ, help='New version number.')
+    ವಾದಗಳು = parser.parse_ವಾದಗಳು()
+    ಹಿಂತಿರುಗಿ ವಾದಗಳು
 
-def main():
-    args = parse_args()
-    update_manifest_file(args.version)
+ವ್ಯಾಖ್ಯಾನ ಮುಖ್ಯ():
+    ವಾದಗಳು = parse_ವಾದಗಳು()
+    update_manifest_file(ವಾದಗಳು.ಆವೃತ್ತಿ)
 
-if __name__ == '__main__':
-    main()
+ಆದರೆ __name__ == '__main__':
+    ಮುಖ್ಯ()

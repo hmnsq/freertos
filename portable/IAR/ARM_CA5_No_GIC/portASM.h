@@ -29,40 +29,40 @@
     EXTERN  vTaskSwitchContext
     EXTERN  ulCriticalNesting
     EXTERN  pxCurrentTCB
-    EXTERN  ulPortTaskHasFPUContext
-    EXTERN  ulAsmAPIPriorityMask
+    EXTERN  ul_ಪೋರ್ಟ್_Task_Has_FPUContext
+    EXTERN  ul_Asm_APIPriority_ಮುಖವಾಡ
 
-portSAVE_CONTEXT macro
+ಪೋರ್ಟ್_SAVE_CONTEXT macro
 
-    ; Save the LR and SPSR onto the system mode stack before switching to
-    ; system mode to save the remaining system mode registers
+    ; Save the LR and SPSR onto the system ಬಹುಲಕ_2 ರಾಶಿ before switching ಗಮ್ಯ
+    ; system ಬಹುಲಕ_2 ಗಮ್ಯ save the ಉಳಿದ system ಬಹುಲಕ_2 registers
     SRSDB   sp!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    ತಳ್ಳು_2    {R0-R12, R14}
 
-    ; Push the critical nesting count
+    ; ತಳ್ಳು_3 the critical nesting ಎಣಿಕೆ_2
     LDR     R2, =ulCriticalNesting
     LDR     R1, [R2]
-    PUSH    {R1}
+    ತಳ್ಳು_2    {R1}
 
-    ; Does the task have a floating point context that needs saving?  If
-    ; ulPortTaskHasFPUContext is 0 then no.
-    LDR     R2, =ulPortTaskHasFPUContext
+    ; Does the task have a floating ಬಿಂದು_2 context that needs saving?  If
+    ; ul_ಪೋರ್ಟ್_Task_Has_FPUContext is 0 then no.
+    LDR     R2, =ul_ಪೋರ್ಟ್_Task_Has_FPUContext
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating ಬಿಂದು_2 context, ಆದರೆ any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
-#if configFPU_D32 == 1
+#ಆದರೆ configFPU_D32 == 1
     VPUSHNE {D16-D31}
-#endif ; configFPU_D32
+#ಆದರೆ_ಅಂತ್ಯ ; configFPU_D32
     PUSHNE  {R1}
 
-    ; Save ulPortTaskHasFPUContext itself
-    PUSH    {R3}
+    ; Save ul_ಪೋರ್ಟ್_Task_Has_FPUContext itself
+    ತಳ್ಳು_2    {R3}
 
-    ; Save the stack pointer in the TCB
+    ; Save the ರಾಶಿ ಸೂಚಕ_3 ಒಳ the TCB
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     STR     SP, [R1]
@@ -71,39 +71,39 @@ portSAVE_CONTEXT macro
 
 ; /**********************************************************************/
 
-portRESTORE_CONTEXT macro
+ಪೋರ್ಟ್_RESTORE_CONTEXT macro
 
-    ; Set the SP to point to the stack of the task being restored.
+    ; ಗಣ_2 the SP ಗಮ್ಯ ಬಿಂದು_2 ಗಮ್ಯ the ರಾಶಿ ದ the task being restored.
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     LDR     SP, [R1]
 
-    ; Is there a floating point context to restore?  If the restored
-    ; ulPortTaskHasFPUContext is zero then no.
-    LDR     R0, =ulPortTaskHasFPUContext
-    POP     {R1}
+    ; Is there a floating ಬಿಂದು_2 context ಗಮ್ಯ restore?  If the restored
+    ; ul_ಪೋರ್ಟ್_Task_Has_FPUContext is zero then no.
+    LDR     R0, =ul_ಪೋರ್ಟ್_Task_Has_FPUContext
+    ತೆಗೆ_3     {R1}
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating ಬಿಂದು_2 context, ಆದರೆ any
     POPNE   {R0}
-#if configFPU_D32 == 1
+#ಆದರೆ configFPU_D32 == 1
     VPOPNE  {D16-D31}
-#endif ; configFPU_D32
+#ಆದರೆ_ಅಂತ್ಯ ; configFPU_D32
     VPOPNE  {D0-D15}
     VMSRNE  FPSCR, R0
 
-    ; Restore the critical section nesting depth
+    ; Restore the critical section nesting ಆಳ
     LDR     R0, =ulCriticalNesting
-    POP     {R1}
+    ತೆಗೆ_3     {R1}
     STR     R1, [R0]
 
-    ; Restore all system mode registers other than the SP (which is already
-    ; being used)
-    POP     {R0-R12, R14}
+    ; Restore all system ಬಹುಲಕ_2 registers other than the SP (which is already
+    ; being ಬಳಸಿದ)
+    ತೆಗೆ_3     {R0-R12, R14}
 
-    ; Return to the task code, loading CPSR on the way.  CPSR has the interrupt
-    ; enable bit set appropriately for the task about to execute.
+    ; Return ಗಮ್ಯ the task ಸಂಕೇತ_2, loading CPSR on the way.  CPSR has the ಅಡಚಣೆ
+    ; enable ಬಿಟ್_2 ಗಣ appropriately ಗಾಗಿ the task about ಗಮ್ಯ execute.
     RFEIA   sp!
 
     endm

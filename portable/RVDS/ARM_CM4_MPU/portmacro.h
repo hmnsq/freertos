@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ PORTMACRO_H
+#ವ್ಯಾಖ್ಯಾನಿಸು PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+    ಬಾಹ್ಯ "C" {
+#ಆದರೆ_ಅಂತ್ಯ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,61 +47,61 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHAR          ಅಕ್ಷರ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_FLOAT         ದಶಮಾಂಶ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_DOUBLE        ದ್ವಿಗುಣ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_LONG          ದೀರ್ಘ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SHORT         ಗಿಡ್ಡ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_TYPE    uint32_t
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ತಳ_TYPE     ದೀರ್ಘ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಪೋರ್ಟ್_ರಾಶಿ_TYPE   ರಾಶಿ_Type_t;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ದೀರ್ಘ             ತಳ_Type_t;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ಆದರೆ ( config_TICK_TYPE_ಅಗಲ_ಒಳ_ಬಿಟ್ಟುಗಳು == TICK_TYPE_ಅಗಲ_16_ಬಿಟ್ಟುಗಳು )
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint16_t     TickType_t;
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_DELAY              ( TickType_t ) 0xffff
+#ಅಥವಾಆದರೆ ( config_TICK_TYPE_ಅಗಲ_ಒಳ_ಬಿಟ್ಟುಗಳು == TICK_TYPE_ಅಗಲ_32_ಬಿಟ್ಟುಗಳು )
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint32_t     TickType_t;
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TICK_TYPE_IS_ATOMIC    1
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ದೋಷ "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Errata 837070 workaround must be enabled on Cortex-M7 r0p0
  * and r0p1 cores. */
-#ifndef configENABLE_ERRATA_837070_WORKAROUND
-    #define configENABLE_ERRATA_837070_WORKAROUND    0
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ configENABLE_ERRATA_837070_WORKAROUND
+    #ವ್ಯಾಖ್ಯಾನಿಸು configENABLE_ERRATA_837070_WORKAROUND    0
+#ಆದರೆ_ಅಂತ್ಯ
 /*-----------------------------------------------------------*/
 
 /* MPU specific constants. */
-#define portUSING_MPU_WRAPPERS                                   1
-#define portPRIVILEGE_BIT                                        ( 0x80000000UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_USING_MPU_WRAPPERS                                   1
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_PRIVILEGE_ಬಿಟ್                                        ( 0x80000000UL )
 
-#define portMPU_REGION_READ_WRITE                                ( 0x03UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_ONLY                      ( 0x05UL << 24UL )
-#define portMPU_REGION_READ_ONLY                                 ( 0x06UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_WRITE                     ( 0x01UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY    ( 0x02UL << 24UL )
-#define portMPU_REGION_CACHEABLE_BUFFERABLE                      ( 0x07UL << 16UL )
-#define portMPU_REGION_EXECUTE_NEVER                             ( 0x01UL << 28UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_READ_WRITE                                ( 0x03UL << 24UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_PRIVILEGED_READ_ONLY                      ( 0x05UL << 24UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_READ_ONLY                                 ( 0x06UL << 24UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_PRIVILEGED_READ_WRITE                     ( 0x01UL << 24UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY    ( 0x02UL << 24UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_CACHEABLE_BUFFERABLE                      ( 0x07UL << 16UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_REGION_EXECUTE_NEVER                             ( 0x01UL << 28UL )
 
 /* Location of the TEX,S,C,B bits in the MPU Region Attribute and Size
  * Register (RASR). */
-#define portMPU_RASR_TEX_S_C_B_LOCATION                          ( 16UL )
-#define portMPU_RASR_TEX_S_C_B_MASK                              ( 0x3FUL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_RASR_TEX_S_C_B_LOCATION                          ( 16UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MPU_RASR_TEX_S_C_B_ಮುಖವಾಡ                              ( 0x3FUL )
 
 /* MPU settings that can be overridden in FreeRTOSConfig.h. */
-#ifndef configTOTAL_MPU_REGIONS
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_ಒಟ್ಟು_MPU_REGIONS
     /* Define to 8 for backward compatibility. */
-    #define configTOTAL_MPU_REGIONS    ( 8UL )
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು config_ಒಟ್ಟು_MPU_REGIONS    ( 8UL )
+#ಆದರೆ_ಅಂತ್ಯ
 
 /*
  * The TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits define the
@@ -167,56 +167,56 @@ typedef unsigned long    UBaseType_t;
 
 /* TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits for Flash
  * region. */
-#ifndef configTEX_S_C_B_FLASH
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ configTEX_S_C_B_FLASH
     /* Default to TEX=000, S=1, C=1, B=1 for backward compatibility. */
-    #define configTEX_S_C_B_FLASH    ( 0x07UL )
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು configTEX_S_C_B_FLASH    ( 0x07UL )
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits for SRAM
  * region. */
-#ifndef configTEX_S_C_B_SRAM
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ configTEX_S_C_B_SRAM
     /* Default to TEX=000, S=1, C=1, B=1 for backward compatibility. */
-    #define configTEX_S_C_B_SRAM          ( 0x07UL )
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು configTEX_S_C_B_SRAM          ( 0x07UL )
+#ಆದರೆ_ಅಂತ್ಯ
 
-#define portSTACK_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
-#define portGENERAL_PERIPHERALS_REGION    ( configTOTAL_MPU_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION     ( configTOTAL_MPU_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION       ( configTOTAL_MPU_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION         ( configTOTAL_MPU_REGIONS - 1UL )
-#define portFIRST_CONFIGURABLE_REGION     ( 0UL )
-#define portLAST_CONFIGURABLE_REGION      ( configTOTAL_MPU_REGIONS - 6UL )
-#define portNUM_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
-#define portTOTAL_NUM_REGIONS_IN_TCB      ( portNUM_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_REGION                  ( config_ಒಟ್ಟು_MPU_REGIONS - 5UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GENERAL_PERIPHERALS_REGION    ( config_ಒಟ್ಟು_MPU_REGIONS - 4UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_UNPRIVILEGED_FLASH_REGION     ( config_ಒಟ್ಟು_MPU_REGIONS - 3UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_PRIVILEGED_FLASH_REGION       ( config_ಒಟ್ಟು_MPU_REGIONS - 2UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_PRIVILEGED_RAM_REGION         ( config_ಒಟ್ಟು_MPU_REGIONS - 1UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಮೊದಲ_CONFIGURABLE_REGION     ( 0UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಕೊನೆಯ_CONFIGURABLE_REGION      ( config_ಒಟ್ಟು_MPU_REGIONS - 6UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಅಂಕೆ_CONFIGURABLE_REGIONS      ( config_ಒಟ್ಟು_MPU_REGIONS - 5UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಒಟ್ಟು_ಅಂಕೆ_REGIONS_ಒಳ_TCB      ( ಪೋರ್ಟ್_ಅಂಕೆ_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
 
-typedef struct MPU_REGION_REGISTERS
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ MPU_REGION_REGISTERS
 {
-    uint32_t ulRegionBaseAddress;
+    uint32_t ul_Region_ತಳ_ವಿಳಾಸ;
     uint32_t ulRegionAttribute;
 } xMPU_REGION_REGISTERS;
 
-typedef struct MPU_REGION_SETTINGS
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ MPU_REGION_SETTINGS
 {
-    uint32_t ulRegionStartAddress;
-    uint32_t ulRegionEndAddress;
+    uint32_t ul_Region_ಆರಂಭ_ವಿಳಾಸ;
+    uint32_t ul_Region_ಕೊನೆ_ವಿಳಾಸ;
     uint32_t ulRegionPermissions;
 } xMPU_REGION_SETTINGS;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ಆದರೆ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #ifndef configSYSTEM_CALL_STACK_SIZE
-        #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
-    #endif
+    #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_SYSTEM_CALL_ರಾಶಿ_ಗಾತ್ರ
+        #ದೋಷ "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
+    #ಆದರೆ_ಅಂತ್ಯ
 
-    typedef struct SYSTEM_CALL_STACK_INFO
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ SYSTEM_CALL_ರಾಶಿ_INFO
     {
-        uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-        uint32_t * pulSystemCallStack;
-        uint32_t * pulTaskStack;
-        uint32_t ulLinkRegisterAtSystemCallEntry;
-    } xSYSTEM_CALL_STACK_INFO;
+        uint32_t ul_System_Call_ರಾಶಿ_ಬಫರ್[ config_SYSTEM_CALL_ರಾಶಿ_ಗಾತ್ರ ];
+        uint32_t * pul_System_Call_ರಾಶಿ;
+        uint32_t * pul_Task_ರಾಶಿ;
+        uint32_t ul_Link_ರಿಜಿಸ್ಟರ್_At_System_Call_ನಮೂದು;
+    } x_SYSTEM_CALL_ರಾಶಿ_INFO;
 
-#endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ಆದರೆ_ಅಂತ್ಯ /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /*
  * +---------+---------------+-----------------+-----------------+-----+
@@ -227,158 +227,158 @@ typedef struct MPU_REGION_SETTINGS
  * <--------><---------------><----------------><----------------><---->
  *     16           17               10                 9           1
  */
-#define MAX_CONTEXT_SIZE                    ( 53 )
+#ವ್ಯಾಖ್ಯಾನಿಸು MAX_CONTEXT_ಗಾತ್ರ                    ( 53 )
 
 /* Size of an Access Control List (ACL) entry in bits. */
-#define portACL_ENTRY_SIZE_BITS             ( 32U )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ACL_ನಮೂದು_ಗಾತ್ರ_ಬಿಟ್ಟುಗಳು             ( 32U )
 
 /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-#define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
-#define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_ಚೌಕಟ್ಟು_HAS_PADDING_FLAG    ( 1UL << 0UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
-typedef struct MPU_SETTINGS
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    xMPU_REGION_SETTINGS xRegionSettings[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    uint32_t ulContext[ MAX_CONTEXT_SIZE ];
+    xMPU_REGION_REGISTERS xRegion[ ಪೋರ್ಟ್_ಒಟ್ಟು_ಅಂಕೆ_REGIONS_ಒಳ_TCB ];
+    xMPU_REGION_SETTINGS xRegionSettings[ ಪೋರ್ಟ್_ಒಟ್ಟು_ಅಂಕೆ_REGIONS_ಒಳ_TCB ];
+    uint32_t ulContext[ MAX_CONTEXT_ಗಾತ್ರ ];
     uint32_t ulTaskFlags;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-        xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-        #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
-            uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
-        #endif
-    #endif
+    #ಆದರೆ ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        x_SYSTEM_CALL_ರಾಶಿ_INFO x_System_Call_ರಾಶಿ_Info;
+        #ಆದರೆ ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            uint32_t ulAccessControlList[ ( config_PROTECTED_KERNEL_OBJECT_POOL_ಗಾತ್ರ / ಪೋರ್ಟ್_ACL_ನಮೂದು_ಗಾತ್ರ_ಬಿಟ್ಟುಗಳು ) + 1 ];
+        #ಆದರೆ_ಅಂತ್ಯ
+    #ಆದರೆ_ಅಂತ್ಯ
 } xMPU_SETTINGS;
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT        8
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_GROWTH          ( -1 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_ದರ_HZ )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_BYTE_ALIGNMENT        8
 
 /* Constants used with memory barrier intrinsics. */
-#define portSY_FULL_READ_WRITE    ( 15 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SY_ತುಂಬಿದ_READ_WRITE    ( 15 )
 
 /*-----------------------------------------------------------*/
 
 /* SVC numbers for various services. */
-#define portSVC_START_SCHEDULER        100
-#define portSVC_YIELD                  101
-#define portSVC_RAISE_PRIVILEGE        102
-#define portSVC_SYSTEM_CALL_EXIT       103
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SVC_ಆರಂಭ_SCHEDULER        100
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SVC_YIELD                  101
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SVC_RAISE_PRIVILEGE        102
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SVC_SYSTEM_CALL_EXIT       103
 
 /* Scheduler utilities. */
 
-#define portYIELD()    __asm { SVC portSVC_YIELD }
-#define portYIELD_WITHIN_API()                          \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD()    __asm { SVC ಪೋರ್ಟ್_SVC_YIELD }
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD_WITHIN_API()                          \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
-        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+        ಪೋರ್ಟ್_NVIC_INT_CTRL_REG = ಪೋರ್ಟ್_NVIC_PENDSVSET_ಬಿಟ್; \
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
-        __dsb( portSY_FULL_READ_WRITE );                           \
-        __isb( portSY_FULL_READ_WRITE );                           \
+        __dsb( ಪೋರ್ಟ್_SY_ತುಂಬಿದ_READ_WRITE );                           \
+        __isb( ಪೋರ್ಟ್_SY_ತುಂಬಿದ_READ_WRITE );                           \
     }
 /*-----------------------------------------------------------*/
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_INT_CTRL_REG     ( *( ( ಅಸ್ಥಿರ uint32_t * ) 0xe000ed04 ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NVIC_PENDSVSET_ಬಿಟ್    ( 1UL << 28UL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಕೊನೆ_SWITCHING_ISR( xSwitchRequired )            \
+    ಮಾಡು                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        ಆದರೆ( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_ಗಮ್ಯ_SCHEDULER();                   \
+            ಪೋರ್ಟ್_NVIC_INT_CTRL_REG = ಪೋರ್ಟ್_NVIC_PENDSVSET_ಬಿಟ್; \
         }                                                   \
-        else                                                \
+        ಇಲ್ಲದಿದ್ದರೆ                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } ಆಗ( 0 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD_FROM_ISR( x )    ಪೋರ್ಟ್_ಕೊನೆ_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Enter_Critical( ಶೂನ್ಯ );
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Exit_Critical( ಶೂನ್ಯ );
 
-#define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
-#define portENABLE_INTERRUPTS()                   vPortSetBASEPRI( 0 )
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortSetBASEPRI( x )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_DISABLE_INTERRUPTS()                  v_ಪೋರ್ಟ್_Raise_BASEPRI()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENABLE_INTERRUPTS()                   v_ಪೋರ್ಟ್_ಗಣ_BASEPRI( 0 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENTER_CRITICAL()                      v_ಪೋರ್ಟ್_Enter_Critical()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_EXIT_CRITICAL()                       v_ಪೋರ್ಟ್_Exit_Critical()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR()         ul_ಪೋರ್ಟ್_Raise_BASEPRI()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLEAR_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR( x )    v_ಪೋರ್ಟ್_ಗಣ_BASEPRI( x )
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION
+    #ವ್ಯಾಖ್ಯಾನಿಸು config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION    1
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ಆದರೆ config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
-    #endif
+    #ಆದರೆ ( configMAX_PRIORITIES > 32 )
+        #ದೋಷ "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
+    #ಆದರೆ_ಅಂತ್ಯ
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ದಾಖಲೆ_READY_ಆದ್ಯತೆ( ux_ಆದ್ಯತೆ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ಆದ್ಯತೆ ) )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESET_READY_ಆದ್ಯತೆ( ux_ಆದ್ಯತೆ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ಆದ್ಯತೆ ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_HIGHEST_ಆದ್ಯತೆ( ux_ತುದಿ_ಆದ್ಯತೆ, uxReadyPriorities )    ux_ತುದಿ_ಆದ್ಯತೆ = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#ಆದರೆ_ಅಂತ್ಯ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_FUNCTION( vFunction, pvParameters )          ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif
+#ಆದರೆ ( configASSERT_DEFINED == 1 )
+    ಶೂನ್ಯ v_ಪೋರ್ಟ್_Validate_ಅಡಚಣೆ_ಆದ್ಯತೆ( ಶೂನ್ಯ );
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ASSERT_IF_ಅಡಚಣೆ_ಆದ್ಯತೆ_INVALID()    v_ಪೋರ್ಟ್_Validate_ಅಡಚಣೆ_ಆದ್ಯತೆ()
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* portNOP() is not required by this port. */
-#define portNOP()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NOP()
 
-#define portINLINE              __inline
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INLINE              __inline
 
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    __forceinline
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ ಪೋರ್ಟ್_FORCE_INLINE
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_FORCE_INLINE    __forceinline
+#ಆದರೆ_ಅಂತ್ಯ
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xIsPrivileged( void );
-extern void vResetPrivilege( void );
-extern void vPortSwitchToUserMode( void );
+ಬಾಹ್ಯ ತಳ_Type_t xIsPrivileged( ಶೂನ್ಯ );
+ಬಾಹ್ಯ ಶೂನ್ಯ vResetPrivilege( ಶೂನ್ಯ );
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Switch_ಗಮ್ಯ_User_ಬಹುಲಕ( ಶೂನ್ಯ );
 
 /**
  * @brief Checks whether or not the processor is privileged.
  *
  * @return 1 if the processor is already privileged, 0 otherwise.
  */
-#define portIS_PRIVILEGED()          xIsPrivileged()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_IS_PRIVILEGED()          xIsPrivileged()
 
 /**
  * @brief Raise an SVC request to raise privilege.
  */
-#define portRAISE_PRIVILEGE()        __asm { svc portSVC_RAISE_PRIVILEGE }
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RAISE_PRIVILEGE()        __asm { svc ಪೋರ್ಟ್_SVC_RAISE_PRIVILEGE }
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
  * register.
  */
-#define portRESET_PRIVILEGE()        vResetPrivilege()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESET_PRIVILEGE()        vResetPrivilege()
 
 /**
  * @brief Make a task unprivileged.
@@ -386,20 +386,20 @@ extern void vPortSwitchToUserMode( void );
  * It must be called from privileged tasks only. Calling it from unprivileged
  * task will result in a memory protection fault.
  */
-#define portSWITCH_TO_USER_MODE()    vPortSwitchToUserMode()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SWITCH_ಗಮ್ಯ_USER_ಬಹುಲಕ()    v_ಪೋರ್ಟ್_Switch_ಗಮ್ಯ_User_ಬಹುಲಕ()
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xPortIsTaskPrivileged( void );
+ಬಾಹ್ಯ ತಳ_Type_t x_ಪೋರ್ಟ್_Is_Task_Privileged( ಶೂನ್ಯ );
 
 /**
  * @brief Checks whether or not the calling task is privileged.
  *
  * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
  */
-#define portIS_TASK_PRIVILEGED()    xPortIsTaskPrivileged()
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_IS_TASK_PRIVILEGED()    x_ಪೋರ್ಟ್_Is_Task_Privileged()
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
+ಸ್ಥಿರ ಪೋರ್ಟ್_FORCE_INLINE ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಗಣ_BASEPRI( uint32_t ulBASEPRI )
 {
     __asm
     {
@@ -412,30 +412,30 @@ static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortRaiseBASEPRI( void )
+ಸ್ಥಿರ ಪೋರ್ಟ್_FORCE_INLINE ಶೂನ್ಯ v_ಪೋರ್ಟ್_Raise_BASEPRI( ಶೂನ್ಯ )
 {
-    uint32_t ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+    uint32_t ulNewBASEPRI = config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ;
 
     __asm
     {
         /* Set BASEPRI to the max syscall priority to effect a critical
          * section. */
 /* *INDENT-OFF* */
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #ಆದರೆ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsid i
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
         msr basepri, ulNewBASEPRI
         dsb
         isb
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #ಆದರೆ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsie i
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 /* *INDENT-ON* */
     }
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
+ಸ್ಥಿರ ಪೋರ್ಟ್_FORCE_INLINE ಶೂನ್ಯ v_ಪೋರ್ಟ್_Clear_BASEPRIFrom_ISR( ಶೂನ್ಯ )
 {
     __asm
     {
@@ -449,9 +449,9 @@ static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+ಸ್ಥಿರ ಪೋರ್ಟ್_FORCE_INLINE uint32_t ul_ಪೋರ್ಟ್_Raise_BASEPRI( ಶೂನ್ಯ )
 {
-    uint32_t ulReturn, ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+    uint32_t ulReturn, ulNewBASEPRI = config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ;
 
     __asm
     {
@@ -459,56 +459,56 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
          * section. */
 /* *INDENT-OFF* */
         mrs ulReturn, basepri
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #ಆದರೆ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsid i
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
         msr basepri, ulNewBASEPRI
         dsb
         isb
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #ಆದರೆ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsie i
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 /* *INDENT-ON* */
     }
 
-    return ulReturn;
+    ಹಿಂತಿರುಗಿ ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
+ಸ್ಥಿರ ಪೋರ್ಟ್_FORCE_INLINE ತಳ_Type_t x_ಪೋರ್ಟ್_Is_Inside_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_ಅಡಚಣೆ;
+    ತಳ_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
     __asm
     {
-        mrs ulCurrentInterrupt, ipsr
+        mrs ul_Current_ಅಡಚಣೆ, ipsr
     }
 
-    if( ulCurrentInterrupt == 0 )
+    ಆದರೆ( ul_Current_ಅಡಚಣೆ == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    ಇಲ್ಲದಿದ್ದರೆ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    ಹಿಂತಿರುಗಿ xReturn;
 }
 /*-----------------------------------------------------------*/
 
-#ifndef configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
     #warning "configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY is not defined. We recommend defining it to 1 in FreeRTOSConfig.h for better security. www.FreeRTOS.org/FreeRTOS-V10.3.x.html"
-    #define configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY    0
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY    0
+#ಆದರೆ_ಅಂತ್ಯ
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
     }
-#endif
+#ಆದರೆ_ಅಂತ್ಯ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ಆದರೆ_ಅಂತ್ಯ /* PORTMACRO_H */

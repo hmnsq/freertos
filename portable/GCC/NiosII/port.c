@@ -31,107 +31,107 @@
 *----------------------------------------------------------*/
 
 /* Standard Includes. */
-#include <string.h>
-#include <errno.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <errno.h>
 
 /* Altera includes. */
-#include "sys/alt_irq.h"
-#include "sys/alt_exceptions.h"
-#include "altera_avalon_timer_regs.h"
-#include "priv/alt_irq_table.h"
+#ಅನ್ತರ್ಭಾವ "sys/alt_irq.h"
+#ಅನ್ತರ್ಭಾವ "sys/alt_exceptions.h"
+#ಅನ್ತರ್ಭಾವ "altera_avalon_timer_regs.h"
+#ಅನ್ತರ್ಭಾವ "priv/alt_irq_table.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 /* Interrupts are enabled. */
-#define portINITIAL_ESTATUS    ( StackType_t ) 0x01
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_ESTATUS    ( ರಾಶಿ_Type_t ) 0x01
 
-int _alt_ic_isr_register( alt_u32 ic_id,
+ಪೂರ್ಣಾಂಕ alt_ic_isr_ರಿಜಿಸ್ಟರ್( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags );
+                          ಶೂನ್ಯ * isr_context,
+                          ಶೂನ್ಯ * flags );
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ );
 
 /*
  * Call back for the alarm function.
  */
-void vPortSysTickHandler( void * context );
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Sys_Tick_Handler( ಶೂನ್ಯ * context );
 
 /*-----------------------------------------------------------*/
 
-static void prvReadGp( uint32_t * ulValue )
+ಸ್ಥಿರ ಶೂನ್ಯ prvReadGp( uint32_t * ul_ಮೌಲ್ಯ )
 {
-    asm ( "stw gp, (%0)" ::"r" ( ulValue ) );
+    asm ( "stw gp, (%0)" ::"r" ( ul_ಮೌಲ್ಯ ) );
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ರಾಶಿ_Type_t * px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ,
+                                     TaskFunction_t px_ಸಂಕೇತ,
+                                     ಶೂನ್ಯ * pvParameters )
 {
-    StackType_t * pxFramePointer = pxTopOfStack - 1;
-    StackType_t xGlobalPointer;
+    ರಾಶಿ_Type_t * px_ಚೌಕಟ್ಟು_ಸೂಚಕ = px_ತುದಿ_ದ_ರಾಶಿ - 1;
+    ರಾಶಿ_Type_t x_Global_ಸೂಚಕ;
 
-    prvReadGp( &xGlobalPointer );
+    prvReadGp( &x_Global_ಸೂಚಕ );
 
     /* End of stack marker. */
-    *pxTopOfStack = 0xdeadbeef;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = 0xdeadbeef;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = ( StackType_t ) pxFramePointer;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) px_ಚೌಕಟ್ಟು_ಸೂಚಕ;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = xGlobalPointer;
+    *px_ತುದಿ_ದ_ರಾಶಿ = x_Global_ಸೂಚಕ;
 
     /* Space for R23 to R16. */
-    pxTopOfStack -= 9;
+    px_ತುದಿ_ದ_ರಾಶಿ -= 9;
 
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) px_ಸಂಕೇತ;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = portINITIAL_ESTATUS;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ಪೋರ್ಟ್_INITIAL_ESTATUS;
 
     /* Space for R15 to R5. */
-    pxTopOfStack -= 12;
+    px_ತುದಿ_ದ_ರಾಶಿ -= 12;
 
-    *pxTopOfStack = ( StackType_t ) pvParameters;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pvParameters;
 
     /* Space for R3 to R1, muldiv and RA. */
-    pxTopOfStack -= 5;
+    px_ತುದಿ_ದ_ರಾಶಿ -= 5;
 
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ();
 
     /* Start the first task. */
-    asm volatile ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
+    asm ಅಸ್ಥಿರ ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
                    " jmp r2                                          " );
 
     /* Should not get here! */
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* It is unlikely that the NIOS2 port will require this function as there
      * is nothing to return to.  */
@@ -142,38 +142,38 @@ void vPortEndScheduler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
     /* Try to register the interrupt handler. */
-    if( -EINVAL == _alt_ic_isr_register( SYS_CLK_IRQ_INTERRUPT_CONTROLLER_ID, SYS_CLK_IRQ, vPortSysTickHandler, 0x0, 0x0 ) )
+    ಆದರೆ( -EINVAL == alt_ic_isr_ರಿಜಿಸ್ಟರ್( SYS_CLK_IRQ_ಅಡಚಣೆ_CONTROLLER_ID, SYS_CLK_IRQ, v_ಪೋರ್ಟ್_Sys_Tick_Handler, 0x0, 0x0 ) )
     {
         /* Failed to install the Interrupt Handler. */
         asm ( "break" );
     }
-    else
+    ಇಲ್ಲದಿದ್ದರೆ
     {
         /* Configure SysTick to interrupt at the requested rate. */
-        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_BASE, ALTERA_AVALON_TIMER_CONTROL_STOP_MSK );
-        IOWR_ALTERA_AVALON_TIMER_PERIODL( SYS_CLK_BASE, ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) & 0xFFFF );
-        IOWR_ALTERA_AVALON_TIMER_PERIODH( SYS_CLK_BASE, ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) >> 16 );
-        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_BASE, ALTERA_AVALON_TIMER_CONTROL_CONT_MSK | ALTERA_AVALON_TIMER_CONTROL_START_MSK | ALTERA_AVALON_TIMER_CONTROL_ITO_MSK );
+        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_ತಳ, ALTERA_AVALON_TIMER_CONTROL_STOP_MSK );
+        IOWR_ALTERA_AVALON_TIMER_PERIODL( SYS_CLK_ತಳ, ( configCPU_CLOCK_HZ / config_TICK_ದರ_HZ ) & 0xFFFF );
+        IOWR_ALTERA_AVALON_TIMER_PERIODH( SYS_CLK_ತಳ, ( configCPU_CLOCK_HZ / config_TICK_ದರ_HZ ) >> 16 );
+        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_ತಳ, ALTERA_AVALON_TIMER_CONTROL_CONT_MSK | ALTERA_AVALON_TIMER_CONTROL_ಆರಂಭ_MSK | ALTERA_AVALON_TIMER_CONTROL_ITO_MSK );
     }
 
     /* Clear any already pending interrupts generated by the Timer. */
-    IOWR_ALTERA_AVALON_TIMER_STATUS( SYS_CLK_BASE, ~ALTERA_AVALON_TIMER_STATUS_TO_MSK );
+    IOWR_ALTERA_AVALON_TIMER_ಸ್ಥಿತಿ( SYS_CLK_ತಳ, ~ALTERA_AVALON_TIMER_ಸ್ಥಿತಿ_ಗಮ್ಯ_MSK );
 }
 /*-----------------------------------------------------------*/
 
-void vPortSysTickHandler( void * context )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Sys_Tick_Handler( ಶೂನ್ಯ * context )
 {
     /* Increment the kernel tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ಆದರೆ( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
 
     /* Clear the interrupt. */
-    IOWR_ALTERA_AVALON_TIMER_STATUS( SYS_CLK_BASE, ~ALTERA_AVALON_TIMER_STATUS_TO_MSK );
+    IOWR_ALTERA_AVALON_TIMER_ಸ್ಥಿತಿ( SYS_CLK_ತಳ, ~ALTERA_AVALON_TIMER_ಸ್ಥಿತಿ_ಗಮ್ಯ_MSK );
 }
 /*-----------------------------------------------------------*/
 
@@ -183,17 +183,17 @@ void vPortSysTickHandler( void * context )
  * kernel has its scheduler started so that contexts are saved and switched
  * correctly.
  */
-int _alt_ic_isr_register( alt_u32 ic_id,
+ಪೂರ್ಣಾಂಕ alt_ic_isr_ರಿಜಿಸ್ಟರ್( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags )
+                          ಶೂನ್ಯ * isr_context,
+                          ಶೂನ್ಯ * flags )
 {
-    int rc = -EINVAL;
+    ಪೂರ್ಣಾಂಕ rc = -EINVAL;
     alt_irq_context status;
-    int id = irq; /* IRQ interpreted as the interrupt ID. */
+    ಪೂರ್ಣಾಂಕ id = irq; /* IRQ interpreted as the interrupt ID. */
 
-    if( id < ALT_NIRQ )
+    ಆದರೆ( id < ALT_NIRQ )
     {
         /*
          * interrupts are disabled while the handler tables are updated to ensure
@@ -211,6 +211,6 @@ int _alt_ic_isr_register( alt_u32 ic_id,
         /* alt_irq_enable_all(status); This line is removed to prevent the interrupt from being immediately enabled. */
     }
 
-    return rc;
+    ಹಿಂತಿರುಗಿ rc;
 }
 /*-----------------------------------------------------------*/

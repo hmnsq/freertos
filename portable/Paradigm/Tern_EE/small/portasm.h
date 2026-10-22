@@ -26,47 +26,47 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ ಪೋರ್ಟ್_ASM_H
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಶೂನ್ಯ TCB_t;
+ಬಾಹ್ಯ ಅಸ್ಥಿರ TCB_t * ಅಸ್ಥಿರ pxCurrentTCB;
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskSwitchContext( ಶೂನ್ಯ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portEND_SWITCHING_ISR( void );
+ಶೂನ್ಯ ಪೋರ್ಟ್_ಕೊನೆ_SWITCHING_ISR( ಶೂನ್ಯ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+ಶೂನ್ಯ ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT( ಶೂನ್ಯ );
 
-#define portEND_SWITCHING_ISR()                                         \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಕೊನೆ_SWITCHING_ISR()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
-                            asm { mov   word ptr [bx], sp           }   \
+                            asm { mov   ಶಬ್ದ ptr [bx], sp           }   \
                             asm { call  far ptr vTaskSwitchContext  }   \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }
 
-#define portFIRST_CONTEXT()                                         \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { ತೆಗೆ_2   bp                          }   \
+                            asm { ತೆಗೆ_2   di                          }   \
+                            asm { ತೆಗೆ_2   si                          }   \
+                            asm { ತೆಗೆ_2   ds                          }   \
+                            asm { ತೆಗೆ_2   es                          }   \
+                            asm { ತೆಗೆ_2   dx                          }   \
+                            asm { ತೆಗೆ_2   cx                          }   \
+                            asm { ತೆಗೆ_2   bx                          }   \
+                            asm { ತೆಗೆ_2   ax                          }   \
                             asm { iret                              }
 
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

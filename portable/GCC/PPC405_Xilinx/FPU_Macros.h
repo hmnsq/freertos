@@ -28,18 +28,18 @@
 
 /* When switching out a task, if the task tag contains a buffer address then
  * save the flop context into the buffer. */
-#define traceTASK_SWITCHED_OUT()                                         \
-    if( pxCurrentTCB->pxTaskTag != NULL )                                \
+#ವ್ಯಾಖ್ಯಾನಿಸು trace_TASK_SWITCHED_ಹೊರಹೋಗು()                                         \
+    ಆದರೆ( pxCurrentTCB->px_Task_ಟ್ಯಾಗ್ != ಖಾಲಿ )                                \
     {                                                                    \
-        extern void vPortSaveFPURegisters( void * );                     \
-        vPortSaveFPURegisters( ( void * ) ( pxCurrentTCB->pxTaskTag ) ); \
+        ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Save_FPURegisters( ಶೂನ್ಯ * );                     \
+        v_ಪೋರ್ಟ್_Save_FPURegisters( ( ಶೂನ್ಯ * ) ( pxCurrentTCB->px_Task_ಟ್ಯಾಗ್ ) ); \
     }
 
 /* When switching in a task, if the task tag contains a buffer address then
  * load the flop context from the buffer. */
-#define traceTASK_SWITCHED_IN()                                             \
-    if( pxCurrentTCB->pxTaskTag != NULL )                                   \
+#ವ್ಯಾಖ್ಯಾನಿಸು trace_TASK_SWITCHED_ಒಳ()                                             \
+    ಆದರೆ( pxCurrentTCB->px_Task_ಟ್ಯಾಗ್ != ಖಾಲಿ )                                   \
     {                                                                       \
-        extern void vPortRestoreFPURegisters( void * );                     \
-        vPortRestoreFPURegisters( ( void * ) ( pxCurrentTCB->pxTaskTag ) ); \
+        ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Restore_FPURegisters( ಶೂನ್ಯ * );                     \
+        v_ಪೋರ್ಟ್_Restore_FPURegisters( ( ಶೂನ್ಯ * ) ( pxCurrentTCB->px_Task_ಟ್ಯಾಗ್ ) ); \
     }

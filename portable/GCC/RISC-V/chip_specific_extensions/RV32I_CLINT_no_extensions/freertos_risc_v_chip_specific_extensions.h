@@ -51,12 +51,12 @@
  */
 
 
-#ifndef __FREERTOS_RISC_V_EXTENSIONS_H__
-#define __FREERTOS_RISC_V_EXTENSIONS_H__
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __FREERTOS_RISC_V_EXTENSIONS_H__
+#ವ್ಯಾಖ್ಯಾನಿಸು __FREERTOS_RISC_V_EXTENSIONS_H__
 
-#define portasmHAS_SIFIVE_CLINT           1
-#define portasmHAS_MTIME                  1
-#define portasmADDITIONAL_CONTEXT_SIZE    0 /* Must be even number on 32-bit cores. */
+#ವ್ಯಾಖ್ಯಾನಿಸು portasmHAS_SIFIVE_CLINT           1
+#ವ್ಯಾಖ್ಯಾನಿಸು portasmHAS_MTIME                  1
+#ವ್ಯಾಖ್ಯಾನಿಸು portasm_ADDITIONAL_CONTEXT_ಗಾತ್ರ    0 /* Must be even number on 32-bit cores. */
 
 .macro portasmSAVE_ADDITIONAL_REGISTERS
 /* No additional registers to save, so this macro does nothing. */
@@ -66,4 +66,4 @@
 /* No additional registers to restore, so this macro does nothing. */
    .endm
 
-#endif /* __FREERTOS_RISC_V_EXTENSIONS_H__ */
+#ಆದರೆ_ಅಂತ್ಯ /* __FREERTOS_RISC_V_EXTENSIONS_H__ */

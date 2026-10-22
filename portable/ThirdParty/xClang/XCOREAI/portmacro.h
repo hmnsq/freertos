@@ -1,63 +1,63 @@
 /* Copyright (c) 2020, XMOS Ltd, All rights reserved */
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ PORTMACRO_H
+    #ವ್ಯಾಖ್ಯಾನಿಸು PORTMACRO_H
 
-    #ifndef __ASSEMBLER__
+    #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __ASSEMBLER__
 
 /* Inclusion of xc1.h will result in clock being defined as a type.
  * By default, FreeRTOS will require standard time.h, where clock is a function.
  */
-        #ifndef USE_XCORE_CLOCK_TYPE
-            #define _clock_defined
-        #endif
+        #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ USE_XCORE_CLOCK_TYPE
+            #ವ್ಯಾಖ್ಯಾನಿಸು _clock_defined
+        #ಆದರೆ_ಅಂತ್ಯ
 
-        #include <xs1.h>
-        #include "rtos_support.h"
+        #ಅನ್ತರ್ಭಾವ <xs1.h>
+        #ಅನ್ತರ್ಭಾವ "rtos_support.h"
 
-        #ifdef __cplusplus
-        extern "C" {
-        #endif
+        #ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
+        ಬಾಹ್ಯ "C" {
+        #ಆದರೆ_ಅಂತ್ಯ
 
 /* Type definitions. */
-        #define portSTACK_TYPE    uint32_t
-        typedef portSTACK_TYPE   StackType_t;
-        typedef double           portDOUBLE;
-        typedef int32_t          BaseType_t;
-        typedef uint32_t         UBaseType_t;
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_TYPE    uint32_t
+        ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಪೋರ್ಟ್_ರಾಶಿ_TYPE   ರಾಶಿ_Type_t;
+        ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ದ್ವಿಗುಣ           ಪೋರ್ಟ್_DOUBLE;
+        ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ int32_t          ತಳ_Type_t;
+        ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint32_t         UBaseType_t;
 
-        #define portBASE_TYPE    BaseType_t
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ತಳ_TYPE    ತಳ_Type_t
 
-        #if ( configUSE_16_BIT_TICKS == 1 )
-            typedef uint16_t     TickType_t;
-            #define portMAX_DELAY              ( TickType_t ) 0xffff
-        #else
-            typedef uint32_t     TickType_t;
-            #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+        #ಆದರೆ ( config_USE_16_ಬಿಟ್_TICKS == 1 )
+            ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint16_t     TickType_t;
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_DELAY              ( TickType_t ) 0xffff
+        #ಇಲ್ಲದಿದ್ದರೆ
+            ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint32_t     TickType_t;
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-            #define portTICK_TYPE_IS_ATOMIC    1
-        #endif
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TICK_TYPE_IS_ATOMIC    1
+        #ಆದರೆ_ಅಂತ್ಯ
 /*-----------------------------------------------------------*/
 
-    #endif /* __ASSEMBLER__ */
+    #ಆದರೆ_ಅಂತ್ಯ /* __ASSEMBLER__ */
 
 /* Architecture specifics. These can be used by assembly files as well. */
-    #define portSTACK_GROWTH               ( -1 )
-    #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT             8
-    #define portCRITICAL_NESTING_IN_TCB    1
-    #define portMAX_CORE_COUNT             8
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES      1
-    #endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_GROWTH               ( -1 )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TICK_PERIOD_MS             ( ( TickType_t ) 1000 / config_TICK_ದರ_HZ )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_BYTE_ALIGNMENT             8
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CRITICAL_NESTING_ಒಳ_TCB    1
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_CORE_ಎಣಿಕೆ             8
+    #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_ಸಂಖ್ಯೆ_ದ_CORES
+        #ವ್ಯಾಖ್ಯಾನಿಸು config_ಸಂಖ್ಯೆ_ದ_CORES      1
+    #ಆದರೆ_ಅಂತ್ಯ
 
 /* This may be set to zero in the config file if the rtos_time
  *  functions are not needed or if it is incremented elsewhere. */
-    #ifndef configUPDATE_RTOS_TIME_FROM_TICK_ISR
-        #define configUPDATE_RTOS_TIME_FROM_TICK_ISR    1
-    #endif
+    #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_UPDATE_RTOS_ಸಮಯ_FROM_TICK_ISR
+        #ವ್ಯಾಖ್ಯಾನಿಸು config_UPDATE_RTOS_ಸಮಯ_FROM_TICK_ISR    1
+    #ಆದರೆ_ಅಂತ್ಯ
 
 /*
  * When entering an ISR we need to grow the stack by one more word than
@@ -66,147 +66,147 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-    #define portTHREAD_CONTEXT_STACK_GROWTH    RTOS_SUPPORT_INTERRUPT_STACK_GROWTH
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_THREAD_CONTEXT_ರಾಶಿ_GROWTH    RTOS_SUPPORT_ಅಡಚಣೆ_ರಾಶಿ_GROWTH
 
-    #ifndef __ASSEMBLER__
+    #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __ASSEMBLER__
 
 /* Check validity of number of cores specified in config */
-        #if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
-            #error "Invalid number of cores specified in config!"
-        #endif
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES < 1 || ಪೋರ್ಟ್_MAX_CORE_ಎಣಿಕೆ < config_ಸಂಖ್ಯೆ_ದ_CORES )
+            #ದೋಷ "Invalid number of cores specified in config!"
+        #ಆದರೆ_ಅಂತ್ಯ
 
-        #define portMEMORY_BARRIER()                  RTOS_MEMORY_BARRIER()
-        #define portTASK_STACK_DEPTH( pxTaskCode )    RTOS_THREAD_STACK_SIZE( pxTaskCode )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಸ್ಮರಣೆ_BARRIER()                  RTOS_ಸ್ಮರಣೆ_BARRIER()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_ರಾಶಿ_ಆಳ( px_Task_ಸಂಕೇತ )    RTOS_THREAD_ರಾಶಿ_ಗಾತ್ರ( px_Task_ಸಂಕೇತ )
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-        #define portYIELD()    asm volatile ( "KCALLI_lu6 0" ::: "memory" )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD()    asm ಅಸ್ಥಿರ ( "KCALLI_lu6 0" ::: "memory" )
 
-        #define portEND_SWITCHING_ISR( xSwitchRequired )               \
-    do                                                                 \
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಕೊನೆ_SWITCHING_ISR( xSwitchRequired )               \
+    ಮಾಡು                                                                 \
     {                                                                  \
-        if( xSwitchRequired != pdFALSE )                               \
+        ಆದರೆ( xSwitchRequired != pdFALSE )                               \
         {                                                              \
-            extern uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
-            ulPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;         \
+            ಬಾಹ್ಯ uint32_t ul_ಪೋರ್ಟ್_Yield_Required[ ಪೋರ್ಟ್_MAX_CORE_ಎಣಿಕೆ ]; \
+            ul_ಪೋರ್ಟ್_Yield_Required[ ಪೋರ್ಟ್_GET_CORE_ID() ] = pdTRUE;         \
         }                                                              \
-    } while( 0 )
+    } ಆಗ( 0 )
 
-        #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD_FROM_ISR( x )    ಪೋರ್ಟ್_ಕೊನೆ_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* SMP utilities. */
-        #define portGET_CORE_ID()      rtos_core_id_get()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_CORE_ID()      rtos_core_id_get()
 
-        void vPortYieldOtherCore( int xOtherCoreID );
-        #define portYIELD_CORE( x )    vPortYieldOtherCore( x )
+        ಶೂನ್ಯ v_ಪೋರ್ಟ್_Yield_Other_Core( ಪೂರ್ಣಾಂಕ xOtherCoreID );
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD_CORE( x )    v_ಪೋರ್ಟ್_Yield_Other_Core( x )
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-        #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-            #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-        #endif
+        #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION
+            #ವ್ಯಾಖ್ಯಾನಿಸು config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION    0
+        #ಆದರೆ_ಅಂತ್ಯ
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #ಆದರೆ config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-            #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-            #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ದಾಖಲೆ_READY_ಆದ್ಯತೆ( ux_ಆದ್ಯತೆ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ಆದ್ಯತೆ ) )
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESET_READY_ಆದ್ಯತೆ( ux_ಆದ್ಯತೆ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ಆದ್ಯತೆ ) )
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_HIGHEST_ಆದ್ಯತೆ( ux_ತುದಿ_ಆದ್ಯತೆ, uxReadyPriorities )    ux_ತುದಿ_ಆದ್ಯತೆ = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
 
-        #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+        #ಆದರೆ_ಅಂತ್ಯ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-        #define portGET_INTERRUPT_STATE()                 rtos_interrupt_mask_get()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_ಅಡಚಣೆ_STATE()                 rtos_ಅಡಚಣೆ_ಮುಖವಾಡ_get()
 
 /*
  * This differs from the standard portDISABLE_INTERRUPTS()
  * in that it also returns what the interrupt state was
  * before it disabling interrupts.
  */
-        #define portDISABLE_INTERRUPTS()                  rtos_interrupt_mask_all()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_DISABLE_INTERRUPTS()                  rtos_ಅಡಚಣೆ_ಮುಖವಾಡ_all()
 
-        #define portENABLE_INTERRUPTS()                   rtos_interrupt_unmask_all()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENABLE_INTERRUPTS()                   rtos_ಅಡಚಣೆ_unmask_all()
 
 /*
  * Port set interrupt mask and clear interrupt mask.
  */
-        #define portSET_INTERRUPT_MASK()                  rtos_interrupt_mask_all()
-        #define portCLEAR_INTERRUPT_MASK( ulState )       rtos_interrupt_mask_set( ulState )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ()                  rtos_ಅಡಚಣೆ_ಮುಖವಾಡ_all()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLEAR_ಅಡಚಣೆ_ಮುಖವಾಡ( ulState )       rtos_ಅಡಚಣೆ_ಮುಖವಾಡ_ಗಣ( ulState )
 
 /*
  * Will enable interrupts if ulState is non-zero.
  */
-        #define portRESTORE_INTERRUPTS( ulState )         rtos_interrupt_mask_set( ulState )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESTORE_INTERRUPTS( ulState )         rtos_ಅಡಚಣೆ_ಮುಖವಾಡ_ಗಣ( ulState )
 
 /*
  * Returns non-zero if currently running in an
  * ISR or otherwise in kernel mode.
  */
-        #define portCHECK_IF_IN_ISR()                     rtos_isr_running()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHECK_IF_ಒಳ_ISR()                     rtos_isr_running()
 
-        #define portASSERT_IF_IN_ISR()                    configASSERT( portCHECK_IF_IN_ISR() == 0 )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ASSERT_IF_ಒಳ_ISR()                    configASSERT( ಪೋರ್ಟ್_CHECK_IF_ಒಳ_ISR() == 0 )
 
-        #define portGET_ISR_LOCK( xCoreID )               do{ ( void )( xCoreID ); rtos_lock_acquire( 0 ); } while( 0 )
-        #define portRELEASE_ISR_LOCK( xCoreID )           do{ ( void )( xCoreID ); rtos_lock_release( 0 ); } while( 0 )
-        #define portGET_TASK_LOCK( xCoreID )              do{ ( void )( xCoreID ); rtos_lock_acquire( 1 ); } while( 0 )
-        #define portRELEASE_TASK_LOCK( xCoreID )          do{ ( void )( xCoreID ); rtos_lock_release( 1 ); } while( 0 )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_ISR_ಬೀಗ( xCoreID )               ಮಾಡು{ ( ಶೂನ್ಯ )( xCoreID ); rtos_ಬೀಗ_acquire( 0 ); } ಆಗ( 0 )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RELEASE_ISR_ಬೀಗ( xCoreID )           ಮಾಡು{ ( ಶೂನ್ಯ )( xCoreID ); rtos_ಬೀಗ_release( 0 ); } ಆಗ( 0 )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_TASK_ಬೀಗ( xCoreID )              ಮಾಡು{ ( ಶೂನ್ಯ )( xCoreID ); rtos_ಬೀಗ_acquire( 1 ); } ಆಗ( 0 )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RELEASE_TASK_ಬೀಗ( xCoreID )          ಮಾಡು{ ( ಶೂನ್ಯ )( xCoreID ); rtos_ಬೀಗ_release( 1 ); } ಆಗ( 0 )
 
 
-        void vTaskEnterCritical( void );
-        void vTaskExitCritical( void );
-        #define portENTER_CRITICAL()    vTaskEnterCritical()
-        #define portEXIT_CRITICAL()     vTaskExitCritical()
+        ಶೂನ್ಯ vTaskEnterCritical( ಶೂನ್ಯ );
+        ಶೂನ್ಯ vTaskExitCritical( ಶೂನ್ಯ );
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENTER_CRITICAL()    vTaskEnterCritical()
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_EXIT_CRITICAL()     vTaskExitCritical()
 
-        extern UBaseType_t vTaskEnterCriticalFromISR( void );
-        extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
-        #define portENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
-        #define portEXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
+        ಬಾಹ್ಯ UBaseType_t vTaskEnterCriticalFromISR( ಶೂನ್ಯ );
+        ಬಾಹ್ಯ ಶೂನ್ಯ vTaskExitCriticalFromISR( UBaseType_t ux_Saved_ಅಡಚಣೆ_ಸ್ಥಿತಿ );
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_EXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
 
 /*-----------------------------------------------------------*/
 
 /* Runtime stats support */
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            int xscope_gettime( void );
-            #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* nothing needed here */
-            #define portGET_RUN_TIME_COUNTER_VALUE()            xscope_gettime()
-        #endif
+        #ಆದರೆ ( config_GENERATE_ಸತತ_ಸಮಯ_STATS == 1 )
+            ಪೂರ್ಣಾಂಕ xscope_gettime( ಶೂನ್ಯ );
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CONFIGURE_TIMER_FOR_ಸತತ_ಸಮಯ_STATS()    /* nothing needed here */
+            #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GET_ಸತತ_ಸಮಯ_COUNTER_ಮೌಲ್ಯ()            xscope_gettime()
+        #ಆದರೆ_ಅಂತ್ಯ
 /*-----------------------------------------------------------*/
 
 /* Maps sprintf and snprintf to the lite version in lib_rtos_support */
-        #if ( configUSE_DEBUG_SPRINTF == 1 )
-            #define sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
-            #define snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
-        #endif
+        #ಆದರೆ ( configUSE_DEBUG_SPRINTF == 1 )
+            #ವ್ಯಾಖ್ಯಾನಿಸು sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
+            #ವ್ಯಾಖ್ಯಾನಿಸು snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
+        #ಆದರೆ_ಅಂತ್ಯ
 
 /* Attribute for the pxCallbackFunction member of the Timer_t struct.
  * Required by xcc to calculate stack usage. */
-        #define portTIMER_CALLBACK_ATTRIBUTE    __attribute__( ( fptrgroup( "timerCallbackGroup" ) ) )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TIMER_CALLBACK_ATTRIBUTE    __attribute__( ( fptrgroup( "timerCallbackGroup" ) ) )
 
 /* Timer callback function macros. For xcc this ensures they get added to the timer callback
  * group so that stack usage for certain functions in timers.c can be calculated. */
-        #define portTIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    void vFunction( TimerHandle_t xTimer )
-        #define portTIMER_CALLBACK_FUNCTION( vFunction, xTimer )          portTIMER_CALLBACK_ATTRIBUTE void vFunction( TimerHandle_t xTimer )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    ಶೂನ್ಯ vFunction( TimerHandle_t xTimer )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TIMER_CALLBACK_FUNCTION( vFunction, xTimer )          ಪೋರ್ಟ್_TIMER_CALLBACK_ATTRIBUTE ಶೂನ್ಯ vFunction( TimerHandle_t xTimer )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-        #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-        #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
+        #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_FUNCTION( vFunction, pvParameters )          ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
 /*-----------------------------------------------------------*/
 
 
-        #ifdef __cplusplus
+        #ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ __cplusplus
 }
-        #endif
+        #ಆದರೆ_ಅಂತ್ಯ
 
-    #endif /* __ASSEMBLER__ */
+    #ಆದರೆ_ಅಂತ್ಯ /* __ASSEMBLER__ */
 
-#endif /* PORTMACRO_H */
+#ಆದರೆ_ಅಂತ್ಯ /* PORTMACRO_H */

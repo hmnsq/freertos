@@ -28,27 +28,27 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ಅನ್ತರ್ಭಾವ <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನಿಸು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#ಅನ್ತರ್ಭಾವ "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#ಅನ್ತರ್ಭಾವ "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_MPU == 1 )
+#ಆದರೆ ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ v_Restore_Context_ದ_ಮೊದಲ_Task( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -76,7 +76,7 @@
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
             "                                                 \n"
-        #if ( configTOTAL_MPU_REGIONS == 16 )
+        #ಆದರೆ ( config_ಒಟ್ಟು_MPU_REGIONS == 16 )
             "    movs r3, #8                                  \n" /* r3 = 8. */
             "    str r3, [r1]                                 \n" /* Program RNR = 8. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
@@ -85,7 +85,7 @@
             "    str r3, [r1]                                 \n" /* Program RNR = 12. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
-        #endif /* configTOTAL_MPU_REGIONS == 16 */
+        #ಆದರೆ_ಅಂತ್ಯ /* configTOTAL_MPU_REGIONS == 16 */
             "                                                 \n"
             "   ldr r1, =0xe000ed94                           \n" /* r1 = 0xe000ed94 [Location of MPU_CTRL]. */
             "   ldr r2, [r1]                                  \n" /* Read the value of MPU_CTRL. */
@@ -99,14 +99,14 @@
             "    ldr r1, [r0]                                 \n" /* r1 = Location of saved context in TCB. */
             "                                                 \n"
             " restore_special_regs_first_task:                \n"
-        #if ( configENABLE_PAC == 1 )
+        #ಆದರೆ ( configENABLE_PAC == 1 )
             "   ldmdb r1!, {r2-r5}                            \n" /* Read task's dedicated PAC key from the task's context. */
             "   msr  PAC_KEY_P_0, r2                          \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_1, r3                          \n"
             "   msr  PAC_KEY_P_2, r4                          \n"
             "   msr  PAC_KEY_P_3, r5                          \n"
             "   clrm {r2-r5}                                  \n" /* Clear r2-r5. */
-        #endif /* configENABLE_PAC */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_PAC */
             "    ldmdb r1!, {r2-r4, lr}                       \n" /* r2 = original PSP, r3 = PSPLIM, r4 = CONTROL, LR restored. */
             "    msr psp, r2                                  \n"
             "    msr psplim, r3                               \n"
@@ -125,11 +125,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#ಇಲ್ಲದಿದ್ದರೆ /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ v_Restore_Context_ದ_ಮೊದಲ_Task( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -139,25 +139,25 @@
          * Source: GCC/RP2350_ARM_NTZ/non_secure/portasm.c
          * Upstream commit: 8b2955f6d97bf4cd582db9f5b62d9eb1587b76d7
          */
-        #if ( configNUMBER_OF_CORES == 1)
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES == 1)
             "   ldr  r2, =pxCurrentTCB                          \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr  r1, [r2]                                   \n" /* Read pxCurrentTCB. */
-        #else /* if ( configNUMBER_OF_CORES == 1) */
+        #ಇಲ್ಲದಿದ್ದರೆ /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r1, =ulFirstTaskLiteralPool                 \n" /* Get the location of the current TCB and the Id of the current core. */
             "   ldmia r1!, {r2, r3}                             \n"
             "   ldr r2, [r2]                                    \n" /* r2 = Core Id */
             "   ldr r1, [r3, r2, LSL #2]                        \n" /* r1 = pxCurrentTCBs[CORE_ID] */
-        #endif /* if ( configNUMBER_OF_CORES == 1) */
+        #ಆದರೆ_ಅಂತ್ಯ /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr  r0, [r1]                                   \n" /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #ಆದರೆ ( configENABLE_PAC == 1 )
             "   ldmia r0!, {r1-r4}                              \n" /* Read task's dedicated PAC key from stack. */
             "   msr  PAC_KEY_P_3, r1                            \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_2, r2                            \n"
             "   msr  PAC_KEY_P_1, r3                            \n"
             "   msr  PAC_KEY_P_0, r4                            \n"
             "   clrm {r1-r4}                                    \n" /* Clear r1-r4. */
-        #endif /* configENABLE_PAC */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_PAC */
             "                                                   \n"
             "   ldm  r0!, {r1-r2}                               \n" /* Read from stack - r1 = PSPLIM and r2 = EXC_RETURN. */
             "   msr  psplim, r1                                 \n" /* Set this task's PSPLIM value. */
@@ -170,23 +170,23 @@
             "   mov  r0, #0                                     \n"
             "   msr  basepri, r0                                \n" /* Ensure that interrupts are enabled when the first task starts. */
             "   bx   r2                                         \n" /* Finally, branch to EXC_RETURN. */
-        #if ( configNUMBER_OF_CORES > 1 )
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES > 1 )
             "                                                   \n"
             "     .align 4                                      \n"
             "ulFirstTaskLiteralPool:                            \n"
             "    .word %c0                                      \n" /* CORE_ID_REGISTER */
             "    .word pxCurrentTCBs                            \n"
-            :: "i" (configCORE_ID_REGISTER)
-        #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+            :: "i" (config_CORE_ID_ರಿಜಿಸ್ಟರ್)
+        #ಆದರೆ_ಅಂತ್ಯ /* if ( configNUMBER_OF_CORES > 1 ) */
         );
     }
 
-#endif /* configENABLE_MPU */
+#ಆದರೆ_ಅಂತ್ಯ /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+ತಳ_Type_t xIsPrivileged( ಶೂನ್ಯ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -201,9 +201,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ಶೂನ್ಯ vRaisePrivilege( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -216,9 +216,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+ಶೂನ್ಯ vResetPrivilege( ಶೂನ್ಯ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -231,9 +231,9 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ಶೂನ್ಯ v_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -247,14 +247,14 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
         "   isb                                             \n"
         "   svc %0                                          \n" /* System call to start the first task. */
         "   nop                                             \n"
-        ::"i" ( portSVC_START_SCHEDULER ) : "memory"
+        ::"i" ( ಪೋರ್ಟ್_SVC_ಆರಂಭ_SCHEDULER ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ul_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ( ಶೂನ್ಯ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -264,14 +264,14 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
         "   dsb                                             \n"
         "   isb                                             \n"
         "   bx lr                                           \n" /* Return. */
-        ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "memory"
+        ::"i" ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+ಶೂನ್ಯ v_Clear_ಅಡಚಣೆ_ಮುಖವಾಡ( __attribute__( ( ಬಳಸದ ) ) uint32_t ul_ಮುಖವಾಡ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -284,11 +284,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ಆದರೆ ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ PendSV_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -298,7 +298,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             " mrs r2, psp                                     \n" /* r2 = PSP. */
             "                                                 \n"
             " save_general_regs:                              \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #ಆದರೆ ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    add r2, r2, #0x20                            \n" /* Move r2 to location where s0 is saved. */
             "    tst lr, #0x10                                \n"
             "    ittt eq                                      \n"
@@ -306,7 +306,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    vldmiaeq r2, {s0-s16}                        \n" /* Copy hardware saved FP context into s0-s16. */
             "    vstmiaeq r1!, {s0-s16}                       \n" /* Store hardware saved FP context. */
             "    sub r2, r2, #0x20                            \n" /* Set r2 back to the location of hardware saved context. */
-        #endif /* configENABLE_FPU || configENABLE_MVE */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_FPU || configENABLE_MVE */
             "    stmia r1!, {r4-r11}                          \n" /* Store r4-r11. */
             "    ldmia r2, {r4-r11}                           \n" /* Copy the hardware saved context into r4-r11. */
             "    stmia r1!, {r4-r11}                          \n" /* Store the hardware saved context. */
@@ -315,14 +315,14 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    mrs r3, psplim                               \n" /* r3 = PSPLIM. */
             "    mrs r4, control                              \n" /* r4 = CONTROL. */
             "    stmia r1!, {r2-r4, lr}                       \n" /* Store original PSP (after hardware has saved context), PSPLIM, CONTROL and LR. */
-        #if ( configENABLE_PAC == 1 )
+        #ಆದರೆ ( configENABLE_PAC == 1 )
             "   mrs  r2, PAC_KEY_P_0                          \n" /* Read task's dedicated PAC key from the PAC key registers. */
             "   mrs  r3, PAC_KEY_P_1                          \n"
             "   mrs  r4, PAC_KEY_P_2                          \n"
             "   mrs  r5, PAC_KEY_P_3                          \n"
             "   stmia r1!, {r2-r5}                            \n" /* Store the task's dedicated PAC key on the task's context. */
             "   clrm {r2-r5}                                  \n" /* Clear r2-r5. */
-        #endif /* configENABLE_PAC */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_PAC */
             "    str r1, [r0]                                 \n" /* Save the location from where the context should be restored as the first member of TCB. */
             "                                                 \n"
             " select_next_task:                               \n"
@@ -358,7 +358,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
             "                                                 \n"
-        #if ( configTOTAL_MPU_REGIONS == 16 )
+        #ಆದರೆ ( config_ಒಟ್ಟು_MPU_REGIONS == 16 )
             "    movs r3, #8                                  \n" /* r3 = 8. */
             "    str r3, [r1]                                 \n" /* Program RNR = 8. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
@@ -367,7 +367,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    str r3, [r1]                                 \n" /* Program RNR = 12. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
-        #endif /* configTOTAL_MPU_REGIONS == 16 */
+        #ಆದರೆ_ಅಂತ್ಯ /* configTOTAL_MPU_REGIONS == 16 */
             "                                                 \n"
             "   ldr r1, =0xe000ed94                           \n" /* r1 = 0xe000ed94 [Location of MPU_CTRL]. */
             "   ldr r2, [r1]                                  \n" /* Read the value of MPU_CTRL. */
@@ -381,14 +381,14 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldr r1, [r0]                                 \n" /* r1 = Location of saved context in TCB. */
             "                                                 \n"
             " restore_special_regs:                           \n"
-        #if ( configENABLE_PAC == 1 )
+        #ಆದರೆ ( configENABLE_PAC == 1 )
             "   ldmdb r1!, {r2-r5}                            \n" /* Read task's dedicated PAC key from the task's context. */
             "   msr  PAC_KEY_P_0, r2                          \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_1, r3                          \n"
             "   msr  PAC_KEY_P_2, r4                          \n"
             "   msr  PAC_KEY_P_3, r5                          \n"
             "   clrm {r2-r5}                                  \n" /* Clear r2-r5. */
-        #endif /* configENABLE_PAC */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_PAC */
             "    ldmdb r1!, {r2-r4, lr}                       \n" /* r2 = original PSP, r3 = PSPLIM, r4 = CONTROL, LR restored. */
             "    msr psp, r2                                  \n"
             "    msr psplim, r3                               \n"
@@ -398,49 +398,49 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmdb r1!, {r4-r11}                          \n" /* r4-r11 contain hardware saved context. */
             "    stmia r2!, {r4-r11}                          \n" /* Copy the hardware saved context on the task stack. */
             "    ldmdb r1!, {r4-r11}                          \n" /* r4-r11 restored. */
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #ಆದರೆ ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    tst lr, #0x10                                \n"
             "    ittt eq                                      \n"
             "    vldmdbeq r1!, {s0-s16}                       \n" /* s0-s16 contain hardware saved FP context. */
             "    vstmiaeq r2!, {s0-s16}                       \n" /* Copy hardware saved FP context on the task stack. */
             "    vldmdbeq r1!, {s16-s31}                      \n" /* Restore s16-s31. */
-        #endif /* configENABLE_FPU || configENABLE_MVE */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_FPU || configENABLE_MVE */
             "                                                 \n"
             " restore_context_done:                           \n"
             "    str r1, [r0]                                 \n" /* Save the location where the context should be saved next as the first member of TCB. */
             "    bx lr                                        \n"
-            ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY )
+            ::"i" ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ )
         );
     }
 
-#else /* configENABLE_MPU */
+#ಇಲ್ಲದಿದ್ದರೆ /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ PendSV_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
             "   mrs r0, psp                                     \n" /* Read PSP in r0. */
             "                                                   \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #ಆದರೆ ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "   tst lr, #0x10                                   \n" /* Test Bit[4] in LR. Bit[4] of EXC_RETURN is 0 if the Extended Stack Frame is in use. */
             "   it eq                                           \n"
             "   vstmdbeq r0!, {s16-s31}                         \n" /* Store the additional FP context registers which are not saved automatically. */
-        #endif /* configENABLE_FPU || configENABLE_MVE */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_FPU || configENABLE_MVE */
             "                                                   \n"
             "   mrs r2, psplim                                  \n" /* r2 = PSPLIM. */
             "   mov r3, lr                                      \n" /* r3 = LR/EXC_RETURN. */
             "   stmdb r0!, {r2-r11}                             \n" /* Store on the stack - PSPLIM, LR and registers that are not automatically saved. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #ಆದರೆ ( configENABLE_PAC == 1 )
             "   mrs  r1, PAC_KEY_P_3                            \n" /* Read task's dedicated PAC key from the PAC key registers. */
             "   mrs  r2, PAC_KEY_P_2                            \n"
             "   mrs  r3, PAC_KEY_P_1                            \n"
             "   mrs  r4, PAC_KEY_P_0                            \n"
             "   stmdb r0!, {r1-r4}                              \n" /* Store the task's dedicated PAC key on the stack. */
             "   clrm {r1-r4}                                    \n" /* Clear r1-r4. */
-        #endif /* configENABLE_PAC */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_PAC */
             "                                                   \n"
         /*
          * The SMP-specific logic below is derived from the Raspberry Pi
@@ -448,80 +448,80 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
          * Source: GCC/RP2350_ARM_NTZ/non_secure/portasm.c
          * Upstream commit: 8b2955f6d97bf4cd582db9f5b62d9eb1587b76d7
          */
-        #if ( configNUMBER_OF_CORES == 1)
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES == 1)
             "   ldr r2, =pxCurrentTCB                           \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
-        #else /* if ( configNUMBER_OF_CORES == 1) */
+        #ಇಲ್ಲದಿದ್ದರೆ /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r1, =ulPendSVLiteralPool                    \n" /* Get the location of the current TCB and the Id of the current core. */
             "   ldmia r1!, {r2, r3}                             \n"
             "   ldr r2, [r2]                                    \n" /* r2 = Core Id */
             "   ldr r1, [r3, r2, LSL #2]                        \n" /* r1 = pxCurrentTCBs[CORE_ID] */
-        #endif /* if ( configNUMBER_OF_CORES == 1) */
+        #ಆದರೆ_ಅಂತ್ಯ /* if ( configNUMBER_OF_CORES == 1) */
             "   str r0, [r1]                                    \n" /* Save the new top of stack in TCB. */
             "                                                   \n"
             "   mov r0, %0                                      \n" /* r0 = configMAX_SYSCALL_INTERRUPT_PRIORITY */
             "   msr basepri, r0                                 \n" /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
             "   dsb                                             \n"
             "   isb                                             \n"
-        #if ( configNUMBER_OF_CORES > 1)
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES > 1)
             "   mov r0, r2                                      \n" /* r0 = ucPortGetCoreID() */
-        #endif /* if ( configNUMBER_OF_CORES == 1) */
+        #ಆದರೆ_ಅಂತ್ಯ /* if ( configNUMBER_OF_CORES == 1) */
             "   bl vTaskSwitchContext                           \n"
             "   mov r0, #0                                      \n" /* r0 = 0. */
             "   msr basepri, r0                                 \n" /* Enable interrupts. */
             "                                                   \n"
-        #if ( configNUMBER_OF_CORES == 1)
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES == 1)
             "   ldr r2, =pxCurrentTCB                           \n" /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
             "   ldr r1, [r2]                                    \n" /* Read pxCurrentTCB. */
-        #else /* if ( configNUMBER_OF_CORES == 1) */
+        #ಇಲ್ಲದಿದ್ದರೆ /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r1, =ulPendSVLiteralPool                    \n" /* Get the location of the current TCB and the Id of the current core. */
             "   ldmia r1!, {r2, r3}                             \n"
             "   ldr r2, [r2]                                    \n" /* r2 = Core Id */
             "   ldr r1, [r3, r2, LSL #2]                        \n" /* r1 = pxCurrentTCBs[CORE_ID] */
-        #endif /* if ( configNUMBER_OF_CORES == 1) */
+        #ಆದರೆ_ಅಂತ್ಯ /* if ( configNUMBER_OF_CORES == 1) */
             "   ldr r0, [r1]                                    \n" /* The first item in pxCurrentTCB is the task top of stack. r0 now points to the top of stack. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #ಆದರೆ ( configENABLE_PAC == 1 )
             "   ldmia r0!, {r2-r5}                              \n" /* Read task's dedicated PAC key from stack. */
             "   msr  PAC_KEY_P_3, r2                            \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_2, r3                            \n"
             "   msr  PAC_KEY_P_1, r4                            \n"
             "   msr  PAC_KEY_P_0, r5                            \n"
             "   clrm {r2-r5}                                    \n" /* Clear r2-r5. */
-        #endif /* configENABLE_PAC */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_PAC */
             "                                                   \n"
             "   ldmia r0!, {r2-r11}                             \n" /* Read from stack - r2 = PSPLIM, r3 = LR and r4-r11 restored. */
             "                                                   \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #ಆದರೆ ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "   tst r3, #0x10                                   \n" /* Test Bit[4] in LR. Bit[4] of EXC_RETURN is 0 if the Extended Stack Frame is in use. */
             "   it eq                                           \n"
             "   vldmiaeq r0!, {s16-s31}                         \n" /* Restore the additional FP context registers which are not restored automatically. */
-        #endif /* configENABLE_FPU || configENABLE_MVE */
+        #ಆದರೆ_ಅಂತ್ಯ /* configENABLE_FPU || configENABLE_MVE */
             "                                                   \n"
             "   msr psplim, r2                                  \n" /* Restore the PSPLIM register value for the task. */
             "   msr psp, r0                                     \n" /* Remember the new top of stack for the task. */
             "   bx r3                                           \n"
-        #if ( configNUMBER_OF_CORES > 1 )
+        #ಆದರೆ ( config_ಸಂಖ್ಯೆ_ದ_CORES > 1 )
             "   .align 4                           \n"
             "   ulPendSVLiteralPool:               \n"
             "   .word %c1                          \n" /* CORE_ID_REGISTER */
             "   .word pxCurrentTCBs                \n"
-            :: "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ), "i" ( configCORE_ID_REGISTER )
-        #else /* #if ( configNUMBER_OF_CORES > 1 ) */
-            :: "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY )
-        #endif /* #if ( configNUMBER_OF_CORES > 1 ) */
+            :: "i" ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ ), "i" ( config_CORE_ID_ರಿಜಿಸ್ಟರ್ )
+        #ಇಲ್ಲದಿದ್ದರೆ /* #if ( configNUMBER_OF_CORES > 1 ) */
+            :: "i" ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ )
+        #ಆದರೆ_ಅಂತ್ಯ /* #if ( configNUMBER_OF_CORES > 1 ) */
 
         );
     }
 
-#endif /* configENABLE_MPU */
+#ಆದರೆ_ಅಂತ್ಯ /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ಆದರೆ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ SVC_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             ".syntax unified                \n"
             ".extern vPortSVCHandler_C      \n"
@@ -550,16 +550,16 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( ಅಂಕೆ_SYSTEM_CALLS ), "i" ( ಪೋರ್ಟ್_SVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "memory"
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ಇಲ್ಲದಿದ್ದರೆ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ಶೂನ್ಯ SVC_Handler( ಶೂನ್ಯ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ಅಸ್ಥಿರ
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -572,5 +572,5 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ಆದರೆ_ಅಂತ್ಯ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/

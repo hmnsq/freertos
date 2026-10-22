@@ -39,16 +39,16 @@ Changes from V4.0.1
  * The installation script will automatically prepend this file to the default FreeRTOS.h.
  */
 
-#ifndef WIZC_FREERTOS_H
-#define WIZC_FREERTOS_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ WIZC_FREERTOS_H
+#ವ್ಯಾಖ್ಯಾನಿಸು WIZC_FREERTOS_H
 
-#pragma noheap
-#pragma wizcpp expandnl   on
-#pragma wizcpp searchpath "$__PATHNAME__/libFreeRTOS/Include/"
-#pragma wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Croutine.c"
-#pragma wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Tasks.c"
-#pragma wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Queue.c"
-#pragma wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/List.c"
-#pragma wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Port.c"
+#ಸೂಚನೆ noheap
+#ಸೂಚನೆ wizcpp expandnl   on
+#ಸೂಚನೆ wizcpp searchpath "$__PATHNAME__/libFreeRTOS/Include/"
+#ಸೂಚನೆ wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Croutine.c"
+#ಸೂಚನೆ wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Tasks.c"
+#ಸೂಚನೆ wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Queue.c"
+#ಸೂಚನೆ wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/List.c"
+#ಸೂಚನೆ wizcpp uselib     "$__PATHNAME__/libFreeRTOS/Modules/Port.c"
 
-#endif  /* WIZC_FREERTOS_H */
+#ಆದರೆ_ಅಂತ್ಯ  /* WIZC_FREERTOS_H */

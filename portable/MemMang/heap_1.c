@@ -34,134 +34,134 @@
  * See heap_2.c, heap_3.c and heap_4.c for alternative implementations, and the
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
-#include <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನಿಸು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
-#endif
+#ಆದರೆ ( config_SUPPORT_DYNAMIC_ಹಂಚಿಕೆ == 0 )
+    #ದೋಷ This file must not be ಬಳಸಿದ ಆದರೆ config_SUPPORT_DYNAMIC_ಹಂಚಿಕೆ is 0
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* A few bytes might be lost to byte aligning the heap start address. */
-#define configADJUSTED_HEAP_SIZE        ( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ        ( config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ - ಪೋರ್ಟ್_BYTE_ALIGNMENT )
 
 /* Max value that fits in a size_t type. */
-#define heapSIZE_MAX                    ( ~( ( size_t ) 0 ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಗಾತ್ರ_MAX                    ( ~( ( size_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define heapADD_WILL_OVERFLOW( a, b )   ( ( a ) > ( heapSIZE_MAX - ( b ) ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಕೂಡಿಸು_WILL_ಅತಿಪ್ರವಾಹ( a, b )   ( ( a ) > ( ರಾಶಿ_ಗಾತ್ರ_MAX - ( b ) ) )
 
 /*-----------------------------------------------------------*/
 
 /* Allocate the memory for the heap. */
-#if ( configAPPLICATION_ALLOCATED_HEAP == 1 )
+#ಆದರೆ ( config_APPLICATION_ALLOCATED_ರಾಶಿ == 1 )
 
 /* The application writer has already defined the array used for the RTOS
  * heap - probably so it can be placed in a special segment or address. */
-    extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#else
-    static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#endif /* configAPPLICATION_ALLOCATED_HEAP */
+    ಬಾಹ್ಯ uint8_t uc_ರಾಶಿ[ config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ ];
+#ಇಲ್ಲದಿದ್ದರೆ
+    ಸ್ಥಿರ uint8_t uc_ರಾಶಿ[ config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ ];
+#ಆದರೆ_ಅಂತ್ಯ /* configAPPLICATION_ALLOCATED_HEAP */
 
 /* Index into the ucHeap array. */
-static size_t xNextFreeByte = ( size_t ) 0U;
+ಸ್ಥಿರ size_t x_ಮುಂದಿನ_Free_Byte = ( size_t ) 0U;
 
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+ಶೂನ್ಯ * pv_ಪೋರ್ಟ್_Malloc( size_t x_Wanted_ಗಾತ್ರ )
 {
-    void * pvReturn = NULL;
-    static uint8_t * pucAlignedHeap = NULL;
+    ಶೂನ್ಯ * pvReturn = ಖಾಲಿ;
+    ಸ್ಥಿರ uint8_t * puc_Aligned_ರಾಶಿ = ಖಾಲಿ;
 
     /* Ensure that blocks are always aligned. */
-    #if ( portBYTE_ALIGNMENT != 1 )
+    #ಆದರೆ ( ಪೋರ್ಟ್_BYTE_ALIGNMENT != 1 )
     {
-        size_t xAdditionalRequiredSize;
+        size_t x_Additional_Required_ಗಾತ್ರ;
 
-        if( ( xWantedSize & portBYTE_ALIGNMENT_MASK ) != 0x00 )
+        ಆದರೆ( ( x_Wanted_ಗಾತ್ರ & ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ) != 0x00 )
         {
             /* Byte alignment required. */
-            xAdditionalRequiredSize = portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK );
+            x_Additional_Required_ಗಾತ್ರ = ಪೋರ್ಟ್_BYTE_ALIGNMENT - ( x_Wanted_ಗಾತ್ರ & ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ );
 
-            if( heapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
+            ಆದರೆ( ರಾಶಿ_ಕೂಡಿಸು_WILL_ಅತಿಪ್ರವಾಹ( x_Wanted_ಗಾತ್ರ, x_Additional_Required_ಗಾತ್ರ ) == 0 )
             {
-                xWantedSize += xAdditionalRequiredSize;
+                x_Wanted_ಗಾತ್ರ += x_Additional_Required_ಗಾತ್ರ;
             }
-            else
+            ಇಲ್ಲದಿದ್ದರೆ
             {
-                xWantedSize = 0;
+                x_Wanted_ಗಾತ್ರ = 0;
             }
         }
     }
-    #endif /* if ( portBYTE_ALIGNMENT != 1 ) */
+    #ಆದರೆ_ಅಂತ್ಯ /* if ( portBYTE_ALIGNMENT != 1 ) */
 
     vTaskSuspendAll();
     {
-        if( pucAlignedHeap == NULL )
+        ಆದರೆ( puc_Aligned_ರಾಶಿ == ಖಾಲಿ )
         {
             /* Ensure the heap starts on a correctly aligned boundary. */
-            pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &( ucHeap[ portBYTE_ALIGNMENT - 1 ] ) ) &
-                                             ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
+            puc_Aligned_ರಾಶಿ = ( uint8_t * ) ( ( ( ಪೋರ್ಟ್_ಸೂಚಕ_ಗಾತ್ರ_TYPE ) &( uc_ರಾಶಿ[ ಪೋರ್ಟ್_BYTE_ALIGNMENT - 1 ] ) ) &
+                                             ( ~( ( ಪೋರ್ಟ್_ಸೂಚಕ_ಗಾತ್ರ_TYPE ) ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ) ) );
         }
 
         /* Check there is enough room left for the allocation. */
-        if( ( xWantedSize > 0 ) &&
-            ( heapADD_WILL_OVERFLOW( xNextFreeByte, xWantedSize ) == 0 ) &&
-            ( ( xNextFreeByte + xWantedSize ) < configADJUSTED_HEAP_SIZE ) )
+        ಆದರೆ( ( x_Wanted_ಗಾತ್ರ > 0 ) &&
+            ( ರಾಶಿ_ಕೂಡಿಸು_WILL_ಅತಿಪ್ರವಾಹ( x_ಮುಂದಿನ_Free_Byte, x_Wanted_ಗಾತ್ರ ) == 0 ) &&
+            ( ( x_ಮುಂದಿನ_Free_Byte + x_Wanted_ಗಾತ್ರ ) < config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ ) )
         {
             /* Return the next free byte then increment the index past this
              * block. */
-            pvReturn = pucAlignedHeap + xNextFreeByte;
-            xNextFreeByte += xWantedSize;
+            pvReturn = puc_Aligned_ರಾಶಿ + x_ಮುಂದಿನ_Free_Byte;
+            x_ಮುಂದಿನ_Free_Byte += x_Wanted_ಗಾತ್ರ;
         }
 
-        traceMALLOC( pvReturn, xWantedSize );
+        traceMALLOC( pvReturn, x_Wanted_ಗಾತ್ರ );
     }
-    ( void ) xTaskResumeAll();
+    ( ಶೂನ್ಯ ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #ಆದರೆ ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        ಆದರೆ( pvReturn == ಖಾಲಿ )
         {
             vApplicationMallocFailedHook();
         }
     }
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 
-    return pvReturn;
+    ಹಿಂತಿರುಗಿ pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Free( ಶೂನ್ಯ * pv )
 {
     /* Memory cannot be freed using this scheme.  See heap_2.c, heap_3.c and
      * heap_4.c for alternative implementations, and the memory management pages of
      * https://www.FreeRTOS.org for more information. */
-    ( void ) pv;
+    ( ಶೂನ್ಯ ) pv;
 
     /* Force an assert as it is invalid to call this function. */
-    configASSERT( pv == NULL );
+    configASSERT( pv == ಖಾಲಿ );
 }
 /*-----------------------------------------------------------*/
 
-void vPortInitialiseBlocks( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Initialise_ಖಂಡಗಳು( ಶೂನ್ಯ )
 {
     /* Only required when static memory is not cleared. */
-    xNextFreeByte = ( size_t ) 0;
+    x_ಮುಂದಿನ_Free_Byte = ( size_t ) 0;
 }
 /*-----------------------------------------------------------*/
 
-size_t xPortGetFreeHeapSize( void )
+size_t x_ಪೋರ್ಟ್_Get_Free_ರಾಶಿ_ಗಾತ್ರ( ಶೂನ್ಯ )
 {
-    return( configADJUSTED_HEAP_SIZE - xNextFreeByte );
+    ಹಿಂತಿರುಗಿ( config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ - x_ಮುಂದಿನ_Free_Byte );
 }
 
 /*-----------------------------------------------------------*/
@@ -171,8 +171,8 @@ size_t xPortGetFreeHeapSize( void )
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ರಾಶಿ_Reset_State( ಶೂನ್ಯ )
 {
-    xNextFreeByte = ( size_t ) 0U;
+    x_ಮುಂದಿನ_Free_Byte = ( size_t ) 0U;
 }
 /*-----------------------------------------------------------*/

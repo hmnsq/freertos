@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+ಆಮದು os
+ಆಮದು re
+ತಃ common.ಶೀರ್ಷಿಕೆ_checker ಆಮದು ಶೀರ್ಷಿಕೆ_Checker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -101,7 +101,7 @@ KERNEL_IGNORED_PATTERNS = [
     r'.*template_configuration/*'
 ]
 
-KERNEL_THIRD_PARTY_PATTERNS = [
+KERNEL_ಮೂರನೇ_PARTY_PATTERNS = [
     r'.*portable/ThirdParty/GCC/Posix/port*',
     r'.*portable/ThirdParty/*',
     r'.*portable/IAR/AVR32_UC3/.*',
@@ -126,7 +126,7 @@ KERNEL_ARM_COLLAB_FILES_PATTERNS = [
     r'.*tasks\.c$',
 ]
 
-KERNEL_HEADER = [
+KERNEL_ಶೀರ್ಷಿಕೆ = [
     '/*\n',
     ' * FreeRTOS Kernel <DEVELOPMENT BRANCH>\n',
     ' * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.\n',
@@ -166,98 +166,98 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
-    def __init__(
+ವರ್ಗ Kernel_ಶೀರ್ಷಿಕೆ_Checker(ಶೀರ್ಷಿಕೆ_Checker):
+    ವ್ಯಾಖ್ಯಾನ __init__(
         self,
-        header,
+        ಶೀರ್ಷಿಕೆ,
         padding=1000,
-        ignored_files=None,
-        ignored_ext=None,
-        ignored_patterns=None,
-        py_ext=None,
-        asm_ext=None,
-        third_party_patterns=None,
-        copyright_regex = None
+        ignored_files=ಏನೂಇಲ್ಲ,
+        ignored_ext=ಏನೂಇಲ್ಲ,
+        ignored_patterns=ಏನೂಇಲ್ಲ,
+        py_ext=ಏನೂಇಲ್ಲ,
+        asm_ext=ಏನೂಇಲ್ಲ,
+        ಮೂರನೇ_party_patterns=ಏನೂಇಲ್ಲ,
+        copyright_regex = ಏನೂಇಲ್ಲ
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
-                         py_ext, asm_ext, third_party_patterns, copyright_regex)
+        ಪರ().__init__(ಶೀರ್ಷಿಕೆ, padding, ignored_files, ignored_ext, ignored_patterns,
+                         py_ext, asm_ext, ಮೂರನೇ_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
-        self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
-            self.armCollabFilesPatternList.append(re.compile(pattern))
+        self.arm_Collab_Files_ನಮೂನೆ_List = []
+        ಗಾಗಿ ನಮೂನೆ ಒಳಗೆ KERNEL_ARM_COLLAB_FILES_PATTERNS:
+            self.arm_Collab_Files_ನಮೂನೆ_List.append(re.compile(ನಮೂನೆ))
 
-    def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+    ವ್ಯಾಖ್ಯಾನ isArmCollabFile(self, ಮಾರ್ಗ):
+        ಗಾಗಿ ನಮೂನೆ ಒಳಗೆ self.arm_Collab_Files_ನಮೂನೆ_List:
+            ಆದರೆ ನಮೂನೆ.ಹೊಂದಿಕೆ(ಮಾರ್ಗ):
+                ಹಿಂತಿರುಗಿ ನಿಜ
+        ಹಿಂತಿರುಗಿ ಸುಳ್ಳು
 
-    def checkArmCollabFile(self, path):
-        isValid = False
-        file_ext = os.path.splitext(path)[-1]
+    ವ್ಯಾಖ್ಯಾನ checkArmCollabFile(self, ಮಾರ್ಗ):
+        isValid = ಸುಳ್ಳು
+        file_ext = os.ಮಾರ್ಗ.splitext(ಮಾರ್ಗ)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
-                : len(self.header) + 2
+        ಜೊತೆ open(ಮಾರ್ಗ, encoding="utf-8", errors="ignore") ಇವ file:
+            chunk = file.ಪಠ(ಉದ್ದ("".join(self.ಶೀರ್ಷಿಕೆ)) + self.padding)
+            ಸಾಲುಗಳು = [("%s\n" % ಸಾಲು) ಗಾಗಿ ಸಾಲು ಒಳಗೆ chunk.strip().splitlines()][
+                : ಉದ್ದ(self.ಶೀರ್ಷಿಕೆ) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            ಆದರೆ (ಉದ್ದ(ಸಾಲುಗಳು) > 0) ಮತ್ತು (ಸಾಲುಗಳು[0].ಕಂಡುಹಿಡಿ("#!") == 0):
+                ಸಾಲುಗಳು.remove(ಸಾಲುಗಳು[0])
+            ಆದರೆ (ಉದ್ದ(ಸಾಲುಗಳು) > 0) ಮತ್ತು (ಉದ್ದ(ಸಾಲುಗಳು[-1].strip()) == 0):
+                ಸಾಲುಗಳು.remove(ಸಾಲುಗಳು[-1])
 
         # Split lines in sections.
-        headers = dict()
-        headers["text"] = []
-        headers["copyright"] = []
-        headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
-            else:
-                headers["text"].append(line)
+        ಶೀರ್ಷಿಕೆಗಳು = dict()
+        ಶೀರ್ಷಿಕೆಗಳು["text"] = []
+        ಶೀರ್ಷಿಕೆಗಳು["copyright"] = []
+        ಶೀರ್ಷಿಕೆಗಳು["spdx"] = []
+        ಗಾಗಿ ಸಾಲು ಒಳಗೆ ಸಾಲುಗಳು:
+            ಆದರೆ self.armCollabRegex.ಹೊಂದಿಕೆ(ಸಾಲು):
+                ಶೀರ್ಷಿಕೆಗಳು["copyright"].append(ಸಾಲು)
+            ಅಥವಾಆದರೆ "SPDX-License-Identifier:" ಒಳಗೆ ಸಾಲು:
+                ಶೀರ್ಷಿಕೆಗಳು["spdx"].append(ಸಾಲು)
+            ಇಲ್ಲದಿದ್ದರೆ:
+                ಶೀರ್ಷಿಕೆಗಳು["text"].append(ಸಾಲು)
 
-        text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
-        spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
+        ಪಠ್ಯ_equal = self.is_Valid_ಶೀರ್ಷಿಕೆ_Section(file_ext, "text", ಶೀರ್ಷಿಕೆಗಳು["text"])
+        spdx_equal = self.is_Valid_ಶೀರ್ಷಿಕೆ_Section(file_ext, "spdx", ಶೀರ್ಷಿಕೆಗಳು["spdx"])
 
-        if text_equal and spdx_equal:
+        ಆದರೆ ಪಠ್ಯ_equal ಮತ್ತು spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            ಆದರೆ ಉದ್ದ(ಶೀರ್ಷಿಕೆಗಳು["copyright"]) == 3 ಅಥವಾ ಉದ್ದ(ಶೀರ್ಷಿಕೆಗಳು["copyright"]) == 2:
+                isValid = ನಿಜ
 
-        return isValid
+        ಹಿಂತಿರುಗಿ isValid
 
-    def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
-            isValid = self.checkArmCollabFile(path)
-        return isValid
+    ವ್ಯಾಖ್ಯಾನ customCheck(self, ಮಾರ್ಗ):
+        isValid = ಸುಳ್ಳು
+        ಆದರೆ self.isArmCollabFile(ಮಾರ್ಗ):
+            isValid = self.checkArmCollabFile(ಮಾರ್ಗ)
+        ಹಿಂತಿರುಗಿ isValid
 
 
-def main():
-    parser = HeaderChecker.configArgParser()
-    args   = parser.parse_args()
+ವ್ಯಾಖ್ಯಾನ ಮುಖ್ಯ():
+    parser = ಶೀರ್ಷಿಕೆ_Checker.configArgParser()
+    ವಾದಗಳು   = parser.parse_ವಾದಗಳು()
 
     # Configure the checks then run
-    checker = KernelHeaderChecker(KERNEL_HEADER,
+    checker = Kernel_ಶೀರ್ಷಿಕೆ_Checker(KERNEL_ಶೀರ್ಷಿಕೆ,
                                   copyright_regex=FREERTOS_COPYRIGHT_REGEX,
                                   ignored_files=KERNEL_IGNORED_FILES,
                                   ignored_ext=KERNEL_IGNORED_EXTENSIONS,
                                   ignored_patterns=KERNEL_IGNORED_PATTERNS,
-                                  third_party_patterns=KERNEL_THIRD_PARTY_PATTERNS,
+                                  ಮೂರನೇ_party_patterns=KERNEL_ಮೂರನೇ_PARTY_PATTERNS,
                                   py_ext=KERNEL_PY_EXTENSIONS,
                                   asm_ext=KERNEL_ASM_EXTENSIONS)
-    checker.ignoreFile(os.path.split(__file__)[-1])
+    checker.ignoreFile(os.ಮಾರ್ಗ.ವಿಭಜಿಸು(__file__)[-1])
 
-    rc = checker.processArgs(args)
-    if rc:
+    rc = checker.process_ವಾದಗಳು(ವಾದಗಳು)
+    ಆದರೆ rc:
         checker.showHelp(__file__)
 
-    return rc
+    ಹಿಂತಿರುಗಿ rc
 
-if __name__ == '__main__':
-    exit(main())
+ಆದರೆ __name__ == '__main__':
+    exit(ಮುಖ್ಯ())

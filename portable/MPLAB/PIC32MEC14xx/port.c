@@ -31,47 +31,47 @@
  *----------------------------------------------------------*/
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 /* Microchip includes. */
-#include <xc.h>
-#include <cp0defs.h>
+#ಅನ್ತರ್ಭಾವ <xc.h>
+#ಅನ್ತರ್ಭಾವ <cp0defs.h>
 
-#if !defined(__MEC__)
-    #error This port is designed to work with XC32 on MEC14xx.  Please update your C compiler version or settings.
-#endif
+#ಆದರೆ !defined(__MEC__)
+    #ದೋಷ This ಪೋರ್ಟ್ is designed ಗಮ್ಯ work with XC32 on MEC14xx.  Please update your C compiler ಆವೃತ್ತಿ or settings.
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if( ( configMAX_SYSCALL_INTERRUPT_PRIORITY >= 0x7 ) || ( configMAX_SYSCALL_INTERRUPT_PRIORITY == 0 ) )
-    #error configMAX_SYSCALL_INTERRUPT_PRIORITY must be less than 7 and greater than 0
-#endif
+#ಆದರೆ( ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ >= 0x7 ) || ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ == 0 ) )
+    #ದೋಷ config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ must be less than 7 and greater than 0
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Bits within various registers. */
-#define portIE_BIT                  ( 0x00000001 )
-#define portEXL_BIT                 ( 0x00000002 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_IE_ಬಿಟ್                  ( 0x00000001 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_EXL_ಬಿಟ್                 ( 0x00000002 )
 
 /* The EXL bit is set to ensure interrupts do not occur while the context of
 the first task is being restored.  MEC14xx does not have DSP HW. */
-#define portINITIAL_SR              ( portIE_BIT | portEXL_BIT )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_SR              ( ಪೋರ್ಟ್_IE_ಬಿಟ್ | ಪೋರ್ಟ್_EXL_ಬಿಟ್ )
 
 /* MEC14xx RTOS Timer MMCR's. */
-#define portMMCR_RTMR_PRELOAD   *((volatile uint32_t *)(0xA0007404ul))
-#define portMMCR_RTMR_CONTROL   *((volatile uint32_t *)(0xA0007408ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_RTMR_PRELOAD   *((ಅಸ್ಥಿರ uint32_t *)(0xA0007404ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_RTMR_CONTROL   *((ಅಸ್ಥಿರ uint32_t *)(0xA0007408ul))
 
 /* MEC14xx JTVIC external interrupt controller is mapped to M14K closely-coupled
 peripheral space. */
-#define portGIRQ23_RTOS_TIMER_BITPOS    ( 4 )
-#define portGIRQ23_RTOS_TIMER_MASK      ( 1ul << ( portGIRQ23_RTOS_TIMER_BITPOS ) )
-#define portMMCR_JTVIC_GIRQ23_SRC       *((volatile uint32_t *)(0xBFFFC0F0ul))
-#define portMMCR_JTVIC_GIRQ23_SETEN     *((volatile uint32_t *)(0xBFFFC0F4ul))
-#define portMMCR_JTVIC_GIRQ23_PRIA      *((volatile uint32_t *)(0xBFFFC3F0ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GIRQ23_RTOS_TIMER_BITPOS    ( 4 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GIRQ23_RTOS_TIMER_ಮುಖವಾಡ      ( 1ul << ( ಪೋರ್ಟ್_GIRQ23_RTOS_TIMER_BITPOS ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_SRC       *((ಅಸ್ಥಿರ uint32_t *)(0xBFFFC0F0ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_SETEN     *((ಅಸ್ಥಿರ uint32_t *)(0xBFFFC0F4ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_PRIA      *((ಅಸ್ಥಿರ uint32_t *)(0xBFFFC3F0ul))
 
 /* MIPS Software Interrupts are routed through JTVIC GIRQ24 */
-#define portGIRQ24_M14K_SOFTIRQ0_BITPOS ( 1 )
-#define portGIRQ24_M14K_SOFTIRQ0_MASK   ( 1ul << ( portGIRQ24_M14K_SOFTIRQ0_BITPOS ) )
-#define portMMCR_JTVIC_GIRQ24_SRC       *((volatile uint32_t *)(0xBFFFC100ul))
-#define portMMCR_JTVIC_GIRQ24_SETEN     *((volatile uint32_t *)(0xBFFFC104ul))
-#define portMMCR_JTVIC_GIRQ24_PRIA      *((volatile uint32_t *)(0xBFFFC400ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GIRQ24_M14_K_SOFTIRQ0_BITPOS ( 1 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_GIRQ24_M14_K_SOFTIRQ0_ಮುಖವಾಡ   ( 1ul << ( ಪೋರ್ಟ್_GIRQ24_M14_K_SOFTIRQ0_BITPOS ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_SRC       *((ಅಸ್ಥಿರ uint32_t *)(0xBFFFC100ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_SETEN     *((ಅಸ್ಥಿರ uint32_t *)(0xBFFFC104ul))
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_PRIA      *((ಅಸ್ಥಿರ uint32_t *)(0xBFFFC400ul))
 
 /*
 By default port.c generates its tick interrupt from the RTOS timer.  The user
@@ -86,47 +86,47 @@ can override this behaviour by:
     3: Specify the correct bit to clear the interrupt during the timer interrupt
        handler.
 */
-#ifndef configTICK_INTERRUPT_VECTOR
-    #define configTICK_INTERRUPT_VECTOR girq23_b4
-    #define configCLEAR_TICK_TIMER_INTERRUPT() portMMCR_JTVIC_GIRQ23_SRC = portGIRQ23_RTOS_TIMER_MASK
-#else
-    #ifndef configCLEAR_TICK_TIMER_INTERRUPT
-        #error If configTICK_INTERRUPT_VECTOR is defined in application code then configCLEAR_TICK_TIMER_INTERRUPT must also be defined in application code.
-    #endif
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_TICK_ಅಡಚಣೆ_ಸದಿಶ
+    #ವ್ಯಾಖ್ಯಾನಿಸು config_TICK_ಅಡಚಣೆ_ಸದಿಶ girq23_b4
+    #ವ್ಯಾಖ್ಯಾನಿಸು config_CLEAR_TICK_TIMER_ಅಡಚಣೆ() ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_SRC = ಪೋರ್ಟ್_GIRQ23_RTOS_TIMER_ಮುಖವಾಡ
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_CLEAR_TICK_TIMER_ಅಡಚಣೆ
+        #ದೋಷ If config_TICK_ಅಡಚಣೆ_ಸದಿಶ is defined ಒಳ application ಸಂಕೇತ_2 then config_CLEAR_TICK_TIMER_ಅಡಚಣೆ must also be defined ಒಳ application ಸಂಕೇತ_2.
+    #ಆದರೆ_ಅಂತ್ಯ
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Let the user override the pre-loading of the initial RA with the address of
 prvTaskExitError() in case it messes up unwinding of the stack in the debugger -
 in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS prvTaskExitError
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ config_TASK_RETURN_ವಿಳಾಸ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ config_TASK_RETURN_ವಿಳಾಸ
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ prvTaskExitError
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* Set configCHECK_FOR_STACK_OVERFLOW to 3 to add ISR stack checking to task
 stack checking.  A problem in the ISR stack will trigger an assert, not call the
 stack overflow hook function (because the stack overflow hook is specific to a
 task stack, not the ISR stack). */
-#if( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#ಆದರೆ( config_CHECK_FOR_ರಾಶಿ_ಅತಿಪ್ರವಾಹ > 2 )
 
     /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
     the task stacks, and so will legitimately appear in many positions within
     the ISR stack. */
-    #define portISR_STACK_FILL_BYTE 0xee
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE 0xee
 
-    static const uint8_t ucExpectedStackBytes[] = {
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                            portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE };   \
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ uint8_t uc_Expected_ರಾಶಿ_ಬೈಟುಗಳು[] = {
+                            ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE,     \
+                            ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE,     \
+                            ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE,     \
+                            ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE,     \
+                            ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE };   \
 
-    #define portCHECK_ISR_STACK() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHECK_ISR_ರಾಶಿ() configASSERT( ( memcmp( ( ಶೂನ್ಯ * ) xISRStack, ( ಶೂನ್ಯ * ) uc_Expected_ರಾಶಿ_ಬೈಟುಗಳು, ಗಾತ್ರ( uc_Expected_ರಾಶಿ_ಬೈಟುಗಳು ) ) == 0 ) )
+#ಇಲ್ಲದಿದ್ದರೆ
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
-#endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHECK_ISR_ರಾಶಿ()
+#ಆದರೆ_ಅಂತ್ಯ /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 
 /*-----------------------------------------------------------*/
@@ -134,69 +134,69 @@ task stack, not the ISR stack). */
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ಸ್ಥಿರ ಶೂನ್ಯ prvTaskExitError( ಶೂನ್ಯ );
 
 /*-----------------------------------------------------------*/
 
 /* Records the interrupt nesting depth.  This is initialised to one as it is
 decremented to 0 when the first task starts. */
-volatile UBaseType_t uxInterruptNesting = 0x01;
+ಅಸ್ಥಿರ UBaseType_t ux_ಅಡಚಣೆ_Nesting = 0x01;
 
 /* Stores the task stack pointer when a switch is made to use the system stack. */
-UBaseType_t uxSavedTaskStackPointer = 0;
+UBaseType_t ux_Saved_Task_ರಾಶಿ_ಸೂಚಕ = 0;
 
 /* The stack used by interrupt service routines that cause a context switch. */
-StackType_t xISRStack[ configISR_STACK_SIZE ] = { 0 };
+ರಾಶಿ_Type_t xISRStack[ config_ISR_ರಾಶಿ_ಗಾತ್ರ ] = { 0 };
 
 /* The top of stack value ensures there is enough space to store 6 registers on
 the callers stack, as some functions seem to want to do this. */
-const StackType_t * const xISRStackTop = &( xISRStack[ configISR_STACK_SIZE - 7 ] );
+ಸ್ಥಿರಾಂಕ ರಾಶಿ_Type_t * ಸ್ಥಿರಾಂಕ x_ISRStack_ತುದಿ = &( xISRStack[ config_ISR_ರಾಶಿ_ಗಾತ್ರ - 7 ] );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ರಾಶಿ_Type_t *px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t *px_ತುದಿ_ದ_ರಾಶಿ, TaskFunction_t px_ಸಂಕೇತ, ಶೂನ್ಯ *pvParameters )
 {
     /* Ensure byte alignment is maintained when leaving this function. */
-    pxTopOfStack--;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) 0xDEADBEEF;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) ulPortGetCP0Cause();
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) ul_ಪೋರ್ಟ್_Get_CP0_Cause();
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) portINITIAL_SR;   /* CP0_STATUS */
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) ಪೋರ್ಟ್_INITIAL_SR;   /* CP0_STATUS */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) pxCode;       /* CP0_EPC */
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) px_ಸಂಕೇತ;       /* CP0_EPC */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = (StackType_t) portTASK_RETURN_ADDRESS;  /* ra */
-    pxTopOfStack -= 15;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) ಪೋರ್ಟ್_TASK_RETURN_ವಿಳಾಸ;  /* ra */
+    px_ತುದಿ_ದ_ರಾಶಿ -= 15;
 
-    *pxTopOfStack = (StackType_t) pvParameters; /* Parameters to pass in. */
-    pxTopOfStack -= 15;
+    *px_ತುದಿ_ದ_ರಾಶಿ = (ರಾಶಿ_Type_t) pvParameters; /* Parameters to pass in. */
+    px_ತುದಿ_ದ_ರಾಶಿ -= 15;
 
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-static __inline uint32_t prvDisableInterrupt( void )
+ಸ್ಥಿರ __inline uint32_t prv_Disable_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
 uint32_t prev_state;
 
-    __asm volatile( "di %0; ehb" : "=r" ( prev_state ) :: "memory" );
-    return prev_state;
+    __asm ಅಸ್ಥಿರ( "di %0; ehb" : "=r" ( prev_state ) :: "memory" );
+    ಹಿಂತಿರುಗಿ prev_state;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ಸ್ಥಿರ ಶೂನ್ಯ prvTaskExitError( ಶೂನ್ಯ )
 {
     /* A function that implements a task must not exit or attempt to return to
     its caller as there is nothing to return to.  If a task wants to exit it
@@ -204,9 +204,9 @@ static void prvTaskExitError( void )
 
     Artificially force an assert() to be triggered if configASSERT() is
     defined, then stop here so application writers can catch the error. */
-    configASSERT( uxSavedTaskStackPointer == 0UL );
-    portDISABLE_INTERRUPTS();
-    for( ;; );
+    configASSERT( ux_Saved_Task_ರಾಶಿ_ಸೂಚಕ == 0UL );
+    ಪೋರ್ಟ್_DISABLE_INTERRUPTS();
+    ಗಾಗಿ( ;; );
 }
 /*-----------------------------------------------------------*/
 
@@ -218,67 +218,67 @@ static void prvTaskExitError( void )
  * ensure the RTOS provided tick interrupt handler is installed on the correct
  * vector number.
  */
-__attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void )
+__attribute__(( weak )) ಶೂನ್ಯ v_Application_ಸಿದ್ಧತೆ_Tick_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
 /* MEC14xx RTOS Timer whose input clock is 32KHz. */
-const uint32_t ulPreload = ( 32768ul / ( configTICK_RATE_HZ ) );
+ಸ್ಥಿರಾಂಕ uint32_t ulPreload = ( 32768ul / ( config_TICK_ದರ_HZ ) );
 
     configASSERT( ulPreload != 0UL );
 
     /* Configure the RTOS timer. */
-    portMMCR_RTMR_CONTROL = 0ul;
-    portMMCR_RTMR_PRELOAD = ulPreload;
+    ಪೋರ್ಟ್_MMCR_RTMR_CONTROL = 0ul;
+    ಪೋರ್ಟ್_MMCR_RTMR_PRELOAD = ulPreload;
 
     /* Configure interrupts from the RTOS timer. */
-    portMMCR_JTVIC_GIRQ23_SRC = ( portGIRQ23_RTOS_TIMER_MASK );
-    portMMCR_JTVIC_GIRQ23_PRIA &= ~( 0x0Ful << 16 );
-    portMMCR_JTVIC_GIRQ23_PRIA |= ( ( portIPL_TO_CODE( configKERNEL_INTERRUPT_PRIORITY ) ) << 16 );
-    portMMCR_JTVIC_GIRQ23_SETEN = ( portGIRQ23_RTOS_TIMER_MASK );
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_SRC = ( ಪೋರ್ಟ್_GIRQ23_RTOS_TIMER_ಮುಖವಾಡ );
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_PRIA &= ~( 0x0Ful << 16 );
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_PRIA |= ( ( ಪೋರ್ಟ್_IPL_ಗಮ್ಯ_ಸಂಕೇತ( config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) ) << 16 );
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ23_SETEN = ( ಪೋರ್ಟ್_GIRQ23_RTOS_TIMER_ಮುಖವಾಡ );
 
     /* Enable the RTOS timer. */
-    portMMCR_RTMR_CONTROL = 0x0Fu;
+    ಪೋರ್ಟ್_MMCR_RTMR_CONTROL = 0x0Fu;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler(void)
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler(ಶೂನ್ಯ)
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
-    configASSERT( uxInterruptNesting == 1000UL );
+    configASSERT( ux_ಅಡಚಣೆ_Nesting == 1000UL );
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
-extern void vPortStartFirstTask( void );
-extern void *pxCurrentTCB;
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ );
+ಬಾಹ್ಯ ಶೂನ್ಯ *pxCurrentTCB;
 
-    #if ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+    #ಆದರೆ ( config_CHECK_FOR_ರಾಶಿ_ಅತಿಪ್ರವಾಹ > 2 )
     {
         /* Fill the ISR stack to make it easy to asses how much is being used. */
-        memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+        memset( ( ಶೂನ್ಯ * ) xISRStack, ಪೋರ್ಟ್_ISR_ರಾಶಿ_FILL_BYTE, ಗಾತ್ರ( xISRStack ) );
     }
-    #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #ಆದರೆ_ಅಂತ್ಯ /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
     /* Clear the software interrupt flag. */
-    portMMCR_JTVIC_GIRQ24_SRC = (portGIRQ24_M14K_SOFTIRQ0_MASK);
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_SRC = (ಪೋರ್ಟ್_GIRQ24_M14_K_SOFTIRQ0_ಮುಖವಾಡ);
 
     /* Set software timer priority.  Each GIRQn has one nibble containing its
-    priority */
-    portMMCR_JTVIC_GIRQ24_PRIA &= ~(0xF0ul);
-    portMMCR_JTVIC_GIRQ24_PRIA |= ( portIPL_TO_CODE( configKERNEL_INTERRUPT_PRIORITY ) << 4 );
+ಆದ್ಯತೆ*/
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_PRIA &= ~(0xF0ul);
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_PRIA |= ( ಪೋರ್ಟ್_IPL_ಗಮ್ಯ_ಸಂಕೇತ( config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) << 4 );
 
     /* Enable software interrupt. */
-    portMMCR_JTVIC_GIRQ24_SETEN = ( portGIRQ24_M14K_SOFTIRQ0_MASK );
+    ಪೋರ್ಟ್_MMCR_JTVIC_GIRQ24_SETEN = ( ಪೋರ್ಟ್_GIRQ24_M14_K_SOFTIRQ0_ಮುಖವಾಡ );
 
     /* Setup the timer to generate the tick.  Interrupts will have been disabled
     by the time we get here. */
-    vApplicationSetupTickTimerInterrupt();
+    v_Application_ಸಿದ್ಧತೆ_Tick_Timer_ಅಡಚಣೆ();
 
     /* Start the highest priority task that has been created so far.  Its stack
     location is loaded into uxSavedTaskStackPointer. */
-    uxSavedTaskStackPointer = *( UBaseType_t * ) pxCurrentTCB;
-    vPortStartFirstTask();
+    ux_Saved_Task_ರಾಶಿ_ಸೂಚಕ = *( UBaseType_t * ) pxCurrentTCB;
+    v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task();
 
     /* Should never get here as the tasks will now be executing!  Call the task
     exit error function to prevent compiler warnings about a static function
@@ -286,41 +286,41 @@ extern void *pxCurrentTCB;
     functionality by defining configTASK_RETURN_ADDRESS. */
     prvTaskExitError();
 
-    return pdFALSE;
+    ಹಿಂತಿರುಗಿ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortIncrementTick( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Increment_Tick( ಶೂನ್ಯ )
 {
-UBaseType_t uxSavedStatus;
+UBaseType_t ux_Saved_ಸ್ಥಿತಿ;
 uint32_t ulCause;
 
-    uxSavedStatus = uxPortSetInterruptMaskFromISR();
+    ux_Saved_ಸ್ಥಿತಿ = ux_ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_From_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ಆದರೆ( xTaskIncrementTick() != pdFALSE )
         {
             /* Pend a context switch. */
-            ulCause = ulPortGetCP0Cause();
+            ulCause = ul_ಪೋರ್ಟ್_Get_CP0_Cause();
             ulCause |= ( 1ul << 8UL );
-            vPortSetCP0Cause( ulCause );
+            v_ಪೋರ್ಟ್_ಗಣ_CP0_Cause( ulCause );
         }
     }
-    vPortClearInterruptMaskFromISR( uxSavedStatus );
+    v_ಪೋರ್ಟ್_Clear_ಅಡಚಣೆ_ಮುಖವಾಡ_From_ISR( ux_Saved_ಸ್ಥಿತಿ );
 
     /* Look for the ISR stack getting near or past its limit. */
-    portCHECK_ISR_STACK();
+    ಪೋರ್ಟ್_CHECK_ISR_ರಾಶಿ();
 
     /* Clear timer interrupt. */
-    configCLEAR_TICK_TIMER_INTERRUPT();
+    config_CLEAR_TICK_TIMER_ಅಡಚಣೆ();
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t uxPortSetInterruptMaskFromISR( void )
+UBaseType_t ux_ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_From_ISR( ಶೂನ್ಯ )
 {
-UBaseType_t uxSavedStatusRegister;
+UBaseType_t ux_Saved_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್;
 
-    prvDisableInterrupt();
-    uxSavedStatusRegister = ulPortGetCP0Status() | 0x01;
+    prv_Disable_ಅಡಚಣೆ();
+    ux_Saved_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್ = ul_ಪೋರ್ಟ್_Get_CP0_ಸ್ಥಿತಿ() | 0x01;
 
     /* This clears the IPL bits, then sets them to
     configMAX_SYSCALL_INTERRUPT_PRIORITY.  This function should not be called
@@ -328,14 +328,14 @@ UBaseType_t uxSavedStatusRegister;
     configMAX_SYSCALL_INTERRUPT_PRIORITY so, when used correctly, the action
     can only result in the IPL being unchanged or raised, and therefore never
     lowered. */
-    vPortSetCP0Status( ( ( uxSavedStatusRegister & ( ~portALL_IPL_BITS ) ) ) | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) );
+    v_ಪೋರ್ಟ್_ಗಣ_CP0_ಸ್ಥಿತಿ( ( ( ux_Saved_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್ & ( ~ಪೋರ್ಟ್_ALL_IPL_ಬಿಟ್ಟುಗಳು ) ) ) | ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ << ಪೋರ್ಟ್_IPL_ಸರಿಸು ) );
 
-    return uxSavedStatusRegister;
+    ಹಿಂತಿರುಗಿ ux_Saved_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್;
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMaskFromISR( UBaseType_t uxSavedStatusRegister )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Clear_ಅಡಚಣೆ_ಮುಖವಾಡ_From_ISR( UBaseType_t ux_Saved_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್ )
 {
-    vPortSetCP0Status( uxSavedStatusRegister );
+    v_ಪೋರ್ಟ್_ಗಣ_CP0_ಸ್ಥಿತಿ( ux_Saved_ಸ್ಥಿತಿ_ರಿಜಿಸ್ಟರ್ );
 }
 /*-----------------------------------------------------------*/

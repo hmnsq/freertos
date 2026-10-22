@@ -26,108 +26,108 @@
  *
  */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ FREERTOS_CONFIG_H
+#ವ್ಯಾಖ್ಯಾನಿಸು FREERTOS_CONFIG_H
 
 /******************************************************************************/
 /* Hardware description related definitions. **********************************/
 /******************************************************************************/
 
-#define configCPU_CLOCK_HZ    ( ( unsigned long ) 20000000 )
+#ವ್ಯಾಖ್ಯಾನಿಸು configCPU_CLOCK_HZ    ( ( ಚಿಹ್ನೆರಹಿತ ದೀರ್ಘ ) 20000000 )
 
 /******************************************************************************/
 /* Scheduling behaviour related definitions. **********************************/
 /******************************************************************************/
 
-#define configTICK_RATE_HZ                         ( 100U )
-#define configUSE_PREEMPTION                       1
-#define configUSE_TIME_SLICING                     1
-#define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-#define configUSE_TICKLESS_IDLE                    1
-#define configMAX_PRIORITIES                       5U
-#define configMINIMAL_STACK_SIZE                   128U
-#define configMAX_TASK_NAME_LEN                    4U
-#define configTICK_TYPE_WIDTH_IN_BITS              TICK_TYPE_WIDTH_64_BITS
-#define configIDLE_SHOULD_YIELD                    1
-#define configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
-#define configQUEUE_REGISTRY_SIZE                  0U
-#define configENABLE_BACKWARD_COMPATIBILITY        1
-#define configNUM_THREAD_LOCAL_STORAGE_POINTERS    0
-#define configSTACK_DEPTH_TYPE                     size_t
-#define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
-#define configUSE_NEWLIB_REENTRANT                 0
+#ವ್ಯಾಖ್ಯಾನಿಸು config_TICK_ದರ_HZ                         ( 100U )
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_PREEMPTION                       1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_USE_ಸಮಯ_SLICING                     1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_USE_ಪೋರ್ಟ್_OPTIMISED_TASK_SELECTION    0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_TICKLESS_IDLE                    1
+#ವ್ಯಾಖ್ಯಾನಿಸು configMAX_PRIORITIES                       5U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ಕನಿಷ್ಠತಮ_ರಾಶಿ_ಗಾತ್ರ                   128U
+#ವ್ಯಾಖ್ಯಾನಿಸು configMAX_TASK_NAME_LEN                    4U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_TICK_TYPE_ಅಗಲ_ಒಳ_ಬಿಟ್ಟುಗಳು              TICK_TYPE_ಅಗಲ_64_ಬಿಟ್ಟುಗಳು
+#ವ್ಯಾಖ್ಯಾನಿಸು configIDLE_SHOULD_YIELD                    1
+#ವ್ಯಾಖ್ಯಾನಿಸು configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ಸರತಿ_REGISTRY_ಗಾತ್ರ                  0U
+#ವ್ಯಾಖ್ಯಾನಿಸು configENABLE_BACKWARD_COMPATIBILITY        1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ಅಂಕೆ_THREAD_LOCAL_STORAGE_ಸೂಚಕಗಳು    0
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ರಾಶಿ_ಆಳ_TYPE                     size_t
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ಸಂದೇಶ_ಬಫರ್_ಉದ್ದಳತೆ_TYPE           size_t
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_NEWLIB_REENTRANT                 0
 
 /******************************************************************************/
 /* Software timer related definitions. ****************************************/
 /******************************************************************************/
 
-#define configUSE_TIMERS                1
-#define configTIMER_TASK_PRIORITY       ( configMAX_PRIORITIES - 1U )
-#define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
-#define configTIMER_QUEUE_LENGTH        10U
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_TIMERS                1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_TIMER_TASK_ಆದ್ಯತೆ       ( configMAX_PRIORITIES - 1U )
+#ವ್ಯಾಖ್ಯಾನಿಸು config_TIMER_TASK_ರಾಶಿ_ಆಳ    config_ಕನಿಷ್ಠತಮ_ರಾಶಿ_ಗಾತ್ರ
+#ವ್ಯಾಖ್ಯಾನಿಸು config_TIMER_ಸರತಿ_ಉದ್ದಳತೆ        10U
 
 /******************************************************************************/
 /* Memory allocation related definitions. *************************************/
 /******************************************************************************/
 
-#define configSUPPORT_STATIC_ALLOCATION              1
-#define configSUPPORT_DYNAMIC_ALLOCATION             1
-#define configTOTAL_HEAP_SIZE                        4096U
-#define configAPPLICATION_ALLOCATED_HEAP             1
-#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
-#define configUSE_MINI_LIST_ITEM                     0
+#ವ್ಯಾಖ್ಯಾನಿಸು config_SUPPORT_STATIC_ಹಂಚಿಕೆ              1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_SUPPORT_DYNAMIC_ಹಂಚಿಕೆ             1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ                        4096U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_APPLICATION_ALLOCATED_ರಾಶಿ             1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ರಾಶಿ_ಹಂಚಿಕೆ_FROM_SEPARATE_ರಾಶಿ    0
+#ವ್ಯಾಖ್ಯಾನಿಸು config_USE_MINI_LIST_ಅಂಶ                     0
 
 /******************************************************************************/
 /* Interrupt nesting behaviour configuration. *********************************/
 /******************************************************************************/
 
-#define configKERNEL_INTERRUPT_PRIORITY          0U
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY     0U
-#define configMAX_API_CALL_INTERRUPT_PRIORITY    0U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ          0U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ     0U
+#ವ್ಯಾಖ್ಯಾನಿಸು config_MAX_API_CALL_ಅಡಚಣೆ_ಆದ್ಯತೆ    0U
 
 /******************************************************************************/
 /* Hook and callback function related definitions. ****************************/
 /******************************************************************************/
 
-#define configUSE_IDLE_HOOK                   0
-#define configUSE_TICK_HOOK                   0
-#define configUSE_MALLOC_FAILED_HOOK          0
-#define configUSE_DAEMON_TASK_STARTUP_HOOK    0
-#define configCHECK_FOR_STACK_OVERFLOW        0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_IDLE_HOOK                   0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_TICK_HOOK                   0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_MALLOC_FAILED_HOOK          0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_DAEMON_TASK_STARTUP_HOOK    0
+#ವ್ಯಾಖ್ಯಾನಿಸು config_CHECK_FOR_ರಾಶಿ_ಅತಿಪ್ರವಾಹ        0
 
 /******************************************************************************/
 /* Run time and task stats gathering related definitions. *********************/
 /******************************************************************************/
 
-#define configGENERATE_RUN_TIME_STATS           0
-#define configUSE_TRACE_FACILITY                0
-#define configUSE_STATS_FORMATTING_FUNCTIONS    0
-#define configKERNEL_PROVIDED_STATIC_MEMORY     1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_GENERATE_ಸತತ_ಸಮಯ_STATS           0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_TRACE_FACILITY                0
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_STATS_FORMATTING_FUNCTIONS    0
+#ವ್ಯಾಖ್ಯಾನಿಸು config_KERNEL_PROVIDED_STATIC_ಸ್ಮರಣೆ     1
 
 /******************************************************************************/
 /* Definitions that include or exclude functionality. *************************/
 /******************************************************************************/
 
-#define configUSE_TASK_NOTIFICATIONS           1
-#define configUSE_MUTEXES                      1
-#define configUSE_RECURSIVE_MUTEXES            1
-#define configUSE_COUNTING_SEMAPHORES          1
-#define configUSE_QUEUE_SETS                   1
-#define configUSE_APPLICATION_TASK_TAG         1
-#define INCLUDE_vTaskPrioritySet               1
-#define INCLUDE_uxTaskPriorityGet              1
-#define INCLUDE_vTaskDelete                    1
-#define INCLUDE_vTaskSuspend                   1
-#define INCLUDE_vTaskDelayUntil                1
-#define INCLUDE_vTaskDelay                     1
-#define INCLUDE_xTaskGetSchedulerState         1
-#define INCLUDE_xTaskGetCurrentTaskHandle      1
-#define INCLUDE_uxTaskGetStackHighWaterMark    1
-#define INCLUDE_xTaskGetIdleTaskHandle         1
-#define INCLUDE_eTaskGetState                  1
-#define INCLUDE_xTimerPendFunctionCall         1
-#define INCLUDE_xTaskAbortDelay                1
-#define INCLUDE_xTaskGetHandle                 1
-#define INCLUDE_xTaskResumeFromISR             1
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_TASK_NOTIFICATIONS           1
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_MUTEXES                      1
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_RECURSIVE_MUTEXES            1
+#ವ್ಯಾಖ್ಯಾನಿಸು configUSE_COUNTING_SEMAPHORES          1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_USE_ಸರತಿ_SETS                   1
+#ವ್ಯಾಖ್ಯಾನಿಸು config_USE_APPLICATION_TASK_ಟ್ಯಾಗ್         1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_v_Task_ಆದ್ಯತೆ_ಗಣ               1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_ux_Task_ಆದ್ಯತೆ_Get              1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_vTaskDelete                    1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_vTaskSuspend                   1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_vTaskDelayUntil                1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_vTaskDelay                     1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTaskGetSchedulerState         1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTaskGetCurrentTaskHandle      1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_ux_Task_Get_ರಾಶಿ_ಮೇಲಿನ_Water_Mark    1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTaskGetIdleTaskHandle         1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_eTaskGetState                  1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTimerPendFunctionCall         1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTaskAbortDelay                1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTaskGetHandle                 1
+#ವ್ಯಾಖ್ಯಾನಿಸು INCLUDE_xTaskResumeFromISR             1
 
-#endif /* FREERTOS_CONFIG_H */
+#ಆದರೆ_ಅಂತ್ಯ /* FREERTOS_CONFIG_H */

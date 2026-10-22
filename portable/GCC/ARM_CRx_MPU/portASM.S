@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ಅಥವಾ
+ * IMPLIED, INCLUDING BUT ಅಲ್ಲ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ಮತ್ತು NONINFRINGEMENT. ಒಳಗೆ NO EVENT SHALL THE AUTHORS ಅಥವಾ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ಅಥವಾ OTHER LIABILITY, WHETHER
+ * ಒಳಗೆ AN ACTION OF CONTRACT, TORT ಅಥವಾ OTHERWISE, ARISING FROM, OUT OF ಅಥವಾ ಒಳಗೆ
+ * CONNECTION WITH THE SOFTWARE ಅಥವಾ THE USE ಅಥವಾ OTHER DEALINGS ಒಳಗೆ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -156,12 +156,12 @@
 /* ----------------------------------------------------------------------------------- */
 
 /*
- * void vPortStartFirstTask( void );
+ * void v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task( void );
  */
 .align 4
-.global vPortStartFirstTask
-.type vPortStartFirstTask, %function
-vPortStartFirstTask:
+.ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task
+.type v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task, %function
+v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task:
     /* This function is called from System Mode to start the FreeRTOS-Kernel.
      * As described in the portRESTORE_CONTEXT macro, portRESTORE_CONTEXT cannot
      * be called from the System mode. We, therefore, switch to the Supervisor
@@ -172,7 +172,7 @@ vPortStartFirstTask:
 /* ----------------------------------------------------------------------------------- */
 
 .align 4
-.global FreeRTOS_SVC_Handler
+.ವೈಶ್ವಿಕ FreeRTOS_SVC_Handler
 .type FreeRTOS_SVC_Handler, %function
 FreeRTOS_SVC_Handler:
     PUSH    { R11-R12 }
@@ -205,15 +205,15 @@ FreeRTOS_SVC_Handler:
     CMP     R11, #portSVC_SYSTEM_CALL_EXIT
     BEQ     svcSystemCallExit
 
-    /* If SVC Number == #portSVC_YIELD, go to svcPortYield. */
+    /* If SVC Number == #portSVC_YIELD, go to svc_ಪೋರ್ಟ್_Yield. */
     CMP     R11, #portSVC_YIELD
-    BEQ     svcPortYield
+    BEQ     svc_ಪೋರ್ಟ್_Yield
 
 svcHandlerExit:
     POP     { R11-R12 }
     MOVS    PC, LR /* Copies the SPSR into the CPSR, performing the mode swap. */
 
-svcPortYield:
+svc_ಪೋರ್ಟ್_Yield:
     POP     { R11-R12 }
     portSAVE_CONTEXT
     BL      vTaskSwitchContext
@@ -227,7 +227,7 @@ svcSystemCallExit:
     /* Restore the user mode SP and LR. */
     LDM   R11, { R13-R14 }^
 
-    AND     R12, R12, #0x0      /* R12 = 0. */
+    ಮತ್ತು     R12, R12, #0x0      /* R12 = 0. */
     STR     R12, [R11]          /* xSystemCallStackInfo.pulTaskStackPointer = NULL. */
     STR     R12, [R11, #0x4]    /* xSystemCallStackInfo.pulLinkRegisterAtSystemCallEntry = NULL. */
 
@@ -246,7 +246,7 @@ svcSystemCallExit:
 svcSystemCallEnter:
     LDR     R12, =uxSystemCallImplementations /* R12 = uxSystemCallImplementations. */
     /* R12 = uxSystemCallImplementations[ R12 + ( R11 << 2 ) ].
-     * R12 now contains the address of the system call impl function. */
+     * R12 now contains the address of the system ಕರೆ impl function. */
     LDR     R12, [R12, R11, lsl #2]
 
     /* If R12 == NULL, exit. */
@@ -255,7 +255,7 @@ svcSystemCallEnter:
 
     /* It is okay to clobber LR here because we do not need to return to the
      * SVC enter location anymore. LR now contains the address of the system
-     * call impl function. */
+     * ಕರೆ impl function. */
     MOV     LR, R12
 
     LDR     R11, =pxCurrentTCB  /* R11 = &( pxCurrentTCB ). */
@@ -281,24 +281,24 @@ svcSystemCallEnter:
 /* ----------------------------------------------------------------------------------- */
 
 /*
- * void vPortDisableInterrupts( void );
+ * void v_ಪೋರ್ಟ್_Disable_Interrupts( void );
  */
 .align 4
-.global vPortDisableInterrupts
-.type vPortDisableInterrupts, %function
-vPortDisableInterrupts:
+.ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_Disable_Interrupts
+.type v_ಪೋರ್ಟ್_Disable_Interrupts, %function
+v_ಪೋರ್ಟ್_Disable_Interrupts:
     CPSID    I
     BX      LR
 
 /* ----------------------------------------------------------------------------------- */
 
 /*
- * void vPortEnableInterrupts( void );
+ * void v_ಪೋರ್ಟ್_Enable_Interrupts( void );
  */
 .align 4
-.global vPortEnableInterrupts
-.type vPortEnableInterrupts, %function
-vPortEnableInterrupts:
+.ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_Enable_Interrupts
+.type v_ಪೋರ್ಟ್_Enable_Interrupts, %function
+v_ಪೋರ್ಟ್_Enable_Interrupts:
     CPSIE   I
     BX      LR
 
@@ -318,10 +318,10 @@ vPortEnableInterrupts:
  * R3 = ulRegionPermissions.
  */
 .align 4
-.global vMPUSetRegion
+.ವೈಶ್ವಿಕ vMPUSetRegion
 .type vMPUSetRegion, %function
 vMPUSetRegion:
-    AND     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
+    ಮತ್ತು     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
 
     MCR     p15, #0, R0, c6, c2, #0 /* MPU Region Number Register. */
     MCR     p15, #0, R1, c6, c1, #0 /* MPU Region Base Address Register. */
@@ -336,7 +336,7 @@ vMPUSetRegion:
  * void vMPUEnable( void );
  */
 .align 4
-.global vMPUEnable
+.ವೈಶ್ವಿಕ vMPUEnable
 .type vMPUEnable, %function
 vMPUEnable:
     PUSH    { R0 }
@@ -356,7 +356,7 @@ vMPUEnable:
  * void vMPUDisable( void );
  */
 .align 4
-.global vMPUDisable
+.ವೈಶ್ವಿಕ vMPUDisable
 .type vMPUDisable, %function
 vMPUDisable:
     PUSH    { R0 }
@@ -379,7 +379,7 @@ vMPUDisable:
  * void vMPUEnableBackgroundRegion( void );
  */
 .align 4
-.global vMPUEnableBackgroundRegion
+.ವೈಶ್ವಿಕ vMPUEnableBackgroundRegion
 .type vMPUEnableBackgroundRegion, %function
 vMPUEnableBackgroundRegion:
     PUSH    { R0 }
@@ -397,7 +397,7 @@ vMPUEnableBackgroundRegion:
  * void vMPUDisableBackgroundRegion( void );
  */
 .align 4
-.global vMPUDisableBackgroundRegion
+.ವೈಶ್ವಿಕ vMPUDisableBackgroundRegion
 .type vMPUDisableBackgroundRegion, %function
 vMPUDisableBackgroundRegion:
     PUSH    { R0 }
@@ -412,7 +412,7 @@ vMPUDisableBackgroundRegion:
 /* ----------------------------------------------------------------------------------- */
 
 .align 4
-.global FreeRTOS_IRQ_Handler
+.ವೈಶ್ವಿಕ FreeRTOS_IRQ_Handler
 .type FreeRTOS_IRQ_Handler, %function
 FreeRTOS_IRQ_Handler:
     SUB     LR, LR, #4 /* Return to the interrupted instruction. */

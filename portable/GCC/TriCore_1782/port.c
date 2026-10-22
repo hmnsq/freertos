@@ -27,81 +27,81 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <string.h>
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
 
 /* TriCore specific includes. */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
-#include <machine/cint.h>
-#include <machine/wdtcon.h>
+#ಅನ್ತರ್ಭಾವ <tc1782.h>
+#ಅನ್ತರ್ಭಾವ <machine/intrinsics.h>
+#ಅನ್ತರ್ಭಾವ <machine/cint.h>
+#ಅನ್ತರ್ಭಾವ <machine/wdtcon.h>
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "list.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
+#ಅನ್ತರ್ಭಾವ "list.h"
 
-#if configCHECK_FOR_STACK_OVERFLOW > 0
-    #error "Stack checking cannot be used with this port, as, unlike most ports, the pxTopOfStack member of the TCB is consumed CSA.  CSA starvation, loosely equivalent to stack overflow, will result in a trap exception."
+#ಆದರೆ config_CHECK_FOR_ರಾಶಿ_ಅತಿಪ್ರವಾಹ > 0
+    #ದೋಷ "Stack checking cannot be used with this port, as, unlike most ports, the pxTopOfStack member of the TCB is consumed CSA.  CSA starvation, loosely equivalent to stack overflow, will result in a trap exception."
     /* The stack pointer is accessible using portCSA_TO_ADDRESS( portCSA_TO_ADDRESS( pxCurrentTCB->pxTopOfStack )[ 0 ] )[ 2 ]; */
-#endif /* configCHECK_FOR_STACK_OVERFLOW */
+#ಆದರೆ_ಅಂತ್ಯ /* configCHECK_FOR_STACK_OVERFLOW */
 
 
 /*-----------------------------------------------------------*/
 
 /* System register Definitions. */
-#define portSYSTEM_PROGRAM_STATUS_WORD                  ( 0x000008FFUL ) /* Supervisor Mode, MPU Register Set 0 and Call Depth Counting disabled. */
-#define portINITIAL_PRIVILEGED_PROGRAM_STATUS_WORD      ( 0x000014FFUL ) /* IO Level 1, MPU Register Set 1 and Call Depth Counting disabled. */
-#define portINITIAL_UNPRIVILEGED_PROGRAM_STATUS_WORD    ( 0x000010FFUL ) /* IO Level 0, MPU Register Set 1 and Call Depth Counting disabled. */
-#define portINITIAL_PCXI_UPPER_CONTEXT_WORD             ( 0x00C00000UL ) /* The lower 20 bits identify the CSA address. */
-#define portINITIAL_SYSCON                              ( 0x00000000UL ) /* MPU Disable. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SYSTEM_ಕಾರ್ಯಕ್ರಮ_ಸ್ಥಿತಿ_ಶಬ್ದ                  ( 0x000008FFUL ) /* Supervisor Mode, MPU Register Set 0 and Call Depth Counting disabled. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_PRIVILEGED_ಕಾರ್ಯಕ್ರಮ_ಸ್ಥಿತಿ_ಶಬ್ದ      ( 0x000014FFUL ) /* IO Level 1, MPU Register Set 1 and Call Depth Counting disabled. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_UNPRIVILEGED_ಕಾರ್ಯಕ್ರಮ_ಸ್ಥಿತಿ_ಶಬ್ದ    ( 0x000010FFUL ) /* IO Level 0, MPU Register Set 1 and Call Depth Counting disabled. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_PCXI_ಊರ್ಧ್ವ_CONTEXT_ಶಬ್ದ             ( 0x00C00000UL ) /* The lower 20 bits identify the CSA address. */
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_SYSCON                              ( 0x00000000UL ) /* MPU Disable. */
 
 /* CSA manipulation macros. */
-#define portCSA_FCX_MASK                                ( 0x000FFFFFUL )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CSA_FCX_ಮುಖವಾಡ                                ( 0x000FFFFFUL )
 
 /* OS Interrupt and Trap mechanisms. */
-#define portRESTORE_PSW_MASK                            ( ~( 0x000000FFUL ) )
-#define portSYSCALL_TRAP                                ( 6 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESTORE_PSW_ಮುಖವಾಡ                            ( ~( 0x000000FFUL ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SYSCALL_TRAP                                ( 6 )
 
 /* Each CSA contains 16 words of data. */
-#define portNUM_WORDS_IN_CSA                            ( 16 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಅಂಕೆ_ಪದಗಳು_ಒಳ_CSA                            ( 16 )
 
 /* The interrupt enable bit in the PCP_SRC register. */
-#define portENABLE_CPU_INTERRUPT                        ( 1U << 12U )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENABLE_CPU_ಅಡಚಣೆ                        ( 1U << 12U )
 /*-----------------------------------------------------------*/
 
 /*
  * Perform any hardware configuration necessary to generate the tick interrupt.
  */
-static void prvSystemTickHandler( int ) __attribute__( ( longcall ) );
-static void prvSetupTimerInterrupt( void );
+ಸ್ಥಿರ ಶೂನ್ಯ prvSystemTickHandler( ಪೂರ್ಣಾಂಕ ) __attribute__( ( longcall ) );
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ );
 
 /*
  * Trap handler for yields.
  */
-static void prvTrapYield( int iTrapIdentification );
+ಸ್ಥಿರ ಶೂನ್ಯ prvTrapYield( ಪೂರ್ಣಾಂಕ iTrapIdentification );
 
 /*
  * Priority 1 interrupt handler for yields pended from an interrupt.
  */
-static void prvInterruptYield( int iTrapIdentification );
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಅಡಚಣೆ_Yield( ಪೂರ್ಣಾಂಕ iTrapIdentification );
 
 /*-----------------------------------------------------------*/
 
 /* This reference is required by the save/restore context macros. */
-extern volatile uint32_t * pxCurrentTCB;
+ಬಾಹ್ಯ ಅಸ್ಥಿರ uint32_t * pxCurrentTCB;
 
 /* Precalculate the compare match value at compile time. */
-static const uint32_t ulCompareMatchValue = ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ );
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ uint32_t ul_Compare_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ = ( configPERIPHERAL_CLOCK_HZ / config_TICK_ದರ_HZ );
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ರಾಶಿ_Type_t * px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ,
+                                     TaskFunction_t px_ಸಂಕೇತ,
+                                     ಶೂನ್ಯ * pvParameters )
 {
-    uint32_t * pulUpperCSA = NULL;
-    uint32_t * pulLowerCSA = NULL;
+    uint32_t * pul_ಊರ್ಧ್ವ_CSA = ಖಾಲಿ;
+    uint32_t * pul_ಅಧೋ_CSA = ಖಾಲಿ;
 
     /* 16 Address Registers (4 Address registers are global), 16 Data
      * Registers, and 3 System Registers.
@@ -122,102 +122,102 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Have to disable interrupts here because the CSAs are going to be
      * manipulated. */
-    portENTER_CRITICAL();
+    ಪೋರ್ಟ್_ENTER_CRITICAL();
     {
         /* DSync to ensure that buffering is not a problem. */
         _dsync();
 
         /* Consume two free CSAs. */
-        pulLowerCSA = portCSA_TO_ADDRESS( __MFCR( $FCX ) );
+        pul_ಅಧೋ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( __MFCR( $FCX ) );
 
-        if( NULL != pulLowerCSA )
+        ಆದರೆ( ಖಾಲಿ != pul_ಅಧೋ_CSA )
         {
             /* The Lower Links to the Upper. */
-            pulUpperCSA = portCSA_TO_ADDRESS( pulLowerCSA[ 0 ] );
+            pul_ಊರ್ಧ್ವ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( pul_ಅಧೋ_CSA[ 0 ] );
         }
 
         /* Check that we have successfully reserved two CSAs. */
-        if( ( NULL != pulLowerCSA ) && ( NULL != pulUpperCSA ) )
+        ಆದರೆ( ( ಖಾಲಿ != pul_ಅಧೋ_CSA ) && ( ಖಾಲಿ != pul_ಊರ್ಧ್ವ_CSA ) )
         {
             /* Remove the two consumed CSAs from the free CSA list. */
             _disable();
             _dsync();
-            _mtcr( $FCX, pulUpperCSA[ 0 ] );
+            _mtcr( $FCX, pul_ಊರ್ಧ್ವ_CSA[ 0 ] );
             _isync();
             _enable();
         }
-        else
+        ಇಲ್ಲದಿದ್ದರೆ
         {
             /* Simply trigger a context list depletion trap. */
             _svlcx();
         }
     }
-    portEXIT_CRITICAL();
+    ಪೋರ್ಟ್_EXIT_CRITICAL();
 
     /* Clear the upper CSA. */
-    memset( pulUpperCSA, 0, portNUM_WORDS_IN_CSA * sizeof( uint32_t ) );
+    memset( pul_ಊರ್ಧ್ವ_CSA, 0, ಪೋರ್ಟ್_ಅಂಕೆ_ಪದಗಳು_ಒಳ_CSA * ಗಾತ್ರ( uint32_t ) );
 
     /* Upper Context. */
-    pulUpperCSA[ 2 ] = ( uint32_t ) pxTopOfStack;      /* A10; Stack Return aka Stack Pointer */
-    pulUpperCSA[ 1 ] = portSYSTEM_PROGRAM_STATUS_WORD; /* PSW  */
+    pul_ಊರ್ಧ್ವ_CSA[ 2 ] = ( uint32_t ) px_ತುದಿ_ದ_ರಾಶಿ;      /* A10; Stack Return aka Stack Pointer */
+    pul_ಊರ್ಧ್ವ_CSA[ 1 ] = ಪೋರ್ಟ್_SYSTEM_ಕಾರ್ಯಕ್ರಮ_ಸ್ಥಿತಿ_ಶಬ್ದ; /* PSW  */
 
     /* Clear the lower CSA. */
-    memset( pulLowerCSA, 0, portNUM_WORDS_IN_CSA * sizeof( uint32_t ) );
+    memset( pul_ಅಧೋ_CSA, 0, ಪೋರ್ಟ್_ಅಂಕೆ_ಪದಗಳು_ಒಳ_CSA * ಗಾತ್ರ( uint32_t ) );
 
     /* Lower Context. */
-    pulLowerCSA[ 8 ] = ( uint32_t ) pvParameters; /* A4;  Address Type Parameter Register */
-    pulLowerCSA[ 1 ] = ( uint32_t ) pxCode;       /* A11; Return Address aka RA */
+    pul_ಅಧೋ_CSA[ 8 ] = ( uint32_t ) pvParameters; /* A4;  Address Type Parameter Register */
+    pul_ಅಧೋ_CSA[ 1 ] = ( uint32_t ) px_ಸಂಕೇತ;       /* A11; Return Address aka RA */
 
     /* PCXI pointing to the Upper context. */
-    pulLowerCSA[ 0 ] = ( portINITIAL_PCXI_UPPER_CONTEXT_WORD | ( uint32_t ) portADDRESS_TO_CSA( pulUpperCSA ) );
+    pul_ಅಧೋ_CSA[ 0 ] = ( ಪೋರ್ಟ್_INITIAL_PCXI_ಊರ್ಧ್ವ_CONTEXT_ಶಬ್ದ | ( uint32_t ) ಪೋರ್ಟ್_ವಿಳಾಸ_ಗಮ್ಯ_CSA( pul_ಊರ್ಧ್ವ_CSA ) );
 
     /* Save the link to the CSA in the top of stack. */
-    pxTopOfStack = ( uint32_t * ) portADDRESS_TO_CSA( pulLowerCSA );
+    px_ತುದಿ_ದ_ರಾಶಿ = ( uint32_t * ) ಪೋರ್ಟ್_ವಿಳಾಸ_ಗಮ್ಯ_CSA( pul_ಅಧೋ_CSA );
 
     /* DSync to ensure that buffering is not a problem. */
     _dsync();
 
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-int32_t xPortStartScheduler( void )
+int32_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
-    extern void vTrapInstallHandlers( void );
+    ಬಾಹ್ಯ ಶೂನ್ಯ vTrapInstallHandlers( ಶೂನ್ಯ );
     uint32_t ulMFCR = 0UL;
-    uint32_t * pulUpperCSA = NULL;
-    uint32_t * pulLowerCSA = NULL;
+    uint32_t * pul_ಊರ್ಧ್ವ_CSA = ಖಾಲಿ;
+    uint32_t * pul_ಅಧೋ_CSA = ಖಾಲಿ;
 
     /* Interrupts at or below configMAX_SYSCALL_INTERRUPT_PRIORITY are disable
      * when this function is called. */
 
     /* Set-up the timer interrupt. */
-    prvSetupTimerInterrupt();
+    prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ();
 
     /* Install the Trap Handlers. */
     vTrapInstallHandlers();
 
     /* Install the Syscall Handler for yield calls. */
-    if( 0 == _install_trap_handler( portSYSCALL_TRAP, prvTrapYield ) )
+    ಆದರೆ( 0 == _install_trap_handler( ಪೋರ್ಟ್_SYSCALL_TRAP, prvTrapYield ) )
     {
         /* Failed to install the yield handler, force an assert. */
-        configASSERT( ( ( volatile void * ) NULL ) );
+        configASSERT( ( ( ಅಸ್ಥಿರ ಶೂನ್ಯ * ) ಖಾಲಿ ) );
     }
 
     /* Enable then install the priority 1 interrupt for pending context
      * switches from an ISR.  See mod_SRC in the TriCore manual. */
-    CPU_SRC0.reg = ( portENABLE_CPU_INTERRUPT ) | ( configKERNEL_YIELD_PRIORITY );
+    CPU_SRC0.reg = ( ಪೋರ್ಟ್_ENABLE_CPU_ಅಡಚಣೆ ) | ( config_KERNEL_YIELD_ಆದ್ಯತೆ );
 
-    if( 0 == _install_int_handler( configKERNEL_YIELD_PRIORITY, prvInterruptYield, 0 ) )
+    ಆದರೆ( 0 == _install_int_handler( config_KERNEL_YIELD_ಆದ್ಯತೆ, prv_ಅಡಚಣೆ_Yield, 0 ) )
     {
         /* Failed to install the yield handler, force an assert. */
-        configASSERT( ( ( volatile void * ) NULL ) );
+        configASSERT( ( ( ಅಸ್ಥಿರ ಶೂನ್ಯ * ) ಖಾಲಿ ) );
     }
 
     _disable();
 
     /* Load the initial SYSCON. */
-    _mtcr( $SYSCON, portINITIAL_SYSCON );
+    _mtcr( $SYSCON, ಪೋರ್ಟ್_INITIAL_SYSCON );
     _isync();
 
     /* ENDINIT has already been applied in the 'cstart.c' code. */
@@ -225,14 +225,14 @@ int32_t xPortStartScheduler( void )
     /* Clear the PSW.CDC to enable the use of an RFE without it generating an
      * exception because this code is not genuinely in an exception. */
     ulMFCR = __MFCR( $PSW );
-    ulMFCR &= portRESTORE_PSW_MASK;
+    ulMFCR &= ಪೋರ್ಟ್_RESTORE_PSW_ಮುಖವಾಡ;
     _dsync();
     _mtcr( $PSW, ulMFCR );
     _isync();
 
     /* Finally, perform the equivalent of a portRESTORE_CONTEXT() */
-    pulLowerCSA = portCSA_TO_ADDRESS( ( *pxCurrentTCB ) );
-    pulUpperCSA = portCSA_TO_ADDRESS( pulLowerCSA[ 0 ] );
+    pul_ಅಧೋ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( ( *pxCurrentTCB ) );
+    pul_ಊರ್ಧ್ವ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( pul_ಅಧೋ_CSA[ 0 ] );
     _dsync();
     _mtcr( $PCXI, *pxCurrentTCB );
     _isync();
@@ -241,39 +241,39 @@ int32_t xPortStartScheduler( void )
     _nop();
 
     /* Return to the first task selected to execute. */
-    __asm volatile ( "rfe" );
+    __asm ಅಸ್ಥಿರ ( "rfe" );
 
     /* Will not get here. */
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
     /* Set-up the clock divider. */
     unlock_wdtcon();
     {
         /* Wait until access to Endint protected register is enabled. */
-        while( 0 != ( WDT_CON0.reg & 0x1UL ) )
+        ಆಗ( 0 != ( WDT_CON0.reg & 0x1UL ) )
         {
         }
 
         /* RMC == 1 so STM Clock == FPI */
         STM_CLC.reg = ( 1UL << 8 );
     }
-    lock_wdtcon();
+    ಬೀಗ_wdtcon();
 
     /* Determine how many bits are used without changing other bits in the CMCON register. */
     STM_CMCON.reg &= ~( 0x1fUL );
-    STM_CMCON.reg |= ( 0x1fUL - __CLZ( configPERIPHERAL_CLOCK_HZ / configTICK_RATE_HZ ) );
+    STM_CMCON.reg |= ( 0x1fUL - __CLZ( configPERIPHERAL_CLOCK_HZ / config_TICK_ದರ_HZ ) );
 
     /* Take into account the current time so a tick doesn't happen immediately. */
-    STM_CMP0.reg = ulCompareMatchValue + STM_TIM0.reg;
+    STM_CMP0.reg = ul_Compare_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ + STM_TIM0.reg;
 
-    if( 0 != _install_int_handler( configKERNEL_INTERRUPT_PRIORITY, prvSystemTickHandler, 0 ) )
+    ಆದರೆ( 0 != _install_int_handler( config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ, prvSystemTickHandler, 0 ) )
     {
         /* Set-up the interrupt. */
-        STM_SRC0.reg = ( configKERNEL_INTERRUPT_PRIORITY | 0x00005000UL );
+        STM_SRC0.reg = ( config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ | 0x00005000UL );
 
         /* Enable the Interrupt. */
         STM_ISRR.reg &= ~( 0x03UL );
@@ -281,24 +281,24 @@ static void prvSetupTimerInterrupt( void )
         STM_ISRR.reg &= ~( 0x07UL );
         STM_ICR.reg |= 0x1UL;
     }
-    else
+    ಇಲ್ಲದಿದ್ದರೆ
     {
         /* Failed to install the Tick Interrupt. */
-        configASSERT( ( ( volatile void * ) NULL ) );
+        configASSERT( ( ( ಅಸ್ಥಿರ ಶೂನ್ಯ * ) ಖಾಲಿ ) );
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvSystemTickHandler( int iArg )
+ಸ್ಥಿರ ಶೂನ್ಯ prvSystemTickHandler( ಪೂರ್ಣಾಂಕ iArg )
 {
-    uint32_t ulSavedInterruptMask;
-    uint32_t * pxUpperCSA = NULL;
-    uint32_t xUpperCSA = 0UL;
-    extern volatile uint32_t * pxCurrentTCB;
+    uint32_t ul_Saved_ಅಡಚಣೆ_ಮುಖವಾಡ;
+    uint32_t * px_ಊರ್ಧ್ವ_CSA = ಖಾಲಿ;
+    uint32_t x_ಊರ್ಧ್ವ_CSA = 0UL;
+    ಬಾಹ್ಯ ಅಸ್ಥಿರ uint32_t * pxCurrentTCB;
     int32_t lYieldRequired;
 
     /* Just to avoid compiler warnings about unused parameters. */
-    ( void ) iArg;
+    ( ಶೂನ್ಯ ) iArg;
 
     /* Clear the interrupt source. */
     STM_ISRR.reg = 1UL;
@@ -320,17 +320,17 @@ static void prvSystemTickHandler( int iArg )
      * Changing the tick source to a timer that has an automatic reset on compare
      * match (such as a GPTA timer) will reduce the maximum possible additional
      * period to exactly 1 times the desired period. */
-    STM_CMP0.reg += ulCompareMatchValue;
+    STM_CMP0.reg += ul_Compare_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ;
 
     /* Kernel API calls require Critical Sections. */
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_ಅಡಚಣೆ_ಮುಖವಾಡ = ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR();
     {
         /* Increment the Tick. */
         lYieldRequired = xTaskIncrementTick();
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    ಪೋರ್ಟ್_CLEAR_ಅಡಚಣೆ_ಮುಖವಾಡ_FROM_ISR( ul_Saved_ಅಡಚಣೆ_ಮುಖವಾಡ );
 
-    if( lYieldRequired != pdFALSE )
+    ಆದರೆ( lYieldRequired != pdFALSE )
     {
         /* Save the context of a task.
          * The upper context is automatically saved when entering a trap or interrupt.
@@ -353,12 +353,12 @@ static void prvSystemTickHandler( int iArg )
          * enabled/disabled. */
         _disable();
         _dsync();
-        xUpperCSA = __MFCR( $PCXI );
-        pxUpperCSA = portCSA_TO_ADDRESS( xUpperCSA );
-        *pxCurrentTCB = pxUpperCSA[ 0 ];
+        x_ಊರ್ಧ್ವ_CSA = __MFCR( $PCXI );
+        px_ಊರ್ಧ್ವ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( x_ಊರ್ಧ್ವ_CSA );
+        *pxCurrentTCB = px_ಊರ್ಧ್ವ_CSA[ 0 ];
         vTaskSwitchContext();
-        pxUpperCSA[ 0 ] = *pxCurrentTCB;
-        CPU_SRC0.bits.SETR = 0;
+        px_ಊರ್ಧ್ವ_CSA[ 0 ] = *pxCurrentTCB;
+        CPU_SRC0.ಬಿಟ್ಟುಗಳು_2.SETR = 0;
         _isync();
     }
 }
@@ -382,41 +382,41 @@ static void prvSystemTickHandler( int iArg )
  * than they can be freed assuming that tasks are being spawned and
  * deleted frequently.
  */
-void vPortReclaimCSA( uint32_t * pxTCB )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Reclaim_CSA( uint32_t * pxTCB )
 {
-    uint32_t pxHeadCSA, pxTailCSA, pxFreeCSA;
-    uint32_t * pulNextCSA;
+    uint32_t px_ತಲೆ_CSA, px_ಬಾಲ_CSA, pxFreeCSA;
+    uint32_t * pul_ಮುಂದಿನ_CSA;
 
     /* A pointer to the first CSA in the list of CSAs consumed by the task is
      * stored in the first element of the tasks TCB structure (where the stack
      * pointer would be on a traditional stack based architecture). */
-    pxHeadCSA = ( *pxTCB ) & portCSA_FCX_MASK;
+    px_ತಲೆ_CSA = ( *pxTCB ) & ಪೋರ್ಟ್_CSA_FCX_ಮುಖವಾಡ;
 
     /* Mask off everything in the CSA link field other than the address.  If
      * the address is NULL, then the CSA is not linking anywhere and there is
      * nothing to do. */
-    pxTailCSA = pxHeadCSA;
+    px_ಬಾಲ_CSA = px_ತಲೆ_CSA;
 
     /* Convert the link value to contain just a raw address and store this
      * in a local variable. */
-    pulNextCSA = portCSA_TO_ADDRESS( pxTailCSA );
+    pul_ಮುಂದಿನ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( px_ಬಾಲ_CSA );
 
     /* Iterate over the CSAs that were consumed as part of the task.  The
      * first field in the CSA is the pointer to then next CSA.  Mask off
      * everything in the pointer to the next CSA, other than the link address.
      * If this is NULL, then the CSA currently being pointed to is the last in
      * the chain. */
-    while( 0UL != ( pulNextCSA[ 0 ] & portCSA_FCX_MASK ) )
+    ಆಗ( 0UL != ( pul_ಮುಂದಿನ_CSA[ 0 ] & ಪೋರ್ಟ್_CSA_FCX_ಮುಖವಾಡ ) )
     {
         /* Clear all bits of the pointer to the next in the chain, other
          * than the address bits themselves. */
-        pulNextCSA[ 0 ] = pulNextCSA[ 0 ] & portCSA_FCX_MASK;
+        pul_ಮುಂದಿನ_CSA[ 0 ] = pul_ಮುಂದಿನ_CSA[ 0 ] & ಪೋರ್ಟ್_CSA_FCX_ಮುಖವಾಡ;
 
         /* Move the pointer to point to the next CSA in the list. */
-        pxTailCSA = pulNextCSA[ 0 ];
+        px_ಬಾಲ_CSA = pul_ಮುಂದಿನ_CSA[ 0 ];
 
         /* Update the local pointer to the CSA. */
-        pulNextCSA = portCSA_TO_ADDRESS( pxTailCSA );
+        pul_ಮುಂದಿನ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( px_ಬಾಲ_CSA );
     }
 
     _disable();
@@ -426,32 +426,32 @@ void vPortReclaimCSA( uint32_t * pxTCB )
         pxFreeCSA = __MFCR( $FCX );
 
         /* Join the current Free onto the Tail of what is being reclaimed. */
-        portCSA_TO_ADDRESS( pxTailCSA )[ 0 ] = pxFreeCSA;
+        ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( px_ಬಾಲ_CSA )[ 0 ] = pxFreeCSA;
 
         /* Move the head of the reclaimed into the Free. */
         _dsync();
-        _mtcr( $FCX, pxHeadCSA );
+        _mtcr( $FCX, px_ತಲೆ_CSA );
         _isync();
     }
     _enable();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* Nothing to do. Unlikely to want to end. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvTrapYield( int iTrapIdentification )
+ಸ್ಥಿರ ಶೂನ್ಯ prvTrapYield( ಪೂರ್ಣಾಂಕ iTrapIdentification )
 {
-    uint32_t * pxUpperCSA = NULL;
-    uint32_t xUpperCSA = 0UL;
-    extern volatile uint32_t * pxCurrentTCB;
+    uint32_t * px_ಊರ್ಧ್ವ_CSA = ಖಾಲಿ;
+    uint32_t x_ಊರ್ಧ್ವ_CSA = 0UL;
+    ಬಾಹ್ಯ ಅಸ್ಥಿರ uint32_t * pxCurrentTCB;
 
-    switch( iTrapIdentification )
+    ಆಯ್ಕೆ( iTrapIdentification )
     {
-        case portSYSCALL_TASK_YIELD:
+        ಸ್ಥಿತಿ ಪೋರ್ಟ್_SYSCALL_TASK_YIELD:
 
             /* Save the context of a task.
              * The upper context is automatically saved when entering a trap or interrupt.
@@ -474,31 +474,31 @@ static void prvTrapYield( int iTrapIdentification )
              * enabled/disabled. */
             _disable();
             _dsync();
-            xUpperCSA = __MFCR( $PCXI );
-            pxUpperCSA = portCSA_TO_ADDRESS( xUpperCSA );
-            *pxCurrentTCB = pxUpperCSA[ 0 ];
+            x_ಊರ್ಧ್ವ_CSA = __MFCR( $PCXI );
+            px_ಊರ್ಧ್ವ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( x_ಊರ್ಧ್ವ_CSA );
+            *pxCurrentTCB = px_ಊರ್ಧ್ವ_CSA[ 0 ];
             vTaskSwitchContext();
-            pxUpperCSA[ 0 ] = *pxCurrentTCB;
-            CPU_SRC0.bits.SETR = 0;
+            px_ಊರ್ಧ್ವ_CSA[ 0 ] = *pxCurrentTCB;
+            CPU_SRC0.ಬಿಟ್ಟುಗಳು_2.SETR = 0;
             _isync();
-            break;
+            ನಿಲ್ಲಿಸು;
 
-        default:
+        ಪೂರ್ವನಿಯೋಜಿತ:
             /* Unimplemented trap called. */
-            configASSERT( ( ( volatile void * ) NULL ) );
-            break;
+            configASSERT( ( ( ಅಸ್ಥಿರ ಶೂನ್ಯ * ) ಖಾಲಿ ) );
+            ನಿಲ್ಲಿಸು;
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvInterruptYield( int iId )
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಅಡಚಣೆ_Yield( ಪೂರ್ಣಾಂಕ iId )
 {
-    uint32_t * pxUpperCSA = NULL;
-    uint32_t xUpperCSA = 0UL;
-    extern volatile uint32_t * pxCurrentTCB;
+    uint32_t * px_ಊರ್ಧ್ವ_CSA = ಖಾಲಿ;
+    uint32_t x_ಊರ್ಧ್ವ_CSA = 0UL;
+    ಬಾಹ್ಯ ಅಸ್ಥಿರ uint32_t * pxCurrentTCB;
 
     /* Just to remove compiler warnings. */
-    ( void ) iId;
+    ( ಶೂನ್ಯ ) iId;
 
     /* Save the context of a task.
      * The upper context is automatically saved when entering a trap or interrupt.
@@ -521,27 +521,27 @@ static void prvInterruptYield( int iId )
      * enabled/disabled. */
     _disable();
     _dsync();
-    xUpperCSA = __MFCR( $PCXI );
-    pxUpperCSA = portCSA_TO_ADDRESS( xUpperCSA );
-    *pxCurrentTCB = pxUpperCSA[ 0 ];
+    x_ಊರ್ಧ್ವ_CSA = __MFCR( $PCXI );
+    px_ಊರ್ಧ್ವ_CSA = ಪೋರ್ಟ್_CSA_ಗಮ್ಯ_ವಿಳಾಸ( x_ಊರ್ಧ್ವ_CSA );
+    *pxCurrentTCB = px_ಊರ್ಧ್ವ_CSA[ 0 ];
     vTaskSwitchContext();
-    pxUpperCSA[ 0 ] = *pxCurrentTCB;
-    CPU_SRC0.bits.SETR = 0;
+    px_ಊರ್ಧ್ವ_CSA[ 0 ] = *pxCurrentTCB;
+    CPU_SRC0.ಬಿಟ್ಟುಗಳು_2.SETR = 0;
     _isync();
 }
 /*-----------------------------------------------------------*/
 
-uint32_t uxPortSetInterruptMaskFromISR( void )
+uint32_t ux_ಪೋರ್ಟ್_ಗಣ_ಅಡಚಣೆ_ಮುಖವಾಡ_From_ISR( ಶೂನ್ಯ )
 {
     uint32_t uxReturn = 0UL;
 
     _disable();
     uxReturn = __MFCR( $ICR );
-    _mtcr( $ICR, ( ( uxReturn & ~portCCPN_MASK ) | configMAX_SYSCALL_INTERRUPT_PRIORITY ) );
+    _mtcr( $ICR, ( ( uxReturn & ~ಪೋರ್ಟ್_CCPN_ಮುಖವಾಡ ) | config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) );
     _isync();
     _enable();
 
     /* Return just the interrupt mask bits. */
-    return( uxReturn & portCCPN_MASK );
+    ಹಿಂತಿರುಗಿ( uxReturn & ಪೋರ್ಟ್_CCPN_ಮುಖವಾಡ );
 }
 /*-----------------------------------------------------------*/

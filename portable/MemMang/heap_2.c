@@ -35,93 +35,93 @@
  * See heap_1.c, heap_3.c and heap_4.c for alternative implementations, and the
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
-#include <stdlib.h>
-#include <string.h>
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನಿಸು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ವ್ಯಾಖ್ಯಾನ_ರದ್ದು MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
-#endif
+#ಆದರೆ ( config_SUPPORT_DYNAMIC_ಹಂಚಿಕೆ == 0 )
+    #ದೋಷ This file must not be ಬಳಸಿದ ಆದರೆ config_SUPPORT_DYNAMIC_ಹಂಚಿಕೆ is 0
+#ಆದರೆ_ಅಂತ್ಯ
 
-#ifndef configHEAP_CLEAR_MEMORY_ON_FREE
-    #define configHEAP_CLEAR_MEMORY_ON_FREE    0
-#endif
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_ರಾಶಿ_CLEAR_ಸ್ಮರಣೆ_ON_FREE
+    #ವ್ಯಾಖ್ಯಾನಿಸು config_ರಾಶಿ_CLEAR_ಸ್ಮರಣೆ_ON_FREE    0
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* A few bytes might be lost to byte aligning the heap start address. */
-#define configADJUSTED_HEAP_SIZE    ( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
+#ವ್ಯಾಖ್ಯಾನಿಸು config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ    ( config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ - ಪೋರ್ಟ್_BYTE_ALIGNMENT )
 
 /* Assumes 8bit bytes! */
-#define heapBITS_PER_BYTE           ( ( size_t ) 8 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_BYTE           ( ( size_t ) 8 )
 
 /* Max value that fits in a size_t type. */
-#define heapSIZE_MAX                ( ~( ( size_t ) 0 ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಗಾತ್ರ_MAX                ( ~( ( size_t ) 0 ) )
 
 /* Check if multiplying a and b will result in overflow. */
-#define heapMULTIPLY_WILL_OVERFLOW( a, b )    ( ( ( a ) > 0 ) && ( ( b ) > ( heapSIZE_MAX / ( a ) ) ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_MULTIPLY_WILL_ಅತಿಪ್ರವಾಹ( a, b )    ( ( ( a ) > 0 ) && ( ( b ) > ( ರಾಶಿ_ಗಾತ್ರ_MAX / ( a ) ) ) )
 
 /* Check if adding a and b will result in overflow. */
-#define heapADD_WILL_OVERFLOW( a, b )         ( ( a ) > ( heapSIZE_MAX - ( b ) ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಕೂಡಿಸು_WILL_ಅತಿಪ್ರವಾಹ( a, b )         ( ( a ) > ( ರಾಶಿ_ಗಾತ್ರ_MAX - ( b ) ) )
 
 /* MSB of the xBlockSize member of an BlockLink_t structure is used to track
  * the allocation status of a block.  When MSB of the xBlockSize member of
  * an BlockLink_t structure is set then the block belongs to the application.
  * When the bit is free the block is still part of the free heap space. */
-#define heapBLOCK_ALLOCATED_BITMASK    ( ( ( size_t ) 1 ) << ( ( sizeof( size_t ) * heapBITS_PER_BYTE ) - 1 ) )
-#define heapBLOCK_SIZE_IS_VALID( xBlockSize )    ( ( ( xBlockSize ) & heapBLOCK_ALLOCATED_BITMASK ) == 0 )
-#define heapBLOCK_IS_ALLOCATED( pxBlock )        ( ( ( pxBlock->xBlockSize ) & heapBLOCK_ALLOCATED_BITMASK ) != 0 )
-#define heapALLOCATE_BLOCK( pxBlock )            ( ( pxBlock->xBlockSize ) |= heapBLOCK_ALLOCATED_BITMASK )
-#define heapFREE_BLOCK( pxBlock )                ( ( pxBlock->xBlockSize ) &= ~heapBLOCK_ALLOCATED_BITMASK )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಖಂಡ_ALLOCATED_BITMASK    ( ( ( size_t ) 1 ) << ( ( ಗಾತ್ರ( size_t ) * ರಾಶಿ_ಬಿಟ್ಟುಗಳು_ಪ್ರತಿ_BYTE ) - 1 ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಖಂಡ_ಗಾತ್ರ_IS_VALID( x_ಖಂಡ_ಗಾತ್ರ )    ( ( ( x_ಖಂಡ_ಗಾತ್ರ ) & ರಾಶಿ_ಖಂಡ_ALLOCATED_BITMASK ) == 0 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ಖಂಡ_IS_ALLOCATED( px_ಖಂಡ )        ( ( ( px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ ) & ರಾಶಿ_ಖಂಡ_ALLOCATED_BITMASK ) != 0 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_ALLOCATE_ಖಂಡ( px_ಖಂಡ )            ( ( px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ ) |= ರಾಶಿ_ಖಂಡ_ALLOCATED_BITMASK )
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_FREE_ಖಂಡ( px_ಖಂಡ )                ( ( px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ ) &= ~ರಾಶಿ_ಖಂಡ_ALLOCATED_BITMASK )
 
 /*-----------------------------------------------------------*/
 
 /* Allocate the memory for the heap. */
-#if ( configAPPLICATION_ALLOCATED_HEAP == 1 )
+#ಆದರೆ ( config_APPLICATION_ALLOCATED_ರಾಶಿ == 1 )
 
 /* The application writer has already defined the array used for the RTOS
  * heap - probably so it can be placed in a special segment or address. */
-    extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#else
-    PRIVILEGED_DATA static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#endif /* configAPPLICATION_ALLOCATED_HEAP */
+    ಬಾಹ್ಯ uint8_t uc_ರಾಶಿ[ config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ ];
+#ಇಲ್ಲದಿದ್ದರೆ
+    PRIVILEGED_ದತ್ತಾಂಶ ಸ್ಥಿರ uint8_t uc_ರಾಶಿ[ config_ಒಟ್ಟು_ರಾಶಿ_ಗಾತ್ರ ];
+#ಆದರೆ_ಅಂತ್ಯ /* configAPPLICATION_ALLOCATED_HEAP */
 
 
 /* Define the linked list structure.  This is used to link free blocks in order
  * of their size. */
-typedef struct A_BLOCK_LINK
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ರಚನೆ A_ಖಂಡ_LINK
 {
-    struct A_BLOCK_LINK * pxNextFreeBlock; /*<< The next free block in the list. */
-    size_t xBlockSize;                     /*<< The size of the free block. */
-} BlockLink_t;
+    ರಚನೆ A_ಖಂಡ_LINK * px_ಮುಂದಿನ_Free_ಖಂಡ; /*<< The next free block in the list. */
+    size_t x_ಖಂಡ_ಗಾತ್ರ;                     /*<< The size of the free block. */
+} ಖಂಡ_Link_t;
 
 
-static const size_t xHeapStructSize = ( ( sizeof( BlockLink_t ) + ( size_t ) ( portBYTE_ALIGNMENT - 1 ) ) & ~( ( size_t ) portBYTE_ALIGNMENT_MASK ) );
-#define heapMINIMUM_BLOCK_SIZE    ( ( size_t ) ( xHeapStructSize * 2 ) )
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ size_t x_ರಾಶಿ_Struct_ಗಾತ್ರ = ( ( ಗಾತ್ರ( ಖಂಡ_Link_t ) + ( size_t ) ( ಪೋರ್ಟ್_BYTE_ALIGNMENT - 1 ) ) & ~( ( size_t ) ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ) );
+#ವ್ಯಾಖ್ಯಾನಿಸು ರಾಶಿ_MINIMUM_ಖಂಡ_ಗಾತ್ರ    ( ( size_t ) ( x_ರಾಶಿ_Struct_ಗಾತ್ರ * 2 ) )
 
 /* Create a couple of list links to mark the start and end of the list. */
-PRIVILEGED_DATA static BlockLink_t xStart, xEnd;
+PRIVILEGED_ದತ್ತಾಂಶ ಸ್ಥಿರ ಖಂಡ_Link_t x_ಆರಂಭ, x_ಕೊನೆ;
 
 /* Keeps track of the number of free bytes remaining, but says nothing about
  * fragmentation. */
-PRIVILEGED_DATA static size_t xFreeBytesRemaining = configADJUSTED_HEAP_SIZE;
+PRIVILEGED_ದತ್ತಾಂಶ ಸ್ಥಿರ size_t x_Free_ಬೈಟುಗಳು_ಉಳಿದ = config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ;
 
 /* Indicates whether the heap has been initialised or not. */
-PRIVILEGED_DATA static BaseType_t xHeapHasBeenInitialised = pdFALSE;
+PRIVILEGED_ದತ್ತಾಂಶ ಸ್ಥಿರ ತಳ_Type_t x_ರಾಶಿ_Has_Been_Initialised = pdFALSE;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Initialises the heap structures before their first use.
  */
-static void prvHeapInit( void ) PRIVILEGED_FUNCTION;
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ರಾಶಿ_Init( ಶೂನ್ಯ ) PRIVILEGED_FUNCTION;
 
 /*-----------------------------------------------------------*/
 
@@ -132,71 +132,71 @@ static void prvHeapInit( void ) PRIVILEGED_FUNCTION;
  * the block.  Small blocks at the start of the list and large blocks at the end
  * of the list.
  */
-#define prvInsertBlockIntoFreeList( pxBlockToInsert )                                                                               \
+#ವ್ಯಾಖ್ಯಾನಿಸು prv_ಸೇರಿಸು_ಖಂಡ_Into_Free_List( px_ಖಂಡ_ಗಮ್ಯ_ಸೇರಿಸು )                                                                               \
     {                                                                                                                               \
-        BlockLink_t * pxIterator;                                                                                                   \
-        size_t xBlockSize;                                                                                                          \
+        ಖಂಡ_Link_t * pxIterator;                                                                                                   \
+        size_t x_ಖಂಡ_ಗಾತ್ರ;                                                                                                          \
                                                                                                                                     \
-        xBlockSize = pxBlockToInsert->xBlockSize;                                                                                   \
+        x_ಖಂಡ_ಗಾತ್ರ = px_ಖಂಡ_ಗಮ್ಯ_ಸೇರಿಸು->x_ಖಂಡ_ಗಾತ್ರ;                                                                                   \
                                                                                                                                     \
         /* Iterate through the list until a block is found that has a larger size */                                                \
         /* than the block we are inserting. */                                                                                      \
-        for( pxIterator = &xStart; pxIterator->pxNextFreeBlock->xBlockSize < xBlockSize; pxIterator = pxIterator->pxNextFreeBlock ) \
+        ಗಾಗಿ( pxIterator = &x_ಆರಂಭ; pxIterator->px_ಮುಂದಿನ_Free_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ < x_ಖಂಡ_ಗಾತ್ರ; pxIterator = pxIterator->px_ಮುಂದಿನ_Free_ಖಂಡ ) \
         {                                                                                                                           \
             /* There is nothing to do here - just iterate to the correct position. */                                               \
         }                                                                                                                           \
                                                                                                                                     \
         /* Update the list to include the block being inserted in the correct */                                                    \
         /* position. */                                                                                                             \
-        pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;                                                             \
-        pxIterator->pxNextFreeBlock = pxBlockToInsert;                                                                              \
+        px_ಖಂಡ_ಗಮ್ಯ_ಸೇರಿಸು->px_ಮುಂದಿನ_Free_ಖಂಡ = pxIterator->px_ಮುಂದಿನ_Free_ಖಂಡ;                                                             \
+        pxIterator->px_ಮುಂದಿನ_Free_ಖಂಡ = px_ಖಂಡ_ಗಮ್ಯ_ಸೇರಿಸು;                                                                              \
     }
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+ಶೂನ್ಯ * pv_ಪೋರ್ಟ್_Malloc( size_t x_Wanted_ಗಾತ್ರ )
 {
-    BlockLink_t * pxBlock;
-    BlockLink_t * pxPreviousBlock;
-    BlockLink_t * pxNewBlockLink;
-    void * pvReturn = NULL;
-    size_t xAdditionalRequiredSize;
-    size_t xAllocatedBlockSize = 0;
+    ಖಂಡ_Link_t * px_ಖಂಡ;
+    ಖಂಡ_Link_t * px_ಹಿಂದಿನ_ಖಂಡ;
+    ಖಂಡ_Link_t * px_New_ಖಂಡ_Link;
+    ಶೂನ್ಯ * pvReturn = ಖಾಲಿ;
+    size_t x_Additional_Required_ಗಾತ್ರ;
+    size_t x_Allocated_ಖಂಡ_ಗಾತ್ರ = 0;
 
-    if( xWantedSize > 0 )
+    ಆದರೆ( x_Wanted_ಗಾತ್ರ > 0 )
     {
         /* The wanted size must be increased so it can contain a BlockLink_t
          * structure in addition to the requested amount of bytes. */
-        if( heapADD_WILL_OVERFLOW( xWantedSize, xHeapStructSize ) == 0 )
+        ಆದರೆ( ರಾಶಿ_ಕೂಡಿಸು_WILL_ಅತಿಪ್ರವಾಹ( x_Wanted_ಗಾತ್ರ, x_ರಾಶಿ_Struct_ಗಾತ್ರ ) == 0 )
         {
-            xWantedSize += xHeapStructSize;
+            x_Wanted_ಗಾತ್ರ += x_ರಾಶಿ_Struct_ಗಾತ್ರ;
 
             /* Ensure that blocks are always aligned to the required number
              * of bytes. */
-            if( ( xWantedSize & portBYTE_ALIGNMENT_MASK ) != 0x00 )
+            ಆದರೆ( ( x_Wanted_ಗಾತ್ರ & ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ) != 0x00 )
             {
                 /* Byte alignment required. */
-                xAdditionalRequiredSize = portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK );
+                x_Additional_Required_ಗಾತ್ರ = ಪೋರ್ಟ್_BYTE_ALIGNMENT - ( x_Wanted_ಗಾತ್ರ & ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ );
 
-                if( heapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
+                ಆದರೆ( ರಾಶಿ_ಕೂಡಿಸು_WILL_ಅತಿಪ್ರವಾಹ( x_Wanted_ಗಾತ್ರ, x_Additional_Required_ಗಾತ್ರ ) == 0 )
                 {
-                    xWantedSize += xAdditionalRequiredSize;
+                    x_Wanted_ಗಾತ್ರ += x_Additional_Required_ಗಾತ್ರ;
                 }
-                else
+                ಇಲ್ಲದಿದ್ದರೆ
                 {
-                    xWantedSize = 0;
+                    x_Wanted_ಗಾತ್ರ = 0;
                 }
             }
-            else
+            ಇಲ್ಲದಿದ್ದರೆ
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        ಇಲ್ಲದಿದ್ದರೆ
         {
-            xWantedSize = 0;
+            x_Wanted_ಗಾತ್ರ = 0;
         }
     }
-    else
+    ಇಲ್ಲದಿದ್ದರೆ
     {
         mtCOVERAGE_TEST_MARKER();
     }
@@ -205,191 +205,191 @@ void * pvPortMalloc( size_t xWantedSize )
     {
         /* If this is the first call to malloc then the heap will require
          * initialisation to setup the list of free blocks. */
-        if( xHeapHasBeenInitialised == pdFALSE )
+        ಆದರೆ( x_ರಾಶಿ_Has_Been_Initialised == pdFALSE )
         {
-            prvHeapInit();
-            xHeapHasBeenInitialised = pdTRUE;
+            prv_ರಾಶಿ_Init();
+            x_ರಾಶಿ_Has_Been_Initialised = pdTRUE;
         }
 
         /* Check the block size we are trying to allocate is not so large that the
          * top bit is set.  The top bit of the block size member of the BlockLink_t
          * structure is used to determine who owns the block - the application or
          * the kernel, so it must be free. */
-        if( heapBLOCK_SIZE_IS_VALID( xWantedSize ) != 0 )
+        ಆದರೆ( ರಾಶಿ_ಖಂಡ_ಗಾತ್ರ_IS_VALID( x_Wanted_ಗಾತ್ರ ) != 0 )
         {
-            if( ( xWantedSize > 0 ) && ( xWantedSize <= xFreeBytesRemaining ) )
+            ಆದರೆ( ( x_Wanted_ಗಾತ್ರ > 0 ) && ( x_Wanted_ಗಾತ್ರ <= x_Free_ಬೈಟುಗಳು_ಉಳಿದ ) )
             {
                 /* Blocks are stored in byte order - traverse the list from the start
                  * (smallest) block until one of adequate size is found. */
-                pxPreviousBlock = &xStart;
-                pxBlock = xStart.pxNextFreeBlock;
+                px_ಹಿಂದಿನ_ಖಂಡ = &x_ಆರಂಭ;
+                px_ಖಂಡ = x_ಆರಂಭ.px_ಮುಂದಿನ_Free_ಖಂಡ;
 
-                while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
+                ಆಗ( ( px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ < x_Wanted_ಗಾತ್ರ ) && ( px_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ != ಖಾಲಿ ) )
                 {
-                    pxPreviousBlock = pxBlock;
-                    pxBlock = pxBlock->pxNextFreeBlock;
+                    px_ಹಿಂದಿನ_ಖಂಡ = px_ಖಂಡ;
+                    px_ಖಂಡ = px_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ;
                 }
 
                 /* If we found the end marker then a block of adequate size was not found. */
-                if( pxBlock != &xEnd )
+                ಆದರೆ( px_ಖಂಡ != &x_ಕೊನೆ )
                 {
                     /* Return the memory space - jumping over the BlockLink_t structure
                      * at its start. */
-                    pvReturn = ( void * ) ( ( ( uint8_t * ) pxPreviousBlock->pxNextFreeBlock ) + xHeapStructSize );
+                    pvReturn = ( ಶೂನ್ಯ * ) ( ( ( uint8_t * ) px_ಹಿಂದಿನ_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ ) + x_ರಾಶಿ_Struct_ಗಾತ್ರ );
 
                     /* This block is being returned for use so must be taken out of the
                      * list of free blocks. */
-                    pxPreviousBlock->pxNextFreeBlock = pxBlock->pxNextFreeBlock;
+                    px_ಹಿಂದಿನ_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ = px_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ;
 
                     /* If the block is larger than required it can be split into two. */
-                    if( ( pxBlock->xBlockSize - xWantedSize ) > heapMINIMUM_BLOCK_SIZE )
+                    ಆದರೆ( ( px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ - x_Wanted_ಗಾತ್ರ ) > ರಾಶಿ_MINIMUM_ಖಂಡ_ಗಾತ್ರ )
                     {
                         /* This block is to be split into two.  Create a new block
                          * following the number of bytes requested. The void cast is
                          * used to prevent byte alignment warnings from the compiler. */
-                        pxNewBlockLink = ( void * ) ( ( ( uint8_t * ) pxBlock ) + xWantedSize );
+                        px_New_ಖಂಡ_Link = ( ಶೂನ್ಯ * ) ( ( ( uint8_t * ) px_ಖಂಡ ) + x_Wanted_ಗಾತ್ರ );
 
                         /* Calculate the sizes of two blocks split from the single
                          * block. */
-                        pxNewBlockLink->xBlockSize = pxBlock->xBlockSize - xWantedSize;
-                        pxBlock->xBlockSize = xWantedSize;
+                        px_New_ಖಂಡ_Link->x_ಖಂಡ_ಗಾತ್ರ = px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ - x_Wanted_ಗಾತ್ರ;
+                        px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ = x_Wanted_ಗಾತ್ರ;
 
                         /* Insert the new block into the list of free blocks.
                          * The list of free blocks is sorted by their size, we have to
                          * iterate to find the right place to insert new block. */
-                        prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
+                        prv_ಸೇರಿಸು_ಖಂಡ_Into_Free_List( ( px_New_ಖಂಡ_Link ) );
                     }
 
-                    xFreeBytesRemaining -= pxBlock->xBlockSize;
+                    x_Free_ಬೈಟುಗಳು_ಉಳಿದ -= px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ;
 
-                    xAllocatedBlockSize = pxBlock->xBlockSize;
+                    x_Allocated_ಖಂಡ_ಗಾತ್ರ = px_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ;
 
                     /* The block is being returned - it is allocated and owned
                      * by the application and has no "next" block. */
-                    heapALLOCATE_BLOCK( pxBlock );
-                    pxBlock->pxNextFreeBlock = NULL;
+                    ರಾಶಿ_ALLOCATE_ಖಂಡ( px_ಖಂಡ );
+                    px_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ = ಖಾಲಿ;
                 }
             }
         }
 
-        traceMALLOC( pvReturn, xAllocatedBlockSize );
+        traceMALLOC( pvReturn, x_Allocated_ಖಂಡ_ಗಾತ್ರ );
 
         /* Prevent compiler warnings when trace macros are not used. */
-        ( void ) xAllocatedBlockSize;
+        ( ಶೂನ್ಯ ) x_Allocated_ಖಂಡ_ಗಾತ್ರ;
     }
-    ( void ) xTaskResumeAll();
+    ( ಶೂನ್ಯ ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #ಆದರೆ ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        ಆದರೆ( pvReturn == ಖಾಲಿ )
         {
             vApplicationMallocFailedHook();
         }
     }
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 
-    return pvReturn;
+    ಹಿಂತಿರುಗಿ pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Free( ಶೂನ್ಯ * pv )
 {
     uint8_t * puc = ( uint8_t * ) pv;
-    BlockLink_t * pxLink;
+    ಖಂಡ_Link_t * pxLink;
 
-    if( pv != NULL )
+    ಆದರೆ( pv != ಖಾಲಿ )
     {
         /* The memory being freed will have an BlockLink_t structure immediately
          * before it. */
-        puc -= xHeapStructSize;
+        puc -= x_ರಾಶಿ_Struct_ಗಾತ್ರ;
 
         /* This unexpected casting is to keep some compilers from issuing
          * byte alignment warnings. */
-        pxLink = ( void * ) puc;
+        pxLink = ( ಶೂನ್ಯ * ) puc;
 
-        configASSERT( heapBLOCK_IS_ALLOCATED( pxLink ) != 0 );
-        configASSERT( pxLink->pxNextFreeBlock == NULL );
+        configASSERT( ರಾಶಿ_ಖಂಡ_IS_ALLOCATED( pxLink ) != 0 );
+        configASSERT( pxLink->px_ಮುಂದಿನ_Free_ಖಂಡ == ಖಾಲಿ );
 
-        if( heapBLOCK_IS_ALLOCATED( pxLink ) != 0 )
+        ಆದರೆ( ರಾಶಿ_ಖಂಡ_IS_ALLOCATED( pxLink ) != 0 )
         {
-            if( pxLink->pxNextFreeBlock == NULL )
+            ಆದರೆ( pxLink->px_ಮುಂದಿನ_Free_ಖಂಡ == ಖಾಲಿ )
             {
                 /* The block is being returned to the heap - it is no longer
                  * allocated. */
-                heapFREE_BLOCK( pxLink );
-                #if ( configHEAP_CLEAR_MEMORY_ON_FREE == 1 )
+                ರಾಶಿ_FREE_ಖಂಡ( pxLink );
+                #ಆದರೆ ( config_ರಾಶಿ_CLEAR_ಸ್ಮರಣೆ_ON_FREE == 1 )
                 {
-                    ( void ) memset( puc + xHeapStructSize, 0, pxLink->xBlockSize - xHeapStructSize );
+                    ( ಶೂನ್ಯ ) memset( puc + x_ರಾಶಿ_Struct_ಗಾತ್ರ, 0, pxLink->x_ಖಂಡ_ಗಾತ್ರ - x_ರಾಶಿ_Struct_ಗಾತ್ರ );
                 }
-                #endif
+                #ಆದರೆ_ಅಂತ್ಯ
 
                 vTaskSuspendAll();
                 {
                     /* Add this block to the list of free blocks. */
-                    prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
-                    xFreeBytesRemaining += pxLink->xBlockSize;
-                    traceFREE( pv, pxLink->xBlockSize );
+                    prv_ಸೇರಿಸು_ಖಂಡ_Into_Free_List( ( ( ಖಂಡ_Link_t * ) pxLink ) );
+                    x_Free_ಬೈಟುಗಳು_ಉಳಿದ += pxLink->x_ಖಂಡ_ಗಾತ್ರ;
+                    traceFREE( pv, pxLink->x_ಖಂಡ_ಗಾತ್ರ );
                 }
-                ( void ) xTaskResumeAll();
+                ( ಶೂನ್ಯ ) xTaskResumeAll();
             }
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-size_t xPortGetFreeHeapSize( void )
+size_t x_ಪೋರ್ಟ್_Get_Free_ರಾಶಿ_ಗಾತ್ರ( ಶೂನ್ಯ )
 {
-    return xFreeBytesRemaining;
+    ಹಿಂತಿರುಗಿ x_Free_ಬೈಟುಗಳು_ಉಳಿದ;
 }
 /*-----------------------------------------------------------*/
 
-void vPortInitialiseBlocks( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Initialise_ಖಂಡಗಳು( ಶೂನ್ಯ )
 {
     /* This just exists to keep the linker quiet. */
 }
 /*-----------------------------------------------------------*/
 
-void * pvPortCalloc( size_t xNum,
-                     size_t xSize )
+ಶೂನ್ಯ * pv_ಪೋರ್ಟ್_Calloc( size_t x_ಅಂಕೆ,
+                     size_t x_ಗಾತ್ರ )
 {
-    void * pv = NULL;
+    ಶೂನ್ಯ * pv = ಖಾಲಿ;
 
-    if( heapMULTIPLY_WILL_OVERFLOW( xNum, xSize ) == 0 )
+    ಆದರೆ( ರಾಶಿ_MULTIPLY_WILL_ಅತಿಪ್ರವಾಹ( x_ಅಂಕೆ, x_ಗಾತ್ರ ) == 0 )
     {
-        pv = pvPortMalloc( xNum * xSize );
+        pv = pv_ಪೋರ್ಟ್_Malloc( x_ಅಂಕೆ * x_ಗಾತ್ರ );
 
-        if( pv != NULL )
+        ಆದರೆ( pv != ಖಾಲಿ )
         {
-            ( void ) memset( pv, 0, xNum * xSize );
+            ( ಶೂನ್ಯ ) memset( pv, 0, x_ಅಂಕೆ * x_ಗಾತ್ರ );
         }
     }
 
-    return pv;
+    ಹಿಂತಿರುಗಿ pv;
 }
 /*-----------------------------------------------------------*/
 
-static void prvHeapInit( void ) /* PRIVILEGED_FUNCTION */
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ರಾಶಿ_Init( ಶೂನ್ಯ ) /* PRIVILEGED_FUNCTION */
 {
-    BlockLink_t * pxFirstFreeBlock;
-    uint8_t * pucAlignedHeap;
+    ಖಂಡ_Link_t * px_ಮೊದಲ_Free_ಖಂಡ;
+    uint8_t * puc_Aligned_ರಾಶಿ;
 
     /* Ensure the heap starts on a correctly aligned boundary. */
-    pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) & ucHeap[ portBYTE_ALIGNMENT - 1 ] ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
+    puc_Aligned_ರಾಶಿ = ( uint8_t * ) ( ( ( ಪೋರ್ಟ್_ಸೂಚಕ_ಗಾತ್ರ_TYPE ) & uc_ರಾಶಿ[ ಪೋರ್ಟ್_BYTE_ALIGNMENT - 1 ] ) & ( ~( ( ಪೋರ್ಟ್_ಸೂಚಕ_ಗಾತ್ರ_TYPE ) ಪೋರ್ಟ್_BYTE_ALIGNMENT_ಮುಖವಾಡ ) ) );
 
     /* xStart is used to hold a pointer to the first item in the list of free
      * blocks.  The void cast is used to prevent compiler warnings. */
-    xStart.pxNextFreeBlock = ( void * ) pucAlignedHeap;
-    xStart.xBlockSize = ( size_t ) 0;
+    x_ಆರಂಭ.px_ಮುಂದಿನ_Free_ಖಂಡ = ( ಶೂನ್ಯ * ) puc_Aligned_ರಾಶಿ;
+    x_ಆರಂಭ.x_ಖಂಡ_ಗಾತ್ರ = ( size_t ) 0;
 
     /* xEnd is used to mark the end of the list of free blocks. */
-    xEnd.xBlockSize = configADJUSTED_HEAP_SIZE;
-    xEnd.pxNextFreeBlock = NULL;
+    x_ಕೊನೆ.x_ಖಂಡ_ಗಾತ್ರ = config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ;
+    x_ಕೊನೆ.px_ಮುಂದಿನ_Free_ಖಂಡ = ಖಾಲಿ;
 
     /* To start with there is a single free block that is sized to take up the
      * entire heap space. */
-    pxFirstFreeBlock = ( BlockLink_t * ) pucAlignedHeap;
-    pxFirstFreeBlock->xBlockSize = configADJUSTED_HEAP_SIZE;
-    pxFirstFreeBlock->pxNextFreeBlock = &xEnd;
+    px_ಮೊದಲ_Free_ಖಂಡ = ( ಖಂಡ_Link_t * ) puc_Aligned_ರಾಶಿ;
+    px_ಮೊದಲ_Free_ಖಂಡ->x_ಖಂಡ_ಗಾತ್ರ = config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ;
+    px_ಮೊದಲ_Free_ಖಂಡ->px_ಮುಂದಿನ_Free_ಖಂಡ = &x_ಕೊನೆ;
 }
 /*-----------------------------------------------------------*/
 
@@ -398,10 +398,10 @@ static void prvHeapInit( void ) /* PRIVILEGED_FUNCTION */
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ರಾಶಿ_Reset_State( ಶೂನ್ಯ )
 {
-    xFreeBytesRemaining = configADJUSTED_HEAP_SIZE;
+    x_Free_ಬೈಟುಗಳು_ಉಳಿದ = config_ADJUSTED_ರಾಶಿ_ಗಾತ್ರ;
 
-    xHeapHasBeenInitialised = pdFALSE;
+    x_ರಾಶಿ_Has_Been_Initialised = pdFALSE;
 }
 /*-----------------------------------------------------------*/

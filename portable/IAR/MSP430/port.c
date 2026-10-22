@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the MSP430 port.
@@ -36,14 +36,14 @@
 
 /* Constants required for hardware setup.  The tick ISR runs off the ACLK,
  * not the MCLK. */
-#define portACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
-#define portFLAGS_INT_ENABLED           ( ( StackType_t ) 0x08 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_FLAGS_INT_ENABLED           ( ( ರಾಶಿ_Type_t ) 0x08 )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಶೂನ್ಯ TCB_t;
+ಬಾಹ್ಯ ಅಸ್ಥಿರ TCB_t * ಅಸ್ಥಿರ pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each
  * time a critical section is entered the count is incremented.  Each time a
@@ -53,7 +53,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as this will cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+ಅಸ್ಥಿರ uint16_t usCriticalNesting = ಪೋರ್ಟ್_INITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 
@@ -61,7 +61,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-void vPortSetupTimerInterrupt( void );
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -70,9 +70,9 @@ void vPortSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ರಾಶಿ_Type_t * px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ,
+                                     TaskFunction_t px_ಸಂಕೇತ,
+                                     ಶೂನ್ಯ * pvParameters )
 {
     /*
      *  Place a few bytes of known values on the bottom of the stack.
@@ -90,53 +90,53 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * executing an ISR.  We want the stack to look just as if this has happened
      * so place a pointer to the start of the task on the stack first - followed
      * by the flags we want the task to use when it starts up. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) px_ಸಂಕೇತ;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ಪೋರ್ಟ್_FLAGS_INT_ENABLED;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
     /* Next the general purpose registers. */
-    *pxTopOfStack = ( StackType_t ) 0x4444;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x5555;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x6666;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x7777;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x8888;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x9999;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xaaaa;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xbbbb;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x4444;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x5555;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x6666;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x7777;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x8888;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x9999;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xaaaa;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xbbbb;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
     /* When the task starts is will expect to find the function parameter in
      * R15. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pvParameters;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
-    *pxTopOfStack = ( StackType_t ) 0xdddd;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xeeee;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xffff;
-    pxTopOfStack--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xdddd;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xeeee;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xffff;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
     /* A variable is used to keep track of the critical section nesting.
      * This variable has to be stored as part of the task context and is
      * initially set to zero. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) ಪೋರ್ಟ್_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* It is unlikely that the MSP430 port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -147,7 +147,7 @@ void vPortEndScheduler( void )
  * Hardware initialisation to generate the RTOS tick.  This uses timer 0
  * but could alternatively use the watchdog timer or timer 1.
  */
-void vPortSetupTimerInterrupt( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
     /* Ensure the timer is stopped. */
     TACTL = 0;
@@ -159,7 +159,7 @@ void vPortSetupTimerInterrupt( void )
     TACTL |= TACLR;
 
     /* Set the compare match value according to the tick rate we want. */
-    TACCR0 = portACLK_FREQUENCY_HZ / configTICK_RATE_HZ;
+    TACCR0 = ಪೋರ್ಟ್_ACLK_FREQUENCY_HZ / config_TICK_ದರ_HZ;
 
     /* Enable the interrupts. */
     TACCTL0 = CCIE;

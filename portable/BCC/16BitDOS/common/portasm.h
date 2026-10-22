@@ -26,26 +26,26 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ ಪೋರ್ಟ್_ASM_H
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಶೂನ್ಯ TCB_t;
+ಬಾಹ್ಯ ಅಸ್ಥಿರ TCB_t * ಅಸ್ಥಿರ pxCurrentTCB;
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskSwitchContext( ಶೂನ್ಯ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+ಶೂನ್ಯ ಪೋರ್ಟ್_SWITCH_CONTEXT( ಶೂನ್ಯ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+ಶೂನ್ಯ ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT( ಶೂನ್ಯ );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -53,7 +53,7 @@ are a couple of extra bytes left of the ISR stack (presumably for use by the
 debugger).  The true stack pointer is then stored in the bp register.  We add
 2 to the stack pointer to remove the extra bytes before we restore our context. */
 
-#define portSWITCH_CONTEXT()                                            \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SWITCH_CONTEXT()                                            \
                             asm { mov   ax, seg pxCurrentTCB        }   \
                             asm { mov   ds, ax                      }   \
                             asm { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */      \
@@ -66,22 +66,22 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }
 
-#define portFIRST_CONTEXT()                                             \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಮೊದಲ_CONTEXT()                                             \
                             __asm { mov ax, seg pxCurrentTCB        }   \
                             __asm { mov ds, ax                      }   \
                             __asm { les bx, dword ptr pxCurrentTCB  }   \
                             __asm { mov ss, es:[ bx + 2 ]           }   \
                             __asm { mov sp, es:[ bx ]               }   \
-                            __asm { pop bp                          }   \
-                            __asm { pop di                          }   \
-                            __asm { pop si                          }   \
-                            __asm { pop ds                          }   \
-                            __asm { pop es                          }   \
-                            __asm { pop dx                          }   \
-                            __asm { pop cx                          }   \
-                            __asm { pop bx                          }   \
-                            __asm { pop ax                          }   \
+                            __asm { ತೆಗೆ_2 bp                          }   \
+                            __asm { ತೆಗೆ_2 di                          }   \
+                            __asm { ತೆಗೆ_2 si                          }   \
+                            __asm { ತೆಗೆ_2 ds                          }   \
+                            __asm { ತೆಗೆ_2 es                          }   \
+                            __asm { ತೆಗೆ_2 dx                          }   \
+                            __asm { ತೆಗೆ_2 cx                          }   \
+                            __asm { ತೆಗೆ_2 bx                          }   \
+                            __asm { ತೆಗೆ_2 ax                          }   \
                             __asm { iret                            }
 
 
-#endif
+#ಆದರೆ_ಅಂತ್ಯ

@@ -29,25 +29,25 @@
 EXTERN pxCurrentTCB
 EXTERN usCriticalNesting
 
-#include "FreeRTOSConfig.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOSConfig.h"
 
 ;
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+ಪೋರ್ಟ್_SAVE_CONTEXT MACRO
 
-    add - 0x0C, sp;
-prepare stack to save necessary values
+    ಕೂಡಿಸು - 0x0C, sp;
+prepare ರಾಶಿ ಗಮ್ಯ save necessary ಮೌಲ್ಯಗಳು
 st.w lp, 8[ sp ];
-store LP to stack
+store LP ಗಮ್ಯ ರಾಶಿ
     stsr    0, r31
     st.w lp, 4[ sp ];
-store EIPC to stack
+store EIPC ಗಮ್ಯ ರಾಶಿ
     stsr    1, lp
     st.w lp, 0[ sp ];
-store EIPSW to stack
-#if configDATA_MODE == 1; Using the Tiny data model
+store EIPSW ಗಮ್ಯ ರಾಶಿ
+#ಆದರೆ config_ದತ್ತಾಂಶ_ಬಹುಲಕ == 1; Using the Tiny ದತ್ತಾಂಶ_2 model
 prepare {
     r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
 }, 76, sp;
@@ -68,7 +68,7 @@ sst.w r7, 24[ ep ]
 sst.w r6, 20[ ep ]
 sst.w r5, 16[ ep ]
 sst.w r4, 12[ ep ]
-#else; Using the Small / Large data model
+#ಇಲ್ಲದಿದ್ದರೆ; Using the Small / Large ದತ್ತಾಂಶ_2 model
 prepare {
     r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
 }, 72, sp;
@@ -88,38 +88,38 @@ sst.w r8, 24[ ep ]
 sst.w r7, 20[ ep ]
 sst.w r6, 16[ ep ]
 sst.w r5, 12[ ep ]
-#endif /* configDATA_MODE */
+#ಆದರೆ_ಅಂತ್ಯ /* configDATA_MODE */
 sst.w r2, 8[ ep ]
 sst.w r1, 4[ ep ]
 MOVHI hi1( usCriticalNesting ), r0, r1;
-save usCriticalNesting value to stack
+save usCriticalNesting ಮೌಲ್ಯ ಗಮ್ಯ ರಾಶಿ
 ld.w lw1( usCriticalNesting )[ r1 ], r2
 sst.w r2, 0[ ep ]
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-save SP to top of current TCB
+save SP ಗಮ್ಯ ತುದಿ_2 ದ current TCB
 ld.w lw1( pxCurrentTCB )[ r1 ], r2
 st.w sp, 0[ r2 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+ಪೋರ್ಟ್_RESTORE_CONTEXT MACRO
 
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-get Stackpointer address
+get Stackpointer ವಿಳಾಸ_2
 ld.w lw1( pxCurrentTCB )[ r1 ], sp
 MOV sp, r1
 ld.w    0[ r1 ], sp;
-load stackpointer
+ತುಂಬು_2 stackpointer
 MOV sp, ep;
-set stack pointer to element pointer
+ಗಣ ರಾಶಿ ಸೂಚಕ_3 ಗಮ್ಯ element ಸೂಚಕ_3
 sld.w   0[ ep ], r1;
-load usCriticalNesting value from stack
+ತುಂಬು_2 usCriticalNesting ಮೌಲ್ಯ from ರಾಶಿ
 MOVHI hi1( usCriticalNesting ), r0, r2
 st.w r1, lw1( usCriticalNesting )[ r2 ]
 sld.w   4[ ep ], r1;
 restore general purpose registers
 sld.w   8[ ep ], r2
-#if configDATA_MODE == 1; Using Tiny data model
+#ಆದರೆ config_ದತ್ತಾಂಶ_ಬಹುಲಕ == 1; Using Tiny ದತ್ತಾಂಶ_2 model
     sld.w   12[ ep ], r4
     sld.w   16[ ep ], r5
     sld.w   20[ ep ], r6
@@ -139,7 +139,7 @@ sld.w   8[ ep ], r2
     dispose 76, {
         r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
     }
-#else; Using Small / Large data model
+#ಇಲ್ಲದಿದ್ದರೆ; Using Small / Large ದತ್ತಾಂಶ_2 model
     sld.w   12[ ep ], r5
     sld.w   16[ ep ], r6
     sld.w   20[ ep ], r7
@@ -158,17 +158,17 @@ sld.w   8[ ep ], r2
     dispose 72, {
         r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
     }
-#endif /* configDATA_MODE */
+#ಆದರೆ_ಅಂತ್ಯ /* configDATA_MODE */
 ld.w    0[ sp ], lp;
-restore EIPSW from stack
+restore EIPSW from ರಾಶಿ
 ldsr lp, 1
 ld.w    4[ sp ], lp;
-restore EIPC from stack
+restore EIPC from ರಾಶಿ
 ldsr lp, 0
 ld.w    8[ sp ], lp;
-restore LP from stack
-    add     0x0C, sp;
-set SP to right position
+restore LP from ರಾಶಿ
+    ಕೂಡಿಸು     0x0C, sp;
+ಗಣ SP ಗಮ್ಯ ಬಲ position
 
 RETI
 

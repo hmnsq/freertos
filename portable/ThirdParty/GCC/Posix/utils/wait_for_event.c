@@ -26,13 +26,13 @@
  *
  */
 
-#include <pthread.h>
-#include <stdlib.h>
-#include <errno.h>
+#ಅನ್ತರ್ಭಾವ <pthread.h>
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ <errno.h>
 
-#include "wait_for_event.h"
+#ಅನ್ತರ್ಭಾವ "wait_for_event.h"
 
-struct event
+ರಚನೆ event
 {
     pthread_mutex_t mutex;
     pthread_mutexattr_t mutexattr;
@@ -41,96 +41,96 @@ struct event
 };
 /*-----------------------------------------------------------*/
 
-struct event * event_create( void )
+ರಚನೆ event * event_create( ಶೂನ್ಯ )
 {
-    struct event * ev = malloc( sizeof( struct event ) );
+    ರಚನೆ event * ev = ಸ್ಮರಣೆ_ಕೊಡು( ಗಾತ್ರ( ರಚನೆ event ) );
 
-    if( ev != NULL )
+    ಆದರೆ( ev != ಖಾಲಿ )
     {
         ev->event_triggered = false;
         pthread_mutexattr_init( &ev->mutexattr );
-        #ifndef __APPLE__
+        #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __APPLE__
             pthread_mutexattr_setrobust( &ev->mutexattr, PTHREAD_MUTEX_ROBUST );
-        #endif
+        #ಆದರೆ_ಅಂತ್ಯ
         pthread_mutex_init( &ev->mutex, &ev->mutexattr );
-        pthread_cond_init( &ev->cond, NULL );
+        pthread_cond_init( &ev->cond, ಖಾಲಿ );
     }
 
-    return ev;
+    ಹಿಂತಿರುಗಿ ev;
 }
 /*-----------------------------------------------------------*/
 
-void event_delete( struct event * ev )
+ಶೂನ್ಯ event_delete( ರಚನೆ event * ev )
 {
     pthread_mutex_destroy( &ev->mutex );
     pthread_mutexattr_destroy( &ev->mutexattr );
     pthread_cond_destroy( &ev->cond );
-    free( ev );
+    ಬಿಡುಗಡೆ( ev );
 }
 /*-----------------------------------------------------------*/
 
-bool event_wait( struct event * ev )
+bool event_wait( ರಚನೆ event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ಆದರೆ( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
-        #ifndef __APPLE__
+        #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
             pthread_mutex_consistent( &ev->mutex );
-        #endif
+        #ಆದರೆ_ಅಂತ್ಯ
     }
 
-    while( ev->event_triggered == false )
+    ಆಗ( ev->event_triggered == false )
     {
         pthread_cond_wait( &ev->cond, &ev->mutex );
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 /*-----------------------------------------------------------*/
 
-bool event_wait_timed( struct event * ev,
+bool event_wait_timed( ರಚನೆ event * ev,
                        time_t ms )
 {
-    struct timespec ts;
-    int ret = 0;
+    ರಚನೆ timespec ts;
+    ಪೂರ್ಣಾಂಕ ret = 0;
 
     clock_gettime( CLOCK_REALTIME, &ts );
     ts.tv_sec += ms / 1000;
     ts.tv_nsec += ( ( ms % 1000 ) * 1000000 );
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ಆದರೆ( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
-        #ifndef __APPLE__
+        #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
             pthread_mutex_consistent( &ev->mutex );
-        #endif
+        #ಆದರೆ_ಅಂತ್ಯ
     }
 
-    while( ( ev->event_triggered == false ) && ( ret == 0 ) )
+    ಆಗ( ( ev->event_triggered == false ) && ( ret == 0 ) )
     {
         ret = pthread_cond_timedwait( &ev->cond, &ev->mutex, &ts );
 
-        if( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
+        ಆದರೆ( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
         {
-            return false;
+            ಹಿಂತಿರುಗಿ false;
         }
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    ಹಿಂತಿರುಗಿ true;
 }
 /*-----------------------------------------------------------*/
 
-void event_signal( struct event * ev )
+ಶೂನ್ಯ event_signal( ರಚನೆ event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ಆದರೆ( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
-        #ifndef __APPLE__
+        #ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
             pthread_mutex_consistent( &ev->mutex );
-        #endif
+        #ಆದರೆ_ಅಂತ್ಯ
     }
     ev->event_triggered = true;
     pthread_cond_signal( &ev->cond );

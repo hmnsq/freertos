@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ಅಥವಾ
+ * IMPLIED, INCLUDING BUT ಅಲ್ಲ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ಮತ್ತು NONINFRINGEMENT. ಒಳಗೆ NO EVENT SHALL THE AUTHORS ಅಥವಾ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ಅಥವಾ OTHER LIABILITY, WHETHER
+ * ಒಳಗೆ AN ACTION OF CONTRACT, TORT ಅಥವಾ OTHERWISE, ARISING FROM, OUT OF ಅಥವಾ ಒಳಗೆ
+ * CONNECTION WITH THE SOFTWARE ಅಥವಾ THE USE ಅಥವಾ OTHER DEALINGS ಒಳಗೆ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -38,20 +38,20 @@
     .extern pucPortTaskFPUContextBuffer
     .extern ulPortYieldPending
 
-    .global vPortStartFirstTask
-    .global vPortCentralInterruptWrapper
-    .global vPortAPICErrorHandlerWrapper
-    .global vPortTimerHandler
-    .global vPortYieldCall
-    .global vPortAPICSpuriousHandler
+    .ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task
+    .ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_Central_ಅಡಚಣೆ_Wrapper
+    .ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_APICError_Handler_Wrapper
+    .ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_Timer_Handler
+    .ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_Yield_Call
+    .ವೈಶ್ವಿಕ v_ಪೋರ್ಟ್_APICSpurious_Handler
 
     .text
 
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortYieldCall
-vPortYieldCall:
+.func v_ಪೋರ್ಟ್_Yield_Call
+v_ಪೋರ್ಟ್_Yield_Call:
     /* Save general purpose registers. */
     pusha
 
@@ -78,7 +78,7 @@ vPortYieldCall:
     /* Stack location is first item in the TCB. */
     movl    %esp, (%eax)
 
-    call vTaskSwitchContext
+    ಕರೆ vTaskSwitchContext
 
     /* Find the location of pxCurrentTCB again - a callee saved register could
     be used in place of eax to prevent this second load, but that then relies
@@ -107,8 +107,8 @@ vPortYieldCall:
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortStartFirstTask
-vPortStartFirstTask:
+.func v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task
+v_ಪೋರ್ಟ್_ಆರಂಭ_ಮೊದಲ_Task:
 
     /* Find the TCB. */
     movl    pxCurrentTCB, %eax
@@ -130,10 +130,10 @@ vPortStartFirstTask:
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortAPICErrorHandlerWrapper
-vPortAPICErrorHandlerWrapper:
+.func v_ಪೋರ್ಟ್_APICError_Handler_Wrapper
+v_ಪೋರ್ಟ್_APICError_Handler_Wrapper:
     pusha
-    call    vPortAPICErrorHandler
+    ಕರೆ    vPortAPICErrorHandler
     popa
     /* EOI. */
     movl    $0x00, (0xFEE000B0)
@@ -142,8 +142,8 @@ vPortAPICErrorHandlerWrapper:
 /*-----------------------------------------------------------*/
 
 .align 4
-.func vPortTimerHandler
-vPortTimerHandler:
+.func v_ಪೋರ್ಟ್_Timer_Handler
+v_ಪೋರ್ಟ್_Timer_Handler:
 
     /* Save general purpose registers. */
     pusha
@@ -178,7 +178,7 @@ vPortTimerHandler:
     /* Increment nesting count. */
     add     $1, ulInterruptNesting
 
-    call    xTaskIncrementTick
+    ಕರೆ    xTaskIncrementTick
 
     sti
 
@@ -186,7 +186,7 @@ vPortTimerHandler:
     test    %eax, %eax
     je      _skip_context_switch
     cli
-    call    vTaskSwitchContext
+    ಕರೆ    vTaskSwitchContext
 
 _skip_context_switch:
     cli
@@ -225,8 +225,8 @@ _skip_context_switch:
 .if configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1
 
     .align 4
-    .func vPortCentralInterruptWrapper
-    vPortCentralInterruptWrapper:
+    .func v_ಪೋರ್ಟ್_Central_ಅಡಚಣೆ_Wrapper
+    v_ಪೋರ್ಟ್_Central_ಅಡಚಣೆ_Wrapper:
 
         portFREERTOS_INTERRUPT_ENTRY
 
@@ -247,7 +247,7 @@ _skip_context_switch:
         mul %ecx                        /* Calculate base vector for current register, 32 vectors per register. */
         add %ebx, %eax                  /* Add bit offset into register to get final vector number. */
         push %eax                       /* Vector number is function parameter. */
-        call vPortCentralInterruptHandler
+        ಕರೆ vPortCentralInterruptHandler
         pop %eax                        /* Remove parameter. */
 
     wrapper_epilogue:
@@ -260,7 +260,7 @@ _skip_context_switch:
 
 .align 4
 .func vPortAPISpuriousHandler
-vPortAPICSpuriousHandler:
+v_ಪೋರ್ಟ್_APICSpurious_Handler:
     iret
 
 .endfunc

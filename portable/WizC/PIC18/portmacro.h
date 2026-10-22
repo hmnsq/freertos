@@ -31,44 +31,44 @@ Changes from V3.0.0
 
 Changes from V3.0.1
 */
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ PORTMACRO_H
+#ವ್ಯಾಖ್ಯಾನಿಸು PORTMACRO_H
 
-#if !defined(_SERIES) || _SERIES != 18
-    #error "WizC supports FreeRTOS on the Microchip PIC18-series only"
-#endif
+#ಆದರೆ !defined(_SERIES) || _SERIES != 18
+    #ದೋಷ "WizC supports FreeRTOS on the Microchip PIC18-series only"
+#ಆದರೆ_ಅಂತ್ಯ
 
-#if !defined(QUICKCALL) || QUICKCALL != 1
-    #error "QuickCall must be enabled (see ProjectOptions/Optimisations)"
-#endif
+#ಆದರೆ !defined(QUICKCALL) || QUICKCALL != 1
+    #ದೋಷ "QuickCall must be enabled (see ProjectOptions/Optimisations)"
+#ಆದರೆ_ಅಂತ್ಯ
 
-#include <stddef.h>
-#include <pic.h>
+#ಅನ್ತರ್ಭಾವ <stddef.h>
+#ಅನ್ತರ್ಭಾವ <pic.h>
 
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      portFLOAT
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CHAR        ಅಕ್ಷರ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_FLOAT       ದಶಮಾಂಶ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_DOUBLE      ಪೋರ್ಟ್_FLOAT
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_LONG        ದೀರ್ಘ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SHORT       ಗಿಡ್ಡ
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_TYPE  uint8_t
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ತಳ_TYPE   ಅಕ್ಷರ
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಪೋರ್ಟ್_ರಾಶಿ_TYPE ರಾಶಿ_Type_t;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಚಿಹ್ನೆಯುಳ್ಳ ಅಕ್ಷರ ತಳ_Type_t;
+ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFF )
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ಆದರೆ( config_TICK_TYPE_ಅಗಲ_ಒಳ_ಬಿಟ್ಟುಗಳು == TICK_TYPE_ಅಗಲ_16_ಬಿಟ್ಟುಗಳು )
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint16_t TickType_t;
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_DELAY ( TickType_t )    ( 0xFFFF )
+#ಅಥವಾಆದರೆ ( config_TICK_TYPE_ಅಗಲ_ಒಳ_ಬಿಟ್ಟುಗಳು == TICK_TYPE_ಅಗಲ_32_ಬಿಟ್ಟುಗಳು )
+    ಪ್ರಕಾರವ್ಯಾಖ್ಯೆ uint32_t TickType_t;
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_MAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ದೋಷ config_TICK_TYPE_ಅಗಲ_ಒಳ_ಬಿಟ್ಟುಗಳು ಗಣ ಗಮ್ಯ unsupported tick type ಅಗಲ.
+#ಆದರೆ_ಅಂತ್ಯ
 
-#define portBYTE_ALIGNMENT          1
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_BYTE_ALIGNMENT          1
 
 /*-----------------------------------------------------------*/
 
@@ -76,47 +76,47 @@ typedef unsigned char UBaseType_t;
  * Constant used for context switch macro when we require the interrupt
  * enable state to be forced when the interrupted task is switched back in.
  */
-#define portINTERRUPTS_FORCED               (0x01)
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INTERRUPTS_FORCED               (0x01)
 
 /*
  * Constant used for context switch macro when we require the interrupt
  * enable state to be unchanged when the interrupted task is switched back in.
  */
-#define portINTERRUPTS_UNCHANGED            (0x00)
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INTERRUPTS_UNCHANGED            (0x00)
 
 /* Initial interrupt enable state for newly created tasks.  This value is
  * used when a task switches in for the first time.
  */
-#define portINTERRUPTS_INITIAL_STATE        (portINTERRUPTS_FORCED)
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INTERRUPTS_INITIAL_STATE        (ಪೋರ್ಟ್_INTERRUPTS_FORCED)
 
 /*
  * Macros to modify the global interrupt enable bit in INTCON.
  */
-#define portDISABLE_INTERRUPTS()    \
-    do                              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_DISABLE_INTERRUPTS()    \
+    ಮಾಡು                              \
     {                               \
         bGIE=0;                     \
-    } while(bGIE)   // MicroChip recommends this check!
+    } ಆಗ(bGIE)   // MicroChip recommends this check!
 
-#define portENABLE_INTERRUPTS()     \
-    do                              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENABLE_INTERRUPTS()     \
+    ಮಾಡು                              \
     {                               \
         bGIE=1;                     \
-    } while(0)
+    } ಆಗ(0)
 
 /*-----------------------------------------------------------*/
 
 /*
  * Critical section macros.
  */
-extern uint8_t ucCriticalNesting;
+ಬಾಹ್ಯ uint8_t ucCriticalNesting;
 
-#define portNO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
 
-#define portENTER_CRITICAL()                                        \
-    do                                                              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENTER_CRITICAL()                                        \
+    ಮಾಡು                                                              \
     {                                                               \
-        portDISABLE_INTERRUPTS();                                   \
+        ಪೋರ್ಟ್_DISABLE_INTERRUPTS();                                   \
                                                                     \
         /*                                                          \
          * Now interrupts are disabled ucCriticalNesting            \
@@ -125,12 +125,12 @@ extern uint8_t ucCriticalNesting;
          * many times portENTER_CRITICAL() has been called.         \
          */                                                         \
         ucCriticalNesting++;                                        \
-    } while(0)
+    } ಆಗ(0)
 
-#define portEXIT_CRITICAL()                                         \
-    do                                                              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_EXIT_CRITICAL()                                         \
+    ಮಾಡು                                                              \
     {                                                               \
-        if(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
+        ಆದರೆ(ucCriticalNesting > ಪೋರ್ಟ್_NO_CRITICAL_SECTION_NESTING)     \
         {                                                           \
             /*                                                      \
              * Decrement the nesting count as we are leaving a      \
@@ -143,11 +143,11 @@ extern uint8_t ucCriticalNesting;
          * If the nesting level has reached zero then               \
          * interrupts should be re-enabled.                         \
          */                                                         \
-        if( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
+        ಆದರೆ( ucCriticalNesting == ಪೋರ್ಟ್_NO_CRITICAL_SECTION_NESTING )  \
         {                                                           \
-            portENABLE_INTERRUPTS();                                \
+            ಪೋರ್ಟ್_ENABLE_INTERRUPTS();                                \
         }                                                           \
-    } while(0)
+    } ಆಗ(0)
 
 /*-----------------------------------------------------------*/
 
@@ -156,18 +156,18 @@ extern uint8_t ucCriticalNesting;
  * portMINIMAL_STACK_SIZE. Some input to this calculation is
  * compile time determined, other input is port-defined (see port.c)
  */
-extern uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void );
-extern uint16_t usCalcMinStackSize;
+ಬಾಹ್ಯ uint16_t us_ಪೋರ್ಟ್_CALCULATE_ಕನಿಷ್ಠತಮ_ರಾಶಿ_ಗಾತ್ರ( ಶೂನ್ಯ );
+ಬಾಹ್ಯ uint16_t us_Calc_Min_ರಾಶಿ_ಗಾತ್ರ;
 
-#define portMINIMAL_STACK_SIZE                  \
-    ((usCalcMinStackSize == 0)                  \
-        ? usPortCALCULATE_MINIMAL_STACK_SIZE()  \
-        : usCalcMinStackSize )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಕನಿಷ್ಠತಮ_ರಾಶಿ_ಗಾತ್ರ                  \
+    ((us_Calc_Min_ರಾಶಿ_ಗಾತ್ರ == 0)                  \
+        ? us_ಪೋರ್ಟ್_CALCULATE_ಕನಿಷ್ಠತಮ_ರಾಶಿ_ಗಾತ್ರ()  \
+        : us_Calc_Min_ರಾಶಿ_ಗಾತ್ರ )
 
 /*
  * WizC uses a downgrowing stack
  */
-#define portSTACK_GROWTH            ( -1 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ರಾಶಿ_GROWTH            ( -1 )
 
 /*-----------------------------------------------------------*/
 
@@ -203,16 +203,16 @@ extern uint16_t usCalcMinStackSize;
  * assembler definitions.
  */
 
-#define portSAVE_CONTEXT( ucInterruptForced )                       \
-    do                                                              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_SAVE_CONTEXT( uc_ಅಡಚಣೆ_Forced )                       \
+    ಮಾಡು                                                              \
     {                                                               \
-        portDISABLE_INTERRUPTS();                                   \
+        ಪೋರ್ಟ್_DISABLE_INTERRUPTS();                                   \
                                                                     \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Push the relevant SFR's onto the task's stack         \
+            ; ತಳ್ಳು_3 the relevant SFR's onto the task's ರಾಶಿ         \
             ;                                                       \
-            movff   STATUS,POSTDEC2                                 \
+            movff   ಸ್ಥಿತಿ_3,POSTDEC2                                 \
             movff   WREG,POSTDEC2                                   \
             movff   BSR,POSTDEC2                                    \
             movff   PRODH,POSTDEC2                                  \
@@ -222,12 +222,12 @@ extern uint16_t usCalcMinStackSize;
             movff   FSR1H,POSTDEC2                                  \
             movff   FSR1L,POSTDEC2                                  \
             movff   TABLAT,POSTDEC2                                 \
-            if __ROMSIZE > 0x8000                                   \
+            ಆದರೆ __ROMSIZE > 0x8000                                   \
                 movff   TBLPTRU,POSTDEC2                            \
             endif                                                   \
             movff   TBLPTRH,POSTDEC2                                \
             movff   TBLPTRL,POSTDEC2                                \
-            if __ROMSIZE > 0x8000                                   \
+            ಆದರೆ __ROMSIZE > 0x8000                                   \
                 movff   PCLATU,POSTDEC2                             \
             endif                                                   \
             movff   PCLATH,POSTDEC2                                 \
@@ -242,100 +242,100 @@ extern uint16_t usCalcMinStackSize;
             decfsz  WREG,W,ACCESS                                   \
             SMARTJUMP _rtos_S1                                      \
             ;                                                       \
-            ; Save the pic call/return-stack belonging to the       \
-            ; current task by copying it to the task's software-    \
-            ; stack. We save the hardware stack pointer (which      \
-            ; is the number of addresses on the stack) in the       \
-            ; W-register first because we need it later and it      \
-            ; is modified in the save-loop by executing pop's.      \
-            ; After the loop the W-register is stored on the        \
-            ; stack, too.                                           \
+            ; Save the pic call/ಹಿಂತಿರುಗಿ-ರಾಶಿ belonging ಗಮ್ಯ the       \
+            ; current task by copying it ಗಮ್ಯ the task's software-    \
+            ; ರಾಶಿ. We save the hardware ರಾಶಿ ಸೂಚಕ_3 (which      \
+            ; is the ಸಂಖ್ಯೆ ದ ವಿಳಾಸಗಳು on the ರಾಶಿ) ಒಳ the       \
+            ; W-ನೋಂದಣಿ ಮೊದಲ_2 because we need it later and it      \
+            ; is modified ಒಳ the save-loop by executing ತೆಗೆ_2's.      \
+            ; After the loop the W-ನೋಂದಣಿ is stored on the        \
+            ; ರಾಶಿ, too.                                           \
             ;                                                       \
             movf    STKPTR,W,ACCESS                                 \
             bz      _rtos_s3                                        \
         _rtos_S2:                                                   \
-            if __ROMSIZE > 0x8000                                   \
+            ಆದರೆ __ROMSIZE > 0x8000                                   \
                 movff   TOSU,POSTDEC2                               \
             endif                                                   \
             movff   TOSH,POSTDEC2                                   \
             movff   TOSL,POSTDEC2                                   \
-            pop                                                     \
+            ತೆಗೆ_2                                                     \
             tstfsz  STKPTR,ACCESS                                   \
             SMARTJUMP _rtos_S2                                      \
         _rtos_s3:                                                   \
             movwf   POSTDEC2,ACCESS                                 \
             ;                                                       \
-            ; Next the value for ucCriticalNesting used by the      \
-            ; task is stored on the stack. When                     \
-            ; (ucInterruptForced == portINTERRUPTS_FORCED), we save \
-            ; it as 0 (portNO_CRITICAL_SECTION_NESTING).            \
+            ; ಮುಂದಿನ the ಮೌಲ್ಯ ಗಾಗಿ ucCriticalNesting ಬಳಸಿದ by the      \
+            ; task is stored on the ರಾಶಿ. When                     \
+            ; (uc_ಅಡಚಣೆ_Forced == ಪೋರ್ಟ್_INTERRUPTS_FORCED), we save \
+            ; it as 0 (ಪೋರ್ಟ್_NO_CRITICAL_SECTION_NESTING).            \
             ;                                                       \
-            if ucInterruptForced == portINTERRUPTS_FORCED           \
+            ಆದರೆ uc_ಅಡಚಣೆ_Forced == ಪೋರ್ಟ್_INTERRUPTS_FORCED           \
                 clrf POSTDEC2,ACCESS                                \
-            else                                                    \
+            ಇಲ್ಲದಿದ್ದರೆ                                                    \
                 movff   ucCriticalNesting,POSTDEC2                  \
             endif                                                   \
             ;                                                       \
-            ; Save the new top of the software stack in the TCB.    \
+            ; Save the new ತುದಿ_2 ದ the software ರಾಶಿ ಒಳ the TCB.    \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             movff   FSR2L,POSTINC0                                  \
             movff   FSR2H,POSTINC0                                  \
         _Pragma("asmend")                                           \
-    } while(0)
+    } ಆಗ(0)
 
 /************************************************************/
 
 /*
  * This is the reverse of portSAVE_CONTEXT.
  */
-#define portRESTORE_CONTEXT()                                       \
-    do                                                              \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_RESTORE_CONTEXT()                                       \
+    ಮಾಡು                                                              \
     {                                                               \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Set FSR0 to point to pxCurrentTCB->pxTopOfStack.      \
+            ; ಗಣ_2 FSR0 ಗಮ್ಯ ಬಿಂದು_2 ಗಮ್ಯ pxCurrentTCB->px_ತುದಿ_ದ_ರಾಶಿ.      \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             ;                                                       \
-            ; De-reference FSR0 to set the address it holds into    \
-            ; FSR2 (i.e. *( pxCurrentTCB->pxTopOfStack ) ). FSR2    \
-            ; is used by wizC as stackpointer.                      \
+            ; De-reference FSR0 ಗಮ್ಯ ಗಣ the ವಿಳಾಸ_2 it holds into    \
+            ; FSR2 (i.e. *( pxCurrentTCB->px_ತುದಿ_ದ_ರಾಶಿ ) ). FSR2    \
+            ; is ಬಳಸಿದ by wizC as stackpointer.                      \
             ;                                                       \
             movff   POSTINC0,FSR2L                                  \
             movff   POSTINC0,FSR2H                                  \
             ;                                                       \
-            ; Next, the value for ucCriticalNesting used by the     \
-            ; task is retrieved from the stack.                     \
+            ; ಮುಂದಿನ, the ಮೌಲ್ಯ ಗಾಗಿ ucCriticalNesting ಬಳಸಿದ by the     \
+            ; task is retrieved from the ರಾಶಿ.                     \
             ;                                                       \
             movff   PREINC2,ucCriticalNesting                       \
             ;                                                       \
-            ; Rebuild the pic call/return-stack. The number of      \
-            ; return addresses is the next item on the task stack.  \
-            ; Save this number in PRODL. Then fetch the addresses   \
+            ; Rebuild the pic call/ಹಿಂತಿರುಗಿ-ರಾಶಿ. The ಸಂಖ್ಯೆ ದ      \
+            ; ಹಿಂತಿರುಗಿ ವಿಳಾಸಗಳು is the ಮುಂದಿನ_2 ಅಂಶ on the task ರಾಶಿ.  \
+            ; Save this ಸಂಖ್ಯೆ ಒಳ PRODL. Then fetch the ವಿಳಾಸಗಳು   \
             ; and store them on the hardwarestack.                  \
-            ; The datasheets say we can't use movff here...         \
+            ; The datasheets say we can't use movff ಇಲ್ಲಿ...         \
             ;                                                       \
             movff   PREINC2,PRODL   // Use PRODL as tempregister    \
             clrf    STKPTR,ACCESS                                   \
         _rtos_R1:                                                   \
-            push                                                    \
+            ತಳ್ಳು                                                    \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSL,ACCESS                                     \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSH,ACCESS                                     \
-            if __ROMSIZE > 0x8000                                   \
+            ಆದರೆ __ROMSIZE > 0x8000                                   \
                 movf    PREINC2,W,ACCESS                            \
                 movwf   TOSU,ACCESS                                 \
-            else                                                    \
+            ಇಲ್ಲದಿದ್ದರೆ                                                    \
                 clrf    TOSU,ACCESS                                 \
             endif                                                   \
             decfsz  PRODL,F,ACCESS                                  \
             SMARTJUMP _rtos_R1                                      \
             ;                                                       \
-            ; Restore the compiler's working storage area to page 0 \
+            ; Restore the compiler's working storage area ಗಮ್ಯ ಪುಟ 0 \
             ;                                                       \
             movlw   OVERHEADPAGE0-LOCOPTSIZE+MAXLOCOPTSIZE          \
             movwf   FSR0L,ACCESS                                    \
@@ -348,19 +348,19 @@ extern uint16_t usCalcMinStackSize;
             ;                                                       \
             ; Restore the sfr's forming the tasks context.          \
             ; We cannot yet restore bsr, w and status because       \
-            ; we need these registers for a final test.             \
+            ; we need these registers ಗಾಗಿ a final test.             \
             ;                                                       \
             movff   PREINC2,PCLATH                                  \
-            if __ROMSIZE > 0x8000                                   \
+            ಆದರೆ __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,PCLATU                              \
-            else                                                    \
+            ಇಲ್ಲದಿದ್ದರೆ                                                    \
                 clrf    PCLATU,ACCESS                               \
             endif                                                   \
             movff   PREINC2,TBLPTRL                                 \
             movff   PREINC2,TBLPTRH                                 \
-            if __ROMSIZE > 0x8000                                   \
+            ಆದರೆ __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,TBLPTRU                             \
-            else                                                    \
+            ಇಲ್ಲದಿದ್ದರೆ                                                    \
                 clrf    TBLPTRU,ACCESS                              \
             endif                                                   \
             movff   PREINC2,TABLAT                                  \
@@ -371,12 +371,12 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,PRODL                                   \
             movff   PREINC2,PRODH                                   \
             ;                                                       \
-            ; The return from portRESTORE_CONTEXT() depends on      \
-            ; the value of ucCriticalNesting. When it is zero,      \
-            ; interrupts need to be enabled. This is done via a     \
+            ; The ಹಿಂತಿರುಗಿ from ಪೋರ್ಟ್_RESTORE_CONTEXT() depends on      \
+            ; the ಮೌಲ್ಯ ದ ucCriticalNesting. When it is zero,      \
+            ; interrupts need ಗಮ್ಯ be enabled. This is ಮುಗಿದ ಮೂಲಕ a     \
             ; retfie instruction because we need the                \
-            ; interrupt-enabling and the return to the restored     \
-            ; task to be uninterruptible.                           \
+            ; ಅಡಚಣೆ-enabling and the ಹಿಂತಿರುಗಿ ಗಮ್ಯ the restored     \
+            ; task ಗಮ್ಯ be uninterruptible.                           \
             ; Because bsr, status and W are affected by the test    \
             ; they are restored after the test.                     \
             ;                                                       \
@@ -386,40 +386,40 @@ extern uint16_t usCalcMinStackSize;
         _rtos_R3:                                                   \
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
-            movff   PREINC2,STATUS                                  \
+            movff   PREINC2,ಸ್ಥಿತಿ_3                                  \
             retfie  0       ; Return enabling interrupts            \
         _rtos_R4:                                                   \
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
-            movff   PREINC2,STATUS                                  \
-            return  0       ; Return without affecting interrupts   \
+            movff   PREINC2,ಸ್ಥಿತಿ_3                                  \
+            ಹಿಂತಿರುಗಿ  0       ; Return without affecting interrupts   \
         _Pragma("asmend")                                           \
-    } while(0)
+    } ಆಗ(0)
 
 /*-----------------------------------------------------------*/
 
-#define portTICK_PERIOD_MS  ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TICK_PERIOD_MS  ( ( TickType_t ) 1000 / config_TICK_ದರ_HZ )
 
 /*-----------------------------------------------------------*/
 
-extern void vPortYield( void );
-#define portYIELD()             vPortYield()
+ಬಾಹ್ಯ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Yield( ಶೂನ್ಯ );
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_YIELD()             v_ಪೋರ್ಟ್_Yield()
 
-#define portNOP()   _Pragma("asm")                                  \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_NOP()   _Pragma("asm")                                  \
                         nop                                         \
                     _Pragma("asmend")
 
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION( xFunction, pvParameters )        \
-    void pointed xFunction( void *pvParameters )        \
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_FUNCTION( xFunction, pvParameters )        \
+    ಶೂನ್ಯ pointed xFunction( ಶೂನ್ಯ *pvParameters )        \
     _Pragma(asmfunc xFunction)
 
-#define portTASK_FUNCTION_PROTO     portTASK_FUNCTION
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_TASK_FUNCTION_PROTO     ಪೋರ್ಟ್_TASK_FUNCTION
 /*-----------------------------------------------------------*/
 
 
-#define volatile
-#define register
+#ವ್ಯಾಖ್ಯಾನಿಸು ಅಸ್ಥಿರ
+#ವ್ಯಾಖ್ಯಾನಿಸು ನೋಂದಣಿ
 
-#endif /* PORTMACRO_H */
+#ಆದರೆ_ಅಂತ್ಯ /* PORTMACRO_H */

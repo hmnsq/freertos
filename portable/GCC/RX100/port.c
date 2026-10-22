@@ -31,58 +31,58 @@
 *----------------------------------------------------------*/
 
 /* Standard C includes. */
-#include "limits.h"
+#ಅನ್ತರ್ಭಾವ "limits.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ಅನ್ತರ್ಭಾವ "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ಆದರೆ ( config_INCLUDE_PLATFORM_H_INSTEAD_ದ_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #ಅನ್ತರ್ಭಾವ "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#ಇಲ್ಲದಿದ್ದರೆ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #ಅನ್ತರ್ಭಾವ "iodefine.h"
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#ಆದರೆ_ಅಂತ್ಯ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW    ( ( StackType_t ) 0x00030000 )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_INITIAL_PSW    ( ( ರಾಶಿ_Type_t ) 0x00030000 )
 
 /* The peripheral clock is divided by this value before being supplying the
  * CMT. */
-#if ( configUSE_TICKLESS_IDLE == 0 )
+#ಆದರೆ ( configUSE_TICKLESS_IDLE == 0 )
     /* If tickless idle is not used then the divisor can be fixed. */
-    #define portCLOCK_DIVISOR    8UL
-#elif ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
-    #define portCLOCK_DIVISOR    512UL
-#elif ( configPERIPHERAL_CLOCK_HZ >= 6000000 )
-    #define portCLOCK_DIVISOR    128UL
-#elif ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
-    #define portCLOCK_DIVISOR    32UL
-#else
-    #define portCLOCK_DIVISOR    8UL
-#endif
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ    8UL
+#ಅಥವಾಆದರೆ ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ    512UL
+#ಅಥವಾಆದರೆ ( configPERIPHERAL_CLOCK_HZ >= 6000000 )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ    128UL
+#ಅಥವಾಆದರೆ ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ    32UL
+#ಇಲ್ಲದಿದ್ದರೆ
+    #ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ    8UL
+#ಆದರೆ_ಅಂತ್ಯ
 
 /* These macros allow a critical section to be added around the call to
  * xTaskIncrementTick(), which is only ever called from interrupts at the kernel
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portDISABLE_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portENABLE_INTERRUPTS_FROM_KERNEL_ISR()     __asm volatile ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_DISABLE_INTERRUPTS_FROM_KERNEL_ISR()    __asm ಅಸ್ಥಿರ ( "MVTIPL    %0" ::"i" ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) )
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ENABLE_INTERRUPTS_FROM_KERNEL_ISR()     __asm ಅಸ್ಥಿರ ( "MVTIPL    %0" ::"i" ( config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ ) )
 
 /* Keys required to lock and unlock access to certain system registers
  * respectively. */
-#define portUNLOCK_KEY    0xA50B
-#define portLOCK_KEY      0xA500
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_UNLOCK_ಕೀಲಿ    0xA50B
+#ವ್ಯಾಖ್ಯಾನಿಸು ಪೋರ್ಟ್_ಬೀಗ_ಕೀಲಿ      0xA500
 
 /*-----------------------------------------------------------*/
 
@@ -90,38 +90,38 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ ) __attribute__( ( naked ) );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ಆದರೆ ( config_INCLUDE_PLATFORM_H_INSTEAD_ದ_IODEFINE_H == 1 )
 
-    R_BSP_PRAGMA_INTERRUPT( vPortSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vPortSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_PRAGMA_ಅಡಚಣೆ( v_ಪೋರ್ಟ್_Software_ಅಡಚಣೆ_ISR, VECT( ICU, SWINT ) )
+    R_BSP_ATTRIB_ಅಡಚಣೆ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Software_ಅಡಚಣೆ_ISR( ಶೂನ್ಯ ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#ಇಲ್ಲದಿದ್ದರೆ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vPortSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    ಶೂನ್ಯ v_ಪೋರ್ಟ್_Software_ಅಡಚಣೆ_ISR( ಶೂನ್ಯ ) __attribute__( ( naked ) );
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
+#ಆದರೆ_ಅಂತ್ಯ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ಆದರೆ ( config_INCLUDE_PLATFORM_H_INSTEAD_ದ_IODEFINE_H == 1 )
 
-    R_BSP_PRAGMA_INTERRUPT( vPortTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vPortTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_PRAGMA_ಅಡಚಣೆ( v_ಪೋರ್ಟ್_Tick_ISR, _VECT( config_TICK_ಸದಿಶ ) )
+    R_BSP_ATTRIB_ಅಡಚಣೆ ಶೂನ್ಯ v_ಪೋರ್ಟ್_Tick_ISR( ಶೂನ್ಯ ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#ಇಲ್ಲದಿದ್ದರೆ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vPortTickISR( void ) __attribute__( ( interrupt ) );
+    ಶೂನ್ಯ v_ಪೋರ್ಟ್_Tick_ISR( ಶೂನ್ಯ ) __attribute__( ( ಅಡಚಣೆ ) );
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#ಆದರೆ_ಅಂತ್ಯ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*
  * Sets up the periodic ISR used for the RTOS tick using the CMT.
@@ -129,43 +129,43 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * FreeRTOSConfig.h) such that their own tick interrupt configuration is used
  * in place of prvSetupTimerInterrupt().
  */
-static void prvSetupTimerInterrupt( void );
-#ifndef configSETUP_TICK_INTERRUPT
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ );
+#ವ್ಯಾಖ್ಯಾನಿತವಾಗದಿದ್ದರೆ config_ಸಿದ್ಧತೆ_TICK_ಅಡಚಣೆ
 
 /* The user has not provided their own tick interrupt configuration so use
  * the definition in this file (which uses the interval timer). */
-    #define configSETUP_TICK_INTERRUPT()    prvSetupTimerInterrupt()
-#endif /* configSETUP_TICK_INTERRUPT */
+    #ವ್ಯಾಖ್ಯಾನಿಸು config_ಸಿದ್ಧತೆ_TICK_ಅಡಚಣೆ()    prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ()
+#ಆದರೆ_ಅಂತ್ಯ /* configSETUP_TICK_INTERRUPT */
 
 /*
  * Called after the sleep mode registers have been configured, prvSleep()
  * executes the pre and post sleep macros, and actually calls the wait
  * instruction.
  */
-#if configUSE_TICKLESS_IDLE == 1
-    static void prvSleep( TickType_t xExpectedIdleTime );
-#endif /* configUSE_TICKLESS_IDLE */
+#ಆದರೆ configUSE_TICKLESS_IDLE == 1
+    ಸ್ಥಿರ ಶೂನ್ಯ prvSleep( TickType_t x_Expected_Idle_ಸಮಯ );
+#ಆದರೆ_ಅಂತ್ಯ /* configUSE_TICKLESS_IDLE */
 
 /*-----------------------------------------------------------*/
 
 /* Used in the context save and restore code. */
-extern void * pxCurrentTCB;
+ಬಾಹ್ಯ ಶೂನ್ಯ * pxCurrentTCB;
 
 /* Calculate how many clock increments make up a single tick period. */
-static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
+ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ uint32_t ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick = ( ( configPERIPHERAL_CLOCK_HZ / ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ ) / config_TICK_ದರ_HZ );
 
-#if configUSE_TICKLESS_IDLE == 1
+#ಆದರೆ configUSE_TICKLESS_IDLE == 1
 
 /* Holds the maximum number of ticks that can be suppressed - which is
  * basically how far into the future an interrupt can be generated. Set
  * during initialisation.  This is the maximum possible value that the
  * compare match register can hold divided by ulMatchValueForOneTick. */
-    static const TickType_t xMaximumPossibleSuppressedTicks = USHRT_MAX / ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ TickType_t x_ಗರಿಷ್ಠ_Possible_Suppressed_Ticks = USHRT_MAX / ( ( configPERIPHERAL_CLOCK_HZ / ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ ) / config_TICK_ದರ_HZ );
 
 /* Flag set from the tick interrupt to allow the sleep processing to know if
  * sleep mode was exited because of a tick interrupt, or an interrupt
  * generated by something else. */
-    static volatile uint32_t ulTickFlag = pdFALSE;
+    ಸ್ಥಿರ ಅಸ್ಥಿರ uint32_t ulTickFlag = pdFALSE;
 
 /* The CMT counter is stopped temporarily each time it is re-programmed.
  * The following constant offsets the CMT counter match value by the number of
@@ -173,95 +173,95 @@ static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / p
  * compensate for the lost time.  The large difference between the divided CMT
  * clock and the CPU clock means it is likely ulStoppedTimerCompensation will
  * equal zero - and be optimised away. */
-    static const uint32_t ulStoppedTimerCompensation = 100UL / ( configCPU_CLOCK_HZ / ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) );
+    ಸ್ಥಿರ ಸ್ಥಿರಾಂಕ uint32_t ulStoppedTimerCompensation = 100UL / ( configCPU_CLOCK_HZ / ( configPERIPHERAL_CLOCK_HZ / ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ ) );
 
-#endif /* if configUSE_TICKLESS_IDLE == 1 */
+#ಆದರೆ_ಅಂತ್ಯ /* if configUSE_TICKLESS_IDLE == 1 */
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ರಾಶಿ_Type_t * px_ಪೋರ್ಟ್_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_ದ_ರಾಶಿ,
+                                     TaskFunction_t px_ಸಂಕೇತ,
+                                     ಶೂನ್ಯ * pvParameters )
 {
     /* Offset to end up on 8 byte boundary. */
-    pxTopOfStack--;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
 
     /* R0 is not included as it is the stack pointer. */
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_ತುದಿ_ದ_ರಾಶಿ = 0x00;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = 0x00;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ಪೋರ್ಟ್_INITIAL_PSW;
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) px_ಸಂಕೇತ;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
-    #ifdef USE_FULL_REGISTER_INITIALISATION
+    #ವ್ಯಾಖ್ಯಾನಿತವಾದರೆ USE_ತುಂಬಿದ_ರಿಜಿಸ್ಟರ್_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0x12345678; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaabbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x12345678; /* r15. */
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0xaaaabbbb;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0xdddddddd;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0xcccccccc;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0xbbbbbbbb;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0xaaaaaaaa;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x99999999;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x88888888;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x77777777;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x66666666;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x55555555;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x44444444;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x33333333;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
+        *px_ತುದಿ_ದ_ರಾಶಿ = 0x22222222;
+        px_ತುದಿ_ದ_ರಾಶಿ--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #ಇಲ್ಲದಿದ್ದರೆ /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         /* Leave space for the registers that will get popped from the stack
          * when the task first starts executing. */
-        pxTopOfStack -= 15;
+        px_ತುದಿ_ದ_ರಾಶಿ -= 15;
     }
-    #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #ಆದರೆ_ಅಂತ್ಯ /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678;                   /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321;                   /* Accumulator. */
+    *px_ತುದಿ_ದ_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pvParameters; /* R1 */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = 0x12345678;                   /* Accumulator. */
+    px_ತುದಿ_ದ_ರಾಶಿ--;
+    *px_ತುದಿ_ದ_ರಾಶಿ = 0x87654321;                   /* Accumulator. */
 
-    return pxTopOfStack;
+    ಹಿಂತಿರುಗಿ px_ತುದಿ_ದ_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ತಳ_Type_t x_ಪೋರ್ಟ್_ಆರಂಭ_Scheduler( ಶೂನ್ಯ )
 {
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    ಆದರೆ( pxCurrentTCB != ಖಾಲಿ )
     {
         /* Call an application function to set up the timer that will generate
          * the tick interrupt.  This way the application can decide which
          * peripheral to use.  If tickless mode is used then the default
          * implementation defined in this file (which uses CMT0) should not be
          * overridden. */
-        configSETUP_TICK_INTERRUPT();
+        config_ಸಿದ್ಧತೆ_TICK_ಅಡಚಣೆ();
 
         /* Enable the software interrupt. */
         _IEN( _ICU_SWINT ) = 1;
@@ -270,10 +270,10 @@ BaseType_t xPortStartScheduler( void )
         _IR( _ICU_SWINT ) = 0;
 
         /* Ensure the software interrupt is set to the kernel priority. */
-        _IPR( _ICU_SWINT ) = configKERNEL_INTERRUPT_PRIORITY;
+        _IPR( _ICU_SWINT ) = config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ;
 
         /* Start the first task. */
-        prvStartFirstTask();
+        prv_ಆರಂಭ_ಮೊದಲ_Task();
     }
 
     /* Execution should not reach here as the tasks are now running!
@@ -282,24 +282,24 @@ BaseType_t xPortStartScheduler( void )
      * case that the application writer has provided their own tick interrupt
      * configuration routine (and defined configSETUP_TICK_INTERRUPT() such that
      * their own routine will be called in place of prvSetupTimerInterrupt()). */
-    prvSetupTimerInterrupt();
+    prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ();
 
     /* Should not get here. */
-    return pdFAIL;
+    ಹಿಂತಿರುಗಿ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಕೊನೆ_Scheduler( ಶೂನ್ಯ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ಖಾಲಿ );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಆರಂಭ_ಮೊದಲ_Task( ಶೂನ್ಯ )
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -337,9 +337,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortSoftwareInterruptISR( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Software_ಅಡಚಣೆ_ISR( ಶೂನ್ಯ )
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -417,43 +417,43 @@ void vPortSoftwareInterruptISR( void )
         "RTE                                    \n" \
         "NOP                                    \n" \
         "NOP                                      "
-        ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ), "i" ( configKERNEL_INTERRUPT_PRIORITY )
+        ::"i" ( config_MAX_SYSCALL_ಅಡಚಣೆ_ಆದ್ಯತೆ ), "i" ( config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ )
     );
 }
 /*-----------------------------------------------------------*/
 
-void vPortTickISR( void )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_Tick_ISR( ಶೂನ್ಯ )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW I" );
+    __asm ಅಸ್ಥಿರ ( "SETPSW I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
-    portDISABLE_INTERRUPTS_FROM_KERNEL_ISR();
+    ಪೋರ್ಟ್_DISABLE_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ಆದರೆ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    portENABLE_INTERRUPTS_FROM_KERNEL_ISR();
+    ಪೋರ್ಟ್_ENABLE_INTERRUPTS_FROM_KERNEL_ISR();
 
-    #if configUSE_TICKLESS_IDLE == 1
+    #ಆದರೆ configUSE_TICKLESS_IDLE == 1
     {
         /* The CPU woke because of a tick. */
         ulTickFlag = pdTRUE;
 
         /* If this is the first tick since exiting tickless mode then the CMT
          * compare match value needs resetting. */
-        CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
+        CMT0.CMCOR = ( uint16_t ) ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick;
     }
-    #endif
+    #ಆದರೆ_ಅಂತ್ಯ
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ul_ಪೋರ್ಟ್_Get_IPL( ಶೂನ್ಯ )
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -461,13 +461,13 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    ಹಿಂತಿರುಗಿ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+ಶೂನ್ಯ v_ಪೋರ್ಟ್_ಗಣ_IPL( uint32_t ulNewIPL )
 {
-    __asm volatile
+    __asm ಅಸ್ಥಿರ
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \
@@ -481,119 +481,119 @@ void vPortSetIPL( uint32_t ulNewIPL )
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ಸ್ಥಿರ ಶೂನ್ಯ prv_ಸಿದ್ಧತೆ_Timer_ಅಡಚಣೆ( ಶೂನ್ಯ )
 {
     /* Unlock. */
-    SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+    SYSTEM.PRCR.ಶಬ್ದ_3 = ಪೋರ್ಟ್_UNLOCK_ಕೀಲಿ;
 
     /* Enable CMT0. */
     MSTP( CMT0 ) = 0;
 
     /* Lock again. */
-    SYSTEM.PRCR.WORD = portLOCK_KEY;
+    SYSTEM.PRCR.ಶಬ್ದ_3 = ಪೋರ್ಟ್_ಬೀಗ_ಕೀಲಿ;
 
     /* Interrupt on compare match. */
-    CMT0.CMCR.BIT.CMIE = 1;
+    CMT0.CMCR.ಬಿಟ್_3.CMIE = 1;
 
     /* Set the compare match value. */
-    CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
+    CMT0.CMCOR = ( uint16_t ) ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick;
 
     /* Divide the PCLK. */
-    #if portCLOCK_DIVISOR == 512
+    #ಆದರೆ ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ == 512
     {
-        CMT0.CMCR.BIT.CKS = 3;
+        CMT0.CMCR.ಬಿಟ್_3.CKS = 3;
     }
-    #elif portCLOCK_DIVISOR == 128
+    #ಅಥವಾಆದರೆ ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ == 128
     {
-        CMT0.CMCR.BIT.CKS = 2;
+        CMT0.CMCR.ಬಿಟ್_3.CKS = 2;
     }
-    #elif portCLOCK_DIVISOR == 32
+    #ಅಥವಾಆದರೆ ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ == 32
     {
-        CMT0.CMCR.BIT.CKS = 1;
+        CMT0.CMCR.ಬಿಟ್_3.CKS = 1;
     }
-    #elif portCLOCK_DIVISOR == 8
+    #ಅಥವಾಆದರೆ ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ == 8
     {
-        CMT0.CMCR.BIT.CKS = 0;
+        CMT0.CMCR.ಬಿಟ್_3.CKS = 0;
     }
-    #else /* if portCLOCK_DIVISOR == 512 */
+    #ಇಲ್ಲದಿದ್ದರೆ /* if portCLOCK_DIVISOR == 512 */
     {
-        #error Invalid portCLOCK_DIVISOR setting
+        #ದೋಷ Invalid ಪೋರ್ಟ್_CLOCK_ಭಾಜಕ setting
     }
-    #endif /* if portCLOCK_DIVISOR == 512 */
+    #ಆದರೆ_ಅಂತ್ಯ /* if portCLOCK_DIVISOR == 512 */
 
     /* Enable the interrupt... */
     _IEN( _CMT0_CMI0 ) = 1;
 
     /* ...and set its priority to the application defined kernel priority. */
-    _IPR( _CMT0_CMI0 ) = configKERNEL_INTERRUPT_PRIORITY;
+    _IPR( _CMT0_CMI0 ) = config_KERNEL_ಅಡಚಣೆ_ಆದ್ಯತೆ;
 
     /* Start the timer. */
-    CMT.CMSTR0.BIT.STR0 = 1;
+    CMT.CMSTR0.ಬಿಟ್_3.STR0 = 1;
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#ಆದರೆ configUSE_TICKLESS_IDLE == 1
 
-    static void prvSleep( TickType_t xExpectedIdleTime )
+    ಸ್ಥಿರ ಶೂನ್ಯ prvSleep( TickType_t x_Expected_Idle_ಸಮಯ )
     {
         /* Allow the application to define some pre-sleep processing. */
-        configPRE_SLEEP_PROCESSING( xExpectedIdleTime );
+        configPRE_SLEEP_PROCESSING( x_Expected_Idle_ಸಮಯ );
 
         /* xExpectedIdleTime being set to 0 by configPRE_SLEEP_PROCESSING()
          * means the application defined code has already executed the WAIT
          * instruction. */
-        if( xExpectedIdleTime > 0 )
+        ಆದರೆ( x_Expected_Idle_ಸಮಯ > 0 )
         {
-            __asm volatile ( "WAIT" );
+            __asm ಅಸ್ಥಿರ ( "WAIT" );
         }
 
         /* Allow the application to define some post sleep processing. */
-        configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
+        configPOST_SLEEP_PROCESSING( x_Expected_Idle_ಸಮಯ );
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#ಆದರೆ_ಅಂತ್ಯ /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#ಆದರೆ configUSE_TICKLESS_IDLE == 1
 
-    void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    ಶೂನ್ಯ v_ಪೋರ್ಟ್_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_ಸಮಯ )
     {
-        uint32_t ulMatchValue, ulCompleteTickPeriods, ulCurrentCount;
-        eSleepModeStatus eSleepAction;
+        uint32_t ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ, ulCompleteTickPeriods, ul_Current_ಎಣಿಕೆ;
+        e_Sleep_ಬಹುಲಕ_ಸ್ಥಿತಿ eSleepAction;
 
         /* THIS FUNCTION IS CALLED WITH THE SCHEDULER SUSPENDED. */
 
         /* Make sure the CMT reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        ಆದರೆ( x_Expected_Idle_ಸಮಯ > x_ಗರಿಷ್ಠ_Possible_Suppressed_Ticks )
         {
-            xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+            x_Expected_Idle_ಸಮಯ = x_ಗರಿಷ್ಠ_Possible_Suppressed_Ticks;
         }
 
         /* Calculate the reload value required to wait xExpectedIdleTime tick
          * periods. */
-        ulMatchValue = ulMatchValueForOneTick * xExpectedIdleTime;
+        ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ = ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick * x_Expected_Idle_ಸಮಯ;
 
-        if( ulMatchValue > ulStoppedTimerCompensation )
+        ಆದರೆ( ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ > ulStoppedTimerCompensation )
         {
             /* Compensate for the fact that the CMT is going to be stopped
              * momentarily. */
-            ulMatchValue -= ulStoppedTimerCompensation;
+            ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ -= ulStoppedTimerCompensation;
         }
 
         /* Stop the CMT momentarily.  The time the CMT is stopped for is
          * accounted for as best it can be, but using the tickless mode will
          * inevitably result in some tiny drift of the time maintained by the
          * kernel with respect to calendar time. */
-        CMT.CMSTR0.BIT.STR0 = 0;
+        CMT.CMSTR0.ಬಿಟ್_3.STR0 = 0;
 
-        while( CMT.CMSTR0.BIT.STR0 == 1 )
+        ಆಗ( CMT.CMSTR0.ಬಿಟ್_3.STR0 == 1 )
         {
             /* Nothing to do here. */
         }
 
         /* Critical section using the global interrupt bit as the i bit is
          * automatically reset by the WAIT instruction. */
-        __asm volatile ( "CLRPSW i" );
+        __asm ಅಸ್ಥಿರ ( "CLRPSW i" );
 
         /* The tick flag is set to false before sleeping.  If it is true when
          * sleep mode is exited then sleep mode was probably exited because the
@@ -603,80 +603,80 @@ static void prvSetupTimerInterrupt( void )
         /* If a context switch is pending then abandon the low power entry as
          * the context switch might have been pended by an external interrupt that
          * requires processing. */
-        eSleepAction = eTaskConfirmSleepModeStatus();
+        eSleepAction = e_Task_Confirm_Sleep_ಬಹುಲಕ_ಸ್ಥಿತಿ();
 
-        if( eSleepAction == eAbortSleep )
+        ಆದರೆ( eSleepAction == eAbortSleep )
         {
             /* Restart tick. */
-            CMT.CMSTR0.BIT.STR0 = 1;
-            __asm volatile ( "SETPSW i" );
+            CMT.CMSTR0.ಬಿಟ್_3.STR0 = 1;
+            __asm ಅಸ್ಥಿರ ( "SETPSW i" );
         }
-        else if( eSleepAction == eNoTasksWaitingTimeout )
+        ಇಲ್ಲದಿದ್ದರೆ ಆದರೆ( eSleepAction == e_No_Tasks_ಕಾಯುವಿಕೆ_Timeout )
         {
             /* Protection off. */
-            SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+            SYSTEM.PRCR.ಶಬ್ದ_3 = ಪೋರ್ಟ್_UNLOCK_ಕೀಲಿ;
 
             /* Ready for software standby with all clocks stopped. */
-            SYSTEM.SBYCR.BIT.SSBY = 1;
+            SYSTEM.SBYCR.ಬಿಟ್_3.SSBY = 1;
 
             /* Protection on. */
-            SYSTEM.PRCR.WORD = portLOCK_KEY;
+            SYSTEM.PRCR.ಶಬ್ದ_3 = ಪೋರ್ಟ್_ಬೀಗ_ಕೀಲಿ;
 
             /* Sleep until something happens.  Calling prvSleep() will
              * automatically reset the i bit in the PSW. */
-            prvSleep( xExpectedIdleTime );
+            prvSleep( x_Expected_Idle_ಸಮಯ );
 
             /* Restart the CMT. */
-            CMT.CMSTR0.BIT.STR0 = 1;
+            CMT.CMSTR0.ಬಿಟ್_3.STR0 = 1;
         }
-        else
+        ಇಲ್ಲದಿದ್ದರೆ
         {
             /* Protection off. */
-            SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+            SYSTEM.PRCR.ಶಬ್ದ_3 = ಪೋರ್ಟ್_UNLOCK_ಕೀಲಿ;
 
             /* Ready for deep sleep mode. */
-            SYSTEM.MSTPCRC.BIT.DSLPE = 1;
-            SYSTEM.MSTPCRA.BIT.MSTPA28 = 1;
-            SYSTEM.SBYCR.BIT.SSBY = 0;
+            SYSTEM.MSTPCRC.ಬಿಟ್_3.DSLPE = 1;
+            SYSTEM.MSTPCRA.ಬಿಟ್_3.MSTPA28 = 1;
+            SYSTEM.SBYCR.ಬಿಟ್_3.SSBY = 0;
 
             /* Protection on. */
-            SYSTEM.PRCR.WORD = portLOCK_KEY;
+            SYSTEM.PRCR.ಶಬ್ದ_3 = ಪೋರ್ಟ್_ಬೀಗ_ಕೀಲಿ;
 
             /* Adjust the match value to take into account that the current
              * time slice is already partially complete. */
-            ulMatchValue -= ( uint32_t ) CMT0.CMCNT;
-            CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+            ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ -= ( uint32_t ) CMT0.CMCNT;
+            CMT0.CMCOR = ( uint16_t ) ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ;
 
             /* Restart the CMT to count up to the new match value. */
             CMT0.CMCNT = 0;
-            CMT.CMSTR0.BIT.STR0 = 1;
+            CMT.CMSTR0.ಬಿಟ್_3.STR0 = 1;
 
             /* Sleep until something happens.  Calling prvSleep() will
              * automatically reset the i bit in the PSW. */
-            prvSleep( xExpectedIdleTime );
+            prvSleep( x_Expected_Idle_ಸಮಯ );
 
             /* Stop CMT.  Again, the time the SysTick is stopped for is
              * accounted for as best it can be, but using the tickless mode will
              * inevitably result in some tiny drift of the time maintained by the
              * kernel with respect to calendar time. */
-            CMT.CMSTR0.BIT.STR0 = 0;
+            CMT.CMSTR0.ಬಿಟ್_3.STR0 = 0;
 
-            while( CMT.CMSTR0.BIT.STR0 == 1 )
+            ಆಗ( CMT.CMSTR0.ಬಿಟ್_3.STR0 == 1 )
             {
                 /* Nothing to do here. */
             }
 
-            ulCurrentCount = ( uint32_t ) CMT0.CMCNT;
+            ul_Current_ಎಣಿಕೆ = ( uint32_t ) CMT0.CMCNT;
 
-            if( ulTickFlag != pdFALSE )
+            ಆದರೆ( ulTickFlag != pdFALSE )
             {
                 /* The tick interrupt has already executed, although because
                  * this function is called with the scheduler suspended the actual
                  * tick processing will not occur until after this function has
                  * exited.  Reset the match value with whatever remains of this
                  * tick period. */
-                ulMatchValue = ulMatchValueForOneTick - ulCurrentCount;
-                CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+                ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ = ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick - ul_Current_ಎಣಿಕೆ;
+                CMT0.CMCOR = ( uint16_t ) ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ;
 
                 /* The tick interrupt handler will already have pended the tick
                  * processing in the kernel.  As the pending tick will be
@@ -684,31 +684,31 @@ static void prvSetupTimerInterrupt( void )
                  * maintained by the tick is stepped forward by one less than the
                  * time spent sleeping.  The actual stepping of the tick appears
                  * later in this function. */
-                ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
+                ulCompleteTickPeriods = x_Expected_Idle_ಸಮಯ - 1UL;
             }
-            else
+            ಇಲ್ಲದಿದ್ದರೆ
             {
                 /* Something other than the tick interrupt ended the sleep.
                  * How many complete tick periods passed while the processor was
                  * sleeping? */
-                ulCompleteTickPeriods = ulCurrentCount / ulMatchValueForOneTick;
+                ulCompleteTickPeriods = ul_Current_ಎಣಿಕೆ / ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick;
 
                 /* The match value is set to whatever fraction of a single tick
                  * period remains. */
-                ulMatchValue = ulCurrentCount - ( ulCompleteTickPeriods * ulMatchValueForOneTick );
-                CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+                ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ = ul_Current_ಎಣಿಕೆ - ( ulCompleteTickPeriods * ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ_For_One_Tick );
+                CMT0.CMCOR = ( uint16_t ) ul_ಹೊಂದಿಕೆ_ಮೌಲ್ಯ;
             }
 
             /* Restart the CMT so it runs up to the match value.  The match value
              * will get set to the value required to generate exactly one tick period
              * the next time the CMT interrupt executes. */
             CMT0.CMCNT = 0;
-            CMT.CMSTR0.BIT.STR0 = 1;
+            CMT.CMSTR0.ಬಿಟ್_3.STR0 = 1;
 
             /* Wind the tick forward by the number of tick periods that the CPU
              * remained in a low power state. */
-            vTaskStepTick( ulCompleteTickPeriods );
+            v_Task_ಹೆಜ್ಜೆ_Tick( ulCompleteTickPeriods );
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#ಆದರೆ_ಅಂತ್ಯ /* configUSE_TICKLESS_IDLE */
