@@ -26,17 +26,17 @@
  *
  */
 
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the AVR/IAR port.
 *----------------------------------------------------------*/
 
 /* Start tasks with interrupts enables. */
-#define portFLAGS_INT_ENABLED                   ( ( StackType_t ) 0x80 )
+#define portFLAGS_INT_ENABLED                   ( ( دۆۋە_Type_t ) 0x80 )
 
 /* Hardware constants for timer 1. */
 #define portCLEAR_COUNTER_ON_MATCH              ( ( uint8_t ) 0x08 )
@@ -57,40 +57,40 @@ UBaseType_t uxCriticalNesting = 0x50;
 /*
  * Perform hardware setup to enable ticks from timer 1, compare match A.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * The IAR compiler does not have full support for inline assembler, so
  * these are defined in the portmacro assembler file.
  */
-extern void vPortYieldFromTick( void );
-extern void vPortStart( void );
+خارجي فراغ vPortYieldFromTick( فراغ );
+خارجي فراغ vPortStart( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+دۆۋە_Type_t * px_Port_Initialise_دۆۋە( دۆۋە_Type_t * px_چوققا_Of_دۆۋە,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     uint16_t usAddress;
-    StackType_t * pxTopOfHardwareStack;
+    دۆۋە_Type_t * px_چوققا_Of_Hardware_دۆۋە;
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is just useful for debugging. */
 
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 0x11;
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = 0x22;
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = 0x33;
+    px_چوققا_Of_دۆۋە--;
 
     /* Remember where the top of the hardware stack is - this is required
      * below. */
-    pxTopOfHardwareStack = pxTopOfStack;
+    px_چوققا_Of_Hardware_دۆۋە = px_چوققا_Of_دۆۋە;
 
 
     /* Simulate how the stack would look after a call to vPortYield(). */
@@ -115,18 +115,18 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * The first part of the stack is the hardware stack.  Place the start
      * address of the task on the hardware stack. */
     usAddress = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_چوققا_Of_دۆۋە--;
 
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_چوققا_Of_دۆۋە--;
 
 
     /* Leave enough space for the hardware stack before starting the software
      * stack.  The '- 2' is because we have already used two spaces for the
      * address of the start of the task. */
-    pxTopOfStack -= ( configCALL_STACK_SIZE - 2 );
+    px_چوققا_Of_دۆۋە -= ( config_CALL_دۆۋە_SIZE - 2 );
 
 
 
@@ -134,106 +134,106 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      *  portSAVE_CONTEXT places the flags on the stack immediately after r0
      *  to ensure the interrupts get disabled as soon as possible, and so ensuring
      *  the stack use is minimal should a context switch interrupt occur. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x00; /* R0 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = portFLAGS_INT_ENABLED;
+    px_چوققا_Of_دۆۋە--;
 
     /* Next place the address of the hardware stack.  This is required so
      * the AVR stack pointer can be restored to point to the hardware stack. */
-    pxTopOfHardwareStack -= portBYTES_USED_BY_RETURN_ADDRESS;
-    usAddress = ( uint16_t ) pxTopOfHardwareStack;
+    px_چوققا_Of_Hardware_دۆۋە -= portBYTES_USED_BY_RETURN_ADDRESS;
+    usAddress = ( uint16_t ) px_چوققا_Of_Hardware_دۆۋە;
 
     /* SPL */
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_چوققا_Of_دۆۋە--;
 
     /* SPH */
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_چوققا_Of_دۆۋە--;
 
 
 
     /* Now the remaining registers. */
-    *pxTopOfStack = ( StackType_t ) 0x01; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02; /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03; /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04; /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05; /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06; /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07; /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08; /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09; /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10; /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11; /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12; /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x13; /* R13 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x14; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x15; /* R15 */
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x01; /* R1 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x02; /* R2 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x03; /* R3 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x04; /* R4 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x05; /* R5 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x06; /* R6 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x07; /* R7 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x08; /* R8 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x09; /* R9 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x10; /* R10 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x11; /* R11 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x12; /* R12 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x13; /* R13 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x14; /* R14 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x15; /* R15 */
+    px_چوققا_Of_دۆۋە--;
 
     /* Place the parameter on the stack in the expected location. */
     usAddress = ( uint16_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_چوققا_Of_دۆۋە--;
 
     usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    px_چوققا_Of_دۆۋە--;
 
-    *pxTopOfStack = ( StackType_t ) 0x18; /* R18 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x19; /* R19 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x20; /* R20 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x21; /* R21 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x22; /* R22 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x23; /* R23 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x24; /* R24 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x25; /* R25 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x26; /* R26 X */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x27; /* R27 */
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x18; /* R18 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x19; /* R19 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x20; /* R20 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x21; /* R21 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x22; /* R22 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x23; /* R23 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x24; /* R24 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x25; /* R25 */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x26; /* R26 X */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x27; /* R27 */
+    px_چوققا_Of_دۆۋە--;
 
     /* The Y register is not stored as it is used as the software stack and
      * gets saved into the task control block. */
 
-    *pxTopOfStack = ( StackType_t ) 0x30;  /* R30 Z */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x031; /* R31 */
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x30;  /* R30 Z */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = ( دۆۋە_Type_t ) 0x031; /* R31 */
 
-    pxTopOfStack--;
-    *pxTopOfStack = portNO_CRITICAL_NESTING; /* Critical nesting is zero when the task starts. */
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = portNO_CRITICAL_NESTING; /* Critical nesting is zero when the task starts. */
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    أرجع px_چوققا_Of_دۆۋە;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Setup the hardware to generate the tick. */
     prvSetupTimerInterrupt();
@@ -244,11 +244,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here! */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the AVR port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -258,10 +258,10 @@ void vPortEndScheduler( void )
 /*
  * Setup timer 1 compare match A to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     uint32_t ulCompareMatch;
-    uint8_t ucHighByte, ucLowByte;
+    uint8_t uc_يۇقىرى_Byte, uc_تۆۋەن_Byte;
 
     /* Using 16bit timer 1 to generate the tick.  Correct fuses must be
      * selected for the configCPU_CLOCK_HZ clock. */
@@ -276,15 +276,15 @@ static void prvSetupTimerInterrupt( void )
 
     /* Setup compare match value for compare match A.  Interrupts are disabled
      * before this is called so we need not worry here. */
-    ucLowByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
+    uc_تۆۋەن_Byte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
     ulCompareMatch >>= 8;
-    ucHighByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-    OCR1AH = ucHighByte;
-    OCR1AL = ucLowByte;
+    uc_يۇقىرى_Byte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
+    OCR1AH = uc_يۇقىرى_Byte;
+    OCR1AL = uc_تۆۋەن_Byte;
 
     /* Setup clock source and compare match behaviour. */
-    ucLowByte = portCLEAR_COUNTER_ON_MATCH | portPRESCALE_64;
-    TCCR1B = ucLowByte;
+    uc_تۆۋەن_Byte = portCLEAR_COUNTER_ON_MATCH | portPRESCALE_64;
+    TCCR1B = uc_تۆۋەن_Byte;
 
     /* Enable the interrupt - this is okay as interrupt are currently globally
      * disabled. */
@@ -292,20 +292,20 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#إذا configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a __task attribute as
  * the context is saved at the start of vPortYieldFromTick().  The tick
  * count is incremented after the context is saved.
  */
-    __task void SIG_OUTPUT_COMPARE1A( void )
+    __task فراغ SIG_OUTPUT_COMPARE1A( فراغ )
     {
         vPortYieldFromTick();
         asm ( "reti" );
     }
 
-#else
+#وإلا
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -315,25 +315,25 @@ static void prvSetupTimerInterrupt( void )
  * THE INTERRUPT VECTOR IS POPULATED IN portmacro.s90.  DO NOT INSTALL
  * IT HERE USING THE USUAL PRAGMA.
  */
-    __interrupt void SIG_OUTPUT_COMPARE1A( void )
+    __interrupt فراغ SIG_OUTPUT_COMPARE1A( فراغ )
     {
         xTaskIncrementTick();
     }
 #endif /* if configUSE_PREEMPTION == 1 */
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     portDISABLE_INTERRUPTS();
     uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == portNO_CRITICAL_NESTING )
+    إذا( uxCriticalNesting == portNO_CRITICAL_NESTING )
     {
         portENABLE_INTERRUPTS();
     }

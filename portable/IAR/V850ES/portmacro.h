@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,26 +46,26 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     int
+#define port_دۆۋە_TYPE    unsigned صحيح
+#define portBASE_TYPE     صحيح
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع port_دۆۋە_TYPE   دۆۋە_Type_t;
+تعريفنوع long             BaseType_t;
+تعريفنوع unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#إذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -80,7 +80,7 @@ typedef unsigned long    UBaseType_t;
 
 #define portENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;            \
+        خارجي متطاير /*uint16_t*/ port_دۆۋە_TYPE usCriticalNesting;            \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -92,16 +92,16 @@ typedef unsigned long    UBaseType_t;
 
 #define portEXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;              \
+        خارجي متطاير /*uint16_t*/ port_دۆۋە_TYPE usCriticalNesting;              \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        إذا( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            إذا( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
                 portENABLE_INTERRUPTS();                                            \
             }                                                                       \
@@ -110,26 +110,26 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-extern void vPortStart( void );
-extern void portSAVE_CONTEXT( void );
-extern void portRESTORE_CONTEXT( void );
+خارجي فراغ vPortYield( فراغ );
+خارجي فراغ vPortStart( فراغ );
+خارجي فراغ portSAVE_CONTEXT( فراغ );
+خارجي فراغ portRESTORE_CONTEXT( فراغ );
 #define portYIELD()                                       __asm( "trap 0" )
 #define portNOP()                                         __asm( "NOP" )
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } while( 0 )
+خارجي فراغ vTaskSwitchContext( فراغ );
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    افعل { إذا( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } طالما( 0 )
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
+#define port_دۆۋە_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 
 /* *INDENT-OFF* */

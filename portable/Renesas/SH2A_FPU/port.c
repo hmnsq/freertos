@@ -31,11 +31,11 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ضمن "string.h"
 
 /*-----------------------------------------------------------*/
 
@@ -50,7 +50,7 @@
 #define portFLOP_REGISTERS_TO_STORE    ( 18 )
 #define portFLOP_STORAGE_SIZE          ( portFLOP_REGISTERS_TO_STORE * 4 )
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+#إذا ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
     #error configSUPPORT_DYNAMIC_ALLOCATION must be 1 to use this port.
 #endif
 
@@ -59,130 +59,130 @@
 /*
  * The TRAPA handler used to force a context switch.
  */
-void vPortYield( void );
+فراغ vPortYield( فراغ );
 
 /*
  * Function to start the first task executing - defined in portasm.src.
  */
-extern void vPortStartFirstTask( void );
+خارجي فراغ vPortStartFirstTask( فراغ );
 
 /*
  * Obtains the current GBR value - defined in portasm.src.
  */
-extern uint32_t ulPortGetGBR( void );
+خارجي uint32_t ulPortGetGBR( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+دۆۋە_Type_t * px_Port_Initialise_دۆۋە( دۆۋە_Type_t * px_چوققا_Of_دۆۋە,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* Mark the end of the stack - used for debugging only and can be removed. */
-    *pxTopOfStack = 0x11111111UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333UL;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 0x11111111UL;
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = 0x22222222UL;
+    px_چوققا_Of_دۆۋە--;
+    *px_چوققا_Of_دۆۋە = 0x33333333UL;
+    px_چوققا_Of_دۆۋە--;
 
     /* SR. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = portINITIAL_SR;
+    px_چوققا_Of_دۆۋە--;
 
     /* PC. */
-    *pxTopOfStack = ( uint32_t ) pxCode;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( uint32_t ) pxCode;
+    px_چوققا_Of_دۆۋە--;
 
     /* PR. */
-    *pxTopOfStack = 15;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 15;
+    px_چوققا_Of_دۆۋە--;
 
     /* 14. */
-    *pxTopOfStack = 14;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 14;
+    px_چوققا_Of_دۆۋە--;
 
     /* R13. */
-    *pxTopOfStack = 13;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 13;
+    px_چوققا_Of_دۆۋە--;
 
     /* R12. */
-    *pxTopOfStack = 12;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 12;
+    px_چوققا_Of_دۆۋە--;
 
     /* R11. */
-    *pxTopOfStack = 11;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 11;
+    px_چوققا_Of_دۆۋە--;
 
     /* R10. */
-    *pxTopOfStack = 10;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 10;
+    px_چوققا_Of_دۆۋە--;
 
     /* R9. */
-    *pxTopOfStack = 9;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 9;
+    px_چوققا_Of_دۆۋە--;
 
     /* R8. */
-    *pxTopOfStack = 8;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 8;
+    px_چوققا_Of_دۆۋە--;
 
     /* R7. */
-    *pxTopOfStack = 7;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 7;
+    px_چوققا_Of_دۆۋە--;
 
     /* R6. */
-    *pxTopOfStack = 6;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 6;
+    px_چوققا_Of_دۆۋە--;
 
     /* R5. */
-    *pxTopOfStack = 5;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 5;
+    px_چوققا_Of_دۆۋە--;
 
     /* R4. */
-    *pxTopOfStack = ( uint32_t ) pvParameters;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = ( uint32_t ) pvParameters;
+    px_چوققا_Of_دۆۋە--;
 
     /* R3. */
-    *pxTopOfStack = 3;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 3;
+    px_چوققا_Of_دۆۋە--;
 
     /* R2. */
-    *pxTopOfStack = 2;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 2;
+    px_چوققا_Of_دۆۋە--;
 
     /* R1. */
-    *pxTopOfStack = 1;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 1;
+    px_چوققا_Of_دۆۋە--;
 
     /* R0 */
-    *pxTopOfStack = 0;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 0;
+    px_چوققا_Of_دۆۋە--;
 
     /* MACL. */
-    *pxTopOfStack = 16;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 16;
+    px_چوققا_Of_دۆۋە--;
 
     /* MACH. */
-    *pxTopOfStack = 17;
-    pxTopOfStack--;
+    *px_چوققا_Of_دۆۋە = 17;
+    px_چوققا_Of_دۆۋە--;
 
     /* GBR. */
-    *pxTopOfStack = ulPortGetGBR();
+    *px_چوققا_Of_دۆۋە = ulPortGetGBR();
 
     /* GBR = global base register.
     * VBR = vector base register.
     * TBR = jump table base register.
     * R15 is the stack pointer. */
 
-    return pxTopOfStack;
+    أرجع px_چوققا_Of_دۆۋە;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    خارجي فراغ vApplicationSetupTimerInterrupt( فراغ );
 
     /* Call an application function to set up the timer that will generate the
      * tick interrupt.  This way the application can decide which peripheral to
@@ -197,17 +197,17 @@ BaseType_t xPortStartScheduler( void )
     trapa( portSTART_SCHEDULER_TRAP_NO );
 
     /* Should not get here. */
-    return pdFAIL;
+    أرجع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+فراغ vPortYield( فراغ )
 {
     int32_t lInterruptMask;
 
@@ -224,7 +224,7 @@ void vPortYield( void )
 
     /* Restore the interrupt mask to whatever it was previously (when the
      * function was entered). */
-    set_imask( ( int ) lInterruptMask );
+    set_imask( ( صحيح ) lInterruptMask );
 }
 /*-----------------------------------------------------------*/
 
@@ -232,7 +232,7 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 {
     uint32_t * pulFlopBuffer;
     BaseType_t xReturn;
-    extern void * volatile pxCurrentTCB;
+    خارجي فراغ * متطاير pxCurrentTCB;
 
     /* This function tells the kernel that the task referenced by xTask is
      * going to use the floating point registers and therefore requires the
@@ -240,7 +240,7 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 
     /* Passing NULL as xTask is used to indicate that the calling task is the
      * subject task - so pxCurrentTCB is the task handle. */
-    if( xTask == NULL )
+    إذا( xTask == عدم )
     {
         xTask = ( TaskHandle_t ) pxCurrentTCB;
     }
@@ -248,10 +248,10 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
     /* Allocate a buffer large enough to hold all the flop registers. */
     pulFlopBuffer = ( uint32_t * ) pvPortMalloc( portFLOP_STORAGE_SIZE );
 
-    if( pulFlopBuffer != NULL )
+    إذا( pulFlopBuffer != عدم )
     {
         /* Start with the registers in a benign state. */
-        memset( ( void * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
+        memset( ( فراغ * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
 
         /* The first thing to get saved in the buffer is the FPSCR value -
          * initialise this to the current FPSCR value. */
@@ -259,14 +259,14 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 
         /* Use the task tag to point to the flop buffer.  Pass pointer to just
          * above the buffer because the flop save routine uses a pre-decrement. */
-        vTaskSetApplicationTaskTag( xTask, ( void * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
+        vTaskSetApplicationTaskTag( xTask, ( فراغ * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
         xReturn = pdPASS;
     }
-    else
+    وإلا
     {
         xReturn = pdFAIL;
     }
 
-    return xReturn;
+    أرجع xReturn;
 }
 /*-----------------------------------------------------------*/

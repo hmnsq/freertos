@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -304,7 +304,7 @@ FreeRTOS_IRQ_Handler:
     ADD     X6, X1, #1
     STR     X6, [X5]    /* Address of nesting count variable in X5. */
 
-    /* Maintain the interrupt nesting information across the function call. */
+    /* Maintain the interrupt nesting information across the function نادي. */
     STP     X1, X5, [SP, #-0x10]!
 
     /* Read value from the interrupt acknowledge register, which is stored in W0
@@ -313,7 +313,7 @@ FreeRTOS_IRQ_Handler:
     LDR     X3, [X2]
     LDR     W0, [X3]    /* ICCIAR in W0 as parameter. */
 
-    /* Maintain the ICCIAR value across the function call. */
+    /* Maintain the ICCIAR value across the function نادي. */
     STP     X0, X1, [SP, #-0x10]!
 
     /* Call the C handler. */
