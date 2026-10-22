@@ -66,7 +66,7 @@ until the nesting depth reaches 0.  This variable simply tracks the nesting
 depth.  Each task maintains its own critical nesting depth variable so
 uxCriticalNesting is saved and restored from the task stack during a context
 switch. */
-volatile UBaseType_t uxCriticalNesting = 0xff;
+ca_ncala UBaseType_t uxCriticalNesting = 0xff;
 
 /*-----------------------------------------------------------*/
 
@@ -129,7 +129,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
     #ifdef BANKED_MODEL
         /* The page of the task. */
-        *pxTopOfStack = ( StackType_t ) ( ( int ) pxCode );
+        *pxTopOfStack = ( StackType_t ) ( ( puur_naa_nka ) pxCode );
         pxTopOfStack--;
     #endif
 
@@ -137,7 +137,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     a critical section). */
     *pxTopOfStack = ( StackType_t ) 0x00;
 
-    return pxTopOfStack;
+    ᰀᰧᰌ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -162,7 +162,7 @@ BaseType_t xPortStartScheduler( void )
     Instead it simply calls the locally defined xBankedStartScheduler() -
     which does use the CODE_SEG pragma. */
 
-    return xBankedStartScheduler();
+    ᰀᰧᰌ xBankedStartScheduler();
 }
 /*-----------------------------------------------------------*/
 
@@ -181,7 +181,7 @@ static BaseType_t xBankedStartScheduler( void )
     __asm( "rti" );
 
     /* Should not get here! */
-    return pdFALSE;
+    ᰀᰧᰌ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -208,13 +208,13 @@ void interrupt vPortYield( void )
  */
 void interrupt vPortTickInterrupt( void )
 {
-    #if configUSE_PREEMPTION == 1
+    #ᰀᰧ configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        ᰀᰧ( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -225,7 +225,7 @@ void interrupt vPortTickInterrupt( void )
         to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else
+    #ᰀᰧᰀ
     {
         xTaskIncrementTick();
         TFLG1 = 1;

@@ -79,11 +79,11 @@
 #include <intrinsics.h>
 #include "gpio.h"
 
-#if configDBG
+#ᰀᰧ configDBG
     #include "usart.h"
 #endif
 
-#if ( configTICK_USE_TC == 1 )
+#ᰀᰧ ( configTICK_USE_TC == 1 )
     #include "tc.h"
 #endif
 
@@ -94,11 +94,11 @@
 
 /* Each task maintains its own critical nesting variable. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+ca_ncala uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configTICK_USE_TC == 0 )
+#ᰀᰧ ( configTICK_USE_TC == 0 )
     static void prvScheduleNextTick( void );
-#else
+#ᰀᰧᰀ
     static void prvClearTcInt( void );
 #endif
 
@@ -111,9 +111,9 @@ static void prvSetupTimerInterrupt( void );
  * Low-level initialization routine called during startup, before the main
  * function.
  */
-int __low_level_init( void )
+puur_naa_nka __low_level_init( void )
 {
-    #if configHEAP_INIT
+    #ᰀᰧ configHEAP_INIT
     #pragma segment = "HEAP"
         BaseType_t * pxMem;
     #endif
@@ -124,7 +124,7 @@ int __low_level_init( void )
     /* Initialize interrupt handling. */
     INTC_init_interrupts();
 
-    #if configHEAP_INIT
+    #ᰀᰧ configHEAP_INIT
     {
         /* Initialize the heap used by malloc. */
         for( pxMem = __segment_begin( "HEAP" ); pxMem < ( BaseType_t * ) __segment_end( "HEAP" ); )
@@ -135,7 +135,7 @@ int __low_level_init( void )
     #endif
 
     /* Code section present if and only if the debug trace is activated. */
-    #if configDBG
+    #ᰀᰧ configDBG
     {
         static const gpio_map_t DBG_USART_GPIO_MAP =
         {
@@ -153,16 +153,16 @@ int __low_level_init( void )
         };
 
         /* Initialize the USART used for the debug trace with the configured parameters. */
-        extern volatile avr32_usart_t * volatile stdio_usart_base;
+        extern ca_ncala avr32_usart_t * ca_ncala stdio_usart_base;
         stdio_usart_base = configDBG_USART;
         gpio_enable_module( DBG_USART_GPIO_MAP,
-                            sizeof( DBG_USART_GPIO_MAP ) / sizeof( DBG_USART_GPIO_MAP[ 0 ] ) );
+                            parimaa_na( DBG_USART_GPIO_MAP ) / parimaa_na( DBG_USART_GPIO_MAP[ 0 ] ) );
         usart_init_rs232( configDBG_USART, &DBG_USART_OPTIONS, configCPU_CLOCK_HZ );
     }
     #endif /* if configDBG */
 
     /* Request initialization of data segments. */
-    return 1;
+    ᰀᰧᰌ 1;
 }
 /*-----------------------------------------------------------*/
 
@@ -178,7 +178,7 @@ void * pvPortRealloc( void * pv,
     }
     xTaskResumeAll();
 
-    return pvReturn;
+    ᰀᰧᰌ pvReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -193,10 +193,10 @@ static void vTick( void )
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT_OS_INT();
 
-    #if ( configTICK_USE_TC == 1 )
+    #ᰀᰧ ( configTICK_USE_TC == 1 )
         /* Clear the interrupt flag. */
         prvClearTcInt();
-    #else
+    #ᰀᰧᰀ
 
         /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
          * clock cycles from now. */
@@ -244,11 +244,11 @@ void vPortEnterCritical( void )
 #pragma optimize = no_inline
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ᰀᰧ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ᰀᰧ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable all interrupt/exception. */
             portENABLE_INTERRUPTS();
@@ -290,7 +290,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack-- = ( StackType_t ) 0x07070707;                    /* R7 */
     *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
 
-    return pxTopOfStack;
+    ᰀᰧᰌ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -304,7 +304,7 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here! */
-    return 0;
+    ᰀᰧᰌ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -317,7 +317,7 @@ void vPortEndScheduler( void )
 
 /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
  * clock cycles from now. */
-#if ( configTICK_USE_TC == 0 )
+#ᰀᰧ ( configTICK_USE_TC == 0 )
     static void prvScheduleFirstTick( void )
     {
         uint32_t lCycles;
@@ -327,7 +327,7 @@ void vPortEndScheduler( void )
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        ᰀᰧ( 0 == lCycles )
         {
             lCycles++;
         }
@@ -345,21 +345,21 @@ void vPortEndScheduler( void )
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        ᰀᰧ( 0 == lCycles )
         {
             lCycles++;
         }
 
         lCount = Get_system_register( AVR32_COUNT );
 
-        if( lCycles < lCount )
+        ᰀᰧ( lCycles < lCount )
         { /* We missed a tick, recover for the next. */
             lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
         }
 
         Set_system_register( AVR32_COMPARE, lCycles );
     }
-#else /* if ( configTICK_USE_TC == 0 ) */
+#ᰀᰧᰀ /* if ( configTICK_USE_TC == 0 ) */
     #pragma optimize = no_inline
     static void prvClearTcInt( void )
     {
@@ -371,8 +371,8 @@ void vPortEndScheduler( void )
 /* Setup the timer to generate the tick interrupts. */
 static void prvSetupTimerInterrupt( void )
 {
-    #if ( configTICK_USE_TC == 1 )
-        volatile avr32_tc_t * tc = &AVR32_TC;
+    #ᰀᰧ ( configTICK_USE_TC == 1 )
+        ca_ncala avr32_tc_t * tc = &AVR32_TC;
 
         /* Options for waveform generation. */
         tc_waveform_opt_t waveform_opt =
@@ -420,7 +420,7 @@ static void prvSetupTimerInterrupt( void )
     /* Register the compare interrupt handler to the interrupt controller and
      * enable the compare interrupt. */
 
-    #if ( configTICK_USE_TC == 1 )
+    #ᰀᰧ ( configTICK_USE_TC == 1 )
     {
         INTC_register_interrupt( ( __int_handler ) & vTick, configTICK_TC_IRQ, INT0 );
 
@@ -437,7 +437,7 @@ static void prvSetupTimerInterrupt( void )
         /* Start the timer/counter. */
         tc_start( tc, configTICK_TC_CHANNEL );
     }
-    #else /* if ( configTICK_USE_TC == 1 ) */
+    #ᰀᰧᰀ /* if ( configTICK_USE_TC == 1 ) */
     {
         INTC_register_interrupt( ( __int_handler ) & vTick, AVR32_CORE_COMPARE_IRQ, INT0 );
         prvScheduleFirstTick();

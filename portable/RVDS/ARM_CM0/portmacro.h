@@ -47,9 +47,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -59,7 +59,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᰀᰧ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -69,7 +69,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ᰀᰧᰀ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -83,22 +83,22 @@ typedef unsigned long    UBaseType_t;
 
 /* Scheduler utilities. */
 extern void vPortYield( void );
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( ca_ncala uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portYIELD()                vPortYield()
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
     do                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        ᰀᰧ( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        ᰀᰧᰀ                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } ᰀᰬ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -151,16 +151,16 @@ static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
 /* *INDENT-ON* */
     }
 
-    if( ulCurrentInterrupt == 0 )
+    ᰀᰧ( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    ᰀᰧᰀ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    ᰀᰧᰌ xReturn;
 }
 
 /*-----------------------------------------------------------*/

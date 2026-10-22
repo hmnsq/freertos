@@ -134,7 +134,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* The status register is set for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    ᰀᰧ( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -147,7 +147,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ᰀᰧᰌ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -163,7 +163,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᰀᰧᰌ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -194,7 +194,7 @@ __arm __irq void vPortNonPreemptiveTick( void )
 void vPortPreemptiveTick( void )
 {
     /* Increment the tick counter. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ᰀᰧ( xTaskIncrementTick() != pdFALSE )
     {
         /* Select a new task to execute. */
         vTaskSwitchContext();
@@ -239,14 +239,14 @@ __arm __interwork void vPortEnterCritical( void )
 
 __arm __interwork void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ᰀᰧ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ᰀᰧ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

@@ -136,7 +136,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ᰀᰧᰌ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -152,7 +152,7 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᰀᰧᰌ 0;
 }
 /*-----------------------------------------------------------*/
 

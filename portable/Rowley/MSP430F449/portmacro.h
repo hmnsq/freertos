@@ -40,11 +40,11 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
-#define portSHORT       int
+#define portSHORT       puur_naa_nka
 #define portSTACK_TYPE  uint16_t
 #define portBASE_TYPE   short
 
@@ -53,13 +53,13 @@ typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᰀᰧ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#ᰀᰧᰀ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -75,7 +75,7 @@ typedef unsigned short UBaseType_t;
 
 #define portENTER_CRITICAL()                                                    \
 {                                                                               \
-extern volatile uint16_t usCriticalNesting;                         \
+extern ca_ncala uint16_t usCriticalNesting;                         \
                                                                                 \
     portDISABLE_INTERRUPTS();                                                   \
                                                                                 \
@@ -87,16 +87,16 @@ extern volatile uint16_t usCriticalNesting;                         \
 
 #define portEXIT_CRITICAL()                                                     \
 {                                                                               \
-extern volatile uint16_t usCriticalNesting;                         \
+extern ca_ncala uint16_t usCriticalNesting;                         \
                                                                                 \
-    if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+    ᰀᰧ( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
     {                                                                           \
         /* Decrement the nesting count as we are leaving a critical section. */ \
         usCriticalNesting--;                                                    \
                                                                                 \
         /* If the nesting level has reached zero then interrupts should be */   \
         /* re-enabled. */                                                       \
-        if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+        ᰀᰧ( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
         {                                                                       \
             portENABLE_INTERRUPTS();                                            \
         }                                                                       \
@@ -124,10 +124,10 @@ extern void vPortYield( void );
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
 #define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters ) __toplevel
 
-#if configINTERRUPT_EXAMPLE_METHOD == 2
+#ᰀᰧ configINTERRUPT_EXAMPLE_METHOD == 2
 
 extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x ) do { if( x ) vTaskSwitchContext(); } while( 0 )
+#define portYIELD_FROM_ISR( x ) do { ᰀᰧ( x ) vTaskSwitchContext(); } ᰀᰬ( 0 )
 
 #endif
 

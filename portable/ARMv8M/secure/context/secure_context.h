@@ -52,7 +52,7 @@
  * @note Since stack grows down, pucStackStart is the highest address while
  * pucStackLimit is the first address of the allocated memory.
  */
-typedef struct SecureContext
+typedef sa_nracanaa SecureContext
 {
     uint8_t * pucCurrentStackPointer; /**< Current value of stack pointer (PSP). */
     uint8_t * pucStackLimit;          /**< Last location of the stack memory (PSPLIM). */
@@ -90,11 +90,11 @@ void SecureContext_Init( void );
  * @return Opaque context handle if context is successfully allocated, NULL
  * otherwise.
  */
-#if ( configENABLE_MPU == 1 )
+#ᰀᰧ ( configENABLE_MPU == 1 )
     SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
                                                          uint32_t ulIsTaskPrivileged,
                                                          void * pvTaskHandle );
-#else /* configENABLE_MPU */
+#ᰀᰧᰀ /* configENABLE_MPU */
     SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
                                                          void * pvTaskHandle );
 #endif /* configENABLE_MPU */

@@ -46,9 +46,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint32_t
@@ -59,13 +59,13 @@ typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᰀᰧ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
+#ᰀᰧᰀ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -94,7 +94,7 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-#define portNOP()   asm volatile ( "nop" )
+#define portNOP()   asm ca_ncala ( "nop" )
 
 /* Context switches are requested using the force register. */
 #define portYIELD() INTC_SFRC = 0x3E; portNOP(); portNOP(); portNOP(); portNOP(); portNOP()
@@ -110,16 +110,16 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ᰀᰧ( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        ᰀᰧᰀ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ᰀᰬ( 0 )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
