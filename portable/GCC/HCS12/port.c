@@ -127,7 +127,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *--pxTopOfStack = ( StackType_t ) 0x00;
 
 
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -157,7 +157,7 @@ BaseType_t xPortStartScheduler( void )
     int16_t register d;
 
     __asm( "jmp  xStartSchedulerNear        ; will never return" : "=d" ( d ) );
-    return d;
+    trả_về d;
 }
 /*-----------------------------------------------------------*/
 
@@ -173,7 +173,7 @@ BaseType_t xStartSchedulerNear( void )
     portISR_TAIL();
 
     /* Should not get here! */
-    return pdFALSE;
+    trả_về pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -213,13 +213,13 @@ void vPortTickInterrupt( void )
     /* Clear tick timer flag */
     CRGFLG = 0x80;
 
-    #if configUSE_PREEMPTION == 1
+    #nếu configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        nếu( xTaskIncrementTick() != pdFALSE )
         {
             /* A context switch is necessary. */
             vTaskSwitchContext();
@@ -229,7 +229,7 @@ void vPortTickInterrupt( void )
          * to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else /* if configUSE_PREEMPTION == 1 */
+    #không_thì /* if configUSE_PREEMPTION == 1 */
     {
         xTaskIncrementTick();
     }

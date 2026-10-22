@@ -59,7 +59,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#nếu ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -72,7 +72,7 @@ typedef unsigned long    UBaseType_t;
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
     typedef uint64_t TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
-#else /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
+#không_thì /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
 /*-----------------------------------------------------------*/
@@ -101,16 +101,16 @@ typedef unsigned long    UBaseType_t;
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        nếu( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        không_thì                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } trong_khi( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -145,7 +145,7 @@ extern void vPortExitCritical( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#nếu configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
     __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
@@ -154,11 +154,11 @@ extern void vPortExitCritical( void );
 
         __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ucReturn;
+        trả_về ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #nếu ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -174,7 +174,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#nếu ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
@@ -196,16 +196,16 @@ portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
     /* Obtain the number of the currently executing interrupt. */
     __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    nếu( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    không_thì
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    trả_về xReturn;
 }
 
 /*-----------------------------------------------------------*/
@@ -242,7 +242,7 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
 
     /* This return will not be reached but is necessary to prevent compiler
      * warnings. */
-    return ulOriginalBASEPRI;
+    trả_về ulOriginalBASEPRI;
 }
 /*-----------------------------------------------------------*/
 

@@ -47,18 +47,18 @@ extern "C" {
 
 typedef portSTACK_TYPE           StackType_t;
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#nếu defined( __x86_64__ ) || defined( _M_X64 )
     #define portBASE_TYPE    long long
     typedef long long            BaseType_t;
     typedef unsigned long long   UBaseType_t;
-#else
+#không_thì
     #define portBASE_TYPE    long
     typedef long                 BaseType_t;
     typedef unsigned long        UBaseType_t;
 #endif
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#nếu ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -72,12 +72,12 @@ typedef portSTACK_TYPE           StackType_t;
     typedef uint64_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#nếu defined( __x86_64__ ) || defined( _M_X64 )
 /* 64-bit tick type on a 64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
 #endif
-#else
+#không_thì
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -86,9 +86,9 @@ typedef portSTACK_TYPE           StackType_t;
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portINLINE                __inline
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#nếu defined( __x86_64__ ) || defined( _M_X64 )
     #define portBYTE_ALIGNMENT    8
-#else
+#không_thì
     #define portBYTE_ALIGNMENT    4
 #endif
 
@@ -96,12 +96,12 @@ typedef portSTACK_TYPE           StackType_t;
 
 
 extern volatile BaseType_t xInsideInterrupt;
-#define portSOFTWARE_BARRIER()    while( xInsideInterrupt != pdFALSE )
+#define portSOFTWARE_BARRIER()    trong_khi( xInsideInterrupt != pdFALSE )
 
 
 /* Simulated interrupts return pdFALSE if no context switch should be performed,
  * or a non-zero number if a context switch should be performed. */
-#define portYIELD_FROM_ISR( x )       return x
+#define portYIELD_FROM_ISR( x )       trả_về x
 #define portEND_SWITCHING_ISR( x )    portYIELD_FROM_ISR( ( x ) )
 
 void vPortCloseRunningThread( void * pvTaskToDelete,
@@ -125,10 +125,10 @@ void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#nếu configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #nếu ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -144,12 +144,12 @@ void vPortExitCritical( void );
                          : "rm" ( uxReadyPriorities )                           \
                          : "cc" )
 
-    #else /* __GNUC__ */
+    #không_thì /* __GNUC__ */
         #include <intrin.h>
 
         /* BitScanReverse returns the bit position of the most significant '1'
          * in the word. */
-        #if defined( __x86_64__ ) || defined( _M_X64 )
+        #nếu defined( __x86_64__ ) || defined( _M_X64 )
             #pragma intrinsic(_BitScanReverse64)
 
             #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
@@ -158,9 +158,9 @@ void vPortExitCritical( void );
                 unsigned long ulTopPriority;                                        \
                 _BitScanReverse64( &ulTopPriority, ( uxReadyPriorities ) );         \
                 uxTopPriority = ulTopPriority;                                      \
-            } while( 0 )
+            } trong_khi( 0 )
 
-        #else /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+        #không_thì /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
             #pragma intrinsic(_BitScanReverse)
 
             #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( uxTopPriority ), ( uxReadyPriorities ) )

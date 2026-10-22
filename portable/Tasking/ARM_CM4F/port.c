@@ -61,7 +61,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#không_thì
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -135,7 +135,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     pxTopOfStack -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -150,7 +150,7 @@ static void prvTaskExitError( void )
     configASSERT( ulCriticalNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    cho( ; ; )
     {
     }
 }
@@ -186,7 +186,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    trả_về 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -222,7 +222,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    nếu( ulCriticalNesting == 1 )
     {
         configASSERT( ( ( *( portNVIC_INT_CTRL ) ) & portVECTACTIVE_MASK ) == 0 );
     }
@@ -234,7 +234,7 @@ void vPortExitCritical( void )
     configASSERT( ulCriticalNesting );
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    nếu( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
@@ -248,13 +248,13 @@ void SysTick_Handler( void )
     ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
     traceISR_ENTER();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        nếu( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
             /* Pend a context switch. */
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
         }
-        else
+        không_thì
         {
             traceISR_EXIT();
         }

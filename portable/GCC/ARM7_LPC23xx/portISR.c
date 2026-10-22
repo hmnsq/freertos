@@ -97,7 +97,7 @@ void vPortYieldProcessor( void )
  */
 
 
-#if configUSE_PREEMPTION == 0
+#nếu configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
@@ -109,7 +109,7 @@ void vPortYieldProcessor( void )
         VICVectAddr = portCLEAR_VIC_INTERRUPT;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#không_thì /* if configUSE_PREEMPTION == 0 */
 
 /* The preemptive scheduler is defined as "naked" as the full context is
  * saved on entry as part of the context switch. */
@@ -198,14 +198,14 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    nếu( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        nếu( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
             __asm volatile (

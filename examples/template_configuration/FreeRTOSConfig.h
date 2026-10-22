@@ -418,10 +418,10 @@
 
 /* *INDENT-OFF* */
 #define configASSERT( x )         \
-    if( ( x ) == 0 )              \
+    nếu( ( x ) == 0 )              \
     {                             \
         taskDISABLE_INTERRUPTS(); \
-        for( ; ; )                \
+        cho( ; ; )                \
         ;                         \
     }
 /* *INDENT-ON* */

@@ -40,16 +40,16 @@
 #include <stdlib.h>
 
     static  long         brk_siz  =  0;
-    typedef int          _heep_t;
+    typedef số_nguyên          _heep_t;
     #define ROUNDUP(s)   (((s)+sizeof(_heep_t)-1)&~(sizeof(_heep_t)-1))
     static  _heep_t      _heep[ROUNDUP(configTOTAL_HEAP_SIZE)/sizeof(_heep_t)];
     #define              _heep_size      ROUNDUP(configTOTAL_HEAP_SIZE)
 
-    extern  char  *sbrk(int  size)
+    extern  char  *sbrk(số_nguyên  size)
     {
-       if  (brk_siz  +  size  >  _heep_size  ||  brk_siz  +  size  <  0)
+       nếu  (brk_siz  +  size  >  _heep_size  ||  brk_siz  +  size  <  0)
 
-          return((char*)-1);
+          trả_về((char*)-1);
        brk_siz  +=  size;
-       return(  (char*)_heep  +  brk_siz  -  size);
+       trả_về(  (char*)_heep  +  brk_siz  -  size);
     }

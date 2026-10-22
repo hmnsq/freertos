@@ -86,7 +86,7 @@
     {                                                \
         extern uint32_t ulPortYieldRequired;         \
                                                      \
-        if( xSwitchRequired != pdFALSE )             \
+        nếu( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldRequired = pdTRUE;            \
         }                                            \
@@ -139,7 +139,7 @@
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
     #endif
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #nếu configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
         #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -151,7 +151,7 @@
 
     #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #if ( configASSERT_DEFINED == 1 )
+    #nếu ( configASSERT_DEFINED == 1 )
         void vPortValidateInterruptPriority( void );
         #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
     #endif /* configASSERT */
@@ -169,7 +169,7 @@
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
+#nếu configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
     #define portMAX_BINARY_POINT_VALUE    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
@@ -184,7 +184,7 @@
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
     #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#không_thì /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
     #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 

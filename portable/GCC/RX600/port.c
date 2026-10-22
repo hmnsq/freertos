@@ -38,11 +38,11 @@
 #include "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#nếu ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     #include "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#không_thì /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     #include "iodefine.h"
 
@@ -77,12 +77,12 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#nếu ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
     R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#không_thì /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
 
@@ -92,12 +92,12 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#nếu ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
     R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#không_thì /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     void vTickISR( void ) __attribute__( ( interrupt ) );
 
@@ -159,7 +159,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #không_thì /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         pxTopOfStack -= 15;
     }
@@ -173,7 +173,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x87654321; /* Accumulator. */
 
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -182,7 +182,7 @@ BaseType_t xPortStartScheduler( void )
     extern void vApplicationSetupTimerInterrupt( void );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    nếu( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -203,7 +203,7 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    trả_về pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -357,7 +357,7 @@ void vTickISR( void )
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portDISABLE_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        nếu( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -376,7 +376,7 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    trả_về 0;
 }
 /*-----------------------------------------------------------*/
 

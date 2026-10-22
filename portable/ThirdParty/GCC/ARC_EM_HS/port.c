@@ -40,8 +40,8 @@
 
 #include "arc_freertos_exceptions.h"
 
-volatile unsigned int ulCriticalNesting = 999UL;
-volatile unsigned int context_switch_reqflg; /* task context switch request flag in exceptions and interrupts handling */
+volatile unsigned số_nguyên ulCriticalNesting = 999UL;
+volatile unsigned số_nguyên context_switch_reqflg; /* task context switch request flag in exceptions and interrupts handling */
 
 /**
  * \var exc_nest_count
@@ -62,7 +62,7 @@ static void vKernelTick( void * ptr )
     arc_timer_int_clear( BOARD_OS_TIMER_ID );
     board_timer_update( configTICK_RATE_HZ );
 
-    if( xTaskIncrementTick() )
+    nếu( xTaskIncrementTick() )
     {
         portYIELD_FROM_ISR(); /* need to make task switch */
     }
@@ -76,7 +76,7 @@ static void vKernelTick( void * ptr )
 /* ----------------------------------------------------------------------------*/
 static void prvSetupTimerInterrupt( void )
 {
-    unsigned int cyc = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+    unsigned số_nguyên cyc = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
 
     int_disable( BOARD_OS_TIMER_INTNO ); /* disable os timer interrupt */
     arc_timer_stop( BOARD_OS_TIMER_ID );
@@ -120,7 +120,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 
 /* --------------------------------------------------------------------------*/
@@ -138,7 +138,7 @@ BaseType_t xPortStartScheduler( void )
     start_dispatch();
 
     /* Should not get here! */
-    return 0;
+    trả_về 0;
 }
 
 /* --------------------------------------------------------------------------*/
@@ -159,7 +159,7 @@ void vPortEndScheduler( void )
 /* ----------------------------------------------------------------------------*/
 void vPortYieldFromIsr( void )
 {
-    unsigned int status32;
+    unsigned số_nguyên status32;
 
     status32 = cpu_lock_save();
     context_switch_reqflg = true;
@@ -174,7 +174,7 @@ void vPortYieldFromIsr( void )
 /* ----------------------------------------------------------------------------*/
 void vPortYield( void )
 {
-    unsigned int status32;
+    unsigned số_nguyên status32;
 
     status32 = cpu_lock_save();
     dispatch();
@@ -189,17 +189,17 @@ void vPortYield( void )
 /* ----------------------------------------------------------------------------*/
 void vPortEndTask( void )
 {
-    #if ( INCLUDE_vTaskDelete == 1 )
+    #nếu ( INCLUDE_vTaskDelete == 1 )
         vTaskDelete( NULL ); /* Delete task itself */
     #endif
 
-    while( 1 ) /* Yield to other task */
+    trong_khi( 1 ) /* Yield to other task */
     {
         vPortYield();
     }
 }
 
-#if ARC_FEATURE_STACK_CHECK
+#nếu ARC_FEATURE_STACK_CHECK
 
 /*
  * !!! Note !!!
@@ -211,7 +211,7 @@ void vPortEndTask( void )
     {
         volatile StackType_t * pxTopOfStack; /*< Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */
 
-        #if ( portUSING_MPU_WRAPPERS == 1 )
+        #nếu ( portUSING_MPU_WRAPPERS == 1 )
             xMPU_SETTINGS xMPUSettings; /*< The MPU settings are defined as part of the port layer.  THIS MUST BE THE SECOND MEMBER OF THE TCB STRUCT. */
         #endif
 
@@ -221,57 +221,57 @@ void vPortEndTask( void )
         StackType_t * pxStack;                      /*< Points to the start of the stack. */
         char pcTaskName[ configMAX_TASK_NAME_LEN ]; /*< Descriptive name given to the task when created.  Facilitates debugging only. */ /*lint !e971 Unqualified char types are allowed for strings and single characters only. */
 
-        #if ( ( portSTACK_GROWTH > 0 ) || ( configRECORD_STACK_HIGH_ADDRESS == 1 ) )
+        #nếu ( ( portSTACK_GROWTH > 0 ) || ( configRECORD_STACK_HIGH_ADDRESS == 1 ) )
             StackType_t * pxEndOfStack; /*< Points to the highest valid address for the stack. */
         #endif
 
-        #if ( portCRITICAL_NESTING_IN_TCB == 1 )
+        #nếu ( portCRITICAL_NESTING_IN_TCB == 1 )
             UBaseType_t uxCriticalNesting; /*< Holds the critical section nesting depth for ports that do not maintain their own count in the port layer. */
         #endif
 
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #nếu ( configUSE_TRACE_FACILITY == 1 )
             UBaseType_t uxTCBNumber;  /*< Stores a number that increments each time a TCB is created.  It allows debuggers to determine when a task has been deleted and then recreated. */
             UBaseType_t uxTaskNumber; /*< Stores a number specifically for use by third party trace code. */
         #endif
 
-        #if ( configUSE_MUTEXES == 1 )
+        #nếu ( configUSE_MUTEXES == 1 )
             UBaseType_t uxBasePriority; /*< The priority last assigned to the task - used by the priority inheritance mechanism. */
             UBaseType_t uxMutexesHeld;
         #endif
 
-        #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+        #nếu ( configUSE_APPLICATION_TASK_TAG == 1 )
             TaskHookFunction_t pxTaskTag;
         #endif
 
-        #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS > 0 )
+        #nếu ( configNUM_THREAD_LOCAL_STORAGE_POINTERS > 0 )
             void * pvThreadLocalStoragePointers[ configNUM_THREAD_LOCAL_STORAGE_POINTERS ];
         #endif
 
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
+        #nếu ( configGENERATE_RUN_TIME_STATS == 1 )
             uint32_t ulRunTimeCounter; /*< Stores the amount of time the task has spent in the Running state. */
         #endif
 
-        #if ( configUSE_C_RUNTIME_TLS_SUPPORT == 1 )
+        #nếu ( configUSE_C_RUNTIME_TLS_SUPPORT == 1 )
             configTLS_BLOCK_TYPE xTLSBlock; /*< Memory block used as Thread Local Storage (TLS) Block for the task. */
         #endif
 
-        #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+        #nếu ( configUSE_TASK_NOTIFICATIONS == 1 )
             volatile uint32_t ulNotifiedValue;
             volatile uint8_t ucNotifyState;
         #endif
 
         /* See the comments above the definition of
          * tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE. */
-        #if ( tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE != 0 ) /*lint !e731 !e9029 Macro has been consolidated for readability reasons. */
+        #nếu ( tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE != 0 ) /*lint !e731 !e9029 Macro has been consolidated for readability reasons. */
             uint8_t ucStaticallyAllocated;                     /*< Set to pdTRUE if the task is a statically allocated to ensure no attempt is made to free the memory. */
         #endif
 
-        #if ( INCLUDE_xTaskAbortDelay == 1 )
+        #nếu ( INCLUDE_xTaskAbortDelay == 1 )
             uint8_t ucDelayAborted;
         #endif
 
-        #if ( configUSE_POSIX_ERRNO == 1 )
-            int iTaskErrno;
+        #nếu ( configUSE_POSIX_ERRNO == 1 )
+            số_nguyên iTaskErrno;
         #endif
     } tskTCB;
 
@@ -279,12 +279,12 @@ void vPortEndTask( void )
     void vPortSetStackCheck( TaskHandle_t old,
                              TaskHandle_t new )
     {
-        if( new != NULL )
+        nếu( new != NULL )
         {
-            #if ARC_FEATURE_SEC_PRESENT
+            #nếu ARC_FEATURE_SEC_PRESENT
                 arc_aux_write( AUX_S_KSTACK_BASE, ( uint32_t ) ( new->pxEndOfStack ) );
                 arc_aux_write( AUX_S_KSTACK_TOP, ( uint32_t ) ( new->pxStack ) );
-            #else
+            #không_thì
                 arc_aux_write( AUX_KSTACK_BASE, ( uint32_t ) ( new->pxEndOfStack ) );
                 arc_aux_write( AUX_KSTACK_TOP, ( uint32_t ) ( new->pxStack ) );
             #endif

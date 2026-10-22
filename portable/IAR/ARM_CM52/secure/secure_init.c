@@ -69,7 +69,7 @@ secureportNON_SECURE_CALLABLE void SecureInit_DePrioritizeNSExceptions( void )
 
     /* Do nothing if the processor is running in the Thread Mode. IPSR is zero
      * when the processor is running in the Thread Mode. */
-    if( ulIPSR != 0 )
+    nếu( ulIPSR != 0 )
     {
         *( secureinitSCB_AIRCR ) = ( *( secureinitSCB_AIRCR ) & ~( secureinitSCB_AIRCR_VECTKEY_MASK | secureinitSCB_AIRCR_PRIS_MASK ) ) |
                                    ( ( 0x05FAUL << secureinitSCB_AIRCR_VECTKEY_POS ) & secureinitSCB_AIRCR_VECTKEY_MASK ) |
@@ -87,7 +87,7 @@ secureportNON_SECURE_CALLABLE void SecureInit_EnableNSFPUAccess( void )
 
     /* Do nothing if the processor is running in the Thread Mode. IPSR is zero
      * when the processor is running in the Thread Mode. */
-    if( ulIPSR != 0 )
+    nếu( ulIPSR != 0 )
     {
         /* CP10 = 1 ==> Non-secure access to the Floating Point Unit is
          * permitted. CP11 should be programmed to the same value as CP10. */

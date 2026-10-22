@@ -53,13 +53,13 @@ typedef portSTACK_TYPE StackType_t;
 typedef signed char BaseType_t;
 typedef unsigned char UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#nếu( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
+#không_thì
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -100,7 +100,7 @@ typedef unsigned char UBaseType_t;
     extern volatile UBaseType_t uxCriticalNesting;  \
                                                                 \
     uxCriticalNesting--;                                        \
-    if( uxCriticalNesting == 0 )                                \
+    nếu( uxCriticalNesting == 0 )                                \
     {                                                           \
         portENABLE_INTERRUPTS();                                \
     }                                                           \
@@ -155,7 +155,7 @@ typedef unsigned char UBaseType_t;
         __asm( "ldx pxCurrentTCB" );                                \
         __asm( "sts 0, x" );                                        \
     }
-#else
+#không_thì
 
     /*
      * These macros are as per the BANKED versions above, but without saving

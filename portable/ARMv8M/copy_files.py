@@ -147,15 +147,15 @@ _NONSECURE_PORTABLE_FILE_PATHS_ = {
 
 
 def copy_files_in_dir(src_abs_path, dst_abs_path):
-    if os.path.isfile(src_abs_path):
+    nếu os.path.isfile(src_abs_path):
         print('Src: {}'.format(src_abs_path))
         print('Dst: {}\n'.format(dst_abs_path))
         shutil.copy2(src_abs_path, dst_abs_path)
-    else:
-        for src_file in os.listdir(src_abs_path):
+    không_thì:
+        cho src_file in os.listdir(src_abs_path):
             src_file_abs_path = os.path.join(src_abs_path, src_file)
-            if os.path.isfile(src_file_abs_path) and src_file != 'ReadMe.txt':
-                if not os.path.exists(dst_abs_path):
+            nếu os.path.isfile(src_file_abs_path) and src_file != 'ReadMe.txt':
+                nếu not os.path.exists(dst_abs_path):
                     os.makedirs(dst_abs_path)
                 print('Src: {}'.format(src_file_abs_path))
                 print('Dst: {}\n'.format(dst_abs_path))
@@ -163,7 +163,7 @@ def copy_files_in_dir(src_abs_path, dst_abs_path):
 
 
 def copy_common_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path):
-    for src_path in src_paths:
+    cho src_path in src_paths:
 
         src_abs_path = os.path.join(_THIS_FILE_DIRECTORY_, src_path)
         dst_abs_path = os.path.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_path)
@@ -172,7 +172,7 @@ def copy_common_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path)
 
 
 def copy_portable_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path):
-    for src_path in src_paths[compiler][arch]:
+    cho src_path in src_paths[compiler][arch]:
 
         src_abs_path = os.path.join(_THIS_FILE_DIRECTORY_, src_path)
         dst_abs_path = os.path.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_path)
@@ -182,14 +182,14 @@ def copy_portable_files_for_compiler_and_arch(compiler, arch, src_paths, dst_pat
 
 def copy_files():
     # Copy Secure Files
-    for compiler in _COMPILERS_:
-        for arch in _ARCH_S_:
+    cho compiler in _COMPILERS_:
+        cho arch in _ARCH_S_:
             copy_common_files_for_compiler_and_arch(compiler, arch, _SECURE_COMMON_FILE_PATHS_, 'secure')
             copy_portable_files_for_compiler_and_arch(compiler, arch, _SECURE_PORTABLE_FILE_PATHS_, 'secure')
 
     # Copy Non-Secure Files
-    for compiler in _COMPILERS_:
-        for arch in _ARCH_NS_:
+    cho compiler in _COMPILERS_:
+        cho arch in _ARCH_NS_:
             copy_common_files_for_compiler_and_arch(compiler, arch, _NONSECURE_COMMON_FILE_PATHS_, 'non_secure')
             copy_portable_files_for_compiler_and_arch(compiler, arch, _NONSECURE_PORTABLE_FILE_PATHS_, 'non_secure')
 
@@ -198,5 +198,5 @@ def main():
     copy_files()
 
 
-if __name__ == '__main__':
+nếu __name__ == '__main__':
     main()

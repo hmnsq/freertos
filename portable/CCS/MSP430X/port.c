@@ -92,13 +92,13 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Data types are need either 16 bits or 32 bits depending on the data
     and code model used. */
-    if( sizeof( pxCode ) == sizeof( uint16_t ) )
+    nếu( sizeof( pxCode ) == sizeof( uint16_t ) )
     {
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
         ulTemp = ( uint32_t ) pxCode;
         *pusTopOfStack = ( uint16_t ) ulTemp;
     }
-    else
+    không_thì
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
@@ -140,7 +140,7 @@ uint32_t *pulTopOfStack, ulTemp;
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x4444;
         pxTopOfStack--;
-    #else
+    #không_thì
         pxTopOfStack -= 3;
         *pxTopOfStack = ( StackType_t ) pvParameters;
         pxTopOfStack -= 9;
@@ -153,7 +153,7 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -179,10 +179,10 @@ interrupt void vTickISREntry( void )
 extern void vPortTickISR( void );
 
     __bic_SR_register_on_exit( SCG1 + SCG0 + OSCOFF + CPUOFF );
-    #if configUSE_PREEMPTION == 1
+    #nếu configUSE_PREEMPTION == 1
         extern void vPortPreemptiveTickISR( void );
         vPortPreemptiveTickISR();
-    #else
+    #không_thì
         extern void vPortCooperativeTickISR( void );
         vPortCooperativeTickISR();
     #endif

@@ -54,23 +54,23 @@
     #error configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
+#nếu configMAX_API_CALL_INTERRUPT_PRIORITY == 0
     #error configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
+#nếu configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
     #error configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_PRIORITIES as the lower the numeric priority value the higher the logical interrupt priority
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#nếu configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #nếu ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* In case security extensions are implemented. */
-#if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
+#nếu configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
     #error configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
 #endif
 
@@ -83,7 +83,7 @@
  *       When setting configUSE_TASK_FPU_SUPPORT == 1, care must be taken to
  *       ensure that the FPU registers are not used without an FPU context.
  */
-#if ( configUSE_TASK_FPU_SUPPORT == 0 )
+#nếu ( configUSE_TASK_FPU_SUPPORT == 0 )
     #ifdef __ARM_FP
         #error __ARM_FP is defined, so configUSE_TASK_FPU_SUPPORT must be set to either to 1 or 2.
     #endif /* __ARM_FP */
@@ -176,11 +176,11 @@
  */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#không_thì
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#nếu ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * The space on the stack required to hold the FPU registers.
@@ -209,7 +209,7 @@ extern void vPortRestoreTaskContext( void );
  */
 static void prvTaskExitError( void );
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#nếu ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * If the application provides an implementation of vApplicationIRQHandler(),
@@ -244,7 +244,7 @@ static void prvTaskExitError( void );
  */
 volatile uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#nếu ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
@@ -293,7 +293,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    nếu( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -341,7 +341,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    #if ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #nếu ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /*
          * The task will start without a floating point context.
@@ -371,7 +371,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     }
     #endif /* configUSE_TASK_FPU_SUPPORT */
 
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -388,13 +388,13 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    cho( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#nếu ( configUSE_TASK_FPU_SUPPORT != 0 )
 
     void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) /* __attribute__( ( weak ) ) */
     {
@@ -409,7 +409,7 @@ BaseType_t xPortStartScheduler( void )
 {
     uint32_t ulAPSR, ulCycles = 8; /* 8 bits per byte. */
 
-    #if ( configASSERT_DEFINED == 1 )
+    #nếu ( configASSERT_DEFINED == 1 )
     {
         volatile uint8_t ucOriginalPriority;
         volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + portINTERRUPT_PRIORITY_REGISTER_OFFSET );
@@ -431,7 +431,7 @@ BaseType_t xPortStartScheduler( void )
         ucMaxPriorityValue = *pucFirstUserPriorityRegister;
 
         /* Shift to the least significant bits. */
-        while( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
+        trong_khi( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
         {
             ucMaxPriorityValue >>= ( uint8_t ) 0x01;
 
@@ -441,7 +441,7 @@ BaseType_t xPortStartScheduler( void )
              */
             ulCycles--;
 
-            if( ulCycles == 0 )
+            nếu( ulCycles == 0 )
             {
                 break;
             }
@@ -469,7 +469,7 @@ BaseType_t xPortStartScheduler( void )
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    nếu( ulAPSR != portAPSR_USER_MODE )
     {
         /*
          * Only continue if the binary point value is set to its lowest possible
@@ -478,7 +478,7 @@ BaseType_t xPortStartScheduler( void )
          */
         configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
 
-        if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+        nếu( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
         {
             /*
              * Interrupts are turned off in the CPU itself to ensure tick does
@@ -505,7 +505,7 @@ BaseType_t xPortStartScheduler( void )
      */
     ( void ) prvTaskExitError;
 
-    return 0;
+    trả_về 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -538,7 +538,7 @@ void vPortEnterCritical( void )
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section.
      */
-    if( ulCriticalNesting == 1 )
+    nếu( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
@@ -547,7 +547,7 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    nếu( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being exited. */
         ulCriticalNesting--;
@@ -556,7 +556,7 @@ void vPortExitCritical( void )
          * If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled.
          */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        nếu( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /*
              * Critical nesting has reached zero so all interrupt priorities
@@ -584,7 +584,7 @@ void FreeRTOS_Tick_Handler( void )
     portCPU_IRQ_ENABLE();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    nếu( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }
@@ -595,7 +595,7 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT == 1 )
+#nếu ( configUSE_TASK_FPU_SUPPORT == 1 )
 
     void vPortTaskUsesFPU( void )
     {
@@ -616,7 +616,7 @@ void FreeRTOS_Tick_Handler( void )
 
 void vPortClearInterruptMask( uint32_t ulNewMaskValue )
 {
-    if( ulNewMaskValue == pdFALSE )
+    nếu( ulNewMaskValue == pdFALSE )
     {
         portCLEAR_INTERRUPT_MASK();
     }
@@ -630,12 +630,12 @@ uint32_t ulPortSetInterruptMask( void )
     /* Interrupts must be masked while ICCPMR is updated. */
     portCPU_IRQ_DISABLE();
 
-    if( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
+    nếu( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
     {
         /* Interrupts were already masked. */
         ulReturn = pdTRUE;
     }
-    else
+    không_thì
     {
         ulReturn = pdFALSE;
         portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
@@ -645,11 +645,11 @@ uint32_t ulPortSetInterruptMask( void )
 
     portCPU_IRQ_ENABLE();
 
-    return ulReturn;
+    trả_về ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#nếu ( configASSERT_DEFINED == 1 )
 
     void vPortValidateInterruptPriority( void )
     {

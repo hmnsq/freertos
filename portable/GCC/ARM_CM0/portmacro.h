@@ -66,7 +66,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#nếu ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t        TickType_t;
     #define portMAX_DELAY   ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -76,7 +76,7 @@ typedef unsigned long    UBaseType_t;
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
      * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#không_thì
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -109,7 +109,7 @@ extern void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */;
 extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
     extern BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */;
     extern void vResetPrivilege( void ) /* __attribute__ (( naked )) */;
 #endif /* configENABLE_MPU */
@@ -118,10 +118,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
     #define portUSING_MPU_WRAPPERS          1
     #define portPRIVILEGE_BIT               ( 0x80000000UL )
-#else
+#không_thì
     #define portPRIVILEGE_BIT               ( 0x0UL )
 #endif /* configENABLE_MPU */
 
@@ -193,7 +193,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portMPU_REGION_PRIV_RO_UNPRIV_RO            ( 0x6UL << 24UL )
 #define portMPU_REGION_EXECUTE_NEVER                ( 0x1UL << 28UL )
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
 
     /**
      * @brief Settings to define an MPU region.
@@ -204,10 +204,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
         uint32_t ulRASR; /**< MPU Region Attribute and Size Register (RASR) for the region. */
     } MPURegionSettings_t;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #nếu ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
         #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
+            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words cho using MPU wrappers v2.
         #endif
 
         /**
@@ -251,9 +251,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
         uint32_t ulContext[ CONTEXT_SIZE ];
         uint32_t ulTaskFlags;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #nếu ( configUSE_MPU_WRAPPERS_V1 == 0 )
             xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            #nếu ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif
         #endif
@@ -274,10 +274,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Scheduler utilities.
  */
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
     #define portYIELD()               __asm volatile ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
     #define portYIELD_WITHIN_API()    vPortYield()
-#else
+#không_thì
     #define portYIELD()               vPortYield()
     #define portYIELD_WITHIN_API()    vPortYield()
 #endif
@@ -287,16 +287,16 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
     do                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        nếu( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        không_thì                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } trong_khi( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -327,7 +327,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
 
     /**
      * @brief Checks whether or not the processor is privileged.
@@ -351,7 +351,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      */
     #define portRESET_PRIVILEGE()    vResetPrivilege()
 
-#else
+#không_thì
 
     #define portIS_PRIVILEGED()
     #define portRAISE_PRIVILEGE()
@@ -360,7 +360,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
 
     extern BaseType_t xPortIsTaskPrivileged( void );
 

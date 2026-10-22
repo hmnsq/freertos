@@ -101,7 +101,7 @@ static void prvSetupTimerInterrupt( void );
                                                                                             \
         /* Copy each stack byte in turn.  pxXRAMStack is incremented first as we            \
         have already stored the stack size into XRAM. */                                    \
-        while( ucStackBytes )                                                               \
+        trong_khi( ucStackBytes )                                                               \
         {                                                                                   \
                 pxXRAMStack++;                                                              \
                 *pxXRAMStack = *pxRAMStack;                                                 \
@@ -133,7 +133,7 @@ static void prvSetupTimerInterrupt( void );
                 pxRAMStack++;                                                               \
                 *pxRAMStack = *pxXRAMStack;                                                 \
                 ucStackBytes--;                                                             \
-        } while( ucStackBytes );                                                            \
+        } trong_khi( ucStackBytes );                                                            \
                                                                                             \
         /* Restore the stack pointer ready to use the restored stack. */                    \
         SP = ( uint8_t ) pxRAMStack;                                                        \
@@ -292,7 +292,7 @@ StackType_t *pxStartOfStack;
 
         /* Unlike most ports, we return the start of the stack as this is where the
         size of the stack is stored. */
-        return pxStartOfStack;
+        trả_về pxStartOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -314,7 +314,7 @@ BaseType_t xPortStartScheduler( void )
         portRESTORE_CONTEXT();
 
         /* Should never get here! */
-        return pdTRUE;
+        trả_về pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -349,7 +349,7 @@ void vPortYield( void ) _naked
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#nếu configUSE_PREEMPTION == 1
         void vTimer2ISR( void ) interrupt 5 _naked
         {
                 /* Preemptive context switch function triggered by the timer 2 ISR.
@@ -359,7 +359,7 @@ void vPortYield( void ) _naked
                 portSAVE_CONTEXT();
                 portCOPY_STACK_TO_XRAM();
 
-                if( xTaskIncrementTick() != pdFALSE )
+                nếu( xTaskIncrementTick() != pdFALSE )
                 {
                         vTaskSwitchContext();
                 }
@@ -368,7 +368,7 @@ void vPortYield( void ) _naked
                 portCOPY_XRAM_TO_STACK();
                 portRESTORE_CONTEXT();
         }
-#else
+#không_thì
         void vTimer2ISR( void ) interrupt 5
         {
                 /* When using the cooperative scheduler the timer 2 ISR is only

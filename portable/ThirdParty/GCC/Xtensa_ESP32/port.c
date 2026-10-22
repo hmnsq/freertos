@@ -65,12 +65,12 @@
 #include "xtensa_rtos.h"
 #include "esp_idf_version.h"
 
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#nếu ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
     #include "rom/ets_sys.h"
     #include "esp_panic.h"
     #include "esp_crosscore_int.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32S3
+#không_thì
+    #nếu CONFIG_IDF_TARGET_ESP32S3
         #include "esp32s3/rom/ets_sys.h"
     #elif CONFIG_IDF_TARGET_ESP32S2
         #include "esp32s2/rom/ets_sys.h"
@@ -100,7 +100,7 @@ _Static_assert( tskNO_AFFINITY == CONFIG_FREERTOS_NO_AFFINITY, "incorrect tskNO_
 
 /*-----------------------------------------------------------*/
 
-extern volatile int port_xSchedulerRunning[ portNUM_PROCESSORS ];
+extern volatile số_nguyên port_xSchedulerRunning[ portNUM_PROCESSORS ];
 unsigned port_interruptNesting[ portNUM_PROCESSORS ] = { 0 }; /* Interrupt nesting level. Increased/decreased in portasm.c, _frxt_int_enter/_frxt_int_exit */
 
 /*-----------------------------------------------------------*/
@@ -108,7 +108,7 @@ unsigned port_interruptNesting[ portNUM_PROCESSORS ] = { 0 }; /* Interrupt nesti
 /* User exception dispatcher when exiting */
 void _xt_user_exit( void );
 
-#if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+#nếu CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
 /* Wrapper to allow task functions to return (increases stack overhead by 16 bytes) */
     static void vPortTaskWrapper( TaskFunction_t pxCode,
                                   void * pvParameters )
@@ -125,12 +125,12 @@ void _xt_user_exit( void );
  * Stack initialization
  */
 /* *INDENT-OFF* */
-#if portUSING_MPU_WRAPPERS
+#nếu portUSING_MPU_WRAPPERS
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          TaskFunction_t pxCode,
                                          void * pvParameters,
                                          BaseType_t xRunPrivileged )
-#else
+#không_thì
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          TaskFunction_t pxCode,
                                          void * pvParameters )
@@ -141,13 +141,13 @@ void _xt_user_exit( void );
     StackType_t * tp;
     XtExcFrame * frame;
 
-    #if XCHAL_CP_NUM > 0
+    #nếu XCHAL_CP_NUM > 0
         uint32_t * p;
     #endif
 
     uint32_t * threadptr;
     void * task_thread_local_start;
-    extern int _thread_local_start, _thread_local_end, _flash_rodata_start, _flash_rodata_align;
+    extern số_nguyên _thread_local_start, _thread_local_end, _flash_rodata_start, _flash_rodata_align;
 
     /* TODO: check that TLS area fits the stack */
     uint32_t thread_local_sz = ( uint8_t * ) &_thread_local_end - ( uint8_t * ) &_thread_local_start;
@@ -169,7 +169,7 @@ void _xt_user_exit( void );
     sp = ( StackType_t * ) ( ( ( UBaseType_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz - XT_STK_FRMSZ ) & ~0xf );
 
     /* Clear the entire frame (do not use memset() because we don't depend on C library) */
-    for( tp = sp; tp <= pxTopOfStack; ++tp )
+    cho( tp = sp; tp <= pxTopOfStack; ++tp )
     {
         *tp = 0;
     }
@@ -177,9 +177,9 @@ void _xt_user_exit( void );
     frame = ( XtExcFrame * ) sp;
 
     /* Explicitly initialize certain saved registers */
-    #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+    #nếu CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
         frame->pc = ( UBaseType_t ) vPortTaskWrapper; /* task wrapper                       */
-    #else
+    #không_thì
         frame->pc = ( UBaseType_t ) pxCode;           /* task entrypoint                    */
     #endif
     frame->a0 = 0;                                    /* to terminate GDB backtrace     */
@@ -189,19 +189,19 @@ void _xt_user_exit( void );
     /* Set initial PS to int level 0, EXCM disabled ('rfe' will enable), user mode. */
     /* Also set entry point argument parameter. */
     #ifdef __XTENSA_CALL0_ABI__
-        #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+        #nếu CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
             frame->a2 = ( UBaseType_t ) pxCode;
             frame->a3 = ( UBaseType_t ) pvParameters;
-        #else
+        #không_thì
             frame->a2 = ( UBaseType_t ) pvParameters;
         #endif
         frame->ps = PS_UM | PS_EXCM;
-    #else
+    #không_thì
         /* + for windowed ABI also set WOE and CALLINC (pretend task was 'call4'd). */
-        #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+        #nếu CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
             frame->a6 = ( UBaseType_t ) pxCode;
             frame->a7 = ( UBaseType_t ) pvParameters;
-        #else
+        #không_thì
             frame->a6 = ( UBaseType_t ) pvParameters;
         #endif
         frame->ps = PS_UM | PS_EXCM | PS_WOE | PS_CALLINC( 1 );
@@ -230,7 +230,7 @@ void _xt_user_exit( void );
     const uint32_t base = ( tcb_size + tls_section_alignment - 1 ) & ( ~( tls_section_alignment - 1 ) );
     *threadptr = ( uint32_t ) task_thread_local_start - ( ( uint32_t ) &_thread_local_start - ( uint32_t ) &_flash_rodata_start ) - base;
 
-    #if XCHAL_CP_NUM > 0
+    #nếu XCHAL_CP_NUM > 0
         /* Init the coprocessor save area (see xtensa_context.h) */
 
         /* No access to TCB here, so derive indirectly. Stack growth is top to bottom.
@@ -243,7 +243,7 @@ void _xt_user_exit( void );
         p[ 2 ] = ( ( ( uint32_t ) p ) + 12 + XCHAL_TOTAL_SA_ALIGN - 1 ) & -XCHAL_TOTAL_SA_ALIGN;
     #endif
 
-    return sp;
+    trả_về sp;
 }
 
 /*-----------------------------------------------------------*/
@@ -262,7 +262,7 @@ BaseType_t xPortStartScheduler( void )
     portDISABLE_INTERRUPTS();
     /* Interrupts are disabled at this point and stack contains PS with enabled interrupts when task context is restored */
 
-    #if XCHAL_CP_NUM > 0
+    #nếu XCHAL_CP_NUM > 0
         /* Initialize co-processor management for tasks. Leave CPENABLE alone. */
         _xt_coproc_init();
     #endif
@@ -289,7 +289,7 @@ BaseType_t xPortStartScheduler( void )
     __asm__ volatile ( "call0    _frxt_dispatch\n" );
 
     /* Should not get here. */
-    return pdTRUE;
+    trả_về pdTRUE;
 }
 
 /*-----------------------------------------------------------*/
@@ -304,13 +304,13 @@ void vPortYieldOtherCore( BaseType_t coreid )
 /*
  * Used to set coprocessor area in stack. Current hack is to reuse MPU pointer for coprocessor area.
  */
-#if portUSING_MPU_WRAPPERS
+#nếu portUSING_MPU_WRAPPERS
     void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                     const struct xMEMORY_REGION * const xRegions,
                                     StackType_t * pxBottomOfStack,
                                     configSTACK_DEPTH_TYPE uxStackDepth )
     {
-        #if XCHAL_CP_NUM > 0
+        #nếu XCHAL_CP_NUM > 0
             xMPUSettings->coproc_area = ( StackType_t * ) ( ( uint32_t ) ( pxBottomOfStack + uxStackDepth - 1 ) );
             xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( portPOINTER_SIZE_TYPE ) xMPUSettings->coproc_area ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
             xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( uint32_t ) xMPUSettings->coproc_area - XT_CP_SIZE ) & ~0xf );
@@ -335,13 +335,13 @@ void vPortYieldOtherCore( BaseType_t coreid )
  */
 BaseType_t xPortInIsrContext()
 {
-    unsigned int irqStatus;
+    unsigned số_nguyên irqStatus;
     BaseType_t ret;
 
     irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
     ret = ( port_interruptNesting[ xPortGetCoreID() ] != 0 );
     portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-    return ret;
+    trả_về ret;
 }
 
 /*
@@ -350,10 +350,10 @@ BaseType_t xPortInIsrContext()
  */
 BaseType_t IRAM_ATTR xPortInterruptedFromISRContext()
 {
-    return( port_interruptNesting[ xPortGetCoreID() ] != 0 );
+    trả_về( port_interruptNesting[ xPortGetCoreID() ] != 0 );
 }
 
-void IRAM_ATTR vPortEvaluateYieldFromISR( int argc,
+void IRAM_ATTR vPortEvaluateYieldFromISR( số_nguyên argc,
                                           ... )
 {
     BaseType_t xYield;
@@ -361,22 +361,22 @@ void IRAM_ATTR vPortEvaluateYieldFromISR( int argc,
 
     va_start( ap, argc );
 
-    if( argc )
+    nếu( argc )
     {
-        xYield = ( BaseType_t ) va_arg( ap, int );
+        xYield = ( BaseType_t ) va_arg( ap, số_nguyên );
         va_end( ap );
     }
-    else
+    không_thì
     {
         /*it is a empty parameter vPortYieldFromISR macro call: */
         va_end( ap );
         traceISR_EXIT_TO_SCHEDULER();
         _frxt_setup_switch();
-        return;
+        trả_về;
     }
 
     /*Yield exists, so need evaluate it first then switch: */
-    if( xYield == pdTRUE )
+    nếu( xYield == pdTRUE )
     {
         traceISR_EXIT_TO_SCHEDULER();
         _frxt_setup_switch();
@@ -385,7 +385,7 @@ void IRAM_ATTR vPortEvaluateYieldFromISR( int argc,
 
 void vPortAssertIfInISR()
 {
-    if( xPortInIsrContext() )
+    nếu( xPortInIsrContext() )
     {
         esp_rom_printf( "core=%d port_interruptNesting=%d\n\n", xPortGetCoreID(), port_interruptNesting[ xPortGetCoreID() ] );
     }
@@ -415,43 +415,43 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
     void vPortCPUAcquireMutex( portMUX_TYPE * mux,
                                const char * fnName,
-                               int line )
+                               số_nguyên line )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned số_nguyên irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT, fnName, line );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
 
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles,
+                                      số_nguyên timeout_cycles,
                                       const char * fnName,
-                                      int line )
+                                      số_nguyên line )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned số_nguyên irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
         bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles, fnName, line );
 
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-        return result;
+        trả_về result;
     }
 
-#else /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+#không_thì /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
     void vPortCPUAcquireMutex( portMUX_TYPE * mux )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned số_nguyên irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
 
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles )
+                                      số_nguyên timeout_cycles )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned số_nguyên irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
         bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles );
 
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-        return result;
+        trả_về result;
     }
 #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
@@ -464,17 +464,17 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
     void vPortCPUReleaseMutex( portMUX_TYPE * mux,
                                const char * fnName,
-                               int line )
+                               số_nguyên line )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned số_nguyên irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUReleaseMutexIntsDisabled( mux, fnName, line );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
-#else
+#không_thì
     void vPortCPUReleaseMutex( portMUX_TYPE * mux )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned số_nguyên irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUReleaseMutexIntsDisabled( mux );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
@@ -492,15 +492,15 @@ void vPortSetStackWatchpoint( void * pxStackStart )
     /*bytes of the stack we can actually watch. In general, this can cause the watchpoint to be triggered at most */
     /*28 bytes early. The value 32 is chosen because it's larger than the stack canary, which in FreeRTOS is 20 bytes. */
     /*This way, we make sure we trigger before/when the stack canary is corrupted, not after. */
-    int addr = ( int ) pxStackStart;
+    số_nguyên addr = ( số_nguyên ) pxStackStart;
 
     addr = ( addr + 31 ) & ( ~31 );
     esp_cpu_set_watchpoint( STACK_WATCH_POINT_NUMBER, ( char * ) addr, 32, ESP_WATCHPOINT_STORE );
 }
 
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#nếu ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
 
-    #if defined( CONFIG_SPIRAM_SUPPORT )
+    #nếu defined( CONFIG_SPIRAM_SUPPORT )
 
 /*
  * Compare & set (S32C1) does not work in external RAM. Instead, this routine uses a mux (in internal memory) to fake it.
@@ -517,12 +517,12 @@ void vPortSetStackWatchpoint( void * pxStackStart )
 
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                 vPortCPUAcquireMutexIntsDisabled( &extram_mux, portMUX_NO_TIMEOUT, __FUNCTION__, __LINE__ );
-            #else
+            #không_thì
                 vPortCPUAcquireMutexIntsDisabled( &extram_mux, portMUX_NO_TIMEOUT );
             #endif
             prev = *addr;
 
-            if( prev == compare )
+            nếu( prev == compare )
             {
                 *addr = *set;
             }
@@ -530,7 +530,7 @@ void vPortSetStackWatchpoint( void * pxStackStart )
             *set = prev;
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                 vPortCPUReleaseMutexIntsDisabled( &extram_mux, __FUNCTION__, __LINE__ );
-            #else
+            #không_thì
                 vPortCPUReleaseMutexIntsDisabled( &extram_mux );
             #endif
 
@@ -543,7 +543,7 @@ void vPortSetStackWatchpoint( void * pxStackStart )
 
 uint32_t xPortGetTickRateHz( void )
 {
-    return ( uint32_t ) configTICK_RATE_HZ;
+    trả_về ( uint32_t ) configTICK_RATE_HZ;
 }
 
 /* For now, running FreeRTOS on one core and a bare metal on the other (or other OSes) */
@@ -551,7 +551,7 @@ uint32_t xPortGetTickRateHz( void )
 /* should mirror each other's values. */
 /* */
 /* And since this should be true, we can just check for CONFIG_FREERTOS_UNICORE. */
-#if CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
+#nếu CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
     #error "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
 #endif
 
@@ -559,8 +559,8 @@ extern void esp_startup_start_app_common( void );
 
 void esp_startup_start_app( void )
 {
-    #if !CONFIG_ESP_INT_WDT
-        #if CONFIG_ESP32_ECO3_CACHE_LOCK_FIX
+    #nếu !CONFIG_ESP_INT_WDT
+        #nếu CONFIG_ESP32_ECO3_CACHE_LOCK_FIX
             assert( !soc_has_cache_lock_bug() && "ESP32 Rev 3 + Dual Core + PSRAM requires INT WDT enabled in project config!" );
         #endif
     #endif

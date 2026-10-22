@@ -148,7 +148,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    trả_về pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -162,7 +162,7 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    trả_về 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -195,12 +195,12 @@ static void prvSetupTimerInterrupt( void )
     /* Store interrupt handler function address in tick timer vector register...
      * The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
-    #if configUSE_PREEMPTION == 1
+    #nếu configUSE_PREEMPTION == 1
     {
         extern void( vPreemptiveTick )( void );
         AT91C_BASE_AIC->AIC_SVR[ portTIMER_AIC_CHANNEL ] = ( uint32_t ) vPreemptiveTick;
     }
-    #else // else use cooperative scheduler
+    #không_thì // else use cooperative scheduler
     {
         extern void( vNonPreemptiveTick )( void );
         AT91C_BASE_AIC->AIC_SVR[ portTIMER_AIC_CHANNEL ] = ( uint32_t ) vNonPreemptiveTick;
@@ -219,14 +219,14 @@ static void prvSetupTimerInterrupt( void )
     AT91C_BASE_AIC->AIC_IECR = ( 1 << portTIMER_AIC_CHANNEL );
 
     /* Calculate timer compare value to achieve the desired tick rate... */
-    if( ( configCPU_CLOCK_HZ / ( configTICK_RATE_HZ * 2 ) ) <= 0xFFFF )
+    nếu( ( configCPU_CLOCK_HZ / ( configTICK_RATE_HZ * 2 ) ) <= 0xFFFF )
     {
         /* The tick rate is fast enough for us to use the faster timer input
          * clock (main clock / 2). */
         portTIMER_REG_BASE_PTR->TC_CMR = TC_WAVE | TC_CLKS_MCK2 | TC_BURST_NONE | TC_CPCTRG;
         portTIMER_REG_BASE_PTR->TC_RC = configCPU_CLOCK_HZ / ( configTICK_RATE_HZ * 2 );
     }
-    else
+    không_thì
     {
         /* We must use a slower timer input clock (main clock / 8) because the
          * tick rate is too slow for the faster input clock. */

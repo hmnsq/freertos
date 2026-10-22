@@ -47,7 +47,7 @@
  */
 
 /* Type definitions. */
-#if __riscv_xlen == 64
+#nếu __riscv_xlen == 64
     #define portSTACK_TYPE           uint64_t
     #define portBASE_TYPE            int64_t
     #define portUBASE_TYPE           uint64_t
@@ -58,7 +58,7 @@
     #define portBASE_TYPE            int32_t
     #define portUBASE_TYPE           uint32_t
     #define portMAX_DELAY            ( TickType_t ) 0xffffffffUL
-#else /* if __riscv_xlen == 64 */
+#không_thì /* if __riscv_xlen == 64 */
     #error "Assembler did not define __riscv_xlen"
 #endif /* if __riscv_xlen == 64 */
 
@@ -84,7 +84,7 @@ typedef portUBASE_TYPE   TickType_t;
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #ifdef __riscv_32e
     #define portBYTE_ALIGNMENT    8     /* RV32E uses RISC-V EABI with reduced stack alignment requirements */
-#else
+#không_thì
     #define portBYTE_ALIGNMENT    16
 #endif
 /*-----------------------------------------------------------*/
@@ -95,16 +95,16 @@ extern void vTaskSwitchContext( void );
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        nếu( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        không_thì                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } trong_khi( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -124,7 +124,7 @@ extern size_t xCriticalNesting;
 #define portEXIT_CRITICAL()          \
     {                                \
         xCriticalNesting--;          \
-        if( xCriticalNesting == 0 )  \
+        nếu( xCriticalNesting == 0 )  \
         {                            \
             portENABLE_INTERRUPTS(); \
         }                            \
@@ -137,10 +137,10 @@ extern size_t xCriticalNesting;
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#nếu ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #nếu ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 
@@ -179,7 +179,7 @@ extern size_t xCriticalNesting;
  * configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS definitions.  For
  * backward compatibility derive the newer definitions from the old if the old
  * definition is found. */
-#if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
+#nếu defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
 
 /* Legacy case where configCLINT_BASE_ADDRESS was defined as 0 to indicate
  * there was no CLINT.  Equivalent now is to set the MTIME and MTIMECMP

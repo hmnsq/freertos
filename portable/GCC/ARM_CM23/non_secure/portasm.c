@@ -43,17 +43,17 @@
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_FPU == 1 )
+#nếu ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
     #define SECURE_CONTEXT_OFFSET   -20
-#else
+#không_thì
     #define SECURE_CONTEXT_OFFSET   0
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -145,7 +145,7 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#không_thì /* configENABLE_MPU */
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -271,7 +271,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#nếu ( configENABLE_MPU == 1 )
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -421,7 +421,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#không_thì /* configENABLE_MPU */
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -509,7 +509,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#nếu ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -552,7 +552,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#không_thì /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
