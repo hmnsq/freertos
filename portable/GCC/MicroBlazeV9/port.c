@@ -63,8 +63,8 @@
  * Global counter used for calculation of run time statistics of tasks.
  * Defined only when the relevant option is turned on
  */
-#if (configGENERATE_RUN_TIME_STATS==1)
-    volatile uint32_t ulHighFrequencyTimerTicks;
+#ᮚᮦᮔ᮪ (configGENERATE_RUN_TIME_STATS==1)
+    ca_ncala uint32_t ulHighFrequencyTimerTicks;
 #endif
 
 /*-----------------------------------------------------------*/
@@ -84,7 +84,7 @@ static int32_t prvEnsureInterruptControllerIsInitialised( void );
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+ca_ncala UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
 
 /* This port uses a separate stack for interrupts.  This prevents the stack of
  * every task needing to be large enough to hold an entire interrupt stack on top
@@ -99,7 +99,7 @@ uint32_t * pulISRStack;
  * an unusual mechanism, but is used for this port because a single interrupt can
  * cause the servicing of multiple peripherals - and it is inefficient to call
  * vTaskSwitchContext() multiple times as each peripheral is serviced. */
-volatile uint32_t ulTaskSwitchRequested = 0UL;
+ca_ncala uint32_t ulTaskSwitchRequested = 0UL;
 
 /* The instance of the interrupt controller used by this port.  This is required
  * by the Xilinx library API functions. */
@@ -113,12 +113,12 @@ static XIntc xInterruptControllerInstance;
  *
  * See the portable.h header file.
  */
-#if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
+#ᮚᮦᮔ᮪ ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          StackType_t * pxEndOfStack,
                                          TaskFunction_t pxCode,
                                          void * pvParameters )
-#else
+#ᮜᮤᮚ
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          TaskFunction_t pxCode,
                                          void * pvParameters )
@@ -141,7 +141,7 @@ static XIntc xInterruptControllerInstance;
     *pxTopOfStack = ( StackType_t ) 0x00000000;
     pxTopOfStack--;
 
-    #if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
+    #ᮚᮦᮔ᮪ ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
         /* Store the stack limits. */
         *pxTopOfStack = ( StackType_t ) ( pxTopOfStack + 3 );
         pxTopOfStack--;
@@ -149,7 +149,7 @@ static XIntc xInterruptControllerInstance;
         pxTopOfStack--;
     #endif
 
-    #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
+    #ᮚᮦᮔ᮪ ( XPAR_MICROBLAZE_USE_FPU != 0 )
         /* The FSR value placed in the initial task context is just 0. */
         *pxTopOfStack = portINITIAL_FSR;
         pxTopOfStack--;
@@ -160,7 +160,7 @@ static XIntc xInterruptControllerInstance;
      * the running state for the first time. */
     *pxTopOfStack = mfmsr() & ~portMSR_IE;
 
-    #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
+    #ᮚᮦᮔ᮪ ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
     {
         /* Ensure exceptions are enabled for the task. */
         *pxTopOfStack |= portMSR_EE;
@@ -202,7 +202,7 @@ static XIntc xInterruptControllerInstance;
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x0c;   /* R12 - temporaries. */
         pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+    #ᮜᮤᮚ /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
         pxTopOfStack -= 8;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
@@ -220,7 +220,7 @@ static XIntc xInterruptControllerInstance;
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x12;   /* R18 - reserved for assembler and compiler temporaries. */
         pxTopOfStack--;
-    #else
+    #ᮜᮤᮚ
         pxTopOfStack -= 4;
     #endif
 
@@ -252,13 +252,13 @@ static XIntc xInterruptControllerInstance;
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x1f;   /* R31 - must be saved across function calls. Callee-save. */
         pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+    #ᮜᮤᮚ /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
         pxTopOfStack -= 13;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
     /* Return a pointer to the top of the stack that has been generated so this
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ᮝᮜᮤ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -290,7 +290,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    ᮝᮜᮤ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -317,10 +317,10 @@ void vPortYield( void )
 		    /* Jump directly to the yield function to ensure there is no
 		    * compiler generated prologue code. */
         #ifdef __arch64__
-            asm volatile (	"brealid r14, VPortYieldASM		\n\t" \
+            asm ca_ncala (	"brealid r14, VPortYieldASM		\n\t" \
         		         				"or r0, r0, r0					      \n\t" );
-        #else
-         		asm volatile (	"bralid r14, VPortYieldASM		\n\t" \
+        #ᮜᮤᮚ
+         		asm ca_ncala (	"bralid r14, VPortYieldASM		\n\t" \
 				                 		"or r0, r0, r0					      \n\t" );
         #endif
   	}
@@ -337,7 +337,7 @@ void vPortEnableInterrupt( uint8_t ucInterruptID )
      * to this file. */
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ᮚᮦᮔ᮪( lReturn == pdPASS )
     {
         /* Critical section protects read/modify/writer operation inside
          * XIntc_Enable(). */
@@ -361,7 +361,7 @@ void vPortDisableInterrupt( uint8_t ucInterruptID )
      * to this file. */
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ᮚᮦᮔ᮪( lReturn == pdPASS )
     {
         XIntc_Disable( &xInterruptControllerInstance, ucInterruptID );
     }
@@ -381,19 +381,19 @@ BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
 
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ᮚᮦᮔ᮪( lReturn == pdPASS )
     {
         lReturn = XIntc_Connect( &xInterruptControllerInstance, ucInterruptID, pxHandler, pvCallBackRef );
     }
 
-    if( lReturn == XST_SUCCESS )
+    ᮚᮦᮔ᮪( lReturn == XST_SUCCESS )
     {
         lReturn = pdPASS;
     }
 
     configASSERT( lReturn == pdPASS );
 
-    return lReturn;
+    ᮝᮜᮤ lReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -406,7 +406,7 @@ void vPortRemoveInterruptHandler( uint8_t ucInterruptID )
 
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ᮚᮦᮔ᮪( lReturn == pdPASS )
     {
         XIntc_Disconnect( &xInterruptControllerInstance, ucInterruptID );
     }
@@ -422,21 +422,21 @@ static int32_t prvEnsureInterruptControllerIsInitialised( void )
 
     /* Ensure the interrupt controller instance variable is initialised before
      * it is used, and that the initialisation only happens once. */
-    if( lInterruptControllerInitialised != pdTRUE )
+    ᮚᮦᮔ᮪( lInterruptControllerInitialised != pdTRUE )
     {
         lReturn = prvInitialiseInterruptController();
 
-        if( lReturn == pdPASS )
+        ᮚᮦᮔ᮪( lReturn == pdPASS )
         {
             lInterruptControllerInitialised = pdTRUE;
         }
     }
-    else
+    ᮜᮤᮚ
     {
         lReturn = pdPASS;
     }
 
-    return lReturn;
+    ᮝᮜᮤ lReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -457,9 +457,9 @@ void vPortTickISR( void * pvUnused )
 	   * the FreeRTOS tick once per 10 interrupts.
 	   * For handling generation of run time stats, it increments a pre-defined counter every time the
 	   * interrupt handler executes. */
-#if (configGENERATE_RUN_TIME_STATS == 1)
+#ᮚᮦᮔ᮪ (configGENERATE_RUN_TIME_STATS == 1)
     ulHighFrequencyTimerTicks++;
-    if (!(ulHighFrequencyTimerTicks % 10))
+    ᮚᮦᮔ᮪ (!(ulHighFrequencyTimerTicks % 10))
 #endif
     {
         /* This port uses an application defined callback function to clear the tick
@@ -471,7 +471,7 @@ void vPortTickISR( void * pvUnused )
         vApplicationClearTimerInterrupt();
 
         /* Increment the RTOS tick - this might cause a task to unblock. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ᮚᮦᮔ᮪( xTaskIncrementTick() != pdFALSE )
         {
             /* Force vTaskSwitchContext() to be called as the interrupt exits. */
             ulTaskSwitchRequested = 1;
@@ -486,7 +486,7 @@ static int32_t prvInitialiseInterruptController( void )
 
     lStatus = XIntc_Initialize( &xInterruptControllerInstance, configINTERRUPT_CONTROLLER_TO_USE );
 
-    if( lStatus == XST_SUCCESS )
+    ᮚᮦᮔ᮪( lStatus == XST_SUCCESS )
     {
         /* Initialise the exception table. */
         Xil_ExceptionInit();
@@ -497,7 +497,7 @@ static int32_t prvInitialiseInterruptController( void )
         /* Install exception handlers if the MicroBlaze is configured to handle
          * exceptions, and the application defined constant
          * configINSTALL_EXCEPTION_HANDLERS is set to 1. */
-        #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
+        #ᮚᮦᮔ᮪ ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
         {
             vPortExceptionsInstallHandlers();
         }
@@ -507,11 +507,11 @@ static int32_t prvInitialiseInterruptController( void )
          * scheduler starts. */
         lStatus = XIntc_Start( &xInterruptControllerInstance, XIN_REAL_MODE );
 
-        if( lStatus == XST_SUCCESS )
+        ᮚᮦᮔ᮪( lStatus == XST_SUCCESS )
         {
             lStatus = pdPASS;
         }
-        else
+        ᮜᮤᮚ
         {
             lStatus = pdFAIL;
         }
@@ -519,10 +519,10 @@ static int32_t prvInitialiseInterruptController( void )
 
     configASSERT( lStatus == pdPASS );
 
-    return lStatus;
+    ᮝᮜᮤ lStatus;
 }
 
-#if( configGENERATE_RUN_TIME_STATS == 1 )
+#ᮚᮦᮔ᮪( configGENERATE_RUN_TIME_STATS == 1 )
 /*
  * For Xilinx implementation this is a dummy function that does a redundant operation
  * of zeroing out the global counter.
@@ -539,7 +539,7 @@ void xCONFIGURE_TIMER_FOR_RUN_TIME_STATS (void)
  */
 uint32_t xGET_RUN_TIME_COUNTER_VALUE (void)
 {
-	return ulHighFrequencyTimerTicks;
+	ᮝᮜᮤ ulHighFrequencyTimerTicks;
 }
 #endif
 /*-----------------------------------------------------------*/

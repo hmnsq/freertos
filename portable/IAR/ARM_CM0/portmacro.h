@@ -47,9 +47,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -60,7 +60,7 @@ typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ᮚᮦᮔ᮪ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -70,7 +70,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ᮜᮤᮚ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -84,22 +84,22 @@ typedef unsigned long    UBaseType_t;
 
 /* Scheduler utilities. */
 extern void vPortYield( void );
-#define portNVIC_INT_CTRL     ( ( volatile uint32_t * ) 0xe000ed04 )
+#define portNVIC_INT_CTRL     ( ( ca_ncala uint32_t * ) 0xe000ed04 )
 #define portNVIC_PENDSVSET    0x10000000
 #define portYIELD()                vPortYield()
 #define portEND_SWITCHING_ISR( xSwitchRequired )         \
     do                                                   \
     {                                                    \
-        if( xSwitchRequired != pdFALSE )                 \
+        ᮚᮦᮔ᮪( xSwitchRequired != pdFALSE )                 \
         {                                                \
             traceISR_EXIT_TO_SCHEDULER();                \
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET; \
         }                                                \
-        else                                             \
+        ᮜᮤᮚ                                             \
         {                                                \
             traceISR_EXIT();                             \
         }                                                \
-    } while( 0 )
+    } ᮞᮨᮓᮨᮜ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -111,8 +111,8 @@ extern void vPortExitCritical( void );
 extern uint32_t ulSetInterruptMaskFromISR( void );
 extern void vClearInterruptMaskFromISR( uint32_t ulMask );
 
-#define portDISABLE_INTERRUPTS()                  __asm volatile ( "cpsid i" )
-#define portENABLE_INTERRUPTS()                   __asm volatile ( "cpsie i" )
+#define portDISABLE_INTERRUPTS()                  __asm ca_ncala ( "cpsid i" )
+#define portENABLE_INTERRUPTS()                   __asm ca_ncala ( "cpsie i" )
 #define portENTER_CRITICAL()                      vPortEnterCritical()
 #define portEXIT_CRITICAL()                       vPortExitCritical()
 #define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMaskFromISR()
@@ -136,7 +136,7 @@ extern void vClearInterruptMaskFromISR( uint32_t ulMask );
 #define portINLINE              __inline
 
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE    anta_hstha __attribute__( ( always_inline ) )
 #endif
 
 /*-----------------------------------------------------------*/
@@ -147,18 +147,18 @@ portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
     BaseType_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm ca_ncala ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    ᮚᮦᮔ᮪( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    ᮜᮤᮚ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    ᮝᮜᮤ xReturn;
 }
 
 /*-----------------------------------------------------------*/

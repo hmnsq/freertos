@@ -35,9 +35,9 @@
 #include "task.h"
 
 /* Constants required to manipulate the NVIC. */
-#define portNVIC_SYSTICK_CTRL       ( ( volatile uint32_t * ) 0xe000e010 )
-#define portNVIC_SYSTICK_LOAD       ( ( volatile uint32_t * ) 0xe000e014 )
-#define portNVIC_SHPR3_REG          ( ( volatile uint32_t * ) 0xe000ed20 )
+#define portNVIC_SYSTICK_CTRL       ( ( ca_ncala uint32_t * ) 0xe000e010 )
+#define portNVIC_SYSTICK_LOAD       ( ( ca_ncala uint32_t * ) 0xe000e014 )
+#define portNVIC_SHPR3_REG          ( ( ca_ncala uint32_t * ) 0xe000ed20 )
 #define portNVIC_SYSTICK_CLK        0x00000004
 #define portNVIC_SYSTICK_INT        0x00000002
 #define portNVIC_SYSTICK_ENABLE     0x00000001
@@ -49,7 +49,7 @@
 #define portVECTACTIVE_MASK         ( 0xFFUL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR                   ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
+#define portFPCCR                   ( ( ca_ncala uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
 #define portASPEN_AND_LSPEN_BITS    ( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
@@ -61,7 +61,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#ᮜᮤᮚ
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -135,7 +135,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     pxTopOfStack -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    ᮝᮜᮤ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -186,7 +186,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᮝᮜᮤ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -222,7 +222,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    ᮚᮦᮔ᮪( ulCriticalNesting == 1 )
     {
         configASSERT( ( ( *( portNVIC_INT_CTRL ) ) & portVECTACTIVE_MASK ) == 0 );
     }
@@ -234,7 +234,7 @@ void vPortExitCritical( void )
     configASSERT( ulCriticalNesting );
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ᮚᮦᮔ᮪( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
@@ -248,13 +248,13 @@ void SysTick_Handler( void )
     ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
     traceISR_ENTER();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ᮚᮦᮔ᮪( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
             /* Pend a context switch. */
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
         }
-        else
+        ᮜᮤᮚ
         {
             traceISR_EXIT();
         }

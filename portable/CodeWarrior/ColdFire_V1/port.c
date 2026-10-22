@@ -78,7 +78,7 @@ uint32_t ulOriginalA5;
     /* A5 must be maintained as it is reserved by the compiler. */
     *( pxTopOfStack + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    ᮝᮜᮤ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -94,7 +94,7 @@ extern void vPortStartFirstTask( void );
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    ᮝᮜᮤ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -120,21 +120,21 @@ void vPortEndScheduler( void )
 
 void vPortEnterCritical( void )
 {
-    if( ulCriticalNesting == 0UL )
+    ᮚᮦᮔ᮪( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
         do
         {
             portDISABLE_INTERRUPTS();
-            if( INTC_FRC == 0UL )
+            ᮚᮦᮔ᮪( INTC_FRC == 0UL )
             {
-                break;
+                bha_nga;
             }
 
             portENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } ᮞᮨᮓᮨᮜ( 1 );
     }
     ulCriticalNesting++;
 }
@@ -143,7 +143,7 @@ void vPortEnterCritical( void )
 void vPortExitCritical( void )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    ᮚᮦᮔ᮪( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
@@ -174,7 +174,7 @@ uint32_t ulSavedInterruptMask;
     /* Increment the RTOS tick. */
     ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ᮚᮦᮔ᮪( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

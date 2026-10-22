@@ -35,7 +35,7 @@ Context save and restore macro definitions
 portSAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+Push R0 as we are going to use the pa_njikaa.
    STMDB SP !, {
     R0
 }
@@ -52,7 +52,7 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+Push the ᮝᮜᮤ address onto the stack.
           STMDB R0 !, {
            LR
        }
@@ -136,12 +136,12 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the ᮝᮜᮤ address.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And ᮝᮜᮤ -correcting the offset in the LR to obtain the
 ;
 
 correct address.

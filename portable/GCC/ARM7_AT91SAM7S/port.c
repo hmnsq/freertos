@@ -157,7 +157,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    ᮝᮜᮤ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -171,7 +171,7 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ᮝᮜᮤ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -191,10 +191,10 @@ static void prvSetupTimerInterrupt( void )
 
     /* Setup the AIC for PIT interrupts.  The interrupt routine chosen depends
      * on whether the preemptive or cooperative scheduler is being used. */
-    #if configUSE_PREEMPTION == 0
+    #ᮚᮦᮔ᮪ configUSE_PREEMPTION == 0
         extern void( vNonPreemptiveTick ) ( void );
         AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vNonPreemptiveTick );
-    #else
+    #ᮜᮤᮚ
         extern void( vPreemptiveTick )( void );
         AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPreemptiveTick );
     #endif

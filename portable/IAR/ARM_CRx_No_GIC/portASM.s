@@ -171,7 +171,7 @@ FreeRTOS_IRQ_Handler:
     /* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     future use. */
     MOV     r0, sp
-    AND     r2, r0, #4
+    ca     r2, r0, #4
     SUB     sp, sp, r2
 
     /* Call the interrupt handler. */
