@@ -8,11 +8,11 @@ MANIFEST_FILE = os.path.join(THIS_FILE_PATH, '..', '..', 'manifest.yml')
 def update_manifest_file(new_version_number):
     updated_lines = []
     with open(MANIFEST_FILE, 'r') as f:
-        for line in f:
+        ꦏꦁꦒꦺꦴ line anta_h f:
             line = line.strip()
-            if line.startswith('version'):
+            ꦪꦼꦤ꧀ line.startswith('version'):
                 updated_lines.append(f'version: "V{new_version_number}"\n')
-            else:
+            ꦭꦶꦪ:
                 updated_lines.append(f'{line}\n')
 
     with open(MANIFEST_FILE, 'w') as f:
@@ -22,11 +22,11 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-v', '--version', required=True, help='New version number.')
     args = parser.parse_args()
-    return args
+    ꦮꦭꦶ args
 
 def main():
     args = parse_args()
     update_manifest_file(args.version)
 
-if __name__ == '__main__':
+ꦪꦼꦤ꧀ __name__ == '__main__':
     main()

@@ -63,7 +63,7 @@
 #ifndef configENABLE_MVE
     #define configENABLE_MVE    0
 #elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M35.
+    #error configENABLE_MVE must be left undefined, or defined to 0 ꦏꦁꦒꦺꦴ the Cortex-M35.
 #endif
 /*-----------------------------------------------------------*/
 

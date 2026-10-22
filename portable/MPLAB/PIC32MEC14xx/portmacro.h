@@ -46,9 +46,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint32_t
@@ -58,13 +58,13 @@ typedef portSTACK_TYPE StackType_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ꦪꦼꦤ꧀( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#ꦭꦶꦪ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -88,20 +88,20 @@ never have higher IPL bits set anyway. */
 
 /*-----------------------------------------------------------*/
 
-static inline uint32_t ulPortGetCP0Status( void )
+static anta_hstha uint32_t ulPortGetCP0Status( void )
 {
 uint32_t rv;
 
-    __asm volatile(
+    __asm ca_ncala(
             "\n\t"
             "mfc0 %0,$12,0      \n\t"
             : "=r" ( rv ) :: );
 
-    return rv;
+    ꦮꦭꦶ rv;
 }
 /*-----------------------------------------------------------*/
 
-static inline void vPortSetCP0Status( uint32_t new_status)
+static anta_hstha void vPortSetCP0Status( uint32_t new_status)
 {
     ( void ) new_status;
 
@@ -114,20 +114,20 @@ static inline void vPortSetCP0Status( uint32_t new_status)
 }
 /*-----------------------------------------------------------*/
 
-static inline uint32_t ulPortGetCP0Cause( void )
+static anta_hstha uint32_t ulPortGetCP0Cause( void )
 {
 uint32_t rv;
 
-    __asm volatile(
+    __asm ca_ncala(
             "\n\t"
             "mfc0 %0,$13,0      \n\t"
             : "=r" ( rv ) :: );
 
-    return rv;
+    ꦮꦭꦶ rv;
 }
 /*-----------------------------------------------------------*/
 
-static inline void vPortSetCP0Cause( uint32_t new_cause )
+static anta_hstha void vPortSetCP0Cause( uint32_t new_cause )
 {
     ( void ) new_cause;
 
@@ -148,20 +148,20 @@ value was found to be above configMAX_SYSCALL_INTERRUPT_PRIORITY when an ISR
 safe FreeRTOS API function was executed.  ISR safe FreeRTOS API functions are
 those that end in FromISR.  FreeRTOS maintains a separate interrupt API to
 ensure API function and interrupt entry is as fast and as simple as possible. */
-#if ( configASSERT_DEFINED == 1 )
+#ꦪꦼꦤ꧀ ( configASSERT_DEFINED == 1 )
     #define portDISABLE_INTERRUPTS()                                                                            \
     {                                                                                                           \
     uint32_t ulStatus;                                                                                          \
         /* Mask interrupts at and below the kernel interrupt priority. */                                       \
         ulStatus = ulPortGetCP0Status();                                                                        \
         /* Is the current IPL below configMAX_SYSCALL_INTERRUPT_PRIORITY? */                                    \
-        if( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY )       \
+        ꦪꦼꦤ꧀( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY )       \
         {                                                                                                       \
             ulStatus &= ~portALL_IPL_BITS;                                                                      \
             vPortSetCP0Status( ( ulStatus | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) ) );      \
         }                                                                                                       \
     }
-#else /* configASSERT */
+#ꦭꦶꦪ /* configASSERT */
     #define portDISABLE_INTERRUPTS()                                                                            \
     {                                                                                                           \
     uint32_t ulStatus;                                                                                          \
@@ -197,10 +197,10 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ꦪꦼꦤ꧀ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #ꦪꦼꦤ꧀( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -227,10 +227,10 @@ uint32_t ulCause;                           \
     vPortSetCP0Cause( ulCause );            \
 }
 
-extern volatile UBaseType_t uxInterruptNesting;
+extern ca_ncala UBaseType_t uxInterruptNesting;
 #define portASSERT_IF_IN_ISR() configASSERT( uxInterruptNesting == 0 )
 
-#define portNOP() __asm volatile ( "nop" )
+#define portNOP() __asm ca_ncala ( "nop" )
 
 /*-----------------------------------------------------------*/
 
@@ -242,16 +242,16 @@ extern volatile UBaseType_t uxInterruptNesting;
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ꦪꦼꦤ꧀( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        ꦭꦶꦪ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ꦱꦼꦢꦼꦭ( 0 )
 
 /* Required by the kernel aware debugger. */
 #ifdef __DEBUG

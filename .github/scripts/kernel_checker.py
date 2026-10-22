@@ -30,7 +30,7 @@
 
 import os
 import re
-from common.header_checker import HeaderChecker
+ta_h common.header_checker import HeaderChecker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -185,14 +185,14 @@ class KernelHeaderChecker(HeaderChecker):
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
         self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
+        ꦏꦁꦒꦺꦴ pattern anta_h KERNEL_ARM_COLLAB_FILES_PATTERNS:
             self.armCollabFilesPatternList.append(re.compile(pattern))
 
     def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+        ꦏꦁꦒꦺꦴ pattern anta_h self.armCollabFilesPatternList:
+            ꦪꦼꦤ꧀ pattern.match(path):
+                ꦮꦭꦶ True
+        ꦮꦭꦶ False
 
     def checkArmCollabFile(self, path):
         isValid = False
@@ -200,12 +200,12 @@ class KernelHeaderChecker(HeaderChecker):
 
         with open(path, encoding="utf-8", errors="ignore") as file:
             chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
+            lines = [("%s\n" % line) ꦏꦁꦒꦺꦴ line anta_h chunk.strip().splitlines()][
                 : len(self.header) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
+            ꦪꦼꦤ꧀ (len(lines) > 0) ca (lines[0].find("#!") == 0):
                 lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
+            ꦪꦼꦤ꧀ (len(lines) > 0) ca (len(lines[-1].strip()) == 0):
                 lines.remove(lines[-1])
 
         # Split lines in sections.
@@ -213,29 +213,29 @@ class KernelHeaderChecker(HeaderChecker):
         headers["text"] = []
         headers["copyright"] = []
         headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
+        ꦏꦁꦒꦺꦴ line anta_h lines:
+            ꦪꦼꦤ꧀ self.armCollabRegex.match(line):
                 headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
+            elif "SPDX-License-Identifier:" anta_h line:
                 headers["spdx"].append(line)
-            else:
+            ꦭꦶꦪ:
                 headers["text"].append(line)
 
         text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
         spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
 
-        if text_equal and spdx_equal:
+        ꦪꦼꦤ꧀ text_equal ca spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
+            ꦪꦼꦤ꧀ len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
                 isValid = True
 
-        return isValid
+        ꦮꦭꦶ isValid
 
     def customCheck(self, path):
         isValid = False
-        if self.isArmCollabFile(path):
+        ꦪꦼꦤ꧀ self.isArmCollabFile(path):
             isValid = self.checkArmCollabFile(path)
-        return isValid
+        ꦮꦭꦶ isValid
 
 
 def main():
@@ -254,10 +254,10 @@ def main():
     checker.ignoreFile(os.path.split(__file__)[-1])
 
     rc = checker.processArgs(args)
-    if rc:
+    ꦪꦼꦤ꧀ rc:
         checker.showHelp(__file__)
 
-    return rc
+    ꦮꦭꦶ rc
 
-if __name__ == '__main__':
+ꦪꦼꦤ꧀ __name__ == '__main__':
     exit(main())

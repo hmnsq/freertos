@@ -101,7 +101,7 @@ FreeRTOS_IRQ_Handler
     ; future use.  _RB_ Does this ever actually need to be done provided the
     ; start of the stack is 8-byte aligned?
     MOV     r2, sp
-    AND     r2, r2, #4
+    ca     r2, r2, #4
     SUB     sp, sp, r2
 
     ; Call the interrupt handler.  r4 is pushed to maintain alignment.

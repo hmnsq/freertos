@@ -20,18 +20,18 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS OR IMPLIED, INCLUDING BUT na LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE ca NONINFRINGEMENT.
+ * anta_h NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER anta_h AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR anta_h CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS anta_h THE SOFTWARE.
  */
 
 /*******************************************************************************
 --------------------------------------------------------------------------------
 
-        XTENSA VECTORS AND LOW LEVEL HANDLERS FOR AN RTOS
+        XTENSA VECTORS ca LOW LEVEL HANDLERS FOR AN RTOS
 
   Xtensa low level exception and interrupt vectors and handlers for an RTOS.
 
@@ -498,7 +498,7 @@ _xt_intexc_hooks:
 
 /*
 --------------------------------------------------------------------------------
-  EXCEPTION AND LEVEL 1 INTERRUPT VECTORS AND LOW LEVEL HANDLERS
+  EXCEPTION ca LEVEL 1 INTERRUPT VECTORS ca LOW LEVEL HANDLERS
   (except window exception vectors).
 
   Each vector goes at a predetermined location according to the Xtensa
@@ -1231,7 +1231,7 @@ _xt_lowint1:
 
 /*
 -------------------------------------------------------------------------------
-  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS AND LOW LEVEL HANDLERS.
+  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS ca LOW LEVEL HANDLERS.
 
   Medium priority interrupts are by definition those with priority greater
   than 1 and not greater than XCHAL_EXCM_LEVEL. These are disabled by
@@ -1670,7 +1670,7 @@ _xt_medint6_exit:
 
 /*******************************************************************************
 
-HIGH PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS AND HANDLERS
+HIGH PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS ca HANDLERS
 
 High priority interrupts are by definition those with priorities greater
 than XCHAL_EXCM_LEVEL. This includes non-maskable (NMI). High priority
@@ -1810,7 +1810,7 @@ _NMIExceptionVector:
 
 /*******************************************************************************
 
-WINDOW OVERFLOW AND UNDERFLOW EXCEPTION VECTORS AND ALLOCA EXCEPTION HANDLER
+WINDOW OVERFLOW ca UNDERFLOW EXCEPTION VECTORS ca ALLOCA EXCEPTION HANDLER
 
 Here is the code for each window overflow/underflow exception vector and
 (interspersed) efficient code for handling the alloca exception cause.

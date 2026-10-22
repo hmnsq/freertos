@@ -31,7 +31,7 @@
 
 /* This file redefines API functions to be called through a wrapper macro, but
  * only for ports that are using the MPU. */
-#if ( portUSING_MPU_WRAPPERS == 1 )
+#ꦪꦼꦤ꧀ ( portUSING_MPU_WRAPPERS == 1 )
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE will be defined when this file is
  * included from queue.c or task.c to prevent it from having an effect within
@@ -77,7 +77,7 @@
         #define xTaskGetCurrentTaskHandle             MPU_xTaskGetCurrentTaskHandle
         #define xTaskGetSchedulerState                MPU_xTaskGetSchedulerState
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define ulTaskGetRunTimeCounter           MPU_ulTaskGetRunTimeCounter
             #define ulTaskGetRunTimePercent           MPU_ulTaskGetRunTimePercent
         #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
@@ -85,7 +85,7 @@
 /* Privileged only wrappers for Task APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-        #if ( configUSE_MPU_WRAPPERS_V1 == 1 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 1 )
 
 /* These are not needed in v2 because they do not take a task
  * handle and therefore, no lookup is needed. Needed in v1 because
@@ -104,7 +104,7 @@
         #define xTaskGetHandle                           MPU_xTaskGetHandle
         #define xTaskCallApplicationTaskHook             MPU_xTaskCallApplicationTaskHook
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define pcTaskGetName                        MPU_pcTaskGetName
             #define xTaskCreateRestricted                MPU_xTaskCreateRestricted
             #define xTaskCreateRestrictedStatic          MPU_xTaskCreateRestrictedStatic
@@ -132,7 +132,7 @@
         #define xQueueAddToSet               MPU_xQueueAddToSet
         #define xQueueSelectFromSet          MPU_xQueueSelectFromSet
 
-        #if ( configQUEUE_REGISTRY_SIZE > 0 )
+        #ꦪꦼꦤ꧀ ( configQUEUE_REGISTRY_SIZE > 0 )
             #define vQueueAddToRegistry      MPU_vQueueAddToRegistry
             #define vQueueUnregisterQueue    MPU_vQueueUnregisterQueue
             #define pcQueueGetName           MPU_pcQueueGetName
@@ -153,7 +153,7 @@
         #define xQueueCreateSetStatic                  MPU_xQueueCreateSetStatic
         #define xQueueRemoveFromSet                    MPU_xQueueRemoveFromSet
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define xQueueGenericGetStaticBuffers      MPU_xQueueGenericGetStaticBuffers
             #define xQueueGenericSendFromISR           MPU_xQueueGenericSendFromISR
             #define xQueueGiveFromISR                  MPU_xQueueGiveFromISR
@@ -178,14 +178,14 @@
         #define xTimerGetPeriod                   MPU_xTimerGetPeriod
         #define xTimerGetExpiryTime               MPU_xTimerGetExpiryTime
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define xTimerGetReloadMode           MPU_xTimerGetReloadMode
         #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /* Privileged only wrappers for Timer APIs. These are needed so that
  * the application can use opaque handles maintained in mpu_wrappers.c
  * with all the APIs. */
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define xTimerCreate                   MPU_xTimerCreate
             #define xTimerCreateStatic             MPU_xTimerCreateStatic
             #define xTimerGetStaticBuffer          MPU_xTimerGetStaticBuffer
@@ -199,7 +199,7 @@
         #define xEventGroupSetBits           MPU_xEventGroupSetBits
         #define xEventGroupSync              MPU_xEventGroupSync
 
-        #if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+        #ꦪꦼꦤ꧀ ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
             #define uxEventGroupGetNumber    MPU_uxEventGroupGetNumber
             #define vEventGroupSetNumber     MPU_vEventGroupSetNumber
         #endif /* #if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
@@ -211,7 +211,7 @@
         #define xEventGroupCreateStatic            MPU_xEventGroupCreateStatic
         #define vEventGroupDelete                  MPU_vEventGroupDelete
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define xEventGroupGetStaticBuffer     MPU_xEventGroupGetStaticBuffer
             #define xEventGroupClearBitsFromISR    MPU_xEventGroupClearBitsFromISR
             #define xEventGroupSetBitsFromISR      MPU_xEventGroupSetBitsFromISR
@@ -238,7 +238,7 @@
         #define vStreamBufferDelete                         MPU_vStreamBufferDelete
         #define xStreamBufferReset                          MPU_xStreamBufferReset
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ꦪꦼꦤ꧀ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             #define xStreamBufferGetStaticBuffers           MPU_xStreamBufferGetStaticBuffers
             #define xStreamBufferSendFromISR                MPU_xStreamBufferSendFromISR
             #define xStreamBufferReceiveFromISR             MPU_xStreamBufferReceiveFromISR
@@ -247,7 +247,7 @@
             #define xStreamBufferResetFromISR               MPU_xStreamBufferResetFromISR
         #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-        #if ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+        #ꦪꦼꦤ꧀ ( ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
             #define vGrantAccessToTask( xTask, xTaskToGrantAccess )                        vGrantAccessToKernelObject( ( xTask ), ( int32_t ) ( xTaskToGrantAccess ) )
 
@@ -284,7 +284,7 @@
     #define PRIVILEGED_DATA         __attribute__( ( section( "privileged_data" ) ) )
     #define FREERTOS_SYSTEM_CALL    __attribute__( ( section( "freertos_system_calls" ) ) )
 
-#else /* portUSING_MPU_WRAPPERS */
+#ꦭꦶꦪ /* portUSING_MPU_WRAPPERS */
 
     #ifndef PRIVILEGED_FUNCTION
         #define PRIVILEGED_FUNCTION

@@ -38,9 +38,9 @@
 /**
  * @brief Macro to declare a function as non-secure callable.
  */
-#if defined( __IAR_SYSTEMS_ICC__ )
+#ꦪꦼꦤ꧀ defined( __IAR_SYSTEMS_ICC__ )
     #define secureportNON_SECURE_CALLABLE    __cmse_nonsecure_entry __root
-#else
+#ꦭꦶꦪ
     #define secureportNON_SECURE_CALLABLE    __attribute__( ( cmse_nonsecure_entry ) ) __attribute__( ( used ) )
 #endif
 
@@ -48,56 +48,56 @@
  * @brief Set the secure PRIMASK value.
  */
 #define secureportSET_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+    __asm ca_ncala ( "msr primask, %0" : : "r" ( ulPrimaskValue ) : "memory" )
 
 /**
  * @brief Set the non-secure PRIMASK value.
  */
 #define secureportSET_NON_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask_ns, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+    __asm ca_ncala ( "msr primask_ns, %0" : : "r" ( ulPrimaskValue ) : "memory" )
 
 /**
  * @brief Read the PSP value in the given variable.
  */
 #define secureportREAD_PSP( pucOutCurrentStackPointer ) \
-    __asm volatile ( "mrs %0, psp"  : "=r" ( pucOutCurrentStackPointer ) )
+    __asm ca_ncala ( "mrs %0, psp"  : "=r" ( pucOutCurrentStackPointer ) )
 
 /**
  * @brief Set the PSP to the given value.
  */
 #define secureportSET_PSP( pucCurrentStackPointer ) \
-    __asm volatile ( "msr psp, %0" : : "r" ( pucCurrentStackPointer ) )
+    __asm ca_ncala ( "msr psp, %0" : : "r" ( pucCurrentStackPointer ) )
 
 /**
  * @brief Read the PSPLIM value in the given variable.
  */
 #define secureportREAD_PSPLIM( pucOutStackLimit ) \
-    __asm volatile ( "mrs %0, psplim"  : "=r" ( pucOutStackLimit ) )
+    __asm ca_ncala ( "mrs %0, psplim"  : "=r" ( pucOutStackLimit ) )
 
 /**
  * @brief Set the PSPLIM to the given value.
  */
 #define secureportSET_PSPLIM( pucStackLimit ) \
-    __asm volatile ( "msr psplim, %0" : : "r" ( pucStackLimit ) )
+    __asm ca_ncala ( "msr psplim, %0" : : "r" ( pucStackLimit ) )
 
 /**
  * @brief Set the NonSecure MSP to the given value.
  */
 #define secureportSET_MSP_NS( pucMainStackPointer ) \
-    __asm volatile ( "msr msp_ns, %0" : : "r" ( pucMainStackPointer ) )
+    __asm ca_ncala ( "msr msp_ns, %0" : : "r" ( pucMainStackPointer ) )
 
 /**
  * @brief Set the CONTROL register to the given value.
  */
 #define secureportSET_CONTROL( ulControl ) \
-    __asm volatile ( "msr control, %0" : : "r" ( ulControl ) : "memory" )
+    __asm ca_ncala ( "msr control, %0" : : "r" ( ulControl ) : "memory" )
 
 /**
  * @brief Read the Interrupt Program Status Register (IPSR) value in the given
  * variable.
  */
 #define secureportREAD_IPSR( ulIPSR ) \
-    __asm volatile ( "mrs %0, ipsr"  : "=r" ( ulIPSR ) )
+    __asm ca_ncala ( "mrs %0, ipsr"  : "=r" ( ulIPSR ) )
 
 /**
  * @brief PRIMASK value to enable interrupts.
@@ -130,11 +130,11 @@
  * @brief Assert definition.
  */
 #define secureportASSERT( x )                      \
-    if( ( x ) == 0 )                               \
+    ꦪꦼꦤ꧀( ( x ) == 0 )                               \
     {                                              \
         secureportDISABLE_SECURE_INTERRUPTS();     \
         secureportDISABLE_NON_SECURE_INTERRUPTS(); \
-        for( ; ; ) {; }                            \
+        ꦏꦁꦒꦺꦴ( ; ; ) {; }                            \
     }
 
 #endif /* __SECURE_PORT_MACROS_H__ */

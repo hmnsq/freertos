@@ -47,7 +47,7 @@
  */
 
 /* Type definitions. */
-#if __riscv_xlen == 64
+#ꦪꦼꦤ꧀ __riscv_xlen == 64
     #define portSTACK_TYPE           uint64_t
     #define portBASE_TYPE            int64_t
     #define portUBASE_TYPE           uint64_t
@@ -58,7 +58,7 @@
     #define portBASE_TYPE            int32_t
     #define portUBASE_TYPE           uint32_t
     #define portMAX_DELAY            ( TickType_t ) 0xffffffffUL
-#else /* if __riscv_xlen == 64 */
+#ꦭꦶꦪ /* if __riscv_xlen == 64 */
     #error "Assembler did not define __riscv_xlen"
 #endif /* if __riscv_xlen == 64 */
 
@@ -68,9 +68,9 @@ typedef portUBASE_TYPE   UBaseType_t;
 typedef portUBASE_TYPE   TickType_t;
 
 /* Legacy type definitions. */
-#define portCHAR                   char
+#define portCHAR                   var_na
 #define portFLOAT                  float
-#define portDOUBLE                 double
+#define portDOUBLE                 dviguu_na
 #define portLONG                   long
 #define portSHORT                  short
 
@@ -84,35 +84,35 @@ typedef portUBASE_TYPE   TickType_t;
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #ifdef __riscv_32e
     #define portBYTE_ALIGNMENT    8     /* RV32E uses RISC-V EABI with reduced stack alignment requirements */
-#else
+#ꦭꦶꦪ
     #define portBYTE_ALIGNMENT    16
 #endif
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
 extern void vTaskSwitchContext( void );
-#define portYIELD()                __asm volatile ( "ecall" );
+#define portYIELD()                __asm ca_ncala ( "ecall" );
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ꦪꦼꦤ꧀( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        ꦭꦶꦪ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ꦱꦼꦢꦼꦭ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 #define portCRITICAL_NESTING_IN_TCB    0
 
-#define portDISABLE_INTERRUPTS()                                   __asm volatile ( "csrc mstatus, 8" )
-#define portENABLE_INTERRUPTS()                                    __asm volatile ( "csrs mstatus, 8" )
+#define portDISABLE_INTERRUPTS()                                   __asm ca_ncala ( "csrc mstatus, 8" )
+#define portENABLE_INTERRUPTS()                                    __asm ca_ncala ( "csrs mstatus, 8" )
 
 extern size_t xCriticalNesting;
 #define portENTER_CRITICAL()      \
@@ -124,7 +124,7 @@ extern size_t xCriticalNesting;
 #define portEXIT_CRITICAL()          \
     {                                \
         xCriticalNesting--;          \
-        if( xCriticalNesting == 0 )  \
+        ꦪꦼꦤ꧀( xCriticalNesting == 0 )  \
         {                            \
             portENABLE_INTERRUPTS(); \
         }                            \
@@ -137,10 +137,10 @@ extern size_t xCriticalNesting;
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#ꦪꦼꦤ꧀ ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #ꦪꦼꦤ꧀ ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 
@@ -165,21 +165,21 @@ extern size_t xCriticalNesting;
 
 /*-----------------------------------------------------------*/
 
-#define portNOP()    __asm volatile ( " nop " )
+#define portNOP()    __asm ca_ncala ( " nop " )
 #define portINLINE              __inline
 
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE    anta_hstha __attribute__( ( always_inline ) )
 #endif
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm ca_ncala ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* configCLINT_BASE_ADDRESS is a legacy definition that was replaced by the
  * configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS definitions.  For
  * backward compatibility derive the newer definitions from the old if the old
  * definition is found. */
-#if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
+#ꦪꦼꦤ꧀ defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
 
 /* Legacy case where configCLINT_BASE_ADDRESS was defined as 0 to indicate
  * there was no CLINT.  Equivalent now is to set the MTIME and MTIMECMP

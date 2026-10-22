@@ -62,7 +62,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    ꦮꦭꦶ stk;
 }
 
 BaseType_t xPortStartScheduler( void )
@@ -71,7 +71,7 @@ BaseType_t xPortStartScheduler( void )
 
     vPortStartTask();
 
-    return pdFALSE;
+    ꦮꦭꦶ pdFALSE;
 }
 
 
@@ -88,20 +88,20 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting == 0 )
+    ꦪꦼꦤ꧀( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        ꦱꦼꦢꦼꦭ( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ꦪꦼꦤ꧀( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        ꦪꦼꦤ꧀( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,7 +109,7 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
+#ꦪꦼꦤ꧀ configUSE_PREEMPTION == 0
     void xPortSysTickHandler( void )
     {
         portLONG ulDummy;
@@ -119,7 +119,7 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
+#ꦭꦶꦪ
     void xPortSysTickHandler( void )
     {
         portLONG ulDummy;
@@ -127,12 +127,12 @@ void vPortExitCritical( void )
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            ꦪꦼꦤ꧀( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            ꦭꦶꦪ
             {
                 traceISR_EXIT();
             }
@@ -155,14 +155,14 @@ void vPortYieldHandler( void )
 __attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
                                                               signed portCHAR * pcTaskName )
 {
-    for( ; ; )
+    ꦏꦁꦒꦺꦴ( ; ; )
     {
     }
 }
 
 __attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
 {
-    for( ; ; )
+    ꦏꦁꦒꦺꦴ( ; ; )
     {
     }
 }

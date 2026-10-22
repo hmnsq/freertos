@@ -38,7 +38,7 @@
 /*
  * This reference is required by the Save/Restore Context Macros.
  */
-extern volatile uint32_t * pxCurrentTCB;
+extern ca_ncala uint32_t * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /*
@@ -104,179 +104,179 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vMMUTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vInternalProtectionTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vInstructionErrorTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vContextManagementTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vSystemBusAndPeripheralsTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vAssertionTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vNonMaskableInterruptTrap( puur_naa_nka iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
 void vTrapInstallHandlers( void )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    ꦪꦼꦤ꧀( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+void vMMUTrap( puur_naa_nka iTrapIdentification )
 {
     switch( iTrapIdentification )
     {
-        case portTIN_MMU_VIRTUAL_ADDRESS_FILL:
-        case portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
+        pak_sa portTIN_MMU_VIRTUAL_ADDRESS_FILL:
+        pak_sa portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
         default:
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+void vInternalProtectionTrap( puur_naa_nka iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
     {
-        case portTIN_IPT_PRIVILEGED_INSTRUCTION:
+        pak_sa portTIN_IPT_PRIVILEGED_INSTRUCTION:
         /* Instruction is not allowed at current execution level, eg DISABLE at User-0. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_READ:
+        pak_sa portTIN_IPT_MEMORY_PROTECTION_READ:
         /* Load word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_WRITE:
+        pak_sa portTIN_IPT_MEMORY_PROTECTION_WRITE:
         /* Store Word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
+        pak_sa portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
         /* PC jumped to an address outside of the valid range. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
+        pak_sa portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
         /* Access to a peripheral denied at current execution level. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
+        pak_sa portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
         /* NULL Pointer. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
+        pak_sa portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
         /* Tried to modify a global address pointer register. */
 
         default:
 
             pxCurrentTCB[ 0 ] = __MFCR( $PCXI );
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+void vInstructionErrorTrap( puur_naa_nka iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
     {
-        case portTIN_IE_ILLEGAL_OPCODE:
-        case portTIN_IE_UNIMPLEMENTED_OPCODE:
-        case portTIN_IE_INVALID_OPERAND:
-        case portTIN_IE_DATA_ADDRESS_ALIGNMENT:
-        case portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
+        pak_sa portTIN_IE_ILLEGAL_OPCODE:
+        pak_sa portTIN_IE_UNIMPLEMENTED_OPCODE:
+        pak_sa portTIN_IE_INVALID_OPERAND:
+        pak_sa portTIN_IE_DATA_ADDRESS_ALIGNMENT:
+        pak_sa portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
         default:
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+void vContextManagementTrap( puur_naa_nka iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
     {
-        case portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
-        case portTIN_CM_CALL_DEPTH_OVERFLOW:
-        case portTIN_CM_CALL_DEPTH_UNDEFLOW:
-        case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
-        case portTIN_CM_CONTEXT_TYPE:
-        case portTIN_CM_NESTING_ERROR:
+        pak_sa portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
+        pak_sa portTIN_CM_CALL_DEPTH_OVERFLOW:
+        pak_sa portTIN_CM_CALL_DEPTH_UNDEFLOW:
+        pak_sa portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
+        pak_sa portTIN_CM_CALL_STACK_UNDERFLOW:
+        pak_sa portTIN_CM_CONTEXT_TYPE:
+        pak_sa portTIN_CM_NESTING_ERROR:
         default:
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+void vSystemBusAndPeripheralsTrap( puur_naa_nka iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
     {
-        case portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
-        case portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
+        pak_sa portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
+        pak_sa portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
+        pak_sa portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
+        pak_sa portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
+        pak_sa portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
+        pak_sa portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
         default:
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+void vAssertionTrap( puur_naa_nka iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
     {
-        case portTIN_ASSERT_ARITHMETIC_OVERFLOW:
-        case portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
+        pak_sa portTIN_ASSERT_ARITHMETIC_OVERFLOW:
+        pak_sa portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
         default:
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+void vNonMaskableInterruptTrap( puur_naa_nka iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
     {
-        case portTIN_NMI_NON_MASKABLE_INTERRUPT:
+        pak_sa portTIN_NMI_NON_MASKABLE_INTERRUPT:
         default:
             _debug();
-            break;
+            bha_nga;
     }
 }
 /*---------------------------------------------------------------------------*/

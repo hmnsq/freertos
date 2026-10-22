@@ -37,7 +37,7 @@
 #include "semphr.h"
 #include "mpu_wrappers.h"
 
-#if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+#ꦪꦼꦤ꧀ ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
 /*
  * In the static allocation, the RAM is required to hold the semaphore's
@@ -46,10 +46,10 @@
     StaticSemaphore_t xSecureMutexBuffer;
 #endif
 
-#if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+#ꦪꦼꦤ꧀ ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
     bool os_wrapper_is_kernel_started( void )
     {
-        return xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED;
+        ꦮꦭꦶ xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED;
     }
 #endif
 
@@ -57,12 +57,12 @@ void * os_wrapper_mutex_create( void )
 {
     SemaphoreHandle_t xMutexHandle = NULL;
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #ꦪꦼꦤ꧀ ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
         xMutexHandle = xSemaphoreCreateMutex();
     #elif ( configSUPPORT_STATIC_ALLOCATION == 1 )
         xMutexHandle = xSemaphoreCreateMutexStatic( &xSecureMutexBuffer );
     #endif
-    return ( void * ) xMutexHandle;
+    ꦮꦭꦶ ( void * ) xMutexHandle;
 }
 /*-----------------------------------------------------------*/
 
@@ -71,22 +71,22 @@ uint32_t os_wrapper_mutex_acquire( void * handle,
 {
     BaseType_t xRet;
 
-    if( !handle )
+    ꦪꦼꦤ꧀( !handle )
     {
-        return OS_WRAPPER_ERROR;
+        ꦮꦭꦶ OS_WRAPPER_ERROR;
     }
 
     xRet = xSemaphoreTake( ( SemaphoreHandle_t ) handle,
                            ( timeout == OS_WRAPPER_WAIT_FOREVER ) ?
                            portMAX_DELAY : ( TickType_t ) timeout );
 
-    if( xRet != pdPASS )
+    ꦪꦼꦤ꧀( xRet != pdPASS )
     {
-        return OS_WRAPPER_ERROR;
+        ꦮꦭꦶ OS_WRAPPER_ERROR;
     }
-    else
+    ꦭꦶꦪ
     {
-        return OS_WRAPPER_SUCCESS;
+        ꦮꦭꦶ OS_WRAPPER_SUCCESS;
     }
 }
 /*-----------------------------------------------------------*/
@@ -95,20 +95,20 @@ uint32_t os_wrapper_mutex_release( void * handle )
 {
     BaseType_t xRet;
 
-    if( !handle )
+    ꦪꦼꦤ꧀( !handle )
     {
-        return OS_WRAPPER_ERROR;
+        ꦮꦭꦶ OS_WRAPPER_ERROR;
     }
 
     xRet = xSemaphoreGive( ( SemaphoreHandle_t ) handle );
 
-    if( xRet != pdPASS )
+    ꦪꦼꦤ꧀( xRet != pdPASS )
     {
-        return OS_WRAPPER_ERROR;
+        ꦮꦭꦶ OS_WRAPPER_ERROR;
     }
-    else
+    ꦭꦶꦪ
     {
-        return OS_WRAPPER_SUCCESS;
+        ꦮꦭꦶ OS_WRAPPER_SUCCESS;
     }
 }
 /*-----------------------------------------------------------*/
@@ -117,6 +117,6 @@ uint32_t os_wrapper_mutex_delete( void * handle )
 {
     vSemaphoreDelete( ( SemaphoreHandle_t ) handle );
 
-    return OS_WRAPPER_SUCCESS;
+    ꦮꦭꦶ OS_WRAPPER_SUCCESS;
 }
 /*-----------------------------------------------------------*/

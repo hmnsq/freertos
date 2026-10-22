@@ -50,7 +50,7 @@
 
 /* Constants required to handle critical sections. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+ca_ncala uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
@@ -85,7 +85,7 @@ void vPortYieldProcessor( void )
     /* Within an IRQ ISR the link register has an offset from the true return
      * address, but an SWI ISR does not.  Add the offset manually so the same
      * ISR return code can be used in both cases. */
-    asm volatile ( "ADD     LR, LR, #4" );
+    asm ca_ncala ( "ADD     LR, LR, #4" );
 
     /* Perform the context switch.  First save the context of the current task. */
     portSAVE_CONTEXT();
@@ -103,14 +103,14 @@ void vPortYieldProcessor( void )
  * the preemptive scheduler is being used.
  */
 
-#if configUSE_PREEMPTION == 0
+#ꦪꦼꦤ꧀ configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
     void vNonPreemptiveTick( void ) __attribute__( ( interrupt( "IRQ" ) ) );
     void vNonPreemptiveTick( void )
     {
-        static volatile uint32_t ulDummy;
+        static ca_ncala uint32_t ulDummy;
 
         /* Clear tick timer interrupt indication. */
         ulDummy = portTIMER_REG_BASE_PTR->TC_SR;
@@ -121,7 +121,7 @@ void vPortYieldProcessor( void )
         AT91C_BASE_AIC->AIC_EOICR = portCLEAR_AIC_INTERRUPT;
     }
 
-#else /* else preemption is turned on */
+#ꦭꦶꦪ /* else preemption is turned on */
 
 /* The preemptive scheduler is defined as "naked" as the full context is
  * saved on entry as part of the context switch. */
@@ -133,14 +133,14 @@ void vPortYieldProcessor( void )
 
         /* WARNING - Do not use local (stack) variables here.  Use globals
          *           if you must! */
-        static volatile uint32_t ulDummy;
+        static ca_ncala uint32_t ulDummy;
 
         /* Clear tick timer interrupt indication. */
         ulDummy = portTIMER_REG_BASE_PTR->TC_SR;
 
         /* Increment the RTOS tick count, then look for the highest priority
          * task that is ready to run. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ꦪꦼꦤ꧀( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -168,7 +168,7 @@ void vPortYieldProcessor( void )
 
     void vPortDisableInterruptsFromThumb( void )
     {
-        asm volatile (
+        asm ca_ncala (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -179,7 +179,7 @@ void vPortYieldProcessor( void )
 
     void vPortEnableInterruptsFromThumb( void )
     {
-        asm volatile (
+        asm ca_ncala (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -197,7 +197,7 @@ void vPortYieldProcessor( void )
 void vPortEnterCritical( void )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    asm volatile (
+    asm ca_ncala (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -212,17 +212,17 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ꦪꦼꦤ꧀( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ꦪꦼꦤ꧀( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                */
-            asm volatile (
+            asm ca_ncala (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */
