@@ -46,10 +46,10 @@
 #include "xtensa_rtos.h"
 #include "sdkconfig.h"
 #include "esp_idf_version.h"
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#如果 ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
     #include    "esp_clk.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32
+#否则
+    #如果 CONFIG_IDF_TARGET_ESP32
         #include "esp32/clk.h"
     #elif CONFIG_IDF_TARGET_ESP32S2
         #include "esp32s2/clk.h"
@@ -68,9 +68,9 @@
     }
 
 /* Deprecated, to be removed */
-    int xt_clock_freq( void )
+    整数 xt_clock_freq( void )
     {
-        return esp_clk_cpu_freq();
+        返回 esp_clk_cpu_freq();
     }
 
 #endif /* XT_RTOS_TIMER_INT */

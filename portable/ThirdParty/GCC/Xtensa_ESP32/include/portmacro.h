@@ -90,7 +90,7 @@
 
     #include "soc/cpu.h"
     #include "soc/soc_memory_layout.h"
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #如果 ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
         #include "soc/compare_set.h"
     #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
@@ -114,19 +114,19 @@
     #define portLONG          int32_t
     #define portSHORT         int16_t
     #define portSTACK_TYPE    uint8_t
-    #define portBASE_TYPE     int
+    #define portBASE_TYPE     整数
 
     typedef portSTACK_TYPE           StackType_t;
     typedef portBASE_TYPE            BaseType_t;
     typedef unsigned portBASE_TYPE   UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    #如果 ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
         typedef uint16_t             TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffff
     #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
         typedef uint32_t             TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-    #else
+    #否则
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
@@ -180,7 +180,7 @@
 
     void vTaskExitCritical();
     void vTaskEnterCritical();
-    static inline void vPortConsumeSpinlockArg( int unused,
+    static inline void vPortConsumeSpinlockArg( 整数 unused,
                                                 ... )
     {
     }
@@ -194,11 +194,11 @@
  * @return true if mutex is successfully acquired, false on timeout.
  */
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles );
+                                      整数 timeout_cycles );
     void vPortCPUReleaseMutex( portMUX_TYPE * mux );
 
-    #define portENTER_CRITICAL( ... )        do { vTaskEnterCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
-    #define portEXIT_CRITICAL( ... )         do { vTaskExitCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
+    #define portENTER_CRITICAL( ... )        do { vTaskEnterCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } 当( 0 )
+    #define portEXIT_CRITICAL( ... )         do { vTaskExitCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } 当( 0 )
 
 
     #define portENTER_CRITICAL_ISR( mux )    vPortCPUAcquireMutexTimeout( mux, portMUX_NO_TIMEOUT )
@@ -206,23 +206,23 @@
 
     #define portENTER_CRITICAL_SAFE( mux ) \
     do {                                   \
-        if( xPortInIsrContext() ) {        \
+        如果( xPortInIsrContext() ) {        \
             portENTER_CRITICAL_ISR( mux ); \
         }                                  \
-        else {                             \
+        否则 {                             \
             portENTER_CRITICAL( mux );     \
         }                                  \
-    } while( 0 )
+    } 当( 0 )
 
     #define portEXIT_CRITICAL_SAFE( mux ) \
     do {                                  \
-        if( xPortInIsrContext() ) {       \
+        如果( xPortInIsrContext() ) {       \
             portEXIT_CRITICAL_ISR( mux ); \
         }                                 \
-        else {                            \
+        否则 {                            \
             portEXIT_CRITICAL( mux );     \
         }                                 \
-    } while( 0 )
+    } 当( 0 )
 
     #define portASSERT_IF_IN_ISR()    vPortAssertIfInISR()
     void vPortAssertIfInISR( void );
@@ -231,8 +231,8 @@
 /* These cannot be nested. They should be used with a lot of care and cannot be called from interrupt level. */
 /* */
 /* Only applies to one CPU. See notes above & below for reasons not to use these. */
-    #define portDISABLE_INTERRUPTS()    do { XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmarkINTERRUPT_DISABLE(); } while( 0 )
-    #define portENABLE_INTERRUPTS()     do { portbenchmarkINTERRUPT_RESTORE( 0 ); XTOS_SET_INTLEVEL( 0 ); } while( 0 )
+    #define portDISABLE_INTERRUPTS()    do { XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmarkINTERRUPT_DISABLE(); } 当( 0 )
+    #define portENABLE_INTERRUPTS()     do { portbenchmarkINTERRUPT_RESTORE( 0 ); XTOS_SET_INTLEVEL( 0 ); } 当( 0 )
 
 /* Cleaner solution allows nested interrupts disabling and restoring via local registers or stack. */
 /* They can be called from interrupts too. */
@@ -242,7 +242,7 @@
         UBaseType_t prev_int_level = XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL );
 
         portbenchmarkINTERRUPT_DISABLE();
-        return prev_int_level;
+        返回 prev_int_level;
     }
 
     static inline void __attribute__( ( always_inline ) ) vPortClearInterruptMaskFromISR( UBaseType_t prev_level )
@@ -267,7 +267,7 @@
     #define portVALID_TCB_MEM( ptr )          ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
     #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
         #define portVALID_STACK_MEM( ptr )    esp_ptr_byte_accessible( ptr )
-    #else
+    #否则
         #define portVALID_STACK_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
     #endif
 
@@ -284,22 +284,22 @@
                                          uint32_t compare,
                                          uint32_t * set )
     {
-        #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+        #如果 ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
             __asm__ __volatile__ (
                 "WSR       %2,SCOMPARE1 \n"
                 "S32C1I     %0, %1, 0   \n"
                 : "=r" ( *set )
                 : "r" ( addr ), "r" ( compare ), "0" ( *set )
                 );
-        #else
-            #if ( XCHAL_HAVE_S32C1I > 0 )
+        #否则
+            #如果 ( XCHAL_HAVE_S32C1I > 0 )
                 __asm__ __volatile__ (
                     "WSR        %2,SCOMPARE1 \n"
                     "S32C1I     %0, %1, 0    \n"
                     : "=r" ( *set )
                     : "r" ( addr ), "r" ( compare ), "0" ( *set )
                     );
-            #else
+            #否则
                 /* No S32C1I, so do this by disabling and re-enabling interrupts (slower) */
                 uint32_t intlevel, old_value;
                 __asm__ __volatile__ ( "rsil %0, " XTSTR( XCHAL_EXCM_LEVEL ) "\n"
@@ -307,7 +307,7 @@
 
                 old_value = *addr;
 
-                if( old_value == compare )
+                如果( old_value == compare )
                 {
                     *addr = *set;
                 }
@@ -321,16 +321,16 @@
         #endif /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
     }
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #如果 ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
         void uxPortCompareSetExtram( volatile uint32_t * addr,
                                      uint32_t compare,
                                      uint32_t * set );
-    #else
+    #否则
         static inline void uxPortCompareSetExtram( volatile uint32_t * addr,
                                                    uint32_t compare,
                                                    uint32_t * set )
         {
-            #if defined( CONFIG_SPIRAM )
+            #如果 defined( CONFIG_SPIRAM )
                 compare_and_set_extram( addr, compare, set );
             #endif
         }
@@ -352,14 +352,14 @@
 
     #ifdef CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER
 /* Coarse resolution time (us) */
-        #define portALT_GET_RUN_TIME_COUNTER_VALUE( x )    do { x = ( uint32_t ) esp_timer_get_time(); } while( 0 )
+        #define portALT_GET_RUN_TIME_COUNTER_VALUE( x )    do { x = ( uint32_t ) esp_timer_get_time(); } 当( 0 )
     #endif
 
 
 
 /* Kernel utilities. */
     void vPortYield( void );
-    void vPortEvaluateYieldFromISR( int argc,
+    void vPortEvaluateYieldFromISR( 整数 argc,
                                     ... );
     void _frxt_setup_switch( void );
 
@@ -372,9 +372,9 @@
  * This allows users to compile their code with standard C++20 enabled instead of the GNU extension.
  * Below C++20, we haven't found any good alternative to using ##__VA_ARGS__.
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
+    #如果 defined( __cplusplus ) && ( __cplusplus > 201703L )
         #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
-    #else
+    #否则
         #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0, ## __VA_ARGS__, 1, 0 )
     #endif
     #define portGET_ARGUMENT_COUNT_INNER( zero, one, count, ... )    count
@@ -388,9 +388,9 @@
  * it was developed to support both usages of portYIELD inside of an ISR. Any other usage form
  * might result in undesired behaviour
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
+    #如果 defined( __cplusplus ) && ( __cplusplus > 201703L )
         #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
-    #else
+    #否则
         #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ), ## __VA_ARGS__ )
     #endif
 
@@ -408,27 +408,27 @@
 /* The field is normally used for memory protection. FreeRTOS should create another general purpose field. */
     typedef struct
     {
-        #if XCHAL_CP_NUM > 0
+        #如果 XCHAL_CP_NUM > 0
             volatile StackType_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
         #endif
 
-        #if portUSING_MPU_WRAPPERS
+        #如果 portUSING_MPU_WRAPPERS
             /* Define here mpu_settings, which is port dependent */
-            int mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
+            整数 mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
         #endif
 
-        #if configUSE_TRACE_FACILITY_2
+        #如果 configUSE_TRACE_FACILITY_2
             struct
             {
                 /* Cf. porttraceStamp() */
-                int taskstamp;      /* Stamp from inside task to see where we are */
-                int taskstampcount; /* A counter usually incremented when we restart the task's loop */
+                整数 taskstamp;      /* Stamp from inside task to see where we are */
+                整数 taskstampcount; /* A counter usually incremented when we restart the task's loop */
             } porttrace;
         #endif
     } xMPU_SETTINGS;
 
 /* Main hack to use MPU_wrappers even when no MPU is defined (warning: mpu_setting should not be accessed; otherwise move this above xMPU_SETTINGS) */
-    #if ( XCHAL_CP_NUM > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
+    #如果 ( XCHAL_CP_NUM > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
         #undef portUSING_MPU_WRAPPERS
         #define portUSING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
         #define MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
@@ -444,13 +444,13 @@
 
 /*-----------------------------------------------------------*/
 
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #如果 ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
         /* Architecture specific optimisations. */
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #如果 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-            #if ( configMAX_PRIORITIES > 32 )
+            #如果 ( configMAX_PRIORITIES > 32 )
                 #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
             #endif
 
@@ -480,7 +480,7 @@
     #define xPortGetFreeHeapSize               esp_get_free_heap_size
     #define xPortGetMinimumEverFreeHeapSize    esp_get_minimum_free_heap_size
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #如果 ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
 
 /*
  * Send an interrupt to another core in order to make the task running
@@ -517,7 +517,7 @@
  * Fills the xMPUSettings structure with the memory region information
  * contained in xRegions.
  */
-    #if ( portUSING_MPU_WRAPPERS == 1 )
+    #如果 ( portUSING_MPU_WRAPPERS == 1 )
         struct xMEMORY_REGION;
         void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                         const struct xMEMORY_REGION * const xRegions,
@@ -529,7 +529,7 @@
 /* Multi-core: get current core ID */
     static inline BaseType_t IRAM_ATTR xPortGetCoreID()
     {
-        return ( uint32_t ) cpu_hal_get_core_id();
+        返回 ( uint32_t ) cpu_hal_get_core_id();
     }
 
 /* Get tick rate per second */
@@ -549,19 +549,19 @@
          * However, just return true, only intlevel is zero.
          */
 
-        return( ( ps_reg & PS_INTLEVEL_MASK ) == 0 );
+        返回( ( ps_reg & PS_INTLEVEL_MASK ) == 0 );
     }
 
 /* porttrace */
-    #if configUSE_TRACE_FACILITY_2
+    #如果 configUSE_TRACE_FACILITY_2
         #include "porttrace.h"
     #endif
 
 /* configASSERT_2 if requested */
-    #if configASSERT_2
+    #如果 configASSERT_2
         #include <stdio.h>
-        void exit( int );
-        #define configASSERT( x )    if( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
+        void exit( 整数 );
+        #define configASSERT( x )    如果( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
     #endif
 
 /* Barriers */

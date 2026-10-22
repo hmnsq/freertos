@@ -88,7 +88,7 @@
     {                                                \
         extern uint32_t ulPortYieldRequired;         \
                                                      \
-        if( xSwitchRequired != pdFALSE )             \
+        如果( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldRequired = pdTRUE;            \
         }                                            \
@@ -136,7 +136,7 @@
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
     #endif
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #如果 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
         #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )

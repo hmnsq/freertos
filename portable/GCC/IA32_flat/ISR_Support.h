@@ -43,7 +43,7 @@
     jne     2f
 
     /* Interrupts are not nested, so save the rest of the task context. */
-    .if configSUPPORT_FPU == 1
+    .如果 configSUPPORT_FPU == 1
 
         /* If the task has a buffer allocated to save the FPU context then
         save the FPU context now. */
@@ -98,7 +98,7 @@
     movl    pxCurrentTCB, %eax
     movl    (%eax), %esp
 
-    .if configSUPPORT_FPU == 1
+    .如果 configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
         pop     pucPortTaskFPUContextBuffer

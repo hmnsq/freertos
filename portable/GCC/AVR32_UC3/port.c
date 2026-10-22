@@ -82,7 +82,7 @@
 /* AVR32 UC3 includes. */
 #include <avr32/io.h>
 #include "gpio.h"
-#if ( configTICK_USE_TC == 1 )
+#如果 ( configTICK_USE_TC == 1 )
     #include "tc.h"
 #endif
 
@@ -95,9 +95,9 @@
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 volatile uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configTICK_USE_TC == 0 )
+#如果 ( configTICK_USE_TC == 0 )
     static void prvScheduleNextTick( void );
-#else
+#否则
     static void prvClearTcInt( void );
 #endif
 
@@ -119,14 +119,14 @@ void _init_startup( void )
     /* Import the Exception Vector Base Address. */
     extern void _evba;
 
-    #if configHEAP_INIT
+    #如果 configHEAP_INIT
         extern void __heap_start__;
         extern void __heap_end__;
         BaseType_t * pxMem;
     #endif
 
     /* Load the Exception Vector Base Address in the corresponding system register. */
-    Set_system_register( AVR32_EVBA, ( int ) &_evba );
+    Set_system_register( AVR32_EVBA, ( 整数 ) &_evba );
 
     /* Enable exceptions. */
     ENABLE_ALL_EXCEPTIONS();
@@ -134,9 +134,9 @@ void _init_startup( void )
     /* Initialize interrupt handling. */
     INTC_init_interrupts();
 
-    #if configHEAP_INIT
+    #如果 configHEAP_INIT
         /* Initialize the heap used by malloc. */
-        for( pxMem = &__heap_start__; pxMem < ( BaseType_t * ) &__heap_end__; )
+        为( pxMem = &__heap_start__; pxMem < ( BaseType_t * ) &__heap_end__; )
         {
             *pxMem++ = 0xA5A5A5A5;
         }
@@ -146,7 +146,7 @@ void _init_startup( void )
     set_cpu_hz( configCPU_CLOCK_HZ );
 
     /* Code section present if and only if the debug trace is activated. */
-    #if configDBG
+    #如果 configDBG
     {
         static const gpio_map_t DBG_USART_GPIO_MAP =
         {
@@ -211,7 +211,7 @@ void * pvPortRealloc( void * pv,
     }
     xTaskResumeAll();
 
-    return pvReturn;
+    返回 pvReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -225,10 +225,10 @@ __attribute__( ( __naked__ ) ) static void vTick( void )
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT_OS_INT();
 
-    #if ( configTICK_USE_TC == 1 )
+    #如果 ( configTICK_USE_TC == 1 )
         /* Clear the interrupt flag. */
         prvClearTcInt();
-    #else
+    #否则
 
         /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
          * clock cycles from now. */
@@ -273,11 +273,11 @@ __attribute__( ( __noinline__ ) ) void vPortEnterCritical( void )
 
 __attribute__( ( __noinline__ ) ) void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    如果( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        如果( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable all interrupt/exception. */
             portENABLE_INTERRUPTS();
@@ -319,7 +319,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack-- = ( StackType_t ) 0x07070707;                    /* R7 */
     *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
 
-    return pxTopOfStack;
+    返回 pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -333,7 +333,7 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here! */
-    return 0;
+    返回 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -346,7 +346,7 @@ void vPortEndScheduler( void )
 
 /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
  * clock cycles from now. */
-#if ( configTICK_USE_TC == 0 )
+#如果 ( configTICK_USE_TC == 0 )
     static void prvScheduleFirstTick( void )
     {
         uint32_t lCycles;
@@ -356,7 +356,7 @@ void vPortEndScheduler( void )
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        如果( 0 == lCycles )
         {
             lCycles++;
         }
@@ -373,21 +373,21 @@ void vPortEndScheduler( void )
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        如果( 0 == lCycles )
         {
             lCycles++;
         }
 
         lCount = Get_system_register( AVR32_COUNT );
 
-        if( lCycles < lCount )
+        如果( lCycles < lCount )
         { /* We missed a tick, recover for the next. */
             lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
         }
 
         Set_system_register( AVR32_COMPARE, lCycles );
     }
-#else /* if ( configTICK_USE_TC == 0 ) */
+#否则 /* if ( configTICK_USE_TC == 0 ) */
     __attribute__( ( __noinline__ ) ) static void prvClearTcInt( void )
     {
         AVR32_TC.channel[ configTICK_TC_CHANNEL ].sr;
@@ -398,7 +398,7 @@ void vPortEndScheduler( void )
 /* Setup the timer to generate the tick interrupts. */
 static void prvSetupTimerInterrupt( void )
 {
-    #if ( configTICK_USE_TC == 1 )
+    #如果 ( configTICK_USE_TC == 1 )
         volatile avr32_tc_t * tc = &AVR32_TC;
 
         /* Options for waveform generation. */
@@ -447,7 +447,7 @@ static void prvSetupTimerInterrupt( void )
     /* Register the compare interrupt handler to the interrupt controller and
      * enable the compare interrupt. */
 
-    #if ( configTICK_USE_TC == 1 )
+    #如果 ( configTICK_USE_TC == 1 )
     {
         INTC_register_interrupt( &vTick, configTICK_TC_IRQ, INT0 );
 
@@ -464,7 +464,7 @@ static void prvSetupTimerInterrupt( void )
         /* Start the timer/counter. */
         tc_start( tc, configTICK_TC_CHANNEL );
     }
-    #else /* if ( configTICK_USE_TC == 1 ) */
+    #否则 /* if ( configTICK_USE_TC == 1 ) */
     {
         INTC_register_interrupt( &vTick, AVR32_CORE_COMPARE_IRQ, INT0 );
         prvScheduleFirstTick();

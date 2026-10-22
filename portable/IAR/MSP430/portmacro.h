@@ -44,7 +44,7 @@
 #define portFLOAT         float
 #define portDOUBLE        double
 #define portLONG          long
-#define portSHORT         int
+#define portSHORT         整数
 #define portSTACK_TYPE    uint16_t
 #define portBASE_TYPE     short
 
@@ -53,13 +53,13 @@ typedef short            BaseType_t;
 typedef unsigned short   UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#如果 ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#否则
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -89,14 +89,14 @@ typedef unsigned short   UBaseType_t;
     {                                                                               \
         extern volatile uint16_t usCriticalNesting;                                 \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        如果( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            如果( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
                 portENABLE_INTERRUPTS();                                            \
             }                                                                       \
@@ -125,10 +125,10 @@ extern void vPortYield( void );
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
-#if configINTERRUPT_EXAMPLE_METHOD == 2
+#如果 configINTERRUPT_EXAMPLE_METHOD == 2
 
     extern void vTaskSwitchContext( void );
-    #define portYIELD_FROM_ISR( x )    do { if( x ) vTaskSwitchContext( ); } while( 0 )
+    #define portYIELD_FROM_ISR( x )    do { 如果( x ) vTaskSwitchContext( ); } 当( 0 )
 
 #endif
 

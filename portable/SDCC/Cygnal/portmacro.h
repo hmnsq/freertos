@@ -29,9 +29,9 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#if configUSE_PREEMPTION == 0
+#如果 configUSE_PREEMPTION == 0
     void vTimer2ISR( void ) interrupt 5;
-#else
+#否则
     void vTimer2ISR( void ) interrupt 5 _naked;
 #endif
 
@@ -61,13 +61,13 @@ typedef portSTACK_TYPE StackType_t;
 typedef signed char BaseType_t;
 typedef unsigned char UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#如果( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#否则
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/

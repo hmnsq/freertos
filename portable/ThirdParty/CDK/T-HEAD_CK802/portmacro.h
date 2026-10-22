@@ -63,13 +63,13 @@ typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 typedef void (* portvectorfunc)( void );
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#如果 ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#否则
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -93,7 +93,7 @@ static inline void vPortDisableInterrupt( void )
 
 static inline portLONG GetCurrentPSR( void )
 {
-    return __get_PSR();
+    返回 __get_PSR();
 }
 
 static inline portLONG SaveLocalPSR( void )
@@ -101,7 +101,7 @@ static inline portLONG SaveLocalPSR( void )
     portLONG flags = __get_PSR();
 
     __disable_irq();
-    return flags;
+    返回 flags;
 }
 
 static inline void RestoreLocalPSR( portLONG newMask )
@@ -131,11 +131,11 @@ extern portLONG ulCriticalNesting;
 extern portLONG pendsvflag;
 
 #define portYIELD()              \
-    if( ulCriticalNesting == 0 ) \
+    如果( ulCriticalNesting == 0 ) \
     {                            \
         vPortYield();            \
     }                            \
-    else                         \
+    否则                         \
     {                            \
         pendsvflag = 1;          \
     }                            \
@@ -150,16 +150,16 @@ extern portLONG pendsvflag;
 
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do {                                         \
-        if( xSwitchRequired != pdFALSE )         \
+        如果( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        否则                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } 当( 0 )
 
 #define portYIELD_FROM_ISR( a )    vTaskSwitchContext()
 

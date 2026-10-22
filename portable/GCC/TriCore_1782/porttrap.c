@@ -104,55 +104,55 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vMMUTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vInternalProtectionTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vInstructionErrorTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vContextManagementTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vSystemBusAndPeripheralsTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vAssertionTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
+void vNonMaskableInterruptTrap( 整数 iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
 void vTrapInstallHandlers( void )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    如果( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    如果( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    如果( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    如果( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    如果( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    如果( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    如果( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+void vMMUTrap( 整数 iTrapIdentification )
 {
     switch( iTrapIdentification )
     {
@@ -165,7 +165,7 @@ void vMMUTrap( int iTrapIdentification )
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+void vInternalProtectionTrap( 整数 iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
@@ -200,7 +200,7 @@ void vInternalProtectionTrap( int iTrapIdentification )
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+void vInstructionErrorTrap( 整数 iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
@@ -217,7 +217,7 @@ void vInstructionErrorTrap( int iTrapIdentification )
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+void vContextManagementTrap( 整数 iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
@@ -236,7 +236,7 @@ void vContextManagementTrap( int iTrapIdentification )
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+void vSystemBusAndPeripheralsTrap( 整数 iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
@@ -254,7 +254,7 @@ void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+void vAssertionTrap( 整数 iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )
@@ -268,7 +268,7 @@ void vAssertionTrap( int iTrapIdentification )
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+void vNonMaskableInterruptTrap( 整数 iTrapIdentification )
 {
     /* Deliberate fall through to default. */
     switch( iTrapIdentification )

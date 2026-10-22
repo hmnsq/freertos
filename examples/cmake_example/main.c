@@ -54,7 +54,7 @@ static void exampleTask( void * parameters )
     /* Unused parameters. */
     ( void ) parameters;
 
-    for( ; ; )
+    为( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,7 +62,7 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+整数 主要( void )
 {
     static StaticTask_t exampleTaskTCB;
     static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
@@ -80,16 +80,16 @@ int main( void )
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    为( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    返回 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#如果 ( configCHECK_FOR_STACK_OVERFLOW > 0 )
 
     void vApplicationStackOverflowHook( TaskHandle_t xTask,
                                         char * pcTaskName )

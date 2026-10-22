@@ -185,7 +185,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
 #ifdef __MSPGCC__
     *pxTopOfStack = ( StackType_t ) 0xcccc;
-#else
+#否则
     /* The MSP430 EABI expects the function parameter in R12. */
     *pxTopOfStack = ( StackType_t ) pvParameters;
 #endif
@@ -197,7 +197,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 #ifdef __MSPGCC__
     /* The mspgcc ABI expects the function parameter in R15. */
     *pxTopOfStack = ( StackType_t ) pvParameters;
-#else
+#否则
     *pxTopOfStack = ( StackType_t ) 0xffff;
 #endif
     pxTopOfStack--;
@@ -211,7 +211,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    返回 pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -225,7 +225,7 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    返回 pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -296,7 +296,7 @@ static void prvSetupTimerInterrupt( void )
  * scheduler is being used or not.
  */
 
-#if configUSE_PREEMPTION == 1
+#如果 configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a naked attribute as
@@ -311,7 +311,7 @@ static void prvSetupTimerInterrupt( void )
 
         /* Increment the tick count then switch to the highest priority task
          * that is ready to run. */
-        if( xTaskIncrementTick() != pdFALSE )
+        如果( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -320,7 +320,7 @@ static void prvSetupTimerInterrupt( void )
         portRESTORE_CONTEXT();
     }
 
-#else /* if configUSE_PREEMPTION == 1 */
+#否则 /* if configUSE_PREEMPTION == 1 */
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the

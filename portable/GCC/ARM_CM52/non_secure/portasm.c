@@ -45,17 +45,17 @@
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_MPU == 1 )
-    #if ( configENABLE_PAC == 1 )
+#如果 ( configENABLE_MPU == 1 )
+    #如果 ( configENABLE_PAC == 1 )
         #define SECURE_CONTEXT_OFFSET   -36
-    #else
+    #否则
         #define SECURE_CONTEXT_OFFSET   -20
     #endif
-#else
+#否则
     #define SECURE_CONTEXT_OFFSET       0
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#如果 ( configENABLE_MPU == 1 )
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -87,7 +87,7 @@
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 set of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
             "                                                 \n"
-        #if ( configTOTAL_MPU_REGIONS == 16 )
+        #如果 ( configTOTAL_MPU_REGIONS == 16 )
             "    movs r3, #8                                  \n" /* r3 = 8. */
             "    str r3, [r1]                                 \n" /* Program RNR = 8. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 set of RBAR/RLAR registers from TCB. */
@@ -110,7 +110,7 @@
             "    ldr r2, [r1]                                 \n" /* r2 = Location of saved context in TCB. */
             "                                                 \n"
             " restore_special_regs_first_task:                \n"
-        #if ( configENABLE_PAC == 1 )
+        #如果 ( configENABLE_PAC == 1 )
             "   ldmdb r2!, {r3-r6}                            \n" /* Read task's dedicated PAC key from the task's context. */
             "   msr  PAC_KEY_P_0, r3                          \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_1, r4                          \n"
@@ -138,7 +138,7 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#否则 /* configENABLE_MPU */
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -150,7 +150,7 @@
             "   ldr  r3, [r2]                                   \n" /* Read pxCurrentTCB. */
             "   ldr  r0, [r3]                                   \n" /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
             "                                                   \n"
-        #if ( configENABLE_PAC == 1 )
+        #如果 ( configENABLE_PAC == 1 )
             "   ldmia r0!, {r1-r4}                              \n" /* Read task's dedicated PAC key from stack. */
             "   msr  PAC_KEY_P_3, r1                            \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_2, r2                            \n"
@@ -278,7 +278,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#如果 ( configENABLE_MPU == 1 )
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -307,7 +307,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "                                                 \n"
             " save_general_regs:                              \n"
             "    mrs r3, psp                                  \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #如果 ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    add r3, r3, #0x20                            \n" /* Move r3 to location where s0 is saved. */
             "    tst lr, #0x10                                \n"
             "    ittt eq                                      \n"
@@ -325,7 +325,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    mrs r4, psplim                               \n" /* r4 = PSPLIM. */
             "    mrs r5, control                              \n" /* r5 = CONTROL. */
             "    stmia r2!, {r0, r3-r5, lr}                   \n" /* Store xSecureContext, original PSP (after hardware has saved context), PSPLIM, CONTROL and LR. */
-        #if ( configENABLE_PAC == 1 )
+        #如果 ( configENABLE_PAC == 1 )
             "   mrs  r3, PAC_KEY_P_0                          \n" /* Read task's dedicated PAC key from the PAC key registers. */
             "   mrs  r4, PAC_KEY_P_1                          \n"
             "   mrs  r5, PAC_KEY_P_2                          \n"
@@ -368,7 +368,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
             "    stmia r2, {r4-r11}                           \n" /* Write 4 set of RBAR/RLAR registers using alias registers. */
             "                                                 \n"
-        #if ( configTOTAL_MPU_REGIONS == 16 )
+        #如果 ( configTOTAL_MPU_REGIONS == 16 )
             "    movs r3, #8                                  \n" /* r3 = 8. */
             "    str r3, [r1]                                 \n" /* Program RNR = 8. */
             "    ldmia r0!, {r4-r11}                          \n" /* Read 4 sets of RBAR/RLAR registers from TCB. */
@@ -391,7 +391,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldr r2, [r1]                                 \n" /* r2 = Location of saved context in TCB. */
             "                                                 \n"
             " restore_special_regs:                           \n"
-        #if ( configENABLE_PAC == 1 )
+        #如果 ( configENABLE_PAC == 1 )
             "   ldmdb r2!, {r3-r6}                            \n" /* Read task's dedicated PAC key from the task's context. */
             "   msr  PAC_KEY_P_0, r3                          \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "   msr  PAC_KEY_P_1, r4                          \n"
@@ -421,7 +421,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldmdb r2!, {r4-r11}                          \n" /* r4-r11 contain hardware saved context. */
             "    stmia r3!, {r4-r11}                          \n" /* Copy the hardware saved context on the task stack. */
             "    ldmdb r2!, {r4-r11}                          \n" /* r4-r11 restored. */
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #如果 ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    tst lr, #0x10                                \n"
             "    ittt eq                                      \n"
             "    vldmdbeq r2!, {s0-s16}                       \n" /* s0-s16 contain hardware saved FP context. */
@@ -436,7 +436,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#否则 /* configENABLE_MPU */
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -464,7 +464,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    bmi save_special_regs                        \n" /* If r3 < 0 ==> Bit[6] in EXC_RETURN is 1 ==> secure stack was used. */
             "                                                 \n"
             " save_general_regs:                              \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #如果 ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "    tst lr, #0x10                                \n" /* Test Bit[4] in LR. Bit[4] of EXC_RETURN is 0 if the Extended Stack Frame is in use. */
             "    it eq                                        \n"
             "    vstmdbeq r2!, {s16-s31}                      \n" /* Store the additional FP context registers which are not saved automatically. */
@@ -474,7 +474,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             " save_special_regs:                              \n"
             "    mrs r3, psplim                               \n" /* r3 = PSPLIM. */
             "    stmdb r2!, {r0, r3, lr}                      \n" /* Store xSecureContext, PSPLIM and LR on the stack. */
-        #if ( configENABLE_PAC == 1 )
+        #如果 ( configENABLE_PAC == 1 )
             "    mrs  r3, PAC_KEY_P_3                         \n" /* Read task's dedicated PAC key from the PAC key registers. */
             "    mrs  r4, PAC_KEY_P_2                         \n"
             "    mrs  r5, PAC_KEY_P_1                         \n"
@@ -500,7 +500,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    ldr r2, [r1]                                 \n" /* The first item in pxCurrentTCB is the task top of stack. r2 now points to the top of stack. */
             "                                                 \n"
             " restore_special_regs:                           \n"
-        #if ( configENABLE_PAC == 1 )
+        #如果 ( configENABLE_PAC == 1 )
             "    ldmia r2!, {r3-r6}                           \n" /* Read task's dedicated PAC key from stack. */
             "    msr  PAC_KEY_P_3, r3                         \n" /* Write the task's dedicated PAC key to the PAC key registers. */
             "    msr  PAC_KEY_P_2, r4                         \n"
@@ -526,7 +526,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "                                                 \n"
             " restore_general_regs:                           \n"
             "    ldmia r2!, {r4-r11}                          \n" /* Restore the registers that are not automatically restored. */
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #如果 ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             "   tst lr, #0x10                                 \n" /* Test Bit[4] in LR. Bit[4] of EXC_RETURN is 0 if the Extended Stack Frame is in use. */
             "   it eq                                         \n"
             "   vldmiaeq r2!, {s16-s31}                       \n" /* Restore the additional FP context registers which are not restored automatically. */
@@ -542,7 +542,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#如果 ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
@@ -580,7 +580,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#否则 /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
