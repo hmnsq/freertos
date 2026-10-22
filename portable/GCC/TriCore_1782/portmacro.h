@@ -50,9 +50,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -62,7 +62,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ຖ້າ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -72,7 +72,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ບໍ່ດັ່ງນັ້ນ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*---------------------------------------------------------------------------*/
@@ -81,14 +81,14 @@ typedef unsigned long    UBaseType_t;
 #define portSTACK_GROWTH                         ( -1 )
 #define portTICK_PERIOD_MS                       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT                       4
-#define portNOP()    __asm volatile ( " nop " )
+#define portNOP()    __asm ca_ncala ( " nop " )
 #define portCRITICAL_NESTING_IN_TCB              1
 #define portRESTORE_FIRST_TASK_PRIORITY_LEVEL    1
 
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct MPU_SETTINGS
+typedef sa_nracanaa MPU_SETTINGS
 {
     uint32_t ulNotUsed;
 } xMPU_SETTINGS;
@@ -161,7 +161,7 @@ extern uint32_t uxPortSetInterruptMaskFromISR( void );
 #define portSET_INTERRUPT_MASK_FROM_ISR()                 uxPortSetInterruptMaskFromISR()
 
 /* Pend a priority 1 interrupt, which will take care of the context switch. */
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) { CPU_SRC0.bits.SETR = 1; _isync(); } } while( 0 )
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { ຖ້າ( xHigherPriorityTaskWoken != pdFALSE ) { CPU_SRC0.bits.SETR = 1; _isync(); } } ໃນຂະນະທີ່( 0 )
 
 /*---------------------------------------------------------------------------*/
 

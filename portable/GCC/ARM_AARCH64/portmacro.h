@@ -46,9 +46,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    size_t
@@ -82,17 +82,17 @@ typedef uint64_t         TickType_t;
     {                                            \
         extern uint64_t ullPortYieldRequired;    \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        ຖ້າ( xSwitchRequired != pdFALSE )         \
         {                                        \
             ullPortYieldRequired = pdTRUE;       \
         }                                        \
     }
 
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#if defined( GUEST )
-    #define portYIELD()            __asm volatile ( "SVC 0" ::: "memory" )
-#else
-    #define portYIELD()            __asm volatile ( "SMC 0" ::: "memory" )
+#ຖ້າ defined( GUEST )
+    #define portYIELD()            __asm ca_ncala ( "SVC 0" ::: "memory" )
+#ບໍ່ດັ່ງນັ້ນ
+    #define portYIELD()            __asm ca_ncala ( "SMC 0" ::: "memory" )
 #endif
 
 /*-----------------------------------------------------------
@@ -106,14 +106,14 @@ extern void vPortClearInterruptMask( UBaseType_t uxNewMaskValue );
 extern void vPortInstallFreeRTOSVectorTable( void );
 
 #define portDISABLE_INTERRUPTS()                       \
-    __asm volatile ( "MSR DAIFSET, #2" ::: "memory" ); \
-    __asm volatile ( "DSB SY" );                       \
-    __asm volatile ( "ISB SY" );
+    __asm ca_ncala ( "MSR DAIFSET, #2" ::: "memory" ); \
+    __asm ca_ncala ( "DSB SY" );                       \
+    __asm ca_ncala ( "ISB SY" );
 
 #define portENABLE_INTERRUPTS()                        \
-    __asm volatile ( "MSR DAIFCLR, #2" ::: "memory" ); \
-    __asm volatile ( "DSB SY" );                       \
-    __asm volatile ( "ISB SY" );
+    __asm ca_ncala ( "MSR DAIFCLR, #2" ::: "memory" ); \
+    __asm ca_ncala ( "DSB SY" );                       \
+    __asm ca_ncala ( "ISB SY" );
 
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
@@ -140,9 +140,9 @@ void FreeRTOS_Tick_Handler( void );
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU context
  * by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#ຖ້າ ( configUSE_TASK_FPU_SUPPORT != 2 )
     void vPortTaskUsesFPU( void );
-#else
+#ບໍ່ດັ່ງນັ້ນ
     /* Each task has an FPU context already, so define this function away to
      * nothing to prevent it from being called accidentally. */
     #define vPortTaskUsesFPU()
@@ -157,7 +157,7 @@ void FreeRTOS_Tick_Handler( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ຖ້າ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -169,17 +169,17 @@ void FreeRTOS_Tick_Handler( void );
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
+#ຖ້າ ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif /* configASSERT */
 
-#define portNOP()                                         __asm volatile ( "NOP" )
+#define portNOP()                                         __asm ca_ncala ( "NOP" )
 #define portINLINE    __inline
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
+#ຖ້າ configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
     #define portMAX_BINARY_POINT_VALUE    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
@@ -194,7 +194,7 @@ void FreeRTOS_Tick_Handler( void );
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
     #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#ບໍ່ດັ່ງນັ້ນ /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
     #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
@@ -206,14 +206,14 @@ void FreeRTOS_Tick_Handler( void );
 #define portICCRPR_RUNNING_PRIORITY_OFFSET                   ( 0x14 )
 
 #define portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS       ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET )
-#define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
+#define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( ca_ncala uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
 #define portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS    ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET )
 #define portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS        ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCEOIR_END_OF_INTERRUPT_OFFSET )
 #define portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS            ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET )
-#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
-#define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
+#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const ca_ncala uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
+#define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const ca_ncala uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm ca_ncala ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

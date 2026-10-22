@@ -50,8 +50,8 @@
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
+#ຖ້າ ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+    #error This file must not be used ຖ້າ configSUPPORT_DYNAMIC_ALLOCATION is 0
 #endif
 
 /*-----------------------------------------------------------*/
@@ -67,22 +67,22 @@ void * pvPortMalloc( size_t xWantedSize )
     }
     ( void ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #ຖ້າ ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        ຖ້າ( pvReturn == NULL )
         {
             vApplicationMallocFailedHook();
         }
     }
     #endif
 
-    return pvReturn;
+    ສົ່ງຄືນ pvReturn;
 }
 /*-----------------------------------------------------------*/
 
 void vPortFree( void * pv )
 {
-    if( pv != NULL )
+    ຖ້າ( pv != NULL )
     {
         vTaskSuspendAll();
         {

@@ -50,7 +50,7 @@ extern "C" {
             "to use when an unprivileged task makes a FreeRTOS Kernel call. "
 #endif /* configSYSTEM_CALL_STACK_SIZE */
 
-#if( configUSE_MPU_WRAPPERS_V1 == 1 )
+#ຖ້າ( configUSE_MPU_WRAPPERS_V1 == 1 )
     #error This port is usable with MPU wrappers V2 only.
 #endif /* configUSE_MPU_WRAPPERS_V1 */
 
@@ -61,10 +61,10 @@ extern "C" {
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#ຖ້າ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #ຖ້າ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when " \
                 "configMAX_PRIORITIES is less than or equal to 32. " \
                 "It is very rare that a system requires more than 10 to 15 difference " \
@@ -205,7 +205,7 @@ typedef uint32_t TickType_t;
  *
  * @ingroup Port Interface Specifications
  */
-#define portNOP()                                    __asm volatile( "NOP" )
+#define portNOP()                                    __asm ca_ncala( "NOP" )
 
 /**
  * @brief The inline GCC label.
@@ -219,7 +219,7 @@ typedef uint32_t TickType_t;
  *
  * @ingroup Port Interface Specifications
  */
-#define portMEMORY_BARRIER()                         __asm volatile( "" ::: "memory" )
+#define portMEMORY_BARRIER()                         __asm ca_ncala( "" ::: "memory" )
 
 /**
  * @brief Ensure a symbol isn't removed from the compilation unit.
@@ -413,7 +413,7 @@ void prvTaskExitError( void );
 
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
+#ບໍ່ດັ່ງນັ້ນ
     #define portTASK_RETURN_ADDRESS prvTaskExitError
 #endif /* configTASK_RETURN_ADDRESS */
 
@@ -471,7 +471,7 @@ void vPortEndScheduler( void );
  * @note The ordering of this struct MUST be in sync with the ordering in
  * portRESTORE_CONTEXT.
  */
-typedef struct MPU_REGION_REGISTERS
+typedef sa_nracanaa MPU_REGION_REGISTERS
 {
     uint32_t ulRegionSize;        /* Information for MPU Region Size and Enable Register. */
     uint32_t ulRegionAttribute;   /* Information for MPU Region Access Control Register. */
@@ -488,7 +488,7 @@ typedef struct MPU_REGION_REGISTERS
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct SYSTEM_CALL_STACK_INFO
+typedef sa_nracanaa SYSTEM_CALL_STACK_INFO
 {
     uint32_t * pulTaskStackPointer; /**< Stack Pointer of the task when it made a FreeRTOS System Call. */
     uint32_t * pulLinkRegisterAtSystemCallEntry; /**< Link Register of the task when it made a FreeRTOS System Call. */
@@ -508,14 +508,14 @@ typedef struct SYSTEM_CALL_STACK_INFO
  * @note The ordering of this structure MUST be in sync with the assembly code
  * of the port.
  */
-typedef struct MPU_SETTINGS
+typedef sa_nracanaa MPU_SETTINGS
 {
     xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
     uint32_t ulTaskFlags;
     xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
     uint32_t ulContext[ CONTEXT_SIZE ]; /**< Buffer used to store task context. */
 
-    #if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #ຖ້າ( configENABLE_ACCESS_CONTROL_LIST == 1 )
         uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE
                                         / portACL_ENTRY_SIZE_BITS )
                                       + 1UL ];

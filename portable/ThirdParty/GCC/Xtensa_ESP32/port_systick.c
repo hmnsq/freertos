@@ -73,7 +73,7 @@ BaseType_t xPortSysTickHandler( void );
 
         #ifdef CONFIG_FREERTOS_CORETIMER_SYSTIMER_LVL3
             const unsigned level = ESP_INTR_FLAG_LEVEL3;
-        #else
+        #ບໍ່ດັ່ງນັ້ນ
             const unsigned level = ESP_INTR_FLAG_LEVEL1;
         #endif
         /* Systimer HAL layer object */
@@ -81,18 +81,18 @@ BaseType_t xPortSysTickHandler( void );
         /* set system timer interrupt vector */
         ESP_ERROR_CHECK( esp_intr_alloc( ETS_SYSTIMER_TARGET0_EDGE_INTR_SOURCE + cpuid, ESP_INTR_FLAG_IRAM | level, SysTickIsrHandler, &systimer_hal, NULL ) );
 
-        if( cpuid == 0 )
+        ຖ້າ( cpuid == 0 )
         {
             systimer_hal_init( &systimer_hal );
             systimer_ll_set_counter_value( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK, 0 );
             systimer_ll_apply_counter_value( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK );
 
-            for( cpuid = 0; cpuid < SOC_CPU_CORES_NUM; cpuid++ )
+            ສຳລັບ( cpuid = 0; cpuid < SOC_CPU_CORES_NUM; cpuid++ )
             {
                 systimer_hal_counter_can_stall_by_cpu( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, cpuid, false );
             }
 
-            for( cpuid = 0; cpuid < portNUM_PROCESSORS; ++cpuid )
+            ສຳລັບ( cpuid = 0; cpuid < portNUM_PROCESSORS; ++cpuid )
             {
                 uint32_t alarm_id = SYSTIMER_LL_ALARM_OS_TICK_CORE0 + cpuid;
 
@@ -102,7 +102,7 @@ BaseType_t xPortSysTickHandler( void );
                 systimer_hal_select_alarm_mode( &systimer_hal, alarm_id, SYSTIMER_ALARM_MODE_PERIOD );
                 systimer_hal_counter_can_stall_by_cpu( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, cpuid, true );
 
-                if( cpuid == 0 )
+                ຖ້າ( cpuid == 0 )
                 {
                     systimer_hal_enable_alarm_int( &systimer_hal, alarm_id );
                     systimer_hal_enable_counter( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK );
@@ -113,7 +113,7 @@ BaseType_t xPortSysTickHandler( void );
                 }
             }
         }
-        else
+        ບໍ່ດັ່ງນັ້ນ
         {
             uint32_t alarm_id = SYSTIMER_LL_ALARM_OS_TICK_CORE0 + cpuid;
             systimer_hal_enable_alarm_int( &systimer_hal, alarm_id );
@@ -143,14 +143,14 @@ BaseType_t xPortSysTickHandler( void );
 
             uint32_t diff = systimer_hal_get_counter_value( systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK ) / systimer_ll_get_alarm_period( systimer_hal->dev, alarm_id ) - s_handled_systicks[ cpuid ];
 
-            if( diff > 0 )
+            ຖ້າ( diff > 0 )
             {
-                if( s_handled_systicks[ cpuid ] == 0 )
+                ຖ້າ( s_handled_systicks[ cpuid ] == 0 )
                 {
                     s_handled_systicks[ cpuid ] = diff;
                     diff = 1;
                 }
-                else
+                ບໍ່ດັ່ງນັ້ນ
                 {
                     s_handled_systicks[ cpuid ] += diff;
                 }
@@ -158,9 +158,9 @@ BaseType_t xPortSysTickHandler( void );
                 do
                 {
                     xPortSysTickHandler();
-                } while( --diff );
+                } ໃນຂະນະທີ່( --diff );
             }
-        } while( systimer_ll_is_alarm_int_fired( systimer_hal->dev, alarm_id ) );
+        } ໃນຂະນະທີ່( systimer_ll_is_alarm_int_fired( systimer_hal->dev, alarm_id ) );
 
         #ifdef CONFIG_PM_TRACE
             ESP_PM_TRACE_EXIT( TICK, cpuid );
@@ -183,15 +183,15 @@ BaseType_t xPortSysTickHandler( void )
     traceISR_ENTER( SYSTICK_INTR_ID );
     BaseType_t ret = xTaskIncrementTick();
 
-    if( ret != pdFALSE )
+    ຖ້າ( ret != pdFALSE )
     {
         traceISR_EXIT_TO_SCHEDULER();
         portYIELD_FROM_ISR();
     }
-    else
+    ບໍ່ດັ່ງນັ້ນ
     {
         traceISR_EXIT();
     }
 
-    return ret;
+    ສົ່ງຄືນ ret;
 }

@@ -43,11 +43,11 @@
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_MPU == 1 )
+#ຖ້າ ( configENABLE_MPU == 1 )
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -133,11 +133,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#ບໍ່ດັ່ງນັ້ນ /* configENABLE_MPU */
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -164,7 +164,7 @@
 
 BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -187,7 +187,7 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 
 void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -204,7 +204,7 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -224,7 +224,7 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     /* Don't reset the MSP stack as is done on CM3/4 devices. The reason is that
      * the Vector Table Offset Register (VTOR) is optional in CM0+ architecture
      * and therefore, may not be available on all the devices. */
-    __asm volatile
+    __asm ca_ncala
     (
         " .syntax unified                                 \n"
         " cpsie i                                         \n" /* Globally enable interrupts. */
@@ -242,7 +242,7 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -257,7 +257,7 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 
 void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -269,11 +269,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ຖ້າ ( configENABLE_MPU == 1 )
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -387,11 +387,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#ບໍ່ດັ່ງນັ້ນ /* configENABLE_MPU */
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -437,11 +437,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ຖ້າ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .syntax unified                \n"
             " .extern vPortSVCHandler_C      \n"
@@ -493,11 +493,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ບໍ່ດັ່ງນັ້ນ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .syntax unified                \n"
             " .extern vPortSVCHandler_C      \n"

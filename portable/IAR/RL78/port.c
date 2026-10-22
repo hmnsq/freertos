@@ -50,7 +50,7 @@
 /* The address of the pxCurrentTCB variable, but don't know or need to know its
  * type. */
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each time
  * a critical section is entered the count is incremented.  Each time a critical
@@ -60,7 +60,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+ca_ncala uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
@@ -96,7 +96,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* With large data sizeof( StackType_t ) == 2, and
      * sizeof( StackType_t * ) == 4.  With small data
      * sizeof( StackType_t ) == 2 and sizeof( StackType_t * ) == 2. */
-#if __DATA_MODEL__ == __DATA_MODEL_FAR__
+#ຖ້າ __DATA_MODEL__ == __DATA_MODEL_FAR__
     {
         /* Far pointer parameters are passed using the A:DE registers (24-bit).
          * Although they are stored in memory as a 32-bit value.  Hence decrement
@@ -104,9 +104,9 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * storing the pvParameters value. */
         pxTopOfStack--;
         pulLocal = ( uint32_t * ) pxTopOfStack;
-        #if  __CALLING_CONVENTION__ == __CC_V2__
+        #ຖ້າ  __CALLING_CONVENTION__ == __CC_V2__
             /* V2: parameter via A:DE, do not push pvParameters on stack */
-        #else
+        #ບໍ່ດັ່ງນັ້ນ
             /* V1 or unknown: keep stack write */
             *pulLocal = ( uint32_t ) pvParameters;
             pxTopOfStack--;
@@ -125,7 +125,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
         pxTopOfStack--;
         /* Register image on task entry. */
-        #if  __CALLING_CONVENTION__ == __CC_V2__
+        #ຖ້າ  __CALLING_CONVENTION__ == __CC_V2__
         {
             uint32_t p = ( uint32_t ) pvParameters;
             uint16_t de_init = (uint16_t)( p & 0xFFFFU );
@@ -143,7 +143,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
             *pxTopOfStack = ( StackType_t ) de_init;
             pxTopOfStack--;
         }
-        #else
+        #ບໍ່ດັ່ງນັ້ນ
             /* An initial value for the AX register. */
             *pxTopOfStack = ( StackType_t ) 0x1111;
             pxTopOfStack--;
@@ -161,7 +161,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = ( StackType_t ) 0xBCBC;
         pxTopOfStack--;
     }
-#else /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
+#ບໍ່ດັ່ງນັ້ນ /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
     {
        /* The return address, leaving space for the first two bytes of the
          * 32-bit value.  See the comments above the prvTaskExitError() prototype
@@ -198,7 +198,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
     /* Return a pointer to the top of the stack that has been generated so
      * it can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ສົ່ງຄືນ pxTopOfStack;
 }
 
 /*-----------------------------------------------------------*/
@@ -214,7 +214,7 @@ static void prvTaskExitError( void )
     configASSERT( usCriticalNesting == ~0U );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    ສຳລັບ( ; ; )
     {
     }
 }
@@ -230,7 +230,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    ສົ່ງຄືນ pdTRUE;
 }
 /*-----------------------------------------------------------*/
 

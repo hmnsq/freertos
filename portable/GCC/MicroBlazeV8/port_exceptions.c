@@ -63,7 +63,7 @@
 /* Exclude this entire file if the MicroBlaze is not configured to handle
  * exceptions, or the application defined configuration constant
  * configINSTALL_EXCEPTION_HANDLERS is not set to 1. */
-#if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
+#ຖ້າ ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
 
 /* This variable is set in the exception entry code, before
  * vPortExceptionHandler is called. */
@@ -93,7 +93,7 @@
     {
         ( void ) xRegisterDump;
 
-        for( ; ; )
+        ສຳລັບ( ; ; )
         {
             portNOP();
         }
@@ -159,11 +159,11 @@
          * exception. */
         xRegisterDump.ulPC = xRegisterDump.ulR17_return_address_from_exceptions - portexINSTRUCTION_SIZE;
 
-        #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
+        #ຖ້າ ( XPAR_MICROBLAZE_USE_FPU != 0 )
         {
             xRegisterDump.ulFSR = mffsr();
         }
-        #else
+        #ບໍ່ດັ່ງນັ້ນ
         {
             xRegisterDump.ulFSR = 0UL;
         }
@@ -174,38 +174,38 @@
          * library exception header files. */
         switch( ( uint32_t ) pvExceptionID )
         {
-            case XEXC_ID_FSL:
+            pak_sa XEXC_ID_FSL:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_FSL";
-                break;
+                bha_nga;
 
-            case XEXC_ID_UNALIGNED_ACCESS:
+            pak_sa XEXC_ID_UNALIGNED_ACCESS:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_UNALIGNED_ACCESS";
-                break;
+                bha_nga;
 
-            case XEXC_ID_ILLEGAL_OPCODE:
+            pak_sa XEXC_ID_ILLEGAL_OPCODE:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_ILLEGAL_OPCODE";
-                break;
+                bha_nga;
 
-            case XEXC_ID_M_AXI_I_EXCEPTION:
+            pak_sa XEXC_ID_M_AXI_I_EXCEPTION:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_M_AXI_I_EXCEPTION or XEXC_ID_IPLB_EXCEPTION";
-                break;
+                bha_nga;
 
-            case XEXC_ID_M_AXI_D_EXCEPTION:
+            pak_sa XEXC_ID_M_AXI_D_EXCEPTION:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_M_AXI_D_EXCEPTION or XEXC_ID_DPLB_EXCEPTION";
-                break;
+                bha_nga;
 
-            case XEXC_ID_DIV_BY_ZERO:
+            pak_sa XEXC_ID_DIV_BY_ZERO:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_DIV_BY_ZERO";
-                break;
+                bha_nga;
 
-            case XEXC_ID_STACK_VIOLATION:
+            pak_sa XEXC_ID_STACK_VIOLATION:
                 xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_STACK_VIOLATION or XEXC_ID_MMU";
-                break;
+                bha_nga;
 
-                #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
-                    case XEXC_ID_FPU:
+                #ຖ້າ ( XPAR_MICROBLAZE_USE_FPU != 0 )
+                    pak_sa XEXC_ID_FPU:
                         xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_FPU see ulFSR value";
-                        break;
+                        bha_nga;
                 #endif /* XPAR_MICROBLAZE_USE_FPU */
         }
 
@@ -217,7 +217,7 @@
         vApplicationExceptionRegisterDump( &xRegisterDump );
 
         /* Must not attempt to leave this function! */
-        for( ; ; )
+        ສຳລັບ( ; ; )
         {
             portNOP();
         }
@@ -228,43 +228,43 @@
     {
         static uint32_t ulHandlersAlreadyInstalled = pdFALSE;
 
-        if( ulHandlersAlreadyInstalled == pdFALSE )
+        ຖ້າ( ulHandlersAlreadyInstalled == pdFALSE )
         {
             ulHandlersAlreadyInstalled = pdTRUE;
 
-            #if XPAR_MICROBLAZE_UNALIGNED_EXCEPTIONS == 1
+            #ຖ້າ XPAR_MICROBLAZE_UNALIGNED_EXCEPTIONS == 1
                 microblaze_register_exception_handler( XEXC_ID_UNALIGNED_ACCESS, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_UNALIGNED_ACCESS );
             #endif /* XPAR_MICROBLAZE_UNALIGNED_EXCEPTIONS*/
 
-            #if XPAR_MICROBLAZE_ILL_OPCODE_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_ILL_OPCODE_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_ILLEGAL_OPCODE, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_ILLEGAL_OPCODE );
             #endif /* XPAR_MICROBLAZE_ILL_OPCODE_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_M_AXI_I_BUS_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_M_AXI_I_BUS_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_M_AXI_I_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_M_AXI_I_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_M_AXI_I_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_M_AXI_D_BUS_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_M_AXI_D_BUS_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_M_AXI_D_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_M_AXI_D_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_M_AXI_D_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_IPLB_BUS_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_IPLB_BUS_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_IPLB_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_IPLB_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_IPLB_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_DPLB_BUS_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_DPLB_BUS_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_DPLB_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_DPLB_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_DPLB_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_DIV_ZERO_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_DIV_ZERO_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_DIV_BY_ZERO, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_DIV_BY_ZERO );
             #endif /* XPAR_MICROBLAZE_DIV_ZERO_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_FPU_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_FPU_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_FPU, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_FPU );
             #endif /* XPAR_MICROBLAZE_FPU_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_FSL_EXCEPTION == 1
+            #ຖ້າ XPAR_MICROBLAZE_FSL_EXCEPTION == 1
                 microblaze_register_exception_handler( XEXC_ID_FSL, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_FSL );
             #endif /* XPAR_MICROBLAZE_FSL_EXCEPTION */
 

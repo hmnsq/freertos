@@ -47,9 +47,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -59,7 +59,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ຖ້າ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -72,7 +72,7 @@ typedef unsigned long    UBaseType_t;
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
     typedef uint64_t TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
-#else /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
+#ບໍ່ດັ່ງນັ້ນ /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
 /*-----------------------------------------------------------*/
@@ -92,25 +92,25 @@ typedef unsigned long    UBaseType_t;
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
-        __asm volatile ( "dsb" ::: "memory" );                     \
-        __asm volatile ( "isb" );                                  \
+        __asm ca_ncala ( "dsb" ::: "memory" );                     \
+        __asm ca_ncala ( "isb" );                                  \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( ca_ncala uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ຖ້າ( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        ບໍ່ດັ່ງນັ້ນ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ໃນຂະນະທີ່( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -145,20 +145,20 @@ extern void vPortExitCritical( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ຖ້າ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) static anta_hstha uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
+        __asm ca_ncala ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ucReturn;
+        ສົ່ງຄືນ ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #ຖ້າ ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -174,7 +174,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#ຖ້າ ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
@@ -185,7 +185,7 @@ extern void vPortExitCritical( void );
 #define portINLINE              __inline
 
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE    anta_hstha __attribute__( ( always_inline ) )
 #endif
 
 portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
@@ -194,18 +194,18 @@ portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
     BaseType_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm ca_ncala ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    ຖ້າ( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    ບໍ່ດັ່ງນັ້ນ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    ສົ່ງຄືນ xReturn;
 }
 
 /*-----------------------------------------------------------*/
@@ -214,7 +214,7 @@ portFORCE_INLINE static void vPortRaiseBASEPRI( void )
 {
     uint32_t ulNewBASEPRI;
 
-    __asm volatile
+    __asm ca_ncala
     (
         "   mov %0, %1                                              \n" \
         "   msr basepri, %0                                         \n" \
@@ -230,7 +230,7 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
 {
     uint32_t ulOriginalBASEPRI, ulNewBASEPRI;
 
-    __asm volatile
+    __asm ca_ncala
     (
         "   mrs %0, basepri                                         \n" \
         "   mov %1, %2                                              \n" \
@@ -242,20 +242,20 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
 
     /* This return will not be reached but is necessary to prevent compiler
      * warnings. */
-    return ulOriginalBASEPRI;
+    ສົ່ງຄືນ ulOriginalBASEPRI;
 }
 /*-----------------------------------------------------------*/
 
 portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   msr basepri, %0 " ::"r" ( ulNewMaskValue ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm ca_ncala ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

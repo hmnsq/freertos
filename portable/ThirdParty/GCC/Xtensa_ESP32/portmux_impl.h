@@ -31,9 +31,9 @@
 #include "portable.h"
 
 /* XOR one core ID with this value to get the other core ID */
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#ຖ້າ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
     #define CORE_ID_XOR_SWAP           ( CORE_ID_PRO ^ CORE_ID_APP )
-#else
+#ບໍ່ດັ່ງນັ້ນ
     #define CORE_ID_REGVAL_XOR_SWAP    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
 #endif
 
@@ -49,7 +49,7 @@
 #undef PORTMUX_COMPARE_SET_FN_NAME
 
 
-#if defined( CONFIG_SPIRAM_SUPPORT )
+#ຖ້າ defined( CONFIG_SPIRAM_SUPPORT )
 
     #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledExtram
     #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledExtram
@@ -63,37 +63,37 @@
 
 
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int line
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const char * fnName, int line
+    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, ຈຳນວນເຕັມ timeout_cycles, const var_na * fnName, ຈຳນວນເຕັມ line
+    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const var_na * fnName, ຈຳນວນເຕັມ line
     #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, line
     #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, line
-#else
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles
+#ບໍ່ດັ່ງນັ້ນ
+    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, ຈຳນວນເຕັມ timeout_cycles
     #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
     #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
     #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
 #endif
 
 
-static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
+static anta_hstha bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #ຖ້າ defined( CONFIG_SPIRAM_SUPPORT )
+        ຖ້າ( esp_ptr_external_ram( mux ) )
         {
-            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+            ສົ່ງຄືນ vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
         }
     #endif
-    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+    ສົ່ງຄືນ vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
 }
 
 
-static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
+static anta_hstha void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #ຖ້າ defined( CONFIG_SPIRAM_SUPPORT )
+        ຖ້າ( esp_ptr_external_ram( mux ) )
         {
             vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
-            return;
+            ສົ່ງຄືນ;
         }
     #endif
     vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );

@@ -117,7 +117,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #ບໍ່ດັ່ງນັ້ນ /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         pxTopOfStack -= 15;
     }
@@ -139,7 +139,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    ສົ່ງຄືນ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -148,7 +148,7 @@ BaseType_t xPortStartScheduler( void )
     extern void vApplicationSetupTimerInterrupt( void );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    ຖ້າ( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -169,7 +169,7 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    ສົ່ງຄືນ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -183,7 +183,7 @@ __interrupt void vTickISR( void )
      * necessitates. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ຖ້າ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

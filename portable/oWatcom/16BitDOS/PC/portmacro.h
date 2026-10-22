@@ -46,11 +46,11 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
-#define portSHORT       int
+#define portSHORT       ຈຳນວນເຕັມ
 #define portSTACK_TYPE  uint16_t
 #define portBASE_TYPE   short
 
@@ -59,13 +59,13 @@ typedef short BaseType_t;
 typedef unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ຖ້າ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#ບໍ່ດັ່ງນັ້ນ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -90,7 +90,7 @@ void portENABLE_INTERRUPTS( void );
 /* Architecture specifics. */
 #define portSTACK_GROWTH        ( -1 )
 #define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define portYIELD()             __asm{ ຈຳນວນເຕັມ portSWITCH_INT_NUMBER }
 #define portDOS_TICK_RATE       ( 18.20648 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICKS_PER_DOS_TICK  ( ( uint16_t ) ( ( ( portDOUBLE ) configTICK_RATE_HZ / portDOS_TICK_RATE ) + 0.5 ) )

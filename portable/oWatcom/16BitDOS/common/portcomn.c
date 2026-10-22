@@ -136,6 +136,6 @@ StackType_t * pxOriginalSP;
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    ສົ່ງຄືນ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/

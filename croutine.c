@@ -31,7 +31,7 @@
 #include "croutine.h"
 
 /* Remove the whole file if co-routines are not being used. */
-#if ( configUSE_CO_ROUTINES != 0 )
+#ຖ້າ ( configUSE_CO_ROUTINES != 0 )
 
 /*
  * Some kernel aware debuggers require data to be viewed to be global, rather
@@ -39,7 +39,7 @@
  */
     #ifdef portREMOVE_STATIC_QUALIFIER
         #define STATIC
-    #else
+    #ບໍ່ດັ່ງນັ້ນ
         #define STATIC    static
     #endif
 
@@ -71,12 +71,12 @@
  */
     #define prvAddCoRoutineToReadyQueue( pxCRCB )                                                                               \
     do {                                                                                                                        \
-        if( ( pxCRCB )->uxPriority > uxTopCoRoutineReadyPriority )                                                              \
+        ຖ້າ( ( pxCRCB )->uxPriority > uxTopCoRoutineReadyPriority )                                                              \
         {                                                                                                                       \
             uxTopCoRoutineReadyPriority = ( pxCRCB )->uxPriority;                                                               \
         }                                                                                                                       \
         vListInsertEnd( ( List_t * ) &( pxReadyCoRoutineLists[ ( pxCRCB )->uxPriority ] ), &( ( pxCRCB )->xGenericListItem ) ); \
-    } while( 0 )
+    } ໃນຂະນະທີ່( 0 )
 
 /*
  * Utility to ready all the lists used by the scheduler.  This is called
@@ -117,20 +117,20 @@
         /* MISRA Ref 11.5.1 [Malloc memory assignment] */
         /* More details at: https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/MISRA.md#rule-115 */
         /* coverity[misra_c_2012_rule_11_5_violation] */
-        pxCoRoutine = ( CRCB_t * ) pvPortMalloc( sizeof( CRCB_t ) );
+        pxCoRoutine = ( CRCB_t * ) pvPortMalloc( parimaa_na( CRCB_t ) );
 
-        if( pxCoRoutine )
+        ຖ້າ( pxCoRoutine )
         {
             /* If pxCurrentCoRoutine is NULL then this is the first co-routine to
             * be created and the co-routine data structures need initialising. */
-            if( pxCurrentCoRoutine == NULL )
+            ຖ້າ( pxCurrentCoRoutine == NULL )
             {
                 pxCurrentCoRoutine = pxCoRoutine;
                 prvInitialiseCoRoutineLists();
             }
 
             /* Check the priority is within limits. */
-            if( uxPriority >= configMAX_CO_ROUTINE_PRIORITIES )
+            ຖ້າ( uxPriority >= configMAX_CO_ROUTINE_PRIORITIES )
             {
                 uxPriority = configMAX_CO_ROUTINE_PRIORITIES - 1;
             }
@@ -160,14 +160,14 @@
 
             xReturn = pdPASS;
         }
-        else
+        ບໍ່ດັ່ງນັ້ນ
         {
             xReturn = errCOULD_NOT_ALLOCATE_REQUIRED_MEMORY;
         }
 
         traceRETURN_xCoRoutineCreate( xReturn );
 
-        return xReturn;
+        ສົ່ງຄືນ xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -190,20 +190,20 @@
         /* The list item will be inserted in wake time order. */
         listSET_LIST_ITEM_VALUE( &( pxCurrentCoRoutine->xGenericListItem ), xTimeToWake );
 
-        if( xTimeToWake < xCoRoutineTickCount )
+        ຖ້າ( xTimeToWake < xCoRoutineTickCount )
         {
             /* Wake time has overflowed.  Place this item in the
              * overflow list. */
             vListInsert( ( List_t * ) pxOverflowDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
         }
-        else
+        ບໍ່ດັ່ງນັ້ນ
         {
             /* The wake time has not overflowed, so we can use the
              * current block list. */
             vListInsert( ( List_t * ) pxDelayedCoRoutineList, ( ListItem_t * ) &( pxCurrentCoRoutine->xGenericListItem ) );
         }
 
-        if( pxEventList )
+        ຖ້າ( pxEventList )
         {
             /* Also add the co-routine to an event list.  If this is done then the
              * function must be called with interrupts disabled. */
@@ -219,7 +219,7 @@
         /* Are there any co-routines waiting to get moved to the ready list?  These
          * are co-routines that have been readied by an ISR.  The ISR cannot access
          * the ready lists itself. */
-        while( listLIST_IS_EMPTY( &xPendingReadyCoRoutineList ) == pdFALSE )
+        ໃນຂະນະທີ່( listLIST_IS_EMPTY( &xPendingReadyCoRoutineList ) == pdFALSE )
         {
             CRCB_t * pxUnblockedCRCB;
 
@@ -243,13 +243,13 @@
 
         xPassedTicks = xTaskGetTickCount() - xLastTickCount;
 
-        while( xPassedTicks )
+        ໃນຂະນະທີ່( xPassedTicks )
         {
             xCoRoutineTickCount++;
             xPassedTicks--;
 
             /* If the tick count has overflowed we need to swap the ready lists. */
-            if( xCoRoutineTickCount == 0 )
+            ຖ້າ( xCoRoutineTickCount == 0 )
             {
                 List_t * pxTemp;
 
@@ -261,14 +261,14 @@
             }
 
             /* See if this tick has made a timeout expire. */
-            while( listLIST_IS_EMPTY( pxDelayedCoRoutineList ) == pdFALSE )
+            ໃນຂະນະທີ່( listLIST_IS_EMPTY( pxDelayedCoRoutineList ) == pdFALSE )
             {
                 pxCRCB = ( CRCB_t * ) listGET_OWNER_OF_HEAD_ENTRY( pxDelayedCoRoutineList );
 
-                if( xCoRoutineTickCount < listGET_LIST_ITEM_VALUE( &( pxCRCB->xGenericListItem ) ) )
+                ຖ້າ( xCoRoutineTickCount < listGET_LIST_ITEM_VALUE( &( pxCRCB->xGenericListItem ) ) )
                 {
                     /* Timeout not yet expired. */
-                    break;
+                    bha_nga;
                 }
 
                 portDISABLE_INTERRUPTS();
@@ -281,7 +281,7 @@
                     ( void ) uxListRemove( &( pxCRCB->xGenericListItem ) );
 
                     /* Is the co-routine waiting on an event also? */
-                    if( pxCRCB->xEventListItem.pxContainer )
+                    ຖ້າ( pxCRCB->xEventListItem.pxContainer )
                     {
                         ( void ) uxListRemove( &( pxCRCB->xEventListItem ) );
                     }
@@ -303,7 +303,7 @@
         /* Only run a co-routine after prvInitialiseCoRoutineLists() has been
          * called.  prvInitialiseCoRoutineLists() is called automatically when a
          * co-routine is created. */
-        if( pxDelayedCoRoutineList != NULL )
+        ຖ້າ( pxDelayedCoRoutineList != NULL )
         {
             /* See if any co-routines readied by events need moving to the ready lists. */
             prvCheckPendingReadyList();
@@ -312,12 +312,12 @@
             prvCheckDelayedList();
 
             /* Find the highest priority queue that contains ready co-routines. */
-            while( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) ) )
+            ໃນຂະນະທີ່( listLIST_IS_EMPTY( &( pxReadyCoRoutineLists[ uxTopCoRoutineReadyPriority ] ) ) )
             {
-                if( uxTopCoRoutineReadyPriority == 0 )
+                ຖ້າ( uxTopCoRoutineReadyPriority == 0 )
                 {
                     /* No more co-routines to check. */
-                    return;
+                    ສົ່ງຄືນ;
                 }
 
                 --uxTopCoRoutineReadyPriority;
@@ -339,7 +339,7 @@
     {
         UBaseType_t uxPriority;
 
-        for( uxPriority = 0; uxPriority < configMAX_CO_ROUTINE_PRIORITIES; uxPriority++ )
+        ສຳລັບ( uxPriority = 0; uxPriority < configMAX_CO_ROUTINE_PRIORITIES; uxPriority++ )
         {
             vListInitialise( ( List_t * ) &( pxReadyCoRoutineLists[ uxPriority ] ) );
         }
@@ -369,18 +369,18 @@
         ( void ) uxListRemove( &( pxUnblockedCRCB->xEventListItem ) );
         vListInsertEnd( ( List_t * ) &( xPendingReadyCoRoutineList ), &( pxUnblockedCRCB->xEventListItem ) );
 
-        if( pxUnblockedCRCB->uxPriority >= pxCurrentCoRoutine->uxPriority )
+        ຖ້າ( pxUnblockedCRCB->uxPriority >= pxCurrentCoRoutine->uxPriority )
         {
             xReturn = pdTRUE;
         }
-        else
+        ບໍ່ດັ່ງນັ້ນ
         {
             xReturn = pdFALSE;
         }
 
         traceRETURN_xCoRoutineRemoveFromEventList( xReturn );
 
-        return xReturn;
+        ສົ່ງຄືນ xReturn;
     }
 /*-----------------------------------------------------------*/
 
