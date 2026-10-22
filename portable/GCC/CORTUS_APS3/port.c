@@ -76,7 +76,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack[ 1 ] = 0x03030303UL;
     pxTopOfStack[ 0 ] = ( uint32_t ) pvParameters;
 
-    return pxTopOfStack;
+    ᯀᯮᯞ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -92,7 +92,7 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here. */
-    return 0;
+    ᯀᯮᯞ 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -113,7 +113,7 @@ void interrupt31_handler( void ) __attribute__( ( naked ) );
 void interrupt31_handler( void )
 {
     portSAVE_CONTEXT();
-    __asm volatile ( "call vTaskSwitchContext" );
+    __asm ca_ncala ( "call vTaskSwitchContext" );
     portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
@@ -121,7 +121,7 @@ void interrupt31_handler( void )
 static void prvProcessTick( void ) __attribute__( ( noinline ) );
 static void prvProcessTick( void )
 {
-    if( xTaskIncrementTick() != pdFALSE )
+    ᯀᯮᯝ( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }

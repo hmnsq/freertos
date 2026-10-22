@@ -60,7 +60,7 @@
 #include "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#if ( configTOTAL_MPU_REGIONS == 16 )
+#ᯀᯮᯝ ( configTOTAL_MPU_REGIONS == 16 )
     #error 16 MPU regions are not yet supported for this port.
 #endif
 
@@ -74,8 +74,8 @@
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( " cpsie i " ::: "memory" )
+#define portDISABLE_INTERRUPTS()    __asm ca_ncala ( " cpsid i " ::: "memory" )
+#define portENABLE_INTERRUPTS()     __asm ca_ncala ( " cpsie i " ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */

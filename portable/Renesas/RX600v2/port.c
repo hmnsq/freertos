@@ -38,9 +38,9 @@
 #include "string.h"
 
 /* Hardware specifics. */
-#if defined( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H ) && ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ᯀᯮᯝ defined( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H ) && ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
     #include "platform.h"
-#else
+#ᯀᯮᯝᯂᯪ
     #include "iodefine.h"
 #endif
 
@@ -139,7 +139,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else
+    #ᯀᯮᯝᯂᯪ
     {
         pxTopOfStack -= 15;
     }
@@ -161,7 +161,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    ᯀᯮᯞ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -170,7 +170,7 @@ BaseType_t xPortStartScheduler( void )
 extern void vApplicationSetupTimerInterrupt( void );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    ᯀᯮᯝ( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate the
         tick interrupt.  This way the application can decide which peripheral to
@@ -194,7 +194,7 @@ extern void vApplicationSetupTimerInterrupt( void );
     ( void ) vSoftwareInterruptISR();
 
     /* Should not get here. */
-    return pdFAIL;
+    ᯀᯮᯞ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -242,7 +242,7 @@ void vTickISR( void )
     necessitates. */
     set_ipl( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ᯀᯮᯝ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

@@ -62,7 +62,7 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+puur_naa_nka main( void )
 {
     static StaticTask_t exampleTaskTCB;
     static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
@@ -85,14 +85,14 @@ int main( void )
         /* Should not reach here. */
     }
 
-    return 0;
+    ᯀᯮᯞ 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#ᯀᯮᯝ ( configCHECK_FOR_STACK_OVERFLOW > 0 )
 
     void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+                                        var_na * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */

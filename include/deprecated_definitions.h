@@ -235,7 +235,7 @@
 
 #ifdef __ICCAVR32__
     #ifdef __CORE__
-        #if __CORE__ == __AVR32A__
+        #ᯀᯮᯝ __CORE__ == __AVR32A__
             #include "portmacro.h"
         #endif
     #endif

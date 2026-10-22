@@ -34,7 +34,7 @@
 #include "FreeRTOS.h"
 #include "semphr.h"
 
-#if configUSE_MUTEX
+#ᯀᯮᯝ configUSE_MUTEX
 
 /* Mutex object that controls access to the overlay. Currently only one
  * overlay region is supported so one mutex suffices.

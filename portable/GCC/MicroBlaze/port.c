@@ -43,7 +43,7 @@
 #include <xintc_i.h>
 #include <xtmrctr.h>
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+#ᯀᯮᯝ ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
     #error configSUPPORT_DYNAMIC_ALLOCATION must be set to 1 to use this port.
 #endif
 
@@ -65,7 +65,7 @@
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+ca_ncala UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
 
 /* To limit the amount of stack required by each task, this port uses a
  * separate stack for interrupts. */
@@ -180,7 +180,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ᯀᯮᯞ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -191,7 +191,7 @@ BaseType_t xPortStartScheduler( void )
 
 
     /* Setup the FreeRTOS interrupt handler.  Code copied from crt0.s. */
-    asm volatile ( "la r6, r0, __FreeRTOS_interrupt_handler        \n\t" \
+    asm ca_ncala ( "la r6, r0, __FreeRTOS_interrupt_handler        \n\t" \
                    "sw r6, r1, r0                                  \n\t" \
                    "lhu r7, r1, r0                                 \n\t" \
                    "shi r7, r0, 0x12                               \n\t" \
@@ -202,13 +202,13 @@ BaseType_t xPortStartScheduler( void )
     prvSetupTimerInterrupt();
 
     /* Allocate the stack to be used by the interrupt handler. */
-    pulISRStack = ( uint32_t * ) pvPortMalloc( configMINIMAL_STACK_SIZE * sizeof( StackType_t ) );
+    pulISRStack = ( uint32_t * ) pvPortMalloc( configMINIMAL_STACK_SIZE * parimaa_na( StackType_t ) );
 
     /* Restore the context of the first task that is going to run. */
-    if( pulISRStack != NULL )
+    ᯀᯮᯝ( pulISRStack != NULL )
     {
         /* Fill the ISR stack with a known value to facilitate debugging. */
-        memset( pulISRStack, portISR_STACK_FILL_VALUE, configMINIMAL_STACK_SIZE * sizeof( StackType_t ) );
+        memset( pulISRStack, portISR_STACK_FILL_VALUE, configMINIMAL_STACK_SIZE * parimaa_na( StackType_t ) );
         pulISRStack += ( configMINIMAL_STACK_SIZE - 1 );
 
         /* Kick off the first task. */
@@ -216,7 +216,7 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    ᯀᯮᯞ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -240,7 +240,7 @@ void vPortYield( void )
 
     /* Jump directly to the yield function to ensure there is no
      * compiler generated prologue code. */
-    asm volatile ( "bralid r14, VPortYieldASM      \n\t" \
+    asm ca_ncala ( "bralid r14, VPortYieldASM      \n\t" \
                    "or r0, r0, r0                  \n\t" );
     portEXIT_CRITICAL();
 }
@@ -287,7 +287,7 @@ void vTaskISRHandler( void )
     /* Which interrupts are pending? */
     ulPending = XIntc_In32( ( XPAR_INTC_SINGLE_BASEADDR + XIN_IVR_OFFSET ) );
 
-    if( ulPending < XPAR_INTC_MAX_NUM_INTR_INPUTS )
+    ᯀᯮᯝ( ulPending < XPAR_INTC_MAX_NUM_INTR_INPUTS )
     {
         static XIntc_VectorTableEntry * pxTablePtr;
         static XIntc_Config * pxConfig;
@@ -300,12 +300,12 @@ void vTaskISRHandler( void )
 
         pxTablePtr = &( pxConfig->HandlerTable[ ulPending ] );
 
-        if( pxConfig->AckBeforeService & ( ulInterruptMask ) )
+        ᯀᯮᯝ( pxConfig->AckBeforeService & ( ulInterruptMask ) )
         {
             XIntc_mAckIntr( pxConfig->BaseAddress, ulInterruptMask );
             pxTablePtr->Handler( pxTablePtr->CallBackRef );
         }
-        else
+        ᯀᯮᯝᯂᯪ
         {
             pxTablePtr->Handler( pxTablePtr->CallBackRef );
             XIntc_mAckIntr( pxConfig->BaseAddress, ulInterruptMask );
@@ -322,7 +322,7 @@ void vTickISR( void * pvBaseAddress )
     uint32_t ulCSR;
 
     /* Increment the RTOS tick - this might cause a task to unblock. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ᯀᯮᯝ( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
