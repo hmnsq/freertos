@@ -26,19 +26,19 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
-#endif
+#నిర్వచితం_కాకపోతే config_రికార్డు_దొంతర_ఎగువ_చిరునామా
+    #నిర్వచించు config_రికార్డు_దొంతర_ఎగువ_చిరునామా    1
+#అయితే_ముగింపు
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,110 +51,110 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     portLONG
+#నిర్వచించు పోర్టు_CHAR          అక్షరం
+#నిర్వచించు పోర్టు_FLOAT         దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+#నిర్వచించు పోర్టు_LONG          దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT         పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE    గుర్తులేని పూర్ణాంకం
+#నిర్వచించు పోర్టు_పునాది_TYPE     పోర్టు_LONG
 
-#ifndef Asm
-    #define Asm           __asm__ volatile
-#endif
+#నిర్వచితం_కాకపోతే Asm
+    #నిర్వచించు Asm           __asm__ అస్థిర
+#అయితే_ముగింపు
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
-#endif /* NULL */
+#నిర్వచితం_కాకపోతే ఖాళీ
+    #నిర్వచించు ఖాళీ    0           /* invalid pointer */
+#అయితే_ముగింపు /* NULL */
 
-#ifndef true
-    #define true    1           /* true */
-#endif /* true */
+#నిర్వచితం_కాకపోతే true
+    #నిర్వచించు true    1           /* true */
+#అయితే_ముగింపు /* true */
 
-#ifndef false
-    #define false    0          /* false */
-#endif /* false */
+#నిర్వచితం_కాకపోతే false
+    #నిర్వచించు false    0          /* false */
+#అయితే_ముగింపు /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
-#define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT         8
-#define portNOP()               Asm( "nop_s" );
-#define IPM_ENABLE_ALL             1
+#నిర్వచించు పోర్టు_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#నిర్వచించు పోర్టు_దొంతర_GROWTH           ( -1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS         ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT         8
+#నిర్వచించు పోర్టు_NOP()               Asm( "nop_s" );
+#నిర్వచించు IPM_ENABLE_ALL             1
 
-#define portYIELD_FROM_ISR()    vPortYieldFromIsr()
-#define portYIELD()             vPortYield()
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR()    v_పోర్టు_Yield_From_Isr()
+#నిర్వచించు పోర్టు_YIELD()             v_పోర్టు_Yield()
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS() \
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS() \
     {                            \
         Asm( "clri" );           \
         Asm( "" ::: "memory" );  \
     }                            \
 
-#define portENABLE_INTERRUPTS() \
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS() \
     {                           \
         Asm( "" ::: "memory" ); \
         Asm( "seti" );          \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+బాహ్య అస్థిర గుర్తులేని పూర్ణాంకం ulCriticalNesting;
 
-#define portENTER_CRITICAL()     \
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()     \
     {                            \
-        portDISABLE_INTERRUPTS() \
+        పోర్టు_DISABLE_INTERRUPTS() \
         ulCriticalNesting++;     \
     }
 
 
-#define portEXIT_CRITICAL()                                    \
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        ఒకవేళ( ulCriticalNesting > పోర్టు_NO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            ఒకవేళ( ulCriticalNesting == పోర్టు_NO_CRITICAL_NESTING ) \
             {                                                  \
-                portENABLE_INTERRUPTS()                        \
+                పోర్టు_ENABLE_INTERRUPTS()                        \
             }                                                  \
         }                                                      \
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#నిర్వచించు పోర్టు_CONFIGURE_TIMER_FOR_నిరంతరం_సమయం_STATS()              చేయి {} అయితే( 0 )     /* we use the timer */
+#నిర్వచించు పోర్టు_ALT_GET_నిరంతరం_సమయం_COUNTER_విలువ( dest )            ( dest = x_Tick_లెక్క )
 
-#if defined( __MW__ )
-    extern void task_end_hook( void * pxTCB );
-    #define portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( void * ) pxTCB )
-#endif
+#ఒకవేళ defined( __MW__ )
+    బాహ్య శూన్య task_చివర_hook( శూన్య * pxTCB );
+    #నిర్వచించు పోర్టు_CLEAN_పైకి_TCB( pxTCB )    task_చివర_hook( ( శూన్య * ) pxTCB )
+#అయితే_ముగింపు
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+శూన్య v_పోర్టు_Yield( శూన్య );
+శూన్య v_పోర్టు_Yield_From_Isr( శూన్య );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

@@ -26,47 +26,47 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#నిర్వచితం_కాకపోతే పోర్టు_ASM_H
+#నిర్వచించు పోర్టు_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+రకనిర్వచనం శూన్య TCB_t;
+బాహ్య అస్థిర TCB_t * అస్థిర pxCurrentTCB;
+బాహ్య శూన్య vTaskSwitchContext( శూన్య );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portEND_SWITCHING_ISR( void );
+శూన్య పోర్టు_చివర_SWITCHING_ISR( శూన్య );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+శూన్య పోర్టు_మొదటి_CONTEXT( శూన్య );
 
-#define portEND_SWITCHING_ISR()                                         \
+#నిర్వచించు పోర్టు_చివర_SWITCHING_ISR()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
-                            asm { mov   word ptr [bx], sp           }   \
+                            asm { mov   మాట ptr [bx], sp           }   \
                             asm { call  far ptr vTaskSwitchContext  }   \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }
 
-#define portFIRST_CONTEXT()                                         \
+#నిర్వచించు పోర్టు_మొదటి_CONTEXT()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { తీయి   bp                          }   \
+                            asm { తీయి   di                          }   \
+                            asm { తీయి   si                          }   \
+                            asm { తీయి   ds                          }   \
+                            asm { తీయి   es                          }   \
+                            asm { తీయి   dx                          }   \
+                            asm { తీయి   cx                          }   \
+                            asm { తీయి   bx                          }   \
+                            asm { తీయి   ax                          }   \
                             asm { iret                              }
 
 
-#endif
+#అయితే_ముగింపు

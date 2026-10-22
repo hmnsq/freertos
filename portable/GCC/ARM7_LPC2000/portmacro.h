@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,34 +46,34 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     portLONG
+#నిర్వచించు పోర్టు_CHAR          అక్షరం
+#నిర్వచించు పోర్టు_FLOAT         దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+#నిర్వచించు పోర్టు_LONG          దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT         పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE    uint32_t
+#నిర్వచించు పోర్టు_పునాది_TYPE     పోర్టు_LONG
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
-#define portNOP()    __asm volatile ( "NOP" );
+#నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT    8
+#నిర్వచించు పోర్టు_NOP()    __asm అస్థిర ( "NOP" );
 /*-----------------------------------------------------------*/
 
 
@@ -86,13 +86,13 @@ typedef unsigned long    UBaseType_t;
  * THUMB mode code will result in a compile time error.
  */
 
-#define portRESTORE_CONTEXT()                                                 \
+#నిర్వచించు పోర్టు_RESTORE_CONTEXT()                                                 \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        బాహ్య అస్థిర శూన్య * అస్థిర pxCurrentTCB;                         \
+        బాహ్య అస్థిర uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Set the LR to the task stack. */                                   \
-        __asm volatile (                                                      \
+        __asm అస్థిర (                                                      \
             "LDR        R0, =pxCurrentTCB                               \n\t" \
             "LDR        R0, [R0]                                        \n\t" \
             "LDR        LR, [R0]                                        \n\t" \
@@ -118,18 +118,18 @@ typedef unsigned long    UBaseType_t;
             /* correct address. */                                            \
             "SUBS   PC, LR, #4                                          \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( శూన్య ) ulCriticalNesting;                                           \
+        ( శూన్య ) pxCurrentTCB;                                                \
     }
 /*-----------------------------------------------------------*/
 
-#define portSAVE_CONTEXT()                                                    \
+#నిర్వచించు పోర్టు_SAVE_CONTEXT()                                                    \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        బాహ్య అస్థిర శూన్య * అస్థిర pxCurrentTCB;                         \
+        బాహ్య అస్థిర uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Push R0 as we are going to use the register. */                    \
-        __asm volatile (                                                      \
+        __asm అస్థిర (                                                      \
             "STMDB  SP!, {R0}                                           \n\t" \
                                                                               \
             /* Set R0 to point to the task stack pointer. */                  \
@@ -165,13 +165,13 @@ typedef unsigned long    UBaseType_t;
             "LDR    R0, [R0]                                            \n\t" \
             "STR    LR, [R0]                                            \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( శూన్య ) ulCriticalNesting;                                           \
+        ( శూన్య ) pxCurrentTCB;                                                \
     }
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR()    vTaskSwitchContext()
-#define portYIELD()             __asm volatile ( "SWI 0" )
+బాహ్య శూన్య vTaskSwitchContext( శూన్య );
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR()    vTaskSwitchContext()
+#నిర్వచించు పోర్టు_YIELD()             __asm అస్థిర ( "SWI 0" )
 /*-----------------------------------------------------------*/
 
 
@@ -184,49 +184,49 @@ extern void vTaskSwitchContext( void );
  * defined then the utilities are defined as macros here - as per other ports.
  */
 
-#ifdef THUMB_INTERWORK
+#నిర్వచితమైతే THUMB_INTERWORK
 
-    extern void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    extern void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    బాహ్య శూన్య v_పోర్టు_Disable_Interrupts_From_Thumb( శూన్య ) __attribute__( ( naked ) );
+    బాహ్య శూన్య v_పోర్టు_Enable_Interrupts_From_Thumb( శూన్య ) __attribute__( ( naked ) );
 
-    #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
-    #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    v_పోర్టు_Disable_Interrupts_From_Thumb()
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     v_పోర్టు_Enable_Interrupts_From_Thumb()
 
-#else
+#లేకపోతే
 
-    #define portDISABLE_INTERRUPTS()                                       \
-    __asm volatile (                                                       \
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()                                       \
+    __asm అస్థిర (                                                       \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
         "MSR    CPSR, R0        \n\t"   /* Write back modified value.   */ \
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
-    #define portENABLE_INTERRUPTS()                                        \
-    __asm volatile (                                                       \
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()                                        \
+    __asm అస్థిర (                                                       \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
         "MSR    CPSR, R0        \n\t"   /* Write back modified value.   */ \
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
-#endif /* THUMB_INTERWORK */
+#అయితే_ముగింపు /* THUMB_INTERWORK */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+బాహ్య శూన్య v_పోర్టు_Enter_Critical( శూన్య );
+బాహ్య శూన్య v_పోర్టు_Exit_Critical( శూన్య );
 
-#define portENTER_CRITICAL()    vPortEnterCritical();
-#define portEXIT_CRITICAL()     vPortExitCritical();
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()    v_పోర్టు_Enter_Critical();
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()     v_పోర్టు_Exit_Critical();
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

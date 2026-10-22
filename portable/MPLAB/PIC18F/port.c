@@ -56,68 +56,68 @@ Changes from V3.2.0
 */
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* MPLAB library include file. */
-#include "timers.h"
+#అన్తర్భావ "timers.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the PIC port.
  *----------------------------------------------------------*/
 
 /* Hardware setup for tick. */
-#define portTIMER_FOSC_SCALE            ( ( uint32_t ) 4 )
+#నిర్వచించు పోర్టు_TIMER_FOSC_SCALE            ( ( uint32_t ) 4 )
 
 /* Initial interrupt enable state for newly created tasks.  This value is
 copied into INTCON when a task switches in for the first time. */
-#define portINITAL_INTERRUPT_STATE          0xc0
+#నిర్వచించు పోర్టు_INITAL_అంతరాయం_STATE          0xc0
 
 /* Just the bit within INTCON for the global interrupt flag. */
-#define portGLOBAL_INTERRUPT_FLAG           0x80
+#నిర్వచించు పోర్టు_GLOBAL_అంతరాయం_FLAG           0x80
 
 /* Constant used for context switch macro when we require the interrupt
 enable state to be unchanged when the interrupted task is switched back in. */
-#define portINTERRUPTS_UNCHANGED            0x00
+#నిర్వచించు పోర్టు_INTERRUPTS_UNCHANGED            0x00
 
 /* Some memory areas get saved as part of the task context.  These memory
 area's get used by the compiler for temporary storage, especially when
 performing mathematical operations, or when using 32bit data types.  This
 constant defines the size of memory area which must be saved. */
-#define portCOMPILER_MANAGED_MEMORY_SIZE    ( ( uint8_t ) 0x13 )
+#నిర్వచించు పోర్టు_COMPILER_MANAGED_జ్ఞాపకం_కొలత    ( ( uint8_t ) 0x13 )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+రకనిర్వచనం శూన్య TCB_t;
+బాహ్య అస్థిర TCB_t * అస్థిర pxCurrentTCB;
 
 /* IO port constants. */
-#define portBIT_SET     ( ( uint8_t ) 1 )
-#define portBIT_CLEAR   ( ( uint8_t ) 0 )
+#నిర్వచించు పోర్టు_బిట్టు_సమితి     ( ( uint8_t ) 1 )
+#నిర్వచించు పోర్టు_బిట్టు_CLEAR   ( ( uint8_t ) 0 )
 
 /*
  * The serial port ISR's are defined in serial.c, but are called from portable
  * as they use the same vector as the tick ISR.
  */
-void vSerialTxISR( void );
-void vSerialRxISR( void );
+శూన్య vSerialTxISR( శూన్య );
+శూన్య vSerialRxISR( శూన్య );
 
 /*
  * Perform hardware setup to enable ticks.
  */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /*
  * ISR to maintain the tick, and perform tick context switches if the
  * preemptive scheduler is being used.
  */
-static void prvTickISR( void );
+స్థిర శూన్య prvTickISR( శూన్య );
 
 /*
  * ISR placed on the low priority vector.  This calls the appropriate ISR for
  * the actual interrupt.
  */
-static void prvLowInterrupt( void );
+స్థిర శూన్య prv_దిగువ_అంతరాయం( శూన్య );
 
 /*
  * Macro that pushes all the registers that make up the context of a task onto
@@ -144,21 +144,21 @@ static void prvLowInterrupt( void );
  * this is sufficient for your needs.  It is not clear whether this size is
  * fixed for all compilations or has the potential to be program specific.
  */
-#define portSAVE_CONTEXT( ucForcedInterruptFlags )                              \
+#నిర్వచించు పోర్టు_SAVE_CONTEXT( uc_Forced_అంతరాయం_Flags )                              \
 {                                                                               \
     _asm                                                                        \
         /* Save the status and WREG registers first, as these will get modified \
         by the operations below. */                                             \
         MOVFF   WREG, PREINC1                                                   \
-        MOVFF   STATUS, PREINC1                                                 \
+        MOVFF   స్థితి_3, PREINC1                                                 \
         /* Save the INTCON register with the appropriate bits forced if         \
         necessary - as described above. */                                      \
         MOVFF   INTCON, WREG                                                    \
-        IORLW   ucForcedInterruptFlags                                          \
+        IORLW   uc_Forced_అంతరాయం_Flags                                          \
         MOVFF   WREG, PREINC1                                                   \
     _endasm                                                                     \
                                                                                 \
-    portDISABLE_INTERRUPTS();                                                   \
+    పోర్టు_DISABLE_INTERRUPTS();                                                   \
                                                                                 \
     _asm                                                                        \
         /* Store the necessary registers to the stack. */                       \
@@ -206,13 +206,13 @@ static void prvLowInterrupt( void );
     _endasm                                                                     \
                                                                                 \
         /* Store each address from the hardware stack. */                       \
-        while( STKPTR > ( uint8_t ) 0 )                             \
+        అయితే( STKPTR > ( uint8_t ) 0 )                             \
         {                                                                       \
             _asm                                                                \
                 MOVFF   TOSL, PREINC1                                           \
                 MOVFF   TOSH, PREINC1                                           \
                 MOVFF   TOSU, PREINC1                                           \
-                POP                                                             \
+                తీయి_2                                                             \
             _endasm                                                             \
         }                                                                       \
                                                                                 \
@@ -237,7 +237,7 @@ static void prvLowInterrupt( void );
  * This is the reverse of portSAVE_CONTEXT.  See portSAVE_CONTEXT for more
  * details.
  */
-#define portRESTORE_CONTEXT()                                                   \
+#నిర్వచించు పోర్టు_RESTORE_CONTEXT()                                                   \
 {                                                                               \
     _asm                                                                        \
         /* Set FSR0 to point to pxCurrentTCB->pxTopOfStack. */                  \
@@ -258,10 +258,10 @@ static void prvLowInterrupt( void );
     /* Fill the hardware stack from our software stack. */                      \
     STKPTR = 0;                                                                 \
                                                                                 \
-    while( STKPTR < FSR0L )                                                     \
+    అయితే( STKPTR < FSR0L )                                                     \
     {                                                                           \
         _asm                                                                    \
-            PUSH                                                                \
+            నెట్టు_2                                                                \
             MOVF    POSTDEC1, 0, 0                                              \
             MOVWF   TOSU, 0                                                     \
             MOVF    POSTDEC1, 0, 0                                              \
@@ -318,19 +318,19 @@ static void prvLowInterrupt( void );
     of the tasks context.  It is perfectly legitimate for another task to       \
     have modified any other bits.  We therefore only restore the top two bits.  \
     */                                                                          \
-    if( WREG & portGLOBAL_INTERRUPT_FLAG )                                      \
+    ఒకవేళ( WREG & పోర్టు_GLOBAL_అంతరాయం_FLAG )                                      \
     {                                                                           \
         _asm                                                                    \
-            MOVFF   POSTDEC1, STATUS                                            \
+            MOVFF   POSTDEC1, స్థితి_3                                            \
             MOVFF   POSTDEC1, WREG                                              \
             /* Return enabling interrupts. */                                   \
             RETFIE  0                                                           \
         _endasm                                                                 \
     }                                                                           \
-    else                                                                        \
+    లేకపోతే                                                                        \
     {                                                                           \
         _asm                                                                    \
-            MOVFF   POSTDEC1, STATUS                                            \
+            MOVFF   POSTDEC1, స్థితి_3                                            \
             MOVFF   POSTDEC1, WREG                                              \
             /* Return without effecting interrupts.  The context may have       \
             been saved from a critical region. */                               \
@@ -343,20 +343,20 @@ static void prvLowInterrupt( void );
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+దొంతర_Type_t *px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t *px_శిఖరం_యొక్క_దొంతర, TaskFunction_t px_సంకేతం, శూన్య *pvParameters )
 {
-uint32_t ulAddress;
-uint8_t ucBlock;
+uint32_t ul_చిరునామా;
+uint8_t uc_ఖండం;
 
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x11;
-    pxTopOfStack++;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack++;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11;
+    px_శిఖరం_యొక్క_దొంతర++;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22;
+    px_శిఖరం_యొక్క_దొంతర++;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33;
+    px_శిఖరం_యొక్క_దొంతర++;
 
 
     /* Simulate how the stack would look after a call to vPortYield() generated
@@ -364,130 +364,130 @@ uint8_t ucBlock;
 
     First store the function parameters.  This is where the task will expect to
     find them when it starts running. */
-    ulAddress = ( uint32_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    ul_చిరునామా = ( uint32_t ) pvParameters;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_చిరునామా & ( uint32_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    ulAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    ul_చిరునామా >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_చిరునామా & ( uint32_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర++;
 
     /* Next we just leave a space.  When a context is saved the stack pointer
     is incremented before it is used so as not to corrupt whatever the stack
     pointer is actually pointing to.  This is especially necessary during
     function epilogue code generated by the compiler. */
-    *pxTopOfStack = 0x44;
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = 0x44;
+    px_శిఖరం_యొక్క_దొంతర++;
 
     /* Next are all the registers that form part of the task context. */
 
-    *pxTopOfStack = ( StackType_t ) 0x66; /* WREG. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x66; /* WREG. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0xcc; /* Status. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xcc; /* Status. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
     /* INTCON is saved with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITAL_INTERRUPT_STATE; /* INTCON */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_INITAL_అంతరాయం_STATE; /* INTCON */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x11; /* BSR. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11; /* BSR. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x22; /* FSR2L. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x22; /* FSR2L. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x33; /* FSR2H. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x33; /* FSR2H. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x44; /* FSR0L. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x44; /* FSR0L. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x55; /* FSR0H. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x55; /* FSR0H. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x66; /* TABLAT. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x66; /* TABLAT. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* TBLPTRU. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* TBLPTRU. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x88; /* TBLPTRUH. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x88; /* TBLPTRUH. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x99; /* TBLPTRUL. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x99; /* TBLPTRUL. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0xaa; /* PRODH. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xaa; /* PRODH. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0xbb; /* PRODL. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xbb; /* PRODL. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* PCLATU. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* PCLATU. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* PCLATH. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* PCLATH. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
     /* Next the .tmpdata and MATH_DATA sections. */
-    for( ucBlock = 0; ucBlock <= portCOMPILER_MANAGED_MEMORY_SIZE; ucBlock++ )
+    కొరకు( uc_ఖండం = 0; uc_ఖండం <= పోర్టు_COMPILER_MANAGED_జ్ఞాపకం_కొలత; uc_ఖండం++ )
     {
-        *pxTopOfStack = ( StackType_t ) ucBlock;
-        *pxTopOfStack++;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) uc_ఖండం;
+        *px_శిఖరం_యొక్క_దొంతర++;
     }
 
     /* Store the top of the global data section. */
-    *pxTopOfStack = ( StackType_t ) portCOMPILER_MANAGED_MEMORY_SIZE; /* Low. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_COMPILER_MANAGED_జ్ఞాపకం_కొలత; /* Low. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* High. */
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* High. */
+    px_శిఖరం_యొక్క_దొంతర++;
 
     /* The only function return address so far is the address of the
     task. */
-    ulAddress = ( uint32_t ) pxCode;
+    ul_చిరునామా = ( uint32_t ) px_సంకేతం;
 
     /* TOS low. */
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
-    ulAddress >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_చిరునామా & ( uint32_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర++;
+    ul_చిరునామా >>= 8;
 
     /* TOS high. */
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
-    ulAddress >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_చిరునామా & ( uint32_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర++;
+    ul_చిరునామా >>= 8;
 
     /* TOS even higher. */
-    *pxTopOfStack = ( StackType_t ) ( ulAddress & ( uint32_t ) 0x00ff );
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_చిరునామా & ( uint32_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర++;
 
     /* Store the number of return addresses on the hardware stack - so far only
     the address of the task entry point. */
-    *pxTopOfStack = ( StackType_t ) 1;
-    pxTopOfStack++;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 1;
+    px_శిఖరం_యొక్క_దొంతర++;
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* Setup a timer for the tick ISR is using the preemptive scheduler. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Restore the context of the first task to run. */
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 
     /* Should not get here.  Use the function name to stop compiler warnings. */
-    ( void ) prvLowInterrupt;
-    ( void ) prvTickISR;
+    ( శూన్య ) prv_దిగువ_అంతరాయం;
+    ( శూన్య ) prvTickISR;
 
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the scheduler for the PIC port will get stopped
     once running.  If required disable the tick interrupt here, then return
@@ -500,54 +500,54 @@ void vPortEndScheduler( void )
  * but does not increment the tick count.  It must be identical to the
  * tick context switch in how it stores the stack of a task.
  */
-void vPortYield( void )
+శూన్య v_పోర్టు_Yield( శూన్య )
 {
     /* This can get called with interrupts either enabled or disabled.  We
     will save the INTCON register with the interrupt enable bits unmodified. */
-    portSAVE_CONTEXT( portINTERRUPTS_UNCHANGED );
+    పోర్టు_SAVE_CONTEXT( పోర్టు_INTERRUPTS_UNCHANGED );
 
     /* Switch to the highest priority task that is ready to run. */
     vTaskSwitchContext();
 
     /* Start executing the task we have just switched to. */
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
 /*
  * Vector for ISR.  Nothing here must alter any registers!
  */
-#pragma code high_vector=0x08
-static void prvLowInterrupt( void )
+#సూచన సంకేతం_2 ఎగువ_సదిశ=0x08
+స్థిర శూన్య prv_దిగువ_అంతరాయం( శూన్య )
 {
     /* Was the interrupt the tick? */
-    if( PIR1bits.CCP1IF )
+    ఒకవేళ( PIR1bits.CCP1IF )
     {
         _asm
-            goto prvTickISR
+            వెళ్ళు prvTickISR
         _endasm
     }
 
     /* Was the interrupt a byte being received? */
-    if( PIR1bits.RCIF )
+    ఒకవేళ( PIR1bits.RCIF )
     {
         _asm
-            goto vSerialRxISR
+            వెళ్ళు vSerialRxISR
         _endasm
     }
 
     /* Was the interrupt the Tx register becoming empty? */
-    if( PIR1bits.TXIF )
+    ఒకవేళ( PIR1bits.TXIF )
     {
-        if( PIE1bits.TXIE )
+        ఒకవేళ( PIE1bits.TXIE )
         {
             _asm
-                goto vSerialTxISR
+                వెళ్ళు vSerialTxISR
             _endasm
         }
     }
 }
-#pragma code
+#సూచన సంకేతం_2
 
 /*-----------------------------------------------------------*/
 
@@ -557,31 +557,31 @@ static void prvLowInterrupt( void )
  * performs a context switch.  This must be identical to the manual
  * context switch in how it stores the context of a task.
  */
-static void prvTickISR( void )
+స్థిర శూన్య prvTickISR( శూన్య )
 {
     /* Interrupts must have been enabled for the ISR to fire, so we have to
     save the context with interrupts enabled. */
-    portSAVE_CONTEXT( portGLOBAL_INTERRUPT_FLAG );
+    పోర్టు_SAVE_CONTEXT( పోర్టు_GLOBAL_అంతరాయం_FLAG );
     PIR1bits.CCP1IF = 0;
 
     /* Maintain the tick count. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ఒకవేళ( xTaskIncrementTick() != pdFALSE )
     {
         /* Switch to the highest priority task that is ready to run. */
         vTaskSwitchContext();
     }
 
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
 /*
  * Setup a timer for a regular tick.
  */
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
-const uint32_t ulConstCompareValue = ( ( configCPU_CLOCK_HZ / portTIMER_FOSC_SCALE ) / configTICK_RATE_HZ );
-uint32_t ulCompareValue;
+స్థిరరాశి uint32_t ul_Const_Compare_విలువ = ( ( configCPU_CLOCK_HZ / పోర్టు_TIMER_FOSC_SCALE ) / config_TICK_రేటు_HZ );
+uint32_t ul_Compare_విలువ;
 uint8_t ucByte;
 
     /* Interrupts are disabled when this function is called.
@@ -594,22 +594,22 @@ uint8_t ucByte;
     TMR1L = ( uint8_t ) 0x00;
 
     /* Set the compare match value. */
-    ulCompareValue = ulConstCompareValue;
-    CCPR1L = ( uint8_t ) ( ulCompareValue & ( uint32_t ) 0xff );
-    ulCompareValue >>= ( uint32_t ) 8;
-    CCPR1H = ( uint8_t ) ( ulCompareValue & ( uint32_t ) 0xff );
+    ul_Compare_విలువ = ul_Const_Compare_విలువ;
+    CCPR1L = ( uint8_t ) ( ul_Compare_విలువ & ( uint32_t ) 0xff );
+    ul_Compare_విలువ >>= ( uint32_t ) 8;
+    CCPR1H = ( uint8_t ) ( ul_Compare_విలువ & ( uint32_t ) 0xff );
 
-    CCP1CONbits.CCP1M0 = portBIT_SET;   /*< Compare match mode. */
-    CCP1CONbits.CCP1M1 = portBIT_SET;   /*< Compare match mode. */
-    CCP1CONbits.CCP1M2 = portBIT_CLEAR; /*< Compare match mode. */
-    CCP1CONbits.CCP1M3 = portBIT_SET;   /*< Compare match mode. */
-    PIE1bits.CCP1IE = portBIT_SET;      /*< Interrupt enable. */
+    CCP1CONbits.CCP1M0 = పోర్టు_బిట్టు_సమితి;   /*< Compare match mode. */
+    CCP1CONbits.CCP1M1 = పోర్టు_బిట్టు_సమితి;   /*< Compare match mode. */
+    CCP1CONbits.CCP1M2 = పోర్టు_బిట్టు_CLEAR; /*< Compare match mode. */
+    CCP1CONbits.CCP1M3 = పోర్టు_బిట్టు_సమితి;   /*< Compare match mode. */
+    PIE1bits.CCP1IE = పోర్టు_బిట్టు_సమితి;      /*< Interrupt enable. */
 
     /* We are only going to use the global interrupt bit, so set the peripheral
     bit to true. */
-    INTCONbits.GIEL = portBIT_SET;
+    INTCONbits.GIEL = పోర్టు_బిట్టు_సమితి;
 
     /* Provided library function for setting up the timer that will produce the
     tick. */
-    OpenTimer1( T1_16BIT_RW & T1_SOURCE_INT & T1_PS_1_1 & T1_CCP1_T3_CCP2 );
+    OpenTimer1( T1_16_బిట్టు_RW & T1_ఆధారం_INT & T1_PS_1_1 & T1_CCP1_T3_CCP2 );
 }

@@ -26,71 +26,71 @@
  *
  */
 
-#include <stdlib.h>
+#అన్తర్భావ <stdlib.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the AVR/IAR port.
 *----------------------------------------------------------*/
 
 /* Start tasks with interrupts enables. */
-#define portFLAGS_INT_ENABLED                   ( ( StackType_t ) 0x80 )
+#నిర్వచించు పోర్టు_FLAGS_INT_ENABLED                   ( ( దొంతర_Type_t ) 0x80 )
 
 /* Hardware constants for timer 1. */
-#define portCLEAR_COUNTER_ON_MATCH              ( ( uint8_t ) 0x08 )
-#define portPRESCALE_64                         ( ( uint8_t ) 0x03 )
-#define portCLOCK_PRESCALER                     ( ( uint32_t ) 64 )
-#define portCOMPARE_MATCH_A_INTERRUPT_ENABLE    ( ( uint8_t ) 0x10 )
+#నిర్వచించు పోర్టు_CLEAR_COUNTER_ON_సరిపోలిక              ( ( uint8_t ) 0x08 )
+#నిర్వచించు పోర్టు_PRESCALE_64                         ( ( uint8_t ) 0x03 )
+#నిర్వచించు పోర్టు_CLOCK_PRESCALER                     ( ( uint32_t ) 64 )
+#నిర్వచించు పోర్టు_COMPARE_సరిపోలిక_A_అంతరాయం_ENABLE    ( ( uint8_t ) 0x10 )
 
 /* The number of bytes used on the hardware stack by the task start address. */
-#define portBYTES_USED_BY_RETURN_ADDRESS        ( 2 )
+#నిర్వచించు పోర్టు_బైట్లు_వాడిన_BY_RETURN_చిరునామా        ( 2 )
 /*-----------------------------------------------------------*/
 
 /* Stores the critical section nesting.  This must not be initialised to 0.
  * It will be initialised when a task starts. */
-#define portNO_CRITICAL_NESTING    ( ( UBaseType_t ) 0 )
+#నిర్వచించు పోర్టు_NO_CRITICAL_NESTING    ( ( UBaseType_t ) 0 )
 UBaseType_t uxCriticalNesting = 0x50;
 
 
 /*
  * Perform hardware setup to enable ticks from timer 1, compare match A.
  */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /*
  * The IAR compiler does not have full support for inline assembler, so
  * these are defined in the portmacro assembler file.
  */
-extern void vPortYieldFromTick( void );
-extern void vPortStart( void );
+బాహ్య శూన్య v_పోర్టు_Yield_From_Tick( శూన్య );
+బాహ్య శూన్య v_పోర్టు_ప్రారంభం( శూన్య );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
-    uint16_t usAddress;
-    StackType_t * pxTopOfHardwareStack;
+    uint16_t us_చిరునామా;
+    దొంతర_Type_t * px_శిఖరం_యొక్క_Hardware_దొంతర;
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is just useful for debugging. */
 
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Remember where the top of the hardware stack is - this is required
      * below. */
-    pxTopOfHardwareStack = pxTopOfStack;
+    px_శిఖరం_యొక్క_Hardware_దొంతర = px_శిఖరం_యొక్క_దొంతర;
 
 
     /* Simulate how the stack would look after a call to vPortYield(). */
@@ -114,19 +114,19 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      *
      * The first part of the stack is the hardware stack.  Place the start
      * address of the task on the hardware stack. */
-    usAddress = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా = ( uint16_t ) px_సంకేతం;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
 
     /* Leave enough space for the hardware stack before starting the software
      * stack.  The '- 2' is because we have already used two spaces for the
      * address of the start of the task. */
-    pxTopOfStack -= ( configCALL_STACK_SIZE - 2 );
+    px_శిఖరం_యొక్క_దొంతర -= ( config_CALL_దొంతర_కొలత - 2 );
 
 
 
@@ -134,121 +134,121 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      *  portSAVE_CONTEXT places the flags on the stack immediately after r0
      *  to ensure the interrupts get disabled as soon as possible, and so ensuring
      *  the stack use is minimal should a context switch interrupt occur. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* R0 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_FLAGS_INT_ENABLED;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Next place the address of the hardware stack.  This is required so
      * the AVR stack pointer can be restored to point to the hardware stack. */
-    pxTopOfHardwareStack -= portBYTES_USED_BY_RETURN_ADDRESS;
-    usAddress = ( uint16_t ) pxTopOfHardwareStack;
+    px_శిఖరం_యొక్క_Hardware_దొంతర -= పోర్టు_బైట్లు_వాడిన_BY_RETURN_చిరునామా;
+    us_చిరునామా = ( uint16_t ) px_శిఖరం_యొక్క_Hardware_దొంతర;
 
     /* SPL */
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* SPH */
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
 
 
     /* Now the remaining registers. */
-    *pxTopOfStack = ( StackType_t ) 0x01; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02; /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03; /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04; /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05; /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06; /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07; /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08; /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09; /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10; /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11; /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12; /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x13; /* R13 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x14; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x15; /* R15 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x01; /* R1 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x02; /* R2 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x03; /* R3 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x04; /* R4 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x05; /* R5 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x06; /* R6 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x07; /* R7 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x08; /* R8 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x09; /* R9 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x10; /* R10 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11; /* R11 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x12; /* R12 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x13; /* R13 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x14; /* R14 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x15; /* R15 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Place the parameter on the stack in the expected location. */
-    usAddress = ( uint16_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా = ( uint16_t ) pvParameters;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = ( StackType_t ) 0x18; /* R18 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x19; /* R19 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x20; /* R20 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x21; /* R21 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x22; /* R22 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x23; /* R23 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x24; /* R24 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x25; /* R25 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x26; /* R26 X */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x27; /* R27 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x18; /* R18 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x19; /* R19 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x20; /* R20 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x21; /* R21 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x22; /* R22 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x23; /* R23 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x24; /* R24 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x25; /* R25 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x26; /* R26 X */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x27; /* R27 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* The Y register is not stored as it is used as the software stack and
      * gets saved into the task control block. */
 
-    *pxTopOfStack = ( StackType_t ) 0x30;  /* R30 Z */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x031; /* R31 */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x30;  /* R30 Z */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x031; /* R31 */
 
-    pxTopOfStack--;
-    *pxTopOfStack = portNO_CRITICAL_NESTING; /* Critical nesting is zero when the task starts. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_NO_CRITICAL_NESTING; /* Critical nesting is zero when the task starts. */
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* Setup the hardware to generate the tick. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Restore the context of the first task that is going to run.
      * Normally we would just call portRESTORE_CONTEXT() here, but as the IAR
      * compiler does not fully support inline assembler we have to make a call.*/
-    vPortStart();
+    v_పోర్టు_ప్రారంభం();
 
     /* Should not get here! */
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the AVR port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -258,54 +258,54 @@ void vPortEndScheduler( void )
 /*
  * Setup timer 1 compare match A to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
-    uint32_t ulCompareMatch;
-    uint8_t ucHighByte, ucLowByte;
+    uint32_t ul_Compare_సరిపోలిక;
+    uint8_t uc_ఎగువ_Byte, uc_దిగువ_Byte;
 
     /* Using 16bit timer 1 to generate the tick.  Correct fuses must be
      * selected for the configCPU_CLOCK_HZ clock. */
 
-    ulCompareMatch = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+    ul_Compare_సరిపోలిక = configCPU_CLOCK_HZ / config_TICK_రేటు_HZ;
 
     /* We only have 16 bits so have to scale to get our required tick rate. */
-    ulCompareMatch /= portCLOCK_PRESCALER;
+    ul_Compare_సరిపోలిక /= పోర్టు_CLOCK_PRESCALER;
 
     /* Adjust for correct value. */
-    ulCompareMatch -= ( uint32_t ) 1;
+    ul_Compare_సరిపోలిక -= ( uint32_t ) 1;
 
     /* Setup compare match value for compare match A.  Interrupts are disabled
      * before this is called so we need not worry here. */
-    ucLowByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-    ulCompareMatch >>= 8;
-    ucHighByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-    OCR1AH = ucHighByte;
-    OCR1AL = ucLowByte;
+    uc_దిగువ_Byte = ( uint8_t ) ( ul_Compare_సరిపోలిక & ( uint32_t ) 0xff );
+    ul_Compare_సరిపోలిక >>= 8;
+    uc_ఎగువ_Byte = ( uint8_t ) ( ul_Compare_సరిపోలిక & ( uint32_t ) 0xff );
+    OCR1AH = uc_ఎగువ_Byte;
+    OCR1AL = uc_దిగువ_Byte;
 
     /* Setup clock source and compare match behaviour. */
-    ucLowByte = portCLEAR_COUNTER_ON_MATCH | portPRESCALE_64;
-    TCCR1B = ucLowByte;
+    uc_దిగువ_Byte = పోర్టు_CLEAR_COUNTER_ON_సరిపోలిక | పోర్టు_PRESCALE_64;
+    TCCR1B = uc_దిగువ_Byte;
 
     /* Enable the interrupt - this is okay as interrupt are currently globally
      * disabled. */
-    TIMSK |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
+    TIMSK |= పోర్టు_COMPARE_సరిపోలిక_A_అంతరాయం_ENABLE;
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#ఒకవేళ configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a __task attribute as
  * the context is saved at the start of vPortYieldFromTick().  The tick
  * count is incremented after the context is saved.
  */
-    __task void SIG_OUTPUT_COMPARE1A( void )
+    __task శూన్య SIG_OUTPUT_COMPARE1A( శూన్య )
     {
-        vPortYieldFromTick();
+        v_పోర్టు_Yield_From_Tick();
         asm ( "reti" );
     }
 
-#else
+#లేకపోతే
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -315,26 +315,26 @@ static void prvSetupTimerInterrupt( void )
  * THE INTERRUPT VECTOR IS POPULATED IN portmacro.s90.  DO NOT INSTALL
  * IT HERE USING THE USUAL PRAGMA.
  */
-    __interrupt void SIG_OUTPUT_COMPARE1A( void )
+    __interrupt శూన్య SIG_OUTPUT_COMPARE1A( శూన్య )
     {
         xTaskIncrementTick();
     }
-#endif /* if configUSE_PREEMPTION == 1 */
+#అయితే_ముగింపు /* if configUSE_PREEMPTION == 1 */
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
     uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == portNO_CRITICAL_NESTING )
+    ఒకవేళ( uxCriticalNesting == పోర్టు_NO_CRITICAL_NESTING )
     {
-        portENABLE_INTERRUPTS();
+        పోర్టు_ENABLE_INTERRUPTS();
     }
 }

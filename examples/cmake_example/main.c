@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#అన్తర్భావ <FreeRTOS.h>
+#అన్తర్భావ <task.h>
+#అన్తర్భావ <queue.h>
+#అన్తర్భావ <timers.h>
+#అన్తర్భావ <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#అన్తర్భావ <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+స్థిర శూన్య exampleTask( శూన్య * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+స్థిర శూన్య exampleTask( శూన్య * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( శూన్య ) parameters;
 
-    for( ; ; )
+    కొరకు( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,43 +62,43 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+పూర్ణాంకం ప్రధాన( శూన్య )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    స్థిర StaticTask_t exampleTaskTCB;
+    స్థిర దొంతర_Type_t example_Task_దొంతర[ config_కనీస_దొంతర_కొలత ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( శూన్య ) రాయి( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( శూన్య ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_కనీస_దొంతర_కొలత,
+                                ఖాళీ,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_దొంతర[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
-    vTaskStartScheduler();
+    v_Task_ప్రారంభం_Scheduler();
 
-    for( ; ; )
+    కొరకు( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    తిరిగి 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#ఒకవేళ ( config_CHECK_FOR_దొంతర_అధికప్రవాహం > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    శూన్య v_Application_దొంతర_అధికప్రవాహం_Hook( TaskHandle_t xTask,
+                                        అక్షరం * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( శూన్య ) xTask;
+        ( శూన్య ) pcTaskName;
     }
 
-#endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
+#అయితే_ముగింపు /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
 /*-----------------------------------------------------------*/

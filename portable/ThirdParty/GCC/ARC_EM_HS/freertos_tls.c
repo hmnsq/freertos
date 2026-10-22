@@ -26,49 +26,49 @@
  *
  */
 
-#if defined( __MW__ )
+#ఒకవేళ defined( __MW__ )
 
-    #include <stdint.h>
-    #include <stdlib.h>
-    #include <string.h>
+    #అన్తర్భావ <stdint.h>
+    #అన్తర్భావ <stdlib.h>
+    #అన్తర్భావ <string.h>
 
-    #include "FreeRTOS.h"
+    #అన్తర్భావ "FreeRTOS.h"
 
-    #include "queue.h"
-    #include "semphr.h"
-    #include "task.h"
+    #అన్తర్భావ "queue.h"
+    #అన్తర్భావ "semphr.h"
+    #అన్తర్భావ "task.h"
 
-    #include "arc/arc_exception.h"
-    #include "embARC_toolchain.h"
-    #include "embARC_debug.h"
+    #అన్తర్భావ "arc/arc_exception.h"
+    #అన్తర్భావ "embARC_toolchain.h"
+    #అన్తర్భావ "embARC_debug.h"
 
-    #ifdef ENABLE_FREERTOS_TLS_DEBUG
-        #define TLS_DEBUG( fmt, ... )    EMBARC_PRINTF( fmt, ## __VA_ARGS__ )
-    #else
-        #define TLS_DEBUG( fmt, ... )
-    #endif
+    #నిర్వచితమైతే ENABLE_FREERTOS_TLS_DEBUG
+        #నిర్వచించు TLS_DEBUG( fmt, ... )    EMBARC_PRINTF( fmt, ## __VA_ARGS__ )
+    #లేకపోతే
+        #నిర్వచించు TLS_DEBUG( fmt, ... )
+    #అయితే_ముగింపు
 
 /*
  * Runtime routines to execute constructors and
  * destructors for task local storage.
  */
-    extern void __mw_run_tls_dtor();
-    extern void __mw_run_tls_ctor();
+    బాహ్య శూన్య __mw_run_tls_dtor();
+    బాహ్య శూన్య __mw_run_tls_ctor();
 
-    extern uint32_t exc_nest_count;
+    బాహ్య uint32_t exc_nest_లెక్క;
 
 /*
  * Linker generated symbols to mark .tls section addresses
  * first byte .. last byte
  */
-    extern char _ftls[], _etls[];
-    #pragma weak _ftls
-    #pragma weak _etls
+    బాహ్య అక్షరం _ftls[], _etls[];
+    #సూచన weak _ftls
+    #సూచన weak _etls
 
-    void executable_requires_tls_section( void )
+    శూన్య executable_requires_tls_section( శూన్య )
     {
-        #if _ARC
-            for( ; ; )
+        #ఒకవేళ _ARC
+            కొరకు( ; ; )
             {
                 _flag( 1 );
                 _nop();
@@ -77,164 +77,164 @@
                 _nop();
                 _nop();
             }
-        #endif
+        #అయితే_ముగింపు
     }
-    #pragma off_inline(executable_requires_tls_section);
-    #pragma alias(executable_requires_tls_section, "executable_requires_.tls_section");
+    #సూచన off_inline(executable_requires_tls_section);
+    #సూచన alias(executable_requires_tls_section, "executable_requires_.tls_section");
 
-    static void * init_task_tls( void )
+    స్థిర శూన్య * init_task_tls( శూన్య )
     {
         uint32_t len = ( uint32_t ) ( _etls - _ftls );
-        void * tls = NULL;
+        శూన్య * tls = ఖాళీ;
 
-        #if FREERTOS_HEAP_SEL == 3
+        #ఒకవేళ FREERTOS_కుప్ప_SEL == 3
         #warning "FreeRTOS TLS support is not compatible with heap 3 solution(FREERTOS_HEAP_SEL=3)!"
         #warning "You can change FREERTOS_HEAP_SEL in freertos.mk to select other heap solution."
-        #else
-            tls = pvPortMalloc( len );
-        #endif
+        #లేకపోతే
+            tls = pv_పోర్టు_Malloc( len );
+        #అయితే_ముగింపు
 
-        if( tls )
+        ఒకవేళ( tls )
         {
             TLS_DEBUG( "Malloc task tls:%dbytes\r\n", len );
-            memcpy( tls, _ftls, len );
+            జ్ఞాపకం_నకలు( tls, _ftls, len );
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return tls;
+        తిరిగి tls;
     }
 
-    static void free_task_tls( void * pxTCB )
+    స్థిర శూన్య free_task_tls( శూన్య * pxTCB )
     {
         TaskHandle_t task2free = ( TaskHandle_t ) pxTCB;
 
-        if( task2free != NULL )
+        ఒకవేళ( task2free != ఖాళీ )
         {
-            void * tls = pvTaskGetThreadLocalStoragePointer( task2free, 0 );
+            శూన్య * tls = pv_Task_Get_Thread_Local_Storage_సూచిక( task2free, 0 );
 
-            if( tls )
+            ఒకవేళ( tls )
             {
                 TLS_DEBUG( "Free task tls\r\n" );
                 __mw_run_tls_dtor();
-                vPortFree( tls );
-                vTaskSetThreadLocalStoragePointer( task2free, 0, NULL );
+                v_పోర్టు_Free( tls );
+                v_Task_సమితి_Thread_Local_Storage_సూచిక( task2free, 0, ఖాళీ );
             }
         }
     }
 
-    void task_end_hook( void * pxTCB )
+    శూన్య task_చివర_hook( శూన్య * pxTCB )
     {
         free_task_tls( pxTCB );
     }
 
-    static void * get_isr_tls( void )
+    స్థిర శూన్య * get_isr_tls( శూన్య )
     {
         /* In an ISR */
-        static int first = 1;
+        స్థిర పూర్ణాంకం మొదటి_2 = 1;
 
-        if( _Rarely( first ) )
+        ఒకవేళ( _Rarely( మొదటి_2 ) )
         {
-            first = 0;
+            మొదటి_2 = 0;
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return ( void * ) _ftls;
+        తిరిగి ( శూన్య * ) _ftls;
     }
-    #pragma off_inline(get_isr_tls)
+    #సూచన off_inline(get_isr_tls)
 
-    static void * get_task_tls( void )
+    స్థిర శూన్య * get_task_tls( శూన్య )
     {
         TaskHandle_t cur_task;
 
         cur_task = xTaskGetCurrentTaskHandle();
 
-        if( cur_task == NULL )
+        ఒకవేళ( cur_task == ఖాళీ )
         {
-            return get_isr_tls();
+            తిరిగి get_isr_tls();
         }
 
-        void * tls = pvTaskGetThreadLocalStoragePointer( cur_task, 0 );
+        శూన్య * tls = pv_Task_Get_Thread_Local_Storage_సూచిక( cur_task, 0 );
 
-        if( tls == NULL )
+        ఒకవేళ( tls == ఖాళీ )
         {
             tls = init_task_tls();
 
-            if( tls )
+            ఒకవేళ( tls )
             {
-                vTaskSetThreadLocalStoragePointer( cur_task, 0, tls );
+                v_Task_సమితి_Thread_Local_Storage_సూచిక( cur_task, 0, tls );
             }
-            else
+            లేకపోతే
             {
                 tls = get_isr_tls();
             }
         }
 
-        return tls;
+        తిరిగి tls;
     }
-    #pragma off_inline(get_task_tls)
+    #సూచన off_inline(get_task_tls)
 
-    #if _ARC /* for ARC XCALLs need to preserve flags */
-        extern void * _Preserve_flags _mwget_tls( void );
-    #endif
+    #ఒకవేళ _ARC /* for ARC XCALLs need to preserve flags */
+        బాహ్య శూన్య * _Preserve_flags _mwget_tls( శూన్య );
+    #అయితే_ముగింపు
 
 /*
  * Back end gens calls to find local data for this task
  */
-    void * _mwget_tls( void )
+    శూన్య * _mwget_tls( శూన్య )
     {
-        if( _ftls == ( char * ) 0 )
+        ఒకవేళ( _ftls == ( అక్షరం * ) 0 )
         {
             executable_requires_tls_section();
         }
 
-        if( exc_nest_count > 0 ) /* In ISR */
+        ఒకవేళ( exc_nest_లెక్క > 0 ) /* In ISR */
         {
-            return get_isr_tls();
+            తిరిగి get_isr_tls();
         }
-        else /* In Task */
+        లేకపోతే /* In Task */
         {
-            return get_task_tls();
+            తిరిగి get_task_tls();
         }
     }
 
 
 /* simple interface of thread safe */
-    typedef xSemaphoreHandle _lock_t;
-    #if configUSE_RECURSIVE_MUTEXES != 1
-        #error "configUSE_RECURSIVE_MUTEXES in FreeRTOSConfig.h need to 1"
-    #endif
+    రకనిర్వచనం xSemaphoreHandle తాళం_t;
+    #ఒకవేళ configUSE_RECURSIVE_MUTEXES != 1
+        #దోషం "configUSE_RECURSIVE_MUTEXES in FreeRTOSConfig.h need to 1"
+    #అయితే_ముగింపు
 
-    void _mwmutex_create( _lock_t * mutex_ptr )
+    శూన్య _mwmutex_create( తాళం_t * mutex_ptr )
     {
         *mutex_ptr = xSemaphoreCreateRecursiveMutex();
     }
 
-    void _mwmutex_delete( _lock_t * mutex_ptr )
+    శూన్య _mwmutex_delete( తాళం_t * mutex_ptr )
     {
-        if( ( *mutex_ptr ) != NULL )
+        ఒకవేళ( ( *mutex_ptr ) != ఖాళీ )
         {
             vSemaphoreDelete( *mutex_ptr );
         }
     }
 
-    void _mwmutex_lock( _lock_t mutex )
+    శూన్య mwmutex_తాళం( తాళం_t mutex )
     {
-        if( ( mutex ) != NULL )
+        ఒకవేళ( ( mutex ) != ఖాళీ )
         {
-            while( xSemaphoreTakeRecursive( mutex, portMAX_DELAY ) != pdTRUE )
+            అయితే( xSemaphoreTakeRecursive( mutex, పోర్టు_MAX_DELAY ) != pdTRUE )
             {
             }
         }
     }
 
-    void _mwmutex_unlock( _lock_t mutex )
+    శూన్య _mwmutex_unlock( తాళం_t mutex )
     {
-        if( ( mutex ) != NULL )
+        ఒకవేళ( ( mutex ) != ఖాళీ )
         {
             xSemaphoreGiveRecursive( mutex );
         }
     }
 
-#else /* if defined( __MW__ ) */
+#లేకపోతే /* if defined( __MW__ ) */
 
-#endif /* __MW__ */
+#అయితే_ముగింపు /* __MW__ */

@@ -27,17 +27,17 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#include <limits.h>
-#include <stdint.h>
+#అన్తర్భావ <limits.h>
+#అన్తర్భావ <stdint.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,84 +50,84 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           unsigned long
-#define portBASE_TYPE            long
-#define portPOINTER_SIZE_TYPE    intptr_t
+#నిర్వచించు పోర్టు_CHAR                 అక్షరం
+#నిర్వచించు పోర్టు_FLOAT                దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE               ద్విగుణ
+#నిర్వచించు పోర్టు_LONG                 దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT                పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE           గుర్తులేని దీర్ఘ
+#నిర్వచించు పోర్టు_పునాది_TYPE            దీర్ఘ
+#నిర్వచించు పోర్టు_సూచిక_కొలత_TYPE    intptr_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-typedef unsigned long    TickType_t;
-#define portMAX_DELAY              ( ( TickType_t ) ULONG_MAX )
+రకనిర్వచనం గుర్తులేని దీర్ఘ    TickType_t;
+#నిర్వచించు పోర్టు_MAX_DELAY              ( ( TickType_t ) ULONG_MAX )
 
-#define portTICK_TYPE_IS_ATOMIC    1
+#నిర్వచించు పోర్టు_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                   ( -1 )
-#define portHAS_STACK_OVERFLOW_CHECKING    ( 1 )
-#define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portTICK_RATE_MICROSECONDS         ( ( TickType_t ) 1000000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                 8
+#నిర్వచించు పోర్టు_దొంతర_GROWTH                   ( -1 )
+#నిర్వచించు పోర్టు_HAS_దొంతర_అధికప్రవాహం_CHECKING    ( 1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS                 ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_TICK_రేటు_MICROSECONDS         ( ( TickType_t ) 1000000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT                 8
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
+బాహ్య శూన్య v_పోర్టు_Yield( శూన్య );
 
-#define portYIELD()                vPortYield()
+#నిర్వచించు పోర్టు_YIELD()                v_పోర్టు_Yield()
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#నిర్వచించు పోర్టు_చివర_SWITCHING_ISR( xSwitchRequired ) \
+    చేయి                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ఒకవేళ( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            vPortYield();                        \
+            trace_ISR_EXIT_గమ్యం_SCHEDULER();        \
+            v_పోర్టు_Yield();                        \
         }                                        \
-        else                                     \
+        లేకపోతే                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } అయితే( 0 )
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR( x )    పోర్టు_చివర_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortDisableInterrupts( void );
-extern void vPortEnableInterrupts( void );
-#define portSET_INTERRUPT_MASK()      ( vPortDisableInterrupts() )
-#define portCLEAR_INTERRUPT_MASK()    ( vPortEnableInterrupts() )
+బాహ్య శూన్య v_పోర్టు_Disable_Interrupts( శూన్య );
+బాహ్య శూన్య v_పోర్టు_Enable_Interrupts( శూన్య );
+#నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు()      ( v_పోర్టు_Disable_Interrupts() )
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు()    ( v_పోర్టు_Enable_Interrupts() )
 
-extern UBaseType_t xPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t xMask );
+బాహ్య UBaseType_t x_పోర్టు_సమితి_అంతరాయం_ముసుగు( శూన్య );
+బాహ్య శూన్య v_పోర్టు_Clear_అంతరాయం_ముసుగు( UBaseType_t x_ముసుగు );
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portSET_INTERRUPT_MASK_FROM_ISR()         xPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
-#define portDISABLE_INTERRUPTS()                  portSET_INTERRUPT_MASK()
-#define portENABLE_INTERRUPTS()                   portCLEAR_INTERRUPT_MASK()
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
+బాహ్య శూన్య v_పోర్టు_Enter_Critical( శూన్య );
+బాహ్య శూన్య v_పోర్టు_Exit_Critical( శూన్య );
+#నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR()         x_పోర్టు_సమితి_అంతరాయం_ముసుగు()
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( x )    v_పోర్టు_Clear_అంతరాయం_ముసుగు( x )
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()                  పోర్టు_సమితి_అంతరాయం_ముసుగు()
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()                   పోర్టు_CLEAR_అంతరాయం_ముసుగు()
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()                      v_పోర్టు_Enter_Critical()
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()                       v_పోర్టు_Exit_Critical()
 
 /*-----------------------------------------------------------*/
 
-extern void vPortThreadDying( void * pxTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-extern void vPortCancelThread( void * pxTaskToDelete );
-#define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortThreadDying( ( pvTaskToDelete ), ( pxPendYield ) )
-#define portCLEAN_UP_TCB( pxTCB )                                  vPortCancelThread( pxTCB )
+బాహ్య శూన్య v_పోర్టు_Thread_Dying( శూన్య * px_Task_గమ్యం_Delete,
+                              అస్థిర పునాది_Type_t * pxPendYield );
+బాహ్య శూన్య v_పోర్టు_Cancel_Thread( శూన్య * px_Task_గమ్యం_Delete );
+#నిర్వచించు పోర్టు_PRE_TASK_DELETE_HOOK( pv_Task_గమ్యం_Delete, pxPendYield )    v_పోర్టు_Thread_Dying( ( pv_Task_గమ్యం_Delete ), ( pxPendYield ) )
+#నిర్వచించు పోర్టు_CLEAN_పైకి_TCB( pxTCB )                                  v_పోర్టు_Cancel_Thread( pxTCB )
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )         void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )               void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )         శూన్య vFunction( శూన్య * pvParameters ) __attribute__( ( noreturn ) )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )               శూన్య vFunction( శూన్య * pvParameters )
 /*-----------------------------------------------------------*/
 
 /*
@@ -138,16 +138,16 @@ extern void vPortCancelThread( void * pxTaskToDelete );
  * Thus, only a compiler barrier is needed to prevent the compiler
  * reordering.
  */
-#define portMEMORY_BARRIER()                        __asm volatile ( "" ::: "memory" )
+#నిర్వచించు పోర్టు_జ్ఞాపకం_BARRIER()                        __asm అస్థిర ( "" ::: "memory" )
 
-extern uint32_t ulPortGetRunTime( void );
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* no-op */
-#define portGET_RUN_TIME_COUNTER_VALUE()            ulPortGetRunTime()
+బాహ్య uint32_t ul_పోర్టు_Get_నిరంతరం_సమయం( శూన్య );
+#నిర్వచించు పోర్టు_CONFIGURE_TIMER_FOR_నిరంతరం_సమయం_STATS()    /* no-op */
+#నిర్వచించు పోర్టు_GET_నిరంతరం_సమయం_COUNTER_విలువ()            ul_పోర్టు_Get_నిరంతరం_సమయం()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

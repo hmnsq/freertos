@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -49,35 +49,35 @@
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M33"
-#define portHAS_ARMV8M_MAIN_EXTENSION    1
-#define portARMV8M_MINOR_VERSION         0
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            0
+#నిర్వచించు పోర్టు_ARCH_NAME                    "Cortex-M33"
+#నిర్వచించు పోర్టు_HAS_ARMV8_M_MAIN_EXTENSION    1
+#నిర్వచించు పోర్టు_ARMV8_M_MINOR_సంస్కరణ         0
+#నిర్వచించు పోర్టు_DONT_DISCARD                 __attribute__( ( వాడిన ) )
+#నిర్వచించు పోర్టు_VALIDATED_FOR_SMP            0
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#అన్తర్భావ "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#ifndef configENABLE_MVE
-    #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M33.
-#endif
+#నిర్వచితం_కాకపోతే configENABLE_MVE
+    #నిర్వచించు configENABLE_MVE    0
+#లేదావేళ ( configENABLE_MVE != 0 )
+    #దోషం configENABLE_MVE must be ఎడమ undefined, or defined గమ్యం 0 కొరకు the Cortex-M33.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    ul_సమితి_అంతరాయం_ముసుగు()
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     v_Clear_అంతరాయం_ముసుగు( 0 )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

@@ -26,52 +26,52 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef FREERTOS_SDK_CONFIG_H
-#define FREERTOS_SDK_CONFIG_H
+#నిర్వచితం_కాకపోతే FREERTOS_SDK_CONFIG_H
+#నిర్వచించు FREERTOS_SDK_CONFIG_H
 
-#ifndef __ASSEMBLER__
-    #include "FreeRTOSConfig.h"
-    #include "rp2040_config.h"
-    #ifndef PICO_USE_MALLOC_MUTEX
+#నిర్వచితం_కాకపోతే __ASSEMBLER__
+    #అన్తర్భావ "FreeRTOSConfig.h"
+    #అన్తర్భావ "rp2040_config.h"
+    #నిర్వచితం_కాకపోతే PICO_USE_MALLOC_MUTEX
         /* malloc needs to be made thread safe */
-        #define PICO_USE_MALLOC_MUTEX    1
-    #endif /* PICO_USE_MALLOC_MUTEX */
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+        #నిర్వచించు PICO_USE_MALLOC_MUTEX    1
+    #అయితే_ముగింపు /* PICO_USE_MALLOC_MUTEX */
+    #ఒకవేళ ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* increase the amount of time it may reasonably take to wake us up */
-        #ifndef PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
-            #define PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
-        #endif
+        #నిర్వచితం_కాకపోతే PICO_సమయం_SLEEP_OVERHEAD_ADJUST_US
+            #నిర్వచించు PICO_సమయం_SLEEP_OVERHEAD_ADJUST_US    150
+        #అయితే_ముగింపు
 
-        #define lock_owner_id_t                           uint32_t
-        extern uint32_t ulPortLockGetCurrentOwnerId( void );
-        #define lock_get_caller_owner_id()    ulPortLockGetCurrentOwnerId()
-        #define LOCK_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
+        #నిర్వచించు తాళం_owner_id_t                           uint32_t
+        బాహ్య uint32_t ul_పోర్టు_తాళం_Get_Current_Owner_Id( శూన్య );
+        #నిర్వచించు తాళం_get_caller_owner_id()    ul_పోర్టు_తాళం_Get_Current_Owner_Id()
+        #నిర్వచించు తాళం_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
 
-        struct lock_core;
-        #ifndef lock_internal_spin_unlock_with_wait
-            extern void vPortLockInternalSpinUnlockWithWait( struct lock_core * pxLock,
+        నిర్మాణం తాళం_core;
+        #నిర్వచితం_కాకపోతే తాళం_అంతర్గత_spin_unlock_with_wait
+            బాహ్య శూన్య v_పోర్టు_తాళం_అంతర్గత_Spin_Unlock_With_Wait( నిర్మాణం తాళం_core * px_తాళం,
                                                              uint32_t ulSave );
-            #define lock_internal_spin_unlock_with_wait( lock, save )    vPortLockInternalSpinUnlockWithWait( lock, save )
-        #endif
+            #నిర్వచించు తాళం_అంతర్గత_spin_unlock_with_wait( తాళం_3, save )    v_పోర్టు_తాళం_అంతర్గత_Spin_Unlock_With_Wait( తాళం_3, save )
+        #అయితే_ముగింపు
 
-        #ifndef lock_internal_spin_unlock_with_notify
-            extern void vPortLockInternalSpinUnlockWithNotify( struct lock_core * pxLock,
+        #నిర్వచితం_కాకపోతే తాళం_అంతర్గత_spin_unlock_with_notify
+            బాహ్య శూన్య v_పోర్టు_తాళం_అంతర్గత_Spin_Unlock_With_Notify( నిర్మాణం తాళం_core * px_తాళం,
                                                                uint32_t save );
-            #define lock_internal_spin_unlock_with_notify( lock, save )    vPortLockInternalSpinUnlockWithNotify( lock, save );
-        #endif
+            #నిర్వచించు తాళం_అంతర్గత_spin_unlock_with_notify( తాళం_3, save )    v_పోర్టు_తాళం_అంతర్గత_Spin_Unlock_With_Notify( తాళం_3, save );
+        #అయితే_ముగింపు
 
-        #ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout
-            extern bool xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( struct lock_core * pxLock,
+        #నిర్వచితం_కాకపోతే తాళం_అంతర్గత_spin_unlock_with_ఉత్తమ_effort_wait_or_timeout
+            బాహ్య bool x_పోర్టు_తాళం_అంతర్గత_Spin_Unlock_With_ఉత్తమ_Effort_Wait_Or_Timeout( నిర్మాణం తాళం_core * px_తాళం,
                                                                                 uint32_t ulSave,
-                                                                                absolute_time_t uxUntil );
-            #define lock_internal_spin_unlock_with_best_effort_wait_or_timeout( lock, save, until ) \
-    xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( lock, save, until )
-        #endif
-    #endif /* configSUPPORT_PICO_SYNC_INTEROP */
+                                                                                absolute_సమయం_t uxUntil );
+            #నిర్వచించు తాళం_అంతర్గత_spin_unlock_with_ఉత్తమ_effort_wait_or_timeout( తాళం_3, save, until ) \
+    x_పోర్టు_తాళం_అంతర్గత_Spin_Unlock_With_ఉత్తమ_Effort_Wait_Or_Timeout( తాళం_3, save, until )
+        #అయితే_ముగింపు
+    #అయితే_ముగింపు /* configSUPPORT_PICO_SYNC_INTEROP */
 
-    #if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
-        extern void xPortSyncInternalYieldUntilBefore( absolute_time_t t );
-        #define sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
-    #endif /* configSUPPORT_PICO_TIME_INTEROP */
-#endif /* __ASSEMBLER__ */
-#endif /* ifndef FREERTOS_SDK_CONFIG_H */
+    #ఒకవేళ ( config_SUPPORT_PICO_సమయం_INTEROP == 1 )
+        బాహ్య శూన్య x_పోర్టు_Sync_అంతర్గత_Yield_Until_Before( absolute_సమయం_t t );
+        #నిర్వచించు sync_అంతర్గత_yield_until_before( t )    x_పోర్టు_Sync_అంతర్గత_Yield_Until_Before( t )
+    #అయితే_ముగింపు /* configSUPPORT_PICO_TIME_INTEROP */
+#అయితే_ముగింపు /* __ASSEMBLER__ */
+#అయితే_ముగింపు /* ifndef FREERTOS_SDK_CONFIG_H */

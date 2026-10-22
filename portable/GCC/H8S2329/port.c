@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 
 /*-----------------------------------------------------------
@@ -39,167 +39,167 @@
 /*-----------------------------------------------------------*/
 
 /* When the task starts interrupts should be enabled. */
-#define portINITIAL_CCR                    ( ( StackType_t ) 0x00 )
+#నిర్వచించు పోర్టు_INITIAL_CCR                    ( ( దొంతర_Type_t ) 0x00 )
 
 /* Hardware specific constants used to generate the RTOS tick from the TPU. */
-#define portCLEAR_ON_TGRA_COMPARE_MATCH    ( ( uint8_t ) 0x20 )
-#define portCLOCK_DIV_64                   ( ( uint8_t ) 0x03 )
-#define portCLOCK_DIV                      ( ( uint32_t ) 64 )
-#define portTGRA_INTERRUPT_ENABLE          ( ( uint8_t ) 0x01 )
-#define portTIMER_CHANNEL                  ( ( uint8_t ) 0x02 )
-#define portMSTP13                         ( ( uint16_t ) 0x2000 )
+#నిర్వచించు పోర్టు_CLEAR_ON_TGRA_COMPARE_సరిపోలిక    ( ( uint8_t ) 0x20 )
+#నిర్వచించు పోర్టు_CLOCK_DIV_64                   ( ( uint8_t ) 0x03 )
+#నిర్వచించు పోర్టు_CLOCK_DIV                      ( ( uint32_t ) 64 )
+#నిర్వచించు పోర్టు_TGRA_అంతరాయం_ENABLE          ( ( uint8_t ) 0x01 )
+#నిర్వచించు పోర్టు_TIMER_CHANNEL                  ( ( uint8_t ) 0x02 )
+#నిర్వచించు పోర్టు_MSTP13                         ( ( uint16_t ) 0x2000 )
 
 /*
  * Setup TPU channel one for the RTOS tick at the requested frequency.
  */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /*
  * The ISR used by portYIELD(). This is installed as a trap handler.
  */
-void vPortYield( void ) __attribute__( ( saveall, interrupt_handler ) );
+శూన్య v_పోర్టు_Yield( శూన్య ) __attribute__( ( saveall, అంతరాయం_handler ) );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
-    uint32_t ulValue;
+    uint32_t ul_విలువ;
 
     /* This requires an even address. */
-    ulValue = ( uint32_t ) pxTopOfStack;
+    ul_విలువ = ( uint32_t ) px_శిఖరం_యొక్క_దొంతర;
 
-    if( ulValue & 1UL )
+    ఒకవేళ( ul_విలువ & 1UL )
     {
-        pxTopOfStack = pxTopOfStack - 1;
+        px_శిఖరం_యొక్క_దొంతర = px_శిఖరం_యొక్క_దొంతర - 1;
     }
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is just useful for debugging. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0xaa;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xbb;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xcc;
-    pxTopOfStack--;
-    *pxTopOfStack = 0xdd;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0xaa;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0xbb;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0xcc;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0xdd;
 
     /* The initial stack mimics an interrupt stack.  First there is the program
      * counter (24 bits). */
-    ulValue = ( uint32_t ) pxCode;
+    ul_విలువ = ( uint32_t ) px_సంకేతం;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    ul_విలువ >>= 8UL;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    ul_విలువ >>= 8UL;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
 
     /* Followed by the CCR. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_CCR;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_CCR;
 
     /* Next all the general purpose registers - with the parameters being passed
      * in ER0.  The parameter order must match that used by the compiler when the
      * "saveall" function attribute is used. */
 
     /* ER6 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x66;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x66;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x66;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x66;
 
     /* ER0 */
-    ulValue = ( uint32_t ) pvParameters;
+    ul_విలువ = ( uint32_t ) pvParameters;
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
-    pxTopOfStack--;
-    ulValue >>= 8UL;
-    *pxTopOfStack = ( StackType_t ) ( ulValue & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    ul_విలువ >>= 8UL;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    ul_విలువ >>= 8UL;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
+    px_శిఖరం_యొక్క_దొంతర--;
+    ul_విలువ >>= 8UL;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ul_విలువ & 0xff );
 
     /* ER1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11;
 
     /* ER2 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22;
 
     /* ER3 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33;
 
     /* ER4 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x44;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x44;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x44;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x44;
 
     /* ER5 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x55;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x55;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x55;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x55;
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    extern void * pxCurrentTCB;
+    బాహ్య శూన్య * pxCurrentTCB;
 
     /* Setup the hardware to generate the tick. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Restore the context of the first task that is going to run.  This
      * mirrors the function epilogue code generated by the compiler when the
      * "saveall" function attribute is used. */
-    asm volatile (
+    asm అస్థిర (
         "MOV.L      @_pxCurrentTCB, ER6         \n\t"
         "MOV.L      @ER6, ER7                   \n\t"
         "LDM.L      @SP+, (ER4-ER5)             \n\t"
@@ -208,14 +208,14 @@ BaseType_t xPortStartScheduler( void )
         "RTE                                    \n\t"
         );
 
-    ( void ) pxCurrentTCB;
+    ( శూన్య ) pxCurrentTCB;
 
     /* Should not get here. */
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the h8 port will get stopped. */
 }
@@ -226,11 +226,11 @@ void vPortEndScheduler( void )
  * attribute is used so the context is saved by the compiler prologue.  All
  * we have to do is save the stack pointer.
  */
-void vPortYield( void )
+శూన్య v_పోర్టు_Yield( శూన్య )
 {
-    portSAVE_STACK_POINTER();
+    పోర్టు_SAVE_దొంతర_సూచిక();
     vTaskSwitchContext();
-    portRESTORE_STACK_POINTER();
+    పోర్టు_RESTORE_దొంతర_సూచిక();
 }
 /*-----------------------------------------------------------*/
 
@@ -238,19 +238,19 @@ void vPortYield( void )
  * The interrupt handler installed for the RTOS tick depends on whether the
  * preemptive or cooperative scheduler is being used.
  */
-#if ( configUSE_PREEMPTION == 1 )
+#ఒకవేళ ( configUSE_PREEMPTION == 1 )
 
 /*
  * The preemptive scheduler is used so the ISR calls vTaskSwitchContext().
  * The function prologue saves the context so all we have to do is save
  * the stack pointer.
  */
-    void vTickISR( void ) __attribute__( ( saveall, interrupt_handler ) );
-    void vTickISR( void )
+    శూన్య vTickISR( శూన్య ) __attribute__( ( saveall, అంతరాయం_handler ) );
+    శూన్య vTickISR( శూన్య )
     {
-        portSAVE_STACK_POINTER();
+        పోర్టు_SAVE_దొంతర_సూచిక();
 
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -258,18 +258,18 @@ void vPortYield( void )
         /* Clear the interrupt. */
         TSR1 &= ~0x01;
 
-        portRESTORE_STACK_POINTER();
+        పోర్టు_RESTORE_దొంతర_సూచిక();
     }
 
-#else /* if ( configUSE_PREEMPTION == 1 ) */
+#లేకపోతే /* if ( configUSE_PREEMPTION == 1 ) */
 
 /*
  * The cooperative scheduler is being used so all we have to do is
  * periodically increment the tick.  This can just be a normal ISR and
  * the "saveall" attribute is not required.
  */
-    void vTickISR( void ) __attribute__( ( interrupt_handler ) );
-    void vTickISR( void )
+    శూన్య vTickISR( శూన్య ) __attribute__( ( అంతరాయం_handler ) );
+    శూన్య vTickISR( శూన్య )
     {
         xTaskIncrementTick();
 
@@ -277,28 +277,28 @@ void vPortYield( void )
         TSR1 &= ~0x01;
     }
 
-#endif /* if ( configUSE_PREEMPTION == 1 ) */
+#అయితే_ముగింపు /* if ( configUSE_PREEMPTION == 1 ) */
 /*-----------------------------------------------------------*/
 
 /*
  * Setup timer 1 compare match to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
-    const uint32_t ulCompareMatch = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / portCLOCK_DIV;
+    స్థిరరాశి uint32_t ul_Compare_సరిపోలిక = ( configCPU_CLOCK_HZ / config_TICK_రేటు_HZ ) / పోర్టు_CLOCK_DIV;
 
     /* Turn the module on. */
-    MSTPCR &= ~portMSTP13;
+    MSTPCR &= ~పోర్టు_MSTP13;
 
     /* Configure timer 1. */
-    TCR1 = portCLEAR_ON_TGRA_COMPARE_MATCH | portCLOCK_DIV_64;
+    TCR1 = పోర్టు_CLEAR_ON_TGRA_COMPARE_సరిపోలిక | పోర్టు_CLOCK_DIV_64;
 
     /* Configure the compare match value for a tick of configTICK_RATE_HZ. */
-    TGR1A = ulCompareMatch;
+    TGR1A = ul_Compare_సరిపోలిక;
 
     /* Start the timer and enable the interrupt - we can do this here as
      * interrupts are globally disabled when this function is called. */
-    TIER1 |= portTGRA_INTERRUPT_ENABLE;
-    TSTR |= portTIMER_CHANNEL;
+    TIER1 |= పోర్టు_TGRA_అంతరాయం_ENABLE;
+    TSTR |= పోర్టు_TIMER_CHANNEL;
 }
 /*-----------------------------------------------------------*/

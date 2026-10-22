@@ -29,32 +29,32 @@
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#నిర్వచించు MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "timers.h"
-#include "event_groups.h"
-#include "stream_buffer.h"
-#include "mpu_prototypes.h"
-#include "mpu_syscall_numbers.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
+#అన్తర్భావ "queue.h"
+#అన్తర్భావ "timers.h"
+#అన్తర్భావ "event_groups.h"
+#అన్తర్భావ "stream_buffer.h"
+#అన్తర్భావ "mpu_prototypes.h"
+#అన్తర్భావ "mpu_syscall_numbers.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#నిర్వచనం_రద్దు MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ఒకవేళ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #if ( INCLUDE_xTaskDelayUntil == 1 )
+    #ఒకవేళ ( INCLUDE_xTaskDelayUntil == 1 )
 
-        BaseType_t MPU_xTaskDelayUntil( TickType_t * const pxPreviousWakeTime,
-                                        const TickType_t xTimeIncrement ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_xTaskDelayUntil( TickType_t * స్థిరరాశి px_మునుపటి_Wake_సమయం,
+                                        స్థిరరాశి TickType_t x_సమయం_Increment ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTaskDelayUntil( TickType_t * const pxPreviousWakeTime,
-                                        const TickType_t xTimeIncrement ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_xTaskDelayUntil( TickType_t * స్థిరరాశి px_మునుపటి_Wake_సమయం,
+                                        స్థిరరాశి TickType_t x_సమయం_Increment ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskDelayUntilImpl                       \n"
@@ -73,16 +73,16 @@
             );
         }
 
-    #endif /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskAbortDelay == 1 )
+    #ఒకవేళ ( INCLUDE_xTaskAbortDelay == 1 )
 
-        BaseType_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskAbortDelayImpl                       \n"
@@ -101,16 +101,16 @@
             );
         }
 
-    #endif /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelay == 1 )
+    #ఒకవేళ ( INCLUDE_vTaskDelay == 1 )
 
-        void MPU_vTaskDelay( const TickType_t xTicksToDelay ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_vTaskDelay( స్థిరరాశి TickType_t x_Ticks_గమ్యం_Delay ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTaskDelay( const TickType_t xTicksToDelay ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_vTaskDelay( స్థిరరాశి TickType_t x_Ticks_గమ్యం_Delay ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTaskDelayImpl                            \n"
@@ -129,16 +129,16 @@
             );
         }
 
-    #endif /* if ( INCLUDE_vTaskDelay == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_vTaskDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskPriorityGet == 1 )
+    #ఒకవేళ ( INCLUDE_ux_Task_ప్రాధాన్యత_Get == 1 )
 
-        UBaseType_t MPU_uxTaskPriorityGet( const TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        UBaseType_t MPU_ux_Task_ప్రాధాన్యత_Get( స్థిరరాశి TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        UBaseType_t MPU_uxTaskPriorityGet( const TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        UBaseType_t MPU_ux_Task_ప్రాధాన్యత_Get( స్థిరరాశి TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_uxTaskPriorityGetImpl                     \n"
@@ -153,20 +153,20 @@
                 " MPU_uxTaskPriorityGet_Unpriv:                         \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_uxTaskPriorityGet ) : "memory"
+                : : "i" ( SYSTEM_CALL_ux_Task_ప్రాధాన్యత_Get ) : "memory"
             );
         }
 
-    #endif /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_eTaskGetState == 1 )
+    #ఒకవేళ ( INCLUDE_eTaskGetState == 1 )
 
         eTaskState MPU_eTaskGetState( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
         eTaskState MPU_eTaskGetState( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_eTaskGetStateImpl                         \n"
@@ -185,22 +185,22 @@
             );
         }
 
-    #endif /* if ( INCLUDE_eTaskGetState == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_eTaskGetState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #ఒకవేళ ( configUSE_TRACE_FACILITY == 1 )
 
-        void MPU_vTaskGetInfo( TaskHandle_t xTask,
-                               TaskStatus_t * pxTaskStatus,
-                               BaseType_t xGetFreeStackSpace,
+        శూన్య MPU_vTaskGetInfo( TaskHandle_t xTask,
+                               Task_స్థితి_t * px_Task_స్థితి,
+                               పునాది_Type_t x_Get_Free_దొంతర_Space,
                                eTaskState eState ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTaskGetInfo( TaskHandle_t xTask,
-                               TaskStatus_t * pxTaskStatus,
-                               BaseType_t xGetFreeStackSpace,
+        శూన్య MPU_vTaskGetInfo( TaskHandle_t xTask,
+                               Task_స్థితి_t * px_Task_స్థితి,
+                               పునాది_Type_t x_Get_Free_దొంతర_Space,
                                eTaskState eState ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTaskGetInfoImpl                          \n"
@@ -219,16 +219,16 @@
             );
         }
 
-    #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+    #ఒకవేళ ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
 
-        TaskHandle_t MPU_xTaskGetIdleTaskHandle( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        TaskHandle_t MPU_xTaskGetIdleTaskHandle( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        TaskHandle_t MPU_xTaskGetIdleTaskHandle( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        TaskHandle_t MPU_xTaskGetIdleTaskHandle( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGetIdleTaskHandleImpl                \n"
@@ -247,16 +247,16 @@
             );
         }
 
-    #endif /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
+    #ఒకవేళ ( INCLUDE_vTaskSuspend == 1 )
 
-        void MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_vTaskSuspend( TaskHandle_t x_Task_గమ్యం_Suspend ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_vTaskSuspend( TaskHandle_t x_Task_గమ్యం_Suspend ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTaskSuspendImpl                          \n"
@@ -275,16 +275,16 @@
             );
         }
 
-    #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
+    #ఒకవేళ ( INCLUDE_vTaskSuspend == 1 )
 
-        void MPU_vTaskResume( TaskHandle_t xTaskToResume ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_vTaskResume( TaskHandle_t x_Task_గమ్యం_Resume ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTaskResume( TaskHandle_t xTaskToResume ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_vTaskResume( TaskHandle_t x_Task_గమ్యం_Resume ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTaskResumeImpl                           \n"
@@ -303,14 +303,14 @@
             );
         }
 
-    #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    TickType_t MPU_xTaskGetTickCount( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    TickType_t MPU_x_Task_Get_Tick_లెక్క( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    TickType_t MPU_xTaskGetTickCount( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    TickType_t MPU_x_Task_Get_Tick_లెక్క( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_xTaskGetTickCountImpl                     \n"
@@ -325,16 +325,16 @@
             " MPU_xTaskGetTickCount_Unpriv:                         \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_xTaskGetTickCount ) : "memory"
+            : : "i" ( SYSTEM_CALL_x_Task_Get_Tick_లెక్క ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    UBaseType_t MPU_ux_Task_Get_సంఖ్య_యొక్క_Tasks( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    UBaseType_t MPU_ux_Task_Get_సంఖ్య_యొక్క_Tasks( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_uxTaskGetNumberOfTasksImpl                \n"
@@ -349,18 +349,18 @@
             " MPU_uxTaskGetNumberOfTasks_Unpriv:                    \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_uxTaskGetNumberOfTasks ) : "memory"
+            : : "i" ( SYSTEM_CALL_ux_Task_Get_సంఖ్య_యొక్క_Tasks ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configGENERATE_RUN_TIME_STATS == 1 )
+    #ఒకవేళ ( config_GENERATE_నిరంతరం_సమయం_STATS == 1 )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounter( const TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_నిరంతరం_సమయం_Counter( స్థిరరాశి TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounter( const TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_నిరంతరం_సమయం_Counter( స్థిరరాశి TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_ulTaskGetRunTimeCounterImpl               \n"
@@ -375,20 +375,20 @@
                 " MPU_ulTaskGetRunTimeCounter_Unpriv:                   \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_ulTaskGetRunTimeCounter ) : "memory"
+                : : "i" ( SYSTEM_CALL_ul_Task_Get_నిరంతరం_సమయం_Counter ) : "memory"
             );
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
+    #అయితే_ముగింపు /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configGENERATE_RUN_TIME_STATS == 1 )
+    #ఒకవేళ ( config_GENERATE_నిరంతరం_సమయం_STATS == 1 )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercent( const TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_నిరంతరం_సమయం_Percent( స్థిరరాశి TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercent( const TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_నిరంతరం_సమయం_Percent( స్థిరరాశి TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_ulTaskGetRunTimePercentImpl               \n"
@@ -403,20 +403,20 @@
                 " MPU_ulTaskGetRunTimePercent_Unpriv:                   \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_ulTaskGetRunTimePercent ) : "memory"
+                : : "i" ( SYSTEM_CALL_ul_Task_Get_నిరంతరం_సమయం_Percent ) : "memory"
             );
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
+    #అయితే_ముగింపు /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+    #ఒకవేళ ( ( config_GENERATE_నిరంతరం_సమయం_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_Idle_నిరంతరం_సమయం_Percent( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_Idle_నిరంతరం_సమయం_Percent( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_ulTaskGetIdleRunTimePercentImpl           \n"
@@ -431,20 +431,20 @@
                 " MPU_ulTaskGetIdleRunTimePercent_Unpriv:               \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_ulTaskGetIdleRunTimePercent ) : "memory"
+                : : "i" ( SYSTEM_CALL_ul_Task_Get_Idle_నిరంతరం_సమయం_Percent ) : "memory"
             );
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
+    #అయితే_ముగింపు /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+    #ఒకవేళ ( ( config_GENERATE_నిరంతరం_సమయం_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_Idle_నిరంతరం_సమయం_Counter( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        config_నిరంతరం_సమయం_COUNTER_TYPE MPU_ul_Task_Get_Idle_నిరంతరం_సమయం_Counter( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_ulTaskGetIdleRunTimeCounterImpl           \n"
@@ -459,22 +459,22 @@
                 " MPU_ulTaskGetIdleRunTimeCounter_Unpriv:               \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_ulTaskGetIdleRunTimeCounter ) : "memory"
+                : : "i" ( SYSTEM_CALL_ul_Task_Get_Idle_నిరంతరం_సమయం_Counter ) : "memory"
             );
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
+    #అయితే_ముగింపు /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #ఒకవేళ ( config_USE_APPLICATION_TASK_ట్యాగ్ == 1 )
 
-        void MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
+        శూన్య MPU_v_Task_సమితి_Application_Task_ట్యాగ్( TaskHandle_t xTask,
                                              TaskHookFunction_t pxHookFunction ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
+        శూన్య MPU_v_Task_సమితి_Application_Task_ట్యాగ్( TaskHandle_t xTask,
                                              TaskHookFunction_t pxHookFunction ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTaskSetApplicationTaskTagImpl            \n"
@@ -489,20 +489,20 @@
                 " MPU_vTaskSetApplicationTaskTag_Unpriv:                \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vTaskSetApplicationTaskTag ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_Task_సమితి_Application_Task_ట్యాగ్ ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #ఒకవేళ ( config_USE_APPLICATION_TASK_ట్యాగ్ == 1 )
 
-        TaskHookFunction_t MPU_xTaskGetApplicationTaskTag( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        TaskHookFunction_t MPU_x_Task_Get_Application_Task_ట్యాగ్( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        TaskHookFunction_t MPU_xTaskGetApplicationTaskTag( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        TaskHookFunction_t MPU_x_Task_Get_Application_Task_ట్యాగ్( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGetApplicationTaskTagImpl            \n"
@@ -517,24 +517,24 @@
                 " MPU_xTaskGetApplicationTaskTag_Unpriv:                \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xTaskGetApplicationTaskTag ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Task_Get_Application_Task_ట్యాగ్ ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #ఒకవేళ ( config_అంకె_THREAD_LOCAL_STORAGE_సూచికలు != 0 )
 
-        void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
-                                                    BaseType_t xIndex,
-                                                    void * pvValue ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_v_Task_సమితి_Thread_Local_Storage_సూచిక( TaskHandle_t x_Task_గమ్యం_సమితి,
+                                                    పునాది_Type_t x_సూచీ,
+                                                    శూన్య * pv_విలువ ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
-                                                    BaseType_t xIndex,
-                                                    void * pvValue ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_v_Task_సమితి_Thread_Local_Storage_సూచిక( TaskHandle_t x_Task_గమ్యం_సమితి,
+                                                    పునాది_Type_t x_సూచీ,
+                                                    శూన్య * pv_విలువ ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTaskSetThreadLocalStoragePointerImpl     \n"
@@ -549,22 +549,22 @@
                 " MPU_vTaskSetThreadLocalStoragePointer_Unpriv:         \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vTaskSetThreadLocalStoragePointer ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_Task_సమితి_Thread_Local_Storage_సూచిక ) : "memory"
             );
         }
 
-    #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
+    #అయితే_ముగింపు /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #ఒకవేళ ( config_అంకె_THREAD_LOCAL_STORAGE_సూచికలు != 0 )
 
-        void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
-                                                       BaseType_t xIndex ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య * MPU_pv_Task_Get_Thread_Local_Storage_సూచిక( TaskHandle_t x_Task_గమ్యం_Query,
+                                                       పునాది_Type_t x_సూచీ ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
-                                                       BaseType_t xIndex ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య * MPU_pv_Task_Get_Thread_Local_Storage_సూచిక( TaskHandle_t x_Task_గమ్యం_Query,
+                                                       పునాది_Type_t x_సూచీ ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_pvTaskGetThreadLocalStoragePointerImpl    \n"
@@ -579,24 +579,24 @@
                 " MPU_pvTaskGetThreadLocalStoragePointer_Unpriv:        \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer ) : "memory"
+                : : "i" ( SYSTEM_CALL_pv_Task_Get_Thread_Local_Storage_సూచిక ) : "memory"
             );
         }
 
-    #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
+    #అయితే_ముగింపు /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #ఒకవేళ ( configUSE_TRACE_FACILITY == 1 )
 
-        UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * const pxTaskStatusArray,
-                                              const UBaseType_t uxArraySize,
-                                              configRUN_TIME_COUNTER_TYPE * const pulTotalRunTime ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        UBaseType_t MPU_uxTaskGetSystemState( Task_స్థితి_t * స్థిరరాశి px_Task_స్థితి_Array,
+                                              స్థిరరాశి UBaseType_t ux_Array_కొలత,
+                                              config_నిరంతరం_సమయం_COUNTER_TYPE * స్థిరరాశి pul_మొత్తం_నిరంతరం_సమయం ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * const pxTaskStatusArray,
-                                              const UBaseType_t uxArraySize,
-                                              configRUN_TIME_COUNTER_TYPE * const pulTotalRunTime ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        UBaseType_t MPU_uxTaskGetSystemState( Task_స్థితి_t * స్థిరరాశి px_Task_స్థితి_Array,
+                                              స్థిరరాశి UBaseType_t ux_Array_కొలత,
+                                              config_నిరంతరం_సమయం_COUNTER_TYPE * స్థిరరాశి pul_మొత్తం_నిరంతరం_సమయం ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_uxTaskGetSystemStateImpl                  \n"
@@ -615,16 +615,16 @@
             );
         }
 
-    #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
+    #ఒకవేళ ( INCLUDE_ux_Task_Get_దొంతర_ఎగువ_Water_Mark == 1 )
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        UBaseType_t MPU_ux_Task_Get_దొంతర_ఎగువ_Water_Mark( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        UBaseType_t MPU_ux_Task_Get_దొంతర_ఎగువ_Water_Mark( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_uxTaskGetStackHighWaterMarkImpl           \n"
@@ -639,20 +639,20 @@
                 " MPU_uxTaskGetStackHighWaterMark_Unpriv:               \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_uxTaskGetStackHighWaterMark ) : "memory"
+                : : "i" ( SYSTEM_CALL_ux_Task_Get_దొంతర_ఎగువ_Water_Mark ) : "memory"
             );
         }
 
-    #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
+    #ఒకవేళ ( INCLUDE_ux_Task_Get_దొంతర_ఎగువ_Water_Mark2 == 1 )
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        config_దొంతర_లోతు_TYPE MPU_ux_Task_Get_దొంతర_ఎగువ_Water_Mark2( TaskHandle_t xTask ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        config_దొంతర_లోతు_TYPE MPU_ux_Task_Get_దొంతర_ఎగువ_Water_Mark2( TaskHandle_t xTask ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_uxTaskGetStackHighWaterMark2Impl          \n"
@@ -667,20 +667,20 @@
                 " MPU_uxTaskGetStackHighWaterMark2_Unpriv:              \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_uxTaskGetStackHighWaterMark2 ) : "memory"
+                : : "i" ( SYSTEM_CALL_ux_Task_Get_దొంతర_ఎగువ_Water_Mark2 ) : "memory"
             );
         }
 
-    #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
+    #ఒకవేళ ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
 
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandle( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandle( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandle( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandle( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGetCurrentTaskHandleImpl             \n"
@@ -699,16 +699,16 @@
             );
         }
 
-    #endif /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) ) */
+    #అయితే_ముగింపు /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetSchedulerState == 1 )
+    #ఒకవేళ ( INCLUDE_xTaskGetSchedulerState == 1 )
 
-        BaseType_t MPU_xTaskGetSchedulerState( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_xTaskGetSchedulerState( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTaskGetSchedulerState( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_xTaskGetSchedulerState( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGetSchedulerStateImpl                \n"
@@ -727,14 +727,14 @@
             );
         }
 
-    #endif /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
+    #అయితే_ముగింపు /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskSetTimeOutState( TimeOut_t * const pxTimeOut ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    శూన్య MPU_v_Task_సమితి_సమయం_బహిర్గతం_State( సమయం_బహిర్గతం_t * స్థిరరాశి px_సమయం_బహిర్గతం ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    void MPU_vTaskSetTimeOutState( TimeOut_t * const pxTimeOut ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    శూన్య MPU_v_Task_సమితి_సమయం_బహిర్గతం_State( సమయం_బహిర్గతం_t * స్థిరరాశి px_సమయం_బహిర్గతం ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_vTaskSetTimeOutStateImpl                  \n"
@@ -749,18 +749,18 @@
             " MPU_vTaskSetTimeOutState_Unpriv:                      \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_vTaskSetTimeOutState ) : "memory"
+            : : "i" ( SYSTEM_CALL_v_Task_సమితి_సమయం_బహిర్గతం_State ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * const pxTimeOut,
-                                         TickType_t * const pxTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    పునాది_Type_t MPU_x_Task_Check_For_సమయం_బహిర్గతం( సమయం_బహిర్గతం_t * స్థిరరాశి px_సమయం_బహిర్గతం,
+                                         TickType_t * స్థిరరాశి px_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * const pxTimeOut,
-                                         TickType_t * const pxTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    పునాది_Type_t MPU_x_Task_Check_For_సమయం_బహిర్గతం( సమయం_బహిర్గతం_t * స్థిరరాశి px_సమయం_బహిర్గతం,
+                                         TickType_t * స్థిరరాశి px_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_xTaskCheckForTimeOutImpl                  \n"
@@ -775,18 +775,18 @@
             " MPU_xTaskCheckForTimeOut_Unpriv:                      \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_xTaskCheckForTimeOut ) : "memory"
+            : : "i" ( SYSTEM_CALL_x_Task_Check_For_సమయం_బహిర్గతం ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ఒకవేళ ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotifyEntry( const xTaskGenericNotifyParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_Task_Generic_Notify_నమోదు( స్థిరరాశి xTaskGenericNotifyParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTaskGenericNotifyEntry( const xTaskGenericNotifyParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_Task_Generic_Notify_నమోదు( స్థిరరాశి xTaskGenericNotifyParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGenericNotifyImpl                    \n"
@@ -805,16 +805,16 @@
             );
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ఒకవేళ ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotifyWaitEntry( const xTaskGenericNotifyWaitParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_Task_Generic_Notify_Wait_నమోదు( స్థిరరాశి xTaskGenericNotifyWaitParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTaskGenericNotifyWaitEntry( const xTaskGenericNotifyWaitParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_Task_Generic_Notify_Wait_నమోదు( స్థిరరాశి xTaskGenericNotifyWaitParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGenericNotifyWaitImpl                \n"
@@ -833,20 +833,20 @@
             );
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ఒకవేళ ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                              BaseType_t xClearCountOnExit,
-                                              TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t ux_సూచీ_గమ్యం_Wait_On,
+                                              పునాది_Type_t x_Clear_లెక్క_On_Exit,
+                                              TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                              BaseType_t xClearCountOnExit,
-                                              TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t ux_సూచీ_గమ్యం_Wait_On,
+                                              పునాది_Type_t x_Clear_లెక్క_On_Exit,
+                                              TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_ulTaskGenericNotifyTakeImpl               \n"
@@ -865,18 +865,18 @@
             );
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ఒకవేళ ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
-                                                     UBaseType_t uxIndexToClear ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
+                                                     UBaseType_t ux_సూచీ_గమ్యం_Clear ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
-                                                     UBaseType_t uxIndexToClear ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
+                                                     UBaseType_t ux_సూచీ_గమ్యం_Clear ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTaskGenericNotifyStateClearImpl          \n"
@@ -895,20 +895,20 @@
             );
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #ఒకవేళ ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
-                                                    UBaseType_t uxIndexToClear,
-                                                    uint32_t ulBitsToClear ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        uint32_t MPU_ul_Task_Generic_Notify_విలువ_Clear( TaskHandle_t xTask,
+                                                    UBaseType_t ux_సూచీ_గమ్యం_Clear,
+                                                    uint32_t ul_బిట్లు_గమ్యం_Clear ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
-                                                    UBaseType_t uxIndexToClear,
-                                                    uint32_t ulBitsToClear ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        uint32_t MPU_ul_Task_Generic_Notify_విలువ_Clear( TaskHandle_t xTask,
+                                                    UBaseType_t ux_సూచీ_గమ్యం_Clear,
+                                                    uint32_t ul_బిట్లు_గమ్యం_Clear ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_ulTaskGenericNotifyValueClearImpl         \n"
@@ -923,24 +923,24 @@
                 " MPU_ulTaskGenericNotifyValueClear_Unpriv:             \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_ulTaskGenericNotifyValueClear ) : "memory"
+                : : "i" ( SYSTEM_CALL_ul_Task_Generic_Notify_విలువ_Clear ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue,
-                                      const void * const pvItemToQueue,
-                                      TickType_t xTicksToWait,
-                                      const BaseType_t xCopyPosition ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    పునాది_Type_t MPU_x_వరుస_Generic_Send( వరుస_Handle_t x_వరుస,
+                                      స్థిరరాశి శూన్య * స్థిరరాశి pv_అంశం_గమ్యం_వరుస,
+                                      TickType_t x_Ticks_గమ్యం_Wait,
+                                      స్థిరరాశి పునాది_Type_t xCopyPosition ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue,
-                                      const void * const pvItemToQueue,
-                                      TickType_t xTicksToWait,
-                                      const BaseType_t xCopyPosition ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    పునాది_Type_t MPU_x_వరుస_Generic_Send( వరుస_Handle_t x_వరుస,
+                                      స్థిరరాశి శూన్య * స్థిరరాశి pv_అంశం_గమ్యం_వరుస,
+                                      TickType_t x_Ticks_గమ్యం_Wait,
+                                      స్థిరరాశి పునాది_Type_t xCopyPosition ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_xQueueGenericSendImpl                     \n"
@@ -955,16 +955,16 @@
             " MPU_xQueueGenericSend_Unpriv:                         \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_xQueueGenericSend ) : "memory"
+            : : "i" ( SYSTEM_CALL_x_వరుస_Generic_Send ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t xQueue ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    UBaseType_t MPU_ux_వరుస_Messages_నిరీక్షణ( స్థిరరాశి వరుస_Handle_t x_వరుస ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t xQueue ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    UBaseType_t MPU_ux_వరుస_Messages_నిరీక్షణ( స్థిరరాశి వరుస_Handle_t x_వరుస ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_uxQueueMessagesWaitingImpl                \n"
@@ -979,16 +979,16 @@
             " MPU_uxQueueMessagesWaiting_Unpriv:                    \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_uxQueueMessagesWaiting ) : "memory"
+            : : "i" ( SYSTEM_CALL_ux_వరుస_Messages_నిరీక్షణ ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    UBaseType_t MPU_ux_వరుస_Spaces_అందుబాటు( స్థిరరాశి వరుస_Handle_t x_వరుస ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    UBaseType_t MPU_ux_వరుస_Spaces_అందుబాటు( స్థిరరాశి వరుస_Handle_t x_వరుస ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_uxQueueSpacesAvailableImpl                \n"
@@ -1003,20 +1003,20 @@
             " MPU_uxQueueSpacesAvailable_Unpriv:                    \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_uxQueueSpacesAvailable ) : "memory"
+            : : "i" ( SYSTEM_CALL_ux_వరుస_Spaces_అందుబాటు ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueReceive( QueueHandle_t xQueue,
-                                  void * const pvBuffer,
-                                  TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    పునాది_Type_t MPU_x_వరుస_Receive( వరుస_Handle_t x_వరుస,
+                                  శూన్య * స్థిరరాశి pv_బఫరు,
+                                  TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    BaseType_t MPU_xQueueReceive( QueueHandle_t xQueue,
-                                  void * const pvBuffer,
-                                  TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    పునాది_Type_t MPU_x_వరుస_Receive( వరుస_Handle_t x_వరుస,
+                                  శూన్య * స్థిరరాశి pv_బఫరు,
+                                  TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_xQueueReceiveImpl                         \n"
@@ -1031,20 +1031,20 @@
             " MPU_xQueueReceive_Unpriv:                             \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_xQueueReceive ) : "memory"
+            : : "i" ( SYSTEM_CALL_x_వరుస_Receive ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue,
-                               void * const pvBuffer,
-                               TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    పునాది_Type_t MPU_x_వరుస_Peek( వరుస_Handle_t x_వరుస,
+                               శూన్య * స్థిరరాశి pv_బఫరు,
+                               TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue,
-                               void * const pvBuffer,
-                               TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    పునాది_Type_t MPU_x_వరుస_Peek( వరుస_Handle_t x_వరుస,
+                               శూన్య * స్థిరరాశి pv_బఫరు,
+                               TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_xQueuePeekImpl                            \n"
@@ -1059,18 +1059,18 @@
             " MPU_xQueuePeek_Unpriv:                                \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_xQueuePeek ) : "memory"
+            : : "i" ( SYSTEM_CALL_x_వరుస_Peek ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueSemaphoreTake( QueueHandle_t xQueue,
-                                        TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+    పునాది_Type_t MPU_x_వరుస_Semaphore_Take( వరుస_Handle_t x_వరుస,
+                                        TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-    BaseType_t MPU_xQueueSemaphoreTake( QueueHandle_t xQueue,
-                                        TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+    పునాది_Type_t MPU_x_వరుస_Semaphore_Take( వరుస_Handle_t x_వరుస,
+                                        TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
     {
-        __asm volatile
+        __asm అస్థిర
         (
             " .syntax unified                                       \n"
             " .extern MPU_xQueueSemaphoreTakeImpl                   \n"
@@ -1085,18 +1085,18 @@
             " MPU_xQueueSemaphoreTake_Unpriv:                       \n"
             "     svc %0                                            \n"
             "                                                       \n"
-            : : "i" ( SYSTEM_CALL_xQueueSemaphoreTake ) : "memory"
+            : : "i" ( SYSTEM_CALL_x_వరుస_Semaphore_Take ) : "memory"
         );
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+    #ఒకవేళ ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
 
-        TaskHandle_t MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        TaskHandle_t MPU_x_వరుస_Get_Mutex_Holder( వరుస_Handle_t xSemaphore ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        TaskHandle_t MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        TaskHandle_t MPU_x_వరుస_Get_Mutex_Holder( వరుస_Handle_t xSemaphore ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xQueueGetMutexHolderImpl                  \n"
@@ -1111,22 +1111,22 @@
                 " MPU_xQueueGetMutexHolder_Unpriv:                      \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xQueueGetMutexHolder ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_వరుస_Get_Mutex_Holder ) : "memory"
             );
         }
 
-    #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
+    #అయితే_ముగింపు /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #ఒకవేళ ( configUSE_RECURSIVE_MUTEXES == 1 )
 
-        BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
-                                                 TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_వరుస_Take_Mutex_Recursive( వరుస_Handle_t xMutex,
+                                                 TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
-                                                 TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_వరుస_Take_Mutex_Recursive( వరుస_Handle_t xMutex,
+                                                 TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xQueueTakeMutexRecursiveImpl              \n"
@@ -1141,20 +1141,20 @@
                 " MPU_xQueueTakeMutexRecursive_Unpriv:                  \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xQueueTakeMutexRecursive ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_వరుస_Take_Mutex_Recursive ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #ఒకవేళ ( configUSE_RECURSIVE_MUTEXES == 1 )
 
-        BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t pxMutex ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_వరుస_Give_Mutex_Recursive( వరుస_Handle_t pxMutex ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t pxMutex ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_వరుస_Give_Mutex_Recursive( వరుస_Handle_t pxMutex ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xQueueGiveMutexRecursiveImpl              \n"
@@ -1169,22 +1169,22 @@
                 " MPU_xQueueGiveMutexRecursive_Unpriv:                  \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xQueueGiveMutexRecursive ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_వరుస_Give_Mutex_Recursive ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #ఒకవేళ ( config_USE_వరుస_SETS == 1 )
 
-        QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet,
-                                                        const TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        వరుస_సమితి_Member_Handle_t MPU_x_వరుస_Select_From_సమితి( వరుస_సమితి_Handle_t x_వరుస_సమితి,
+                                                        స్థిరరాశి TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet,
-                                                        const TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        వరుస_సమితి_Member_Handle_t MPU_x_వరుస_Select_From_సమితి( వరుస_సమితి_Handle_t x_వరుస_సమితి,
+                                                        స్థిరరాశి TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xQueueSelectFromSetImpl                   \n"
@@ -1199,22 +1199,22 @@
                 " MPU_xQueueSelectFromSet_Unpriv:                       \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xQueueSelectFromSet ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_వరుస_Select_From_సమితి ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #ఒకవేళ ( config_USE_వరుస_SETS == 1 )
 
-        BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
-                                       QueueSetHandle_t xQueueSet ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_వరుస_కూడు_గమ్యం_సమితి( వరుస_సమితి_Member_Handle_t x_వరుస_Or_Semaphore,
+                                       వరుస_సమితి_Handle_t x_వరుస_సమితి ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
-                                       QueueSetHandle_t xQueueSet ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_వరుస_కూడు_గమ్యం_సమితి( వరుస_సమితి_Member_Handle_t x_వరుస_Or_Semaphore,
+                                       వరుస_సమితి_Handle_t x_వరుస_సమితి ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xQueueAddToSetImpl                        \n"
@@ -1229,22 +1229,22 @@
                 " MPU_xQueueAddToSet_Unpriv:                            \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xQueueAddToSet ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_వరుస_కూడు_గమ్యం_సమితి ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configQUEUE_REGISTRY_SIZE > 0 )
+    #ఒకవేళ ( config_వరుస_REGISTRY_కొలత > 0 )
 
-        void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
-                                      const char * pcName ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_v_వరుస_కూడు_గమ్యం_Registry( వరుస_Handle_t x_వరుస,
+                                      స్థిరరాశి అక్షరం * pcName ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
-                                      const char * pcName ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_v_వరుస_కూడు_గమ్యం_Registry( వరుస_Handle_t x_వరుస,
+                                      స్థిరరాశి అక్షరం * pcName ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vQueueAddToRegistryImpl                   \n"
@@ -1259,20 +1259,20 @@
                 " MPU_vQueueAddToRegistry_Unpriv:                       \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vQueueAddToRegistry ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_వరుస_కూడు_గమ్యం_Registry ) : "memory"
             );
         }
 
-    #endif /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
+    #అయితే_ముగింపు /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configQUEUE_REGISTRY_SIZE > 0 )
+    #ఒకవేళ ( config_వరుస_REGISTRY_కొలత > 0 )
 
-        void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_v_వరుస_Unregister_వరుస( వరుస_Handle_t x_వరుస ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_v_వరుస_Unregister_వరుస( వరుస_Handle_t x_వరుస ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vQueueUnregisterQueueImpl                 \n"
@@ -1287,20 +1287,20 @@
                 " MPU_vQueueUnregisterQueue_Unpriv:                     \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vQueueUnregisterQueue ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_వరుస_Unregister_వరుస ) : "memory"
             );
         }
 
-    #endif /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
+    #అయితే_ముగింపు /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configQUEUE_REGISTRY_SIZE > 0 )
+    #ఒకవేళ ( config_వరుస_REGISTRY_కొలత > 0 )
 
-        const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        స్థిరరాశి అక్షరం * MPU_pc_వరుస_Get_Name( వరుస_Handle_t x_వరుస ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        స్థిరరాశి అక్షరం * MPU_pc_వరుస_Get_Name( వరుస_Handle_t x_వరుస ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_pcQueueGetNameImpl                        \n"
@@ -1315,20 +1315,20 @@
                 " MPU_pcQueueGetName_Unpriv:                            \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_pcQueueGetName ) : "memory"
+                : : "i" ( SYSTEM_CALL_pc_వరుస_Get_Name ) : "memory"
             );
         }
 
-    #endif /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
+    #అయితే_ముగింపు /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        void * MPU_pvTimerGetTimerID( const TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య * MPU_pvTimerGetTimerID( స్థిరరాశి TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void * MPU_pvTimerGetTimerID( const TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య * MPU_pvTimerGetTimerID( స్థిరరాశి TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_pvTimerGetTimerIDImpl                     \n"
@@ -1347,18 +1347,18 @@
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        void MPU_vTimerSetTimerID( TimerHandle_t xTimer,
-                                   void * pvNewID ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_v_Timer_సమితి_Timer_ID( TimerHandle_t xTimer,
+                                   శూన్య * pvNewID ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTimerSetTimerID( TimerHandle_t xTimer,
-                                   void * pvNewID ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_v_Timer_సమితి_Timer_ID( TimerHandle_t xTimer,
+                                   శూన్య * pvNewID ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTimerSetTimerIDImpl                      \n"
@@ -1373,20 +1373,20 @@
                 " MPU_vTimerSetTimerID_Unpriv:                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vTimerSetTimerID ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_Timer_సమితి_Timer_ID ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerIsTimerActive( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_Timer_Is_Timer_చురుకైన( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTimerIsTimerActive( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_Timer_Is_Timer_చురుకైన( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTimerIsTimerActiveImpl                   \n"
@@ -1401,20 +1401,20 @@
                 " MPU_xTimerIsTimerActive_Unpriv:                       \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xTimerIsTimerActive ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Timer_Is_Timer_చురుకైన ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( void ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( శూన్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( void ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( శూన్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTimerGetTimerDaemonTaskHandleImpl        \n"
@@ -1433,16 +1433,16 @@
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerGenericCommandFromTaskEntry( const xTimerGenericCommandFromTaskParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_Timer_Generic_Command_From_Task_నమోదు( స్థిరరాశి xTimerGenericCommandFromTaskParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTimerGenericCommandFromTaskEntry( const xTimerGenericCommandFromTaskParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_Timer_Generic_Command_From_Task_నమోదు( స్థిరరాశి xTimerGenericCommandFromTaskParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTimerGenericCommandFromTaskImpl          \n"
@@ -1461,16 +1461,16 @@
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        స్థిరరాశి అక్షరం * MPU_pcTimerGetName( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        స్థిరరాశి అక్షరం * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_pcTimerGetNameImpl                        \n"
@@ -1489,18 +1489,18 @@
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
-                                      const BaseType_t xAutoReload ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_v_Timer_సమితి_Reload_బహుళకం( TimerHandle_t xTimer,
+                                      స్థిరరాశి పునాది_Type_t xAutoReload ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
-                                      const BaseType_t xAutoReload ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_v_Timer_సమితి_Reload_బహుళకం( TimerHandle_t xTimer,
+                                      స్థిరరాశి పునాది_Type_t xAutoReload ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vTimerSetReloadModeImpl                   \n"
@@ -1515,20 +1515,20 @@
                 " MPU_vTimerSetReloadMode_Unpriv:                       \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vTimerSetReloadMode ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_Timer_సమితి_Reload_బహుళకం ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerGetReloadMode( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_Timer_Get_Reload_బహుళకం( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xTimerGetReloadMode( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_Timer_Get_Reload_బహుళకం( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTimerGetReloadModeImpl                   \n"
@@ -1543,20 +1543,20 @@
                 " MPU_xTimerGetReloadMode_Unpriv:                       \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xTimerGetReloadMode ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Timer_Get_Reload_బహుళకం ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        UBaseType_t MPU_uxTimerGetReloadMode( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        UBaseType_t MPU_ux_Timer_Get_Reload_బహుళకం( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        UBaseType_t MPU_uxTimerGetReloadMode( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        UBaseType_t MPU_ux_Timer_Get_Reload_బహుళకం( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_uxTimerGetReloadModeImpl                  \n"
@@ -1571,20 +1571,20 @@
                 " MPU_uxTimerGetReloadMode_Unpriv:                      \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_uxTimerGetReloadMode ) : "memory"
+                : : "i" ( SYSTEM_CALL_ux_Timer_Get_Reload_బహుళకం ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
         TickType_t MPU_xTimerGetPeriod( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
         TickType_t MPU_xTimerGetPeriod( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTimerGetPeriodImpl                       \n"
@@ -1603,16 +1603,16 @@
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #ఒకవేళ ( configUSE_TIMERS == 1 )
 
-        TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        TickType_t MPU_x_Timer_Get_Expiry_సమయం( TimerHandle_t xTimer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        TickType_t MPU_x_Timer_Get_Expiry_సమయం( TimerHandle_t xTimer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xTimerGetExpiryTimeImpl                   \n"
@@ -1627,20 +1627,20 @@
                 " MPU_xTimerGetExpiryTime_Unpriv:                       \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xTimerGetExpiryTime ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Timer_Get_Expiry_సమయం ) : "memory"
             );
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ఒకవేళ ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupWaitBitsEntry( const xEventGroupWaitBitsParams_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        Event_బిట్లు_t MPU_x_Event_సమూహం_Wait_బిట్లు_నమోదు( స్థిరరాశి x_Event_సమూహం_Wait_బిట్లు_Params_t * pxParams ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        EventBits_t MPU_xEventGroupWaitBitsEntry( const xEventGroupWaitBitsParams_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        Event_బిట్లు_t MPU_x_Event_సమూహం_Wait_బిట్లు_నమోదు( స్థిరరాశి x_Event_సమూహం_Wait_బిట్లు_Params_t * pxParams ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xEventGroupWaitBitsImpl                   \n"
@@ -1656,22 +1656,22 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xEventGroupWaitBits ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Event_సమూహం_Wait_బిట్లు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ఒకవేళ ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupClearBits( EventGroupHandle_t xEventGroup,
-                                              const EventBits_t uxBitsToClear ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        Event_బిట్లు_t MPU_x_Event_సమూహం_Clear_బిట్లు( Event_సమూహం_Handle_t x_Event_సమూహం,
+                                              స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_Clear ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        EventBits_t MPU_xEventGroupClearBits( EventGroupHandle_t xEventGroup,
-                                              const EventBits_t uxBitsToClear ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        Event_బిట్లు_t MPU_x_Event_సమూహం_Clear_బిట్లు( Event_సమూహం_Handle_t x_Event_సమూహం,
+                                              స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_Clear ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xEventGroupClearBitsImpl                  \n"
@@ -1687,22 +1687,22 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xEventGroupClearBits ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Event_సమూహం_Clear_బిట్లు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ఒకవేళ ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupSetBits( EventGroupHandle_t xEventGroup,
-                                            const EventBits_t uxBitsToSet ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        Event_బిట్లు_t MPU_x_Event_సమూహం_సమితి_బిట్లు( Event_సమూహం_Handle_t x_Event_సమూహం,
+                                            స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_సమితి ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        EventBits_t MPU_xEventGroupSetBits( EventGroupHandle_t xEventGroup,
-                                            const EventBits_t uxBitsToSet ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        Event_బిట్లు_t MPU_x_Event_సమూహం_సమితి_బిట్లు( Event_సమూహం_Handle_t x_Event_సమూహం,
+                                            స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_సమితి ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xEventGroupSetBitsImpl                    \n"
@@ -1718,26 +1718,26 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xEventGroupSetBits ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Event_సమూహం_సమితి_బిట్లు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #ఒకవేళ ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
-                                         const EventBits_t uxBitsToSet,
-                                         const EventBits_t uxBitsToWaitFor,
-                                         TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        Event_బిట్లు_t MPU_x_Event_సమూహం_Sync( Event_సమూహం_Handle_t x_Event_సమూహం,
+                                         స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_సమితి,
+                                         స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_Wait_For,
+                                         TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
-                                         const EventBits_t uxBitsToSet,
-                                         const EventBits_t uxBitsToWaitFor,
-                                         TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        Event_బిట్లు_t MPU_x_Event_సమూహం_Sync( Event_సమూహం_Handle_t x_Event_సమూహం,
+                                         స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_సమితి,
+                                         స్థిరరాశి Event_బిట్లు_t ux_బిట్లు_గమ్యం_Wait_For,
+                                         TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xEventGroupSyncImpl                       \n"
@@ -1753,20 +1753,20 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xEventGroupSync ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_Event_సమూహం_Sync ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+    #ఒకవేళ ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        UBaseType_t MPU_ux_Event_సమూహం_Get_సంఖ్య( శూన్య * x_Event_సమూహం ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        UBaseType_t MPU_ux_Event_సమూహం_Get_సంఖ్య( శూన్య * x_Event_సమూహం ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_uxEventGroupGetNumberImpl                 \n"
@@ -1781,22 +1781,22 @@
                 " MPU_uxEventGroupGetNumber_Unpriv:                     \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_uxEventGroupGetNumber ) : "memory"
+                : : "i" ( SYSTEM_CALL_ux_Event_సమూహం_Get_సంఖ్య ) : "memory"
             );
         }
 
-    #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
+    #అయితే_ముగింపు /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+    #ఒకవేళ ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        void MPU_vEventGroupSetNumber( void * xEventGroup,
-                                       UBaseType_t uxEventGroupNumber ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        శూన్య MPU_v_Event_సమూహం_సమితి_సంఖ్య( శూన్య * x_Event_సమూహం,
+                                       UBaseType_t ux_Event_సమూహం_సంఖ్య ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        void MPU_vEventGroupSetNumber( void * xEventGroup,
-                                       UBaseType_t uxEventGroupNumber ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        శూన్య MPU_v_Event_సమూహం_సమితి_సంఖ్య( శూన్య * x_Event_సమూహం,
+                                       UBaseType_t ux_Event_సమూహం_సంఖ్య ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_vEventGroupSetNumberImpl                  \n"
@@ -1811,26 +1811,26 @@
                 " MPU_vEventGroupSetNumber_Unpriv:                      \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_vEventGroupSetNumber ) : "memory"
+                : : "i" ( SYSTEM_CALL_v_Event_సమూహం_సమితి_సంఖ్య ) : "memory"
             );
         }
 
-    #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
+    #అయితే_ముగింపు /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferSend( StreamBufferHandle_t xStreamBuffer,
-                                      const void * pvTxData,
-                                      size_t xDataLengthBytes,
-                                      TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        size_t MPU_x_ప్రవాహం_బఫరు_Send( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు,
+                                      స్థిరరాశి శూన్య * pv_Tx_దత్తాంశం,
+                                      size_t x_దత్తాంశం_నిడివి_బైట్లు,
+                                      TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        size_t MPU_xStreamBufferSend( StreamBufferHandle_t xStreamBuffer,
-                                      const void * pvTxData,
-                                      size_t xDataLengthBytes,
-                                      TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        size_t MPU_x_ప్రవాహం_బఫరు_Send( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు,
+                                      స్థిరరాశి శూన్య * pv_Tx_దత్తాంశం,
+                                      size_t x_దత్తాంశం_నిడివి_బైట్లు,
+                                      TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferSendImpl                     \n"
@@ -1846,26 +1846,26 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferSend ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_Send ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferReceive( StreamBufferHandle_t xStreamBuffer,
-                                         void * pvRxData,
-                                         size_t xBufferLengthBytes,
-                                         TickType_t xTicksToWait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        size_t MPU_x_ప్రవాహం_బఫరు_Receive( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు,
+                                         శూన్య * pv_Rx_దత్తాంశం,
+                                         size_t x_బఫరు_నిడివి_బైట్లు,
+                                         TickType_t x_Ticks_గమ్యం_Wait ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        size_t MPU_xStreamBufferReceive( StreamBufferHandle_t xStreamBuffer,
-                                         void * pvRxData,
-                                         size_t xBufferLengthBytes,
-                                         TickType_t xTicksToWait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        size_t MPU_x_ప్రవాహం_బఫరు_Receive( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు,
+                                         శూన్య * pv_Rx_దత్తాంశం,
+                                         size_t x_బఫరు_నిడివి_బైట్లు,
+                                         TickType_t x_Ticks_గమ్యం_Wait ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferReceiveImpl                  \n"
@@ -1881,20 +1881,20 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferReceive ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_Receive ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferIsFull( StreamBufferHandle_t xStreamBuffer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_ప్రవాహం_బఫరు_Is_నిండిన( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xStreamBufferIsFull( StreamBufferHandle_t xStreamBuffer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_ప్రవాహం_బఫరు_Is_నిండిన( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferIsFullImpl                   \n"
@@ -1910,20 +1910,20 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferIsFull ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_Is_నిండిన ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferIsEmpty( StreamBufferHandle_t xStreamBuffer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        పునాది_Type_t MPU_x_ప్రవాహం_బఫరు_Is_ఖాళీలు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xStreamBufferIsEmpty( StreamBufferHandle_t xStreamBuffer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        పునాది_Type_t MPU_x_ప్రవాహం_బఫరు_Is_ఖాళీలు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferIsEmptyImpl                  \n"
@@ -1939,20 +1939,20 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferIsEmpty ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_Is_ఖాళీలు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferSpacesAvailable( StreamBufferHandle_t xStreamBuffer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        size_t MPU_x_ప్రవాహం_బఫరు_Spaces_అందుబాటు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        size_t MPU_xStreamBufferSpacesAvailable( StreamBufferHandle_t xStreamBuffer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        size_t MPU_x_ప్రవాహం_బఫరు_Spaces_అందుబాటు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferSpacesAvailableImpl          \n"
@@ -1968,20 +1968,20 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferSpacesAvailable ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_Spaces_అందుబాటు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferBytesAvailable( StreamBufferHandle_t xStreamBuffer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        size_t MPU_x_ప్రవాహం_బఫరు_బైట్లు_అందుబాటు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        size_t MPU_xStreamBufferBytesAvailable( StreamBufferHandle_t xStreamBuffer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        size_t MPU_x_ప్రవాహం_బఫరు_బైట్లు_అందుబాటు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferBytesAvailableImpl           \n"
@@ -1997,22 +1997,22 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferBytesAvailable ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_బైట్లు_అందుబాటు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferSetTriggerLevel( StreamBufferHandle_t xStreamBuffer,
+        పునాది_Type_t MPU_x_ప్రవాహం_బఫరు_సమితి_Trigger_Level( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు,
                                                      size_t xTriggerLevel ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        BaseType_t MPU_xStreamBufferSetTriggerLevel( StreamBufferHandle_t xStreamBuffer,
+        పునాది_Type_t MPU_x_ప్రవాహం_బఫరు_సమితి_Trigger_Level( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు,
                                                      size_t xTriggerLevel ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferSetTriggerLevelImpl          \n"
@@ -2028,20 +2028,20 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferSetTriggerLevel ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_సమితి_Trigger_Level ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #ఒకవేళ ( config_USE_ప్రవాహం_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuffer ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
+        size_t MPU_x_ప్రవాహం_బఫరు_తదుపరి_సందేశం_నిడివి_బైట్లు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) __attribute__( ( naked ) ) FREERTOS_SYSTEM_CALL;
 
-        size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuffer ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
+        size_t MPU_x_ప్రవాహం_బఫరు_తదుపరి_సందేశం_నిడివి_బైట్లు( ప్రవాహం_బఫరు_Handle_t x_ప్రవాహం_బఫరు ) /* __attribute__ (( naked )) FREERTOS_SYSTEM_CALL */
         {
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified                                       \n"
                 " .extern MPU_xStreamBufferNextMessageLengthBytesImpl   \n"
@@ -2057,11 +2057,11 @@
                 "     pop {r0}                                          \n"
                 "     svc %0                                            \n"
                 "                                                       \n"
-                : : "i" ( SYSTEM_CALL_xStreamBufferNextMessageLengthBytes ) : "memory"
+                : : "i" ( SYSTEM_CALL_x_ప్రవాహం_బఫరు_తదుపరి_సందేశం_నిడివి_బైట్లు ) : "memory"
             );
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #అయితే_ముగింపు /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+#అయితే_ముగింపు /* configUSE_MPU_WRAPPERS_V1 == 0 */

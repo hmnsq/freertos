@@ -31,135 +31,135 @@
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers. That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#నిర్వచించు MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* MPU includes. */
-#include "mpu_wrappers.h"
-#include "mpu_syscall_numbers.h"
+#అన్తర్భావ "mpu_wrappers.h"
+#అన్తర్భావ "mpu_syscall_numbers.h"
 
 /* Portasm includes. */
-#include "portasm.h"
+#అన్తర్భావ "portasm.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#నిర్వచనం_రద్దు MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Prototype of all Interrupt Service Routines (ISRs).
  */
-typedef void ( * portISR_t )( void );
+రకనిర్వచనం శూన్య ( * పోర్టు_ISR_t )( శూన్య );
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the NVIC.
  */
-#define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
-#define portNVIC_SHPR2_REG                    ( *( ( volatile uint32_t * ) 0xe000ed1c ) )
-#define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
-#define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
-#define portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
-#define portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
-#define portMIN_INTERRUPT_PRIORITY            ( 255UL )
-#define portNVIC_PENDSV_PRI                   ( portMIN_INTERRUPT_PRIORITY << 16UL )
-#define portNVIC_SYSTICK_PRI                  ( portMIN_INTERRUPT_PRIORITY << 24UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_CTRL_REG             ( *( ( అస్థిర uint32_t * ) 0xe000e010 ) )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG             ( *( ( అస్థిర uint32_t * ) 0xe000e014 ) )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG    ( *( ( అస్థిర uint32_t * ) 0xe000e018 ) )
+#నిర్వచించు పోర్టు_NVIC_SHPR3_REG                    ( *( ( అస్థిర uint32_t * ) 0xe000ed20 ) )
+#నిర్వచించు పోర్టు_NVIC_SHPR2_REG                    ( *( ( అస్థిర uint32_t * ) 0xe000ed1c ) )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_ENABLE_బిట్టు           ( 1UL << 0UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_INT_బిట్టు              ( 1UL << 1UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_CLK_బిట్టు              ( 1UL << 2UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_లెక్క_FLAG_బిట్టు       ( 1UL << 16UL )
+#నిర్వచించు పోర్టు_NVIC_PEND_SYSTICK_CLEAR_బిట్టు       ( 1UL << 25UL )
+#నిర్వచించు పోర్టు_NVIC_PEND_SYSTICK_సమితి_బిట్టు         ( 1UL << 26UL )
+#నిర్వచించు పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత            ( 255UL )
+#నిర్వచించు పోర్టు_NVIC_PENDSV_PRI                   ( పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత << 16UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_PRI                  ( పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత << 24UL )
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the SCB.
  */
-#define portSCB_VTOR_REG                      ( *( ( portISR_t ** ) 0xe000ed08 ) )
-#define portSCB_SYS_HANDLER_CTRL_STATE_REG    ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
-#define portSCB_MEM_FAULT_ENABLE_BIT          ( 1UL << 16UL )
+#నిర్వచించు పోర్టు_SCB_VTOR_REG                      ( *( ( పోర్టు_ISR_t ** ) 0xe000ed08 ) )
+#నిర్వచించు పోర్టు_SCB_SYS_HANDLER_CTRL_STATE_REG    ( *( ( అస్థిర uint32_t * ) 0xe000ed24 ) )
+#నిర్వచించు పోర్టు_SCB_MEM_FAULT_ENABLE_బిట్టు          ( 1UL << 16UL )
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants used to check the installation of the FreeRTOS interrupt handlers.
  */
-#define portVECTOR_INDEX_SVC       ( 11 )
-#define portVECTOR_INDEX_PENDSV    ( 14 )
+#నిర్వచించు పోర్టు_సదిశ_సూచీ_SVC       ( 11 )
+#నిర్వచించు పోర్టు_సదిశ_సూచీ_PENDSV    ( 14 )
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants used during system call enter and exit.
  */
-#define portPSR_STACK_PADDING_MASK              ( 1UL << 9UL )
-#define portEXC_RETURN_STACK_FRAME_TYPE_MASK    ( 1UL << 4UL )
+#నిర్వచించు పోర్టు_PSR_దొంతర_PADDING_ముసుగు              ( 1UL << 9UL )
+#నిర్వచించు పోర్టు_EXC_RETURN_దొంతర_చట్రం_TYPE_ముసుగు    ( 1UL << 4UL )
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Offsets in the stack to the parameters when inside the SVC handler.
  */
-#define portOFFSET_TO_LR     ( 5 )
-#define portOFFSET_TO_PC     ( 6 )
-#define portOFFSET_TO_PSR    ( 7 )
+#నిర్వచించు పోర్టు_స్థానభ్రంశం_గమ్యం_LR     ( 5 )
+#నిర్వచించు పోర్టు_స్థానభ్రంశం_గమ్యం_PC     ( 6 )
+#నిర్వచించు పోర్టు_స్థానభ్రంశం_గమ్యం_PSR    ( 7 )
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the MPU.
  */
-#define portMPU_TYPE_REG                            ( *( ( volatile uint32_t * ) 0xe000ed90 ) )
-#define portMPU_CTRL_REG                            ( *( ( volatile uint32_t * ) 0xe000ed94 ) )
+#నిర్వచించు పోర్టు_MPU_TYPE_REG                            ( *( ( అస్థిర uint32_t * ) 0xe000ed90 ) )
+#నిర్వచించు పోర్టు_MPU_CTRL_REG                            ( *( ( అస్థిర uint32_t * ) 0xe000ed94 ) )
 
-#define portMPU_RBAR_REG                            ( *( ( volatile uint32_t * ) 0xe000ed9c ) )
-#define portMPU_RASR_REG                            ( *( ( volatile uint32_t * ) 0xe000eda0 ) )
+#నిర్వచించు పోర్టు_MPU_RBAR_REG                            ( *( ( అస్థిర uint32_t * ) 0xe000ed9c ) )
+#నిర్వచించు పోర్టు_MPU_RASR_REG                            ( *( ( అస్థిర uint32_t * ) 0xe000eda0 ) )
 
 /* MPU Region Attribute and Size Register (RASR) bitmasks. */
-#define portMPU_RASR_AP_BITMASK                     ( 0x7UL << 24UL )
-#define portMPU_RASR_S_C_B_BITMASK                  ( 0x7UL )
-#define portMPU_RASR_S_C_B_LOCATION                 ( 16UL )
-#define portMPU_RASR_SIZE_BITMASK                   ( 0x1FUL << 1UL )
-#define portMPU_RASR_REGION_ENABLE_BITMASK          ( 0x1UL )
+#నిర్వచించు పోర్టు_MPU_RASR_AP_BITMASK                     ( 0x7UL << 24UL )
+#నిర్వచించు పోర్టు_MPU_RASR_S_C_B_BITMASK                  ( 0x7UL )
+#నిర్వచించు పోర్టు_MPU_RASR_S_C_B_LOCATION                 ( 16UL )
+#నిర్వచించు పోర్టు_MPU_RASR_కొలత_BITMASK                   ( 0x1FUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK          ( 0x1UL )
 
 /* MPU Region Base Address Register (RBAR) bitmasks. */
-#define portMPU_RBAR_ADDRESS_BITMASK                ( 0xFFFFFF00UL )
-#define portMPU_RBAR_REGION_NUMBER_VALID_BITMASK    ( 0x1UL << 4UL )
-#define portMPU_RBAR_REGION_NUMBER_BITMASK          ( 0x0000000FUL )
+#నిర్వచించు పోర్టు_MPU_RBAR_చిరునామా_BITMASK                ( 0xFFFFFF00UL )
+#నిర్వచించు పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK    ( 0x1UL << 4UL )
+#నిర్వచించు పోర్టు_MPU_RBAR_REGION_సంఖ్య_BITMASK          ( 0x0000000FUL )
 
 /* MPU Control Register (MPU_CTRL) bitmasks. */
-#define portMPU_CTRL_ENABLE_BITMASK                 ( 0x1UL )
-#define portMPU_CTRL_PRIV_BACKGROUND_ENABLE_BITMASK ( 0x1UL << 2UL ) /* PRIVDEFENA bit. */
+#నిర్వచించు పోర్టు_MPU_CTRL_ENABLE_BITMASK                 ( 0x1UL )
+#నిర్వచించు పోర్టు_MPU_CTRL_PRIV_BACKGROUND_ENABLE_BITMASK ( 0x1UL << 2UL ) /* PRIVDEFENA bit. */
 
 /* Expected value of the portMPU_TYPE register. */
-#define portEXPECTED_MPU_TYPE_VALUE                 ( 0x8UL << 8UL ) /* 8 DREGION unified. */
+#నిర్వచించు పోర్టు_EXPECTED_MPU_TYPE_విలువ                 ( 0x8UL << 8UL ) /* 8 DREGION unified. */
 
 /* Extract first address of the MPU region as encoded in the
  * RBAR (Region Base Address Register) value. */
-#define portEXTRACT_FIRST_ADDRESS_FROM_RBAR( rbar ) \
-    ( ( rbar ) & portMPU_RBAR_ADDRESS_BITMASK )
+#నిర్వచించు పోర్టు_వెలికితీయి_మొదటి_చిరునామా_FROM_RBAR( rbar ) \
+    ( ( rbar ) & పోర్టు_MPU_RBAR_చిరునామా_BITMASK )
 
 /* Extract size of the MPU region as encoded in the
  * RASR (Region Attribute and Size Register) value. */
-#define portEXTRACT_REGION_SIZE_FROM_RASR( rasr ) \
-    ( 1 << ( ( ( ( rasr ) & portMPU_RASR_SIZE_BITMASK ) >> 1 )+ 1 ) )
+#నిర్వచించు పోర్టు_వెలికితీయి_REGION_కొలత_FROM_RASR( rasr ) \
+    ( 1 << ( ( ( ( rasr ) & పోర్టు_MPU_RASR_కొలత_BITMASK ) >> 1 )+ 1 ) )
 
 /* Does addr lies within [start, end] address range? */
-#define portIS_ADDRESS_WITHIN_RANGE( addr, start, end ) \
-    ( ( ( addr ) >= ( start ) ) && ( ( addr ) <= ( end ) ) )
+#నిర్వచించు పోర్టు_IS_చిరునామా_WITHIN_RANGE( addr, ప్రారంభం, చివర ) \
+    ( ( ( addr ) >= ( ప్రారంభం ) ) && ( ( addr ) <= ( చివర ) ) )
 
 /* Is the access request satisfied by the available permissions? */
-#define portIS_AUTHORIZED( accessRequest, permissions ) \
+#నిర్వచించు పోర్టు_IS_AUTHORIZED( accessRequest, permissions ) \
     ( ( ( permissions ) & ( accessRequest ) ) == accessRequest )
 
 /* Max value that fits in a uint32_t type. */
-#define portUINT32_MAX    ( ~( ( uint32_t ) 0 ) )
+#నిర్వచించు పోర్టు_UINT32_MAX    ( ~( ( uint32_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define portADD_UINT32_WILL_OVERFLOW( a, b )    ( ( a ) > ( portUINT32_MAX - ( b ) ) )
+#నిర్వచించు పోర్టు_కూడు_UINT32_WILL_అధికప్రవాహం( a, b )    ( ( a ) > ( పోర్టు_UINT32_MAX - ( b ) ) )
 
 /*-----------------------------------------------------------*/
 
@@ -168,21 +168,21 @@ typedef void ( * portISR_t )( void );
  *
  * It is needed because the systick is a 24-bit counter.
  */
-#define portMAX_24_BIT_NUMBER       ( 0xffffffUL )
+#నిర్వచించు పోర్టు_MAX_24_బిట్టు_సంఖ్య       ( 0xffffffUL )
 
 /**
  * @brief A fiddle factor to estimate the number of SysTick counts that would
  * have occurred while the SysTick counter is stopped during tickless idle
  * calculations.
  */
-#define portMISSED_COUNTS_FACTOR    ( 94UL )
+#నిర్వచించు పోర్టు_MISSED_COUNTS_గుణకం    ( 94UL )
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to set up the initial stack.
  */
-#define portINITIAL_XPSR    ( 0x01000000 )
+#నిర్వచించు పోర్టు_INITIAL_XPSR    ( 0x01000000 )
 
 /**
  * @brief Initial EXC_RETURN value.
@@ -195,7 +195,7 @@ typedef void ( * portISR_t )( void );
  * Bit[1] - 0 --> Reserved, 0.
  * Bit[0] - 0 --> Reserved, 1.
  */
-#define portINITIAL_EXC_RETURN    ( 0xfffffffdUL )
+#నిర్వచించు పోర్టు_INITIAL_EXC_RETURN    ( 0xfffffffdUL )
 
 /**
  * @brief CONTROL register privileged bit mask.
@@ -204,44 +204,44 @@ typedef void ( * portISR_t )( void );
  *  Bit[0] = 0 ==> The task is privileged.
  *  Bit[0] = 1 ==> The task is not privileged.
  */
-#define portCONTROL_PRIVILEGED_MASK         ( 1UL << 0UL )
+#నిర్వచించు పోర్టు_CONTROL_PRIVILEGED_ముసుగు         ( 1UL << 0UL )
 
 /**
  * @brief Initial CONTROL register values.
  */
-#define portINITIAL_CONTROL_UNPRIVILEGED    ( 0x3 )
-#define portINITIAL_CONTROL_PRIVILEGED      ( 0x2 )
+#నిర్వచించు పోర్టు_INITIAL_CONTROL_UNPRIVILEGED    ( 0x3 )
+#నిర్వచించు పోర్టు_INITIAL_CONTROL_PRIVILEGED      ( 0x2 )
 
 /**
  * @brief Let the user override the default SysTick clock rate.  If defined by the
  * user, this symbol must equal the SysTick clock rate when the CLK bit is 0 in the
  * configuration register.
  */
-#ifndef configSYSTICK_CLOCK_HZ
-    #define configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
+#నిర్వచితం_కాకపోతే configSYSTICK_CLOCK_HZ
+    #నిర్వచించు configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
     /* Ensure the SysTick is clocked at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
-#else
+    #నిర్వచించు పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG    ( పోర్టు_NVIC_SYSTICK_CLK_బిట్టు )
+#లేకపోతే
     /* Select the option to clock SysTick not at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
-#endif
+    #నిర్వచించు పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG    ( 0 )
+#అయితే_ముగింపు
 
 /**
  * @brief Let the user override the pre-loading of the initial LR with the
  * address of prvTaskExitError() in case it messes up unwinding of the stack
  * in the debugger.
  */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#నిర్వచితమైతే config_TASK_RETURN_చిరునామా
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    config_TASK_RETURN_చిరునామా
+#లేకపోతే
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    prvTaskExitError
+#అయితే_ముగింపు
 
 /**
  * @brief If portPRELOAD_REGISTERS then registers will be given an initial value
  * when a task is created. This helps in debugging at the cost of code size.
  */
-#define portPRELOAD_REGISTERS    1
+#నిర్వచించు పోర్టు_PRELOAD_REGISTERS    1
 
 /*-----------------------------------------------------------*/
 
@@ -249,16 +249,16 @@ typedef void ( * portISR_t )( void );
  * @brief Used to catch tasks that attempt to return from their implementing
  * function.
  */
-static void prvTaskExitError( void );
+స్థిర శూన్య prvTaskExitError( శూన్య );
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
     /**
      * @brief Setup the Memory Protection Unit (MPU).
      */
-    static void prvSetupMPU( void ) PRIVILEGED_FUNCTION;
+    స్థిర శూన్య prv_అమరిక_MPU( శూన్య ) PRIVILEGED_FUNCTION;
 
-#endif /* configENABLE_MPU */
+#అయితే_ముగింపు /* configENABLE_MPU */
 
 /**
  * @brief Setup the timer to generate the tick interrupts.
@@ -266,7 +266,7 @@ static void prvTaskExitError( void );
  * The implementation in this file is weak to allow application writers to
  * change the timer used to generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void ) PRIVILEGED_FUNCTION;
+శూన్య v_పోర్టు_అమరిక_Timer_అంతరాయం( శూన్య ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Checks whether the current execution context is interrupt.
@@ -274,34 +274,34 @@ void vPortSetupTimerInterrupt( void ) PRIVILEGED_FUNCTION;
  * @return pdTRUE if the current execution context is interrupt, pdFALSE
  * otherwise.
  */
-BaseType_t xPortIsInsideInterrupt( void );
+పునాది_Type_t x_పోర్టు_Is_Inside_అంతరాయం( శూన్య );
 
 /**
  * @brief Yield the processor.
  */
-void vPortYield( void ) PRIVILEGED_FUNCTION;
+శూన్య v_పోర్టు_Yield( శూన్య ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Enter critical section.
  */
-void vPortEnterCritical( void ) PRIVILEGED_FUNCTION;
+శూన్య v_పోర్టు_Enter_Critical( శూన్య ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Exit from critical section.
  */
-void vPortExitCritical( void ) PRIVILEGED_FUNCTION;
+శూన్య v_పోర్టు_Exit_Critical( శూన్య ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief SysTick handler.
  */
-void SysTick_Handler( void ) PRIVILEGED_FUNCTION;
+శూన్య SysTick_Handler( శూన్య ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief C part of SVC handler.
  */
-portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIVILEGED_FUNCTION;
+పోర్టు_DONT_DISCARD శూన్య v_పోర్టు_SVCHandler_C( uint32_t * pul_Caller_దొంతర_చిరునామా ) PRIVILEGED_FUNCTION;
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Sets up the system call stack so that upon returning from
@@ -311,22 +311,22 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
      * @param ucSystemCallNumber The system call number of the system call.
      */
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    శూన్య vSystemCallEnter( uint32_t * pul_Task_దొంతర,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) PRIVILEGED_FUNCTION;
+                           uint8_t uc_System_Call_సంఖ్య ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Raise SVC for exiting from a system call.
      */
-    void vRequestSystemCallExit( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+    శూన్య vRequestSystemCallExit( శూన్య ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Sets up the task stack so that upon returning from
@@ -335,107 +335,107 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @param pulSystemCallStack The current SP when the SVC was raised.
      * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
      */
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    శూన్య vSystemCallExit( uint32_t * pul_System_Call_దొంతర,
                           uint32_t ulLR ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
     /**
      * @brief Checks whether or not the calling task is privileged.
      *
      * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
      */
-    BaseType_t xPortIsTaskPrivileged( void ) PRIVILEGED_FUNCTION;
+    పునాది_Type_t x_పోర్టు_Is_Task_Privileged( శూన్య ) PRIVILEGED_FUNCTION;
 
-#endif /* configENABLE_MPU == 1 */
+#అయితే_ముగింపు /* configENABLE_MPU == 1 */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief This variable is set to pdTRUE when the scheduler is started.
      */
-    PRIVILEGED_DATA static BaseType_t xSchedulerRunning = pdFALSE;
+    PRIVILEGED_దత్తాంశం స్థిర పునాది_Type_t xSchedulerRunning = pdFALSE;
 
-#endif
+#అయితే_ముగింపు
 
 /**
  * @brief Each task maintains its own interrupt status in the critical nesting
  * variable.
  */
-PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
+PRIVILEGED_దత్తాంశం స్థిర అస్థిర uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#ఒకవేళ ( configUSE_TICKLESS_IDLE == 1 )
 
     /**
      * @brief The number of SysTick increments that make up one tick period.
      */
-    PRIVILEGED_DATA static uint32_t ulTimerCountsForOneTick = 0;
+    PRIVILEGED_దత్తాంశం స్థిర uint32_t ulTimerCountsForOneTick = 0;
 
     /**
      * @brief The maximum number of tick periods that can be suppressed is
      * limited by the 24 bit resolution of the SysTick timer.
      */
-    PRIVILEGED_DATA static uint32_t xMaximumPossibleSuppressedTicks = 0;
+    PRIVILEGED_దత్తాంశం స్థిర uint32_t x_గరిష్ఠ_Possible_Suppressed_Ticks = 0;
 
     /**
      * @brief Compensate for the CPU cycles that pass while the SysTick is
      * stopped (low power functionality only).
      */
-    PRIVILEGED_DATA static uint32_t ulStoppedTimerCompensation = 0;
+    PRIVILEGED_దత్తాంశం స్థిర uint32_t ulStoppedTimerCompensation = 0;
 
-#endif /* configUSE_TICKLESS_IDLE */
+#అయితే_ముగింపు /* configUSE_TICKLESS_IDLE */
 
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#ఒకవేళ ( configUSE_TICKLESS_IDLE == 1 )
 
-    __attribute__( ( weak ) ) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    __attribute__( ( weak ) ) శూన్య v_పోర్టు_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_సమయం )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
-        TickType_t xModifiableIdleTime;
+        uint32_t ul_Reload_విలువ, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ul_Sys_Tick_Decrements_ఎడమ;
+        TickType_t x_Modifiable_Idle_సమయం;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        ఒకవేళ( x_Expected_Idle_సమయం > x_గరిష్ఠ_Possible_Suppressed_Ticks )
         {
-            xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+            x_Expected_Idle_సమయం = x_గరిష్ఠ_Possible_Suppressed_Ticks;
         }
 
         /* Enter a critical section but don't use the taskENTER_CRITICAL()
          * method as that will mask interrupts that should exit sleep mode. */
-        __asm volatile ( "cpsid i" ::: "memory" );
-        __asm volatile ( "dsb" );
-        __asm volatile ( "isb" );
+        __asm అస్థిర ( "cpsid i" ::: "memory" );
+        __asm అస్థిర ( "dsb" );
+        __asm అస్థిర ( "isb" );
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        ఒకవేళ( e_Task_Confirm_Sleep_బహుళకం_స్థితి() == eAbortSleep )
         {
             /* Re-enable interrupts - see comments above the cpsid instruction
              * above. */
-            __asm volatile ( "cpsie i" ::: "memory" );
+            __asm అస్థిర ( "cpsie i" ::: "memory" );
         }
-        else
+        లేకపోతే
         {
             /* Stop the SysTick momentarily.  The time the SysTick is stopped for
              * is accounted for as best it can be, but using the tickless mode will
              * inevitably result in some tiny drift of the time maintained by the
              * kernel with respect to calendar time. */
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            పోర్టు_NVIC_SYSTICK_CTRL_REG = ( పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG | పోర్టు_NVIC_SYSTICK_INT_బిట్టు );
 
             /* Use the SysTick current-value register to determine the number of
              * SysTick decrements remaining until the next tick interrupt.  If the
              * current-value register is zero, then there are actually
              * ulTimerCountsForOneTick decrements remaining, not zero, because the
              * SysTick requests the interrupt when decrementing from 1 to 0. */
-            ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            ul_Sys_Tick_Decrements_ఎడమ = పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG;
 
-            if( ulSysTickDecrementsLeft == 0 )
+            ఒకవేళ( ul_Sys_Tick_Decrements_ఎడమ == 0 )
             {
-                ulSysTickDecrementsLeft = ulTimerCountsForOneTick;
+                ul_Sys_Tick_Decrements_ఎడమ = ulTimerCountsForOneTick;
             }
 
             /* Calculate the reload value required to wait xExpectedIdleTime
@@ -444,60 +444,60 @@ PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
              * pending, then clear the IRQ, suppressing the first tick, and correct
              * the reload value to reflect that the second tick period is already
              * underway.  The expected idle time is always at least two ticks. */
-            ulReloadValue = ulSysTickDecrementsLeft + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+            ul_Reload_విలువ = ul_Sys_Tick_Decrements_ఎడమ + ( ulTimerCountsForOneTick * ( x_Expected_Idle_సమయం - 1UL ) );
 
-            if( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
+            ఒకవేళ( ( పోర్టు_NVIC_INT_CTRL_REG & పోర్టు_NVIC_PEND_SYSTICK_సమితి_బిట్టు ) != 0 )
             {
-                portNVIC_INT_CTRL_REG = portNVIC_PEND_SYSTICK_CLEAR_BIT;
-                ulReloadValue -= ulTimerCountsForOneTick;
+                పోర్టు_NVIC_INT_CTRL_REG = పోర్టు_NVIC_PEND_SYSTICK_CLEAR_బిట్టు;
+                ul_Reload_విలువ -= ulTimerCountsForOneTick;
             }
 
-            if( ulReloadValue > ulStoppedTimerCompensation )
+            ఒకవేళ( ul_Reload_విలువ > ulStoppedTimerCompensation )
             {
-                ulReloadValue -= ulStoppedTimerCompensation;
+                ul_Reload_విలువ -= ulStoppedTimerCompensation;
             }
 
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG = ul_Reload_విలువ;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG = 0UL;
 
             /* Restart SysTick. */
-            portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+            పోర్టు_NVIC_SYSTICK_CTRL_REG |= పోర్టు_NVIC_SYSTICK_ENABLE_బిట్టు;
 
             /* Sleep until something happens.  configPRE_SLEEP_PROCESSING() can
              * set its parameter to 0 to indicate that its implementation contains
              * its own wait for interrupt or wait for event instruction, and so wfi
              * should not be executed again.  However, the original expected idle
              * time variable must remain unmodified, so a copy is taken. */
-            xModifiableIdleTime = xExpectedIdleTime;
-            configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
+            x_Modifiable_Idle_సమయం = x_Expected_Idle_సమయం;
+            configPRE_SLEEP_PROCESSING( x_Modifiable_Idle_సమయం );
 
-            if( xModifiableIdleTime > 0 )
+            ఒకవేళ( x_Modifiable_Idle_సమయం > 0 )
             {
-                __asm volatile ( "dsb" ::: "memory" );
-                __asm volatile ( "wfi" );
-                __asm volatile ( "isb" );
+                __asm అస్థిర ( "dsb" ::: "memory" );
+                __asm అస్థిర ( "wfi" );
+                __asm అస్థిర ( "isb" );
             }
 
-            configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
+            configPOST_SLEEP_PROCESSING( x_Expected_Idle_సమయం );
 
             /* Re-enable interrupts to allow the interrupt that brought the MCU
              * out of sleep mode to execute immediately.  See comments above
              * the cpsid instruction above. */
-            __asm volatile ( "cpsie i" ::: "memory" );
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm అస్థిర ( "cpsie i" ::: "memory" );
+            __asm అస్థిర ( "dsb" );
+            __asm అస్థిర ( "isb" );
 
             /* Disable interrupts again because the clock is about to be stopped
              * and interrupts that execute while the clock is stopped will increase
              * any slippage between the time maintained by the RTOS and calendar
              * time. */
-            __asm volatile ( "cpsid i" ::: "memory" );
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm అస్థిర ( "cpsid i" ::: "memory" );
+            __asm అస్థిర ( "dsb" );
+            __asm అస్థిర ( "isb" );
 
             /* Disable the SysTick clock without reading the
              * portNVIC_SYSTICK_CTRL_REG register to ensure the
@@ -506,60 +506,60 @@ PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
              * be, but using the tickless mode will inevitably result in some tiny
              * drift of the time maintained by the kernel with respect to calendar
              * time*/
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            పోర్టు_NVIC_SYSTICK_CTRL_REG = ( పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG | పోర్టు_NVIC_SYSTICK_INT_బిట్టు );
 
             /* Determine whether the SysTick has already counted to zero. */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            ఒకవేళ( ( పోర్టు_NVIC_SYSTICK_CTRL_REG & పోర్టు_NVIC_SYSTICK_లెక్క_FLAG_బిట్టు ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_ఎక్కించు_విలువ;
 
                 /* The tick interrupt ended the sleep (or is now pending), and
                  * a new tick period has started.  Reset portNVIC_SYSTICK_LOAD_REG
                  * with whatever remains of the new tick period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_ఎక్కించు_విలువ = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_విలువ - పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long or because the SysTick current-value register
                  * is zero. */
-                if( ( ulCalculatedLoadValue <= ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                ఒకవేళ( ( ul_Calculated_ఎక్కించు_విలువ <= ulStoppedTimerCompensation ) || ( ul_Calculated_ఎక్కించు_విలువ > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_ఎక్కించు_విలువ = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG = ul_Calculated_ఎక్కించు_విలువ;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
                  * forward by one less than the time spent waiting. */
-                ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
+                ulCompleteTickPeriods = x_Expected_Idle_సమయం - 1UL;
             }
-            else
+            లేకపోతే
             {
                 /* Something other than the tick interrupt ended the sleep. */
 
                 /* Use the SysTick current-value register to determine the
                  * number of SysTick decrements remaining until the expected idle
                  * time would have ended. */
-                ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-                #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
+                ul_Sys_Tick_Decrements_ఎడమ = పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG;
+                #ఒకవేళ ( పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG != పోర్టు_NVIC_SYSTICK_CLK_బిట్టు )
                 {
                     /* If the SysTick is not using the core clock, the current-
                      * value register might still be zero here.  In that case, the
                      * SysTick didn't load from the reload register, and there are
                      * ulReloadValue decrements remaining in the expected idle
                      * time, not zero. */
-                    if( ulSysTickDecrementsLeft == 0 )
+                    ఒకవేళ( ul_Sys_Tick_Decrements_ఎడమ == 0 )
                     {
-                        ulSysTickDecrementsLeft = ulReloadValue;
+                        ul_Sys_Tick_Decrements_ఎడమ = ul_Reload_విలువ;
                     }
                 }
-                #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+                #అయితే_ముగింపు /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
                 /* Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ulSysTickDecrementsLeft;
+                ulCompletedSysTickDecrements = ( x_Expected_Idle_సమయం * ulTimerCountsForOneTick ) - ul_Sys_Tick_Decrements_ఎడమ;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -567,7 +567,7 @@ PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
 
                 /* The reload value is set to whatever fraction of a single tick
                  * period remains. */
-                portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
+                పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
             }
 
             /* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG again,
@@ -577,52 +577,52 @@ PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
              * from portNVIC_SYSTICK_LOAD_REG immediately instead of at the next
              * cycle of the other clock.  Then portNVIC_SYSTICK_LOAD_REG is ready
              * to receive the standard value immediately. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
-            portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-            #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
+            పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG = 0UL;
+            పోర్టు_NVIC_SYSTICK_CTRL_REG = పోర్టు_NVIC_SYSTICK_CLK_బిట్టు | పోర్టు_NVIC_SYSTICK_INT_బిట్టు | పోర్టు_NVIC_SYSTICK_ENABLE_బిట్టు;
+            #ఒకవేళ ( పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG == పోర్టు_NVIC_SYSTICK_CLK_బిట్టు )
             {
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
+                పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG = ulTimerCountsForOneTick - 1UL;
             }
-            #else
+            #లేకపోతే
             {
                 /* The temporary usage of the core clock has served its purpose,
                  * as described above.  Resume usage of the other clock. */
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
+                పోర్టు_NVIC_SYSTICK_CTRL_REG = పోర్టు_NVIC_SYSTICK_CLK_బిట్టు | పోర్టు_NVIC_SYSTICK_INT_బిట్టు;
 
-                if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+                ఒకవేళ( ( పోర్టు_NVIC_SYSTICK_CTRL_REG & పోర్టు_NVIC_SYSTICK_లెక్క_FLAG_బిట్టు ) != 0 )
                 {
                     /* The partial tick period already ended.  Be sure the SysTick
                      * counts it only once. */
-                    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0;
+                    పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG = 0;
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+                పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG = ulTimerCountsForOneTick - 1UL;
+                పోర్టు_NVIC_SYSTICK_CTRL_REG = పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG | పోర్టు_NVIC_SYSTICK_INT_బిట్టు | పోర్టు_NVIC_SYSTICK_ENABLE_బిట్టు;
             }
-            #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+            #అయితే_ముగింపు /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
             /* Step the tick to account for any tick periods that elapsed. */
-            vTaskStepTick( ulCompleteTickPeriods );
+            v_Task_అడుగు_Tick( ulCompleteTickPeriods );
 
             /* Exit with interrupts enabled. */
-            __asm volatile ( "cpsie i" ::: "memory" );
+            __asm అస్థిర ( "cpsie i" ::: "memory" );
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#అయితే_ముగింపు /* configUSE_TICKLESS_IDLE */
 
 /*-----------------------------------------------------------*/
 
-__attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void ) /* PRIVILEGED_FUNCTION */
+__attribute__( ( weak ) ) శూన్య v_పోర్టు_అమరిక_Timer_అంతరాయం( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
     /* Calculate the constants required to configure the tick interrupt. */
-    #if ( configUSE_TICKLESS_IDLE == 1 )
+    #ఒకవేళ ( configUSE_TICKLESS_IDLE == 1 )
     {
-        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
-        xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
-        ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
+        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / config_TICK_రేటు_HZ );
+        x_గరిష్ఠ_Possible_Suppressed_Ticks = పోర్టు_MAX_24_బిట్టు_సంఖ్య / ulTimerCountsForOneTick;
+        ulStoppedTimerCompensation = పోర్టు_MISSED_COUNTS_గుణకం / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
     }
-    #endif /* configUSE_TICKLESS_IDLE */
+    #అయితే_ముగింపు /* configUSE_TICKLESS_IDLE */
 
     /* Stop and reset SysTick.
      *
@@ -632,19 +632,19 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void ) /* PRIVILEGED_FU
      * to one with a nonzero clock period and enable Systick at the same time.
      * So we configure the CLKSOURCE bit here, prior to setting the ENABLE bit.
      * This workaround avoids the bug in QEMU versions older than 7.0.0. */
-    portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    పోర్టు_NVIC_SYSTICK_CTRL_REG = పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG;
+    పోర్టు_NVIC_SYSTICK_CURRENT_విలువ_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
-    portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
-    portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+    పోర్టు_NVIC_SYSTICK_ఎక్కించు_REG = ( configSYSTICK_CLOCK_HZ / config_TICK_రేటు_HZ ) - 1UL;
+    పోర్టు_NVIC_SYSTICK_CTRL_REG = పోర్టు_NVIC_SYSTICK_CLK_బిట్టు_CONFIG | పోర్టు_NVIC_SYSTICK_INT_బిట్టు | పోర్టు_NVIC_SYSTICK_ENABLE_బిట్టు;
 }
 
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+స్థిర శూన్య prvTaskExitError( శూన్య )
 {
-    volatile uint32_t ulDummy = 0UL;
+    అస్థిర uint32_t ulDummy = 0UL;
 
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
@@ -652,9 +652,9 @@ static void prvTaskExitError( void )
      * to be triggered if configASSERT() is defined, then stop here so
      * application writers can catch the error. */
     configASSERT( ulCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    అయితే( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -668,237 +668,237 @@ static void prvTaskExitError( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
-    static uint32_t prvGetMPURegionSizeSetting( uint32_t ulActualSizeInBytes )
+    స్థిర uint32_t prv_Get_MPURegion_కొలత_Setting( uint32_t ul_Actual_కొలత_లోపల_బైట్లు )
     {
-        uint32_t ulRegionSize, ulReturnValue = 7UL;
+        uint32_t ul_Region_కొలత, ul_Return_విలువ = 7UL;
 
         /* 256 is the smallest region size, 31 is the largest valid value for
          * ulReturnValue. */
-        for( ulRegionSize = 256UL; ulReturnValue < 31UL; ( ulRegionSize <<= 1UL ) )
+        కొరకు( ul_Region_కొలత = 256UL; ul_Return_విలువ < 31UL; ( ul_Region_కొలత <<= 1UL ) )
         {
-            if( ulActualSizeInBytes <= ulRegionSize )
+            ఒకవేళ( ul_Actual_కొలత_లోపల_బైట్లు <= ul_Region_కొలత )
             {
-                break;
+                ఆపు;
             }
-            else
+            లేకపోతే
             {
-                ulReturnValue++;
+                ul_Return_విలువ++;
             }
         }
 
         /* Shift the code by one before returning so it can be written directly
          * into the correct bit position of the attribute register. */
-        return( ulReturnValue << 1UL );
+        తిరిగి( ul_Return_విలువ << 1UL );
     }
 
-#endif /* configENABLE_MPU */
+#అయితే_ముగింపు /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
-    static void prvSetupMPU( void ) /* PRIVILEGED_FUNCTION */
+    స్థిర శూన్య prv_అమరిక_MPU( శూన్య ) /* PRIVILEGED_FUNCTION */
     {
-        #if defined( __ARMCC_VERSION )
+        #ఒకవేళ defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
             * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-            extern uint32_t * __FLASH_segment_start__;
-            extern uint32_t * __FLASH_segment_end__;
-            extern uint32_t * __privileged_sram_start__;
-            extern uint32_t * __privileged_sram_end__;
+            బాహ్య uint32_t * __privileged_functions_start__;
+            బాహ్య uint32_t * __privileged_functions_end__;
+            బాహ్య uint32_t * __FLASH_segment_start__;
+            బాహ్య uint32_t * __FLASH_segment_end__;
+            బాహ్య uint32_t * __privileged_sram_start__;
+            బాహ్య uint32_t * __privileged_sram_end__;
 
-        #else /* if defined( __ARMCC_VERSION ) */
+        #లేకపోతే /* if defined( __ARMCC_VERSION ) */
 
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-            extern uint32_t __FLASH_segment_start__[];
-            extern uint32_t __FLASH_segment_end__[];
-            extern uint32_t __privileged_sram_start__[];
-            extern uint32_t __privileged_sram_end__[];
+            బాహ్య uint32_t __privileged_functions_start__[];
+            బాహ్య uint32_t __privileged_functions_end__[];
+            బాహ్య uint32_t __FLASH_segment_start__[];
+            బాహ్య uint32_t __FLASH_segment_end__[];
+            బాహ్య uint32_t __privileged_sram_start__[];
+            బాహ్య uint32_t __privileged_sram_end__[];
 
-        #endif /* defined( __ARMCC_VERSION ) */
+        #అయితే_ముగింపు /* defined( __ARMCC_VERSION ) */
 
         /* Ensure that the MPU is present. */
-        configASSERT( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE );
+        configASSERT( పోర్టు_MPU_TYPE_REG == పోర్టు_EXPECTED_MPU_TYPE_విలువ );
 
         /* Check that the MPU is present. */
-        if( portMPU_TYPE_REG == portEXPECTED_MPU_TYPE_VALUE )
+        ఒకవేళ( పోర్టు_MPU_TYPE_REG == పోర్టు_EXPECTED_MPU_TYPE_విలువ )
         {
             /* Setup privileged flash as Read Only so that privileged tasks can
              * read it but not modify. */
-            portMPU_RBAR_REG = ( ( ( uint32_t ) __privileged_functions_start__ ) | /* Base address. */
-                                 ( portMPU_RBAR_REGION_NUMBER_VALID_BITMASK ) |
-                                 ( portPRIVILEGED_FLASH_REGION ) );
+            పోర్టు_MPU_RBAR_REG = ( ( ( uint32_t ) __privileged_functions_start__ ) | /* Base address. */
+                                 ( పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK ) |
+                                 ( పోర్టు_PRIVILEGED_FLASH_REGION ) );
 
-            portMPU_RASR_REG = ( ( portMPU_REGION_PRIV_RO_UNPRIV_NA ) |
-                                 ( ( configS_C_B_FLASH & portMPU_RASR_S_C_B_BITMASK ) << portMPU_RASR_S_C_B_LOCATION ) |
-                                 ( prvGetMPURegionSizeSetting( ( uint32_t ) __privileged_functions_end__ - ( uint32_t ) __privileged_functions_start__ ) ) |
-                                 ( portMPU_RASR_REGION_ENABLE_BITMASK ) );
+            పోర్టు_MPU_RASR_REG = ( ( పోర్టు_MPU_REGION_PRIV_RO_UNPRIV_NA ) |
+                                 ( ( configS_C_B_FLASH & పోర్టు_MPU_RASR_S_C_B_BITMASK ) << పోర్టు_MPU_RASR_S_C_B_LOCATION ) |
+                                 ( prv_Get_MPURegion_కొలత_Setting( ( uint32_t ) __privileged_functions_end__ - ( uint32_t ) __privileged_functions_start__ ) ) |
+                                 ( పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK ) );
 
             /* Setup unprivileged flash as Read Only by both privileged and
              * unprivileged tasks. All tasks can read it but no-one can modify. */
-            portMPU_RBAR_REG = ( ( ( uint32_t ) __FLASH_segment_start__ ) | /* Base address. */
-                                 ( portMPU_RBAR_REGION_NUMBER_VALID_BITMASK ) |
-                                 ( portUNPRIVILEGED_FLASH_REGION ) );
+            పోర్టు_MPU_RBAR_REG = ( ( ( uint32_t ) __FLASH_segment_start__ ) | /* Base address. */
+                                 ( పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK ) |
+                                 ( పోర్టు_UNPRIVILEGED_FLASH_REGION ) );
 
-            portMPU_RASR_REG = ( ( portMPU_REGION_PRIV_RO_UNPRIV_RO ) |
-                                 ( ( configS_C_B_FLASH & portMPU_RASR_S_C_B_BITMASK ) << portMPU_RASR_S_C_B_LOCATION ) |
-                                 ( prvGetMPURegionSizeSetting( ( uint32_t ) __FLASH_segment_end__ - ( uint32_t ) __FLASH_segment_start__ ) ) |
-                                 ( portMPU_RASR_REGION_ENABLE_BITMASK ) );
+            పోర్టు_MPU_RASR_REG = ( ( పోర్టు_MPU_REGION_PRIV_RO_UNPRIV_RO ) |
+                                 ( ( configS_C_B_FLASH & పోర్టు_MPU_RASR_S_C_B_BITMASK ) << పోర్టు_MPU_RASR_S_C_B_LOCATION ) |
+                                 ( prv_Get_MPURegion_కొలత_Setting( ( uint32_t ) __FLASH_segment_end__ - ( uint32_t ) __FLASH_segment_start__ ) ) |
+                                 ( పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK ) );
 
             /* Setup RAM containing kernel data for privileged access only. */
-            portMPU_RBAR_REG = ( ( uint32_t ) __privileged_sram_start__ ) | /* Base address. */
-                                 ( portMPU_RBAR_REGION_NUMBER_VALID_BITMASK ) |
-                                 ( portPRIVILEGED_RAM_REGION );
+            పోర్టు_MPU_RBAR_REG = ( ( uint32_t ) __privileged_sram_start__ ) | /* Base address. */
+                                 ( పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK ) |
+                                 ( పోర్టు_PRIVILEGED_RAM_REGION );
 
-            portMPU_RASR_REG = ( ( portMPU_REGION_PRIV_RW_UNPRIV_NA ) |
-                                 ( portMPU_REGION_EXECUTE_NEVER ) |
-                                 ( ( configS_C_B_SRAM & portMPU_RASR_S_C_B_BITMASK ) << portMPU_RASR_S_C_B_LOCATION ) |
-                                 prvGetMPURegionSizeSetting( ( uint32_t ) __privileged_sram_end__ - ( uint32_t ) __privileged_sram_start__ ) |
-                                 ( portMPU_RASR_REGION_ENABLE_BITMASK ) );
+            పోర్టు_MPU_RASR_REG = ( ( పోర్టు_MPU_REGION_PRIV_RW_UNPRIV_NA ) |
+                                 ( పోర్టు_MPU_REGION_EXECUTE_NEVER ) |
+                                 ( ( configS_C_B_SRAM & పోర్టు_MPU_RASR_S_C_B_BITMASK ) << పోర్టు_MPU_RASR_S_C_B_LOCATION ) |
+                                 prv_Get_MPURegion_కొలత_Setting( ( uint32_t ) __privileged_sram_end__ - ( uint32_t ) __privileged_sram_start__ ) |
+                                 ( పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK ) );
 
             /* Enable MPU with privileged background access i.e. unmapped
              * regions have privileged access. */
-            portMPU_CTRL_REG |= ( portMPU_CTRL_PRIV_BACKGROUND_ENABLE_BITMASK |
-                                  portMPU_CTRL_ENABLE_BITMASK );
+            పోర్టు_MPU_CTRL_REG |= ( పోర్టు_MPU_CTRL_PRIV_BACKGROUND_ENABLE_BITMASK |
+                                  పోర్టు_MPU_CTRL_ENABLE_BITMASK );
         }
     }
 
-#endif /* configENABLE_MPU */
+#అయితే_ముగింపు /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
-void vPortYield( void ) /* PRIVILEGED_FUNCTION */
+శూన్య v_పోర్టు_Yield( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
     /* Set a PendSV to request a context switch. */
-    portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+    పోర్టు_NVIC_INT_CTRL_REG = పోర్టు_NVIC_PENDSVSET_బిట్టు;
 
     /* Barriers are normally not required but do ensure the code is
      * completely within the specified behaviour for the architecture. */
-    __asm volatile ( "dsb" ::: "memory" );
-    __asm volatile ( "isb" );
+    __asm అస్థిర ( "dsb" ::: "memory" );
+    __asm అస్థిర ( "isb" );
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */
+శూన్య v_పోర్టు_Enter_Critical( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
     ulCriticalNesting++;
 
     /* Barriers are normally not required but do ensure the code is
      * completely within the specified behaviour for the architecture. */
-    __asm volatile ( "dsb" ::: "memory" );
-    __asm volatile ( "isb" );
+    __asm అస్థిర ( "dsb" ::: "memory" );
+    __asm అస్థిర ( "isb" );
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */
+శూన్య v_పోర్టు_Exit_Critical( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
     configASSERT( ulCriticalNesting );
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ఒకవేళ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        పోర్టు_ENABLE_INTERRUPTS();
     }
 }
 
 /*-----------------------------------------------------------*/
 
-void SysTick_Handler( void ) /* PRIVILEGED_FUNCTION */
+శూన్య SysTick_Handler( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
-    uint32_t ulPreviousMask;
+    uint32_t ul_మునుపటి_ముసుగు;
 
-    ulPreviousMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_మునుపటి_ముసుగు = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
 
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
-            traceISR_EXIT_TO_SCHEDULER();
+            trace_ISR_EXIT_గమ్యం_SCHEDULER();
             /* Pend a context switch. */
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+            పోర్టు_NVIC_INT_CTRL_REG = పోర్టు_NVIC_PENDSVSET_బిట్టు;
         }
-        else
+        లేకపోతే
         {
             traceISR_EXIT();
         }
     }
 
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulPreviousMask );
+    పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( ul_మునుపటి_ముసుగు );
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTION portDONT_DISCARD */
+శూన్య v_పోర్టు_SVCHandler_C( uint32_t * pul_Caller_దొంతర_చిరునామా ) /* PRIVILEGED_FUNCTION portDONT_DISCARD */
 {
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+    #ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
 
-        #if defined( __ARMCC_VERSION )
+        #ఒకవేళ defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
+            బాహ్య uint32_t * __syscalls_flash_start__;
+            బాహ్య uint32_t * __syscalls_flash_end__;
 
-        #else
+        #లేకపోతే
 
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
+            బాహ్య uint32_t __syscalls_flash_start__[];
+            బాహ్య uint32_t __syscalls_flash_end__[];
 
-        #endif /* defined( __ARMCC_VERSION ) */
+        #అయితే_ముగింపు /* defined( __ARMCC_VERSION ) */
 
-    #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+    #అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
     uint32_t ulPC;
     uint8_t ucSVCNumber;
 
     /* Register are stored on the stack in the following order - R0, R1, R2, R3,
      * R12, LR, PC, xPSR. */
-    ulPC = pulCallerStackAddress[ portOFFSET_TO_PC ];
+    ulPC = pul_Caller_దొంతర_చిరునామా[ పోర్టు_స్థానభ్రంశం_గమ్యం_PC ];
     ucSVCNumber = ( ( uint8_t * ) ulPC )[ -2 ];
 
-    switch( ucSVCNumber )
+    ఎంపిక( ucSVCNumber )
     {
-        case portSVC_START_SCHEDULER:
+        స్థితి పోర్టు_SVC_ప్రారంభం_SCHEDULER:
             /* Setup the context of the first task so that the first task starts
              * executing. */
-            vRestoreContextOfFirstTask();
-            break;
+            v_Restore_Context_యొక్క_మొదటి_Task();
+            ఆపు;
 
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+    #ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
 
-        case portSVC_RAISE_PRIVILEGE:
+        స్థితి పోర్టు_SVC_RAISE_PRIVILEGE:
             /* Only raise the privilege, if the svc was raised from any of
              * the system calls. */
-            if( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
+            ఒకవేళ( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
                 ( ulPC <= ( uint32_t ) __syscalls_flash_end__ ) )
             {
                 vRaisePrivilege();
             }
-            break;
+            ఆపు;
 
-    #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+    #అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-    #if ( configENABLE_MPU == 1 )
+    #ఒకవేళ ( configENABLE_MPU == 1 )
 
-        case portSVC_YIELD:
-            vPortYield();
-            break;
+        స్థితి పోర్టు_SVC_YIELD:
+            v_పోర్టు_Yield();
+            ఆపు;
 
-    #endif /* configENABLE_MPU == 1 */
+    #అయితే_ముగింపు /* configENABLE_MPU == 1 */
 
-        default:
+        అప్రమేయ:
             /* Incorrect SVC call. */
             configASSERT( pdFALSE );
     }
@@ -906,38 +906,38 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    శూన్య vSystemCallEnter( uint32_t * pul_Task_దొంతర,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) /* PRIVILEGED_FUNCTION */
+                           uint8_t uc_System_Call_సంఖ్య ) /* PRIVILEGED_FUNCTION */
     {
-        extern TaskHandle_t pxCurrentTCB;
-        extern UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ];
+        బాహ్య TaskHandle_t pxCurrentTCB;
+        బాహ్య UBaseType_t uxSystemCallImplementations[ అంకె_SYSTEM_CALLS ];
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulSystemCallStack;
+        uint32_t * pul_System_Call_దొంతర;
         uint32_t ulSystemCallLocation, i;
         /* Hardware Saved Stack Frame Size upon Exception entry:
          * Basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
          */
-        const uint32_t ulHardwareSavedExceptionFrameSize = 8;
+        స్థిరరాశి uint32_t ul_Hardware_Saved_Exception_చట్రం_కొలత = 8;
 
-        #if defined( __ARMCC_VERSION )
+        #ఒకవేళ defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
+            బాహ్య uint32_t * __syscalls_flash_start__;
+            బాహ్య uint32_t * __syscalls_flash_end__;
 
-        #else
+        #లేకపోతే
 
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
+            బాహ్య uint32_t __syscalls_flash_start__[];
+            బాహ్య uint32_t __syscalls_flash_end__[];
 
-        #endif /* #if defined( __ARMCC_VERSION ) */
+        #అయితే_ముగింపు /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulTaskStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -952,60 +952,60 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
          *    because the assembly SVC handler checks that before calling
          *    this function.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
+        ఒకవేళ( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __syscalls_flash_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack == NULL ) &&
-            ( uxSystemCallImplementations[ ucSystemCallNumber ] != ( UBaseType_t ) 0 ) )
+            ( pxMpuSettings->x_System_Call_దొంతర_Info.pul_Task_దొంతర == ఖాళీ ) &&
+            ( uxSystemCallImplementations[ uc_System_Call_సంఖ్య ] != ( UBaseType_t ) 0 ) )
         {
-            pulSystemCallStack = pxMpuSettings->xSystemCallStackInfo.pulSystemCallStack;
+            pul_System_Call_దొంతర = pxMpuSettings->x_System_Call_దొంతర_Info.pul_System_Call_దొంతర;
 
             /* Make space on the system call stack for the stack frame. */
-            pulSystemCallStack = pulSystemCallStack - ulHardwareSavedExceptionFrameSize;
+            pul_System_Call_దొంతర = pul_System_Call_దొంతర - ul_Hardware_Saved_Exception_చట్రం_కొలత;
 
             /* Copy the stack frame. */
-            for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
+            కొరకు( i = 0; i < ul_Hardware_Saved_Exception_చట్రం_కొలత; i++ )
             {
-                pulSystemCallStack[ i ] = pulTaskStack[ i ];
+                pul_System_Call_దొంతర[ i ] = pul_Task_దొంతర[ i ];
             }
 
             /* Store the value of the Link Register before the SVC was raised.
              * It contains the address of the caller of the System Call entry
              * point (i.e. the caller of the MPU_<API>). We need to restore it
              * when we exit from the system call. */
-            pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry = pulTaskStack[ portOFFSET_TO_LR ];
+            pxMpuSettings->x_System_Call_దొంతర_Info.ul_Link_రిజిస్టరు_At_System_Call_నమోదు = pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_LR ];
 
             /* Use the pulSystemCallStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulSystemCallStack ) );
+            __asm అస్థిర ( "msr psp, %0" : : "r" ( pul_System_Call_దొంతర ) );
 
             /* Start executing the system call upon returning from this handler. */
-            pulSystemCallStack[ portOFFSET_TO_PC ] = uxSystemCallImplementations[ ucSystemCallNumber ];
+            pul_System_Call_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PC ] = uxSystemCallImplementations[ uc_System_Call_సంఖ్య ];
 
             /* Raise a request to exit from the system call upon finishing the
              * system call. */
-            pulSystemCallStack[ portOFFSET_TO_LR ] = ( uint32_t ) vRequestSystemCallExit;
+            pul_System_Call_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_LR ] = ( uint32_t ) vRequestSystemCallExit;
 
             /* Remember the location where we should copy the stack frame when we exit from
              * the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = pulTaskStack + ulHardwareSavedExceptionFrameSize;
+            pxMpuSettings->x_System_Call_దొంతర_Info.pul_Task_దొంతర = pul_Task_దొంతర + ul_Hardware_Saved_Exception_చట్రం_కొలత;
 
             /* Record if the hardware used padding to force the stack pointer
              * to be double word aligned. */
-            if( ( pulTaskStack[ portOFFSET_TO_PSR ] & portPSR_STACK_PADDING_MASK ) == portPSR_STACK_PADDING_MASK )
+            ఒకవేళ( ( pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PSR ] & పోర్టు_PSR_దొంతర_PADDING_ముసుగు ) == పోర్టు_PSR_దొంతర_PADDING_ముసుగు )
             {
-                pxMpuSettings->ulTaskFlags |= portSTACK_FRAME_HAS_PADDING_FLAG;
+                pxMpuSettings->ulTaskFlags |= పోర్టు_దొంతర_చట్రం_HAS_PADDING_FLAG;
             }
-            else
+            లేకపోతే
             {
-                pxMpuSettings->ulTaskFlags &= ( ~portSTACK_FRAME_HAS_PADDING_FLAG );
+                pxMpuSettings->ulTaskFlags &= ( ~పోర్టు_దొంతర_చట్రం_HAS_PADDING_FLAG );
             }
 
             /* We ensure in pxPortInitialiseStack that the system call stack is
              * double word aligned and therefore, there is no need of padding.
              * Clear the bit[9] of stacked xPSR. */
-            pulSystemCallStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+            pul_System_Call_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PSR ] &= ( ~పోర్టు_PSR_దొంతర_PADDING_ముసుగు );
 
             /* Raise the privilege for the duration of the system call. */
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified     \n"
                 " mrs r0, control     \n" /* Obtain current control value. */
@@ -1017,51 +1017,51 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         }
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vRequestSystemCallExit( void ) /* __attribute__( ( naked ) ) PRIVILEGED_FUNCTION */
+    శూన్య vRequestSystemCallExit( శూన్య ) /* __attribute__( ( naked ) ) PRIVILEGED_FUNCTION */
     {
-        __asm volatile ( "svc %0 \n" ::"i" ( portSVC_SYSTEM_CALL_EXIT ) : "memory" );
+        __asm అస్థిర ( "svc %0 \n" ::"i" ( పోర్టు_SVC_SYSTEM_CALL_EXIT ) : "memory" );
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    శూన్య vSystemCallExit( uint32_t * pul_System_Call_దొంతర,
                           uint32_t ulLR ) /* PRIVILEGED_FUNCTION */
     {
-        extern TaskHandle_t pxCurrentTCB;
+        బాహ్య TaskHandle_t pxCurrentTCB;
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulTaskStack;
+        uint32_t * pul_Task_దొంతర;
         uint32_t ulSystemCallLocation, i;
         /* Hardware Saved Stack Frame Size upon Exception entry:
          * Basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
          */
-        const uint32_t ulHardwareSavedExceptionFrameSize = 8;
+        స్థిరరాశి uint32_t ul_Hardware_Saved_Exception_చట్రం_కొలత = 8;
 
-        #if defined( __ARMCC_VERSION )
+        #ఒకవేళ defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
+            బాహ్య uint32_t * __privileged_functions_start__;
+            బాహ్య uint32_t * __privileged_functions_end__;
 
-        #else
+        #లేకపోతే
 
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
+            బాహ్య uint32_t __privileged_functions_start__[];
+            బాహ్య uint32_t __privileged_functions_end__[];
 
-        #endif /* #if defined( __ARMCC_VERSION ) */
+        #అయితే_ముగింపు /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulSystemCallStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_System_Call_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -1073,48 +1073,48 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
          *    application is not attempting to exit without entering a system
          *    call.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
+        ఒకవేళ( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __privileged_functions_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack != NULL ) )
+            ( pxMpuSettings->x_System_Call_దొంతర_Info.pul_Task_దొంతర != ఖాళీ ) )
         {
-            pulTaskStack = pxMpuSettings->xSystemCallStackInfo.pulTaskStack;
+            pul_Task_దొంతర = pxMpuSettings->x_System_Call_దొంతర_Info.pul_Task_దొంతర;
 
             /* Make space on the task stack for the stack frame. */
-            pulTaskStack = pulTaskStack - ulHardwareSavedExceptionFrameSize;
+            pul_Task_దొంతర = pul_Task_దొంతర - ul_Hardware_Saved_Exception_చట్రం_కొలత;
 
             /* Copy the stack frame. */
-            for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
+            కొరకు( i = 0; i < ul_Hardware_Saved_Exception_చట్రం_కొలత; i++ )
             {
-                pulTaskStack[ i ] = pulSystemCallStack[ i ];
+                pul_Task_దొంతర[ i ] = pul_System_Call_దొంతర[ i ];
             }
 
             /* Use the pulTaskStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulTaskStack ) );
+            __asm అస్థిర ( "msr psp, %0" : : "r" ( pul_Task_దొంతర ) );
 
             /* Return to the caller of the System Call entry point (i.e. the
              * caller of the MPU_<API>). */
-            pulTaskStack[ portOFFSET_TO_PC ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PC ] = pxMpuSettings->x_System_Call_దొంతర_Info.ul_Link_రిజిస్టరు_At_System_Call_నమోదు;
 
             /* Ensure that LR has a valid value.*/
-            pulTaskStack[ portOFFSET_TO_LR ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_LR ] = pxMpuSettings->x_System_Call_దొంతర_Info.ul_Link_రిజిస్టరు_At_System_Call_నమోదు;
 
             /* If the hardware used padding to force the stack pointer
              * to be double word aligned, set the stacked xPSR bit[9],
              * otherwise clear it. */
-            if( ( pxMpuSettings->ulTaskFlags & portSTACK_FRAME_HAS_PADDING_FLAG ) == portSTACK_FRAME_HAS_PADDING_FLAG )
+            ఒకవేళ( ( pxMpuSettings->ulTaskFlags & పోర్టు_దొంతర_చట్రం_HAS_PADDING_FLAG ) == పోర్టు_దొంతర_చట్రం_HAS_PADDING_FLAG )
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] |= portPSR_STACK_PADDING_MASK;
+                pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PSR ] |= పోర్టు_PSR_దొంతర_PADDING_ముసుగు;
             }
-            else
+            లేకపోతే
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+                pul_Task_దొంతర[ పోర్టు_స్థానభ్రంశం_గమ్యం_PSR ] &= ( ~పోర్టు_PSR_దొంతర_PADDING_ముసుగు );
             }
 
             /* This is not NULL only for the duration of the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            pxMpuSettings->x_System_Call_దొంతర_Info.pul_Task_దొంతర = ఖాళీ;
 
             /* Drop the privilege before returning to the thread mode. */
-            __asm volatile
+            __asm అస్థిర
             (
                 " .syntax unified     \n"
                 " mrs r0, control     \n" /* Obtain current control value. */
@@ -1126,35 +1126,35 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         }
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#అయితే_ముగింపు /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
-    BaseType_t xPortIsTaskPrivileged( void ) /* PRIVILEGED_FUNCTION */
+    పునాది_Type_t x_పోర్టు_Is_Task_Privileged( శూన్య ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xTaskIsPrivileged = pdFALSE;
-        const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+        పునాది_Type_t xTaskIsPrivileged = pdFALSE;
+        స్థిరరాశి xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( ఖాళీ ); /* Calling task's MPU settings. */
 
-        if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        ఒకవేళ( ( xTaskMpuSettings->ulTaskFlags & పోర్టు_TASK_IS_PRIVILEGED_FLAG ) == పోర్టు_TASK_IS_PRIVILEGED_FLAG )
         {
             xTaskIsPrivileged = pdTRUE;
         }
 
-        return xTaskIsPrivileged;
+        తిరిగి xTaskIsPrivileged;
     }
 
-#endif /* configENABLE_MPU == 1 */
+#అయితే_ముగింపు /* configENABLE_MPU == 1 */
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters,
-                                         BaseType_t xRunPrivileged,
+    దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                         TaskFunction_t px_సంకేతం,
+                                         శూన్య * pvParameters,
+                                         పునాది_Type_t x_నిరంతరం_Privileged,
                                          xMPU_SETTINGS * xMPUSettings ) /* PRIVILEGED_FUNCTION */
     {
         xMPUSettings->ulContext[ 0 ] = 0x04040404; /* r4. */
@@ -1171,106 +1171,106 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         xMPUSettings->ulContext[ 10 ] = 0x02020202;                           /* r2. */
         xMPUSettings->ulContext[ 11 ] = 0x03030303;                           /* r3. */
         xMPUSettings->ulContext[ 12 ] = 0x12121212;                           /* r12. */
-        xMPUSettings->ulContext[ 13 ] = ( uint32_t ) portTASK_RETURN_ADDRESS; /* LR. */
-        xMPUSettings->ulContext[ 14 ] = ( uint32_t ) pxCode;                  /* PC. */
-        xMPUSettings->ulContext[ 15 ] = portINITIAL_XPSR;                     /* xPSR. */
+        xMPUSettings->ulContext[ 13 ] = ( uint32_t ) పోర్టు_TASK_RETURN_చిరునామా; /* LR. */
+        xMPUSettings->ulContext[ 14 ] = ( uint32_t ) px_సంకేతం;                  /* PC. */
+        xMPUSettings->ulContext[ 15 ] = పోర్టు_INITIAL_XPSR;                     /* xPSR. */
 
-        xMPUSettings->ulContext[ 16 ] = ( uint32_t ) ( pxTopOfStack - 8 ); /* PSP with the hardware saved stack. */
-        if( xRunPrivileged == pdTRUE )
+        xMPUSettings->ulContext[ 16 ] = ( uint32_t ) ( px_శిఖరం_యొక్క_దొంతర - 8 ); /* PSP with the hardware saved stack. */
+        ఒకవేళ( x_నిరంతరం_Privileged == pdTRUE )
         {
-            xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
-            xMPUSettings->ulContext[ 17 ] = ( uint32_t ) portINITIAL_CONTROL_PRIVILEGED; /* CONTROL. */
+            xMPUSettings->ulTaskFlags |= పోర్టు_TASK_IS_PRIVILEGED_FLAG;
+            xMPUSettings->ulContext[ 17 ] = ( uint32_t ) పోర్టు_INITIAL_CONTROL_PRIVILEGED; /* CONTROL. */
         }
-        else
+        లేకపోతే
         {
-            xMPUSettings->ulTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
-            xMPUSettings->ulContext[ 17 ] = ( uint32_t ) portINITIAL_CONTROL_UNPRIVILEGED; /* CONTROL. */
+            xMPUSettings->ulTaskFlags &= ( ~పోర్టు_TASK_IS_PRIVILEGED_FLAG );
+            xMPUSettings->ulContext[ 17 ] = ( uint32_t ) పోర్టు_INITIAL_CONTROL_UNPRIVILEGED; /* CONTROL. */
         }
-        xMPUSettings->ulContext[ 18 ] = portINITIAL_EXC_RETURN; /* LR (EXC_RETURN). */
+        xMPUSettings->ulContext[ 18 ] = పోర్టు_INITIAL_EXC_RETURN; /* LR (EXC_RETURN). */
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ఒకవేళ ( configUSE_MPU_WRAPPERS_V1 == 0 )
         {
             /* Ensure that the system call stack is double word aligned. */
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1 ] );
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->xSystemCallStackInfo.pulSystemCallStack ) &
-                                                                                     ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) );
+            xMPUSettings->x_System_Call_దొంతర_Info.pul_System_Call_దొంతర = &( xMPUSettings->x_System_Call_దొంతర_Info.ul_System_Call_దొంతర_బఫరు[ config_SYSTEM_CALL_దొంతర_కొలత - 1 ] );
+            xMPUSettings->x_System_Call_దొంతర_Info.pul_System_Call_దొంతర = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->x_System_Call_దొంతర_Info.pul_System_Call_దొంతర ) &
+                                                                                     ( uint32_t ) ( ~( పోర్టు_BYTE_ALIGNMENT_ముసుగు ) ) );
 
             /* This is not NULL only for the duration of a system call. */
-            xMPUSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            xMPUSettings->x_System_Call_దొంతర_Info.pul_Task_దొంతర = ఖాళీ;
         }
-        #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+        #అయితే_ముగింపు /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
-        return &( xMPUSettings->ulContext[ 19 ] );
+        తిరిగి &( xMPUSettings->ulContext[ 19 ] );
     }
 
-#else /* configENABLE_MPU */
+#లేకపోతే /* configENABLE_MPU */
 
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters ) /* PRIVILEGED_FUNCTION */
+    దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                         TaskFunction_t px_సంకేతం,
+                                         శూన్య * pvParameters ) /* PRIVILEGED_FUNCTION */
     {
         /* Simulate the stack frame as it would be created by a context switch
          * interrupt. */
-        #if ( portPRELOAD_REGISTERS == 0 )
+        #ఒకవేళ ( పోర్టు_PRELOAD_REGISTERS == 0 )
         {
-            pxTopOfStack--;                                          /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-            *pxTopOfStack = portINITIAL_XPSR;                        /* xPSR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxCode;                  /* PC. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-            pxTopOfStack -= 5;                                       /* R12, R3, R2 and R1. */
-            *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0. */
-            pxTopOfStack -= 9;                                       /* R11..R4, EXC_RETURN. */
-            *pxTopOfStack = portINITIAL_EXC_RETURN;
+            px_శిఖరం_యొక్క_దొంతర--;                                          /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+            *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_XPSR;                        /* xPSR. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం;                  /* PC. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_TASK_RETURN_చిరునామా; /* LR. */
+            px_శిఖరం_యొక్క_దొంతర -= 5;                                       /* R12, R3, R2 and R1. */
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters;            /* R0. */
+            px_శిఖరం_యొక్క_దొంతర -= 9;                                       /* R11..R4, EXC_RETURN. */
+            *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_EXC_RETURN;
         }
-        #else /* portPRELOAD_REGISTERS */
+        #లేకపోతే /* portPRELOAD_REGISTERS */
         {
-            pxTopOfStack--;                                          /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-            *pxTopOfStack = portINITIAL_XPSR;                        /* xPSR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxCode;                  /* PC. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x12121212UL;            /* R12. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x03030303UL;            /* R3. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x02020202UL;            /* R2. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x01010101UL;            /* R1. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x11111111UL;            /* R11. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x10101010UL;            /* R10. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x09090909UL;            /* R09. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x08080808UL;            /* R08. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x07070707UL;            /* R07. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x06060606UL;            /* R06. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x05050505UL;            /* R05. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x04040404UL;            /* R04. */
-            pxTopOfStack--;
-            *pxTopOfStack = portINITIAL_EXC_RETURN;                  /* EXC_RETURN. */
+            px_శిఖరం_యొక్క_దొంతర--;                                          /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+            *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_XPSR;                        /* xPSR. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం;                  /* PC. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_TASK_RETURN_చిరునామా; /* LR. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x12121212UL;            /* R12. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x03030303UL;            /* R3. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x02020202UL;            /* R2. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x01010101UL;            /* R1. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters;            /* R0. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11111111UL;            /* R11. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x10101010UL;            /* R10. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x09090909UL;            /* R09. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x08080808UL;            /* R08. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x07070707UL;            /* R07. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x06060606UL;            /* R06. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x05050505UL;            /* R05. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x04040404UL;            /* R04. */
+            px_శిఖరం_యొక్క_దొంతర--;
+            *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_EXC_RETURN;                  /* EXC_RETURN. */
         }
-        #endif /* portPRELOAD_REGISTERS */
+        #అయితే_ముగింపు /* portPRELOAD_REGISTERS */
 
-        return pxTopOfStack;
+        తిరిగి px_శిఖరం_యొక్క_దొంతర;
     }
 
-#endif /* configENABLE_MPU */
+#అయితే_ముగింపు /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
     /* An application can install FreeRTOS interrupt handlers in one of the
      * following ways:
@@ -1284,9 +1284,9 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
      * configCHECK_HANDLER_INSTALLATION to 0 in their FreeRTOSConfig.h. Direct
      * routing, which is validated here when configCHECK_HANDLER_INSTALLATION
      * is 1, should be preferred when possible. */
-    #if ( configCHECK_HANDLER_INSTALLATION == 1 )
+    #ఒకవేళ ( configCHECK_HANDLER_INSTALLATION == 1 )
     {
-        const portISR_t * const pxVectorTable = portSCB_VTOR_REG;
+        స్థిరరాశి పోర్టు_ISR_t * స్థిరరాశి px_సదిశ_పట్టిక = పోర్టు_SCB_VTOR_REG;
 
         /* Validate that the application has correctly installed the FreeRTOS
          * handlers for SVCall and PendSV interrupts. We do not check the
@@ -1301,39 +1301,39 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
          * Systems with a configurable address for the interrupt vector table
          * can also encounter assertion failures or even system faults here if
          * VTOR is not set correctly to point to the application's vector table. */
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_SVC ] == SVC_Handler );
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_PENDSV ] == PendSV_Handler );
+        configASSERT( px_సదిశ_పట్టిక[ పోర్టు_సదిశ_సూచీ_SVC ] == SVC_Handler );
+        configASSERT( px_సదిశ_పట్టిక[ పోర్టు_సదిశ_సూచీ_PENDSV ] == PendSV_Handler );
     }
-    #endif /* configCHECK_HANDLER_INSTALLATION */
+    #అయితే_ముగింపు /* configCHECK_HANDLER_INSTALLATION */
 
     /* Make PendSV and SysTick the lowest priority interrupts, and make SVCall
      * the highest priority. */
-    portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
-    portNVIC_SHPR3_REG |= portNVIC_SYSTICK_PRI;
-    portNVIC_SHPR2_REG = 0;
+    పోర్టు_NVIC_SHPR3_REG |= పోర్టు_NVIC_PENDSV_PRI;
+    పోర్టు_NVIC_SHPR3_REG |= పోర్టు_NVIC_SYSTICK_PRI;
+    పోర్టు_NVIC_SHPR2_REG = 0;
 
-    #if ( configENABLE_MPU == 1 )
+    #ఒకవేళ ( configENABLE_MPU == 1 )
     {
         /* Setup the Memory Protection Unit (MPU). */
-        prvSetupMPU();
+        prv_అమరిక_MPU();
     }
-    #endif /* configENABLE_MPU */
+    #అయితే_ముగింపు /* configENABLE_MPU */
 
     /* Start the timer that generates the tick ISR. Interrupts are disabled
      * here already. */
-    vPortSetupTimerInterrupt();
+    v_పోర్టు_అమరిక_Timer_అంతరాయం();
 
     /* Initialize the critical nesting count ready for the first task. */
     ulCriticalNesting = 0;
 
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+    #ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
     {
         xSchedulerRunning = pdTRUE;
     }
-    #endif
+    #అయితే_ముగింపు
 
     /* Start the first task. */
-    vStartFirstTask();
+    v_ప్రారంభం_మొదటి_Task();
 
     /* Should never get here as the tasks will now be executing. Call the task
      * exit error function to prevent compiler warnings about a static function
@@ -1345,12 +1345,12 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
     prvTaskExitError();
 
     /* Should not get here. */
-    return 0;
+    తిరిగి 0;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య ) /* PRIVILEGED_FUNCTION */
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -1359,128 +1359,128 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ఒకవేళ ( configENABLE_MPU == 1 )
 
-    void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                    const struct xMEMORY_REGION * const xRegions,
-                                    StackType_t * pxBottomOfStack,
-                                    configSTACK_DEPTH_TYPE uxStackDepth )
+    శూన్య v_పోర్టు_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                    స్థిరరాశి నిర్మాణం x_జ్ఞాపకం_REGION * స్థిరరాశి xRegions,
+                                    దొంతర_Type_t * px_Bottom_యొక్క_దొంతర,
+                                    config_దొంతర_లోతు_TYPE ux_దొంతర_లోతు )
     {
-        #if defined( __ARMCC_VERSION )
+        #ఒకవేళ defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __SRAM_segment_start__;
-            extern uint32_t * __SRAM_segment_end__;
-            extern uint32_t * __privileged_sram_start__;
-            extern uint32_t * __privileged_sram_end__;
+            బాహ్య uint32_t * __SRAM_segment_start__;
+            బాహ్య uint32_t * __SRAM_segment_end__;
+            బాహ్య uint32_t * __privileged_sram_start__;
+            బాహ్య uint32_t * __privileged_sram_end__;
 
-        #else
+        #లేకపోతే
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __SRAM_segment_start__[];
-            extern uint32_t __SRAM_segment_end__[];
-            extern uint32_t __privileged_sram_start__[];
-            extern uint32_t __privileged_sram_end__[];
+            బాహ్య uint32_t __SRAM_segment_start__[];
+            బాహ్య uint32_t __SRAM_segment_end__[];
+            బాహ్య uint32_t __privileged_sram_start__[];
+            బాహ్య uint32_t __privileged_sram_end__[];
 
-        #endif /* defined( __ARMCC_VERSION ) */
+        #అయితే_ముగింపు /* defined( __ARMCC_VERSION ) */
 
-        int32_t lIndex;
+        int32_t l_సూచీ;
         uint32_t ul;
 
-        if( xRegions == NULL )
+        ఒకవేళ( xRegions == ఖాళీ )
         {
             /* No MPU regions are specified so allow access to all RAM. */
             xMPUSettings->xRegionsSettings[ 0 ].ulRBAR =
                 ( ( ( uint32_t ) __SRAM_segment_start__ ) | /* Base address. */
-                  ( portMPU_RBAR_REGION_NUMBER_VALID_BITMASK ) |
-                  ( portSTACK_REGION ) );                   /* Region number. */
+                  ( పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK ) |
+                  ( పోర్టు_దొంతర_REGION ) );                   /* Region number. */
 
             xMPUSettings->xRegionsSettings[ 0 ].ulRASR =
-                ( ( portMPU_REGION_PRIV_RW_UNPRIV_RW ) |
-                  ( portMPU_REGION_EXECUTE_NEVER ) |
-                  ( ( configS_C_B_SRAM & portMPU_RASR_S_C_B_BITMASK ) << portMPU_RASR_S_C_B_LOCATION ) |
-                  ( prvGetMPURegionSizeSetting( ( uint32_t ) __SRAM_segment_end__ - ( uint32_t ) __SRAM_segment_start__ ) ) |
-                  ( portMPU_RASR_REGION_ENABLE_BITMASK ) );
+                ( ( పోర్టు_MPU_REGION_PRIV_RW_UNPRIV_RW ) |
+                  ( పోర్టు_MPU_REGION_EXECUTE_NEVER ) |
+                  ( ( configS_C_B_SRAM & పోర్టు_MPU_RASR_S_C_B_BITMASK ) << పోర్టు_MPU_RASR_S_C_B_LOCATION ) |
+                  ( prv_Get_MPURegion_కొలత_Setting( ( uint32_t ) __SRAM_segment_end__ - ( uint32_t ) __SRAM_segment_start__ ) ) |
+                  ( పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK ) );
 
 
             /* Invalidate user configurable regions. */
-            for( ul = 1UL; ul <= portNUM_CONFIGURABLE_REGIONS; ul++ )
+            కొరకు( ul = 1UL; ul <= పోర్టు_అంకె_CONFIGURABLE_REGIONS; ul++ )
             {
-                xMPUSettings->xRegionsSettings[ ul ].ulRBAR = ( ( ul - 1UL ) | portMPU_RBAR_REGION_NUMBER_VALID_BITMASK );
+                xMPUSettings->xRegionsSettings[ ul ].ulRBAR = ( ( ul - 1UL ) | పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK );
                 xMPUSettings->xRegionsSettings[ ul ].ulRASR = 0UL;
             }
         }
-        else
+        లేకపోతే
         {
             /* This function is called automatically when the task is created - in
              * which case the stack region parameters will be valid.  At all other
              * times the stack parameters will not be valid and it is assumed that the
              * stack region has already been configured. */
-            if( uxStackDepth > 0 )
+            ఒకవేళ( ux_దొంతర_లోతు > 0 )
             {
                 /* Define the region that allows access to the stack. */
                 xMPUSettings->xRegionsSettings[ 0 ].ulRBAR =
-                    ( ( ( uint32_t ) pxBottomOfStack ) |
-                      ( portMPU_RBAR_REGION_NUMBER_VALID_BITMASK ) |
-                      ( portSTACK_REGION ) ); /* Region number. */
+                    ( ( ( uint32_t ) px_Bottom_యొక్క_దొంతర ) |
+                      ( పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK ) |
+                      ( పోర్టు_దొంతర_REGION ) ); /* Region number. */
 
                 xMPUSettings->xRegionsSettings[ 0 ].ulRASR =
-                    ( ( portMPU_REGION_PRIV_RW_UNPRIV_RW ) |
-                      ( portMPU_REGION_EXECUTE_NEVER ) |
-                      ( prvGetMPURegionSizeSetting( uxStackDepth * ( uint32_t ) sizeof( StackType_t ) ) ) |
-                      ( ( configS_C_B_SRAM & portMPU_RASR_S_C_B_BITMASK ) << portMPU_RASR_S_C_B_LOCATION ) |
-                      ( portMPU_RASR_REGION_ENABLE_BITMASK ) );
+                    ( ( పోర్టు_MPU_REGION_PRIV_RW_UNPRIV_RW ) |
+                      ( పోర్టు_MPU_REGION_EXECUTE_NEVER ) |
+                      ( prv_Get_MPURegion_కొలత_Setting( ux_దొంతర_లోతు * ( uint32_t ) పరిమాణం( దొంతర_Type_t ) ) ) |
+                      ( ( configS_C_B_SRAM & పోర్టు_MPU_RASR_S_C_B_BITMASK ) << పోర్టు_MPU_RASR_S_C_B_LOCATION ) |
+                      ( పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK ) );
             }
 
-            lIndex = 0;
+            l_సూచీ = 0;
 
-            for( ul = 1UL; ul <= portNUM_CONFIGURABLE_REGIONS; ul++ )
+            కొరకు( ul = 1UL; ul <= పోర్టు_అంకె_CONFIGURABLE_REGIONS; ul++ )
             {
-                if( ( xRegions[ lIndex ] ).ulLengthInBytes > 0UL )
+                ఒకవేళ( ( xRegions[ l_సూచీ ] ).ul_నిడివి_లోపల_బైట్లు > 0UL )
                 {
                     /* Translate the generic region definition contained in
                      * xRegions into the CM0+ specific MPU settings that are then
                      * stored in xMPUSettings. */
                     xMPUSettings->xRegionsSettings[ ul ].ulRBAR =
-                        ( ( uint32_t ) xRegions[ lIndex ].pvBaseAddress ) |
-                        ( portMPU_RBAR_REGION_NUMBER_VALID_BITMASK ) |
+                        ( ( uint32_t ) xRegions[ l_సూచీ ].pv_పునాది_చిరునామా ) |
+                        ( పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK ) |
                         ( ul - 1UL ); /* Region number. */
 
                     xMPUSettings->xRegionsSettings[ ul ].ulRASR =
-                        ( prvGetMPURegionSizeSetting( xRegions[ lIndex ].ulLengthInBytes ) ) |
-                        ( xRegions[ lIndex ].ulParameters ) |
-                        ( portMPU_RASR_REGION_ENABLE_BITMASK );
+                        ( prv_Get_MPURegion_కొలత_Setting( xRegions[ l_సూచీ ].ul_నిడివి_లోపల_బైట్లు ) ) |
+                        ( xRegions[ l_సూచీ ].ulParameters ) |
+                        ( పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK );
                 }
-                else
+                లేకపోతే
                 {
                     /* Invalidate the region. */
-                    xMPUSettings->xRegionsSettings[ ul ].ulRBAR = ( ( ul - 1UL ) | portMPU_RBAR_REGION_NUMBER_VALID_BITMASK );
+                    xMPUSettings->xRegionsSettings[ ul ].ulRBAR = ( ( ul - 1UL ) | పోర్టు_MPU_RBAR_REGION_సంఖ్య_VALID_BITMASK );
                     xMPUSettings->xRegionsSettings[ ul ].ulRASR = 0UL;
                 }
 
-            lIndex++;
+            l_సూచీ++;
         }
     }
 }
 
-#endif /* configENABLE_MPU */
+#అయితే_ముగింపు /* configENABLE_MPU */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
-                                                size_t xBufferLength,
+    పునాది_Type_t x_పోర్టు_Is_Authorized_గమ్యం_Access_బఫరు( స్థిరరాశి శూన్య * pv_బఫరు,
+                                                size_t x_బఫరు_నిడివి,
                                                 uint32_t ulAccessRequested ) /* PRIVILEGED_FUNCTION */
 
     {
-        uint32_t i, ulBufferStartAddress, ulBufferEndAddress;
-        uint32_t ulRegionStart, ulRegionSize, ulRegionEnd;
+        uint32_t i, ul_బఫరు_ప్రారంభం_చిరునామా, ul_బఫరు_చివర_చిరునామా;
+        uint32_t ul_Region_ప్రారంభం, ul_Region_కొలత, ul_Region_చివర;
         uint32_t ulMPURegionAccessPermissions;
-        BaseType_t xAccessGranted = pdFALSE;
-        const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+        పునాది_Type_t xAccessGranted = pdFALSE;
+        స్థిరరాశి xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( ఖాళీ ); /* Calling task's MPU settings. */
 
-        if( xSchedulerRunning == pdFALSE )
+        ఒకవేళ( xSchedulerRunning == pdFALSE )
         {
             /* Grant access to all the kernel objects before the scheduler
              * is started. It is necessary because there is no task running
@@ -1488,53 +1488,53 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
              * task. */
             xAccessGranted = pdTRUE;
         }
-        else if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        లేకపోతే ఒకవేళ( ( xTaskMpuSettings->ulTaskFlags & పోర్టు_TASK_IS_PRIVILEGED_FLAG ) == పోర్టు_TASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        లేకపోతే
         {
-            if( portADD_UINT32_WILL_OVERFLOW( ( ( uint32_t ) pvBuffer ), ( ( uint32_t ) xBufferLength - 1UL ) ) == pdFALSE )
+            ఒకవేళ( పోర్టు_కూడు_UINT32_WILL_అధికప్రవాహం( ( ( uint32_t ) pv_బఫరు ), ( ( uint32_t ) x_బఫరు_నిడివి - 1UL ) ) == pdFALSE )
             {
-                ulBufferStartAddress = ( uint32_t ) pvBuffer;
-                ulBufferEndAddress = ( ( ( uint32_t ) pvBuffer ) + ( uint32_t ) xBufferLength - 1UL );
+                ul_బఫరు_ప్రారంభం_చిరునామా = ( uint32_t ) pv_బఫరు;
+                ul_బఫరు_చివర_చిరునామా = ( ( ( uint32_t ) pv_బఫరు ) + ( uint32_t ) x_బఫరు_నిడివి - 1UL );
 
-                for( i = 0; i < portTOTAL_NUM_REGIONS; i++ )
+                కొరకు( i = 0; i < పోర్టు_మొత్తం_అంకె_REGIONS; i++ )
                 {
                     /* Is the MPU region enabled? */
-                    if( ( xTaskMpuSettings->xRegionsSettings[ i ].ulRASR &
-                          portMPU_RASR_REGION_ENABLE_BITMASK ) == portMPU_RASR_REGION_ENABLE_BITMASK )
+                    ఒకవేళ( ( xTaskMpuSettings->xRegionsSettings[ i ].ulRASR &
+                          పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK ) == పోర్టు_MPU_RASR_REGION_ENABLE_BITMASK )
                     {
-                        ulRegionStart = portEXTRACT_FIRST_ADDRESS_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR );
-                        ulRegionSize = portEXTRACT_REGION_SIZE_FROM_RASR( xTaskMpuSettings->xRegionsSettings[ i ].ulRASR );
-                        ulRegionEnd = ulRegionStart + ulRegionSize;
+                        ul_Region_ప్రారంభం = పోర్టు_వెలికితీయి_మొదటి_చిరునామా_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR );
+                        ul_Region_కొలత = పోర్టు_వెలికితీయి_REGION_కొలత_FROM_RASR( xTaskMpuSettings->xRegionsSettings[ i ].ulRASR );
+                        ul_Region_చివర = ul_Region_ప్రారంభం + ul_Region_కొలత;
 
-                        if( portIS_ADDRESS_WITHIN_RANGE( ulBufferStartAddress,
-                                                         ulRegionStart,
-                                                         ulRegionEnd ) &&
-                            portIS_ADDRESS_WITHIN_RANGE( ulBufferEndAddress,
-                                                         ulRegionStart,
-                                                         ulRegionEnd ) )
+                        ఒకవేళ( పోర్టు_IS_చిరునామా_WITHIN_RANGE( ul_బఫరు_ప్రారంభం_చిరునామా,
+                                                         ul_Region_ప్రారంభం,
+                                                         ul_Region_చివర ) &&
+                            పోర్టు_IS_చిరునామా_WITHIN_RANGE( ul_బఫరు_చివర_చిరునామా,
+                                                         ul_Region_ప్రారంభం,
+                                                         ul_Region_చివర ) )
                         {
                             ulMPURegionAccessPermissions = xTaskMpuSettings->xRegionsSettings[ i ].ulRASR &
-                                                           portMPU_RASR_AP_BITMASK;
+                                                           పోర్టు_MPU_RASR_AP_BITMASK;
 
-                            if( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
+                            ఒకవేళ( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
                             {
-                                if( ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_UNPRIV_RO ) ||
-                                    ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RO_UNPRIV_RO ) ||
-                                    ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_UNPRIV_RW ) )
+                                ఒకవేళ( ( ulMPURegionAccessPermissions == పోర్టు_MPU_REGION_PRIV_RW_UNPRIV_RO ) ||
+                                    ( ulMPURegionAccessPermissions == పోర్టు_MPU_REGION_PRIV_RO_UNPRIV_RO ) ||
+                                    ( ulMPURegionAccessPermissions == పోర్టు_MPU_REGION_PRIV_RW_UNPRIV_RW ) )
                                 {
                                     xAccessGranted = pdTRUE;
-                                    break;
+                                    ఆపు;
                                 }
                             }
-                            else if( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
+                            లేకపోతే ఒకవేళ( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
                             {
-                                if( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_UNPRIV_RW )
+                                ఒకవేళ( ulMPURegionAccessPermissions == పోర్టు_MPU_REGION_PRIV_RW_UNPRIV_RW )
                                 {
                                     xAccessGranted = pdTRUE;
-                                    break;
+                                    ఆపు;
                                 }
                             }
                         }
@@ -1543,88 +1543,88 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
             }
         }
 
-        return xAccessGranted;
+        తిరిగి xAccessGranted;
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+#అయితే_ముగింపు /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortIsInsideInterrupt( void )
+పునాది_Type_t x_పోర్టు_Is_Inside_అంతరాయం( శూన్య )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_అంతరాయం;
+    పునాది_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. Interrupt Program
      * Status Register (IPSR) holds the exception number of the currently-executing
      * exception or zero for Thread mode.*/
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm అస్థిర ( "mrs %0, ipsr" : "=r" ( ul_Current_అంతరాయం )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    ఒకవేళ( ul_Current_అంతరాయం == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    లేకపోతే
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    తిరిగి xReturn;
 }
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
-    void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                         int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+    శూన్య v_పోర్టు_Grant_Access_గమ్యం_Kernel_Object( TaskHandle_t x_అంతర్గత_Task_Handle,
+                                         int32_t l_అంతర్గత_సూచీ_యొక్క_Kernel_Object ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+        uint32_t ul_Access_Control_List_నమోదు_సూచీ, ul_Access_Control_List_నమోదు_బిట్టు;
         xMPU_SETTINGS * xTaskMpuSettings;
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_నమోదు_సూచీ = ( ( uint32_t ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object / పోర్టు_ACL_నమోదు_కొలత_బిట్లు );
+        ul_Access_Control_List_నమోదు_బిట్టు = ( ( uint32_t ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object % పోర్టు_ACL_నమోదు_కొలత_బిట్లు );
 
-        xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+        xTaskMpuSettings = xTaskGetMPUSettings( x_అంతర్గత_Task_Handle );
 
-        xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] |= ( 1U << ulAccessControlListEntryBit );
+        xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_నమోదు_సూచీ ] |= ( 1U << ul_Access_Control_List_నమోదు_బిట్టు );
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
+#అయితే_ముగింపు /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
-    void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                          int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+    శూన్య v_పోర్టు_Revoke_Access_గమ్యం_Kernel_Object( TaskHandle_t x_అంతర్గత_Task_Handle,
+                                          int32_t l_అంతర్గత_సూచీ_యొక్క_Kernel_Object ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+        uint32_t ul_Access_Control_List_నమోదు_సూచీ, ul_Access_Control_List_నమోదు_బిట్టు;
         xMPU_SETTINGS * xTaskMpuSettings;
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_నమోదు_సూచీ = ( ( uint32_t ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object / పోర్టు_ACL_నమోదు_కొలత_బిట్లు );
+        ul_Access_Control_List_నమోదు_బిట్టు = ( ( uint32_t ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object % పోర్టు_ACL_నమోదు_కొలత_బిట్లు );
 
-        xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+        xTaskMpuSettings = xTaskGetMPUSettings( x_అంతర్గత_Task_Handle );
 
-        xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] &= ~( 1U << ulAccessControlListEntryBit );
+        xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_నమోదు_సూచీ ] &= ~( 1U << ul_Access_Control_List_నమోదు_బిట్టు );
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
+#అయితే_ముగింపు /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ఒకవేళ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #ఒకవేళ ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+        పునాది_Type_t x_పోర్టు_Is_Authorized_గమ్యం_Access_Kernel_Object( int32_t l_అంతర్గత_సూచీ_యొక్క_Kernel_Object ) /* PRIVILEGED_FUNCTION */
         {
-            uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
-            BaseType_t xAccessGranted = pdFALSE;
-            const xMPU_SETTINGS * xTaskMpuSettings;
+            uint32_t ul_Access_Control_List_నమోదు_సూచీ, ul_Access_Control_List_నమోదు_బిట్టు;
+            పునాది_Type_t xAccessGranted = pdFALSE;
+            స్థిరరాశి xMPU_SETTINGS * xTaskMpuSettings;
 
-            if( xSchedulerRunning == pdFALSE )
+            ఒకవేళ( xSchedulerRunning == pdFALSE )
             {
                 /* Grant access to all the kernel objects before the scheduler
                  * is started. It is necessary because there is no task running
@@ -1632,42 +1632,42 @@ BaseType_t xPortIsInsideInterrupt( void )
                  * task. */
                 xAccessGranted = pdTRUE;
             }
-            else
+            లేకపోతే
             {
-                xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+                xTaskMpuSettings = xTaskGetMPUSettings( ఖాళీ ); /* Calling task's MPU settings. */
 
-                ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-                ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+                ul_Access_Control_List_నమోదు_సూచీ = ( ( uint32_t ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object / పోర్టు_ACL_నమోదు_కొలత_బిట్లు );
+                ul_Access_Control_List_నమోదు_బిట్టు = ( ( uint32_t ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object % పోర్టు_ACL_నమోదు_కొలత_బిట్లు );
 
-                if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+                ఒకవేళ( ( xTaskMpuSettings->ulTaskFlags & పోర్టు_TASK_IS_PRIVILEGED_FLAG ) == పోర్టు_TASK_IS_PRIVILEGED_FLAG )
                 {
                     xAccessGranted = pdTRUE;
                 }
-                else
+                లేకపోతే
                 {
-                    if( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
+                    ఒకవేళ( ( xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_నమోదు_సూచీ ] & ( 1U << ul_Access_Control_List_నమోదు_బిట్టు ) ) != 0 )
                     {
                         xAccessGranted = pdTRUE;
                     }
                 }
             }
 
-            return xAccessGranted;
+            తిరిగి xAccessGranted;
         }
 
-    #else /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #లేకపోతే /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
-        BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+        పునాది_Type_t x_పోర్టు_Is_Authorized_గమ్యం_Access_Kernel_Object( int32_t l_అంతర్గత_సూచీ_యొక్క_Kernel_Object ) /* PRIVILEGED_FUNCTION */
         {
-            ( void ) lInternalIndexOfKernelObject;
+            ( శూన్య ) l_అంతర్గత_సూచీ_యొక్క_Kernel_Object;
 
             /* If Access Control List feature is not used, all the tasks have
              * access to all the kernel objects. */
-            return pdTRUE;
+            తిరిగి pdTRUE;
         }
 
-    #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #అయితే_ముగింపు /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+#అయితే_ముగింపు /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 
 /*-----------------------------------------------------------*/

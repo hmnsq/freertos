@@ -26,108 +26,108 @@
  *
  */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+#నిర్వచితం_కాకపోతే FREERTOS_CONFIG_H
+#నిర్వచించు FREERTOS_CONFIG_H
 
 /******************************************************************************/
 /* Hardware description related definitions. **********************************/
 /******************************************************************************/
 
-#define configCPU_CLOCK_HZ    ( ( unsigned long ) 20000000 )
+#నిర్వచించు configCPU_CLOCK_HZ    ( ( గుర్తులేని దీర్ఘ ) 20000000 )
 
 /******************************************************************************/
 /* Scheduling behaviour related definitions. **********************************/
 /******************************************************************************/
 
-#define configTICK_RATE_HZ                         ( 100U )
-#define configUSE_PREEMPTION                       1
-#define configUSE_TIME_SLICING                     1
-#define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-#define configUSE_TICKLESS_IDLE                    1
-#define configMAX_PRIORITIES                       5U
-#define configMINIMAL_STACK_SIZE                   128U
-#define configMAX_TASK_NAME_LEN                    4U
-#define configTICK_TYPE_WIDTH_IN_BITS              TICK_TYPE_WIDTH_64_BITS
-#define configIDLE_SHOULD_YIELD                    1
-#define configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
-#define configQUEUE_REGISTRY_SIZE                  0U
-#define configENABLE_BACKWARD_COMPATIBILITY        1
-#define configNUM_THREAD_LOCAL_STORAGE_POINTERS    0
-#define configSTACK_DEPTH_TYPE                     size_t
-#define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
-#define configUSE_NEWLIB_REENTRANT                 0
+#నిర్వచించు config_TICK_రేటు_HZ                         ( 100U )
+#నిర్వచించు configUSE_PREEMPTION                       1
+#నిర్వచించు config_USE_సమయం_SLICING                     1
+#నిర్వచించు config_USE_పోర్టు_OPTIMISED_TASK_SELECTION    0
+#నిర్వచించు configUSE_TICKLESS_IDLE                    1
+#నిర్వచించు configMAX_PRIORITIES                       5U
+#నిర్వచించు config_కనీస_దొంతర_కొలత                   128U
+#నిర్వచించు configMAX_TASK_NAME_LEN                    4U
+#నిర్వచించు config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు              TICK_TYPE_వెడల్పు_64_బిట్లు
+#నిర్వచించు configIDLE_SHOULD_YIELD                    1
+#నిర్వచించు configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
+#నిర్వచించు config_వరుస_REGISTRY_కొలత                  0U
+#నిర్వచించు configENABLE_BACKWARD_COMPATIBILITY        1
+#నిర్వచించు config_అంకె_THREAD_LOCAL_STORAGE_సూచికలు    0
+#నిర్వచించు config_దొంతర_లోతు_TYPE                     size_t
+#నిర్వచించు config_సందేశం_బఫరు_నిడివి_TYPE           size_t
+#నిర్వచించు configUSE_NEWLIB_REENTRANT                 0
 
 /******************************************************************************/
 /* Software timer related definitions. ****************************************/
 /******************************************************************************/
 
-#define configUSE_TIMERS                1
-#define configTIMER_TASK_PRIORITY       ( configMAX_PRIORITIES - 1U )
-#define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
-#define configTIMER_QUEUE_LENGTH        10U
+#నిర్వచించు configUSE_TIMERS                1
+#నిర్వచించు config_TIMER_TASK_ప్రాధాన్యత       ( configMAX_PRIORITIES - 1U )
+#నిర్వచించు config_TIMER_TASK_దొంతర_లోతు    config_కనీస_దొంతర_కొలత
+#నిర్వచించు config_TIMER_వరుస_నిడివి        10U
 
 /******************************************************************************/
 /* Memory allocation related definitions. *************************************/
 /******************************************************************************/
 
-#define configSUPPORT_STATIC_ALLOCATION              1
-#define configSUPPORT_DYNAMIC_ALLOCATION             1
-#define configTOTAL_HEAP_SIZE                        4096U
-#define configAPPLICATION_ALLOCATED_HEAP             1
-#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
-#define configUSE_MINI_LIST_ITEM                     0
+#నిర్వచించు config_SUPPORT_STATIC_కేటాయింపు              1
+#నిర్వచించు config_SUPPORT_DYNAMIC_కేటాయింపు             1
+#నిర్వచించు config_మొత్తం_కుప్ప_కొలత                        4096U
+#నిర్వచించు config_APPLICATION_ALLOCATED_కుప్ప             1
+#నిర్వచించు config_దొంతర_కేటాయింపు_FROM_SEPARATE_కుప్ప    0
+#నిర్వచించు config_USE_MINI_LIST_అంశం                     0
 
 /******************************************************************************/
 /* Interrupt nesting behaviour configuration. *********************************/
 /******************************************************************************/
 
-#define configKERNEL_INTERRUPT_PRIORITY          0U
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY     0U
-#define configMAX_API_CALL_INTERRUPT_PRIORITY    0U
+#నిర్వచించు config_KERNEL_అంతరాయం_ప్రాధాన్యత          0U
+#నిర్వచించు config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత     0U
+#నిర్వచించు config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత    0U
 
 /******************************************************************************/
 /* Hook and callback function related definitions. ****************************/
 /******************************************************************************/
 
-#define configUSE_IDLE_HOOK                   0
-#define configUSE_TICK_HOOK                   0
-#define configUSE_MALLOC_FAILED_HOOK          0
-#define configUSE_DAEMON_TASK_STARTUP_HOOK    0
-#define configCHECK_FOR_STACK_OVERFLOW        0
+#నిర్వచించు configUSE_IDLE_HOOK                   0
+#నిర్వచించు configUSE_TICK_HOOK                   0
+#నిర్వచించు configUSE_MALLOC_FAILED_HOOK          0
+#నిర్వచించు configUSE_DAEMON_TASK_STARTUP_HOOK    0
+#నిర్వచించు config_CHECK_FOR_దొంతర_అధికప్రవాహం        0
 
 /******************************************************************************/
 /* Run time and task stats gathering related definitions. *********************/
 /******************************************************************************/
 
-#define configGENERATE_RUN_TIME_STATS           0
-#define configUSE_TRACE_FACILITY                0
-#define configUSE_STATS_FORMATTING_FUNCTIONS    0
-#define configKERNEL_PROVIDED_STATIC_MEMORY     1
+#నిర్వచించు config_GENERATE_నిరంతరం_సమయం_STATS           0
+#నిర్వచించు configUSE_TRACE_FACILITY                0
+#నిర్వచించు configUSE_STATS_FORMATTING_FUNCTIONS    0
+#నిర్వచించు config_KERNEL_PROVIDED_STATIC_జ్ఞాపకం     1
 
 /******************************************************************************/
 /* Definitions that include or exclude functionality. *************************/
 /******************************************************************************/
 
-#define configUSE_TASK_NOTIFICATIONS           1
-#define configUSE_MUTEXES                      1
-#define configUSE_RECURSIVE_MUTEXES            1
-#define configUSE_COUNTING_SEMAPHORES          1
-#define configUSE_QUEUE_SETS                   1
-#define configUSE_APPLICATION_TASK_TAG         1
-#define INCLUDE_vTaskPrioritySet               1
-#define INCLUDE_uxTaskPriorityGet              1
-#define INCLUDE_vTaskDelete                    1
-#define INCLUDE_vTaskSuspend                   1
-#define INCLUDE_vTaskDelayUntil                1
-#define INCLUDE_vTaskDelay                     1
-#define INCLUDE_xTaskGetSchedulerState         1
-#define INCLUDE_xTaskGetCurrentTaskHandle      1
-#define INCLUDE_uxTaskGetStackHighWaterMark    1
-#define INCLUDE_xTaskGetIdleTaskHandle         1
-#define INCLUDE_eTaskGetState                  1
-#define INCLUDE_xTimerPendFunctionCall         1
-#define INCLUDE_xTaskAbortDelay                1
-#define INCLUDE_xTaskGetHandle                 1
-#define INCLUDE_xTaskResumeFromISR             1
+#నిర్వచించు configUSE_TASK_NOTIFICATIONS           1
+#నిర్వచించు configUSE_MUTEXES                      1
+#నిర్వచించు configUSE_RECURSIVE_MUTEXES            1
+#నిర్వచించు configUSE_COUNTING_SEMAPHORES          1
+#నిర్వచించు config_USE_వరుస_SETS                   1
+#నిర్వచించు config_USE_APPLICATION_TASK_ట్యాగ్         1
+#నిర్వచించు INCLUDE_v_Task_ప్రాధాన్యత_సమితి               1
+#నిర్వచించు INCLUDE_ux_Task_ప్రాధాన్యత_Get              1
+#నిర్వచించు INCLUDE_vTaskDelete                    1
+#నిర్వచించు INCLUDE_vTaskSuspend                   1
+#నిర్వచించు INCLUDE_vTaskDelayUntil                1
+#నిర్వచించు INCLUDE_vTaskDelay                     1
+#నిర్వచించు INCLUDE_xTaskGetSchedulerState         1
+#నిర్వచించు INCLUDE_xTaskGetCurrentTaskHandle      1
+#నిర్వచించు INCLUDE_ux_Task_Get_దొంతర_ఎగువ_Water_Mark    1
+#నిర్వచించు INCLUDE_xTaskGetIdleTaskHandle         1
+#నిర్వచించు INCLUDE_eTaskGetState                  1
+#నిర్వచించు INCLUDE_xTimerPendFunctionCall         1
+#నిర్వచించు INCLUDE_xTaskAbortDelay                1
+#నిర్వచించు INCLUDE_xTaskGetHandle                 1
+#నిర్వచించు INCLUDE_xTaskResumeFromISR             1
 
-#endif /* FREERTOS_CONFIG_H */
+#అయితే_ముగింపు /* FREERTOS_CONFIG_H */

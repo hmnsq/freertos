@@ -27,17 +27,17 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /* Hardware specifics. */
-#include "machine.h"
+#అన్తర్భావ "machine.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,57 +51,57 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
 portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#నిర్వచించు పోర్టు_CHAR        అక్షరం
+#నిర్వచించు పోర్టు_FLOAT       దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE      ద్విగుణ
+#నిర్వచించు పోర్టు_LONG        దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT       పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE  uint32_t
+#నిర్వచించు పోర్టు_పునాది_TYPE   దీర్ఘ
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE దొంతర_Type_t;
+రకనిర్వచనం దీర్ఘ పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని దీర్ఘ UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffffffffUL
+#ఒకవేళ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY ( TickType_t ) 0xffffffffUL
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC 1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #నిర్వచించు పోర్టు_TICK_TYPE_IS_ATOMIC 1
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT              8   /* Could make four, according to manual. */
-#define portSTACK_GROWTH                -1
-#define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()                       nop()
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT              8   /* Could make four, according to manual. */
+#నిర్వచించు పోర్టు_దొంతర_GROWTH                -1
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS              ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_NOP()                       nop()
 
 
-#pragma inline_asm vPortYield
-static void vPortYield( void )
+#సూచన inline_asm v_పోర్టు_Yield
+స్థిర శూన్య v_పోర్టు_Yield( శూన్య )
 {
     /* Save clobbered register - may not actually be necessary if inline asm
     functions are considered to use the same rules as function calls by the
     compiler. */
-    PUSH.L R5
+    నెట్టు_2.L R5
     /* Set ITU SWINTR. */
     MOV.L #553696, R5
     MOV.B #1, [R5]
     /* Read back to ensure the value is taken before proceeding. */
     MOV.L [R5], R5
     /* Restore clobbered register to its previous value. */
-    POP R5
+    తీయి_2 R5
 }
-#define portYIELD() vPortYield()
-#define portYIELD_FROM_ISR( x ) do { if( x != pdFALSE ) portYIELD(); } while( 0 )
+#నిర్వచించు పోర్టు_YIELD() v_పోర్టు_Yield()
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR( x ) చేయి { ఒకవేళ( x != pdFALSE ) పోర్టు_YIELD(); } అయితే( 0 )
 
 /* These macros should not be called directly, but through the
 taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -112,44 +112,44 @@ when an ISR safe FreeRTOS API function was executed.  ISR safe FreeRTOS API
 functions are those that end in FromISR.  FreeRTOS maintains a separate
 interrupt API to ensure API function and interrupt entry is as fast and as
 simple as possible. */
-#define portENABLE_INTERRUPTS()     set_ipl( ( long ) 0 )
-#if ( configASSERT_DEFINED == 1 )
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID() configASSERT( ( get_ipl() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()    if( get_ipl() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
-    #define portDISABLE_INTERRUPTS()    set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#endif
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     సమితి_ipl( ( దీర్ఘ ) 0 )
+#ఒకవేళ ( configASSERT_DEFINED == 1 )
+    #నిర్వచించు పోర్టు_ASSERT_IF_అంతరాయం_ప్రాధాన్యత_INVALID() configASSERT( ( get_ipl() <= config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ) )
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    ఒకవేళ( get_ipl() < config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ) సమితి_ipl( ( దీర్ఘ ) config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత )
+#లేకపోతే
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    సమితి_ipl( ( దీర్ఘ ) config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత )
+#అయితే_ముగింపు
 
 /* Critical nesting counts are stored in the TCB. */
-#define portCRITICAL_NESTING_IN_TCB ( 1 )
+#నిర్వచించు పోర్టు_CRITICAL_NESTING_లోపల_TCB ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()    vTaskEnterCritical()
-#define portEXIT_CRITICAL()     vTaskExitCritical()
+బాహ్య శూన్య vTaskEnterCritical( శూన్య );
+బాహ్య శూన్య vTaskExitCritical( శూన్య );
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()    vTaskEnterCritical()
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()     vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-#define portSET_INTERRUPT_MASK_FROM_ISR() get_ipl(); set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus ) set_ipl( ( long ) uxSavedInterruptStatus )
+#నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR() get_ipl(); సమితి_ipl( ( దీర్ఘ ) config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత )
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( ux_Saved_అంతరాయం_స్థితి ) సమితి_ipl( ( దీర్ఘ ) ux_Saved_అంతరాయం_స్థితి )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters ) శూన్య vFunction( శూన్య *pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters ) శూన్య vFunction( శూన్య *pvParameters )
 
-#pragma inline_asm vPortMemoryBarrier
-static void vPortMemoryBarrier( void )
+#సూచన inline_asm v_పోర్టు_జ్ఞాపకం_Barrier
+స్థిర శూన్య v_పోర్టు_జ్ఞాపకం_Barrier( శూన్య )
 {
 }
 
-#define portMEMORY_BARRIER()    vPortMemoryBarrier()
+#నిర్వచించు పోర్టు_జ్ఞాపకం_BARRIER()    v_పోర్టు_జ్ఞాపకం_Barrier()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

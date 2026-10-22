@@ -32,28 +32,28 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "75x_tb.h"
-#include "75x_eic.h"
+#అన్తర్భావ "75x_tb.h"
+#అన్తర్భావ "75x_eic.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* Constants required to setup the initial stack. */
-#define portINITIAL_SPSR           ( ( StackType_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#నిర్వచించు పోర్టు_INITIAL_SPSR           ( ( దొంతర_Type_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
+#నిర్వచించు పోర్టు_INSTRUCTION_కొలత       ( ( దొంతర_Type_t ) 4 )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#నిర్వచించు పోర్టు_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
 /* Prescale used on the timer clock when calculating the tick period. */
-#define portPRESCALE               20
+#నిర్వచించు పోర్టు_PRESCALE               20
 
 
 /*-----------------------------------------------------------*/
 
 /* Setup the TB to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -61,7 +61,7 @@ static void prvSetupTimerInterrupt( void );
 uint32_t ulCriticalNesting = ( uint32_t ) 9999;
 
 /* Tick interrupt routines for preemptive operation. */
-__arm void vPortPreemptiveTick( void );
+__arm శూన్య v_పోర్టు_Preemptive_Tick( శూన్య );
 
 /*-----------------------------------------------------------*/
 
@@ -71,17 +71,17 @@ __arm void vPortPreemptiveTick( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    దొంతర_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_శిఖరం_యొక్క_దొంతర;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -89,93 +89,93 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం + పోర్టు_INSTRUCTION_కొలత;
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x12121212;    /* R12 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11111111;    /* R11 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x10101010;    /* R10 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x09090909;    /* R9 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x08080808;    /* R8 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x07070707;    /* R7 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x06060606;    /* R6 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x05050505;    /* R5 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x04040404;    /* R4 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x03030303;    /* R3 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x02020202;    /* R2 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x01010101;    /* R1 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters; /* R0 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_INITIAL_SPSR;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_NO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    extern void vPortStartFirstTask( void );
+    బాహ్య శూన్య v_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_పోర్టు_ప్రారంభం_మొదటి_Task();
 
     /* Should not get here! */
-    return 0;
+    తిరిగి 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
 }
 /*-----------------------------------------------------------*/
 
-__arm void vPortPreemptiveTick( void )
+__arm శూన్య v_పోర్టు_Preemptive_Tick( శూన్య )
 {
     /* Increment the tick counter. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ఒకవేళ( xTaskIncrementTick() != pdFALSE )
     {
         /* Select a new task to execute. */
         vTaskSwitchContext();
     }
 
-    TB_ClearITPendingBit( TB_IT_Update );
+    TB_Clear_ITPending_బిట్టు( TB_IT_Update );
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
     EIC_IRQInitTypeDef EIC_IRQInitStructure;
     TB_InitTypeDef TB_InitStructure;
@@ -183,28 +183,28 @@ static void prvSetupTimerInterrupt( void )
     /* Setup the EIC for the TB. */
     EIC_IRQInitStructure.EIC_IRQChannelCmd = ENABLE;
     EIC_IRQInitStructure.EIC_IRQChannel = TB_IRQChannel;
-    EIC_IRQInitStructure.EIC_IRQChannelPriority = 1;
+    EIC_IRQInitStructure.EIC_IRQChannel_ప్రాధాన్యత = 1;
     EIC_IRQInit( &EIC_IRQInitStructure );
 
     /* Setup the TB for the generation of the tick interrupt. */
-    TB_InitStructure.TB_Mode = TB_Mode_Timing;
-    TB_InitStructure.TB_CounterMode = TB_CounterMode_Down;
-    TB_InitStructure.TB_Prescaler = portPRESCALE - 1;
-    TB_InitStructure.TB_AutoReload = ( ( configCPU_CLOCK_HZ / portPRESCALE ) / configTICK_RATE_HZ );
+    TB_InitStructure.TB_బహుళకం = TB_బహుళకం_Timing;
+    TB_InitStructure.TB_Counter_బహుళకం = TB_Counter_బహుళకం_కిందికి;
+    TB_InitStructure.TB_Prescaler = పోర్టు_PRESCALE - 1;
+    TB_InitStructure.TB_AutoReload = ( ( configCPU_CLOCK_HZ / పోర్టు_PRESCALE ) / config_TICK_రేటు_HZ );
     TB_Init( &TB_InitStructure );
 
     /* Enable TB Update interrupt */
     TB_ITConfig( TB_IT_Update, ENABLE );
 
     /* Clear TB Update interrupt pending bit */
-    TB_ClearITPendingBit( TB_IT_Update );
+    TB_Clear_ITPending_బిట్టు( TB_IT_Update );
 
     /* Enable TB */
     TB_Cmd( ENABLE );
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortEnterCritical( void )
+__arm __interwork శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
     /* Disable interrupts first! */
     __disable_interrupt();
@@ -216,16 +216,16 @@ __arm __interwork void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortExitCritical( void )
+__arm __interwork శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ఒకవేళ( ulCriticalNesting > పోర్టు_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ఒకవేళ( ulCriticalNesting == పోర్టు_NO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -28,11 +28,11 @@
 
 #include "PriorityDefinitions.h"
 
-    PUBLIC _prvStartFirstTask
-    PUBLIC ___interrupt_27
+    బహిరంగ _prvStartFirstTask
+    బహిరంగ ___interrupt_27
 
-    EXTERN _pxCurrentTCB
-    EXTERN _vTaskSwitchContext
+    బాహ్య _pxCurrentTCB
+    బాహ్య _vTaskSwitchContext
 
     RSEG CODE:CODE(4)
 
@@ -148,4 +148,4 @@ ___interrupt_27:
 
 /*-----------------------------------------------------------*/
 
-        END
+        ముగింపు

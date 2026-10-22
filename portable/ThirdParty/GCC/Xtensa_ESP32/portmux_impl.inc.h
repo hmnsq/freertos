@@ -19,50 +19,50 @@
 
 
 
-static inline bool __attribute__( ( always_inline ) )
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux,
-                                int timeout_cycles,
-                                const char * fnName,
-                                int line )
+స్థిర అంతఃవరుస bool __attribute__( ( always_inline ) )
+#నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+    PORTMUX_AQUIRE_MUX_FN_NAME( పోర్టు_MUX_TYPE * mux,
+                                పూర్ణాంకం timeout_చక్రాలు,
+                                స్థిరరాశి అక్షరం * fnName,
+                                పూర్ణాంకం పంక్తి )
     {
-#else
-    PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux, int timeout_cycles )
+#లేకపోతే
+    PORTMUX_AQUIRE_MUX_FN_NAME( పోర్టు_MUX_TYPE * mux, పూర్ణాంకం timeout_చక్రాలు )
     {
-        #endif
+        #అయితే_ముగింపు
 
 
-        #if !CONFIG_FREERTOS_UNICORE
+        #ఒకవేళ !CONFIG_FREERTOS_UNICORE
             uint32_t res;
-            portBASE_TYPE coreID, otherCoreID;
-            uint32_t ccount_start;
-            bool set_timeout = timeout_cycles > portMUX_NO_TIMEOUT;
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                if( !set_timeout )
+            పోర్టు_పునాది_TYPE coreID, otherCoreID;
+            uint32_t ccount_ప్రారంభం;
+            bool సమితి_timeout = timeout_చక్రాలు > పోర్టు_MUX_NO_TIMEOUT;
+            #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                ఒకవేళ( !సమితి_timeout )
                 {
-                    timeout_cycles = 10000; /* Always set a timeout in debug mode */
-                    set_timeout = true;
+                    timeout_చక్రాలు = 10000; /* Always set a timeout in debug mode */
+                    సమితి_timeout = true;
                 }
-            #endif
+            #అయితే_ముగింపు
 
-            if( set_timeout ) /* Timeout */
+            ఒకవేళ( సమితి_timeout ) /* Timeout */
             {
-                RSR( CCOUNT, ccount_start );
+                RSR( CCOUNT, ccount_ప్రారంభం );
             }
 
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
+            #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
                 uint32_t owner = mux->owner;
 
-                #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                    if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
-                #else
-                    if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
-                #endif
+                #ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+                    ఒకవేళ( ( owner != పోర్టు_MUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
+                #లేకపోతే
+                    ఒకవేళ( ( owner != పోర్టు_MUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
+                #అయితే_ముగింపు
                 {
-                    ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, line );
-                    mux->owner = portMUX_FREE_VAL;
+                    ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, పంక్తి );
+                    mux->owner = పోర్టు_MUX_FREE_VAL;
                 }
-            #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+            #అయితే_ముగింపు /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
             /* Spin until we own the core */
 
@@ -71,13 +71,13 @@ static inline bool __attribute__( ( always_inline ) )
             /* Note: coreID is the full 32 bit core ID (CORE_ID_PRO/CORE_ID_APP),
              * not the 0/1 value returned by xPortGetCoreID()
              */
-            #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                otherCoreID = CORE_ID_XOR_SWAP ^ coreID;
-            #else
-                otherCoreID = CORE_ID_REGVAL_XOR_SWAP ^ coreID;
-            #endif
+            #ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+                otherCoreID = CORE_ID_XOR_మార్పిడి ^ coreID;
+            #లేకపోతే
+                otherCoreID = CORE_ID_REGVAL_XOR_మార్పిడి ^ coreID;
+            #అయితే_ముగింపు
 
-            do
+            చేయి
             {
                 /* mux->owner should be one of portMUX_FREE_VAL, CORE_ID_PRO,
                  * CORE_ID_APP:
@@ -87,109 +87,109 @@ static inline bool __attribute__( ( always_inline ) )
                  * - If "otherCoreID", we spin here.
                  */
                 res = coreID;
-                PORTMUX_COMPARE_SET_FN_NAME( &mux->owner, portMUX_FREE_VAL, &res );
+                PORTMUX_COMPARE_సమితి_FN_NAME( &mux->owner, పోర్టు_MUX_FREE_VAL, &res );
 
-                if( res != otherCoreID )
+                ఒకవేళ( res != otherCoreID )
                 {
-                    break; /* mux->owner is "our" coreID */
+                    ఆపు; /* mux->owner is "our" coreID */
                 }
 
-                if( set_timeout )
+                ఒకవేళ( సమితి_timeout )
                 {
                     uint32_t ccount_now;
                     RSR( CCOUNT, ccount_now );
 
-                    if( ccount_now - ccount_start > ( unsigned ) timeout_cycles )
+                    ఒకవేళ( ccount_now - ccount_ప్రారంభం > ( గుర్తులేని ) timeout_చక్రాలు )
                     {
-                        #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                            ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->lastLockedFn, mux->lastLockedLine, fnName, line );
-                            ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->count );
-                        #endif
-                        return false;
+                        #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                            ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->చివరి_Locked_Fn, mux->చివరి_Locked_పంక్తి, fnName, పంక్తి );
+                            ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->లెక్క );
+                        #అయితే_ముగింపు
+                        తిరిగి false;
                     }
                 }
-            } while( 1 );
+            } అయితే( 1 );
 
-            assert( res == coreID || res == portMUX_FREE_VAL );           /* any other value implies memory corruption or uninitialized mux */
-            assert( ( res == portMUX_FREE_VAL ) == ( mux->count == 0 ) ); /* we're first to lock iff count is zero */
-            assert( mux->count < 0xFF );                                  /* Bad count value implies memory corruption */
+            ప్రతిజ్ఞా( res == coreID || res == పోర్టు_MUX_FREE_VAL );           /* any other value implies memory corruption or uninitialized mux */
+            ప్రతిజ్ఞా( ( res == పోర్టు_MUX_FREE_VAL ) == ( mux->లెక్క == 0 ) ); /* we're first to lock iff count is zero */
+            ప్రతిజ్ఞా( mux->లెక్క < 0xFF );                                  /* Bad count value implies memory corruption */
 
             /* now we own it, we can increment the refcount */
-            mux->count++;
+            mux->లెక్క++;
 
 
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                if( res == portMUX_FREE_VAL ) /*initial lock */
+            #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                ఒకవేళ( res == పోర్టు_MUX_FREE_VAL ) /*initial lock */
                 {
-                    mux->lastLockedFn = fnName;
-                    mux->lastLockedLine = line;
+                    mux->చివరి_Locked_Fn = fnName;
+                    mux->చివరి_Locked_పంక్తి = పంక్తి;
                 }
-                else
+                లేకపోతే
                 {
-                    ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->count - 1,
-                                mux->lastLockedFn, mux->lastLockedLine, fnName, line );
+                    ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->లెక్క - 1,
+                                mux->చివరి_Locked_Fn, mux->చివరి_Locked_పంక్తి, fnName, పంక్తి );
                 }
-            #endif /* CONFIG_FREERTOS_PORTMUX_DEBUG */
-        #endif /* CONFIG_FREERTOS_UNICORE */
-        return true;
+            #అయితే_ముగింపు /* CONFIG_FREERTOS_PORTMUX_DEBUG */
+        #అయితే_ముగింపు /* CONFIG_FREERTOS_UNICORE */
+        తిరిగి true;
     }
 
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-        static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux,
-                                                        const char * fnName,
-                                                        int line )
+#నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+        స్థిర అంతఃవరుస శూన్య PORTMUX_RELEASE_MUX_FN_NAME( పోర్టు_MUX_TYPE * mux,
+                                                        స్థిరరాశి అక్షరం * fnName,
+                                                        పూర్ణాంకం పంక్తి )
         {
-#else
-        static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux )
+#లేకపోతే
+        స్థిర అంతఃవరుస శూన్య PORTMUX_RELEASE_MUX_FN_NAME( పోర్టు_MUX_TYPE * mux )
         {
-            #endif
+            #అయితే_ముగింపు
 
 
-            #if !CONFIG_FREERTOS_UNICORE
-                portBASE_TYPE coreID;
-                #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                    const char * lastLockedFn = mux->lastLockedFn;
-                    int lastLockedLine = mux->lastLockedLine;
-                    mux->lastLockedFn = fnName;
-                    mux->lastLockedLine = line;
+            #ఒకవేళ !CONFIG_FREERTOS_UNICORE
+                పోర్టు_పునాది_TYPE coreID;
+                #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                    స్థిరరాశి అక్షరం * చివరి_Locked_Fn = mux->చివరి_Locked_Fn;
+                    పూర్ణాంకం చివరి_Locked_పంక్తి = mux->చివరి_Locked_పంక్తి;
+                    mux->చివరి_Locked_Fn = fnName;
+                    mux->చివరి_Locked_పంక్తి = పంక్తి;
                     uint32_t owner = mux->owner;
 
-                    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                        if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
-                    #else
-                        if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
-                    #endif
+                    #ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+                        ఒకవేళ( ( owner != పోర్టు_MUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
+                    #లేకపోతే
+                        ఒకవేళ( ( owner != పోర్టు_MUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
+                    #అయితే_ముగింపు
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p is invalid (0x%x)!\n", mux, mux->owner );
                     }
-                #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+                #అయితే_ముగింపు /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
-                #if CONFIG_FREERTOS_PORTMUX_DEBUG || !defined( NDEBUG )
+                #ఒకవేళ CONFIG_FREERTOS_PORTMUX_DEBUG || !defined( NDEBUG )
                     RSR( PRID, coreID );
-                #endif
+                #అయితే_ముగింపు
 
-                #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                    if( coreID != mux->owner )
+                #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                    ఒకవేళ( coreID != mux->owner )
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p was already unlocked!\n", mux );
-                        ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", lastLockedFn, lastLockedLine, fnName, line );
+                        ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", చివరి_Locked_Fn, చివరి_Locked_పంక్తి, fnName, పంక్తి );
                     }
-                #endif
+                #అయితే_ముగింపు
 
-                assert( coreID == mux->owner ); /* This is a mutex we didn't lock, or it's corrupt */
+                ప్రతిజ్ఞా( coreID == mux->owner ); /* This is a mutex we didn't lock, or it's corrupt */
 
-                mux->count--;
+                mux->లెక్క--;
 
-                if( mux->count == 0 )
+                ఒకవేళ( mux->లెక్క == 0 )
                 {
-                    mux->owner = portMUX_FREE_VAL;
+                    mux->owner = పోర్టు_MUX_FREE_VAL;
                 }
-                else
+                లేకపోతే
                 {
-                    assert( mux->count < 0x100 ); /* Indicates memory corruption */
-                    #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG_RECURSIVE
-                        ets_printf( "Recursive unlock: count=%d last locked %s line %d, curr %s line %d\n", mux->count, lastLockedFn, lastLockedLine, fnName, line );
-                    #endif
+                    ప్రతిజ్ఞా( mux->లెక్క < 0x100 ); /* Indicates memory corruption */
+                    #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG_RECURSIVE
+                        ets_printf( "Recursive unlock: count=%d last locked %s line %d, curr %s line %d\n", mux->లెక్క, చివరి_Locked_Fn, చివరి_Locked_పంక్తి, fnName, పంక్తి );
+                    #అయితే_ముగింపు
                 }
-            #endif //!CONFIG_FREERTOS_UNICORE
+            #అయితే_ముగింపు //!CONFIG_FREERTOS_UNICORE
         }

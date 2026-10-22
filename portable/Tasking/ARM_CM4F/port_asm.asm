@@ -31,13 +31,13 @@
     .extern vTaskSwitchContext
     .extern ulMaxSyscallInterruptPriorityConst
 
-    .global _vector_14
-    .global _lc_ref__vector_pp_14
-    .global SVC_Handler
-    .global vPortStartFirstTask
-    .global vPortEnableVFP
-    .global ulPortSetInterruptMask
-    .global vPortClearInterruptMask
+    .వైశ్విక _vector_14
+    .వైశ్విక _lc_ref__vector_pp_14
+    .వైశ్విక SVC_Handler
+    .వైశ్విక vPortStartFirstTask
+    .వైశ్విక vPortEnableVFP
+    .వైశ్విక ul_పోర్టు_సమితి_అంతరాయం_ముసుగు
+    .వైశ్విక v_పోర్టు_Clear_అంతరాయం_ముసుగు
 
 ;-----------------------------------------------------------
 
@@ -211,13 +211,13 @@ vPortEnableVFP .type func
     .section .text
     .thumb
     .align 4
-ulPortSetInterruptMask:
+ul_పోర్టు_సమితి_అంతరాయం_ముసుగు:
     mrs r0, basepri
     ldr.w r1, =ulMaxSyscallInterruptPriorityConst
     ldr r1, [r1]
     msr basepri, r1
     bx r14
-    .size   ulPortSetInterruptMask, $-ulPortSetInterruptMask
+    .size   ul_పోర్టు_సమితి_అంతరాయం_ముసుగు, $-ul_పోర్టు_సమితి_అంతరాయం_ముసుగు
     .endsec
 
 ;-----------------------------------------------------------
@@ -225,10 +225,10 @@ ulPortSetInterruptMask:
     .section .text
     .thumb
     .align 4
-vPortClearInterruptMask:
+v_పోర్టు_Clear_అంతరాయం_ముసుగు:
     msr basepri, r0
     bx r14
-    .size   vPortClearInterruptMask, $-vPortClearInterruptMask
+    .size   v_పోర్టు_Clear_అంతరాయం_ముసుగు, $-v_పోర్టు_Clear_అంతరాయం_ముసుగు
     .endsec
 
 ;-----------------------------------------------------------

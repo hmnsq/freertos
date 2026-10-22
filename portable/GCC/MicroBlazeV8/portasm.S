@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -87,10 +87,10 @@ back into the caller stack. */
     .extern vPortExceptionHandler
     .extern pulStackPointerOnFunctionEntry
 
-    .global _interrupt_handler
-    .global VPortYieldASM
-    .global vPortStartFirstTask
-    .global vPortExceptionHandlerEntry
+    .వైశ్విక _interrupt_handler
+    .వైశ్విక VPortYieldASM
+    .వైశ్విక v_పోర్టు_ప్రారంభం_మొదటి_Task
+    .వైశ్విక v_పోర్టు_Exception_Handler_నమోదు
 
 
 .macro portSAVE_CONTEXT
@@ -289,7 +289,7 @@ VPortYieldASM:
     portSAVE_CONTEXT
 
     /* Modify the return address so a return is done to the instruction after
-    the call to VPortYieldASM. */
+    the పిలువు to VPortYieldASM. */
     addi r14, r14, 8
     swi r14, r1, portR14_OFFSET
 
@@ -305,7 +305,7 @@ VPortYieldASM:
 
     .text
     .align  4
-vPortStartFirstTask:
+v_పోర్టు_ప్రారంభం_మొదటి_Task:
 
     portRESTORE_CONTEXT
 
@@ -315,7 +315,7 @@ vPortStartFirstTask:
 
     .text
     .align 4
-vPortExceptionHandlerEntry:
+v_పోర్టు_Exception_Handler_నమోదు:
 
     /* Take a copy of the stack pointer before vPortExecptionHandler is called,
     storing its value prior to the function stack frame being created. */

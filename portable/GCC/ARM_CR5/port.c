@@ -27,52 +27,52 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <string.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
-#ifndef configINTERRUPT_CONTROLLER_BASE_ADDRESS
-    #error configINTERRUPT_CONTROLLER_BASE_ADDRESS must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#నిర్వచితం_కాకపోతే config_అంతరాయం_CONTROLLER_పునాది_చిరునామా
+    #దోషం config_అంతరాయం_CONTROLLER_పునాది_చిరునామా must be defined.  Refer గమ్యం Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#అయితే_ముగింపు
 
-#ifndef configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET
-    #error configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#నిర్వచితం_కాకపోతే config_అంతరాయం_CONTROLLER_CPU_INTERFACE_స్థానభ్రంశం
+    #దోషం config_అంతరాయం_CONTROLLER_CPU_INTERFACE_స్థానభ్రంశం must be defined.  Refer గమ్యం Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#అయితే_ముగింపు
 
-#ifndef configUNIQUE_INTERRUPT_PRIORITIES
-    #error configUNIQUE_INTERRUPT_PRIORITIES must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#నిర్వచితం_కాకపోతే config_UNIQUE_అంతరాయం_PRIORITIES
+    #దోషం config_UNIQUE_అంతరాయం_PRIORITIES must be defined.  Refer గమ్యం Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#అయితే_ముగింపు
 
-#ifndef configSETUP_TICK_INTERRUPT
-    #error configSETUP_TICK_INTERRUPT() must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif /* configSETUP_TICK_INTERRUPT */
+#నిర్వచితం_కాకపోతే config_అమరిక_TICK_అంతరాయం
+    #దోషం config_అమరిక_TICK_అంతరాయం() must be defined.  Refer గమ్యం Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#అయితే_ముగింపు /* configSETUP_TICK_INTERRUPT */
 
-#ifndef configMAX_API_CALL_INTERRUPT_PRIORITY
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#నిర్వచితం_కాకపోతే config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత
+    #దోషం config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత must be defined.  Refer గమ్యం Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#అయితే_ముగింపు
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0
-#endif
+#ఒకవేళ config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత == 0
+    #దోషం config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత must not be సమితి గమ్యం 0
+#అయితే_ముగింపు
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_PRIORITIES as the lower the numeric priority value the higher the logical interrupt priority
-#endif
+#ఒకవేళ config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత > config_UNIQUE_అంతరాయం_PRIORITIES
+    #దోషం config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత must be less than or equal గమ్యం config_UNIQUE_అంతరాయం_PRIORITIES as the క్రింది the numeric ప్రాధాన్యత విలువ the higher the logical అంతరాయం ప్రాధాన్యత
+#అయితే_ముగింపు
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ఒకవేళ config_USE_పోర్టు_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #ఒకవేళ ( configMAX_PRIORITIES > 32 )
+        #దోషం config_USE_పోర్టు_OPTIMISED_TASK_SELECTION can only be సమితి గమ్యం 1 when configMAX_PRIORITIES is less than or equal గమ్యం 32.  It is very rare that a system requires మరిన్ని than 10 గమ్యం 15 difference priorities as tasks that share a ప్రాధాన్యత will time ముక్క.
+    #అయితే_ముగింపు
+#అయితే_ముగింపు /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* In case security extensions are implemented. */
-#if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
-#endif
+#ఒకవేళ config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత <= ( config_UNIQUE_అంతరాయం_PRIORITIES / 2 )
+    #దోషం config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత must be greater than ( config_UNIQUE_అంతరాయం_PRIORITIES / 2 )
+#అయితే_ముగింపు
 
 /*
  * __ARM_FP is defined by the c preprocessor when FPU support is enabled,
@@ -83,35 +83,35 @@
  *       When setting configUSE_TASK_FPU_SUPPORT == 1, care must be taken to
  *       ensure that the FPU registers are not used without an FPU context.
  */
-#if ( configUSE_TASK_FPU_SUPPORT == 0 )
-    #ifdef __ARM_FP
-        #error __ARM_FP is defined, so configUSE_TASK_FPU_SUPPORT must be set to either to 1 or 2.
-    #endif /* __ARM_FP */
-#elif ( configUSE_TASK_FPU_SUPPORT == 1 ) || ( configUSE_TASK_FPU_SUPPORT == 2 )
-    #ifndef __ARM_FP
-        #error __ARM_FP is not defined, so configUSE_TASK_FPU_SUPPORT must be set to 0.
-    #endif /* __ARM_FP */
-#endif /* configUSE_TASK_FPU_SUPPORT */
+#ఒకవేళ ( configUSE_TASK_FPU_SUPPORT == 0 )
+    #నిర్వచితమైతే __ARM_FP
+        #దోషం __ARM_FP is defined, so configUSE_TASK_FPU_SUPPORT must be సమితి గమ్యం either గమ్యం 1 or 2.
+    #అయితే_ముగింపు /* __ARM_FP */
+#లేదావేళ ( configUSE_TASK_FPU_SUPPORT == 1 ) || ( configUSE_TASK_FPU_SUPPORT == 2 )
+    #నిర్వచితం_కాకపోతే __ARM_FP
+        #దోషం __ARM_FP is not defined, so configUSE_TASK_FPU_SUPPORT must be సమితి గమ్యం 0.
+    #అయితే_ముగింపు /* __ARM_FP */
+#అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT */
 
 /*
  * Some vendor specific files default configCLEAR_TICK_INTERRUPT() in
  * portmacro.h.
  */
-#ifndef configCLEAR_TICK_INTERRUPT
-    #define configCLEAR_TICK_INTERRUPT()
-#endif
+#నిర్వచితం_కాకపోతే config_CLEAR_TICK_అంతరాయం
+    #నిర్వచించు config_CLEAR_TICK_అంతరాయం()
+#అయితే_ముగింపు
 
 /*
  * A critical section is exited when the critical section nesting count reaches
  * this value.
  */
-#define portNO_CRITICAL_NESTING          ( ( uint32_t ) 0 )
+#నిర్వచించు పోర్టు_NO_CRITICAL_NESTING          ( ( uint32_t ) 0 )
 
 /*
  * In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority.
  */
-#define portUNMASK_VALUE                 ( 0xFFUL )
+#నిర్వచించు పోర్టు_UNMASK_విలువ                 ( 0xFFUL )
 
 /*
  * Tasks are not created with a floating point context, but can be given a
@@ -120,67 +120,67 @@
  * does not have an FPU context, or any other value if the task does have an FPU
  * context.
  */
-#define portNO_FLOATING_POINT_CONTEXT    ( ( StackType_t ) 0 )
+#నిర్వచించు పోర్టు_NO_FLOATING_బిందువు_CONTEXT    ( ( దొంతర_Type_t ) 0 )
 
 /* Constants required to setup the initial task context. */
-#define portINITIAL_SPSR                 ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enabled. */
-#define portTHUMB_MODE_BIT               ( ( StackType_t ) 0x20 )
-#define portINTERRUPT_ENABLE_BIT         ( 0x80UL )
-#define portTHUMB_MODE_ADDRESS           ( 0x01UL )
+#నిర్వచించు పోర్టు_INITIAL_SPSR                 ( ( దొంతర_Type_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enabled. */
+#నిర్వచించు పోర్టు_THUMB_బహుళకం_బిట్టు               ( ( దొంతర_Type_t ) 0x20 )
+#నిర్వచించు పోర్టు_అంతరాయం_ENABLE_బిట్టు         ( 0x80UL )
+#నిర్వచించు పోర్టు_THUMB_బహుళకం_చిరునామా           ( 0x01UL )
 
 /*
  * Used by portASSERT_IF_INTERRUPT_PRIORITY_INVALID() when ensuring the binary
  * point is zero.
  */
-#define portBINARY_POINT_BITS            ( ( uint8_t ) 0x03 )
+#నిర్వచించు పోర్టు_ద్విమాన_బిందువు_బిట్లు            ( ( uint8_t ) 0x03 )
 
 /* Masks all bits in the APSR other than the mode bits. */
-#define portAPSR_MODE_BITS_MASK          ( 0x1F )
+#నిర్వచించు పోర్టు_APSR_బహుళకం_బిట్లు_ముసుగు          ( 0x1F )
 
 /* The value of the mode bits in the APSR when the CPU is executing in user
  * mode. */
-#define portAPSR_USER_MODE               ( 0x10 )
+#నిర్వచించు పోర్టు_APSR_USER_బహుళకం               ( 0x10 )
 
 /* The critical section macros only mask interrupts up to an application
  * determined priority level.  Sometimes it is necessary to turn interrupt off in
  * the CPU itself before modifying certain hardware registers. */
-#define portCPU_IRQ_DISABLE()                  \
-    __asm volatile ( "CPSID i" ::: "memory" ); \
-    __asm volatile ( "DSB" );                  \
-    __asm volatile ( "ISB" );
+#నిర్వచించు పోర్టు_CPU_IRQ_DISABLE()                  \
+    __asm అస్థిర ( "CPSID i" ::: "memory" ); \
+    __asm అస్థిర ( "DSB" );                  \
+    __asm అస్థిర ( "ISB" );
 
-#define portCPU_IRQ_ENABLE()                   \
-    __asm volatile ( "CPSIE i" ::: "memory" ); \
-    __asm volatile ( "DSB" );                  \
-    __asm volatile ( "ISB" );
+#నిర్వచించు పోర్టు_CPU_IRQ_ENABLE()                   \
+    __asm అస్థిర ( "CPSIE i" ::: "memory" ); \
+    __asm అస్థిర ( "DSB" );                  \
+    __asm అస్థిర ( "ISB" );
 
 
 /* Macro to unmask all interrupt priorities. */
-#define portCLEAR_INTERRUPT_MASK()                            \
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు()                            \
     {                                                         \
-        portCPU_IRQ_DISABLE();                                \
-        portICCPMR_PRIORITY_MASK_REGISTER = portUNMASK_VALUE; \
-        __asm volatile ( "DSB       \n"                       \
+        పోర్టు_CPU_IRQ_DISABLE();                                \
+        పోర్టు_ICCPMR_ప్రాధాన్యత_ముసుగు_రిజిస్టరు = పోర్టు_UNMASK_విలువ; \
+        __asm అస్థిర ( "DSB       \n"                       \
                          "ISB       \n" );                    \
-        portCPU_IRQ_ENABLE();                                 \
+        పోర్టు_CPU_IRQ_ENABLE();                                 \
     }
 
-#define portINTERRUPT_PRIORITY_REGISTER_OFFSET    0x400UL
-#define portMAX_8_BIT_VALUE                       ( ( uint8_t ) 0xff )
-#define portBIT_0_SET                             ( ( uint8_t ) 0x01 )
+#నిర్వచించు పోర్టు_అంతరాయం_ప్రాధాన్యత_రిజిస్టరు_స్థానభ్రంశం    0x400UL
+#నిర్వచించు పోర్టు_MAX_8_బిట్టు_విలువ                       ( ( uint8_t ) 0xff )
+#నిర్వచించు పోర్టు_బిట్టు_0_సమితి                             ( ( uint8_t ) 0x01 )
 
 /*
  * Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case is messes up unwinding of the stack in the
  * debugger.
  */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#నిర్వచితమైతే config_TASK_RETURN_చిరునామా
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    config_TASK_RETURN_చిరునామా
+#లేకపోతే
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    prvTaskExitError
+#అయితే_ముగింపు
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#ఒకవేళ ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * The space on the stack required to hold the FPU registers.
@@ -193,8 +193,8 @@
  * the size of the bank remains the same. The FPU has also a 32-bit
  * status register.
  */
-    #define portFPU_REGISTER_WORDS    ( ( 16 * 2 ) + 1 )
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+    #నిర్వచించు పోర్టు_FPU_రిజిస్టరు_పదాలు    ( ( 16 * 2 ) + 1 )
+#అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT != 0 */
 
 /*-----------------------------------------------------------*/
 
@@ -202,14 +202,14 @@
  * Starts the first task executing.  This function is necessarily written in
  * assembly code so is implemented in portASM.s.
  */
-extern void vPortRestoreTaskContext( void );
+బాహ్య శూన్య v_పోర్టు_Restore_Task_Context( శూన్య );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+స్థిర శూన్య prvTaskExitError( శూన్య );
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#ఒకవేళ ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * If the application provides an implementation of vApplicationIRQHandler(),
@@ -230,8 +230,8 @@ static void prvTaskExitError( void );
  * FPU registers to be saved on interrupt entry their IRQ handler must be
  * called vApplicationIRQHandler().
  */
-    void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) __attribute__( ( weak ) );
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+    శూన్య vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) __attribute__( ( weak ) );
+#అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT != 0 */
 
 /*-----------------------------------------------------------*/
 
@@ -242,40 +242,40 @@ static void prvTaskExitError( void );
  * the scheduler starts.  As it is stored as part of the task context it will
  * automatically be set to 0 when the first task is started.
  */
-volatile uint32_t ulCriticalNesting = 9999UL;
+అస్థిర uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#ఒకవేళ ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
  * a floating point context must be saved and restored for the task.
  */
-    uint32_t ulPortTaskHasFPUContext = pdFALSE;
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+    uint32_t ul_పోర్టు_Task_Has_FPUContext = pdFALSE;
+#అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT != 0 */
 
 /* Set to 1 to pend a context switch from an ISR. */
-uint32_t ulPortYieldRequired = pdFALSE;
+uint32_t ul_పోర్టు_Yield_Required = pdFALSE;
 
 /*
  * Counts the interrupt nesting depth.  A context switch is only performed if
  * if the nesting depth is 0.
  */
-uint32_t ulPortInterruptNesting = 0UL;
+uint32_t ul_పోర్టు_అంతరాయం_Nesting = 0UL;
 
 /* Used in asm code. */
-__attribute__( ( used ) ) const uint32_t ulICCIAR = portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS;
-__attribute__( ( used ) ) const uint32_t ulICCEOIR = portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS;
-__attribute__( ( used ) ) const uint32_t ulICCPMR = portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS;
-__attribute__( ( used ) ) const uint32_t ulMaxAPIPriorityMask = ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
+__attribute__( ( వాడిన ) ) స్థిరరాశి uint32_t ulICCIAR = పోర్టు_ICCIAR_అంతరాయం_ACKNOWLEDGE_రిజిస్టరు_చిరునామా;
+__attribute__( ( వాడిన ) ) స్థిరరాశి uint32_t ulICCEOIR = పోర్టు_ICCEOIR_చివర_యొక్క_అంతరాయం_రిజిస్టరు_చిరునామా;
+__attribute__( ( వాడిన ) ) స్థిరరాశి uint32_t ulICCPMR = పోర్టు_ICCPMR_ప్రాధాన్యత_ముసుగు_రిజిస్టరు_చిరునామా;
+__attribute__( ( వాడిన ) ) స్థిరరాశి uint32_t ul_Max_APIPriority_ముసుగు = ( config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత << పోర్టు_ప్రాధాన్యత_జరుపు );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
     /*
      * Setup the initial stack of the task.  The stack is set exactly as
@@ -285,63 +285,63 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address.
      */
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ఖాళీ;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ఖాళీ;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ఖాళీ;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_INITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    ఒకవేళ( ( ( uint32_t ) px_సంకేతం & పోర్టు_THUMB_బహుళకం_చిరునామా ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_శిఖరం_యొక్క_దొంతర |= పోర్టు_THUMB_బహుళకం_బిట్టు;
     }
 
-    pxTopOfStack--;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Next the return address, which in this case is the start of the task. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Next all the registers other than the stack pointer. */
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;              /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;              /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;              /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;              /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;              /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;              /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;              /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;              /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;              /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;              /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;              /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;              /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0 */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_TASK_RETURN_చిరునామా; /* R14 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x12121212;              /* R12 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11111111;              /* R11 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x10101010;              /* R10 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x09090909;              /* R9 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x08080808;              /* R8 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x07070707;              /* R7 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x06060606;              /* R6 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x05050505;              /* R5 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x04040404;              /* R4 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x03030303;              /* R3 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x02020202;              /* R2 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x01010101;              /* R1 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters;            /* R0 */
 
     /*
      * The task will start with a critical nesting count of 0 as interrupts are
      * enabled.
      */
-    pxTopOfStack--;
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_NO_CRITICAL_NESTING;
 
-    #if ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #ఒకవేళ ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /*
          * The task will start without a floating point context.
@@ -349,33 +349,33 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * vPortTaskUsesFPU() before executing any floating point
          * instructions.
          */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = పోర్టు_NO_FLOATING_బిందువు_CONTEXT;
     }
-    #elif ( configUSE_TASK_FPU_SUPPORT == 2 )
+    #లేదావేళ ( configUSE_TASK_FPU_SUPPORT == 2 )
     {
         /*
          * The task will start with a floating point context. Leave enough
          * space for the registers and ensure they are initialized to 0.
          */
-        pxTopOfStack -= portFPU_REGISTER_WORDS;
-        memset( pxTopOfStack, 0x00, portFPU_REGISTER_WORDS * sizeof( StackType_t ) );
+        px_శిఖరం_యొక్క_దొంతర -= పోర్టు_FPU_రిజిస్టరు_పదాలు;
+        memset( px_శిఖరం_యొక్క_దొంతర, 0x00, పోర్టు_FPU_రిజిస్టరు_పదాలు * పరిమాణం( దొంతర_Type_t ) );
 
-        pxTopOfStack--;
-        *pxTopOfStack = pdTRUE;
-        ulPortTaskHasFPUContext = pdTRUE;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = pdTRUE;
+        ul_పోర్టు_Task_Has_FPUContext = pdTRUE;
     }
-    #elif ( configUSE_TASK_FPU_SUPPORT != 0 )
+    #లేదావేళ ( configUSE_TASK_FPU_SUPPORT != 0 )
     {
-        #error Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be set to 0, 1, or 2.
+        #దోషం Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be సమితి గమ్యం 0, 1, or 2.
     }
-    #endif /* configUSE_TASK_FPU_SUPPORT */
+    #అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT */
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+స్థిర శూన్య prvTaskExitError( శూన్య )
 {
     /*
      * A function that implements a task must not exit or attempt to return to
@@ -385,65 +385,65 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error.
      */
-    configASSERT( ulPortInterruptNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    configASSERT( ul_పోర్టు_అంతరాయం_Nesting == ~0UL );
+    పోర్టు_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    కొరకు( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#ఒకవేళ ( configUSE_TASK_FPU_SUPPORT != 0 )
 
-    void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) /* __attribute__( ( weak ) ) */
+    శూన్య vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) /* __attribute__( ( weak ) ) */
     {
-        ( void ) ulICCIAR;
-        configASSERT( ( volatile void * ) NULL );
+        ( శూన్య ) ulICCIAR;
+        configASSERT( ( అస్థిర శూన్య * ) ఖాళీ );
     }
 
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+#అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT != 0 */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    uint32_t ulAPSR, ulCycles = 8; /* 8 bits per byte. */
+    uint32_t ulAPSR, ul_చక్రాలు = 8; /* 8 bits per byte. */
 
-    #if ( configASSERT_DEFINED == 1 )
+    #ఒకవేళ ( configASSERT_DEFINED == 1 )
     {
-        volatile uint8_t ucOriginalPriority;
-        volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + portINTERRUPT_PRIORITY_REGISTER_OFFSET );
-        volatile uint8_t ucMaxPriorityValue;
+        అస్థిర uint8_t uc_Original_ప్రాధాన్యత;
+        అస్థిర uint8_t * స్థిరరాశి puc_మొదటి_User_ప్రాధాన్యత_రిజిస్టరు = ( అస్థిర uint8_t * స్థిరరాశి ) ( config_అంతరాయం_CONTROLLER_పునాది_చిరునామా + పోర్టు_అంతరాయం_ప్రాధాన్యత_రిజిస్టరు_స్థానభ్రంశం );
+        అస్థిర uint8_t uc_Max_ప్రాధాన్యత_విలువ;
 
         /*
          * Determine how many priority bits are implemented in the GIC.
          * Save the interrupt priority value that is about to be clobbered.
          */
-        ucOriginalPriority = *pucFirstUserPriorityRegister;
+        uc_Original_ప్రాధాన్యత = *puc_మొదటి_User_ప్రాధాన్యత_రిజిస్టరు;
 
         /*
          * Determine the number of priority bits available.  First write to
          * all possible bits.
          */
-        *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+        *puc_మొదటి_User_ప్రాధాన్యత_రిజిస్టరు = పోర్టు_MAX_8_బిట్టు_విలువ;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+        uc_Max_ప్రాధాన్యత_విలువ = *puc_మొదటి_User_ప్రాధాన్యత_రిజిస్టరు;
 
         /* Shift to the least significant bits. */
-        while( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
+        అయితే( ( uc_Max_ప్రాధాన్యత_విలువ & పోర్టు_బిట్టు_0_సమితి ) != పోర్టు_బిట్టు_0_సమితి )
         {
-            ucMaxPriorityValue >>= ( uint8_t ) 0x01;
+            uc_Max_ప్రాధాన్యత_విలువ >>= ( uint8_t ) 0x01;
 
             /*
              * If ulCycles reaches 0 then ucMaxPriorityValue must have been
              * read as 0, indicating a misconfiguration.
              */
-            ulCycles--;
+            ul_చక్రాలు--;
 
-            if( ulCycles == 0 )
+            ఒకవేళ( ul_చక్రాలు == 0 )
             {
-                break;
+                ఆపు;
             }
         }
 
@@ -451,34 +451,34 @@ BaseType_t xPortStartScheduler( void )
          * Sanity check configUNIQUE_INTERRUPT_PRIORITIES matches the read
          * value.
          */
-        configASSERT( ucMaxPriorityValue == portLOWEST_INTERRUPT_PRIORITY );
+        configASSERT( uc_Max_ప్రాధాన్యత_విలువ == పోర్టు_అత్యల్ప_అంతరాయం_ప్రాధాన్యత );
 
         /*
          * Restore the clobbered interrupt priority register to its original
          * value.
          */
-        *pucFirstUserPriorityRegister = ucOriginalPriority;
+        *puc_మొదటి_User_ప్రాధాన్యత_రిజిస్టరు = uc_Original_ప్రాధాన్యత;
     }
-    #endif /* configASSERT_DEFINED */
+    #అయితే_ముగింపు /* configASSERT_DEFINED */
 
     /*
      * Only continue if the CPU is not in User mode.  The CPU must be in a
      * Privileged mode for the scheduler to start.
      */
-    __asm volatile ( "MRS %0, APSR" : "=r" ( ulAPSR )::"memory" );
-    ulAPSR &= portAPSR_MODE_BITS_MASK;
-    configASSERT( ulAPSR != portAPSR_USER_MODE );
+    __asm అస్థిర ( "MRS %0, APSR" : "=r" ( ulAPSR )::"memory" );
+    ulAPSR &= పోర్టు_APSR_బహుళకం_బిట్లు_ముసుగు;
+    configASSERT( ulAPSR != పోర్టు_APSR_USER_బహుళకం );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    ఒకవేళ( ulAPSR != పోర్టు_APSR_USER_బహుళకం )
     {
         /*
          * Only continue if the binary point value is set to its lowest possible
          * setting.  See the comments in vPortValidateInterruptPriority() below for
          * more information.
          */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( పోర్టు_ICCBPR_ద్విమాన_బిందువు_రిజిస్టరు & పోర్టు_ద్విమాన_బిందువు_బిట్లు ) <= పోర్టు_MAX_ద్విమాన_బిందువు_విలువ );
 
-        if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+        ఒకవేళ( ( పోర్టు_ICCBPR_ద్విమాన_బిందువు_రిజిస్టరు & పోర్టు_ద్విమాన_బిందువు_బిట్లు ) <= పోర్టు_MAX_ద్విమాన_బిందువు_విలువ )
         {
             /*
              * Interrupts are turned off in the CPU itself to ensure tick does
@@ -486,13 +486,13 @@ BaseType_t xPortStartScheduler( void )
              * automatically turned back on in the CPU when the first task starts
              * executing.
              */
-            portCPU_IRQ_DISABLE();
+            పోర్టు_CPU_IRQ_DISABLE();
 
             /* Start the timer that generates the tick ISR. */
-            configSETUP_TICK_INTERRUPT();
+            config_అమరిక_TICK_అంతరాయం();
 
             /* Start the first task executing. */
-            vPortRestoreTaskContext();
+            v_పోర్టు_Restore_Task_Context();
         }
     }
 
@@ -503,13 +503,13 @@ BaseType_t xPortStartScheduler( void )
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address.
      */
-    ( void ) prvTaskExitError;
+    ( శూన్య ) prvTaskExitError;
 
-    return 0;
+    తిరిగి 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /*
      * Not implemented in ports where there is nothing to return to.
@@ -519,10 +519,10 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
     /* Mask interrupts up to the max syscall interrupt priority. */
-    ulPortSetInterruptMask();
+    ul_పోర్టు_సమితి_అంతరాయం_ముసుగు();
 
     /*
      * Now that interrupts are disabled, ulCriticalNesting can be accessed
@@ -538,16 +538,16 @@ void vPortEnterCritical( void )
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section.
      */
-    if( ulCriticalNesting == 1 )
+    ఒకవేళ( ulCriticalNesting == 1 )
     {
-        configASSERT( ulPortInterruptNesting == 0 );
+        configASSERT( ul_పోర్టు_అంతరాయం_Nesting == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ఒకవేళ( ulCriticalNesting > పోర్టు_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being exited. */
         ulCriticalNesting--;
@@ -556,19 +556,19 @@ void vPortExitCritical( void )
          * If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled.
          */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ఒకవేళ( ulCriticalNesting == పోర్టు_NO_CRITICAL_NESTING )
         {
             /*
              * Critical nesting has reached zero so all interrupt priorities
              * should be unmasked.
              */
-            portCLEAR_INTERRUPT_MASK();
+            పోర్టు_CLEAR_అంతరాయం_ముసుగు();
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void FreeRTOS_Tick_Handler( void )
+శూన్య FreeRTOS_Tick_Handler( శూన్య )
 {
     /*
      * Set interrupt mask before altering scheduler structures.   The tick
@@ -577,27 +577,27 @@ void FreeRTOS_Tick_Handler( void )
      * necessary to turn off interrupts in the CPU itself while the ICCPMR is being
      * updated.
      */
-    portCPU_IRQ_DISABLE();
-    portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
-    __asm volatile ( "dsb       \n"
+    పోర్టు_CPU_IRQ_DISABLE();
+    పోర్టు_ICCPMR_ప్రాధాన్యత_ముసుగు_రిజిస్టరు = ( uint32_t ) ( config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత << పోర్టు_ప్రాధాన్యత_జరుపు );
+    __asm అస్థిర ( "dsb       \n"
                      "isb       \n" ::: "memory" );
-    portCPU_IRQ_ENABLE();
+    పోర్టు_CPU_IRQ_ENABLE();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ఒకవేళ( xTaskIncrementTick() != pdFALSE )
     {
-        ulPortYieldRequired = pdTRUE;
+        ul_పోర్టు_Yield_Required = pdTRUE;
     }
 
     /* Ensure all interrupt priorities are active again. */
-    portCLEAR_INTERRUPT_MASK();
-    configCLEAR_TICK_INTERRUPT();
+    పోర్టు_CLEAR_అంతరాయం_ముసుగు();
+    config_CLEAR_TICK_అంతరాయం();
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT == 1 )
+#ఒకవేళ ( configUSE_TASK_FPU_SUPPORT == 1 )
 
-    void vPortTaskUsesFPU( void )
+    శూన్య v_పోర్టు_Task_ఉపయోగిస్తుంది_FPU( శూన్య )
     {
         uint32_t ulInitialFPSCR = 0;
 
@@ -605,53 +605,53 @@ void FreeRTOS_Tick_Handler( void )
          * A task is registering the fact that it needs an FPU context. Set the
          * FPU flag (which is saved as part of the task context).
          */
-        ulPortTaskHasFPUContext = pdTRUE;
+        ul_పోర్టు_Task_Has_FPUContext = pdTRUE;
 
         /* Initialise the floating point status register. */
-        __asm volatile ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) : "memory" );
+        __asm అస్థిర ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) : "memory" );
     }
 
-#endif /* configUSE_TASK_FPU_SUPPORT == 1 */
+#అయితే_ముగింపు /* configUSE_TASK_FPU_SUPPORT == 1 */
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+శూన్య v_పోర్టు_Clear_అంతరాయం_ముసుగు( uint32_t ul_New_ముసుగు_విలువ )
 {
-    if( ulNewMaskValue == pdFALSE )
+    ఒకవేళ( ul_New_ముసుగు_విలువ == pdFALSE )
     {
-        portCLEAR_INTERRUPT_MASK();
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు();
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortSetInterruptMask( void )
+uint32_t ul_పోర్టు_సమితి_అంతరాయం_ముసుగు( శూన్య )
 {
     uint32_t ulReturn;
 
     /* Interrupts must be masked while ICCPMR is updated. */
-    portCPU_IRQ_DISABLE();
+    పోర్టు_CPU_IRQ_DISABLE();
 
-    if( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
+    ఒకవేళ( పోర్టు_ICCPMR_ప్రాధాన్యత_ముసుగు_రిజిస్టరు == ( uint32_t ) ( config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత << పోర్టు_ప్రాధాన్యత_జరుపు ) )
     {
         /* Interrupts were already masked. */
         ulReturn = pdTRUE;
     }
-    else
+    లేకపోతే
     {
         ulReturn = pdFALSE;
-        portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
-        __asm volatile ( "dsb       \n"
+        పోర్టు_ICCPMR_ప్రాధాన్యత_ముసుగు_రిజిస్టరు = ( uint32_t ) ( config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత << పోర్టు_ప్రాధాన్యత_జరుపు );
+        __asm అస్థిర ( "dsb       \n"
                          "isb       \n" ::: "memory" );
     }
 
-    portCPU_IRQ_ENABLE();
+    పోర్టు_CPU_IRQ_ENABLE();
 
-    return ulReturn;
+    తిరిగి ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#ఒకవేళ ( configASSERT_DEFINED == 1 )
 
-    void vPortValidateInterruptPriority( void )
+    శూన్య v_పోర్టు_Validate_అంతరాయం_ప్రాధాన్యత( శూన్య )
     {
         /*
          * The following assertion will fail if a service routine (ISR) for
@@ -670,7 +670,7 @@ uint32_t ulPortSetInterruptMask( void )
          * interrupt entry is as fast and simple as possible.
          */
 
-        configASSERT( portICCRPR_RUNNING_PRIORITY_REGISTER >= ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) );
+        configASSERT( పోర్టు_ICCRPR_RUNNING_ప్రాధాన్యత_రిజిస్టరు >= ( uint32_t ) ( config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత << పోర్టు_ప్రాధాన్యత_జరుపు ) );
 
         /*
          * Priority grouping:  The interrupt controller (GIC) allows the bits
@@ -684,8 +684,8 @@ uint32_t ulPortSetInterruptMask( void )
          * (ICCBPR).  Writing 0 to ICCBPR will ensure it is set to its lowest
          * possible value (which may be above 0).
          */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( పోర్టు_ICCBPR_ద్విమాన_బిందువు_రిజిస్టరు & పోర్టు_ద్విమాన_బిందువు_బిట్లు ) <= పోర్టు_MAX_ద్విమాన_బిందువు_విలువ );
     }
 
-#endif /* configASSERT_DEFINED */
+#అయితే_ముగింపు /* configASSERT_DEFINED */
 /*-----------------------------------------------------------*/

@@ -27,50 +27,50 @@
  */
 
 
-#include <stdlib.h>
+#అన్తర్భావ <stdlib.h>
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <avr/wdt.h>
+#అన్తర్భావ <avr/io.h>
+#అన్తర్భావ <avr/interrupt.h>
+#అన్తర్భావ <avr/wdt.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the AVR port.
 *----------------------------------------------------------*/
 
 /* Start tasks with interrupts enabled. */
-#define portFLAGS_INT_ENABLED    ( ( StackType_t ) 0x80 )
+#నిర్వచించు పోర్టు_FLAGS_INT_ENABLED    ( ( దొంతర_Type_t ) 0x80 )
 
-#if defined( portUSE_WDTO )
+#ఒకవేళ defined( పోర్టు_USE_WDTO )
     #warning "Watchdog Timer used for scheduler."
-    #define portSCHEDULER_ISR    WDT_vect
+    #నిర్వచించు పోర్టు_SCHEDULER_ISR    WDT_vect
 
-#elif defined( portUSE_TIMER0 )
+#లేదావేళ defined( పోర్టు_USE_TIMER0 )
 /* Hardware constants for Timer0. */
     #warning "Timer0 used for scheduler."
-    #define portSCHEDULER_ISR                       TIMER0_COMPA_vect
-    #define portCLEAR_COUNTER_ON_MATCH              ( ( uint8_t ) _BV( WGM01 ) )
-    #define portPRESCALE_1024                       ( ( uint8_t ) ( _BV( CS02 ) | _BV( CS00 ) ) )
-    #define portCLOCK_PRESCALER                     ( ( uint32_t ) 1024 )
-    #define portCOMPARE_MATCH_A_INTERRUPT_ENABLE    ( ( uint8_t ) _BV( OCIE0A ) )
-    #define portOCRL                                OCR0A
-    #define portTCCRa                               TCCR0A
-    #define portTCCRb                               TCCR0B
-    #define portTIMSK                               TIMSK0
-    #define portTIFR                                TIFR0
+    #నిర్వచించు పోర్టు_SCHEDULER_ISR                       TIMER0_COMPA_vect
+    #నిర్వచించు పోర్టు_CLEAR_COUNTER_ON_సరిపోలిక              ( ( uint8_t ) _BV( WGM01 ) )
+    #నిర్వచించు పోర్టు_PRESCALE_1024                       ( ( uint8_t ) ( _BV( CS02 ) | _BV( CS00 ) ) )
+    #నిర్వచించు పోర్టు_CLOCK_PRESCALER                     ( ( uint32_t ) 1024 )
+    #నిర్వచించు పోర్టు_COMPARE_సరిపోలిక_A_అంతరాయం_ENABLE    ( ( uint8_t ) _BV( OCIE0A ) )
+    #నిర్వచించు పోర్టు_OCRL                                OCR0A
+    #నిర్వచించు పోర్టు_TCCRa                               TCCR0A
+    #నిర్వచించు పోర్టు_TCCRb                               TCCR0B
+    #నిర్వచించు పోర్టు_TIMSK                               TIMSK0
+    #నిర్వచించు పోర్టు_TIFR                                TIFR0
 
-#else /* if defined( portUSE_WDTO ) */
-    #error "No Timer defined for scheduler"
-#endif /* if defined( portUSE_WDTO ) */
+#లేకపోతే /* if defined( portUSE_WDTO ) */
+    #దోషం "No Timer defined for scheduler"
+#అయితే_ముగింపు /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+రకనిర్వచనం శూన్య TCB_t;
+బాహ్య అస్థిర TCB_t * అస్థిర pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -90,13 +90,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *  Updated to match avr-libc 2.0.0
  */
 
-#if defined( portUSE_WDTO )
+#ఒకవేళ defined( పోర్టు_USE_WDTO )
 
-    static __inline__
+    స్థిర __inline__
     __attribute__( ( __always_inline__ ) )
-    void wdt_interrupt_enable( const uint8_t value )
+    శూన్య wdt_అంతరాయం_enable( స్థిరరాశి uint8_t విలువ )
     {
-        if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
+        ఒకవేళ( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -107,13 +107,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "out %0, %2"                "\n\t"
                 : /* no outputs */
                 : "I" ( _SFR_IO_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_బిట్టు ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( విలువ & 0x08 ? WD_PS3_ముసుగు : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | ( విలువ & 0x07 ) ) )
                 : "r0"
                 );
         }
-        else
+        లేకపోతే
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -124,14 +124,14 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "sts %0, %2"                "\n\t"
                 : /* no outputs */
                 : "n" ( _SFR_MEM_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_బిట్టు ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( విలువ & 0x08 ? WD_PS3_ముసుగు : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | ( విలువ & 0x07 ) ) )
                 : "r0"
                 );
         }
     }
-#endif /* if defined( portUSE_WDTO ) */
+#అయితే_ముగింపు /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
@@ -157,13 +157,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *  Updated to match avr-libc 2.0.0
  */
 
-#if defined( portUSE_WDTO )
+#ఒకవేళ defined( పోర్టు_USE_WDTO )
 
-    static __inline__
+    స్థిర __inline__
     __attribute__( ( __always_inline__ ) )
-    void wdt_interrupt_reset_enable( const uint8_t value )
+    శూన్య wdt_అంతరాయం_reset_enable( స్థిరరాశి uint8_t విలువ )
     {
-        if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
+        ఒకవేళ( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -174,13 +174,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "out %0, %2"                "\n\t"
                 : /* no outputs */
                 : "I" ( _SFR_IO_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_బిట్టు ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( విలువ & 0x08 ? WD_PS3_ముసుగు : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( విలువ & 0x07 ) ) )
                 : "r0"
                 );
         }
-        else
+        లేకపోతే
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -191,14 +191,14 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "sts %0, %2"                "\n\t"
                 : /* no outputs */
                 : "n" ( _SFR_MEM_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_బిట్టు ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( విలువ & 0x08 ? WD_PS3_ముసుగు : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( విలువ & 0x07 ) ) )
                 : "r0"
                 );
         }
     }
-#endif /* if defined( portUSE_WDTO ) */
+#అయితే_ముగింపు /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
@@ -227,9 +227,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * The interrupts will have been disabled during the call to portSAVE_CONTEXT()
  * so we need not worry about reading/writing to the stack pointer.
  */
-#if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
+#ఒకవేళ defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
 /* 3-Byte PC Save  with RAMPZ */
-    #define portSAVE_CONTEXT()                                                   \
+    #నిర్వచించు పోర్టు_SAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
                            "in     __tmp_reg__, __SREG__                   \n\t" \
                            "cli                                            \n\t" \
@@ -277,9 +277,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#elif defined( __AVR_HAVE_RAMPZ__ )
+#లేదావేళ defined( __AVR_HAVE_RAMPZ__ )
 /* 2-Byte PC Save  with RAMPZ */
-    #define portSAVE_CONTEXT()                                                   \
+    #నిర్వచించు పోర్టు_SAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
                            "in     __tmp_reg__, __SREG__                   \n\t" \
                            "cli                                            \n\t" \
@@ -325,9 +325,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#else /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#లేకపోతే /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /* 2-Byte PC Save */
-    #define portSAVE_CONTEXT()                                                   \
+    #నిర్వచించు పోర్టు_SAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
                            "in     __tmp_reg__, __SREG__                   \n\t" \
                            "cli                                            \n\t" \
@@ -371,15 +371,15 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#endif /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#అయితే_ముగింపు /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 
 /*
  * Opposite to portSAVE_CONTEXT().  Interrupts will have been disabled during
  * the context save so we can write to the stack pointer.
  */
-#if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
+#ఒకవేళ defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
 /* 3-Byte PC Restore with RAMPZ */
-    #define portRESTORE_CONTEXT()                                                \
+    #నిర్వచించు పోర్టు_RESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
                            "lds    r27, pxCurrentTCB + 1                   \n\t" \
                            "ld     r28, x+                                 \n\t" \
@@ -425,9 +425,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#elif defined( __AVR_HAVE_RAMPZ__ )
+#లేదావేళ defined( __AVR_HAVE_RAMPZ__ )
 /* 2-Byte PC Restore with RAMPZ */
-    #define portRESTORE_CONTEXT()                                                \
+    #నిర్వచించు పోర్టు_RESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
                            "lds    r27, pxCurrentTCB + 1                   \n\t" \
                            "ld     r28, x+                                 \n\t" \
@@ -471,9 +471,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#else /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#లేకపోతే /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /* 2-Byte PC Restore */
-    #define portRESTORE_CONTEXT()                                                \
+    #నిర్వచించు పోర్టు_RESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
                            "lds    r27, pxCurrentTCB + 1                   \n\t" \
                            "ld     r28, x+                                 \n\t" \
@@ -515,38 +515,38 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#endif /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#అయితే_ముగింపు /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /*-----------------------------------------------------------*/
 
 /*
  * Perform hardware setup to enable ticks from relevant Timer.
  */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
-    uint16_t usAddress;
+    uint16_t us_చిరునామా;
 
     /* Simulate how the stack would look after a call to vPortYield() generated by
      * the compiler. */
 
     /* The start of the task code will be popped off the stack last, so place
      * it on first. */
-    usAddress = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా = ( uint16_t ) px_సంకేతం;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    #if defined( __AVR_3_BYTE_PC__ )
+    #ఒకవేళ defined( __AVR_3_BYTE_PC__ )
 
         /* The AVR ATmega2560/ATmega2561 have 256KBytes of program memory and a 17-bit
          * program counter. When a code address is stored on the stack, it takes 3 bytes
@@ -558,76 +558,76 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * In order to do this properly, we would need to get a full 3-byte pointer to
          * pxCode. That requires a change to GCC. Not likely to happen any time soon.
          */
-        *pxTopOfStack = 0;
-        pxTopOfStack--;
-    #endif
+        *px_శిఖరం_యొక్క_దొంతర = 0;
+        px_శిఖరం_యొక్క_దొంతర--;
+    #అయితే_ముగింపు
 
     /* Next simulate the stack as if after a call to portSAVE_CONTEXT().
      *  portSAVE_CONTEXT places the flags on the stack immediately after r0
      *  to ensure the interrupts get disabled as soon as possible, and so ensuring
      *  the stack use is minimal should a context switch interrupt occur. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* R0 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_FLAGS_INT_ENABLED;
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    #if defined( __AVR_3_BYTE_PC__ )
+    #ఒకవేళ defined( __AVR_3_BYTE_PC__ )
 
         /* If we have an ATmega256x, we are also saving the EIND register.
          * We should default to 0.
          */
-        *pxTopOfStack = ( StackType_t ) 0x00; /* EIND */
-        pxTopOfStack--;
-    #endif
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* EIND */
+        px_శిఖరం_యొక్క_దొంతర--;
+    #అయితే_ముగింపు
 
-    #if defined( __AVR_HAVE_RAMPZ__ )
+    #ఒకవేళ defined( __AVR_HAVE_RAMPZ__ )
 
         /* We are saving the RAMPZ register.
          * We should default to 0.
          */
-        *pxTopOfStack = ( StackType_t ) 0x00; /* RAMPZ */
-        pxTopOfStack--;
-    #endif
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* RAMPZ */
+        px_శిఖరం_యొక్క_దొంతర--;
+    #అయితే_ముగింపు
 
     /* Now the remaining registers. The compiler expects R1 to be 0. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R1 */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00; /* R1 */
 
     /* Leave R2 - R23 untouched */
-    pxTopOfStack -= 23;
+    px_శిఖరం_యొక్క_దొంతర -= 23;
 
     /* Place the parameter on the stack in the expected location. */
-    usAddress = ( uint16_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_చిరునామా = ( uint16_t ) pvParameters;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    us_చిరునామా >>= 8;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( us_చిరునామా & ( uint16_t ) 0x00ff );
 
     /* Leave register R26 - R31 untouched */
-    pxTopOfStack -= 7;
+    px_శిఖరం_యొక్క_దొంతర -= 7;
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* Setup the relevant timer hardware to generate the tick. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Restore the context of the first task that is going to run. */
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 
     /* Simulate a function call end as generated by the compiler. We will now
      * jump to the start of the task the context of which we have just restored. */
     __asm__ __volatile__ ( "ret" );
 
     /* Should not get here. */
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the ATmega port will get stopped. */
 }
@@ -637,12 +637,12 @@ void vPortEndScheduler( void )
  * Manual context switch. The first thing we do is save the registers so we
  * can use a naked attribute.
  */
-void vPortYield( void ) __attribute__( ( hot, flatten, naked ) );
-void vPortYield( void )
+శూన్య v_పోర్టు_Yield( శూన్య ) __attribute__( ( hot, flatten, naked ) );
+శూన్య v_పోర్టు_Yield( శూన్య )
 {
-    portSAVE_CONTEXT();
+    పోర్టు_SAVE_CONTEXT();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 
     __asm__ __volatile__ ( "ret" );
 }
@@ -652,12 +652,12 @@ void vPortYield( void )
  * Manual context switch callable from ISRs. The first thing we do is save
  * the registers so we can use a naked attribute.
  */
-void vPortYieldFromISR( void ) __attribute__( ( hot, flatten, naked ) );
-void vPortYieldFromISR( void )
+శూన్య v_పోర్టు_Yield_From_ISR( శూన్య ) __attribute__( ( hot, flatten, naked ) );
+శూన్య v_పోర్టు_Yield_From_ISR( శూన్య )
 {
-    portSAVE_CONTEXT();
+    పోర్టు_SAVE_CONTEXT();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 
     __asm__ __volatile__ ( "reti" );
 }
@@ -669,78 +669,78 @@ void vPortYieldFromISR( void )
  * difference from vPortYield() is the tick count is incremented as the
  * call comes from the tick ISR.
  */
-void vPortYieldFromTick( void ) __attribute__( ( hot, flatten, naked ) );
-void vPortYieldFromTick( void )
+శూన్య v_పోర్టు_Yield_From_Tick( శూన్య ) __attribute__( ( hot, flatten, naked ) );
+శూన్య v_పోర్టు_Yield_From_Tick( శూన్య )
 {
-    portSAVE_CONTEXT();
+    పోర్టు_SAVE_CONTEXT();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    ఒకవేళ( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
 
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 
     __asm__ __volatile__ ( "ret" );
 }
 /*-----------------------------------------------------------*/
 
-#if defined( portUSE_WDTO )
+#ఒకవేళ defined( పోర్టు_USE_WDTO )
 
 /*
  * Setup WDT to generate a tick interrupt.
  */
-    void prvSetupTimerInterrupt( void )
+    శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
     {
         /* reset watchdog */
         wdt_reset();
 
         /* set up WDT Interrupt (rather than the WDT Reset). */
-        wdt_interrupt_enable( portUSE_WDTO );
+        wdt_అంతరాయం_enable( పోర్టు_USE_WDTO );
     }
 
-#elif defined( portUSE_TIMER0 )
+#లేదావేళ defined( పోర్టు_USE_TIMER0 )
 
 /*
  * Setup Timer0 compare match A to generate a tick interrupt.
  */
-    static void prvSetupTimerInterrupt( void )
+    స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
     {
-        uint32_t ulCompareMatch;
-        uint8_t ucLowByte;
+        uint32_t ul_Compare_సరిపోలిక;
+        uint8_t uc_దిగువ_Byte;
 
         /* Using 8bit Timer0 to generate the tick. Correct fuses must be
          * selected for the configCPU_CLOCK_HZ clock.*/
 
-        ulCompareMatch = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+        ul_Compare_సరిపోలిక = configCPU_CLOCK_HZ / config_TICK_రేటు_HZ;
 
         /* We only have 8 bits so have to scale 1024 to get our required tick rate. */
-        ulCompareMatch /= portCLOCK_PRESCALER;
+        ul_Compare_సరిపోలిక /= పోర్టు_CLOCK_PRESCALER;
 
         /* Adjust for correct value. */
-        ulCompareMatch -= ( uint32_t ) 1;
+        ul_Compare_సరిపోలిక -= ( uint32_t ) 1;
 
         /* Setup compare match value for compare match A. Interrupts are disabled
          * before this is called so we need not worry here. */
-        ucLowByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-        portOCRL = ucLowByte;
+        uc_దిగువ_Byte = ( uint8_t ) ( ul_Compare_సరిపోలిక & ( uint32_t ) 0xff );
+        పోర్టు_OCRL = uc_దిగువ_Byte;
 
         /* Setup clock source and compare match behaviour. */
-        portTCCRa = portCLEAR_COUNTER_ON_MATCH;
-        portTCCRb = portPRESCALE_1024;
+        పోర్టు_TCCRa = పోర్టు_CLEAR_COUNTER_ON_సరిపోలిక;
+        పోర్టు_TCCRb = పోర్టు_PRESCALE_1024;
 
 
         /* Enable the interrupt - this is okay as interrupt are currently globally disabled. */
-        ucLowByte = portTIMSK;
-        ucLowByte |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
-        portTIMSK = ucLowByte;
+        uc_దిగువ_Byte = పోర్టు_TIMSK;
+        uc_దిగువ_Byte |= పోర్టు_COMPARE_సరిపోలిక_A_అంతరాయం_ENABLE;
+        పోర్టు_TIMSK = uc_దిగువ_Byte;
     }
 
-#endif /* if defined( portUSE_WDTO ) */
+#అయితే_ముగింపు /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#ఒకవేళ configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler. We can use a naked attribute as
@@ -750,16 +750,16 @@ void vPortYieldFromTick( void )
  * use ISR_NOBLOCK where there is an important timer running, that should preempt the scheduler.
  *
  */
-    ISR( portSCHEDULER_ISR, ISR_NAKED ) __attribute__( ( hot, flatten ) );
+    ISR( పోర్టు_SCHEDULER_ISR, ISR_NAKED ) __attribute__( ( hot, flatten ) );
 
 /*  ISR(portSCHEDULER_ISR, ISR_NAKED ISR_NOBLOCK) __attribute__ ((hot, flatten));
  */
-    ISR( portSCHEDULER_ISR )
+    ISR( పోర్టు_SCHEDULER_ISR )
     {
-        vPortYieldFromTick();
+        v_పోర్టు_Yield_From_Tick();
         __asm__ __volatile__ ( "reti" );
     }
-#else /* if configUSE_PREEMPTION == 1 */
+#లేకపోతే /* if configUSE_PREEMPTION == 1 */
 
 /*
  * Tick ISR for the cooperative scheduler. All this does is increment the
@@ -768,12 +768,12 @@ void vPortYieldFromTick( void )
  *
  * use ISR_NOBLOCK where there is an important timer running, that should preempt the scheduler.
  */
-    ISR( portSCHEDULER_ISR ) __attribute__( ( hot, flatten ) );
+    ISR( పోర్టు_SCHEDULER_ISR ) __attribute__( ( hot, flatten ) );
 
 /*  ISR(portSCHEDULER_ISR, ISR_NOBLOCK) __attribute__ ((hot, flatten));
  */
-    ISR( portSCHEDULER_ISR )
+    ISR( పోర్టు_SCHEDULER_ISR )
     {
         xTaskIncrementTick();
     }
-#endif /* if configUSE_PREEMPTION == 1 */
+#అయితే_ముగింపు /* if configUSE_PREEMPTION == 1 */

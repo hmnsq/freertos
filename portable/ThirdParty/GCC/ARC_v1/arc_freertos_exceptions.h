@@ -26,21 +26,21 @@
  *
  */
 
-#ifndef ARC_FREERTOS_EXCEPTIONS_H
-#define ARC_FREERTOS_EXCEPTIONS_H
+#నిర్వచితం_కాకపోతే ARC_FREERTOS_EXCEPTIONS_H
+#నిర్వచించు ARC_FREERTOS_EXCEPTIONS_H
 
 /*
  * here, all arc cpu exceptions share the same entry, also for all interrupt
  * exceptions
  */
-extern void exc_entry_cpu( void ); /* cpu exception entry for freertos */
-extern void exc_entry_int( void ); /* int exception entry for freertos */
+బాహ్య శూన్య exc_నమోదు_cpu( శూన్య ); /* cpu exception entry for freertos */
+బాహ్య శూన్య exc_నమోదు_int( శూన్య ); /* int exception entry for freertos */
 
 /* task dispatch functions in .s */
-extern void start_r( void );
-extern void start_dispatch();
-extern void dispatch();
+బాహ్య శూన్య ప్రారంభం_r( శూన్య );
+బాహ్య శూన్య ప్రారంభం_dispatch();
+బాహ్య శూన్య dispatch();
 
-extern void freertos_exc_init( void );
+బాహ్య శూన్య freertos_exc_init( శూన్య );
 
-#endif /* ARC_FREERTOS_EXCEPTIONS_H */
+#అయితే_ముగింపు /* ARC_FREERTOS_EXCEPTIONS_H */

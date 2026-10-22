@@ -31,44 +31,44 @@ Changes from V3.0.0
 
 Changes from V3.0.1
 */
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
-#if !defined(_SERIES) || _SERIES != 18
-    #error "WizC supports FreeRTOS on the Microchip PIC18-series only"
-#endif
+#ఒకవేళ !defined(_SERIES) || _SERIES != 18
+    #దోషం "WizC supports FreeRTOS on the Microchip PIC18-series only"
+#అయితే_ముగింపు
 
-#if !defined(QUICKCALL) || QUICKCALL != 1
-    #error "QuickCall must be enabled (see ProjectOptions/Optimisations)"
-#endif
+#ఒకవేళ !defined(QUICKCALL) || QUICKCALL != 1
+    #దోషం "QuickCall must be enabled (see ProjectOptions/Optimisations)"
+#అయితే_ముగింపు
 
-#include <stddef.h>
-#include <pic.h>
+#అన్తర్భావ <stddef.h>
+#అన్తర్భావ <pic.h>
 
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      portFLOAT
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#నిర్వచించు పోర్టు_CHAR        అక్షరం
+#నిర్వచించు పోర్టు_FLOAT       దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE      పోర్టు_FLOAT
+#నిర్వచించు పోర్టు_LONG        దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT       పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE  uint8_t
+#నిర్వచించు పోర్టు_పునాది_TYPE   అక్షరం
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE దొంతర_Type_t;
+రకనిర్వచనం గుర్తుగల అక్షరం పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని అక్షరం UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFF )
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY ( TickType_t )    ( 0xFFFF )
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 
-#define portBYTE_ALIGNMENT          1
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT          1
 
 /*-----------------------------------------------------------*/
 
@@ -76,47 +76,47 @@ typedef unsigned char UBaseType_t;
  * Constant used for context switch macro when we require the interrupt
  * enable state to be forced when the interrupted task is switched back in.
  */
-#define portINTERRUPTS_FORCED               (0x01)
+#నిర్వచించు పోర్టు_INTERRUPTS_FORCED               (0x01)
 
 /*
  * Constant used for context switch macro when we require the interrupt
  * enable state to be unchanged when the interrupted task is switched back in.
  */
-#define portINTERRUPTS_UNCHANGED            (0x00)
+#నిర్వచించు పోర్టు_INTERRUPTS_UNCHANGED            (0x00)
 
 /* Initial interrupt enable state for newly created tasks.  This value is
  * used when a task switches in for the first time.
  */
-#define portINTERRUPTS_INITIAL_STATE        (portINTERRUPTS_FORCED)
+#నిర్వచించు పోర్టు_INTERRUPTS_INITIAL_STATE        (పోర్టు_INTERRUPTS_FORCED)
 
 /*
  * Macros to modify the global interrupt enable bit in INTCON.
  */
-#define portDISABLE_INTERRUPTS()    \
-    do                              \
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    \
+    చేయి                              \
     {                               \
         bGIE=0;                     \
-    } while(bGIE)   // MicroChip recommends this check!
+    } అయితే(bGIE)   // MicroChip recommends this check!
 
-#define portENABLE_INTERRUPTS()     \
-    do                              \
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     \
+    చేయి                              \
     {                               \
         bGIE=1;                     \
-    } while(0)
+    } అయితే(0)
 
 /*-----------------------------------------------------------*/
 
 /*
  * Critical section macros.
  */
-extern uint8_t ucCriticalNesting;
+బాహ్య uint8_t ucCriticalNesting;
 
-#define portNO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
+#నిర్వచించు పోర్టు_NO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
 
-#define portENTER_CRITICAL()                                        \
-    do                                                              \
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()                                        \
+    చేయి                                                              \
     {                                                               \
-        portDISABLE_INTERRUPTS();                                   \
+        పోర్టు_DISABLE_INTERRUPTS();                                   \
                                                                     \
         /*                                                          \
          * Now interrupts are disabled ucCriticalNesting            \
@@ -125,12 +125,12 @@ extern uint8_t ucCriticalNesting;
          * many times portENTER_CRITICAL() has been called.         \
          */                                                         \
         ucCriticalNesting++;                                        \
-    } while(0)
+    } అయితే(0)
 
-#define portEXIT_CRITICAL()                                         \
-    do                                                              \
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()                                         \
+    చేయి                                                              \
     {                                                               \
-        if(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
+        ఒకవేళ(ucCriticalNesting > పోర్టు_NO_CRITICAL_SECTION_NESTING)     \
         {                                                           \
             /*                                                      \
              * Decrement the nesting count as we are leaving a      \
@@ -143,11 +143,11 @@ extern uint8_t ucCriticalNesting;
          * If the nesting level has reached zero then               \
          * interrupts should be re-enabled.                         \
          */                                                         \
-        if( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
+        ఒకవేళ( ucCriticalNesting == పోర్టు_NO_CRITICAL_SECTION_NESTING )  \
         {                                                           \
-            portENABLE_INTERRUPTS();                                \
+            పోర్టు_ENABLE_INTERRUPTS();                                \
         }                                                           \
-    } while(0)
+    } అయితే(0)
 
 /*-----------------------------------------------------------*/
 
@@ -156,18 +156,18 @@ extern uint8_t ucCriticalNesting;
  * portMINIMAL_STACK_SIZE. Some input to this calculation is
  * compile time determined, other input is port-defined (see port.c)
  */
-extern uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void );
-extern uint16_t usCalcMinStackSize;
+బాహ్య uint16_t us_పోర్టు_CALCULATE_కనీస_దొంతర_కొలత( శూన్య );
+బాహ్య uint16_t us_Calc_Min_దొంతర_కొలత;
 
-#define portMINIMAL_STACK_SIZE                  \
-    ((usCalcMinStackSize == 0)                  \
-        ? usPortCALCULATE_MINIMAL_STACK_SIZE()  \
-        : usCalcMinStackSize )
+#నిర్వచించు పోర్టు_కనీస_దొంతర_కొలత                  \
+    ((us_Calc_Min_దొంతర_కొలత == 0)                  \
+        ? us_పోర్టు_CALCULATE_కనీస_దొంతర_కొలత()  \
+        : us_Calc_Min_దొంతర_కొలత )
 
 /*
  * WizC uses a downgrowing stack
  */
-#define portSTACK_GROWTH            ( -1 )
+#నిర్వచించు పోర్టు_దొంతర_GROWTH            ( -1 )
 
 /*-----------------------------------------------------------*/
 
@@ -203,16 +203,16 @@ extern uint16_t usCalcMinStackSize;
  * assembler definitions.
  */
 
-#define portSAVE_CONTEXT( ucInterruptForced )                       \
-    do                                                              \
+#నిర్వచించు పోర్టు_SAVE_CONTEXT( uc_అంతరాయం_Forced )                       \
+    చేయి                                                              \
     {                                                               \
-        portDISABLE_INTERRUPTS();                                   \
+        పోర్టు_DISABLE_INTERRUPTS();                                   \
                                                                     \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Push the relevant SFR's onto the task's stack         \
+            ; నెట్టు_3 the relevant SFR's onto the task's దొంతర         \
             ;                                                       \
-            movff   STATUS,POSTDEC2                                 \
+            movff   స్థితి_3,POSTDEC2                                 \
             movff   WREG,POSTDEC2                                   \
             movff   BSR,POSTDEC2                                    \
             movff   PRODH,POSTDEC2                                  \
@@ -222,12 +222,12 @@ extern uint16_t usCalcMinStackSize;
             movff   FSR1H,POSTDEC2                                  \
             movff   FSR1L,POSTDEC2                                  \
             movff   TABLAT,POSTDEC2                                 \
-            if __ROMSIZE > 0x8000                                   \
+            ఒకవేళ __ROMSIZE > 0x8000                                   \
                 movff   TBLPTRU,POSTDEC2                            \
             endif                                                   \
             movff   TBLPTRH,POSTDEC2                                \
             movff   TBLPTRL,POSTDEC2                                \
-            if __ROMSIZE > 0x8000                                   \
+            ఒకవేళ __ROMSIZE > 0x8000                                   \
                 movff   PCLATU,POSTDEC2                             \
             endif                                                   \
             movff   PCLATH,POSTDEC2                                 \
@@ -242,100 +242,100 @@ extern uint16_t usCalcMinStackSize;
             decfsz  WREG,W,ACCESS                                   \
             SMARTJUMP _rtos_S1                                      \
             ;                                                       \
-            ; Save the pic call/return-stack belonging to the       \
-            ; current task by copying it to the task's software-    \
-            ; stack. We save the hardware stack pointer (which      \
-            ; is the number of addresses on the stack) in the       \
-            ; W-register first because we need it later and it      \
-            ; is modified in the save-loop by executing pop's.      \
-            ; After the loop the W-register is stored on the        \
-            ; stack, too.                                           \
+            ; Save the pic call/తిరిగి-దొంతర belonging గమ్యం the       \
+            ; current task by copying it గమ్యం the task's software-    \
+            ; దొంతర. We save the hardware దొంతర సూచిక_3 (which      \
+            ; is the సంఖ్య యొక్క చిరునామాలు on the దొంతర) లోపల the       \
+            ; W-నమోదు మొదటి_2 because we need it later and it      \
+            ; is modified లోపల the save-loop by executing తీయి's.      \
+            ; After the loop the W-నమోదు is stored on the        \
+            ; దొంతర, too.                                           \
             ;                                                       \
             movf    STKPTR,W,ACCESS                                 \
             bz      _rtos_s3                                        \
         _rtos_S2:                                                   \
-            if __ROMSIZE > 0x8000                                   \
+            ఒకవేళ __ROMSIZE > 0x8000                                   \
                 movff   TOSU,POSTDEC2                               \
             endif                                                   \
             movff   TOSH,POSTDEC2                                   \
             movff   TOSL,POSTDEC2                                   \
-            pop                                                     \
+            తీయి                                                     \
             tstfsz  STKPTR,ACCESS                                   \
             SMARTJUMP _rtos_S2                                      \
         _rtos_s3:                                                   \
             movwf   POSTDEC2,ACCESS                                 \
             ;                                                       \
-            ; Next the value for ucCriticalNesting used by the      \
-            ; task is stored on the stack. When                     \
-            ; (ucInterruptForced == portINTERRUPTS_FORCED), we save \
-            ; it as 0 (portNO_CRITICAL_SECTION_NESTING).            \
+            ; తదుపరి the విలువ కొరకు ucCriticalNesting వాడిన by the      \
+            ; task is stored on the దొంతర. When                     \
+            ; (uc_అంతరాయం_Forced == పోర్టు_INTERRUPTS_FORCED), we save \
+            ; it as 0 (పోర్టు_NO_CRITICAL_SECTION_NESTING).            \
             ;                                                       \
-            if ucInterruptForced == portINTERRUPTS_FORCED           \
+            ఒకవేళ uc_అంతరాయం_Forced == పోర్టు_INTERRUPTS_FORCED           \
                 clrf POSTDEC2,ACCESS                                \
-            else                                                    \
+            లేకపోతే                                                    \
                 movff   ucCriticalNesting,POSTDEC2                  \
             endif                                                   \
             ;                                                       \
-            ; Save the new top of the software stack in the TCB.    \
+            ; Save the new శిఖరం_2 యొక్క the software దొంతర లోపల the TCB.    \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             movff   FSR2L,POSTINC0                                  \
             movff   FSR2H,POSTINC0                                  \
         _Pragma("asmend")                                           \
-    } while(0)
+    } అయితే(0)
 
 /************************************************************/
 
 /*
  * This is the reverse of portSAVE_CONTEXT.
  */
-#define portRESTORE_CONTEXT()                                       \
-    do                                                              \
+#నిర్వచించు పోర్టు_RESTORE_CONTEXT()                                       \
+    చేయి                                                              \
     {                                                               \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Set FSR0 to point to pxCurrentTCB->pxTopOfStack.      \
+            ; సమితి_2 FSR0 గమ్యం బిందువు_2 గమ్యం pxCurrentTCB->px_శిఖరం_యొక్క_దొంతర.      \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             ;                                                       \
-            ; De-reference FSR0 to set the address it holds into    \
-            ; FSR2 (i.e. *( pxCurrentTCB->pxTopOfStack ) ). FSR2    \
-            ; is used by wizC as stackpointer.                      \
+            ; De-reference FSR0 గమ్యం సమితి the చిరునామా_2 it holds into    \
+            ; FSR2 (i.e. *( pxCurrentTCB->px_శిఖరం_యొక్క_దొంతర ) ). FSR2    \
+            ; is వాడిన by wizC as stackpointer.                      \
             ;                                                       \
             movff   POSTINC0,FSR2L                                  \
             movff   POSTINC0,FSR2H                                  \
             ;                                                       \
-            ; Next, the value for ucCriticalNesting used by the     \
-            ; task is retrieved from the stack.                     \
+            ; తదుపరి, the విలువ కొరకు ucCriticalNesting వాడిన by the     \
+            ; task is retrieved from the దొంతర.                     \
             ;                                                       \
             movff   PREINC2,ucCriticalNesting                       \
             ;                                                       \
-            ; Rebuild the pic call/return-stack. The number of      \
-            ; return addresses is the next item on the task stack.  \
-            ; Save this number in PRODL. Then fetch the addresses   \
+            ; Rebuild the pic call/తిరిగి-దొంతర. The సంఖ్య యొక్క      \
+            ; తిరిగి చిరునామాలు is the తదుపరి_2 అంశం on the task దొంతర.  \
+            ; Save this సంఖ్య లోపల PRODL. Then fetch the చిరునామాలు   \
             ; and store them on the hardwarestack.                  \
-            ; The datasheets say we can't use movff here...         \
+            ; The datasheets say we can't use movff ఇక్కడ...         \
             ;                                                       \
             movff   PREINC2,PRODL   // Use PRODL as tempregister    \
             clrf    STKPTR,ACCESS                                   \
         _rtos_R1:                                                   \
-            push                                                    \
+            నెట్టు                                                    \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSL,ACCESS                                     \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSH,ACCESS                                     \
-            if __ROMSIZE > 0x8000                                   \
+            ఒకవేళ __ROMSIZE > 0x8000                                   \
                 movf    PREINC2,W,ACCESS                            \
                 movwf   TOSU,ACCESS                                 \
-            else                                                    \
+            లేకపోతే                                                    \
                 clrf    TOSU,ACCESS                                 \
             endif                                                   \
             decfsz  PRODL,F,ACCESS                                  \
             SMARTJUMP _rtos_R1                                      \
             ;                                                       \
-            ; Restore the compiler's working storage area to page 0 \
+            ; Restore the compiler's working storage area గమ్యం పుట 0 \
             ;                                                       \
             movlw   OVERHEADPAGE0-LOCOPTSIZE+MAXLOCOPTSIZE          \
             movwf   FSR0L,ACCESS                                    \
@@ -348,19 +348,19 @@ extern uint16_t usCalcMinStackSize;
             ;                                                       \
             ; Restore the sfr's forming the tasks context.          \
             ; We cannot yet restore bsr, w and status because       \
-            ; we need these registers for a final test.             \
+            ; we need these registers కొరకు a final test.             \
             ;                                                       \
             movff   PREINC2,PCLATH                                  \
-            if __ROMSIZE > 0x8000                                   \
+            ఒకవేళ __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,PCLATU                              \
-            else                                                    \
+            లేకపోతే                                                    \
                 clrf    PCLATU,ACCESS                               \
             endif                                                   \
             movff   PREINC2,TBLPTRL                                 \
             movff   PREINC2,TBLPTRH                                 \
-            if __ROMSIZE > 0x8000                                   \
+            ఒకవేళ __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,TBLPTRU                             \
-            else                                                    \
+            లేకపోతే                                                    \
                 clrf    TBLPTRU,ACCESS                              \
             endif                                                   \
             movff   PREINC2,TABLAT                                  \
@@ -371,12 +371,12 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,PRODL                                   \
             movff   PREINC2,PRODH                                   \
             ;                                                       \
-            ; The return from portRESTORE_CONTEXT() depends on      \
-            ; the value of ucCriticalNesting. When it is zero,      \
-            ; interrupts need to be enabled. This is done via a     \
+            ; The తిరిగి from పోర్టు_RESTORE_CONTEXT() depends on      \
+            ; the విలువ యొక్క ucCriticalNesting. When it is zero,      \
+            ; interrupts need గమ్యం be enabled. This is పూర్తి ద్వారా a     \
             ; retfie instruction because we need the                \
-            ; interrupt-enabling and the return to the restored     \
-            ; task to be uninterruptible.                           \
+            ; అంతరాయం-enabling and the తిరిగి గమ్యం the restored     \
+            ; task గమ్యం be uninterruptible.                           \
             ; Because bsr, status and W are affected by the test    \
             ; they are restored after the test.                     \
             ;                                                       \
@@ -386,40 +386,40 @@ extern uint16_t usCalcMinStackSize;
         _rtos_R3:                                                   \
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
-            movff   PREINC2,STATUS                                  \
+            movff   PREINC2,స్థితి_3                                  \
             retfie  0       ; Return enabling interrupts            \
         _rtos_R4:                                                   \
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
-            movff   PREINC2,STATUS                                  \
-            return  0       ; Return without affecting interrupts   \
+            movff   PREINC2,స్థితి_3                                  \
+            తిరిగి  0       ; Return without affecting interrupts   \
         _Pragma("asmend")                                           \
-    } while(0)
+    } అయితే(0)
 
 /*-----------------------------------------------------------*/
 
-#define portTICK_PERIOD_MS  ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS  ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
 
 /*-----------------------------------------------------------*/
 
-extern void vPortYield( void );
-#define portYIELD()             vPortYield()
+బాహ్య శూన్య v_పోర్టు_Yield( శూన్య );
+#నిర్వచించు పోర్టు_YIELD()             v_పోర్టు_Yield()
 
-#define portNOP()   _Pragma("asm")                                  \
+#నిర్వచించు పోర్టు_NOP()   _Pragma("asm")                                  \
                         nop                                         \
                     _Pragma("asmend")
 
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION( xFunction, pvParameters )        \
-    void pointed xFunction( void *pvParameters )        \
+#నిర్వచించు పోర్టు_TASK_FUNCTION( xFunction, pvParameters )        \
+    శూన్య pointed xFunction( శూన్య *pvParameters )        \
     _Pragma(asmfunc xFunction)
 
-#define portTASK_FUNCTION_PROTO     portTASK_FUNCTION
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO     పోర్టు_TASK_FUNCTION
 /*-----------------------------------------------------------*/
 
 
-#define volatile
-#define register
+#నిర్వచించు అస్థిర
+#నిర్వచించు నమోదు
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

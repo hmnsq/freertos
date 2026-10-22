@@ -26,19 +26,19 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /* IAR includes. */
-#ifdef __ICCARM__
+#నిర్వచితమైతే __ICCARM__
 
-    #include <intrinsics.h>
+    #అన్తర్భావ <intrinsics.h>
 
 
 
@@ -53,115 +53,115 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #నిర్వచించు పోర్టు_CHAR          అక్షరం
+    #నిర్వచించు పోర్టు_FLOAT         దశాంశం
+    #నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+    #నిర్వచించు పోర్టు_LONG          దీర్ఘ
+    #నిర్వచించు పోర్టు_SHORT         పొట్టి
+    #నిర్వచించు పోర్టు_దొంతర_TYPE    uint32_t
+    #నిర్వచించు పోర్టు_పునాది_TYPE     దీర్ఘ
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+    రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+    రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-    typedef uint32_t         TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    రకనిర్వచనం uint32_t         TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
+    #నిర్వచించు పోర్టు_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    8
+    #నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+    #నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+    #నిర్వచించు పోర్టు_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-    #define portEND_SWITCHING_ISR( xSwitchRequired ) \
+    #నిర్వచించు పోర్టు_చివర_SWITCHING_ISR( xSwitchRequired ) \
     {                                                \
-        extern uint32_t ulPortYieldRequired;         \
+        బాహ్య uint32_t ul_పోర్టు_Yield_Required;         \
                                                      \
-        if( xSwitchRequired != pdFALSE )             \
+        ఒకవేళ( xSwitchRequired != pdFALSE )             \
         {                                            \
-            ulPortYieldRequired = pdTRUE;            \
+            ul_పోర్టు_Yield_Required = pdTRUE;            \
         }                                            \
     }
 
-    #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-    #define portYIELD()                __asm volatile ( "SWI 0" ); __ISB()
+    #నిర్వచించు పోర్టు_YIELD_FROM_ISR( x )    పోర్టు_చివర_SWITCHING_ISR( x )
+    #నిర్వచించు పోర్టు_YIELD()                __asm అస్థిర ( "SWI 0" ); __ISB()
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    extern uint32_t ulPortSetInterruptMask( void );
-    extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+    బాహ్య శూన్య v_పోర్టు_Enter_Critical( శూన్య );
+    బాహ్య శూన్య v_పోర్టు_Exit_Critical( శూన్య );
+    బాహ్య uint32_t ul_పోర్టు_సమితి_అంతరాయం_ముసుగు( శూన్య );
+    బాహ్య శూన్య v_పోర్టు_Clear_అంతరాయం_ముసుగు( uint32_t ul_New_ముసుగు_విలువ );
 
-    #define portENTER_CRITICAL()                      vPortEnterCritical();
-    #define portEXIT_CRITICAL()                       vPortExitCritical();
-    #define portDISABLE_INTERRUPTS()                  __disable_irq(); __DSB(); __ISB()        /* No priority mask register so global disable is used. */
-    #define portENABLE_INTERRUPTS()                   __enable_irq()
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         __get_interrupt_state(); __disable_irq() /* No priority mask register so global disable is used. */
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    __set_interrupt_state( x )
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL()                      v_పోర్టు_Enter_Critical();
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL()                       v_పోర్టు_Exit_Critical();
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()                  __disable_irq(); __DSB(); __ISB()        /* No priority mask register so global disable is used. */
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()                   __enable_irq()
+    #నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR()         __get_interrupt_state(); __disable_irq() /* No priority mask register so global disable is used. */
+    #నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( x )    __set_interrupt_state( x )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+    #నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-    void FreeRTOS_Tick_Handler( void );
+    శూన్య FreeRTOS_Tick_Handler( శూన్య );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    శూన్య v_పోర్టు_Task_ఉపయోగిస్తుంది_FPU( శూన్య );
+    #నిర్వచించు పోర్టు_TASK_ఉపయోగిస్తుంది_FLOATING_బిందువు()    v_పోర్టు_Task_ఉపయోగిస్తుంది_FPU()
 
 /* Architecture specific optimisations. */
-    #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #endif
+    #నిర్వచితం_కాకపోతే config_USE_పోర్టు_OPTIMISED_TASK_SELECTION
+        #నిర్వచించు config_USE_పోర్టు_OPTIMISED_TASK_SELECTION    1
+    #అయితే_ముగింపు
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #ఒకవేళ config_USE_పోర్టు_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-        #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-        #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+        #నిర్వచించు పోర్టు_రికార్డు_READY_ప్రాధాన్యత( ux_ప్రాధాన్యత, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ప్రాధాన్యత ) )
+        #నిర్వచించు పోర్టు_RESET_READY_ప్రాధాన్యత( ux_ప్రాధాన్యత, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ప్రాధాన్యత ) )
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __CLZ( uxReadyPriorities ) )
+        #నిర్వచించు పోర్టు_GET_HIGHEST_ప్రాధాన్యత( ux_శిఖరం_ప్రాధాన్యత, uxReadyPriorities )    ux_శిఖరం_ప్రాధాన్యత = ( 31 - __CLZ( uxReadyPriorities ) )
 
-    #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #అయితే_ముగింపు /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #define portNOP()    __asm volatile ( "NOP" )
+    #నిర్వచించు పోర్టు_NOP()    __asm అస్థిర ( "NOP" )
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be
  * fixed in the source code because to do so would cause other compilers to
  * generate warnings. */
-    #pragma diag_suppress=Pe191
-    #pragma diag_suppress=Pa082
+    #సూచన diag_suppress=Pe191
+    #సూచన diag_suppress=Pa082
 
-#endif /* __ICCARM__ */
+#అయితే_ముగింపు /* __ICCARM__ */
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

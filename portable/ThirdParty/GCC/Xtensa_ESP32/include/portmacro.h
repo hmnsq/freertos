@@ -58,41 +58,41 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#ifndef __ASSEMBLER__
+#నిర్వచితం_కాకపోతే __ASSEMBLER__
 
-    #include <stdint.h>
+    #అన్తర్భావ <stdint.h>
 
-    #include <xtensa/hal.h>
-    #include <xtensa/config/core.h>
-    #include <xtensa/config/system.h> /* required for XSHAL_CLIB */
-    #include <xtensa/xtruntime.h>
-    #include "soc/spinlock.h"
-    #include "esp_timer.h" /* required for FreeRTOS run time stats */
-    #include "esp_system.h"
-    #include "esp_idf_version.h"
-    #include "esp_heap_caps.h"
+    #అన్తర్భావ <xtensa/hal.h>
+    #అన్తర్భావ <xtensa/config/core.h>
+    #అన్తర్భావ <xtensa/config/system.h> /* required for XSHAL_CLIB */
+    #అన్తర్భావ <xtensa/xtruntime.h>
+    #అన్తర్భావ "soc/spinlock.h"
+    #అన్తర్భావ "esp_timer.h" /* required for FreeRTOS run time stats */
+    #అన్తర్భావ "esp_system.h"
+    #అన్తర్భావ "esp_idf_version.h"
+    #అన్తర్భావ "esp_heap_caps.h"
 
 /* TODO: Resolve build warnings generated due to this header inclusion */
-    #include "hal/cpu_hal.h"
+    #అన్తర్భావ "hal/cpu_hal.h"
 
 /* TODO: These includes are not directly used in this file. They are kept into to prevent a breaking change. Remove these. */
-    #include <limits.h>
-    #include <xtensa/xtensa_api.h>
+    #అన్తర్భావ <limits.h>
+    #అన్తర్భావ <xtensa/xtensa_api.h>
 
-    #include "soc/cpu.h"
-    #include "soc/soc_memory_layout.h"
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-        #include "soc/compare_set.h"
-    #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
+    #అన్తర్భావ "soc/cpu.h"
+    #అన్తర్భావ "soc/soc_memory_layout.h"
+    #ఒకవేళ ( ESP_IDF_సంస్కరణ >= ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+        #అన్తర్భావ "soc/compare_set.h"
+    #అయితే_ముగింపు /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*#include "xtensa_context.h" */
 
@@ -108,44 +108,44 @@
 
 /* Type definitions. */
 
-    #define portCHAR          int8_t
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          int32_t
-    #define portSHORT         int16_t
-    #define portSTACK_TYPE    uint8_t
-    #define portBASE_TYPE     int
+    #నిర్వచించు పోర్టు_CHAR          int8_t
+    #నిర్వచించు పోర్టు_FLOAT         దశాంశం
+    #నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+    #నిర్వచించు పోర్టు_LONG          int32_t
+    #నిర్వచించు పోర్టు_SHORT         int16_t
+    #నిర్వచించు పోర్టు_దొంతర_TYPE    uint8_t
+    #నిర్వచించు పోర్టు_పునాది_TYPE     పూర్ణాంకం
 
-    typedef portSTACK_TYPE           StackType_t;
-    typedef portBASE_TYPE            BaseType_t;
-    typedef unsigned portBASE_TYPE   UBaseType_t;
+    రకనిర్వచనం పోర్టు_దొంతర_TYPE           దొంతర_Type_t;
+    రకనిర్వచనం పోర్టు_పునాది_TYPE            పునాది_Type_t;
+    రకనిర్వచనం గుర్తులేని పోర్టు_పునాది_TYPE   UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t             TickType_t;
-        #define portMAX_DELAY    ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t             TickType_t;
-        #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+    #ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+        రకనిర్వచనం uint16_t             TickType_t;
+        #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffff
+    #లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+        రకనిర్వచనం uint32_t             TickType_t;
+        #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+    #లేకపోతే
+        #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+    #అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* portbenchmark */
-    #include "portbenchmark.h"
+    #అన్తర్భావ "portbenchmark.h"
 
-    #include "sdkconfig.h"
-    #include "esp_attr.h"
+    #అన్తర్భావ "sdkconfig.h"
+    #అన్తర్భావ "esp_attr.h"
 
 /* "mux" data structure (spinlock) */
-    typedef spinlock_t portMUX_TYPE;                                /**< Spinlock type used by FreeRTOS critical sections */
-    #define portMUX_INITIALIZER_UNLOCKED    SPINLOCK_INITIALIZER    /**< Spinlock initializer */
-    #define portMUX_FREE_VAL                SPINLOCK_FREE           /**< Spinlock is free. [refactor-todo] check if this is still required */
-    #define portMUX_NO_TIMEOUT              SPINLOCK_WAIT_FOREVER   /**< When passed for 'timeout_cycles', spin forever if necessary. [refactor-todo] check if this is still required */
-    #define portMUX_TRY_LOCK                SPINLOCK_NO_WAIT        /**< Try to acquire the spinlock a single time only. [refactor-todo] check if this is still required */
-    #define portMUX_INITIALIZE( mux )    spinlock_initialize( mux ) /*< Initialize a spinlock to its unlocked state */
+    రకనిర్వచనం spinlock_t పోర్టు_MUX_TYPE;                                /**< Spinlock type used by FreeRTOS critical sections */
+    #నిర్వచించు పోర్టు_MUX_INITIALIZER_UNLOCKED    SPINLOCK_INITIALIZER    /**< Spinlock initializer */
+    #నిర్వచించు పోర్టు_MUX_FREE_VAL                SPINLOCK_FREE           /**< Spinlock is free. [refactor-todo] check if this is still required */
+    #నిర్వచించు పోర్టు_MUX_NO_TIMEOUT              SPINLOCK_WAIT_FOREVER   /**< When passed for 'timeout_cycles', spin forever if necessary. [refactor-todo] check if this is still required */
+    #నిర్వచించు పోర్టు_MUX_TRY_తాళం                SPINLOCK_NO_WAIT        /**< Try to acquire the spinlock a single time only. [refactor-todo] check if this is still required */
+    #నిర్వచించు పోర్టు_MUX_INITIALIZE( mux )    spinlock_initialize( mux ) /*< Initialize a spinlock to its unlocked state */
 
-    #define portCRITICAL_NESTING_IN_TCB     1
+    #నిర్వచించు పోర్టు_CRITICAL_NESTING_లోపల_TCB     1
 
 /*
  * Modifications to portENTER_CRITICAL.
@@ -173,14 +173,14 @@
  * that either function can be called both from ISR as well as task context. This is not standard FreeRTOS
  * behaviour; please keep this in mind if you need any compatibility with other FreeRTOS implementations.
  */
-    void vPortCPUInitializeMutex( portMUX_TYPE * mux );
-    #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-        #error CONFIG_FREERTOS_PORTMUX_DEBUG not supported in Amazon FreeRTOS
-    #endif
+    శూన్య v_పోర్టు_CPUInitialize_Mutex( పోర్టు_MUX_TYPE * mux );
+    #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+        #దోషం CONFIG_FREERTOS_PORTMUX_DEBUG not supported లోపల Amazon FreeRTOS
+    #అయితే_ముగింపు
 
-    void vTaskExitCritical();
-    void vTaskEnterCritical();
-    static inline void vPortConsumeSpinlockArg( int unused,
+    శూన్య vTaskExitCritical();
+    శూన్య vTaskEnterCritical();
+    స్థిర అంతఃవరుస శూన్య v_పోర్టు_Consume_Spinlock_Arg( పూర్ణాంకం వాడని,
                                                 ... )
     {
     }
@@ -193,83 +193,83 @@
  *
  * @return true if mutex is successfully acquired, false on timeout.
  */
-    bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles );
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux );
+    bool v_పోర్టు_CPUAcquire_Mutex_Timeout( పోర్టు_MUX_TYPE * mux,
+                                      పూర్ణాంకం timeout_చక్రాలు );
+    శూన్య v_పోర్టు_CPURelease_Mutex( పోర్టు_MUX_TYPE * mux );
 
-    #define portENTER_CRITICAL( ... )        do { vTaskEnterCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
-    #define portEXIT_CRITICAL( ... )         do { vTaskExitCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL( ... )        చేయి { vTaskEnterCritical(); v_పోర్టు_Consume_Spinlock_Arg( 0, ## __VA_ARGS__ ); } అయితే( 0 )
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL( ... )         చేయి { vTaskExitCritical(); v_పోర్టు_Consume_Spinlock_Arg( 0, ## __VA_ARGS__ ); } అయితే( 0 )
 
 
-    #define portENTER_CRITICAL_ISR( mux )    vPortCPUAcquireMutexTimeout( mux, portMUX_NO_TIMEOUT )
-    #define portEXIT_CRITICAL_ISR( mux )     vPortCPUReleaseMutex( mux )
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL_ISR( mux )    v_పోర్టు_CPUAcquire_Mutex_Timeout( mux, పోర్టు_MUX_NO_TIMEOUT )
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL_ISR( mux )     v_పోర్టు_CPURelease_Mutex( mux )
 
-    #define portENTER_CRITICAL_SAFE( mux ) \
-    do {                                   \
-        if( xPortInIsrContext() ) {        \
-            portENTER_CRITICAL_ISR( mux ); \
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL_సురక్షిత( mux ) \
+    చేయి {                                   \
+        ఒకవేళ( x_పోర్టు_లోపల_Isr_Context() ) {        \
+            పోర్టు_ENTER_CRITICAL_ISR( mux ); \
         }                                  \
-        else {                             \
-            portENTER_CRITICAL( mux );     \
+        లేకపోతే {                             \
+            పోర్టు_ENTER_CRITICAL( mux );     \
         }                                  \
-    } while( 0 )
+    } అయితే( 0 )
 
-    #define portEXIT_CRITICAL_SAFE( mux ) \
-    do {                                  \
-        if( xPortInIsrContext() ) {       \
-            portEXIT_CRITICAL_ISR( mux ); \
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL_సురక్షిత( mux ) \
+    చేయి {                                  \
+        ఒకవేళ( x_పోర్టు_లోపల_Isr_Context() ) {       \
+            పోర్టు_EXIT_CRITICAL_ISR( mux ); \
         }                                 \
-        else {                            \
-            portEXIT_CRITICAL( mux );     \
+        లేకపోతే {                            \
+            పోర్టు_EXIT_CRITICAL( mux );     \
         }                                 \
-    } while( 0 )
+    } అయితే( 0 )
 
-    #define portASSERT_IF_IN_ISR()    vPortAssertIfInISR()
-    void vPortAssertIfInISR( void );
+    #నిర్వచించు పోర్టు_ASSERT_IF_లోపల_ISR()    v_పోర్టు_Assert_If_లోపల_ISR()
+    శూన్య v_పోర్టు_Assert_If_లోపల_ISR( శూన్య );
 
 /* Critical section management. NW-TODO: replace XTOS_SET_INTLEVEL with more efficient version, if any? */
 /* These cannot be nested. They should be used with a lot of care and cannot be called from interrupt level. */
 /* */
 /* Only applies to one CPU. See notes above & below for reasons not to use these. */
-    #define portDISABLE_INTERRUPTS()    do { XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmarkINTERRUPT_DISABLE(); } while( 0 )
-    #define portENABLE_INTERRUPTS()     do { portbenchmarkINTERRUPT_RESTORE( 0 ); XTOS_SET_INTLEVEL( 0 ); } while( 0 )
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    చేయి { XTOS_సమితి_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmark_అంతరాయం_DISABLE(); } అయితే( 0 )
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     చేయి { portbenchmark_అంతరాయం_RESTORE( 0 ); XTOS_సమితి_INTLEVEL( 0 ); } అయితే( 0 )
 
 /* Cleaner solution allows nested interrupts disabling and restoring via local registers or stack. */
 /* They can be called from interrupts too. */
 /* WARNING: Only applies to current CPU. See notes above. */
-    static inline UBaseType_t __attribute__( ( always_inline ) ) xPortSetInterruptMaskFromISR( void )
+    స్థిర అంతఃవరుస UBaseType_t __attribute__( ( always_inline ) ) x_పోర్టు_సమితి_అంతరాయం_ముసుగు_From_ISR( శూన్య )
     {
-        UBaseType_t prev_int_level = XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL );
+        UBaseType_t prev_int_level = XTOS_సమితి_INTLEVEL( XCHAL_EXCM_LEVEL );
 
-        portbenchmarkINTERRUPT_DISABLE();
-        return prev_int_level;
+        portbenchmark_అంతరాయం_DISABLE();
+        తిరిగి prev_int_level;
     }
 
-    static inline void __attribute__( ( always_inline ) ) vPortClearInterruptMaskFromISR( UBaseType_t prev_level )
+    స్థిర అంతఃవరుస శూన్య __attribute__( ( always_inline ) ) v_పోర్టు_Clear_అంతరాయం_ముసుగు_From_ISR( UBaseType_t prev_level )
     {
-        portbenchmarkINTERRUPT_RESTORE( prev_level );
+        portbenchmark_అంతరాయం_RESTORE( prev_level );
         XTOS_RESTORE_JUST_INTLEVEL( prev_level );
     }
 
 /* These FreeRTOS versions are similar to the nested versions above */
-    #define portSET_INTERRUPT_MASK_FROM_ISR()                  xPortSetInterruptMaskFromISR()
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( prev_level )    vPortClearInterruptMaskFromISR( prev_level )
+    #నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR()                  x_పోర్టు_సమితి_అంతరాయం_ముసుగు_From_ISR()
+    #నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( prev_level )    v_పోర్టు_Clear_అంతరాయం_ముసుగు_From_ISR( prev_level )
 
 /*Because the ROM routines don't necessarily handle a stack in external RAM correctly, we force */
 /*the stack memory to always be internal. */
-    #define portTcbMemoryCaps      ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
-    #define portStackMemoryCaps    ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
+    #నిర్వచించు పోర్టు_Tcb_జ్ఞాపకం_Caps      ( MALLOC_CAP_అంతర్గత | MALLOC_CAP_8_బిట్టు )
+    #నిర్వచించు పోర్టు_దొంతర_జ్ఞాపకం_Caps    ( MALLOC_CAP_అంతర్గత | MALLOC_CAP_8_బిట్టు )
 
-    #define pvPortMallocTcbMem( size )        heap_caps_malloc( size, portTcbMemoryCaps )
-    #define pvPortMallocStackMem( size )      heap_caps_malloc( size, portStackMemoryCaps )
+    #నిర్వచించు pv_పోర్టు_Malloc_Tcb_Mem( కొలత )        కుప్ప_caps_malloc( కొలత, పోర్టు_Tcb_జ్ఞాపకం_Caps )
+    #నిర్వచించు pv_పోర్టు_Malloc_దొంతర_Mem( కొలత )      కుప్ప_caps_malloc( కొలత, పోర్టు_దొంతర_జ్ఞాపకం_Caps )
 
 /*xTaskCreateStatic uses these functions to check incoming memory. */
-    #define portVALID_TCB_MEM( ptr )          ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
-    #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
-        #define portVALID_STACK_MEM( ptr )    esp_ptr_byte_accessible( ptr )
-    #else
-        #define portVALID_STACK_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
-    #endif
+    #నిర్వచించు పోర్టు_VALID_TCB_MEM( ptr )          ( esp_ptr_అంతర్గత( ptr ) && esp_ptr_byte_accessible( ptr ) )
+    #నిర్వచితమైతే CONFIG_SPIRAM_ALLOW_దొంతర_EXTERNAL_జ్ఞాపకం
+        #నిర్వచించు పోర్టు_VALID_దొంతర_MEM( ptr )    esp_ptr_byte_accessible( ptr )
+    #లేకపోతే
+        #నిర్వచించు పోర్టు_VALID_దొంతర_MEM( ptr )    ( esp_ptr_అంతర్గత( ptr ) && esp_ptr_byte_accessible( ptr ) )
+    #అయితే_ముగింపు
 
 /*
  * Wrapper for the Xtensa compare-and-set instruction. This subroutine will atomically compare
@@ -280,88 +280,88 @@
  * *bitwise inverse* of the old mem if the mem wasn't written. This doesn't seem to happen on the
  * ESP32 (portMUX assertions would fail).
  */
-    static inline void uxPortCompareSet( volatile uint32_t * addr,
+    స్థిర అంతఃవరుస శూన్య ux_పోర్టు_Compare_సమితి( అస్థిర uint32_t * addr,
                                          uint32_t compare,
-                                         uint32_t * set )
+                                         uint32_t * సమితి )
     {
-        #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+        #ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
             __asm__ __volatile__ (
                 "WSR       %2,SCOMPARE1 \n"
                 "S32C1I     %0, %1, 0   \n"
-                : "=r" ( *set )
-                : "r" ( addr ), "r" ( compare ), "0" ( *set )
+                : "=r" ( *సమితి )
+                : "r" ( addr ), "r" ( compare ), "0" ( *సమితి )
                 );
-        #else
-            #if ( XCHAL_HAVE_S32C1I > 0 )
+        #లేకపోతే
+            #ఒకవేళ ( XCHAL_HAVE_S32C1I > 0 )
                 __asm__ __volatile__ (
                     "WSR        %2,SCOMPARE1 \n"
                     "S32C1I     %0, %1, 0    \n"
-                    : "=r" ( *set )
-                    : "r" ( addr ), "r" ( compare ), "0" ( *set )
+                    : "=r" ( *సమితి )
+                    : "r" ( addr ), "r" ( compare ), "0" ( *సమితి )
                     );
-            #else
+            #లేకపోతే
                 /* No S32C1I, so do this by disabling and re-enabling interrupts (slower) */
-                uint32_t intlevel, old_value;
+                uint32_t intlevel, old_విలువ;
                 __asm__ __volatile__ ( "rsil %0, " XTSTR( XCHAL_EXCM_LEVEL ) "\n"
                                        : "=r" ( intlevel ) );
 
-                old_value = *addr;
+                old_విలువ = *addr;
 
-                if( old_value == compare )
+                ఒకవేళ( old_విలువ == compare )
                 {
-                    *addr = *set;
+                    *addr = *సమితి;
                 }
 
                 __asm__ __volatile__ ( "memw \n"
                                        "wsr %0, ps\n"
                                        : : "r" ( intlevel ) );
 
-                *set = old_value;
-            #endif /* if ( XCHAL_HAVE_S32C1I > 0 ) */
-        #endif /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
+                *సమితి = old_విలువ;
+            #అయితే_ముగింపు /* if ( XCHAL_HAVE_S32C1I > 0 ) */
+        #అయితే_ముగింపు /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
     }
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-        void uxPortCompareSetExtram( volatile uint32_t * addr,
+    #ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+        శూన్య ux_పోర్టు_Compare_సమితి_Extram( అస్థిర uint32_t * addr,
                                      uint32_t compare,
-                                     uint32_t * set );
-    #else
-        static inline void uxPortCompareSetExtram( volatile uint32_t * addr,
+                                     uint32_t * సమితి );
+    #లేకపోతే
+        స్థిర అంతఃవరుస శూన్య ux_పోర్టు_Compare_సమితి_Extram( అస్థిర uint32_t * addr,
                                                    uint32_t compare,
-                                                   uint32_t * set )
+                                                   uint32_t * సమితి )
         {
-            #if defined( CONFIG_SPIRAM )
-                compare_and_set_extram( addr, compare, set );
-            #endif
+            #ఒకవేళ defined( CONFIG_SPIRAM )
+                compare_and_సమితి_extram( addr, compare, సమితి );
+            #అయితే_ముగింపు
         }
-    #endif /* if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) ) */
+    #అయితే_ముగింపు /* if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) ) */
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    4
-    #define portNOP()    XT_NOP()
+    #నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+    #నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+    #నిర్వచించు పోర్టు_BYTE_ALIGNMENT    4
+    #నిర్వచించు పోర్టు_NOP()    XT_NOP()
 /*-----------------------------------------------------------*/
 
 /* Fine resolution time */
-    #define portGET_RUN_TIME_COUNTER_VALUE()    xthal_get_ccount()
+    #నిర్వచించు పోర్టు_GET_నిరంతరం_సమయం_COUNTER_విలువ()    xthal_get_ccount()
 /*ccount or esp_timer are initialized elsewhere */
-    #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
+    #నిర్వచించు పోర్టు_CONFIGURE_TIMER_FOR_నిరంతరం_సమయం_STATS()
 
-    #ifdef CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER
+    #నిర్వచితమైతే CONFIG_FREERTOS_నిరంతరం_సమయం_STATS_USING_ESP_TIMER
 /* Coarse resolution time (us) */
-        #define portALT_GET_RUN_TIME_COUNTER_VALUE( x )    do { x = ( uint32_t ) esp_timer_get_time(); } while( 0 )
-    #endif
+        #నిర్వచించు పోర్టు_ALT_GET_నిరంతరం_సమయం_COUNTER_విలువ( x )    చేయి { x = ( uint32_t ) esp_timer_get_సమయం(); } అయితే( 0 )
+    #అయితే_ముగింపు
 
 
 
 /* Kernel utilities. */
-    void vPortYield( void );
-    void vPortEvaluateYieldFromISR( int argc,
+    శూన్య v_పోర్టు_Yield( శూన్య );
+    శూన్య v_పోర్టు_Evaluate_Yield_From_ISR( పూర్ణాంకం argc,
                                     ... );
-    void _frxt_setup_switch( void );
+    శూన్య frxt_అమరిక_switch( శూన్య );
 
 /* Macro to count number of arguments of a __VA_ARGS__ used to support portYIELD_FROM_ISR with,
  * or without arguments. The macro counts only 0 or 1 arguments.
@@ -372,99 +372,99 @@
  * This allows users to compile their code with standard C++20 enabled instead of the GNU extension.
  * Below C++20, we haven't found any good alternative to using ##__VA_ARGS__.
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
-    #else
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0, ## __VA_ARGS__, 1, 0 )
-    #endif
-    #define portGET_ARGUMENT_COUNT_INNER( zero, one, count, ... )    count
+    #ఒకవేళ defined( __cplusplus ) && ( __cplusplus > 201703L )
+        #నిర్వచించు పోర్టు_GET_వాదం_లెక్క( ... )                        పోర్టు_GET_వాదం_లెక్క_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
+    #లేకపోతే
+        #నిర్వచించు పోర్టు_GET_వాదం_లెక్క( ... )                        పోర్టు_GET_వాదం_లెక్క_INNER( 0, ## __VA_ARGS__, 1, 0 )
+    #అయితే_ముగింపు
+    #నిర్వచించు పోర్టు_GET_వాదం_లెక్క_INNER( zero, one, లెక్క, ... )    లెక్క
 
-    _Static_assert( portGET_ARGUMENT_COUNT() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
-    _Static_assert( portGET_ARGUMENT_COUNT( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
+    _Static_assert( పోర్టు_GET_వాదం_లెక్క() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
+    _Static_assert( పోర్టు_GET_వాదం_లెక్క( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
 
-    #define portYIELD()    vPortYield()
+    #నిర్వచించు పోర్టు_YIELD()    v_పోర్టు_Yield()
 
 /* The macro below could be used when passing a single argument, or without any argument,
  * it was developed to support both usages of portYIELD inside of an ISR. Any other usage form
  * might result in undesired behaviour
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
-    #else
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ), ## __VA_ARGS__ )
-    #endif
+    #ఒకవేళ defined( __cplusplus ) && ( __cplusplus > 201703L )
+        #నిర్వచించు పోర్టు_YIELD_FROM_ISR( ... )    v_పోర్టు_Evaluate_Yield_From_ISR( పోర్టు_GET_వాదం_లెక్క( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
+    #లేకపోతే
+        #నిర్వచించు పోర్టు_YIELD_FROM_ISR( ... )    v_పోర్టు_Evaluate_Yield_From_ISR( పోర్టు_GET_వాదం_లెక్క( __VA_ARGS__ ), ## __VA_ARGS__ )
+    #అయితే_ముగింపు
 
-    static inline BaseType_t xPortGetCoreID();
+    స్థిర అంతఃవరుస పునాది_Type_t x_పోర్టు_Get_Core_ID();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+    #నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* When coprocessors are defined, we to maintain a pointer to coprocessors area. */
 /* We currently use a hack: redefine field xMPU_SETTINGS in TCB block as a structure that can hold: */
 /* MPU wrappers, coprocessor area pointer, trace code structure, and more if needed. */
 /* The field is normally used for memory protection. FreeRTOS should create another general purpose field. */
-    typedef struct
+    రకనిర్వచనం నిర్మాణం
     {
-        #if XCHAL_CP_NUM > 0
-            volatile StackType_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
-        #endif
+        #ఒకవేళ XCHAL_CP_అంకె > 0
+            అస్థిర దొంతర_Type_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
+        #అయితే_ముగింపు
 
-        #if portUSING_MPU_WRAPPERS
+        #ఒకవేళ పోర్టు_USING_MPU_WRAPPERS
             /* Define here mpu_settings, which is port dependent */
-            int mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
-        #endif
+            పూర్ణాంకం mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
+        #అయితే_ముగింపు
 
-        #if configUSE_TRACE_FACILITY_2
-            struct
+        #ఒకవేళ configUSE_TRACE_FACILITY_2
+            నిర్మాణం
             {
                 /* Cf. porttraceStamp() */
-                int taskstamp;      /* Stamp from inside task to see where we are */
-                int taskstampcount; /* A counter usually incremented when we restart the task's loop */
+                పూర్ణాంకం taskstamp;      /* Stamp from inside task to see where we are */
+                పూర్ణాంకం taskstampcount; /* A counter usually incremented when we restart the task's loop */
             } porttrace;
-        #endif
+        #అయితే_ముగింపు
     } xMPU_SETTINGS;
 
 /* Main hack to use MPU_wrappers even when no MPU is defined (warning: mpu_setting should not be accessed; otherwise move this above xMPU_SETTINGS) */
-    #if ( XCHAL_CP_NUM > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
-        #undef portUSING_MPU_WRAPPERS
-        #define portUSING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
-        #define MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
-        #define PRIVILEGED_FUNCTION
-        #define PRIVILEGED_DATA
-    #endif
+    #ఒకవేళ ( XCHAL_CP_అంకె > 0 || configUSE_TRACE_FACILITY_2 ) && !పోర్టు_USING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
+        #నిర్వచనం_రద్దు పోర్టు_USING_MPU_WRAPPERS
+        #నిర్వచించు పోర్టు_USING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
+        #నిర్వచించు MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
+        #నిర్వచించు PRIVILEGED_FUNCTION
+        #నిర్వచించు PRIVILEGED_దత్తాంశం
+    #అయితే_ముగింపు
 
-    void vApplicationSleep( TickType_t xExpectedIdleTime );
+    శూన్య vApplicationSleep( TickType_t x_Expected_Idle_సమయం );
 
-    #define portSUPPRESS_TICKS_AND_SLEEP( idleTime )    vApplicationSleep( idleTime )
+    #నిర్వచించు పోర్టు_SUPPRESS_TICKS_AND_SLEEP( idle_సమయం )    vApplicationSleep( idle_సమయం )
 
-    void _xt_coproc_release( volatile void * coproc_sa_base );
+    శూన్య _xt_coproc_release( అస్థిర శూన్య * coproc_sa_పునాది );
 
 /*-----------------------------------------------------------*/
 
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #ఒకవేళ ( ESP_IDF_సంస్కరణ >= ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
         /* Architecture specific optimisations. */
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #ఒకవేళ config_USE_పోర్టు_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-            #if ( configMAX_PRIORITIES > 32 )
-                #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
-            #endif
+            #ఒకవేళ ( configMAX_PRIORITIES > 32 )
+                #దోషం config_USE_పోర్టు_OPTIMISED_TASK_SELECTION can only be సమితి గమ్యం 1 when configMAX_PRIORITIES is less than or equal గమ్యం 32.  It is very rare that a system requires మరిన్ని than 10 గమ్యం 15 different priorities as tasks that share a ప్రాధాన్యత will time ముక్క.
+            #అయితే_ముగింపు
 
 /* Store/clear the ready priorities in a bit map. */
-            #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-            #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+            #నిర్వచించు పోర్టు_రికార్డు_READY_ప్రాధాన్యత( ux_ప్రాధాన్యత, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ప్రాధాన్యత ) )
+            #నిర్వచించు పోర్టు_RESET_READY_ప్రాధాన్యత( ux_ప్రాధాన్యత, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ప్రాధాన్యత ) )
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
+            #నిర్వచించు పోర్టు_GET_HIGHEST_ప్రాధాన్యత( ux_శిఖరం_ప్రాధాన్యత, uxReadyPriorities )    ux_శిఖరం_ప్రాధాన్యత = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
 
-        #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+        #అయితే_ముగింపు /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
+    #అయితే_ముగింపు /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*-----------------------------------------------------------*/
 
@@ -475,40 +475,40 @@
  * non-FreeRTOS-specific code, and behave the same as
  * pvPortMalloc()/vPortFree().
  */
-    #define pvPortMalloc                       heap_caps_malloc_default
-    #define vPortFree                          heap_caps_free
-    #define xPortGetFreeHeapSize               esp_get_free_heap_size
-    #define xPortGetMinimumEverFreeHeapSize    esp_get_minimum_free_heap_size
+    #నిర్వచించు pv_పోర్టు_Malloc                       కుప్ప_caps_malloc_default
+    #నిర్వచించు v_పోర్టు_Free                          కుప్ప_caps_free
+    #నిర్వచించు x_పోర్టు_Get_Free_కుప్ప_కొలత               esp_get_free_కుప్ప_కొలత
+    #నిర్వచించు x_పోర్టు_Get_Minimum_Ever_Free_కుప్ప_కొలత    esp_get_minimum_free_కుప్ప_కొలత
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
 
 /*
  * Send an interrupt to another core in order to make the task running
  * on it yield for a higher-priority task.
  */
 
-        void vPortYieldOtherCore( BaseType_t coreid ) PRIVILEGED_FUNCTION;
+        శూన్య v_పోర్టు_Yield_Other_Core( పునాది_Type_t coreid ) PRIVILEGED_FUNCTION;
 
-    #endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+    #అయితే_ముగింపు /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*
  * Callback to set a watchpoint on the end of the stack. Called every context switch to change the stack
  * watchpoint around.
  */
-    void vPortSetStackWatchpoint( void * pxStackStart );
+    శూన్య v_పోర్టు_సమితి_దొంతర_Watchpoint( శూన్య * px_దొంతర_ప్రారంభం );
 
 /*
  * Returns true if the current core is in ISR context; low prio ISR, med prio ISR or timer tick ISR. High prio ISRs
  * aren't detected here, but they normally cannot call C code, so that should not be an issue anyway.
  */
-    BaseType_t xPortInIsrContext();
+    పునాది_Type_t x_పోర్టు_లోపల_Isr_Context();
 
 
 /*
  * This function will be called in High prio ISRs. Returns true if the current core was in ISR context
  * before calling into high prio ISR context.
  */
-    BaseType_t xPortInterruptedFromISRContext();
+    పునాది_Type_t x_పోర్టు_Interrupted_From_ISRContext();
 
 /*
  * The structures and methods of manipulating the MPU are contained within the
@@ -517,25 +517,25 @@
  * Fills the xMPUSettings structure with the memory region information
  * contained in xRegions.
  */
-    #if ( portUSING_MPU_WRAPPERS == 1 )
-        struct xMEMORY_REGION;
-        void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                        const struct xMEMORY_REGION * const xRegions,
-                                        StackType_t * pxBottomOfStack,
-                                        configSTACK_DEPTH_TYPE uxStackDepth ) PRIVILEGED_FUNCTION;
-        void vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings );
-    #endif
+    #ఒకవేళ ( పోర్టు_USING_MPU_WRAPPERS == 1 )
+        నిర్మాణం x_జ్ఞాపకం_REGION;
+        శూన్య v_పోర్టు_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                        స్థిరరాశి నిర్మాణం x_జ్ఞాపకం_REGION * స్థిరరాశి xRegions,
+                                        దొంతర_Type_t * px_Bottom_యొక్క_దొంతర,
+                                        config_దొంతర_లోతు_TYPE ux_దొంతర_లోతు ) PRIVILEGED_FUNCTION;
+        శూన్య v_పోర్టు_Release_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings );
+    #అయితే_ముగింపు
 
 /* Multi-core: get current core ID */
-    static inline BaseType_t IRAM_ATTR xPortGetCoreID()
+    స్థిర అంతఃవరుస పునాది_Type_t IRAM_ATTR x_పోర్టు_Get_Core_ID()
     {
-        return ( uint32_t ) cpu_hal_get_core_id();
+        తిరిగి ( uint32_t ) cpu_hal_get_core_id();
     }
 
 /* Get tick rate per second */
-    uint32_t xPortGetTickRateHz( void );
+    uint32_t x_పోర్టు_Get_Tick_రేటు_Hz( శూన్య );
 
-    static inline bool IRAM_ATTR xPortCanYield( void )
+    స్థిర అంతఃవరుస bool IRAM_ATTR x_పోర్టు_Can_Yield( శూన్య )
     {
         uint32_t ps_reg = 0;
 
@@ -549,31 +549,31 @@
          * However, just return true, only intlevel is zero.
          */
 
-        return( ( ps_reg & PS_INTLEVEL_MASK ) == 0 );
+        తిరిగి( ( ps_reg & PS_INTLEVEL_ముసుగు ) == 0 );
     }
 
 /* porttrace */
-    #if configUSE_TRACE_FACILITY_2
-        #include "porttrace.h"
-    #endif
+    #ఒకవేళ configUSE_TRACE_FACILITY_2
+        #అన్తర్భావ "porttrace.h"
+    #అయితే_ముగింపు
 
 /* configASSERT_2 if requested */
-    #if configASSERT_2
-        #include <stdio.h>
-        void exit( int );
-        #define configASSERT( x )    if( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
-    #endif
+    #ఒకవేళ configASSERT_2
+        #అన్తర్భావ <stdio.h>
+        శూన్య నిష్క్రమించు( పూర్ణాంకం );
+        #నిర్వచించు configASSERT( x )    ఒకవేళ( !( x ) ) { porttracePrint( -1 ); రాయి( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); నిష్క్రమించు( -1 ); }
+    #అయితే_ముగింపు
 
 /* Barriers */
-    #define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+    #నిర్వచించు పోర్టు_జ్ఞాపకం_BARRIER()    __asm అస్థిర ( "" ::: "memory" )
 
 
-#endif // __ASSEMBLER__
+#అయితే_ముగింపు // __ASSEMBLER__
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

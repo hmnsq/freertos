@@ -27,12 +27,12 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#నిర్వచించు పోర్టు_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
 
 /* Initial PSW value allocated to a newly created task.
  *   1100011000000000
@@ -45,12 +45,12 @@
  *   |--------------------- Zero Flag set
  *   ---------------------- Global Interrupt Flag set (enabled)
  */
-#define portPSW                         ( 0xc6UL )
+#నిర్వచించు పోర్టు_PSW                         ( 0xc6UL )
 
 /* The address of the pxCurrentTCB variable, but don't know or need to know its
  * type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+రకనిర్వచనం శూన్య TCB_t;
+బాహ్య అస్థిర TCB_t * అస్థిర pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each time
  * a critical section is entered the count is incremented.  Each time a critical
@@ -60,25 +60,25 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+అస్థిర uint16_t usCriticalNesting = పోర్టు_INITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-extern void vApplicationSetupTimerInterrupt( void );
+బాహ్య శూన్య v_Application_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /*
  * Starts the scheduler by loading the context of the first Task to run.
  * (implemented in portasm.s).
  */
-extern void vPortStartFirstTask( void );
+బాహ్య శూన్య v_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+స్థిర శూన్య prvTaskExitError( శూన్య );
 
 /*-----------------------------------------------------------*/
 
@@ -88,122 +88,122 @@ static void prvTaskExitError( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
     uint32_t * pulLocal;
     /* With large data sizeof( StackType_t ) == 2, and
      * sizeof( StackType_t * ) == 4.  With small data
      * sizeof( StackType_t ) == 2 and sizeof( StackType_t * ) == 2. */
-#if __DATA_MODEL__ == __DATA_MODEL_FAR__
+#ఒకవేళ __DATA_MODEL__ == __DATA_MODEL_FAR__
     {
         /* Far pointer parameters are passed using the A:DE registers (24-bit).
          * Although they are stored in memory as a 32-bit value.  Hence decrement
          * the stack pointer, so 2 bytes are left for the contents of A, before
          * storing the pvParameters value. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        #if  __CALLING_CONVENTION__ == __CC_V2__
+        px_శిఖరం_యొక్క_దొంతర--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
+        #ఒకవేళ  __CALLING_CONVENTION__ == __CC_V2__
             /* V2: parameter via A:DE, do not push pvParameters on stack */
-        #else
+        #లేకపోతే
             /* V1 or unknown: keep stack write */
             *pulLocal = ( uint32_t ) pvParameters;
-            pxTopOfStack--;
-        #endif
+            px_శిఖరం_యొక్క_దొంతర--;
+        #అయితే_ముగింపు
         /* The return address is a 32-bit value. So decrement the stack pointer
          * in order to make extra room needed to store the correct value.  See the
          * comments above the prvTaskExitError() prototype at the top of this file. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_శిఖరం_యొక్క_దొంతర--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
         *pulLocal = ( uint32_t ) prvTaskExitError;
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
         /* The task function start address combined with the PSW is also stored
          * as a 32-bit value. So leave a space for the second two bytes. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
+        *pulLocal = ( ( ( uint32_t ) px_సంకేతం ) | ( పోర్టు_PSW << 24UL ) );
+        px_శిఖరం_యొక్క_దొంతర--;
         /* Register image on task entry. */
-        #if  __CALLING_CONVENTION__ == __CC_V2__
+        #ఒకవేళ  __CALLING_CONVENTION__ == __CC_V2__
         {
             uint32_t p = ( uint32_t ) pvParameters;
             uint16_t de_init = (uint16_t)( p & 0xFFFFU );
             uint16_t ax_init = (uint16_t)( ((p >> 16) & 0xFFU) << 8 );
             /* AX register image */
-            *pxTopOfStack = ( StackType_t ) ax_init;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ax_init;
+            px_శిఖరం_యొక్క_దొంతర--;
             /* HL register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0x2222;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x2222;
+            px_శిఖరం_యొక్క_దొంతర--;
             /* CS:ES register image */
-            *pxTopOfStack = ( StackType_t ) 0x0F00;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x0F00;
+            px_శిఖరం_యొక్క_దొంతర--;
             /* DE register image */
-            *pxTopOfStack = ( StackType_t ) de_init;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) de_init;
+            px_శిఖరం_యొక్క_దొంతర--;
         }
-        #else
+        #లేకపోతే
             /* An initial value for the AX register. */
-            *pxTopOfStack = ( StackType_t ) 0x1111;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x1111;
+            px_శిఖరం_యొక్క_దొంతర--;
             /* HL register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0x2222;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x2222;
+            px_శిఖరం_యొక్క_దొంతర--;
             /* CS:ES register image */
-            *pxTopOfStack = ( StackType_t ) 0x0F00;
-            pxTopOfStack--;
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x0F00;
+            px_శిఖరం_యొక్క_దొంతర--;
             /* DE register image (dummy) */
-            *pxTopOfStack = ( StackType_t ) 0xDEDE;
-            pxTopOfStack--;
-        #endif
+            *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xDEDE;
+            px_శిఖరం_యొక్క_దొంతర--;
+        #అయితే_ముగింపు
         /* BC remains a dummy value (not used for parameter passing). */
-        *pxTopOfStack = ( StackType_t ) 0xBCBC;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xBCBC;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-#else /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
+#లేకపోతే /* if __DATA_MODEL__ == __DATA_MODEL_FAR__ */
     {
        /* The return address, leaving space for the first two bytes of the
          * 32-bit value.  See the comments above the prvTaskExitError() prototype
          * at the top of this file. */
-        pxTopOfStack--;
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        px_శిఖరం_యొక్క_దొంతర--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
         *pulLocal = ( uint32_t ) prvTaskExitError;
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
         /* Task function.  Again as it is written as a 32-bit value a space is
          * left on the stack for the second two bytes. */
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
+        *pulLocal = ( ( ( uint32_t ) px_సంకేతం ) | ( పోర్టు_PSW << 24UL ) );
+        px_శిఖరం_యొక్క_దొంతర--;
         /* The parameter is passed in AX. */
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters;
+        px_శిఖరం_యొక్క_దొంతర--;
         /* An initial value for the HL register. */
-        *pxTopOfStack = ( StackType_t ) 0x2222;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x2222;
+        px_శిఖరం_యొక్క_దొంతర--;
         /* CS and ES registers. */
-        *pxTopOfStack = ( StackType_t ) 0x0F00;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x0F00;
+        px_శిఖరం_యొక్క_దొంతర--;
         /* The remaining general purpose registers DE and BC */
-        *pxTopOfStack = ( StackType_t ) 0xDEDE;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xBCBC;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xDEDE;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xBCBC;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-#endif /* __DATA_MODEL__ */
+#అయితే_ముగింపు /* __DATA_MODEL__ */
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_NO_CRITICAL_SECTION_NESTING;
     /* Return a pointer to the top of the stack that has been generated so
      * it can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+స్థిర శూన్య prvTaskExitError( శూన్య )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -212,29 +212,29 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error. */
     configASSERT( usCriticalNesting == ~0U );
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    కొరకు( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* Setup the hardware to generate the tick. Interrupts are disabled when
      * this function is called. */
-    vApplicationSetupTimerInterrupt();
+    v_Application_అమరిక_Timer_అంతరాయం();
 
     /* Restore the context of the first task that is going to run. */
-    vPortStartFirstTask();
+    v_పోర్టు_ప్రారంభం_మొదటి_Task();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the RL78 port will get stopped. */
 }

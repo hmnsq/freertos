@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,60 +40,60 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      long
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   portSHORT
+#నిర్వచించు పోర్టు_CHAR        అక్షరం
+#నిర్వచించు పోర్టు_FLOAT       దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE      దీర్ఘ
+#నిర్వచించు పోర్టు_LONG        దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT       పూర్ణాంకం
+#నిర్వచించు పోర్టు_దొంతర_TYPE  uint16_t
+#నిర్వచించు పోర్టు_పునాది_TYPE   పోర్టు_SHORT
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE దొంతర_Type_t;
+రకనిర్వచనం పొట్టి పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని పొట్టి UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY ( TickType_t ) 0xffffffffUL
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENTER_CRITICAL()            __asm{ pushf }  \
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()            __asm{ pushf }  \
                                         __asm{ cli   }  \
 
-#define portEXIT_CRITICAL()             __asm{ popf }
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()             __asm{ popf }
 
-#define portDISABLE_INTERRUPTS()        __asm{ cli }
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()        __asm{ cli }
 
-#define portENABLE_INTERRUPTS()         __asm{ sti }
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()         __asm{ sti }
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portNOP()                       __asm{ nop }
-#define portSTACK_GROWTH                ( -1 )
-#define portSWITCH_INT_NUMBER           0x80
-#define portYIELD()                     __asm{ int portSWITCH_INT_NUMBER }
-#define portTICK_PERIOD_MS      ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT      2
-#define portINITIAL_SW      ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#నిర్వచించు పోర్టు_NOP()                       __asm{ nop }
+#నిర్వచించు పోర్టు_దొంతర_GROWTH                ( -1 )
+#నిర్వచించు పోర్టు_SWITCH_INT_సంఖ్య           0x80
+#నిర్వచించు పోర్టు_YIELD()                     __asm{ పూర్ణాంకం పోర్టు_SWITCH_INT_సంఖ్య }
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS      ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT      2
+#నిర్వచించు పోర్టు_INITIAL_SW      ( ( పోర్టు_దొంతర_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )             inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )   outp( xAddr, ucValue )
-#define portINPUT_WORD( xAddr )             inpw( xAddr )
-#define portOUTPUT_WORD( xAddr, usValue )   outpw( xAddr, usValue )
+#నిర్వచించు పోర్టు_ఆదానం_BYTE( xAddr )             inp( xAddr )
+#నిర్వచించు పోర్టు_OUTPUT_BYTE( xAddr, uc_విలువ )   outp( xAddr, uc_విలువ )
+#నిర్వచించు పోర్టు_ఆదానం_మాట( xAddr )             inpw( xAddr )
+#నిర్వచించు పోర్టు_OUTPUT_మాట( xAddr, us_విలువ )   outpw( xAddr, us_విలువ )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vTaskFunction, vParameters ) void vTaskFunction( void *pvParameters )
-#define portTASK_FUNCTION( vTaskFunction, vParameters ) void vTaskFunction( void *pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vTaskFunction, vParameters ) శూన్య vTaskFunction( శూన్య *pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vTaskFunction, vParameters ) శూన్య vTaskFunction( శూన్య *pvParameters )
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

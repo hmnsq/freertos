@@ -27,15 +27,15 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#అన్తర్భావ <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#నిర్వచించు పోర్టు_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
 
 /* Initial PSW value allocated to a newly created task.
  *   1100011000000000
@@ -48,12 +48,12 @@
  *   |--------------------- Zero Flag set
  *   ---------------------- Global Interrupt Flag set (enabled)
  */
-#define portPSW                         ( 0xc6UL )
+#నిర్వచించు పోర్టు_PSW                         ( 0xc6UL )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+రకనిర్వచనం శూన్య TCB_t;
+బాహ్య అస్థిర TCB_t * అస్థిర pxCurrentTCB;
 
 /* Most ports implement critical sections by placing the interrupt flags on
  * the stack before disabling interrupts.  Exiting the critical section is then
@@ -67,13 +67,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as this will cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+అస్థిర uint16_t usCriticalNesting = పోర్టు_INITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 /*-----------------------------------------------------------*/
 
 /*
@@ -82,107 +82,107 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
     uint32_t * pulLocal;
 
-    #if configMEMORY_MODE == 1
+    #ఒకవేళ config_జ్ఞాపకం_బహుళకం == 1
     {
         /* Parameters are passed in on the stack, and written using a 32bit value
          * hence a space is left for the second two bytes. */
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* Write in the parameter value. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
         *pulLocal = ( uint32_t ) pvParameters;
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* These values are just spacers.  The return address of the function
          * would normally be written here. */
-        *pxTopOfStack = ( StackType_t ) 0xcdcd;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xcdcd;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xcdcd;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xcdcd;
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* The start address / PSW value is also written in as a 32bit value,
          * so leave a space for the second two bytes. */
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
+        *pulLocal = ( ( ( uint32_t ) px_సంకేతం ) | ( పోర్టు_PSW << 24UL ) );
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* An initial value for the AX register. */
-        *pxTopOfStack = ( StackType_t ) 0x1111;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x1111;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-    #else /* if configMEMORY_MODE == 1 */
+    #లేకపోతే /* if configMEMORY_MODE == 1 */
     {
         /* Task function address is written to the stack first.  As it is
          * written as a 32bit value a space is left on the stack for the second
          * two bytes. */
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        pulLocal = ( uint32_t * ) px_శిఖరం_యొక్క_దొంతర;
+        *pulLocal = ( ( ( uint32_t ) px_సంకేతం ) | ( పోర్టు_PSW << 24UL ) );
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* The parameter is passed in AX. */
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-    #endif /* if configMEMORY_MODE == 1 */
+    #అయితే_ముగింపు /* if configMEMORY_MODE == 1 */
 
     /* An initial value for the HL register. */
-    *pxTopOfStack = ( StackType_t ) 0x2222;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x2222;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* CS and ES registers. */
-    *pxTopOfStack = ( StackType_t ) 0x0F00;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x0F00;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Finally the remaining general purpose registers DE and BC */
-    *pxTopOfStack = ( StackType_t ) 0xDEDE;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBCBC;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xDEDE;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xBCBC;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Restore the context of the first task that is going to run. */
-    vPortStart();
+    v_పోర్టు_ప్రారంభం();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the 78K0R port will get stopped.  If required simply
      * disable the tick interrupt here. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
     /* Setup channel 5 of the TAU to generate the tick interrupt. */
 
@@ -207,7 +207,7 @@ static void prvSetupTimerInterrupt( void )
     TMR05 = 0x0000;
 
     /* Set the compare match value according to the tick rate we want. */
-    TDR05 = ( TickType_t ) ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
+    TDR05 = ( TickType_t ) ( configCPU_CLOCK_HZ / config_TICK_రేటు_HZ );
 
     /* Set Timer Array Unit Channel 5 output mode */
     TOM0 &= ~0x0020;

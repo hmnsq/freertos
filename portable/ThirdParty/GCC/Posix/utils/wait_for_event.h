@@ -26,21 +26,21 @@
  *
  */
 
-#ifndef WAIT_FOR_EVENT_H_
-#define WAIT_FOR_EVENT_H_
+#నిర్వచితం_కాకపోతే WAIT_FOR_EVENT_H_
+#నిర్వచించు WAIT_FOR_EVENT_H_
 
-#include <stdbool.h>
-#include <time.h>
+#అన్తర్భావ <stdbool.h>
+#అన్తర్భావ <time.h>
 
-struct event;
+నిర్మాణం event;
 
-struct event * event_create( void );
-void event_delete( struct event * );
-bool event_wait( struct event * ev );
-bool event_wait_timed( struct event * ev,
+నిర్మాణం event * event_create( శూన్య );
+శూన్య event_delete( నిర్మాణం event * );
+bool event_wait( నిర్మాణం event * ev );
+bool event_wait_timed( నిర్మాణం event * ev,
                        time_t ms );
-void event_signal( struct event * ev );
+శూన్య event_signal( నిర్మాణం event * ev );
 
 
 
-#endif /* ifndef WAIT_FOR_EVENT_H_ */
+#అయితే_ముగింపు /* ifndef WAIT_FOR_EVENT_H_ */

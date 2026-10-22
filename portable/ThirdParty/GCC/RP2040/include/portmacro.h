@@ -27,18 +27,18 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#include "pico.h"
-#include "hardware/sync.h"
-#include "rp2040_config.h"
+#అన్తర్భావ "pico.h"
+#అన్తర్భావ "hardware/sync.h"
+#అన్తర్భావ "rp2040_config.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,243 +51,243 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#నిర్వచించు పోర్టు_CHAR          అక్షరం
+#నిర్వచించు పోర్టు_FLOAT         దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+#నిర్వచించు పోర్టు_LONG          దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT         పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE    uint32_t
+#నిర్వచించు పోర్టు_పునాది_TYPE     దీర్ఘ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef int32_t          BaseType_t;
-typedef uint32_t         UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం int32_t          పునాది_Type_t;
+రకనిర్వచనం uint32_t         UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #నిర్వచించు పోర్టు_TICK_TYPE_IS_ATOMIC    1
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                ( -1 )
-#define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT              8
-#define portDONT_DISCARD                __attribute__( ( used ) )
+#నిర్వచించు పోర్టు_దొంతర_GROWTH                ( -1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS              ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT              8
+#నిర్వచించు పోర్టు_DONT_DISCARD                __attribute__( ( వాడిన ) )
 
 /* We have to use PICO_DIVIDER_DISABLE_INTERRUPTS as the source of truth rather than our config,
  * as our FreeRTOSConfig.h header cannot be included by ASM code - which is what this affects in the SDK */
-#define portUSE_DIVIDER_SAVE_RESTORE    !PICO_DIVIDER_DISABLE_INTERRUPTS
-#if portUSE_DIVIDER_SAVE_RESTORE
-    #define portSTACK_LIMIT_PADDING     4
-#endif
+#నిర్వచించు పోర్టు_USE_DIVIDER_SAVE_RESTORE    !PICO_DIVIDER_DISABLE_INTERRUPTS
+#ఒకవేళ పోర్టు_USE_DIVIDER_SAVE_RESTORE
+    #నిర్వచించు పోర్టు_దొంతర_హద్దు_PADDING     4
+#అయితే_ముగింపు
 
 /*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portYIELD()                vPortYield()
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+బాహ్య శూన్య v_పోర్టు_Yield( శూన్య );
+#నిర్వచించు పోర్టు_NVIC_INT_CTRL_REG     ( *( ( అస్థిర uint32_t * ) 0xe000ed04 ) )
+#నిర్వచించు పోర్టు_NVIC_PENDSVSET_బిట్టు    ( 1UL << 28UL )
+#నిర్వచించు పోర్టు_YIELD()                v_పోర్టు_Yield()
+#నిర్వచించు పోర్టు_చివర_SWITCHING_ISR( xSwitchRequired )            \
+    చేయి                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        ఒకవేళ( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_గమ్యం_SCHEDULER();                   \
+            పోర్టు_NVIC_INT_CTRL_REG = పోర్టు_NVIC_PENDSVSET_బిట్టు; \
         }                                                   \
-        else                                                \
+        లేకపోతే                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } అయితే( 0 )
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR( x )    పోర్టు_చివర_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------*/
 
 /* Exception handlers */
-#if ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 0 )
+#ఒకవేళ ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 0 )
     /* We only need to override the SDK's weak functions if we want to replace them at compile time */
-    #define vPortSVCHandler        isr_svcall
-    #define xPortPendSVHandler     isr_pendsv
-    #define xPortSysTickHandler    isr_systick
-#endif
+    #నిర్వచించు v_పోర్టు_SVCHandler        isr_svcall
+    #నిర్వచించు x_పోర్టు_Pend_SVHandler     isr_pendsv
+    #నిర్వచించు x_పోర్టు_Sys_Tick_Handler    isr_systick
+#అయితే_ముగింపు
 
 /*-----------------------------------------------------------*/
 
 /* Multi-core */
-#define portMAX_CORE_COUNT    2
+#నిర్వచించు పోర్టు_MAX_CORE_లెక్క    2
 
 /* Check validity of number of cores specified in config */
-#if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
-    #error "Invalid number of cores specified in config!"
-#endif
+#ఒకవేళ ( config_సంఖ్య_యొక్క_CORES < 1 || పోర్టు_MAX_CORE_లెక్క < config_సంఖ్య_యొక్క_CORES )
+    #దోషం "Invalid number of cores specified in config!"
+#అయితే_ముగింపు
 
-#if ( configTICK_CORE < 0 || configTICK_CORE > configNUMBER_OF_CORES )
-    #error "Invalid tick core specified in config!"
-#endif
+#ఒకవేళ ( configTICK_CORE < 0 || configTICK_CORE > config_సంఖ్య_యొక్క_CORES )
+    #దోషం "Invalid tick core specified in config!"
+#అయితే_ముగింపు
 /* FreeRTOS core id is always zero based, so always 0 if we're running on only one core */
-#if configNUMBER_OF_CORES == portMAX_CORE_COUNT
-    #define portGET_CORE_ID()    get_core_num()
-#else
-    #define portGET_CORE_ID()    0
-#endif
+#ఒకవేళ config_సంఖ్య_యొక్క_CORES == పోర్టు_MAX_CORE_లెక్క
+    #నిర్వచించు పోర్టు_GET_CORE_ID()    get_core_అంకె()
+#లేకపోతే
+    #నిర్వచించు పోర్టు_GET_CORE_ID()    0
+#అయితే_ముగింపు
 
-#define portCHECK_IF_IN_ISR()                                 \
+#నిర్వచించు పోర్టు_CHECK_IF_లోపల_ISR()                                 \
     ( {                                                       \
         uint32_t ulIPSR;                                      \
-        __asm volatile ( "mrs %0, IPSR" : "=r" ( ulIPSR )::); \
+        __asm అస్థిర ( "mrs %0, IPSR" : "=r" ( ulIPSR )::); \
         ( ( uint8_t ) ulIPSR ) > 0; } )
 
 /* Use #define rather than inline method to make it easier for user code
  * to work with kernel versions both with and without xPortIsInsideInterrupt */
-#define xPortIsInsideInterrupt() ((BaseType_t)portCHECK_IF_IN_ISR())
+#నిర్వచించు x_పోర్టు_Is_Inside_అంతరాయం() ((పునాది_Type_t)పోర్టు_CHECK_IF_లోపల_ISR())
 
-void vYieldCore( int xCoreID );
-#define portYIELD_CORE( a )                  vYieldCore( a )
+శూన్య vYieldCore( పూర్ణాంకం xCoreID );
+#నిర్వచించు పోర్టు_YIELD_CORE( a )                  vYieldCore( a )
 
 /*-----------------------------------------------------------*/
 
 /* Critical nesting count management. */
-#define portCRITICAL_NESTING_IN_TCB    0
+#నిర్వచించు పోర్టు_CRITICAL_NESTING_లోపల_TCB    0
 
-extern UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ];
-#define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( uxCriticalNestings[ ( xCoreID ) ] )
-#define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( uxCriticalNestings[ ( xCoreID ) ] = ( x ) )
-#define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]++ )
-#define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]-- )
+బాహ్య UBaseType_t uxCriticalNestings[ config_సంఖ్య_యొక్క_CORES ];
+#నిర్వచించు పోర్టు_GET_CRITICAL_NESTING_లెక్క( xCoreID )          ( uxCriticalNestings[ ( xCoreID ) ] )
+#నిర్వచించు పోర్టు_సమితి_CRITICAL_NESTING_లెక్క( xCoreID, x )       ( uxCriticalNestings[ ( xCoreID ) ] = ( x ) )
+#నిర్వచించు పోర్టు_INCREMENT_CRITICAL_NESTING_లెక్క( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]++ )
+#నిర్వచించు పోర్టు_DECREMENT_CRITICAL_NESTING_లెక్క( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]-- )
 
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-#define portSET_INTERRUPT_MASK()                                  \
+#నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు()                                  \
     ( {                                                           \
         uint32_t ulState;                                         \
-        __asm volatile ( "mrs %0, PRIMASK" : "=r" ( ulState )::); \
-        __asm volatile ( " cpsid i " ::: "memory" );              \
+        __asm అస్థిర ( "mrs %0, PRIMASK" : "=r" ( ulState )::); \
+        __asm అస్థిర ( " cpsid i " ::: "memory" );              \
         ulState; } )
 
-#define portCLEAR_INTERRUPT_MASK( ulState )    __asm volatile ( "msr PRIMASK,%0" ::"r" ( ulState ) : )
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు( ulState )    __asm అస్థిర ( "msr PRIMASK,%0" ::"r" ( ulState ) : )
 
-extern uint32_t ulSetInterruptMaskFromISR( void ) __attribute__( ( naked ) );
-extern void vClearInterruptMaskFromISR( uint32_t ulMask )  __attribute__( ( naked ) );
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMaskFromISR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vClearInterruptMaskFromISR( x )
+బాహ్య uint32_t ul_సమితి_అంతరాయం_ముసుగు_From_ISR( శూన్య ) __attribute__( ( naked ) );
+బాహ్య శూన్య v_Clear_అంతరాయం_ముసుగు_From_ISR( uint32_t ul_ముసుగు )  __attribute__( ( naked ) );
+#నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR()         ul_సమితి_అంతరాయం_ముసుగు_From_ISR()
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( x )    v_Clear_అంతరాయం_ముసుగు_From_ISR( x )
 
-#define portDISABLE_INTERRUPTS()                  __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()                   __asm volatile ( " cpsie i " ::: "memory" )
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()                  __asm అస్థిర ( " cpsid i " ::: "memory" )
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()                   __asm అస్థిర ( " cpsie i " ::: "memory" )
 
-#if ( configNUMBER_OF_CORES == 1 )
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    #define portENTER_CRITICAL()    vPortEnterCritical()
-    #define portEXIT_CRITICAL()     vPortExitCritical()
-#else
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
-    extern UBaseType_t vTaskEnterCriticalFromISR( void );
-    extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
-    #define portENTER_CRITICAL()               vTaskEnterCritical()
-    #define portEXIT_CRITICAL()                vTaskExitCritical()
-    #define portENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
-    #define portEXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
-#endif /* if ( configNUMBER_OF_CORES == 1 ) */
+#ఒకవేళ ( config_సంఖ్య_యొక్క_CORES == 1 )
+    బాహ్య శూన్య v_పోర్టు_Enter_Critical( శూన్య );
+    బాహ్య శూన్య v_పోర్టు_Exit_Critical( శూన్య );
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL()    v_పోర్టు_Enter_Critical()
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL()     v_పోర్టు_Exit_Critical()
+#లేకపోతే
+    బాహ్య శూన్య vTaskEnterCritical( శూన్య );
+    బాహ్య శూన్య vTaskExitCritical( శూన్య );
+    బాహ్య UBaseType_t vTaskEnterCriticalFromISR( శూన్య );
+    బాహ్య శూన్య vTaskExitCriticalFromISR( UBaseType_t ux_Saved_అంతరాయం_స్థితి );
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL()               vTaskEnterCritical()
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL()                vTaskExitCritical()
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
+#అయితే_ముగింపు /* if ( configNUMBER_OF_CORES == 1 ) */
 
-#define portRTOS_SPINLOCK_COUNT    2
+#నిర్వచించు పోర్టు_RTOS_SPINLOCK_లెక్క    2
 
-#if PICO_SDK_VERSION_MAJOR < 2
-__force_inline static bool spin_try_lock_unsafe(spin_lock_t *lock) {
-   return *lock;
+#ఒకవేళ PICO_SDK_సంస్కరణ_MAJOR < 2
+__force_inline స్థిర bool spin_try_తాళం_unsafe(spin_తాళం_t *తాళం_3) {
+   తిరిగి *తాళం_3;
 }
-#endif
+#అయితే_ముగింపు
 
 /* Note this is a single method with uxAcquire parameter since we have
  * static vars, the method is always called with a compile time constant for
  * uxAcquire, and the compiler should do the right thing! */
-static inline void vPortRecursiveLock( BaseType_t xCoreID,
-                                       uint32_t ulLockNum,
-                                       spin_lock_t * pxSpinLock,
-                                       BaseType_t uxAcquire )
+స్థిర అంతఃవరుస శూన్య v_పోర్టు_Recursive_తాళం( పునాది_Type_t xCoreID,
+                                       uint32_t ul_తాళం_అంకె,
+                                       spin_తాళం_t * px_Spin_తాళం,
+                                       పునాది_Type_t uxAcquire )
 {
-    static volatile uint8_t ucOwnedByCore[ portMAX_CORE_COUNT ][portRTOS_SPINLOCK_COUNT];
-    static volatile uint8_t ucRecursionCountByLock[ portRTOS_SPINLOCK_COUNT ];
+    స్థిర అస్థిర uint8_t ucOwnedByCore[ పోర్టు_MAX_CORE_లెక్క ][పోర్టు_RTOS_SPINLOCK_లెక్క];
+    స్థిర అస్థిర uint8_t uc_Recursion_లెక్క_By_తాళం[ పోర్టు_RTOS_SPINLOCK_లెక్క ];
 
-    configASSERT( ulLockNum < portRTOS_SPINLOCK_COUNT );
+    configASSERT( ul_తాళం_అంకె < పోర్టు_RTOS_SPINLOCK_లెక్క );
 
-    if( uxAcquire )
+    ఒకవేళ( uxAcquire )
     {
-        if (!spin_try_lock_unsafe(pxSpinLock)) {
-            if( ucOwnedByCore[ xCoreID ][ ulLockNum ] )
+        ఒకవేళ (!spin_try_తాళం_unsafe(px_Spin_తాళం)) {
+            ఒకవేళ( ucOwnedByCore[ xCoreID ][ ul_తాళం_అంకె ] )
             {
-                configASSERT( ucRecursionCountByLock[ ulLockNum ] != 255u );
-                ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] + 1;
-                return;
+                configASSERT( uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] != 255u );
+                uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] = uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] + 1;
+                తిరిగి;
             }
-            spin_lock_unsafe_blocking(pxSpinLock);
+            spin_తాళం_unsafe_blocking(px_Spin_తాళం);
         }
-        configASSERT( ucRecursionCountByLock[ ulLockNum ] == 0 );
-        ucRecursionCountByLock[ ulLockNum ] = 1;
-        ucOwnedByCore[ xCoreID ][ ulLockNum ] = 1;
+        configASSERT( uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] == 0 );
+        uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] = 1;
+        ucOwnedByCore[ xCoreID ][ ul_తాళం_అంకె ] = 1;
     }
-    else
+    లేకపోతే
     {
-        configASSERT( ( ucOwnedByCore[ xCoreID ] [ulLockNum ] ) != 0 );
-        configASSERT( ucRecursionCountByLock[ ulLockNum ] != 0 );
+        configASSERT( ( ucOwnedByCore[ xCoreID ] [ul_తాళం_అంకె ] ) != 0 );
+        configASSERT( uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] != 0 );
 
-        ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] - 1;
-        if ( ucRecursionCountByLock[ ulLockNum ] == 0U )
+        uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] = uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] - 1;
+        ఒకవేళ ( uc_Recursion_లెక్క_By_తాళం[ ul_తాళం_అంకె ] == 0U )
         {
-            ucOwnedByCore[ xCoreID ] [ ulLockNum ] = 0;
-            spin_unlock_unsafe(pxSpinLock);
+            ucOwnedByCore[ xCoreID ] [ ul_తాళం_అంకె ] = 0;
+            spin_unlock_unsafe(px_Spin_తాళం);
         }
     }
 }
 
-#if ( configNUMBER_OF_CORES == 1 )
-    #define portGET_ISR_LOCK( xCoreID )
-    #define portRELEASE_ISR_LOCK( xCoreID )
-    #define portGET_TASK_LOCK( xCoreID )
-    #define portRELEASE_TASK_LOCK( xCoreID )
-#else
-    #define portGET_ISR_LOCK( xCoreID )         vPortRecursiveLock( ( xCoreID ), 0, spin_lock_instance( configSMP_SPINLOCK_0 ), pdTRUE )
-    #define portRELEASE_ISR_LOCK( xCoreID )     vPortRecursiveLock( ( xCoreID ), 0, spin_lock_instance( configSMP_SPINLOCK_0 ), pdFALSE )
-    #define portGET_TASK_LOCK( xCoreID )        vPortRecursiveLock( ( xCoreID ), 1, spin_lock_instance( configSMP_SPINLOCK_1 ), pdTRUE )
-    #define portRELEASE_TASK_LOCK( xCoreID )    vPortRecursiveLock( ( xCoreID ), 1, spin_lock_instance( configSMP_SPINLOCK_1 ), pdFALSE )
-#endif
+#ఒకవేళ ( config_సంఖ్య_యొక్క_CORES == 1 )
+    #నిర్వచించు పోర్టు_GET_ISR_తాళం( xCoreID )
+    #నిర్వచించు పోర్టు_RELEASE_ISR_తాళం( xCoreID )
+    #నిర్వచించు పోర్టు_GET_TASK_తాళం( xCoreID )
+    #నిర్వచించు పోర్టు_RELEASE_TASK_తాళం( xCoreID )
+#లేకపోతే
+    #నిర్వచించు పోర్టు_GET_ISR_తాళం( xCoreID )         v_పోర్టు_Recursive_తాళం( ( xCoreID ), 0, spin_తాళం_instance( configSMP_SPINLOCK_0 ), pdTRUE )
+    #నిర్వచించు పోర్టు_RELEASE_ISR_తాళం( xCoreID )     v_పోర్టు_Recursive_తాళం( ( xCoreID ), 0, spin_తాళం_instance( configSMP_SPINLOCK_0 ), pdFALSE )
+    #నిర్వచించు పోర్టు_GET_TASK_తాళం( xCoreID )        v_పోర్టు_Recursive_తాళం( ( xCoreID ), 1, spin_తాళం_instance( configSMP_SPINLOCK_1 ), pdTRUE )
+    #నిర్వచించు పోర్టు_RELEASE_TASK_తాళం( xCoreID )    v_పోర్టు_Recursive_తాళం( ( xCoreID ), 1, spin_తాళం_instance( configSMP_SPINLOCK_1 ), pdFALSE )
+#అయితే_ముగింపు
 
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#నిర్వచితం_కాకపోతే పోర్టు_SUPPRESS_TICKS_AND_SLEEP
+    బాహ్య శూన్య v_పోర్టు_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_సమయం );
+    #నిర్వచించు పోర్టు_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_సమయం )    v_పోర్టు_Suppress_Ticks_And_Sleep( x_Expected_Idle_సమయం )
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
-#define portNOP()               __asm volatile ( "nop" )
+#నిర్వచించు పోర్టు_NOP()               __asm అస్థిర ( "nop" )
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#నిర్వచించు పోర్టు_జ్ఞాపకం_BARRIER()    __asm అస్థిర ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

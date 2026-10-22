@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#pragma once
+#సూచన once
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /**
  * @brief Set up the SysTick interrupt
  */
-void vPortSetupTimer( void );
+శూన్య v_పోర్టు_అమరిక_Timer( శూన్య );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */

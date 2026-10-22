@@ -27,18 +27,18 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
+#అన్తర్భావ "FreeRTOS.h"
 
 /* Machine includes */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
-#include <machine/cint.h>
+#అన్తర్భావ <tc1782.h>
+#అన్తర్భావ <machine/intrinsics.h>
+#అన్తర్భావ <machine/cint.h>
 /*---------------------------------------------------------------------------*/
 
 /*
  * This reference is required by the Save/Restore Context Macros.
  */
-extern volatile uint32_t * pxCurrentTCB;
+బాహ్య అస్థిర uint32_t * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /*
@@ -51,232 +51,232 @@ extern volatile uint32_t * pxCurrentTCB;
  */
 
 /* The Trap Classes. */
-#define portMMU_TRAP                                                      0
-#define portIPT_TRAP                                                      1
-#define portIE_TRAP                                                       2
-#define portCM_TRAP                                                       3
-#define portSBP_TRAP                                                      4
-#define portASSERT_TRAP                                                   5
-#define portNMI_TRAP                                                      7
+#నిర్వచించు పోర్టు_MMU_TRAP                                                      0
+#నిర్వచించు పోర్టు_IPT_TRAP                                                      1
+#నిర్వచించు పోర్టు_IE_TRAP                                                       2
+#నిర్వచించు పోర్టు_CM_TRAP                                                       3
+#నిర్వచించు పోర్టు_SBP_TRAP                                                      4
+#నిర్వచించు పోర్టు_ASSERT_TRAP                                                   5
+#నిర్వచించు పోర్టు_NMI_TRAP                                                      7
 
 /* MMU Trap Identifications. */
-#define portTIN_MMU_VIRTUAL_ADDRESS_FILL                                  0
-#define portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION                            1
+#నిర్వచించు పోర్టు_TIN_MMU_VIRTUAL_చిరునామా_FILL                                  0
+#నిర్వచించు పోర్టు_TIN_MMU_VIRTUAL_చిరునామా_PROTECTION                            1
 
 /* Internal Protection Trap Identifications. */
-#define portTIN_IPT_PRIVILEGED_INSTRUCTION                                1
-#define portTIN_IPT_MEMORY_PROTECTION_READ                                2
-#define portTIN_IPT_MEMORY_PROTECTION_WRITE                               3
-#define portTIN_IPT_MEMORY_PROTECTION_EXECUTION                           4
-#define portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS                   5
-#define portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS                        6
-#define portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION    7
+#నిర్వచించు పోర్టు_TIN_IPT_PRIVILEGED_INSTRUCTION                                1
+#నిర్వచించు పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_READ                                2
+#నిర్వచించు పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_WRITE                               3
+#నిర్వచించు పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_EXECUTION                           4
+#నిర్వచించు పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_PERIPHERAL_ACCESS                   5
+#నిర్వచించు పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_NULL_చిరునామా                        6
+#నిర్వచించు పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_GLOBAL_రిజిస్టరు_WRITE_PROTECTION    7
 
 /* Instruction Error Trap Identifications. */
-#define portTIN_IE_ILLEGAL_OPCODE                                         1
-#define portTIN_IE_UNIMPLEMENTED_OPCODE                                   2
-#define portTIN_IE_INVALID_OPERAND                                        3
-#define portTIN_IE_DATA_ADDRESS_ALIGNMENT                                 4
-#define portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS                           5
+#నిర్వచించు పోర్టు_TIN_IE_ILLEGAL_OPCODE                                         1
+#నిర్వచించు పోర్టు_TIN_IE_UNIMPLEMENTED_OPCODE                                   2
+#నిర్వచించు పోర్టు_TIN_IE_INVALID_నిర్వాహ్యం                                        3
+#నిర్వచించు పోర్టు_TIN_IE_దత్తాంశం_చిరునామా_ALIGNMENT                                 4
+#నిర్వచించు పోర్టు_TIN_IE_INVALID_LOCAL_జ్ఞాపకం_చిరునామా                           5
 
 /* Context Management Trap Identifications. */
-#define portTIN_CM_FREE_CONTEXT_LIST_DEPLETION                            1
-#define portTIN_CM_CALL_DEPTH_OVERFLOW                                    2
-#define portTIN_CM_CALL_DEPTH_UNDEFLOW                                    3
-#define portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
-#define portTIN_CM_CALL_STACK_UNDERFLOW                                   5
-#define portTIN_CM_CONTEXT_TYPE                                           6
-#define portTIN_CM_NESTING_ERROR                                          7
+#నిర్వచించు పోర్టు_TIN_CM_FREE_CONTEXT_LIST_DEPLETION                            1
+#నిర్వచించు పోర్టు_TIN_CM_CALL_లోతు_అధికప్రవాహం                                    2
+#నిర్వచించు పోర్టు_TIN_CM_CALL_లోతు_UNDEFLOW                                    3
+#నిర్వచించు పోర్టు_TIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
+#నిర్వచించు పోర్టు_TIN_CM_CALL_దొంతర_UNDERFLOW                                   5
+#నిర్వచించు పోర్టు_TIN_CM_CONTEXT_TYPE                                           6
+#నిర్వచించు పోర్టు_TIN_CM_NESTING_ERROR                                          7
 
 /* System Bus and Peripherals Trap Identifications. */
-#define portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR                       1
-#define portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR                         2
-#define portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR                        3
-#define portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR                   4
-#define portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR                        5
-#define portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR                           6
+#నిర్వచించు పోర్టు_TIN_SBP_కార్యక్రమం_FETCH_SYNCHRONOUS_ERROR                       1
+#నిర్వచించు పోర్టు_TIN_SBP_దత్తాంశం_ACCESS_SYNCHRONOUS_ERROR                         2
+#నిర్వచించు పోర్టు_TIN_SBP_దత్తాంశం_ACCESS_ASYNCHRONOUS_ERROR                        3
+#నిర్వచించు పోర్టు_TIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR                   4
+#నిర్వచించు పోర్టు_TIN_SBP_కార్యక్రమం_జ్ఞాపకం_INTEGRITY_ERROR                        5
+#నిర్వచించు పోర్టు_TIN_SBP_దత్తాంశం_జ్ఞాపకం_INTEGRITY_ERROR                           6
 
 /* Assertion Trap Identifications. */
-#define portTIN_ASSERT_ARITHMETIC_OVERFLOW                                1
-#define portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW                         2
+#నిర్వచించు పోర్టు_TIN_ASSERT_ARITHMETIC_అధికప్రవాహం                                1
+#నిర్వచించు పోర్టు_TIN_ASSERT_STICKY_ARITHMETIC_అధికప్రవాహం                         2
 
 /* Non-maskable Interrupt Trap Identifications. */
-#define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
+#నిర్వచించు పోర్టు_TIN_NMI_NON_MASKABLE_అంతరాయం                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య vMMUTrap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య v_అంతర్గత_Protection_Trap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య vInstructionErrorTrap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య vContextManagementTrap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య vSystemBusAndPeripheralsTrap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య vAssertionTrap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
+శూన్య v_Non_Maskable_అంతరాయం_Trap( పూర్ణాంకం iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
-void vTrapInstallHandlers( void )
+శూన్య vTrapInstallHandlers( శూన్య )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_MMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_IPT_TRAP, v_అంతర్గత_Protection_Trap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_IE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_CM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_SBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_ASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    ఒకవేళ( 0 == _install_trap_handler( పోర్టు_NMI_TRAP, v_Non_Maskable_అంతరాయం_Trap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+శూన్య vMMUTrap( పూర్ణాంకం iTrapIdentification )
 {
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_MMU_VIRTUAL_ADDRESS_FILL:
-        case portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
-        default:
+        స్థితి పోర్టు_TIN_MMU_VIRTUAL_చిరునామా_FILL:
+        స్థితి పోర్టు_TIN_MMU_VIRTUAL_చిరునామా_PROTECTION:
+        అప్రమేయ:
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+శూన్య v_అంతర్గత_Protection_Trap( పూర్ణాంకం iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_IPT_PRIVILEGED_INSTRUCTION:
+        స్థితి పోర్టు_TIN_IPT_PRIVILEGED_INSTRUCTION:
         /* Instruction is not allowed at current execution level, eg DISABLE at User-0. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_READ:
+        స్థితి పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_READ:
         /* Load word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_WRITE:
+        స్థితి పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_WRITE:
         /* Store Word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
+        స్థితి పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_EXECUTION:
         /* PC jumped to an address outside of the valid range. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
+        స్థితి పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_PERIPHERAL_ACCESS:
         /* Access to a peripheral denied at current execution level. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
+        స్థితి పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_NULL_చిరునామా:
         /* NULL Pointer. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
+        స్థితి పోర్టు_TIN_IPT_జ్ఞాపకం_PROTECTION_GLOBAL_రిజిస్టరు_WRITE_PROTECTION:
         /* Tried to modify a global address pointer register. */
 
-        default:
+        అప్రమేయ:
 
             pxCurrentTCB[ 0 ] = __MFCR( $PCXI );
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+శూన్య vInstructionErrorTrap( పూర్ణాంకం iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_IE_ILLEGAL_OPCODE:
-        case portTIN_IE_UNIMPLEMENTED_OPCODE:
-        case portTIN_IE_INVALID_OPERAND:
-        case portTIN_IE_DATA_ADDRESS_ALIGNMENT:
-        case portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
-        default:
+        స్థితి పోర్టు_TIN_IE_ILLEGAL_OPCODE:
+        స్థితి పోర్టు_TIN_IE_UNIMPLEMENTED_OPCODE:
+        స్థితి పోర్టు_TIN_IE_INVALID_నిర్వాహ్యం:
+        స్థితి పోర్టు_TIN_IE_దత్తాంశం_చిరునామా_ALIGNMENT:
+        స్థితి పోర్టు_TIN_IE_INVALID_LOCAL_జ్ఞాపకం_చిరునామా:
+        అప్రమేయ:
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+శూన్య vContextManagementTrap( పూర్ణాంకం iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
-        case portTIN_CM_CALL_DEPTH_OVERFLOW:
-        case portTIN_CM_CALL_DEPTH_UNDEFLOW:
-        case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
-        case portTIN_CM_CONTEXT_TYPE:
-        case portTIN_CM_NESTING_ERROR:
-        default:
+        స్థితి పోర్టు_TIN_CM_FREE_CONTEXT_LIST_DEPLETION:
+        స్థితి పోర్టు_TIN_CM_CALL_లోతు_అధికప్రవాహం:
+        స్థితి పోర్టు_TIN_CM_CALL_లోతు_UNDEFLOW:
+        స్థితి పోర్టు_TIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
+        స్థితి పోర్టు_TIN_CM_CALL_దొంతర_UNDERFLOW:
+        స్థితి పోర్టు_TIN_CM_CONTEXT_TYPE:
+        స్థితి పోర్టు_TIN_CM_NESTING_ERROR:
+        అప్రమేయ:
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+శూన్య vSystemBusAndPeripheralsTrap( పూర్ణాంకం iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
-        case portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
-        default:
+        స్థితి పోర్టు_TIN_SBP_కార్యక్రమం_FETCH_SYNCHRONOUS_ERROR:
+        స్థితి పోర్టు_TIN_SBP_దత్తాంశం_ACCESS_SYNCHRONOUS_ERROR:
+        స్థితి పోర్టు_TIN_SBP_దత్తాంశం_ACCESS_ASYNCHRONOUS_ERROR:
+        స్థితి పోర్టు_TIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
+        స్థితి పోర్టు_TIN_SBP_కార్యక్రమం_జ్ఞాపకం_INTEGRITY_ERROR:
+        స్థితి పోర్టు_TIN_SBP_దత్తాంశం_జ్ఞాపకం_INTEGRITY_ERROR:
+        అప్రమేయ:
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+శూన్య vAssertionTrap( పూర్ణాంకం iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_ASSERT_ARITHMETIC_OVERFLOW:
-        case portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
-        default:
+        స్థితి పోర్టు_TIN_ASSERT_ARITHMETIC_అధికప్రవాహం:
+        స్థితి పోర్టు_TIN_ASSERT_STICKY_ARITHMETIC_అధికప్రవాహం:
+        అప్రమేయ:
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+శూన్య v_Non_Maskable_అంతరాయం_Trap( పూర్ణాంకం iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ఎంపిక( iTrapIdentification )
     {
-        case portTIN_NMI_NON_MASKABLE_INTERRUPT:
-        default:
+        స్థితి పోర్టు_TIN_NMI_NON_MASKABLE_అంతరాయం:
+        అప్రమేయ:
             _debug();
-            break;
+            ఆపు;
     }
 }
 /*---------------------------------------------------------------------------*/

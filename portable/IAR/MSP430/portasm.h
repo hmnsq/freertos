@@ -26,51 +26,51 @@
  *
  */
 
-#ifndef PORTASM_H
-#define PORTASM_H
+#నిర్వచితం_కాకపోతే PORTASM_H
+#నిర్వచించు PORTASM_H
 
-portSAVE_CONTEXT macro
+పోర్టు_SAVE_CONTEXT macro
 
     IMPORT pxCurrentTCB
     IMPORT usCriticalNesting
 
     /* Save the remaining registers. */
-    push   r4
-    push   r5
-    push   r6
-    push   r7
-    push   r8
-    push   r9
-    push   r10
-    push   r11
-    push   r12
-    push   r13
-    push   r14
-    push   r15
+    నెట్టు   r4
+    నెట్టు   r5
+    నెట్టు   r6
+    నెట్టు   r7
+    నెట్టు   r8
+    నెట్టు   r9
+    నెట్టు   r10
+    నెట్టు   r11
+    నెట్టు   r12
+    నెట్టు   r13
+    నెట్టు   r14
+    నెట్టు   r15
     mov.w  &usCriticalNesting, r14
-    push   r14
+    నెట్టు   r14
     mov.w  &pxCurrentTCB, r12
     mov.w  r1, 0(r12)
     endm
 /*-----------------------------------------------------------*/
 
-portRESTORE_CONTEXT macro
+పోర్టు_RESTORE_CONTEXT macro
     mov.w  &pxCurrentTCB, r12
     mov.w  @r12, r1
-    pop    r15
+    తీయి    r15
     mov.w  r15, &usCriticalNesting
-    pop    r15
-    pop    r14
-    pop    r13
-    pop    r12
-    pop    r11
-    pop    r10
-    pop    r9
-    pop    r8
-    pop    r7
-    pop    r6
-    pop    r5
-    pop    r4
+    తీయి    r15
+    తీయి    r14
+    తీయి    r13
+    తీయి    r12
+    తీయి    r11
+    తీయి    r10
+    తీయి    r9
+    తీయి    r8
+    తీయి    r7
+    తీయి    r6
+    తీయి    r5
+    తీయి    r4
 
     /* The last thing on the stack will be the status register.
      * Ensure the power down bits are clear ready for the next
@@ -81,4 +81,4 @@ portRESTORE_CONTEXT macro
     endm
 /*-----------------------------------------------------------*/
 
-#endif /* ifndef PORTASM_H */
+#అయితే_ముగింపు /* ifndef PORTASM_H */

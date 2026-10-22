@@ -26,24 +26,24 @@
  *
  */
 
-#ifndef PORTMACRO_ASM_H
-#define PORTMACRO_ASM_H
+#నిర్వచితం_కాకపోతే PORTMACRO_ASM_H
+#నిర్వచించు PORTMACRO_ASM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+బాహ్య "C" {
+#అయితే_ముగింపు
 
-#include "FreeRTOSConfig.h"
+#అన్తర్భావ "FreeRTOSConfig.h"
 
-#ifndef configTOTAL_MPU_REGIONS
-    #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#elif( configTOTAL_MPU_REGIONS == 12 )
-    #define portMPU_TOTAL_REGIONS ( 12UL )
-#elif( configTOTAL_MPU_REGIONS == 16 )
-    #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
-    #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#endif /* configTOTAL_MPU_REGIONS */
+#నిర్వచితం_కాకపోతే config_మొత్తం_MPU_REGIONS
+    #దోషం "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
+#లేదావేళ( config_మొత్తం_MPU_REGIONS == 12 )
+    #నిర్వచించు పోర్టు_MPU_మొత్తం_REGIONS ( 12UL )
+#లేదావేళ( config_మొత్తం_MPU_REGIONS == 16 )
+    #నిర్వచించు పోర్టు_MPU_మొత్తం_REGIONS ( 16UL )
+#లేకపోతే
+    #దోషం "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
+#అయితే_ముగింపు /* configTOTAL_MPU_REGIONS */
 
 /*
  * The application write can disable Floating Point Unit (FPU) support by
@@ -56,11 +56,11 @@ extern "C" {
  * themselves by using the floating point registers. If the FPU support is
  * disabled, the use of such APIs may result in memory corruption.
  */
-#ifndef configENABLE_FPU
-    #define configENABLE_FPU    1
-#endif /* configENABLE_FPU */
+#నిర్వచితం_కాకపోతే configENABLE_FPU
+    #నిర్వచించు configENABLE_FPU    1
+#అయితే_ముగింపు /* configENABLE_FPU */
 
-#define portENABLE_FPU configENABLE_FPU
+#నిర్వచించు పోర్టు_ENABLE_FPU configENABLE_FPU
 
 /* On the ArmV7-R Architecture the Operating mode of the Processor is set
  * using the Current Program Status Register (CPSR) Mode bits, [4:0]. The only
@@ -76,22 +76,22 @@ extern "C" {
  *
  * @ingroup Port Privilege
  */
-#define USER_MODE   0x10U
-#define FIQ_MODE    0x11U
-#define IRQ_MODE    0x12U
-#define SVC_MODE    0x13U
-#define MON_MODE    0x16U
-#define ABT_MODE    0x17U
-#define HYP_MODE    0x1AU
-#define UND_MODE    0x1BU
-#define SYS_MODE    0x1FU
+#నిర్వచించు USER_బహుళకం   0x10U
+#నిర్వచించు FIQ_బహుళకం    0x11U
+#నిర్వచించు IRQ_బహుళకం    0x12U
+#నిర్వచించు SVC_బహుళకం    0x13U
+#నిర్వచించు MON_బహుళకం    0x16U
+#నిర్వచించు ABT_బహుళకం    0x17U
+#నిర్వచించు HYP_బహుళకం    0x1AU
+#నిర్వచించు UND_బహుళకం    0x1BU
+#నిర్వచించు SYS_బహుళకం    0x1FU
 
 /**
  * @brief Flag used to mark that a FreeRTOS Task is privileged.
  *
  * @ingroup Port Privilege
  */
-#define portTASK_IS_PRIVILEGED_FLAG   ( 1UL << 1UL )
+#నిర్వచించు పోర్టు_TASK_IS_PRIVILEGED_FLAG   ( 1UL << 1UL )
 
 /**
  * @brief SVC numbers for various scheduler operations.
@@ -100,8 +100,8 @@ extern "C" {
  *
  * @note These value must not be used in mpu_syscall_numbers.h.
  */
-#define portSVC_YIELD                 0x0100U
-#define portSVC_SYSTEM_CALL_EXIT      0x0104U
+#నిర్వచించు పోర్టు_SVC_YIELD                 0x0100U
+#నిర్వచించు పోర్టు_SVC_SYSTEM_CALL_EXIT      0x0104U
 
 /**
  * @brief Macros required to manipulate MPU.
@@ -113,110 +113,110 @@ extern "C" {
 
 /* MPU sub-region disable settings. This information is encoded in the MPU
  * Region Size and Enable Register. */
-#define portMPU_SUBREGION_0_DISABLE   ( 0x1UL << 8UL )
-#define portMPU_SUBREGION_1_DISABLE   ( 0x1UL << 9UL )
-#define portMPU_SUBREGION_2_DISABLE   ( 0x1UL << 10UL )
-#define portMPU_SUBREGION_3_DISABLE   ( 0x1UL << 11UL )
-#define portMPU_SUBREGION_4_DISABLE   ( 0x1UL << 12UL )
-#define portMPU_SUBREGION_5_DISABLE   ( 0x1UL << 13UL )
-#define portMPU_SUBREGION_6_DISABLE   ( 0x1UL << 14UL )
-#define portMPU_SUBREGION_7_DISABLE   ( 0x1UL << 15UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_0_DISABLE   ( 0x1UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_1_DISABLE   ( 0x1UL << 9UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_2_DISABLE   ( 0x1UL << 10UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_3_DISABLE   ( 0x1UL << 11UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_4_DISABLE   ( 0x1UL << 12UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_5_DISABLE   ( 0x1UL << 13UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_6_DISABLE   ( 0x1UL << 14UL )
+#నిర్వచించు పోర్టు_MPU_SUBREGION_7_DISABLE   ( 0x1UL << 15UL )
 
 /* Default MPU regions. */
-#define portFIRST_CONFIGURABLE_REGION ( 0 )
-#define portLAST_CONFIGURABLE_REGION  ( portMPU_TOTAL_REGIONS - 5UL )
-#define portSTACK_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION ( portMPU_TOTAL_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION   ( portMPU_TOTAL_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION     ( portMPU_TOTAL_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS \
-    ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1UL )
+#నిర్వచించు పోర్టు_మొదటి_CONFIGURABLE_REGION ( 0 )
+#నిర్వచించు పోర్టు_చివరి_CONFIGURABLE_REGION  ( పోర్టు_MPU_మొత్తం_REGIONS - 5UL )
+#నిర్వచించు పోర్టు_దొంతర_REGION              ( పోర్టు_MPU_మొత్తం_REGIONS - 4UL )
+#నిర్వచించు పోర్టు_UNPRIVILEGED_FLASH_REGION ( పోర్టు_MPU_మొత్తం_REGIONS - 3UL )
+#నిర్వచించు పోర్టు_PRIVILEGED_FLASH_REGION   ( పోర్టు_MPU_మొత్తం_REGIONS - 2UL )
+#నిర్వచించు పోర్టు_PRIVILEGED_RAM_REGION     ( పోర్టు_MPU_మొత్తం_REGIONS - 1UL )
+#నిర్వచించు పోర్టు_అంకె_CONFIGURABLE_REGIONS \
+    ( ( పోర్టు_చివరి_CONFIGURABLE_REGION - పోర్టు_మొదటి_CONFIGURABLE_REGION ) + 1UL )
 /* Plus one to make space for the stack region. */
-#define portTOTAL_NUM_REGIONS_IN_TCB        ( portNUM_CONFIGURABLE_REGIONS + 1UL )
+#నిర్వచించు పోర్టు_మొత్తం_అంకె_REGIONS_లోపల_TCB        ( పోర్టు_అంకె_CONFIGURABLE_REGIONS + 1UL )
 
 /* MPU region sizes. This information is encoded in the MPU Region Size and
  * Enable Register. */
-#define portMPU_REGION_SIZE_32B             ( 0x04UL << 1UL )
-#define portMPU_REGION_SIZE_64B             ( 0x05UL << 1UL )
-#define portMPU_REGION_SIZE_128B            ( 0x06UL << 1UL )
-#define portMPU_REGION_SIZE_256B            ( 0x07UL << 1UL )
-#define portMPU_REGION_SIZE_512B            ( 0x08UL << 1UL )
-#define portMPU_REGION_SIZE_1KB             ( 0x09UL << 1UL )
-#define portMPU_REGION_SIZE_2KB             ( 0x0AUL << 1UL )
-#define portMPU_REGION_SIZE_4KB             ( 0x0BUL << 1UL )
-#define portMPU_REGION_SIZE_8KB             ( 0x0CUL << 1UL )
-#define portMPU_REGION_SIZE_16KB            ( 0x0DUL << 1UL )
-#define portMPU_REGION_SIZE_32KB            ( 0x0EUL << 1UL )
-#define portMPU_REGION_SIZE_64KB            ( 0x0FUL << 1UL )
-#define portMPU_REGION_SIZE_128KB           ( 0x10UL << 1UL )
-#define portMPU_REGION_SIZE_256KB           ( 0x11UL << 1UL )
-#define portMPU_REGION_SIZE_512KB           ( 0x12UL << 1UL )
-#define portMPU_REGION_SIZE_1MB             ( 0x13UL << 1UL )
-#define portMPU_REGION_SIZE_2MB             ( 0x14UL << 1UL )
-#define portMPU_REGION_SIZE_4MB             ( 0x15UL << 1UL )
-#define portMPU_REGION_SIZE_8MB             ( 0x16UL << 1UL )
-#define portMPU_REGION_SIZE_16MB            ( 0x17UL << 1UL )
-#define portMPU_REGION_SIZE_32MB            ( 0x18UL << 1UL )
-#define portMPU_REGION_SIZE_64MB            ( 0x19UL << 1UL )
-#define portMPU_REGION_SIZE_128MB           ( 0x1AUL << 1UL )
-#define portMPU_REGION_SIZE_256MB           ( 0x1BUL << 1UL )
-#define portMPU_REGION_SIZE_512MB           ( 0x1CUL << 1UL )
-#define portMPU_REGION_SIZE_1GB             ( 0x1DUL << 1UL )
-#define portMPU_REGION_SIZE_2GB             ( 0x1EUL << 1UL )
-#define portMPU_REGION_SIZE_4GB             ( 0x1FUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_32_B             ( 0x04UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_64_B             ( 0x05UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_128_B            ( 0x06UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_256_B            ( 0x07UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_512_B            ( 0x08UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_1_KB             ( 0x09UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_2_KB             ( 0x0AUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_4_KB             ( 0x0BUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_8_KB             ( 0x0CUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_16_KB            ( 0x0DUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_32_KB            ( 0x0EUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_64_KB            ( 0x0FUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_128_KB           ( 0x10UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_256_KB           ( 0x11UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_512_KB           ( 0x12UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_1_MB             ( 0x13UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_2_MB             ( 0x14UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_4_MB             ( 0x15UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_8_MB             ( 0x16UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_16_MB            ( 0x17UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_32_MB            ( 0x18UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_64_MB            ( 0x19UL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_128_MB           ( 0x1AUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_256_MB           ( 0x1BUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_512_MB           ( 0x1CUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_1_GB             ( 0x1DUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_2_GB             ( 0x1EUL << 1UL )
+#నిర్వచించు పోర్టు_MPU_REGION_కొలత_4_GB             ( 0x1FUL << 1UL )
 
 /* MPU memory types. This information is encoded in the TEX, S, C and B bits
  * of the MPU Region Access Control Register. */
-#define portMPU_REGION_STRONGLY_ORDERED_SHAREABLE  ( 0x00UL ) /* TEX=000, S=NA, C=0, B=0. */
-#define portMPU_REGION_DEVICE_SHAREABLE            ( 0x01UL ) /* TEX=000, S=NA, C=0, B=1. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_NONSHARED   ( 0x02UL ) /* TEX=000, S=0, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_SHARED      ( 0x06UL ) /* TEX=000, S=1, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_NONSHARED   ( 0x03UL ) /* TEX=000, S=0, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_SHARED      ( 0x07UL ) /* TEX=000, S=1, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OINC_NONSHARED       ( 0x08UL ) /* TEX=001, S=0, C=0, B=0. */
-#define portMPU_REGION_NORMAL_OINC_SHARED          ( 0x0CUL ) /* TEX=001, S=1, C=0, B=0. */
-#define portMPU_REGION_NORMAL_OIWBWA_NONSHARED     ( 0x0BUL ) /* TEX=001, S=0, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OIWBWA_SHARED        ( 0x0FUL ) /* TEX=001, S=1, C=1, B=1. */
-#define portMPU_REGION_DEVICE_NONSHAREABLE         ( 0x10UL ) /* TEX=010, S=NA, C=0, B=0. */
+#నిర్వచించు పోర్టు_MPU_REGION_STRONGLY_ORDERED_SHAREABLE  ( 0x00UL ) /* TEX=000, S=NA, C=0, B=0. */
+#నిర్వచించు పోర్టు_MPU_REGION_DEVICE_SHAREABLE            ( 0x01UL ) /* TEX=000, S=NA, C=0, B=1. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OIWTNOWA_NONSHARED   ( 0x02UL ) /* TEX=000, S=0, C=1, B=0. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OIWTNOWA_SHARED      ( 0x06UL ) /* TEX=000, S=1, C=1, B=0. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OIWBNOWA_NONSHARED   ( 0x03UL ) /* TEX=000, S=0, C=1, B=1. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OIWBNOWA_SHARED      ( 0x07UL ) /* TEX=000, S=1, C=1, B=1. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OINC_NONSHARED       ( 0x08UL ) /* TEX=001, S=0, C=0, B=0. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OINC_SHARED          ( 0x0CUL ) /* TEX=001, S=1, C=0, B=0. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OIWBWA_NONSHARED     ( 0x0BUL ) /* TEX=001, S=0, C=1, B=1. */
+#నిర్వచించు పోర్టు_MPU_REGION_సాధారణ_OIWBWA_SHARED        ( 0x0FUL ) /* TEX=001, S=1, C=1, B=1. */
+#నిర్వచించు పోర్టు_MPU_REGION_DEVICE_NONSHAREABLE         ( 0x10UL ) /* TEX=010, S=NA, C=0, B=0. */
 
 /* MPU access permissions. This information is encoded in the XN and AP bits of
  * the MPU Region Access Control Register. */
-#define portMPU_REGION_AP_BITMASK                  ( 0x07UL << 8UL )
-#define portMPU_REGION_XN_BITMASK                  ( 0x01UL << 12UL )
+#నిర్వచించు పోర్టు_MPU_REGION_AP_BITMASK                  ( 0x07UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_XN_BITMASK                  ( 0x01UL << 12UL )
 
-#define portMPU_REGION_PRIV_NA_USER_NA             ( 0x00UL << 8UL )
-#define portMPU_REGION_PRIV_NA_USER_NA_EXEC        ( portMPU_REGION_PRIV_NA_USER_NA ) /* Priv: X, Unpriv: X. */
-#define portMPU_REGION_PRIV_NA_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_NA_USER_NA | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: No Access, Unpriv: No Access. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_NA_USER_NA             ( 0x00UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_NA_USER_NA_EXEC        ( పోర్టు_MPU_REGION_PRIV_NA_USER_NA ) /* Priv: X, Unpriv: X. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_NA_USER_NA_NOEXEC      ( పోర్టు_MPU_REGION_PRIV_NA_USER_NA | \
+                                                     పోర్టు_MPU_REGION_XN_BITMASK ) /* Priv: No Access, Unpriv: No Access. */
 
-#define portMPU_REGION_PRIV_RW_USER_NA             ( 0x01UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_NA_EXEC        ( portMPU_REGION_PRIV_RW_USER_NA ) /* Priv: RWX, Unpriv: X. */
-#define portMPU_REGION_PRIV_RW_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_NA | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: No access. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_NA             ( 0x01UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_NA_EXEC        ( పోర్టు_MPU_REGION_PRIV_RW_USER_NA ) /* Priv: RWX, Unpriv: X. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_NA_NOEXEC      ( పోర్టు_MPU_REGION_PRIV_RW_USER_NA | \
+                                                     పోర్టు_MPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: No access. */
 
-#define portMPU_REGION_PRIV_RW_USER_RO             ( 0x02UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_RO_EXEC        ( portMPU_REGION_PRIV_RW_USER_RO ) /* Priv: RWX, Unpriv: RX. */
-#define portMPU_REGION_PRIV_RW_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RO | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: R. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_RO             ( 0x02UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_RO_EXEC        ( పోర్టు_MPU_REGION_PRIV_RW_USER_RO ) /* Priv: RWX, Unpriv: RX. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_RO_NOEXEC      ( పోర్టు_MPU_REGION_PRIV_RW_USER_RO | \
+                                                     పోర్టు_MPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: R. */
 
-#define portMPU_REGION_PRIV_RW_USER_RW             ( 0x03UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_RW_EXEC        ( portMPU_REGION_PRIV_RW_USER_RW ) /* Priv: RWX, Unpriv: RWX. */
-#define portMPU_REGION_PRIV_RW_USER_RW_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RW | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: RW. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_RW             ( 0x03UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_RW_EXEC        ( పోర్టు_MPU_REGION_PRIV_RW_USER_RW ) /* Priv: RWX, Unpriv: RWX. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RW_USER_RW_NOEXEC      ( పోర్టు_MPU_REGION_PRIV_RW_USER_RW | \
+                                                     పోర్టు_MPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: RW. */
 
-#define portMPU_REGION_PRIV_RO_USER_NA             ( 0x05UL << 8UL )
-#define portMPU_REGION_PRIV_RO_USER_NA_EXEC        ( portMPU_REGION_PRIV_RO_USER_NA ) /* Priv: RX, Unpriv: X. */
-#define portMPU_REGION_PRIV_RO_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_NA | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: No access. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RO_USER_NA             ( 0x05UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RO_USER_NA_EXEC        ( పోర్టు_MPU_REGION_PRIV_RO_USER_NA ) /* Priv: RX, Unpriv: X. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RO_USER_NA_NOEXEC      ( పోర్టు_MPU_REGION_PRIV_RO_USER_NA | \
+                                                     పోర్టు_MPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: No access. */
 
-#define portMPU_REGION_PRIV_RO_USER_RO             ( 0x06UL << 8UL )
-#define portMPU_REGION_PRIV_RO_USER_RO_EXEC        ( portMPU_REGION_PRIV_RO_USER_RO ) /* Priv: RX, Unpriv: RX. */
-#define portMPU_REGION_PRIV_RO_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_RO | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: R. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RO_USER_RO             ( 0x06UL << 8UL )
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RO_USER_RO_EXEC        ( పోర్టు_MPU_REGION_PRIV_RO_USER_RO ) /* Priv: RX, Unpriv: RX. */
+#నిర్వచించు పోర్టు_MPU_REGION_PRIV_RO_USER_RO_NOEXEC      ( పోర్టు_MPU_REGION_PRIV_RO_USER_RO | \
+                                                     పోర్టు_MPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: R. */
 
 /* MPU region management. */
-#define portMPU_REGION_EXECUTE_NEVER               ( 0x01UL << 12UL )
-#define portMPU_REGION_ENABLE                      ( 0x01UL )
+#నిర్వచించు పోర్టు_MPU_REGION_EXECUTE_NEVER               ( 0x01UL << 12UL )
+#నిర్వచించు పోర్టు_MPU_REGION_ENABLE                      ( 0x01UL )
 
 /**
  * @brief The size (in words) of a task context.
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#ఒకవేళ( పోర్టు_ENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -250,8 +250,8 @@ extern "C" {
      * <------------------><------><---------><--------><---------><--------><----------><----->
      *           1            1        32         13         1         1          1        1
      */
-    #define CONTEXT_SIZE 51U
-#else
+    #నిర్వచించు CONTEXT_కొలత 51U
+#లేకపోతే
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -260,20 +260,20 @@ extern "C" {
      * <------------------><--------><---------><--------><----------><----->
      *           1             13         1         1          1        1
      */
-    #define CONTEXT_SIZE 18U
-#endif /* CONTEXT_SIZE */
+    #నిర్వచించు CONTEXT_కొలత 18U
+#అయితే_ముగింపు /* CONTEXT_SIZE */
 
 /**
  * @brief Offset of xSystemCallStackInfo from the start of a TCB.
  */
-#define portSYSTEM_CALL_INFO_OFFSET             \
+#నిర్వచించు పోర్టు_SYSTEM_CALL_INFO_స్థానభ్రంశం             \
     ( ( 1U /* pxTopOfStack. */ +                \
-        ( portTOTAL_NUM_REGIONS_IN_TCB * 3U ) + \
+        ( పోర్టు_మొత్తం_అంకె_REGIONS_లోపల_TCB * 3U ) + \
         1U /* ulTaskFlags. */                   \
       ) * 4U )
 
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
 } /* extern C */
-#endif
+#అయితే_ముగింపు
 
-#endif /* PORTMACRO_ASM_H */
+#అయితే_ముగింపు /* PORTMACRO_ASM_H */

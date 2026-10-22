@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef __SECURE_INIT_H__
-#define __SECURE_INIT_H__
+#నిర్వచితం_కాకపోతే __SECURE_INIT_H__
+#నిర్వచించు __SECURE_INIT_H__
 
 /**
  * @brief De-prioritizes the non-secure exceptions.
@@ -38,7 +38,7 @@
  * @note This function must be called in the handler mode. It is no-op if called
  * in the thread mode.
  */
-void SecureInit_DePrioritizeNSExceptions( void );
+శూన్య SecureInit_DePrioritizeNSExceptions( శూన్య );
 
 /**
  * @brief Sets up the Floating Point Unit (FPU) for Non-Secure access.
@@ -49,6 +49,6 @@ void SecureInit_DePrioritizeNSExceptions( void );
  * @note This function must be called in the handler mode. It is no-op if called
  * in the thread mode.
  */
-void SecureInit_EnableNSFPUAccess( void );
+శూన్య SecureInit_EnableNSFPUAccess( శూన్య );
 
-#endif /* __SECURE_INIT_H__ */
+#అయితే_ముగింపు /* __SECURE_INIT_H__ */

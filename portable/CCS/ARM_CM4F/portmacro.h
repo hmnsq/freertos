@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+    #నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,137 +47,137 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #నిర్వచించు పోర్టు_CHAR          అక్షరం
+    #నిర్వచించు పోర్టు_FLOAT         దశాంశం
+    #నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+    #నిర్వచించు పోర్టు_LONG          దీర్ఘ
+    #నిర్వచించు పోర్టు_SHORT         పొట్టి
+    #నిర్వచించు పోర్టు_దొంతర_TYPE    uint32_t
+    #నిర్వచించు పోర్టు_పునాది_TYPE     దీర్ఘ
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+    రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+    రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    #ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+        రకనిర్వచనం uint16_t     TickType_t;
+        #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffff
+    #లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+        రకనిర్వచనం uint32_t     TickType_t;
+        #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-        #define portTICK_TYPE_IS_ATOMIC    1
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+        #నిర్వచించు పోర్టు_TICK_TYPE_IS_ATOMIC    1
+    #లేకపోతే
+        #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+    #అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    8
+    #నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+    #నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+    #నిర్వచించు పోర్టు_BYTE_ALIGNMENT    8
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-    #define portYIELD()                                 \
+    #నిర్వచించు పోర్టు_YIELD()                                 \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
-        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+        పోర్టు_NVIC_INT_CTRL_REG = పోర్టు_NVIC_PENDSVSET_బిట్టు; \
         __asm( "    dsb");                                \
         __asm( "    isb");                                \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#నిర్వచించు పోర్టు_NVIC_INT_CTRL_REG     ( *( ( అస్థిర uint32_t * ) 0xe000ed04 ) )
+#నిర్వచించు పోర్టు_NVIC_PENDSVSET_బిట్టు    ( 1UL << 28UL )
+#నిర్వచించు పోర్టు_చివర_SWITCHING_ISR( xSwitchRequired ) \
+    చేయి                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ఒకవేళ( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_గమ్యం_SCHEDULER();        \
+            పోర్టు_YIELD();                         \
         }                                        \
-        else                                     \
+        లేకపోతే                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } అయితే( 0 )
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR( x )    పోర్టు_చివర_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-    #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #endif
+    #నిర్వచితం_కాకపోతే config_USE_పోర్టు_OPTIMISED_TASK_SELECTION
+        #నిర్వచించు config_USE_పోర్టు_OPTIMISED_TASK_SELECTION    1
+    #అయితే_ముగింపు
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #ఒకవేళ config_USE_పోర్టు_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-        #if ( configMAX_PRIORITIES > 32 )
-            #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-        #endif
+        #ఒకవేళ ( configMAX_PRIORITIES > 32 )
+            #దోషం config_USE_పోర్టు_OPTIMISED_TASK_SELECTION can only be సమితి గమ్యం 1 when configMAX_PRIORITIES is less than or equal గమ్యం 32.  It is very rare that a system requires మరిన్ని than 10 గమ్యం 15 difference priorities as tasks that share a ప్రాధాన్యత will time ముక్క.
+        #అయితే_ముగింపు
 
 /* Store/clear the ready priorities in a bit map. */
-        #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-        #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+        #నిర్వచించు పోర్టు_రికార్డు_READY_ప్రాధాన్యత( ux_ప్రాధాన్యత, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ప్రాధాన్యత ) )
+        #నిర్వచించు పోర్టు_RESET_READY_ప్రాధాన్యత( ux_ప్రాధాన్యత, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ప్రాధాన్యత ) )
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __clz( ( uxReadyPriorities ) ) )
+        #నిర్వచించు పోర్టు_GET_HIGHEST_ప్రాధాన్యత( ux_శిఖరం_ప్రాధాన్యత, uxReadyPriorities )    ux_శిఖరం_ప్రాధాన్యత = ( 31 - __clz( ( uxReadyPriorities ) ) )
 
-    #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #అయితే_ముగింపు /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
+    బాహ్య శూన్య v_పోర్టు_Enter_Critical( శూన్య );
+    బాహ్య శూన్య v_పోర్టు_Exit_Critical( శూన్య );
 
-    #define portDISABLE_INTERRUPTS()                                     \
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()                                     \
     {                                                                    \
-        _set_interrupt_priority( configMAX_SYSCALL_INTERRUPT_PRIORITY ); \
+        సమితి_అంతరాయం_ప్రాధాన్యత( config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ); \
         __asm( "    dsb");                                                 \
         __asm( "    isb");                                                 \
     }
 
-    #define portENABLE_INTERRUPTS()                   _set_interrupt_priority( 0 )
-    #define portENTER_CRITICAL()                      vPortEnterCritical()
-    #define portEXIT_CRITICAL()                       vPortExitCritical()
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         _set_interrupt_priority( configMAX_SYSCALL_INTERRUPT_PRIORITY ); __asm( " dsb" ); __asm( "    isb")
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    _set_interrupt_priority( x )
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()                   సమితి_అంతరాయం_ప్రాధాన్యత( 0 )
+    #నిర్వచించు పోర్టు_ENTER_CRITICAL()                      v_పోర్టు_Enter_Critical()
+    #నిర్వచించు పోర్టు_EXIT_CRITICAL()                       v_పోర్టు_Exit_Critical()
+    #నిర్వచించు పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR()         సమితి_అంతరాయం_ప్రాధాన్యత( config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ); __asm( " dsb" ); __asm( "    isb")
+    #నిర్వచించు పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( x )    సమితి_అంతరాయం_ప్రాధాన్యత( x )
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
-    #ifndef portSUPPRESS_TICKS_AND_SLEEP
-        extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-        #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-    #endif
+    #నిర్వచితం_కాకపోతే పోర్టు_SUPPRESS_TICKS_AND_SLEEP
+        బాహ్య శూన్య v_పోర్టు_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_సమయం );
+        #నిర్వచించు పోర్టు_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_సమయం )    v_పోర్టు_Suppress_Ticks_And_Sleep( x_Expected_Idle_సమయం )
+    #అయితే_ముగింపు
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+    #నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 /*-----------------------------------------------------------*/
 
-    #if ( configASSERT_DEFINED == 1 )
-        void vPortValidateInterruptPriority( void );
-        #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-    #endif
+    #ఒకవేళ ( configASSERT_DEFINED == 1 )
+        శూన్య v_పోర్టు_Validate_అంతరాయం_ప్రాధాన్యత( శూన్య );
+        #నిర్వచించు పోర్టు_ASSERT_IF_అంతరాయం_ప్రాధాన్యత_INVALID()    v_పోర్టు_Validate_అంతరాయం_ప్రాధాన్యత()
+    #అయితే_ముగింపు
 
 /* portNOP() is not required by this port. */
-    #define portNOP()
+    #నిర్వచించు పోర్టు_NOP()
 
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

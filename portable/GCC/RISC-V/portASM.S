@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  *
  * CARE MUST BE TAKEN TO INCLDUE THE CORRECT
  * freertos_risc_v_chip_specific_extensions.h HEADER FILE FOR THE CHIP
- * IN USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
+ * లో USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
  * header file ensure the path to the correct header file is in the assembler's
  * include path.
  *
@@ -79,12 +79,12 @@ definitions. */
     #define portasmHAS_SIFIVE_CLINT 0
 #endif
 
-.global xPortStartFirstTask
-.global pxPortInitialiseStack
-.global freertos_risc_v_trap_handler
-.global freertos_risc_v_exception_handler
-.global freertos_risc_v_interrupt_handler
-.global freertos_risc_v_mtimer_interrupt_handler
+.వైశ్విక x_పోర్టు_ప్రారంభం_మొదటి_Task
+.వైశ్విక px_పోర్టు_Initialise_దొంతర
+.వైశ్విక freertos_risc_v_trap_handler
+.వైశ్విక freertos_risc_v_exception_handler
+.వైశ్విక freertos_risc_v_interrupt_handler
+.వైశ్విక freertos_risc_v_mtimer_interrupt_handler
 
 .extern vTaskSwitchContext
 .extern xTaskIncrementTick
@@ -133,10 +133,10 @@ definitions. */
 /*-----------------------------------------------------------*/
 
 /*
- * Unlike other ports pxPortInitialiseStack() is written in assembly code as it
+ * Unlike other ports px_పోర్టు_Initialise_దొంతర() is written in assembly code as it
  * needs access to the portasmADDITIONAL_CONTEXT_SIZE constant.  The prototype
  * for the function is as per the other ports:
- * StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
+ * StackType_t *px_పోర్టు_Initialise_దొంతర( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
  *
  * As per the standard RISC-V ABI pxTopOfStack is passed in in a0, pxCode in
  * a1, and pvParameters in a2.  The new top of stack is passed out in a0.
@@ -159,7 +159,7 @@ definitions. */
  * x28-31        t3-6        Temporaries                       Caller
  *
  * The RISC-V context is saved to FreeRTOS tasks in the following stack frame,
- * where the global and thread pointers are currently assumed to be constant so
+ * where the వైశ్విక and thread pointers are currently assumed to be constant so
  * are not saved:
  *
  * xCriticalNesting
@@ -197,7 +197,7 @@ definitions. */
  * [chip specific registers go here]
  * pxCode
  */
-pxPortInitialiseStack:
+px_పోర్టు_Initialise_దొంతర:
     addi a0, a0, -portWORD_SIZE         /* Space for critical nesting count. */
     store_x x0, 0(a0)                   /* Critical nesting count starts at 0 for every task. */
 
@@ -251,7 +251,7 @@ chip_specific_stack_frame:              /* First add any chip specific registers
     ret
 /*-----------------------------------------------------------*/
 
-xPortStartFirstTask:
+x_పోర్టు_ప్రారంభం_మొదటి_Task:
     load_x  sp, pxCurrentTCB            /* Load pxCurrentTCB. */
     load_x  sp, 0( sp )                 /* Read sp from first TCB member. */
 
@@ -320,20 +320,20 @@ freertos_risc_v_application_interrupt_handler:
 freertos_risc_v_exception_handler:
     portcontextSAVE_EXCEPTION_CONTEXT
     /* a0 now contains mcause. */
-    li t0, 11                           /* 11 == environment call. */
-    bne a0, t0, other_exception         /* Not an M environment call, so some other exception. */
-    call vTaskSwitchContext
+    li t0, 11                           /* 11 == environment పిలువు. */
+    bne a0, t0, other_exception         /* Not an M environment పిలువు, so some other exception. */
+    పిలువు vTaskSwitchContext
     portcontextRESTORE_CONTEXT
 
 other_exception:
-    call freertos_risc_v_application_exception_handler
+    పిలువు freertos_risc_v_application_exception_handler
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
 
 .section .text.freertos_risc_v_interrupt_handler
 freertos_risc_v_interrupt_handler:
     portcontextSAVE_INTERRUPT_CONTEXT
-    call freertos_risc_v_application_interrupt_handler
+    పిలువు freertos_risc_v_application_interrupt_handler
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
 
@@ -341,9 +341,9 @@ freertos_risc_v_interrupt_handler:
 freertos_risc_v_mtimer_interrupt_handler:
     portcontextSAVE_INTERRUPT_CONTEXT
     portUPDATE_MTIMER_COMPARE_REGISTER
-    call xTaskIncrementTick
+    పిలువు xTaskIncrementTick
     beqz a0, exit_without_context_switch    /* Don't switch context if incrementing tick didn't unblock a task. */
-    call vTaskSwitchContext
+    పిలువు vTaskSwitchContext
 exit_without_context_switch:
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
@@ -379,26 +379,26 @@ handle_interrupt:
         bne a0, t1, application_interrupt_handler
 
         portUPDATE_MTIMER_COMPARE_REGISTER
-        call xTaskIncrementTick
+        పిలువు xTaskIncrementTick
         beqz a0, processed_source       /* Don't switch context if incrementing tick didn't unblock a task. */
-        call vTaskSwitchContext
+        పిలువు vTaskSwitchContext
         j processed_source
 
 #endif /* portasmHAS_MTIME */
 
 application_interrupt_handler:
-    call freertos_risc_v_application_interrupt_handler
+    పిలువు freertos_risc_v_application_interrupt_handler
     j processed_source
 
 handle_exception:
     /* a0 contains mcause. */
-    li t0, 11                                   /* 11 == environment call. */
-    bne a0, t0, application_exception_handler   /* Not an M environment call, so some other exception. */
-    call vTaskSwitchContext
+    li t0, 11                                   /* 11 == environment పిలువు. */
+    bne a0, t0, application_exception_handler   /* Not an M environment పిలువు, so some other exception. */
+    పిలువు vTaskSwitchContext
     j processed_source
 
 application_exception_handler:
-    call freertos_risc_v_application_exception_handler
+    పిలువు freertos_risc_v_application_exception_handler
     j processed_source                  /* No other exceptions handled yet. */
 
 processed_source:

@@ -32,15 +32,15 @@ EXTERN ulCriticalNesting
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+పోర్టు_SAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+నెట్టు_3 R0 as we are going గమ్యం use the నమోదు.
    STMDB SP !, {
     R0
 }
 
-Set R0 to point to the task stack pointer.
+సమితి_2 R0 గమ్యం బిందువు_2 గమ్యం the task దొంతర సూచిక_3.
    STMDB SP, {
     SP
 }
@@ -52,22 +52,22 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+నెట్టు_3 the తిరిగి చిరునామా_2 onto the దొంతర.
           STMDB R0 !, {
            LR
        }
 
-       Now we have saved LR we can use it instead of R0.
+       Now we have saved LR we can use it instead యొక్క R0.
           MOV LR, R0
 
 ;
 
-Pop R0 so we can save it onto the system mode stack.
+తీయి_3 R0 so we can save it onto the system బహుళకం_2 దొంతర.
    LDMIA SP !, {
     R0
 }
 
-Push all the system mode registers onto the task stack.
+నెట్టు_3 all the system బహుళకం_2 registers onto the task దొంతర.
    STMDB LR, {
     R0 - LR
 }
@@ -76,7 +76,7 @@ NOP
 SUB LR, LR, # 60
 
 ;
-Push the SPSR onto the task stack.
+నెట్టు_3 the SPSR onto the task దొంతర.
    MRS R0, SPSR
 STMDB LR !, {
     R0
@@ -88,9 +88,9 @@ STMDB LR !, {
     R0
 }
 
-Store the new top of stack
+Store the new శిఖరం_2 యొక్క దొంతర
 
-for the task.
+కొరకు the task.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 STR LR, [ R0 ]
@@ -98,18 +98,18 @@ STR LR, [ R0 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+పోర్టు_RESTORE_CONTEXT MACRO
 
 ;
-Set the LR to the task stack.
+సమితి_2 the LR గమ్యం the task దొంతర.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 LDR LR, [ R0 ]
 
 ;
-The critical nesting depth is the first item on the stack.
+The critical nesting లోతు is the మొదటి_2 అంశం on the దొంతర.
    ;
-Load it into the ulCriticalNesting variable.
+ఎక్కించు it into the ulCriticalNesting variable.
    LDR R0, = ulCriticalNesting
              LDMFD LR !, {
     R1
@@ -118,16 +118,16 @@ Load it into the ulCriticalNesting variable.
 STR R1, [ R0 ]
 
 ;
-Get the SPSR from the stack.
+Get the SPSR from the దొంతర.
    LDMFD LR !, {
     R0
 }
 MSR SPSR_cxsf, R0
 
 ;
-Restore all system mode registers
+Restore all system బహుళకం_2 registers
 
-for the task.
+కొరకు the task.
    LDMFD LR, {
     R0 - R14
 }
@@ -136,15 +136,15 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the తిరిగి చిరునామా_2.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And తిరిగి -correcting the offset లోపల the LR గమ్యం obtain the
 ;
 
-correct address.
+correct చిరునామా_2.
    SUBS PC, LR, # 4
 
 ENDM

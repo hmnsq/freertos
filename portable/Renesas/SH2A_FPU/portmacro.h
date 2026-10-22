@@ -27,15 +27,15 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
-#include <machine.h>
+#అన్తర్భావ <machine.h>
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -50,94 +50,94 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#నిర్వచించు పోర్టు_CHAR          అక్షరం
+#నిర్వచించు పోర్టు_FLOAT         దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+#నిర్వచించు పోర్టు_LONG          దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT         పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE    uint32_t
+#నిర్వచించు పోర్టు_పునాది_TYPE     దీర్ఘ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#endif
+    #నిర్వచించు పోర్టు_TICK_TYPE_IS_ATOMIC    1
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT               8
-#define portSTACK_GROWTH                 -1
-#define portTICK_PERIOD_MS               ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    nop()
-#define portSTART_SCHEDULER_TRAP_NO      ( 32 )
-#define portYIELD_TRAP_NO                ( 33 )
-#define portKERNEL_INTERRUPT_PRIORITY    ( 1 )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT               8
+#నిర్వచించు పోర్టు_దొంతర_GROWTH                 -1
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS               ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_NOP()    nop()
+#నిర్వచించు పోర్టు_ప్రారంభం_SCHEDULER_TRAP_NO      ( 32 )
+#నిర్వచించు పోర్టు_YIELD_TRAP_NO                ( 33 )
+#నిర్వచించు పోర్టు_KERNEL_అంతరాయం_ప్రాధాన్యత    ( 1 )
 
-void vPortYield( void );
-#define portYIELD()                vPortYield()
+శూన్య v_పోర్టు_Yield( శూన్య );
+#నిర్వచించు పోర్టు_YIELD()                v_పోర్టు_Yield()
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x )    do { if( x != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+బాహ్య శూన్య vTaskSwitchContext( శూన్య );
+#నిర్వచించు పోర్టు_YIELD_FROM_ISR( x )    చేయి { ఒకవేళ( x != pdFALSE ) vTaskSwitchContext( ); } అయితే( 0 )
 
 /*
  * This function tells the kernel that the task referenced by xTask is going to
  * use the floating point registers and therefore requires the floating point
  * registers saved as part of its context.
  */
-BaseType_t xPortUsesFloatingPoint( void * xTask );
+పునాది_Type_t x_పోర్టు_ఉపయోగిస్తుంది_Floating_బిందువు( శూన్య * xTask );
 
 /*
  * The flop save and restore functions are defined in portasm.src and called by
  * the trace "task switched in" and "trace task switched out" macros.
  */
-void vPortSaveFlopRegisters( void * pulBuffer );
-void vPortRestoreFlopRegisters( void * pulBuffer );
+శూన్య v_పోర్టు_Save_Flop_Registers( శూన్య * pul_బఫరు );
+శూన్య v_పోర్టు_Restore_Flop_Registers( శూన్య * pul_బఫరు );
 
 /*
  * pxTaskTag is used to point to the buffer into which the floating point
  * context should be saved.  If pxTaskTag is NULL then the task does not use
  * a floating point context.
  */
-#define traceTASK_SWITCHED_OUT()    do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
-#define traceTASK_SWITCHED_IN()     do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
+#నిర్వచించు trace_TASK_SWITCHED_బహిర్గతం()    చేయి { ఒకవేళ( pxCurrentTCB->px_Task_ట్యాగ్ != ఖాళీ ) v_పోర్టు_Save_Flop_Registers( pxCurrentTCB->px_Task_ట్యాగ్ ); } అయితే( 0 )
+#నిర్వచించు trace_TASK_SWITCHED_లోపల()     చేయి { ఒకవేళ( pxCurrentTCB->px_Task_ట్యాగ్ != ఖాళీ ) v_పోర్టు_Restore_Flop_Registers( pxCurrentTCB->px_Task_ట్యాగ్ ); } అయితే( 0 )
 
 /*
  * These macros should be called directly, but through the taskENTER_CRITICAL()
  * and taskEXIT_CRITICAL() macros.
  */
-#define portENABLE_INTERRUPTS()     set_imask( 0x00 )
-#define portDISABLE_INTERRUPTS()    set_imask( portKERNEL_INTERRUPT_PRIORITY )
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     సమితి_imask( 0x00 )
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    సమితి_imask( పోర్టు_KERNEL_అంతరాయం_ప్రాధాన్యత )
 
 /* Critical nesting counts are stored in the TCB. */
-#define portCRITICAL_NESTING_IN_TCB    ( 1 )
+#నిర్వచించు పోర్టు_CRITICAL_NESTING_లోపల_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()    vTaskEnterCritical();
-#define portEXIT_CRITICAL()     vTaskExitCritical();
+బాహ్య శూన్య vTaskEnterCritical( శూన్య );
+బాహ్య శూన్య vTaskExitCritical( శూన్య );
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()    vTaskEnterCritical();
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()     vTaskExitCritical();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

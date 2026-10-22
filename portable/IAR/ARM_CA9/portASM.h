@@ -29,38 +29,38 @@
     EXTERN  vTaskSwitchContext
     EXTERN  ulCriticalNesting
     EXTERN  pxCurrentTCB
-    EXTERN  ulPortTaskHasFPUContext
-    EXTERN  ulAsmAPIPriorityMask
+    EXTERN  ul_పోర్టు_Task_Has_FPUContext
+    EXTERN  ul_Asm_APIPriority_ముసుగు
 
-portSAVE_CONTEXT macro
+పోర్టు_SAVE_CONTEXT macro
 
-    ; Save the LR and SPSR onto the system mode stack before switching to
-    ; system mode to save the remaining system mode registers
+    ; Save the LR and SPSR onto the system బహుళకం_2 దొంతర before switching గమ్యం
+    ; system బహుళకం_2 గమ్యం save the మిగిలిన system బహుళకం_2 registers
     SRSDB   sp!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    నెట్టు_2    {R0-R12, R14}
 
-    ; Push the critical nesting count
+    ; నెట్టు_3 the critical nesting లెక్క
     LDR     R2, =ulCriticalNesting
     LDR     R1, [R2]
-    PUSH    {R1}
+    నెట్టు_2    {R1}
 
-    ; Does the task have a floating point context that needs saving?  If
-    ; ulPortTaskHasFPUContext is 0 then no.
-    LDR     R2, =ulPortTaskHasFPUContext
+    ; Does the task have a floating బిందువు_2 context that needs saving?  If
+    ; ul_పోర్టు_Task_Has_FPUContext is 0 then no.
+    LDR     R2, =ul_పోర్టు_Task_Has_FPUContext
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating బిందువు_2 context, ఒకవేళ any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
     VPUSHNE {D16-D31}
     PUSHNE  {R1}
 
-    ; Save ulPortTaskHasFPUContext itself
-    PUSH    {R3}
+    ; Save ul_పోర్టు_Task_Has_FPUContext itself
+    నెట్టు_2    {R3}
 
-    ; Save the stack pointer in the TCB
+    ; Save the దొంతర సూచిక_3 లోపల the TCB
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     STR     SP, [R1]
@@ -69,43 +69,43 @@ portSAVE_CONTEXT macro
 
 ; /**********************************************************************/
 
-portRESTORE_CONTEXT macro
+పోర్టు_RESTORE_CONTEXT macro
 
-    ; Set the SP to point to the stack of the task being restored.
+    ; సమితి_2 the SP గమ్యం బిందువు_2 గమ్యం the దొంతర యొక్క the task being restored.
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     LDR     SP, [R1]
 
-    ; Is there a floating point context to restore?  If the restored
-    ; ulPortTaskHasFPUContext is zero then no.
-    LDR     R0, =ulPortTaskHasFPUContext
-    POP     {R1}
+    ; Is there a floating బిందువు_2 context గమ్యం restore?  If the restored
+    ; ul_పోర్టు_Task_Has_FPUContext is zero then no.
+    LDR     R0, =ul_పోర్టు_Task_Has_FPUContext
+    తీయి_2     {R1}
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating బిందువు_2 context, ఒకవేళ any
     POPNE   {R0}
     VPOPNE  {D16-D31}
     VPOPNE  {D0-D15}
     VMSRNE  FPSCR, R0
 
-    ; Restore the critical section nesting depth
+    ; Restore the critical section nesting లోతు
     LDR     R0, =ulCriticalNesting
-    POP     {R1}
+    తీయి_2     {R1}
     STR     R1, [R0]
 
-    ; Ensure the priority mask is correct for the critical nesting depth
-    LDR     R2, =portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS
+    ; Ensure the ప్రాధాన్యత ముసుగు is correct కొరకు the critical nesting లోతు
+    LDR     R2, =పోర్టు_ICCPMR_ప్రాధాన్యత_ముసుగు_రిజిస్టరు_చిరునామా
     CMP     R1, #0
     MOVEQ   R4, #255
-    LDRNE   R4, =( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT )
+    LDRNE   R4, =( config_MAX_API_CALL_అంతరాయం_ప్రాధాన్యత << పోర్టు_ప్రాధాన్యత_జరుపు )
     STR     R4, [r2]
 
-    ; Restore all system mode registers other than the SP (which is already
-    ; being used)
-    POP     {R0-R12, R14}
+    ; Restore all system బహుళకం_2 registers other than the SP (which is already
+    ; being వాడిన)
+    తీయి_2     {R0-R12, R14}
 
-    ; Return to the task code, loading CPSR on the way.
+    ; Return గమ్యం the task సంకేతం_2, loading CPSR on the way.
     RFEIA   sp!
 
     endm

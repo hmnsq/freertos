@@ -31,115 +31,115 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* Constants required to manipulate the NVIC. */
-#define portNVIC_SYSTICK_CTRL       ( ( volatile uint32_t * ) 0xe000e010 )
-#define portNVIC_SYSTICK_LOAD       ( ( volatile uint32_t * ) 0xe000e014 )
-#define portNVIC_SHPR3_REG          ( ( volatile uint32_t * ) 0xe000ed20 )
-#define portNVIC_SYSTICK_CLK        0x00000004
-#define portNVIC_SYSTICK_INT        0x00000002
-#define portNVIC_SYSTICK_ENABLE     0x00000001
-#define portMIN_INTERRUPT_PRIORITY  ( 255UL )
-#define portNVIC_PENDSV_PRI         ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 16UL )
-#define portNVIC_SYSTICK_PRI        ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 24UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_CTRL       ( ( అస్థిర uint32_t * ) 0xe000e010 )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_ఎక్కించు       ( ( అస్థిర uint32_t * ) 0xe000e014 )
+#నిర్వచించు పోర్టు_NVIC_SHPR3_REG          ( ( అస్థిర uint32_t * ) 0xe000ed20 )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_CLK        0x00000004
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_INT        0x00000002
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_ENABLE     0x00000001
+#నిర్వచించు పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత  ( 255UL )
+#నిర్వచించు పోర్టు_NVIC_PENDSV_PRI         ( ( ( uint32_t ) పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత ) << 16UL )
+#నిర్వచించు పోర్టు_NVIC_SYSTICK_PRI        ( ( ( uint32_t ) పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత ) << 24UL )
 
 /* Masks off all bits but the VECTACTIVE bits in the ICSR register. */
-#define portVECTACTIVE_MASK         ( 0xFFUL )
+#నిర్వచించు పోర్టు_VECTACTIVE_ముసుగు         ( 0xFFUL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR                   ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
-#define portASPEN_AND_LSPEN_BITS    ( 0x3UL << 30UL )
+#నిర్వచించు పోర్టు_FPCCR                   ( ( అస్థిర uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
+#నిర్వచించు పోర్టు_ASPEN_AND_LSPEN_బిట్లు    ( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
-#define portINITIAL_XPSR            ( 0x01000000 )
-#define portINITIAL_EXC_RETURN      ( 0xfffffffd )
+#నిర్వచించు పోర్టు_INITIAL_XPSR            ( 0x01000000 )
+#నిర్వచించు పోర్టు_INITIAL_EXC_RETURN      ( 0xfffffffd )
 
 /* Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case it messes up unwinding of the stack in the
  * debugger. */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#నిర్వచితమైతే config_TASK_RETURN_చిరునామా
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    config_TASK_RETURN_చిరునామా
+#లేకపోతే
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    prvTaskExitError
+#అయితే_ముగింపు
 
 /* For strict compliance with the Cortex-M spec the task start address should
  * have bit-0 clear, as it is loaded into the PC on exit from an ISR. */
-#define portSTART_ADDRESS_MASK    ( ( StackType_t ) 0xfffffffeUL )
+#నిర్వచించు పోర్టు_ప్రారంభం_చిరునామా_ముసుగు    ( ( దొంతర_Type_t ) 0xfffffffeUL )
 
 /* The priority used by the kernel is assigned to a variable to make access
  * from inline assembler easier. */
-const uint32_t ulKernelPriority = portMIN_INTERRUPT_PRIORITY;
+స్థిరరాశి uint32_t ul_Kernel_ప్రాధాన్యత = పోర్టు_MIN_అంతరాయం_ప్రాధాన్యత;
 
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. */
-static uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
+స్థిర uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /*
  * Exception handlers.
  */
-void SysTick_Handler( void );
+శూన్య SysTick_Handler( శూన్య );
 
 /*
  * Functions defined in port_asm.asm.
  */
-extern void vPortEnableVFP( void );
-extern void vPortStartFirstTask( void );
+బాహ్య శూన్య v_పోర్టు_Enable_VFP( శూన్య );
+బాహ్య శూన్య v_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+స్థిర శూన్య prvTaskExitError( శూన్య );
 
 /* This exists purely to allow the const to be used from within the
  * port_asm.asm assembly file. */
-const uint32_t ulMaxSyscallInterruptPriorityConst = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+స్థిరరాశి uint32_t ul_Max_Syscall_అంతరాయం_ప్రాధాన్యత_Const = config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
 
     /* Offset added to account for the way the MCU uses the stack on entry/exit
      * of interrupts, and to ensure alignment. */
-    pxTopOfStack--;
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = portINITIAL_XPSR;                                    /* xPSR */
-    pxTopOfStack--;
-    *pxTopOfStack = ( ( StackType_t ) pxCode ) & portSTART_ADDRESS_MASK; /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS;             /* LR */
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_XPSR;                                    /* xPSR */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( ( దొంతర_Type_t ) px_సంకేతం ) & పోర్టు_ప్రారంభం_చిరునామా_ముసుగు; /* PC */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_TASK_RETURN_చిరునామా;             /* LR */
 
     /* Save code space by skipping register initialisation. */
-    pxTopOfStack -= 5;                            /* R12, R3, R2 and R1. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
+    px_శిఖరం_యొక్క_దొంతర -= 5;                            /* R12, R3, R2 and R1. */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters; /* R0 */
 
     /* A save method is being used that requires each task to maintain its
      * own exec return value. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_EXC_RETURN;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_EXC_RETURN;
 
-    pxTopOfStack -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
+    px_శిఖరం_యొక్క_దొంతర -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+స్థిర శూన్య prvTaskExitError( శూన్య )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -148,9 +148,9 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error. */
     configASSERT( ulCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    కొరకు( ; ; )
     {
     }
 }
@@ -159,38 +159,38 @@ static void prvTaskExitError( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* configMAX_SYSCALL_INTERRUPT_PRIORITY must not be set to 0.
      * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
-    configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) );
+    configASSERT( ( config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ) );
 
     /* Make PendSV and SysTick the lowest priority interrupts. */
-    *( portNVIC_SHPR3_REG ) |= portNVIC_PENDSV_PRI;
-    *( portNVIC_SHPR3_REG ) |= portNVIC_SYSTICK_PRI;
+    *( పోర్టు_NVIC_SHPR3_REG ) |= పోర్టు_NVIC_PENDSV_PRI;
+    *( పోర్టు_NVIC_SHPR3_REG ) |= పోర్టు_NVIC_SYSTICK_PRI;
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Initialise the critical nesting count ready for the first task. */
     ulCriticalNesting = 0;
 
     /* Ensure the VFP is enabled - it should be anyway. */
-    vPortEnableVFP();
+    v_పోర్టు_Enable_VFP();
 
     /* Lazy save always. */
-    *( portFPCCR ) |= portASPEN_AND_LSPEN_BITS;
+    *( పోర్టు_FPCCR ) |= పోర్టు_ASPEN_AND_LSPEN_బిట్లు;
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_పోర్టు_ప్రారంభం_మొదటి_Task();
 
     /* Should not get here! */
-    return 0;
+    తిరిగి 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -198,10 +198,10 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+శూన్య v_పోర్టు_Yield( శూన్య )
 {
     /* Set a PendSV to request a context switch. */
-    *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
+    *( పోర్టు_NVIC_INT_CTRL ) = పోర్టు_NVIC_PENDSVSET;
 
     /* Barriers are normally not required but do ensure the code is completely
      * within the specified behaviour for the architecture. */
@@ -210,9 +210,9 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
     ulCriticalNesting++;
     __DSB();
     __ISB();
@@ -222,44 +222,44 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    ఒకవేళ( ulCriticalNesting == 1 )
     {
-        configASSERT( ( ( *( portNVIC_INT_CTRL ) ) & portVECTACTIVE_MASK ) == 0 );
+        configASSERT( ( ( *( పోర్టు_NVIC_INT_CTRL ) ) & పోర్టు_VECTACTIVE_ముసుగు ) == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
     configASSERT( ulCriticalNesting );
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ఒకవేళ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        పోర్టు_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void SysTick_Handler( void )
+శూన్య SysTick_Handler( శూన్య )
 {
     uint32_t ulDummy;
 
-    ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
+    ulDummy = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
     traceISR_ENTER();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
-            traceISR_EXIT_TO_SCHEDULER();
+            trace_ISR_EXIT_గమ్యం_SCHEDULER();
             /* Pend a context switch. */
-            *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
+            *( పోర్టు_NVIC_INT_CTRL ) = పోర్టు_NVIC_PENDSVSET;
         }
-        else
+        లేకపోతే
         {
             traceISR_EXIT();
         }
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
+    పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( ulDummy );
 }
 /*-----------------------------------------------------------*/
 
@@ -267,9 +267,9 @@ void SysTick_Handler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
     /* Configure SysTick to interrupt at the requested rate. */
-    *( portNVIC_SYSTICK_LOAD ) = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
-    *( portNVIC_SYSTICK_CTRL ) = portNVIC_SYSTICK_CLK | portNVIC_SYSTICK_INT | portNVIC_SYSTICK_ENABLE;
+    *( పోర్టు_NVIC_SYSTICK_ఎక్కించు ) = ( configCPU_CLOCK_HZ / config_TICK_రేటు_HZ ) - 1UL;
+    *( పోర్టు_NVIC_SYSTICK_CTRL ) = పోర్టు_NVIC_SYSTICK_CLK | పోర్టు_NVIC_SYSTICK_INT | పోర్టు_NVIC_SYSTICK_ENABLE;
 }

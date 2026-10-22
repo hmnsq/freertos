@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,9 +47,9 @@
     .extern ulPortInterruptNesting
     .extern ulPortTaskHasFPUContext
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SWI_Handler
-    .global vPortRestoreTaskContext
+    .వైశ్విక FreeRTOS_IRQ_Handler
+    .వైశ్విక FreeRTOS_SWI_Handler
+    .వైశ్విక v_పోర్టు_Restore_Task_Context
 
 
 
@@ -69,7 +69,7 @@
 
     /* Does the task have a floating point context that needs saving?  If
     ulPortTaskHasFPUContext is 0 then no. */
-    LDR     R2, ulPortTaskHasFPUContextConst
+    LDR     R2, ul_పోర్టు_Task_Has_FPUContext_Const
     LDR     R3, [R2]
     CMP     R3, #0
 
@@ -100,7 +100,7 @@
 
     /* Is there a floating point context to restore?  If the restored
     ulPortTaskHasFPUContext is zero then no. */
-    LDR     R0, ulPortTaskHasFPUContextConst
+    LDR     R0, ul_పోర్టు_Task_Has_FPUContext_Const
     POP     {R1}
     STR     R1, [R0]
     CMP     R1, #0
@@ -121,7 +121,7 @@
     LDR     R2, [R2]
     CMP     R1, #0
     MOVEQ   R4, #255
-    LDRNE   R4, ulMaxAPIPriorityMaskConst
+    LDRNE   R4, ul_Max_APIPriority_ముసుగు_Const
     LDRNE   R4, [R4]
     STR     R4, [R2]
 
@@ -148,7 +148,7 @@ FreeRTOS_SWI_Handler:
 
     /* Ensure bit 2 of the stack pointer is clear. */
     MOV     r2, sp
-    AND     r2, r2, #4
+    మరియు     r2, r2, #4
     SUB     sp, sp, r2
 
     LDR R0, vTaskSwitchContextConst
@@ -158,10 +158,10 @@ FreeRTOS_SWI_Handler:
 
 
 /******************************************************************************
- * vPortRestoreTaskContext is used to start the scheduler.
+ * v_పోర్టు_Restore_Task_Context is used to start the scheduler.
  *****************************************************************************/
-.type vPortRestoreTaskContext, %function
-vPortRestoreTaskContext:
+.type v_పోర్టు_Restore_Task_Context, %function
+v_పోర్టు_Restore_Task_Context:
     /* Switch to system mode. */
     CPS     #SYS_MODE
     portRESTORE_CONTEXT
@@ -186,7 +186,7 @@ FreeRTOS_IRQ_Handler:
     /* Increment nesting count.  r3 holds the address of ulPortInterruptNesting
     for future use.  r1 holds the original ulPortInterruptNesting value for
     future use. */
-    LDR     r3, ulPortInterruptNestingConst
+    LDR     r3, ul_పోర్టు_అంతరాయం_Nesting_Const
     LDR     r1, [r3]
     ADD     r4, r1, #1
     STR     r4, [r3]
@@ -201,7 +201,7 @@ FreeRTOS_IRQ_Handler:
     future use.  _RB_ Does this ever actually need to be done provided the start
     of the stack is 8-byte aligned? */
     MOV     r2, sp
-    AND     r2, r2, #4
+    మరియు     r2, r2, #4
     SUB     sp, sp, r2
 
     /* Call the interrupt handler.  r4 pushed to maintain alignment. */
@@ -267,7 +267,7 @@ switch_before_exit:
     Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     future use. */
     MOV     r2, sp
-    AND     r2, r2, #4
+    మరియు     r2, r2, #4
     SUB     sp, sp, r2
 
     LDR     R0, vTaskSwitchContextConst
@@ -287,7 +287,7 @@ switch_before_exit:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * పిలువు vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry their IRQ handler must be called
@@ -322,11 +322,11 @@ ulICCEOIRConst: .word ulICCEOIRAddress
 ulICCPMRConst: .word ulICCPMRAddress
 pxCurrentTCBConst: .word pxCurrentTCB
 ulCriticalNestingConst: .word ulCriticalNesting
-ulPortTaskHasFPUContextConst: .word ulPortTaskHasFPUContext
-ulMaxAPIPriorityMaskConst: .word ulMaxAPIPriorityMask
+ul_పోర్టు_Task_Has_FPUContext_Const: .word ulPortTaskHasFPUContext
+ul_Max_APIPriority_ముసుగు_Const: .word ulMaxAPIPriorityMask
 vTaskSwitchContextConst: .word vTaskSwitchContext
 vApplicationIRQHandlerConst: .word vApplicationIRQHandler
-ulPortInterruptNestingConst: .word ulPortInterruptNesting
+ul_పోర్టు_అంతరాయం_Nesting_Const: .word ulPortInterruptNesting
 vApplicationFPUSafeIRQHandlerConst: .word vApplicationFPUSafeIRQHandler
 
 .end

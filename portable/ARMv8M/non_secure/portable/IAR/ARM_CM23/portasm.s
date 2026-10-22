@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -33,7 +33,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System పిలువు numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -47,28 +47,28 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 #endif
 
 
-    EXTERN pxCurrentTCB
-    EXTERN xSecureContext
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN SecureContext_SaveContext
-    EXTERN SecureContext_LoadContext
+    బాహ్య pxCurrentTCB
+    బాహ్య xSecureContext
+    బాహ్య vTaskSwitchContext
+    బాహ్య vPortSVCHandler_C
+    బాహ్య SecureContext_SaveContext
+    బాహ్య SecureContext_LoadContext
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    బాహ్య vSystemCallEnter
+    బాహ్య vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vPortAllocateSecureContext
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
-    PUBLIC vPortFreeSecureContext
+    బహిరంగ xIsPrivileged
+    బహిరంగ vResetPrivilege
+    బహిరంగ v_పోర్టు_Allocate_Secure_Context
+    బహిరంగ v_Restore_Context_యొక్క_మొదటి_Task
+    బహిరంగ vRaisePrivilege
+    బహిరంగ v_ప్రారంభం_మొదటి_Task
+    బహిరంగ ul_సమితి_అంతరాయం_ముసుగు
+    బహిరంగ v_Clear_అంతరాయం_ముసుగు
+    బహిరంగ PendSV_Handler
+    బహిరంగ SVC_Handler
+    బహిరంగ v_పోర్టు_Free_Secure_Context
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -86,8 +86,8 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
     movs r1, #1                             /* r1 = 1. */
-    tst r0, r1                              /* Perform r0 & r1 (bitwise AND) and update the conditions flag. */
-    beq running_privileged                  /* If the result of previous AND operation was 0, branch. */
+    tst r0, r1                              /* Perform r0 & r1 (bitwise మరియు) and update the conditions flag. */
+    beq running_privileged                  /* If the result of previous మరియు operation was 0, branch. */
     movs r0, #0                             /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     bx lr                                   /* Return. */
     running_privileged:
@@ -103,8 +103,8 @@ vResetPrivilege:
     bx lr                                   /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-vPortAllocateSecureContext:
-    svc 100                                 /* Secure context is allocated in the supervisor call. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
+v_పోర్టు_Allocate_Secure_Context:
+    svc 100                                 /* Secure context is allocated in the supervisor పిలువు. portSVC_ALLOCATE_SECURE_CONTEXT = 100. */
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
@@ -118,7 +118,7 @@ vPortAllocateSecureContext:
 
 #if ( configENABLE_MPU == 1 )
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_యొక్క_మొదటి_Task:
     program_mpu_first_task:
         ldr r3, =pxCurrentTCB               /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
         ldr r0, [r3]                        /* r0 = pxCurrentTCB.*/
@@ -203,7 +203,7 @@ vRestoreContextOfFirstTask:
 
 #else /* configENABLE_MPU */
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_యొక్క_మొదటి_Task:
     ldr  r2, =pxCurrentTCB                  /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
     ldr  r3, [r2]                           /* Read pxCurrentTCB. */
     ldr  r0, [r3]                           /* Read top of stack from TCB - The first item in pxCurrentTCB is the task top of stack. */
@@ -229,7 +229,7 @@ vRaisePrivilege:
     bx lr                                   /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-vStartFirstTask:
+v_ప్రారంభం_మొదటి_Task:
     ldr r0, =0xe000ed08                     /* Use the NVIC offset register to locate the stack. */
     ldr r0, [r0]                            /* Read the VTOR register which gives the address of vector table. */
     ldr r0, [r0]                            /* The first entry in vector table is stack pointer. */
@@ -237,16 +237,16 @@ vStartFirstTask:
     cpsie i                                 /* Globally enable interrupts. */
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System పిలువు to start the first task. portSVC_START_SCHEDULER = 102. */
 /*-----------------------------------------------------------*/
 
-ulSetInterruptMask:
+ul_సమితి_అంతరాయం_ముసుగు:
     mrs r0, PRIMASK
     cpsid i
     bx lr
 /*-----------------------------------------------------------*/
 
-vClearInterruptMask:
+v_Clear_అంతరాయం_ముసుగు:
     msr PRIMASK, r0
     bx lr
 /*-----------------------------------------------------------*/
@@ -517,7 +517,7 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-vPortFreeSecureContext:
+v_పోర్టు_Free_Secure_Context:
     ldr r2, [r0]                            /* The first item in the TCB is the stored context location. */
     adds r2, r2, #SECURE_CONTEXT_OFFSET     /* r2 = r2 + SECURE_CONTEXT_OFFSET. */
     ldr r1, [r2]                            /* Read xSecureContext from the task's context. */
@@ -525,8 +525,8 @@ vPortFreeSecureContext:
     bne free_secure_context                 /* Branch if r1 != 0. */
     bx lr                                   /* There is no secure context (xSecureContext is NULL). */
     free_secure_context:
-        svc 101                             /* Secure context is freed in the supervisor call. portSVC_FREE_SECURE_CONTEXT = 101. */
+        svc 101                             /* Secure context is freed in the supervisor పిలువు. portSVC_FREE_SECURE_CONTEXT = 101. */
         bx lr                               /* Return. */
 /*-----------------------------------------------------------*/
 
-    END
+    ముగింపు

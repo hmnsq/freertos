@@ -27,74 +27,74 @@
  * vPortCPUReleaseMutexIntsDisabled will then use the appropriate function to do the
  * actual lock/unlock.
  */
-#include "soc/cpu.h"
-#include "portable.h"
+#అన్తర్భావ "soc/cpu.h"
+#అన్తర్భావ "portable.h"
 
 /* XOR one core ID with this value to get the other core ID */
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #define CORE_ID_XOR_SWAP           ( CORE_ID_PRO ^ CORE_ID_APP )
-#else
-    #define CORE_ID_REGVAL_XOR_SWAP    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
-#endif
+#ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+    #నిర్వచించు CORE_ID_XOR_మార్పిడి           ( CORE_ID_PRO ^ CORE_ID_APP )
+#లేకపోతే
+    #నిర్వచించు CORE_ID_REGVAL_XOR_మార్పిడి    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
+#అయితే_ముగింపు
 
 
 
 /*Define the mux routines for use with muxes in internal RAM */
-#define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledInternal
-#define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledInternal
-#define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSet
-#include "portmux_impl.inc.h"
-#undef PORTMUX_AQUIRE_MUX_FN_NAME
-#undef PORTMUX_RELEASE_MUX_FN_NAME
-#undef PORTMUX_COMPARE_SET_FN_NAME
+#నిర్వచించు PORTMUX_AQUIRE_MUX_FN_NAME     v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled_అంతర్గత
+#నిర్వచించు PORTMUX_RELEASE_MUX_FN_NAME    v_పోర్టు_CPURelease_Mutex_Ints_Disabled_అంతర్గత
+#నిర్వచించు PORTMUX_COMPARE_సమితి_FN_NAME    ux_పోర్టు_Compare_సమితి
+#అన్తర్భావ "portmux_impl.inc.h"
+#నిర్వచనం_రద్దు PORTMUX_AQUIRE_MUX_FN_NAME
+#నిర్వచనం_రద్దు PORTMUX_RELEASE_MUX_FN_NAME
+#నిర్వచనం_రద్దు PORTMUX_COMPARE_సమితి_FN_NAME
 
 
-#if defined( CONFIG_SPIRAM_SUPPORT )
+#ఒకవేళ defined( CONFIG_SPIRAM_SUPPORT )
 
-    #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledExtram
-    #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledExtram
-    #define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSetExtram
-    #include "portmux_impl.inc.h"
-    #undef PORTMUX_AQUIRE_MUX_FN_NAME
-    #undef PORTMUX_RELEASE_MUX_FN_NAME
-    #undef PORTMUX_COMPARE_SET_FN_NAME
+    #నిర్వచించు PORTMUX_AQUIRE_MUX_FN_NAME     v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled_Extram
+    #నిర్వచించు PORTMUX_RELEASE_MUX_FN_NAME    v_పోర్టు_CPURelease_Mutex_Ints_Disabled_Extram
+    #నిర్వచించు PORTMUX_COMPARE_సమితి_FN_NAME    ux_పోర్టు_Compare_సమితి_Extram
+    #అన్తర్భావ "portmux_impl.inc.h"
+    #నిర్వచనం_రద్దు PORTMUX_AQUIRE_MUX_FN_NAME
+    #నిర్వచనం_రద్దు PORTMUX_RELEASE_MUX_FN_NAME
+    #నిర్వచనం_రద్దు PORTMUX_COMPARE_సమితి_FN_NAME
 
-#endif
-
-
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int line
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const char * fnName, int line
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, line
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, line
-#else
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
-#endif
+#అయితే_ముగింపు
 
 
-static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
+#నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+    #నిర్వచించు PORTMUX_AQUIRE_MUX_FN_వాదనలు     పోర్టు_MUX_TYPE * mux, పూర్ణాంకం timeout_చక్రాలు, స్థిరరాశి అక్షరం * fnName, పూర్ణాంకం పంక్తి
+    #నిర్వచించు PORTMUX_RELEASE_MUX_FN_వాదనలు    పోర్టు_MUX_TYPE * mux, స్థిరరాశి అక్షరం * fnName, పూర్ణాంకం పంక్తి
+    #నిర్వచించు PORTMUX_AQUIRE_MUX_FN_CALL_వాదనలు( x )     x, timeout_చక్రాలు, fnName, పంక్తి
+    #నిర్వచించు PORTMUX_RELEASE_MUX_FN_CALL_వాదనలు( x )    x, fnName, పంక్తి
+#లేకపోతే
+    #నిర్వచించు PORTMUX_AQUIRE_MUX_FN_వాదనలు     పోర్టు_MUX_TYPE * mux, పూర్ణాంకం timeout_చక్రాలు
+    #నిర్వచించు PORTMUX_RELEASE_MUX_FN_వాదనలు    పోర్టు_MUX_TYPE * mux
+    #నిర్వచించు PORTMUX_AQUIRE_MUX_FN_CALL_వాదనలు( x )     x, timeout_చక్రాలు
+    #నిర్వచించు PORTMUX_RELEASE_MUX_FN_CALL_వాదనలు( x )    x
+#అయితే_ముగింపు
+
+
+స్థిర అంతఃవరుస bool __attribute__( ( always_inline ) ) v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( PORTMUX_AQUIRE_MUX_FN_వాదనలు )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #ఒకవేళ defined( CONFIG_SPIRAM_SUPPORT )
+        ఒకవేళ( esp_ptr_external_ram( mux ) )
         {
-            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+            తిరిగి v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled_Extram( PORTMUX_AQUIRE_MUX_FN_CALL_వాదనలు( mux ) );
         }
-    #endif
-    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+    #అయితే_ముగింపు
+    తిరిగి v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled_అంతర్గత( PORTMUX_AQUIRE_MUX_FN_CALL_వాదనలు( mux ) );
 }
 
 
-static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
+స్థిర అంతఃవరుస శూన్య v_పోర్టు_CPURelease_Mutex_Ints_Disabled( PORTMUX_RELEASE_MUX_FN_వాదనలు )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #ఒకవేళ defined( CONFIG_SPIRAM_SUPPORT )
+        ఒకవేళ( esp_ptr_external_ram( mux ) )
         {
-            vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
-            return;
+            v_పోర్టు_CPURelease_Mutex_Ints_Disabled_Extram( PORTMUX_RELEASE_MUX_FN_CALL_వాదనలు( mux ) );
+            తిరిగి;
         }
-    #endif
-    vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
+    #అయితే_ముగింపు
+    v_పోర్టు_CPURelease_Mutex_Ints_Disabled_అంతర్గత( PORTMUX_RELEASE_MUX_FN_CALL_వాదనలు( mux ) );
 }

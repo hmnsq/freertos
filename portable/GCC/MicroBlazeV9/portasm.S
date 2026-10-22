@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -135,10 +135,10 @@ back into the caller stack. */
     .extern vPortExceptionHandler
     .extern pulStackPointerOnFunctionEntry
 
-    .global _interrupt_handler
-    .global VPortYieldASM
-    .global vPortStartFirstTask
-    .global vPortExceptionHandlerEntry
+    .వైశ్విక _interrupt_handler
+    .వైశ్విక VPortYieldASM
+    .వైశ్విక v_పోర్టు_ప్రారంభం_మొదటి_Task
+    .వైశ్విక v_పోర్టు_Exception_Handler_నమోదు
 
 
 .macro portSAVE_CONTEXT
@@ -284,7 +284,7 @@ back into the caller stack. */
 	/* Return using rtid so interrupts are re-enabled as this function is
 	exited. */
 	rtid r14, 0
-	OR r0, r0, r0
+	లేదా r0, r0, r0
 
 	.endm
 
@@ -309,7 +309,7 @@ exit_from_yield:
 
 	/* Return to the task. */
 	rtsd r14, 0
-	OR r0, r0, r0
+	లేదా r0, r0, r0
 
 
 	.text
@@ -342,11 +342,11 @@ _interrupt_handler:
 
 	/* Execute any pending interrupts. */
 	BRALID r15, XIntc_DeviceInterruptHandler
-	OR r0, r0, r0
+	లేదా r0, r0, r0
 
 	/* See if a new task should be selected to execute. */
 	LI r18, r0, ulTaskSwitchRequested
-	OR r18, r18, r0
+	లేదా r18, r18, r0
 
 	/* If ulTaskSwitchRequested is already zero, then jump straight to
 	restoring the task that is already in the Running state. */
@@ -359,7 +359,7 @@ _interrupt_handler:
 	/* ulTaskSwitchRequested was not 0 when tested.  Select the next task to
 	execute. */
 	BRALID r15, vTaskSwitchContext
-	OR r0, r0, r0
+	లేదా r0, r0, r0
 
 task_switch_not_requested:
 
@@ -379,7 +379,7 @@ VPortYieldASM:
     portSAVE_CONTEXT
 
 	/* Modify the return address so a return is done to the instruction after
-	the call to VPortYieldASM. */
+	the పిలువు to VPortYieldASM. */
 	ADDI r14, r14, 8
 	SI r14, r1, portR14_OFFSET
 
@@ -395,7 +395,7 @@ VPortYieldASM:
 
 	/* Select the next task to execute. */
 	BRALID r15, vTaskSwitchContext
-	OR r0, r0, r0
+	లేదా r0, r0, r0
 
     /* Restore the context of the next task scheduled to execute. */
     portRESTORE_CONTEXT
@@ -407,7 +407,7 @@ VPortYieldASM:
         .align  4
 #endif
 
-vPortStartFirstTask:
+v_పోర్టు_ప్రారంభం_మొదటి_Task:
 
     portRESTORE_CONTEXT
 
@@ -422,12 +422,12 @@ vPortStartFirstTask:
         .align  4
 #endif
 
-vPortExceptionHandlerEntry:
+v_పోర్టు_Exception_Handler_నమోదు:
 
 	/* Take a copy of the stack pointer before vPortExecptionHandler is called,
 	storing its value prior to the function stack frame being created. */
 	SI r1, r0, pulStackPointerOnFunctionEntry
 	BRALID r15, vPortExceptionHandler
-	OR r0, r0, r0
+	లేదా r0, r0, r0
 
 #endif /* ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 ) */

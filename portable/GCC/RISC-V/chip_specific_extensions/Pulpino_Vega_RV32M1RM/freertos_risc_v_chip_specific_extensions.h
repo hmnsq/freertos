@@ -55,54 +55,54 @@
  * devices, developed and tested using the Vega board RV32M1RM.
  */
 
-#ifndef __FREERTOS_RISC_V_EXTENSIONS_H__
-#define __FREERTOS_RISC_V_EXTENSIONS_H__
+#నిర్వచితం_కాకపోతే __FREERTOS_RISC_V_EXTENSIONS_H__
+#నిర్వచించు __FREERTOS_RISC_V_EXTENSIONS_H__
 
-#define portasmHAS_MTIME                  0
+#నిర్వచించు portasmHAS_MTIME                  0
 
 /* Constants to define the additional registers found on the Pulpino RI5KY. */
-#define lpstart0                          0x7b0
-#define lpend0                            0x7b1
-#define lpcount0                          0x7b2
-#define lpstart1                          0x7b4
-#define lpend1                            0x7b5
-#define lpcount1                          0x7b6
+#నిర్వచించు lpstart0                          0x7b0
+#నిర్వచించు lpend0                            0x7b1
+#నిర్వచించు lpcount0                          0x7b2
+#నిర్వచించు lpstart1                          0x7b4
+#నిర్వచించు lpend1                            0x7b5
+#నిర్వచించు lpcount1                          0x7b6
 
 /* Six additional registers to save and restore, as per the #defines above. */
-#define portasmADDITIONAL_CONTEXT_SIZE    6 /* Must be even number on 32-bit cores. */
+#నిర్వచించు portasm_ADDITIONAL_CONTEXT_కొలత    6 /* Must be even number on 32-bit cores. */
 
 /* Save additional registers found on the Pulpino. */
 .macro portasmSAVE_ADDITIONAL_REGISTERS
-addi sp, sp, -( portasmADDITIONAL_CONTEXT_SIZE * portWORD_SIZE ) /* Make room for the additional registers. */
+addi sp, sp, -( portasm_ADDITIONAL_CONTEXT_కొలత * పోర్టు_మాట_కొలత ) /* Make room for the additional registers. */
 csrr t0, lpstart0                                                /* Load additional registers into accessible temporary registers. */
 csrr t1, lpend0
 csrr t2, lpcount0
 csrr t3, lpstart1
 csrr t4, lpend1
 csrr t5, lpcount1
-sw t0, 1 * portWORD_SIZE( sp )
-sw t1, 2 * portWORD_SIZE( sp )
-sw t2, 3 * portWORD_SIZE( sp )
-sw t3, 4 * portWORD_SIZE( sp )
-sw t4, 5 * portWORD_SIZE( sp )
-sw t5, 6 * portWORD_SIZE( sp )
+sw t0, 1 * పోర్టు_మాట_కొలత( sp )
+sw t1, 2 * పోర్టు_మాట_కొలత( sp )
+sw t2, 3 * పోర్టు_మాట_కొలత( sp )
+sw t3, 4 * పోర్టు_మాట_కొలత( sp )
+sw t4, 5 * పోర్టు_మాట_కొలత( sp )
+sw t5, 6 * పోర్టు_మాట_కొలత( sp )
    .endm
 
 /* Restore the additional registers found on the Pulpino. */
    .macro portasmRESTORE_ADDITIONAL_REGISTERS
-lw t0, 1 * portWORD_SIZE( sp ) /* Load additional registers into accessible temporary registers. */
-lw t1, 2 * portWORD_SIZE( sp )
-lw t2, 3 * portWORD_SIZE( sp )
-lw t3, 4 * portWORD_SIZE( sp )
-lw t4, 5 * portWORD_SIZE( sp )
-lw t5, 6 * portWORD_SIZE( sp )
+lw t0, 1 * పోర్టు_మాట_కొలత( sp ) /* Load additional registers into accessible temporary registers. */
+lw t1, 2 * పోర్టు_మాట_కొలత( sp )
+lw t2, 3 * పోర్టు_మాట_కొలత( sp )
+lw t3, 4 * పోర్టు_మాట_కొలత( sp )
+lw t4, 5 * పోర్టు_మాట_కొలత( sp )
+lw t5, 6 * పోర్టు_మాట_కొలత( sp )
 csrw lpstart0, t0
 csrw lpend0, t1
 csrw lpcount0, t2
 csrw lpstart1, t3
 csrw lpend1, t4
 csrw lpcount1, t5
-addi sp, sp, ( portasmADDITIONAL_CONTEXT_SIZE * portWORD_SIZE ) /* Remove space added for additional registers. */
+addi sp, sp, ( portasm_ADDITIONAL_CONTEXT_కొలత * పోర్టు_మాట_కొలత ) /* Remove space added for additional registers. */
    .endm
 
-#endif /* __FREERTOS_RISC_V_EXTENSIONS_H__ */
+#అయితే_ముగింపు /* __FREERTOS_RISC_V_EXTENSIONS_H__ */

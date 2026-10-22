@@ -40,20 +40,20 @@
 *
 *******************************************************************************/
 
-#ifndef XTENSA_CONFIG_H
-#define XTENSA_CONFIG_H
+#నిర్వచితం_కాకపోతే XTENSA_CONFIG_H
+#నిర్వచించు XTENSA_CONFIG_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#include <xtensa/hal.h>
-#include <xtensa/config/core.h>
-#include <xtensa/config/system.h> /* required for XSHAL_CLIB */
+#అన్తర్భావ <xtensa/hal.h>
+#అన్తర్భావ <xtensa/config/core.h>
+#అన్తర్భావ <xtensa/config/system.h> /* required for XSHAL_CLIB */
 
-#include "xtensa_context.h"
+#అన్తర్భావ "xtensa_context.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -106,27 +106,27 @@
  *  -----------------------------------------------------------------------------*/
 
 /* Extra space required for interrupt/exception hooks. */
-#ifdef XT_INTEXC_HOOKS
-    #ifdef __XTENSA_CALL0_ABI__
-        #define STK_INTEXC_EXTRA     0x200
-    #else
-        #define STK_INTEXC_EXTRA     0x180
-    #endif
-#else
-    #define STK_INTEXC_EXTRA         0
-#endif
+#నిర్వచితమైతే XT_INTEXC_HOOKS
+    #నిర్వచితమైతే __XTENSA_CALL0_ABI__
+        #నిర్వచించు STK_INTEXC_EXTRA     0x200
+    #లేకపోతే
+        #నిర్వచించు STK_INTEXC_EXTRA     0x180
+    #అయితే_ముగింపు
+#లేకపోతే
+    #నిర్వచించు STK_INTEXC_EXTRA         0
+#అయితే_ముగింపు
 
-#define XT_CLIB_CONTEXT_AREA_SIZE    0
+#నిర్వచించు XT_CLIB_CONTEXT_AREA_కొలత    0
 
 /*------------------------------------------------------------------------------
  *  Extra size -- interrupt frame plus coprocessor save area plus hook space.
  *  NOTE: Make sure XT_INTEXC_HOOKS is undefined unless you really need the hooks.
  *  ------------------------------------------------------------------------------*/
-#ifdef __XTENSA_CALL0_ABI__
-    #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_SIZE )
-#else
-    #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_SIZE )
-#endif
+#నిర్వచితమైతే __XTENSA_CALL0_ABI__
+    #నిర్వచించు XT_XTRA_కొలత    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_కొలత )
+#లేకపోతే
+    #నిర్వచించు XT_XTRA_కొలత    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_కొలత )
+#అయితే_ముగింపు
 
 /*------------------------------------------------------------------------------
  *  Space allocated for user code -- function calls and local variables.
@@ -136,23 +136,23 @@
  *  NOTE: The windowed ABI requires more stack, since space has to be reserved
  *  for spilling register windows.
  *  ------------------------------------------------------------------------------*/
-#ifdef __XTENSA_CALL0_ABI__
-    #define XT_USER_SIZE    0x200
-#else
-    #define XT_USER_SIZE    0x400
-#endif
+#నిర్వచితమైతే __XTENSA_CALL0_ABI__
+    #నిర్వచించు XT_USER_కొలత    0x200
+#లేకపోతే
+    #నిర్వచించు XT_USER_కొలత    0x400
+#అయితే_ముగింపు
 
 /* Minimum recommended stack size. */
-#define XT_STACK_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / sizeof( unsigned char ) )
+#నిర్వచించు XT_దొంతర_MIN_కొలత      ( ( XT_XTRA_కొలత + XT_USER_కొలత ) / పరిమాణం( గుర్తులేని అక్షరం ) )
 
 /* OS overhead with and without C library thread context. */
-#define XT_STACK_EXTRA         ( XT_XTRA_SIZE )
-#define XT_STACK_EXTRA_CLIB    ( XT_XTRA_SIZE + XT_CLIB_CONTEXT_AREA_SIZE )
+#నిర్వచించు XT_దొంతర_EXTRA         ( XT_XTRA_కొలత )
+#నిర్వచించు XT_దొంతర_EXTRA_CLIB    ( XT_XTRA_కొలత + XT_CLIB_CONTEXT_AREA_కొలత )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* XTENSA_CONFIG_H */
+#అయితే_ముగింపు /* XTENSA_CONFIG_H */

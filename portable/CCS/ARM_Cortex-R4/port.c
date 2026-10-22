@@ -27,8 +27,8 @@
  */
 
 /* FreeRTOS includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /*-----------------------------------------------------------*/
 
@@ -38,33 +38,33 @@ uint32_t ulCriticalNesting = 9999;
 /*-----------------------------------------------------------*/
 
 /* Registers required to configure the RTI. */
-#define portRTI_GCTRL_REG       ( * ( ( volatile uint32_t * ) 0xFFFFFC00 ) )
-#define portRTI_TBCTRL_REG      ( * ( ( volatile uint32_t * ) 0xFFFFFC04 ) )
-#define portRTI_COMPCTRL_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC0C ) )
-#define portRTI_CNT0_FRC0_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC10 ) )
-#define portRTI_CNT0_UC0_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC14 ) )
-#define portRTI_CNT0_CPUC0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC18 ) )
-#define portRTI_CNT0_COMP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC50 ) )
-#define portRTI_CNT0_UDCP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC54 ) )
-#define portRTI_SETINTENA_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC80 ) )
-#define portRTI_CLEARINTENA_REG ( * ( ( volatile uint32_t * ) 0xFFFFFC84 ) )
-#define portRTI_INTFLAG_REG     ( * ( ( volatile uint32_t * ) 0xFFFFFC88 ) )
+#నిర్వచించు పోర్టు_RTI_GCTRL_REG       ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC00 ) )
+#నిర్వచించు పోర్టు_RTI_TBCTRL_REG      ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC04 ) )
+#నిర్వచించు పోర్టు_RTI_COMPCTRL_REG    ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC0C ) )
+#నిర్వచించు పోర్టు_RTI_CNT0_FRC0_REG   ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC10 ) )
+#నిర్వచించు పోర్టు_RTI_CNT0_UC0_REG    ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC14 ) )
+#నిర్వచించు పోర్టు_RTI_CNT0_CPUC0_REG  ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC18 ) )
+#నిర్వచించు పోర్టు_RTI_CNT0_COMP0_REG  ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC50 ) )
+#నిర్వచించు పోర్టు_RTI_CNT0_UDCP0_REG  ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC54 ) )
+#నిర్వచించు పోర్టు_RTI_SETINTENA_REG   ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC80 ) )
+#నిర్వచించు పోర్టు_RTI_CLEARINTENA_REG ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC84 ) )
+#నిర్వచించు పోర్టు_RTI_INTFLAG_REG     ( * ( ( అస్థిర uint32_t * ) 0xFFFFFC88 ) )
 
 
 /* Constants required to set up the initial stack of each task. */
-#define portINITIAL_SPSR        ( ( StackType_t ) 0x1F )
-#define portINITIAL_FPSCR       ( ( StackType_t ) 0x00 )
-#define portINSTRUCTION_SIZE    ( ( StackType_t ) 0x04 )
-#define portTHUMB_MODE_BIT      ( ( StackType_t ) 0x20 )
+#నిర్వచించు పోర్టు_INITIAL_SPSR        ( ( దొంతర_Type_t ) 0x1F )
+#నిర్వచించు పోర్టు_INITIAL_FPSCR       ( ( దొంతర_Type_t ) 0x00 )
+#నిర్వచించు పోర్టు_INSTRUCTION_కొలత    ( ( దొంతర_Type_t ) 0x04 )
+#నిర్వచించు పోర్టు_THUMB_బహుళకం_బిట్టు      ( ( దొంతర_Type_t ) 0x20 )
 
 /* The number of words on the stack frame between the saved Top Of Stack and
 R0 (in which the parameters are passed. */
-#define portSPACE_BETWEEN_TOS_AND_PARAMETERS    ( 12 )
+#నిర్వచించు పోర్టు_SPACE_BETWEEN_TOS_AND_PARAMETERS    ( 12 )
 
 /*-----------------------------------------------------------*/
 
 /* vPortStartFirstSTask() is defined in portASM.asm */
-extern void vPortStartFirstTask( void );
+బాహ్య శూన్య v_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
 /*-----------------------------------------------------------*/
 
@@ -78,18 +78,18 @@ uint32_t ulTaskHasFPUContext = 0;
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+దొంతర_Type_t *px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t *px_శిఖరం_యొక్క_దొంతర, TaskFunction_t px_సంకేతం, శూన్య *pvParameters )
 {
-StackType_t *pxOriginalTOS;
+దొంతర_Type_t *pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_శిఖరం_యొక్క_దొంతర;
 
-    #if __TI_VFP_SUPPORT__
+    #ఒకవేళ __TI_VFP_SUPPORT__
     {
         /* Ensure the stack is correctly aligned on exit. */
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-    #endif
+    #అయితే_ముగింపు
 
     /* Setup the initial stack of the task.  The stack is set exactly as
     expected by the portRESTORE_CONTEXT() macro. */
@@ -97,129 +97,129 @@ StackType_t *pxOriginalTOS;
     /* First on the stack is the return address - which is the start of the as
     the task has not executed yet.  The offset is added to make the return
     address appear as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం + పోర్టు_INSTRUCTION_కొలత;
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = ( StackType_t ) 0x00000000; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x00000000; /* R14 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    #ifdef portPRELOAD_TASK_REGISTERS
+    #నిర్వచితమైతే పోర్టు_PRELOAD_TASK_REGISTERS
     {
-        *pxTopOfStack = ( StackType_t ) 0x12121212; /* R12 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11111111; /* R11 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10101010; /* R10 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09090909; /* R9 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x08080808; /* R8 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07070707; /* R7 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06060606; /* R6 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x05050505; /* R5 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x04040404; /* R4 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x03030303; /* R3 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x02020202; /* R2 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x01010101; /* R1 */
-        pxTopOfStack--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x12121212; /* R12 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11111111; /* R11 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x10101010; /* R10 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x09090909; /* R9 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x08080808; /* R8 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x07070707; /* R7 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x06060606; /* R6 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x05050505; /* R5 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x04040404; /* R4 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x03030303; /* R3 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x02020202; /* R2 */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x01010101; /* R1 */
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-    #else
+    #లేకపోతే
     {
-        pxTopOfStack -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
+        px_శిఖరం_యొక్క_దొంతర -= పోర్టు_SPACE_BETWEEN_TOS_AND_PARAMETERS;
     }
-    #endif
+    #అయితే_ముగింపు
 
     /* Function parameters are passed in R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters; /* R0 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Set the status register for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) ( ( _get_CPSR() & ~0xFF ) | పోర్టు_INITIAL_SPSR );
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    ఒకవేళ( ( ( uint32_t ) px_సంకేతం & 0x01UL ) != 0x00 )
     {
         /* The task will start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_శిఖరం_యొక్క_దొంతర |= పోర్టు_THUMB_బహుళకం_బిట్టు;
     }
 
-    #ifdef __TI_VFP_SUPPORT__
+    #నిర్వచితమైతే __TI_VFP_SUPPORT__
     {
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
 
         /* The last thing on the stack is the tasks ulUsingFPU value, which by
         default is set to indicate that the stack frame does not include FPU
         registers. */
-        *pxTopOfStack = pdFALSE;
+        *px_శిఖరం_యొక్క_దొంతర = pdFALSE;
     }
-    #endif
+    #అయితే_ముగింపు
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt(void)
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం(శూన్య)
 {
     /* Disable timer 0. */
-    portRTI_GCTRL_REG &= 0xFFFFFFFEUL;
+    పోర్టు_RTI_GCTRL_REG &= 0xFFFFFFFEUL;
 
     /* Use the internal counter. */
-    portRTI_TBCTRL_REG = 0x00000000U;
+    పోర్టు_RTI_TBCTRL_REG = 0x00000000U;
 
     /* COMPSEL0 will use the RTIFRC0 counter. */
-    portRTI_COMPCTRL_REG = 0x00000000U;
+    పోర్టు_RTI_COMPCTRL_REG = 0x00000000U;
 
     /* Initialise the counter and the prescale counter registers. */
-    portRTI_CNT0_UC0_REG =  0x00000000U;
-    portRTI_CNT0_FRC0_REG =  0x00000000U;
+    పోర్టు_RTI_CNT0_UC0_REG =  0x00000000U;
+    పోర్టు_RTI_CNT0_FRC0_REG =  0x00000000U;
 
     /* Set Prescalar for RTI clock. */
-    portRTI_CNT0_CPUC0_REG = 0x00000001U;
-    portRTI_CNT0_COMP0_REG = ( configCPU_CLOCK_HZ / 2 ) / configTICK_RATE_HZ;
-    portRTI_CNT0_UDCP0_REG = ( configCPU_CLOCK_HZ / 2 ) / configTICK_RATE_HZ;
+    పోర్టు_RTI_CNT0_CPUC0_REG = 0x00000001U;
+    పోర్టు_RTI_CNT0_COMP0_REG = ( configCPU_CLOCK_HZ / 2 ) / config_TICK_రేటు_HZ;
+    పోర్టు_RTI_CNT0_UDCP0_REG = ( configCPU_CLOCK_HZ / 2 ) / config_TICK_రేటు_HZ;
 
     /* Clear interrupts. */
-    portRTI_INTFLAG_REG =  0x0007000FU;
-    portRTI_CLEARINTENA_REG = 0x00070F0FU;
+    పోర్టు_RTI_INTFLAG_REG =  0x0007000FU;
+    పోర్టు_RTI_CLEARINTENA_REG = 0x00070F0FU;
 
     /* Enable the compare 0 interrupt. */
-    portRTI_SETINTENA_REG = 0x00000001U;
-    portRTI_GCTRL_REG |= 0x00000001U;
+    పోర్టు_RTI_SETINTENA_REG = 0x00000001U;
+    పోర్టు_RTI_GCTRL_REG |= 0x00000001U;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler(void)
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler(శూన్య)
 {
     /* Start the timer that generates the tick ISR. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Reset the critical section nesting count read to execute the first task. */
     ulCriticalNesting = 0;
 
     /* Start the first task.  This is done from portASM.asm as ARM mode must be
     used. */
-    vPortStartFirstTask();
+    v_పోర్టు_ప్రారంభం_మొదటి_Task();
 
     /* Should not get here! */
-    return pdFAIL;
+    తిరిగి pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-void vPortEndScheduler(void)
+శూన్య v_పోర్టు_చివర_Scheduler(శూన్య)
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
@@ -227,21 +227,21 @@ void vPortEndScheduler(void)
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#ఒకవేళ configUSE_PREEMPTION == 0
 
     /* The cooperative scheduler requires a normal IRQ service routine to
      * simply increment the system tick. */
-    __interrupt void vPortNonPreemptiveTick( void )
+    __interrupt శూన్య v_పోర్టు_Non_Preemptive_Tick( శూన్య )
     {
         /* clear clock interrupt flag */
-        portRTI_INTFLAG_REG = 0x00000001;
+        పోర్టు_RTI_INTFLAG_REG = 0x00000001;
 
         /* Increment the tick count - this may make a delaying task ready
         to run - but a context switch is not performed. */
         xTaskIncrementTick();
     }
 
- #else
+ #లేకపోతే
 
     /*
      **************************************************************************
@@ -250,19 +250,19 @@ void vPortEndScheduler(void)
      * is set to 1 in portmacro.h
      **************************************************************************
      */
-    void vPortPreemptiveTick( void );
+    శూన్య v_పోర్టు_Preemptive_Tick( శూన్య );
 
-#endif
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 
 /*
  * Disable interrupts, and keep a count of the nesting depth.
  */
-void vPortEnterCritical( void )
+శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS(); */
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
     /* Now interrupts are disabled ulCriticalNesting can be accessed
     directly.  Increment ulCriticalNesting to keep a count of how many times
@@ -275,38 +275,38 @@ void vPortEnterCritical( void )
  * Decrement the critical nesting count, and if it has reached zero, re-enable
  * interrupts.
  */
-void vPortExitCritical( void )
+శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
-    if( ulCriticalNesting > 0 )
+    ఒకవేళ( ulCriticalNesting > 0 )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
         re-enabled. */
-        if( ulCriticalNesting == 0 )
+        ఒకవేళ( ulCriticalNesting == 0 )
         {
             /* Enable interrupts as per portENABLE_INTERRUPTS(). */
-            portENABLE_INTERRUPTS();
+            పోర్టు_ENABLE_INTERRUPTS();
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-#if __TI_VFP_SUPPORT__
+#ఒకవేళ __TI_VFP_SUPPORT__
 
-    void vPortTaskUsesFPU( void )
+    శూన్య v_పోర్టు_Task_ఉపయోగిస్తుంది_FPU( శూన్య )
     {
-    extern void vPortInitialiseFPSCR( void );
+    బాహ్య శూన్య v_పోర్టు_Initialise_FPSCR( శూన్య );
 
         /* A task is registering the fact that it needs an FPU context.  Set the
         FPU flag (saved as part of the task context. */
         ulTaskHasFPUContext = pdTRUE;
 
         /* Initialise the floating point status register. */
-        vPortInitialiseFPSCR();
+        v_పోర్టు_Initialise_FPSCR();
     }
 
-#endif /* __TI_VFP_SUPPORT__ */
+#అయితే_ముగింపు /* __TI_VFP_SUPPORT__ */
 
 /*-----------------------------------------------------------*/

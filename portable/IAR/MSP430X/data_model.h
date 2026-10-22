@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#నిర్వచితం_కాకపోతే దత్తాంశం_MODEL_H
+#నిర్వచించు దత్తాంశం_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#ఒకవేళ __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #నిర్వచించు pushm_x    pushm.w
+    #నిర్వచించు popm_x     popm.w
+    #నిర్వచించు నెట్టు_x     నెట్టు.w
+    #నిర్వచించు తీయి_x      తీయి.w
+    #నిర్వచించు mov_x      mov.w
+    #నిర్వచించు cmp_x      cmp.w
+#అయితే_ముగింపు
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#ఒకవేళ __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #నిర్వచించు pushm_x    pushm.a
+    #నిర్వచించు popm_x     popm.a
+    #నిర్వచించు నెట్టు_x     pushx.a
+    #నిర్వచించు తీయి_x      popx.a
+    #నిర్వచించు mov_x      mov.w
+    #నిర్వచించు cmp_x      cmp.w
+#అయితే_ముగింపు
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#ఒకవేళ __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #నిర్వచించు pushm_x    pushm.a
+    #నిర్వచించు popm_x     popm.a
+    #నిర్వచించు నెట్టు_x     pushx.a
+    #నిర్వచించు తీయి_x      popx.a
+    #నిర్వచించు mov_x      movx.a
+    #నిర్వచించు cmp_x      cmpx.a
+#అయితే_ముగింపు
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#నిర్వచితం_కాకపోతే pushm_x
+    #దోషం The assembler options must define one యొక్క the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#అయితే_ముగింపు
 
-#endif /* DATA_MODEL_H */
+#అయితే_ముగింపు /* DATA_MODEL_H */

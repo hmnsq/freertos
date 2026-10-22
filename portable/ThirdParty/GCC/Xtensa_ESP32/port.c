@@ -58,99 +58,99 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <xtensa/config/core.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
+#అన్తర్భావ <xtensa/config/core.h>
 
-#include "xtensa_rtos.h"
-#include "esp_idf_version.h"
+#అన్తర్భావ "xtensa_rtos.h"
+#అన్తర్భావ "esp_idf_version.h"
 
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #include "rom/ets_sys.h"
-    #include "esp_panic.h"
-    #include "esp_crosscore_int.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/rom/ets_sys.h"
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/rom/ets_sys.h"
-    #elif CONFIG_IDF_TARGET_ESP32
-        #include "esp32/rom/ets_sys.h"
-    #endif
-    #include "esp_private/panic_reason.h"
-    #include "esp_debug_helpers.h"
-    #include "esp_private/crosscore_int.h"
-    #include "esp_log.h"
-#endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
-#include "soc/cpu.h"
+#ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
+    #అన్తర్భావ "rom/ets_sys.h"
+    #అన్తర్భావ "esp_panic.h"
+    #అన్తర్భావ "esp_crosscore_int.h"
+#లేకపోతే
+    #ఒకవేళ CONFIG_IDF_లక్ష్యం_ESP32_S3
+        #అన్తర్భావ "esp32s3/rom/ets_sys.h"
+    #లేదావేళ CONFIG_IDF_లక్ష్యం_ESP32_S2
+        #అన్తర్భావ "esp32s2/rom/ets_sys.h"
+    #లేదావేళ CONFIG_IDF_లక్ష్యం_ESP32
+        #అన్తర్భావ "esp32/rom/ets_sys.h"
+    #అయితే_ముగింపు
+    #అన్తర్భావ "esp_private/panic_reason.h"
+    #అన్తర్భావ "esp_debug_helpers.h"
+    #అన్తర్భావ "esp_private/crosscore_int.h"
+    #అన్తర్భావ "esp_log.h"
+#అయితే_ముగింపు /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+#అన్తర్భావ "soc/cpu.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
-#include "esp_heap_caps.h"
+#అన్తర్భావ "esp_heap_caps.h"
 
-#include "esp_intr_alloc.h"
+#అన్తర్భావ "esp_intr_alloc.h"
 
-#include "port_systick.h"
+#అన్తర్భావ "port_systick.h"
 
 /* Defined in xtensa_context.S */
-extern void _xt_coproc_init( void );
+బాహ్య శూన్య _xt_coproc_init( శూన్య );
 
 _Static_assert( tskNO_AFFINITY == CONFIG_FREERTOS_NO_AFFINITY, "incorrect tskNO_AFFINITY value" );
 
 /*-----------------------------------------------------------*/
 
-extern volatile int port_xSchedulerRunning[ portNUM_PROCESSORS ];
-unsigned port_interruptNesting[ portNUM_PROCESSORS ] = { 0 }; /* Interrupt nesting level. Increased/decreased in portasm.c, _frxt_int_enter/_frxt_int_exit */
+బాహ్య అస్థిర పూర్ణాంకం పోర్టు_x_Scheduler_Running[ పోర్టు_అంకె_PROCESSORS ];
+గుర్తులేని పోర్టు_అంతరాయం_Nesting[ పోర్టు_అంకె_PROCESSORS ] = { 0 }; /* Interrupt nesting level. Increased/decreased in portasm.c, _frxt_int_enter/_frxt_int_exit */
 
 /*-----------------------------------------------------------*/
 
 /* User exception dispatcher when exiting */
-void _xt_user_exit( void );
+శూన్య _xt_user_exit( శూన్య );
 
-#if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+#ఒకవేళ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
 /* Wrapper to allow task functions to return (increases stack overhead by 16 bytes) */
-    static void vPortTaskWrapper( TaskFunction_t pxCode,
-                                  void * pvParameters )
+    స్థిర శూన్య v_పోర్టు_Task_Wrapper( TaskFunction_t px_సంకేతం,
+                                  శూన్య * pvParameters )
     {
-        pxCode( pvParameters );
+        px_సంకేతం( pvParameters );
         /*FreeRTOS tasks should not return. Log the task name and abort. */
-        char * pcTaskName = pcTaskGetTaskName( NULL );
+        అక్షరం * pcTaskName = pcTaskGetTaskName( ఖాళీ );
         ESP_LOGE( "FreeRTOS", "FreeRTOS Task \"%s\" should not return, Aborting now!", pcTaskName );
         abort();
     }
-#endif /* if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER */
+#అయితే_ముగింపు /* if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER */
 
 /*
  * Stack initialization
  */
 /* *INDENT-OFF* */
-#if portUSING_MPU_WRAPPERS
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters,
-                                         BaseType_t xRunPrivileged )
-#else
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters )
-#endif
+#ఒకవేళ పోర్టు_USING_MPU_WRAPPERS
+    దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                         TaskFunction_t px_సంకేతం,
+                                         శూన్య * pvParameters,
+                                         పునాది_Type_t x_నిరంతరం_Privileged )
+#లేకపోతే
+    దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                         TaskFunction_t px_సంకేతం,
+                                         శూన్య * pvParameters )
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 {
-    StackType_t * sp;
-    StackType_t * tp;
-    XtExcFrame * frame;
+    దొంతర_Type_t * sp;
+    దొంతర_Type_t * tp;
+    Xt_Exc_చట్రం * చట్రం_2;
 
-    #if XCHAL_CP_NUM > 0
+    #ఒకవేళ XCHAL_CP_అంకె > 0
         uint32_t * p;
-    #endif
+    #అయితే_ముగింపు
 
     uint32_t * threadptr;
-    void * task_thread_local_start;
-    extern int _thread_local_start, _thread_local_end, _flash_rodata_start, _flash_rodata_align;
+    శూన్య * task_thread_local_ప్రారంభం;
+    బాహ్య పూర్ణాంకం thread_local_ప్రారంభం, thread_local_చివర, flash_rodata_ప్రారంభం, _flash_rodata_align;
 
     /* TODO: check that TLS area fits the stack */
-    uint32_t thread_local_sz = ( uint8_t * ) &_thread_local_end - ( uint8_t * ) &_thread_local_start;
+    uint32_t thread_local_sz = ( uint8_t * ) &thread_local_చివర - ( uint8_t * ) &thread_local_ప్రారంభం;
 
     thread_local_sz = ALIGNUP( 0x10, thread_local_sz );
 
@@ -166,55 +166,55 @@ void _xt_user_exit( void );
      */
 
     /* Create interrupt stack frame aligned to 16 byte boundary */
-    sp = ( StackType_t * ) ( ( ( UBaseType_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz - XT_STK_FRMSZ ) & ~0xf );
+    sp = ( దొంతర_Type_t * ) ( ( ( UBaseType_t ) px_శిఖరం_యొక్క_దొంతర - XT_CP_కొలత - thread_local_sz - XT_STK_FRMSZ ) & ~0xf );
 
     /* Clear the entire frame (do not use memset() because we don't depend on C library) */
-    for( tp = sp; tp <= pxTopOfStack; ++tp )
+    కొరకు( tp = sp; tp <= px_శిఖరం_యొక్క_దొంతర; ++tp )
     {
         *tp = 0;
     }
 
-    frame = ( XtExcFrame * ) sp;
+    చట్రం_2 = ( Xt_Exc_చట్రం * ) sp;
 
     /* Explicitly initialize certain saved registers */
-    #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
-        frame->pc = ( UBaseType_t ) vPortTaskWrapper; /* task wrapper                       */
-    #else
-        frame->pc = ( UBaseType_t ) pxCode;           /* task entrypoint                    */
-    #endif
-    frame->a0 = 0;                                    /* to terminate GDB backtrace     */
-    frame->a1 = ( UBaseType_t ) sp + XT_STK_FRMSZ;    /* physical top of stack frame        */
-    frame->exit = ( UBaseType_t ) _xt_user_exit;      /* user exception exit dispatcher */
+    #ఒకవేళ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+        చట్రం_2->pc = ( UBaseType_t ) v_పోర్టు_Task_Wrapper; /* task wrapper                       */
+    #లేకపోతే
+        చట్రం_2->pc = ( UBaseType_t ) px_సంకేతం;           /* task entrypoint                    */
+    #అయితే_ముగింపు
+    చట్రం_2->a0 = 0;                                    /* to terminate GDB backtrace     */
+    చట్రం_2->a1 = ( UBaseType_t ) sp + XT_STK_FRMSZ;    /* physical top of stack frame        */
+    చట్రం_2->నిష్క్రమించు = ( UBaseType_t ) _xt_user_exit;      /* user exception exit dispatcher */
 
     /* Set initial PS to int level 0, EXCM disabled ('rfe' will enable), user mode. */
     /* Also set entry point argument parameter. */
-    #ifdef __XTENSA_CALL0_ABI__
-        #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
-            frame->a2 = ( UBaseType_t ) pxCode;
-            frame->a3 = ( UBaseType_t ) pvParameters;
-        #else
-            frame->a2 = ( UBaseType_t ) pvParameters;
-        #endif
-        frame->ps = PS_UM | PS_EXCM;
-    #else
+    #నిర్వచితమైతే __XTENSA_CALL0_ABI__
+        #ఒకవేళ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+            చట్రం_2->a2 = ( UBaseType_t ) px_సంకేతం;
+            చట్రం_2->a3 = ( UBaseType_t ) pvParameters;
+        #లేకపోతే
+            చట్రం_2->a2 = ( UBaseType_t ) pvParameters;
+        #అయితే_ముగింపు
+        చట్రం_2->ps = PS_UM | PS_EXCM;
+    #లేకపోతే
         /* + for windowed ABI also set WOE and CALLINC (pretend task was 'call4'd). */
-        #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
-            frame->a6 = ( UBaseType_t ) pxCode;
-            frame->a7 = ( UBaseType_t ) pvParameters;
-        #else
-            frame->a6 = ( UBaseType_t ) pvParameters;
-        #endif
-        frame->ps = PS_UM | PS_EXCM | PS_WOE | PS_CALLINC( 1 );
-    #endif /* ifdef __XTENSA_CALL0_ABI__ */
+        #ఒకవేళ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+            చట్రం_2->a6 = ( UBaseType_t ) px_సంకేతం;
+            చట్రం_2->a7 = ( UBaseType_t ) pvParameters;
+        #లేకపోతే
+            చట్రం_2->a6 = ( UBaseType_t ) pvParameters;
+        #అయితే_ముగింపు
+        చట్రం_2->ps = PS_UM | PS_EXCM | PS_WOE | PS_CALLINC( 1 );
+    #అయితే_ముగింపు /* ifdef __XTENSA_CALL0_ABI__ */
 
-    #ifdef XT_USE_SWPRI
+    #నిర్వచితమైతే XT_USE_SWPRI
         /* Set the initial virtual priority mask value to all 1's. */
-        frame->vpri = 0xFFFFFFFF;
-    #endif
+        చట్రం_2->vpri = 0xFFFFFFFF;
+    #అయితే_ముగింపు
 
     /* Init threadptr register and set up TLS run-time area. */
-    task_thread_local_start = ( void * ) ( ( ( uint32_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz ) & ~0xf );
-    memcpy( task_thread_local_start, &_thread_local_start, thread_local_sz );
+    task_thread_local_ప్రారంభం = ( శూన్య * ) ( ( ( uint32_t ) px_శిఖరం_యొక్క_దొంతర - XT_CP_కొలత - thread_local_sz ) & ~0xf );
+    జ్ఞాపకం_నకలు( task_thread_local_ప్రారంభం, &thread_local_ప్రారంభం, thread_local_sz );
     threadptr = ( uint32_t * ) ( sp + XT_STK_EXTRA );
 
     /* Calculate THREADPTR value.
@@ -225,30 +225,30 @@ void _xt_user_exit( void );
      *    offset = address - tls_section_vma + align_up(TCB_SIZE, tls_section_alignment)
      * where TCB_SIZE is hardcoded to 8.
      */
-    const uint32_t tls_section_alignment = ( uint32_t ) &_flash_rodata_align; /* ALIGN value of .flash.rodata section */
-    const uint32_t tcb_size = 8;                                              /* Unrelated to FreeRTOS, this is the constant from BFD */
-    const uint32_t base = ( tcb_size + tls_section_alignment - 1 ) & ( ~( tls_section_alignment - 1 ) );
-    *threadptr = ( uint32_t ) task_thread_local_start - ( ( uint32_t ) &_thread_local_start - ( uint32_t ) &_flash_rodata_start ) - base;
+    స్థిరరాశి uint32_t tls_section_alignment = ( uint32_t ) &_flash_rodata_align; /* ALIGN value of .flash.rodata section */
+    స్థిరరాశి uint32_t tcb_కొలత = 8;                                              /* Unrelated to FreeRTOS, this is the constant from BFD */
+    స్థిరరాశి uint32_t పునాది = ( tcb_కొలత + tls_section_alignment - 1 ) & ( ~( tls_section_alignment - 1 ) );
+    *threadptr = ( uint32_t ) task_thread_local_ప్రారంభం - ( ( uint32_t ) &thread_local_ప్రారంభం - ( uint32_t ) &flash_rodata_ప్రారంభం ) - పునాది;
 
-    #if XCHAL_CP_NUM > 0
+    #ఒకవేళ XCHAL_CP_అంకె > 0
         /* Init the coprocessor save area (see xtensa_context.h) */
 
         /* No access to TCB here, so derive indirectly. Stack growth is top to bottom.
          * //p = (uint32_t *) xMPUSettings->coproc_area;
          */
-        p = ( uint32_t * ) ( ( ( uint32_t ) pxTopOfStack - XT_CP_SIZE ) & ~0xf );
-        configASSERT( ( uint32_t ) p >= frame->a1 );
+        p = ( uint32_t * ) ( ( ( uint32_t ) px_శిఖరం_యొక్క_దొంతర - XT_CP_కొలత ) & ~0xf );
+        configASSERT( ( uint32_t ) p >= చట్రం_2->a1 );
         p[ 0 ] = 0;
         p[ 1 ] = 0;
-        p[ 2 ] = ( ( ( uint32_t ) p ) + 12 + XCHAL_TOTAL_SA_ALIGN - 1 ) & -XCHAL_TOTAL_SA_ALIGN;
-    #endif
+        p[ 2 ] = ( ( ( uint32_t ) p ) + 12 + XCHAL_మొత్తం_SA_ALIGN - 1 ) & -XCHAL_మొత్తం_SA_ALIGN;
+    #అయితే_ముగింపు
 
-    return sp;
+    తిరిగి sp;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the Xtensa port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -257,18 +257,18 @@ void vPortEndScheduler( void )
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
     /* Interrupts are disabled at this point and stack contains PS with enabled interrupts when task context is restored */
 
-    #if XCHAL_CP_NUM > 0
+    #ఒకవేళ XCHAL_CP_అంకె > 0
         /* Initialize co-processor management for tasks. Leave CPENABLE alone. */
         _xt_coproc_init();
-    #endif
+    #అయితే_ముగింపు
 
     /* Setup the hardware to generate the tick */
-    vPortSetupTimer();
+    v_పోర్టు_అమరిక_Timer();
 
     /* NOTE: For ESP32-S3, vPortSetupTimer allocates an interrupt for the
      * systimer which is used as the source for FreeRTOS systick.
@@ -281,20 +281,20 @@ BaseType_t xPortStartScheduler( void )
      * This resulted in the interrupts being enabled before the _frxt_dispatch call,
      * who was unable to switch context to the queued tasks.
      */
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
-    port_xSchedulerRunning[ xPortGetCoreID() ] = 1;
+    పోర్టు_x_Scheduler_Running[ x_పోర్టు_Get_Core_ID() ] = 1;
 
     /* Cannot be directly called from C; never returns */
-    __asm__ volatile ( "call0    _frxt_dispatch\n" );
+    __asm__ అస్థిర ( "call0    _frxt_dispatch\n" );
 
     /* Should not get here. */
-    return pdTRUE;
+    తిరిగి pdTRUE;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortYieldOtherCore( BaseType_t coreid )
+శూన్య v_పోర్టు_Yield_Other_Core( పునాది_Type_t coreid )
 {
     esp_crosscore_int_send_yield( coreid );
 }
@@ -304,156 +304,156 @@ void vPortYieldOtherCore( BaseType_t coreid )
 /*
  * Used to set coprocessor area in stack. Current hack is to reuse MPU pointer for coprocessor area.
  */
-#if portUSING_MPU_WRAPPERS
-    void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                    const struct xMEMORY_REGION * const xRegions,
-                                    StackType_t * pxBottomOfStack,
-                                    configSTACK_DEPTH_TYPE uxStackDepth )
+#ఒకవేళ పోర్టు_USING_MPU_WRAPPERS
+    శూన్య v_పోర్టు_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                    స్థిరరాశి నిర్మాణం x_జ్ఞాపకం_REGION * స్థిరరాశి xRegions,
+                                    దొంతర_Type_t * px_Bottom_యొక్క_దొంతర,
+                                    config_దొంతర_లోతు_TYPE ux_దొంతర_లోతు )
     {
-        #if XCHAL_CP_NUM > 0
-            xMPUSettings->coproc_area = ( StackType_t * ) ( ( uint32_t ) ( pxBottomOfStack + uxStackDepth - 1 ) );
-            xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( portPOINTER_SIZE_TYPE ) xMPUSettings->coproc_area ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
-            xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( uint32_t ) xMPUSettings->coproc_area - XT_CP_SIZE ) & ~0xf );
+        #ఒకవేళ XCHAL_CP_అంకె > 0
+            xMPUSettings->coproc_area = ( దొంతర_Type_t * ) ( ( uint32_t ) ( px_Bottom_యొక్క_దొంతర + ux_దొంతర_లోతు - 1 ) );
+            xMPUSettings->coproc_area = ( దొంతర_Type_t * ) ( ( ( పోర్టు_సూచిక_కొలత_TYPE ) xMPUSettings->coproc_area ) & ( ~( ( పోర్టు_సూచిక_కొలత_TYPE ) పోర్టు_BYTE_ALIGNMENT_ముసుగు ) ) );
+            xMPUSettings->coproc_area = ( దొంతర_Type_t * ) ( ( ( uint32_t ) xMPUSettings->coproc_area - XT_CP_కొలత ) & ~0xf );
 
             /* NOTE: we cannot initialize the coprocessor save area here because FreeRTOS is going to
              * clear the stack area after we return. This is done in pxPortInitialiseStack().
              */
-        #endif
+        #అయితే_ముగింపు
     }
 
-    void vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings )
+    శూన్య v_పోర్టు_Release_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings )
     {
         /* If task has live floating point registers somewhere, release them */
         _xt_coproc_release( xMPUSettings->coproc_area );
     }
 
-#endif /* if portUSING_MPU_WRAPPERS */
+#అయితే_ముగింపు /* if portUSING_MPU_WRAPPERS */
 
 /*
  * Returns true if the current core is in ISR context; low prio ISR, med prio ISR or timer tick ISR. High prio ISRs
  * aren't detected here, but they normally cannot call C code, so that should not be an issue anyway.
  */
-BaseType_t xPortInIsrContext()
+పునాది_Type_t x_పోర్టు_లోపల_Isr_Context()
 {
-    unsigned int irqStatus;
-    BaseType_t ret;
+    గుర్తులేని పూర్ణాంకం irq_స్థితి;
+    పునాది_Type_t ret;
 
-    irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
-    ret = ( port_interruptNesting[ xPortGetCoreID() ] != 0 );
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-    return ret;
+    irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
+    ret = ( పోర్టు_అంతరాయం_Nesting[ x_పోర్టు_Get_Core_ID() ] != 0 );
+    పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
+    తిరిగి ret;
 }
 
 /*
  * This function will be called in High prio ISRs. Returns true if the current core was in ISR context
  * before calling into high prio ISR context.
  */
-BaseType_t IRAM_ATTR xPortInterruptedFromISRContext()
+పునాది_Type_t IRAM_ATTR x_పోర్టు_Interrupted_From_ISRContext()
 {
-    return( port_interruptNesting[ xPortGetCoreID() ] != 0 );
+    తిరిగి( పోర్టు_అంతరాయం_Nesting[ x_పోర్టు_Get_Core_ID() ] != 0 );
 }
 
-void IRAM_ATTR vPortEvaluateYieldFromISR( int argc,
+శూన్య IRAM_ATTR v_పోర్టు_Evaluate_Yield_From_ISR( పూర్ణాంకం argc,
                                           ... )
 {
-    BaseType_t xYield;
+    పునాది_Type_t xYield;
     va_list ap;
 
-    va_start( ap, argc );
+    va_ప్రారంభం( ap, argc );
 
-    if( argc )
+    ఒకవేళ( argc )
     {
-        xYield = ( BaseType_t ) va_arg( ap, int );
-        va_end( ap );
+        xYield = ( పునాది_Type_t ) va_arg( ap, పూర్ణాంకం );
+        va_చివర( ap );
     }
-    else
+    లేకపోతే
     {
         /*it is a empty parameter vPortYieldFromISR macro call: */
-        va_end( ap );
-        traceISR_EXIT_TO_SCHEDULER();
-        _frxt_setup_switch();
-        return;
+        va_చివర( ap );
+        trace_ISR_EXIT_గమ్యం_SCHEDULER();
+        frxt_అమరిక_switch();
+        తిరిగి;
     }
 
     /*Yield exists, so need evaluate it first then switch: */
-    if( xYield == pdTRUE )
+    ఒకవేళ( xYield == pdTRUE )
     {
-        traceISR_EXIT_TO_SCHEDULER();
-        _frxt_setup_switch();
+        trace_ISR_EXIT_గమ్యం_SCHEDULER();
+        frxt_అమరిక_switch();
     }
 }
 
-void vPortAssertIfInISR()
+శూన్య v_పోర్టు_Assert_If_లోపల_ISR()
 {
-    if( xPortInIsrContext() )
+    ఒకవేళ( x_పోర్టు_లోపల_Isr_Context() )
     {
-        esp_rom_printf( "core=%d port_interruptNesting=%d\n\n", xPortGetCoreID(), port_interruptNesting[ xPortGetCoreID() ] );
+        esp_rom_printf( "core=%d port_interruptNesting=%d\n\n", x_పోర్టు_Get_Core_ID(), పోర్టు_అంతరాయం_Nesting[ x_పోర్టు_Get_Core_ID() ] );
     }
 
-    configASSERT( !xPortInIsrContext() );
+    configASSERT( !x_పోర్టు_లోపల_Isr_Context() );
 }
 
 /*
  * For kernel use: Initialize a per-CPU mux. Mux will be initialized unlocked.
  */
-void vPortCPUInitializeMutex( portMUX_TYPE * mux )
+శూన్య v_పోర్టు_CPUInitialize_Mutex( పోర్టు_MUX_TYPE * mux )
 {
-    #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
+    #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
         esp_rom_printf( "Initializing mux %p\n", mux );
-        mux->lastLockedFn = "(never locked)";
-        mux->lastLockedLine = -1;
-    #endif
-    mux->owner = portMUX_FREE_VAL;
-    mux->count = 0;
+        mux->చివరి_Locked_Fn = "(never locked)";
+        mux->చివరి_Locked_పంక్తి = -1;
+    #అయితే_ముగింపు
+    mux->owner = పోర్టు_MUX_FREE_VAL;
+    mux->లెక్క = 0;
 }
 
-#include "portmux_impl.h"
+#అన్తర్భావ "portmux_impl.h"
 
 /*
  * For kernel use: Acquire a per-CPU mux. Spinlocks, so don't hold on to these muxes for too long.
  */
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    void vPortCPUAcquireMutex( portMUX_TYPE * mux,
-                               const char * fnName,
-                               int line )
+#నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+    శూన్య v_పోర్టు_CPUAcquire_Mutex( పోర్టు_MUX_TYPE * mux,
+                               స్థిరరాశి అక్షరం * fnName,
+                               పూర్ణాంకం పంక్తి )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        గుర్తులేని పూర్ణాంకం irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
 
-        vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT, fnName, line );
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
+        v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( mux, పోర్టు_MUX_NO_TIMEOUT, fnName, పంక్తి );
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
     }
 
-    bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles,
-                                      const char * fnName,
-                                      int line )
+    bool v_పోర్టు_CPUAcquire_Mutex_Timeout( పోర్టు_MUX_TYPE * mux,
+                                      పూర్ణాంకం timeout_చక్రాలు,
+                                      స్థిరరాశి అక్షరం * fnName,
+                                      పూర్ణాంకం పంక్తి )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
-        bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles, fnName, line );
+        గుర్తులేని పూర్ణాంకం irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
+        bool ఫలితం = v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( mux, timeout_చక్రాలు, fnName, పంక్తి );
 
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-        return result;
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
+        తిరిగి ఫలితం;
     }
 
-#else /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
-    void vPortCPUAcquireMutex( portMUX_TYPE * mux )
+#లేకపోతే /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+    శూన్య v_పోర్టు_CPUAcquire_Mutex( పోర్టు_MUX_TYPE * mux )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        గుర్తులేని పూర్ణాంకం irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
 
-        vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT );
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
+        v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( mux, పోర్టు_MUX_NO_TIMEOUT );
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
     }
 
-    bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles )
+    bool v_పోర్టు_CPUAcquire_Mutex_Timeout( పోర్టు_MUX_TYPE * mux,
+                                      పూర్ణాంకం timeout_చక్రాలు )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
-        bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles );
+        గుర్తులేని పూర్ణాంకం irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
+        bool ఫలితం = v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( mux, timeout_చక్రాలు );
 
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-        return result;
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
+        తిరిగి ఫలితం;
     }
-#endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+#అయితే_ముగింపు /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
 
 /*
@@ -461,30 +461,30 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
  *
  * Mux must be already locked by this core
  */
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux,
-                               const char * fnName,
-                               int line )
+#నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+    శూన్య v_పోర్టు_CPURelease_Mutex( పోర్టు_MUX_TYPE * mux,
+                               స్థిరరాశి అక్షరం * fnName,
+                               పూర్ణాంకం పంక్తి )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        గుర్తులేని పూర్ణాంకం irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
 
-        vPortCPUReleaseMutexIntsDisabled( mux, fnName, line );
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
+        v_పోర్టు_CPURelease_Mutex_Ints_Disabled( mux, fnName, పంక్తి );
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
     }
-#else
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux )
+#లేకపోతే
+    శూన్య v_పోర్టు_CPURelease_Mutex( పోర్టు_MUX_TYPE * mux )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        గుర్తులేని పూర్ణాంకం irq_స్థితి = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
 
-        vPortCPUReleaseMutexIntsDisabled( mux );
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
+        v_పోర్టు_CPURelease_Mutex_Ints_Disabled( mux );
+        పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( irq_స్థితి );
     }
-#endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+#అయితే_ముగింపు /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
-#define STACK_WATCH_AREA_SIZE       ( 32 )
-#define STACK_WATCH_POINT_NUMBER    ( SOC_CPU_WATCHPOINTS_NUM - 1 )
+#నిర్వచించు దొంతర_WATCH_AREA_కొలత       ( 32 )
+#నిర్వచించు దొంతర_WATCH_బిందువు_సంఖ్య    ( SOC_CPU_WATCHPOINTS_అంకె - 1 )
 
-void vPortSetStackWatchpoint( void * pxStackStart )
+శూన్య v_పోర్టు_సమితి_దొంతర_Watchpoint( శూన్య * px_దొంతర_ప్రారంభం )
 {
     /*Set watchpoint 1 to watch the last 32 bytes of the stack. */
     /*Unfortunately, the Xtensa watchpoints can't set a watchpoint on a random [base - base+n] region because */
@@ -492,58 +492,58 @@ void vPortSetStackWatchpoint( void * pxStackStart )
     /*bytes of the stack we can actually watch. In general, this can cause the watchpoint to be triggered at most */
     /*28 bytes early. The value 32 is chosen because it's larger than the stack canary, which in FreeRTOS is 20 bytes. */
     /*This way, we make sure we trigger before/when the stack canary is corrupted, not after. */
-    int addr = ( int ) pxStackStart;
+    పూర్ణాంకం addr = ( పూర్ణాంకం ) px_దొంతర_ప్రారంభం;
 
     addr = ( addr + 31 ) & ( ~31 );
-    esp_cpu_set_watchpoint( STACK_WATCH_POINT_NUMBER, ( char * ) addr, 32, ESP_WATCHPOINT_STORE );
+    esp_cpu_సమితి_watchpoint( దొంతర_WATCH_బిందువు_సంఖ్య, ( అక్షరం * ) addr, 32, ESP_WATCHPOINT_STORE );
 }
 
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#ఒకవేళ ( ESP_IDF_సంస్కరణ < ESP_IDF_సంస్కరణ_VAL( 4, 2, 0 ) )
 
-    #if defined( CONFIG_SPIRAM_SUPPORT )
+    #ఒకవేళ defined( CONFIG_SPIRAM_SUPPORT )
 
 /*
  * Compare & set (S32C1) does not work in external RAM. Instead, this routine uses a mux (in internal memory) to fake it.
  */
-        static portMUX_TYPE extram_mux = portMUX_INITIALIZER_UNLOCKED;
+        స్థిర పోర్టు_MUX_TYPE extram_mux = పోర్టు_MUX_INITIALIZER_UNLOCKED;
 
-        void uxPortCompareSetExtram( volatile uint32_t * addr,
+        శూన్య ux_పోర్టు_Compare_సమితి_Extram( అస్థిర uint32_t * addr,
                                      uint32_t compare,
-                                     uint32_t * set )
+                                     uint32_t * సమితి )
         {
             uint32_t prev;
 
-            uint32_t oldlevel = portSET_INTERRUPT_MASK_FROM_ISR();
+            uint32_t oldlevel = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
 
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                vPortCPUAcquireMutexIntsDisabled( &extram_mux, portMUX_NO_TIMEOUT, __FUNCTION__, __LINE__ );
-            #else
-                vPortCPUAcquireMutexIntsDisabled( &extram_mux, portMUX_NO_TIMEOUT );
-            #endif
+            #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( &extram_mux, పోర్టు_MUX_NO_TIMEOUT, __FUNCTION__, __LINE__ );
+            #లేకపోతే
+                v_పోర్టు_CPUAcquire_Mutex_Ints_Disabled( &extram_mux, పోర్టు_MUX_NO_TIMEOUT );
+            #అయితే_ముగింపు
             prev = *addr;
 
-            if( prev == compare )
+            ఒకవేళ( prev == compare )
             {
-                *addr = *set;
+                *addr = *సమితి;
             }
 
-            *set = prev;
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                vPortCPUReleaseMutexIntsDisabled( &extram_mux, __FUNCTION__, __LINE__ );
-            #else
-                vPortCPUReleaseMutexIntsDisabled( &extram_mux );
-            #endif
+            *సమితి = prev;
+            #నిర్వచితమైతే CONFIG_FREERTOS_PORTMUX_DEBUG
+                v_పోర్టు_CPURelease_Mutex_Ints_Disabled( &extram_mux, __FUNCTION__, __LINE__ );
+            #లేకపోతే
+                v_పోర్టు_CPURelease_Mutex_Ints_Disabled( &extram_mux );
+            #అయితే_ముగింపు
 
-            portCLEAR_INTERRUPT_MASK_FROM_ISR( oldlevel );
+            పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( oldlevel );
         }
-    #endif //defined(CONFIG_SPIRAM_SUPPORT)
+    #అయితే_ముగింపు //defined(CONFIG_SPIRAM_SUPPORT)
 
-#endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+#అయితే_ముగింపు /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 
-uint32_t xPortGetTickRateHz( void )
+uint32_t x_పోర్టు_Get_Tick_రేటు_Hz( శూన్య )
 {
-    return ( uint32_t ) configTICK_RATE_HZ;
+    తిరిగి ( uint32_t ) config_TICK_రేటు_HZ;
 }
 
 /* For now, running FreeRTOS on one core and a bare metal on the other (or other OSes) */
@@ -551,22 +551,22 @@ uint32_t xPortGetTickRateHz( void )
 /* should mirror each other's values. */
 /* */
 /* And since this should be true, we can just check for CONFIG_FREERTOS_UNICORE. */
-#if CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
-    #error "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
-#endif
+#ఒకవేళ CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_బహుళకం
+    #దోషం "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
+#అయితే_ముగింపు
 
-extern void esp_startup_start_app_common( void );
+బాహ్య శూన్య esp_startup_ప్రారంభం_app_common( శూన్య );
 
-void esp_startup_start_app( void )
+శూన్య esp_startup_ప్రారంభం_app( శూన్య )
 {
-    #if !CONFIG_ESP_INT_WDT
-        #if CONFIG_ESP32_ECO3_CACHE_LOCK_FIX
-            assert( !soc_has_cache_lock_bug() && "ESP32 Rev 3 + Dual Core + PSRAM requires INT WDT enabled in project config!" );
-        #endif
-    #endif
+    #ఒకవేళ !CONFIG_ESP_INT_WDT
+        #ఒకవేళ CONFIG_ESP32_ECO3_CACHE_తాళం_FIX
+            ప్రతిజ్ఞా( !soc_has_cache_తాళం_bug() && "ESP32 Rev 3 + Dual Core + PSRAM requires INT WDT enabled in project config!" );
+        #అయితే_ముగింపు
+    #అయితే_ముగింపు
 
-    esp_startup_start_app_common();
+    esp_startup_ప్రారంభం_app_common();
 
     ESP_LOGI( "cpu_start", "Starting scheduler on PRO CPU." );
-    vTaskStartScheduler();
+    v_Task_ప్రారంభం_Scheduler();
 }

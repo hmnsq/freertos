@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+దిగుమతి os
+దిగుమతి re
+తః common.శీర్షిక_checker దిగుమతి శీర్షిక_Checker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -101,7 +101,7 @@ KERNEL_IGNORED_PATTERNS = [
     r'.*template_configuration/*'
 ]
 
-KERNEL_THIRD_PARTY_PATTERNS = [
+KERNEL_మూడవ_PARTY_PATTERNS = [
     r'.*portable/ThirdParty/GCC/Posix/port*',
     r'.*portable/ThirdParty/*',
     r'.*portable/IAR/AVR32_UC3/.*',
@@ -126,7 +126,7 @@ KERNEL_ARM_COLLAB_FILES_PATTERNS = [
     r'.*tasks\.c$',
 ]
 
-KERNEL_HEADER = [
+KERNEL_శీర్షిక = [
     '/*\n',
     ' * FreeRTOS Kernel <DEVELOPMENT BRANCH>\n',
     ' * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.\n',
@@ -166,98 +166,98 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
-    def __init__(
+తరగతి Kernel_శీర్షిక_Checker(శీర్షిక_Checker):
+    నిర్వచనం __init__(
         self,
-        header,
+        శీర్షిక,
         padding=1000,
-        ignored_files=None,
-        ignored_ext=None,
-        ignored_patterns=None,
-        py_ext=None,
-        asm_ext=None,
-        third_party_patterns=None,
-        copyright_regex = None
+        ignored_files=ఏమీలేదు,
+        ignored_ext=ఏమీలేదు,
+        ignored_patterns=ఏమీలేదు,
+        py_ext=ఏమీలేదు,
+        asm_ext=ఏమీలేదు,
+        మూడవ_party_patterns=ఏమీలేదు,
+        copyright_regex = ఏమీలేదు
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
-                         py_ext, asm_ext, third_party_patterns, copyright_regex)
+        పర().__init__(శీర్షిక, padding, ignored_files, ignored_ext, ignored_patterns,
+                         py_ext, asm_ext, మూడవ_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
-        self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
-            self.armCollabFilesPatternList.append(re.compile(pattern))
+        self.arm_Collab_Files_నమూనా_List = []
+        కొరకు నమూనా లో KERNEL_ARM_COLLAB_FILES_PATTERNS:
+            self.arm_Collab_Files_నమూనా_List.append(re.compile(నమూనా))
 
-    def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+    నిర్వచనం isArmCollabFile(self, మార్గం):
+        కొరకు నమూనా లో self.arm_Collab_Files_నమూనా_List:
+            ఒకవేళ నమూనా.సరిపోలిక(మార్గం):
+                తిరిగి నిజం
+        తిరిగి అబద్ధం
 
-    def checkArmCollabFile(self, path):
-        isValid = False
-        file_ext = os.path.splitext(path)[-1]
+    నిర్వచనం checkArmCollabFile(self, మార్గం):
+        isValid = అబద్ధం
+        file_ext = os.మార్గం.splitext(మార్గం)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
-                : len(self.header) + 2
+        తోడుగా open(మార్గం, encoding="utf-8", errors="ignore") ఇవ file:
+            chunk = file.పఠ(పొడవు("".join(self.శీర్షిక)) + self.padding)
+            పంక్తులు = [("%s\n" % పంక్తి) కొరకు పంక్తి లో chunk.strip().splitlines()][
+                : పొడవు(self.శీర్షిక) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            ఒకవేళ (పొడవు(పంక్తులు) > 0) మరియు (పంక్తులు[0].కనుగొను("#!") == 0):
+                పంక్తులు.remove(పంక్తులు[0])
+            ఒకవేళ (పొడవు(పంక్తులు) > 0) మరియు (పొడవు(పంక్తులు[-1].strip()) == 0):
+                పంక్తులు.remove(పంక్తులు[-1])
 
         # Split lines in sections.
-        headers = dict()
-        headers["text"] = []
-        headers["copyright"] = []
-        headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
-            else:
-                headers["text"].append(line)
+        శీర్షికలు = dict()
+        శీర్షికలు["text"] = []
+        శీర్షికలు["copyright"] = []
+        శీర్షికలు["spdx"] = []
+        కొరకు పంక్తి లో పంక్తులు:
+            ఒకవేళ self.armCollabRegex.సరిపోలిక(పంక్తి):
+                శీర్షికలు["copyright"].append(పంక్తి)
+            లేదావేళ "SPDX-License-Identifier:" లో పంక్తి:
+                శీర్షికలు["spdx"].append(పంక్తి)
+            లేకపోతే:
+                శీర్షికలు["text"].append(పంక్తి)
 
-        text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
-        spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
+        పాఠ్యం_equal = self.is_Valid_శీర్షిక_Section(file_ext, "text", శీర్షికలు["text"])
+        spdx_equal = self.is_Valid_శీర్షిక_Section(file_ext, "spdx", శీర్షికలు["spdx"])
 
-        if text_equal and spdx_equal:
+        ఒకవేళ పాఠ్యం_equal మరియు spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            ఒకవేళ పొడవు(శీర్షికలు["copyright"]) == 3 లేదా పొడవు(శీర్షికలు["copyright"]) == 2:
+                isValid = నిజం
 
-        return isValid
+        తిరిగి isValid
 
-    def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
-            isValid = self.checkArmCollabFile(path)
-        return isValid
+    నిర్వచనం customCheck(self, మార్గం):
+        isValid = అబద్ధం
+        ఒకవేళ self.isArmCollabFile(మార్గం):
+            isValid = self.checkArmCollabFile(మార్గం)
+        తిరిగి isValid
 
 
-def main():
-    parser = HeaderChecker.configArgParser()
-    args   = parser.parse_args()
+నిర్వచనం ప్రధాన():
+    parser = శీర్షిక_Checker.configArgParser()
+    వాదనలు   = parser.parse_వాదనలు()
 
     # Configure the checks then run
-    checker = KernelHeaderChecker(KERNEL_HEADER,
+    checker = Kernel_శీర్షిక_Checker(KERNEL_శీర్షిక,
                                   copyright_regex=FREERTOS_COPYRIGHT_REGEX,
                                   ignored_files=KERNEL_IGNORED_FILES,
                                   ignored_ext=KERNEL_IGNORED_EXTENSIONS,
                                   ignored_patterns=KERNEL_IGNORED_PATTERNS,
-                                  third_party_patterns=KERNEL_THIRD_PARTY_PATTERNS,
+                                  మూడవ_party_patterns=KERNEL_మూడవ_PARTY_PATTERNS,
                                   py_ext=KERNEL_PY_EXTENSIONS,
                                   asm_ext=KERNEL_ASM_EXTENSIONS)
-    checker.ignoreFile(os.path.split(__file__)[-1])
+    checker.ignoreFile(os.మార్గం.విభజించు(__file__)[-1])
 
-    rc = checker.processArgs(args)
-    if rc:
+    rc = checker.process_వాదనలు(వాదనలు)
+    ఒకవేళ rc:
         checker.showHelp(__file__)
 
-    return rc
+    తిరిగి rc
 
-if __name__ == '__main__':
-    exit(main())
+ఒకవేళ __name__ == '__main__':
+    exit(ప్రధాన())

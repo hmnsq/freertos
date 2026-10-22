@@ -27,31 +27,31 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#నిర్వచించు పోర్టు_INITIAL_FORMAT_సదిశ       ( ( దొంతర_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#నిర్వచించు పోర్టు_INITIAL_స్థితి_రిజిస్టరు     ( ( దొంతర_Type_t ) 0x2000)
 
 /* The clock prescale into the timer peripheral. */
-#define portPRESCALE_VALUE              ( ( uint8_t ) 10 )
+#నిర్వచించు పోర్టు_PRESCALE_విలువ              ( ( uint8_t ) 10 )
 
 /* The clock frequency into the RTC. */
-#define portRTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
+#నిర్వచించు పోర్టు_RTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
 
-asm void interrupt VectorNumber_VL1swi vPortYieldISR( void );
-static void prvSetupTimerInterrupt( void );
+asm శూన్య అంతరాయం సదిశ_సంఖ్య_VL1swi v_పోర్టు_Yield_ISR( శూన్య );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+స్థిర uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+దొంతర_Type_t *px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర, TaskFunction_t px_సంకేతం, శూన్య *pvParameters )
 {
 
 uint32_t ulOriginalA5;
@@ -59,52 +59,52 @@ uint32_t ulOriginalA5;
     __asm{ MOVE.L A5, ulOriginalA5 };
 
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = (దొంతర_Type_t) 0xDEADBEEF;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం;
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( పోర్టు_INITIAL_FORMAT_సదిశ << 16UL ) | ( పోర్టు_INITIAL_స్థితి_రిజిస్టరు );
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x0; /*FP*/
+    px_శిఖరం_యొక్క_దొంతర -= 14; /* A5 to D0. */
 
     /* Parameter in A0. */
-    *( pxTopOfStack + 8 ) = ( StackType_t ) pvParameters;
+    *( px_శిఖరం_యొక్క_దొంతర + 8 ) = ( దొంతర_Type_t ) pvParameters;
 
     /* A5 must be maintained as it is reserved by the compiler. */
-    *( pxTopOfStack + 13 ) = ulOriginalA5;
+    *( px_శిఖరం_యొక్క_దొంతర + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-extern void vPortStartFirstTask( void );
+బాహ్య శూన్య v_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
     ulCriticalNesting = 0UL;
 
     /* Configure a timer to generate the tick interrupt. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_పోర్టు_ప్రారంభం_మొదటి_Task();
 
-    return pdFALSE;
+    తిరిగి pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
     /* Prescale by 1 - ie no prescale. */
     RTCSC |= 8;
 
     /* Compare match value. */
-    RTCMOD = portRTC_CLOCK_HZ / configTICK_RATE_HZ;
+    RTCMOD = పోర్టు_RTC_CLOCK_HZ / config_TICK_రేటు_HZ;
 
     /* Enable the RTC to generate interrupts - interrupts are already disabled
     when this code executes. */
@@ -112,72 +112,72 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
-    if( ulCriticalNesting == 0UL )
+    ఒకవేళ( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        చేయి
         {
-            portDISABLE_INTERRUPTS();
-            if( INTC_FRC == 0UL )
+            పోర్టు_DISABLE_INTERRUPTS();
+            ఒకవేళ( INTC_FRC == 0UL )
             {
-                break;
+                ఆపు;
             }
 
-            portENABLE_INTERRUPTS();
+            పోర్టు_ENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } అయితే( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    ఒకవేళ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        పోర్టు_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+శూన్య v_పోర్టు_Yield_Handler( శూన్య )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_అంతరాయం_ముసుగు;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_అంతరాయం_ముసుగు = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
     {
         /* Note this will clear all forced interrupts - this is done for speed. */
         INTC_CFRC = 0x3E;
         vTaskSwitchContext();
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( ul_Saved_అంతరాయం_ముసుగు );
 }
 /*-----------------------------------------------------------*/
 
-void interrupt VectorNumber_Vrtc vPortTickISR( void )
+శూన్య అంతరాయం సదిశ_సంఖ్య_Vrtc v_పోర్టు_Tick_ISR( శూన్య )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_అంతరాయం_ముసుగు;
 
     /* Clear the interrupt. */
-    RTCSC |= RTCSC_RTIF_MASK;
+    RTCSC |= RTCSC_RTIF_ముసుగు;
 
     /* Increment the RTOS tick. */
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_అంతరాయం_ముసుగు = పోర్టు_సమితి_అంతరాయం_ముసుగు_FROM_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    పోర్టు_CLEAR_అంతరాయం_ముసుగు_FROM_ISR( ul_Saved_అంతరాయం_ముసుగు );
 }

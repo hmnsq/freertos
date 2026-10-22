@@ -33,49 +33,49 @@
  *----------------------------------------------------------*/
 
 /* Library includes. */
-#include <embedded.h>
-#include <ae.h>
+#అన్తర్భావ <embedded.h>
+#అన్తర్భావ <ae.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
+#అన్తర్భావ "portasm.h"
 
 /* The timer increments every four clocks, hence the divide by 4. */
-#define portPRESCALE_VALUE ( 16 )
-#define portTIMER_COMPARE ( configCPU_CLOCK_HZ  / ( configTICK_RATE_HZ * 4UL ) )
+#నిర్వచించు పోర్టు_PRESCALE_విలువ ( 16 )
+#నిర్వచించు పోర్టు_TIMER_COMPARE ( configCPU_CLOCK_HZ  / ( config_TICK_రేటు_HZ * 4UL ) )
 
 /* From the RDC data sheet. */
-#define portENABLE_TIMER_AND_INTERRUPT  ( uint16_t ) 0xe00b
-#define portENABLE_TIMER                ( uint16_t ) 0xC001
+#నిర్వచించు పోర్టు_ENABLE_TIMER_AND_అంతరాయం  ( uint16_t ) 0xe00b
+#నిర్వచించు పోర్టు_ENABLE_TIMER                ( uint16_t ) 0xC001
 
 /* Interrupt control. */
-#define portEIO_REGISTER 0xff22
-#define portCLEAR_INTERRUPT 0x0008
+#నిర్వచించు పోర్టు_EIO_రిజిస్టరు 0xff22
+#నిర్వచించు పోర్టు_CLEAR_అంతరాయం 0x0008
 
 /* Setup the hardware to generate the required tick frequency. */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#ఒకవేళ( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    స్థిర శూన్య __interrupt __far prvPreemptiveTick( శూన్య );
+#లేకపోతే
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
-#endif
+    స్థిర శూన్య __interrupt __far prvNonPreemptiveTick( శూన్య );
+#అయితే_ముగింపు
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+స్థిర శూన్య __interrupt __far prvYieldProcessor( శూన్య );
 
 /*-----------------------------------------------------------*/
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+దొంతర_Type_t *px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t *px_శిఖరం_యొక్క_దొంతర, TaskFunction_t px_సంకేతం, శూన్య *pvParameters )
 {
-StackType_t DS_Reg = 0;
+దొంతర_Type_t DS_Reg = 0;
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
@@ -83,131 +83,131 @@ StackType_t DS_Reg = 0;
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x1111;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x2222;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x3333;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* We are going to start the scheduler using a return from interrupt
     instruction to load the program counter, so first there would be the
     function call with parameters preamble. */
 
-    *pxTopOfStack = FP_OFF( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = FP_OFF( pvParameters );
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = FP_OFF( px_సంకేతం );
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Next the status register and interrupt return address. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_SW;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = FP_SEG( px_సంకేతం );
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = FP_OFF( px_సంకేతం );
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA; /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xAAAA; /* AX */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xBBBB; /* BX */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xCCCC; /* CX */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xDDDD; /* DX */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xEEEE; /* ES */
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = DS_Reg;                     /* DS */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
+    *px_శిఖరం_యొక్క_దొంతర = DS_Reg;                     /* DS */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x0123; /* SI */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xDDDD; /* DI */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xBBBB; /* BP */
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* This is called with interrupts already disabled. */
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    setvect( పోర్టు_SWITCH_INT_సంఖ్య, prvYieldProcessor );
 
     /* Setup the tick interrupt. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Kick off the scheduler by setting up the context of the first task. */
-    portFIRST_CONTEXT();
+    పోర్టు_మొదటి_CONTEXT();
 
     /* Should not get here! */
-    return pdFALSE;
+    తిరిగి pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
-    static void __interrupt __far prvPreemptiveTick( void )
+#ఒకవేళ( configUSE_PREEMPTION == 1 )
+    స్థిర శూన్య __interrupt __far prvPreemptiveTick( శూన్య )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
-            portEND_SWITCHING_ISR();
+            పోర్టు_చివర_SWITCHING_ISR();
         }
 
         /* Reset interrupt. */
-        outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
+        outport( పోర్టు_EIO_రిజిస్టరు, పోర్టు_CLEAR_అంతరాయం );
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#లేకపోతే
+    స్థిర శూన్య __interrupt __far prvNonPreemptiveTick( శూన్య )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
         xTaskIncrementTick();
 
         /* Reset interrupt. */
-        outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
+        outport( పోర్టు_EIO_రిజిస్టరు, పోర్టు_CLEAR_అంతరాయం );
     }
-#endif
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+స్థిర శూన్య __interrupt __far prvYieldProcessor( శూన్య )
 {
     /* Switch in the context of the next task to be run. */
-    portEND_SWITCHING_ISR();
+    పోర్టు_చివర_SWITCHING_ISR();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Not implemented. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
 {
-const uint32_t ulCompareValue = portTIMER_COMPARE;
+స్థిరరాశి uint32_t ul_Compare_విలువ = పోర్టు_TIMER_COMPARE;
 uint16_t usTimerCompare;
 
-    usTimerCompare = ( uint16_t ) ( ulCompareValue >> 4 );
-    t2_init( portENABLE_TIMER, portPRESCALE_VALUE, NULL );
+    usTimerCompare = ( uint16_t ) ( ul_Compare_విలువ >> 4 );
+    t2_init( పోర్టు_ENABLE_TIMER, పోర్టు_PRESCALE_విలువ, ఖాళీ );
 
-    #if( configUSE_PREEMPTION == 1 )
+    #ఒకవేళ( configUSE_PREEMPTION == 1 )
         /* Tick service routine used by the scheduler when preemptive scheduling is
         being used. */
-        t1_init( portENABLE_TIMER_AND_INTERRUPT, usTimerCompare, usTimerCompare, prvPreemptiveTick );
-    #else
+        t1_init( పోర్టు_ENABLE_TIMER_AND_అంతరాయం, usTimerCompare, usTimerCompare, prvPreemptiveTick );
+    #లేకపోతే
         /* Tick service routine used by the scheduler when cooperative scheduling is
         being used. */
-        t1_init( portENABLE_TIMER_AND_INTERRUPT, usTimerCompare, usTimerCompare, prvNonPreemptiveTick );
-    #endif
+        t1_init( పోర్టు_ENABLE_TIMER_AND_అంతరాయం, usTimerCompare, usTimerCompare, prvNonPreemptiveTick );
+    #అయితే_ముగింపు
 }

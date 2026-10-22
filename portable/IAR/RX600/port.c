@@ -31,21 +31,21 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#అన్తర్భావ "string.h"
 
 /* Hardware specifics. */
-#include <iorx62n.h>
+#అన్తర్భావ <iorx62n.h>
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#నిర్వచించు పోర్టు_INITIAL_PSW     ( ( దొంతర_Type_t ) 0x00030000 )
+#నిర్వచించు పోర్టు_INITIAL_FPSW    ( ( దొంతర_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
@@ -53,99 +53,99 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-extern void prvStartFirstTask( void );
+బాహ్య శూన్య prv_ప్రారంభం_మొదటి_Task( శూన్య );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt శూన్య vTickISR( శూన్య );
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+బాహ్య శూన్య * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_శిఖరం_యొక్క_దొంతర = 0x00;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_PSW;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
-    #ifdef USE_FULL_REGISTER_INITIALISATION
+    #నిర్వచితమైతే USE_నిండిన_రిజిస్టరు_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xffffffff; /* r15. */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xeeeeeeee;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xdddddddd;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xcccccccc;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xbbbbbbbb;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xaaaaaaaa;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x99999999;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x88888888;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x77777777;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x66666666;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x55555555;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x44444444;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x33333333;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x22222222;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #లేకపోతే /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_శిఖరం_యొక్క_దొంతర -= 15;
     }
-    #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #అయితే_ముగింపు /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678; /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321; /* Accumulator. */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters; /* R1 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_FPSW;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x12345678; /* Accumulator. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x87654321; /* Accumulator. */
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    బాహ్య శూన్య v_Application_అమరిక_Timer_అంతరాయం( శూన్య );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    ఒకవేళ( pxCurrentTCB != ఖాళీ )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
          * use.  A demo application is provided to show a suitable example. */
-        vApplicationSetupTimerInterrupt();
+        v_Application_అమరిక_Timer_అంతరాయం();
 
         /* Enable the software interrupt. */
         _IEN( _ICU_SWINT ) = 1;
@@ -154,40 +154,40 @@ BaseType_t xPortStartScheduler( void )
         _IR( _ICU_SWINT ) = 0;
 
         /* Ensure the software interrupt is set to the kernel priority. */
-        _IPR( _ICU_SWINT ) = configKERNEL_INTERRUPT_PRIORITY;
+        _IPR( _ICU_SWINT ) = config_KERNEL_అంతరాయం_ప్రాధాన్యత;
 
         /* Start the first task. */
-        prvStartFirstTask();
+        prv_ప్రారంభం_మొదటి_Task();
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    తిరిగి pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-#pragma vector = configTICK_VECTOR
-__interrupt void vTickISR( void )
+#సూచన సదిశ = config_TICK_సదిశ
+__interrupt శూన్య vTickISR( శూన్య )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates. */
-    __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
+    __set_interrupt_level( config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    __set_interrupt_level( configKERNEL_INTERRUPT_PRIORITY );
+    __set_interrupt_level( config_KERNEL_అంతరాయం_ప్రాధాన్యత );
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ఖాళీ );
 }
 /*-----------------------------------------------------------*/

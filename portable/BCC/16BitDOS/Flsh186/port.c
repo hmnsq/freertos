@@ -44,139 +44,139 @@ Changes from V2.6.1
  * port.
  *----------------------------------------------------------*/
 
-#include <dos.h>
-#include <stdlib.h>
-#include <setjmp.h>
+#అన్తర్భావ <dos.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <setjmp.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
+#అన్తర్భావ "portasm.h"
 
 /*lint -e950 Non ANSI reserved words okay in this file only. */
 
-#define portTIMER_EOI_TYPE      ( 8 )
-#define portRESET_PIC()         portOUTPUT_WORD( ( uint16_t ) 0xff22, portTIMER_EOI_TYPE )
-#define portTIMER_INT_NUMBER    0x12
+#నిర్వచించు పోర్టు_TIMER_EOI_TYPE      ( 8 )
+#నిర్వచించు పోర్టు_RESET_PIC()         పోర్టు_OUTPUT_మాట( ( uint16_t ) 0xff22, పోర్టు_TIMER_EOI_TYPE )
+#నిర్వచించు పోర్టు_TIMER_INT_సంఖ్య    0x12
 
-#define portTIMER_1_CONTROL_REGISTER    ( ( uint16_t ) 0xff5e )
-#define portTIMER_0_CONTROL_REGISTER    ( ( uint16_t ) 0xff56 )
-#define portTIMER_INTERRUPT_ENABLE      ( ( uint16_t ) 0x2000 )
+#నిర్వచించు పోర్టు_TIMER_1_CONTROL_రిజిస్టరు    ( ( uint16_t ) 0xff5e )
+#నిర్వచించు పోర్టు_TIMER_0_CONTROL_రిజిస్టరు    ( ( uint16_t ) 0xff56 )
+#నిర్వచించు పోర్టు_TIMER_అంతరాయం_ENABLE      ( ( uint16_t ) 0x2000 )
 
 /* Setup the hardware to generate the required tick frequency. */
-static void prvSetTickFrequency( uint32_t ulTickRateHz );
+స్థిర శూన్య prv_సమితి_Tick_Frequency( uint32_t ul_Tick_రేటు_Hz );
 
 /* Set the hardware back to the state as per before the scheduler started. */
-static void prvExitFunction( void );
+స్థిర శూన్య prvExitFunction( శూన్య );
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#ఒకవేళ( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    స్థిర శూన్య __interrupt __far prvPreemptiveTick( శూన్య );
+#లేకపోతే
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
-#endif
+    స్థిర శూన్య __interrupt __far prvNonPreemptiveTick( శూన్య );
+#అయితే_ముగింపు
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+స్థిర శూన్య __interrupt __far prvYieldProcessor( శూన్య );
 
 /*lint -e956 File scopes necessary here. */
 
 /* Set true when the vectors are set so the scheduler will service the tick. */
-static BaseType_t xSchedulerRunning = pdFALSE;
+స్థిర పునాది_Type_t xSchedulerRunning = pdFALSE;
 
 /* Points to the original routine installed on the vector we use for manual
 context switches.  This is then used to restore the original routine during
 prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISR )();
+స్థిర శూన్య ( __interrupt __far *pxOldSwitchISR )();
 
 /* Used to restore the original DOS context when the scheduler is ended. */
-static jmp_buf xJumpBuf;
+స్థిర jmp_buf xJumpBuf;
 
 /*lint +e956 */
 
 /*-----------------------------------------------------------*/
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
     /* This is called with interrupts already disabled. */
 
     /* Remember what was on the interrupts we are going to use
     so we can put them back later if required. */
-    pxOldSwitchISR = _dos_getvect( portSWITCH_INT_NUMBER );
+    pxOldSwitchISR = _dos_getvect( పోర్టు_SWITCH_INT_సంఖ్య );
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    _dos_setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    _dos_setvect( పోర్టు_SWITCH_INT_సంఖ్య, prvYieldProcessor );
 
-    #if( configUSE_PREEMPTION == 1 )
+    #ఒకవేళ( configUSE_PREEMPTION == 1 )
     {
         /* Put our tick switch function on the timer interrupt. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
+        _dos_setvect( పోర్టు_TIMER_INT_సంఖ్య, prvPreemptiveTick );
     }
-    #else
+    #లేకపోతే
     {
         /* We want the timer interrupt to just increment the tick count. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvNonPreemptiveTick );
+        _dos_setvect( పోర్టు_TIMER_INT_సంఖ్య, prvNonPreemptiveTick );
     }
-    #endif
+    #అయితే_ముగింపు
 
-    prvSetTickFrequency( configTICK_RATE_HZ );
+    prv_సమితి_Tick_Frequency( config_TICK_రేటు_HZ );
 
     /* Clean up function if we want to return to DOS. */
-    if( setjmp( xJumpBuf ) != 0 )
+    ఒకవేళ( setjmp( xJumpBuf ) != 0 )
     {
         prvExitFunction();
         xSchedulerRunning = pdFALSE;
     }
-    else
+    లేకపోతే
     {
         xSchedulerRunning = pdTRUE;
 
         /* Kick off the scheduler by setting up the context of the first task. */
-        portFIRST_CONTEXT();
+        పోర్టు_మొదటి_CONTEXT();
     }
 
-    return xSchedulerRunning;
+    తిరిగి xSchedulerRunning;
 }
 /*-----------------------------------------------------------*/
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
-    static void __interrupt __far prvPreemptiveTick( void )
+#ఒకవేళ( configUSE_PREEMPTION == 1 )
+    స్థిర శూన్య __interrupt __far prvPreemptiveTick( శూన్య )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
-            portSWITCH_CONTEXT();
+            పోర్టు_SWITCH_CONTEXT();
         }
 
         /* Reset the PIC ready for the next time. */
-        portRESET_PIC();
+        పోర్టు_RESET_PIC();
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#లేకపోతే
+    స్థిర శూన్య __interrupt __far prvNonPreemptiveTick( శూన్య )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
         xTaskIncrementTick();
-        portRESET_PIC();
+        పోర్టు_RESET_PIC();
     }
-#endif
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+స్థిర శూన్య __interrupt __far prvYieldProcessor( శూన్య )
 {
     /* Switch in the context of the next task to be run. */
-    portSWITCH_CONTEXT();
+    పోర్టు_SWITCH_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Jump back to the processor state prior to starting the
     scheduler.  This means we are not going to be using a
@@ -185,59 +185,59 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvExitFunction( void )
+స్థిర శూన్య prvExitFunction( శూన్య )
 {
-const uint16_t usTimerDisable = 0x0000;
+స్థిరరాశి uint16_t usTimerDisable = 0x0000;
 uint16_t usTimer0Control;
 
     /* Interrupts should be disabled here anyway - but no
     harm in making sure. */
-    portDISABLE_INTERRUPTS();
-    if( xSchedulerRunning == pdTRUE )
+    పోర్టు_DISABLE_INTERRUPTS();
+    ఒకవేళ( xSchedulerRunning == pdTRUE )
     {
         /* Put back the switch interrupt routines that was in place
         before the scheduler started. */
-        _dos_setvect( portSWITCH_INT_NUMBER, pxOldSwitchISR );
+        _dos_setvect( పోర్టు_SWITCH_INT_సంఖ్య, pxOldSwitchISR );
     }
 
     /* Disable the timer used for the tick to ensure the scheduler is
     not called before restoring interrupts.  There was previously nothing
     on this timer so there is no old ISR to restore. */
-    portOUTPUT_WORD( portTIMER_1_CONTROL_REGISTER, usTimerDisable );
+    పోర్టు_OUTPUT_మాట( పోర్టు_TIMER_1_CONTROL_రిజిస్టరు, usTimerDisable );
 
     /* Restart the DOS tick. */
-    usTimer0Control = portINPUT_WORD( portTIMER_0_CONTROL_REGISTER );
-    usTimer0Control |= portTIMER_INTERRUPT_ENABLE;
-    portOUTPUT_WORD( portTIMER_0_CONTROL_REGISTER, usTimer0Control );
+    usTimer0Control = పోర్టు_ఆదానం_మాట( పోర్టు_TIMER_0_CONTROL_రిజిస్టరు );
+    usTimer0Control |= పోర్టు_TIMER_అంతరాయం_ENABLE;
+    పోర్టు_OUTPUT_మాట( పోర్టు_TIMER_0_CONTROL_రిజిస్టరు, usTimer0Control );
 
 
-    portENABLE_INTERRUPTS();
+    పోర్టు_ENABLE_INTERRUPTS();
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetTickFrequency( uint32_t ulTickRateHz )
+స్థిర శూన్య prv_సమితి_Tick_Frequency( uint32_t ul_Tick_రేటు_Hz )
 {
-const uint16_t usMaxCountRegister = 0xff5a;
-const uint16_t usTimerPriorityRegister = 0xff32;
-const uint16_t usTimerEnable = 0xC000;
-const uint16_t usRetrigger = 0x0001;
-const uint16_t usTimerHighPriority = 0x0000;
+స్థిరరాశి uint16_t us_Max_లెక్క_రిజిస్టరు = 0xff5a;
+స్థిరరాశి uint16_t us_Timer_ప్రాధాన్యత_రిజిస్టరు = 0xff32;
+స్థిరరాశి uint16_t usTimerEnable = 0xC000;
+స్థిరరాశి uint16_t usRetrigger = 0x0001;
+స్థిరరాశి uint16_t us_Timer_ఎగువ_ప్రాధాన్యత = 0x0000;
 uint16_t usTimer0Control;
 
 /* ( CPU frequency / 4 ) / clock 2 max count [inpw( 0xff62 ) = 7] */
 
-const uint32_t ulClockFrequency = ( uint32_t ) 0x7f31a0UL;
+స్థిరరాశి uint32_t ulClockFrequency = ( uint32_t ) 0x7f31a0UL;
 
-uint32_t ulTimerCount = ulClockFrequency / ulTickRateHz;
+uint32_t ul_Timer_లెక్క = ulClockFrequency / ul_Tick_రేటు_Hz;
 
-    portOUTPUT_WORD( portTIMER_1_CONTROL_REGISTER, usTimerEnable | portTIMER_INTERRUPT_ENABLE | usRetrigger );
-    portOUTPUT_WORD( usMaxCountRegister, ( uint16_t ) ulTimerCount );
-    portOUTPUT_WORD( usTimerPriorityRegister, usTimerHighPriority );
+    పోర్టు_OUTPUT_మాట( పోర్టు_TIMER_1_CONTROL_రిజిస్టరు, usTimerEnable | పోర్టు_TIMER_అంతరాయం_ENABLE | usRetrigger );
+    పోర్టు_OUTPUT_మాట( us_Max_లెక్క_రిజిస్టరు, ( uint16_t ) ul_Timer_లెక్క );
+    పోర్టు_OUTPUT_మాట( us_Timer_ప్రాధాన్యత_రిజిస్టరు, us_Timer_ఎగువ_ప్రాధాన్యత );
 
     /* Stop the DOS tick - don't do this if you want to maintain a TOD clock. */
-    usTimer0Control = portINPUT_WORD( portTIMER_0_CONTROL_REGISTER );
-    usTimer0Control &= ~portTIMER_INTERRUPT_ENABLE;
-    portOUTPUT_WORD( portTIMER_0_CONTROL_REGISTER, usTimer0Control );
+    usTimer0Control = పోర్టు_ఆదానం_మాట( పోర్టు_TIMER_0_CONTROL_రిజిస్టరు );
+    usTimer0Control &= ~పోర్టు_TIMER_అంతరాయం_ENABLE;
+    పోర్టు_OUTPUT_మాట( పోర్టు_TIMER_0_CONTROL_రిజిస్టరు, usTimer0Control );
 }
 
 

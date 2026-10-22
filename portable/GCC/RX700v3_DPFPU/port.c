@@ -30,54 +30,54 @@
 * Implementation of functions defined in portable.h for the RXv3 DPFPU port.
 *----------------------------------------------------------*/
 
-#warning Testing for DFPU support in this port is not yet complete
+#warning Testing కొరకు DFPU support లోపల this పోర్టు is not yet complete
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#అన్తర్భావ "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ఒకవేళ ( config_INCLUDE_PLATFORM_H_INSTEAD_యొక్క_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #అన్తర్భావ "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#లేకపోతే /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #అన్తర్భావ "iodefine.h"
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#అయితే_ముగింపు /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW                  ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW                 ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DPSW                 ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DCMR                 ( ( StackType_t ) 0x00000000 )
-#define portINITIAL_DECNT                ( ( StackType_t ) 0x00000001 )
+#నిర్వచించు పోర్టు_INITIAL_PSW                  ( ( దొంతర_Type_t ) 0x00030000 )
+#నిర్వచించు పోర్టు_INITIAL_FPSW                 ( ( దొంతర_Type_t ) 0x00000100 )
+#నిర్వచించు పోర్టు_INITIAL_DPSW                 ( ( దొంతర_Type_t ) 0x00000100 )
+#నిర్వచించు పోర్టు_INITIAL_DCMR                 ( ( దొంతర_Type_t ) 0x00000000 )
+#నిర్వచించు పోర్టు_INITIAL_DECNT                ( ( దొంతర_Type_t ) 0x00000001 )
 
 /* Tasks are not created with a DPFPU context, but can be given a DPFPU context
  * after they have been created.  A variable is stored as part of the tasks context
  * that holds portNO_DPFPU_CONTEXT if the task does not have a DPFPU context, or
  * any other value if the task does have a DPFPU context. */
-#define portNO_DPFPU_CONTEXT             ( ( StackType_t ) 0 )
-#define portHAS_DPFPU_CONTEXT            ( ( StackType_t ) 1 )
+#నిర్వచించు పోర్టు_NO_DPFPU_CONTEXT             ( ( దొంతర_Type_t ) 0 )
+#నిర్వచించు పోర్టు_HAS_DPFPU_CONTEXT            ( ( దొంతర_Type_t ) 1 )
 
 /* The space on the stack required to hold the DPFPU data registers.  This is 16
  * 64-bit registers. */
-#define portDPFPU_DATA_REGISTER_WORDS    ( 16 * 2 )
+#నిర్వచించు పోర్టు_DPFPU_దత్తాంశం_రిజిస్టరు_పదాలు    ( 16 * 2 )
 
 /* These macros allow a critical section to be added around the call to
  * xTaskIncrementTick(), which is only ever called from interrupts at the kernel
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm volatile ( "MVTIPL %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#నిర్వచించు పోర్టు_ముసుగు_INTERRUPTS_FROM_KERNEL_ISR()      __asm అస్థిర ( "MVTIPL %0" ::"i" ( config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ) )
+#నిర్వచించు పోర్టు_UNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm అస్థిర ( "MVTIPL %0" ::"i" ( config_KERNEL_అంతరాయం_ప్రాధాన్యత ) )
 
 /*-----------------------------------------------------------*/
 
@@ -85,225 +85,225 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+స్థిర శూన్య prv_ప్రారంభం_మొదటి_Task( శూన్య ) __attribute__( ( naked ) );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ఒకవేళ ( config_INCLUDE_PLATFORM_H_INSTEAD_యొక్క_IODEFINE_H == 1 )
 
-    R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_PRAGMA_అంతరాయం( v_Software_అంతరాయం_ISR, VECT( ICU, SWINT ) )
+    R_BSP_ATTRIB_అంతరాయం శూన్య v_Software_అంతరాయం_ISR( శూన్య ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#లేకపోతే /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    శూన్య v_Software_అంతరాయం_ISR( శూన్య ) __attribute__( ( naked ) );
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
+#అయితే_ముగింపు /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#ఒకవేళ ( config_INCLUDE_PLATFORM_H_INSTEAD_యొక్క_IODEFINE_H == 1 )
 
-    R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_PRAGMA_అంతరాయం( vTickISR, _VECT( config_TICK_సదిశ ) )
+    R_BSP_ATTRIB_అంతరాయం శూన్య vTickISR( శూన్య ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#లేకపోతే /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vTickISR( void ) __attribute__( ( interrupt ) );
+    శూన్య vTickISR( శూన్య ) __attribute__( ( అంతరాయం ) );
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#అయితే_ముగింపు /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*-----------------------------------------------------------*/
 
 /* Saved as part of the task context.  If ulPortTaskHasDPFPUContext is non-zero
  * then a DPFPU context must be saved and restored for the task. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#ఒకవేళ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
+    దొంతర_Type_t ul_పోర్టు_Task_Has_DPFPUContext = పోర్టు_NO_DPFPU_CONTEXT;
 
-#endif /* configUSE_TASK_DPFPU_SUPPORT */
+#అయితే_ముగింపు /* configUSE_TASK_DPFPU_SUPPORT */
 
 /* This is accessed by the inline assembler functions so is file scope for
  * convenience. */
-extern void * pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+బాహ్య శూన్య * pxCurrentTCB;
+బాహ్య శూన్య vTaskSwitchContext( శూన్య );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_శిఖరం_యొక్క_దొంతర = 0x00;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_PSW;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
-    #ifdef USE_FULL_REGISTER_INITIALISATION
+    #నిర్వచితమైతే USE_నిండిన_రిజిస్టరు_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xffffffff; /* r15. */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xeeeeeeee;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xdddddddd;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xcccccccc;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xbbbbbbbb;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0xaaaaaaaa;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x99999999;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x88888888;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x77777777;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x66666666;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x55555555;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x44444444;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x33333333;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = 0x22222222;
+        px_శిఖరం_యొక్క_దొంతర--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #లేకపోతే /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_శిఖరం_యొక్క_దొంతర -= 15;
     }
-    #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #అయితే_ముగింపు /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 0. */
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters; /* R1 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_FPSW;
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x11111111; /* Accumulator 1. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x22222222; /* Accumulator 1. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x33333333; /* Accumulator 1. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x44444444; /* Accumulator 0. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x55555555; /* Accumulator 0. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = 0x66666666; /* Accumulator 0. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #ఒకవేళ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
     {
         /* The task will start without a DPFPU context.  A task that
          * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
          * executing any floating point instructions. */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_DPFPU_CONTEXT;
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = పోర్టు_NO_DPFPU_CONTEXT;
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+    #లేదావేళ ( configUSE_TASK_DPFPU_SUPPORT == 2 )
     {
         /* The task will start with a DPFPU context.  Leave enough
          * space for the registers - and ensure they are initialised if desired. */
-        #ifdef USE_FULL_REGISTER_INITIALISATION
+        #నిర్వచితమైతే USE_నిండిన_రిజిస్టరు_INITIALISATION
         {
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1515.1515;  /* DR15. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1414.1414;  /* DR14. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1313.1313;  /* DR13. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1212.1212;  /* DR12. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1111.1111;  /* DR11. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1010.1010;  /* DR10. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 909.0909;   /* DR9. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 808.0808;   /* DR8. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 707.0707;   /* DR7. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 606.0606;   /* DR6. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 505.0505;   /* DR5. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 404.0404;   /* DR4. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 303.0303;   /* DR3. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 202.0202;   /* DR2. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 101.0101;   /* DR1. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 9876.54321; /* DR0. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 1515.1515;  /* DR15. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 1414.1414;  /* DR14. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 1313.1313;  /* DR13. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 1212.1212;  /* DR12. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 1111.1111;  /* DR11. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 1010.1010;  /* DR10. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 909.0909;   /* DR9. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 808.0808;   /* DR8. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 707.0707;   /* DR7. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 606.0606;   /* DR6. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 505.0505;   /* DR5. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 404.0404;   /* DR4. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 303.0303;   /* DR3. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 202.0202;   /* DR2. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 101.0101;   /* DR1. */
+            px_శిఖరం_యొక్క_దొంతర -= 2;
+            *( ద్విగుణ * ) px_శిఖరం_యొక్క_దొంతర = 9876.54321; /* DR0. */
         }
-        #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+        #లేకపోతే /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
-            pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+            px_శిఖరం_యొక్క_దొంతర -= పోర్టు_DPFPU_దత్తాంశం_రిజిస్టరు_పదాలు;
+            memset( px_శిఖరం_యొక్క_దొంతర, 0x00, పోర్టు_DPFPU_దత్తాంశం_రిజిస్టరు_పదాలు * పరిమాణం( దొంతర_Type_t ) );
         }
-        #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DECNT; /* DECNT. */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DCMR;  /* DCMR. */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DPSW;  /* DPSW. */
+        #అయితే_ముగింపు /* ifdef USE_FULL_REGISTER_INITIALISATION */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_DECNT; /* DECNT. */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_DCMR;  /* DCMR. */
+        px_శిఖరం_యొక్క_దొంతర--;
+        *px_శిఖరం_యొక్క_దొంతర = పోర్టు_INITIAL_DPSW;  /* DPSW. */
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 0 )
+    #లేదావేళ ( configUSE_TASK_DPFPU_SUPPORT == 0 )
     {
         /* Omit DPFPU support. */
     }
-    #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #లేకపోతే /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
     {
-        #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
+        #దోషం Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be సమితి గమ్యం 0, 1, 2, or ఎడమ undefined.
     }
-    #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #అయితే_ముగింపు /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#ఒకవేళ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    void vPortTaskUsesDPFPU( void )
+    శూన్య v_పోర్టు_Task_ఉపయోగిస్తుంది_DPFPU( శూన్య )
     {
         /* A task is registering the fact that it needs a DPFPU context.  Set the
          * DPFPU flag (which is saved as part of the task context). */
-        ulPortTaskHasDPFPUContext = portHAS_DPFPU_CONTEXT;
+        ul_పోర్టు_Task_Has_DPFPUContext = పోర్టు_HAS_DPFPU_CONTEXT;
     }
 
-#endif /* configUSE_TASK_DPFPU_SUPPORT */
+#అయితే_ముగింపు /* configUSE_TASK_DPFPU_SUPPORT */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    బాహ్య శూన్య v_Application_అమరిక_Timer_అంతరాయం( శూన్య );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    ఒకవేళ( pxCurrentTCB != ఖాళీ )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
          * use.  A demo application is provided to show a suitable example. */
-        vApplicationSetupTimerInterrupt();
+        v_Application_అమరిక_Timer_అంతరాయం();
 
         /* Enable the software interrupt. */
         _IEN( _ICU_SWINT ) = 1;
@@ -312,28 +312,28 @@ BaseType_t xPortStartScheduler( void )
         _IR( _ICU_SWINT ) = 0;
 
         /* Ensure the software interrupt is set to the kernel priority. */
-        _IPR( _ICU_SWINT ) = configKERNEL_INTERRUPT_PRIORITY;
+        _IPR( _ICU_SWINT ) = config_KERNEL_అంతరాయం_ప్రాధాన్యత;
 
         /* Start the first task. */
-        prvStartFirstTask();
+        prv_ప్రారంభం_మొదటి_Task();
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    తిరిగి pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ఖాళీ );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+స్థిర శూన్య prv_ప్రారంభం_మొదటి_Task( శూన్య )
 {
-    __asm volatile
+    __asm అస్థిర
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -352,7 +352,7 @@ static void prvStartFirstTask( void )
         /* Restore the registers from the stack of the task pointed to by
          * pxCurrentTCB. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #ఒకవేళ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* The restored ulPortTaskHasDPFPUContext is to be zero here.
              * So, it is never necessary to restore the DPFPU context here. */
@@ -360,12 +360,12 @@ static void prvStartFirstTask( void )
             "MOV.L      #_ulPortTaskHasDPFPUContext, R14    \n" \
             "MOV.L      R15, [R14]                          \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #లేదావేళ ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context. */
             "DPOPM.L    DPSW-DECNT              \n" \
             "DPOPM.D    DR0-DR15                \n" \
 
-        #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+        #అయితే_ముగింపు /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
         "POP        R15                     \n" \
 
@@ -407,9 +407,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+శూన్య v_Software_అంతరాయం_ISR( శూన్య )
 {
-    __asm volatile
+    __asm అస్థిర
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -458,7 +458,7 @@ void vSoftwareInterruptISR( void )
         "MVFACLO    #0, A0, R15                 \n" /* Low order word. */ \
         "PUSH.L     R15                         \n"                       \
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #ఒకవేళ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Does the task have a DPFPU context that needs saving?  If
              * ulPortTaskHasDPFPUContext is 0 then no. */
@@ -475,12 +475,12 @@ void vSoftwareInterruptISR( void )
             /* Save ulPortTaskHasDPFPUContext itself. */
             "PUSH.L     R15                         \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #లేదావేళ ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Save the DPFPU context, always. */
             "DPUSHM.D   DR0-DR15                    \n" \
             "DPUSHM.L   DPSW-DECNT                  \n" \
 
-        #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+        #అయితే_ముగింపు /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
 
         /* Save the stack pointer to the TCB. */
@@ -510,7 +510,7 @@ void vSoftwareInterruptISR( void )
         /* Restore the context of the new task.  The PSW (Program Status Word) and
          * PC will be popped by the RTE instruction. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #ఒకవేళ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Is there a DPFPU context to restore?  If the restored
              * ulPortTaskHasDPFPUContext is zero then no. */
@@ -525,12 +525,12 @@ void vSoftwareInterruptISR( void )
             "DPOPM.D    DR0-DR15                    \n" \
             "?:                                     \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #లేదావేళ ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context, always. */
             "DPOPM.L    DPSW-DECNT                  \n" \
             "DPOPM.D    DR0-DR15                    \n" \
 
-        #endif /* if( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+        #అయితే_ముగింపు /* if( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
         "POP        R15                         \n" \
 
@@ -562,32 +562,32 @@ void vSoftwareInterruptISR( void )
         "RTE                                    \n" \
         "NOP                                    \n" \
         "NOP                                      "
-        ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ), "i" ( configKERNEL_INTERRUPT_PRIORITY )
+        ::"i" ( config_MAX_SYSCALL_అంతరాయం_ప్రాధాన్యత ), "i" ( config_KERNEL_అంతరాయం_ప్రాధాన్యత )
     );
 }
 /*-----------------------------------------------------------*/
 
-void vTickISR( void )
+శూన్య vTickISR( శూన్య )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW    I" );
+    __asm అస్థిర ( "SETPSW    I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
-    portMASK_INTERRUPTS_FROM_KERNEL_ISR();
+    పోర్టు_ముసుగు_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    portUNMASK_INTERRUPTS_FROM_KERNEL_ISR();
+    పోర్టు_UNMASK_INTERRUPTS_FROM_KERNEL_ISR();
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ul_పోర్టు_Get_IPL( శూన్య )
 {
-    __asm volatile
+    __asm అస్థిర
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -595,16 +595,16 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    తిరిగి 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+శూన్య v_పోర్టు_సమితి_IPL( uint32_t ulNewIPL )
 {
     /* Avoid compiler warning about unreferenced parameter. */
-    ( void ) ulNewIPL;
+    ( శూన్య ) ulNewIPL;
 
-    __asm volatile
+    __asm అస్థిర
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \

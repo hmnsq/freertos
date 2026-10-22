@@ -31,33 +31,33 @@
  *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portmacro.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
+#అన్తర్భావ "portmacro.h"
 
 /* Standard includes. */
-#include "string.h"
+#అన్తర్భావ "string.h"
 
-#ifdef configCLINT_BASE_ADDRESS
+#నిర్వచితమైతే config_CLINT_పునాది_చిరునామా
     #warning "The configCLINT_BASE_ADDRESS constant has been deprecated.  configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS are currently being derived from the (possibly 0) configCLINT_BASE_ADDRESS setting.  Please update to define configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS directly in place of configCLINT_BASE_ADDRESS.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#అయితే_ముగింపు
 
-#ifndef configMTIME_BASE_ADDRESS
+#నిర్వచితం_కాకపోతే config_MTIME_పునాది_చిరునామా
     #warning "configMTIME_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  If the target chip includes a memory-mapped mtime register then set configMTIME_BASE_ADDRESS to the mapped address.  Otherwise set configMTIME_BASE_ADDRESS to 0.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#అయితే_ముగింపు
 
-#ifndef configMTIMECMP_BASE_ADDRESS
+#నిర్వచితం_కాకపోతే config_MTIMECMP_పునాది_చిరునామా
     #warning "configMTIMECMP_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  If the target chip includes a memory-mapped mtimecmp register then set configMTIMECMP_BASE_ADDRESS to the mapped address.  Otherwise set configMTIMECMP_BASE_ADDRESS to 0.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#అయితే_ముగింపు
 
 /* Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case it messes up unwinding of the stack in the
  * debugger. */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#నిర్వచితమైతే config_TASK_RETURN_చిరునామా
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    config_TASK_RETURN_చిరునామా
+#లేకపోతే
+    #నిర్వచించు పోర్టు_TASK_RETURN_చిరునామా    prvTaskExitError
+#అయితే_ముగింపు
 
 /* The stack used by interrupt service routines.  Set configISR_STACK_SIZE_WORDS
  * to use a statically allocated array as the interrupt stack.  Alternative leave
@@ -66,39 +66,39 @@
  * of the stack used by main.  Using the linker script method will repurpose the
  * stack that was used by main before the scheduler was started for use as the
  * interrupt stack after the scheduler has started. */
-#ifdef configISR_STACK_SIZE_WORDS
-static __attribute__( ( aligned( 16 ) ) ) StackType_t xISRStack[ configISR_STACK_SIZE_WORDS ] = { 0 };
-const StackType_t xISRStackTop = ( StackType_t ) &( xISRStack[ configISR_STACK_SIZE_WORDS & ~portBYTE_ALIGNMENT_MASK ] );
+#నిర్వచితమైతే config_ISR_దొంతర_కొలత_పదాలు
+స్థిర __attribute__( ( aligned( 16 ) ) ) దొంతర_Type_t xISRStack[ config_ISR_దొంతర_కొలత_పదాలు ] = { 0 };
+స్థిరరాశి దొంతర_Type_t x_ISRStack_శిఖరం = ( దొంతర_Type_t ) &( xISRStack[ config_ISR_దొంతర_కొలత_పదాలు & ~పోర్టు_BYTE_ALIGNMENT_ముసుగు ] );
 
 /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
  * the task stacks, and so will legitimately appear in many positions within
  * the ISR stack. */
-    #define portISR_STACK_FILL_BYTE    0xee
-#else
-    extern const uint32_t __freertos_irq_stack_top[];
-    const StackType_t xISRStackTop = ( StackType_t ) __freertos_irq_stack_top;
-#endif
+    #నిర్వచించు పోర్టు_ISR_దొంతర_FILL_BYTE    0xee
+#లేకపోతే
+    బాహ్య స్థిరరాశి uint32_t __freertos_irq_stack_top[];
+    స్థిరరాశి దొంతర_Type_t x_ISRStack_శిఖరం = ( దొంతర_Type_t ) __freertos_irq_stack_top;
+#అయితే_ముగింపు
 
 /**
  * @brief Used to catch tasks that attempt to return from their implementing
  * function.
  */
-static void prvTaskExitError( void );
+స్థిర శూన్య prvTaskExitError( శూన్య );
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void ) __attribute__( ( weak ) );
+శూన్య v_పోర్టు_అమరిక_Timer_అంతరాయం( శూన్య ) __attribute__( ( weak ) );
 
 /*-----------------------------------------------------------*/
 
 /* Used to program the machine timer compare register. */
-uint64_t ullNextTime = 0ULL;
-const uint64_t * pullNextTime = &ullNextTime;
-const size_t uxTimerIncrementsForOneTick = ( size_t ) ( ( configCPU_CLOCK_HZ ) / ( configTICK_RATE_HZ ) ); /* Assumes increment won't go over 32-bits. */
-volatile uint64_t * pullMachineTimerCompareRegister = NULL;
+uint64_t ull_తదుపరి_సమయం = 0ULL;
+స్థిరరాశి uint64_t * pull_తదుపరి_సమయం = &ull_తదుపరి_సమయం;
+స్థిరరాశి size_t uxTimerIncrementsForOneTick = ( size_t ) ( ( configCPU_CLOCK_HZ ) / ( config_TICK_రేటు_HZ ) ); /* Assumes increment won't go over 32-bits. */
+అస్థిర uint64_t * pull_Machine_Timer_Compare_రిజిస్టరు = ఖాళీ;
 
 /* Holds the critical nesting value - deliberately non-zero at start up to
  * ensure interrupts are not accidentally enabled before the scheduler starts. */
@@ -106,35 +106,35 @@ size_t xCriticalNesting = ( size_t ) 0xaaaaaaaa;
 size_t * pxCriticalNesting = &xCriticalNesting;
 
 /* Used to catch tasks that attempt to return from their implementing function. */
-size_t xTaskReturnAddress = ( size_t ) portTASK_RETURN_ADDRESS;
+size_t x_Task_Return_చిరునామా = ( size_t ) పోర్టు_TASK_RETURN_చిరునామా;
 
 /* Set configCHECK_FOR_STACK_OVERFLOW to 3 to add ISR stack checking to task
  * stack checking.  A problem in the ISR stack will trigger an assert, not call
  * the stack overflow hook function (because the stack overflow hook is specific
  * to a task stack, not the ISR stack). */
-#if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#ఒకవేళ defined( config_ISR_దొంతర_కొలత_పదాలు ) && ( config_CHECK_FOR_దొంతర_అధికప్రవాహం > 2 )
     #warning "This path not tested, or even compiled yet."
 
-    static const uint8_t ucExpectedStackBytes[] =
+    స్థిర స్థిరరాశి uint8_t uc_Expected_దొంతర_బైట్లు[] =
     {
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE
+        పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, \
+        పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, \
+        పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, \
+        పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, \
+        పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE, పోర్టు_ISR_దొంతర_FILL_BYTE
     }; \
 
-    #define portCHECK_ISR_STACK()    configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
+    #నిర్వచించు పోర్టు_CHECK_ISR_దొంతర()    configASSERT( ( memcmp( ( శూన్య * ) xISRStack, ( శూన్య * ) uc_Expected_దొంతర_బైట్లు, పరిమాణం( uc_Expected_దొంతర_బైట్లు ) ) == 0 ) )
+#లేకపోతే /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
-#endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #నిర్వచించు పోర్టు_CHECK_ISR_దొంతర()
+#అయితే_ముగింపు /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+స్థిర శూన్య prvTaskExitError( శూన్య )
 {
-    volatile uint32_t ulDummy = 0UL;
+    అస్థిర uint32_t ulDummy = 0UL;
 
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
@@ -142,9 +142,9 @@ static void prvTaskExitError( void )
      * to be triggered if configASSERT() is defined, then stop here so
      * application writers can catch the error. */
     configASSERT( xCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    అయితే( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -157,83 +157,83 @@ static void prvTaskExitError( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 )
+#ఒకవేళ ( config_MTIME_పునాది_చిరునామా != 0 ) && ( config_MTIMECMP_పునాది_చిరునామా != 0 )
 
-    void vPortSetupTimerInterrupt( void )
+    శూన్య v_పోర్టు_అమరిక_Timer_అంతరాయం( శూన్య )
     {
-        uint32_t ulCurrentTimeHigh, ulCurrentTimeLow;
-        volatile uint32_t * const pulTimeHigh = ( uint32_t * ) ( ( configMTIME_BASE_ADDRESS ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
-        volatile uint32_t * const pulTimeLow = ( uint32_t * ) ( configMTIME_BASE_ADDRESS );
-        volatile uint32_t ulHartId;
+        uint32_t ul_Current_సమయం_ఎగువ, ul_Current_సమయం_దిగువ;
+        అస్థిర uint32_t * స్థిరరాశి pul_సమయం_ఎగువ = ( uint32_t * ) ( ( config_MTIME_పునాది_చిరునామా ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
+        అస్థిర uint32_t * స్థిరరాశి pul_సమయం_దిగువ = ( uint32_t * ) ( config_MTIME_పునాది_చిరునామా );
+        అస్థిర uint32_t ulHartId;
 
-        __asm volatile ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
+        __asm అస్థిర ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
 
-        pullMachineTimerCompareRegister = ( volatile uint64_t * ) ( configMTIMECMP_BASE_ADDRESS + ( ulHartId * sizeof( uint64_t ) ) );
+        pull_Machine_Timer_Compare_రిజిస్టరు = ( అస్థిర uint64_t * ) ( config_MTIMECMP_పునాది_చిరునామా + ( ulHartId * పరిమాణం( uint64_t ) ) );
 
-        do
+        చేయి
         {
-            ulCurrentTimeHigh = *pulTimeHigh;
-            ulCurrentTimeLow = *pulTimeLow;
-        } while( ulCurrentTimeHigh != *pulTimeHigh );
+            ul_Current_సమయం_ఎగువ = *pul_సమయం_ఎగువ;
+            ul_Current_సమయం_దిగువ = *pul_సమయం_దిగువ;
+        } అయితే( ul_Current_సమయం_ఎగువ != *pul_సమయం_ఎగువ );
 
-        ullNextTime = ( uint64_t ) ulCurrentTimeHigh;
-        ullNextTime <<= 32ULL; /* High 4-byte word is 32-bits up. */
-        ullNextTime |= ( uint64_t ) ulCurrentTimeLow;
-        ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
-        *pullMachineTimerCompareRegister = ullNextTime;
+        ull_తదుపరి_సమయం = ( uint64_t ) ul_Current_సమయం_ఎగువ;
+        ull_తదుపరి_సమయం <<= 32ULL; /* High 4-byte word is 32-bits up. */
+        ull_తదుపరి_సమయం |= ( uint64_t ) ul_Current_సమయం_దిగువ;
+        ull_తదుపరి_సమయం += ( uint64_t ) uxTimerIncrementsForOneTick;
+        *pull_Machine_Timer_Compare_రిజిస్టరు = ull_తదుపరి_సమయం;
 
         /* Prepare the time to use after the next tick interrupt. */
-        ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
+        ull_తదుపరి_సమయం += ( uint64_t ) uxTimerIncrementsForOneTick;
     }
 
-#endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
+#అయితే_ముగింపు /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    extern void xPortStartFirstTask( void );
+    బాహ్య శూన్య x_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
-    #if ( configASSERT_DEFINED == 1 )
+    #ఒకవేళ ( configASSERT_DEFINED == 1 )
     {
         /* Check alignment of the interrupt stack - which is the same as the
          * stack that was being used by main() prior to the scheduler being
          * started. */
-        configASSERT( ( xISRStackTop & portBYTE_ALIGNMENT_MASK ) == 0 );
+        configASSERT( ( x_ISRStack_శిఖరం & పోర్టు_BYTE_ALIGNMENT_ముసుగు ) == 0 );
 
-        #ifdef configISR_STACK_SIZE_WORDS
+        #నిర్వచితమైతే config_ISR_దొంతర_కొలత_పదాలు
         {
-            memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+            memset( ( శూన్య * ) xISRStack, పోర్టు_ISR_దొంతర_FILL_BYTE, పరిమాణం( xISRStack ) );
         }
-        #endif /* configISR_STACK_SIZE_WORDS */
+        #అయితే_ముగింపు /* configISR_STACK_SIZE_WORDS */
     }
-    #endif /* configASSERT_DEFINED */
+    #అయితే_ముగింపు /* configASSERT_DEFINED */
 
     /* If there is a CLINT then it is ok to use the default implementation
      * in this file, otherwise vPortSetupTimerInterrupt() must be implemented to
      * configure whichever clock is to be used to generate the tick interrupt. */
-    vPortSetupTimerInterrupt();
+    v_పోర్టు_అమరిక_Timer_అంతరాయం();
 
-    #if ( ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) )
+    #ఒకవేళ ( ( config_MTIME_పునాది_చిరునామా != 0 ) && ( config_MTIMECMP_పునాది_చిరునామా != 0 ) )
     {
         /* Enable mtime and external interrupts.  1<<7 for timer interrupt,
          * 1<<11 for external interrupt.  _RB_ What happens here when mtime is
          * not present as with pulpino? */
-        __asm volatile ( "csrs 0x304, %0" ::"r" ( 0x880 ) ); /* 0x304 is mie. */
+        __asm అస్థిర ( "csrs 0x304, %0" ::"r" ( 0x880 ) ); /* 0x304 is mie. */
     }
-    #endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
+    #అయితే_ముగింపు /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 
-    xPortStartFirstTask();
+    x_పోర్టు_ప్రారంభం_మొదటి_Task();
 
     /* Should not get here as after calling xPortStartFirstTask() only tasks
      * should be executing. */
-    return pdFAIL;
+    తిరిగి pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* Not implemented. */
-    for( ; ; )
+    కొరకు( ; ; )
     {
     }
 }

@@ -32,35 +32,35 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "91x_lib.h"
+#అన్తర్భావ "91x_lib.h"
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <assert.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <assert.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
-#ifndef configUSE_WATCHDOG_TICK
-    #error configUSE_WATCHDOG_TICK must be set to either 1 or 0 in FreeRTOSConfig.h to use either the Watchdog or timer 2 to generate the tick interrupt respectively.
-#endif
+#నిర్వచితం_కాకపోతే configUSE_WATCHDOG_TICK
+    #దోషం configUSE_WATCHDOG_TICK must be సమితి గమ్యం either 1 or 0 లోపల FreeRTOSConfig.h గమ్యం use either the Watchdog or timer 2 గమ్యం generate the tick అంతరాయం respectively.
+#అయితే_ముగింపు
 
 /* Constants required to setup the initial stack. */
-#ifndef _RUN_TASK_IN_ARM_MODE_
-    #define portINITIAL_SPSR       ( ( StackType_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
-#else
-    #define portINITIAL_SPSR       ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
-#endif
+#నిర్వచితం_కాకపోతే నిరంతరం_TASK_లోపల_ARM_బహుళకం
+    #నిర్వచించు పోర్టు_INITIAL_SPSR       ( ( దొంతర_Type_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
+#లేకపోతే
+    #నిర్వచించు పోర్టు_INITIAL_SPSR       ( ( దొంతర_Type_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
+#అయితే_ముగింపు
 
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#నిర్వచించు పోర్టు_INSTRUCTION_కొలత       ( ( దొంతర_Type_t ) 4 )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#నిర్వచించు పోర్టు_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-#ifndef abs
-    #define abs( x )    ( ( x ) > 0 ? ( x ) : -( x ) )
-#endif
+#నిర్వచితం_కాకపోతే నిరపేక్ష
+    #నిర్వచించు నిరపేక్ష( x )    ( ( x ) > 0 ? ( x ) : -( x ) )
+#అయితే_ముగింపు
 
 /**
  * Toggle a led using the following algorithm:
@@ -74,21 +74,21 @@
  * }
  *
  */
-#define TOGGLE_LED( port, pin )                                           \
-    if( ( ( ( ( port )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != Bit_RESET ) \
+#నిర్వచించు TOGGLE_LED( పోర్టు, pin )                                           \
+    ఒకవేళ( ( ( ( ( పోర్టు )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != బిట్టు_RESET ) \
     {                                                                     \
-        ( port )->DR[ ( pin ) << 2 ] = 0x00;                              \
+        ( పోర్టు )->DR[ ( pin ) << 2 ] = 0x00;                              \
     }                                                                     \
-    else                                                                  \
+    లేకపోతే                                                                  \
     {                                                                     \
-        ( port )->DR[ ( pin ) << 2 ] = ( pin );                           \
+        ( పోర్టు )->DR[ ( pin ) << 2 ] = ( pin );                           \
     }
 
 
 /*-----------------------------------------------------------*/
 
 /* Setup the watchdog to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -98,15 +98,15 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
 /* Tick interrupt routines for cooperative and preemptive operation
  * respectively.  The preemptive version is not defined as __irq as it is called
  * from an asm wrapper function. */
-void WDG_IRQHandler( void );
+శూన్య WDG_IRQHandler( శూన్య );
 
 /* VIC interrupt default handler. */
-static void prvDefaultHandler( void );
+స్థిర శూన్య prvDefaultHandler( శూన్య );
 
-#if configUSE_WATCHDOG_TICK == 0
+#ఒకవేళ configUSE_WATCHDOG_TICK == 0
     /* Used to update the OCR timer register */
-    static u16 s_nPulseLength;
-#endif
+    స్థిర u16 s_n_Pulse_నిడివి;
+#అయితే_ముగింపు
 
 /*-----------------------------------------------------------*/
 
@@ -116,17 +116,17 @@ static void prvDefaultHandler( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+దొంతర_Type_t * px_పోర్టు_Initialise_దొంతర( దొంతర_Type_t * px_శిఖరం_యొక్క_దొంతర,
+                                     TaskFunction_t px_సంకేతం,
+                                     శూన్య * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    దొంతర_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_శిఖరం_యొక్క_దొంతర;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -134,73 +134,73 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) px_సంకేతం + పోర్టు_INSTRUCTION_కొలత;
+    px_శిఖరం_యొక్క_దొంతర--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x12121212;    /* R12 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x11111111;    /* R11 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x10101010;    /* R10 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x09090909;    /* R9 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x08080808;    /* R8 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x07070707;    /* R7 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x06060606;    /* R6 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x05050505;    /* R5 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x04040404;    /* R4 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x03030303;    /* R3 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x02020202;    /* R2 */
+    px_శిఖరం_యొక్క_దొంతర--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) 0x01010101;    /* R1 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) pvParameters; /* R0 */
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
-    pxTopOfStack--;
+    *px_శిఖరం_యొక్క_దొంతర = ( దొంతర_Type_t ) పోర్టు_INITIAL_SPSR;
+    px_శిఖరం_యొక్క_దొంతర--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_శిఖరం_యొక్క_దొంతర = పోర్టు_NO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    తిరిగి px_శిఖరం_యొక్క_దొంతర;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+పునాది_Type_t x_పోర్టు_ప్రారంభం_Scheduler( శూన్య )
 {
-    extern void vPortStartFirstTask( void );
+    బాహ్య శూన్య v_పోర్టు_ప్రారంభం_మొదటి_Task( శూన్య );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_అమరిక_Timer_అంతరాయం();
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_పోర్టు_ప్రారంభం_మొదటి_Task();
 
     /* Should not get here! */
-    return 0;
+    తిరిగి 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+శూన్య v_పోర్టు_చివర_Scheduler( శూన్య )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -209,9 +209,9 @@ void vPortEndScheduler( void )
 
 /* This function is called from an asm wrapper, so does not require the __irq
  * keyword. */
-#if configUSE_WATCHDOG_TICK == 1
+#ఒకవేళ configUSE_WATCHDOG_TICK == 1
 
-    static void prvFindFactors( u32 n,
+    స్థిర శూన్య prv_కనుగొను_Factors( u32 n,
                                 u16 * a,
                                 u32 * b )
     {
@@ -225,26 +225,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 65536ul ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        కొరకు( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            ఒకవేళ( నిరపేక్ష( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            ఒకవేళ( నిరపేక్ష( err ) < నిరపేక్ష( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                ఒకవేళ( err == 0 )
                 {
-                    break;
+                    ఆపు;
                 }
             }
         }
@@ -254,11 +254,11 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    static void prvSetupTimerInterrupt( void )
+    స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
     {
         WDG_InitTypeDef xWdg;
         uint16_t a;
-        uint32_t n = configCPU_PERIPH_HZ / configTICK_RATE_HZ, b;
+        uint32_t n = configCPU_PERIPH_HZ / config_TICK_రేటు_HZ, b;
 
         /* Configure the watchdog as a free running timer that generates a
          * periodic interrupt. */
@@ -266,7 +266,7 @@ void vPortEndScheduler( void )
         SCU_APBPeriphClockConfig( __WDG, ENABLE );
         WDG_DeInit();
         WDG_StructInit( &xWdg );
-        prvFindFactors( n, &a, &b );
+        prv_కనుగొను_Factors( n, &a, &b );
         xWdg.WDG_Prescaler = a - 1;
         xWdg.WDG_Preload = b - 1;
         WDG_Init( &xWdg );
@@ -284,11 +284,11 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    void WDG_IRQHandler( void )
+    శూన్య WDG_IRQHandler( శూన్య )
     {
         {
             /* Increment the tick counter. */
-            if( xTaskIncrementTick() != pdFALSE )
+            ఒకవేళ( xTaskIncrementTick() != pdFALSE )
             {
                 /* Select a new task to execute. */
                 vTaskSwitchContext();
@@ -299,9 +299,9 @@ void vPortEndScheduler( void )
         }
     }
 
-#else /* if configUSE_WATCHDOG_TICK == 1 */
+#లేకపోతే /* if configUSE_WATCHDOG_TICK == 1 */
 
-    static void prvFindFactors( u32 n,
+    స్థిర శూన్య prv_కనుగొను_Factors( u32 n,
                                 u8 * a,
                                 u16 * b )
     {
@@ -316,26 +316,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 256 ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        కొరకు( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            ఒకవేళ( నిరపేక్ష( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            ఒకవేళ( నిరపేక్ష( err ) < నిరపేక్ష( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                ఒకవేళ( err == 0 )
                 {
-                    break;
+                    ఆపు;
                 }
             }
         }
@@ -345,26 +345,26 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    static void prvSetupTimerInterrupt( void )
+    స్థిర శూన్య prv_అమరిక_Timer_అంతరాయం( శూన్య )
     {
         uint8_t a;
         uint16_t b;
-        uint32_t n = configCPU_PERIPH_HZ / configTICK_RATE_HZ;
+        uint32_t n = configCPU_PERIPH_HZ / config_TICK_రేటు_HZ;
 
         TIM_InitTypeDef timer;
 
         SCU_APBPeriphClockConfig( __TIM23, ENABLE );
         TIM_DeInit( TIM2 );
         TIM_StructInit( &timer );
-        prvFindFactors( n, &a, &b );
+        prv_కనుగొను_Factors( n, &a, &b );
 
-        timer.TIM_Mode = TIM_OCM_CHANNEL_1;
+        timer.TIM_బహుళకం = TIM_OCM_CHANNEL_1;
         timer.TIM_OC1_Modes = TIM_TIMING;
-        timer.TIM_Clock_Source = TIM_CLK_APB;
-        timer.TIM_Clock_Edge = TIM_CLK_EDGE_RISING;
+        timer.TIM_Clock_ఆధారం = TIM_CLK_APB;
+        timer.TIM_Clock_అంచు = TIM_CLK_అంచు_RISING;
         timer.TIM_Prescaler = a - 1;
-        timer.TIM_Pulse_Level_1 = TIM_HIGH;
-        timer.TIM_Pulse_Length_1 = s_nPulseLength = b - 1;
+        timer.TIM_Pulse_Level_1 = TIM_ఎగువ;
+        timer.TIM_Pulse_నిడివి_1 = s_n_Pulse_నిడివి = b - 1;
 
         TIM_Init( TIM2, &timer );
         TIM_ITConfig( TIM2, TIM_IT_OC1, ENABLE );
@@ -377,17 +377,17 @@ void vPortEndScheduler( void )
         VIC1->DVAR = ( uint32_t ) prvDefaultHandler;
 
         TIM_CounterCmd( TIM2, TIM_CLEAR );
-        TIM_CounterCmd( TIM2, TIM_START );
+        TIM_CounterCmd( TIM2, TIM_ప్రారంభం );
     }
     /*-----------------------------------------------------------*/
 
-    void TIM2_IRQHandler( void )
+    శూన్య TIM2_IRQHandler( శూన్య )
     {
         /* Reset the timer counter to avoid overflow. */
-        TIM2->OC1R += s_nPulseLength;
+        TIM2->OC1R += s_n_Pulse_నిడివి;
 
         /* Increment the tick counter. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ఒకవేళ( xTaskIncrementTick() != pdFALSE )
         {
             /* Select a new task to run. */
             vTaskSwitchContext();
@@ -397,14 +397,14 @@ void vPortEndScheduler( void )
         TIM2->SR &= ~TIM_FLAG_OC1;
     }
 
-#endif /* USE_WATCHDOG_TICK */
+#అయితే_ముగింపు /* USE_WATCHDOG_TICK */
 
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortEnterCritical( void )
+__arm __interwork శూన్య v_పోర్టు_Enter_Critical( శూన్య )
 {
     /* Disable interrupts first! */
-    portDISABLE_INTERRUPTS();
+    పోర్టు_DISABLE_INTERRUPTS();
 
     /* Now that interrupts are disabled, ulCriticalNesting can be accessed
      * directly.  Increment ulCriticalNesting to keep a count of how many times
@@ -413,23 +413,23 @@ __arm __interwork void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortExitCritical( void )
+__arm __interwork శూన్య v_పోర్టు_Exit_Critical( శూన్య )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ఒకవేళ( ulCriticalNesting > పోర్టు_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ఒకవేళ( ulCriticalNesting == పోర్టు_NO_CRITICAL_NESTING )
         {
-            portENABLE_INTERRUPTS();
+            పోర్టు_ENABLE_INTERRUPTS();
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvDefaultHandler( void )
+స్థిర శూన్య prvDefaultHandler( శూన్య )
 {
 }

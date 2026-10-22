@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,35 +47,35 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#నిర్వచించు పోర్టు_CHAR          అక్షరం
+#నిర్వచించు పోర్టు_FLOAT         దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+#నిర్వచించు పోర్టు_LONG          దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT         పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE    uint32_t
+#నిర్వచించు పోర్టు_పునాది_TYPE     దీర్ఘ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం దీర్ఘ             పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని దీర్ఘ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
-#define portYIELD()    asm volatile ( "SWI 0" )
-#define portNOP()      asm volatile ( "NOP" )
+#నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT    8
+#నిర్వచించు పోర్టు_YIELD()    asm అస్థిర ( "SWI 0" )
+#నిర్వచించు పోర్టు_NOP()      asm అస్థిర ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
@@ -87,52 +87,52 @@ typedef unsigned long    UBaseType_t;
  * defined then the utilities are defined as macros here - as per other ports.
  */
 
-#ifdef THUMB_INTERWORK
+#నిర్వచితమైతే THUMB_INTERWORK
 
-    extern void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    extern void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    బాహ్య శూన్య v_పోర్టు_Disable_Interrupts_From_Thumb( శూన్య ) __attribute__( ( naked ) );
+    బాహ్య శూన్య v_పోర్టు_Enable_Interrupts_From_Thumb( శూన్య ) __attribute__( ( naked ) );
 
-    #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
-    #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    v_పోర్టు_Disable_Interrupts_From_Thumb()
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     v_పోర్టు_Enable_Interrupts_From_Thumb()
 
-#else
+#లేకపోతే
 
-    #define portDISABLE_INTERRUPTS()                                       \
-    asm volatile (                                                         \
+    #నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()                                       \
+    asm అస్థిర (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
         "MSR    CPSR, R0        \n\t"   /* Write back modified value.   */ \
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
-    #define portENABLE_INTERRUPTS()                                        \
-    asm volatile (                                                         \
+    #నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()                                        \
+    asm అస్థిర (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
         "MSR    CPSR, R0        \n\t"   /* Write back modified value.   */ \
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
-#endif /* THUMB_INTERWORK */
+#అయితే_ముగింపు /* THUMB_INTERWORK */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+బాహ్య శూన్య v_పోర్టు_Enter_Critical( శూన్య );
+బాహ్య శూన్య v_పోర్టు_Exit_Critical( శూన్య );
 
-#define portENTER_CRITICAL()    vPortEnterCritical();
-#define portEXIT_CRITICAL()     vPortExitCritical();
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()    v_పోర్టు_Enter_Critical();
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()     v_పోర్టు_Exit_Critical();
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
+#నిర్వచించు పోర్టు_చివర_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern void vTaskSwitchContext( void );  \
+        బాహ్య శూన్య vTaskSwitchContext( శూన్య );  \
                                                  \
-        if( xSwitchRequired )                    \
+        ఒకవేళ( xSwitchRequired )                    \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
+            trace_ISR_EXIT_గమ్యం_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        లేకపోతే                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
@@ -140,13 +140,13 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

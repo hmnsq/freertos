@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef STACK_MACROS_H
-#define STACK_MACROS_H
+#నిర్వచితం_కాకపోతే దొంతర_MACROS_H
+#నిర్వచించు దొంతర_MACROS_H
 
 /*
  * Call the stack overflow hook function if the stack of the task being swapped
@@ -49,9 +49,9 @@
  * portSTACK_LIMIT_PADDING is a number of extra words to consider to be in
  * use on the stack.
  */
-#ifndef portSTACK_LIMIT_PADDING
-    #define portSTACK_LIMIT_PADDING    0
-#endif
+#నిర్వచితం_కాకపోతే పోర్టు_దొంతర_హద్దు_PADDING
+    #నిర్వచించు పోర్టు_దొంతర_హద్దు_PADDING    0
+#అయితే_ముగింపు
 
 /* Stack overflow check is not straight forward to implement for MPU ports
  * because of the following reasons:
@@ -64,92 +64,92 @@
  * Additionally, architectures with hardware stack overflow checking support
  * (such as Armv8-M) will trigger a fault when a task's stack overflows.
  */
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ఒకవేళ ( ( config_CHECK_FOR_దొంతర_అధికప్రవాహం == 1 ) && ( పోర్టు_దొంతర_GROWTH < 0 ) && ( పోర్టు_USING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                      \
-    do                                                                                          \
+    #నిర్వచించు task_CHECK_FOR_దొంతర_అధికప్రవాహం()                                                      \
+    చేయి                                                                                          \
     {                                                                                           \
         /* Is the currently saved stack pointer within the stack limit? */                      \
-        if( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING )     \
+        ఒకవేళ( pxCurrentTCB->px_శిఖరం_యొక్క_దొంతర <= pxCurrentTCB->px_దొంతర + పోర్టు_దొంతర_హద్దు_PADDING )     \
         {                                                                                       \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
+            అక్షరం * pc_అధికప్రవాహం_Task_Name = pxCurrentTCB->pcTaskName;                               \
+            v_Application_దొంతర_అధికప్రవాహం_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_అధికప్రవాహం_Task_Name ); \
         }                                                                                       \
-    } while( 0 )
+    } అయితే( 0 )
 
-#endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
+#అయితే_ముగింపు /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ఒకవేళ ( ( config_CHECK_FOR_దొంతర_అధికప్రవాహం == 1 ) && ( పోర్టు_దొంతర_GROWTH > 0 ) && ( పోర్టు_USING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #నిర్వచించు task_CHECK_FOR_దొంతర_అధికప్రవాహం()                                                       \
+    చేయి                                                                                           \
     {                                                                                            \
         /* Is the currently saved stack pointer within the stack limit? */                       \
-        if( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) \
+        ఒకవేళ( pxCurrentTCB->px_శిఖరం_యొక్క_దొంతర >= pxCurrentTCB->px_చివర_యొక్క_దొంతర - పోర్టు_దొంతర_హద్దు_PADDING ) \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            అక్షరం * pc_అధికప్రవాహం_Task_Name = pxCurrentTCB->pcTaskName;                                \
+            v_Application_దొంతర_అధికప్రవాహం_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_అధికప్రవాహం_Task_Name );  \
         }                                                                                        \
-    } while( 0 )
+    } అయితే( 0 )
 
-#endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
+#అయితే_ముగింపు /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ఒకవేళ ( ( config_CHECK_FOR_దొంతర_అధికప్రవాహం > 1 ) && ( పోర్టు_దొంతర_GROWTH < 0 ) && ( పోర్టు_USING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #నిర్వచించు task_CHECK_FOR_దొంతర_అధికప్రవాహం()                                                       \
+    చేయి                                                                                           \
     {                                                                                            \
-        const uint32_t * const pulStack = ( uint32_t * ) pxCurrentTCB->pxStack;                  \
-        const uint32_t ulCheckValue = ( uint32_t ) 0xa5a5a5a5U;                                  \
+        స్థిరరాశి uint32_t * స్థిరరాశి pul_దొంతర = ( uint32_t * ) pxCurrentTCB->px_దొంతర;                  \
+        స్థిరరాశి uint32_t ul_Check_విలువ = ( uint32_t ) 0xa5a5a5a5U;                                  \
                                                                                                  \
-        if( ( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING ) || \
-            ( pulStack[ 0 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 1 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 2 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 3 ] != ulCheckValue ) )                                                  \
+        ఒకవేళ( ( pxCurrentTCB->px_శిఖరం_యొక్క_దొంతర <= pxCurrentTCB->px_దొంతర + పోర్టు_దొంతర_హద్దు_PADDING ) || \
+            ( pul_దొంతర[ 0 ] != ul_Check_విలువ ) ||                                                 \
+            ( pul_దొంతర[ 1 ] != ul_Check_విలువ ) ||                                                 \
+            ( pul_దొంతర[ 2 ] != ul_Check_విలువ ) ||                                                 \
+            ( pul_దొంతర[ 3 ] != ul_Check_విలువ ) )                                                  \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            అక్షరం * pc_అధికప్రవాహం_Task_Name = pxCurrentTCB->pcTaskName;                                \
+            v_Application_దొంతర_అధికప్రవాహం_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_అధికప్రవాహం_Task_Name );  \
         }                                                                                        \
-    } while( 0 )
+    } అయితే( 0 )
 
-#endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
+#అయితే_ముగింపు /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ఒకవేళ ( ( config_CHECK_FOR_దొంతర_అధికప్రవాహం > 1 ) && ( పోర్టు_దొంతర_GROWTH > 0 ) && ( పోర్టు_USING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                                                                \
-    do                                                                                                                                    \
+    #నిర్వచించు task_CHECK_FOR_దొంతర_అధికప్రవాహం()                                                                                                \
+    చేయి                                                                                                                                    \
     {                                                                                                                                     \
-        int8_t * pcEndOfStack = ( int8_t * ) pxCurrentTCB->pxEndOfStack;                                                                  \
-        static const uint8_t ucExpectedStackBytes[] = { tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE }; \
+        int8_t * pc_చివర_యొక్క_దొంతర = ( int8_t * ) pxCurrentTCB->px_చివర_యొక్క_దొంతర;                                                                  \
+        స్థిర స్థిరరాశి uint8_t uc_Expected_దొంతర_బైట్లు[] = { tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE,   \
+                                                        tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE,   \
+                                                        tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE,   \
+                                                        tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE,   \
+                                                        tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE, tsk_దొంతర_FILL_BYTE }; \
                                                                                                                                           \
-        pcEndOfStack -= sizeof( ucExpectedStackBytes );                                                                                   \
+        pc_చివర_యొక్క_దొంతర -= పరిమాణం( uc_Expected_దొంతర_బైట్లు );                                                                                   \
                                                                                                                                           \
-        if( ( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) ||                                     \
-            ( memcmp( ( void * ) pcEndOfStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) != 0 ) )                 \
+        ఒకవేళ( ( pxCurrentTCB->px_శిఖరం_యొక్క_దొంతర >= pxCurrentTCB->px_చివర_యొక్క_దొంతర - పోర్టు_దొంతర_హద్దు_PADDING ) ||                                     \
+            ( memcmp( ( శూన్య * ) pc_చివర_యొక్క_దొంతర, ( శూన్య * ) uc_Expected_దొంతర_బైట్లు, పరిమాణం( uc_Expected_దొంతర_బైట్లు ) ) != 0 ) )                 \
         {                                                                                                                                 \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
+            అక్షరం * pc_అధికప్రవాహం_Task_Name = pxCurrentTCB->pcTaskName;                                                                         \
+            v_Application_దొంతర_అధికప్రవాహం_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_అధికప్రవాహం_Task_Name );                                           \
         }                                                                                                                                 \
-    } while( 0 )
+    } అయితే( 0 )
 
-#endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
+#అయితే_ముగింపు /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Remove stack overflow macro if not being used. */
-#ifndef taskCHECK_FOR_STACK_OVERFLOW
-    #define taskCHECK_FOR_STACK_OVERFLOW()
-#endif
+#నిర్వచితం_కాకపోతే task_CHECK_FOR_దొంతర_అధికప్రవాహం
+    #నిర్వచించు task_CHECK_FOR_దొంతర_అధికప్రవాహం()
+#అయితే_ముగింపు
 
 
 
-#endif /* STACK_MACROS_H */
+#అయితే_ముగింపు /* STACK_MACROS_H */

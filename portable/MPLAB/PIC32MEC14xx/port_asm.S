@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -42,9 +42,9 @@
     PORT_CPP_JTVIC_BASE = 0xBFFFC000
     PORT_CCP_JTVIC_GIRQ24_SRC = 0xBFFFC100
 
-    .global vPortStartFirstTask .text
-    .global vPortYieldISR .text
-    .global vPortTickInterruptHandler .text
+    .వైశ్విక v_పోర్టు_ప్రారంభం_మొదటి_Task .text
+    .వైశ్విక v_పోర్టు_Yield_ISR .text
+    .వైశ్విక v_పోర్టు_Tick_అంతరాయం_Handler .text
 
 
 /******************************************************************/
@@ -52,7 +52,7 @@
 
 /***************************************************************
 *  The following is needed to locate the
-*  vPortTickInterruptHandler function into the correct vector
+*  v_పోర్టు_Tick_అంతరాయం_Handler function into the correct vector
 *  MEC14xx - This ISR will only be used if HW timers' interrupts
 *  in GIRQ23 are disaggregated.
 *
@@ -63,14 +63,14 @@
     .set  micromips
 
     .section .text, code
-    .ent    vPortTickInterruptHandler
+    .ent    v_పోర్టు_Tick_అంతరాయం_Handler
 
 #if configTIMERS_DISAGGREGATED_ISRS == 0
 
     .globl girq23_isr
 
 girq23_isr:
-vPortTickInterruptHandler:
+v_పోర్టు_Tick_అంతరాయం_Handler:
 
     portSAVE_CONTEXT
 
@@ -79,14 +79,14 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-.end vPortTickInterruptHandler
+.end v_పోర్టు_Tick_అంతరాయం_Handler
 
 #else
 
     .globl girq23_b4
 
 girq23_b4:
-vPortTickInterruptHandler:
+v_పోర్టు_Tick_అంతరాయం_Handler:
 
     portSAVE_CONTEXT
 
@@ -95,7 +95,7 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-.end vPortTickInterruptHandler
+.end v_పోర్టు_Tick_అంతరాయం_Handler
 
 #endif /* #if configTIMERS_DISAGGREGATED_ISRS == 0 */
 
@@ -106,22 +106,22 @@ vPortTickInterruptHandler:
     .set    noat
 
     .section .text, code
-    .ent    vPortStartFirstTask
+    .ent    v_పోర్టు_ప్రారంభం_మొదటి_Task
 
-vPortStartFirstTask:
+v_పోర్టు_ప్రారంభం_మొదటి_Task:
 
     /* Simply restore the context of the highest priority task that has
     been created so far. */
     portRESTORE_CONTEXT
 
-.end vPortStartFirstTask
+.end v_పోర్టు_ప్రారంభం_మొదటి_Task
 
 
 
 /*******************************************************************/
 
 /***************************************************************
-*  The following is needed to locate the vPortYieldISR function into the correct
+*  The following is needed to locate the v_పోర్టు_Yield_ISR function into the correct
 * vector.
 ***************************************************************/
 
@@ -131,17 +131,17 @@ vPortStartFirstTask:
 
     .section .text, code
 
-    .global vPortYieldISR
+    .వైశ్విక v_పోర్టు_Yield_ISR
 
 
 #if configCPU_DISAGGREGATED_ISRS == 0
-    .global girq24_isr
+    .వైశ్విక girq24_isr
     .ent girq24_isr
 girq24_isr:
     la      k0, PORT_CPP_JTVIC_BASE
     lw      k0, 0x10C(k0)
     andi    k1, k0, 0x2
-    bgtz    k1, vPortYieldISR
+    bgtz    k1, v_పోర్టు_Yield_ISR
     nop
 
     portSAVE_CONTEXT
@@ -153,11 +153,11 @@ girq24_isr:
     .end girq24_isr
 
 #else
-    .global girq24_b1
+    .వైశ్విక girq24_b1
 girq24_b1:
 #endif
-        .ent  vPortYieldISR
-vPortYieldISR:
+        .ent  v_పోర్టు_Yield_ISR
+v_పోర్టు_Yield_ISR:
 
     /* Make room for the context. First save the current status so it can be
     manipulated, and the cause and EPC registers so thier original values
@@ -342,4 +342,4 @@ vPortYieldISR:
     eret
     nop
 
-.end    vPortYieldISR
+.end    v_పోర్టు_Yield_ISR

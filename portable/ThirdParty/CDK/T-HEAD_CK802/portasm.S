@@ -13,24 +13,24 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  */
 
 //#include <csi_config.h>
 
 /********************************************************************
- * Functions: vPortStartTask
+ * Functions: v_పోర్టు_ప్రారంభం_Task
  *
  ********************************************************************/
-.global vPortStartTask
-.type   vPortStartTask, %function
-vPortStartTask:
+.వైశ్విక v_పోర్టు_ప్రారంభం_Task
+.type   v_పోర్టు_ప్రారంభం_Task, %function
+v_పోర్టు_ప్రారంభం_Task:
     psrclr   ie
     lrw      r4, pxCurrentTCB
     ld.w     r4, (r4)                // the current task stack pointer is the first member
@@ -46,12 +46,12 @@ vPortStartTask:
     rte
 
 /********************************************************************
- * Functions: vPortYield
+ * Functions: v_పోర్టు_Yield
  *
  ********************************************************************/
-.global vPortYield
-.type   vPortYield, %function
-vPortYield:
+.వైశ్విక v_పోర్టు_Yield
+.type   v_పోర్టు_Yield, %function
+v_పోర్టు_Yield:
     psrclr  ee
     subi    sp, 68
     stm     r0-r13, (sp)
@@ -84,7 +84,7 @@ vPortYield:
  * Functions: NOVIC_IRQ_Default_Handler
  *
  ********************************************************************/
-.global NOVIC_IRQ_Default_Handler
+.వైశ్విక NOVIC_IRQ_Default_Handler
 .type   NOVIC_IRQ_Default_Handler, %function
 NOVIC_IRQ_Default_Handler:
     psrset  ee

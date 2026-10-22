@@ -33,13 +33,13 @@
  +    base 16.
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -53,65 +53,65 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                int
-#define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#నిర్వచించు పోర్టు_CHAR                 అక్షరం
+#నిర్వచించు పోర్టు_FLOAT                దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE               ద్విగుణ
+#నిర్వచించు పోర్టు_LONG                 దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT                పూర్ణాంకం
+#నిర్వచించు పోర్టు_దొంతర_TYPE           uint8_t
+#నిర్వచించు పోర్టు_పునాది_TYPE            అక్షరం
 
-#define portPOINTER_SIZE_TYPE    uint16_t
+#నిర్వచించు పోర్టు_సూచిక_కొలత_TYPE    uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం గుర్తుగల అక్షరం      పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని అక్షరం    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portENTER_CRITICAL()                            \
-    asm volatile ( "in      __tmp_reg__, __SREG__" ::); \
-    asm volatile ( "cli" ::);                           \
-    asm volatile ( "push    __tmp_reg__" ::)
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()                            \
+    asm అస్థిర ( "in      __tmp_reg__, __SREG__" ::); \
+    asm అస్థిర ( "cli" ::);                           \
+    asm అస్థిర ( "push    __tmp_reg__" ::)
 
-#define portEXIT_CRITICAL()                   \
-    asm volatile ( "pop     __tmp_reg__" ::); \
-    asm volatile ( "out     __SREG__, __tmp_reg__" ::)
+#నిర్వచించు పోర్టు_EXIT_CRITICAL()                   \
+    asm అస్థిర ( "pop     __tmp_reg__" ::); \
+    asm అస్థిర ( "out     __SREG__, __tmp_reg__" ::)
 
-#define portDISABLE_INTERRUPTS()    asm volatile ( "cli" ::);
-#define portENABLE_INTERRUPTS()     asm volatile ( "sei" ::);
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    asm అస్థిర ( "cli" ::);
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     asm అస్థిర ( "sei" ::);
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    1
-#define portNOP()    asm volatile ( "nop" );
+#నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT    1
+#నిర్వచించు పోర్టు_NOP()    asm అస్థిర ( "nop" );
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-extern void vPortYield( void ) __attribute__( ( naked ) );
-#define portYIELD()    vPortYield()
+బాహ్య శూన్య v_పోర్టు_Yield( శూన్య ) __attribute__( ( naked ) );
+#నిర్వచించు పోర్టు_YIELD()    v_పోర్టు_Yield()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

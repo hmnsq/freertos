@@ -26,69 +26,69 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef RP2040_CONFIG_H
-#define RP2040_CONFIG_H
+#నిర్వచితం_కాకపోతే RP2040_CONFIG_H
+#నిర్వచించు RP2040_CONFIG_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /* configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 means set the exception handlers dynamically on cores
  * that need them in case the user has set up distinct vector table offsets per core
  */
-#ifndef configUSE_DYNAMIC_EXCEPTION_HANDLERS
-    #if defined( PICO_NO_RAM_VECTOR_TABLE ) && ( PICO_NO_RAM_VECTOR_TABLE == 1 )
-        #define configUSE_DYNAMIC_EXCEPTION_HANDLERS    0
-    #else
-        #define configUSE_DYNAMIC_EXCEPTION_HANDLERS    1
-    #endif
-#endif
+#నిర్వచితం_కాకపోతే configUSE_DYNAMIC_EXCEPTION_HANDLERS
+    #ఒకవేళ defined( PICO_NO_RAM_సదిశ_పట్టిక ) && ( PICO_NO_RAM_సదిశ_పట్టిక == 1 )
+        #నిర్వచించు configUSE_DYNAMIC_EXCEPTION_HANDLERS    0
+    #లేకపోతే
+        #నిర్వచించు configUSE_DYNAMIC_EXCEPTION_HANDLERS    1
+    #అయితే_ముగింపు
+#అయితే_ముగింపు
 
 /* configSUPPORT_PICO_SYNC_INTEROP == 1 means that SDK pico_sync
  * sem/mutex/queue etc. will work correctly when called from FreeRTOS tasks
  */
-#ifndef configSUPPORT_PICO_SYNC_INTEROP
-    #if LIB_PICO_SYNC
-        #define configSUPPORT_PICO_SYNC_INTEROP    1
-    #endif
-#endif
+#నిర్వచితం_కాకపోతే configSUPPORT_PICO_SYNC_INTEROP
+    #ఒకవేళ LIB_PICO_SYNC
+        #నిర్వచించు configSUPPORT_PICO_SYNC_INTEROP    1
+    #అయితే_ముగింపు
+#అయితే_ముగింపు
 
 /* configSUPPORT_PICO_SYNC_INTEROP == 1 means that SDK pico_time
  * sleep_ms/sleep_us/sleep_until will work correctly when called from FreeRTOS
  * tasks, and will actually block at the FreeRTOS level
  */
-#ifndef configSUPPORT_PICO_TIME_INTEROP
-    #if LIB_PICO_TIME
-        #define configSUPPORT_PICO_TIME_INTEROP    1
-    #endif
-#endif
+#నిర్వచితం_కాకపోతే config_SUPPORT_PICO_సమయం_INTEROP
+    #ఒకవేళ LIB_PICO_సమయం
+        #నిర్వచించు config_SUPPORT_PICO_సమయం_INTEROP    1
+    #అయితే_ముగింపు
+#అయితే_ముగింపు
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ఒకవేళ ( config_సంఖ్య_యొక్క_CORES > 1 )
 
 /* configTICK_CORE indicates which core should handle the SysTick
  * interrupts */
-    #ifndef configTICK_CORE
-        #define configTICK_CORE    0
-    #endif
-#endif
+    #నిర్వచితం_కాకపోతే configTICK_CORE
+        #నిర్వచించు configTICK_CORE    0
+    #అయితే_ముగింపు
+#అయితే_ముగింపు
 
 /* This SMP port requires two spin locks, which are claimed from the SDK.
  * the spin lock numbers to be used are defined statically and defaulted here
  * to the values nominally set aside for RTOS by the SDK */
-#ifndef configSMP_SPINLOCK_0
-    #define configSMP_SPINLOCK_0    PICO_SPINLOCK_ID_OS1
-#endif
+#నిర్వచితం_కాకపోతే configSMP_SPINLOCK_0
+    #నిర్వచించు configSMP_SPINLOCK_0    PICO_SPINLOCK_ID_OS1
+#అయితే_ముగింపు
 
-#ifndef configSMP_SPINLOCK_1
-    #define configSMP_SPINLOCK_1    PICO_SPINLOCK_ID_OS2
-#endif
+#నిర్వచితం_కాకపోతే configSMP_SPINLOCK_1
+    #నిర్వచించు configSMP_SPINLOCK_1    PICO_SPINLOCK_ID_OS2
+#అయితే_ముగింపు
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* ifndef RP2040_CONFIG_H */
+#అయితే_ముగింపు /* ifndef RP2040_CONFIG_H */

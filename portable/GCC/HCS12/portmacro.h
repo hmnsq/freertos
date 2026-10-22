@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#నిర్వచితం_కాకపోతే PORTMACRO_H
+#నిర్వచించు PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#నిర్వచితమైతే __cplusplus
+    బాహ్య "C" {
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,40 +47,40 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#నిర్వచించు పోర్టు_CHAR          అక్షరం
+#నిర్వచించు పోర్టు_FLOAT         దశాంశం
+#నిర్వచించు పోర్టు_DOUBLE        ద్విగుణ
+#నిర్వచించు పోర్టు_LONG          దీర్ఘ
+#నిర్వచించు పోర్టు_SHORT         పొట్టి
+#నిర్వచించు పోర్టు_దొంతర_TYPE    uint8_t
+#నిర్వచించు పోర్టు_పునాది_TYPE     అక్షరం
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+రకనిర్వచనం పోర్టు_దొంతర_TYPE   దొంతర_Type_t;
+రకనిర్వచనం గుర్తుగల అక్షరం      పునాది_Type_t;
+రకనిర్వచనం గుర్తులేని అక్షరం    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ఒకవేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_16_బిట్లు )
+    రకనిర్వచనం uint16_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) 0xffff
+#లేదావేళ ( config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు == TICK_TYPE_వెడల్పు_32_బిట్లు )
+    రకనిర్వచనం uint32_t     TickType_t;
+    #నిర్వచించు పోర్టు_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#లేకపోతే
+    #దోషం config_TICK_TYPE_వెడల్పు_లోపల_బిట్లు సమితి గమ్యం unsupported tick type వెడల్పు.
+#అయితే_ముగింపు
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    1
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portYIELD()    __asm( "swi" );
+#నిర్వచించు పోర్టు_BYTE_ALIGNMENT    1
+#నిర్వచించు పోర్టు_దొంతర_GROWTH      ( -1 )
+#నిర్వచించు పోర్టు_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_రేటు_HZ )
+#నిర్వచించు పోర్టు_YIELD()    __asm( "swi" );
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENABLE_INTERRUPTS()     __asm( "cli" )
-#define portDISABLE_INTERRUPTS()    __asm( "sei" )
+#నిర్వచించు పోర్టు_ENABLE_INTERRUPTS()     __asm( "cli" )
+#నిర్వచించు పోర్టు_DISABLE_INTERRUPTS()    __asm( "sei" )
 
 /*
  * Disable interrupts before incrementing the count of critical section nesting.
@@ -88,11 +88,11 @@ typedef unsigned char    UBaseType_t;
  * re-enabled.  Once interrupts are disabled the nesting count can be accessed
  * directly.  Each task maintains its own nesting count.
  */
-#define portENTER_CRITICAL()                           \
+#నిర్వచించు పోర్టు_ENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        బాహ్య అస్థిర UBaseType_t uxCriticalNesting; \
                                                        \
-        portDISABLE_INTERRUPTS();                      \
+        పోర్టు_DISABLE_INTERRUPTS();                      \
         uxCriticalNesting++;                           \
     }
 
@@ -101,14 +101,14 @@ typedef unsigned char    UBaseType_t;
  * nesting is found to be 0 (no nesting) then we are leaving the critical
  * section and interrupts can be re-enabled.
  */
-#define  portEXIT_CRITICAL()                           \
+#నిర్వచించు  పోర్టు_EXIT_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        బాహ్య అస్థిర UBaseType_t uxCriticalNesting; \
                                                        \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        ఒకవేళ( uxCriticalNesting == 0 )                   \
         {                                              \
-            portENABLE_INTERRUPTS();                   \
+            పోర్టు_ENABLE_INTERRUPTS();                   \
         }                                              \
     }
 /*-----------------------------------------------------------*/
@@ -125,21 +125,21 @@ typedef unsigned char    UBaseType_t;
  * register is also stored as part of the tasks context.
  */
 
-#ifdef BANKED_MODEL
+#నిర్వచితమైతే BANKED_MODEL
 
 /*
  * Load the stack pointer for the task, then pull the critical nesting
  * count and PPAGE register from the stack.  The remains of the
  * context are restored by the RTI instruction.
  */
-    #define portRESTORE_CONTEXT() \
+    #నిర్వచించు పోర్టు_RESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; శూన్య *            \n\
+        .globl uxCriticalNesting        ; అక్షరం              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; దొంతర_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         movb 1,sp+,0x30             ; PPAGE             \n\
@@ -151,61 +151,61 @@ typedef unsigned char    UBaseType_t;
  * registers.  Simply stack the nesting count and PPAGE value, then save
  * the task stack pointer.
  */
-    #define portSAVE_CONTEXT() \
+    #నిర్వచించు పోర్టు_SAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; శూన్య *            \n\
+        .globl uxCriticalNesting        ; అక్షరం              \n\
                                             \n\
         movb 0x30, 1,-sp            ; PPAGE             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; దొంతర_2             \n\
         " );                   \
     }
-#else /* ifdef BANKED_MODEL */
+#లేకపోతే /* ifdef BANKED_MODEL */
 
 /*
  * These macros are as per the BANKED versions above, but without saving
  * and restoring the PPAGE register.
  */
 
-    #define portRESTORE_CONTEXT() \
+    #నిర్వచించు పోర్టు_RESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; శూన్య *            \n\
+        .globl uxCriticalNesting        ; అక్షరం              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; దొంతర_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         " );                      \
     }
 
-    #define portSAVE_CONTEXT() \
+    #నిర్వచించు పోర్టు_SAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; శూన్య *            \n\
+        .globl uxCriticalNesting        ; అక్షరం              \n\
                                             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; దొంతర_2             \n\
         " );                   \
     }
-#endif /* ifdef BANKED_MODEL */
+#అయితే_ముగింపు /* ifdef BANKED_MODEL */
 
 /*
  * Utility macros to save/restore correct software registers for GCC. This is
  * useful when GCC does not generate appropriate ISR head/tail code.
  */
-#define portISR_HEAD() \
+#నిర్వచించు పోర్టు_ISR_తల() \
     {                  \
         __asm( "                                 \n\
-        movw _.frame, 2,-sp                         \n\
+        movw _.చట్రం_2, 2,-sp                         \n\
         movw _.tmp, 2,-sp                           \n\
         movw _.z, 2,-sp                             \n\
         movw _.xy, 2,-sp                            \n\
@@ -214,13 +214,13 @@ typedef unsigned char    UBaseType_t;
         " );           \
     }
 
-#define portISR_TAIL() \
+#నిర్వచించు పోర్టు_ISR_తోక() \
     {                  \
         __asm( "                                 \n\
         movw 2,sp+, _.xy                            \n\
         movw 2,sp+, _.z                             \n\
         movw 2,sp+, _.tmp                           \n\
-        movw 2,sp+, _.frame                         \n\
+        movw 2,sp+, _.చట్రం_2                         \n\
         ;movw 2,sp+, _.d1                           \n\
         ;movw 2,sp+, _.d2                           \n\
         rti                                 \n\
@@ -234,20 +234,20 @@ typedef unsigned char    UBaseType_t;
  * variables portYIELD() should be used in it's place.
  */
 
-#define portTASK_SWITCH_FROM_ISR() \
-    portSAVE_CONTEXT();            \
+#నిర్వచించు పోర్టు_TASK_SWITCH_FROM_ISR() \
+    పోర్టు_SAVE_CONTEXT();            \
     vTaskSwitchContext();          \
-    portRESTORE_CONTEXT();
+    పోర్టు_RESTORE_CONTEXT();
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION_PROTO( vFunction, pvParameters )    శూన్య vFunction( శూన్య * pvParameters )
+#నిర్వచించు పోర్టు_TASK_FUNCTION( vFunction, pvParameters )          శూన్య vFunction( శూన్య * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#నిర్వచితమైతే __cplusplus
     }
-#endif
+#అయితే_ముగింపు
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#అయితే_ముగింపు /* PORTMACRO_H */

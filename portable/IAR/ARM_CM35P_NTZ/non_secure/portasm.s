@@ -15,12 +15,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS లేదా
+ * IMPLIED, INCLUDING BUT కాదు LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE మరియు NONINFRINGEMENT. లో NO EVENT SHALL THE AUTHORS లేదా
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES లేదా OTHER LIABILITY, WHETHER
+ * లో AN ACTION OF CONTRACT, TORT లేదా OTHERWISE, ARISING FROM, OUT OF లేదా లో
+ * CONNECTION WITH THE SOFTWARE లేదా THE USE లేదా OTHER DEALINGS లో THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -33,7 +33,7 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-/* System call numbers includes. */
+/* System పిలువు numbers includes. */
 #include "mpu_syscall_numbers.h"
 
 #ifndef configUSE_MPU_WRAPPERS_V1
@@ -45,26 +45,26 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 #endif
 
 #if ( configNUMBER_OF_CORES == 1)
-    EXTERN pxCurrentTCB
+    బాహ్య pxCurrentTCB
 #else /* if ( configNUMBER_OF_CORES == 1) */
-    EXTERN pxCurrentTCBs
+    బాహ్య pxCurrentTCBs
 #endif
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
+    బాహ్య vTaskSwitchContext
+    బాహ్య vPortSVCHandler_C
 #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    బాహ్య vSystemCallEnter
+    బాహ్య vSystemCallExit
 #endif
 
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
-    PUBLIC vRestoreContextOfFirstTask
-    PUBLIC vRaisePrivilege
-    PUBLIC vStartFirstTask
-    PUBLIC ulSetInterruptMask
-    PUBLIC vClearInterruptMask
-    PUBLIC PendSV_Handler
-    PUBLIC SVC_Handler
+    బహిరంగ xIsPrivileged
+    బహిరంగ vResetPrivilege
+    బహిరంగ v_Restore_Context_యొక్క_మొదటి_Task
+    బహిరంగ vRaisePrivilege
+    బహిరంగ v_ప్రారంభం_మొదటి_Task
+    బహిరంగ ul_సమితి_అంతరాయం_ముసుగు
+    బహిరంగ v_Clear_అంతరాయం_ముసుగు
+    బహిరంగ PendSV_Handler
+    బహిరంగ SVC_Handler
 /*-----------------------------------------------------------*/
 
 /*---------------- Unprivileged Functions -------------------*/
@@ -77,7 +77,7 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 
 xIsPrivileged:
     mrs r0, control                         /* r0 = CONTROL. */
-    tst r0, #1                              /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1                              /* Perform r0 & 1 (bitwise మరియు) and update the conditions flag. */
     ite ne
     movne r0, #0                            /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1                            /* CONTROL[0]==0. Return true to indicate that the processor is not privileged. */
@@ -101,7 +101,7 @@ vResetPrivilege:
 
 #if ( configENABLE_MPU == 1 )
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_యొక్క_మొదటి_Task:
     program_mpu_first_task:
         ldr r2, =pxCurrentTCB               /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
         ldr r0, [r2]                        /* r0 = pxCurrentTCB. */
@@ -175,12 +175,12 @@ vRestoreContextOfFirstTask:
 
 #else /* configENABLE_MPU */
 
-vRestoreContextOfFirstTask:
+v_Restore_Context_యొక్క_మొదటి_Task:
 #if ( configNUMBER_OF_CORES == 1)
     ldr  r2, =pxCurrentTCB                  /* Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ). */
     ldr  r1, [r2]                           /* Read pxCurrentTCB. */
 #else /* if ( configNUMBER_OF_CORES == 1) */
-    ldr r1, =ulFirstTaskLiteralPool         /* Get the location of the current TCB and the Id of the current core. */
+    ldr r1, =ul_మొదటి_Task_Literal_Pool         /* Get the location of the current TCB and the Id of the current core. */
     ldmia r1!, {r2, r3}
     ldr r2, [r2]                            /* r2 = Core Id */
     ldr r1, [r3, r2, LSL #2]                /* r1 = pxCurrentTCBs[CORE_ID] */
@@ -210,7 +210,7 @@ vRestoreContextOfFirstTask:
 #if ( configNUMBER_OF_CORES > 1 )
     /* Align to 4 bytes in ROM/code area (2^2 alignment, 0 fill). */
     ALIGNROM 2, 0
-    ulFirstTaskLiteralPool:
+    ul_మొదటి_Task_Literal_Pool:
         DC32 configCORE_ID_REGISTER         /* CORE_ID_REGISTER */
         DC32 pxCurrentTCBs
 #endif /* if ( configNUMBER_OF_CORES > 1 ) */
@@ -225,7 +225,7 @@ vRaisePrivilege:
     bx lr                                   /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-vStartFirstTask:
+v_ప్రారంభం_మొదటి_Task:
     ldr r0, =0xe000ed08                     /* Use the NVIC offset register to locate the stack. */
     ldr r0, [r0]                            /* Read the VTOR register which gives the address of vector table. */
     ldr r0, [r0]                            /* The first entry in vector table is stack pointer. */
@@ -234,10 +234,10 @@ vStartFirstTask:
     cpsie f
     dsb
     isb
-    svc 102                                 /* System call to start the first task. portSVC_START_SCHEDULER = 102. */
+    svc 102                                 /* System పిలువు to start the first task. portSVC_START_SCHEDULER = 102. */
 /*-----------------------------------------------------------*/
 
-ulSetInterruptMask:
+ul_సమితి_అంతరాయం_ముసుగు:
     mrs r0, basepri                         /* r0 = basepri. Return original basepri value. */
     mov r1, #configMAX_SYSCALL_INTERRUPT_PRIORITY
     msr basepri, r1                         /* Disable interrupts up to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
@@ -246,7 +246,7 @@ ulSetInterruptMask:
     bx lr                                   /* Return. */
 /*-----------------------------------------------------------*/
 
-vClearInterruptMask:
+v_Clear_అంతరాయం_ముసుగు:
     msr basepri, r0                         /* basepri = ulMask. */
     dsb
     isb
@@ -498,4 +498,4 @@ SVC_Handler:
 #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-    END
+    ముగింపు

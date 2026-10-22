@@ -34,134 +34,134 @@
  * See heap_2.c, heap_3.c and heap_4.c for alternative implementations, and the
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
-#include <stdlib.h>
+#అన్తర్భావ <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#నిర్వచించు MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#అన్తర్భావ "FreeRTOS.h"
+#అన్తర్భావ "task.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#నిర్వచనం_రద్దు MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
-#endif
+#ఒకవేళ ( config_SUPPORT_DYNAMIC_కేటాయింపు == 0 )
+    #దోషం This file must not be వాడిన ఒకవేళ config_SUPPORT_DYNAMIC_కేటాయింపు is 0
+#అయితే_ముగింపు
 
 /* A few bytes might be lost to byte aligning the heap start address. */
-#define configADJUSTED_HEAP_SIZE        ( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
+#నిర్వచించు config_ADJUSTED_కుప్ప_కొలత        ( config_మొత్తం_కుప్ప_కొలత - పోర్టు_BYTE_ALIGNMENT )
 
 /* Max value that fits in a size_t type. */
-#define heapSIZE_MAX                    ( ~( ( size_t ) 0 ) )
+#నిర్వచించు కుప్ప_కొలత_MAX                    ( ~( ( size_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define heapADD_WILL_OVERFLOW( a, b )   ( ( a ) > ( heapSIZE_MAX - ( b ) ) )
+#నిర్వచించు కుప్ప_కూడు_WILL_అధికప్రవాహం( a, b )   ( ( a ) > ( కుప్ప_కొలత_MAX - ( b ) ) )
 
 /*-----------------------------------------------------------*/
 
 /* Allocate the memory for the heap. */
-#if ( configAPPLICATION_ALLOCATED_HEAP == 1 )
+#ఒకవేళ ( config_APPLICATION_ALLOCATED_కుప్ప == 1 )
 
 /* The application writer has already defined the array used for the RTOS
  * heap - probably so it can be placed in a special segment or address. */
-    extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#else
-    static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#endif /* configAPPLICATION_ALLOCATED_HEAP */
+    బాహ్య uint8_t uc_కుప్ప[ config_మొత్తం_కుప్ప_కొలత ];
+#లేకపోతే
+    స్థిర uint8_t uc_కుప్ప[ config_మొత్తం_కుప్ప_కొలత ];
+#అయితే_ముగింపు /* configAPPLICATION_ALLOCATED_HEAP */
 
 /* Index into the ucHeap array. */
-static size_t xNextFreeByte = ( size_t ) 0U;
+స్థిర size_t x_తదుపరి_Free_Byte = ( size_t ) 0U;
 
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+శూన్య * pv_పోర్టు_Malloc( size_t x_Wanted_కొలత )
 {
-    void * pvReturn = NULL;
-    static uint8_t * pucAlignedHeap = NULL;
+    శూన్య * pvReturn = ఖాళీ;
+    స్థిర uint8_t * puc_Aligned_కుప్ప = ఖాళీ;
 
     /* Ensure that blocks are always aligned. */
-    #if ( portBYTE_ALIGNMENT != 1 )
+    #ఒకవేళ ( పోర్టు_BYTE_ALIGNMENT != 1 )
     {
-        size_t xAdditionalRequiredSize;
+        size_t x_Additional_Required_కొలత;
 
-        if( ( xWantedSize & portBYTE_ALIGNMENT_MASK ) != 0x00 )
+        ఒకవేళ( ( x_Wanted_కొలత & పోర్టు_BYTE_ALIGNMENT_ముసుగు ) != 0x00 )
         {
             /* Byte alignment required. */
-            xAdditionalRequiredSize = portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK );
+            x_Additional_Required_కొలత = పోర్టు_BYTE_ALIGNMENT - ( x_Wanted_కొలత & పోర్టు_BYTE_ALIGNMENT_ముసుగు );
 
-            if( heapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
+            ఒకవేళ( కుప్ప_కూడు_WILL_అధికప్రవాహం( x_Wanted_కొలత, x_Additional_Required_కొలత ) == 0 )
             {
-                xWantedSize += xAdditionalRequiredSize;
+                x_Wanted_కొలత += x_Additional_Required_కొలత;
             }
-            else
+            లేకపోతే
             {
-                xWantedSize = 0;
+                x_Wanted_కొలత = 0;
             }
         }
     }
-    #endif /* if ( portBYTE_ALIGNMENT != 1 ) */
+    #అయితే_ముగింపు /* if ( portBYTE_ALIGNMENT != 1 ) */
 
     vTaskSuspendAll();
     {
-        if( pucAlignedHeap == NULL )
+        ఒకవేళ( puc_Aligned_కుప్ప == ఖాళీ )
         {
             /* Ensure the heap starts on a correctly aligned boundary. */
-            pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &( ucHeap[ portBYTE_ALIGNMENT - 1 ] ) ) &
-                                             ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
+            puc_Aligned_కుప్ప = ( uint8_t * ) ( ( ( పోర్టు_సూచిక_కొలత_TYPE ) &( uc_కుప్ప[ పోర్టు_BYTE_ALIGNMENT - 1 ] ) ) &
+                                             ( ~( ( పోర్టు_సూచిక_కొలత_TYPE ) పోర్టు_BYTE_ALIGNMENT_ముసుగు ) ) );
         }
 
         /* Check there is enough room left for the allocation. */
-        if( ( xWantedSize > 0 ) &&
-            ( heapADD_WILL_OVERFLOW( xNextFreeByte, xWantedSize ) == 0 ) &&
-            ( ( xNextFreeByte + xWantedSize ) < configADJUSTED_HEAP_SIZE ) )
+        ఒకవేళ( ( x_Wanted_కొలత > 0 ) &&
+            ( కుప్ప_కూడు_WILL_అధికప్రవాహం( x_తదుపరి_Free_Byte, x_Wanted_కొలత ) == 0 ) &&
+            ( ( x_తదుపరి_Free_Byte + x_Wanted_కొలత ) < config_ADJUSTED_కుప్ప_కొలత ) )
         {
             /* Return the next free byte then increment the index past this
              * block. */
-            pvReturn = pucAlignedHeap + xNextFreeByte;
-            xNextFreeByte += xWantedSize;
+            pvReturn = puc_Aligned_కుప్ప + x_తదుపరి_Free_Byte;
+            x_తదుపరి_Free_Byte += x_Wanted_కొలత;
         }
 
-        traceMALLOC( pvReturn, xWantedSize );
+        traceMALLOC( pvReturn, x_Wanted_కొలత );
     }
-    ( void ) xTaskResumeAll();
+    ( శూన్య ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #ఒకవేళ ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        ఒకవేళ( pvReturn == ఖాళీ )
         {
             vApplicationMallocFailedHook();
         }
     }
-    #endif
+    #అయితే_ముగింపు
 
-    return pvReturn;
+    తిరిగి pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+శూన్య v_పోర్టు_Free( శూన్య * pv )
 {
     /* Memory cannot be freed using this scheme.  See heap_2.c, heap_3.c and
      * heap_4.c for alternative implementations, and the memory management pages of
      * https://www.FreeRTOS.org for more information. */
-    ( void ) pv;
+    ( శూన్య ) pv;
 
     /* Force an assert as it is invalid to call this function. */
-    configASSERT( pv == NULL );
+    configASSERT( pv == ఖాళీ );
 }
 /*-----------------------------------------------------------*/
 
-void vPortInitialiseBlocks( void )
+శూన్య v_పోర్టు_Initialise_ఖండాలు( శూన్య )
 {
     /* Only required when static memory is not cleared. */
-    xNextFreeByte = ( size_t ) 0;
+    x_తదుపరి_Free_Byte = ( size_t ) 0;
 }
 /*-----------------------------------------------------------*/
 
-size_t xPortGetFreeHeapSize( void )
+size_t x_పోర్టు_Get_Free_కుప్ప_కొలత( శూన్య )
 {
-    return( configADJUSTED_HEAP_SIZE - xNextFreeByte );
+    తిరిగి( config_ADJUSTED_కుప్ప_కొలత - x_తదుపరి_Free_Byte );
 }
 
 /*-----------------------------------------------------------*/
@@ -171,8 +171,8 @@ size_t xPortGetFreeHeapSize( void )
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+శూన్య v_పోర్టు_కుప్ప_Reset_State( శూన్య )
 {
-    xNextFreeByte = ( size_t ) 0U;
+    x_తదుపరి_Free_Byte = ( size_t ) 0U;
 }
 /*-----------------------------------------------------------*/
