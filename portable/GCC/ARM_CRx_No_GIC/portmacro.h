@@ -81,7 +81,7 @@ typedef uint32_t         TickType_t;
     {                                                 \
         extern volatile uint32_t ulPortYieldRequired; \
                                                       \
-        if( xSwitchRequired != pdFALSE )              \
+        якщо( xSwitchRequired != pdFALSE )              \
         {                                             \
             ulPortYieldRequired = pdTRUE;             \
         }                                             \
@@ -112,7 +112,7 @@ extern uint32_t ulPortSetInterruptMaskFromISR( void );
 #define portENABLE_INTERRUPTS()                 vPortEnableInterrupts();
 #define portDISABLE_INTERRUPTS()                vPortDisableInterrupts();
 #define portSET_INTERRUPT_MASK_FROM_ISR()       ulPortSetInterruptMaskFromISR();
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  do { if( x == 0 ) portENABLE_INTERRUPTS(); } while( 0 )
+#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  do { якщо( x == 0 ) portENABLE_INTERRUPTS(); } поки( 0 )
 
 /*-----------------------------------------------------------*/
 
@@ -146,9 +146,9 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU
  * context by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#якщо ( configUSE_TASK_FPU_SUPPORT != 2 )
     void vPortTaskUsesFPU( void );
-#else
+#інакше
     /* Each task has an FPU context already, so define this function as a
      * no-op. */
     #define vPortTaskUsesFPU()
@@ -163,7 +163,7 @@ UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#якщо configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Store, clear and get the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )

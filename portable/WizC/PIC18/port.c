@@ -77,10 +77,10 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *       1 byte : ucCriticalNesting
  *      16 bytes: Free space on stack
  */
-#if _ROMSIZE > 0x8000
+#якщо _ROMSIZE > 0x8000
     #define portSTACK_FSR_BYTES             ( 15 )
     #define portSTACK_CALLRETURN_ENTRY_SIZE (  3 )
-#else
+#інакше
     #define portSTACK_FSR_BYTES             ( 13 )
     #define portSTACK_CALLRETURN_ENTRY_SIZE (  2 )
 #endif
@@ -152,12 +152,12 @@ uint8_t ucScratch;
     *pxTopOfStack-- = ( StackType_t ) 0x88; /* FSR1H. */
     *pxTopOfStack-- = ( StackType_t ) 0x99; /* FSR1L. */
     *pxTopOfStack-- = ( StackType_t ) 0xAA; /* TABLAT. */
-#if _ROMSIZE > 0x8000
+#якщо _ROMSIZE > 0x8000
     *pxTopOfStack-- = ( StackType_t ) 0x00; /* TBLPTRU. */
 #endif
     *pxTopOfStack-- = ( StackType_t ) 0xCC; /* TBLPTRH. */
     *pxTopOfStack-- = ( StackType_t ) 0xDD; /* TBLPTRL. */
-#if _ROMSIZE > 0x8000
+#якщо _ROMSIZE > 0x8000
     *pxTopOfStack-- = ( StackType_t ) 0xEE; /* PCLATU. */
 #endif
     *pxTopOfStack-- = ( StackType_t ) 0xFF; /* PCLATH. */
@@ -165,7 +165,7 @@ uint8_t ucScratch;
     /*
      * Next the compiler's scratchspace.
      */
-    while(ucScratch-- > 0)
+    поки(ucScratch-- > 0)
     {
         *pxTopOfStack-- = ( StackType_t ) 0;
     }
@@ -176,7 +176,7 @@ uint8_t ucScratch;
      * stack, too. TOSU is always written as zero here because wizC does not allow
      * functionpointers to point above 64kB in ROM.
      */
-#if _ROMSIZE > 0x8000
+#якщо _ROMSIZE > 0x8000
     *pxTopOfStack-- = ( StackType_t ) 0;
 #endif
     *pxTopOfStack-- = ( StackType_t ) ( ( ( uint16_t ) pxCode >> 8 ) & 0x00ff );
@@ -197,7 +197,7 @@ uint8_t ucScratch;
      */
     *pxTopOfStack-- = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    повернути pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -219,7 +219,7 @@ uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void )
         +   ( portSTACK_MINIMAL_CALLRETURN_DEPTH * portSTACK_CALLRETURN_ENTRY_SIZE )
         +   ( portSTACK_OTHER_BYTES );
 
-    return(usCalcMinStackSize);
+    повернути(usCalcMinStackSize);
 }
 
 /*-----------------------------------------------------------*/
@@ -241,7 +241,7 @@ BaseType_t xPortStartScheduler( void )
     /*
      * This point should never be reached during execution.
      */
-    return pdTRUE;
+    повернути pdTRUE;
 }
 
 /*-----------------------------------------------------------*/
@@ -282,7 +282,7 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+#якщо( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
     void *pvPortMalloc( uint16_t usWantedSize )
     {
@@ -294,18 +294,18 @@ void vPortYield( void )
         }
         xTaskResumeAll();
 
-        return pvReturn;
+        повернути pvReturn;
     }
 
 #endif /* configSUPPORT_STATIC_ALLOCATION */
 
 /*-----------------------------------------------------------*/
 
-#if( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+#якщо( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
     void vPortFree( void *pv )
     {
-        if( pv )
+        якщо( pv )
         {
             vTaskSuspendAll();
             {

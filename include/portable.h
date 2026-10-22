@@ -53,7 +53,7 @@
     #include "portmacro.h"
 #endif
 
-#if portBYTE_ALIGNMENT == 32
+#якщо portBYTE_ALIGNMENT == 32
     #define portBYTE_ALIGNMENT_MASK    ( 0x001f )
 #elif portBYTE_ALIGNMENT == 16
     #define portBYTE_ALIGNMENT_MASK    ( 0x000f )
@@ -65,7 +65,7 @@
     #define portBYTE_ALIGNMENT_MASK    ( 0x0001 )
 #elif portBYTE_ALIGNMENT == 1
     #define portBYTE_ALIGNMENT_MASK    ( 0x0000 )
-#else /* if portBYTE_ALIGNMENT == 32 */
+#інакше /* if portBYTE_ALIGNMENT == 32 */
     #error "Invalid portBYTE_ALIGNMENT definition"
 #endif /* if portBYTE_ALIGNMENT == 32 */
 
@@ -116,28 +116,28 @@
  * the order that the port expects to find them.
  *
  */
-#if ( portUSING_MPU_WRAPPERS == 1 )
-    #if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
+#якщо ( portUSING_MPU_WRAPPERS == 1 )
+    #якщо ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
         StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                              StackType_t * pxEndOfStack,
                                              TaskFunction_t pxCode,
                                              void * pvParameters,
                                              BaseType_t xRunPrivileged,
                                              xMPU_SETTINGS * xMPUSettings ) PRIVILEGED_FUNCTION;
-    #else
+    #інакше
         StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                              TaskFunction_t pxCode,
                                              void * pvParameters,
                                              BaseType_t xRunPrivileged,
                                              xMPU_SETTINGS * xMPUSettings ) PRIVILEGED_FUNCTION;
     #endif /* if ( portHAS_STACK_OVERFLOW_CHECKING == 1 ) */
-#else /* if ( portUSING_MPU_WRAPPERS == 1 ) */
-    #if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
+#інакше /* if ( portUSING_MPU_WRAPPERS == 1 ) */
+    #якщо ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
         StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                              StackType_t * pxEndOfStack,
                                              TaskFunction_t pxCode,
                                              void * pvParameters ) PRIVILEGED_FUNCTION;
-    #else
+    #інакше
         StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                              TaskFunction_t pxCode,
                                              void * pvParameters ) PRIVILEGED_FUNCTION;
@@ -195,10 +195,10 @@ size_t xPortGetFreeHeapSize( void ) PRIVILEGED_FUNCTION;
 size_t xPortGetMinimumEverFreeHeapSize( void ) PRIVILEGED_FUNCTION;
 void xPortResetHeapMinimumEverFreeHeapSize( void ) PRIVILEGED_FUNCTION;
 
-#if ( configSTACK_ALLOCATION_FROM_SEPARATE_HEAP == 1 )
+#якщо ( configSTACK_ALLOCATION_FROM_SEPARATE_HEAP == 1 )
     void * pvPortMallocStack( size_t xSize ) PRIVILEGED_FUNCTION;
     void vPortFreeStack( void * pv ) PRIVILEGED_FUNCTION;
-#else
+#інакше
     #define pvPortMallocStack    pvPortMalloc
     #define vPortFreeStack       vPortFree
 #endif
@@ -209,7 +209,7 @@ void xPortResetHeapMinimumEverFreeHeapSize( void ) PRIVILEGED_FUNCTION;
  */
 void vPortHeapResetState( void ) PRIVILEGED_FUNCTION;
 
-#if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+#якщо ( configUSE_MALLOC_FAILED_HOOK == 1 )
 
 /**
  * task.h
@@ -242,7 +242,7 @@ void vPortEndScheduler( void ) PRIVILEGED_FUNCTION;
  * Fills the xMPUSettings structure with the memory region information
  * contained in xRegions.
  */
-#if ( portUSING_MPU_WRAPPERS == 1 )
+#якщо ( portUSING_MPU_WRAPPERS == 1 )
     struct xMEMORY_REGION;
     void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                     const struct xMEMORY_REGION * const xRegions,
@@ -260,7 +260,7 @@ void vPortEndScheduler( void ) PRIVILEGED_FUNCTION;
  * @return pdTRUE if the calling task is authorized to access the buffer,
  *         pdFALSE otherwise.
  */
-#if ( portUSING_MPU_WRAPPERS == 1 )
+#якщо ( portUSING_MPU_WRAPPERS == 1 )
     BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
                                                 size_t xBufferLength,
                                                 uint32_t ulAccessRequested ) PRIVILEGED_FUNCTION;
@@ -275,7 +275,7 @@ void vPortEndScheduler( void ) PRIVILEGED_FUNCTION;
  * @return pdTRUE if the calling task is authorized to access the kernel object,
  *         pdFALSE otherwise.
  */
-#if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#якщо ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) PRIVILEGED_FUNCTION;
 

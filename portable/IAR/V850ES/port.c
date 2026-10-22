@@ -73,7 +73,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0x24242424; /* Initial Value of R24 */
     pxTopOfStack--;
-    #if ( __DATA_MODEL__ == 0 ) || ( __DATA_MODEL__ == 1 )
+    #якщо ( __DATA_MODEL__ == 0 ) || ( __DATA_MODEL__ == 1 )
         *pxTopOfStack = ( StackType_t ) 0x25252525; /* Initial Value of R25 */
         pxTopOfStack--;
     #endif /* configDATA_MODE */
@@ -117,7 +117,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0x55555555; /* Initial Value of R05 */
     pxTopOfStack--;
-    #if __DATA_MODEL__ == 0 || __DATA_MODEL__ == 1
+    #якщо __DATA_MODEL__ == 0 || __DATA_MODEL__ == 1
         *pxTopOfStack = ( StackType_t ) 0x44444444; /* Initial Value of R04 */
         pxTopOfStack--;
     #endif /* configDATA_MODE */
@@ -131,7 +131,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task.
      */
-    return pxTopOfStack;
+    повернути pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -145,7 +145,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    повернути pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -169,7 +169,7 @@ static void prvSetupTimerInterrupt( void )
     {
         TM0CMP0 = ( ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) / 2 ) - 1 ); /* divided by 2 because peripherals only run at CPU_CLOCK/2 */
     }
-    #else
+    #інакше
     {
         TM0CMP0 = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
     }

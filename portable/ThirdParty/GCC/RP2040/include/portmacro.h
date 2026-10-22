@@ -63,7 +63,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef int32_t          BaseType_t;
 typedef uint32_t         UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#якщо ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -73,7 +73,7 @@ typedef uint32_t         UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#інакше
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -87,7 +87,7 @@ typedef uint32_t         UBaseType_t;
 /* We have to use PICO_DIVIDER_DISABLE_INTERRUPTS as the source of truth rather than our config,
  * as our FreeRTOSConfig.h header cannot be included by ASM code - which is what this affects in the SDK */
 #define portUSE_DIVIDER_SAVE_RESTORE    !PICO_DIVIDER_DISABLE_INTERRUPTS
-#if portUSE_DIVIDER_SAVE_RESTORE
+#якщо portUSE_DIVIDER_SAVE_RESTORE
     #define portSTACK_LIMIT_PADDING     4
 #endif
 
@@ -102,22 +102,22 @@ extern void vPortYield( void );
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
     do                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        якщо( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        інакше                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } поки( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------*/
 
 /* Exception handlers */
-#if ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 0 )
+#якщо ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 0 )
     /* We only need to override the SDK's weak functions if we want to replace them at compile time */
     #define vPortSVCHandler        isr_svcall
     #define xPortPendSVHandler     isr_pendsv
@@ -130,17 +130,17 @@ extern void vPortYield( void );
 #define portMAX_CORE_COUNT    2
 
 /* Check validity of number of cores specified in config */
-#if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
+#якщо ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
     #error "Invalid number of cores specified in config!"
 #endif
 
-#if ( configTICK_CORE < 0 || configTICK_CORE > configNUMBER_OF_CORES )
+#якщо ( configTICK_CORE < 0 || configTICK_CORE > configNUMBER_OF_CORES )
     #error "Invalid tick core specified in config!"
 #endif
 /* FreeRTOS core id is always zero based, so always 0 if we're running on only one core */
-#if configNUMBER_OF_CORES == portMAX_CORE_COUNT
+#якщо configNUMBER_OF_CORES == portMAX_CORE_COUNT
     #define portGET_CORE_ID()    get_core_num()
-#else
+#інакше
     #define portGET_CORE_ID()    0
 #endif
 
@@ -154,7 +154,7 @@ extern void vPortYield( void );
  * to work with kernel versions both with and without xPortIsInsideInterrupt */
 #define xPortIsInsideInterrupt() ((BaseType_t)portCHECK_IF_IN_ISR())
 
-void vYieldCore( int xCoreID );
+void vYieldCore( ціле xCoreID );
 #define portYIELD_CORE( a )                  vYieldCore( a )
 
 /*-----------------------------------------------------------*/
@@ -189,12 +189,12 @@ extern void vClearInterruptMaskFromISR( uint32_t ulMask )  __attribute__( ( nake
 #define portDISABLE_INTERRUPTS()                  __asm volatile ( " cpsid i " ::: "memory" )
 #define portENABLE_INTERRUPTS()                   __asm volatile ( " cpsie i " ::: "memory" )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#якщо ( configNUMBER_OF_CORES == 1 )
     extern void vPortEnterCritical( void );
     extern void vPortExitCritical( void );
     #define portENTER_CRITICAL()    vPortEnterCritical()
     #define portEXIT_CRITICAL()     vPortExitCritical()
-#else
+#інакше
     extern void vTaskEnterCritical( void );
     extern void vTaskExitCritical( void );
     extern UBaseType_t vTaskEnterCriticalFromISR( void );
@@ -207,9 +207,9 @@ extern void vClearInterruptMaskFromISR( uint32_t ulMask )  __attribute__( ( nake
 
 #define portRTOS_SPINLOCK_COUNT    2
 
-#if PICO_SDK_VERSION_MAJOR < 2
+#якщо PICO_SDK_VERSION_MAJOR < 2
 __force_inline static bool spin_try_lock_unsafe(spin_lock_t *lock) {
-   return *lock;
+   повернути *lock;
 }
 #endif
 
@@ -226,14 +226,14 @@ static inline void vPortRecursiveLock( BaseType_t xCoreID,
 
     configASSERT( ulLockNum < portRTOS_SPINLOCK_COUNT );
 
-    if( uxAcquire )
+    якщо( uxAcquire )
     {
-        if (!spin_try_lock_unsafe(pxSpinLock)) {
-            if( ucOwnedByCore[ xCoreID ][ ulLockNum ] )
+        якщо (!spin_try_lock_unsafe(pxSpinLock)) {
+            якщо( ucOwnedByCore[ xCoreID ][ ulLockNum ] )
             {
                 configASSERT( ucRecursionCountByLock[ ulLockNum ] != 255u );
                 ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] + 1;
-                return;
+                повернути;
             }
             spin_lock_unsafe_blocking(pxSpinLock);
         }
@@ -241,13 +241,13 @@ static inline void vPortRecursiveLock( BaseType_t xCoreID,
         ucRecursionCountByLock[ ulLockNum ] = 1;
         ucOwnedByCore[ xCoreID ][ ulLockNum ] = 1;
     }
-    else
+    інакше
     {
         configASSERT( ( ucOwnedByCore[ xCoreID ] [ulLockNum ] ) != 0 );
         configASSERT( ucRecursionCountByLock[ ulLockNum ] != 0 );
 
         ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] - 1;
-        if ( ucRecursionCountByLock[ ulLockNum ] == 0U )
+        якщо ( ucRecursionCountByLock[ ulLockNum ] == 0U )
         {
             ucOwnedByCore[ xCoreID ] [ ulLockNum ] = 0;
             spin_unlock_unsafe(pxSpinLock);
@@ -255,12 +255,12 @@ static inline void vPortRecursiveLock( BaseType_t xCoreID,
     }
 }
 
-#if ( configNUMBER_OF_CORES == 1 )
+#якщо ( configNUMBER_OF_CORES == 1 )
     #define portGET_ISR_LOCK( xCoreID )
     #define portRELEASE_ISR_LOCK( xCoreID )
     #define portGET_TASK_LOCK( xCoreID )
     #define portRELEASE_TASK_LOCK( xCoreID )
-#else
+#інакше
     #define portGET_ISR_LOCK( xCoreID )         vPortRecursiveLock( ( xCoreID ), 0, spin_lock_instance( configSMP_SPINLOCK_0 ), pdTRUE )
     #define portRELEASE_ISR_LOCK( xCoreID )     vPortRecursiveLock( ( xCoreID ), 0, spin_lock_instance( configSMP_SPINLOCK_0 ), pdFALSE )
     #define portGET_TASK_LOCK( xCoreID )        vPortRecursiveLock( ( xCoreID ), 1, spin_lock_instance( configSMP_SPINLOCK_1 ), pdTRUE )

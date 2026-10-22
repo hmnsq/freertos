@@ -83,7 +83,7 @@ typedef uint32_t         TickType_t;
     {                                                 \
         extern volatile uint32_t ulPortYieldRequired; \
                                                       \
-        if( xSwitchRequired != pdFALSE )              \
+        якщо( xSwitchRequired != pdFALSE )              \
         {                                             \
             ulPortYieldRequired = pdTRUE;             \
         }                                             \
@@ -126,11 +126,11 @@ static inline uint32_t portINLINE_SET_INTERRUPT_MASK_FROM_ISR( void )
 
     ulCPSR &= portINTERRUPT_ENABLE_BIT;
     portDISABLE_INTERRUPTS();
-    return ulCPSR;
+    повернути ulCPSR;
 }
 
 #define portSET_INTERRUPT_MASK_FROM_ISR()         portINLINE_SET_INTERRUPT_MASK_FROM_ISR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    do { if( x == 0 ) portENABLE_INTERRUPTS( ); } while( 0 )
+#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    do { якщо( x == 0 ) portENABLE_INTERRUPTS( ); } поки( 0 )
 
 /*-----------------------------------------------------------*/
 
@@ -157,7 +157,7 @@ void vPortTaskUsesFPU( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#якщо configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )

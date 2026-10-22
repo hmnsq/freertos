@@ -59,7 +59,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#якщо ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -69,7 +69,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#інакше
     #error "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
 #endif
 
@@ -202,7 +202,7 @@ typedef struct MPU_REGION_SETTINGS
     uint32_t ulRegionPermissions;
 } xMPU_REGION_SETTINGS;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#якщо ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     #ifndef configSYSTEM_CALL_STACK_SIZE
         #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
@@ -243,9 +243,9 @@ typedef struct MPU_SETTINGS
     uint32_t ulContext[ MAX_CONTEXT_SIZE ];
     uint32_t ulTaskFlags;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #якщо ( configUSE_MPU_WRAPPERS_V1 == 0 )
         xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-        #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+        #якщо ( configENABLE_ACCESS_CONTROL_LIST == 1 )
             uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
         #endif
     #endif
@@ -287,16 +287,16 @@ typedef struct MPU_SETTINGS
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
     do                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        якщо( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        інакше                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } поки( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -318,10 +318,10 @@ extern void vPortExitCritical( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#якщо configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #якщо ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 
@@ -343,7 +343,7 @@ extern void vPortExitCritical( void );
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#якщо ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
@@ -421,13 +421,13 @@ static portFORCE_INLINE void vPortRaiseBASEPRI( void )
         /* Set BASEPRI to the max syscall priority to effect a critical
          * section. */
 /* *INDENT-OFF* */
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #якщо ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsid i
     #endif
         msr basepri, ulNewBASEPRI
         dsb
         isb
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #якщо ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsie i
     #endif
 /* *INDENT-ON* */
@@ -459,19 +459,19 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
          * section. */
 /* *INDENT-OFF* */
         mrs ulReturn, basepri
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #якщо ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsid i
     #endif
         msr basepri, ulNewBASEPRI
         dsb
         isb
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #якщо ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsie i
     #endif
 /* *INDENT-ON* */
     }
 
-    return ulReturn;
+    повернути ulReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -486,16 +486,16 @@ static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
         mrs ulCurrentInterrupt, ipsr
     }
 
-    if( ulCurrentInterrupt == 0 )
+    якщо( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    інакше
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    повернути xReturn;
 }
 /*-----------------------------------------------------------*/
 

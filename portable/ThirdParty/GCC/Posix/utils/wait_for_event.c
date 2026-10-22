@@ -45,7 +45,7 @@ struct event * event_create( void )
 {
     struct event * ev = malloc( sizeof( struct event ) );
 
-    if( ev != NULL )
+    якщо( ev != NULL )
     {
         ev->event_triggered = false;
         pthread_mutexattr_init( &ev->mutexattr );
@@ -56,7 +56,7 @@ struct event * event_create( void )
         pthread_cond_init( &ev->cond, NULL );
     }
 
-    return ev;
+    повернути ev;
 }
 /*-----------------------------------------------------------*/
 
@@ -71,7 +71,7 @@ void event_delete( struct event * ev )
 
 bool event_wait( struct event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    якщо( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
         #ifndef __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
@@ -79,14 +79,14 @@ bool event_wait( struct event * ev )
         #endif
     }
 
-    while( ev->event_triggered == false )
+    поки( ev->event_triggered == false )
     {
         pthread_cond_wait( &ev->cond, &ev->mutex );
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    повернути true;
 }
 /*-----------------------------------------------------------*/
 
@@ -94,12 +94,12 @@ bool event_wait_timed( struct event * ev,
                        time_t ms )
 {
     struct timespec ts;
-    int ret = 0;
+    ціле ret = 0;
 
     clock_gettime( CLOCK_REALTIME, &ts );
     ts.tv_sec += ms / 1000;
     ts.tv_nsec += ( ( ms % 1000 ) * 1000000 );
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    якщо( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
         #ifndef __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
@@ -107,25 +107,25 @@ bool event_wait_timed( struct event * ev,
         #endif
     }
 
-    while( ( ev->event_triggered == false ) && ( ret == 0 ) )
+    поки( ( ev->event_triggered == false ) && ( ret == 0 ) )
     {
         ret = pthread_cond_timedwait( &ev->cond, &ev->mutex, &ts );
 
-        if( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
+        якщо( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
         {
-            return false;
+            повернути false;
         }
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    повернути true;
 }
 /*-----------------------------------------------------------*/
 
 void event_signal( struct event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    якщо( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
         #ifndef __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */

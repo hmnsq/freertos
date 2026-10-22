@@ -150,7 +150,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* The status register is set for system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    якщо( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -163,7 +163,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    повернути pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -179,7 +179,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    повернути 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -190,7 +190,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#якщо configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
@@ -207,7 +207,7 @@ void vPortEndScheduler( void )
         VICVectAddr = portCLEAR_VIC_INTERRUPT;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#інакше /* if configUSE_PREEMPTION == 0 */
 
 /* This function is called from an asm wrapper, so does not require the __irq
  * keyword. */
@@ -215,7 +215,7 @@ void vPortEndScheduler( void )
     void vPortPreemptiveTick( void )
     {
         /* Increment the tick counter. */
-        if( xTaskIncrementTick() != pdFALSE )
+        якщо( xTaskIncrementTick() != pdFALSE )
         {
             /* The new tick value might unblock a task.  Ensure the highest task that
              * is ready to execute is the task that will execute when the tick ISR
@@ -245,7 +245,7 @@ static void prvSetupTimerInterrupt( void )
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #якщо portPRESCALE_VALUE != 0
     {
         ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
     }
@@ -262,13 +262,13 @@ static void prvSetupTimerInterrupt( void )
 
     /* The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
-    #if configUSE_PREEMPTION == 1
+    #якщо configUSE_PREEMPTION == 1
     {
         extern void( vPortPreemptiveTickEntry )( void );
 
         VICVectAddr0 = ( uint32_t ) vPortPreemptiveTickEntry;
     }
-    #else
+    #інакше
     {
         extern void( vNonPreemptiveTick )( void );
 
@@ -298,14 +298,14 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    якщо( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        якщо( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

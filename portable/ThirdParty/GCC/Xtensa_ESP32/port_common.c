@@ -21,7 +21,7 @@
 #include "sdkconfig.h"
 #include "esp_freertos_hooks.h"
 
-#if CONFIG_IDF_TARGET_ESP32
+#якщо CONFIG_IDF_TARGET_ESP32
     #include "esp32/spiram.h"
 #elif CONFIG_IDF_TARGET_ESP32S2
     #include "esp32s2/spiram.h"
@@ -31,7 +31,7 @@
 /* SPIRAM is not supported on ESP32-C3 */
 #endif
 
-#if CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
+#якщо CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
     static const char * TAG = "cpu_start";
 #endif
 
@@ -49,7 +49,7 @@ volatile unsigned port_xSchedulerRunning[ portNUM_PROCESSORS ] = { 0 };
 /* should mirror each other's values. */
 /* */
 /* And since this should be true, we can just check for CONFIG_FREERTOS_UNICORE. */
-#if CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
+#якщо CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
     #error "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
 #endif
 
@@ -63,7 +63,7 @@ extern void app_main( void );
 
 void esp_startup_start_app_common( void )
 {
-    #if CONFIG_ESP_INT_WDT
+    #якщо CONFIG_ESP_INT_WDT
         esp_int_wdt_init();
         /*Initialize the interrupt watch dog for CPU0. */
         esp_int_wdt_cpu_init();
@@ -82,22 +82,22 @@ void esp_startup_start_app_common( void )
     ( void ) res;
 }
 
-#if !CONFIG_FREERTOS_UNICORE
+#якщо !CONFIG_FREERTOS_UNICORE
     static volatile bool s_other_cpu_startup_done = false;
     static bool other_cpu_startup_idle_hook_cb( void )
     {
         s_other_cpu_startup_done = true;
-        return true;
+        повернути true;
     }
 #endif
 
 static void main_task( void * args )
 {
-    #if !CONFIG_FREERTOS_UNICORE
+    #якщо !CONFIG_FREERTOS_UNICORE
         /* Wait for FreeRTOS initialization to finish on other core, before replacing its startup stack */
         esp_register_freertos_idle_hook_for_cpu( other_cpu_startup_idle_hook_cb, !xPortGetCoreID() );
 
-        while( !s_other_cpu_startup_done )
+        поки( !s_other_cpu_startup_done )
         {
         }
         esp_deregister_freertos_idle_hook_for_cpu( other_cpu_startup_idle_hook_cb, !xPortGetCoreID() );
@@ -107,12 +107,12 @@ static void main_task( void * args )
     heap_caps_enable_nonos_stack_heaps();
 
     /* Now we have startup stack RAM available for heap, enable any DMA pool memory */
-    #if CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
-        if( g_spiram_ok )
+    #якщо CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL
+        якщо( g_spiram_ok )
         {
             esp_err_t r = esp_spiram_reserve_dma_pool( CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL );
 
-            if( r != ESP_OK )
+            якщо( r != ESP_OK )
             {
                 ESP_EARLY_LOGE( TAG, "Could not reserve internal/DMA pool (error 0x%x)", r );
                 abort();
@@ -131,7 +131,7 @@ static void main_task( void * args )
     #ifdef CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0
         TaskHandle_t idle_0 = xTaskGetIdleTaskHandleForCPU( 0 );
 
-        if( idle_0 != NULL )
+        якщо( idle_0 != NULL )
         {
             ESP_ERROR_CHECK( esp_task_wdt_add( idle_0 ) );
         }
@@ -140,7 +140,7 @@ static void main_task( void * args )
     #ifdef CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1
         TaskHandle_t idle_1 = xTaskGetIdleTaskHandleForCPU( 1 );
 
-        if( idle_1 != NULL )
+        якщо( idle_1 != NULL )
         {
             ESP_ERROR_CHECK( esp_task_wdt_add( idle_1 ) );
         }
@@ -154,14 +154,14 @@ static void main_task( void * args )
 
 bool xPortCheckValidTCBMem( const void * ptr )
 {
-    return esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
+    повернути esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
 }
 
 bool xPortcheckValidStackMem( const void * ptr )
 {
     #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
-        return esp_ptr_byte_accessible( ptr );
-    #else
-        return esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
+        повернути esp_ptr_byte_accessible( ptr );
+    #інакше
+        повернути esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr );
     #endif
 }

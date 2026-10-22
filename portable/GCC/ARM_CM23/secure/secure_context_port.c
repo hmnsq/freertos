@@ -32,7 +32,7 @@
 /* Secure port macros. */
 #include "secure_port_macros.h"
 
-#if ( configENABLE_FPU == 1 )
+#якщо ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
 #endif
 
@@ -50,7 +50,7 @@ void SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext )
         " cbz r1, load_ctx_therad_mode      \n" /* Do nothing if the processor is running in the Thread Mode. */
         " ldmia r0!, {r1, r2}               \n" /* r1 = pxSecureContext->pucCurrentStackPointer, r2 = pxSecureContext->pucStackLimit. */
         "                                   \n"
-        #if ( configENABLE_MPU == 1 )
+        #якщо ( configENABLE_MPU == 1 )
             " ldmia r1!, {r3}               \n" /* Read CONTROL register value from task's stack. r3 = CONTROL. */
             " msr control, r3               \n" /* CONTROL = r3. */
         #endif /* configENABLE_MPU */
@@ -77,12 +77,12 @@ void SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext )
         " cbz r1, save_ctx_therad_mode      \n" /* Do nothing if the processor is running in the Thread Mode. */
         " mrs r1, psp                       \n" /* r1 = PSP. */
         "                                   \n"
-        #if ( configENABLE_MPU == 1 )
+        #якщо ( configENABLE_MPU == 1 )
             " mrs r2, control               \n" /* r2 = CONTROL. */
             " subs r1, r1, #4               \n" /* Make space for the CONTROL value on the stack. */
             " str r1, [r0]                  \n" /* Save the top of stack in context. pxSecureContext->pucCurrentStackPointer = r1. */
             " stmia r1!, {r2}               \n" /* Store CONTROL value on the stack. */
-        #else /* configENABLE_MPU */
+        #інакше /* configENABLE_MPU */
             " str r1, [r0]                  \n" /* Save the top of stack in context. pxSecureContext->pucCurrentStackPointer = r1. */
         #endif /* configENABLE_MPU */
         "                                   \n"

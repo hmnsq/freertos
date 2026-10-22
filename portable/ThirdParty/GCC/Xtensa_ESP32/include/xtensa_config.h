@@ -109,10 +109,10 @@
 #ifdef XT_INTEXC_HOOKS
     #ifdef __XTENSA_CALL0_ABI__
         #define STK_INTEXC_EXTRA     0x200
-    #else
+    #інакше
         #define STK_INTEXC_EXTRA     0x180
     #endif
-#else
+#інакше
     #define STK_INTEXC_EXTRA         0
 #endif
 
@@ -124,7 +124,7 @@
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
     #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_SIZE )
-#else
+#інакше
     #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_SIZE )
 #endif
 
@@ -138,7 +138,7 @@
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
     #define XT_USER_SIZE    0x200
-#else
+#інакше
     #define XT_USER_SIZE    0x400
 #endif
 

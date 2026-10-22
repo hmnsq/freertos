@@ -32,7 +32,7 @@
 
 /* This port uses xTaskGetCurrentTaskHandle to get TCB stack, it is required to
  * enable this API. */
-#if ( ( INCLUDE_xTaskGetCurrentTaskHandle != 1 ) && ( configNUMBER_OF_CORES == 1 ) )
+#якщо ( ( INCLUDE_xTaskGetCurrentTaskHandle != 1 ) && ( configNUMBER_OF_CORES == 1 ) )
     #error INCLUDE_xTaskGetCurrentTaskHandle must be set to 1 in single core.
 #endif
 
@@ -62,14 +62,14 @@
 #define portOSTM0CTL_ADDR            ( 0xFFD70020 )
 #define portOSTM0TS_ADDR             ( 0xFFD70014 )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#якщо ( configNUMBER_OF_CORES > 1 )
 
 /* IPIR  base address, the peripheral is used for Inter-Processor communication
  * Hardware supports 4 channels which is offset by 0x0, 0x4, 0x8, 0xC bytes from
  * base address. By default, channel 0 is selected. */
     #ifdef configIPIR_CHANNEL
         #define portIPIR_BASE_ADDR    ( ( 0xFFFEEC80 ) + ( configIPIR_CHANNEL << 2 ) )
-    #else
+    #інакше
         #define portIPIR_BASE_ADDR    ( 0xFFFEEC80 )
     #endif
 
@@ -78,7 +78,7 @@
  * this address. By default, G0MEV0 register is selected*/
     #ifdef configEXCLUSIVE_ADDRESS
         #define portMEV_BASE_ADDR    configEXCLUSIVE_ADDRESS
-    #else
+    #інакше
         #define portMEV_BASE_ADDR    ( 0xFFFEEC00 )
     #endif
 #endif /* if ( configNUMBER_OF_CORES > 1 ) */
@@ -171,7 +171,7 @@
     #define configSETUP_TICK_INTERRUPT()    prvSetupTimerInterrupt()
 #endif /* configSETUP_TICK_INTERRUPT */
 
-#if ( !defined( configMAX_INT_NESTING ) || ( configMAX_INT_NESTING == 0 ) )
+#якщо ( !defined( configMAX_INT_NESTING ) || ( configMAX_INT_NESTING == 0 ) )
 
 /* Set the default value for depth of nested interrupt. In theory, the
  * microcontroller have mechanism to limit number of nested level of interrupt
@@ -197,7 +197,7 @@ static void prvTaskExitError( void );
  */
 static void prvSetupTimerInterrupt( void );
 
-#if ( configNUMBER_OF_CORES > 1 )
+#якщо ( configNUMBER_OF_CORES > 1 )
 
 /*
  * Functions implement spin-lock between cores by atomic accesses to Exclusive
@@ -232,7 +232,7 @@ volatile const UBaseType_t uxPortMaxInterruptDepth = configMAX_INT_NESTING;
  * and isr */
 UBaseType_t uxLockNesting[ configNUMBER_OF_CORES ][ 2 ] = { 0 };
 
-#if ( configNUMBER_OF_CORES > 1 )
+#якщо ( configNUMBER_OF_CORES > 1 )
 
 /* Pointer to exclusive access memory */
     volatile BaseType_t * pxPortExclusiveReg = ( volatile BaseType_t * ) ( portMEV_BASE_ADDR );
@@ -242,7 +242,7 @@ UBaseType_t uxLockNesting[ configNUMBER_OF_CORES ][ 2 ] = { 0 };
  * to switch context. */
 void vPortTickISR( void );
 
-#if ( configNUMBER_OF_CORES > 1 )
+#якщо ( configNUMBER_OF_CORES > 1 )
 
 /* Yield specific cores by send inter-processor interrupt */
     void vPortYieldCore( uint32_t xCoreID );
@@ -276,7 +276,7 @@ portLONG xPortSetInterruptMask( void )
     portDISABLE_INTERRUPTS();
 
     /* It returns current value of Program Status Word register */
-    return ulPSWValue;
+    повернути ulPSWValue;
 }
 
 /*-----------------------------------------------------------*/
@@ -304,13 +304,13 @@ void vPortClearInterruptMask( portLONG uxSavedInterruptStatus )
  */
 BaseType_t xPortGET_CORE_ID( void )
 {
-    #if ( configNUMBER_OF_CORES > 1 )
-        return ( portSTSR_CCRH( 0, 2 ) >> 16 ) - 1;
-    #else
+    #якщо ( configNUMBER_OF_CORES > 1 )
+        повернути ( portSTSR_CCRH( 0, 2 ) >> 16 ) - 1;
+    #інакше
 
         /* In single core, xPortGET_CORE_ID is used in this port only.
          * The dummy core ID could be controlled inside this port. */
-        return 0;
+        повернути 0;
     #endif
 }
 
@@ -329,7 +329,7 @@ void * pvPortGetCurrentTCB( void )
 
     configASSERT( pvCurrentTCB != NULL );
 
-    return pvCurrentTCB;
+    повернути pvCurrentTCB;
 }
 
 /*-----------------------------------------------------------*/
@@ -341,7 +341,7 @@ void * pvPortGetCurrentTCB( void )
  */
 void vPortSetSwitch( BaseType_t xSwitchRequired )
 {
-    if( xSwitchRequired != pdFALSE )
+    якщо( xSwitchRequired != pdFALSE )
     {
         xPortScheduleStatus[ xPortGET_CORE_ID() ] = PORT_SCHEDULER_TASKSWITCH;
     }
@@ -437,14 +437,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                        /* CTPC */
 
 /* __FPU is defined by CCRH compiler if FPU is enabled */
-    #if ( configENABLE_FPU == 1 )
+    #якщо ( configENABLE_FPU == 1 )
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) ( portCURRENT_FPSR_VALUE & portINITIAL_FPSR_MASK ); /* FPSR */
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                          /* FPEPC */
     #endif /* (configENABLE_FPU == 1) */
 
-    return pxTopOfStack;
+    повернути pxTopOfStack;
 }
 
 /*-----------------------------------------------------------*/
@@ -454,7 +454,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
  */
 BaseType_t xPortStartScheduler( void )
 {
-    #if ( configNUMBER_OF_CORES > 1 )
+    #якщо ( configNUMBER_OF_CORES > 1 )
         BaseType_t xCurrentCore = xPortGET_CORE_ID();
     #endif
 
@@ -466,18 +466,18 @@ BaseType_t xPortStartScheduler( void )
     /* Setup the tick interrupt */
     configSETUP_TICK_INTERRUPT();
 
-    #if ( configNUMBER_OF_CORES > 1 )
+    #якщо ( configNUMBER_OF_CORES > 1 )
         /* Start scheduler on other cores */
-        for( uint16_t xCoreID = 0; xCoreID < configNUMBER_OF_CORES; xCoreID++ )
+        для( uint16_t xCoreID = 0; xCoreID < configNUMBER_OF_CORES; xCoreID++ )
         {
-            if( xCoreID != xCurrentCore )
+            якщо( xCoreID != xCurrentCore )
             {
                 /* Send yielding request to other cores with flag to start
                  * first task. TaskContextSwitch is not executed */
                 xPortScheduleStatus[ xCoreID ] = PORT_SCHEDULER_STARTFIRSTTASK;
                 vPortYieldCore( xCoreID );
             }
-            else
+            інакше
             {
                 /* Nothing to do. The first task is started in this call by
                  * below vPortStartFirstTask() */
@@ -497,12 +497,12 @@ BaseType_t xPortStartScheduler( void )
      * Call vTaskSwitchContext() so link time optimization does not remove
      * the symbol. */
     vTaskSwitchContext(
-        #if ( configNUMBER_OF_CORES > 1 )
+        #якщо ( configNUMBER_OF_CORES > 1 )
             xCurrentCore
         #endif
         );
 
-    return pdFALSE;
+    повернути pdFALSE;
 }
 
 /*-----------------------------------------------------------*/
@@ -533,7 +533,7 @@ static void prvTaskExitError( void )
      */
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    для( ; ; )
     {
         /* Infinite loop to ensure the function does not return. */
     }
@@ -550,12 +550,12 @@ void vPortEndScheduler( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#якщо ( configNUMBER_OF_CORES > 1 )
 
     void vPortYieldCore( uint32_t xCoreID )
     {
         /* Check if we need to yield on a different core */
-        if( xCoreID != xPortGET_CORE_ID() )
+        якщо( xCoreID != xPortGET_CORE_ID() )
         {
             volatile uint32_t * pulIPIRReg;
 
@@ -570,7 +570,7 @@ void vPortEndScheduler( void )
              */
             *pulIPIRReg = ( 1 << xCoreID );
         }
-        else
+        інакше
         {
             /* Yielding current core */
             vPortYield();
@@ -589,7 +589,7 @@ void vPortEndScheduler( void )
         BaseType_t xCurrentCore = xPortGET_CORE_ID();
 
         /* 1st execution starts 1st task, TaskSwitchContext is not executed */
-        if( PORT_SCHEDULER_STARTFIRSTTASK != xPortScheduleStatus[ xCurrentCore ] )
+        якщо( PORT_SCHEDULER_STARTFIRSTTASK != xPortScheduleStatus[ xCurrentCore ] )
         {
             xPortScheduleStatus[ xCurrentCore ] = PORT_SCHEDULER_TASKSWITCH;
         }
@@ -604,20 +604,20 @@ void vPortTickISR( void )
     /* In case of multicores with SMP,  xTaskIncrementTick is required to
      * called in critical section to avoid conflict resource as this function
      * could be called by xTaskResumeAll() from any cores. */
-    #if ( configNUMBER_OF_CORES > 1 )
+    #якщо ( configNUMBER_OF_CORES > 1 )
         BaseType_t xSavedInterruptStatus;
 
         xSavedInterruptStatus = portENTER_CRITICAL_FROM_ISR();
     #endif
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        якщо( xTaskIncrementTick() != pdFALSE )
         {
             /* Pend a context switch. */
             xPortScheduleStatus[ xPortGET_CORE_ID() ] = PORT_SCHEDULER_TASKSWITCH;
         }
     }
-    #if ( configNUMBER_OF_CORES > 1 )
+    #якщо ( configNUMBER_OF_CORES > 1 )
         portEXIT_CRITICAL_FROM_ISR( xSavedInterruptStatus );
     #endif
 }
@@ -649,7 +649,7 @@ static void prvSetupTimerInterrupt( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#якщо ( configNUMBER_OF_CORES > 1 )
 
 /*
  * These functions implement spin-lock mechanism among cores using hardware
@@ -695,7 +695,7 @@ prvExclusiveLock_Lock_success:
 
         xSavedInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
-        if( uxLockNesting[ xCoreID ][ xBitPosition ] == 0 )
+        якщо( uxLockNesting[ xCoreID ][ xBitPosition ] == 0 )
         {
             prvExclusiveLock( xBitPosition );
         }
@@ -719,7 +719,7 @@ prvExclusiveLock_Lock_success:
         configASSERT( ( uxLockNesting[ xCoreID ][ xBitPosition ] > 0 ) );
         uxLockNesting[ xCoreID ][ xBitPosition ]--;
 
-        if( uxLockNesting[ xCoreID ][ xBitPosition ] == 0 )
+        якщо( uxLockNesting[ xCoreID ][ xBitPosition ] == 0 )
         {
             prvExclusiveRelease( xBitPosition );
         }
