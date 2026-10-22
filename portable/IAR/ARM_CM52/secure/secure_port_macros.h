@@ -26,115 +26,115 @@
  *
  */
 
-#ifndef __SECURE_PORT_MACROS_H__
-#define __SECURE_PORT_MACROS_H__
+#جيڪڏهن_وصف_نه_ٿيل __SECURE_PORT_MACROS_H__
+#وصف_ڪريو __SECURE_PORT_MACROS_H__
 
 /**
  * @brief Byte alignment requirements.
  */
-#define secureportBYTE_ALIGNMENT         8
-#define secureportBYTE_ALIGNMENT_MASK    ( 0x0007 )
+#وصف_ڪريو secureportBYTE_ALIGNMENT         8
+#وصف_ڪريو secureport_BYTE_ALIGNMENT_نقاب    ( 0x0007 )
 
 /**
  * @brief Macro to declare a function as non-secure callable.
  */
-#if defined( __IAR_SYSTEMS_ICC__ )
-    #define secureportNON_SECURE_CALLABLE    __cmse_nonsecure_entry __root
-#else
-    #define secureportNON_SECURE_CALLABLE    __attribute__( ( cmse_nonsecure_entry ) ) __attribute__( ( used ) )
-#endif
+#إذا defined( __IAR_SYSTEMS_ICC__ )
+    #وصف_ڪريو secureportNON_SECURE_CALLABLE    __cmse_nonsecure_entry __root
+#وإلا
+    #وصف_ڪريو secureportNON_SECURE_CALLABLE    __attribute__( ( cmse_nonsecure_داخلا ) ) __attribute__( ( استعمال_ٿيل ) )
+#جيڪڏهن_پورو
 
 /**
  * @brief Set the secure PRIMASK value.
  */
-#define secureportSET_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+#وصف_ڪريو secureport_سيٽ_SECURE_PRIMASK( ul_Primask_قدر ) \
+    __asm متطاير ( "msr primask, %0" : : "r" ( ul_Primask_قدر ) : "memory" )
 
 /**
  * @brief Set the non-secure PRIMASK value.
  */
-#define secureportSET_NON_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask_ns, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+#وصف_ڪريو secureport_سيٽ_NON_SECURE_PRIMASK( ul_Primask_قدر ) \
+    __asm متطاير ( "msr primask_ns, %0" : : "r" ( ul_Primask_قدر ) : "memory" )
 
 /**
  * @brief Read the PSP value in the given variable.
  */
-#define secureportREAD_PSP( pucOutCurrentStackPointer ) \
-    __asm volatile ( "mrs %0, psp"  : "=r" ( pucOutCurrentStackPointer ) )
+#وصف_ڪريو secureportREAD_PSP( puc_ٻاهريون_Current_ڍير_اشارو ) \
+    __asm متطاير ( "mrs %0, psp"  : "=r" ( puc_ٻاهريون_Current_ڍير_اشارو ) )
 
 /**
  * @brief Set the PSP to the given value.
  */
-#define secureportSET_PSP( pucCurrentStackPointer ) \
-    __asm volatile ( "msr psp, %0" : : "r" ( pucCurrentStackPointer ) )
+#وصف_ڪريو secureport_سيٽ_PSP( puc_Current_ڍير_اشارو ) \
+    __asm متطاير ( "msr psp, %0" : : "r" ( puc_Current_ڍير_اشارو ) )
 
 /**
  * @brief Read the PSPLIM value in the given variable.
  */
-#define secureportREAD_PSPLIM( pucOutStackLimit ) \
-    __asm volatile ( "mrs %0, psplim"  : "=r" ( pucOutStackLimit ) )
+#وصف_ڪريو secureportREAD_PSPLIM( puc_ٻاهريون_ڍير_حد_بندي ) \
+    __asm متطاير ( "mrs %0, psplim"  : "=r" ( puc_ٻاهريون_ڍير_حد_بندي ) )
 
 /**
  * @brief Set the PSPLIM to the given value.
  */
-#define secureportSET_PSPLIM( pucStackLimit ) \
-    __asm volatile ( "msr psplim, %0" : : "r" ( pucStackLimit ) )
+#وصف_ڪريو secureport_سيٽ_PSPLIM( puc_ڍير_حد_بندي ) \
+    __asm متطاير ( "msr psplim, %0" : : "r" ( puc_ڍير_حد_بندي ) )
 
 /**
  * @brief Set the NonSecure MSP to the given value.
  */
-#define secureportSET_MSP_NS( pucMainStackPointer ) \
-    __asm volatile ( "msr msp_ns, %0" : : "r" ( pucMainStackPointer ) )
+#وصف_ڪريو secureport_سيٽ_MSP_NS( puc_Main_ڍير_اشارو ) \
+    __asm متطاير ( "msr msp_ns, %0" : : "r" ( puc_Main_ڍير_اشارو ) )
 
 /**
  * @brief Set the CONTROL register to the given value.
  */
-#define secureportSET_CONTROL( ulControl ) \
-    __asm volatile ( "msr control, %0" : : "r" ( ulControl ) : "memory" )
+#وصف_ڪريو secureport_سيٽ_CONTROL( ulControl ) \
+    __asm متطاير ( "msr control, %0" : : "r" ( ulControl ) : "memory" )
 
 /**
  * @brief Read the Interrupt Program Status Register (IPSR) value in the given
  * variable.
  */
-#define secureportREAD_IPSR( ulIPSR ) \
-    __asm volatile ( "mrs %0, ipsr"  : "=r" ( ulIPSR ) )
+#وصف_ڪريو secureportREAD_IPSR( ulIPSR ) \
+    __asm متطاير ( "mrs %0, ipsr"  : "=r" ( ulIPSR ) )
 
 /**
  * @brief PRIMASK value to enable interrupts.
  */
-#define secureportPRIMASK_ENABLE_INTERRUPTS_VAL     0
+#وصف_ڪريو secureportPRIMASK_ENABLE_INTERRUPTS_VAL     0
 
 /**
  * @brief PRIMASK value to disable interrupts.
  */
-#define secureportPRIMASK_DISABLE_INTERRUPTS_VAL    1
+#وصف_ڪريو secureportPRIMASK_DISABLE_INTERRUPTS_VAL    1
 
 /**
  * @brief Disable secure interrupts.
  */
-#define secureportDISABLE_SECURE_INTERRUPTS()        secureportSET_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
+#وصف_ڪريو secureportDISABLE_SECURE_INTERRUPTS()        secureport_سيٽ_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
 
 /**
  * @brief Disable non-secure interrupts.
  *
  * This effectively disables context switches.
  */
-#define secureportDISABLE_NON_SECURE_INTERRUPTS()    secureportSET_NON_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
+#وصف_ڪريو secureportDISABLE_NON_SECURE_INTERRUPTS()    secureport_سيٽ_NON_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
 
 /**
  * @brief Enable non-secure interrupts.
  */
-#define secureportENABLE_NON_SECURE_INTERRUPTS()     secureportSET_NON_SECURE_PRIMASK( secureportPRIMASK_ENABLE_INTERRUPTS_VAL )
+#وصف_ڪريو secureportENABLE_NON_SECURE_INTERRUPTS()     secureport_سيٽ_NON_SECURE_PRIMASK( secureportPRIMASK_ENABLE_INTERRUPTS_VAL )
 
 /**
  * @brief Assert definition.
  */
-#define secureportASSERT( x )                      \
-    if( ( x ) == 0 )                               \
+#وصف_ڪريو secureportASSERT( x )                      \
+    إذا( ( x ) == 0 )                               \
     {                                              \
         secureportDISABLE_SECURE_INTERRUPTS();     \
         secureportDISABLE_NON_SECURE_INTERRUPTS(); \
-        for( ; ; ) {; }                            \
+        لكل( ; ; ) {; }                            \
     }
 
-#endif /* __SECURE_PORT_MACROS_H__ */
+#جيڪڏهن_پورو /* __SECURE_PORT_MACROS_H__ */

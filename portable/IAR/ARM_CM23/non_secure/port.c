@@ -30,26 +30,26 @@
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers. That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#وصف_ڪريو MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* MPU includes. */
-#include "mpu_wrappers.h"
-#include "mpu_syscall_numbers.h"
+#ضمن "mpu_wrappers.h"
+#ضمن "mpu_syscall_numbers.h"
 
 /* Portasm includes. */
-#include "portasm.h"
+#ضمن "portasm.h"
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#إذا ( configENABLE_TRUSTZONE == 1 )
     /* Secure components includes. */
-    #include "secure_context.h"
-    #include "secure_init.h"
-#endif /* configENABLE_TRUSTZONE */
+    #ضمن "secure_context.h"
+    #ضمن "secure_init.h"
+#جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#وصف_رد MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /**
  * The FreeRTOS Cortex M33 port can be configured to run on the Secure Side only
@@ -66,203 +66,203 @@
  * 3. Run FreeRTOS on the Non-Secure Side only i.e. no Secure Side function call support:
  *    configRUN_FREERTOS_SECURE_ONLY = 0 and configENABLE_TRUSTZONE = 0
  */
-#if ( ( configRUN_FREERTOS_SECURE_ONLY == 1 ) && ( configENABLE_TRUSTZONE == 1 ) )
-    #error TrustZone needs to be disabled in order to run FreeRTOS on the Secure Side.
-#endif
+#إذا ( ( config_لاڳيتو_FREERTOS_SECURE_ONLY == 1 ) && ( configENABLE_TRUSTZONE == 1 ) )
+    #غلطي TrustZone needs منزل be disabled اندريون ترتيب منزل لاڳيتو FreeRTOS on the Secure Side.
+#جيڪڏهن_پورو
 
 /**
  * Cortex-M23 does not have non-secure PSPLIM. We should use PSPLIM on Cortex-M23
  * only when FreeRTOS runs on secure side.
  */
-#if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 0 ) && ( configRUN_FREERTOS_SECURE_ONLY == 0 ) )
-    #define portUSE_PSPLIM_REGISTER    0
-#else
-    #define portUSE_PSPLIM_REGISTER    1
-#endif
+#إذا ( ( پورٽ_HAS_ARMV8_M_MAIN_EXTENSION == 0 ) && ( config_لاڳيتو_FREERTOS_SECURE_ONLY == 0 ) )
+    #وصف_ڪريو پورٽ_USE_PSPLIM_رجسٽر    0
+#وإلا
+    #وصف_ڪريو پورٽ_USE_PSPLIM_رجسٽر    1
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Prototype of all Interrupt Service Routines (ISRs).
  */
-typedef void ( * portISR_t )( void );
+تعريفنوع فراغ ( * پورٽ_ISR_t )( فراغ );
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the NVIC.
  */
-#define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
-#define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
-#define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
-#define portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
-#define portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
-#define portMIN_INTERRUPT_PRIORITY            ( 255UL )
-#define portNVIC_PENDSV_PRI                   ( portMIN_INTERRUPT_PRIORITY << 16UL )
-#define portNVIC_SYSTICK_PRI                  ( portMIN_INTERRUPT_PRIORITY << 24UL )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_CTRL_REG             ( *( ( متطاير uint32_t * ) 0xe000e010 ) )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_ڀريو_REG             ( *( ( متطاير uint32_t * ) 0xe000e014 ) )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG    ( *( ( متطاير uint32_t * ) 0xe000e018 ) )
+#وصف_ڪريو پورٽ_NVIC_SHPR3_REG                    ( *( ( متطاير uint32_t * ) 0xe000ed20 ) )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_ENABLE_ٻٽو_انگ           ( 1UL << 0UL )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ              ( 1UL << 1UL )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ              ( 1UL << 2UL )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_ڳڻپ_FLAG_ٻٽو_انگ       ( 1UL << 16UL )
+#وصف_ڪريو پورٽ_NVIC_PEND_SYSTICK_CLEAR_ٻٽو_انگ       ( 1UL << 25UL )
+#وصف_ڪريو پورٽ_NVIC_PEND_SYSTICK_سيٽ_ٻٽو_انگ         ( 1UL << 26UL )
+#وصف_ڪريو پورٽ_MIN_مداخلت_ترجيح            ( 255UL )
+#وصف_ڪريو پورٽ_NVIC_PENDSV_PRI                   ( پورٽ_MIN_مداخلت_ترجيح << 16UL )
+#وصف_ڪريو پورٽ_NVIC_SYSTICK_PRI                  ( پورٽ_MIN_مداخلت_ترجيح << 24UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the SCB.
  */
-#define portSCB_VTOR_REG                      ( *( ( portISR_t ** ) 0xe000ed08 ) )
-#define portSCB_SYS_HANDLER_CTRL_STATE_REG    ( *( ( volatile uint32_t * ) 0xe000ed24 ) )
-#define portSCB_MEM_FAULT_ENABLE_BIT          ( 1UL << 16UL )
-#define portSCB_USG_FAULT_ENABLE_BIT          ( 1UL << 18UL )
+#وصف_ڪريو پورٽ_SCB_VTOR_REG                      ( *( ( پورٽ_ISR_t ** ) 0xe000ed08 ) )
+#وصف_ڪريو پورٽ_SCB_SYS_HANDLER_CTRL_STATE_REG    ( *( ( متطاير uint32_t * ) 0xe000ed24 ) )
+#وصف_ڪريو پورٽ_SCB_MEM_FAULT_ENABLE_ٻٽو_انگ          ( 1UL << 16UL )
+#وصف_ڪريو پورٽ_SCB_USG_FAULT_ENABLE_ٻٽو_انگ          ( 1UL << 18UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants used to check the installation of the FreeRTOS interrupt handlers.
  */
-#define portVECTOR_INDEX_SVC       ( 11 )
-#define portVECTOR_INDEX_PENDSV    ( 14 )
+#وصف_ڪريو پورٽ_ويڪٽر_اشاريو_SVC       ( 11 )
+#وصف_ڪريو پورٽ_ويڪٽر_اشاريو_PENDSV    ( 14 )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to check the validity of an interrupt priority.
  */
-#define portNVIC_SHPR2_REG                 ( *( ( volatile uint32_t * ) 0xE000ED1C ) )
-#define portFIRST_USER_INTERRUPT_NUMBER    ( 16 )
-#define portNVIC_IP_REGISTERS_OFFSET_16    ( 0xE000E3F0 )
-#define portAIRCR_REG                      ( *( ( volatile uint32_t * ) 0xE000ED0C ) )
-#define portTOP_BIT_OF_BYTE                ( ( uint8_t ) 0x80 )
-#define portMAX_PRIGROUP_BITS              ( ( uint8_t ) 7 )
-#define portPRIORITY_GROUP_MASK            ( 0x07UL << 8UL )
-#define portPRIGROUP_SHIFT                 ( 8UL )
+#وصف_ڪريو پورٽ_NVIC_SHPR2_REG                 ( *( ( متطاير uint32_t * ) 0xE000ED1C ) )
+#وصف_ڪريو پورٽ_پهريون_USER_مداخلت_عدد    ( 16 )
+#وصف_ڪريو پورٽ_NVIC_IP_REGISTERS_وٿي_16    ( 0xE000E3F0 )
+#وصف_ڪريو پورٽ_AIRCR_REG                      ( *( ( متطاير uint32_t * ) 0xE000ED0C ) )
+#وصف_ڪريو پورٽ_چوٽي_ٻٽو_انگ_جو_BYTE                ( ( uint8_t ) 0x80 )
+#وصف_ڪريو پورٽ_MAX_PRIGROUP_بٽ              ( ( uint8_t ) 7 )
+#وصف_ڪريو پورٽ_ترجيح_گروهه_نقاب            ( 0x07UL << 8UL )
+#وصف_ڪريو پورٽ_PRIGROUP_سرڪايو                 ( 8UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants used during system call enter and exit.
  */
-#define portPSR_STACK_PADDING_MASK              ( 1UL << 9UL )
-#define portEXC_RETURN_STACK_FRAME_TYPE_MASK    ( 1UL << 4UL )
+#وصف_ڪريو پورٽ_PSR_ڍير_PADDING_نقاب              ( 1UL << 9UL )
+#وصف_ڪريو پورٽ_EXC_RETURN_ڍير_چوکٺو_TYPE_نقاب    ( 1UL << 4UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the FPU.
  */
-#define portCPACR               ( ( volatile uint32_t * ) 0xe000ed88 ) /* Coprocessor Access Control Register. */
-#define portCPACR_CP10_VALUE    ( 3UL )
-#define portCPACR_CP11_VALUE    portCPACR_CP10_VALUE
-#define portCPACR_CP10_POS      ( 20UL )
-#define portCPACR_CP11_POS      ( 22UL )
+#وصف_ڪريو پورٽ_CPACR               ( ( متطاير uint32_t * ) 0xe000ed88 ) /* Coprocessor Access Control Register. */
+#وصف_ڪريو پورٽ_CPACR_CP10_قدر    ( 3UL )
+#وصف_ڪريو پورٽ_CPACR_CP11_قدر    پورٽ_CPACR_CP10_قدر
+#وصف_ڪريو پورٽ_CPACR_CP10_POS      ( 20UL )
+#وصف_ڪريو پورٽ_CPACR_CP11_POS      ( 22UL )
 
-#define portFPCCR               ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating Point Context Control Register. */
-#define portFPCCR_ASPEN_POS     ( 31UL )
-#define portFPCCR_ASPEN_MASK    ( 1UL << portFPCCR_ASPEN_POS )
-#define portFPCCR_LSPEN_POS     ( 30UL )
-#define portFPCCR_LSPEN_MASK    ( 1UL << portFPCCR_LSPEN_POS )
+#وصف_ڪريو پورٽ_FPCCR               ( ( متطاير uint32_t * ) 0xe000ef34 ) /* Floating Point Context Control Register. */
+#وصف_ڪريو پورٽ_FPCCR_ASPEN_POS     ( 31UL )
+#وصف_ڪريو پورٽ_FPCCR_ASPEN_نقاب    ( 1UL << پورٽ_FPCCR_ASPEN_POS )
+#وصف_ڪريو پورٽ_FPCCR_LSPEN_POS     ( 30UL )
+#وصف_ڪريو پورٽ_FPCCR_LSPEN_نقاب    ( 1UL << پورٽ_FPCCR_LSPEN_POS )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Offsets in the stack to the parameters when inside the SVC handler.
  */
-#define portOFFSET_TO_LR     ( 5 )
-#define portOFFSET_TO_PC     ( 6 )
-#define portOFFSET_TO_PSR    ( 7 )
+#وصف_ڪريو پورٽ_وٿي_منزل_LR     ( 5 )
+#وصف_ڪريو پورٽ_وٿي_منزل_PC     ( 6 )
+#وصف_ڪريو پورٽ_وٿي_منزل_PSR    ( 7 )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to manipulate the MPU.
  */
-#define portMPU_TYPE_REG                        ( *( ( volatile uint32_t * ) 0xe000ed90 ) )
-#define portMPU_CTRL_REG                        ( *( ( volatile uint32_t * ) 0xe000ed94 ) )
-#define portMPU_RNR_REG                         ( *( ( volatile uint32_t * ) 0xe000ed98 ) )
+#وصف_ڪريو پورٽ_MPU_TYPE_REG                        ( *( ( متطاير uint32_t * ) 0xe000ed90 ) )
+#وصف_ڪريو پورٽ_MPU_CTRL_REG                        ( *( ( متطاير uint32_t * ) 0xe000ed94 ) )
+#وصف_ڪريو پورٽ_MPU_RNR_REG                         ( *( ( متطاير uint32_t * ) 0xe000ed98 ) )
 
-#define portMPU_RBAR_REG                        ( *( ( volatile uint32_t * ) 0xe000ed9c ) )
-#define portMPU_RLAR_REG                        ( *( ( volatile uint32_t * ) 0xe000eda0 ) )
+#وصف_ڪريو پورٽ_MPU_RBAR_REG                        ( *( ( متطاير uint32_t * ) 0xe000ed9c ) )
+#وصف_ڪريو پورٽ_MPU_RLAR_REG                        ( *( ( متطاير uint32_t * ) 0xe000eda0 ) )
 
-#define portMPU_RBAR_A1_REG                     ( *( ( volatile uint32_t * ) 0xe000eda4 ) )
-#define portMPU_RLAR_A1_REG                     ( *( ( volatile uint32_t * ) 0xe000eda8 ) )
+#وصف_ڪريو پورٽ_MPU_RBAR_A1_REG                     ( *( ( متطاير uint32_t * ) 0xe000eda4 ) )
+#وصف_ڪريو پورٽ_MPU_RLAR_A1_REG                     ( *( ( متطاير uint32_t * ) 0xe000eda8 ) )
 
-#define portMPU_RBAR_A2_REG                     ( *( ( volatile uint32_t * ) 0xe000edac ) )
-#define portMPU_RLAR_A2_REG                     ( *( ( volatile uint32_t * ) 0xe000edb0 ) )
+#وصف_ڪريو پورٽ_MPU_RBAR_A2_REG                     ( *( ( متطاير uint32_t * ) 0xe000edac ) )
+#وصف_ڪريو پورٽ_MPU_RLAR_A2_REG                     ( *( ( متطاير uint32_t * ) 0xe000edb0 ) )
 
-#define portMPU_RBAR_A3_REG                     ( *( ( volatile uint32_t * ) 0xe000edb4 ) )
-#define portMPU_RLAR_A3_REG                     ( *( ( volatile uint32_t * ) 0xe000edb8 ) )
+#وصف_ڪريو پورٽ_MPU_RBAR_A3_REG                     ( *( ( متطاير uint32_t * ) 0xe000edb4 ) )
+#وصف_ڪريو پورٽ_MPU_RLAR_A3_REG                     ( *( ( متطاير uint32_t * ) 0xe000edb8 ) )
 
-#define portMPU_MAIR0_REG                       ( *( ( volatile uint32_t * ) 0xe000edc0 ) )
-#define portMPU_MAIR1_REG                       ( *( ( volatile uint32_t * ) 0xe000edc4 ) )
+#وصف_ڪريو پورٽ_MPU_MAIR0_REG                       ( *( ( متطاير uint32_t * ) 0xe000edc0 ) )
+#وصف_ڪريو پورٽ_MPU_MAIR1_REG                       ( *( ( متطاير uint32_t * ) 0xe000edc4 ) )
 
-#define portMPU_RBAR_ADDRESS_MASK               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
-#define portMPU_RLAR_ADDRESS_MASK               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
+#وصف_ڪريو پورٽ_MPU_RBAR_پتو_نقاب               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
+#وصف_ڪريو پورٽ_MPU_RLAR_پتو_نقاب               ( 0xffffffe0 ) /* Must be 32-byte aligned. */
 
-#define portMPU_RBAR_ACCESS_PERMISSIONS_MASK    ( 3UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RBAR_ACCESS_PERMISSIONS_نقاب    ( 3UL << 1UL )
 
-#define portMPU_MAIR_ATTR0_POS                  ( 0UL )
-#define portMPU_MAIR_ATTR0_MASK                 ( 0x000000ff )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR0_POS                  ( 0UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR0_نقاب                 ( 0x000000ff )
 
-#define portMPU_MAIR_ATTR1_POS                  ( 8UL )
-#define portMPU_MAIR_ATTR1_MASK                 ( 0x0000ff00 )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR1_POS                  ( 8UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR1_نقاب                 ( 0x0000ff00 )
 
-#define portMPU_MAIR_ATTR2_POS                  ( 16UL )
-#define portMPU_MAIR_ATTR2_MASK                 ( 0x00ff0000 )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR2_POS                  ( 16UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR2_نقاب                 ( 0x00ff0000 )
 
-#define portMPU_MAIR_ATTR3_POS                  ( 24UL )
-#define portMPU_MAIR_ATTR3_MASK                 ( 0xff000000 )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR3_POS                  ( 24UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR3_نقاب                 ( 0xff000000 )
 
-#define portMPU_MAIR_ATTR4_POS                  ( 0UL )
-#define portMPU_MAIR_ATTR4_MASK                 ( 0x000000ff )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR4_POS                  ( 0UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR4_نقاب                 ( 0x000000ff )
 
-#define portMPU_MAIR_ATTR5_POS                  ( 8UL )
-#define portMPU_MAIR_ATTR5_MASK                 ( 0x0000ff00 )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR5_POS                  ( 8UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR5_نقاب                 ( 0x0000ff00 )
 
-#define portMPU_MAIR_ATTR6_POS                  ( 16UL )
-#define portMPU_MAIR_ATTR6_MASK                 ( 0x00ff0000 )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR6_POS                  ( 16UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR6_نقاب                 ( 0x00ff0000 )
 
-#define portMPU_MAIR_ATTR7_POS                  ( 24UL )
-#define portMPU_MAIR_ATTR7_MASK                 ( 0xff000000 )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR7_POS                  ( 24UL )
+#وصف_ڪريو پورٽ_MPU_MAIR_ATTR7_نقاب                 ( 0xff000000 )
 
-#define portMPU_RLAR_ATTR_INDEX0                ( 0UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX1                ( 1UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX2                ( 2UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX3                ( 3UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX4                ( 4UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX5                ( 5UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX6                ( 6UL << 1UL )
-#define portMPU_RLAR_ATTR_INDEX7                ( 7UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX0                ( 0UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX1                ( 1UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX2                ( 2UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX3                ( 3UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX4                ( 4UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX5                ( 5UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX6                ( 6UL << 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_ATTR_INDEX7                ( 7UL << 1UL )
 
-#define portMPU_RLAR_REGION_ENABLE              ( 1UL )
+#وصف_ڪريو پورٽ_MPU_RLAR_REGION_ENABLE              ( 1UL )
 
-#if ( portARMV8M_MINOR_VERSION >= 1 )
+#إذا ( پورٽ_ARMV8_M_MINOR_نسخو >= 1 )
 
     /* Enable Privileged eXecute Never MPU attribute for the selected memory
      * region. */
-    #define portMPU_RLAR_PRIVILEGED_EXECUTE_NEVER    ( 1UL << 4UL )
-#endif /* portARMV8M_MINOR_VERSION >= 1 */
+    #وصف_ڪريو پورٽ_MPU_RLAR_PRIVILEGED_EXECUTE_NEVER    ( 1UL << 4UL )
+#جيڪڏهن_پورو /* portARMV8M_MINOR_VERSION >= 1 */
 
 /* Enable privileged access to unmapped region. */
-#define portMPU_PRIV_BACKGROUND_ENABLE_BIT    ( 1UL << 2UL )
+#وصف_ڪريو پورٽ_MPU_PRIV_BACKGROUND_ENABLE_ٻٽو_انگ    ( 1UL << 2UL )
 
 /* Enable MPU. */
-#define portMPU_ENABLE_BIT                    ( 1UL << 0UL )
+#وصف_ڪريو پورٽ_MPU_ENABLE_ٻٽو_انگ                    ( 1UL << 0UL )
 
 /* Extract first address of the MPU region as encoded in the
  * RBAR (Region Base Address Register) value. */
-#define portEXTRACT_FIRST_ADDRESS_FROM_RBAR( rbar ) \
-    ( ( rbar ) & portMPU_RBAR_ADDRESS_MASK )
+#وصف_ڪريو پورٽ_ڪڍو_پهريون_پتو_FROM_RBAR( rbar ) \
+    ( ( rbar ) & پورٽ_MPU_RBAR_پتو_نقاب )
 
 /* Extract last address of the MPU region as encoded in the
  * RLAR (Region Limit Address Register) value. */
-#define portEXTRACT_LAST_ADDRESS_FROM_RLAR( rlar ) \
-    ( ( ( rlar ) & portMPU_RLAR_ADDRESS_MASK ) | ~portMPU_RLAR_ADDRESS_MASK )
+#وصف_ڪريو پورٽ_ڪڍو_آخري_پتو_FROM_RLAR( rlar ) \
+    ( ( ( rlar ) & پورٽ_MPU_RLAR_پتو_نقاب ) | ~پورٽ_MPU_RLAR_پتو_نقاب )
 
 /* Does addr lies within [start, end] address range? */
-#define portIS_ADDRESS_WITHIN_RANGE( addr, start, end ) \
-    ( ( ( addr ) >= ( start ) ) && ( ( addr ) <= ( end ) ) )
+#وصف_ڪريو پورٽ_IS_پتو_WITHIN_RANGE( addr, شروعات, پڇاڙي ) \
+    ( ( ( addr ) >= ( شروعات ) ) && ( ( addr ) <= ( پڇاڙي ) ) )
 
 /* Is the access request satisfied by the available permissions? */
-#define portIS_AUTHORIZED( accessRequest, permissions ) \
+#وصف_ڪريو پورٽ_IS_AUTHORIZED( accessRequest, permissions ) \
     ( ( ( permissions ) & ( accessRequest ) ) == accessRequest )
 
 /* Max value that fits in a uint32_t type. */
-#define portUINT32_MAX    ( ~( ( uint32_t ) 0 ) )
+#وصف_ڪريو پورٽ_UINT32_MAX    ( ~( ( uint32_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define portADD_UINT32_WILL_OVERFLOW( a, b )    ( ( a ) > ( portUINT32_MAX - ( b ) ) )
+#وصف_ڪريو پورٽ_جوڙيو_UINT32_WILL_حد_کان_مٿي( a, b )    ( ( a ) > ( پورٽ_UINT32_MAX - ( b ) ) )
 /*-----------------------------------------------------------*/
 
 /**
@@ -270,22 +270,22 @@ typedef void ( * portISR_t )( void );
  *
  * It is needed because the systick is a 24-bit counter.
  */
-#define portMAX_24_BIT_NUMBER       ( 0xffffffUL )
+#وصف_ڪريو پورٽ_MAX_24_ٻٽو_انگ_عدد       ( 0xffffffUL )
 
 /**
  * @brief A fiddle factor to estimate the number of SysTick counts that would
  * have occurred while the SysTick counter is stopped during tickless idle
  * calculations.
  */
-#define portMISSED_COUNTS_FACTOR    ( 94UL )
+#وصف_ڪريو پورٽ_MISSED_COUNTS_ضرب_ڪندڙ    ( 94UL )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Constants required to set up the initial stack.
  */
-#define portINITIAL_XPSR    ( 0x01000000 )
+#وصف_ڪريو پورٽ_INITIAL_XPSR    ( 0x01000000 )
 
-#if ( configRUN_FREERTOS_SECURE_ONLY == 1 )
+#إذا ( config_لاڳيتو_FREERTOS_SECURE_ONLY == 1 )
 
     /**
      * @brief Initial EXC_RETURN value.
@@ -301,8 +301,8 @@ typedef void ( * portISR_t )( void );
      * Bit[1] - 0 --> Reserved, 0.
      * Bit[0] - 1 --> The exception was taken to the Secure state.
      */
-    #define portINITIAL_EXC_RETURN    ( 0xfffffffd )
-#else
+    #وصف_ڪريو پورٽ_INITIAL_EXC_RETURN    ( 0xfffffffd )
+#وإلا
 
     /**
      * @brief Initial EXC_RETURN value.
@@ -318,8 +318,8 @@ typedef void ( * portISR_t )( void );
      * Bit[1] - 0 --> Reserved, 0.
      * Bit[0] - 0 --> The exception was taken to the Non-Secure state.
      */
-    #define portINITIAL_EXC_RETURN    ( 0xffffffbc )
-#endif /* configRUN_FREERTOS_SECURE_ONLY */
+    #وصف_ڪريو پورٽ_INITIAL_EXC_RETURN    ( 0xffffffbc )
+#جيڪڏهن_پورو /* configRUN_FREERTOS_SECURE_ONLY */
 
 /**
  * @brief CONTROL register privileged bit mask.
@@ -328,74 +328,74 @@ typedef void ( * portISR_t )( void );
  *  Bit[0] = 0 ==> The task is privileged.
  *  Bit[0] = 1 ==> The task is not privileged.
  */
-#define portCONTROL_PRIVILEGED_MASK         ( 1UL << 0UL )
+#وصف_ڪريو پورٽ_CONTROL_PRIVILEGED_نقاب         ( 1UL << 0UL )
 
 /**
  * @brief Initial CONTROL register values.
  */
-#define portINITIAL_CONTROL_UNPRIVILEGED    ( 0x3 )
-#define portINITIAL_CONTROL_PRIVILEGED      ( 0x2 )
+#وصف_ڪريو پورٽ_INITIAL_CONTROL_UNPRIVILEGED    ( 0x3 )
+#وصف_ڪريو پورٽ_INITIAL_CONTROL_PRIVILEGED      ( 0x2 )
 
 /**
  * @brief Let the user override the default SysTick clock rate.  If defined by the
  * user, this symbol must equal the SysTick clock rate when the CLK bit is 0 in the
  * configuration register.
  */
-#ifndef configSYSTICK_CLOCK_HZ
-    #define configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
+#جيڪڏهن_وصف_نه_ٿيل configSYSTICK_CLOCK_HZ
+    #وصف_ڪريو configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
     /* Ensure the SysTick is clocked at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
-#else
+    #وصف_ڪريو پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG    ( پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ )
+#وإلا
     /* Select the option to clock SysTick not at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
-#endif
+    #وصف_ڪريو پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG    ( 0 )
+#جيڪڏهن_پورو
 
 /**
  * @brief Let the user override the pre-loading of the initial LR with the
  * address of prvTaskExitError() in case it messes up unwinding of the stack
  * in the debugger.
  */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#جيڪڏهن_وصف_ٿيل config_TASK_RETURN_پتو
+    #وصف_ڪريو پورٽ_TASK_RETURN_پتو    config_TASK_RETURN_پتو
+#وإلا
+    #وصف_ڪريو پورٽ_TASK_RETURN_پتو    prvTaskExitError
+#جيڪڏهن_پورو
 
 /**
  * @brief If portPRELOAD_REGISTERS then registers will be given an initial value
  * when a task is created. This helps in debugging at the cost of code size.
  */
-#define portPRELOAD_REGISTERS    1
+#وصف_ڪريو پورٽ_PRELOAD_REGISTERS    1
 
 /**
  * @brief A task is created without a secure context, and must call
  * portALLOCATE_SECURE_CONTEXT() to give itself a secure context before it makes
  * any secure calls.
  */
-#define portNO_SECURE_CONTEXT    0
+#وصف_ڪريو پورٽ_NO_SECURE_CONTEXT    0
 
 /**
  * @brief Constants required to check and configure PACBTI security feature implementation.
  */
-#if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+#إذا ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
 
-    #define portID_ISAR5_REG       ( *( ( volatile uint32_t * ) 0xe000ed74 ) )
+    #وصف_ڪريو پورٽ_ID_ISAR5_REG       ( *( ( متطاير uint32_t * ) 0xe000ed74 ) )
 
-    #define portCONTROL_UPAC_EN    ( 1UL << 7UL )
-    #define portCONTROL_PAC_EN     ( 1UL << 6UL )
-    #define portCONTROL_UBTI_EN    ( 1UL << 5UL )
-    #define portCONTROL_BTI_EN     ( 1UL << 4UL )
+    #وصف_ڪريو پورٽ_CONTROL_UPAC_EN    ( 1UL << 7UL )
+    #وصف_ڪريو پورٽ_CONTROL_PAC_EN     ( 1UL << 6UL )
+    #وصف_ڪريو پورٽ_CONTROL_UBTI_EN    ( 1UL << 5UL )
+    #وصف_ڪريو پورٽ_CONTROL_BTI_EN     ( 1UL << 4UL )
 
-#endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+#جيڪڏهن_پورو /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Used to catch tasks that attempt to return from their implementing
  * function.
  */
-static void prvTaskExitError( void );
+ساكن فراغ prvTaskExitError( فراغ );
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Extract MPU region's access permissions from the Region Base Address
@@ -405,26 +405,26 @@ static void prvTaskExitError( void );
      *
      * @return uint32_t Access permissions.
      */
-    static uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) PRIVILEGED_FUNCTION;
-#endif /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
+    ساكن uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) PRIVILEGED_FUNCTION;
+#جيڪڏهن_پورو /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
     /**
      * @brief Setup the Memory Protection Unit (MPU).
      */
-    static void prvSetupMPU( void ) PRIVILEGED_FUNCTION;
-#endif /* configENABLE_MPU */
+    ساكن فراغ prv_تياري_MPU( فراغ ) PRIVILEGED_FUNCTION;
+#جيڪڏهن_پورو /* configENABLE_MPU */
 
-#if ( configENABLE_FPU == 1 )
+#إذا ( configENABLE_FPU == 1 )
 
     /**
      * @brief Setup the Floating Point Unit (FPU).
      */
-    static void prvSetupFPU( void ) PRIVILEGED_FUNCTION;
-#endif /* configENABLE_FPU */
+    ساكن فراغ prv_تياري_FPU( فراغ ) PRIVILEGED_FUNCTION;
+#جيڪڏهن_پورو /* configENABLE_FPU */
 
-#if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+#إذا ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
 
     /**
      * @brief Configures PACBTI features.
@@ -440,13 +440,13 @@ static void prvTaskExitError( void );
      *
      * @return CONTROL register value according to the configured PACBTI option.
      */
-    #if ( configNUMBER_OF_CORES == 1 )
-        static uint32_t prvConfigurePACBTI( BaseType_t xWriteControlRegister );
-    #else /* #if ( configNUMBER_OF_CORES == 1 ) */
-        uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister );
-    #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
+    #إذا ( config_عدد_جو_CORES == 1 )
+        ساكن uint32_t prvConfigurePACBTI( بنياد_Type_t x_Write_Control_رجسٽر );
+    #وإلا /* #if ( configNUMBER_OF_CORES == 1 ) */
+        uint32_t vConfigurePACBTI( بنياد_Type_t x_Write_Control_رجسٽر );
+    #جيڪڏهن_پورو /* #if ( configNUMBER_OF_CORES == 1 ) */
 
-#endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+#جيڪڏهن_پورو /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 
 /**
  * @brief Setup the timer to generate the tick interrupts.
@@ -454,7 +454,7 @@ static void prvTaskExitError( void );
  * The implementation in this file is weak to allow application writers to
  * change the timer used to generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void ) PRIVILEGED_FUNCTION;
+فراغ v_پورٽ_تياري_Timer_مداخلت( فراغ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Checks whether the current execution context is interrupt.
@@ -462,34 +462,34 @@ void vPortSetupTimerInterrupt( void ) PRIVILEGED_FUNCTION;
  * @return pdTRUE if the current execution context is interrupt, pdFALSE
  * otherwise.
  */
-BaseType_t xPortIsInsideInterrupt( void );
+بنياد_Type_t x_پورٽ_Is_Inside_مداخلت( فراغ );
 
 /**
  * @brief Yield the processor.
  */
-void vPortYield( void ) PRIVILEGED_FUNCTION;
+فراغ v_پورٽ_Yield( فراغ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Enter critical section.
  */
-void vPortEnterCritical( void ) PRIVILEGED_FUNCTION;
+فراغ v_پورٽ_Enter_Critical( فراغ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Exit from critical section.
  */
-void vPortExitCritical( void ) PRIVILEGED_FUNCTION;
+فراغ v_پورٽ_Exit_Critical( فراغ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief SysTick handler.
  */
-void SysTick_Handler( void ) PRIVILEGED_FUNCTION;
+فراغ SysTick_Handler( فراغ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief C part of SVC handler.
  */
-portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIVILEGED_FUNCTION;
+پورٽ_DONT_DISCARD فراغ v_پورٽ_SVCHandler_C( uint32_t * pul_Caller_ڍير_پتو ) PRIVILEGED_FUNCTION;
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Sets up the system call stack so that upon returning from
@@ -499,22 +499,22 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
      * @param ucSystemCallNumber The system call number of the system call.
      */
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    فراغ vSystemCallEnter( uint32_t * pul_Task_ڍير,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) PRIVILEGED_FUNCTION;
+                           uint8_t uc_System_Call_عدد ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Raise SVC for exiting from a system call.
      */
-    void vRequestSystemCallExit( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+    فراغ vRequestSystemCallExit( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief Sets up the task stack so that upon returning from
@@ -523,23 +523,23 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @param pulSystemCallStack The current SP when the SVC was raised.
      * @param ulLR The value of Link Register (EXC_RETURN) in the SVC handler.
      */
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    فراغ vSystemCallExit( uint32_t * pul_System_Call_ڍير,
                           uint32_t ulLR ) PRIVILEGED_FUNCTION;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
     /**
      * @brief Checks whether or not the calling task is privileged.
      *
      * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
      */
-    BaseType_t xPortIsTaskPrivileged( void ) PRIVILEGED_FUNCTION;
+    بنياد_Type_t x_پورٽ_Is_Task_Privileged( فراغ ) PRIVILEGED_FUNCTION;
 
-#endif /* configENABLE_MPU == 1 */
+#جيڪڏهن_پورو /* configENABLE_MPU == 1 */
 
-#if ( configNUMBER_OF_CORES > 1 )
+#إذا ( config_عدد_جو_CORES > 1 )
 
     /**
      * @brief Platform/Application-defined function that wakes up the secondary cores.
@@ -547,127 +547,127 @@ portDONT_DISCARD void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) PRIV
      * @return pdTRUE if the secondary cores were successfully woken up.
      *         pdFALSE otherwise.
      */
-    extern BaseType_t configWAKE_SECONDARY_CORES( void );
+    خارجي بنياد_Type_t configWAKE_SECONDARY_CORES( فراغ );
 
-#endif /* #if ( configNUMBER_OF_CORES > 1 ) */
+#جيڪڏهن_پورو /* #if ( configNUMBER_OF_CORES > 1 ) */
 
 /**
  * @brief Configures interrupt priorities.
  */
-void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
+فراغ v_پورٽ_Configure_مداخلت_Priorities( فراغ ) PRIVILEGED_FUNCTION;
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     /**
      * @brief This variable is set to pdTRUE when the scheduler is started.
      */
-    PRIVILEGED_DATA static BaseType_t xSchedulerRunning = pdFALSE;
+    PRIVILEGED_معلومات ساكن بنياد_Type_t xSchedulerRunning = pdFALSE;
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /**
  * @brief Each task maintains its own interrupt status in the critical nesting
  * variable.
  */
-#if ( configNUMBER_OF_CORES == 1 )
-    PRIVILEGED_DATA static volatile uint32_t ulCriticalNesting = 0UL;
-#else /* #if ( configNUMBER_OF_CORES == 1 ) */
-    PRIVILEGED_DATA volatile uint32_t ulCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
+#إذا ( config_عدد_جو_CORES == 1 )
+    PRIVILEGED_معلومات ساكن متطاير uint32_t ulCriticalNesting = 0UL;
+#وإلا /* #if ( configNUMBER_OF_CORES == 1 ) */
+    PRIVILEGED_معلومات متطاير uint32_t ulCriticalNestings[ config_عدد_جو_CORES ] = { 0 };
     /* Flags to check if the secondary cores are ready. */
-    PRIVILEGED_DATA volatile uint8_t ucSecondaryCoresReadyFlags[ configNUMBER_OF_CORES - 1 ] = { 0 };
+    PRIVILEGED_معلومات متطاير uint8_t ucSecondaryCoresReadyFlags[ config_عدد_جو_CORES - 1 ] = { 0 };
     /* Flag to indicate that the primary core has completed its initialisation. */
-    PRIVILEGED_DATA volatile uint8_t ucPrimaryCoreInitDoneFlag = 0;
- #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
+    PRIVILEGED_معلومات متطاير uint8_t uc_Primary_Core_Init_پورو_Flag = 0;
+ #جيڪڏهن_پورو /* #if ( configNUMBER_OF_CORES == 1 ) */
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#إذا ( configENABLE_TRUSTZONE == 1 )
 
     /**
      * @brief Saved as part of the task context to indicate which context the
      * task is using on the secure side.
      */
-    PRIVILEGED_DATA portDONT_DISCARD volatile SecureContextHandle_t xSecureContext = portNO_SECURE_CONTEXT;
-#endif /* configENABLE_TRUSTZONE */
+    PRIVILEGED_معلومات پورٽ_DONT_DISCARD متطاير SecureContextHandle_t xSecureContext = پورٽ_NO_SECURE_CONTEXT;
+#جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
 
 /**
  * @brief Used by the portASSERT_IF_INTERRUPT_PRIORITY_INVALID() macro to ensure
  * FreeRTOS API functions are not called from interrupts that have been assigned
  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
  */
-#if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) )
+#إذا ( ( configASSERT_DEFINED == 1 ) && ( پورٽ_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) )
 
-    static uint8_t ucMaxSysCallPriority = 0;
-    static uint32_t ulMaxPRIGROUPValue = 0;
-    static const volatile uint8_t * const pcInterruptPriorityRegisters = ( const volatile uint8_t * ) portNVIC_IP_REGISTERS_OFFSET_16;
+    ساكن uint8_t uc_Max_Sys_Call_ترجيح = 0;
+    ساكن uint32_t ulMaxPRIGROUPValue = 0;
+    ساكن ثابت متطاير uint8_t * ثابت pc_مداخلت_ترجيح_Registers = ( ثابت متطاير uint8_t * ) پورٽ_NVIC_IP_REGISTERS_وٿي_16;
 
-#endif /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
+#جيڪڏهن_پورو /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#إذا ( configUSE_TICKLESS_IDLE == 1 )
 
     /**
      * @brief The number of SysTick increments that make up one tick period.
      */
-    PRIVILEGED_DATA static uint32_t ulTimerCountsForOneTick = 0;
+    PRIVILEGED_معلومات ساكن uint32_t ulTimerCountsForOneTick = 0;
 
     /**
      * @brief The maximum number of tick periods that can be suppressed is
      * limited by the 24 bit resolution of the SysTick timer.
      */
-    PRIVILEGED_DATA static uint32_t xMaximumPossibleSuppressedTicks = 0;
+    PRIVILEGED_معلومات ساكن uint32_t x_وڌ_کان_وڌ_Possible_Suppressed_Ticks = 0;
 
     /**
      * @brief Compensate for the CPU cycles that pass while the SysTick is
      * stopped (low power functionality only).
      */
-    PRIVILEGED_DATA static uint32_t ulStoppedTimerCompensation = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+    PRIVILEGED_معلومات ساكن uint32_t ulStoppedTimerCompensation = 0;
+#جيڪڏهن_پورو /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#إذا ( configUSE_TICKLESS_IDLE == 1 )
 
-    __attribute__( ( weak ) ) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    __attribute__( ( weak ) ) فراغ v_پورٽ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_وقت )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
-        TickType_t xModifiableIdleTime;
+        uint32_t ul_Reload_قدر, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ul_Sys_Tick_Decrements_کاٻو;
+        TickType_t x_Modifiable_Idle_وقت;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        إذا( x_Expected_Idle_وقت > x_وڌ_کان_وڌ_Possible_Suppressed_Ticks )
         {
-            xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+            x_Expected_Idle_وقت = x_وڌ_کان_وڌ_Possible_Suppressed_Ticks;
         }
 
         /* Enter a critical section but don't use the taskENTER_CRITICAL()
          * method as that will mask interrupts that should exit sleep mode. */
-        __asm volatile ( "cpsid i" ::: "memory" );
-        __asm volatile ( "dsb" );
-        __asm volatile ( "isb" );
+        __asm متطاير ( "cpsid i" ::: "memory" );
+        __asm متطاير ( "dsb" );
+        __asm متطاير ( "isb" );
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        إذا( e_Task_Confirm_Sleep_گهڻائي_حالت() == eAbortSleep )
         {
             /* Re-enable interrupts - see comments above the cpsid instruction
              * above. */
-            __asm volatile ( "cpsie i" ::: "memory" );
+            __asm متطاير ( "cpsie i" ::: "memory" );
         }
-        else
+        وإلا
         {
             /* Stop the SysTick momentarily.  The time the SysTick is stopped for
              * is accounted for as best it can be, but using the tickless mode will
              * inevitably result in some tiny drift of the time maintained by the
              * kernel with respect to calendar time. */
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            پورٽ_NVIC_SYSTICK_CTRL_REG = ( پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG | پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ );
 
             /* Use the SysTick current-value register to determine the number of
              * SysTick decrements remaining until the next tick interrupt.  If the
              * current-value register is zero, then there are actually
              * ulTimerCountsForOneTick decrements remaining, not zero, because the
              * SysTick requests the interrupt when decrementing from 1 to 0. */
-            ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            ul_Sys_Tick_Decrements_کاٻو = پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG;
 
-            if( ulSysTickDecrementsLeft == 0 )
+            إذا( ul_Sys_Tick_Decrements_کاٻو == 0 )
             {
-                ulSysTickDecrementsLeft = ulTimerCountsForOneTick;
+                ul_Sys_Tick_Decrements_کاٻو = ulTimerCountsForOneTick;
             }
 
             /* Calculate the reload value required to wait xExpectedIdleTime
@@ -676,60 +676,60 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
              * pending, then clear the IRQ, suppressing the first tick, and correct
              * the reload value to reflect that the second tick period is already
              * underway.  The expected idle time is always at least two ticks. */
-            ulReloadValue = ulSysTickDecrementsLeft + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+            ul_Reload_قدر = ul_Sys_Tick_Decrements_کاٻو + ( ulTimerCountsForOneTick * ( x_Expected_Idle_وقت - 1UL ) );
 
-            if( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
+            إذا( ( پورٽ_NVIC_INT_CTRL_REG & پورٽ_NVIC_PEND_SYSTICK_سيٽ_ٻٽو_انگ ) != 0 )
             {
-                portNVIC_INT_CTRL_REG = portNVIC_PEND_SYSTICK_CLEAR_BIT;
-                ulReloadValue -= ulTimerCountsForOneTick;
+                پورٽ_NVIC_INT_CTRL_REG = پورٽ_NVIC_PEND_SYSTICK_CLEAR_ٻٽو_انگ;
+                ul_Reload_قدر -= ulTimerCountsForOneTick;
             }
 
-            if( ulReloadValue > ulStoppedTimerCompensation )
+            إذا( ul_Reload_قدر > ulStoppedTimerCompensation )
             {
-                ulReloadValue -= ulStoppedTimerCompensation;
+                ul_Reload_قدر -= ulStoppedTimerCompensation;
             }
 
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            پورٽ_NVIC_SYSTICK_ڀريو_REG = ul_Reload_قدر;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG = 0UL;
 
             /* Restart SysTick. */
-            portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+            پورٽ_NVIC_SYSTICK_CTRL_REG |= پورٽ_NVIC_SYSTICK_ENABLE_ٻٽو_انگ;
 
             /* Sleep until something happens.  configPRE_SLEEP_PROCESSING() can
              * set its parameter to 0 to indicate that its implementation contains
              * its own wait for interrupt or wait for event instruction, and so wfi
              * should not be executed again.  However, the original expected idle
              * time variable must remain unmodified, so a copy is taken. */
-            xModifiableIdleTime = xExpectedIdleTime;
-            configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
+            x_Modifiable_Idle_وقت = x_Expected_Idle_وقت;
+            configPRE_SLEEP_PROCESSING( x_Modifiable_Idle_وقت );
 
-            if( xModifiableIdleTime > 0 )
+            إذا( x_Modifiable_Idle_وقت > 0 )
             {
-                __asm volatile ( "dsb" ::: "memory" );
-                __asm volatile ( "wfi" );
-                __asm volatile ( "isb" );
+                __asm متطاير ( "dsb" ::: "memory" );
+                __asm متطاير ( "wfi" );
+                __asm متطاير ( "isb" );
             }
 
-            configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
+            configPOST_SLEEP_PROCESSING( x_Expected_Idle_وقت );
 
             /* Re-enable interrupts to allow the interrupt that brought the MCU
              * out of sleep mode to execute immediately.  See comments above
              * the cpsid instruction above. */
-            __asm volatile ( "cpsie i" ::: "memory" );
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm متطاير ( "cpsie i" ::: "memory" );
+            __asm متطاير ( "dsb" );
+            __asm متطاير ( "isb" );
 
             /* Disable interrupts again because the clock is about to be stopped
              * and interrupts that execute while the clock is stopped will increase
              * any slippage between the time maintained by the RTOS and calendar
              * time. */
-            __asm volatile ( "cpsid i" ::: "memory" );
-            __asm volatile ( "dsb" );
-            __asm volatile ( "isb" );
+            __asm متطاير ( "cpsid i" ::: "memory" );
+            __asm متطاير ( "dsb" );
+            __asm متطاير ( "isb" );
 
             /* Disable the SysTick clock without reading the
              * portNVIC_SYSTICK_CTRL_REG register to ensure the
@@ -738,60 +738,60 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
              * be, but using the tickless mode will inevitably result in some tiny
              * drift of the time maintained by the kernel with respect to calendar
              * time*/
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            پورٽ_NVIC_SYSTICK_CTRL_REG = ( پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG | پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ );
 
             /* Determine whether the SysTick has already counted to zero. */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            إذا( ( پورٽ_NVIC_SYSTICK_CTRL_REG & پورٽ_NVIC_SYSTICK_ڳڻپ_FLAG_ٻٽو_انگ ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_ڀريو_قدر;
 
                 /* The tick interrupt ended the sleep (or is now pending), and
                  * a new tick period has started.  Reset portNVIC_SYSTICK_LOAD_REG
                  * with whatever remains of the new tick period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_ڀريو_قدر = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_قدر - پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long or because the SysTick current-value register
                  * is zero. */
-                if( ( ulCalculatedLoadValue <= ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                إذا( ( ul_Calculated_ڀريو_قدر <= ulStoppedTimerCompensation ) || ( ul_Calculated_ڀريو_قدر > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_ڀريو_قدر = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                پورٽ_NVIC_SYSTICK_ڀريو_REG = ul_Calculated_ڀريو_قدر;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
                  * forward by one less than the time spent waiting. */
-                ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
+                ulCompleteTickPeriods = x_Expected_Idle_وقت - 1UL;
             }
-            else
+            وإلا
             {
                 /* Something other than the tick interrupt ended the sleep. */
 
                 /* Use the SysTick current-value register to determine the
                  * number of SysTick decrements remaining until the expected idle
                  * time would have ended. */
-                ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-                #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
+                ul_Sys_Tick_Decrements_کاٻو = پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG;
+                #إذا ( پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG != پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ )
                 {
                     /* If the SysTick is not using the core clock, the current-
                      * value register might still be zero here.  In that case, the
                      * SysTick didn't load from the reload register, and there are
                      * ulReloadValue decrements remaining in the expected idle
                      * time, not zero. */
-                    if( ulSysTickDecrementsLeft == 0 )
+                    إذا( ul_Sys_Tick_Decrements_کاٻو == 0 )
                     {
-                        ulSysTickDecrementsLeft = ulReloadValue;
+                        ul_Sys_Tick_Decrements_کاٻو = ul_Reload_قدر;
                     }
                 }
-                #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+                #جيڪڏهن_پورو /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
                 /* Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ulSysTickDecrementsLeft;
+                ulCompletedSysTickDecrements = ( x_Expected_Idle_وقت * ulTimerCountsForOneTick ) - ul_Sys_Tick_Decrements_کاٻو;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -799,7 +799,7 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
 
                 /* The reload value is set to whatever fraction of a single tick
                  * period remains. */
-                portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
+                پورٽ_NVIC_SYSTICK_ڀريو_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
             }
 
             /* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG again,
@@ -809,51 +809,51 @@ void vPortConfigureInterruptPriorities( void ) PRIVILEGED_FUNCTION;
              * from portNVIC_SYSTICK_LOAD_REG immediately instead of at the next
              * cycle of the other clock.  Then portNVIC_SYSTICK_LOAD_REG is ready
              * to receive the standard value immediately. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
-            portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-            #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
+            پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG = 0UL;
+            پورٽ_NVIC_SYSTICK_CTRL_REG = پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ | پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ | پورٽ_NVIC_SYSTICK_ENABLE_ٻٽو_انگ;
+            #إذا ( پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG == پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ )
             {
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
+                پورٽ_NVIC_SYSTICK_ڀريو_REG = ulTimerCountsForOneTick - 1UL;
             }
-            #else
+            #وإلا
             {
                 /* The temporary usage of the core clock has served its purpose,
                  * as described above.  Resume usage of the other clock. */
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
+                پورٽ_NVIC_SYSTICK_CTRL_REG = پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ | پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ;
 
-                if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+                إذا( ( پورٽ_NVIC_SYSTICK_CTRL_REG & پورٽ_NVIC_SYSTICK_ڳڻپ_FLAG_ٻٽو_انگ ) != 0 )
                 {
                     /* The partial tick period already ended.  Be sure the SysTick
                      * counts it only once. */
-                    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0;
+                    پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG = 0;
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+                پورٽ_NVIC_SYSTICK_ڀريو_REG = ulTimerCountsForOneTick - 1UL;
+                پورٽ_NVIC_SYSTICK_CTRL_REG = پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG | پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ | پورٽ_NVIC_SYSTICK_ENABLE_ٻٽو_انگ;
             }
-            #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+            #جيڪڏهن_پورو /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
             /* Step the tick to account for any tick periods that elapsed. */
-            vTaskStepTick( ulCompleteTickPeriods );
+            v_Task_قدم_Tick( ulCompleteTickPeriods );
 
             /* Exit with interrupts enabled. */
-            __asm volatile ( "cpsie i" ::: "memory" );
+            __asm متطاير ( "cpsie i" ::: "memory" );
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#جيڪڏهن_پورو /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-__attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void ) /* PRIVILEGED_FUNCTION */
+__attribute__( ( weak ) ) فراغ v_پورٽ_تياري_Timer_مداخلت( فراغ ) /* PRIVILEGED_FUNCTION */
 {
     /* Calculate the constants required to configure the tick interrupt. */
-    #if ( configUSE_TICKLESS_IDLE == 1 )
+    #إذا ( configUSE_TICKLESS_IDLE == 1 )
     {
-        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
-        xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
-        ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
+        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / config_TICK_شرح_HZ );
+        x_وڌ_کان_وڌ_Possible_Suppressed_Ticks = پورٽ_MAX_24_ٻٽو_انگ_عدد / ulTimerCountsForOneTick;
+        ulStoppedTimerCompensation = پورٽ_MISSED_COUNTS_ضرب_ڪندڙ / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
     }
-    #endif /* configUSE_TICKLESS_IDLE */
+    #جيڪڏهن_پورو /* configUSE_TICKLESS_IDLE */
 
     /* Stop and reset SysTick.
      *
@@ -863,32 +863,32 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void ) /* PRIVILEGED_FU
      * to one with a nonzero clock period and enable Systick at the same time.
      * So we configure the CLKSOURCE bit here, prior to setting the ENABLE bit.
      * This workaround avoids the bug in QEMU versions older than 7.0.0. */
-    portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    پورٽ_NVIC_SYSTICK_CTRL_REG = پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG;
+    پورٽ_NVIC_SYSTICK_CURRENT_قدر_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
-    portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
-    portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+    پورٽ_NVIC_SYSTICK_ڀريو_REG = ( configSYSTICK_CLOCK_HZ / config_TICK_شرح_HZ ) - 1UL;
+    پورٽ_NVIC_SYSTICK_CTRL_REG = پورٽ_NVIC_SYSTICK_CLK_ٻٽو_انگ_CONFIG | پورٽ_NVIC_SYSTICK_INT_ٻٽو_انگ | پورٽ_NVIC_SYSTICK_ENABLE_ٻٽو_انگ;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساكن فراغ prvTaskExitError( فراغ )
 {
-    volatile uint32_t ulDummy = 0UL;
+    متطاير uint32_t ulDummy = 0UL;
 
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
      * should instead call vTaskDelete( NULL ). Artificially force an assert()
      * to be triggered if configASSERT() is defined, then stop here so
      * application writers can catch the error. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #إذا ( config_عدد_جو_CORES == 1 )
         configASSERT( ulCriticalNesting == ~0UL );
-    #else /* #if ( configNUMBER_OF_CORES == 1 ) */
-        configASSERT( ulCriticalNestings[ portGET_CORE_ID() ] == ~0UL );
-    #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
-    portDISABLE_INTERRUPTS();
+    #وإلا /* #if ( configNUMBER_OF_CORES == 1 ) */
+        configASSERT( ulCriticalNestings[ پورٽ_GET_CORE_ID() ] == ~0UL );
+    #جيڪڏهن_پورو /* #if ( configNUMBER_OF_CORES == 1 ) */
+    پورٽ_DISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    طالما( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -901,312 +901,312 @@ static void prvTaskExitError( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    static uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) /* PRIVILEGED_FUNCTION */
+    ساكن uint32_t prvGetRegionAccessPermissions( uint32_t ulRBARValue ) /* PRIVILEGED_FUNCTION */
     {
         uint32_t ulAccessPermissions = 0;
 
-        if( ( ulRBARValue & portMPU_RBAR_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_ONLY )
+        إذا( ( ulRBARValue & پورٽ_MPU_RBAR_ACCESS_PERMISSIONS_نقاب ) == پورٽ_MPU_REGION_READ_ONLY )
         {
             ulAccessPermissions = tskMPU_READ_PERMISSION;
         }
 
-        if( ( ulRBARValue & portMPU_RBAR_ACCESS_PERMISSIONS_MASK ) == portMPU_REGION_READ_WRITE )
+        إذا( ( ulRBARValue & پورٽ_MPU_RBAR_ACCESS_PERMISSIONS_نقاب ) == پورٽ_MPU_REGION_READ_WRITE )
         {
             ulAccessPermissions = ( tskMPU_READ_PERMISSION | tskMPU_WRITE_PERMISSION );
         }
 
-        return ulAccessPermissions;
+        أرجع ulAccessPermissions;
     }
 
-#endif /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
+#جيڪڏهن_پورو /* configENABLE_MPU == 1 && configUSE_MPU_WRAPPERS_V1 == 0 */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    static void prvSetupMPU( void ) /* PRIVILEGED_FUNCTION */
+    ساكن فراغ prv_تياري_MPU( فراغ ) /* PRIVILEGED_FUNCTION */
     {
-        #if defined( __ARMCC_VERSION )
+        #إذا defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
-            extern uint32_t * __unprivileged_flash_start__;
-            extern uint32_t * __unprivileged_flash_end__;
-            extern uint32_t * __privileged_sram_start__;
-            extern uint32_t * __privileged_sram_end__;
-        #else /* if defined( __ARMCC_VERSION ) */
+            خارجي uint32_t * __privileged_functions_start__;
+            خارجي uint32_t * __privileged_functions_end__;
+            خارجي uint32_t * __syscalls_flash_start__;
+            خارجي uint32_t * __syscalls_flash_end__;
+            خارجي uint32_t * __unprivileged_flash_start__;
+            خارجي uint32_t * __unprivileged_flash_end__;
+            خارجي uint32_t * __privileged_sram_start__;
+            خارجي uint32_t * __privileged_sram_end__;
+        #وإلا /* if defined( __ARMCC_VERSION ) */
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
-            extern uint32_t __unprivileged_flash_start__[];
-            extern uint32_t __unprivileged_flash_end__[];
-            extern uint32_t __privileged_sram_start__[];
-            extern uint32_t __privileged_sram_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
+            خارجي uint32_t __privileged_functions_start__[];
+            خارجي uint32_t __privileged_functions_end__[];
+            خارجي uint32_t __syscalls_flash_start__[];
+            خارجي uint32_t __syscalls_flash_end__[];
+            خارجي uint32_t __unprivileged_flash_start__[];
+            خارجي uint32_t __unprivileged_flash_end__[];
+            خارجي uint32_t __privileged_sram_start__[];
+            خارجي uint32_t __privileged_sram_end__[];
+        #جيڪڏهن_پورو /* defined( __ARMCC_VERSION ) */
 
         /* The only permitted number of regions are 8 or 16. */
-        configASSERT( ( configTOTAL_MPU_REGIONS == 8 ) || ( configTOTAL_MPU_REGIONS == 16 ) );
+        configASSERT( ( config_ڪل_MPU_REGIONS == 8 ) || ( config_ڪل_MPU_REGIONS == 16 ) );
 
         /* MAIR0 - Index 0. */
-        portMPU_MAIR0_REG |= ( ( portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE << portMPU_MAIR_ATTR0_POS ) & portMPU_MAIR_ATTR0_MASK );
+        پورٽ_MPU_MAIR0_REG |= ( ( پورٽ_MPU_عام_يادگيري_BUFFERABLE_CACHEABLE << پورٽ_MPU_MAIR_ATTR0_POS ) & پورٽ_MPU_MAIR_ATTR0_نقاب );
         /* MAIR0 - Index 1. */
-        portMPU_MAIR0_REG |= ( ( portMPU_DEVICE_MEMORY_nGnRE << portMPU_MAIR_ATTR1_POS ) & portMPU_MAIR_ATTR1_MASK );
+        پورٽ_MPU_MAIR0_REG |= ( ( پورٽ_MPU_DEVICE_يادگيري_n_Gn_RE << پورٽ_MPU_MAIR_ATTR1_POS ) & پورٽ_MPU_MAIR_ATTR1_نقاب );
 
         /* Setup privileged flash as Read Only so that privileged tasks can
          * read it but not modify. */
-        portMPU_RNR_REG = portPRIVILEGED_FLASH_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __privileged_functions_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_PRIVILEGED_READ_ONLY );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __privileged_functions_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        پورٽ_MPU_RNR_REG = پورٽ_PRIVILEGED_FLASH_REGION;
+        پورٽ_MPU_RBAR_REG = ( ( ( uint32_t ) __privileged_functions_start__ ) & پورٽ_MPU_RBAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_REGION_NON_SHAREABLE ) |
+                           ( پورٽ_MPU_REGION_PRIVILEGED_READ_ONLY );
+        پورٽ_MPU_RLAR_REG = ( ( ( uint32_t ) __privileged_functions_end__ ) & پورٽ_MPU_RLAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( پورٽ_MPU_RLAR_REGION_ENABLE );
 
         /* Setup unprivileged flash as Read Only by both privileged and
          * unprivileged tasks. All tasks can read it but no-one can modify. */
-        portMPU_RNR_REG = portUNPRIVILEGED_FLASH_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __unprivileged_flash_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_READ_ONLY );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __unprivileged_flash_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        پورٽ_MPU_RNR_REG = پورٽ_UNPRIVILEGED_FLASH_REGION;
+        پورٽ_MPU_RBAR_REG = ( ( ( uint32_t ) __unprivileged_flash_start__ ) & پورٽ_MPU_RBAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_REGION_NON_SHAREABLE ) |
+                           ( پورٽ_MPU_REGION_READ_ONLY );
+        پورٽ_MPU_RLAR_REG = ( ( ( uint32_t ) __unprivileged_flash_end__ ) & پورٽ_MPU_RLAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( پورٽ_MPU_RLAR_REGION_ENABLE );
 
         /* Setup unprivileged syscalls flash as Read Only by both privileged
          * and unprivileged tasks. All tasks can read it but no-one can modify. */
-        portMPU_RNR_REG = portUNPRIVILEGED_SYSCALLS_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __syscalls_flash_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_READ_ONLY );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __syscalls_flash_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        پورٽ_MPU_RNR_REG = پورٽ_UNPRIVILEGED_SYSCALLS_REGION;
+        پورٽ_MPU_RBAR_REG = ( ( ( uint32_t ) __syscalls_flash_start__ ) & پورٽ_MPU_RBAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_REGION_NON_SHAREABLE ) |
+                           ( پورٽ_MPU_REGION_READ_ONLY );
+        پورٽ_MPU_RLAR_REG = ( ( ( uint32_t ) __syscalls_flash_end__ ) & پورٽ_MPU_RLAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( پورٽ_MPU_RLAR_REGION_ENABLE );
 
         /* Setup RAM containing kernel data for privileged access only. */
-        portMPU_RNR_REG = portPRIVILEGED_RAM_REGION;
-        portMPU_RBAR_REG = ( ( ( uint32_t ) __privileged_sram_start__ ) & portMPU_RBAR_ADDRESS_MASK ) |
-                           ( portMPU_REGION_NON_SHAREABLE ) |
-                           ( portMPU_REGION_PRIVILEGED_READ_WRITE ) |
-                           ( portMPU_REGION_EXECUTE_NEVER );
-        portMPU_RLAR_REG = ( ( ( uint32_t ) __privileged_sram_end__ ) & portMPU_RLAR_ADDRESS_MASK ) |
-                           ( portMPU_RLAR_ATTR_INDEX0 ) |
-                           ( portMPU_RLAR_REGION_ENABLE );
+        پورٽ_MPU_RNR_REG = پورٽ_PRIVILEGED_RAM_REGION;
+        پورٽ_MPU_RBAR_REG = ( ( ( uint32_t ) __privileged_sram_start__ ) & پورٽ_MPU_RBAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_REGION_NON_SHAREABLE ) |
+                           ( پورٽ_MPU_REGION_PRIVILEGED_READ_WRITE ) |
+                           ( پورٽ_MPU_REGION_EXECUTE_NEVER );
+        پورٽ_MPU_RLAR_REG = ( ( ( uint32_t ) __privileged_sram_end__ ) & پورٽ_MPU_RLAR_پتو_نقاب ) |
+                           ( پورٽ_MPU_RLAR_ATTR_INDEX0 ) |
+                           ( پورٽ_MPU_RLAR_REGION_ENABLE );
 
         /* Enable mem fault. */
-        portSCB_SYS_HANDLER_CTRL_STATE_REG |= portSCB_MEM_FAULT_ENABLE_BIT;
+        پورٽ_SCB_SYS_HANDLER_CTRL_STATE_REG |= پورٽ_SCB_MEM_FAULT_ENABLE_ٻٽو_انگ;
 
         /* Enable MPU with privileged background access i.e. unmapped
          * regions have privileged access. */
-        portMPU_CTRL_REG |= ( portMPU_PRIV_BACKGROUND_ENABLE_BIT | portMPU_ENABLE_BIT );
+        پورٽ_MPU_CTRL_REG |= ( پورٽ_MPU_PRIV_BACKGROUND_ENABLE_ٻٽو_انگ | پورٽ_MPU_ENABLE_ٻٽو_انگ );
     }
 
-#endif /* configENABLE_MPU */
+#جيڪڏهن_پورو /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_FPU == 1 )
+#إذا ( configENABLE_FPU == 1 )
 
-    static void prvSetupFPU( void ) /* PRIVILEGED_FUNCTION */
+    ساكن فراغ prv_تياري_FPU( فراغ ) /* PRIVILEGED_FUNCTION */
     {
-        #if ( configENABLE_TRUSTZONE == 1 )
+        #إذا ( configENABLE_TRUSTZONE == 1 )
         {
             /* Enable non-secure access to the FPU. */
             SecureInit_EnableNSFPUAccess();
         }
-        #endif /* configENABLE_TRUSTZONE */
+        #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
 
         /* CP10 = 11 ==> Full access to FPU i.e. both privileged and
          * unprivileged code should be able to access FPU. CP11 should be
          * programmed to the same value as CP10. */
-        *( portCPACR ) |= ( ( portCPACR_CP10_VALUE << portCPACR_CP10_POS ) |
-                            ( portCPACR_CP11_VALUE << portCPACR_CP11_POS )
+        *( پورٽ_CPACR ) |= ( ( پورٽ_CPACR_CP10_قدر << پورٽ_CPACR_CP10_POS ) |
+                            ( پورٽ_CPACR_CP11_قدر << پورٽ_CPACR_CP11_POS )
                             );
 
         /* ASPEN = 1 ==> Hardware should automatically preserve floating point
          * context on exception entry and restore on exception return.
          * LSPEN = 1 ==> Enable lazy context save of FP state. */
-        *( portFPCCR ) |= ( portFPCCR_ASPEN_MASK | portFPCCR_LSPEN_MASK );
+        *( پورٽ_FPCCR ) |= ( پورٽ_FPCCR_ASPEN_نقاب | پورٽ_FPCCR_LSPEN_نقاب );
     }
 
-#endif /* configENABLE_FPU */
+#جيڪڏهن_پورو /* configENABLE_FPU */
 /*-----------------------------------------------------------*/
 
-void vPortYield( void ) /* PRIVILEGED_FUNCTION */
+فراغ v_پورٽ_Yield( فراغ ) /* PRIVILEGED_FUNCTION */
 {
     /* Set a PendSV to request a context switch. */
-    portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+    پورٽ_NVIC_INT_CTRL_REG = پورٽ_NVIC_PENDSVSET_ٻٽو_انگ;
 
     /* Barriers are normally not required but do ensure the code is
      * completely within the specified behaviour for the architecture. */
-    __asm volatile ( "dsb" ::: "memory" );
-    __asm volatile ( "isb" );
+    __asm متطاير ( "dsb" ::: "memory" );
+    __asm متطاير ( "isb" );
 }
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
-    void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */
+#إذا ( config_عدد_جو_CORES == 1 )
+    فراغ v_پورٽ_Enter_Critical( فراغ ) /* PRIVILEGED_FUNCTION */
     {
-        portDISABLE_INTERRUPTS();
+        پورٽ_DISABLE_INTERRUPTS();
         ulCriticalNesting++;
         /* Barriers are normally not required but do ensure the code is
         * completely within the specified behaviour for the architecture. */
-        __asm volatile ( "dsb" ::: "memory" );
-        __asm volatile ( "isb" );
+        __asm متطاير ( "dsb" ::: "memory" );
+        __asm متطاير ( "isb" );
     }
     /*-----------------------------------------------------------*/
 
-    void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */
+    فراغ v_پورٽ_Exit_Critical( فراغ ) /* PRIVILEGED_FUNCTION */
     {
         configASSERT( ulCriticalNesting );
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == 0 )
+        إذا( ulCriticalNesting == 0 )
         {
-            portENABLE_INTERRUPTS();
+            پورٽ_ENABLE_INTERRUPTS();
         }
     }
-#endif /* configNUMBER_OF_CORES == 1 */
+#جيڪڏهن_پورو /* configNUMBER_OF_CORES == 1 */
 /*-----------------------------------------------------------*/
 
-void SysTick_Handler( void ) /* PRIVILEGED_FUNCTION */
+فراغ SysTick_Handler( فراغ ) /* PRIVILEGED_FUNCTION */
 {
-    uint32_t ulPreviousMask;
+    uint32_t ul_اڳيون_نقاب;
 
-    ulPreviousMask = portSET_INTERRUPT_MASK_FROM_ISR();
-    #if ( configNUMBER_OF_CORES > 1 )
-        UBaseType_t uxSavedInterruptStatus = portENTER_CRITICAL_FROM_ISR();
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    ul_اڳيون_نقاب = پورٽ_سيٽ_مداخلت_نقاب_FROM_ISR();
+    #إذا ( config_عدد_جو_CORES > 1 )
+        UBaseType_t ux_Saved_مداخلت_حالت = پورٽ_ENTER_CRITICAL_FROM_ISR();
+    #جيڪڏهن_پورو /* if ( configNUMBER_OF_CORES > 1 ) */
 
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
-            traceISR_EXIT_TO_SCHEDULER();
+            trace_ISR_EXIT_منزل_SCHEDULER();
             /* Pend a context switch. */
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+            پورٽ_NVIC_INT_CTRL_REG = پورٽ_NVIC_PENDSVSET_ٻٽو_انگ;
         }
-        else
+        وإلا
         {
             traceISR_EXIT();
         }
     }
-    #if ( configNUMBER_OF_CORES > 1 )
-        portEXIT_CRITICAL_FROM_ISR( uxSavedInterruptStatus );
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #إذا ( config_عدد_جو_CORES > 1 )
+        پورٽ_EXIT_CRITICAL_FROM_ISR( ux_Saved_مداخلت_حالت );
+    #جيڪڏهن_پورو /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulPreviousMask );
+    پورٽ_CLEAR_مداخلت_نقاب_FROM_ISR( ul_اڳيون_نقاب );
 }
 /*-----------------------------------------------------------*/
 
-void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTION portDONT_DISCARD */
+فراغ v_پورٽ_SVCHandler_C( uint32_t * pul_Caller_ڍير_پتو ) /* PRIVILEGED_FUNCTION portDONT_DISCARD */
 {
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
-        #if defined( __ARMCC_VERSION )
+    #إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+        #إذا defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
-        #else
+            خارجي uint32_t * __syscalls_flash_start__;
+            خارجي uint32_t * __syscalls_flash_end__;
+        #وإلا
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
-    #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+            خارجي uint32_t __syscalls_flash_start__[];
+            خارجي uint32_t __syscalls_flash_end__[];
+        #جيڪڏهن_پورو /* defined( __ARMCC_VERSION ) */
+    #جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-    #if ( configENABLE_MPU == 1 )
-        #if defined( __ARMCC_VERSION )
+    #إذا ( configENABLE_MPU == 1 )
+        #إذا defined( __ARMCC_VERSION )
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-        #else
+            خارجي uint32_t * __privileged_functions_start__;
+            خارجي uint32_t * __privileged_functions_end__;
+        #وإلا
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
-    #endif /* configENABLE_MPU == 1 */
+            خارجي uint32_t __privileged_functions_start__[];
+            خارجي uint32_t __privileged_functions_end__[];
+        #جيڪڏهن_پورو /* defined( __ARMCC_VERSION ) */
+    #جيڪڏهن_پورو /* configENABLE_MPU == 1 */
 
     uint32_t ulPC;
 
-    #if ( configENABLE_TRUSTZONE == 1 )
+    #إذا ( configENABLE_TRUSTZONE == 1 )
         uint32_t ulR0, ulR1;
-        extern TaskHandle_t pxCurrentTCB;
-        #if ( configENABLE_MPU == 1 )
+        خارجي TaskHandle_t pxCurrentTCB;
+        #إذا ( configENABLE_MPU == 1 )
             uint32_t ulControl, ulIsTaskPrivileged;
-        #endif /* configENABLE_MPU */
-    #endif /* configENABLE_TRUSTZONE */
+        #جيڪڏهن_پورو /* configENABLE_MPU */
+    #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
     uint8_t ucSVCNumber;
 
     /* Register are stored on the stack in the following order - R0, R1, R2, R3,
      * R12, LR, PC, xPSR. */
-    ulPC = pulCallerStackAddress[ portOFFSET_TO_PC ];
+    ulPC = pul_Caller_ڍير_پتو[ پورٽ_وٿي_منزل_PC ];
     ucSVCNumber = ( ( uint8_t * ) ulPC )[ -2 ];
 
-    switch( ucSVCNumber )
+    بدل( ucSVCNumber )
     {
-    #if ( configENABLE_TRUSTZONE == 1 )
-        case portSVC_ALLOCATE_SECURE_CONTEXT:
+    #إذا ( configENABLE_TRUSTZONE == 1 )
+        حالة پورٽ_SVC_ALLOCATE_SECURE_CONTEXT:
 
             /* R0 contains the stack size passed as parameter to the
              * vPortAllocateSecureContext function. */
-            ulR0 = pulCallerStackAddress[ 0 ];
+            ulR0 = pul_Caller_ڍير_پتو[ 0 ];
 
-            #if ( configENABLE_MPU == 1 )
+            #إذا ( configENABLE_MPU == 1 )
             {
                 /* Read the CONTROL register value. */
-                __asm volatile ( "mrs %0, control"  : "=r" ( ulControl ) );
+                __asm متطاير ( "mrs %0, control"  : "=r" ( ulControl ) );
 
                 /* The task that raised the SVC is privileged if Bit[0]
                  * in the CONTROL register is 0. */
-                ulIsTaskPrivileged = ( ( ulControl & portCONTROL_PRIVILEGED_MASK ) == 0 );
+                ulIsTaskPrivileged = ( ( ulControl & پورٽ_CONTROL_PRIVILEGED_نقاب ) == 0 );
 
                 /* Allocate and load a context for the secure task. */
                 xSecureContext = SecureContext_AllocateContext( ulR0, ulIsTaskPrivileged, pxCurrentTCB );
             }
-            #else /* if ( configENABLE_MPU == 1 ) */
+            #وإلا /* if ( configENABLE_MPU == 1 ) */
             {
                 /* Allocate and load a context for the secure task. */
                 xSecureContext = SecureContext_AllocateContext( ulR0, pxCurrentTCB );
             }
-            #endif /* configENABLE_MPU */
+            #جيڪڏهن_پورو /* configENABLE_MPU */
 
             configASSERT( xSecureContext != securecontextINVALID_CONTEXT_ID );
-            SecureContext_LoadContext( xSecureContext, pxCurrentTCB );
-            break;
+            Secure_Context_ڀريو_Context( xSecureContext, pxCurrentTCB );
+            اكسر;
 
-        case portSVC_FREE_SECURE_CONTEXT:
-            #if ( configENABLE_MPU == 1 )
-            if( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
+        حالة پورٽ_SVC_FREE_SECURE_CONTEXT:
+            #إذا ( configENABLE_MPU == 1 )
+            إذا( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
                 ( ulPC <= ( uint32_t ) __privileged_functions_end__ ) )
             {
-            #endif /* configENABLE_MPU */
+            #جيڪڏهن_پورو /* configENABLE_MPU */
                 /* R0 contains TCB being freed and R1 contains the secure
                  * context handle to be freed. */
-                ulR0 = pulCallerStackAddress[ 0 ];
-                ulR1 = pulCallerStackAddress[ 1 ];
+                ulR0 = pul_Caller_ڍير_پتو[ 0 ];
+                ulR1 = pul_Caller_ڍير_پتو[ 1 ];
 
                 /* Free the secure context. */
-                SecureContext_FreeContext( ( SecureContextHandle_t ) ulR1, ( void * ) ulR0 );
-            #if ( configENABLE_MPU == 1 )
+                SecureContext_FreeContext( ( SecureContextHandle_t ) ulR1, ( فراغ * ) ulR0 );
+            #إذا ( configENABLE_MPU == 1 )
             }
-            #endif /* configENABLE_MPU */
-            break;
-    #endif /* configENABLE_TRUSTZONE */
+            #جيڪڏهن_پورو /* configENABLE_MPU */
+            اكسر;
+    #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
 
-        case portSVC_START_SCHEDULER:
-            #if ( configENABLE_MPU == 1 )
-            if( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
+        حالة پورٽ_SVC_شروعات_SCHEDULER:
+            #إذا ( configENABLE_MPU == 1 )
+            إذا( ( ulPC >= ( uint32_t ) __privileged_functions_start__ ) &&
                 ( ulPC <= ( uint32_t ) __privileged_functions_end__ ) )
             {
-            #endif /* configENABLE_MPU */
-                #if ( configENABLE_TRUSTZONE == 1 )
+            #جيڪڏهن_پورو /* configENABLE_MPU */
+                #إذا ( configENABLE_TRUSTZONE == 1 )
                 {
                     /* De-prioritize the non-secure exceptions so that the
                      * non-secure pendSV runs at the lowest priority. */
@@ -1215,74 +1215,74 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
                     /* Initialize the secure context management system. */
                     SecureContext_Init();
                 }
-                #endif /* configENABLE_TRUSTZONE */
+                #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
 
-                #if ( configENABLE_FPU == 1 )
+                #إذا ( configENABLE_FPU == 1 )
                 {
                     /* Setup the Floating Point Unit (FPU). */
-                    prvSetupFPU();
+                    prv_تياري_FPU();
                 }
-                #endif /* configENABLE_FPU */
+                #جيڪڏهن_پورو /* configENABLE_FPU */
 
                 /* Setup the context of the first task so that the first task starts
                  * executing. */
-                vRestoreContextOfFirstTask();
-            #if ( configENABLE_MPU == 1 )
+                v_Restore_Context_جو_پهريون_Task();
+            #إذا ( configENABLE_MPU == 1 )
             }
-            #endif /* configENABLE_MPU */
-            break;
+            #جيڪڏهن_پورو /* configENABLE_MPU */
+            اكسر;
 
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
-        case portSVC_RAISE_PRIVILEGE:
+    #إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+        حالة پورٽ_SVC_RAISE_PRIVILEGE:
 
             /* Only raise the privilege, if the svc was raised from any of
              * the system calls. */
-            if( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
+            إذا( ( ulPC >= ( uint32_t ) __syscalls_flash_start__ ) &&
                 ( ulPC <= ( uint32_t ) __syscalls_flash_end__ ) )
             {
                 vRaisePrivilege();
             }
-            break;
-    #endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
+            اكسر;
+    #جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) */
 
-    #if ( configENABLE_MPU == 1 )
-        case portSVC_YIELD:
-            vPortYield();
-            break;
-    #endif /* configENABLE_MPU == 1 */
+    #إذا ( configENABLE_MPU == 1 )
+        حالة پورٽ_SVC_YIELD:
+            v_پورٽ_Yield();
+            اكسر;
+    #جيڪڏهن_پورو /* configENABLE_MPU == 1 */
 
-        default:
+        افتراضي:
             /* Incorrect SVC call. */
             configASSERT( pdFALSE );
     }
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vSystemCallEnter( uint32_t * pulTaskStack,
+    فراغ vSystemCallEnter( uint32_t * pul_Task_ڍير,
                            uint32_t ulLR,
-                           uint8_t ucSystemCallNumber ) /* PRIVILEGED_FUNCTION */
+                           uint8_t uc_System_Call_عدد ) /* PRIVILEGED_FUNCTION */
     {
-        extern TaskHandle_t pxCurrentTCB;
-        extern UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ];
+        خارجي TaskHandle_t pxCurrentTCB;
+        خارجي UBaseType_t uxSystemCallImplementations[ انگ_SYSTEM_CALLS ];
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulSystemCallStack;
-        uint32_t ulHardwareSavedExceptionFrameSize, ulSystemCallLocation, i;
+        uint32_t * pul_System_Call_ڍير;
+        uint32_t ul_Hardware_Saved_Exception_چوکٺو_سائيز, ulSystemCallLocation, i;
 
-        #if defined( __ARMCC_VERSION )
+        #إذا defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __syscalls_flash_start__;
-            extern uint32_t * __syscalls_flash_end__;
-        #else
+            خارجي uint32_t * __syscalls_flash_start__;
+            خارجي uint32_t * __syscalls_flash_end__;
+        #وإلا
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __syscalls_flash_start__[];
-            extern uint32_t __syscalls_flash_end__[];
-        #endif /* #if defined( __ARMCC_VERSION ) */
+            خارجي uint32_t __syscalls_flash_start__[];
+            خارجي uint32_t __syscalls_flash_end__[];
+        #جيڪڏهن_پورو /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulTaskStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_Task_ڍير[ پورٽ_وٿي_منزل_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -1297,101 +1297,101 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
          *    because the assembly SVC handler checks that before calling
          *    this function.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
+        إذا( ( ulSystemCallLocation >= ( uint32_t ) __syscalls_flash_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __syscalls_flash_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack == NULL ) &&
-            ( uxSystemCallImplementations[ ucSystemCallNumber ] != ( UBaseType_t ) 0 ) )
+            ( pxMpuSettings->x_System_Call_ڍير_Info.pul_Task_ڍير == عدم ) &&
+            ( uxSystemCallImplementations[ uc_System_Call_عدد ] != ( UBaseType_t ) 0 ) )
         {
-            pulSystemCallStack = pxMpuSettings->xSystemCallStackInfo.pulSystemCallStack;
+            pul_System_Call_ڍير = pxMpuSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير;
 
             /* Hardware Saved Stack Frame Size upon Exception entry:
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+            #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             {
-                if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+                إذا( ( ulLR & پورٽ_EXC_RETURN_ڍير_چوکٺو_TYPE_نقاب ) == 0UL )
                 {
                     /* Extended frame i.e. FPU in use. */
-                    ulHardwareSavedExceptionFrameSize = 26;
-                    __asm volatile (
+                    ul_Hardware_Saved_Exception_چوکٺو_سائيز = 26;
+                    __asm متطاير (
                         " vpush {s0}         \n" /* Trigger lazy stacking. */
                         " vpop  {s0}         \n" /* Nullify the affect of the above instruction. */
                         ::: "memory"
                         );
                 }
-                else
+                وإلا
                 {
                     /* Standard frame i.e. FPU not in use. */
-                    ulHardwareSavedExceptionFrameSize = 8;
+                    ul_Hardware_Saved_Exception_چوکٺو_سائيز = 8;
                 }
             }
-            #else /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+            #وإلا /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
             {
-                ulHardwareSavedExceptionFrameSize = 8;
+                ul_Hardware_Saved_Exception_چوکٺو_سائيز = 8;
             }
-            #endif /* configENABLE_FPU || configENABLE_MVE */
+            #جيڪڏهن_پورو /* configENABLE_FPU || configENABLE_MVE */
 
             /* Make space on the system call stack for the stack frame. */
-            pulSystemCallStack = pulSystemCallStack - ulHardwareSavedExceptionFrameSize;
+            pul_System_Call_ڍير = pul_System_Call_ڍير - ul_Hardware_Saved_Exception_چوکٺو_سائيز;
 
             /* Copy the stack frame. */
-            for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
+            لكل( i = 0; i < ul_Hardware_Saved_Exception_چوکٺو_سائيز; i++ )
             {
-                pulSystemCallStack[ i ] = pulTaskStack[ i ];
+                pul_System_Call_ڍير[ i ] = pul_Task_ڍير[ i ];
             }
 
             /* Store the value of the Link Register before the SVC was raised.
              * It contains the address of the caller of the System Call entry
              * point (i.e. the caller of the MPU_<API>). We need to restore it
              * when we exit from the system call. */
-            pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry = pulTaskStack[ portOFFSET_TO_LR ];
+            pxMpuSettings->x_System_Call_ڍير_Info.ul_Link_رجسٽر_At_System_Call_داخلا = pul_Task_ڍير[ پورٽ_وٿي_منزل_LR ];
 
             /* Store the value of the PSPLIM register before the SVC was raised.
              * We need to restore it when we exit from the system call. */
-            #if ( portUSE_PSPLIM_REGISTER == 1 )
+            #إذا ( پورٽ_USE_PSPLIM_رجسٽر == 1 )
             {
-                __asm volatile ( "mrs %0, psplim" : "=r" ( pxMpuSettings->xSystemCallStackInfo.ulStackLimitRegisterAtSystemCallEntry ) );
+                __asm متطاير ( "mrs %0, psplim" : "=r" ( pxMpuSettings->x_System_Call_ڍير_Info.ul_ڍير_حد_بندي_رجسٽر_At_System_Call_داخلا ) );
             }
-            #endif
+            #جيڪڏهن_پورو
 
             /* Use the pulSystemCallStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulSystemCallStack ) );
-            #if ( portUSE_PSPLIM_REGISTER == 1 )
+            __asm متطاير ( "msr psp, %0" : : "r" ( pul_System_Call_ڍير ) );
+            #إذا ( پورٽ_USE_PSPLIM_رجسٽر == 1 )
             {
-                __asm volatile ( "msr psplim, %0" : : "r" ( pxMpuSettings->xSystemCallStackInfo.pulSystemCallStackLimit ) );
+                __asm متطاير ( "msr psplim, %0" : : "r" ( pxMpuSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير_حد_بندي ) );
             }
-            #endif
+            #جيڪڏهن_پورو
 
             /* Start executing the system call upon returning from this handler. */
-            pulSystemCallStack[ portOFFSET_TO_PC ] = uxSystemCallImplementations[ ucSystemCallNumber ];
+            pul_System_Call_ڍير[ پورٽ_وٿي_منزل_PC ] = uxSystemCallImplementations[ uc_System_Call_عدد ];
 
             /* Raise a request to exit from the system call upon finishing the
              * system call. */
-            pulSystemCallStack[ portOFFSET_TO_LR ] = ( uint32_t ) vRequestSystemCallExit;
+            pul_System_Call_ڍير[ پورٽ_وٿي_منزل_LR ] = ( uint32_t ) vRequestSystemCallExit;
 
             /* Remember the location where we should copy the stack frame when we exit from
              * the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = pulTaskStack + ulHardwareSavedExceptionFrameSize;
+            pxMpuSettings->x_System_Call_ڍير_Info.pul_Task_ڍير = pul_Task_ڍير + ul_Hardware_Saved_Exception_چوکٺو_سائيز;
 
             /* Record if the hardware used padding to force the stack pointer
              * to be double word aligned. */
-            if( ( pulTaskStack[ portOFFSET_TO_PSR ] & portPSR_STACK_PADDING_MASK ) == portPSR_STACK_PADDING_MASK )
+            إذا( ( pul_Task_ڍير[ پورٽ_وٿي_منزل_PSR ] & پورٽ_PSR_ڍير_PADDING_نقاب ) == پورٽ_PSR_ڍير_PADDING_نقاب )
             {
-                pxMpuSettings->ulTaskFlags |= portSTACK_FRAME_HAS_PADDING_FLAG;
+                pxMpuSettings->ulTaskFlags |= پورٽ_ڍير_چوکٺو_HAS_PADDING_FLAG;
             }
-            else
+            وإلا
             {
-                pxMpuSettings->ulTaskFlags &= ( ~portSTACK_FRAME_HAS_PADDING_FLAG );
+                pxMpuSettings->ulTaskFlags &= ( ~پورٽ_ڍير_چوکٺو_HAS_PADDING_FLAG );
             }
 
             /* We ensure in pxPortInitialiseStack that the system call stack is
              * double word aligned and therefore, there is no need of padding.
              * Clear the bit[9] of stacked xPSR. */
-            pulSystemCallStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+            pul_System_Call_ڍير[ پورٽ_وٿي_منزل_PSR ] &= ( ~پورٽ_PSR_ڍير_PADDING_نقاب );
 
             /* Raise the privilege for the duration of the system call. */
-            __asm volatile (
+            __asm متطاير (
                 " mrs r0, control     \n" /* Obtain current control value. */
                 " movs r1, #1         \n" /* r1 = 1. */
                 " bics r0, r1         \n" /* Clear nPRIV bit. */
@@ -1401,42 +1401,42 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         }
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vRequestSystemCallExit( void ) /* __attribute__( ( naked ) ) PRIVILEGED_FUNCTION */
+    فراغ vRequestSystemCallExit( فراغ ) /* __attribute__( ( naked ) ) PRIVILEGED_FUNCTION */
     {
-        __asm volatile ( "svc %0 \n" ::"i" ( portSVC_SYSTEM_CALL_EXIT ) : "memory" );
+        __asm متطاير ( "svc %0 \n" ::"i" ( پورٽ_SVC_SYSTEM_CALL_EXIT ) : "memory" );
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void vSystemCallExit( uint32_t * pulSystemCallStack,
+    فراغ vSystemCallExit( uint32_t * pul_System_Call_ڍير,
                           uint32_t ulLR ) /* PRIVILEGED_FUNCTION */
     {
-        extern TaskHandle_t pxCurrentTCB;
+        خارجي TaskHandle_t pxCurrentTCB;
         xMPU_SETTINGS * pxMpuSettings;
-        uint32_t * pulTaskStack;
-        uint32_t ulHardwareSavedExceptionFrameSize, ulSystemCallLocation, i;
+        uint32_t * pul_Task_ڍير;
+        uint32_t ul_Hardware_Saved_Exception_چوکٺو_سائيز, ulSystemCallLocation, i;
 
-        #if defined( __ARMCC_VERSION )
+        #إذا defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_functions_start__;
-            extern uint32_t * __privileged_functions_end__;
-        #else
+            خارجي uint32_t * __privileged_functions_start__;
+            خارجي uint32_t * __privileged_functions_end__;
+        #وإلا
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_functions_start__[];
-            extern uint32_t __privileged_functions_end__[];
-        #endif /* #if defined( __ARMCC_VERSION ) */
+            خارجي uint32_t __privileged_functions_start__[];
+            خارجي uint32_t __privileged_functions_end__[];
+        #جيڪڏهن_پورو /* #if defined( __ARMCC_VERSION ) */
 
-        ulSystemCallLocation = pulSystemCallStack[ portOFFSET_TO_PC ];
+        ulSystemCallLocation = pul_System_Call_ڍير[ پورٽ_وٿي_منزل_PC ];
         pxMpuSettings = xTaskGetMPUSettings( pxCurrentTCB );
 
         /* Checks:
@@ -1448,83 +1448,83 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
          *    application is not attempting to exit without entering a system
          *    call.
          */
-        if( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
+        إذا( ( ulSystemCallLocation >= ( uint32_t ) __privileged_functions_start__ ) &&
             ( ulSystemCallLocation <= ( uint32_t ) __privileged_functions_end__ ) &&
-            ( pxMpuSettings->xSystemCallStackInfo.pulTaskStack != NULL ) )
+            ( pxMpuSettings->x_System_Call_ڍير_Info.pul_Task_ڍير != عدم ) )
         {
-            pulTaskStack = pxMpuSettings->xSystemCallStackInfo.pulTaskStack;
+            pul_Task_ڍير = pxMpuSettings->x_System_Call_ڍير_Info.pul_Task_ڍير;
 
             /* Hardware Saved Stack Frame Size upon Exception entry:
              * - No FPU: basic frame (R0-R3, R12, LR, PC, and xPSR) = 8 words.
              * - With FPU (lazy stacking): basic frame + S0–S15 + FPSCR + reserved word = 26 words.
              */
-            #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+            #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             {
-                if( ( ulLR & portEXC_RETURN_STACK_FRAME_TYPE_MASK ) == 0UL )
+                إذا( ( ulLR & پورٽ_EXC_RETURN_ڍير_چوکٺو_TYPE_نقاب ) == 0UL )
                 {
                     /* Extended frame i.e. FPU in use. */
-                    ulHardwareSavedExceptionFrameSize = 26;
-                    __asm volatile (
+                    ul_Hardware_Saved_Exception_چوکٺو_سائيز = 26;
+                    __asm متطاير (
                         " vpush {s0}         \n" /* Trigger lazy stacking. */
                         " vpop  {s0}         \n" /* Nullify the affect of the above instruction. */
                         ::: "memory"
                         );
                 }
-                else
+                وإلا
                 {
                     /* Standard frame i.e. FPU not in use. */
-                    ulHardwareSavedExceptionFrameSize = 8;
+                    ul_Hardware_Saved_Exception_چوکٺو_سائيز = 8;
                 }
             }
-            #else /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+            #وإلا /* if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
             {
-                ulHardwareSavedExceptionFrameSize = 8;
+                ul_Hardware_Saved_Exception_چوکٺو_سائيز = 8;
             }
-            #endif /* configENABLE_FPU || configENABLE_MVE */
+            #جيڪڏهن_پورو /* configENABLE_FPU || configENABLE_MVE */
 
             /* Make space on the task stack for the stack frame. */
-            pulTaskStack = pulTaskStack - ulHardwareSavedExceptionFrameSize;
+            pul_Task_ڍير = pul_Task_ڍير - ul_Hardware_Saved_Exception_چوکٺو_سائيز;
 
             /* Copy the stack frame. */
-            for( i = 0; i < ulHardwareSavedExceptionFrameSize; i++ )
+            لكل( i = 0; i < ul_Hardware_Saved_Exception_چوکٺو_سائيز; i++ )
             {
-                pulTaskStack[ i ] = pulSystemCallStack[ i ];
+                pul_Task_ڍير[ i ] = pul_System_Call_ڍير[ i ];
             }
 
             /* Use the pulTaskStack in thread mode. */
-            __asm volatile ( "msr psp, %0" : : "r" ( pulTaskStack ) );
+            __asm متطاير ( "msr psp, %0" : : "r" ( pul_Task_ڍير ) );
 
             /* Return to the caller of the System Call entry point (i.e. the
              * caller of the MPU_<API>). */
-            pulTaskStack[ portOFFSET_TO_PC ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_ڍير[ پورٽ_وٿي_منزل_PC ] = pxMpuSettings->x_System_Call_ڍير_Info.ul_Link_رجسٽر_At_System_Call_داخلا;
             /* Ensure that LR has a valid value.*/
-            pulTaskStack[ portOFFSET_TO_LR ] = pxMpuSettings->xSystemCallStackInfo.ulLinkRegisterAtSystemCallEntry;
+            pul_Task_ڍير[ پورٽ_وٿي_منزل_LR ] = pxMpuSettings->x_System_Call_ڍير_Info.ul_Link_رجسٽر_At_System_Call_داخلا;
 
             /* Restore the PSPLIM register to what it was at the time of
              * system call entry. */
-            #if ( portUSE_PSPLIM_REGISTER == 1 )
+            #إذا ( پورٽ_USE_PSPLIM_رجسٽر == 1 )
             {
-                __asm volatile ( "msr psplim, %0" : : "r" ( pxMpuSettings->xSystemCallStackInfo.ulStackLimitRegisterAtSystemCallEntry ) );
+                __asm متطاير ( "msr psplim, %0" : : "r" ( pxMpuSettings->x_System_Call_ڍير_Info.ul_ڍير_حد_بندي_رجسٽر_At_System_Call_داخلا ) );
             }
-            #endif
+            #جيڪڏهن_پورو
 
             /* If the hardware used padding to force the stack pointer
              * to be double word aligned, set the stacked xPSR bit[9],
              * otherwise clear it. */
-            if( ( pxMpuSettings->ulTaskFlags & portSTACK_FRAME_HAS_PADDING_FLAG ) == portSTACK_FRAME_HAS_PADDING_FLAG )
+            إذا( ( pxMpuSettings->ulTaskFlags & پورٽ_ڍير_چوکٺو_HAS_PADDING_FLAG ) == پورٽ_ڍير_چوکٺو_HAS_PADDING_FLAG )
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] |= portPSR_STACK_PADDING_MASK;
+                pul_Task_ڍير[ پورٽ_وٿي_منزل_PSR ] |= پورٽ_PSR_ڍير_PADDING_نقاب;
             }
-            else
+            وإلا
             {
-                pulTaskStack[ portOFFSET_TO_PSR ] &= ( ~portPSR_STACK_PADDING_MASK );
+                pul_Task_ڍير[ پورٽ_وٿي_منزل_PSR ] &= ( ~پورٽ_PSR_ڍير_PADDING_نقاب );
             }
 
             /* This is not NULL only for the duration of the system call. */
-            pxMpuSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            pxMpuSettings->x_System_Call_ڍير_Info.pul_Task_ڍير = عدم;
 
             /* Drop the privilege before returning to the thread mode. */
-            __asm volatile (
+            __asm متطاير (
                 " mrs r0, control     \n" /* Obtain current control value. */
                 " movs r1, #1         \n" /* r1 = 1. */
                 " orrs r0, r1         \n" /* Set nPRIV bit. */
@@ -1534,246 +1534,246 @@ void vPortSVCHandler_C( uint32_t * pulCallerStackAddress ) /* PRIVILEGED_FUNCTIO
         }
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    BaseType_t xPortIsTaskPrivileged( void ) /* PRIVILEGED_FUNCTION */
+    بنياد_Type_t x_پورٽ_Is_Task_Privileged( فراغ ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xTaskIsPrivileged = pdFALSE;
-        const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+        بنياد_Type_t xTaskIsPrivileged = pdFALSE;
+        ثابت xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( عدم ); /* Calling task's MPU settings. */
 
-        if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        إذا( ( xTaskMpuSettings->ulTaskFlags & پورٽ_TASK_IS_PRIVILEGED_FLAG ) == پورٽ_TASK_IS_PRIVILEGED_FLAG )
         {
             xTaskIsPrivileged = pdTRUE;
         }
 
-        return xTaskIsPrivileged;
+        أرجع xTaskIsPrivileged;
     }
 
-#endif /* configENABLE_MPU == 1 */
+#جيڪڏهن_پورو /* configENABLE_MPU == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         StackType_t * pxEndOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters,
-                                         BaseType_t xRunPrivileged,
+    ڍير_Type_t * px_پورٽ_Initialise_ڍير( ڍير_Type_t * px_چوٽي_جو_ڍير,
+                                         ڍير_Type_t * px_پڇاڙي_جو_ڍير,
+                                         TaskFunction_t px_ڪوڊ,
+                                         فراغ * pvParameters,
+                                         بنياد_Type_t x_لاڳيتو_Privileged,
                                          xMPU_SETTINGS * xMPUSettings ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulIndex = 0;
+        uint32_t ul_اشاريو = 0;
         uint32_t ulControl = 0x0;
 
-        xMPUSettings->ulContext[ ulIndex ] = 0x04040404; /* r4. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x05050505; /* r5. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x06060606; /* r6. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x07070707; /* r7. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x08080808; /* r8. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x09090909; /* r9. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x10101010; /* r10. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x11111111; /* r11. */
-        ulIndex++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x04040404; /* r4. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x05050505; /* r5. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x06060606; /* r6. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x07070707; /* r7. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x08080808; /* r8. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x09090909; /* r9. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x10101010; /* r10. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x11111111; /* r11. */
+        ul_اشاريو++;
 
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) pvParameters; /* r0. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x01010101; /* r1. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x02020202; /* r2. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x03030303; /* r3. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = 0x12121212; /* r12. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) portTASK_RETURN_ADDRESS; /* LR. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) pxCode; /* PC. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = portINITIAL_XPSR; /* xPSR. */
-        ulIndex++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = ( uint32_t ) pvParameters; /* r0. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x01010101; /* r1. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x02020202; /* r2. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x03030303; /* r3. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = 0x12121212; /* r12. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = ( uint32_t ) پورٽ_TASK_RETURN_پتو; /* LR. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = ( uint32_t ) px_ڪوڊ; /* PC. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = پورٽ_INITIAL_XPSR; /* xPSR. */
+        ul_اشاريو++;
 
-        #if ( configENABLE_TRUSTZONE == 1 )
+        #إذا ( configENABLE_TRUSTZONE == 1 )
         {
-            xMPUSettings->ulContext[ ulIndex ] = portNO_SECURE_CONTEXT; /* xSecureContext. */
-            ulIndex++;
+            xMPUSettings->ulContext[ ul_اشاريو ] = پورٽ_NO_SECURE_CONTEXT; /* xSecureContext. */
+            ul_اشاريو++;
         }
-        #endif /* configENABLE_TRUSTZONE */
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) ( pxTopOfStack - 8 ); /* PSP with the hardware saved stack. */
-        ulIndex++;
-        xMPUSettings->ulContext[ ulIndex ] = ( uint32_t ) pxEndOfStack; /* PSPLIM. */
-        ulIndex++;
+        #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
+        xMPUSettings->ulContext[ ul_اشاريو ] = ( uint32_t ) ( px_چوٽي_جو_ڍير - 8 ); /* PSP with the hardware saved stack. */
+        ul_اشاريو++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = ( uint32_t ) px_پڇاڙي_جو_ڍير; /* PSPLIM. */
+        ul_اشاريو++;
 
-        #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+        #إذا ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
         {
             /* Check PACBTI security feature configuration before pushing the
              * CONTROL register's value on task's TCB. */
-            #if ( configNUMBER_OF_CORES == 1 )
+            #إذا ( config_عدد_جو_CORES == 1 )
                 ulControl = prvConfigurePACBTI( pdFALSE );
-            #else /* configNUMBER_OF_CORES > 1 */
+            #وإلا /* configNUMBER_OF_CORES > 1 */
                 ulControl = vConfigurePACBTI( pdFALSE );
-            #endif /* configNUMBER_OF_CORES */
+            #جيڪڏهن_پورو /* configNUMBER_OF_CORES */
         }
-        #endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+        #جيڪڏهن_پورو /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 
-        if( xRunPrivileged == pdTRUE )
+        إذا( x_لاڳيتو_Privileged == pdTRUE )
         {
-            xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
-            xMPUSettings->ulContext[ ulIndex ] = ( ulControl | ( uint32_t ) portINITIAL_CONTROL_PRIVILEGED ); /* CONTROL. */
-            ulIndex++;
+            xMPUSettings->ulTaskFlags |= پورٽ_TASK_IS_PRIVILEGED_FLAG;
+            xMPUSettings->ulContext[ ul_اشاريو ] = ( ulControl | ( uint32_t ) پورٽ_INITIAL_CONTROL_PRIVILEGED ); /* CONTROL. */
+            ul_اشاريو++;
         }
-        else
+        وإلا
         {
-            xMPUSettings->ulTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
-            xMPUSettings->ulContext[ ulIndex ] = ( ulControl | ( uint32_t ) portINITIAL_CONTROL_UNPRIVILEGED ); /* CONTROL. */
-            ulIndex++;
+            xMPUSettings->ulTaskFlags &= ( ~پورٽ_TASK_IS_PRIVILEGED_FLAG );
+            xMPUSettings->ulContext[ ul_اشاريو ] = ( ulControl | ( uint32_t ) پورٽ_INITIAL_CONTROL_UNPRIVILEGED ); /* CONTROL. */
+            ul_اشاريو++;
         }
 
-        xMPUSettings->ulContext[ ulIndex ] = portINITIAL_EXC_RETURN; /* LR (EXC_RETURN). */
-        ulIndex++;
+        xMPUSettings->ulContext[ ul_اشاريو ] = پورٽ_INITIAL_EXC_RETURN; /* LR (EXC_RETURN). */
+        ul_اشاريو++;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
         {
             /* Ensure that the system call stack is double word aligned. */
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1 ] );
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStack = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->xSystemCallStackInfo.pulSystemCallStack ) &
-                                                                                     ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) );
+            xMPUSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير = &( xMPUSettings->x_System_Call_ڍير_Info.ul_System_Call_ڍير_بفر[ config_SYSTEM_CALL_ڍير_سائيز - 1 ] );
+            xMPUSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير = ( uint32_t * ) ( ( uint32_t ) ( xMPUSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير ) &
+                                                                                     ( uint32_t ) ( ~( پورٽ_BYTE_ALIGNMENT_نقاب ) ) );
 
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStackLimit = &( xMPUSettings->xSystemCallStackInfo.ulSystemCallStackBuffer[ 0 ] );
-            xMPUSettings->xSystemCallStackInfo.pulSystemCallStackLimit = ( uint32_t * ) ( ( ( uint32_t ) ( xMPUSettings->xSystemCallStackInfo.pulSystemCallStackLimit ) +
-                                                                                            ( uint32_t ) ( portBYTE_ALIGNMENT - 1 ) ) &
-                                                                                          ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) );
+            xMPUSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير_حد_بندي = &( xMPUSettings->x_System_Call_ڍير_Info.ul_System_Call_ڍير_بفر[ 0 ] );
+            xMPUSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير_حد_بندي = ( uint32_t * ) ( ( ( uint32_t ) ( xMPUSettings->x_System_Call_ڍير_Info.pul_System_Call_ڍير_حد_بندي ) +
+                                                                                            ( uint32_t ) ( پورٽ_BYTE_ALIGNMENT - 1 ) ) &
+                                                                                          ( uint32_t ) ( ~( پورٽ_BYTE_ALIGNMENT_نقاب ) ) );
 
             /* This is not NULL only for the duration of a system call. */
-            xMPUSettings->xSystemCallStackInfo.pulTaskStack = NULL;
+            xMPUSettings->x_System_Call_ڍير_Info.pul_Task_ڍير = عدم;
         }
-        #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+        #جيڪڏهن_پورو /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
         {
-            uint32_t ulTaskPacKey[ 4 ], i;
+            uint32_t ul_Task_Pac_ڪنجي[ 4 ], i;
 
-            vApplicationGenerateTaskRandomPacKey( &( ulTaskPacKey[ 0 ] ) );
+            v_Application_Generate_Task_Random_Pac_ڪنجي( &( ul_Task_Pac_ڪنجي[ 0 ] ) );
 
-            for( i = 0; i < 4; i++ )
+            لكل( i = 0; i < 4; i++ )
             {
-                xMPUSettings->ulContext[ ulIndex ] = ulTaskPacKey[ i ];
-                ulIndex++;
+                xMPUSettings->ulContext[ ul_اشاريو ] = ul_Task_Pac_ڪنجي[ i ];
+                ul_اشاريو++;
             }
         }
-        #endif /* configENABLE_PAC */
+        #جيڪڏهن_پورو /* configENABLE_PAC */
 
-        return &( xMPUSettings->ulContext[ ulIndex ] );
+        أرجع &( xMPUSettings->ulContext[ ul_اشاريو ] );
     }
 
-#else /* configENABLE_MPU */
+#وإلا /* configENABLE_MPU */
 
-    StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                         StackType_t * pxEndOfStack,
-                                         TaskFunction_t pxCode,
-                                         void * pvParameters ) /* PRIVILEGED_FUNCTION */
+    ڍير_Type_t * px_پورٽ_Initialise_ڍير( ڍير_Type_t * px_چوٽي_جو_ڍير,
+                                         ڍير_Type_t * px_پڇاڙي_جو_ڍير,
+                                         TaskFunction_t px_ڪوڊ,
+                                         فراغ * pvParameters ) /* PRIVILEGED_FUNCTION */
     {
         /* Simulate the stack frame as it would be created by a context switch
          * interrupt. */
-        #if ( portPRELOAD_REGISTERS == 0 )
+        #إذا ( پورٽ_PRELOAD_REGISTERS == 0 )
         {
-            pxTopOfStack--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-            *pxTopOfStack = portINITIAL_XPSR; /* xPSR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxCode; /* PC. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-            pxTopOfStack -= 5; /* R12, R3, R2 and R1. */
-            *pxTopOfStack = ( StackType_t ) pvParameters; /* R0. */
-            pxTopOfStack -= 9; /* R11..R4, EXC_RETURN. */
-            *pxTopOfStack = portINITIAL_EXC_RETURN;
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxEndOfStack; /* Slot used to hold this task's PSPLIM value. */
+            px_چوٽي_جو_ڍير--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+            *px_چوٽي_جو_ڍير = پورٽ_INITIAL_XPSR; /* xPSR. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) px_ڪوڊ; /* PC. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) پورٽ_TASK_RETURN_پتو; /* LR. */
+            px_چوٽي_جو_ڍير -= 5; /* R12, R3, R2 and R1. */
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) pvParameters; /* R0. */
+            px_چوٽي_جو_ڍير -= 9; /* R11..R4, EXC_RETURN. */
+            *px_چوٽي_جو_ڍير = پورٽ_INITIAL_EXC_RETURN;
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) px_پڇاڙي_جو_ڍير; /* Slot used to hold this task's PSPLIM value. */
 
-            #if ( configENABLE_TRUSTZONE == 1 )
+            #إذا ( configENABLE_TRUSTZONE == 1 )
             {
-                pxTopOfStack--;
-                *pxTopOfStack = portNO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
+                px_چوٽي_جو_ڍير--;
+                *px_چوٽي_جو_ڍير = پورٽ_NO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
             }
-            #endif /* configENABLE_TRUSTZONE */
+            #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
         }
-        #else /* portPRELOAD_REGISTERS */
+        #وإلا /* portPRELOAD_REGISTERS */
         {
-            pxTopOfStack--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-            *pxTopOfStack = portINITIAL_XPSR; /* xPSR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxCode; /* PC. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x12121212UL; /* R12. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x03030303UL; /* R3. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x02020202UL; /* R2. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x01010101UL; /* R1. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pvParameters; /* R0. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x11111111UL; /* R11. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x10101010UL; /* R10. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x09090909UL; /* R09. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x08080808UL; /* R08. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x07070707UL; /* R07. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x06060606UL; /* R06. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x05050505UL; /* R05. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) 0x04040404UL; /* R04. */
-            pxTopOfStack--;
-            *pxTopOfStack = portINITIAL_EXC_RETURN; /* EXC_RETURN. */
-            pxTopOfStack--;
-            *pxTopOfStack = ( StackType_t ) pxEndOfStack; /* Slot used to hold this task's PSPLIM value. */
+            px_چوٽي_جو_ڍير--; /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+            *px_چوٽي_جو_ڍير = پورٽ_INITIAL_XPSR; /* xPSR. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) px_ڪوڊ; /* PC. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) پورٽ_TASK_RETURN_پتو; /* LR. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x12121212UL; /* R12. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x03030303UL; /* R3. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x02020202UL; /* R2. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x01010101UL; /* R1. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) pvParameters; /* R0. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x11111111UL; /* R11. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x10101010UL; /* R10. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x09090909UL; /* R09. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x08080808UL; /* R08. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x07070707UL; /* R07. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x06060606UL; /* R06. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x05050505UL; /* R05. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x04040404UL; /* R04. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = پورٽ_INITIAL_EXC_RETURN; /* EXC_RETURN. */
+            px_چوٽي_جو_ڍير--;
+            *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) px_پڇاڙي_جو_ڍير; /* Slot used to hold this task's PSPLIM value. */
 
-            #if ( configENABLE_TRUSTZONE == 1 )
+            #إذا ( configENABLE_TRUSTZONE == 1 )
             {
-                pxTopOfStack--;
-                *pxTopOfStack = portNO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
+                px_چوٽي_جو_ڍير--;
+                *px_چوٽي_جو_ڍير = پورٽ_NO_SECURE_CONTEXT; /* Slot used to hold this task's xSecureContext value. */
             }
-            #endif /* configENABLE_TRUSTZONE */
+            #جيڪڏهن_پورو /* configENABLE_TRUSTZONE */
         }
-        #endif /* portPRELOAD_REGISTERS */
+        #جيڪڏهن_پورو /* portPRELOAD_REGISTERS */
 
-        #if ( configENABLE_PAC == 1 )
+        #إذا ( configENABLE_PAC == 1 )
         {
-            uint32_t ulTaskPacKey[ 4 ], i;
+            uint32_t ul_Task_Pac_ڪنجي[ 4 ], i;
 
-            vApplicationGenerateTaskRandomPacKey( &( ulTaskPacKey[ 0 ] ) );
+            v_Application_Generate_Task_Random_Pac_ڪنجي( &( ul_Task_Pac_ڪنجي[ 0 ] ) );
 
-            for( i = 0; i < 4; i++ )
+            لكل( i = 0; i < 4; i++ )
             {
-                pxTopOfStack--;
-                *pxTopOfStack = ulTaskPacKey[ i ];
+                px_چوٽي_جو_ڍير--;
+                *px_چوٽي_جو_ڍير = ul_Task_Pac_ڪنجي[ i ];
             }
         }
-        #endif /* configENABLE_PAC */
+        #جيڪڏهن_پورو /* configENABLE_PAC */
 
-        return pxTopOfStack;
+        أرجع px_چوٽي_جو_ڍير;
     }
 
-#endif /* configENABLE_MPU */
+#جيڪڏهن_پورو /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
+بنياد_Type_t x_پورٽ_شروعات_Scheduler( فراغ ) /* PRIVILEGED_FUNCTION */
 {
     /* An application can install FreeRTOS interrupt handlers in one of the
      * following ways:
@@ -1787,9 +1787,9 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
      * configCHECK_HANDLER_INSTALLATION to 0 in their FreeRTOSConfig.h. Direct
      * routing, which is validated here when configCHECK_HANDLER_INSTALLATION
      * is 1, should be preferred when possible. */
-    #if ( configCHECK_HANDLER_INSTALLATION == 1 )
+    #إذا ( configCHECK_HANDLER_INSTALLATION == 1 )
     {
-        const portISR_t * const pxVectorTable = portSCB_VTOR_REG;
+        ثابت پورٽ_ISR_t * ثابت px_ويڪٽر_جدول = پورٽ_SCB_VTOR_REG;
 
         /* Validate that the application has correctly installed the FreeRTOS
          * handlers for SVCall and PendSV interrupts. We do not check the
@@ -1804,82 +1804,82 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
          * Systems with a configurable address for the interrupt vector table
          * can also encounter assertion failures or even system faults here if
          * VTOR is not set correctly to point to the application's vector table. */
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_SVC ] == SVC_Handler );
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_PENDSV ] == PendSV_Handler );
+        configASSERT( px_ويڪٽر_جدول[ پورٽ_ويڪٽر_اشاريو_SVC ] == SVC_Handler );
+        configASSERT( px_ويڪٽر_جدول[ پورٽ_ويڪٽر_اشاريو_PENDSV ] == PendSV_Handler );
     }
-    #endif /* configCHECK_HANDLER_INSTALLATION */
+    #جيڪڏهن_پورو /* configCHECK_HANDLER_INSTALLATION */
 
-    vPortConfigureInterruptPriorities();
+    v_پورٽ_Configure_مداخلت_Priorities();
 
-    #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+    #إذا ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
     {
         /* Set the CONTROL register value based on PACBTI security feature
          * configuration before starting the first task. */
-        #if ( configNUMBER_OF_CORES == 1 )
-            ( void ) prvConfigurePACBTI( pdTRUE );
-        #else /* configNUMBER_OF_CORES > 1 */
-            ( void ) vConfigurePACBTI( pdTRUE );
-        #endif /* configNUMBER_OF_CORES */
+        #إذا ( config_عدد_جو_CORES == 1 )
+            ( فراغ ) prvConfigurePACBTI( pdTRUE );
+        #وإلا /* configNUMBER_OF_CORES > 1 */
+            ( فراغ ) vConfigurePACBTI( pdTRUE );
+        #جيڪڏهن_پورو /* configNUMBER_OF_CORES */
     }
-    #endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+    #جيڪڏهن_پورو /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 
-    #if ( configENABLE_MPU == 1 )
+    #إذا ( configENABLE_MPU == 1 )
     {
         /* Setup the Memory Protection Unit (MPU). */
-        prvSetupMPU();
+        prv_تياري_MPU();
     }
-    #endif /* configENABLE_MPU */
+    #جيڪڏهن_پورو /* configENABLE_MPU */
 
-    #if ( configNUMBER_OF_CORES > 1 )
+    #إذا ( config_عدد_جو_CORES > 1 )
         /* Start the timer that generates the tick ISR. Interrupts are disabled
          * here already. */
-        vPortSetupTimerInterrupt();
+        v_پورٽ_تياري_Timer_مداخلت();
         /* Initialize the critical nesting count for all cores. */
-        for ( uint8_t ucCoreID = 0; ucCoreID < configNUMBER_OF_CORES; ucCoreID++ )
+        لكل ( uint8_t ucCoreID = 0; ucCoreID < config_عدد_جو_CORES; ucCoreID++ )
         {
             ulCriticalNestings[ ucCoreID ] = 0;
         }
         /* Signal that primary core has done all the necessary initialisations. */
-        ucPrimaryCoreInitDoneFlag = 1;
+        uc_Primary_Core_Init_پورو_Flag = 1;
         /* Wake up secondary cores */
-        BaseType_t xWakeResult = configWAKE_SECONDARY_CORES();
-        configASSERT( xWakeResult == pdTRUE );
+        بنياد_Type_t x_Wake_نتيجو = configWAKE_SECONDARY_CORES();
+        configASSERT( x_Wake_نتيجو == pdTRUE );
 
         /* Hold the primary core here until all the secondary cores are ready, this would be achieved only when
          * all elements of ucSecondaryCoresReadyFlags are set.
          */
-        while( 1 )
+        طالما( 1 )
         {
-            BaseType_t xAllCoresReady = pdTRUE;
-            for( uint8_t ucCoreID = 0; ucCoreID < ( configNUMBER_OF_CORES - 1 ); ucCoreID++ )
+            بنياد_Type_t xAllCoresReady = pdTRUE;
+            لكل( uint8_t ucCoreID = 0; ucCoreID < ( config_عدد_جو_CORES - 1 ); ucCoreID++ )
             {
-                if( ucSecondaryCoresReadyFlags[ ucCoreID ] != pdTRUE )
+                إذا( ucSecondaryCoresReadyFlags[ ucCoreID ] != pdTRUE )
                 {
                     xAllCoresReady = pdFALSE;
-                    break;
+                    اكسر;
                 }
                 }
 
-            if ( xAllCoresReady == pdTRUE )
+            إذا ( xAllCoresReady == pdTRUE )
             {
-                break;
+                اكسر;
             }
         }
-    #else /* if ( configNUMBER_OF_CORES > 1 ) */
+    #وإلا /* if ( configNUMBER_OF_CORES > 1 ) */
         /* Start the timer that generates the tick ISR. */
-        vPortSetupTimerInterrupt();
+        v_پورٽ_تياري_Timer_مداخلت();
         /* Initialize the critical nesting count ready for the first task. */
         ulCriticalNesting = 0;
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #جيڪڏهن_پورو /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+    #إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
     {
         xSchedulerRunning = pdTRUE;
     }
-    #endif /* ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+    #جيڪڏهن_پورو /* ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 
     /* Start the first task. */
-    vStartFirstTask();
+    v_شروعات_پهريون_Task();
 
     /* Should never get here as the tasks will now be executing. Call the task
      * exit error function to prevent compiler warnings about a static function
@@ -1887,179 +1887,179 @@ BaseType_t xPortStartScheduler( void ) /* PRIVILEGED_FUNCTION */
      * functionality by defining configTASK_RETURN_ADDRESS. Call
      * vTaskSwitchContext() so link time optimization does not remove the
      * symbol. */
-    #if ( configNUMBER_OF_CORES > 1 )
-        vTaskSwitchContext( portGET_CORE_ID() );
-    #else
+    #إذا ( config_عدد_جو_CORES > 1 )
+        vTaskSwitchContext( پورٽ_GET_CORE_ID() );
+    #وإلا
         vTaskSwitchContext();
-    #endif
+    #جيڪڏهن_پورو
     prvTaskExitError();
 
     /* Should not get here. */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
+فراغ v_پورٽ_پڇاڙي_Scheduler( فراغ ) /* PRIVILEGED_FUNCTION */
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #إذا ( config_عدد_جو_CORES == 1 )
         configASSERT( ulCriticalNesting == 1000UL );
-    #else /* if ( configNUMBER_OF_CORES == 1 ) */
-        configASSERT( ulCriticalNestings[ portGET_CORE_ID() ] == 1000UL );
-    #endif /* if ( configNUMBER_OF_CORES == 1 ) */
+    #وإلا /* if ( configNUMBER_OF_CORES == 1 ) */
+        configASSERT( ulCriticalNestings[ پورٽ_GET_CORE_ID() ] == 1000UL );
+    #جيڪڏهن_پورو /* if ( configNUMBER_OF_CORES == 1 ) */
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                    const struct xMEMORY_REGION * const xRegions,
-                                    StackType_t * pxBottomOfStack,
-                                    configSTACK_DEPTH_TYPE uxStackDepth )
+    فراغ v_پورٽ_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                    ثابت بنية x_يادگيري_REGION * ثابت xRegions,
+                                    ڍير_Type_t * px_Bottom_جو_ڍير,
+                                    config_ڍير_اونهائي_TYPE ux_ڍير_اونهائي )
     {
-        uint32_t ulRegionStartAddress, ulRegionEndAddress, ulRegionNumber;
-        int32_t lIndex = 0;
+        uint32_t ul_Region_شروعات_پتو, ul_Region_پڇاڙي_پتو, ul_Region_عدد;
+        int32_t l_اشاريو = 0;
 
-        #if defined( __ARMCC_VERSION )
+        #إذا defined( __ARMCC_VERSION )
 
             /* Declaration when these variable are defined in code instead of being
              * exported from linker scripts. */
-            extern uint32_t * __privileged_sram_start__;
-            extern uint32_t * __privileged_sram_end__;
-        #else
+            خارجي uint32_t * __privileged_sram_start__;
+            خارجي uint32_t * __privileged_sram_end__;
+        #وإلا
             /* Declaration when these variable are exported from linker scripts. */
-            extern uint32_t __privileged_sram_start__[];
-            extern uint32_t __privileged_sram_end__[];
-        #endif /* defined( __ARMCC_VERSION ) */
+            خارجي uint32_t __privileged_sram_start__[];
+            خارجي uint32_t __privileged_sram_end__[];
+        #جيڪڏهن_پورو /* defined( __ARMCC_VERSION ) */
 
         /* Setup MAIR0. */
-        xMPUSettings->ulMAIR0 = ( ( portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE << portMPU_MAIR_ATTR0_POS ) & portMPU_MAIR_ATTR0_MASK );
-        xMPUSettings->ulMAIR0 |= ( ( portMPU_DEVICE_MEMORY_nGnRE << portMPU_MAIR_ATTR1_POS ) & portMPU_MAIR_ATTR1_MASK );
+        xMPUSettings->ulMAIR0 = ( ( پورٽ_MPU_عام_يادگيري_BUFFERABLE_CACHEABLE << پورٽ_MPU_MAIR_ATTR0_POS ) & پورٽ_MPU_MAIR_ATTR0_نقاب );
+        xMPUSettings->ulMAIR0 |= ( ( پورٽ_MPU_DEVICE_يادگيري_n_Gn_RE << پورٽ_MPU_MAIR_ATTR1_POS ) & پورٽ_MPU_MAIR_ATTR1_نقاب );
 
         /* This function is called automatically when the task is created - in
          * which case the stack region parameters will be valid.  At all other
          * times the stack parameters will not be valid and it is assumed that
          * the stack region has already been configured. */
-        if( uxStackDepth > 0 )
+        إذا( ux_ڍير_اونهائي > 0 )
         {
-            ulRegionStartAddress = ( uint32_t ) pxBottomOfStack;
-            ulRegionEndAddress = ( uint32_t ) pxBottomOfStack + ( uxStackDepth * ( configSTACK_DEPTH_TYPE ) sizeof( StackType_t ) ) - 1;
+            ul_Region_شروعات_پتو = ( uint32_t ) px_Bottom_جو_ڍير;
+            ul_Region_پڇاڙي_پتو = ( uint32_t ) px_Bottom_جو_ڍير + ( ux_ڍير_اونهائي * ( config_ڍير_اونهائي_TYPE ) حجم( ڍير_Type_t ) ) - 1;
 
             /* If the stack is within the privileged SRAM, do not protect it
              * using a separate MPU region. This is needed because privileged
              * SRAM is already protected using an MPU region and ARMv8-M does
              * not allow overlapping MPU regions. */
-            if( ( ulRegionStartAddress >= ( uint32_t ) __privileged_sram_start__ ) &&
-                ( ulRegionEndAddress <= ( uint32_t ) __privileged_sram_end__ ) )
+            إذا( ( ul_Region_شروعات_پتو >= ( uint32_t ) __privileged_sram_start__ ) &&
+                ( ul_Region_پڇاڙي_پتو <= ( uint32_t ) __privileged_sram_end__ ) )
             {
                 xMPUSettings->xRegionsSettings[ 0 ].ulRBAR = 0;
                 xMPUSettings->xRegionsSettings[ 0 ].ulRLAR = 0;
             }
-            else
+            وإلا
             {
                 /* Define the region that allows access to the stack. */
-                ulRegionStartAddress &= portMPU_RBAR_ADDRESS_MASK;
-                ulRegionEndAddress &= portMPU_RLAR_ADDRESS_MASK;
+                ul_Region_شروعات_پتو &= پورٽ_MPU_RBAR_پتو_نقاب;
+                ul_Region_پڇاڙي_پتو &= پورٽ_MPU_RLAR_پتو_نقاب;
 
-                xMPUSettings->xRegionsSettings[ 0 ].ulRBAR = ( ulRegionStartAddress ) |
-                                                             ( portMPU_REGION_NON_SHAREABLE ) |
-                                                             ( portMPU_REGION_READ_WRITE ) |
-                                                             ( portMPU_REGION_EXECUTE_NEVER );
+                xMPUSettings->xRegionsSettings[ 0 ].ulRBAR = ( ul_Region_شروعات_پتو ) |
+                                                             ( پورٽ_MPU_REGION_NON_SHAREABLE ) |
+                                                             ( پورٽ_MPU_REGION_READ_WRITE ) |
+                                                             ( پورٽ_MPU_REGION_EXECUTE_NEVER );
 
-                xMPUSettings->xRegionsSettings[ 0 ].ulRLAR = ( ulRegionEndAddress ) |
-                                                             ( portMPU_RLAR_ATTR_INDEX0 ) |
-                                                             ( portMPU_RLAR_REGION_ENABLE );
+                xMPUSettings->xRegionsSettings[ 0 ].ulRLAR = ( ul_Region_پڇاڙي_پتو ) |
+                                                             ( پورٽ_MPU_RLAR_ATTR_INDEX0 ) |
+                                                             ( پورٽ_MPU_RLAR_REGION_ENABLE );
             }
         }
 
         /* User supplied configurable regions. */
-        for( ulRegionNumber = 1; ulRegionNumber <= portNUM_CONFIGURABLE_REGIONS; ulRegionNumber++ )
+        لكل( ul_Region_عدد = 1; ul_Region_عدد <= پورٽ_انگ_CONFIGURABLE_REGIONS; ul_Region_عدد++ )
         {
             /* If xRegions is NULL i.e. the task has not specified any MPU
              * region, the else part ensures that all the configurable MPU
              * regions are invalidated. */
-            if( ( xRegions != NULL ) && ( xRegions[ lIndex ].ulLengthInBytes > 0UL ) )
+            إذا( ( xRegions != عدم ) && ( xRegions[ l_اشاريو ].ul_ڊيگهائي_اندريون_بائيٽون > 0UL ) )
             {
                 /* Translate the generic region definition contained in xRegions
                  * into the ARMv8 specific MPU settings that are then stored in
                  * xMPUSettings. */
-                ulRegionStartAddress = ( ( uint32_t ) xRegions[ lIndex ].pvBaseAddress ) & portMPU_RBAR_ADDRESS_MASK;
-                ulRegionEndAddress = ( uint32_t ) xRegions[ lIndex ].pvBaseAddress + xRegions[ lIndex ].ulLengthInBytes - 1;
-                ulRegionEndAddress &= portMPU_RLAR_ADDRESS_MASK;
+                ul_Region_شروعات_پتو = ( ( uint32_t ) xRegions[ l_اشاريو ].pv_بنياد_پتو ) & پورٽ_MPU_RBAR_پتو_نقاب;
+                ul_Region_پڇاڙي_پتو = ( uint32_t ) xRegions[ l_اشاريو ].pv_بنياد_پتو + xRegions[ l_اشاريو ].ul_ڊيگهائي_اندريون_بائيٽون - 1;
+                ul_Region_پڇاڙي_پتو &= پورٽ_MPU_RLAR_پتو_نقاب;
 
                 /* Start address. */
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR = ( ulRegionStartAddress ) |
-                                                                          ( portMPU_REGION_NON_SHAREABLE );
+                xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRBAR = ( ul_Region_شروعات_پتو ) |
+                                                                          ( پورٽ_MPU_REGION_NON_SHAREABLE );
 
                 /* RO/RW. */
-                if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_READ_ONLY ) != 0 )
+                إذا( ( xRegions[ l_اشاريو ].ulParameters & tskMPU_REGION_READ_ONLY ) != 0 )
                 {
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR |= ( portMPU_REGION_READ_ONLY );
+                    xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRBAR |= ( پورٽ_MPU_REGION_READ_ONLY );
                 }
-                else
+                وإلا
                 {
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR |= ( portMPU_REGION_READ_WRITE );
+                    xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRBAR |= ( پورٽ_MPU_REGION_READ_WRITE );
                 }
 
                 /* XN. */
-                if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_EXECUTE_NEVER ) != 0 )
+                إذا( ( xRegions[ l_اشاريو ].ulParameters & tskMPU_REGION_EXECUTE_NEVER ) != 0 )
                 {
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR |= ( portMPU_REGION_EXECUTE_NEVER );
+                    xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRBAR |= ( پورٽ_MPU_REGION_EXECUTE_NEVER );
                 }
 
                 /* End Address. */
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR = ( ulRegionEndAddress ) |
-                                                                          ( portMPU_RLAR_REGION_ENABLE );
+                xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRLAR = ( ul_Region_پڇاڙي_پتو ) |
+                                                                          ( پورٽ_MPU_RLAR_REGION_ENABLE );
 
                 /* PXN. */
-                #if ( portARMV8M_MINOR_VERSION >= 1 )
+                #إذا ( پورٽ_ARMV8_M_MINOR_نسخو >= 1 )
                 {
-                    if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_PRIVILEGED_EXECUTE_NEVER ) != 0 )
+                    إذا( ( xRegions[ l_اشاريو ].ulParameters & tskMPU_REGION_PRIVILEGED_EXECUTE_NEVER ) != 0 )
                     {
-                        xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR |= ( portMPU_RLAR_PRIVILEGED_EXECUTE_NEVER );
+                        xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRLAR |= ( پورٽ_MPU_RLAR_PRIVILEGED_EXECUTE_NEVER );
                     }
                 }
-                #endif /* portARMV8M_MINOR_VERSION >= 1 */
+                #جيڪڏهن_پورو /* portARMV8M_MINOR_VERSION >= 1 */
 
                 /* Normal memory/ Device memory. */
-                if( ( xRegions[ lIndex ].ulParameters & tskMPU_REGION_DEVICE_MEMORY ) != 0 )
+                إذا( ( xRegions[ l_اشاريو ].ulParameters & tsk_MPU_REGION_DEVICE_يادگيري ) != 0 )
                 {
                     /* Attr1 in MAIR0 is configured as device memory. */
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR |= portMPU_RLAR_ATTR_INDEX1;
+                    xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRLAR |= پورٽ_MPU_RLAR_ATTR_INDEX1;
                 }
-                else
+                وإلا
                 {
                     /* Attr0 in MAIR0 is configured as normal memory. */
-                    xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR |= portMPU_RLAR_ATTR_INDEX0;
+                    xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRLAR |= پورٽ_MPU_RLAR_ATTR_INDEX0;
                 }
             }
-            else
+            وإلا
             {
                 /* Invalidate the region. */
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRBAR = 0UL;
-                xMPUSettings->xRegionsSettings[ ulRegionNumber ].ulRLAR = 0UL;
+                xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRBAR = 0UL;
+                xMPUSettings->xRegionsSettings[ ul_Region_عدد ].ulRLAR = 0UL;
             }
 
-            lIndex++;
+            l_اشاريو++;
         }
     }
 
-#endif /* configENABLE_MPU */
+#جيڪڏهن_پورو /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
-                                                size_t xBufferLength,
+    بنياد_Type_t x_پورٽ_Is_Authorized_منزل_Access_بفر( ثابت فراغ * pv_بفر,
+                                                size_t x_بفر_ڊيگهائي,
                                                 uint32_t ulAccessRequested ) /* PRIVILEGED_FUNCTION */
 
     {
-        uint32_t i, ulBufferStartAddress, ulBufferEndAddress;
-        BaseType_t xAccessGranted = pdFALSE;
-        const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+        uint32_t i, ul_بفر_شروعات_پتو, ul_بفر_پڇاڙي_پتو;
+        بنياد_Type_t xAccessGranted = pdFALSE;
+        ثابت xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( عدم ); /* Calling task's MPU settings. */
 
-        if( xSchedulerRunning == pdFALSE )
+        إذا( xSchedulerRunning == pdFALSE )
         {
             /* Grant access to all the kernel objects before the scheduler
              * is started. It is necessary because there is no task running
@@ -2067,83 +2067,83 @@ void vPortEndScheduler( void ) /* PRIVILEGED_FUNCTION */
              * task. */
             xAccessGranted = pdTRUE;
         }
-        else if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        وإلا إذا( ( xTaskMpuSettings->ulTaskFlags & پورٽ_TASK_IS_PRIVILEGED_FLAG ) == پورٽ_TASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        وإلا
         {
-            if( portADD_UINT32_WILL_OVERFLOW( ( ( uint32_t ) pvBuffer ), ( ( uint32_t ) xBufferLength - 1UL ) ) == pdFALSE )
+            إذا( پورٽ_جوڙيو_UINT32_WILL_حد_کان_مٿي( ( ( uint32_t ) pv_بفر ), ( ( uint32_t ) x_بفر_ڊيگهائي - 1UL ) ) == pdFALSE )
             {
-                ulBufferStartAddress = ( uint32_t ) pvBuffer;
-                ulBufferEndAddress = ( ( ( uint32_t ) pvBuffer ) + ( uint32_t ) xBufferLength - 1UL );
+                ul_بفر_شروعات_پتو = ( uint32_t ) pv_بفر;
+                ul_بفر_پڇاڙي_پتو = ( ( ( uint32_t ) pv_بفر ) + ( uint32_t ) x_بفر_ڊيگهائي - 1UL );
 
-                for( i = 0; i < portTOTAL_NUM_REGIONS; i++ )
+                لكل( i = 0; i < پورٽ_ڪل_انگ_REGIONS; i++ )
                 {
                     /* Is the MPU region enabled? */
-                    if( ( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR & portMPU_RLAR_REGION_ENABLE ) == portMPU_RLAR_REGION_ENABLE )
+                    إذا( ( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR & پورٽ_MPU_RLAR_REGION_ENABLE ) == پورٽ_MPU_RLAR_REGION_ENABLE )
                     {
-                        if( portIS_ADDRESS_WITHIN_RANGE( ulBufferStartAddress,
-                                                         portEXTRACT_FIRST_ADDRESS_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
-                                                         portEXTRACT_LAST_ADDRESS_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
-                            portIS_ADDRESS_WITHIN_RANGE( ulBufferEndAddress,
-                                                         portEXTRACT_FIRST_ADDRESS_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
-                                                         portEXTRACT_LAST_ADDRESS_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
-                            portIS_AUTHORIZED( ulAccessRequested,
+                        إذا( پورٽ_IS_پتو_WITHIN_RANGE( ul_بفر_شروعات_پتو,
+                                                         پورٽ_ڪڍو_پهريون_پتو_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
+                                                         پورٽ_ڪڍو_آخري_پتو_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
+                            پورٽ_IS_پتو_WITHIN_RANGE( ul_بفر_پڇاڙي_پتو,
+                                                         پورٽ_ڪڍو_پهريون_پتو_FROM_RBAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ),
+                                                         پورٽ_ڪڍو_آخري_پتو_FROM_RLAR( xTaskMpuSettings->xRegionsSettings[ i ].ulRLAR ) ) &&
+                            پورٽ_IS_AUTHORIZED( ulAccessRequested,
                                                prvGetRegionAccessPermissions( xTaskMpuSettings->xRegionsSettings[ i ].ulRBAR ) ) )
                         {
                             xAccessGranted = pdTRUE;
-                            break;
+                            اكسر;
                         }
                     }
                 }
             }
         }
 
-        return xAccessGranted;
+        أرجع xAccessGranted;
     }
 
-#endif /* #if ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#جيڪڏهن_پورو /* #if ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortIsInsideInterrupt( void )
+بنياد_Type_t x_پورٽ_Is_Inside_مداخلت( فراغ )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_مداخلت;
+    بنياد_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. Interrupt Program
      * Status Register (IPSR) holds the exception number of the currently-executing
      * exception or zero for Thread mode.*/
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm متطاير ( "mrs %0, ipsr" : "=r" ( ul_Current_مداخلت )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    إذا( ul_Current_مداخلت == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    وإلا
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    أرجع xReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) )
+#إذا ( ( configASSERT_DEFINED == 1 ) && ( پورٽ_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) )
 
-    void vPortValidateInterruptPriority( void )
+    فراغ v_پورٽ_Validate_مداخلت_ترجيح( فراغ )
     {
-        uint32_t ulCurrentInterrupt;
-        uint8_t ucCurrentPriority;
+        uint32_t ul_Current_مداخلت;
+        uint8_t uc_Current_ترجيح;
 
         /* Obtain the number of the currently executing interrupt. */
-        __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+        __asm متطاير ( "mrs %0, ipsr" : "=r" ( ul_Current_مداخلت )::"memory" );
 
         /* Is the interrupt number a user defined interrupt? */
-        if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+        إذا( ul_Current_مداخلت >= پورٽ_پهريون_USER_مداخلت_عدد )
         {
             /* Look up the interrupt's priority. */
-            ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];
+            uc_Current_ترجيح = pc_مداخلت_ترجيح_Registers[ ul_Current_مداخلت ];
 
             /* The following assertion will fail if a service routine (ISR) for
              * an interrupt that has been assigned a priority above
@@ -2168,7 +2168,7 @@ BaseType_t xPortIsInsideInterrupt( void )
              * The following links provide detailed information:
              * https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html
              * https://www.freertos.org/Why-FreeRTOS/FAQs */
-            configASSERT( ucCurrentPriority >= ucMaxSysCallPriority );
+            configASSERT( uc_Current_ترجيح >= uc_Max_Sys_Call_ترجيح );
         }
 
         /* Priority grouping:  The interrupt controller (NVIC) allows the bits
@@ -2184,18 +2184,18 @@ BaseType_t xPortIsInsideInterrupt( void )
          * scheduler.  Note however that some vendor specific peripheral libraries
          * assume a non-zero priority group setting, in which cases using a value
          * of zero will result in unpredictable behaviour. */
-        configASSERT( ( portAIRCR_REG & portPRIORITY_GROUP_MASK ) <= ulMaxPRIGROUPValue );
+        configASSERT( ( پورٽ_AIRCR_REG & پورٽ_ترجيح_گروهه_نقاب ) <= ulMaxPRIGROUPValue );
     }
 
-#endif /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
+#جيڪڏهن_پورو /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
+فراغ v_پورٽ_Configure_مداخلت_Priorities( فراغ ) /* PRIVILEGED_FUNCTION */
 {
-    #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) )
+    #إذا ( ( configASSERT_DEFINED == 1 ) && ( پورٽ_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) )
     {
-        volatile uint32_t ulImplementedPrioBits = 0;
-        volatile uint8_t ucMaxPriorityValue;
+        متطاير uint32_t ul_Implemented_Prio_بٽ = 0;
+        متطاير uint8_t uc_Max_ترجيح_قدر;
 
         /* Determine the maximum priority from which ISR safe FreeRTOS API
         * functions can be called. ISR safe functions are those that end in
@@ -2204,13 +2204,13 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
         *
         * First, determine the number of priority bits available. Write to all
         * possible bits in the priority setting for SVCall. */
-        portNVIC_SHPR2_REG = 0xFF000000;
+        پورٽ_NVIC_SHPR2_REG = 0xFF000000;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = ( uint8_t ) ( ( portNVIC_SHPR2_REG & 0xFF000000 ) >> 24 );
+        uc_Max_ترجيح_قدر = ( uint8_t ) ( ( پورٽ_NVIC_SHPR2_REG & 0xFF000000 ) >> 24 );
 
         /* Use the same mask on the maximum system call priority. */
-        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
+        uc_Max_Sys_Call_ترجيح = config_MAX_SYSCALL_مداخلت_ترجيح & uc_Max_ترجيح_قدر;
 
         /* Check that the maximum system call priority is nonzero after
         * accounting for the number of priority bits supported by the
@@ -2218,21 +2218,21 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
         * register to 0 unmasks all interrupts, and interrupts with priority 0
         * cannot be masked using BASEPRI.
         * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
-        configASSERT( ucMaxSysCallPriority );
+        configASSERT( uc_Max_Sys_Call_ترجيح );
 
         /* Check that the bits not implemented in hardware are zero in
         * configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( uint8_t ) ( ~( uint32_t ) ucMaxPriorityValue ) ) == 0U );
+        configASSERT( ( config_MAX_SYSCALL_مداخلت_ترجيح & ( uint8_t ) ( ~( uint32_t ) uc_Max_ترجيح_قدر ) ) == 0U );
 
         /* Calculate the maximum acceptable priority group value for the number
         * of bits read back. */
-        while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+        طالما( ( uc_Max_ترجيح_قدر & پورٽ_چوٽي_ٻٽو_انگ_جو_BYTE ) == پورٽ_چوٽي_ٻٽو_انگ_جو_BYTE )
         {
-            ulImplementedPrioBits++;
-            ucMaxPriorityValue <<= ( uint8_t ) 0x01;
+            ul_Implemented_Prio_بٽ++;
+            uc_Max_ترجيح_قدر <<= ( uint8_t ) 0x01;
         }
 
-        if( ulImplementedPrioBits == 8 )
+        إذا( ul_Implemented_Prio_بٽ == 8 )
         {
             /* When the hardware implements 8 priority bits, there is no way for
             * the software to configure PRIGROUP to not have sub-priorities. As
@@ -2251,78 +2251,78 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
             * The following assert ensures that the sub-priority bit in the
             * configMAX_SYSCALL_INTERRUPT_PRIORITY is clear to avoid the above mentioned
             * confusion. */
-            configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & 0x1U ) == 0U );
+            configASSERT( ( config_MAX_SYSCALL_مداخلت_ترجيح & 0x1U ) == 0U );
             ulMaxPRIGROUPValue = 0;
         }
-        else
+        وإلا
         {
-            ulMaxPRIGROUPValue = portMAX_PRIGROUP_BITS - ulImplementedPrioBits;
+            ulMaxPRIGROUPValue = پورٽ_MAX_PRIGROUP_بٽ - ul_Implemented_Prio_بٽ;
         }
 
         /* Shift the priority group value back to its position within the AIRCR
         * register. */
-        ulMaxPRIGROUPValue <<= portPRIGROUP_SHIFT;
-        ulMaxPRIGROUPValue &= portPRIORITY_GROUP_MASK;
+        ulMaxPRIGROUPValue <<= پورٽ_PRIGROUP_سرڪايو;
+        ulMaxPRIGROUPValue &= پورٽ_ترجيح_گروهه_نقاب;
     }
-    #endif /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
+    #جيڪڏهن_پورو /* #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ) */
 
     /* Make PendSV and SysTick the lowest priority interrupts, and make SVCall
     * the highest priority. */
-    portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
-    portNVIC_SHPR3_REG |= portNVIC_SYSTICK_PRI;
-    portNVIC_SHPR2_REG = 0;
+    پورٽ_NVIC_SHPR3_REG |= پورٽ_NVIC_PENDSV_PRI;
+    پورٽ_NVIC_SHPR3_REG |= پورٽ_NVIC_SYSTICK_PRI;
+    پورٽ_NVIC_SHPR2_REG = 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
-    void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                         int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+    فراغ v_پورٽ_Grant_Access_منزل_Kernel_Object( TaskHandle_t x_اندروني_Task_Handle,
+                                         int32_t l_اندروني_اشاريو_جو_Kernel_Object ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+        uint32_t ul_Access_Control_List_داخلا_اشاريو, ul_Access_Control_List_داخلا_ٻٽو_انگ;
         xMPU_SETTINGS * xTaskMpuSettings;
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_داخلا_اشاريو = ( ( uint32_t ) l_اندروني_اشاريو_جو_Kernel_Object / پورٽ_ACL_داخلا_سائيز_بٽ );
+        ul_Access_Control_List_داخلا_ٻٽو_انگ = ( ( uint32_t ) l_اندروني_اشاريو_جو_Kernel_Object % پورٽ_ACL_داخلا_سائيز_بٽ );
 
-        xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+        xTaskMpuSettings = xTaskGetMPUSettings( x_اندروني_Task_Handle );
 
-        xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] |= ( 1U << ulAccessControlListEntryBit );
+        xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_داخلا_اشاريو ] |= ( 1U << ul_Access_Control_List_داخلا_ٻٽو_انگ );
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
+#جيڪڏهن_پورو /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) )
 
-    void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                          int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+    فراغ v_پورٽ_Revoke_Access_منزل_Kernel_Object( TaskHandle_t x_اندروني_Task_Handle,
+                                          int32_t l_اندروني_اشاريو_جو_Kernel_Object ) /* PRIVILEGED_FUNCTION */
     {
-        uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+        uint32_t ul_Access_Control_List_داخلا_اشاريو, ul_Access_Control_List_داخلا_ٻٽو_انگ;
         xMPU_SETTINGS * xTaskMpuSettings;
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_داخلا_اشاريو = ( ( uint32_t ) l_اندروني_اشاريو_جو_Kernel_Object / پورٽ_ACL_داخلا_سائيز_بٽ );
+        ul_Access_Control_List_داخلا_ٻٽو_انگ = ( ( uint32_t ) l_اندروني_اشاريو_جو_Kernel_Object % پورٽ_ACL_داخلا_سائيز_بٽ );
 
-        xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+        xTaskMpuSettings = xTaskGetMPUSettings( x_اندروني_Task_Handle );
 
-        xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] &= ~( 1U << ulAccessControlListEntryBit );
+        xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_داخلا_اشاريو ] &= ~( 1U << ul_Access_Control_List_داخلا_ٻٽو_انگ );
     }
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
+#جيڪڏهن_پورو /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) && ( configENABLE_ACCESS_CONTROL_LIST == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+        بنياد_Type_t x_پورٽ_Is_Authorized_منزل_Access_Kernel_Object( int32_t l_اندروني_اشاريو_جو_Kernel_Object ) /* PRIVILEGED_FUNCTION */
         {
-            uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
-            BaseType_t xAccessGranted = pdFALSE;
-            const xMPU_SETTINGS * xTaskMpuSettings;
+            uint32_t ul_Access_Control_List_داخلا_اشاريو, ul_Access_Control_List_داخلا_ٻٽو_انگ;
+            بنياد_Type_t xAccessGranted = pdFALSE;
+            ثابت xMPU_SETTINGS * xTaskMpuSettings;
 
-            if( xSchedulerRunning == pdFALSE )
+            إذا( xSchedulerRunning == pdFALSE )
             {
                 /* Grant access to all the kernel objects before the scheduler
                  * is started. It is necessary because there is no task running
@@ -2330,104 +2330,104 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
                  * task. */
                 xAccessGranted = pdTRUE;
             }
-            else
+            وإلا
             {
-                xTaskMpuSettings = xTaskGetMPUSettings( NULL ); /* Calling task's MPU settings. */
+                xTaskMpuSettings = xTaskGetMPUSettings( عدم ); /* Calling task's MPU settings. */
 
-                ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject / portACL_ENTRY_SIZE_BITS );
-                ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject % portACL_ENTRY_SIZE_BITS );
+                ul_Access_Control_List_داخلا_اشاريو = ( ( uint32_t ) l_اندروني_اشاريو_جو_Kernel_Object / پورٽ_ACL_داخلا_سائيز_بٽ );
+                ul_Access_Control_List_داخلا_ٻٽو_انگ = ( ( uint32_t ) l_اندروني_اشاريو_جو_Kernel_Object % پورٽ_ACL_داخلا_سائيز_بٽ );
 
-                if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+                إذا( ( xTaskMpuSettings->ulTaskFlags & پورٽ_TASK_IS_PRIVILEGED_FLAG ) == پورٽ_TASK_IS_PRIVILEGED_FLAG )
                 {
                     xAccessGranted = pdTRUE;
                 }
-                else
+                وإلا
                 {
-                    if( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] & ( 1U << ulAccessControlListEntryBit ) ) != 0 )
+                    إذا( ( xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_داخلا_اشاريو ] & ( 1U << ul_Access_Control_List_داخلا_ٻٽو_انگ ) ) != 0 )
                     {
                         xAccessGranted = pdTRUE;
                     }
                 }
             }
 
-            return xAccessGranted;
+            أرجع xAccessGranted;
         }
 
-    #else /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #وإلا /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
-        BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject ) /* PRIVILEGED_FUNCTION */
+        بنياد_Type_t x_پورٽ_Is_Authorized_منزل_Access_Kernel_Object( int32_t l_اندروني_اشاريو_جو_Kernel_Object ) /* PRIVILEGED_FUNCTION */
         {
-            ( void ) lInternalIndexOfKernelObject;
+            ( فراغ ) l_اندروني_اشاريو_جو_Kernel_Object;
 
             /* If Access Control List feature is not used, all the tasks have
              * access to all the kernel objects. */
-            return pdTRUE;
+            أرجع pdTRUE;
         }
 
-    #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #جيڪڏهن_پورو /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
-#endif /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+#جيڪڏهن_پورو /* #if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
-    #if ( configNUMBER_OF_CORES == 1 )
-        static uint32_t prvConfigurePACBTI( BaseType_t xWriteControlRegister )
-    #else /* configNUMBER_OF_CORES > 1 */
-        uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister )
-    #endif /* configNUMBER_OF_CORES */
+#إذا ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+    #إذا ( config_عدد_جو_CORES == 1 )
+        ساكن uint32_t prvConfigurePACBTI( بنياد_Type_t x_Write_Control_رجسٽر )
+    #وإلا /* configNUMBER_OF_CORES > 1 */
+        uint32_t vConfigurePACBTI( بنياد_Type_t x_Write_Control_رجسٽر )
+    #جيڪڏهن_پورو /* configNUMBER_OF_CORES */
         {
             uint32_t ulControl = 0x0;
 
             /* Ensure that PACBTI is implemented. */
-            configASSERT( portID_ISAR5_REG != 0x0 );
+            configASSERT( پورٽ_ID_ISAR5_REG != 0x0 );
 
             /* Enable UsageFault exception. */
-            portSCB_SYS_HANDLER_CTRL_STATE_REG |= portSCB_USG_FAULT_ENABLE_BIT;
+            پورٽ_SCB_SYS_HANDLER_CTRL_STATE_REG |= پورٽ_SCB_USG_FAULT_ENABLE_ٻٽو_انگ;
 
-            #if ( configENABLE_PAC == 1 )
+            #إذا ( configENABLE_PAC == 1 )
             {
-                ulControl |= ( portCONTROL_UPAC_EN | portCONTROL_PAC_EN );
+                ulControl |= ( پورٽ_CONTROL_UPAC_EN | پورٽ_CONTROL_PAC_EN );
             }
-            #endif
+            #جيڪڏهن_پورو
 
-            #if ( configENABLE_BTI == 1 )
+            #إذا ( configENABLE_BTI == 1 )
             {
-                ulControl |= ( portCONTROL_UBTI_EN | portCONTROL_BTI_EN );
+                ulControl |= ( پورٽ_CONTROL_UBTI_EN | پورٽ_CONTROL_BTI_EN );
             }
-            #endif
+            #جيڪڏهن_پورو
 
-            if( xWriteControlRegister == pdTRUE )
+            إذا( x_Write_Control_رجسٽر == pdTRUE )
             {
-                __asm volatile ( "msr control, %0" : : "r" ( ulControl ) );
+                __asm متطاير ( "msr control, %0" : : "r" ( ulControl ) );
             }
 
-            return ulControl;
+            أرجع ulControl;
         }
 
-#endif /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
+#جيڪڏهن_پورو /* configENABLE_PAC == 1 || configENABLE_BTI == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#إذا ( config_عدد_جو_CORES > 1 )
 
     /* Which core owns the lock? */
-    PRIVILEGED_DATA volatile uint32_t ulOwnedByCore[ portMAX_CORE_COUNT ];
+    PRIVILEGED_معلومات متطاير uint32_t ulOwnedByCore[ پورٽ_MAX_CORE_ڳڻپ ];
     /* Lock count a core owns. */
-    PRIVILEGED_DATA volatile uint32_t ulRecursionCountByLock[ eLockCount ];
+    PRIVILEGED_معلومات متطاير uint32_t ul_Recursion_ڳڻپ_By_تالو[ e_تالو_ڳڻپ ];
     /* Index 0 is used for ISR lock and Index 1 is used for task lock. */
-    PRIVILEGED_DATA volatile uint32_t ulGateWord[ eLockCount ];
+    PRIVILEGED_معلومات متطاير uint32_t ul_Gate_لفظ[ e_تالو_ڳڻپ ];
 
-    __attribute__((weak)) void vInterruptCore( uint8_t ucCoreID )
+    __attribute__((weak)) فراغ v_مداخلت_Core( uint8_t ucCoreID )
     {
         /* Default weak stub - platform specific implementation may override. */
-        ( void ) ucCoreID;
+        ( فراغ ) ucCoreID;
     }
 
 /*-----------------------------------------------------------*/
 
-    static inline void prvSpinUnlock( volatile uint32_t * ulLock )
+    ساكن مضمن فراغ prvSpinUnlock( متطاير uint32_t * ul_تالو )
     {
         /* Conservative unlock: preserve original barriers for broad HW/FVP. */
-        __asm volatile (
+        __asm متطاير (
             "dmb sy         \n"
             "mov r1, #0     \n"
             "str r1, [%0]   \n"
@@ -2435,14 +2435,14 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
             "dsb            \n"
             "isb            \n"
             :
-            : "r" ( ulLock )
+            : "r" ( ul_تالو )
             : "memory", "r1"
         );
     }
 
 /*-----------------------------------------------------------*/
 
-    static inline uint32_t prvSpinTrylock( volatile uint32_t * ulLock )
+    ساكن مضمن uint32_t prvSpinTrylock( متطاير uint32_t * ul_تالو )
     {
         /*
          * Conservative ldrex/strex trylock:
@@ -2451,133 +2451,133 @@ void vPortConfigureInterruptPriorities( void ) /* PRIVILEGED_FUNCTION */
          * - DMB on success to preserve expected acquire semantics.
          */
         uint32_t ulVal;
-        uint32_t ulStatus;
+        uint32_t ul_حالت;
 
-        __asm volatile (
+        __asm متطاير (
             " ldrex %0, [%1]   \n"
             : "=r" ( ulVal )
-            : "r" ( ulLock )
+            : "r" ( ul_تالو )
             : "memory"
         );
 
-        if( ulVal != 0U )
+        إذا( ulVal != 0U )
         {
-            __asm volatile ("clrex" ::: "memory");
-            return 1U;
+            __asm متطاير ("clrex" ::: "memory");
+            أرجع 1U;
         }
 
-        __asm volatile (
+        __asm متطاير (
             " strex %0, %2, [%1]   \n"
-            : "=&r" ( ulStatus )
-            : "r" ( ulLock ), "r" (1U)
+            : "=&r" ( ul_حالت )
+            : "r" ( ul_تالو ), "r" (1U)
             : "memory"
         );
 
-        if( ulStatus != 0U )
+        إذا( ul_حالت != 0U )
         {
-            return 1U;
+            أرجع 1U;
         }
-        __asm volatile ( "dmb" ::: "memory" );
-        return 0U;
+        __asm متطاير ( "dmb" ::: "memory" );
+        أرجع 0U;
     }
 
 
 /*-----------------------------------------------------------*/
 
     /* Read 32b value shared between cores. */
-    static inline uint32_t prvGet32( volatile uint32_t * x )
+    ساكن مضمن uint32_t prvGet32( متطاير uint32_t * x )
     {
         __asm( "dsb" );
-        return *x;
+        أرجع *x;
     }
 
 /*-----------------------------------------------------------*/
 
     /* Write 32b value shared between cores. */
-    static inline void prvSet32( volatile uint32_t * x,
-                                 uint32_t value )
+    ساكن مضمن فراغ prvSet32( متطاير uint32_t * x,
+                                 uint32_t قدر )
     {
-        *x = value;
+        *x = قدر;
         __asm( "dsb" );
     }
 
 /*-----------------------------------------------------------*/
 
-    void vPortRecursiveLock( uint8_t ucCoreID,
-                             ePortRTOSLock eLockNum,
-                             BaseType_t uxAcquire )
+    فراغ v_پورٽ_Recursive_تالو( uint8_t ucCoreID,
+                             e_پورٽ_RTOSLock e_تالو_انگ,
+                             بنياد_Type_t uxAcquire )
     {
         /* Validate the core ID and lock number. */
-        configASSERT( ucCoreID < portMAX_CORE_COUNT );
-        configASSERT( eLockNum < eLockCount );
+        configASSERT( ucCoreID < پورٽ_MAX_CORE_ڳڻپ );
+        configASSERT( e_تالو_انگ < e_تالو_ڳڻپ );
 
-        uint32_t ulLockBit = 1u << eLockNum;
+        uint32_t ul_تالو_ٻٽو_انگ = 1u << e_تالو_انگ;
 
         /* Lock acquire */
-        if( uxAcquire )
+        إذا( uxAcquire )
         {
             /* Check if spinlock is available. */
             /* If spinlock is not available check if the core owns the lock. */
             /* If the core owns the lock wait increment the lock count by the core. */
             /* If core does not own the lock wait for the spinlock. */
-            if( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
+            إذا( prvSpinTrylock( &ul_Gate_لفظ[ e_تالو_انگ ] ) != 0 )
             {
                 /* Check if the core owns the spinlock. */
-                if( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ulLockBit )
+                إذا( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ul_تالو_ٻٽو_انگ )
                 {
-                    configASSERT( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) != portUINT32_MAX );
-                    prvSet32( &ulRecursionCountByLock[ eLockNum ], ( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) + 1 ) );
-                    return;
+                    configASSERT( prvGet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ] ) != پورٽ_UINT32_MAX );
+                    prvSet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ], ( prvGet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ] ) + 1 ) );
+                    أرجع;
                 }
 
                 /* Preload the gate word into the cache. */
-                uint32_t dummy = ulGateWord[ eLockNum ];
+                uint32_t dummy = ul_Gate_لفظ[ e_تالو_انگ ];
                 dummy++;
 
-                while( prvSpinTrylock( &ulGateWord[ eLockNum ] ) != 0 )
+                طالما( prvSpinTrylock( &ul_Gate_لفظ[ e_تالو_انگ ] ) != 0 )
                 {
-                    __asm volatile ( "wfe" );
+                    __asm متطاير ( "wfe" );
                 }
             }
 
             /* Add barrier to ensure lock is taken before we proceed. */
-            __asm volatile( "dmb sy" ::: "memory" );
+            __asm متطاير( "dmb sy" ::: "memory" );
 
             /* Assert the lock count is 0 when the spinlock is free and is acquired. */
-            configASSERT( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) == 0 );
+            configASSERT( prvGet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ] ) == 0 );
 
             /* Set lock count as 1. */
-            prvSet32( &ulRecursionCountByLock[ eLockNum ], 1 );
+            prvSet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ], 1 );
             /* Set ulOwnedByCore. */
-            prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) | ulLockBit ) );
+            prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) | ul_تالو_ٻٽو_انگ ) );
         }
         /* Lock release. */
-        else
+        وإلا
         {
             /* Assert the lock is not free already. */
-            configASSERT( ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ulLockBit ) != 0 );
-            configASSERT( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) != 0 );
+            configASSERT( ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ul_تالو_ٻٽو_انگ ) != 0 );
+            configASSERT( prvGet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ] ) != 0 );
 
             /* Reduce ulRecursionCountByLock by 1. */
-            prvSet32( &ulRecursionCountByLock[ eLockNum ], ( prvGet32( &ulRecursionCountByLock[ eLockNum ] ) - 1 ) );
+            prvSet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ], ( prvGet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ] ) - 1 ) );
 
-            if( !prvGet32( &ulRecursionCountByLock[ eLockNum ] ) )
+            إذا( !prvGet32( &ul_Recursion_ڳڻپ_By_تالو[ e_تالو_انگ ] ) )
             {
-                prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ~ulLockBit ) );
-                prvSpinUnlock( &ulGateWord[ eLockNum ] );
+                prvSet32( &ulOwnedByCore[ ucCoreID ], ( prvGet32( &ulOwnedByCore[ ucCoreID ] ) & ~ul_تالو_ٻٽو_انگ ) );
+                prvSpinUnlock( &ul_Gate_لفظ[ e_تالو_انگ ] );
                 /* Add barrier to ensure lock status is reflected before we proceed. */
-                __asm volatile( "dmb sy" ::: "memory" );
+                __asm متطاير( "dmb sy" ::: "memory" );
             }
         }
     }
 
 /*-----------------------------------------------------------*/
 
-    uint8_t ucPortGetCoreID( void )
+    uint8_t uc_پورٽ_Get_Core_ID( فراغ )
     {
-        return *(volatile uint8_t *)(configCORE_ID_REGISTER);
+        أرجع *(متطاير uint8_t *)(config_CORE_ID_رجسٽر);
     }
 
 /*-----------------------------------------------------------*/
 
-#endif /* if( configNUMBER_OF_CORES > 1 ) */
+#جيڪڏهن_پورو /* if( configNUMBER_OF_CORES > 1 ) */

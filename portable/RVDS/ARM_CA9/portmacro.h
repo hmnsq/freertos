@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+    خارجي "C" {
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,124 +46,124 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#وصف_ڪريو پورٽ_CHAR          حرف
+#وصف_ڪريو پورٽ_FLOAT         عائم
+#وصف_ڪريو پورٽ_DOUBLE        مزدوج
+#وصف_ڪريو پورٽ_LONG          ڊگهو
+#وصف_ڪريو پورٽ_SHORT         ننڍو
+#وصف_ڪريو پورٽ_ڍير_TYPE    uint32_t
+#وصف_ڪريو پورٽ_بنياد_TYPE     ڊگهو
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورٽ_ڍير_TYPE   ڍير_Type_t;
+تعريفنوع ڊگهو             بنياد_Type_t;
+تعريفنوع بنانشان ڊگهو    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#إذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+    تعريفنوع uint16_t     TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY              ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t     TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #وصف_ڪريو پورٽ_TICK_TYPE_IS_ATOMIC    1
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
+#وصف_ڪريو پورٽ_ڍير_GROWTH      ( -1 )
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
+#وصف_ڪريو پورٽ_پڇاڙي_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint32_t ulPortYieldRequired;     \
+        خارجي uint32_t ul_پورٽ_Yield_Required;     \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            ulPortYieldRequired = pdTRUE;        \
+            ul_پورٽ_Yield_Required = pdTRUE;        \
         }                                        \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#define portYIELD()                __asm( "SWI 0" );
+#وصف_ڪريو پورٽ_YIELD_FROM_ISR( x )    پورٽ_پڇاڙي_SWITCHING_ISR( x )
+#وصف_ڪريو پورٽ_YIELD()                __asm( "SWI 0" );
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+خارجي فراغ v_پورٽ_Enter_Critical( فراغ );
+خارجي فراغ v_پورٽ_Exit_Critical( فراغ );
+خارجي uint32_t ul_پورٽ_سيٽ_مداخلت_نقاب( فراغ );
+خارجي فراغ v_پورٽ_Clear_مداخلت_نقاب( uint32_t ul_New_نقاب_قدر );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-#define portENTER_CRITICAL()                      vPortEnterCritical();
-#define portEXIT_CRITICAL()                       vPortExitCritical();
-#define portDISABLE_INTERRUPTS()                  ulPortSetInterruptMask()
-#define portENABLE_INTERRUPTS()                   vPortClearInterruptMask( 0 )
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()                      v_پورٽ_Enter_Critical();
+#وصف_ڪريو پورٽ_EXIT_CRITICAL()                       v_پورٽ_Exit_Critical();
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()                  ul_پورٽ_سيٽ_مداخلت_نقاب()
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()                   v_پورٽ_Clear_مداخلت_نقاب( 0 )
+#وصف_ڪريو پورٽ_سيٽ_مداخلت_نقاب_FROM_ISR()         ul_پورٽ_سيٽ_مداخلت_نقاب()
+#وصف_ڪريو پورٽ_CLEAR_مداخلت_نقاب_FROM_ISR( x )    v_پورٽ_Clear_مداخلت_نقاب( x )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+فراغ FreeRTOS_Tick_Handler( فراغ );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-void vPortTaskUsesFPU( void );
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+فراغ v_پورٽ_Task_استعمال_ڪري_FPU( فراغ );
+#وصف_ڪريو پورٽ_TASK_استعمال_ڪري_FLOATING_نقطو()    v_پورٽ_Task_استعمال_ڪري_FPU()
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#وصف_ڪريو پورٽ_سڀ_کان_هيٺ_مداخلت_ترجيح           ( ( ( uint32_t ) config_UNIQUE_مداخلت_PRIORITIES ) - 1UL )
+#وصف_ڪريو پورٽ_سڀ_کان_هيٺ_USABLE_مداخلت_ترجيح    ( پورٽ_سڀ_کان_هيٺ_مداخلت_ترجيح - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#جيڪڏهن_وصف_نه_ٿيل config_USE_پورٽ_OPTIMISED_TASK_SELECTION
+    #وصف_ڪريو config_USE_پورٽ_OPTIMISED_TASK_SELECTION    1
+#جيڪڏهن_پورو
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورٽ_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #وصف_ڪريو پورٽ_رڪارڊ_READY_ترجيح( ux_ترجيح, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ترجيح ) )
+    #وصف_ڪريو پورٽ_RESET_READY_ترجيح( ux_ترجيح, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ترجيح ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __clz( uxReadyPriorities ) )
+    #وصف_ڪريو پورٽ_GET_HIGHEST_ترجيح( ux_چوٽي_ترجيح, uxReadyPriorities )    ux_چوٽي_ترجيح = ( 31 - __clz( uxReadyPriorities ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#جيڪڏهن_پورو /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif
+#إذا ( configASSERT_DEFINED == 1 )
+    فراغ v_پورٽ_Validate_مداخلت_ترجيح( فراغ );
+    #وصف_ڪريو پورٽ_ASSERT_IF_مداخلت_ترجيح_INVALID()    v_پورٽ_Validate_مداخلت_ترجيح()
+#جيڪڏهن_پورو
 
-#define portNOP()                                         __nop()
+#وصف_ڪريو پورٽ_NOP()                                         __nop()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
     }
-#endif
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

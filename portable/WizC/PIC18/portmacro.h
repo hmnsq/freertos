@@ -31,44 +31,44 @@ Changes from V3.0.0
 
 Changes from V3.0.1
 */
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
-#if !defined(_SERIES) || _SERIES != 18
-    #error "WizC supports FreeRTOS on the Microchip PIC18-series only"
-#endif
+#إذا !defined(_SERIES) || _SERIES != 18
+    #غلطي "WizC supports FreeRTOS on the Microchip PIC18-series only"
+#جيڪڏهن_پورو
 
-#if !defined(QUICKCALL) || QUICKCALL != 1
-    #error "QuickCall must be enabled (see ProjectOptions/Optimisations)"
-#endif
+#إذا !defined(QUICKCALL) || QUICKCALL != 1
+    #غلطي "QuickCall must be enabled (see ProjectOptions/Optimisations)"
+#جيڪڏهن_پورو
 
-#include <stddef.h>
-#include <pic.h>
+#ضمن <stddef.h>
+#ضمن <pic.h>
 
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      portFLOAT
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#وصف_ڪريو پورٽ_CHAR        حرف
+#وصف_ڪريو پورٽ_FLOAT       عائم
+#وصف_ڪريو پورٽ_DOUBLE      پورٽ_FLOAT
+#وصف_ڪريو پورٽ_LONG        ڊگهو
+#وصف_ڪريو پورٽ_SHORT       ننڍو
+#وصف_ڪريو پورٽ_ڍير_TYPE  uint8_t
+#وصف_ڪريو پورٽ_بنياد_TYPE   حرف
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+تعريفنوع پورٽ_ڍير_TYPE ڍير_Type_t;
+تعريفنوع نشانوارو حرف بنياد_Type_t;
+تعريفنوع بنانشان حرف UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFF )
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+    تعريفنوع uint16_t TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY ( TickType_t )    ( 0xFFFF )
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 
-#define portBYTE_ALIGNMENT          1
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT          1
 
 /*-----------------------------------------------------------*/
 
@@ -76,47 +76,47 @@ typedef unsigned char UBaseType_t;
  * Constant used for context switch macro when we require the interrupt
  * enable state to be forced when the interrupted task is switched back in.
  */
-#define portINTERRUPTS_FORCED               (0x01)
+#وصف_ڪريو پورٽ_INTERRUPTS_FORCED               (0x01)
 
 /*
  * Constant used for context switch macro when we require the interrupt
  * enable state to be unchanged when the interrupted task is switched back in.
  */
-#define portINTERRUPTS_UNCHANGED            (0x00)
+#وصف_ڪريو پورٽ_INTERRUPTS_UNCHANGED            (0x00)
 
 /* Initial interrupt enable state for newly created tasks.  This value is
  * used when a task switches in for the first time.
  */
-#define portINTERRUPTS_INITIAL_STATE        (portINTERRUPTS_FORCED)
+#وصف_ڪريو پورٽ_INTERRUPTS_INITIAL_STATE        (پورٽ_INTERRUPTS_FORCED)
 
 /*
  * Macros to modify the global interrupt enable bit in INTCON.
  */
-#define portDISABLE_INTERRUPTS()    \
-    do                              \
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()    \
+    افعل                              \
     {                               \
         bGIE=0;                     \
-    } while(bGIE)   // MicroChip recommends this check!
+    } طالما(bGIE)   // MicroChip recommends this check!
 
-#define portENABLE_INTERRUPTS()     \
-    do                              \
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()     \
+    افعل                              \
     {                               \
         bGIE=1;                     \
-    } while(0)
+    } طالما(0)
 
 /*-----------------------------------------------------------*/
 
 /*
  * Critical section macros.
  */
-extern uint8_t ucCriticalNesting;
+خارجي uint8_t ucCriticalNesting;
 
-#define portNO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
+#وصف_ڪريو پورٽ_NO_CRITICAL_SECTION_NESTING     ( ( uint8_t ) 0 )
 
-#define portENTER_CRITICAL()                                        \
-    do                                                              \
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()                                        \
+    افعل                                                              \
     {                                                               \
-        portDISABLE_INTERRUPTS();                                   \
+        پورٽ_DISABLE_INTERRUPTS();                                   \
                                                                     \
         /*                                                          \
          * Now interrupts are disabled ucCriticalNesting            \
@@ -125,12 +125,12 @@ extern uint8_t ucCriticalNesting;
          * many times portENTER_CRITICAL() has been called.         \
          */                                                         \
         ucCriticalNesting++;                                        \
-    } while(0)
+    } طالما(0)
 
-#define portEXIT_CRITICAL()                                         \
-    do                                                              \
+#وصف_ڪريو پورٽ_EXIT_CRITICAL()                                         \
+    افعل                                                              \
     {                                                               \
-        if(ucCriticalNesting > portNO_CRITICAL_SECTION_NESTING)     \
+        إذا(ucCriticalNesting > پورٽ_NO_CRITICAL_SECTION_NESTING)     \
         {                                                           \
             /*                                                      \
              * Decrement the nesting count as we are leaving a      \
@@ -143,11 +143,11 @@ extern uint8_t ucCriticalNesting;
          * If the nesting level has reached zero then               \
          * interrupts should be re-enabled.                         \
          */                                                         \
-        if( ucCriticalNesting == portNO_CRITICAL_SECTION_NESTING )  \
+        إذا( ucCriticalNesting == پورٽ_NO_CRITICAL_SECTION_NESTING )  \
         {                                                           \
-            portENABLE_INTERRUPTS();                                \
+            پورٽ_ENABLE_INTERRUPTS();                                \
         }                                                           \
-    } while(0)
+    } طالما(0)
 
 /*-----------------------------------------------------------*/
 
@@ -156,18 +156,18 @@ extern uint8_t ucCriticalNesting;
  * portMINIMAL_STACK_SIZE. Some input to this calculation is
  * compile time determined, other input is port-defined (see port.c)
  */
-extern uint16_t usPortCALCULATE_MINIMAL_STACK_SIZE( void );
-extern uint16_t usCalcMinStackSize;
+خارجي uint16_t us_پورٽ_CALCULATE_گهٽتر_ڍير_سائيز( فراغ );
+خارجي uint16_t us_Calc_Min_ڍير_سائيز;
 
-#define portMINIMAL_STACK_SIZE                  \
-    ((usCalcMinStackSize == 0)                  \
-        ? usPortCALCULATE_MINIMAL_STACK_SIZE()  \
-        : usCalcMinStackSize )
+#وصف_ڪريو پورٽ_گهٽتر_ڍير_سائيز                  \
+    ((us_Calc_Min_ڍير_سائيز == 0)                  \
+        ? us_پورٽ_CALCULATE_گهٽتر_ڍير_سائيز()  \
+        : us_Calc_Min_ڍير_سائيز )
 
 /*
  * WizC uses a downgrowing stack
  */
-#define portSTACK_GROWTH            ( -1 )
+#وصف_ڪريو پورٽ_ڍير_GROWTH            ( -1 )
 
 /*-----------------------------------------------------------*/
 
@@ -203,16 +203,16 @@ extern uint16_t usCalcMinStackSize;
  * assembler definitions.
  */
 
-#define portSAVE_CONTEXT( ucInterruptForced )                       \
-    do                                                              \
+#وصف_ڪريو پورٽ_SAVE_CONTEXT( uc_مداخلت_Forced )                       \
+    افعل                                                              \
     {                                                               \
-        portDISABLE_INTERRUPTS();                                   \
+        پورٽ_DISABLE_INTERRUPTS();                                   \
                                                                     \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Push the relevant SFR's onto the task's stack         \
+            ; ڌڪو_3 the relevant SFR's onto the task's ڍير         \
             ;                                                       \
-            movff   STATUS,POSTDEC2                                 \
+            movff   حالت_2,POSTDEC2                                 \
             movff   WREG,POSTDEC2                                   \
             movff   BSR,POSTDEC2                                    \
             movff   PRODH,POSTDEC2                                  \
@@ -222,12 +222,12 @@ extern uint16_t usCalcMinStackSize;
             movff   FSR1H,POSTDEC2                                  \
             movff   FSR1L,POSTDEC2                                  \
             movff   TABLAT,POSTDEC2                                 \
-            if __ROMSIZE > 0x8000                                   \
+            إذا __ROMSIZE > 0x8000                                   \
                 movff   TBLPTRU,POSTDEC2                            \
             endif                                                   \
             movff   TBLPTRH,POSTDEC2                                \
             movff   TBLPTRL,POSTDEC2                                \
-            if __ROMSIZE > 0x8000                                   \
+            إذا __ROMSIZE > 0x8000                                   \
                 movff   PCLATU,POSTDEC2                             \
             endif                                                   \
             movff   PCLATH,POSTDEC2                                 \
@@ -242,100 +242,100 @@ extern uint16_t usCalcMinStackSize;
             decfsz  WREG,W,ACCESS                                   \
             SMARTJUMP _rtos_S1                                      \
             ;                                                       \
-            ; Save the pic call/return-stack belonging to the       \
-            ; current task by copying it to the task's software-    \
-            ; stack. We save the hardware stack pointer (which      \
-            ; is the number of addresses on the stack) in the       \
-            ; W-register first because we need it later and it      \
-            ; is modified in the save-loop by executing pop's.      \
-            ; After the loop the W-register is stored on the        \
-            ; stack, too.                                           \
+            ; Save the pic call/أرجع-ڍير belonging منزل the       \
+            ; current task by copying it منزل the task's software-    \
+            ; ڍير. We save the hardware ڍير اشارو_2 (which      \
+            ; is the عدد جو پتا on the ڍير) اندريون the       \
+            ; W-سجل پهريون_2 because we need it later and it      \
+            ; is modified اندريون the save-loop by executing ڪڍو's.      \
+            ; After the loop the W-سجل is stored on the        \
+            ; ڍير, too.                                           \
             ;                                                       \
             movf    STKPTR,W,ACCESS                                 \
             bz      _rtos_s3                                        \
         _rtos_S2:                                                   \
-            if __ROMSIZE > 0x8000                                   \
+            إذا __ROMSIZE > 0x8000                                   \
                 movff   TOSU,POSTDEC2                               \
             endif                                                   \
             movff   TOSH,POSTDEC2                                   \
             movff   TOSL,POSTDEC2                                   \
-            pop                                                     \
+            ڪڍو                                                     \
             tstfsz  STKPTR,ACCESS                                   \
             SMARTJUMP _rtos_S2                                      \
         _rtos_s3:                                                   \
             movwf   POSTDEC2,ACCESS                                 \
             ;                                                       \
-            ; Next the value for ucCriticalNesting used by the      \
-            ; task is stored on the stack. When                     \
-            ; (ucInterruptForced == portINTERRUPTS_FORCED), we save \
-            ; it as 0 (portNO_CRITICAL_SECTION_NESTING).            \
+            ; ايندڙ the قدر لكل ucCriticalNesting استعمال_ٿيل by the      \
+            ; task is stored on the ڍير. When                     \
+            ; (uc_مداخلت_Forced == پورٽ_INTERRUPTS_FORCED), we save \
+            ; it as 0 (پورٽ_NO_CRITICAL_SECTION_NESTING).            \
             ;                                                       \
-            if ucInterruptForced == portINTERRUPTS_FORCED           \
+            إذا uc_مداخلت_Forced == پورٽ_INTERRUPTS_FORCED           \
                 clrf POSTDEC2,ACCESS                                \
-            else                                                    \
+            وإلا                                                    \
                 movff   ucCriticalNesting,POSTDEC2                  \
             endif                                                   \
             ;                                                       \
-            ; Save the new top of the software stack in the TCB.    \
+            ; Save the new چوٽي_2 جو the software ڍير اندريون the TCB.    \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             movff   FSR2L,POSTINC0                                  \
             movff   FSR2H,POSTINC0                                  \
         _Pragma("asmend")                                           \
-    } while(0)
+    } طالما(0)
 
 /************************************************************/
 
 /*
  * This is the reverse of portSAVE_CONTEXT.
  */
-#define portRESTORE_CONTEXT()                                       \
-    do                                                              \
+#وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                       \
+    افعل                                                              \
     {                                                               \
         _Pragma("asm")                                              \
             ;                                                       \
-            ; Set FSR0 to point to pxCurrentTCB->pxTopOfStack.      \
+            ; سيٽ_2 FSR0 منزل نقطو_2 منزل pxCurrentTCB->px_چوٽي_جو_ڍير.      \
             ;                                                       \
             movff   pxCurrentTCB,FSR0L                              \
             movff   pxCurrentTCB+1,FSR0H                            \
             ;                                                       \
-            ; De-reference FSR0 to set the address it holds into    \
-            ; FSR2 (i.e. *( pxCurrentTCB->pxTopOfStack ) ). FSR2    \
-            ; is used by wizC as stackpointer.                      \
+            ; De-reference FSR0 منزل سيٽ the پتو_2 it holds into    \
+            ; FSR2 (i.e. *( pxCurrentTCB->px_چوٽي_جو_ڍير ) ). FSR2    \
+            ; is استعمال_ٿيل by wizC as stackpointer.                      \
             ;                                                       \
             movff   POSTINC0,FSR2L                                  \
             movff   POSTINC0,FSR2H                                  \
             ;                                                       \
-            ; Next, the value for ucCriticalNesting used by the     \
-            ; task is retrieved from the stack.                     \
+            ; ايندڙ, the قدر لكل ucCriticalNesting استعمال_ٿيل by the     \
+            ; task is retrieved from the ڍير.                     \
             ;                                                       \
             movff   PREINC2,ucCriticalNesting                       \
             ;                                                       \
-            ; Rebuild the pic call/return-stack. The number of      \
-            ; return addresses is the next item on the task stack.  \
-            ; Save this number in PRODL. Then fetch the addresses   \
+            ; Rebuild the pic call/أرجع-ڍير. The عدد جو      \
+            ; أرجع پتا is the ايندڙ_2 شي on the task ڍير.  \
+            ; Save this عدد اندريون PRODL. Then fetch the پتا   \
             ; and store them on the hardwarestack.                  \
-            ; The datasheets say we can't use movff here...         \
+            ; The datasheets say we can't use movff هتي...         \
             ;                                                       \
             movff   PREINC2,PRODL   // Use PRODL as tempregister    \
             clrf    STKPTR,ACCESS                                   \
         _rtos_R1:                                                   \
-            push                                                    \
+            ڌڪو                                                    \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSL,ACCESS                                     \
             movf    PREINC2,W,ACCESS                                \
             movwf   TOSH,ACCESS                                     \
-            if __ROMSIZE > 0x8000                                   \
+            إذا __ROMSIZE > 0x8000                                   \
                 movf    PREINC2,W,ACCESS                            \
                 movwf   TOSU,ACCESS                                 \
-            else                                                    \
+            وإلا                                                    \
                 clrf    TOSU,ACCESS                                 \
             endif                                                   \
             decfsz  PRODL,F,ACCESS                                  \
             SMARTJUMP _rtos_R1                                      \
             ;                                                       \
-            ; Restore the compiler's working storage area to page 0 \
+            ; Restore the compiler's working storage area منزل صفحو 0 \
             ;                                                       \
             movlw   OVERHEADPAGE0-LOCOPTSIZE+MAXLOCOPTSIZE          \
             movwf   FSR0L,ACCESS                                    \
@@ -348,19 +348,19 @@ extern uint16_t usCalcMinStackSize;
             ;                                                       \
             ; Restore the sfr's forming the tasks context.          \
             ; We cannot yet restore bsr, w and status because       \
-            ; we need these registers for a final test.             \
+            ; we need these registers لكل a final test.             \
             ;                                                       \
             movff   PREINC2,PCLATH                                  \
-            if __ROMSIZE > 0x8000                                   \
+            إذا __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,PCLATU                              \
-            else                                                    \
+            وإلا                                                    \
                 clrf    PCLATU,ACCESS                               \
             endif                                                   \
             movff   PREINC2,TBLPTRL                                 \
             movff   PREINC2,TBLPTRH                                 \
-            if __ROMSIZE > 0x8000                                   \
+            إذا __ROMSIZE > 0x8000                                   \
                 movff   PREINC2,TBLPTRU                             \
-            else                                                    \
+            وإلا                                                    \
                 clrf    TBLPTRU,ACCESS                              \
             endif                                                   \
             movff   PREINC2,TABLAT                                  \
@@ -371,12 +371,12 @@ extern uint16_t usCalcMinStackSize;
             movff   PREINC2,PRODL                                   \
             movff   PREINC2,PRODH                                   \
             ;                                                       \
-            ; The return from portRESTORE_CONTEXT() depends on      \
-            ; the value of ucCriticalNesting. When it is zero,      \
-            ; interrupts need to be enabled. This is done via a     \
+            ; The أرجع from پورٽ_RESTORE_CONTEXT() depends on      \
+            ; the قدر جو ucCriticalNesting. When it is zero,      \
+            ; interrupts need منزل be enabled. This is پورو ذريعي a     \
             ; retfie instruction because we need the                \
-            ; interrupt-enabling and the return to the restored     \
-            ; task to be uninterruptible.                           \
+            ; مداخلت-enabling and the أرجع منزل the restored     \
+            ; task منزل be uninterruptible.                           \
             ; Because bsr, status and W are affected by the test    \
             ; they are restored after the test.                     \
             ;                                                       \
@@ -386,40 +386,40 @@ extern uint16_t usCalcMinStackSize;
         _rtos_R3:                                                   \
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
-            movff   PREINC2,STATUS                                  \
+            movff   PREINC2,حالت_2                                  \
             retfie  0       ; Return enabling interrupts            \
         _rtos_R4:                                                   \
             movff   PREINC2,BSR                                     \
             movff   PREINC2,WREG                                    \
-            movff   PREINC2,STATUS                                  \
-            return  0       ; Return without affecting interrupts   \
+            movff   PREINC2,حالت_2                                  \
+            أرجع  0       ; Return without affecting interrupts   \
         _Pragma("asmend")                                           \
-    } while(0)
+    } طالما(0)
 
 /*-----------------------------------------------------------*/
 
-#define portTICK_PERIOD_MS  ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS  ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
 
 /*-----------------------------------------------------------*/
 
-extern void vPortYield( void );
-#define portYIELD()             vPortYield()
+خارجي فراغ v_پورٽ_Yield( فراغ );
+#وصف_ڪريو پورٽ_YIELD()             v_پورٽ_Yield()
 
-#define portNOP()   _Pragma("asm")                                  \
+#وصف_ڪريو پورٽ_NOP()   _Pragma("asm")                                  \
                         nop                                         \
                     _Pragma("asmend")
 
 /*-----------------------------------------------------------*/
 
-#define portTASK_FUNCTION( xFunction, pvParameters )        \
-    void pointed xFunction( void *pvParameters )        \
+#وصف_ڪريو پورٽ_TASK_FUNCTION( xFunction, pvParameters )        \
+    فراغ pointed xFunction( فراغ *pvParameters )        \
     _Pragma(asmfunc xFunction)
 
-#define portTASK_FUNCTION_PROTO     portTASK_FUNCTION
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO     پورٽ_TASK_FUNCTION
 /*-----------------------------------------------------------*/
 
 
-#define volatile
-#define register
+#وصف_ڪريو متطاير
+#وصف_ڪريو سجل
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

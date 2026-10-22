@@ -58,41 +58,41 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+    خارجي "C" {
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#ifndef __ASSEMBLER__
+#جيڪڏهن_وصف_نه_ٿيل __ASSEMBLER__
 
-    #include <stdint.h>
+    #ضمن <stdint.h>
 
-    #include <xtensa/hal.h>
-    #include <xtensa/config/core.h>
-    #include <xtensa/config/system.h> /* required for XSHAL_CLIB */
-    #include <xtensa/xtruntime.h>
-    #include "soc/spinlock.h"
-    #include "esp_timer.h" /* required for FreeRTOS run time stats */
-    #include "esp_system.h"
-    #include "esp_idf_version.h"
-    #include "esp_heap_caps.h"
+    #ضمن <xtensa/hal.h>
+    #ضمن <xtensa/config/core.h>
+    #ضمن <xtensa/config/system.h> /* required for XSHAL_CLIB */
+    #ضمن <xtensa/xtruntime.h>
+    #ضمن "soc/spinlock.h"
+    #ضمن "esp_timer.h" /* required for FreeRTOS run time stats */
+    #ضمن "esp_system.h"
+    #ضمن "esp_idf_version.h"
+    #ضمن "esp_heap_caps.h"
 
 /* TODO: Resolve build warnings generated due to this header inclusion */
-    #include "hal/cpu_hal.h"
+    #ضمن "hal/cpu_hal.h"
 
 /* TODO: These includes are not directly used in this file. They are kept into to prevent a breaking change. Remove these. */
-    #include <limits.h>
-    #include <xtensa/xtensa_api.h>
+    #ضمن <limits.h>
+    #ضمن <xtensa/xtensa_api.h>
 
-    #include "soc/cpu.h"
-    #include "soc/soc_memory_layout.h"
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-        #include "soc/compare_set.h"
-    #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
+    #ضمن "soc/cpu.h"
+    #ضمن "soc/soc_memory_layout.h"
+    #إذا ( ESP_IDF_نسخو >= ESP_IDF_نسخو_VAL( 4, 2, 0 ) )
+        #ضمن "soc/compare_set.h"
+    #جيڪڏهن_پورو /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*#include "xtensa_context.h" */
 
@@ -108,44 +108,44 @@
 
 /* Type definitions. */
 
-    #define portCHAR          int8_t
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          int32_t
-    #define portSHORT         int16_t
-    #define portSTACK_TYPE    uint8_t
-    #define portBASE_TYPE     int
+    #وصف_ڪريو پورٽ_CHAR          int8_t
+    #وصف_ڪريو پورٽ_FLOAT         عائم
+    #وصف_ڪريو پورٽ_DOUBLE        مزدوج
+    #وصف_ڪريو پورٽ_LONG          int32_t
+    #وصف_ڪريو پورٽ_SHORT         int16_t
+    #وصف_ڪريو پورٽ_ڍير_TYPE    uint8_t
+    #وصف_ڪريو پورٽ_بنياد_TYPE     صحيح
 
-    typedef portSTACK_TYPE           StackType_t;
-    typedef portBASE_TYPE            BaseType_t;
-    typedef unsigned portBASE_TYPE   UBaseType_t;
+    تعريفنوع پورٽ_ڍير_TYPE           ڍير_Type_t;
+    تعريفنوع پورٽ_بنياد_TYPE            بنياد_Type_t;
+    تعريفنوع بنانشان پورٽ_بنياد_TYPE   UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t             TickType_t;
-        #define portMAX_DELAY    ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t             TickType_t;
-        #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+    #إذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+        تعريفنوع uint16_t             TickType_t;
+        #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffff
+    #وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+        تعريفنوع uint32_t             TickType_t;
+        #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+    #وإلا
+        #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+    #جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* portbenchmark */
-    #include "portbenchmark.h"
+    #ضمن "portbenchmark.h"
 
-    #include "sdkconfig.h"
-    #include "esp_attr.h"
+    #ضمن "sdkconfig.h"
+    #ضمن "esp_attr.h"
 
 /* "mux" data structure (spinlock) */
-    typedef spinlock_t portMUX_TYPE;                                /**< Spinlock type used by FreeRTOS critical sections */
-    #define portMUX_INITIALIZER_UNLOCKED    SPINLOCK_INITIALIZER    /**< Spinlock initializer */
-    #define portMUX_FREE_VAL                SPINLOCK_FREE           /**< Spinlock is free. [refactor-todo] check if this is still required */
-    #define portMUX_NO_TIMEOUT              SPINLOCK_WAIT_FOREVER   /**< When passed for 'timeout_cycles', spin forever if necessary. [refactor-todo] check if this is still required */
-    #define portMUX_TRY_LOCK                SPINLOCK_NO_WAIT        /**< Try to acquire the spinlock a single time only. [refactor-todo] check if this is still required */
-    #define portMUX_INITIALIZE( mux )    spinlock_initialize( mux ) /*< Initialize a spinlock to its unlocked state */
+    تعريفنوع spinlock_t پورٽ_MUX_TYPE;                                /**< Spinlock type used by FreeRTOS critical sections */
+    #وصف_ڪريو پورٽ_MUX_INITIALIZER_UNLOCKED    SPINLOCK_INITIALIZER    /**< Spinlock initializer */
+    #وصف_ڪريو پورٽ_MUX_FREE_VAL                SPINLOCK_FREE           /**< Spinlock is free. [refactor-todo] check if this is still required */
+    #وصف_ڪريو پورٽ_MUX_NO_TIMEOUT              SPINLOCK_WAIT_FOREVER   /**< When passed for 'timeout_cycles', spin forever if necessary. [refactor-todo] check if this is still required */
+    #وصف_ڪريو پورٽ_MUX_TRY_تالو                SPINLOCK_NO_WAIT        /**< Try to acquire the spinlock a single time only. [refactor-todo] check if this is still required */
+    #وصف_ڪريو پورٽ_MUX_INITIALIZE( mux )    spinlock_initialize( mux ) /*< Initialize a spinlock to its unlocked state */
 
-    #define portCRITICAL_NESTING_IN_TCB     1
+    #وصف_ڪريو پورٽ_CRITICAL_NESTING_اندريون_TCB     1
 
 /*
  * Modifications to portENTER_CRITICAL.
@@ -173,14 +173,14 @@
  * that either function can be called both from ISR as well as task context. This is not standard FreeRTOS
  * behaviour; please keep this in mind if you need any compatibility with other FreeRTOS implementations.
  */
-    void vPortCPUInitializeMutex( portMUX_TYPE * mux );
-    #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-        #error CONFIG_FREERTOS_PORTMUX_DEBUG not supported in Amazon FreeRTOS
-    #endif
+    فراغ v_پورٽ_CPUInitialize_Mutex( پورٽ_MUX_TYPE * mux );
+    #جيڪڏهن_وصف_ٿيل CONFIG_FREERTOS_PORTMUX_DEBUG
+        #غلطي CONFIG_FREERTOS_PORTMUX_DEBUG not supported اندريون Amazon FreeRTOS
+    #جيڪڏهن_پورو
 
-    void vTaskExitCritical();
-    void vTaskEnterCritical();
-    static inline void vPortConsumeSpinlockArg( int unused,
+    فراغ vTaskExitCritical();
+    فراغ vTaskEnterCritical();
+    ساكن مضمن فراغ v_پورٽ_Consume_Spinlock_Arg( صحيح اڻ_استعمال_ٿيل,
                                                 ... )
     {
     }
@@ -193,83 +193,83 @@
  *
  * @return true if mutex is successfully acquired, false on timeout.
  */
-    bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles );
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux );
+    bool v_پورٽ_CPUAcquire_Mutex_Timeout( پورٽ_MUX_TYPE * mux,
+                                      صحيح timeout_چڪرن );
+    فراغ v_پورٽ_CPURelease_Mutex( پورٽ_MUX_TYPE * mux );
 
-    #define portENTER_CRITICAL( ... )        do { vTaskEnterCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
-    #define portEXIT_CRITICAL( ... )         do { vTaskExitCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
+    #وصف_ڪريو پورٽ_ENTER_CRITICAL( ... )        افعل { vTaskEnterCritical(); v_پورٽ_Consume_Spinlock_Arg( 0, ## __VA_ARGS__ ); } طالما( 0 )
+    #وصف_ڪريو پورٽ_EXIT_CRITICAL( ... )         افعل { vTaskExitCritical(); v_پورٽ_Consume_Spinlock_Arg( 0, ## __VA_ARGS__ ); } طالما( 0 )
 
 
-    #define portENTER_CRITICAL_ISR( mux )    vPortCPUAcquireMutexTimeout( mux, portMUX_NO_TIMEOUT )
-    #define portEXIT_CRITICAL_ISR( mux )     vPortCPUReleaseMutex( mux )
+    #وصف_ڪريو پورٽ_ENTER_CRITICAL_ISR( mux )    v_پورٽ_CPUAcquire_Mutex_Timeout( mux, پورٽ_MUX_NO_TIMEOUT )
+    #وصف_ڪريو پورٽ_EXIT_CRITICAL_ISR( mux )     v_پورٽ_CPURelease_Mutex( mux )
 
-    #define portENTER_CRITICAL_SAFE( mux ) \
-    do {                                   \
-        if( xPortInIsrContext() ) {        \
-            portENTER_CRITICAL_ISR( mux ); \
+    #وصف_ڪريو پورٽ_ENTER_CRITICAL_محفوظ( mux ) \
+    افعل {                                   \
+        إذا( x_پورٽ_اندريون_Isr_Context() ) {        \
+            پورٽ_ENTER_CRITICAL_ISR( mux ); \
         }                                  \
-        else {                             \
-            portENTER_CRITICAL( mux );     \
+        وإلا {                             \
+            پورٽ_ENTER_CRITICAL( mux );     \
         }                                  \
-    } while( 0 )
+    } طالما( 0 )
 
-    #define portEXIT_CRITICAL_SAFE( mux ) \
-    do {                                  \
-        if( xPortInIsrContext() ) {       \
-            portEXIT_CRITICAL_ISR( mux ); \
+    #وصف_ڪريو پورٽ_EXIT_CRITICAL_محفوظ( mux ) \
+    افعل {                                  \
+        إذا( x_پورٽ_اندريون_Isr_Context() ) {       \
+            پورٽ_EXIT_CRITICAL_ISR( mux ); \
         }                                 \
-        else {                            \
-            portEXIT_CRITICAL( mux );     \
+        وإلا {                            \
+            پورٽ_EXIT_CRITICAL( mux );     \
         }                                 \
-    } while( 0 )
+    } طالما( 0 )
 
-    #define portASSERT_IF_IN_ISR()    vPortAssertIfInISR()
-    void vPortAssertIfInISR( void );
+    #وصف_ڪريو پورٽ_ASSERT_IF_اندريون_ISR()    v_پورٽ_Assert_If_اندريون_ISR()
+    فراغ v_پورٽ_Assert_If_اندريون_ISR( فراغ );
 
 /* Critical section management. NW-TODO: replace XTOS_SET_INTLEVEL with more efficient version, if any? */
 /* These cannot be nested. They should be used with a lot of care and cannot be called from interrupt level. */
 /* */
 /* Only applies to one CPU. See notes above & below for reasons not to use these. */
-    #define portDISABLE_INTERRUPTS()    do { XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmarkINTERRUPT_DISABLE(); } while( 0 )
-    #define portENABLE_INTERRUPTS()     do { portbenchmarkINTERRUPT_RESTORE( 0 ); XTOS_SET_INTLEVEL( 0 ); } while( 0 )
+    #وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()    افعل { XTOS_سيٽ_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmark_مداخلت_DISABLE(); } طالما( 0 )
+    #وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()     افعل { portbenchmark_مداخلت_RESTORE( 0 ); XTOS_سيٽ_INTLEVEL( 0 ); } طالما( 0 )
 
 /* Cleaner solution allows nested interrupts disabling and restoring via local registers or stack. */
 /* They can be called from interrupts too. */
 /* WARNING: Only applies to current CPU. See notes above. */
-    static inline UBaseType_t __attribute__( ( always_inline ) ) xPortSetInterruptMaskFromISR( void )
+    ساكن مضمن UBaseType_t __attribute__( ( always_inline ) ) x_پورٽ_سيٽ_مداخلت_نقاب_From_ISR( فراغ )
     {
-        UBaseType_t prev_int_level = XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL );
+        UBaseType_t prev_int_level = XTOS_سيٽ_INTLEVEL( XCHAL_EXCM_LEVEL );
 
-        portbenchmarkINTERRUPT_DISABLE();
-        return prev_int_level;
+        portbenchmark_مداخلت_DISABLE();
+        أرجع prev_int_level;
     }
 
-    static inline void __attribute__( ( always_inline ) ) vPortClearInterruptMaskFromISR( UBaseType_t prev_level )
+    ساكن مضمن فراغ __attribute__( ( always_inline ) ) v_پورٽ_Clear_مداخلت_نقاب_From_ISR( UBaseType_t prev_level )
     {
-        portbenchmarkINTERRUPT_RESTORE( prev_level );
+        portbenchmark_مداخلت_RESTORE( prev_level );
         XTOS_RESTORE_JUST_INTLEVEL( prev_level );
     }
 
 /* These FreeRTOS versions are similar to the nested versions above */
-    #define portSET_INTERRUPT_MASK_FROM_ISR()                  xPortSetInterruptMaskFromISR()
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( prev_level )    vPortClearInterruptMaskFromISR( prev_level )
+    #وصف_ڪريو پورٽ_سيٽ_مداخلت_نقاب_FROM_ISR()                  x_پورٽ_سيٽ_مداخلت_نقاب_From_ISR()
+    #وصف_ڪريو پورٽ_CLEAR_مداخلت_نقاب_FROM_ISR( prev_level )    v_پورٽ_Clear_مداخلت_نقاب_From_ISR( prev_level )
 
 /*Because the ROM routines don't necessarily handle a stack in external RAM correctly, we force */
 /*the stack memory to always be internal. */
-    #define portTcbMemoryCaps      ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
-    #define portStackMemoryCaps    ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
+    #وصف_ڪريو پورٽ_Tcb_يادگيري_Caps      ( MALLOC_CAP_اندروني | MALLOC_CAP_8_ٻٽو_انگ )
+    #وصف_ڪريو پورٽ_ڍير_يادگيري_Caps    ( MALLOC_CAP_اندروني | MALLOC_CAP_8_ٻٽو_انگ )
 
-    #define pvPortMallocTcbMem( size )        heap_caps_malloc( size, portTcbMemoryCaps )
-    #define pvPortMallocStackMem( size )      heap_caps_malloc( size, portStackMemoryCaps )
+    #وصف_ڪريو pv_پورٽ_Malloc_Tcb_Mem( سائيز )        ڍير_caps_malloc( سائيز, پورٽ_Tcb_يادگيري_Caps )
+    #وصف_ڪريو pv_پورٽ_Malloc_ڍير_Mem( سائيز )      ڍير_caps_malloc( سائيز, پورٽ_ڍير_يادگيري_Caps )
 
 /*xTaskCreateStatic uses these functions to check incoming memory. */
-    #define portVALID_TCB_MEM( ptr )          ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
-    #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
-        #define portVALID_STACK_MEM( ptr )    esp_ptr_byte_accessible( ptr )
-    #else
-        #define portVALID_STACK_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
-    #endif
+    #وصف_ڪريو پورٽ_VALID_TCB_MEM( ptr )          ( esp_ptr_اندروني( ptr ) && esp_ptr_byte_accessible( ptr ) )
+    #جيڪڏهن_وصف_ٿيل CONFIG_SPIRAM_ALLOW_ڍير_EXTERNAL_يادگيري
+        #وصف_ڪريو پورٽ_VALID_ڍير_MEM( ptr )    esp_ptr_byte_accessible( ptr )
+    #وإلا
+        #وصف_ڪريو پورٽ_VALID_ڍير_MEM( ptr )    ( esp_ptr_اندروني( ptr ) && esp_ptr_byte_accessible( ptr ) )
+    #جيڪڏهن_پورو
 
 /*
  * Wrapper for the Xtensa compare-and-set instruction. This subroutine will atomically compare
@@ -280,88 +280,88 @@
  * *bitwise inverse* of the old mem if the mem wasn't written. This doesn't seem to happen on the
  * ESP32 (portMUX assertions would fail).
  */
-    static inline void uxPortCompareSet( volatile uint32_t * addr,
+    ساكن مضمن فراغ ux_پورٽ_Compare_سيٽ( متطاير uint32_t * addr,
                                          uint32_t compare,
-                                         uint32_t * set )
+                                         uint32_t * سيٽ )
     {
-        #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+        #إذا ( ESP_IDF_نسخو < ESP_IDF_نسخو_VAL( 4, 2, 0 ) )
             __asm__ __volatile__ (
                 "WSR       %2,SCOMPARE1 \n"
                 "S32C1I     %0, %1, 0   \n"
-                : "=r" ( *set )
-                : "r" ( addr ), "r" ( compare ), "0" ( *set )
+                : "=r" ( *سيٽ )
+                : "r" ( addr ), "r" ( compare ), "0" ( *سيٽ )
                 );
-        #else
-            #if ( XCHAL_HAVE_S32C1I > 0 )
+        #وإلا
+            #إذا ( XCHAL_HAVE_S32C1I > 0 )
                 __asm__ __volatile__ (
                     "WSR        %2,SCOMPARE1 \n"
                     "S32C1I     %0, %1, 0    \n"
-                    : "=r" ( *set )
-                    : "r" ( addr ), "r" ( compare ), "0" ( *set )
+                    : "=r" ( *سيٽ )
+                    : "r" ( addr ), "r" ( compare ), "0" ( *سيٽ )
                     );
-            #else
+            #وإلا
                 /* No S32C1I, so do this by disabling and re-enabling interrupts (slower) */
-                uint32_t intlevel, old_value;
+                uint32_t intlevel, old_قدر;
                 __asm__ __volatile__ ( "rsil %0, " XTSTR( XCHAL_EXCM_LEVEL ) "\n"
                                        : "=r" ( intlevel ) );
 
-                old_value = *addr;
+                old_قدر = *addr;
 
-                if( old_value == compare )
+                إذا( old_قدر == compare )
                 {
-                    *addr = *set;
+                    *addr = *سيٽ;
                 }
 
                 __asm__ __volatile__ ( "memw \n"
                                        "wsr %0, ps\n"
                                        : : "r" ( intlevel ) );
 
-                *set = old_value;
-            #endif /* if ( XCHAL_HAVE_S32C1I > 0 ) */
-        #endif /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
+                *سيٽ = old_قدر;
+            #جيڪڏهن_پورو /* if ( XCHAL_HAVE_S32C1I > 0 ) */
+        #جيڪڏهن_پورو /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
     }
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-        void uxPortCompareSetExtram( volatile uint32_t * addr,
+    #إذا ( ESP_IDF_نسخو < ESP_IDF_نسخو_VAL( 4, 2, 0 ) )
+        فراغ ux_پورٽ_Compare_سيٽ_Extram( متطاير uint32_t * addr,
                                      uint32_t compare,
-                                     uint32_t * set );
-    #else
-        static inline void uxPortCompareSetExtram( volatile uint32_t * addr,
+                                     uint32_t * سيٽ );
+    #وإلا
+        ساكن مضمن فراغ ux_پورٽ_Compare_سيٽ_Extram( متطاير uint32_t * addr,
                                                    uint32_t compare,
-                                                   uint32_t * set )
+                                                   uint32_t * سيٽ )
         {
-            #if defined( CONFIG_SPIRAM )
-                compare_and_set_extram( addr, compare, set );
-            #endif
+            #إذا defined( CONFIG_SPIRAM )
+                compare_and_سيٽ_extram( addr, compare, سيٽ );
+            #جيڪڏهن_پورو
         }
-    #endif /* if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) ) */
+    #جيڪڏهن_پورو /* if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) ) */
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    4
-    #define portNOP()    XT_NOP()
+    #وصف_ڪريو پورٽ_ڍير_GROWTH      ( -1 )
+    #وصف_ڪريو پورٽ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+    #وصف_ڪريو پورٽ_BYTE_ALIGNMENT    4
+    #وصف_ڪريو پورٽ_NOP()    XT_NOP()
 /*-----------------------------------------------------------*/
 
 /* Fine resolution time */
-    #define portGET_RUN_TIME_COUNTER_VALUE()    xthal_get_ccount()
+    #وصف_ڪريو پورٽ_GET_لاڳيتو_وقت_COUNTER_قدر()    xthal_get_ccount()
 /*ccount or esp_timer are initialized elsewhere */
-    #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
+    #وصف_ڪريو پورٽ_CONFIGURE_TIMER_FOR_لاڳيتو_وقت_STATS()
 
-    #ifdef CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER
+    #جيڪڏهن_وصف_ٿيل CONFIG_FREERTOS_لاڳيتو_وقت_STATS_USING_ESP_TIMER
 /* Coarse resolution time (us) */
-        #define portALT_GET_RUN_TIME_COUNTER_VALUE( x )    do { x = ( uint32_t ) esp_timer_get_time(); } while( 0 )
-    #endif
+        #وصف_ڪريو پورٽ_ALT_GET_لاڳيتو_وقت_COUNTER_قدر( x )    افعل { x = ( uint32_t ) esp_timer_get_وقت(); } طالما( 0 )
+    #جيڪڏهن_پورو
 
 
 
 /* Kernel utilities. */
-    void vPortYield( void );
-    void vPortEvaluateYieldFromISR( int argc,
+    فراغ v_پورٽ_Yield( فراغ );
+    فراغ v_پورٽ_Evaluate_Yield_From_ISR( صحيح argc,
                                     ... );
-    void _frxt_setup_switch( void );
+    فراغ frxt_تياري_switch( فراغ );
 
 /* Macro to count number of arguments of a __VA_ARGS__ used to support portYIELD_FROM_ISR with,
  * or without arguments. The macro counts only 0 or 1 arguments.
@@ -372,99 +372,99 @@
  * This allows users to compile their code with standard C++20 enabled instead of the GNU extension.
  * Below C++20, we haven't found any good alternative to using ##__VA_ARGS__.
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
-    #else
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0, ## __VA_ARGS__, 1, 0 )
-    #endif
-    #define portGET_ARGUMENT_COUNT_INNER( zero, one, count, ... )    count
+    #إذا defined( __cplusplus ) && ( __cplusplus > 201703L )
+        #وصف_ڪريو پورٽ_GET_دليل_ڳڻپ( ... )                        پورٽ_GET_دليل_ڳڻپ_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
+    #وإلا
+        #وصف_ڪريو پورٽ_GET_دليل_ڳڻپ( ... )                        پورٽ_GET_دليل_ڳڻپ_INNER( 0, ## __VA_ARGS__, 1, 0 )
+    #جيڪڏهن_پورو
+    #وصف_ڪريو پورٽ_GET_دليل_ڳڻپ_INNER( zero, one, ڳڻپ, ... )    ڳڻپ
 
-    _Static_assert( portGET_ARGUMENT_COUNT() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
-    _Static_assert( portGET_ARGUMENT_COUNT( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
+    _Static_assert( پورٽ_GET_دليل_ڳڻپ() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
+    _Static_assert( پورٽ_GET_دليل_ڳڻپ( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
 
-    #define portYIELD()    vPortYield()
+    #وصف_ڪريو پورٽ_YIELD()    v_پورٽ_Yield()
 
 /* The macro below could be used when passing a single argument, or without any argument,
  * it was developed to support both usages of portYIELD inside of an ISR. Any other usage form
  * might result in undesired behaviour
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
-    #else
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ), ## __VA_ARGS__ )
-    #endif
+    #إذا defined( __cplusplus ) && ( __cplusplus > 201703L )
+        #وصف_ڪريو پورٽ_YIELD_FROM_ISR( ... )    v_پورٽ_Evaluate_Yield_From_ISR( پورٽ_GET_دليل_ڳڻپ( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
+    #وإلا
+        #وصف_ڪريو پورٽ_YIELD_FROM_ISR( ... )    v_پورٽ_Evaluate_Yield_From_ISR( پورٽ_GET_دليل_ڳڻپ( __VA_ARGS__ ), ## __VA_ARGS__ )
+    #جيڪڏهن_پورو
 
-    static inline BaseType_t xPortGetCoreID();
+    ساكن مضمن بنياد_Type_t x_پورٽ_Get_Core_ID();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* When coprocessors are defined, we to maintain a pointer to coprocessors area. */
 /* We currently use a hack: redefine field xMPU_SETTINGS in TCB block as a structure that can hold: */
 /* MPU wrappers, coprocessor area pointer, trace code structure, and more if needed. */
 /* The field is normally used for memory protection. FreeRTOS should create another general purpose field. */
-    typedef struct
+    تعريفنوع بنية
     {
-        #if XCHAL_CP_NUM > 0
-            volatile StackType_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
-        #endif
+        #إذا XCHAL_CP_انگ > 0
+            متطاير ڍير_Type_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
+        #جيڪڏهن_پورو
 
-        #if portUSING_MPU_WRAPPERS
+        #إذا پورٽ_USING_MPU_WRAPPERS
             /* Define here mpu_settings, which is port dependent */
-            int mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
-        #endif
+            صحيح mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
+        #جيڪڏهن_پورو
 
-        #if configUSE_TRACE_FACILITY_2
-            struct
+        #إذا configUSE_TRACE_FACILITY_2
+            بنية
             {
                 /* Cf. porttraceStamp() */
-                int taskstamp;      /* Stamp from inside task to see where we are */
-                int taskstampcount; /* A counter usually incremented when we restart the task's loop */
+                صحيح taskstamp;      /* Stamp from inside task to see where we are */
+                صحيح taskstampcount; /* A counter usually incremented when we restart the task's loop */
             } porttrace;
-        #endif
+        #جيڪڏهن_پورو
     } xMPU_SETTINGS;
 
 /* Main hack to use MPU_wrappers even when no MPU is defined (warning: mpu_setting should not be accessed; otherwise move this above xMPU_SETTINGS) */
-    #if ( XCHAL_CP_NUM > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
-        #undef portUSING_MPU_WRAPPERS
-        #define portUSING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
-        #define MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
-        #define PRIVILEGED_FUNCTION
-        #define PRIVILEGED_DATA
-    #endif
+    #إذا ( XCHAL_CP_انگ > 0 || configUSE_TRACE_FACILITY_2 ) && !پورٽ_USING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
+        #وصف_رد پورٽ_USING_MPU_WRAPPERS
+        #وصف_ڪريو پورٽ_USING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
+        #وصف_ڪريو MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
+        #وصف_ڪريو PRIVILEGED_FUNCTION
+        #وصف_ڪريو PRIVILEGED_معلومات
+    #جيڪڏهن_پورو
 
-    void vApplicationSleep( TickType_t xExpectedIdleTime );
+    فراغ vApplicationSleep( TickType_t x_Expected_Idle_وقت );
 
-    #define portSUPPRESS_TICKS_AND_SLEEP( idleTime )    vApplicationSleep( idleTime )
+    #وصف_ڪريو پورٽ_SUPPRESS_TICKS_AND_SLEEP( idle_وقت )    vApplicationSleep( idle_وقت )
 
-    void _xt_coproc_release( volatile void * coproc_sa_base );
+    فراغ _xt_coproc_release( متطاير فراغ * coproc_sa_بنياد );
 
 /*-----------------------------------------------------------*/
 
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #إذا ( ESP_IDF_نسخو >= ESP_IDF_نسخو_VAL( 4, 2, 0 ) )
         /* Architecture specific optimisations. */
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #إذا config_USE_پورٽ_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-            #if ( configMAX_PRIORITIES > 32 )
-                #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
-            #endif
+            #إذا ( configMAX_PRIORITIES > 32 )
+                #غلطي config_USE_پورٽ_OPTIMISED_TASK_SELECTION can only be سيٽ منزل 1 when configMAX_PRIORITIES is less than or equal منزل 32.  It is very rare that a system requires وڌيڪ than 10 منزل 15 different priorities as tasks that share a ترجيح will time ٽڪرو.
+            #جيڪڏهن_پورو
 
 /* Store/clear the ready priorities in a bit map. */
-            #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-            #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+            #وصف_ڪريو پورٽ_رڪارڊ_READY_ترجيح( ux_ترجيح, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ترجيح ) )
+            #وصف_ڪريو پورٽ_RESET_READY_ترجيح( ux_ترجيح, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ترجيح ) )
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
+            #وصف_ڪريو پورٽ_GET_HIGHEST_ترجيح( ux_چوٽي_ترجيح, uxReadyPriorities )    ux_چوٽي_ترجيح = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
 
-        #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+        #جيڪڏهن_پورو /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
+    #جيڪڏهن_پورو /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*-----------------------------------------------------------*/
 
@@ -475,40 +475,40 @@
  * non-FreeRTOS-specific code, and behave the same as
  * pvPortMalloc()/vPortFree().
  */
-    #define pvPortMalloc                       heap_caps_malloc_default
-    #define vPortFree                          heap_caps_free
-    #define xPortGetFreeHeapSize               esp_get_free_heap_size
-    #define xPortGetMinimumEverFreeHeapSize    esp_get_minimum_free_heap_size
+    #وصف_ڪريو pv_پورٽ_Malloc                       ڍير_caps_malloc_default
+    #وصف_ڪريو v_پورٽ_Free                          ڍير_caps_free
+    #وصف_ڪريو x_پورٽ_Get_Free_ڍير_سائيز               esp_get_free_ڍير_سائيز
+    #وصف_ڪريو x_پورٽ_Get_Minimum_Ever_Free_ڍير_سائيز    esp_get_minimum_free_ڍير_سائيز
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #إذا ( ESP_IDF_نسخو < ESP_IDF_نسخو_VAL( 4, 2, 0 ) )
 
 /*
  * Send an interrupt to another core in order to make the task running
  * on it yield for a higher-priority task.
  */
 
-        void vPortYieldOtherCore( BaseType_t coreid ) PRIVILEGED_FUNCTION;
+        فراغ v_پورٽ_Yield_Other_Core( بنياد_Type_t coreid ) PRIVILEGED_FUNCTION;
 
-    #endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+    #جيڪڏهن_پورو /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*
  * Callback to set a watchpoint on the end of the stack. Called every context switch to change the stack
  * watchpoint around.
  */
-    void vPortSetStackWatchpoint( void * pxStackStart );
+    فراغ v_پورٽ_سيٽ_ڍير_Watchpoint( فراغ * px_ڍير_شروعات );
 
 /*
  * Returns true if the current core is in ISR context; low prio ISR, med prio ISR or timer tick ISR. High prio ISRs
  * aren't detected here, but they normally cannot call C code, so that should not be an issue anyway.
  */
-    BaseType_t xPortInIsrContext();
+    بنياد_Type_t x_پورٽ_اندريون_Isr_Context();
 
 
 /*
  * This function will be called in High prio ISRs. Returns true if the current core was in ISR context
  * before calling into high prio ISR context.
  */
-    BaseType_t xPortInterruptedFromISRContext();
+    بنياد_Type_t x_پورٽ_Interrupted_From_ISRContext();
 
 /*
  * The structures and methods of manipulating the MPU are contained within the
@@ -517,25 +517,25 @@
  * Fills the xMPUSettings structure with the memory region information
  * contained in xRegions.
  */
-    #if ( portUSING_MPU_WRAPPERS == 1 )
-        struct xMEMORY_REGION;
-        void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                        const struct xMEMORY_REGION * const xRegions,
-                                        StackType_t * pxBottomOfStack,
-                                        configSTACK_DEPTH_TYPE uxStackDepth ) PRIVILEGED_FUNCTION;
-        void vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings );
-    #endif
+    #إذا ( پورٽ_USING_MPU_WRAPPERS == 1 )
+        بنية x_يادگيري_REGION;
+        فراغ v_پورٽ_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                        ثابت بنية x_يادگيري_REGION * ثابت xRegions,
+                                        ڍير_Type_t * px_Bottom_جو_ڍير,
+                                        config_ڍير_اونهائي_TYPE ux_ڍير_اونهائي ) PRIVILEGED_FUNCTION;
+        فراغ v_پورٽ_Release_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings );
+    #جيڪڏهن_پورو
 
 /* Multi-core: get current core ID */
-    static inline BaseType_t IRAM_ATTR xPortGetCoreID()
+    ساكن مضمن بنياد_Type_t IRAM_ATTR x_پورٽ_Get_Core_ID()
     {
-        return ( uint32_t ) cpu_hal_get_core_id();
+        أرجع ( uint32_t ) cpu_hal_get_core_id();
     }
 
 /* Get tick rate per second */
-    uint32_t xPortGetTickRateHz( void );
+    uint32_t x_پورٽ_Get_Tick_شرح_Hz( فراغ );
 
-    static inline bool IRAM_ATTR xPortCanYield( void )
+    ساكن مضمن bool IRAM_ATTR x_پورٽ_Can_Yield( فراغ )
     {
         uint32_t ps_reg = 0;
 
@@ -549,31 +549,31 @@
          * However, just return true, only intlevel is zero.
          */
 
-        return( ( ps_reg & PS_INTLEVEL_MASK ) == 0 );
+        أرجع( ( ps_reg & PS_INTLEVEL_نقاب ) == 0 );
     }
 
 /* porttrace */
-    #if configUSE_TRACE_FACILITY_2
-        #include "porttrace.h"
-    #endif
+    #إذا configUSE_TRACE_FACILITY_2
+        #ضمن "porttrace.h"
+    #جيڪڏهن_پورو
 
 /* configASSERT_2 if requested */
-    #if configASSERT_2
-        #include <stdio.h>
-        void exit( int );
-        #define configASSERT( x )    if( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
-    #endif
+    #إذا configASSERT_2
+        #ضمن <stdio.h>
+        فراغ ٻاهر_نڪرو( صحيح );
+        #وصف_ڪريو configASSERT( x )    إذا( !( x ) ) { porttracePrint( -1 ); لکو( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); ٻاهر_نڪرو( -1 ); }
+    #جيڪڏهن_پورو
 
 /* Barriers */
-    #define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+    #وصف_ڪريو پورٽ_يادگيري_BARRIER()    __asm متطاير ( "" ::: "memory" )
 
 
-#endif // __ASSEMBLER__
+#جيڪڏهن_پورو // __ASSEMBLER__
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
     }
-#endif
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

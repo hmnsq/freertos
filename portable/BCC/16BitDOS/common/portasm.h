@@ -26,26 +26,26 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#جيڪڏهن_وصف_نه_ٿيل پورٽ_ASM_H
+#وصف_ڪريو پورٽ_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
+خارجي فراغ vTaskSwitchContext( فراغ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+فراغ پورٽ_SWITCH_CONTEXT( فراغ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+فراغ پورٽ_پهريون_CONTEXT( فراغ );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -53,7 +53,7 @@ are a couple of extra bytes left of the ISR stack (presumably for use by the
 debugger).  The true stack pointer is then stored in the bp register.  We add
 2 to the stack pointer to remove the extra bytes before we restore our context. */
 
-#define portSWITCH_CONTEXT()                                            \
+#وصف_ڪريو پورٽ_SWITCH_CONTEXT()                                            \
                             asm { mov   ax, seg pxCurrentTCB        }   \
                             asm { mov   ds, ax                      }   \
                             asm { les   bx, pxCurrentTCB            }   /* Save the stack pointer into the TCB. */      \
@@ -66,22 +66,22 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }
 
-#define portFIRST_CONTEXT()                                             \
+#وصف_ڪريو پورٽ_پهريون_CONTEXT()                                             \
                             __asm { mov ax, seg pxCurrentTCB        }   \
                             __asm { mov ds, ax                      }   \
                             __asm { les bx, dword ptr pxCurrentTCB  }   \
                             __asm { mov ss, es:[ bx + 2 ]           }   \
                             __asm { mov sp, es:[ bx ]               }   \
-                            __asm { pop bp                          }   \
-                            __asm { pop di                          }   \
-                            __asm { pop si                          }   \
-                            __asm { pop ds                          }   \
-                            __asm { pop es                          }   \
-                            __asm { pop dx                          }   \
-                            __asm { pop cx                          }   \
-                            __asm { pop bx                          }   \
-                            __asm { pop ax                          }   \
+                            __asm { ڪڍو bp                          }   \
+                            __asm { ڪڍو di                          }   \
+                            __asm { ڪڍو si                          }   \
+                            __asm { ڪڍو ds                          }   \
+                            __asm { ڪڍو es                          }   \
+                            __asm { ڪڍو dx                          }   \
+                            __asm { ڪڍو cx                          }   \
+                            __asm { ڪڍو bx                          }   \
+                            __asm { ڪڍو ax                          }   \
                             __asm { iret                            }
 
 
-#endif
+#جيڪڏهن_پورو

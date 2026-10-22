@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#جيڪڏهن_وصف_نه_ٿيل معلومات_MODEL_H
+#وصف_ڪريو معلومات_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #وصف_ڪريو pushm_x    pushm.w
+    #وصف_ڪريو popm_x     popm.w
+    #وصف_ڪريو ڌڪو_x     ڌڪو.w
+    #وصف_ڪريو ڪڍو_x      ڪڍو.w
+    #وصف_ڪريو mov_x      mov.w
+    #وصف_ڪريو cmp_x      cmp.w
+#جيڪڏهن_پورو
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #وصف_ڪريو pushm_x    pushm.a
+    #وصف_ڪريو popm_x     popm.a
+    #وصف_ڪريو ڌڪو_x     pushx.a
+    #وصف_ڪريو ڪڍو_x      popx.a
+    #وصف_ڪريو mov_x      mov.w
+    #وصف_ڪريو cmp_x      cmp.w
+#جيڪڏهن_پورو
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #وصف_ڪريو pushm_x    pushm.a
+    #وصف_ڪريو popm_x     popm.a
+    #وصف_ڪريو ڌڪو_x     pushx.a
+    #وصف_ڪريو ڪڍو_x      popx.a
+    #وصف_ڪريو mov_x      movx.a
+    #وصف_ڪريو cmp_x      cmpx.a
+#جيڪڏهن_پورو
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#جيڪڏهن_وصف_نه_ٿيل pushm_x
+    #غلطي The assembler options must define one جو the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#جيڪڏهن_پورو
 
-#endif /* DATA_MODEL_H */
+#جيڪڏهن_پورو /* DATA_MODEL_H */

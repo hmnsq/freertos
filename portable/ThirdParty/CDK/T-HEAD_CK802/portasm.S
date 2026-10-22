@@ -13,24 +13,24 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  */
 
 //#include <csi_config.h>
 
 /********************************************************************
- * Functions: vPortStartTask
+ * Functions: v_پورٽ_شروعات_Task
  *
  ********************************************************************/
-.global vPortStartTask
-.type   vPortStartTask, %function
-vPortStartTask:
+.global v_پورٽ_شروعات_Task
+.type   v_پورٽ_شروعات_Task, %function
+v_پورٽ_شروعات_Task:
     psrclr   ie
     lrw      r4, pxCurrentTCB
     ld.w     r4, (r4)                // the current task stack pointer is the first member
@@ -46,12 +46,12 @@ vPortStartTask:
     rte
 
 /********************************************************************
- * Functions: vPortYield
+ * Functions: v_پورٽ_Yield
  *
  ********************************************************************/
-.global vPortYield
-.type   vPortYield, %function
-vPortYield:
+.global v_پورٽ_Yield
+.type   v_پورٽ_Yield, %function
+v_پورٽ_Yield:
     psrclr  ee
     subi    sp, 68
     stm     r0-r13, (sp)

@@ -26,27 +26,27 @@
  *
  */
 
-#ifndef __PORT_ASM_H__
-#define __PORT_ASM_H__
+#جيڪڏهن_وصف_نه_ٿيل __PORT_ASM_H__
+#وصف_ڪريو __PORT_ASM_H__
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
+#ضمن "FreeRTOS.h"
 
 /* MPU wrappers includes. */
-#include "mpu_wrappers.h"
+#ضمن "mpu_wrappers.h"
 
 /**
  * @brief Restore the context of the first task so that the first task starts
  * executing.
  */
-void vRestoreContextOfFirstTask( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ v_Restore_Context_جو_پهريون_Task( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Checks whether or not the processor is privileged.
  *
  * @return 1 if the processor is already privileged, 0 otherwise.
  */
-BaseType_t xIsPrivileged( void ) __attribute__( ( naked ) );
+بنياد_Type_t xIsPrivileged( فراغ ) __attribute__( ( naked ) );
 
 /**
  * @brief Raises the privilege level by clearing the bit 0 of the CONTROL
@@ -59,7 +59,7 @@ BaseType_t xIsPrivileged( void ) __attribute__( ( naked ) );
  *  Bit[0] = 0 --> The processor is running privileged
  *  Bit[0] = 1 --> The processor is running unprivileged.
  */
-void vRaisePrivilege( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ vRaisePrivilege( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
@@ -69,32 +69,32 @@ void vRaisePrivilege( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
  *  Bit[0] = 0 --> The processor is running privileged
  *  Bit[0] = 1 --> The processor is running unprivileged.
  */
-void vResetPrivilege( void ) __attribute__( ( naked ) );
+فراغ vResetPrivilege( فراغ ) __attribute__( ( naked ) );
 
 /**
  * @brief Starts the first task.
  */
-void vStartFirstTask( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ v_شروعات_پهريون_Task( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Disables interrupts.
  */
-uint32_t ulSetInterruptMask( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+uint32_t ul_سيٽ_مداخلت_نقاب( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Enables interrupts.
  */
-void vClearInterruptMask( uint32_t ulMask ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ v_Clear_مداخلت_نقاب( uint32_t ul_نقاب ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief PendSV Exception handler.
  */
-void PendSV_Handler( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ PendSV_Handler( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief SVC Handler.
  */
-void SVC_Handler( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ SVC_Handler( فراغ ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Allocate a Secure context for the calling task.
@@ -102,13 +102,13 @@ void SVC_Handler( void ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
  * @param[in] ulSecureStackSize The size of the stack to be allocated on the
  * secure side for the calling task.
  */
-void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) __attribute__( ( naked ) );
+فراغ v_پورٽ_Allocate_Secure_Context( uint32_t ul_Secure_ڍير_سائيز ) __attribute__( ( naked ) );
 
 /**
  * @brief Free the task's secure context.
  *
  * @param[in] pulTCB Pointer to the Task Control Block (TCB) of the task.
  */
-void vPortFreeSecureContext( uint32_t * pulTCB ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
+فراغ v_پورٽ_Free_Secure_Context( uint32_t * pulTCB ) __attribute__( ( naked ) ) PRIVILEGED_FUNCTION;
 
-#endif /* __PORT_ASM_H__ */
+#جيڪڏهن_پورو /* __PORT_ASM_H__ */

@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+    خارجي "C" {
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,70 +47,70 @@
 
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      long
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
+#وصف_ڪريو پورٽ_CHAR        حرف
+#وصف_ڪريو پورٽ_FLOAT       عائم
+#وصف_ڪريو پورٽ_DOUBLE      ڊگهو
+#وصف_ڪريو پورٽ_LONG        ڊگهو
+#وصف_ڪريو پورٽ_SHORT       صحيح
+#وصف_ڪريو پورٽ_ڍير_TYPE  uint16_t
+#وصف_ڪريو پورٽ_بنياد_TYPE   ننڍو
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+تعريفنوع پورٽ_ڍير_TYPE ڍير_Type_t;
+تعريفنوع ننڍو بنياد_Type_t;
+تعريفنوع بنانشان ننڍو UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t TickType_t;
-        #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+        تعريفنوع uint16_t TickType_t;
+        #وصف_ڪريو پورٽ_MAX_DELAY ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ  == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t             TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-void portENTER_CRITICAL( void );
-#pragma aux portENTER_CRITICAL = "pushf" \
+فراغ پورٽ_ENTER_CRITICAL( فراغ );
+#هدايت aux پورٽ_ENTER_CRITICAL = "pushf" \
                                  "cli";
 
-void portEXIT_CRITICAL( void );
-#pragma aux portEXIT_CRITICAL   = "popf";
+فراغ پورٽ_EXIT_CRITICAL( فراغ );
+#هدايت aux پورٽ_EXIT_CRITICAL   = "popf";
 
-void portDISABLE_INTERRUPTS( void );
-#pragma aux portDISABLE_INTERRUPTS = "cli";
+فراغ پورٽ_DISABLE_INTERRUPTS( فراغ );
+#هدايت aux پورٽ_DISABLE_INTERRUPTS = "cli";
 
-void portENABLE_INTERRUPTS( void );
-#pragma aux portENABLE_INTERRUPTS = "sti";
+فراغ پورٽ_ENABLE_INTERRUPTS( فراغ );
+#هدايت aux پورٽ_ENABLE_INTERRUPTS = "sti";
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH        ( -1 )
-#define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT      2
-#define portINITIAL_SW          ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
-#define portNOP()               __asm{ nop }
+#وصف_ڪريو پورٽ_ڍير_GROWTH        ( -1 )
+#وصف_ڪريو پورٽ_SWITCH_INT_عدد   0x80
+#وصف_ڪريو پورٽ_YIELD()             __asm{ صحيح پورٽ_SWITCH_INT_عدد }
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT      2
+#وصف_ڪريو پورٽ_INITIAL_SW          ( ( پورٽ_ڍير_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#وصف_ڪريو پورٽ_NOP()               __asm{ nop }
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )                 inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )       outp( xAddr, ucValue )
-#define portINPUT_WORD( xAddr )                 inpw( xAddr )
-#define portOUTPUT_WORD( xAddr, usValue )       outpw( xAddr, usValue )
+#وصف_ڪريو پورٽ_داخلا_BYTE( xAddr )                 inp( xAddr )
+#وصف_ڪريو پورٽ_OUTPUT_BYTE( xAddr, uc_قدر )       outp( xAddr, uc_قدر )
+#وصف_ڪريو پورٽ_داخلا_لفظ( xAddr )                 inpw( xAddr )
+#وصف_ڪريو پورٽ_OUTPUT_لفظ( xAddr, us_قدر )       outpw( xAddr, us_قدر )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
     }
-#endif
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

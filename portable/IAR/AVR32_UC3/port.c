@@ -71,39 +71,39 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* AVR32 UC3 includes. */
-#include <avr32/io.h>
-#include <intrinsics.h>
-#include "gpio.h"
+#ضمن <avr32/io.h>
+#ضمن <intrinsics.h>
+#ضمن "gpio.h"
 
-#if configDBG
-    #include "usart.h"
-#endif
+#إذا configDBG
+    #ضمن "usart.h"
+#جيڪڏهن_پورو
 
-#if ( configTICK_USE_TC == 1 )
-    #include "tc.h"
-#endif
+#إذا ( configTICK_USE_TC == 1 )
+    #ضمن "tc.h"
+#جيڪڏهن_پورو
 
 
 /* Constants required to setup the task context. */
-#define portINITIAL_SR             ( ( StackType_t ) 0x00400000 ) /* AVR32 : [M2:M0]=001 I1M=0 I0M=0, GM=0 */
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 0 )
+#وصف_ڪريو پورٽ_INITIAL_SR             ( ( ڍير_Type_t ) 0x00400000 ) /* AVR32 : [M2:M0]=001 I1M=0 I0M=0, GM=0 */
+#وصف_ڪريو پورٽ_INSTRUCTION_سائيز       ( ( ڍير_Type_t ) 0 )
 
 /* Each task maintains its own critical nesting variable. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+#وصف_ڪريو پورٽ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+متطاير uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configTICK_USE_TC == 0 )
-    static void prvScheduleNextTick( void );
-#else
-    static void prvClearTcInt( void );
-#endif
+#إذا ( configTICK_USE_TC == 0 )
+    ساكن فراغ prv_وقت_جدول_ايندڙ_Tick( فراغ );
+#وإلا
+    ساكن فراغ prvClearTcInt( فراغ );
+#جيڪڏهن_پورو
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_تياري_Timer_مداخلت( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -111,12 +111,12 @@ static void prvSetupTimerInterrupt( void );
  * Low-level initialization routine called during startup, before the main
  * function.
  */
-int __low_level_init( void )
+صحيح __low_level_init( فراغ )
 {
-    #if configHEAP_INIT
-    #pragma segment = "HEAP"
-        BaseType_t * pxMem;
-    #endif
+    #إذا config_ڍير_INIT
+    #هدايت segment = "HEAP"
+        بنياد_Type_t * pxMem;
+    #جيڪڏهن_پورو
 
     /* Enable exceptions. */
     ENABLE_ALL_EXCEPTIONS();
@@ -124,61 +124,61 @@ int __low_level_init( void )
     /* Initialize interrupt handling. */
     INTC_init_interrupts();
 
-    #if configHEAP_INIT
+    #إذا config_ڍير_INIT
     {
         /* Initialize the heap used by malloc. */
-        for( pxMem = __segment_begin( "HEAP" ); pxMem < ( BaseType_t * ) __segment_end( "HEAP" ); )
+        لكل( pxMem = __segment_begin( "HEAP" ); pxMem < ( بنياد_Type_t * ) __segment_end( "HEAP" ); )
         {
             *pxMem++ = 0xA5A5A5A5;
         }
     }
-    #endif
+    #جيڪڏهن_پورو
 
     /* Code section present if and only if the debug trace is activated. */
-    #if configDBG
+    #إذا configDBG
     {
-        static const gpio_map_t DBG_USART_GPIO_MAP =
+        ساكن ثابت gpio_map_t DBG_USART_GPIO_MAP =
         {
             { configDBG_USART_RX_PIN, configDBG_USART_RX_FUNCTION },
             { configDBG_USART_TX_PIN, configDBG_USART_TX_FUNCTION }
         };
 
-        static const usart_options_t DBG_USART_OPTIONS =
+        ساكن ثابت usart_options_t DBG_USART_OPTIONS =
         {
             .baudrate    = configDBG_USART_BAUDRATE,
             .charlength  = 8,
             .paritytype  = USART_NO_PARITY,
             .stopbits    = USART_1_STOPBIT,
-            .channelmode = USART_NORMAL_CHMODE
+            .channelmode = USART_عام_CHMODE
         };
 
         /* Initialize the USART used for the debug trace with the configured parameters. */
-        extern volatile avr32_usart_t * volatile stdio_usart_base;
-        stdio_usart_base = configDBG_USART;
+        خارجي متطاير avr32_usart_t * متطاير stdio_usart_بنياد;
+        stdio_usart_بنياد = configDBG_USART;
         gpio_enable_module( DBG_USART_GPIO_MAP,
-                            sizeof( DBG_USART_GPIO_MAP ) / sizeof( DBG_USART_GPIO_MAP[ 0 ] ) );
+                            حجم( DBG_USART_GPIO_MAP ) / حجم( DBG_USART_GPIO_MAP[ 0 ] ) );
         usart_init_rs232( configDBG_USART, &DBG_USART_OPTIONS, configCPU_CLOCK_HZ );
     }
-    #endif /* if configDBG */
+    #جيڪڏهن_پورو /* if configDBG */
 
     /* Request initialization of data segments. */
-    return 1;
+    أرجع 1;
 }
 /*-----------------------------------------------------------*/
 
 /* Added as there is no such function in FreeRTOS. */
-void * pvPortRealloc( void * pv,
-                      size_t xWantedSize )
+فراغ * pv_پورٽ_Realloc( فراغ * pv,
+                      size_t x_Wanted_سائيز )
 {
-    void * pvReturn;
+    فراغ * pvReturn;
 
     vTaskSuspendAll();
     {
-        pvReturn = realloc( pv, xWantedSize );
+        pvReturn = realloc( pv, x_Wanted_سائيز );
     }
     xTaskResumeAll();
 
-    return pvReturn;
+    أرجع pvReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -187,40 +187,40 @@ void * pvPortRealloc( void * pv,
 
 /* The preemptive scheduler is defined as "naked" as the full context is saved
  * on entry as part of the context switch. */
-#pragma shadow_registers = full /* Naked. */
-static void vTick( void )
+#هدايت shadow_registers = ڀريل_2 /* Naked. */
+ساكن فراغ vTick( فراغ )
 {
     /* Save the context of the interrupted task. */
-    portSAVE_CONTEXT_OS_INT();
+    پورٽ_SAVE_CONTEXT_OS_INT();
 
-    #if ( configTICK_USE_TC == 1 )
+    #إذا ( configTICK_USE_TC == 1 )
         /* Clear the interrupt flag. */
         prvClearTcInt();
-    #else
+    #وإلا
 
         /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
          * clock cycles from now. */
-        prvScheduleNextTick();
-    #endif
+        prv_وقت_جدول_ايندڙ_Tick();
+    #جيڪڏهن_پورو
 
     /* Because FreeRTOS is not supposed to run with nested interrupts, put all OS
      * calls in a critical section . */
-    portENTER_CRITICAL();
+    پورٽ_ENTER_CRITICAL();
     xTaskIncrementTick();
-    portEXIT_CRITICAL();
+    پورٽ_EXIT_CRITICAL();
 
     /* Restore the context of the "elected task". */
-    portRESTORE_CONTEXT_OS_INT();
+    پورٽ_RESTORE_CONTEXT_OS_INT();
 }
 /*-----------------------------------------------------------*/
 
-#pragma shadow_registers = full /* Naked. */
-void SCALLYield( void )
+#هدايت shadow_registers = ڀريل_2 /* Naked. */
+فراغ SCALLYield( فراغ )
 {
     /* Save the context of the interrupted task. */
-    portSAVE_CONTEXT_SCALL();
+    پورٽ_SAVE_CONTEXT_SCALL();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT_SCALL();
+    پورٽ_RESTORE_CONTEXT_SCALL();
 }
 /*-----------------------------------------------------------*/
 
@@ -228,11 +228,11 @@ void SCALLYield( void )
  * different optimisation levels.  The interrupt flags can therefore not always
  * be saved to the stack.  Instead the critical section nesting level is stored
  * in a variable, which is then saved as part of the stack context. */
-#pragma optimize = no_inline
-void vPortEnterCritical( void )
+#هدايت optimize = no_inline
+فراغ v_پورٽ_Enter_Critical( فراغ )
 {
     /* Disable interrupts */
-    portDISABLE_INTERRUPTS();
+    پورٽ_DISABLE_INTERRUPTS();
 
     /* Now that interrupts are disabled, ulCriticalNesting can be accessed
      * directly.  Increment ulCriticalNesting to keep a count of how many times
@@ -241,17 +241,17 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-#pragma optimize = no_inline
-void vPortExitCritical( void )
+#هدايت optimize = no_inline
+فراغ v_پورٽ_Exit_Critical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    إذا( ulCriticalNesting > پورٽ_NO_CRITICAL_NESTING )
     {
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        إذا( ulCriticalNesting == پورٽ_NO_CRITICAL_NESTING )
         {
             /* Enable all interrupt/exception. */
-            portENABLE_INTERRUPTS();
+            پورٽ_ENABLE_INTERRUPTS();
         }
     }
 }
@@ -263,52 +263,52 @@ void vPortExitCritical( void )
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڍير_Type_t * px_پورٽ_Initialise_ڍير( ڍير_Type_t * px_چوٽي_جو_ڍير,
+                                     TaskFunction_t px_ڪوڊ,
+                                     فراغ * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
 
     /* When the task starts, it will expect to find the function parameter in R12. */
-    pxTopOfStack--;
-    *pxTopOfStack-- = ( StackType_t ) 0x08080808;                    /* R8 */
-    *pxTopOfStack-- = ( StackType_t ) 0x09090909;                    /* R9 */
-    *pxTopOfStack-- = ( StackType_t ) 0x0A0A0A0A;                    /* R10 */
-    *pxTopOfStack-- = ( StackType_t ) 0x0B0B0B0B;                    /* R11 */
-    *pxTopOfStack-- = ( StackType_t ) pvParameters;                  /* R12 */
-    *pxTopOfStack-- = ( StackType_t ) 0xDEADBEEF;                    /* R14/LR */
-    *pxTopOfStack-- = ( StackType_t ) pxCode + portINSTRUCTION_SIZE; /* R15/PC */
-    *pxTopOfStack-- = ( StackType_t ) portINITIAL_SR;                /* SR */
-    *pxTopOfStack-- = ( StackType_t ) 0xFF0000FF;                    /* R0 */
-    *pxTopOfStack-- = ( StackType_t ) 0x01010101;                    /* R1 */
-    *pxTopOfStack-- = ( StackType_t ) 0x02020202;                    /* R2 */
-    *pxTopOfStack-- = ( StackType_t ) 0x03030303;                    /* R3 */
-    *pxTopOfStack-- = ( StackType_t ) 0x04040404;                    /* R4 */
-    *pxTopOfStack-- = ( StackType_t ) 0x05050505;                    /* R5 */
-    *pxTopOfStack-- = ( StackType_t ) 0x06060606;                    /* R6 */
-    *pxTopOfStack-- = ( StackType_t ) 0x07070707;                    /* R7 */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x08080808;                    /* R8 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x09090909;                    /* R9 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x0A0A0A0A;                    /* R10 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x0B0B0B0B;                    /* R11 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) pvParameters;                  /* R12 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0xDEADBEEF;                    /* R14/LR */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) px_ڪوڊ + پورٽ_INSTRUCTION_سائيز; /* R15/PC */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) پورٽ_INITIAL_SR;                /* SR */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0xFF0000FF;                    /* R0 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x01010101;                    /* R1 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x02020202;                    /* R2 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x03030303;                    /* R3 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x04040404;                    /* R4 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x05050505;                    /* R5 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x06060606;                    /* R6 */
+    *px_چوٽي_جو_ڍير-- = ( ڍير_Type_t ) 0x07070707;                    /* R7 */
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) پورٽ_NO_CRITICAL_NESTING;         /* ulCriticalNesting */
 
-    return pxTopOfStack;
+    أرجع px_چوٽي_جو_ڍير;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنياد_Type_t x_پورٽ_شروعات_Scheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_تياري_Timer_مداخلت();
 
     /* Start the first task. */
-    portRESTORE_CONTEXT();
+    پورٽ_RESTORE_CONTEXT();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورٽ_پڇاڙي_Scheduler( فراغ )
 {
     /* It is unlikely that the AVR32 port will require this function as there
      * is nothing to return to.  */
@@ -317,62 +317,62 @@ void vPortEndScheduler( void )
 
 /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
  * clock cycles from now. */
-#if ( configTICK_USE_TC == 0 )
-    static void prvScheduleFirstTick( void )
+#إذا ( configTICK_USE_TC == 0 )
+    ساكن فراغ prv_وقت_جدول_پهريون_Tick( فراغ )
     {
-        uint32_t lCycles;
+        uint32_t l_چڪرن;
 
-        lCycles = Get_system_register( AVR32_COUNT );
-        lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
+        l_چڪرن = Get_system_رجسٽر( AVR32_ڳڻپ );
+        l_چڪرن += ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ );
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        إذا( 0 == l_چڪرن )
         {
-            lCycles++;
+            l_چڪرن++;
         }
 
-        Set_system_register( AVR32_COMPARE, lCycles );
+        سيٽ_system_رجسٽر( AVR32_COMPARE, l_چڪرن );
     }
 
-    #pragma optimize = no_inline
-    static void prvScheduleNextTick( void )
+    #هدايت optimize = no_inline
+    ساكن فراغ prv_وقت_جدول_ايندڙ_Tick( فراغ )
     {
-        uint32_t lCycles, lCount;
+        uint32_t l_چڪرن, l_ڳڻپ;
 
-        lCycles = Get_system_register( AVR32_COMPARE );
-        lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
+        l_چڪرن = Get_system_رجسٽر( AVR32_COMPARE );
+        l_چڪرن += ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ );
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        إذا( 0 == l_چڪرن )
         {
-            lCycles++;
+            l_چڪرن++;
         }
 
-        lCount = Get_system_register( AVR32_COUNT );
+        l_ڳڻپ = Get_system_رجسٽر( AVR32_ڳڻپ );
 
-        if( lCycles < lCount )
+        إذا( l_چڪرن < l_ڳڻپ )
         { /* We missed a tick, recover for the next. */
-            lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
+            l_چڪرن += ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ );
         }
 
-        Set_system_register( AVR32_COMPARE, lCycles );
+        سيٽ_system_رجسٽر( AVR32_COMPARE, l_چڪرن );
     }
-#else /* if ( configTICK_USE_TC == 0 ) */
-    #pragma optimize = no_inline
-    static void prvClearTcInt( void )
+#وإلا /* if ( configTICK_USE_TC == 0 ) */
+    #هدايت optimize = no_inline
+    ساكن فراغ prvClearTcInt( فراغ )
     {
         AVR32_TC.channel[ configTICK_TC_CHANNEL ].sr;
     }
-#endif /* if ( configTICK_USE_TC == 0 ) */
+#جيڪڏهن_پورو /* if ( configTICK_USE_TC == 0 ) */
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تياري_Timer_مداخلت( فراغ )
 {
-    #if ( configTICK_USE_TC == 1 )
-        volatile avr32_tc_t * tc = &AVR32_TC;
+    #إذا ( configTICK_USE_TC == 1 )
+        متطاير avr32_tc_t * tc = &AVR32_TC;
 
         /* Options for waveform generation. */
         tc_waveform_opt_t waveform_opt =
@@ -389,19 +389,19 @@ static void prvSetupTimerInterrupt( void )
             .acpc    = TC_EVT_EFFECT_NOOP,                 /* RC compare effect on TIOA: toggle. */
             .acpa    = TC_EVT_EFFECT_NOOP,                 /* RA compare effect on TIOA: toggle (other possibilities are none, set and clear). */
 
-            .wavsel  = TC_WAVEFORM_SEL_UP_MODE_RC_TRIGGER, /* Waveform selection: Up mode without automatic trigger on RC compare. */
+            .wavsel  = TC_WAVEFORM_SEL_مٿي_گهڻائي_RC_TRIGGER, /* Waveform selection: Up mode without automatic trigger on RC compare. */
             .enetrg  = FALSE,                              /* External event trigger enable. */
             .eevt    = 0,                                  /* External event selection. */
-            .eevtedg = TC_SEL_NO_EDGE,                     /* External event edge selection. */
+            .eevtedg = TC_SEL_NO_ڪنارو,                     /* External event edge selection. */
             .cpcdis  = FALSE,                              /* Counter disable when RC compare. */
             .cpcstop = FALSE,                              /* Counter clock stopped with RC compare. */
 
-            .burst   = FALSE,                              /* Burst signal selection. */
+            .مدو_2   = FALSE,                              /* Burst signal selection. */
             .clki    = FALSE,                              /* Clock inversion. */
-            .tcclks  = TC_CLOCK_SOURCE_TC2                 /* Internal source clock 2. */
+            .tcclks  = TC_CLOCK_ذريعو_TC2                 /* Internal source clock 2. */
         };
 
-        tc_interrupt_t tc_interrupt =
+        tc_مداخلت_t tc_مداخلت =
         {
             .etrgs = 0,
             .ldrbs = 0,
@@ -412,17 +412,17 @@ static void prvSetupTimerInterrupt( void )
             .lovrs = 0,
             .covfs = 0,
         };
-    #endif /* if ( configTICK_USE_TC == 1 ) */
+    #جيڪڏهن_پورو /* if ( configTICK_USE_TC == 1 ) */
 
     /* Disable all interrupt/exception. */
-    portDISABLE_INTERRUPTS();
+    پورٽ_DISABLE_INTERRUPTS();
 
     /* Register the compare interrupt handler to the interrupt controller and
      * enable the compare interrupt. */
 
-    #if ( configTICK_USE_TC == 1 )
+    #إذا ( configTICK_USE_TC == 1 )
     {
-        INTC_register_interrupt( ( __int_handler ) & vTick, configTICK_TC_IRQ, INT0 );
+        INTC_رجسٽر_مداخلت( ( __int_handler ) & vTick, configTICK_TC_IRQ, INT0 );
 
         /* Initialize the timer/counter. */
         tc_init_waveform( tc, &waveform_opt );
@@ -430,17 +430,17 @@ static void prvSetupTimerInterrupt( void )
         /* Set the compare triggers.
          * Remember TC counter is 16-bits, so counting second is not possible!
          * That's why we configure it to count ms. */
-        tc_write_rc( tc, configTICK_TC_CHANNEL, ( configPBA_CLOCK_HZ / 4 ) / configTICK_RATE_HZ );
+        tc_write_rc( tc, configTICK_TC_CHANNEL, ( configPBA_CLOCK_HZ / 4 ) / config_TICK_شرح_HZ );
 
-        tc_configure_interrupts( tc, configTICK_TC_CHANNEL, &tc_interrupt );
+        tc_configure_interrupts( tc, configTICK_TC_CHANNEL, &tc_مداخلت );
 
         /* Start the timer/counter. */
-        tc_start( tc, configTICK_TC_CHANNEL );
+        tc_شروعات( tc, configTICK_TC_CHANNEL );
     }
-    #else /* if ( configTICK_USE_TC == 1 ) */
+    #وإلا /* if ( configTICK_USE_TC == 1 ) */
     {
-        INTC_register_interrupt( ( __int_handler ) & vTick, AVR32_CORE_COMPARE_IRQ, INT0 );
-        prvScheduleFirstTick();
+        INTC_رجسٽر_مداخلت( ( __int_handler ) & vTick, AVR32_CORE_COMPARE_IRQ, INT0 );
+        prv_وقت_جدول_پهريون_Tick();
     }
-    #endif /* if ( configTICK_USE_TC == 1 ) */
+    #جيڪڏهن_پورو /* if ( configTICK_USE_TC == 1 ) */
 }

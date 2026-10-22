@@ -25,92 +25,92 @@
  * https://github.com/FreeRTOS
  *
  */
-#ifndef PORTHARDWARE_H
-#define PORTHARDWARE_H
+#جيڪڏهن_وصف_نه_ٿيل PORTHARDWARE_H
+#وصف_ڪريو PORTHARDWARE_H
 
-#ifndef __IAR_SYSTEMS_ASM__
-    #include <ioavr.h>
-#endif
-#include "FreeRTOSConfig.h"
+#جيڪڏهن_وصف_نه_ٿيل __IAR_SYSTEMS_ASM__
+    #ضمن <ioavr.h>
+#جيڪڏهن_پورو
+#ضمن "FreeRTOSConfig.h"
 
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMER_INSTANCE == 0 )
+#إذا ( configUSE_TIMER_INSTANCE == 0 )
 
-    #define TICK_INT_vect    TCB0_INT_vect
-    #define INT_FLAGS        TCB0_INTFLAGS
-    #define INT_MASK         TCB_CAPT_bm
+    #وصف_ڪريو TICK_INT_vect    TCB0_INT_vect
+    #وصف_ڪريو INT_FLAGS        TCB0_INTFLAGS
+    #وصف_ڪريو INT_نقاب         TCB_CAPT_bm
 
-    #define TICK_init()                                      \
+    #وصف_ڪريو TICK_init()                                      \
     {                                                        \
-        TCB0.CCMP = configCPU_CLOCK_HZ / configTICK_RATE_HZ; \
+        TCB0.CCMP = configCPU_CLOCK_HZ / config_TICK_شرح_HZ; \
         TCB0.INTCTRL = TCB_CAPT_bm;                          \
         TCB0.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 1 )
+#وإلاإذا ( configUSE_TIMER_INSTANCE == 1 )
 
-    #define TICK_INT_vect    TCB1_INT_vect
-    #define INT_FLAGS        TCB1_INTFLAGS
-    #define INT_MASK         TCB_CAPT_bm
+    #وصف_ڪريو TICK_INT_vect    TCB1_INT_vect
+    #وصف_ڪريو INT_FLAGS        TCB1_INTFLAGS
+    #وصف_ڪريو INT_نقاب         TCB_CAPT_bm
 
-    #define TICK_init()                                      \
+    #وصف_ڪريو TICK_init()                                      \
     {                                                        \
-        TCB1.CCMP = configCPU_CLOCK_HZ / configTICK_RATE_HZ; \
+        TCB1.CCMP = configCPU_CLOCK_HZ / config_TICK_شرح_HZ; \
         TCB1.INTCTRL = TCB_CAPT_bm;                          \
         TCB1.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 2 )
+#وإلاإذا ( configUSE_TIMER_INSTANCE == 2 )
 
-    #define TICK_INT_vect    TCB2_INT_vect
-    #define INT_FLAGS        TCB2_INTFLAGS
-    #define INT_MASK         TCB_CAPT_bm
+    #وصف_ڪريو TICK_INT_vect    TCB2_INT_vect
+    #وصف_ڪريو INT_FLAGS        TCB2_INTFLAGS
+    #وصف_ڪريو INT_نقاب         TCB_CAPT_bm
 
-    #define TICK_init()                                      \
+    #وصف_ڪريو TICK_init()                                      \
     {                                                        \
-        TCB2.CCMP = configCPU_CLOCK_HZ / configTICK_RATE_HZ; \
+        TCB2.CCMP = configCPU_CLOCK_HZ / config_TICK_شرح_HZ; \
         TCB2.INTCTRL = TCB_CAPT_bm;                          \
         TCB2.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 3 )
+#وإلاإذا ( configUSE_TIMER_INSTANCE == 3 )
 
-    #define TICK_INT_vect    TCB3_INT_vect
-    #define INT_FLAGS        TCB3_INTFLAGS
-    #define INT_MASK         TCB_CAPT_bm
+    #وصف_ڪريو TICK_INT_vect    TCB3_INT_vect
+    #وصف_ڪريو INT_FLAGS        TCB3_INTFLAGS
+    #وصف_ڪريو INT_نقاب         TCB_CAPT_bm
 
-    #define TICK_init()                                      \
+    #وصف_ڪريو TICK_init()                                      \
     {                                                        \
-        TCB3.CCMP = configCPU_CLOCK_HZ / configTICK_RATE_HZ; \
+        TCB3.CCMP = configCPU_CLOCK_HZ / config_TICK_شرح_HZ; \
         TCB3.INTCTRL = TCB_CAPT_bm;                          \
         TCB3.CTRLA = TCB_ENABLE_bm;                          \
     }
 
-#elif ( configUSE_TIMER_INSTANCE == 4 )
+#وإلاإذا ( configUSE_TIMER_INSTANCE == 4 )
 
-    #define TICK_INT_vect    RTC_CNT_vect
-    #define INT_FLAGS        RTC_INTFLAGS
-    #define INT_MASK         RTC_OVF_bm
+    #وصف_ڪريو TICK_INT_vect    RTC_CNT_vect
+    #وصف_ڪريو INT_FLAGS        RTC_INTFLAGS
+    #وصف_ڪريو INT_نقاب         RTC_OVF_bm
 
 /* Hertz to period for RTC setup */
-    #define RTC_PERIOD_HZ( x )    ( 32768 * ( ( 1.0 / x ) ) )
-    #define TICK_init()                                        \
+    #وصف_ڪريو RTC_PERIOD_HZ( x )    ( 32768 * ( ( 1.0 / x ) ) )
+    #وصف_ڪريو TICK_init()                                        \
     {                                                          \
-        while( RTC.STATUS > 0 ) {; }                           \
+        طالما( RTC.حالت_2 > 0 ) {; }                           \
         RTC.CTRLA = RTC_PRESCALER_DIV1_gc | 1 << RTC_RTCEN_bp; \
-        RTC.PER = RTC_PERIOD_HZ( configTICK_RATE_HZ );         \
+        RTC.في_4 = RTC_PERIOD_HZ( config_TICK_شرح_HZ );         \
         RTC.INTCTRL |= 1 << RTC_OVF_bp;                        \
     }
 
-#else /* if ( configUSE_TIMER_INSTANCE == 0 ) */
-    #undef TICK_INT_vect
-    #undef INT_FLAGS
-    #undef INT_MASK
-    #undef TICK_init()
-    #error Invalid timer setting.
-#endif /* if ( configUSE_TIMER_INSTANCE == 0 ) */
+#وإلا /* if ( configUSE_TIMER_INSTANCE == 0 ) */
+    #وصف_رد TICK_INT_vect
+    #وصف_رد INT_FLAGS
+    #وصف_رد INT_نقاب
+    #وصف_رد TICK_init()
+    #غلطي Invalid timer setting.
+#جيڪڏهن_پورو /* if ( configUSE_TIMER_INSTANCE == 0 ) */
 
 /*-----------------------------------------------------------*/
 
-#endif /* PORTHARDWARE_H */
+#جيڪڏهن_پورو /* PORTHARDWARE_H */

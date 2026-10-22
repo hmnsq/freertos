@@ -33,49 +33,49 @@
  *----------------------------------------------------------*/
 
 /* Library includes. */
-#include <embedded.h>
-#include <ae.h>
+#ضمن <embedded.h>
+#ضمن <ae.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "portasm.h"
 
 /* The timer increments every four clocks, hence the divide by 4. */
-#define portPRESCALE_VALUE ( 16 )
-#define portTIMER_COMPARE ( configCPU_CLOCK_HZ  / ( configTICK_RATE_HZ * 4UL ) )
+#وصف_ڪريو پورٽ_PRESCALE_قدر ( 16 )
+#وصف_ڪريو پورٽ_TIMER_COMPARE ( configCPU_CLOCK_HZ  / ( config_TICK_شرح_HZ * 4UL ) )
 
 /* From the RDC data sheet. */
-#define portENABLE_TIMER_AND_INTERRUPT  ( uint16_t ) 0xe00b
-#define portENABLE_TIMER                ( uint16_t ) 0xC001
+#وصف_ڪريو پورٽ_ENABLE_TIMER_AND_مداخلت  ( uint16_t ) 0xe00b
+#وصف_ڪريو پورٽ_ENABLE_TIMER                ( uint16_t ) 0xC001
 
 /* Interrupt control. */
-#define portEIO_REGISTER 0xff22
-#define portCLEAR_INTERRUPT 0x0008
+#وصف_ڪريو پورٽ_EIO_رجسٽر 0xff22
+#وصف_ڪريو پورٽ_CLEAR_مداخلت 0x0008
 
 /* Setup the hardware to generate the required tick frequency. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_تياري_Timer_مداخلت( فراغ );
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#إذا( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    ساكن فراغ __interrupt __far prvPreemptiveTick( فراغ );
+#وإلا
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
-#endif
+    ساكن فراغ __interrupt __far prvNonPreemptiveTick( فراغ );
+#جيڪڏهن_پورو
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+ساكن فراغ __interrupt __far prvYieldProcessor( فراغ );
 
 /*-----------------------------------------------------------*/
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ڍير_Type_t *px_پورٽ_Initialise_ڍير( ڍير_Type_t *px_چوٽي_جو_ڍير, TaskFunction_t px_ڪوڊ, فراغ *pvParameters )
 {
-StackType_t DS_Reg = 0;
+ڍير_Type_t DS_Reg = 0;
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
@@ -83,131 +83,131 @@ StackType_t DS_Reg = 0;
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
+    *px_چوٽي_جو_ڍير = 0x1111;
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = 0x2222;
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = 0x3333;
+    px_چوٽي_جو_ڍير--;
 
     /* We are going to start the scheduler using a return from interrupt
     instruction to load the program counter, so first there would be the
     function call with parameters preamble. */
 
-    *pxTopOfStack = FP_OFF( pvParameters );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_چوٽي_جو_ڍير = FP_OFF( pvParameters );
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = FP_OFF( px_ڪوڊ );
+    px_چوٽي_جو_ڍير--;
 
     /* Next the status register and interrupt return address. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_چوٽي_جو_ڍير = پورٽ_INITIAL_SW;
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = FP_SEG( px_ڪوڊ );
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = FP_OFF( px_ڪوڊ );
+    px_چوٽي_جو_ڍير--;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA; /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
-    pxTopOfStack--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xAAAA; /* AX */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xBBBB; /* BX */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xCCCC; /* CX */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xDDDD; /* DX */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xEEEE; /* ES */
+    px_چوٽي_جو_ڍير--;
 
-    *pxTopOfStack = DS_Reg;                     /* DS */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
+    *px_چوٽي_جو_ڍير = DS_Reg;                     /* DS */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0x0123; /* SI */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xDDDD; /* DI */
+    px_چوٽي_جو_ڍير--;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0xBBBB; /* BP */
 
-    return pxTopOfStack;
+    أرجع px_چوٽي_جو_ڍير;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنياد_Type_t x_پورٽ_شروعات_Scheduler( فراغ )
 {
     /* This is called with interrupts already disabled. */
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    setvect( پورٽ_SWITCH_INT_عدد, prvYieldProcessor );
 
     /* Setup the tick interrupt. */
-    prvSetupTimerInterrupt();
+    prv_تياري_Timer_مداخلت();
 
     /* Kick off the scheduler by setting up the context of the first task. */
-    portFIRST_CONTEXT();
+    پورٽ_پهريون_CONTEXT();
 
     /* Should not get here! */
-    return pdFALSE;
+    أرجع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
-    static void __interrupt __far prvPreemptiveTick( void )
+#إذا( configUSE_PREEMPTION == 1 )
+    ساكن فراغ __interrupt __far prvPreemptiveTick( فراغ )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
-            portEND_SWITCHING_ISR();
+            پورٽ_پڇاڙي_SWITCHING_ISR();
         }
 
         /* Reset interrupt. */
-        outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
+        outport( پورٽ_EIO_رجسٽر, پورٽ_CLEAR_مداخلت );
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#وإلا
+    ساكن فراغ __interrupt __far prvNonPreemptiveTick( فراغ )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
         xTaskIncrementTick();
 
         /* Reset interrupt. */
-        outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
+        outport( پورٽ_EIO_رجسٽر, پورٽ_CLEAR_مداخلت );
     }
-#endif
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+ساكن فراغ __interrupt __far prvYieldProcessor( فراغ )
 {
     /* Switch in the context of the next task to be run. */
-    portEND_SWITCHING_ISR();
+    پورٽ_پڇاڙي_SWITCHING_ISR();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورٽ_پڇاڙي_Scheduler( فراغ )
 {
     /* Not implemented. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تياري_Timer_مداخلت( فراغ )
 {
-const uint32_t ulCompareValue = portTIMER_COMPARE;
+ثابت uint32_t ul_Compare_قدر = پورٽ_TIMER_COMPARE;
 uint16_t usTimerCompare;
 
-    usTimerCompare = ( uint16_t ) ( ulCompareValue >> 4 );
-    t2_init( portENABLE_TIMER, portPRESCALE_VALUE, NULL );
+    usTimerCompare = ( uint16_t ) ( ul_Compare_قدر >> 4 );
+    t2_init( پورٽ_ENABLE_TIMER, پورٽ_PRESCALE_قدر, عدم );
 
-    #if( configUSE_PREEMPTION == 1 )
+    #إذا( configUSE_PREEMPTION == 1 )
         /* Tick service routine used by the scheduler when preemptive scheduling is
         being used. */
-        t1_init( portENABLE_TIMER_AND_INTERRUPT, usTimerCompare, usTimerCompare, prvPreemptiveTick );
-    #else
+        t1_init( پورٽ_ENABLE_TIMER_AND_مداخلت, usTimerCompare, usTimerCompare, prvPreemptiveTick );
+    #وإلا
         /* Tick service routine used by the scheduler when cooperative scheduling is
         being used. */
-        t1_init( portENABLE_TIMER_AND_INTERRUPT, usTimerCompare, usTimerCompare, prvNonPreemptiveTick );
-    #endif
+        t1_init( پورٽ_ENABLE_TIMER_AND_مداخلت, usTimerCompare, usTimerCompare, prvNonPreemptiveTick );
+    #جيڪڏهن_پورو
 }

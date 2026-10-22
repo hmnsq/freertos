@@ -37,41 +37,41 @@
  *----------------------------------------------------------*/
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Hardware specifics. */
-#define portBIT_SET 1
-#define portTIMER_PRESCALE 8
-#define portINITIAL_SR  0
+#وصف_ڪريو پورٽ_ٻٽو_انگ_سيٽ 1
+#وصف_ڪريو پورٽ_TIMER_PRESCALE 8
+#وصف_ڪريو پورٽ_INITIAL_SR  0
 
 /* Defined for backward compatibility with project created prior to
 FreeRTOS.org V4.3.0. */
-#ifndef configKERNEL_INTERRUPT_PRIORITY
-    #define configKERNEL_INTERRUPT_PRIORITY 1
-#endif
+#جيڪڏهن_وصف_نه_ٿيل config_KERNEL_مداخلت_ترجيح
+    #وصف_ڪريو config_KERNEL_مداخلت_ترجيح 1
+#جيڪڏهن_پورو
 
 /* Use _T1Interrupt as the interrupt handler name if the application writer has
 not provided their own. */
-#ifndef configTICK_INTERRUPT_HANDLER
-    #define configTICK_INTERRUPT_HANDLER _T1Interrupt
-#endif /* configTICK_INTERRUPT_HANDLER */
+#جيڪڏهن_وصف_نه_ٿيل config_TICK_مداخلت_HANDLER
+    #وصف_ڪريو config_TICK_مداخلت_HANDLER T1_مداخلت
+#جيڪڏهن_پورو /* configTICK_INTERRUPT_HANDLER */
 
 /* The program counter is only 23 bits. */
-#define portUNUSED_PR_BITS  0x7f
+#وصف_ڪريو پورٽ_اڻ_استعمال_ٿيل_PR_بٽ  0x7f
 
 /* Records the nesting depth of calls to portENTER_CRITICAL(). */
 UBaseType_t uxCriticalNesting = 0xef;
 
-#if configKERNEL_INTERRUPT_PRIORITY != 1
-    #error If configKERNEL_INTERRUPT_PRIORITY is not 1 then the #32 in the following macros needs changing to equal the portINTERRUPT_BITS value, which is ( configKERNEL_INTERRUPT_PRIORITY << 5 )
-#endif
+#إذا config_KERNEL_مداخلت_ترجيح != 1
+    #غلطي If config_KERNEL_مداخلت_ترجيح is not 1 then the #32 اندريون the following macros needs changing منزل equal the پورٽ_مداخلت_بٽ قدر, which is ( config_KERNEL_مداخلت_ترجيح << 5 )
+#جيڪڏهن_پورو
 
-#if defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
+#إذا defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
 
-    #ifdef __HAS_EDS__
-        #define portRESTORE_CONTEXT()                                                                                       \
-                    asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */       \
+    #جيڪڏهن_وصف_ٿيل __HAS_EDS__
+        #وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                                                                       \
+                    asm متطاير(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */       \
                             "MOV    [W0], W15               \n"                                                             \
                             "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                             "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -89,9 +89,9 @@ UBaseType_t uxCriticalNesting = 0xef;
                             "POP.D  W2                      \n"                                                             \
                             "POP.D  W0                      \n"                                                             \
                             "POP    SR                        " );
-    #else /* __HAS_EDS__ */
-        #define portRESTORE_CONTEXT()                                                                                       \
-            asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
+    #وإلا /* __HAS_EDS__ */
+        #وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                                                                       \
+            asm متطاير(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
                             "MOV    [W0], W15               \n"                                                             \
                             "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                             "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -108,13 +108,13 @@ UBaseType_t uxCriticalNesting = 0xef;
                             "POP.D  W2                      \n"                                                             \
                             "POP.D  W0                      \n"                                                             \
                             "POP    SR                        " );
-        #endif /* __HAS_EDS__ */
-#endif /* defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ ) */
+        #جيڪڏهن_پورو /* __HAS_EDS__ */
+#جيڪڏهن_پورو /* defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ ) */
 
-#if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
+#إذا defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
 
-    #define portRESTORE_CONTEXT()                                                                                       \
-        asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
+    #وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                                                                       \
+        asm متطاير(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
                         "MOV    [W0], W15               \n"                                                             \
                         "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                         "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -143,29 +143,29 @@ UBaseType_t uxCriticalNesting = 0xef;
                         "POP.D  W0                      \n"                                                             \
                         "POP    SR                        " );
 
-#endif /* defined( __dsPIC30F__ ) || defined( __dsPIC33F__ ) */
+#جيڪڏهن_پورو /* defined( __dsPIC30F__ ) || defined( __dsPIC33F__ ) */
 
-#ifndef portRESTORE_CONTEXT
-    #error Unrecognised device selected
+#جيڪڏهن_وصف_نه_ٿيل پورٽ_RESTORE_CONTEXT
+    #غلطي Unrecognised device selected
 
     /* Note:  dsPIC parts with EDS are not supported as there is no easy way to
     recover the hardware stacked copies for DOCOUNT, DOHIGH, DOLOW. */
-#endif
+#جيڪڏهن_پورو
 
 /*
  * Setup the timer used to generate the tick interrupt.
  */
-void vApplicationSetupTickTimerInterrupt( void );
+فراغ v_Application_تياري_Tick_Timer_مداخلت( فراغ );
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ڍير_Type_t *px_پورٽ_Initialise_ڍير( ڍير_Type_t *px_چوٽي_جو_ڍير, TaskFunction_t px_ڪوڊ, فراغ *pvParameters )
 {
-uint16_t usCode;
+uint16_t us_ڪوڊ;
 UBaseType_t i;
 
-const StackType_t xInitialStack[] =
+ثابت ڍير_Type_t x_Initial_ڍير[] =
 {
     0x1111, /* W1 */
     0x2222, /* W2 */
@@ -185,7 +185,7 @@ const StackType_t xInitialStack[] =
     0xabac, /* TBLPAG */
 
     /* dsPIC specific registers. */
-    #if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
+    #إذا defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
         0x0202, /* ACCAL */
         0x0303, /* ACCAH */
         0x0404, /* ACCAU */
@@ -197,74 +197,74 @@ const StackType_t xInitialStack[] =
         0x1010, /* DOSTARTH */
         0x1110, /* DOENDL */
         0x1212, /* DOENDH */
-    #endif
+    #جيڪڏهن_پورو
 };
 
     /* Setup the stack as if a yield had occurred.
 
     Save the low bytes of the program counter. */
-    usCode = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) usCode;
-    pxTopOfStack++;
+    us_ڪوڊ = ( uint16_t ) px_ڪوڊ;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) us_ڪوڊ;
+    px_چوٽي_جو_ڍير++;
 
     /* Save the high byte of the program counter.  This will always be zero
     here as it is passed in a 16bit pointer.  If the address is greater than
     16 bits then the pointer will point to a jump table. */
-    *pxTopOfStack = ( StackType_t ) 0;
-    pxTopOfStack++;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) 0;
+    px_چوٽي_جو_ڍير++;
 
     /* Status register with interrupts enabled. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack++;
+    *px_چوٽي_جو_ڍير = پورٽ_INITIAL_SR;
+    px_چوٽي_جو_ڍير++;
 
     /* Parameters are passed in W0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack++;
+    *px_چوٽي_جو_ڍير = ( ڍير_Type_t ) pvParameters;
+    px_چوٽي_جو_ڍير++;
 
-    for( i = 0; i < ( sizeof( xInitialStack ) / sizeof( StackType_t ) ); i++ )
+    لكل( i = 0; i < ( حجم( x_Initial_ڍير ) / حجم( ڍير_Type_t ) ); i++ )
     {
-        *pxTopOfStack = xInitialStack[ i ];
-        pxTopOfStack++;
+        *px_چوٽي_جو_ڍير = x_Initial_ڍير[ i ];
+        px_چوٽي_جو_ڍير++;
     }
 
-    *pxTopOfStack = CORCON;
-    pxTopOfStack++;
+    *px_چوٽي_جو_ڍير = CORCON;
+    px_چوٽي_جو_ڍير++;
 
-    #if defined(__HAS_EDS__)
-        *pxTopOfStack = DSRPAG;
-        pxTopOfStack++;
-        *pxTopOfStack = DSWPAG;
-        pxTopOfStack++;
-    #else /* __HAS_EDS__ */
-        *pxTopOfStack = PSVPAG;
-        pxTopOfStack++;
-    #endif /* __HAS_EDS__ */
+    #إذا defined(__HAS_EDS__)
+        *px_چوٽي_جو_ڍير = DSRPAG;
+        px_چوٽي_جو_ڍير++;
+        *px_چوٽي_جو_ڍير = DSWPAG;
+        px_چوٽي_جو_ڍير++;
+    #وإلا /* __HAS_EDS__ */
+        *px_چوٽي_جو_ڍير = PSVPAG;
+        px_چوٽي_جو_ڍير++;
+    #جيڪڏهن_پورو /* __HAS_EDS__ */
 
     /* Finally the critical nesting depth. */
-    *pxTopOfStack = 0x00;
-    pxTopOfStack++;
+    *px_چوٽي_جو_ڍير = 0x00;
+    px_چوٽي_جو_ڍير++;
 
-    return pxTopOfStack;
+    أرجع px_چوٽي_جو_ڍير;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنياد_Type_t x_پورٽ_شروعات_Scheduler( فراغ )
 {
     /* Setup a timer for the tick ISR. */
-    vApplicationSetupTickTimerInterrupt();
+    v_Application_تياري_Tick_Timer_مداخلت();
 
     /* Restore the context of the first task to run. */
-    portRESTORE_CONTEXT();
+    پورٽ_RESTORE_CONTEXT();
 
     /* Simulate the end of the yield function. */
-    asm volatile ( "return" );
+    asm متطاير ( "return" );
 
     /* Should not reach here. */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورٽ_پڇاڙي_Scheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
@@ -275,18 +275,18 @@ void vPortEndScheduler( void )
 /*
  * Setup a timer for a regular tick.
  */
-__attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void )
+__attribute__(( weak )) فراغ v_Application_تياري_Tick_Timer_مداخلت( فراغ )
 {
-const uint32_t ulCompareMatch = ( ( configCPU_CLOCK_HZ / portTIMER_PRESCALE ) / configTICK_RATE_HZ ) - 1;
+ثابت uint32_t ul_Compare_ميلاپ = ( ( configCPU_CLOCK_HZ / پورٽ_TIMER_PRESCALE ) / config_TICK_شرح_HZ ) - 1;
 
     /* Prescale of 8. */
     T1CON = 0;
     TMR1 = 0;
 
-    PR1 = ( uint16_t ) ulCompareMatch;
+    PR1 = ( uint16_t ) ul_Compare_ميلاپ;
 
     /* Setup timer 1 interrupt priority. */
-    IPC0bits.T1IP = configKERNEL_INTERRUPT_PRIORITY;
+    IPC0bits.T1IP = config_KERNEL_مداخلت_ترجيح;
 
     /* Clear the interrupt as a starting condition. */
     IFS0bits.T1IF = 0;
@@ -303,32 +303,32 @@ const uint32_t ulCompareMatch = ( ( configCPU_CLOCK_HZ / portTIMER_PRESCALE ) / 
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ v_پورٽ_Enter_Critical( فراغ )
 {
-    portDISABLE_INTERRUPTS();
+    پورٽ_DISABLE_INTERRUPTS();
     uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ v_پورٽ_Exit_Critical( فراغ )
 {
     configASSERT( uxCriticalNesting );
     uxCriticalNesting--;
-    if( uxCriticalNesting == 0 )
+    إذا( uxCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        پورٽ_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void __attribute__((__interrupt__, auto_psv)) configTICK_INTERRUPT_HANDLER( void )
+فراغ __attribute__((__interrupt__, auto_psv)) config_TICK_مداخلت_HANDLER( فراغ )
 {
     /* Clear the timer interrupt. */
     IFS0bits.T1IF = 0;
 
-    if( xTaskIncrementTick() != pdFALSE )
+    إذا( xTaskIncrementTick() != pdFALSE )
     {
-        portYIELD();
+        پورٽ_YIELD();
     }
 }
 /*-----------------------------------------------------------*/

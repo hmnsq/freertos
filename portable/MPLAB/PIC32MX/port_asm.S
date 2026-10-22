@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -39,18 +39,18 @@
     .extern vPortIncrementTick
     .extern xISRStackTop
 
-    .global vPortStartFirstTask
-    .global vPortYieldISR
-    .global vPortTickInterruptHandler
+    .global v_پورٽ_شروعات_پهريون_Task
+    .global v_پورٽ_Yield_ISR
+    .global v_پورٽ_Tick_مداخلت_Handler
 
 
 /******************************************************************/
 
     .set        noreorder
     .set        noat
-    .ent        vPortTickInterruptHandler
+    .ent        v_پورٽ_Tick_مداخلت_Handler
 
-vPortTickInterruptHandler:
+v_پورٽ_Tick_مداخلت_Handler:
 
     portSAVE_CONTEXT
 
@@ -59,21 +59,21 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-    .end vPortTickInterruptHandler
+    .end v_پورٽ_Tick_مداخلت_Handler
 
 /******************************************************************/
 
     .set        noreorder
     .set        noat
-    .ent        vPortStartFirstTask
+    .ent        v_پورٽ_شروعات_پهريون_Task
 
-vPortStartFirstTask:
+v_پورٽ_شروعات_پهريون_Task:
 
     /* Simply restore the context of the highest priority task that has been
     created so far. */
     portRESTORE_CONTEXT
 
-    .end vPortStartFirstTask
+    .end v_پورٽ_شروعات_پهريون_Task
 
 
 
@@ -81,9 +81,9 @@ vPortStartFirstTask:
 
     .set        noreorder
     .set        noat
-    .ent        vPortYieldISR
+    .ent        v_پورٽ_Yield_ISR
 
-vPortYieldISR:
+v_پورٽ_Yield_ISR:
 
     /* Make room for the context. First save the current status so it can be
     manipulated. */
@@ -263,4 +263,4 @@ vPortYieldISR:
     eret
     nop
 
-    .end        vPortYieldISR
+    .end        v_پورٽ_Yield_ISR

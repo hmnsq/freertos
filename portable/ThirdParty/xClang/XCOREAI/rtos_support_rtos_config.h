@@ -1,12 +1,12 @@
 /* Copyright (c) 2020, XMOS Ltd, All rights reserved */
 
-#ifndef RTOS_SUPPORT_RTOS_CONFIG_H_
-#define RTOS_SUPPORT_RTOS_CONFIG_H_
+#جيڪڏهن_وصف_نه_ٿيل RTOS_SUPPORT_RTOS_CONFIG_H_
+#وصف_ڪريو RTOS_SUPPORT_RTOS_CONFIG_H_
 
 /**
  * Lets the application know that the RTOS in use is FreeRTOS.
  */
-#define RTOS_FREERTOS                              1
+#وصف_ڪريو RTOS_FREERTOS                              1
 
 /**
  * The number of words to extend the stack by when entering an ISR.
@@ -17,29 +17,29 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-#define RTOS_SUPPORT_INTERRUPT_STACK_GROWTH        ( 44 + 1 )
+#وصف_ڪريو RTOS_SUPPORT_مداخلت_ڍير_GROWTH        ( 44 + 1 )
 
 /**
  * The word offset into the stack where R1 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R1_STACK_OFFSET     9
+#وصف_ڪريو RTOS_SUPPORT_مداخلت_R1_ڍير_وٿي     9
 
 /**
  * The word offset into the stack where R11 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R11_STACK_OFFSET    19
+#وصف_ڪريو RTOS_SUPPORT_مداخلت_R11_ڍير_وٿي    19
 
 /**
  * The RTOS provided handler that should run when a
  * core receives an intercore interrupt request.
  */
-#define RTOS_INTERCORE_INTERRUPT_ISR()       \
-    do {                                     \
-        void vIntercoreInterruptISR( void ); \
-        vIntercoreInterruptISR();            \
-    } while( 0 )
+#وصف_ڪريو RTOS_INTERCORE_مداخلت_ISR()       \
+    افعل {                                     \
+        فراغ v_Intercore_مداخلت_ISR( فراغ ); \
+        v_Intercore_مداخلت_ISR();            \
+    } طالما( 0 )
 
 /**
  * The number of hardware locks that the RTOS
@@ -49,47 +49,47 @@
  * Note that the IRQ routines require a lock and
  * will share the first one with the RTOS.
  */
-#define RTOS_LOCK_COUNT            2
+#وصف_ڪريو RTOS_تالو_ڳڻپ            2
 
 /**
  * Remaps all calls to debug_printf() to rtos_printf().
  * When this is on, files should not include both rtos_support.h
  * and debug_print.h.
  */
-#define RTOS_DEBUG_PRINTF_REMAP    1
+#وصف_ڪريو RTOS_DEBUG_PRINTF_REMAP    1
 
 
-#ifdef configENABLE_DEBUG_PRINTF
-    #if configENABLE_DEBUG_PRINTF
+#جيڪڏهن_وصف_ٿيل configENABLE_DEBUG_PRINTF
+    #إذا configENABLE_DEBUG_PRINTF
 
 /* ensure that debug_printf is enabled */
-        #ifdef DEBUG_PRINT_ENABLE
-            #undef DEBUG_PRINT_ENABLE
-        #endif
-        #define DEBUG_PRINT_ENABLE                        1
+        #جيڪڏهن_وصف_ٿيل DEBUG_PRINT_ENABLE
+            #وصف_رد DEBUG_PRINT_ENABLE
+        #جيڪڏهن_پورو
+        #وصف_ڪريو DEBUG_PRINT_ENABLE                        1
 
-        #ifndef configTASKS_DEBUG
-            #define configTASKS_DEBUG                     0
-        #endif
-        #if configTASKS_DEBUG == 1
-            #define DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
-        #else
-            #define DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
-        #endif
+        #جيڪڏهن_وصف_نه_ٿيل configTASKS_DEBUG
+            #وصف_ڪريو configTASKS_DEBUG                     0
+        #جيڪڏهن_پورو
+        #إذا configTASKS_DEBUG == 1
+            #وصف_ڪريو DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
+        #وإلا
+            #وصف_ڪريو DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
+        #جيڪڏهن_پورو
 
-    #else /* configENABLE_DEBUG_PRINTF */
+    #وإلا /* configENABLE_DEBUG_PRINTF */
 
 /* ensure that debug_printf is disabled */
-        #ifdef DEBUG_UNIT
-            #undef DEBUG_UNIT
-        #endif
-        #ifdef DEBUG_PRINT_ENABLE
-            #undef DEBUG_PRINT_ENABLE
-        #endif
+        #جيڪڏهن_وصف_ٿيل DEBUG_UNIT
+            #وصف_رد DEBUG_UNIT
+        #جيڪڏهن_پورو
+        #جيڪڏهن_وصف_ٿيل DEBUG_PRINT_ENABLE
+            #وصف_رد DEBUG_PRINT_ENABLE
+        #جيڪڏهن_پورو
 
-        #define DEBUG_PRINT_ENABLE    0
+        #وصف_ڪريو DEBUG_PRINT_ENABLE    0
 
-    #endif /* configENABLE_DEBUG_PRINTF */
-#endif /* ifdef configENABLE_DEBUG_PRINTF */
+    #جيڪڏهن_پورو /* configENABLE_DEBUG_PRINTF */
+#جيڪڏهن_پورو /* ifdef configENABLE_DEBUG_PRINTF */
 
-#endif /* RTOS_SUPPORT_RTOS_CONFIG_H_ */
+#جيڪڏهن_پورو /* RTOS_SUPPORT_RTOS_CONFIG_H_ */

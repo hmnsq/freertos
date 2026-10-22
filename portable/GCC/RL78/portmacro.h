@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -41,43 +41,43 @@
 
 /* Type definitions. */
 
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           uint16_t
-#define portBASE_TYPE            short
-#define portPOINTER_SIZE_TYPE    uint16_t
+#وصف_ڪريو پورٽ_CHAR                 حرف
+#وصف_ڪريو پورٽ_FLOAT                عائم
+#وصف_ڪريو پورٽ_DOUBLE               مزدوج
+#وصف_ڪريو پورٽ_LONG                 ڊگهو
+#وصف_ڪريو پورٽ_SHORT                ننڍو
+#وصف_ڪريو پورٽ_ڍير_TYPE           uint16_t
+#وصف_ڪريو پورٽ_بنياد_TYPE            ننڍو
+#وصف_ڪريو پورٽ_اشارو_سائيز_TYPE    uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef short            BaseType_t;
-typedef unsigned short   UBaseType_t;
+تعريفنوع پورٽ_ڍير_TYPE   ڍير_Type_t;
+تعريفنوع ننڍو            بنياد_Type_t;
+تعريفنوع بنانشان ننڍو   UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+    تعريفنوع uint16_t     TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t     TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-#define portDISABLE_INTERRUPTS()    __asm volatile ( "DI" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( "EI" )
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()    __asm متطاير ( "DI" )
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()     __asm متطاير ( "EI" )
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-#define portNO_CRITICAL_SECTION_NESTING    ( ( unsigned short ) 0 )
+#وصف_ڪريو پورٽ_NO_CRITICAL_SECTION_NESTING    ( ( بنانشان ننڍو ) 0 )
 
-#define portENTER_CRITICAL()                                                      \
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        خارجي متطاير uint16_t usCriticalNesting;                               \
                                                                                   \
-        portDISABLE_INTERRUPTS();                                                 \
+        پورٽ_DISABLE_INTERRUPTS();                                                 \
                                                                                   \
         /* Now that interrupts are disabled, ulCriticalNesting can be accessed */ \
         /* directly.  Increment ulCriticalNesting to keep a count of how many */  \
@@ -85,50 +85,50 @@ typedef unsigned short   UBaseType_t;
         usCriticalNesting++;                                                      \
     }
 
-#define portEXIT_CRITICAL()                                                         \
+#وصف_ڪريو پورٽ_EXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile uint16_t usCriticalNesting;                                 \
+        خارجي متطاير uint16_t usCriticalNesting;                                 \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        إذا( usCriticalNesting > پورٽ_NO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            إذا( usCriticalNesting == پورٽ_NO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
-                portENABLE_INTERRUPTS();                                            \
+                پورٽ_ENABLE_INTERRUPTS();                                            \
             }                                                                       \
         }                                                                           \
     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-#define portYIELD()                                       __asm volatile ( "BRK" )
-#ifndef configREQUIRE_ASM_ISR_WRAPPER
-    #define configREQUIRE_ASM_ISR_WRAPPER    1
-#endif
-#if( configREQUIRE_ASM_ISR_WRAPPER == 1 )
+#وصف_ڪريو پورٽ_YIELD()                                       __asm متطاير ( "BRK" )
+#جيڪڏهن_وصف_نه_ٿيل configREQUIRE_ASM_ISR_WRAPPER
+    #وصف_ڪريو configREQUIRE_ASM_ISR_WRAPPER    1
+#جيڪڏهن_پورو
+#إذا( configREQUIRE_ASM_ISR_WRAPPER == 1 )
     /* You must implement an assembly ISR wrapper (see the below for details) if you need an ISR to cause a context switch.
      * https://www.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/Renesas/RTOS_RL78_IAR_Demos#writing-interrupt-service-routines */
-    #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } while( 0 )
-#else
+    #وصف_ڪريو پورٽ_YIELD_FROM_ISR( x_Higher_ترجيح_Task_Woken )    افعل { إذا( x_Higher_ترجيح_Task_Woken != pdFALSE ) vTaskSwitchContext(); } طالما( 0 )
+#وإلا
     /* You must not implement an assembly ISR wrapper even if you need an ISR to cause a context switch.
      * The portYIELD, which is similar to role of an assembly ISR wrapper, runs only when a context switch is required. */
-    #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } while( 0 )
-#endif
-#define portNOP()                                         __asm volatile ( "NOP" )
+    #وصف_ڪريو پورٽ_YIELD_FROM_ISR( x_Higher_ترجيح_Task_Woken )    افعل { إذا( x_Higher_ترجيح_Task_Woken != pdFALSE ) پورٽ_YIELD(); } طالما( 0 )
+#جيڪڏهن_پورو
+#وصف_ڪريو پورٽ_NOP()                                         __asm متطاير ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT    2
+#وصف_ڪريو پورٽ_ڍير_GROWTH      ( -1 )
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

@@ -22,20 +22,20 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <csi_core.h>
+#ضمن <stdlib.h>
+#ضمن <stdint.h>
+#ضمن <csi_core.h>
 
-extern void vPortYield( void );
+خارجي فراغ v_پورٽ_Yield( فراغ );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    class vPortYield;
-    extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+    class v_پورٽ_Yield;
+    خارجي "C" {
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
 
@@ -50,125 +50,125 @@ extern void vPortYield( void );
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#وصف_ڪريو پورٽ_CHAR          حرف
+#وصف_ڪريو پورٽ_FLOAT         عائم
+#وصف_ڪريو پورٽ_DOUBLE        مزدوج
+#وصف_ڪريو پورٽ_LONG          ڊگهو
+#وصف_ڪريو پورٽ_SHORT         ننڍو
+#وصف_ڪريو پورٽ_ڍير_TYPE    uint32_t
+#وصف_ڪريو پورٽ_بنياد_TYPE     ڊگهو
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
-typedef void (* portvectorfunc)( void );
+تعريفنوع پورٽ_ڍير_TYPE   ڍير_Type_t;
+تعريفنوع ڊگهو             بنياد_Type_t;
+تعريفنوع بنانشان ڊگهو    UBaseType_t;
+تعريفنوع فراغ (* portvectorfunc)( فراغ );
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+    تعريفنوع uint16_t     TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t     TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    8
-#define portSTACK_GROWTH      -1
-#define portMS_PERIOD_TICK    10
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT    8
+#وصف_ڪريو پورٽ_ڍير_GROWTH      -1
+#وصف_ڪريو پورٽ_MS_PERIOD_TICK    10
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
 
 
-static inline void vPortEnableInterrupt( void )
+ساكن مضمن فراغ v_پورٽ_Enable_مداخلت( فراغ )
 {
     __enable_irq();
 }
 
-static inline void vPortDisableInterrupt( void )
+ساكن مضمن فراغ v_پورٽ_Disable_مداخلت( فراغ )
 {
     __disable_irq();
 }
 
-static inline portLONG GetCurrentPSR( void )
+ساكن مضمن پورٽ_LONG GetCurrentPSR( فراغ )
 {
-    return __get_PSR();
+    أرجع __get_PSR();
 }
 
-static inline portLONG SaveLocalPSR( void )
+ساكن مضمن پورٽ_LONG SaveLocalPSR( فراغ )
 {
-    portLONG flags = __get_PSR();
+    پورٽ_LONG flags = __get_PSR();
 
     __disable_irq();
-    return flags;
+    أرجع flags;
 }
 
-static inline void RestoreLocalPSR( portLONG newMask )
+ساكن مضمن فراغ RestoreLocalPSR( پورٽ_LONG new_نقاب )
 {
     __asm__ __volatile__ (
         "mtcr   %0, psr \n"
         :
-        : "r" ( newMask )
+        : "r" ( new_نقاب )
         : "memory"
         );
 }
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern __attribute__( ( naked ) ) void cpu_yeild( void );
+خارجي فراغ v_پورٽ_Enter_Critical( فراغ );
+خارجي فراغ v_پورٽ_Exit_Critical( فراغ );
+خارجي __attribute__( ( naked ) ) فراغ cpu_yeild( فراغ );
 
-#define portDISABLE_INTERRUPTS()                  vPortDisableInterrupt()
-#define portENABLE_INTERRUPTS()                   vPortEnableInterrupt()
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
-#define portSET_INTERRUPT_MASK_FROM_ISR()         SaveLocalPSR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( a )    RestoreLocalPSR( a )
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()                  v_پورٽ_Disable_مداخلت()
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()                   v_پورٽ_Enable_مداخلت()
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()                      v_پورٽ_Enter_Critical()
+#وصف_ڪريو پورٽ_EXIT_CRITICAL()                       v_پورٽ_Exit_Critical()
+#وصف_ڪريو پورٽ_سيٽ_مداخلت_نقاب_FROM_ISR()         SaveLocalPSR()
+#وصف_ڪريو پورٽ_CLEAR_مداخلت_نقاب_FROM_ISR( a )    RestoreLocalPSR( a )
 
-#define portNOP()                                 asm ( "nop" )
+#وصف_ڪريو پورٽ_NOP()                                 asm ( "nop" )
 
-extern portLONG ulCriticalNesting;
-extern portLONG pendsvflag;
+خارجي پورٽ_LONG ulCriticalNesting;
+خارجي پورٽ_LONG pendsvflag;
 
-#define portYIELD()              \
-    if( ulCriticalNesting == 0 ) \
+#وصف_ڪريو پورٽ_YIELD()              \
+    إذا( ulCriticalNesting == 0 ) \
     {                            \
-        vPortYield();            \
+        v_پورٽ_Yield();            \
     }                            \
-    else                         \
+    وإلا                         \
     {                            \
         pendsvflag = 1;          \
     }                            \
-    portNOP(); portNOP()
+    پورٽ_NOP(); پورٽ_NOP()
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters ) __attribute__( ( noreturn ) )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do {                                         \
-        if( xSwitchRequired != pdFALSE )         \
+#وصف_ڪريو پورٽ_پڇاڙي_SWITCHING_ISR( xSwitchRequired ) \
+    افعل {                                         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_منزل_SCHEDULER();        \
+            پورٽ_YIELD();                         \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } طالما( 0 )
 
-#define portYIELD_FROM_ISR( a )    vTaskSwitchContext()
+#وصف_ڪريو پورٽ_YIELD_FROM_ISR( a )    vTaskSwitchContext()
 
 
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
     }
-#endif
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

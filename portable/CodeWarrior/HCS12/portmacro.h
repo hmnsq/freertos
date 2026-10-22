@@ -27,8 +27,8 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -41,40 +41,40 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#وصف_ڪريو پورٽ_CHAR        حرف
+#وصف_ڪريو پورٽ_FLOAT       عائم
+#وصف_ڪريو پورٽ_DOUBLE      مزدوج
+#وصف_ڪريو پورٽ_LONG        ڊگهو
+#وصف_ڪريو پورٽ_SHORT       ننڍو
+#وصف_ڪريو پورٽ_ڍير_TYPE  uint8_t
+#وصف_ڪريو پورٽ_بنياد_TYPE   حرف
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+تعريفنوع پورٽ_ڍير_TYPE ڍير_Type_t;
+تعريفنوع نشانوارو حرف بنياد_Type_t;
+تعريفنوع بنانشان حرف UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+    تعريفنوع uint16_t TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          1
-#define portSTACK_GROWTH            ( -1 )
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portYIELD()                 __asm( "swi" );
-#define portNOP()                   __asm( "nop" );
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT          1
+#وصف_ڪريو پورٽ_ڍير_GROWTH            ( -1 )
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#وصف_ڪريو پورٽ_YIELD()                 __asm( "swi" );
+#وصف_ڪريو پورٽ_NOP()                   __asm( "nop" );
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENABLE_INTERRUPTS()             __asm( "cli" )
-#define portDISABLE_INTERRUPTS()            __asm( "sei" )
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()             __asm( "cli" )
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()            __asm( "sei" )
 
 /*
  * Disable interrupts before incrementing the count of critical section nesting.
@@ -82,11 +82,11 @@ typedef unsigned char UBaseType_t;
  * re-enabled.  Once interrupts are disabled the nesting count can be accessed
  * directly.  Each task maintains its own nesting count.
  */
-#define portENTER_CRITICAL()                                    \
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()                                    \
 {                                                               \
-    extern volatile UBaseType_t uxCriticalNesting;  \
+    خارجي متطاير UBaseType_t uxCriticalNesting;  \
                                                                 \
-    portDISABLE_INTERRUPTS();                                   \
+    پورٽ_DISABLE_INTERRUPTS();                                   \
     uxCriticalNesting++;                                        \
 }
 
@@ -95,14 +95,14 @@ typedef unsigned char UBaseType_t;
  * nesting is found to be 0 (no nesting) then we are leaving the critical
  * section and interrupts can be re-enabled.
  */
-#define  portEXIT_CRITICAL()                                    \
+#وصف_ڪريو  پورٽ_EXIT_CRITICAL()                                    \
 {                                                               \
-    extern volatile UBaseType_t uxCriticalNesting;  \
+    خارجي متطاير UBaseType_t uxCriticalNesting;  \
                                                                 \
     uxCriticalNesting--;                                        \
-    if( uxCriticalNesting == 0 )                                \
+    إذا( uxCriticalNesting == 0 )                                \
     {                                                           \
-        portENABLE_INTERRUPTS();                                \
+        پورٽ_ENABLE_INTERRUPTS();                                \
     }                                                           \
 }
 /*-----------------------------------------------------------*/
@@ -119,16 +119,16 @@ typedef unsigned char UBaseType_t;
  * register is also stored as part of the tasks context.
  */
 
-#ifdef BANKED_MODEL
+#جيڪڏهن_وصف_ٿيل BANKED_MODEL
     /*
      * Load the stack pointer for the task, then pull the critical nesting
      * count and PPAGE register from the stack.  The remains of the
      * context are restored by the RTI instruction.
      */
-    #define portRESTORE_CONTEXT()                                   \
+    #وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                   \
     {                                                               \
-        extern volatile void * pxCurrentTCB;                        \
-        extern volatile UBaseType_t uxCriticalNesting;  \
+        خارجي متطاير فراغ * pxCurrentTCB;                        \
+        خارجي متطاير UBaseType_t uxCriticalNesting;  \
                                                                     \
         __asm( "ldx pxCurrentTCB" );                                \
         __asm( "lds 0, x" );                                        \
@@ -143,10 +143,10 @@ typedef unsigned char UBaseType_t;
      * registers.  Simply stack the nesting count and PPAGE value, then save
      * the task stack pointer.
      */
-    #define portSAVE_CONTEXT()                                      \
+    #وصف_ڪريو پورٽ_SAVE_CONTEXT()                                      \
     {                                                               \
-        extern volatile void * pxCurrentTCB;                        \
-        extern volatile UBaseType_t uxCriticalNesting;  \
+        خارجي متطاير فراغ * pxCurrentTCB;                        \
+        خارجي متطاير UBaseType_t uxCriticalNesting;  \
                                                                     \
         __asm( "ldaa 0x30" );  /* 0x30 = PPAGE */                   \
         __asm( "psha" );                                            \
@@ -155,17 +155,17 @@ typedef unsigned char UBaseType_t;
         __asm( "ldx pxCurrentTCB" );                                \
         __asm( "sts 0, x" );                                        \
     }
-#else
+#وإلا
 
     /*
      * These macros are as per the BANKED versions above, but without saving
      * and restoring the PPAGE register.
      */
 
-    #define portRESTORE_CONTEXT()                                   \
+    #وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                   \
     {                                                               \
-        extern volatile void * pxCurrentTCB;                        \
-        extern volatile UBaseType_t uxCriticalNesting;  \
+        خارجي متطاير فراغ * pxCurrentTCB;                        \
+        خارجي متطاير UBaseType_t uxCriticalNesting;  \
                                                                     \
         __asm( "ldx pxCurrentTCB" );                                \
         __asm( "lds 0, x" );                                        \
@@ -173,17 +173,17 @@ typedef unsigned char UBaseType_t;
         __asm( "staa uxCriticalNesting" );                          \
     }
 
-    #define portSAVE_CONTEXT()                                      \
+    #وصف_ڪريو پورٽ_SAVE_CONTEXT()                                      \
     {                                                               \
-        extern volatile void * pxCurrentTCB;                        \
-        extern volatile UBaseType_t uxCriticalNesting;  \
+        خارجي متطاير فراغ * pxCurrentTCB;                        \
+        خارجي متطاير UBaseType_t uxCriticalNesting;  \
                                                                     \
         __asm( "ldaa uxCriticalNesting" );                          \
         __asm( "psha" );                                            \
         __asm( "ldx pxCurrentTCB" );                                \
         __asm( "sts 0, x" );                                        \
     }
-#endif
+#جيڪڏهن_پورو
 
 /*
  * Utility macro to call macros above in correct order in order to perform a
@@ -191,14 +191,14 @@ typedef unsigned char UBaseType_t;
  * the ISR does not use any local (stack) variables.  If the ISR uses stack
  * variables portYIELD() should be used in it's place.
  */
-#define portTASK_SWITCH_FROM_ISR()                              \
-    portSAVE_CONTEXT();                                         \
+#وصف_ڪريو پورٽ_TASK_SWITCH_FROM_ISR()                              \
+    پورٽ_SAVE_CONTEXT();                                         \
     vTaskSwitchContext();                                       \
-    portRESTORE_CONTEXT();
+    پورٽ_RESTORE_CONTEXT();
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

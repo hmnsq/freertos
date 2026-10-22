@@ -27,15 +27,15 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
-#include "intrinsics.h"
+#ضمن "intrinsics.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+    خارجي "C" {
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -49,97 +49,97 @@
  */
 
 /* Type definitions. */
-#if __riscv_xlen == 64
-    #define portSTACK_TYPE           uint64_t
-    #define portBASE_TYPE            int64_t
-    #define portUBASE_TYPE           uint64_t
-    #define portMAX_DELAY            ( TickType_t ) 0xffffffffffffffffUL
-    #define portPOINTER_SIZE_TYPE    uint64_t
-#elif __riscv_xlen == 32
-    #define portSTACK_TYPE           uint32_t
-    #define portBASE_TYPE            int32_t
-    #define portUBASE_TYPE           uint32_t
-    #define portMAX_DELAY            ( TickType_t ) 0xffffffffUL
-#else /* if __riscv_xlen == 64 */
-    #error "Assembler did not define __riscv_xlen"
-#endif /* if __riscv_xlen == 64 */
+#إذا __riscv_xlen == 64
+    #وصف_ڪريو پورٽ_ڍير_TYPE           uint64_t
+    #وصف_ڪريو پورٽ_بنياد_TYPE            int64_t
+    #وصف_ڪريو پورٽ_UBASE_TYPE           uint64_t
+    #وصف_ڪريو پورٽ_MAX_DELAY            ( TickType_t ) 0xffffffffffffffffUL
+    #وصف_ڪريو پورٽ_اشارو_سائيز_TYPE    uint64_t
+#وإلاإذا __riscv_xlen == 32
+    #وصف_ڪريو پورٽ_ڍير_TYPE           uint32_t
+    #وصف_ڪريو پورٽ_بنياد_TYPE            int32_t
+    #وصف_ڪريو پورٽ_UBASE_TYPE           uint32_t
+    #وصف_ڪريو پورٽ_MAX_DELAY            ( TickType_t ) 0xffffffffUL
+#وإلا /* if __riscv_xlen == 64 */
+    #غلطي "Assembler did not define __riscv_xlen"
+#جيڪڏهن_پورو /* if __riscv_xlen == 64 */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef portBASE_TYPE    BaseType_t;
-typedef portUBASE_TYPE   UBaseType_t;
-typedef portUBASE_TYPE   TickType_t;
+تعريفنوع پورٽ_ڍير_TYPE   ڍير_Type_t;
+تعريفنوع پورٽ_بنياد_TYPE    بنياد_Type_t;
+تعريفنوع پورٽ_UBASE_TYPE   UBaseType_t;
+تعريفنوع پورٽ_UBASE_TYPE   TickType_t;
 
 /* Legacy type definitions. */
-#define portCHAR                   char
-#define portFLOAT                  float
-#define portDOUBLE                 double
-#define portLONG                   long
-#define portSHORT                  short
+#وصف_ڪريو پورٽ_CHAR                   حرف
+#وصف_ڪريو پورٽ_FLOAT                  عائم
+#وصف_ڪريو پورٽ_DOUBLE                 مزدوج
+#وصف_ڪريو پورٽ_LONG                   ڊگهو
+#وصف_ڪريو پورٽ_SHORT                  ننڍو
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-#define portTICK_TYPE_IS_ATOMIC    1
+#وصف_ڪريو پورٽ_TICK_TYPE_IS_ATOMIC    1
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#ifdef __riscv_32e
-    #define portBYTE_ALIGNMENT    8         /* RV32E uses RISC-V EABI with reduced stack alignment requirements. */
-#else
-    #define portBYTE_ALIGNMENT    16
-#endif
+#وصف_ڪريو پورٽ_ڍير_GROWTH          ( -1 )
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#جيڪڏهن_وصف_ٿيل __riscv_32e
+    #وصف_ڪريو پورٽ_BYTE_ALIGNMENT    8         /* RV32E uses RISC-V EABI with reduced stack alignment requirements. */
+#وإلا
+    #وصف_ڪريو پورٽ_BYTE_ALIGNMENT    16
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-extern void vTaskSwitchContext( void );
-#define portYIELD()                __asm volatile ( "ecall" );
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+خارجي فراغ vTaskSwitchContext( فراغ );
+#وصف_ڪريو پورٽ_YIELD()                __asm متطاير ( "ecall" );
+#وصف_ڪريو پورٽ_پڇاڙي_SWITCHING_ISR( xSwitchRequired ) \
+    افعل                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
+            trace_ISR_EXIT_منزل_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } طالما( 0 )
+#وصف_ڪريو پورٽ_YIELD_FROM_ISR( x )    پورٽ_پڇاڙي_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portCRITICAL_NESTING_IN_TCB    0
+#وصف_ڪريو پورٽ_CRITICAL_NESTING_اندريون_TCB    0
 
-#define portDISABLE_INTERRUPTS()                                   __disable_interrupt()
-#define portENABLE_INTERRUPTS()                                    __enable_interrupt()
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()                                   __disable_interrupt()
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()                                    __enable_interrupt()
 
-extern size_t xCriticalNesting;
-#define portENTER_CRITICAL()      \
+خارجي size_t xCriticalNesting;
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()      \
     {                             \
-        portDISABLE_INTERRUPTS(); \
+        پورٽ_DISABLE_INTERRUPTS(); \
         xCriticalNesting++;       \
     }
 
-#define portEXIT_CRITICAL()          \
+#وصف_ڪريو پورٽ_EXIT_CRITICAL()          \
     {                                \
         xCriticalNesting--;          \
-        if( xCriticalNesting == 0 )  \
+        إذا( xCriticalNesting == 0 )  \
         {                            \
-            portENABLE_INTERRUPTS(); \
+            پورٽ_ENABLE_INTERRUPTS(); \
         }                            \
     }
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#إذا ( config_USE_پورٽ_OPTIMISED_TASK_SELECTION == 1 )
 
-    #error "configUSE_PORT_OPTIMISED_TASK_SELECTION cannot yet be used in the IAR RISC-V port, the CLZ instruction needs to be emulated."
+    #غلطي "configUSE_PORT_OPTIMISED_TASK_SELECTION cannot yet be used in the IAR RISC-V port, the CLZ instruction needs to be emulated."
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#جيڪڏهن_پورو /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 
 /*-----------------------------------------------------------*/
@@ -147,52 +147,52 @@ extern size_t xCriticalNesting;
 /* Task function macros as described on the FreeRTOS.org WEB site. These are
  * not necessary for to use this port.  They are defined so the common demo
  * files (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
-#define portNOP()    __asm volatile ( " nop " )
-#define portINLINE              __inline
+#وصف_ڪريو پورٽ_NOP()    __asm متطاير ( " nop " )
+#وصف_ڪريو پورٽ_INLINE              __inline
 
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
-#endif
+#جيڪڏهن_وصف_نه_ٿيل پورٽ_FORCE_INLINE
+    #وصف_ڪريو پورٽ_FORCE_INLINE    مضمن __attribute__( ( always_inline ) )
+#جيڪڏهن_پورو
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#وصف_ڪريو پورٽ_يادگيري_BARRIER()    __asm متطاير ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be fixed in
  * the source code because to do so would cause other compilers to generate
  * warnings. */
-#pragma diag_suppress=Pa082
+#هدايت diag_suppress=Pa082
 
 /* configCLINT_BASE_ADDRESS is a legacy definition that was replaced by the
  * configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS definitions.  For
  * backward compatibility derive the newer definitions from the old if the old
  * definition is found. */
-#if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
+#إذا defined( config_CLINT_بنياد_پتو ) && !defined( config_MTIME_بنياد_پتو ) && ( config_CLINT_بنياد_پتو == 0 )
 
 /* Legacy case where configCLINT_BASE_ADDRESS was defined as 0 to indicate
  * there was no CLINT.  Equivalent now is to set the MTIME and MTIMECMP
  * addresses to 0. */
-    #define configMTIME_BASE_ADDRESS       ( 0 )
-    #define configMTIMECMP_BASE_ADDRESS    ( 0 )
-#elif defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS )
+    #وصف_ڪريو config_MTIME_بنياد_پتو       ( 0 )
+    #وصف_ڪريو config_MTIMECMP_بنياد_پتو    ( 0 )
+#وإلاإذا defined( config_CLINT_بنياد_پتو ) && !defined( config_MTIME_بنياد_پتو )
 
 /* Legacy case where configCLINT_BASE_ADDRESS was set to the base address of
  * the CLINT.  Equivalent now is to derive the MTIME and MTIMECMP addresses
  * from the CLINT address. */
-    #define configMTIME_BASE_ADDRESS       ( ( configCLINT_BASE_ADDRESS ) + 0xBFF8UL )
-    #define configMTIMECMP_BASE_ADDRESS    ( ( configCLINT_BASE_ADDRESS ) + 0x4000UL )
-#elif !defined( configMTIME_BASE_ADDRESS ) || !defined( configMTIMECMP_BASE_ADDRESS )
-    #error "configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  Set them to zero if there is no MTIME (machine time) clock.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif /* if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 ) */
+    #وصف_ڪريو config_MTIME_بنياد_پتو       ( ( config_CLINT_بنياد_پتو ) + 0xBFF8UL )
+    #وصف_ڪريو config_MTIMECMP_بنياد_پتو    ( ( config_CLINT_بنياد_پتو ) + 0x4000UL )
+#وإلاإذا !defined( config_MTIME_بنياد_پتو ) || !defined( config_MTIMECMP_بنياد_پتو )
+    #غلطي "configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  Set them to zero if there is no MTIME (machine time) clock.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
+#جيڪڏهن_پورو /* if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 ) */
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
     }
-#endif
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */

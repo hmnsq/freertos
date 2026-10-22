@@ -72,8 +72,8 @@
 
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جيڪڏهن_وصف_نه_ٿيل PORTMACRO_H
+#وصف_ڪريو PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -84,67 +84,67 @@
  * These settings should not be altered.
  *-----------------------------------------------------------
  */
-#include <avr32/io.h>
-#include "intc.h"
-#include "compiler.h"
+#ضمن <avr32/io.h>
+#ضمن "intc.h"
+#ضمن "compiler.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جيڪڏهن_وصف_ٿيل __cplusplus
+    خارجي "C" {
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#وصف_ڪريو پورٽ_CHAR          حرف
+#وصف_ڪريو پورٽ_FLOAT         عائم
+#وصف_ڪريو پورٽ_DOUBLE        مزدوج
+#وصف_ڪريو پورٽ_LONG          ڊگهو
+#وصف_ڪريو پورٽ_SHORT         ننڍو
+#وصف_ڪريو پورٽ_ڍير_TYPE    uint32_t
+#وصف_ڪريو پورٽ_بنياد_TYPE     ڊگهو
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورٽ_ڍير_TYPE   ڍير_Type_t;
+تعريفنوع ڊگهو             بنياد_Type_t;
+تعريفنوع بنانشان ڊگهو    UBaseType_t;
 
 
-#define TASK_DELAY_MS( x )     ( ( x ) / portTICK_PERIOD_MS )
-#define TASK_DELAY_S( x )      ( ( x ) * 1000 / portTICK_PERIOD_MS )
-#define TASK_DELAY_MIN( x )    ( ( x ) * 60 * 1000 / portTICK_PERIOD_MS )
+#وصف_ڪريو TASK_DELAY_MS( x )     ( ( x ) / پورٽ_TICK_PERIOD_MS )
+#وصف_ڪريو TASK_DELAY_S( x )      ( ( x ) * 1000 / پورٽ_TICK_PERIOD_MS )
+#وصف_ڪريو TASK_DELAY_MIN( x )    ( ( x ) * 60 * 1000 / پورٽ_TICK_PERIOD_MS )
 
-#define configTICK_TC_IRQ    ATPASTE2( AVR32_TC_IRQ, configTICK_TC_CHANNEL )
+#وصف_ڪريو configTICK_TC_IRQ    ATPASTE2( AVR32_TC_IRQ, configTICK_TC_CHANNEL )
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_16_بٽ )
+    تعريفنوع uint16_t   TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_ويڪر_اندريون_بٽ == TICK_TYPE_ويڪر_32_بٽ )
+    تعريفنوع uint32_t   TickType_t;
+    #وصف_ڪريو پورٽ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#وإلا
+    #غلطي config_TICK_TYPE_ويڪر_اندريون_بٽ سيٽ منزل unsupported tick type ويڪر.
+#جيڪڏهن_پورو
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    4
-#define portNOP()    { __asm__ __volatile__ ( "nop" ); }
+#وصف_ڪريو پورٽ_ڍير_GROWTH      ( -1 )
+#وصف_ڪريو پورٽ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#وصف_ڪريو پورٽ_BYTE_ALIGNMENT    4
+#وصف_ڪريو پورٽ_NOP()    { __asm__ __volatile__ ( "nop" ); }
 /*-----------------------------------------------------------*/
 
 
 /*-----------------------------------------------------------*/
 
 /* INTC-specific. */
-#define DISABLE_ALL_EXCEPTIONS()        Disable_global_exception()
-#define ENABLE_ALL_EXCEPTIONS()         Enable_global_exception()
+#وصف_ڪريو DISABLE_ALL_EXCEPTIONS()        Disable_global_exception()
+#وصف_ڪريو ENABLE_ALL_EXCEPTIONS()         Enable_global_exception()
 
-#define DISABLE_ALL_INTERRUPTS()        Disable_global_interrupt()
-#define ENABLE_ALL_INTERRUPTS()         Enable_global_interrupt()
+#وصف_ڪريو DISABLE_ALL_INTERRUPTS()        Disable_global_مداخلت()
+#وصف_ڪريو ENABLE_ALL_INTERRUPTS()         Enable_global_مداخلت()
 
-#define DISABLE_INT_LEVEL( int_lev )    Disable_interrupt_level( int_lev )
-#define ENABLE_INT_LEVEL( int_lev )     Enable_interrupt_level( int_lev )
+#وصف_ڪريو DISABLE_INT_LEVEL( int_lev )    Disable_مداخلت_level( int_lev )
+#وصف_ڪريو ENABLE_INT_LEVEL( int_lev )     Enable_مداخلت_level( int_lev )
 
 
 /*
@@ -160,33 +160,33 @@ typedef unsigned long    UBaseType_t;
  * SHALL NOT BE CALLED FROM WITHIN AN INTERRUPT as fputs and printf use malloc,
  * which is interrupt-unsafe with the current __malloc_lock and __malloc_unlock.
  */
-#if configDBG
-    #define portDBG_TRACE( ... )                                 \
+#إذا configDBG
+    #وصف_ڪريو پورٽ_DBG_TRACE( ... )                                 \
     {                                                            \
         fputs( __FILE__ ":" ASTRINGZ( __LINE__ ) ": ", stdout ); \
-        printf( __VA_ARGS__ );                                   \
+        لکو( __VA_ARGS__ );                                   \
         fputs( "\r\n", stdout );                                 \
     }
-#else
-    #define portDBG_TRACE( ... )
-#endif
+#وإلا
+    #وصف_ڪريو پورٽ_DBG_TRACE( ... )
+#جيڪڏهن_پورو
 
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    DISABLE_ALL_INTERRUPTS()
-#define portENABLE_INTERRUPTS()     ENABLE_ALL_INTERRUPTS()
+#وصف_ڪريو پورٽ_DISABLE_INTERRUPTS()    DISABLE_ALL_INTERRUPTS()
+#وصف_ڪريو پورٽ_ENABLE_INTERRUPTS()     ENABLE_ALL_INTERRUPTS()
 
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+خارجي فراغ v_پورٽ_Enter_Critical( فراغ );
+خارجي فراغ v_پورٽ_Exit_Critical( فراغ );
 
-#define portENTER_CRITICAL()    vPortEnterCritical();
-#define portEXIT_CRITICAL()     vPortExitCritical();
+#وصف_ڪريو پورٽ_ENTER_CRITICAL()    v_پورٽ_Enter_Critical();
+#وصف_ڪريو پورٽ_EXIT_CRITICAL()     v_پورٽ_Exit_Critical();
 
 
 /* Added as there is no such function in FreeRTOS. */
-extern void * pvPortRealloc( void * pv,
-                             size_t xSize );
+خارجي فراغ * pv_پورٽ_Realloc( فراغ * pv,
+                             size_t x_سائيز );
 /*-----------------------------------------------------------*/
 
 
@@ -195,10 +195,10 @@ extern void * pvPortRealloc( void * pv,
 /*
  * Restore Context for cases other than INTi.
  */
-#define portRESTORE_CONTEXT()                                                                                                                                                                                                                                                                                                                    \
+#وصف_ڪريو پورٽ_RESTORE_CONTEXT()                                                                                                                                                                                                                                                                                                                    \
     {                                                                                                                                                                                                                                                                                                                                            \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                              \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                                                                                                                                            \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                              \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                                                                                                                                            \
                                                                                                                                                                                                                                                                                                                                                  \
         __asm__ __volatile__ (                                                                                                                                                                                                                                                                                                                   \
             /* Set SP to point to new stack */                                                                                                                                                                                                                                                                                                   \
@@ -267,12 +267,12 @@ extern void * pvPortRealloc( void * pv,
  * The ISR used for the scheduler tick depends on whether the cooperative or
  * the preemptive scheduler is being used.
  */
-#if configUSE_PREEMPTION == 0
+#إذا configUSE_PREEMPTION == 0
 
 /*
  * portSAVE_CONTEXT_OS_INT() for OS Tick exception.
  */
-    #define portSAVE_CONTEXT_OS_INT()                                                     \
+    #وصف_ڪريو پورٽ_SAVE_CONTEXT_OS_INT()                                                     \
     {                                                                                     \
         /* Save R0..R7 */                                                                 \
         __asm__ __volatile__ ( "stm     --sp, r0-r7" );                                   \
@@ -284,7 +284,7 @@ extern void * pvPortRealloc( void * pv,
 /*
  * portRESTORE_CONTEXT_OS_INT() for Tick exception.
  */
-    #define portRESTORE_CONTEXT_OS_INT()                                                                  \
+    #وصف_ڪريو پورٽ_RESTORE_CONTEXT_OS_INT()                                                                  \
     {                                                                                                     \
         __asm__ __volatile__ (                                                                            \
             /* Restore R0..R7 */                                                                          \
@@ -296,15 +296,15 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                            \
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#وإلا /* if configUSE_PREEMPTION == 0 */
 
 /*
  * portSAVE_CONTEXT_OS_INT() for OS Tick exception.
  */
-    #define portSAVE_CONTEXT_OS_INT()                                                                                                                                                                                                                                                                                                                                       \
+    #وصف_ڪريو پورٽ_SAVE_CONTEXT_OS_INT()                                                                                                                                                                                                                                                                                                                                       \
     {                                                                                                                                                                                                                                                                                                                                                                       \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                                                                                                                                                                       \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                         \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                                                                                                                                                                       \
                                                                                                                                                                                                                                                                                                                                                                             \
         /* When we come here */                                                                                                                                                                                                                                                                                                                                             \
         /* Registers R8..R12, LR, PC and SR had already been pushed to system stack */                                                                                                                                                                                                                                                                                      \
@@ -349,10 +349,10 @@ extern void * pvPortRealloc( void * pv,
 /*
  * portRESTORE_CONTEXT_OS_INT() for Tick exception.
  */
-    #define portRESTORE_CONTEXT_OS_INT()                                                                                                                                                                                                                                                                                                                               \
+    #وصف_ڪريو پورٽ_RESTORE_CONTEXT_OS_INT()                                                                                                                                                                                                                                                                                                                               \
     {                                                                                                                                                                                                                                                                                                                                                                  \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                    \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                                                                                                                                                                  \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                    \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                                                                                                                                                                  \
                                                                                                                                                                                                                                                                                                                                                                        \
         /* Check if INT0 or higher were being handled (case where the OS tick interrupted another */                                                                                                                                                                                                                                                                   \
         /* interrupt handler (which was of a higher priority level but decided to lower its priority */                                                                                                                                                                                                                                                                \
@@ -371,9 +371,9 @@ extern void * pvPortRealloc( void * pv,
         /* Else */                                                                                                                                                                                                                                                                                                                                                     \
         /* because it is here safe, always call vTaskSwitchContext() since an OS tick occurred. */                                                                                                                                                                                                                                                                     \
         /* A critical section has to be used here because vTaskSwitchContext handles FreeRTOS linked lists. */                                                                                                                                                                                                                                                         \
-        portENTER_CRITICAL();                                                                                                                                                                                                                                                                                                                                          \
+        پورٽ_ENTER_CRITICAL();                                                                                                                                                                                                                                                                                                                                          \
         vTaskSwitchContext();                                                                                                                                                                                                                                                                                                                                          \
-        portEXIT_CRITICAL();                                                                                                                                                                                                                                                                                                                                           \
+        پورٽ_EXIT_CRITICAL();                                                                                                                                                                                                                                                                                                                                           \
                                                                                                                                                                                                                                                                                                                                                                        \
         /* Restore all registers */                                                                                                                                                                                                                                                                                                                                    \
                                                                                                                                                                                                                                                                                                                                                                        \
@@ -404,7 +404,7 @@ extern void * pvPortRealloc( void * pv,
         pxCurrentTCB;                                                                                                                                                                                                                                                                                                                                                  \
     }
 
-#endif /* if configUSE_PREEMPTION == 0 */
+#جيڪڏهن_پورو /* if configUSE_PREEMPTION == 0 */
 
 
 /*
@@ -413,10 +413,10 @@ extern void * pvPortRealloc( void * pv,
  * NOTE: taskYIELD()(== SCALL) MUST NOT be called in a mode > supervisor mode.
  *
  */
-#define portSAVE_CONTEXT_SCALL()                                                                                                                                                                                      \
+#وصف_ڪريو پورٽ_SAVE_CONTEXT_SCALL()                                                                                                                                                                                      \
     {                                                                                                                                                                                                                 \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                   \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                 \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                   \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                 \
                                                                                                                                                                                                                       \
         /* Warning: the stack layout after SCALL doesn't match the one after an interrupt. */                                                                                                                         \
         /* If SR[M2:M0] == 001 */                                                                                                                                                                                     \
@@ -462,7 +462,7 @@ extern void * pvPortRealloc( void * pv,
         /* pxCurrentTCB). */                                                                                                                                                                                          \
         /* Basically, all accesses to the pxCurrentTCB structure should be put in a */                                                                                                                                \
         /* critical section because it is a global structure. */                                                                                                                                                      \
-        portENTER_CRITICAL();                                                                                                                                                                                         \
+        پورٽ_ENTER_CRITICAL();                                                                                                                                                                                         \
                                                                                                                                                                                                                       \
         /* Store SP in the first member of the structure pointed to by pxCurrentTCB */                                                                                                                                \
         __asm__ __volatile__ (                                                                                                                                                                                        \
@@ -476,10 +476,10 @@ extern void * pvPortRealloc( void * pv,
 /*
  * portRESTORE_CONTEXT() for SupervisorCALL exception.
  */
-#define portRESTORE_CONTEXT_SCALL()                                                                                                                                                                                                 \
+#وصف_ڪريو پورٽ_RESTORE_CONTEXT_SCALL()                                                                                                                                                                                                 \
     {                                                                                                                                                                                                                               \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                                 \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                               \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                                 \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                               \
                                                                                                                                                                                                                                     \
         /* Restore all registers */                                                                                                                                                                                                 \
                                                                                                                                                                                                                                     \
@@ -492,7 +492,7 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                                                                                                                                                      \
                                                                                                                                                                                                                                     \
         /* Leave pxCurrentTCB variable access critical section */                                                                                                                                                                   \
-        portEXIT_CRITICAL();                                                                                                                                                                                                        \
+        پورٽ_EXIT_CRITICAL();                                                                                                                                                                                                        \
                                                                                                                                                                                                                                     \
         __asm__ __volatile__ (                                                                                                                                                                                                      \
             /* Restore ulCriticalNesting variable */                                                                                                                                                                                \
@@ -532,13 +532,13 @@ extern void * pvPortRealloc( void * pv,
  * The ISR used depends on whether the cooperative or
  * the preemptive scheduler is being used.
  */
-#if configUSE_PREEMPTION == 0
+#إذا configUSE_PREEMPTION == 0
 
 /*
  * ISR entry and exit macros.  These are only required if a task switch
  * is required from the ISR.
  */
-    #define portENTER_SWITCHING_ISR()                                                     \
+    #وصف_ڪريو پورٽ_ENTER_SWITCHING_ISR()                                                     \
     {                                                                                     \
         /* Save R0..R7 */                                                                 \
         __asm__ __volatile__ ( "stm     --sp, r0-r7" );                                   \
@@ -550,7 +550,7 @@ extern void * pvPortRealloc( void * pv,
 /*
  * Input parameter: in R12, boolean. Perform a vTaskSwitchContext() if 1
  */
-    #define portEXIT_SWITCHING_ISR()                                                                              \
+    #وصف_ڪريو پورٽ_EXIT_SWITCHING_ISR()                                                                              \
     {                                                                                                             \
         __asm__ __volatile__ (                                                                                    \
             /* Restore R0..R7 */                                                                                  \
@@ -562,16 +562,16 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                                    \
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#وإلا /* if configUSE_PREEMPTION == 0 */
 
 /*
  * ISR entry and exit macros.  These are only required if a task switch
  * is required from the ISR.
  */
-    #define portENTER_SWITCHING_ISR()                                                                                                                                                                                                                                                                                                                                       \
+    #وصف_ڪريو پورٽ_ENTER_SWITCHING_ISR()                                                                                                                                                                                                                                                                                                                                       \
     {                                                                                                                                                                                                                                                                                                                                                                       \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                                                                                                                                                                       \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                         \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                                                                                                                                                                       \
                                                                                                                                                                                                                                                                                                                                                                             \
         /* When we come here */                                                                                                                                                                                                                                                                                                                                             \
         /* Registers R8..R12, LR, PC and SR had already been pushed to system stack */                                                                                                                                                                                                                                                                                      \
@@ -613,10 +613,10 @@ extern void * pvPortRealloc( void * pv,
 /*
  * Input parameter: in R12, boolean. Perform a vTaskSwitchContext() if 1
  */
-    #define portEXIT_SWITCHING_ISR()                                                                                                                                                                                                                                                                                                                                                                                     \
+    #وصف_ڪريو پورٽ_EXIT_SWITCHING_ISR()                                                                                                                                                                                                                                                                                                                                                                                     \
     {                                                                                                                                                                                                                                                                                                                                                                                                                    \
-        extern volatile uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                                                                      \
-        extern volatile void * volatile pxCurrentTCB;                                                                                                                                                                                                                                                                                                                                                                    \
+        خارجي متطاير uint32_t ulCriticalNesting;                                                                                                                                                                                                                                                                                                                                                                      \
+        خارجي متطاير فراغ * متطاير pxCurrentTCB;                                                                                                                                                                                                                                                                                                                                                                    \
                                                                                                                                                                                                                                                                                                                                                                                                                          \
         __asm__ __volatile__ (                                                                                                                                                                                                                                                                                                                                                                                           \
             /* Check if INT0 or higher were being handled (case where the OS tick interrupted another */                                                                                                                                                                                                                                                                                                                 \
@@ -637,9 +637,9 @@ extern void * pvPortRealloc( void * pv,
             );                                                                                                                                                                                                                                                                                                                                                                                                           \
                                                                                                                                                                                                                                                                                                                                                                                                                          \
         /* A critical section has to be used here because vTaskSwitchContext handles FreeRTOS linked lists. */                                                                                                                                                                                                                                                                                                           \
-        portENTER_CRITICAL();                                                                                                                                                                                                                                                                                                                                                                                            \
+        پورٽ_ENTER_CRITICAL();                                                                                                                                                                                                                                                                                                                                                                                            \
         vTaskSwitchContext();                                                                                                                                                                                                                                                                                                                                                                                            \
-        portEXIT_CRITICAL();                                                                                                                                                                                                                                                                                                                                                                                             \
+        پورٽ_EXIT_CRITICAL();                                                                                                                                                                                                                                                                                                                                                                                             \
                                                                                                                                                                                                                                                                                                                                                                                                                          \
         __asm__ __volatile__ (                                                                                                                                                                                                                                                                                                                                                                                           \
             "LABEL_ISR_RESTORE_CONTEXT_"ASTRINGZ ( __LINE__ ) ":                                                \n\t"                                                                                                                                                                                                                                                                                                    \
@@ -674,19 +674,19 @@ extern void * pvPortRealloc( void * pv,
         pxCurrentTCB;                                                                                                                                                                                                                                                                                                                                                                                                    \
     }
 
-#endif /* if configUSE_PREEMPTION == 0 */
+#جيڪڏهن_پورو /* if configUSE_PREEMPTION == 0 */
 
 
-#define portYIELD()                                           { __asm__ __volatile__ ( "scall" ); }
+#وصف_ڪريو پورٽ_YIELD()                                           { __asm__ __volatile__ ( "scall" ); }
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#وصف_ڪريو پورٽ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جيڪڏهن_وصف_ٿيل __cplusplus
     }
-#endif
+#جيڪڏهن_پورو
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جيڪڏهن_پورو /* PORTMACRO_H */
