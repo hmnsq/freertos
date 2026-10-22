@@ -79,24 +79,24 @@
 
 #define SIG_RESUME    SIGUSR1
 
-typedef struct THREAD
+typedef sa_nracanaa THREAD
 {
     pthread_t pthread;
     TaskFunction_t pxCode;
     void * pvParams;
     BaseType_t xDying;
-    struct event * ev;
+    sa_nracanaa event * ev;
 } Thread_t;
 
 /*
  * The additional per-thread data is stored at the beginning of the
  * task's stack.
  */
-static inline Thread_t * prvGetThreadFromTask( TaskHandle_t xTask )
+static anta_hstha Thread_t * prvGetThreadFromTask( TaskHandle_t xTask )
 {
     StackType_t * pxTopOfStack = *( StackType_t ** ) xTask;
 
-    return ( Thread_t * ) ( pxTopOfStack + 1 );
+    ပြန်ပေး ( Thread_t * ) ( pxTopOfStack + 1 );
 }
 
 /*-----------------------------------------------------------*/
@@ -106,7 +106,7 @@ static pthread_once_t hThreadKeyOnce = PTHREAD_ONCE_INIT;
 static sigset_t xAllSignals;
 static sigset_t xSchedulerOriginalSignalMask;
 static pthread_t hMainThread = ( pthread_t ) NULL;
-static volatile BaseType_t uxCriticalNesting;
+static ca_ncala BaseType_t uxCriticalNesting;
 static BaseType_t xSchedulerEnd = pdFALSE;
 static pthread_t hTimerTickThread;
 static bool xTimerTickThreadShouldRun;
@@ -121,7 +121,7 @@ static void prvSwitchThread( Thread_t * xThreadToResume,
                              Thread_t * xThreadToSuspend );
 static void prvSuspendSelf( Thread_t * thread );
 static void prvResumeThread( Thread_t * xThreadId );
-static void vPortSystemTickHandler( int sig );
+static void vPortSystemTickHandler( ကိန်းပြည့် sig );
 static void vPortStartFirstTask( void );
 static void prvPortYieldFromISR( void );
 static void prvThreadKeyDestructor( void * pvData );
@@ -169,12 +169,12 @@ static BaseType_t prvIsFreeRTOSThread( void )
 
     pucThreadData = ( uint8_t * ) pthread_getspecific( xThreadKey );
 
-    if( ( pucThreadData != NULL ) && ( *pucThreadData == 1 ) )
+    အကယ်၍( ( pucThreadData != NULL ) && ( *pucThreadData == 1 ) )
     {
         xRet = pdTRUE;
     }
 
-    return xRet;
+    ပြန်ပေး xRet;
 }
 /*-----------------------------------------------------------*/
 
@@ -184,22 +184,22 @@ static void prvDestroyThreadKey( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvFatalError( const char * pcCall,
-                           int iErrno ) __attribute__( ( __noreturn__ ) );
+static void prvFatalError( const var_na * pcCall,
+                           ကိန်းပြည့် iErrno ) __attribute__( ( __noreturn__ ) );
 
-void prvFatalError( const char * pcCall,
-                    int iErrno )
+void prvFatalError( const var_na * pcCall,
+                    ကိန်းပြည့် iErrno )
 {
     fprintf( stderr, "%s: %s\n", pcCall, strerror( iErrno ) );
     abort();
 }
 /*-----------------------------------------------------------*/
 
-static void prvPortSetCurrentThreadName( const char * pxThreadName )
+static void prvPortSetCurrentThreadName( const var_na * pxThreadName )
 {
     #ifdef __APPLE__
         pthread_setname_np( pxThreadName );
-    #else
+    #မဟုတ်ပါက
         pthread_setname_np( pthread_self(), pxThreadName );
     #endif
 }
@@ -216,7 +216,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     Thread_t * thread;
     pthread_attr_t xThreadAttributes;
     size_t ulStackSize;
-    int iRet;
+    ကိန်းပြည့် iRet;
 
     ( void ) pthread_once( &hSigSetupThread, prvSetupSignalsAndSchedulerPolicy );
 
@@ -227,8 +227,8 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack = ( StackType_t * ) thread - 1;
 
     /* Ensure that there is enough space to store Thread_t on the stack. */
-    ulStackSize = ( size_t ) ( pxTopOfStack + 1 - pxEndOfStack ) * sizeof( *pxTopOfStack );
-    configASSERT( ulStackSize > sizeof( Thread_t ) );
+    ulStackSize = ( size_t ) ( pxTopOfStack + 1 - pxEndOfStack ) * parimaa_na( *pxTopOfStack );
+    configASSERT( ulStackSize > parimaa_na( Thread_t ) );
     ( void ) ulStackSize; /* suppress set but not used warning */
 
     thread->pxCode = pxCode;
@@ -244,14 +244,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     iRet = pthread_create( &thread->pthread, &xThreadAttributes,
                            prvWaitForStart, thread );
 
-    if( iRet != 0 )
+    အကယ်၍( iRet != 0 )
     {
         prvFatalError( "pthread_create", iRet );
     }
 
     vPortExitCritical();
 
-    return pxTopOfStack;
+    ပြန်ပေး pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -269,7 +269,7 @@ void vPortStartFirstTask( void )
  */
 BaseType_t xPortStartScheduler( void )
 {
-    int iSignal;
+    ကိန်းပြည့် iSignal;
     sigset_t xSignals;
 
     hMainThread = pthread_self();
@@ -292,7 +292,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Wait until signaled by vPortEndScheduler(). */
-    while( xSchedulerEnd != pdTRUE )
+    နေစဉ်( xSchedulerEnd != pdTRUE )
     {
         sigwait( &xSignals, &iSignal );
     }
@@ -305,12 +305,12 @@ BaseType_t xPortStartScheduler( void )
 
     /* Reset pthread_once_t, needed to restart the scheduler again.
      * memset the internal struct members for MacOS/Linux Compatibility */
-    #if __APPLE__
+    #အကယ်၍ __APPLE__
         hSigSetupThread.__sig = _PTHREAD_ONCE_SIG_init;
         hThreadKeyOnce.__sig = _PTHREAD_ONCE_SIG_init;
-        memset( ( void * ) &hSigSetupThread.__opaque, 0, sizeof( hSigSetupThread.__opaque ) );
-        memset( ( void * ) &hThreadKeyOnce.__opaque, 0, sizeof( hThreadKeyOnce.__opaque ) );
-    #else /* Linux PTHREAD library*/
+        memset( ( void * ) &hSigSetupThread.__opaque, 0, parimaa_na( hSigSetupThread.__opaque ) );
+        memset( ( void * ) &hThreadKeyOnce.__opaque, 0, parimaa_na( hThreadKeyOnce.__opaque ) );
+    #မဟုတ်ပါက /* Linux PTHREAD library*/
         hSigSetupThread = ( pthread_once_t ) PTHREAD_ONCE_INIT;
         hThreadKeyOnce = ( pthread_once_t ) PTHREAD_ONCE_INIT;
     #endif /* __APPLE__*/
@@ -318,7 +318,7 @@ BaseType_t xPortStartScheduler( void )
     /* Restore original signal mask. */
     ( void ) pthread_sigmask( SIG_SETMASK, &xSchedulerOriginalSignalMask, NULL );
 
-    return 0;
+    ပြန်ပေး 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -341,7 +341,7 @@ void vPortEndScheduler( void )
     ( void ) pthread_kill( hMainThread, SIG_RESUME );
 
     /* Waiting to be deleted here. */
-    if( xIsFreeRTOSThread == pdTRUE )
+    အကယ်၍( xIsFreeRTOSThread == pdTRUE )
     {
         pxCurrentThread = prvGetThreadFromTask( xTaskGetCurrentTaskHandle() );
         event_wait( pxCurrentThread->ev );
@@ -353,7 +353,7 @@ void vPortEndScheduler( void )
 
 void vPortEnterCritical( void )
 {
-    if( uxCriticalNesting == 0 )
+    အကယ်၍( uxCriticalNesting == 0 )
     {
         vPortDisableInterrupts();
     }
@@ -367,7 +367,7 @@ void vPortExitCritical( void )
     uxCriticalNesting--;
 
     /* If we have reached 0 then re-enable the interrupts. */
-    if( uxCriticalNesting == 0 )
+    အကယ်၍( uxCriticalNesting == 0 )
     {
         vPortEnableInterrupts();
     }
@@ -405,7 +405,7 @@ void vPortYield( void )
 
 void vPortDisableInterrupts( void )
 {
-    if( prvIsFreeRTOSThread() == pdTRUE )
+    အကယ်၍( prvIsFreeRTOSThread() == pdTRUE )
     {
         pthread_sigmask( SIG_BLOCK, &xAllSignals, NULL );
     }
@@ -414,7 +414,7 @@ void vPortDisableInterrupts( void )
 
 void vPortEnableInterrupts( void )
 {
-    if( prvIsFreeRTOSThread() == pdTRUE )
+    အကယ်၍( prvIsFreeRTOSThread() == pdTRUE )
     {
         pthread_sigmask( SIG_UNBLOCK, &xAllSignals, NULL );
     }
@@ -425,7 +425,7 @@ UBaseType_t xPortSetInterruptMask( void )
 {
     /* Interrupts are always disabled inside ISRs (signals
      * handlers). */
-    return ( UBaseType_t ) 0;
+    ပြန်ပေး ( UBaseType_t ) 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -437,11 +437,11 @@ void vPortClearInterruptMask( UBaseType_t uxMask )
 
 static uint64_t prvGetTimeNs( void )
 {
-    struct timespec t;
+    sa_nracanaa timespec t;
 
     clock_gettime( CLOCK_MONOTONIC, &t );
 
-    return ( uint64_t ) t.tv_sec * ( uint64_t ) 1000000000UL + ( uint64_t ) t.tv_nsec;
+    ပြန်ပေး ( uint64_t ) t.tv_sec * ( uint64_t ) 1000000000UL + ( uint64_t ) t.tv_nsec;
 }
 /*-----------------------------------------------------------*/
 
@@ -457,7 +457,7 @@ static void * prvTimerTickHandler( void * arg )
 
     prvPortSetCurrentThreadName( "Scheduler timer" );
 
-    while( xTimerTickThreadShouldRun )
+    နေစဉ်( xTimerTickThreadShouldRun )
     {
         /*
          * signal to the active task to cause tick handling or
@@ -468,7 +468,7 @@ static void * prvTimerTickHandler( void * arg )
         usleep( portTICK_RATE_MICROSECONDS );
     }
 
-    return NULL;
+    ပြန်ပေး NULL;
 }
 /*-----------------------------------------------------------*/
 
@@ -485,9 +485,9 @@ void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-static void vPortSystemTickHandler( int sig )
+static void vPortSystemTickHandler( ကိန်းပြည့် sig )
 {
-    if( prvIsFreeRTOSThread() == pdTRUE )
+    အကယ်၍( prvIsFreeRTOSThread() == pdTRUE )
     {
         Thread_t * pxThreadToSuspend;
         Thread_t * pxThreadToResume;
@@ -498,7 +498,7 @@ static void vPortSystemTickHandler( int sig )
 
         pxThreadToSuspend = prvGetThreadFromTask( xTaskGetCurrentTaskHandle() );
 
-        if( xTaskIncrementTick() != pdFALSE )
+        အကယ်၍( xTaskIncrementTick() != pdFALSE )
         {
             /* Select Next Task. */
             vTaskSwitchContext();
@@ -510,7 +510,7 @@ static void vPortSystemTickHandler( int sig )
 
         uxCriticalNesting--;
     }
-    else
+    မဟုတ်ပါက
     {
         fprintf( stderr, "vPortSystemTickHandler called from non-FreeRTOS thread\n" );
     }
@@ -518,7 +518,7 @@ static void vPortSystemTickHandler( int sig )
 /*-----------------------------------------------------------*/
 
 void vPortThreadDying( void * pxTaskToDelete,
-                       volatile BaseType_t * pxPendYield )
+                       ca_ncala BaseType_t * pxPendYield )
 {
     Thread_t * pxThread = prvGetThreadFromTask( pxTaskToDelete );
 
@@ -567,7 +567,7 @@ static void * prvWaitForStart( void * pvParams )
      * catch the error. */
     configASSERT( pdFALSE );
 
-    return NULL;
+    ပြန်ပေး NULL;
 }
 /*-----------------------------------------------------------*/
 
@@ -576,7 +576,7 @@ static void prvSwitchThread( Thread_t * pxThreadToResume,
 {
     BaseType_t uxSavedCriticalNesting;
 
-    if( pxThreadToSuspend != pxThreadToResume )
+    အကယ်၍( pxThreadToSuspend != pxThreadToResume )
     {
         /*
          * Switch tasks.
@@ -589,7 +589,7 @@ static void prvSwitchThread( Thread_t * pxThreadToResume,
 
         prvResumeThread( pxThreadToResume );
 
-        if( pxThreadToSuspend->xDying == pdTRUE )
+        အကယ်၍( pxThreadToSuspend->xDying == pdTRUE )
         {
             pthread_exit( NULL );
         }
@@ -624,7 +624,7 @@ static void prvSuspendSelf( Thread_t * thread )
 
 static void prvResumeThread( Thread_t * xThreadId )
 {
-    if( pthread_self() != xThreadId->pthread )
+    အကယ်၍( pthread_self() != xThreadId->pthread )
     {
         event_signal( xThreadId->ev );
     }
@@ -633,8 +633,8 @@ static void prvResumeThread( Thread_t * xThreadId )
 
 static void prvSetupSignalsAndSchedulerPolicy( void )
 {
-    struct sigaction sigtick;
-    int iRet;
+    sa_nracanaa sigaction sigtick;
+    ကိန်းပြည့် iRet;
 
     hMainThread = pthread_self();
 
@@ -662,7 +662,7 @@ static void prvSetupSignalsAndSchedulerPolicy( void )
 
     iRet = sigaction( SIGALRM, &sigtick, NULL );
 
-    if( iRet == -1 )
+    အကယ်၍( iRet == -1 )
     {
         prvFatalError( "sigaction", errno );
     }
@@ -671,10 +671,10 @@ static void prvSetupSignalsAndSchedulerPolicy( void )
 
 uint32_t ulPortGetRunTime( void )
 {
-    struct tms xTimes;
+    sa_nracanaa tms xTimes;
 
     times( &xTimes );
 
-    return ( uint32_t ) xTimes.tms_utime;
+    ပြန်ပေး ( uint32_t ) xTimes.tms_utime;
 }
 /*-----------------------------------------------------------*/

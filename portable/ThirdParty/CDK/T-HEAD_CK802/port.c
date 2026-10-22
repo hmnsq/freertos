@@ -62,7 +62,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    ပြန်ပေး stk;
 }
 
 BaseType_t xPortStartScheduler( void )
@@ -71,7 +71,7 @@ BaseType_t xPortStartScheduler( void )
 
     vPortStartTask();
 
-    return pdFALSE;
+    ပြန်ပေး pdFALSE;
 }
 
 
@@ -88,20 +88,20 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting == 0 )
+    အကယ်၍( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        နေစဉ်( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    အကယ်၍( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        အကယ်၍( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,7 +109,7 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
+#အကယ်၍ configUSE_PREEMPTION == 0
     void xPortSysTickHandler( void )
     {
         portLONG ulDummy;
@@ -119,7 +119,7 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
+#မဟုတ်ပါက
     void xPortSysTickHandler( void )
     {
         portLONG ulDummy;
@@ -127,12 +127,12 @@ void vPortExitCritical( void )
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            အကယ်၍( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            မဟုတ်ပါက
             {
                 traceISR_EXIT();
             }
@@ -155,14 +155,14 @@ void vPortYieldHandler( void )
 __attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
                                                               signed portCHAR * pcTaskName )
 {
-    for( ; ; )
+    အတွက်( ; ; )
     {
     }
 }
 
 __attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
 {
-    for( ; ; )
+    အတွက်( ; ; )
     {
     }
 }

@@ -30,7 +30,7 @@
 * Implementation of functions defined in portable.h for the RXv3 DPFPU port.
 *----------------------------------------------------------*/
 
-#warning Testing for DFPU support in this port is not yet complete
+#warning Testing အတွက် DFPU support in this port is not yet complete
 
 /* Scheduler includes. */
 #include "FreeRTOS.h"
@@ -40,11 +40,11 @@
 #include "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#အကယ်၍ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     #include "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#မဟုတ်ပါက /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     #include "iodefine.h"
 
@@ -76,8 +76,8 @@
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm volatile ( "MVTIPL %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm ca_ncala ( "MVTIPL %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm ca_ncala ( "MVTIPL %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
 
 /*-----------------------------------------------------------*/
 
@@ -92,12 +92,12 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#အကယ်၍ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
     R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#မဟုတ်ပါက /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
 
@@ -107,12 +107,12 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#အကယ်၍ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
     R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#မဟုတ်ပါက /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
     void vTickISR( void ) __attribute__( ( interrupt ) );
 
@@ -122,7 +122,7 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
 
 /* Saved as part of the task context.  If ulPortTaskHasDPFPUContext is non-zero
  * then a DPFPU context must be saved and restored for the task. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#အကယ်၍ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
     StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
 
@@ -185,7 +185,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #မဟုတ်ပါက /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         pxTopOfStack -= 15;
     }
@@ -207,7 +207,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 0. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #အကယ်၍ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
     {
         /* The task will start without a DPFPU context.  A task that
          * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
@@ -222,42 +222,42 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         #ifdef USE_FULL_REGISTER_INITIALISATION
         {
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1515.1515;  /* DR15. */
+            *( dviguu_na * ) pxTopOfStack = 1515.1515;  /* DR15. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1414.1414;  /* DR14. */
+            *( dviguu_na * ) pxTopOfStack = 1414.1414;  /* DR14. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1313.1313;  /* DR13. */
+            *( dviguu_na * ) pxTopOfStack = 1313.1313;  /* DR13. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1212.1212;  /* DR12. */
+            *( dviguu_na * ) pxTopOfStack = 1212.1212;  /* DR12. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1111.1111;  /* DR11. */
+            *( dviguu_na * ) pxTopOfStack = 1111.1111;  /* DR11. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1010.1010;  /* DR10. */
+            *( dviguu_na * ) pxTopOfStack = 1010.1010;  /* DR10. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 909.0909;   /* DR9. */
+            *( dviguu_na * ) pxTopOfStack = 909.0909;   /* DR9. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 808.0808;   /* DR8. */
+            *( dviguu_na * ) pxTopOfStack = 808.0808;   /* DR8. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 707.0707;   /* DR7. */
+            *( dviguu_na * ) pxTopOfStack = 707.0707;   /* DR7. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 606.0606;   /* DR6. */
+            *( dviguu_na * ) pxTopOfStack = 606.0606;   /* DR6. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 505.0505;   /* DR5. */
+            *( dviguu_na * ) pxTopOfStack = 505.0505;   /* DR5. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 404.0404;   /* DR4. */
+            *( dviguu_na * ) pxTopOfStack = 404.0404;   /* DR4. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 303.0303;   /* DR3. */
+            *( dviguu_na * ) pxTopOfStack = 303.0303;   /* DR3. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 202.0202;   /* DR2. */
+            *( dviguu_na * ) pxTopOfStack = 202.0202;   /* DR2. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 101.0101;   /* DR1. */
+            *( dviguu_na * ) pxTopOfStack = 101.0101;   /* DR1. */
             pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 9876.54321; /* DR0. */
+            *( dviguu_na * ) pxTopOfStack = 9876.54321; /* DR0. */
         }
-        #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+        #မဟုတ်ပါက /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
             pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * parimaa_na( StackType_t ) );
         }
         #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
         pxTopOfStack--;
@@ -271,17 +271,17 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     {
         /* Omit DPFPU support. */
     }
-    #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #မဟုတ်ပါက /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
     {
         #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
     }
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    ပြန်ပေး pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#အကယ်၍ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
     void vPortTaskUsesDPFPU( void )
     {
@@ -298,7 +298,7 @@ BaseType_t xPortStartScheduler( void )
     extern void vApplicationSetupTimerInterrupt( void );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    အကယ်၍( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -319,7 +319,7 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    ပြန်ပေး pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -333,7 +333,7 @@ void vPortEndScheduler( void )
 
 static void prvStartFirstTask( void )
 {
-    __asm volatile
+    __asm ca_ncala
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -352,7 +352,7 @@ static void prvStartFirstTask( void )
         /* Restore the registers from the stack of the task pointed to by
          * pxCurrentTCB. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #အကယ်၍ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* The restored ulPortTaskHasDPFPUContext is to be zero here.
              * So, it is never necessary to restore the DPFPU context here. */
@@ -409,7 +409,7 @@ static void prvStartFirstTask( void )
 
 void vSoftwareInterruptISR( void )
 {
-    __asm volatile
+    __asm ca_ncala
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -458,7 +458,7 @@ void vSoftwareInterruptISR( void )
         "MVFACLO    #0, A0, R15                 \n" /* Low order word. */ \
         "PUSH.L     R15                         \n"                       \
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #အကယ်၍ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Does the task have a DPFPU context that needs saving?  If
              * ulPortTaskHasDPFPUContext is 0 then no. */
@@ -510,7 +510,7 @@ void vSoftwareInterruptISR( void )
         /* Restore the context of the new task.  The PSW (Program Status Word) and
          * PC will be popped by the RTE instruction. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #အကယ်၍ ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Is there a DPFPU context to restore?  If the restored
              * ulPortTaskHasDPFPUContext is zero then no. */
@@ -570,13 +570,13 @@ void vSoftwareInterruptISR( void )
 void vTickISR( void )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW    I" );
+    __asm ca_ncala ( "SETPSW    I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portMASK_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        အကယ်၍( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -587,7 +587,7 @@ void vTickISR( void )
 
 uint32_t ulPortGetIPL( void )
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -595,7 +595,7 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    ပြန်ပေး 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -604,7 +604,7 @@ void vPortSetIPL( uint32_t ulNewIPL )
     /* Avoid compiler warning about unreferenced parameter. */
     ( void ) ulNewIPL;
 
-    __asm volatile
+    __asm ca_ncala
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \

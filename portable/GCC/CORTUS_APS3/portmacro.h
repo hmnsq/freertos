@@ -48,9 +48,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -60,13 +60,13 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#အကယ်၍ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#မဟုတ်ပါက
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -75,7 +75,7 @@ typedef unsigned long    UBaseType_t;
 #define portSTACK_GROWTH               ( -1 )
 #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT             4
-#define portNOP()    __asm__ volatile ( "mov r0, r0" )
+#define portNOP()    __asm__ ca_ncala ( "mov r0, r0" )
 #define portCRITICAL_NESTING_IN_TCB    1
 #define portIRQ_TRAP_YIELD             31
 /*-----------------------------------------------------------*/
@@ -101,7 +101,7 @@ extern void vTaskExitCritical( void );
 
 /*---------------------------------------------------------------------------*/
 
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { အကယ်၍( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext( ); } နေစဉ်( 0 )
 
 /*---------------------------------------------------------------------------*/
 

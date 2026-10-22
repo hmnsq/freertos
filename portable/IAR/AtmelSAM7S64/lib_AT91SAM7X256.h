@@ -52,14 +52,14 @@
 /** \fn    AT91F_AIC_ConfigureIt */
 /** \brief Interrupt Handler Initialization */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_AIC_ConfigureIt( AT91PS_AIC pAic,                /* \arg pointer to the AIC registers */
-                                                 unsigned int irq_id,            /* \arg interrupt number to initialize */
-                                                 unsigned int priority,          /* \arg priority to give to the interrupt */
-                                                 unsigned int src_type,          /* \arg activation and sense of activation */
+    __inline unsigned ကိန်းပြည့် AT91F_AIC_ConfigureIt( AT91PS_AIC pAic,                /* \arg pointer to the AIC registers */
+                                                 unsigned ကိန်းပြည့် irq_id,            /* \arg interrupt number to initialize */
+                                                 unsigned ကိန်းပြည့် priority,          /* \arg priority to give to the interrupt */
+                                                 unsigned ကိန်းပြည့် src_type,          /* \arg activation and sense of activation */
                                                  void ( * newHandler )( void ) ) /* \arg address of the interrupt handler */
     {
-        unsigned int oldHandler;
-        unsigned int mask;
+        unsigned ကိန်းပြည့် oldHandler;
+        unsigned ကိန်းပြည့် mask;
 
         oldHandler = pAic->AIC_SVR[ irq_id ];
 
@@ -67,13 +67,13 @@
         /** Disable the interrupt on the interrupt controller */
         pAic->AIC_IDCR = mask;
         /** Save the interrupt handler routine pointer and the interrupt priority */
-        pAic->AIC_SVR[ irq_id ] = ( unsigned int ) newHandler;
+        pAic->AIC_SVR[ irq_id ] = ( unsigned ကိန်းပြည့် ) newHandler;
         /** Store the Source Mode Register */
         pAic->AIC_SMR[ irq_id ] = src_type | priority;
         /** Clear the interrupt on the interrupt controller */
         pAic->AIC_ICCR = mask;
 
-        return oldHandler;
+        ပြန်ပေး oldHandler;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -81,7 +81,7 @@
 /** \brief Enable corresponding IT number */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_AIC_EnableIt( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
-                                      unsigned int irq_id ) /* \arg interrupt number to initialize */
+                                      unsigned ကိန်းပြည့် irq_id ) /* \arg interrupt number to initialize */
     {
         /** Enable the interrupt on the interrupt controller */
         pAic->AIC_IECR = 0x1 << irq_id;
@@ -92,9 +92,9 @@
 /** \brief Disable corresponding IT number */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_AIC_DisableIt( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
-                                       unsigned int irq_id ) /* \arg interrupt number to initialize */
+                                       unsigned ကိန်းပြည့် irq_id ) /* \arg interrupt number to initialize */
     {
-        unsigned int mask = 0x1 << irq_id;
+        unsigned ကိန်းပြည့် mask = 0x1 << irq_id;
 
         /** Disable the interrupt on the interrupt controller */
         pAic->AIC_IDCR = mask;
@@ -107,7 +107,7 @@
 /** \brief Clear corresponding IT number */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_AIC_ClearIt( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
-                                     unsigned int irq_id ) /* \arg interrupt number to initialize */
+                                     unsigned ကိန်းပြည့် irq_id ) /* \arg interrupt number to initialize */
     {
         /** Clear the interrupt on the Interrupt Controller ( if one is pending ) */
         pAic->AIC_ICCR = ( 0x1 << irq_id );
@@ -126,21 +126,21 @@
 /** \fn    AT91F_AIC_SetExceptionVector */
 /** \brief Configure vector handler */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_AIC_SetExceptionVector( unsigned int * pVector, /* \arg pointer to the AIC registers */
+    __inline unsigned ကိန်းပြည့် AT91F_AIC_SetExceptionVector( unsigned ကိန်းပြည့် * pVector, /* \arg pointer to the AIC registers */
                                                         void ( * Handler )() )  /* \arg Interrupt Handler */
     {
-        unsigned int oldVector = *pVector;
+        unsigned ကိန်းပြည့် oldVector = *pVector;
 
-        if( ( unsigned int ) Handler == ( unsigned int ) AT91C_AIC_BRANCH_OPCODE )
+        အကယ်၍( ( unsigned ကိန်းပြည့် ) Handler == ( unsigned ကိန်းပြည့် ) AT91C_AIC_BRANCH_OPCODE )
         {
-            *pVector = ( unsigned int ) AT91C_AIC_BRANCH_OPCODE;
+            *pVector = ( unsigned ကိန်းပြည့် ) AT91C_AIC_BRANCH_OPCODE;
         }
-        else
+        မဟုတ်ပါက
         {
-            *pVector = ( ( ( ( ( unsigned int ) Handler ) - ( ( unsigned int ) pVector ) - 0x8 ) >> 2 ) & 0x00FFFFFF ) | 0xEA000000;
+            *pVector = ( ( ( ( ( unsigned ကိန်းပြည့် ) Handler ) - ( ( unsigned ကိန်းပြည့် ) pVector ) - 0x8 ) >> 2 ) & 0x00FFFFFF ) | 0xEA000000;
         }
 
-        return oldVector;
+        ပြန်ပေး oldVector;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -148,7 +148,7 @@
 /** \brief Trig an IT */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_AIC_Trig( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
-                                  unsigned int irq_id ) /* \arg interrupt number */
+                                  unsigned ကိန်းပြည့် irq_id ) /* \arg interrupt number */
     {
         pAic->AIC_ISCR = ( 0x1 << irq_id );
     }
@@ -157,20 +157,20 @@
 /** \fn    AT91F_AIC_IsActive */
 /** \brief Test if an IT is active */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_AIC_IsActive( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
-                                              unsigned int irq_id ) /* \arg Interrupt Number */
+    __inline unsigned ကိန်းပြည့် AT91F_AIC_IsActive( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
+                                              unsigned ကိန်းပြည့် irq_id ) /* \arg Interrupt Number */
     {
-        return( pAic->AIC_ISR & ( 0x1 << irq_id ) );
+        ပြန်ပေး( pAic->AIC_ISR & ( 0x1 << irq_id ) );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_AIC_IsPending */
 /** \brief Test if an IT is pending */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_AIC_IsPending( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
-                                               unsigned int irq_id ) /* \arg Interrupt Number */
+    __inline unsigned ကိန်းပြည့် AT91F_AIC_IsPending( AT91PS_AIC pAic,      /* \arg pointer to the AIC registers */
+                                               unsigned ကိန်းပြည့် irq_id ) /* \arg Interrupt Number */
     {
-        return( pAic->AIC_IPR & ( 0x1 << irq_id ) );
+        ပြန်ပေး( pAic->AIC_IPR & ( 0x1 << irq_id ) );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -182,23 +182,23 @@
                                   void ( * FiqHandler )(),      /* \arg Default FIQ vector exception */
                                   void ( * DefaultHandler )(),  /* \arg Default Handler set in ISR */
                                   void ( * SpuriousHandler )(), /* \arg Default Spurious Handler */
-                                  unsigned int protectMode )    /* \arg Debug Control Register */
+                                  unsigned ကိန်းပြည့် protectMode )    /* \arg Debug Control Register */
     {
-        int i;
+        ကိန်းပြည့် i;
 
         /* Disable all interrupts and set IVR to the default handler */
-        for( i = 0; i < 32; ++i )
+        အတွက်( i = 0; i < 32; ++i )
         {
             AT91F_AIC_DisableIt( pAic, i );
             AT91F_AIC_ConfigureIt( pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE_HIGH_LEVEL, DefaultHandler );
         }
 
         /* Set the IRQ exception vector */
-        AT91F_AIC_SetExceptionVector( ( unsigned int * ) 0x18, IrqHandler );
+        AT91F_AIC_SetExceptionVector( ( unsigned ကိန်းပြည့် * ) 0x18, IrqHandler );
         /* Set the Fast Interrupt exception vector */
-        AT91F_AIC_SetExceptionVector( ( unsigned int * ) 0x1C, FiqHandler );
+        AT91F_AIC_SetExceptionVector( ( unsigned ကိန်းပြည့် * ) 0x1C, FiqHandler );
 
-        pAic->AIC_SPU = ( unsigned int ) SpuriousHandler;
+        pAic->AIC_SPU = ( unsigned ကိန်းပြည့် ) SpuriousHandler;
         pAic->AIC_DCR = protectMode;
     }
 
@@ -210,10 +210,10 @@
 /** \brief Set the next receive transfer descriptor */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PDC_SetNextRx( AT91PS_PDC pPDC,     /* \arg pointer to a PDC controller */
-                                       char * address,      /* \arg address to the next block to be received */
-                                       unsigned int bytes ) /* \arg number of bytes to be received */
+                                       var_na * address,      /* \arg address to the next block to be received */
+                                       unsigned ကိန်းပြည့် bytes ) /* \arg number of bytes to be received */
     {
-        pPDC->PDC_RNPR = ( unsigned int ) address;
+        pPDC->PDC_RNPR = ( unsigned ကိန်းပြည့် ) address;
         pPDC->PDC_RNCR = bytes;
     }
 
@@ -222,10 +222,10 @@
 /** \brief Set the next transmit transfer descriptor */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PDC_SetNextTx( AT91PS_PDC pPDC,     /* \arg pointer to a PDC controller */
-                                       char * address,      /* \arg address to the next block to be transmitted */
-                                       unsigned int bytes ) /* \arg number of bytes to be transmitted */
+                                       var_na * address,      /* \arg address to the next block to be transmitted */
+                                       unsigned ကိန်းပြည့် bytes ) /* \arg number of bytes to be transmitted */
     {
-        pPDC->PDC_TNPR = ( unsigned int ) address;
+        pPDC->PDC_TNPR = ( unsigned ကိန်းပြည့် ) address;
         pPDC->PDC_TNCR = bytes;
     }
 
@@ -234,10 +234,10 @@
 /** \brief Set the receive transfer descriptor */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PDC_SetRx( AT91PS_PDC pPDC,     /* \arg pointer to a PDC controller */
-                                   char * address,      /* \arg address to the next block to be received */
-                                   unsigned int bytes ) /* \arg number of bytes to be received */
+                                   var_na * address,      /* \arg address to the next block to be received */
+                                   unsigned ကိန်းပြည့် bytes ) /* \arg number of bytes to be received */
     {
-        pPDC->PDC_RPR = ( unsigned int ) address;
+        pPDC->PDC_RPR = ( unsigned ကိန်းပြည့် ) address;
         pPDC->PDC_RCR = bytes;
     }
 
@@ -246,10 +246,10 @@
 /** \brief Set the transmit transfer descriptor */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PDC_SetTx( AT91PS_PDC pPDC,     /* \arg pointer to a PDC controller */
-                                   char * address,      /* \arg address to the next block to be transmitted */
-                                   unsigned int bytes ) /* \arg number of bytes to be transmitted */
+                                   var_na * address,      /* \arg address to the next block to be transmitted */
+                                   unsigned ကိန်းပြည့် bytes ) /* \arg number of bytes to be transmitted */
     {
-        pPDC->PDC_TPR = ( unsigned int ) address;
+        pPDC->PDC_TPR = ( unsigned ကိန်းပြည့် ) address;
         pPDC->PDC_TCR = bytes;
     }
 
@@ -293,40 +293,40 @@
 /** \fn    AT91F_PDC_IsTxEmpty */
 /** \brief Test if the current transfer descriptor has been sent */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PDC_IsTxEmpty( /* \return return 1 if transfer is complete */
+    __inline ကိန်းပြည့် AT91F_PDC_IsTxEmpty( /* \return return 1 if transfer is complete */
         AT91PS_PDC pPDC )             /* \arg pointer to a PDC controller */
     {
-        return !( pPDC->PDC_TCR );
+        ပြန်ပေး !( pPDC->PDC_TCR );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PDC_IsNextTxEmpty */
 /** \brief Test if the next transfer descriptor has been moved to the current td */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PDC_IsNextTxEmpty( /* \return return 1 if transfer is complete */
+    __inline ကိန်းပြည့် AT91F_PDC_IsNextTxEmpty( /* \return return 1 if transfer is complete */
         AT91PS_PDC pPDC )                 /* \arg pointer to a PDC controller */
     {
-        return !( pPDC->PDC_TNCR );
+        ပြန်ပေး !( pPDC->PDC_TNCR );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PDC_IsRxEmpty */
 /** \brief Test if the current transfer descriptor has been filled */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PDC_IsRxEmpty( /* \return return 1 if transfer is complete */
+    __inline ကိန်းပြည့် AT91F_PDC_IsRxEmpty( /* \return return 1 if transfer is complete */
         AT91PS_PDC pPDC )             /* \arg pointer to a PDC controller */
     {
-        return !( pPDC->PDC_RCR );
+        ပြန်ပေး !( pPDC->PDC_RCR );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PDC_IsNextRxEmpty */
 /** \brief Test if the next transfer descriptor has been moved to the current td */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PDC_IsNextRxEmpty( /* \return return 1 if transfer is complete */
+    __inline ကိန်းပြည့် AT91F_PDC_IsNextRxEmpty( /* \return return 1 if transfer is complete */
         AT91PS_PDC pPDC )                 /* \arg pointer to a PDC controller */
     {
-        return !( pPDC->PDC_RNCR );
+        ပြန်ပေး !( pPDC->PDC_RNCR );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -340,10 +340,10 @@
         AT91F_PDC_DisableTx( pPDC );
 
         /** Reset all Counter register Next buffer first */
-        AT91F_PDC_SetNextTx( pPDC, ( char * ) 0, 0 );
-        AT91F_PDC_SetNextRx( pPDC, ( char * ) 0, 0 );
-        AT91F_PDC_SetTx( pPDC, ( char * ) 0, 0 );
-        AT91F_PDC_SetRx( pPDC, ( char * ) 0, 0 );
+        AT91F_PDC_SetNextTx( pPDC, ( var_na * ) 0, 0 );
+        AT91F_PDC_SetNextRx( pPDC, ( var_na * ) 0, 0 );
+        AT91F_PDC_SetTx( pPDC, ( var_na * ) 0, 0 );
+        AT91F_PDC_SetRx( pPDC, ( var_na * ) 0, 0 );
 
         /** Enable the RX and TX PDC transfer requests */
         AT91F_PDC_EnableRx( pPDC );
@@ -361,39 +361,39 @@
         AT91F_PDC_DisableTx( pPDC );
 
         /** Reset all Counter register Next buffer first */
-        AT91F_PDC_SetNextTx( pPDC, ( char * ) 0, 0 );
-        AT91F_PDC_SetNextRx( pPDC, ( char * ) 0, 0 );
-        AT91F_PDC_SetTx( pPDC, ( char * ) 0, 0 );
-        AT91F_PDC_SetRx( pPDC, ( char * ) 0, 0 );
+        AT91F_PDC_SetNextTx( pPDC, ( var_na * ) 0, 0 );
+        AT91F_PDC_SetNextRx( pPDC, ( var_na * ) 0, 0 );
+        AT91F_PDC_SetTx( pPDC, ( var_na * ) 0, 0 );
+        AT91F_PDC_SetRx( pPDC, ( var_na * ) 0, 0 );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PDC_SendFrame */
 /** \brief Close PDC: disable TX and RX reset transfer descriptors */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PDC_SendFrame( AT91PS_PDC pPDC,
-                                               char * pBuffer,
-                                               unsigned int szBuffer,
-                                               char * pNextBuffer,
-                                               unsigned int szNextBuffer )
+    __inline unsigned ကိန်းပြည့် AT91F_PDC_SendFrame( AT91PS_PDC pPDC,
+                                               var_na * pBuffer,
+                                               unsigned ကိန်းပြည့် szBuffer,
+                                               var_na * pNextBuffer,
+                                               unsigned ကိန်းပြည့် szNextBuffer )
     {
-        if( AT91F_PDC_IsTxEmpty( pPDC ) )
+        အကယ်၍( AT91F_PDC_IsTxEmpty( pPDC ) )
         {
             /** Buffer and next buffer can be initialized */
             AT91F_PDC_SetTx( pPDC, pBuffer, szBuffer );
             AT91F_PDC_SetNextTx( pPDC, pNextBuffer, szNextBuffer );
-            return 2;
+            ပြန်ပေး 2;
         }
-        else if( AT91F_PDC_IsNextTxEmpty( pPDC ) )
+        မဟုတ်ပါက အကယ်၍( AT91F_PDC_IsNextTxEmpty( pPDC ) )
         {
             /** Only one buffer can be initialized */
             AT91F_PDC_SetNextTx( pPDC, pBuffer, szBuffer );
-            return 1;
+            ပြန်ပေး 1;
         }
-        else
+        မဟုတ်ပါက
         {
             /** All buffer are in use... */
-            return 0;
+            ပြန်ပေး 0;
         }
     }
 
@@ -401,29 +401,29 @@
 /** \fn    AT91F_PDC_ReceiveFrame */
 /** \brief Close PDC: disable TX and RX reset transfer descriptors */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PDC_ReceiveFrame( AT91PS_PDC pPDC,
-                                                  char * pBuffer,
-                                                  unsigned int szBuffer,
-                                                  char * pNextBuffer,
-                                                  unsigned int szNextBuffer )
+    __inline unsigned ကိန်းပြည့် AT91F_PDC_ReceiveFrame( AT91PS_PDC pPDC,
+                                                  var_na * pBuffer,
+                                                  unsigned ကိန်းပြည့် szBuffer,
+                                                  var_na * pNextBuffer,
+                                                  unsigned ကိန်းပြည့် szNextBuffer )
     {
-        if( AT91F_PDC_IsRxEmpty( pPDC ) )
+        အကယ်၍( AT91F_PDC_IsRxEmpty( pPDC ) )
         {
             /** Buffer and next buffer can be initialized */
             AT91F_PDC_SetRx( pPDC, pBuffer, szBuffer );
             AT91F_PDC_SetNextRx( pPDC, pNextBuffer, szNextBuffer );
-            return 2;
+            ပြန်ပေး 2;
         }
-        else if( AT91F_PDC_IsNextRxEmpty( pPDC ) )
+        မဟုတ်ပါက အကယ်၍( AT91F_PDC_IsNextRxEmpty( pPDC ) )
         {
             /** Only one buffer can be initialized */
             AT91F_PDC_SetNextRx( pPDC, pBuffer, szBuffer );
-            return 1;
+            ပြန်ပေး 1;
         }
-        else
+        မဟုတ်ပါက
         {
             /** All buffer are in use... */
-            return 0;
+            ပြန်ပေး 0;
         }
     }
 
@@ -435,7 +435,7 @@
 /** \brief Enable DBGU Interrupt */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_DBGU_InterruptEnable( AT91PS_DBGU pDbgu,  /* \arg  pointer to a DBGU controller */
-                                              unsigned int flag ) /* \arg  dbgu interrupt to be enabled */
+                                              unsigned ကိန်းပြည့် flag ) /* \arg  dbgu interrupt to be enabled */
     {
         pDbgu->DBGU_IER = flag;
     }
@@ -445,7 +445,7 @@
 /** \brief Disable DBGU Interrupt */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_DBGU_InterruptDisable( AT91PS_DBGU pDbgu,  /* \arg  pointer to a DBGU controller */
-                                               unsigned int flag ) /* \arg  dbgu interrupt to be disabled */
+                                               unsigned ကိန်းပြည့် flag ) /* \arg  dbgu interrupt to be disabled */
     {
         pDbgu->DBGU_IDR = flag;
     }
@@ -454,20 +454,20 @@
 /** \fn    AT91F_DBGU_GetInterruptMaskStatus */
 /** \brief Return DBGU Interrupt Mask Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_DBGU_GetInterruptMaskStatus( /* \return DBGU Interrupt Mask Status */
+    __inline unsigned ကိန်းပြည့် AT91F_DBGU_GetInterruptMaskStatus( /* \return DBGU Interrupt Mask Status */
         AT91PS_DBGU pDbgu )                                  /* \arg  pointer to a DBGU controller */
     {
-        return pDbgu->DBGU_IMR;
+        ပြန်ပေး pDbgu->DBGU_IMR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_DBGU_IsInterruptMasked */
 /** \brief Test if DBGU Interrupt is Masked */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_DBGU_IsInterruptMasked( AT91PS_DBGU pDbgu,  /* \arg  pointer to a DBGU controller */
-                                               unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_DBGU_IsInterruptMasked( AT91PS_DBGU pDbgu,  /* \arg  pointer to a DBGU controller */
+                                               unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_DBGU_GetInterruptMaskStatus( pDbgu ) & flag );
+        ပြန်ပေး( AT91F_DBGU_GetInterruptMaskStatus( pDbgu ) & flag );
     }
 
 /* *****************************************************************************
@@ -478,8 +478,8 @@
 /** \brief Enable pins to be derived by peripheral */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgPeriph( AT91PS_PIO pPio,             /* \arg pointer to a PIO controller */
-                                       unsigned int periphAEnable,  /* \arg PERIPH A to enable */
-                                       unsigned int periphBEnable ) /* \arg PERIPH B to enable */
+                                       unsigned ကိန်းပြည့် periphAEnable,  /* \arg PERIPH A to enable */
+                                       unsigned ကိန်းပြည့် periphBEnable ) /* \arg PERIPH B to enable */
 
     {
         pPio->PIO_ASR = periphAEnable;
@@ -492,7 +492,7 @@
 /** \brief Enable PIO in output mode */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgOutput( AT91PS_PIO pPio,         /* \arg pointer to a PIO controller */
-                                       unsigned int pioEnable ) /* \arg PIO to be enabled */
+                                       unsigned ကိန်းပြည့် pioEnable ) /* \arg PIO to be enabled */
     {
         pPio->PIO_PER = pioEnable;                              /* Set in PIO mode */
         pPio->PIO_OER = pioEnable;                              /* Configure in Output */
@@ -503,7 +503,7 @@
 /** \brief Enable PIO in input mode */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgInput( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                      unsigned int inputEnable ) /* \arg PIO to be enabled */
+                                      unsigned ကိန်းပြည့် inputEnable ) /* \arg PIO to be enabled */
     {
         /* Disable output */
         pPio->PIO_ODR = inputEnable;
@@ -515,7 +515,7 @@
 /** \brief Configure PIO in open drain */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgOpendrain( AT91PS_PIO pPio,              /* \arg pointer to a PIO controller */
-                                          unsigned int multiDrvEnable ) /* \arg pio to be configured in open drain */
+                                          unsigned ကိန်းပြည့် multiDrvEnable ) /* \arg pio to be configured in open drain */
     {
         /* Configure the multi-drive option */
         pPio->PIO_MDDR = ~multiDrvEnable;
@@ -527,7 +527,7 @@
 /** \brief Enable pullup on PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgPullup( AT91PS_PIO pPio,            /* \arg pointer to a PIO controller */
-                                       unsigned int pullupEnable ) /* \arg enable pullup on PIO */
+                                       unsigned ကိန်းပြည့် pullupEnable ) /* \arg enable pullup on PIO */
     {
         /* Connect or not Pullup */
         pPio->PIO_PPUDR = ~pullupEnable;
@@ -539,7 +539,7 @@
 /** \brief Enable direct drive on PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgDirectDrive( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                            unsigned int directDrive ) /* \arg PIO to be configured with direct drive */
+                                            unsigned ကိန်းပြည့် directDrive ) /* \arg PIO to be configured with direct drive */
 
     {
         /* Configure the Direct Drive */
@@ -552,7 +552,7 @@
 /** \brief Enable input filter on input PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_CfgInputFilter( AT91PS_PIO pPio,           /* \arg pointer to a PIO controller */
-                                            unsigned int inputFilter ) /* \arg PIO to be configured with input filter */
+                                            unsigned ကိန်းပြည့် inputFilter ) /* \arg PIO to be configured with input filter */
 
     {
         /* Configure the Direct Drive */
@@ -564,20 +564,20 @@
 /** \fn    AT91F_PIO_GetInput */
 /** \brief Return PIO input value */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetInput( /* \return PIO input */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetInput( /* \return PIO input */
         AT91PS_PIO pPio )                     /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_PDSR;
+        ပြန်ပေး pPio->PIO_PDSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsInputSet */
 /** \brief Test if PIO is input flag is active */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsInputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                       unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsInputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                       unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetInput( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetInput( pPio ) & flag );
     }
 
 
@@ -586,7 +586,7 @@
 /** \brief Set to 1 output PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_SetOutput( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                       unsigned int flag ) /* \arg  output to be set */
+                                       unsigned ကိန်းပြည့် flag ) /* \arg  output to be set */
     {
         pPio->PIO_SODR = flag;
     }
@@ -596,7 +596,7 @@
 /** \brief Set to 0 output PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_ClearOutput( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                         unsigned int flag ) /* \arg  output to be cleared */
+                                         unsigned ကိန်းပြည့် flag ) /* \arg  output to be cleared */
     {
         pPio->PIO_CODR = flag;
     }
@@ -606,7 +606,7 @@
 /** \brief Force output when Direct drive option is enabled */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_ForceOutput( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                         unsigned int flag ) /* \arg  output to be forced */
+                                         unsigned ကိန်းပြည့် flag ) /* \arg  output to be forced */
     {
         pPio->PIO_ODSR = flag;
     }
@@ -616,7 +616,7 @@
 /** \brief Enable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_Enable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                    unsigned int flag ) /* \arg  pio to be enabled */
+                                    unsigned ကိန်းပြည့် flag ) /* \arg  pio to be enabled */
     {
         pPio->PIO_PER = flag;
     }
@@ -626,7 +626,7 @@
 /** \brief Disable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_Disable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                     unsigned int flag ) /* \arg  pio to be disabled */
+                                     unsigned ကိန်းပြည့် flag ) /* \arg  pio to be disabled */
     {
         pPio->PIO_PDR = flag;
     }
@@ -635,20 +635,20 @@
 /** \fn    AT91F_PIO_GetStatus */
 /** \brief Return PIO Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetStatus( /* \return PIO Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetStatus( /* \return PIO Status */
         AT91PS_PIO pPio )                      /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_PSR;
+        ပြန်ပေး pPio->PIO_PSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsSet */
 /** \brief Test if PIO is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                  unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                  unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -656,7 +656,7 @@
 /** \brief Output Enable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_OutputEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                          unsigned int flag ) /* \arg  pio output to be enabled */
+                                          unsigned ကိန်းပြည့် flag ) /* \arg  pio output to be enabled */
     {
         pPio->PIO_OER = flag;
     }
@@ -666,7 +666,7 @@
 /** \brief Output Enable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_OutputDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                           unsigned int flag ) /* \arg  pio output to be disabled */
+                                           unsigned ကိန်းပြည့် flag ) /* \arg  pio output to be disabled */
     {
         pPio->PIO_ODR = flag;
     }
@@ -675,20 +675,20 @@
 /** \fn    AT91F_PIO_GetOutputStatus */
 /** \brief Return PIO Output Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetOutputStatus( /* \return PIO Output Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetOutputStatus( /* \return PIO Output Status */
         AT91PS_PIO pPio )                            /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_OSR;
+        ပြန်ပေး pPio->PIO_OSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsOuputSet */
 /** \brief Test if PIO Output is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsOutputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                        unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsOutputSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                        unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetOutputStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetOutputStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -696,7 +696,7 @@
 /** \brief Input Filter Enable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_InputFilterEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                               unsigned int flag ) /* \arg  pio input filter to be enabled */
+                                               unsigned ကိန်းပြည့် flag ) /* \arg  pio input filter to be enabled */
     {
         pPio->PIO_IFER = flag;
     }
@@ -706,7 +706,7 @@
 /** \brief Input Filter Disable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_InputFilterDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                unsigned int flag ) /* \arg  pio input filter to be disabled */
+                                                unsigned ကိန်းပြည့် flag ) /* \arg  pio input filter to be disabled */
     {
         pPio->PIO_IFDR = flag;
     }
@@ -715,30 +715,30 @@
 /** \fn    AT91F_PIO_GetInputFilterStatus */
 /** \brief Return PIO Input Filter Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetInputFilterStatus( /* \return PIO Input Filter Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetInputFilterStatus( /* \return PIO Input Filter Status */
         AT91PS_PIO pPio )                                 /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_IFSR;
+        ပြန်ပေး pPio->PIO_IFSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsInputFilterSet */
 /** \brief Test if PIO Input filter is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsInputFilterSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                             unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsInputFilterSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                             unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetInputFilterStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetInputFilterStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_GetOutputDataStatus */
 /** \brief Return PIO Output Data Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetOutputDataStatus( /* \return PIO Output Data Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetOutputDataStatus( /* \return PIO Output Data Status */
         AT91PS_PIO pPio )                                /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_ODSR;
+        ပြန်ပေး pPio->PIO_ODSR;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -746,7 +746,7 @@
 /** \brief Enable PIO Interrupt */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_InterruptEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                             unsigned int flag ) /* \arg  pio interrupt to be enabled */
+                                             unsigned ကိန်းပြည့် flag ) /* \arg  pio interrupt to be enabled */
     {
         pPio->PIO_IER = flag;
     }
@@ -756,7 +756,7 @@
 /** \brief Disable PIO Interrupt */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_InterruptDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                              unsigned int flag ) /* \arg  pio interrupt to be disabled */
+                                              unsigned ကိန်းပြည့် flag ) /* \arg  pio interrupt to be disabled */
     {
         pPio->PIO_IDR = flag;
     }
@@ -765,40 +765,40 @@
 /** \fn    AT91F_PIO_GetInterruptMaskStatus */
 /** \brief Return PIO Interrupt Mask Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetInterruptMaskStatus( /* \return PIO Interrupt Mask Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetInterruptMaskStatus( /* \return PIO Interrupt Mask Status */
         AT91PS_PIO pPio )                                   /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_IMR;
+        ပြန်ပေး pPio->PIO_IMR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_GetInterruptStatus */
 /** \brief Return PIO Interrupt Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetInterruptStatus( /* \return PIO Interrupt Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetInterruptStatus( /* \return PIO Interrupt Status */
         AT91PS_PIO pPio )                               /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_ISR;
+        ပြန်ပေး pPio->PIO_ISR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsInterruptMasked */
 /** \brief Test if PIO Interrupt is Masked */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsInterruptMasked( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                              unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsInterruptMasked( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                              unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetInterruptMaskStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetInterruptMaskStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsInterruptSet */
 /** \brief Test if PIO Interrupt is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsInterruptSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                           unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsInterruptSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                           unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetInterruptStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetInterruptStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -806,7 +806,7 @@
 /** \brief Multi Driver Enable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_MultiDriverEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                               unsigned int flag ) /* \arg  pio to be enabled */
+                                               unsigned ကိန်းပြည့် flag ) /* \arg  pio to be enabled */
     {
         pPio->PIO_MDER = flag;
     }
@@ -816,7 +816,7 @@
 /** \brief Multi Driver Disable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_MultiDriverDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                unsigned int flag ) /* \arg  pio to be disabled */
+                                                unsigned ကိန်းပြည့် flag ) /* \arg  pio to be disabled */
     {
         pPio->PIO_MDDR = flag;
     }
@@ -825,20 +825,20 @@
 /** \fn    AT91F_PIO_GetMultiDriverStatus */
 /** \brief Return PIO Multi Driver Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetMultiDriverStatus( /* \return PIO Multi Driver Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetMultiDriverStatus( /* \return PIO Multi Driver Status */
         AT91PS_PIO pPio )                                 /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_MDSR;
+        ပြန်ပေး pPio->PIO_MDSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsMultiDriverSet */
 /** \brief Test if PIO MultiDriver is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsMultiDriverSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                             unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsMultiDriverSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                             unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetMultiDriverStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetMultiDriverStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -846,7 +846,7 @@
 /** \brief PIO A Register Selection */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_A_RegisterSelection( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                 unsigned int flag ) /* \arg  pio A register selection */
+                                                 unsigned ကိန်းပြည့် flag ) /* \arg  pio A register selection */
     {
         pPio->PIO_ASR = flag;
     }
@@ -856,7 +856,7 @@
 /** \brief PIO B Register Selection */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_B_RegisterSelection( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                 unsigned int flag ) /* \arg  pio B register selection */
+                                                 unsigned ကိန်းပြည့် flag ) /* \arg  pio B register selection */
     {
         pPio->PIO_BSR = flag;
     }
@@ -865,20 +865,20 @@
 /** \fn    AT91F_PIO_Get_AB_RegisterStatus */
 /** \brief Return PIO Interrupt Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_Get_AB_RegisterStatus( /* \return PIO AB Register Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_Get_AB_RegisterStatus( /* \return PIO AB Register Status */
         AT91PS_PIO pPio )                                  /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_ABSR;
+        ပြန်ပေး pPio->PIO_ABSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsAB_RegisterSet */
 /** \brief Test if PIO AB Register is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsAB_RegisterSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                             unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsAB_RegisterSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                             unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_Get_AB_RegisterStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_Get_AB_RegisterStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
@@ -886,7 +886,7 @@
 /** \brief Output Write Enable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_OutputWriteEnable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                               unsigned int flag ) /* \arg  pio output write to be enabled */
+                                               unsigned ကိန်းပြည့် flag ) /* \arg  pio output write to be enabled */
     {
         pPio->PIO_OWER = flag;
     }
@@ -896,7 +896,7 @@
 /** \brief Output Write Disable PIO */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PIO_OutputWriteDisable( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                unsigned int flag ) /* \arg  pio output write to be disabled */
+                                                unsigned ကိန်းပြည့် flag ) /* \arg  pio output write to be disabled */
     {
         pPio->PIO_OWDR = flag;
     }
@@ -905,50 +905,50 @@
 /** \fn    AT91F_PIO_GetOutputWriteStatus */
 /** \brief Return PIO Output Write Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetOutputWriteStatus( /* \return PIO Output Write Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetOutputWriteStatus( /* \return PIO Output Write Status */
         AT91PS_PIO pPio )                                 /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_OWSR;
+        ပြန်ပေး pPio->PIO_OWSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsOutputWriteSet */
 /** \brief Test if PIO OutputWrite is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsOutputWriteSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                             unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsOutputWriteSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                             unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetOutputWriteStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetOutputWriteStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_GetCfgPullup */
 /** \brief Return PIO Configuration Pullup */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PIO_GetCfgPullup( /* \return PIO Configuration Pullup */
+    __inline unsigned ကိန်းပြည့် AT91F_PIO_GetCfgPullup( /* \return PIO Configuration Pullup */
         AT91PS_PIO pPio )                         /* \arg  pointer to a PIO controller */
     {
-        return pPio->PIO_PPUSR;
+        ပြန်ပေး pPio->PIO_PPUSR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsOutputDataStatusSet */
 /** \brief Test if PIO Output Data Status is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsOutputDataStatusSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                  unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsOutputDataStatusSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                                  unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PIO_GetOutputDataStatus( pPio ) & flag );
+        ပြန်ပေး( AT91F_PIO_GetOutputDataStatus( pPio ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PIO_IsCfgPullupStatusSet */
 /** \brief Test if PIO Configuration Pullup Status is Set */
 /**---------------------------------------------------------------------------- */
-    __inline int AT91F_PIO_IsCfgPullupStatusSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
-                                                 unsigned int flag ) /* \arg  flag to be tested */
+    __inline ကိန်းပြည့် AT91F_PIO_IsCfgPullupStatusSet( AT91PS_PIO pPio,    /* \arg  pointer to a PIO controller */
+                                                 unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( ~AT91F_PIO_GetCfgPullup( pPio ) & flag );
+        ပြန်ပေး( ~AT91F_PIO_GetCfgPullup( pPio ) & flag );
     }
 
 /* *****************************************************************************
@@ -959,7 +959,7 @@
 /** \brief Configure the System Clock Enable Register of the PMC controller */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_CfgSysClkEnableReg( AT91PS_PMC pPMC, /* \arg pointer to PMC controller */
-                                                unsigned int mode )
+                                                unsigned ကိန်းပြည့် mode )
     {
         /** Write to the SCER register */
         pPMC->PMC_SCER = mode;
@@ -970,7 +970,7 @@
 /** \brief Configure the System Clock Disable Register of the PMC controller */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_CfgSysClkDisableReg( AT91PS_PMC pPMC, /* \arg pointer to PMC controller */
-                                                 unsigned int mode )
+                                                 unsigned ကိန်းပြည့် mode )
     {
         /** Write to the SCDR register */
         pPMC->PMC_SCDR = mode;
@@ -980,10 +980,10 @@
 /** \fn    AT91F_PMC_GetSysClkStatusReg */
 /** \brief Return the System Clock Status Register of the PMC controller */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_GetSysClkStatusReg( AT91PS_PMC pPMC /* pointer to a CAN controller */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_GetSysClkStatusReg( AT91PS_PMC pPMC /* pointer to a CAN controller */
                                                         )
     {
-        return pPMC->PMC_SCSR;
+        ပြန်ပေး pPMC->PMC_SCSR;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -991,7 +991,7 @@
 /** \brief Enable peripheral clock */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_EnablePeriphClock( AT91PS_PMC pPMC,         /* \arg pointer to PMC controller */
-                                               unsigned int periphIds ) /* \arg IDs of peripherals to enable */
+                                               unsigned ကိန်းပြည့် periphIds ) /* \arg IDs of peripherals to enable */
     {
         pPMC->PMC_PCER = periphIds;
     }
@@ -1001,7 +1001,7 @@
 /** \brief Disable peripheral clock */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_DisablePeriphClock( AT91PS_PMC pPMC,         /* \arg pointer to PMC controller */
-                                                unsigned int periphIds ) /* \arg IDs of peripherals to enable */
+                                                unsigned ကိန်းပြည့် periphIds ) /* \arg IDs of peripherals to enable */
     {
         pPMC->PMC_PCDR = periphIds;
     }
@@ -1010,9 +1010,9 @@
 /** \fn    AT91F_PMC_GetPeriphClock */
 /** \brief Get peripheral clock status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_GetPeriphClock( AT91PS_PMC pPMC ) /* \arg pointer to PMC controller */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_GetPeriphClock( AT91PS_PMC pPMC ) /* \arg pointer to PMC controller */
     {
-        return pPMC->PMC_PCSR;
+        ပြန်ပေး pPMC->PMC_PCSR;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -1020,7 +1020,7 @@
 /** \brief Cfg the main oscillator */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_CKGR_CfgMainOscillatorReg( AT91PS_CKGR pCKGR, /* \arg pointer to CKGR controller */
-                                                   unsigned int mode )
+                                                   unsigned ကိန်းပြည့် mode )
     {
         pCKGR->CKGR_MOR = mode;
     }
@@ -1029,9 +1029,9 @@
 /** \fn    AT91F_CKGR_GetMainOscillatorReg */
 /** \brief Cfg the main oscillator */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_CKGR_GetMainOscillatorReg( AT91PS_CKGR pCKGR ) /* \arg pointer to CKGR controller */
+    __inline unsigned ကိန်းပြည့် AT91F_CKGR_GetMainOscillatorReg( AT91PS_CKGR pCKGR ) /* \arg pointer to CKGR controller */
     {
-        return pCKGR->CKGR_MOR;
+        ပြန်ပေး pCKGR->CKGR_MOR;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -1057,8 +1057,8 @@
 /** \brief Cfg MORE Register according to the main osc startup time */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_CKGR_CfgMainOscStartUpTime( AT91PS_CKGR pCKGR,         /* \arg pointer to CKGR controller */
-                                                    unsigned int startup_time, /* \arg main osc startup time in microsecond (us) */
-                                                    unsigned int slowClock )   /* \arg slowClock in Hz */
+                                                    unsigned ကိန်းပြည့် startup_time, /* \arg main osc startup time in microsecond (us) */
+                                                    unsigned ကိန်းပြည့် slowClock )   /* \arg slowClock in Hz */
     {
         pCKGR->CKGR_MOR &= ~AT91C_CKGR_OSCOUNT;
         pCKGR->CKGR_MOR |= ( ( slowClock * startup_time ) / ( 8 * 1000000 ) ) << 8;
@@ -1068,19 +1068,19 @@
 /** \fn    AT91F_CKGR_GetMainClockFreqReg */
 /** \brief Cfg the main oscillator */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_CKGR_GetMainClockFreqReg( AT91PS_CKGR pCKGR ) /* \arg pointer to CKGR controller */
+    __inline unsigned ကိန်းပြည့် AT91F_CKGR_GetMainClockFreqReg( AT91PS_CKGR pCKGR ) /* \arg pointer to CKGR controller */
     {
-        return pCKGR->CKGR_MCFR;
+        ပြန်ပေး pCKGR->CKGR_MCFR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_CKGR_GetMainClock */
 /** \brief Return Main clock in Hz */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_CKGR_GetMainClock( AT91PS_CKGR pCKGR,       /* \arg pointer to CKGR controller */
-                                                   unsigned int slowClock ) /* \arg slowClock in Hz */
+    __inline unsigned ကိန်းပြည့် AT91F_CKGR_GetMainClock( AT91PS_CKGR pCKGR,       /* \arg pointer to CKGR controller */
+                                                   unsigned ကိန်းပြည့် slowClock ) /* \arg slowClock in Hz */
     {
-        return ( ( pCKGR->CKGR_MCFR & AT91C_CKGR_MAINF ) * slowClock ) >> 4;
+        ပြန်ပေး ( ( pCKGR->CKGR_MCFR & AT91C_CKGR_MAINF ) * slowClock ) >> 4;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -1088,7 +1088,7 @@
 /** \brief Cfg Master Clock Register */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_CfgMCKReg( AT91PS_PMC pPMC, /* \arg pointer to PMC controller */
-                                       unsigned int mode )
+                                       unsigned ကိန်းပြည့် mode )
     {
         pPMC->PMC_MCKR = mode;
     }
@@ -1097,39 +1097,39 @@
 /** \fn    AT91F_PMC_GetMCKReg */
 /** \brief Return Master Clock Register */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_GetMCKReg( AT91PS_PMC pPMC ) /* \arg pointer to PMC controller */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_GetMCKReg( AT91PS_PMC pPMC ) /* \arg pointer to PMC controller */
     {
-        return pPMC->PMC_MCKR;
+        ပြန်ပေး pPMC->PMC_MCKR;
     }
 
 /**------------------------------------------------------------------------------ */
 /** \fn    AT91F_PMC_GetMasterClock */
 /** \brief Return master clock in Hz which corresponds to processor clock for ARM7 */
 /**------------------------------------------------------------------------------ */
-    __inline unsigned int AT91F_PMC_GetMasterClock( AT91PS_PMC pPMC,         /* \arg pointer to PMC controller */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_GetMasterClock( AT91PS_PMC pPMC,         /* \arg pointer to PMC controller */
                                                     AT91PS_CKGR pCKGR,       /* \arg pointer to CKGR controller */
-                                                    unsigned int slowClock ) /* \arg slowClock in Hz */
+                                                    unsigned ကိန်းပြည့် slowClock ) /* \arg slowClock in Hz */
     {
-        unsigned int reg = pPMC->PMC_MCKR;
-        unsigned int prescaler = ( 1 << ( ( reg & AT91C_PMC_PRES ) >> 2 ) );
-        unsigned int pllDivider, pllMultiplier;
+        unsigned ကိန်းပြည့် reg = pPMC->PMC_MCKR;
+        unsigned ကိန်းပြည့် prescaler = ( 1 << ( ( reg & AT91C_PMC_PRES ) >> 2 ) );
+        unsigned ကိန်းပြည့် pllDivider, pllMultiplier;
 
         switch( reg & AT91C_PMC_CSS )
         {
-            case AT91C_PMC_CSS_SLOW_CLK: /* Slow clock selected */
-                return slowClock / prescaler;
+            pak_sa AT91C_PMC_CSS_SLOW_CLK: /* Slow clock selected */
+                ပြန်ပေး slowClock / prescaler;
 
-            case AT91C_PMC_CSS_MAIN_CLK: /* Main clock is selected */
-                return AT91F_CKGR_GetMainClock( pCKGR, slowClock ) / prescaler;
+            pak_sa AT91C_PMC_CSS_MAIN_CLK: /* Main clock is selected */
+                ပြန်ပေး AT91F_CKGR_GetMainClock( pCKGR, slowClock ) / prescaler;
 
-            case AT91C_PMC_CSS_PLL_CLK: /* PLLB clock is selected */
+            pak_sa AT91C_PMC_CSS_PLL_CLK: /* PLLB clock is selected */
                 reg = pCKGR->CKGR_PLLR;
                 pllDivider = ( reg & AT91C_CKGR_DIV );
                 pllMultiplier = ( ( reg & AT91C_CKGR_MUL ) >> 16 ) + 1;
-                return AT91F_CKGR_GetMainClock( pCKGR, slowClock ) / pllDivider * pllMultiplier / prescaler;
+                ပြန်ပေး AT91F_CKGR_GetMainClock( pCKGR, slowClock ) / pllDivider * pllMultiplier / prescaler;
         }
 
-        return 0;
+        ပြန်ပေး 0;
     }
 
 /**---------------------------------------------------------------------------- */
@@ -1137,8 +1137,8 @@
 /** \brief Enable peripheral clock */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_EnablePCK( AT91PS_PMC pPMC,  /* \arg pointer to PMC controller */
-                                       unsigned int pck, /* \arg Peripheral clock identifier 0 .. 7 */
-                                       unsigned int mode )
+                                       unsigned ကိန်းပြည့် pck, /* \arg Peripheral clock identifier 0 .. 7 */
+                                       unsigned ကိန်းပြည့် mode )
     {
         pPMC->PMC_PCKR[ pck ] = mode;
         pPMC->PMC_SCER = ( 1 << pck ) << 8;
@@ -1149,7 +1149,7 @@
 /** \brief Enable peripheral clock */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_DisablePCK( AT91PS_PMC pPMC,   /* \arg pointer to PMC controller */
-                                        unsigned int pck ) /* \arg Peripheral clock identifier 0 .. 7 */
+                                        unsigned ကိန်းပြည့် pck ) /* \arg Peripheral clock identifier 0 .. 7 */
     {
         pPMC->PMC_SCDR = ( 1 << pck ) << 8;
     }
@@ -1159,7 +1159,7 @@
 /** \brief Enable PMC interrupt */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_EnableIt( AT91PS_PMC pPMC,    /* pointer to a PMC controller */
-                                      unsigned int flag ) /* IT to be enabled */
+                                      unsigned ကိန်းပြည့် flag ) /* IT to be enabled */
     {
         /** Write to the IER register */
         pPMC->PMC_IER = flag;
@@ -1170,7 +1170,7 @@
 /** \brief Disable PMC interrupt */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_PMC_DisableIt( AT91PS_PMC pPMC,    /* pointer to a PMC controller */
-                                       unsigned int flag ) /* IT to be disabled */
+                                       unsigned ကိန်းပြည့် flag ) /* IT to be disabled */
     {
         /** Write to the IDR register */
         pPMC->PMC_IDR = flag;
@@ -1180,40 +1180,40 @@
 /** \fn    AT91F_PMC_GetStatus */
 /** \brief Return PMC Interrupt Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_GetStatus( /* \return PMC Interrupt Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_GetStatus( /* \return PMC Interrupt Status */
         AT91PS_PMC pPMC )                      /* pointer to a PMC controller */
     {
-        return pPMC->PMC_SR;
+        ပြန်ပေး pPMC->PMC_SR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PMC_GetInterruptMaskStatus */
 /** \brief Return PMC Interrupt Mask Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_GetInterruptMaskStatus( /* \return PMC Interrupt Mask Status */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_GetInterruptMaskStatus( /* \return PMC Interrupt Mask Status */
         AT91PS_PMC pPMC )                                   /* pointer to a PMC controller */
     {
-        return pPMC->PMC_IMR;
+        ပြန်ပေး pPMC->PMC_IMR;
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PMC_IsInterruptMasked */
 /** \brief Test if PMC Interrupt is Masked */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_IsInterruptMasked( AT91PS_PMC pPMC,    /* \arg  pointer to a PMC controller */
-                                                       unsigned int flag ) /* \arg  flag to be tested */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_IsInterruptMasked( AT91PS_PMC pPMC,    /* \arg  pointer to a PMC controller */
+                                                       unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PMC_GetInterruptMaskStatus( pPMC ) & flag );
+        ပြန်ပေး( AT91F_PMC_GetInterruptMaskStatus( pPMC ) & flag );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_PMC_IsStatusSet */
 /** \brief Test if PMC Status is Set */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_PMC_IsStatusSet( AT91PS_PMC pPMC,    /* \arg  pointer to a PMC controller */
-                                                 unsigned int flag ) /* \arg  flag to be tested */
+    __inline unsigned ကိန်းပြည့် AT91F_PMC_IsStatusSet( AT91PS_PMC pPMC,    /* \arg  pointer to a PMC controller */
+                                                 unsigned ကိန်းပြည့် flag ) /* \arg  flag to be tested */
     {
-        return( AT91F_PMC_GetStatus( pPMC ) & flag );
+        ပြန်ပေး( AT91F_PMC_GetStatus( pPMC ) & flag );
     } /* *****************************************************************************
       *              SOFTWARE API FOR RSTC
       ***************************************************************************** */
@@ -1222,7 +1222,7 @@
 /** \brief Start Software Reset */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_RSTSoftReset( AT91PS_RSTC pRSTC,
-                                      unsigned int reset )
+                                      unsigned ကိန်းပြည့် reset )
     {
         pRSTC->RSTC_RCR = ( 0xA5000000 | reset );
     }
@@ -1232,7 +1232,7 @@
 /** \brief Set Reset Mode */
 /**---------------------------------------------------------------------------- */
     __inline void AT91F_RSTSetMode( AT91PS_RSTC pRSTC,
-                                    unsigned int mode )
+                                    unsigned ကိန်းပြည့် mode )
     {
         pRSTC->RSTC_RMR = ( 0xA5000000 | mode );
     }
@@ -1241,27 +1241,27 @@
 /** \fn    AT91F_RSTGetMode */
 /** \brief Get Reset Mode */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RSTGetMode( AT91PS_RSTC pRSTC )
+    __inline unsigned ကိန်းပြည့် AT91F_RSTGetMode( AT91PS_RSTC pRSTC )
     {
-        return( pRSTC->RSTC_RMR );
+        ပြန်ပေး( pRSTC->RSTC_RMR );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_RSTGetStatus */
 /** \brief Get Reset Status */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RSTGetStatus( AT91PS_RSTC pRSTC )
+    __inline unsigned ကိန်းပြည့် AT91F_RSTGetStatus( AT91PS_RSTC pRSTC )
     {
-        return( pRSTC->RSTC_RSR );
+        ပြန်ပေး( pRSTC->RSTC_RSR );
     }
 
 /**---------------------------------------------------------------------------- */
 /** \fn    AT91F_RSTIsSoftRstActive */
 /** \brief Return !=0 if software reset is still not completed */
 /**---------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RSTIsSoftRstActive( AT91PS_RSTC pRSTC )
+    __inline unsigned ကိန်းပြည့် AT91F_RSTIsSoftRstActive( AT91PS_RSTC pRSTC )
     {
-        return( ( pRSTC->RSTC_RSR ) & AT91C_RSTC_SRCMP );
+        ပြန်ပေး( ( pRSTC->RSTC_RSR ) & AT91C_RSTC_SRCMP );
     }
 
 /* *****************************************************************************
@@ -1271,29 +1271,29 @@
 /** \fn     AT91F_SetRTT_TimeBase() */
 /** \brief  Set the RTT prescaler according to the TimeBase in ms */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTSetTimeBase( AT91PS_RTTC pRTTC,
-                                                unsigned int ms )
+    __inline unsigned ကိန်းပြည့် AT91F_RTTSetTimeBase( AT91PS_RTTC pRTTC,
+                                                unsigned ကိန်းပြည့် ms )
     {
-        if( ms > 2000 )
+        အကယ်၍( ms > 2000 )
         {
-            return 1; /* AT91C_TIME_OUT_OF_RANGE */
+            ပြန်ပေး 1; /* AT91C_TIME_OUT_OF_RANGE */
         }
 
         pRTTC->RTTC_RTMR &= ~0xFFFF;
         pRTTC->RTTC_RTMR |= ( ( ( ms << 15 ) / 1000 ) & 0xFFFF );
-        return 0;
+        ပြန်ပေး 0;
     }
 
 /**-------------------------------------------------------------------------------------- */
 /** \fn     AT91F_RTTSetPrescaler() */
 /** \brief  Set the new prescaler value */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTSetPrescaler( AT91PS_RTTC pRTTC,
-                                                 unsigned int rtpres )
+    __inline unsigned ကိန်းပြည့် AT91F_RTTSetPrescaler( AT91PS_RTTC pRTTC,
+                                                 unsigned ကိန်းပြည့် rtpres )
     {
         pRTTC->RTTC_RTMR &= ~0xFFFF;
         pRTTC->RTTC_RTMR |= ( rtpres & 0xFFFF );
-        return( pRTTC->RTTC_RTMR );
+        ပြန်ပေး( pRTTC->RTTC_RTMR );
     }
 
 /**-------------------------------------------------------------------------------------- */
@@ -1347,7 +1347,7 @@
 /** \brief  Set RTT Alarm Value */
 /**-------------------------------------------------------------------------------------- */
     __inline void AT91F_RTTSetAlarmValue( AT91PS_RTTC pRTTC,
-                                          unsigned int alarm )
+                                          unsigned ကိန်းပြည့် alarm )
     {
         pRTTC->RTTC_RTAR = alarm;
     }
@@ -1356,36 +1356,36 @@
 /** \fn     AT91F_RTT_GetAlarmValue() */
 /** \brief  Get RTT Alarm Value */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTGetAlarmValue( AT91PS_RTTC pRTTC )
+    __inline unsigned ကိန်းပြည့် AT91F_RTTGetAlarmValue( AT91PS_RTTC pRTTC )
     {
-        return( pRTTC->RTTC_RTAR );
+        ပြန်ပေး( pRTTC->RTTC_RTAR );
     }
 
 /**-------------------------------------------------------------------------------------- */
 /** \fn     AT91F_RTTGetStatus() */
 /** \brief  Read the RTT status */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTGetStatus( AT91PS_RTTC pRTTC )
+    __inline unsigned ကိန်းပြည့် AT91F_RTTGetStatus( AT91PS_RTTC pRTTC )
     {
-        return( pRTTC->RTTC_RTSR );
+        ပြန်ပေး( pRTTC->RTTC_RTSR );
     }
 
 /**-------------------------------------------------------------------------------------- */
 /** \fn     AT91F_RTT_ReadValue() */
 /** \brief  Read the RTT value */
 /**-------------------------------------------------------------------------------------- */
-    __inline unsigned int AT91F_RTTReadValue( AT91PS_RTTC pRTTC )
+    __inline unsigned ကိန်းပြည့် AT91F_RTTReadValue( AT91PS_RTTC pRTTC )
     {
-        register volatile unsigned int val1, val2;
+        pa_njikaa ca_ncala unsigned ကိန်းပြည့် val1, val2;
 
         do
         {
             val1 = pRTTC->RTTC_RTVR;
             val2 = pRTTC->RTTC_RTVR;
         }
-        while( val1 != val2 );
+        နေစဉ်( val1 != val2 );
 
-        return( val1 );
+        ပြန်ပေး( val1 );
     }
 
 /* *****************************************************************************

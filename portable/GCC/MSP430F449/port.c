@@ -53,7 +53,7 @@
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
 typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+extern ca_ncala TCB_t * ca_ncala pxCurrentTCB;
 
 /* Most ports implement critical sections by placing the interrupt flags on
  * the stack before disabling interrupts.  Exiting the critical section is then
@@ -67,7 +67,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as this will cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+ca_ncala uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 /*
@@ -78,7 +78,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * the next time the task executes.
  */
 #define portSAVE_CONTEXT()                               \
-    asm volatile ( "push   r4                      \n\t" \
+    asm ca_ncala ( "push   r4                      \n\t" \
                    "push   r5                      \n\t" \
                    "push   r6                      \n\t" \
                    "push   r7                      \n\t" \
@@ -107,7 +107,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * register that is about to be popped from the stack.
  */
 #define portRESTORE_CONTEXT()                            \
-    asm volatile ( "mov.w  pxCurrentTCB, r12       \n\t" \
+    asm ca_ncala ( "mov.w  pxCurrentTCB, r12       \n\t" \
                    "mov.w  @r12, r1                \n\t" \
                    "pop    r15                     \n\t" \
                    "mov.w  r15, usCriticalNesting  \n\t" \
@@ -185,7 +185,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
 #ifdef __MSPGCC__
     *pxTopOfStack = ( StackType_t ) 0xcccc;
-#else
+#မဟုတ်ပါက
     /* The MSP430 EABI expects the function parameter in R12. */
     *pxTopOfStack = ( StackType_t ) pvParameters;
 #endif
@@ -197,7 +197,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 #ifdef __MSPGCC__
     /* The mspgcc ABI expects the function parameter in R15. */
     *pxTopOfStack = ( StackType_t ) pvParameters;
-#else
+#မဟုတ်ပါက
     *pxTopOfStack = ( StackType_t ) 0xffff;
 #endif
     pxTopOfStack--;
@@ -211,7 +211,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ပြန်ပေး pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -225,7 +225,7 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    ပြန်ပေး pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -248,7 +248,7 @@ void vPortYield( void )
      * was saved during a pre-emptive RTOS tick ISR.  Before calling an ISR the
      * msp430 places the status register onto the stack.  As this is a function
      * call and not an ISR we have to do this manually. */
-    asm volatile ( "push    r2" );
+    asm ca_ncala ( "push    r2" );
     _DINT();
 
     /* Save the context of the current task. */
@@ -296,7 +296,7 @@ static void prvSetupTimerInterrupt( void )
  * scheduler is being used or not.
  */
 
-#if configUSE_PREEMPTION == 1
+#အကယ်၍ configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a naked attribute as
@@ -311,7 +311,7 @@ static void prvSetupTimerInterrupt( void )
 
         /* Increment the tick count then switch to the highest priority task
          * that is ready to run. */
-        if( xTaskIncrementTick() != pdFALSE )
+        အကယ်၍( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -320,7 +320,7 @@ static void prvSetupTimerInterrupt( void )
         portRESTORE_CONTEXT();
     }
 
-#else /* if configUSE_PREEMPTION == 1 */
+#မဟုတ်ပါက /* if configUSE_PREEMPTION == 1 */
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the

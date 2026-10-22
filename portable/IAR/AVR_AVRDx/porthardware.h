@@ -35,7 +35,7 @@
 
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMER_INSTANCE == 0 )
+#အကယ်၍ ( configUSE_TIMER_INSTANCE == 0 )
 
     #define TICK_INT_vect    TCB0_INT_vect
     #define INT_FLAGS        TCB0_INTFLAGS
@@ -110,13 +110,13 @@
     #define RTC_PERIOD_HZ( x )    ( 32768 * ( ( 1.0 / x ) ) )
     #define TICK_init()                                        \
     {                                                          \
-        while( RTC.STATUS > 0 ) {; }                           \
+        နေစဉ်( RTC.STATUS > 0 ) {; }                           \
         RTC.CTRLA = RTC_PRESCALER_DIV1_gc | 1 << RTC_RTCEN_bp; \
         RTC.PER = RTC_PERIOD_HZ( configTICK_RATE_HZ );         \
         RTC.INTCTRL |= 1 << RTC_OVF_bp;                        \
     }
 
-#else /* if ( configUSE_TIMER_INSTANCE == 0 ) */
+#မဟုတ်ပါက /* if ( configUSE_TIMER_INSTANCE == 0 ) */
     #undef TICK_INT_vect
     #undef INT_FLAGS
     #undef INT_MASK

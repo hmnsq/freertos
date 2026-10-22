@@ -61,7 +61,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
     pxTopOfStack -= 14;                  /* A5 to D0. */
 
-    return pxTopOfStack;
+    ပြန်ပေး pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -77,7 +77,7 @@ BaseType_t xPortStartScheduler( void )
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    ပြန်ပေး pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -89,7 +89,7 @@ void vPortEndScheduler( void )
 
 void vPortEnterCritical( void )
 {
-    if( ulCriticalNesting == 0UL )
+    အကယ်၍( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
          * critical section being entered. */
@@ -97,13 +97,13 @@ void vPortEnterCritical( void )
         {
             portDISABLE_INTERRUPTS();
 
-            if( MCF_INTC0_INTFRCL == 0UL )
+            အကယ်၍( MCF_INTC0_INTFRCL == 0UL )
             {
-                break;
+                bha_nga;
             }
 
             portENABLE_INTERRUPTS();
-        } while( 1 );
+        } နေစဉ်( 1 );
     }
 
     ulCriticalNesting++;
@@ -114,7 +114,7 @@ void vPortExitCritical( void )
 {
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    အကယ်၍( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }

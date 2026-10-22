@@ -47,10 +47,10 @@
 #define portEXTERNAL_INTERRUPT_ENABLE    ( 1UL << 15UL )
 #define portMACHINE_CHECK_ENABLE         ( 1UL << 12UL )
 
-#if configUSE_FPU == 1
+#အကယ်၍ configUSE_FPU == 1
     #define portAPU_PRESENT              ( 1UL << 25UL )
     #define portFCM_FPU_PRESENT          ( 1UL << 13UL )
-#else
+#မဟုတ်ပါက
     #define portAPU_PRESENT              ( 0UL )
     #define portFCM_FPU_PRESENT          ( 0UL )
 #endif
@@ -142,7 +142,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x00000000UL;                      /* Backchain. */
 
-    return pxTopOfStack;
+    ပြန်ပေး pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -153,14 +153,14 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    ပြန်ပေး pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
 void vPortEndScheduler( void )
 {
     /* Not implemented. */
-    for( ; ; )
+    အတွက်( ; ; )
     {
     }
 }
@@ -204,9 +204,9 @@ void vPortISRHandler( void * pvNullDoNotUse )
     /* Which interrupts are pending? */
     ulInterruptStatus = XIntc_mGetIntrStatus( pxInterruptController->BaseAddress );
 
-    for( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
+    အတွက်( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
     {
-        if( ulInterruptStatus & 0x01UL )
+        အကယ်၍( ulInterruptStatus & 0x01UL )
         {
             /* Clear the pending interrupt. */
             XIntc_mAckIntr( pxInterruptController->BaseAddress, ulInterruptMask );
@@ -221,9 +221,9 @@ void vPortISRHandler( void * pvNullDoNotUse )
         ulInterruptStatus >>= 0x01UL;
 
         /* Have we serviced all interrupts? */
-        if( ulInterruptStatus == 0UL )
+        အကယ်၍( ulInterruptStatus == 0UL )
         {
-            break;
+            bha_nga;
         }
     }
 }
@@ -257,11 +257,11 @@ BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
     /* This function is defined here so the scope of xInterruptController can
      * remain within this file. */
 
-    if( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
+    အကယ်၍( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
     {
         XIntc_Enable( &xInterruptController, ucInterruptID );
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    ပြန်ပေး xReturn;
 }
