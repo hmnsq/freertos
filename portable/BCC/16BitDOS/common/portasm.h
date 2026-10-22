@@ -29,23 +29,23 @@
 #ifndef PORT_ASM_H
 #define PORT_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+प्रकारनिर्देश शून्य TCB_t;
+बाह्य चञ्चल TCB_t * चञ्चल pxCurrentTCB;
+बाह्य शून्य vTaskSwitchContext( शून्य );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+शून्य portSWITCH_CONTEXT( शून्य );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+शून्य portFIRST_CONTEXT( शून्य );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -72,15 +72,15 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                             __asm { les bx, dword ptr pxCurrentTCB  }   \
                             __asm { mov ss, es:[ bx + 2 ]           }   \
                             __asm { mov sp, es:[ bx ]               }   \
-                            __asm { pop bp                          }   \
-                            __asm { pop di                          }   \
-                            __asm { pop si                          }   \
-                            __asm { pop ds                          }   \
-                            __asm { pop es                          }   \
-                            __asm { pop dx                          }   \
-                            __asm { pop cx                          }   \
-                            __asm { pop bx                          }   \
-                            __asm { pop ax                          }   \
+                            __asm { निकालो bp                          }   \
+                            __asm { निकालो di                          }   \
+                            __asm { निकालो si                          }   \
+                            __asm { निकालो ds                          }   \
+                            __asm { निकालो es                          }   \
+                            __asm { निकालो dx                          }   \
+                            __asm { निकालो cx                          }   \
+                            __asm { निकालो bx                          }   \
+                            __asm { निकालो ax                          }   \
                             __asm { iret                            }
 
 
