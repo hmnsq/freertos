@@ -1,0 +1,586 @@
+# What is still missing
+
+76 languages. Each line says in how many languages it is missing.
+
+## Files in languages BURP cannot read yet
+
+- `.sh`: 1 files
+
+## Keywords with no word in a language's table
+
+- yantra:SP: 75
+- yantra:POP: 75
+- yantra:PUSH: 75
+- yantra:MOV: 75
+- soochee:join: 75
+- yantra:OUT: 75
+- yantra:STR: 75
+- yantra:CMP: 75
+- yantra:ADD: 75
+- yantra:LSL: 75
+- yantra:SI: 75
+- yantra:SUB: 75
+- yantra:BL: 75
+- yantra:BX: 75
+- yantra:NE: 75
+- yantra:EQ: 75
+- yantra:EQU: 75
+- yantra:NOP: 75
+- yantra:RET: 75
+- soochee:args: 75
+- guru:__FILE__: 75
+- yantra:ENTRY: 75
+- yantra:SAR: 75
+- yantra:MACRO: 75
+- yantra:ENDM: 75
+- yantra:BSR: 75
+- yantra:GT: 75
+- yantra:EVEN: 75
+- yantra:INT3: 75
+- yantra:AX: 75
+- yantra:ORG: 75
+- yantra:DW: 75
+- yantra:LOW: 74
+- yantra:HIGH: 74
+- guru:size_t: 71
+- guru:asm: 71
+- guru:system: 71
+- guru:time: 71
+- guru:clock: 71
+- guru:memcmp: 71
+- guru:USHRT_MAX: 71
+- guru:jmp_buf: 71
+- guru:setjmp: 71
+- guru:longjmp: 71
+- guru:fputs: 71
+- guru:stdout: 71
+- guru:abort: 71
+- guru:pause: 71
+- guru:realloc: 71
+- guru:fprintf: 71
+- guru:stderr: 71
+- guru:errno: 71
+- guru:time_t: 71
+- guru:va_end: 71
+- guru:atexit: 71
+- guru:strerror: 71
+- guru:SIGINT: 71
+- guru:times: 71
+- guru:ULONG_MAX: 71
+- guru:va_list: 71
+- guru:va_start: 71
+- guru:va_arg: 71
+- guru:NDEBUG: 71
+- guru:sprintf: 71
+- guru:memset: 70
+- guru:wait: 70
+- guru:strcpy: 70
+- soochee:def: 67
+- soochee:None: 67
+- soochee:len: 67
+- soochee:print: 67
+- soochee:with: 67
+- guru:#define: 66
+- guru:#endif: 66
+- guru:#ifndef: 66
+- guru:#error: 66
+- guru:#ifdef: 66
+- guru:#pragma: 66
+- guru:#undef: 66
+- guru:unsigned: 62
+- guru:long: 62
+- guru:short: 62
+- guru:signed: 62
+- guru:memcpy: 62
+- guru:abs: 62
+- guru:printf: 62
+- guru:malloc: 62
+- guru:exit: 62
+- guru:strlen: 62
+- soochee:main: 54
+- guru:main: 54
+- yantra:global: 45
+- yantra:call: 26
+- yantra:EXTERN: 26
+- soochee:True: 26
+- soochee:False: 26
+- soochee:as: 26
+- soochee:elif: 26
+- soochee:or: 26
+- guru:void: 25
+- guru:const: 25
+- guru:extern: 25
+- guru:static: 25
+- guru:NULL: 25
+- yantra:PUBLIC: 25
+- guru:typedef: 25
+- yantra:OR: 25
+- guru:#elif: 25
+- guru:do: 25
+- guru:float: 25
+- yantra:END: 25
+- guru:switch: 25
+- guru:default: 25
+- yantra:INCLUDE: 25
+- guru:assert: 25
+- soochee:import: 25
+- guru:read: 25
+- guru:free: 25
+- guru:goto: 25
+- yantra:THIS: 25
+- soochee:class: 25
+- soochee:super: 25
+- soochee:read: 25
+- guru:continue: 25
+- soochee:in: 10
+- soochee:and: 10
+- soochee:from: 10
+- soochee:not: 10
+- guru:for: 9
+- soochee:for: 9
+- guru:volatile: 9
+- guru:char: 9
+- guru:struct: 9
+- guru:break: 9
+- guru:case: 9
+- guru:inline: 9
+- guru:sizeof: 9
+- guru:double: 9
+- guru:register: 9
+- guru:enum: 9
+- guru:signal: 9
+- guru:union: 9
+- yantra:IN: 8
+- yantra:AND: 8
+- yantra:NOT: 8
+- guru:#if: 1
+- guru:int: 1
+- guru:if: 1
+- guru:#else: 1
+- guru:else: 1
+- guru:return: 1
+- guru:while: 1
+- soochee:if: 1
+- soochee:return: 1
+- soochee:else: 1
+
+## Names with no dictionary entry (the most common first)
+
+- `AT91_REG`: 76
+- `naked`: 76
+- `TickType_t`: 76
+- `xMPUSettings`: 76
+- `UBaseType_t`: 76
+- `FREERTOS_SYSTEM_CALL`: 76
+- `EQU`: 76
+- `TaskHandle_t`: 76
+- `configENABLE_MPU`: 76
+- `i`: 76
+- `configASSERT`: 76
+- `pdFALSE`: 76
+- `xReturn`: 76
+- `PRIVILEGED_FUNCTION`: 76
+- `pdTRUE`: 76
+- `pvParameters`: 76
+- `ulContext`: 76
+- `xTask`: 76
+- `xCoreID`: 76
+- `x`: 76
+- `configUSE_MPU_WRAPPERS_V1`: 76
+- `xTaskMpuSettings`: 76
+- `xRegionsSettings`: 76
+- `pxCurrentTCB`: 76
+- `pxMpuSettings`: 76
+- `configENABLE_TRUSTZONE`: 76
+- `ulTimerCountsForOneTick`: 76
+- `xTimer`: 76
+- `ucCoreID`: 76
+- `vFunction`: 76
+- `configENABLE_PAC`: 76
+- `defined`: 76
+- `ulCriticalNesting`: 76
+- `TimerHandle_t`: 76
+- `mtCOVERAGE_TEST_MARKER`: 76
+- `pxTCB`: 76
+- `r0`: 76
+- `xSecureContexts`: 76
+- `ulControl`: 76
+- `pvTaskHandle`: 76
+- `uxReadyPriorities`: 76
+- `pPio`: 76
+- `sp`: 76
+- `xMPU_SETTINGS`: 76
+- `be`: 76
+- `xRegions`: 76
+- `xAccessGranted`: 76
+- `flag`: 76
+- `configENABLE_FPU`: 76
+- `ulRBAR`: 76
+- `PORTMACRO_H`: 76
+- `configUSE_TIMERS`: 76
+- `a`: 76
+- `ulRLAR`: 76
+- `prvGet32`: 76
+- `ulTaskFlags`: 76
+- `configENABLE_MVE`: 76
+- `pxIterator`: 76
+- `ulPC`: 76
+- `uxCriticalNesting`: 76
+- `must`: 76
+- `ulSystemCallLocation`: 76
+- `ulMaxPRIGROUPValue`: 76
+- `xSecureContextHandle`: 76
+- `R15`: 76
+- `ulCriticalNestings`: 76
+- `xTaskGetMPUSettings`: 76
+- `ulIPSR`: 76
+- `pxParams`: 76
+- `ulCompleteTickPeriods`: 76
+- `SecureContextHandle_t`: 76
+- `R0`: 76
+- `ulStoppedTimerCompensation`: 76
+- `configASSERT_DEFINED`: 76
+- `configSYSTICK_CLOCK_HZ`: 76
+- `prvTaskExitError`: 76
+- `b`: 76
+- `pPDC`: 76
+- `TaskFunction_t`: 76
+- `vTaskSwitchContext`: 76
+- `configENABLE_BTI`: 76
+- `ulOwnedByCore`: 76
+- `configUSE_TICKLESS_IDLE`: 76
+- `AT91PS_PIO`: 76
+- `ulLR`: 76
+- `pxLink`: 76
+- `s5`: 76
+- `MPU_WRAPPERS_INCLUDED_FROM_API_FILE`: 76
+- `secureconfigMAX_SECURE_CONTEXTS`: 76
+- `ulCompletedSysTickDecrements`: 76
+- `xSchedulerRunning`: 76
+- `ulR0`: 76
+- `prvSet32`: 76
+- `uxReturn`: 76
+- `xSwitchRequired`: 76
+- `pvReturn`: 76
+- `configUSE_TRACE_FACILITY`: 76
+- `vResetPrivilege`: 76
+- `ulReturn`: 76
+- `xIsPrivileged`: 76
+- `configUSE_EVENT_GROUPS`: 76
+- `configCPU_CLOCK_HZ`: 76
+- `configENABLE_ACCESS_CONTROL_LIST`: 76
+- `configMAX_PRIORITIES`: 76
+- `xTaskIncrementTick`: 76
+- `configUSE_TASK_NOTIFICATIONS`: 76
+- `secureportNON_SECURE_CALLABLE`: 76
+- `vConfigurePACBTI`: 76
+- `xSecureContext`: 76
+- `enable`: 76
+- `ulAccessControlList`: 76
+- `h`: 76
+- `FreeRTOSConfig`: 76
+- `puc`: 76
+- `TCB_t`: 76
+- `s6`: 76
+- `ulParameters`: 76
+- `pPMC`: 76
+- `pxNewTCB`: 76
+- `pv`: 76
+- `type`: 76
+- `ulIsTaskPrivileged`: 76
+- `unsupported`: 76
+- `weak`: 76
+- `EMAC`: 76
+- `than`: 76
+- `that`: 76
+- `ul`: 76
+- `traceISR_EXIT`: 76
+- `lw`: 76
+- `AT91PS_PDC`: 76
+- `addr`: 76
+- `ulAccessPermissions`: 76
+- `TaskHookFunction_t`: 76
+- `SecureContext_AllocateContext`: 76
+- `vTaskEnterCritical`: 76
+- `vTaskExitCritical`: 76
+- `disable`: 76
+- `ulRBARValue`: 76
+- `prvConfigurePACBTI`: 76
+- `LR`: 76
+- `vRaisePrivilege`: 76
+- `eTaskState`: 76
+- `L`: 76
+- `as`: 76
+- `xSemaphore`: 76
+- `MOV`: 76
+- `MPU`: 76
+- `TC`: 76
+- `xTaskIsPrivileged`: 76
+- `w`: 76
+- `pAic`: 76
+- `os`: 76
+- `uxSystemCallImplementations`: 76
+- `accessRequest`: 76
+- `vRequestSystemCallExit`: 76
+- `sw`: 76
+- `pcName`: 76
+- `ucSVCNumber`: 76
+- `ulDummy`: 76
+- `Receive`: 76
+- `mrs`: 76
+- `SVC_Handler`: 76
+- `PendSV_Handler`: 76
+- `pxList`: 76
+- `PRESERVE8`: 76
+- `STATIC`: 76
+- `SecureContext_t`: 76
+- `Reserved0`: 76
+- `Transmit`: 76
+- `by`: 76
+- `configUSE_MUTEXES`: 76
+- `MOVFF`: 76
+- `pdFAIL`: 76
+- `uxAcquire`: 76
+- `xRegionSettings`: 76
+- `Clock`: 76
+- `prvGetRegionAccessPermissions`: 76
+- `xAllCoresReady`: 76
+- `prvSpinTrylock`: 76
+- `secureportREAD_IPSR`: 76
+- `control`: 76
+- `ADC`: 76
+- `task`: 76
+- `bne`: 76
+- `ldr`: 76
+- `TrustZone`: 76
+- `configWAKE_SECONDARY_CORES`: 76
+- `ulR1`: 76
+- `ulMAIR0`: 76
+- `ulVal`: 76
+- `tskMPU_READ_PERMISSION`: 76
+- `r1`: 76
+- `INCLUDE_xTaskGetIdleTaskHandle`: 76
+- `Enable`: 76
+- `can`: 76
+- `t0`: 76
+- `R1`: 76
+- `usCriticalNesting`: 76
+- `tst`: 76
+- `Reserved1`: 76
+- `pdPASS`: 76
+- `pxTimer`: 76
+- `ulAccessRequested`: 76
+- `only`: 76
+- `AT91PS_PMC`: 76
+- `pRTTC`: 76
+- `n`: 76
+- `mux`: 76
+- `xAutoReload`: 76
+- `mov`: 76
+- `store_x`: 76
+- `LDR`: 76
+- `svc`: 76
+- `taskEXIT_CRITICAL`: 76
+- `ulBitmap`: 76
+- `pCKGR`: 76
+- `secureportREAD_PSPLIM`: 76
+- `secureportASSERT`: 76
+- `SPI`: 76
+- `xCopyPosition`: 76
+- `MC`: 76
+- `SSC`: 76
+- `List_t`: 76
+- `configUSE_PREEMPTION`: 76
+- `when`: 76
+- `xMutex`: 76
+- `USART`: 76
+- `vSystemCallEnter`: 76
+- `vSystemCallExit`: 76
+- `irq_id`: 76
+- `INCLUDE_vTaskSuspend`: 76
+- `FREERTOS_MPU_SVC_DISPATCH`: 76
+- `permissions`: 76
+- `Pin`: 76
+- `pxMutex`: 76
+- `Channel`: 76
+- `ep`: 76
+- `xHandle`: 76
+- `vTaskEnterCriticalFromISR`: 76
+- `vTaskExitCriticalFromISR`: 76
+- `Cortex`: 76
+- `AT91S_CAN_MB`: 76
+- `Disable`: 76
+- `eState`: 76
+- `u`: 76
+- `FPU`: 76
+- `pulTCB`: 76
+- `r3`: 76
+- `configUSE_RECURSIVE_MUTEXES`: 76
+- `diag_suppress`: 76
+- `pxSecureContext`: 76
+- `CAN`: 76
+- `taskENTER_CRITICAL`: 76
+- `it`: 76
+- `on`: 76
+- `MailBox`: 76
+- `msr`: 76
+- `pxCreatedTask`: 76
+- `SysTick_Handler`: 76
+- `MPURegionSettings_t`: 76
+- `priorities`: 76
+- `UDP`: 76
+- `Controlled`: 76
+- `SP`: 76
+- `xTriggerLevel`: 76
+- `equal`: 76
+- `less`: 76
+- `rbar`: 76
+- `ucSecondaryCoresReadyFlags`: 76
+- `prvSpinUnlock`: 76
+- `dummy`: 76
+- `secureportBYTE_ALIGNMENT`: 76
+- `SecureInit_EnableNSFPUAccess`: 76
+- `securecontextINVALID_CONTEXT_ID`: 76
+- `SecureContext_FreeContext`: 76
+- `SecureInit_DePrioritizeNSExceptions`: 76
+- `SecureContext_Init`: 76
+- `pvNewID`: 76
+- `tskMPU_WRITE_PERMISSION`: 76
+- `rlar`: 76
+- `PORTMACROCOMMON_H`: 76
+- `xRegion`: 76
+- `will`: 76
+- `tasks`: 76
+- `It`: 76
+- `very`: 76
+- `rare`: 76
+- `share`: 76
+- `AX`: 76
+- `xTaskResumeAll`: 76
+- `pxTaskDefinition`: 76
+- `A`: 76
+- `AES`: 76
+- `traceISR_ENTER`: 76
+- `undefined`: 76
+- `always_inline`: 76
+- `traceMALLOC`: 76
+- `pxHookFunction`: 76
+- `configUSE_TASK_FPU_SUPPORT`: 76
+
+## Comments with no translation
+
+- __attribute__ (( naked )) FREERTOS_SYSTEM_CALL: 76
+- PRIVILEGED_FUNCTION: 76
+- configENABLE_MPU: 76
+- *INDENT-OFF*: 76
+- *INDENT-ON*: 76
+- configENABLE_TRUSTZONE: 76
+- if ( configUSE_TIMERS == 1 ): 76
+- ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ): 76
+- (EMAC): 76
+- #if ( configNUMBER_OF_CORES == 1 ): 76
+- #if ( configUSE_STREAM_BUFFERS == 1 ): 76
+- Declaration when these variable are exported from linker scripts.: 76
+- Declaration when these variable are defined in code instead of being
+             * exported from li: 76
+- __attribute__ (( naked )) PRIVILEGED_FUNCTION: 76
+- Scheduler includes.: 76
+- configENABLE_MPU == 1: 76
+- configUSE_TICKLESS_IDLE: 76
+- configENABLE_PAC: 76
+- FREERTOS_SYSTEM_CALL: 76
+- PORTMACRO_H: 76
+- \arg  pointer to a PIO controller: 76
+- Read the location of pxCurrentTCB i.e. &( pxCurrentTCB ).: 76
+- configENABLE_PAC == 1 || configENABLE_BTI == 1: 76
+- if ( configNUMBER_OF_CORES > 1 ): 76
+- __attribute__ (( naked )): 76
+- Interrupt Mask Register: 76
+- if ( configUSE_TASK_NOTIFICATIONS == 1 ): 76
+- Standard includes.: 76
+- defined( __ARMCC_VERSION ): 76
+- configENABLE_FPU || configENABLE_MVE: 76
+- Interrupt Enable Register: 76
+- Interrupt Disable Register: 76
+- configENABLE_FPU: 76
+- -----------------------------------------------------------
+ * Port specific definitions.
+ *
+ * The : 76
+- Calling task's MPU settings.: 76
+- #if ( configUSE_EVENT_GROUPS == 1 ): 76
+- Reserved: 76
+- __attribute__(( naked )) PRIVILEGED_FUNCTION: 76
+- Type definitions.: 76
+- xPSR.: 76
+- * See header file for description.: 76
+- Hardware specifics.: 76
+- #if ( configNUMBER_OF_CORES > 1 ): 76
+- configNUMBER_OF_CORES: 76
+- portNVIC_SYSTICK_CLK_BIT_CONFIG: 76
+- configNUMBER_OF_CORES > 1: 76
+- Read the value of MPU_CTRL.: 76
+- #if ( ( configASSERT_DEFINED == 1 ) && ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) ): 76
+- Write 4 set of RBAR/RLAR registers using alias registers.: 76
+- Start the first task.: 76
+- Task function macros as described on the FreeRTOS.org WEB site.: 76
+- 32-bit tick type on a 32-bit architecture, so reads of the tick count do
+ * not need to be guarded w: 76
+- Obtain current control value.: 76
+- Write back new control value.: 76
+- r1 = 0xe000ed94 [Location of MPU_CTRL].: 76
+- ------------------------------------------------------------------------------
+ * Port specific defi: 76
+- *
+ * Architecture specifics.: 76
+- *
+ * @brief Critical section management.: 76
+- configUSE_PORT_OPTIMISED_TASK_SELECTION: 76
+- if ( configNUMBER_OF_CORES == 1 ): 76
+- Do nothing if the processor is running in the Thread Mode. IPSR is zero
+     * when the processor is: 76
+- Return.: 76
+- Enable MPU.: 76
+- #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ): 76
+- Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
+ * all the API function: 76
+- Not implemented in ports where there is nothing to return to.
+     * Artificially force an assert.: 76
+- configASSERT_DEFINED: 76
+- #if defined( __ARMCC_VERSION ): 76
+- if ( configQUEUE_REGISTRY_SIZE > 0 ): 76
+- Copy the stack frame.: 76
+- r0 = pxCurrentTCB.: 76
+- Check the configuration.: 76
+- \arg  flag to be tested: 76
+- Offset added to account for the way the MCU uses the stack on entry/exit of interrupts.: 76
+- *
+ * @brief Checks whether or not the processor is privileged.
+ *
+ * @return 1 if the processor is a: 76
+- Receive Pointer Register: 76
+- Receive Counter Register: 76
+- Transmit Pointer Register: 76
+- Transmit Counter Register: 76
+- Receive Next Pointer Register: 76
+- Receive Next Counter Register: 76
+- Transmit Next Pointer Register: 76
+- Transmit Next Counter Register: 76
+- PDC Transfer Control Register: 76
+- PDC Transfer Status Register: 76
+- configUSE_MPU_WRAPPERS_V1 == 0: 76
+- Hardware Saved Stack Frame Size upon Exception entry:
+             * - No FPU: basic frame (R0-R3, R: 76
+- Extended frame i.e. FPU in use.: 76
+- Standard frame i.e. FPU not in use.: 76
+- (TC) Effect: none: 76
+- (TC) Effect: set: 76
+- (TC) Effect: clear: 76
+- (TC) Effect: toggle: 76
+- (ADC) End of Conversion: 76
+- (ADC) Overrun Error: 76
+- Trigger lazy stacking.: 76
+- Nullify the affect of the above instruction.: 76
+- Read 4 sets of RBAR/RLAR registers from TCB.: 76
+- #if ( configUSE_MPU_WRAPPERS_V1 == 0 ): 76
+- Increment the RTOS tick.: 76
