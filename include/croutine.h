@@ -26,37 +26,37 @@
  *
  */
 
-#ifndef CO_ROUTINE_H
-#define CO_ROUTINE_H
+#جے_بنا_تعریف CO_ROUTINE_H
+#تعریف_کرو CO_ROUTINE_H
 
-#ifndef INC_FREERTOS_H
-    #error "include FreeRTOS.h must appear in source files before include croutine.h"
-#endif
+#جے_بنا_تعریف INC_FREERTOS_H
+    #غلطی "include FreeRTOS.h must appear in source files before include croutine.h"
+#جے_انت
 
-#include "list.h"
+#ضمن "list.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+    خارجي "C" {
+#جے_انت
 /* *INDENT-ON* */
 
 /* Used to hide the implementation of the co-routine control block.  The
  * control block structure however has to be included in the header due to
  * the macro implementation of the co-routine functionality. */
-typedef void * CoRoutineHandle_t;
+تعريفنوع فراغ * CoRoutineHandle_t;
 
 /* Defines the prototype to which co-routine functions must conform. */
-typedef void (* crCOROUTINE_CODE)( CoRoutineHandle_t xHandle,
-                                   UBaseType_t uxIndex );
+تعريفنوع فراغ (* cr_COROUTINE_کوڈ)( CoRoutineHandle_t xHandle,
+                                   UBaseType_t ux_اشاریہ );
 
-typedef struct corCoRoutineControlBlock
+تعريفنوع بنية cor_Co_Routine_Control_بلاک
 {
-    crCOROUTINE_CODE pxCoRoutineFunction;
-    ListItem_t xGenericListItem; /**< List item used to place the CRCB in ready and blocked queues. */
-    ListItem_t xEventListItem;   /**< List item used to place the CRCB in event lists. */
-    UBaseType_t uxPriority;      /**< The priority of the co-routine in relation to other co-routines. */
-    UBaseType_t uxIndex;         /**< Used to distinguish between co-routines when multiple co-routines use the same co-routine function. */
+    cr_COROUTINE_کوڈ pxCoRoutineFunction;
+    List_شے_t x_Generic_List_شے; /**< List item used to place the CRCB in ready and blocked queues. */
+    List_شے_t x_Event_List_شے;   /**< List item used to place the CRCB in event lists. */
+    UBaseType_t ux_ترجیح;      /**< The priority of the co-routine in relation to other co-routines. */
+    UBaseType_t ux_اشاریہ;         /**< Used to distinguish between co-routines when multiple co-routines use the same co-routine function. */
     uint16_t uxState;            /**< Used internally by the co-routine implementation. */
 } CRCB_t;                        /* Co-routine control block.  Note must be identical in size down to uxPriority with TCB_t. */
 
@@ -133,9 +133,9 @@ typedef struct corCoRoutineControlBlock
  * \defgroup xCoRoutineCreate xCoRoutineCreate
  * \ingroup Tasks
  */
-BaseType_t xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode,
-                             UBaseType_t uxPriority,
-                             UBaseType_t uxIndex );
+ادھار_Type_t xCoRoutineCreate( cr_COROUTINE_کوڈ px_Co_Routine_کوڈ,
+                             UBaseType_t ux_ترجیح,
+                             UBaseType_t ux_اشاریہ );
 
 
 /**
@@ -178,7 +178,7 @@ BaseType_t xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode,
  * \defgroup vCoRoutineSchedule vCoRoutineSchedule
  * \ingroup Tasks
  */
-void vCoRoutineSchedule( void );
+فراغ v_Co_Routine_ویلا_سارنی( فراغ );
 
 /**
  * croutine. h
@@ -211,9 +211,9 @@ void vCoRoutineSchedule( void );
  * \defgroup crSTART crSTART
  * \ingroup Tasks
  */
-#define crSTART( pxCRCB )                            \
-    switch( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
-        case 0:
+#تعریف_کرو cr_شروع( pxCRCB )                            \
+    بدل( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
+        حالة 0:
 
 /**
  * croutine. h
@@ -248,19 +248,19 @@ void vCoRoutineSchedule( void );
  */
 
 /* *INDENT-OFF* */
-#define crEND()    }
+#تعریف_کرو cr_سرا()    }
 /* *INDENT-ON* */
 
 /*
  * These macros are intended for internal use by the co-routine implementation
  * only.  The macros should not be used directly by application writers.
  */
-#define crSET_STATE0( xHandle )                                       \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); return; \
-    case ( __LINE__ * 2 ):
-#define crSET_STATE1( xHandle )                                               \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); return; \
-    case ( ( __LINE__ * 2 ) + 1 ):
+#تعریف_کرو cr_سیٹ_STATE0( xHandle )                                       \
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); أرجع; \
+    حالة ( __LINE__ * 2 ):
+#تعریف_کرو cr_سیٹ_STATE1( xHandle )                                               \
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); أرجع; \
+    حالة ( ( __LINE__ * 2 ) + 1 ):
 
 /**
  * croutine. h
@@ -310,14 +310,14 @@ void vCoRoutineSchedule( void );
  * \defgroup crDELAY crDELAY
  * \ingroup Tasks
  */
-#define crDELAY( xHandle, xTicksToDelay )                          \
-    do {                                                           \
-        if( ( xTicksToDelay ) > 0 )                                \
+#تعریف_کرو crDELAY( xHandle, x_Ticks_منزل_Delay )                          \
+    افعل {                                                           \
+        إذا( ( x_Ticks_منزل_Delay ) > 0 )                                \
         {                                                          \
-            vCoRoutineAddToDelayedList( ( xTicksToDelay ), NULL ); \
+            v_Co_Routine_جوڑو_منزل_Delayed_List( ( x_Ticks_منزل_Delay ), عدم ); \
         }                                                          \
-        crSET_STATE0( ( xHandle ) );                               \
-    } while( 0 )
+        cr_سیٹ_STATE0( ( xHandle ) );                               \
+    } طالما( 0 )
 
 /**
  * @code{c}
@@ -404,20 +404,20 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_SEND crQUEUE_SEND
  * \ingroup Tasks
  */
-#define crQUEUE_SEND( xHandle, pxQueue, pvItemToQueue, xTicksToWait, pxResult )           \
-    do {                                                                                  \
-        *( pxResult ) = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                           \
+#تعریف_کرو cr_قطار_SEND( xHandle, px_قطار, pv_شے_منزل_قطار, x_Ticks_منزل_Wait, px_نتیجہ )           \
+    افعل {                                                                                  \
+        *( px_نتیجہ ) = x_قطار_CRSend( ( px_قطار ), ( pv_شے_منزل_قطار ), ( x_Ticks_منزل_Wait ) ); \
+        إذا( *( px_نتیجہ ) == err_قطار_BLOCKED )                                           \
         {                                                                                 \
-            crSET_STATE0( ( xHandle ) );                                                  \
-            *pxResult = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), 0 );                \
+            cr_سیٹ_STATE0( ( xHandle ) );                                                  \
+            *px_نتیجہ = x_قطار_CRSend( ( px_قطار ), ( pv_شے_منزل_قطار ), 0 );                \
         }                                                                                 \
-        if( *pxResult == errQUEUE_YIELD )                                                 \
+        إذا( *px_نتیجہ == err_قطار_YIELD )                                                 \
         {                                                                                 \
-            crSET_STATE1( ( xHandle ) );                                                  \
-            *pxResult = pdPASS;                                                           \
+            cr_سیٹ_STATE1( ( xHandle ) );                                                  \
+            *px_نتیجہ = pdPASS;                                                           \
         }                                                                                 \
-    } while( 0 )
+    } طالما( 0 )
 
 /**
  * croutine. h
@@ -498,20 +498,20 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_RECEIVE crQUEUE_RECEIVE
  * \ingroup Tasks
  */
-#define crQUEUE_RECEIVE( xHandle, pxQueue, pvBuffer, xTicksToWait, pxResult )           \
-    do {                                                                                \
-        *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                         \
+#تعریف_کرو cr_قطار_RECEIVE( xHandle, px_قطار, pv_بفر, x_Ticks_منزل_Wait, px_نتیجہ )           \
+    افعل {                                                                                \
+        *( px_نتیجہ ) = x_قطار_CRReceive( ( px_قطار ), ( pv_بفر ), ( x_Ticks_منزل_Wait ) ); \
+        إذا( *( px_نتیجہ ) == err_قطار_BLOCKED )                                         \
         {                                                                               \
-            crSET_STATE0( ( xHandle ) );                                                \
-            *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), 0 );            \
+            cr_سیٹ_STATE0( ( xHandle ) );                                                \
+            *( px_نتیجہ ) = x_قطار_CRReceive( ( px_قطار ), ( pv_بفر ), 0 );            \
         }                                                                               \
-        if( *( pxResult ) == errQUEUE_YIELD )                                           \
+        إذا( *( px_نتیجہ ) == err_قطار_YIELD )                                           \
         {                                                                               \
-            crSET_STATE1( ( xHandle ) );                                                \
-            *( pxResult ) = pdPASS;                                                     \
+            cr_سیٹ_STATE1( ( xHandle ) );                                                \
+            *( px_نتیجہ ) = pdPASS;                                                     \
         }                                                                               \
-    } while( 0 )
+    } طالما( 0 )
 
 /**
  * croutine. h
@@ -609,8 +609,8 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_SEND_FROM_ISR crQUEUE_SEND_FROM_ISR
  * \ingroup Tasks
  */
-#define crQUEUE_SEND_FROM_ISR( pxQueue, pvItemToQueue, xCoRoutinePreviouslyWoken ) \
-    xQueueCRSendFromISR( ( pxQueue ), ( pvItemToQueue ), ( xCoRoutinePreviouslyWoken ) )
+#تعریف_کرو cr_قطار_SEND_FROM_ISR( px_قطار, pv_شے_منزل_قطار, xCoRoutinePreviouslyWoken ) \
+    x_قطار_CRSend_From_ISR( ( px_قطار ), ( pv_شے_منزل_قطار ), ( xCoRoutinePreviouslyWoken ) )
 
 
 /**
@@ -725,8 +725,8 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_RECEIVE_FROM_ISR crQUEUE_RECEIVE_FROM_ISR
  * \ingroup Tasks
  */
-#define crQUEUE_RECEIVE_FROM_ISR( pxQueue, pvBuffer, pxCoRoutineWoken ) \
-    xQueueCRReceiveFromISR( ( pxQueue ), ( pvBuffer ), ( pxCoRoutineWoken ) )
+#تعریف_کرو cr_قطار_RECEIVE_FROM_ISR( px_قطار, pv_بفر, pxCoRoutineWoken ) \
+    x_قطار_CRReceive_From_ISR( ( px_قطار ), ( pv_بفر ), ( pxCoRoutineWoken ) )
 
 /*
  * This function is intended for internal use by the co-routine macros only.
@@ -737,7 +737,7 @@ void vCoRoutineSchedule( void );
  * Removes the current co-routine from its ready list and places it in the
  * appropriate delayed list.
  */
-void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
+فراغ v_Co_Routine_جوڑو_منزل_Delayed_List( TickType_t x_Ticks_منزل_Delay,
                                  List_t * pxEventList );
 
 /*
@@ -747,19 +747,19 @@ void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
  * Removes the highest priority co-routine from the event list and places it in
  * the pending ready list.
  */
-BaseType_t xCoRoutineRemoveFromEventList( const List_t * pxEventList );
+ادھار_Type_t xCoRoutineRemoveFromEventList( ثابت List_t * pxEventList );
 
 
 /*
  * This function resets the internal state of the coroutine module. It must be
  * called by the application before restarting the scheduler.
  */
-void vCoRoutineResetState( void ) PRIVILEGED_FUNCTION;
+فراغ vCoRoutineResetState( فراغ ) PRIVILEGED_FUNCTION;
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
     }
-#endif
+#جے_انت
 /* *INDENT-ON* */
 
-#endif /* CO_ROUTINE_H */
+#جے_انت /* CO_ROUTINE_H */

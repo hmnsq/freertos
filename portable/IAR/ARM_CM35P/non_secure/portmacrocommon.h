@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACROCOMMON_H
-#define PORTMACROCOMMON_H
+#جے_بنا_تعریف PORTMACROCOMMON_H
+#تعریف_کرو PORTMACROCOMMON_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+    خارجي "C" {
+#جے_انت
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -46,101 +46,101 @@
  *------------------------------------------------------------------------------
  */
 
-#ifndef configENABLE_FPU
-    #error configENABLE_FPU must be defined in FreeRTOSConfig.h.  Set configENABLE_FPU to 1 to enable the FPU or 0 to disable the FPU.
-#endif /* configENABLE_FPU */
+#جے_بنا_تعریف configENABLE_FPU
+    #غلطی configENABLE_FPU must be defined وچ FreeRTOSConfig.h.  سیٹ_2 configENABLE_FPU منزل 1 منزل enable the FPU or 0 منزل disable the FPU.
+#جے_انت /* configENABLE_FPU */
 
-#ifndef configENABLE_MPU
-    #error configENABLE_MPU must be defined in FreeRTOSConfig.h.  Set configENABLE_MPU to 1 to enable the MPU or 0 to disable the MPU.
-#endif /* configENABLE_MPU */
+#جے_بنا_تعریف configENABLE_MPU
+    #غلطی configENABLE_MPU must be defined وچ FreeRTOSConfig.h.  سیٹ_2 configENABLE_MPU منزل 1 منزل enable the MPU or 0 منزل disable the MPU.
+#جے_انت /* configENABLE_MPU */
 
-#ifndef configENABLE_TRUSTZONE
-    #error configENABLE_TRUSTZONE must be defined in FreeRTOSConfig.h.  Set configENABLE_TRUSTZONE to 1 to enable TrustZone or 0 to disable TrustZone.
-#endif /* configENABLE_TRUSTZONE */
+#جے_بنا_تعریف configENABLE_TRUSTZONE
+    #غلطی configENABLE_TRUSTZONE must be defined وچ FreeRTOSConfig.h.  سیٹ_2 configENABLE_TRUSTZONE منزل 1 منزل enable TrustZone or 0 منزل disable TrustZone.
+#جے_انت /* configENABLE_TRUSTZONE */
 
-#if ( configNUMBER_OF_CORES > 1 )
-    #if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
-        #error "Multi-core SMP is currently only validated for Cortex-M33 non-TrustZone non-MPU port."
-    #endif /* if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 ) ) */
+#إذا ( config_نمبر_دا_CORES > 1 )
+    #إذا ( پورٹ_VALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
+        #غلطی "Multi-core SMP is currently only validated for Cortex-M33 non-TrustZone non-MPU port."
+    #جے_انت /* if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 ) ) */
 
-    #ifndef configCORE_ID_REGISTER
-        #error "configCORE_ID_REGISTER must be defined to the address of the register used to identify the core executing the code."
-    #endif /* ifndef configCORE_ID_REGISTER */
+    #جے_بنا_تعریف config_CORE_ID_رجسٹر
+        #غلطی "configCORE_ID_REGISTER must be defined to the address of the register used to identify the core executing the code."
+    #جے_انت /* ifndef configCORE_ID_REGISTER */
 
-    #ifndef configWAKE_SECONDARY_CORES
-        #error "configWAKE_SECONDARY_CORES must be defined to a function that wakes the secondary cores."
-    #endif /* ifndef configWAKE_SECONDARY_CORES */
-#endif /* #if ( configNUMBER_OF_CORES > 1 ) */
+    #جے_بنا_تعریف configWAKE_SECONDARY_CORES
+        #غلطی "configWAKE_SECONDARY_CORES must be defined to a function that wakes the secondary cores."
+    #جے_انت /* ifndef configWAKE_SECONDARY_CORES */
+#جے_انت /* #if ( configNUMBER_OF_CORES > 1 ) */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Type definitions.
  */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کرو پورٹ_CHAR          حرف
+#تعریف_کرو پورٹ_FLOAT         عائم
+#تعریف_کرو پورٹ_DOUBLE        مزدوج
+#تعریف_کرو پورٹ_LONG          لما
+#تعریف_کرو پورٹ_SHORT         چھوٹا
+#تعریف_کرو پورٹ_ڈھیر_TYPE    uint32_t
+#تعریف_کرو پورٹ_ادھار_TYPE     لما
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+تعريفنوع لما             ادھار_Type_t;
+تعريفنوع بنانشانی لما    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#إذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
+#وإلا
+    #غلطی config_TICK_TYPE_چوڑائی_وچ_بٹ سیٹ منزل unsupported tick type چوڑائی.
+#جے_انت
 /*-----------------------------------------------------------*/
 
 /**
  * Architecture specifics.
  */
-#define portSTACK_GROWTH                   ( -1 )
-#define portTICK_PERIOD_MS                 ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                 8
-#define portNOP()
-#define portINLINE                         __inline
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE               inline __attribute__( ( always_inline ) )
-#endif
-#define portHAS_STACK_OVERFLOW_CHECKING    1
+#تعریف_کرو پورٹ_ڈھیر_GROWTH                   ( -1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS                 ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT                 8
+#تعریف_کرو پورٹ_NOP()
+#تعریف_کرو پورٹ_INLINE                         __inline
+#جے_بنا_تعریف پورٹ_FORCE_INLINE
+    #تعریف_کرو پورٹ_FORCE_INLINE               مضمن __attribute__( ( always_inline ) )
+#جے_انت
+#تعریف_کرو پورٹ_HAS_ڈھیر_حد_توں_ودھ_CHECKING    1
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Extern declarations.
  */
-extern BaseType_t xPortIsInsideInterrupt( void );
+خارجي ادھار_Type_t x_پورٹ_Is_Inside_رکاوٹ( فراغ );
 
-extern void vPortYield( void ) /* PRIVILEGED_FUNCTION */;
+خارجي فراغ v_پورٹ_Yield( فراغ ) /* PRIVILEGED_FUNCTION */;
 
-extern void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */;
-extern void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */;
+خارجي فراغ v_پورٹ_Enter_Critical( فراغ ) /* PRIVILEGED_FUNCTION */;
+خارجي فراغ v_پورٹ_Exit_Critical( فراغ ) /* PRIVILEGED_FUNCTION */;
 
-extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
-extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+خارجي uint32_t ul_سیٹ_رکاوٹ_نقاب( فراغ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+خارجي فراغ v_Clear_رکاوٹ_نقاب( uint32_t ul_نقاب ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
-#if ( configENABLE_TRUSTZONE == 1 )
-    extern void vPortAllocateSecureContext( uint32_t ulSecureStackSize ); /* __attribute__ (( naked )) */
-    extern void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */;
-#endif /* configENABLE_TRUSTZONE */
+#إذا ( configENABLE_TRUSTZONE == 1 )
+    خارجي فراغ v_پورٹ_Allocate_Secure_Context( uint32_t ul_Secure_ڈھیر_ناپ ); /* __attribute__ (( naked )) */
+    خارجي فراغ v_پورٹ_Free_Secure_Context( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */;
+#جے_انت /* configENABLE_TRUSTZONE */
 
-#if ( configENABLE_MPU == 1 )
-    extern BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */;
-    extern void vResetPrivilege( void ) /* __attribute__ (( naked )) */;
-#endif /* configENABLE_MPU */
+#إذا ( configENABLE_MPU == 1 )
+    خارجي ادھار_Type_t xIsPrivileged( فراغ ) /* __attribute__ (( naked )) */;
+    خارجي فراغ vResetPrivilege( فراغ ) /* __attribute__ (( naked )) */;
+#جے_انت /* configENABLE_MPU */
 
-#if ( configENABLE_PAC == 1 )
+#إذا ( configENABLE_PAC == 1 )
 
     /**
      * @brief Generates 128-bit task's random PAC key.
@@ -148,37 +148,37 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      * @param[out] pulTaskPacKey Pointer to a 4-word (128-bits) array to be
      *             filled with a 128-bit random number.
      */
-    void vApplicationGenerateTaskRandomPacKey( uint32_t * pulTaskPacKey );
+    فراغ v_Application_Generate_Task_Random_Pac_کلید( uint32_t * pul_Task_Pac_کلید );
 
-#endif /* configENABLE_PAC */
+#جے_انت /* configENABLE_PAC */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
-    #define portUSING_MPU_WRAPPERS    1
-    #define portPRIVILEGE_BIT         ( 0x80000000UL )
-#else
-    #define portPRIVILEGE_BIT         ( 0x0UL )
-#endif /* configENABLE_MPU */
+#إذا ( configENABLE_MPU == 1 )
+    #تعریف_کرو پورٹ_USING_MPU_WRAPPERS    1
+    #تعریف_کرو پورٹ_PRIVILEGE_ثنائی_ہندسہ         ( 0x80000000UL )
+#وإلا
+    #تعریف_کرو پورٹ_PRIVILEGE_ثنائی_ہندسہ         ( 0x0UL )
+#جے_انت /* configENABLE_MPU */
 
 /* MPU settings that can be overridden in FreeRTOSConfig.h. */
-#ifndef configTOTAL_MPU_REGIONS
+#جے_بنا_تعریف config_کل_MPU_REGIONS
     /* Define to 8 for backward compatibility. */
-    #define configTOTAL_MPU_REGIONS    ( 8UL )
-#endif
+    #تعریف_کرو config_کل_MPU_REGIONS    ( 8UL )
+#جے_انت
 
 /* MPU regions. */
-#define portPRIVILEGED_FLASH_REGION                   ( 0UL )
-#define portUNPRIVILEGED_FLASH_REGION                 ( 1UL )
-#define portUNPRIVILEGED_SYSCALLS_REGION              ( 2UL )
-#define portPRIVILEGED_RAM_REGION                     ( 3UL )
-#define portSTACK_REGION                              ( 4UL )
-#define portFIRST_CONFIGURABLE_REGION                 ( 5UL )
-#define portLAST_CONFIGURABLE_REGION                  ( configTOTAL_MPU_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS                  ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
-#define portTOTAL_NUM_REGIONS                         ( portNUM_CONFIGURABLE_REGIONS + 1 )       /* Plus one to make space for the stack region. */
+#تعریف_کرو پورٹ_PRIVILEGED_FLASH_REGION                   ( 0UL )
+#تعریف_کرو پورٹ_UNPRIVILEGED_FLASH_REGION                 ( 1UL )
+#تعریف_کرو پورٹ_UNPRIVILEGED_SYSCALLS_REGION              ( 2UL )
+#تعریف_کرو پورٹ_PRIVILEGED_RAM_REGION                     ( 3UL )
+#تعریف_کرو پورٹ_ڈھیر_REGION                              ( 4UL )
+#تعریف_کرو پورٹ_پہلا_CONFIGURABLE_REGION                 ( 5UL )
+#تعریف_کرو پورٹ_آخری_CONFIGURABLE_REGION                  ( config_کل_MPU_REGIONS - 1UL )
+#تعریف_کرو پورٹ_عدد_CONFIGURABLE_REGIONS                  ( ( پورٹ_آخری_CONFIGURABLE_REGION - پورٹ_پہلا_CONFIGURABLE_REGION ) + 1 )
+#تعریف_کرو پورٹ_کل_عدد_REGIONS                         ( پورٹ_عدد_CONFIGURABLE_REGIONS + 1 )       /* Plus one to make space for the stack region. */
 
 /* Device memory attributes used in MPU_MAIR registers.
  *
@@ -190,66 +190,66 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  *              11 --> Device-GRE
  *  Bit[1:0] - 00, Reserved.
  */
-#define portMPU_DEVICE_MEMORY_nGnRnE                  ( 0x00 )       /* 0000 0000 */
-#define portMPU_DEVICE_MEMORY_nGnRE                   ( 0x04 )       /* 0000 0100 */
-#define portMPU_DEVICE_MEMORY_nGRE                    ( 0x08 )       /* 0000 1000 */
-#define portMPU_DEVICE_MEMORY_GRE                     ( 0x0C )       /* 0000 1100 */
+#تعریف_کرو پورٹ_MPU_DEVICE_حافظہ_n_Gn_Rn_E                  ( 0x00 )       /* 0000 0000 */
+#تعریف_کرو پورٹ_MPU_DEVICE_حافظہ_n_Gn_RE                   ( 0x04 )       /* 0000 0100 */
+#تعریف_کرو پورٹ_MPU_DEVICE_حافظہ_n_GRE                    ( 0x08 )       /* 0000 1000 */
+#تعریف_کرو پورٹ_MPU_DEVICE_حافظہ_GRE                     ( 0x0C )       /* 0000 1100 */
 
 /* Normal memory attributes used in MPU_MAIR registers. */
-#define portMPU_NORMAL_MEMORY_NON_CACHEABLE           ( 0x44 )       /* Non-cacheable. */
-#define portMPU_NORMAL_MEMORY_BUFFERABLE_CACHEABLE    ( 0xFF )       /* Non-Transient, Write-back, Read-Allocate and Write-Allocate. */
+#تعریف_کرو پورٹ_MPU_عام_حافظہ_NON_CACHEABLE           ( 0x44 )       /* Non-cacheable. */
+#تعریف_کرو پورٹ_MPU_عام_حافظہ_BUFFERABLE_CACHEABLE    ( 0xFF )       /* Non-Transient, Write-back, Read-Allocate and Write-Allocate. */
 
 /* Attributes used in MPU_RBAR registers. */
-#define portMPU_REGION_NON_SHAREABLE                  ( 0UL << 3UL )
-#define portMPU_REGION_INNER_SHAREABLE                ( 1UL << 3UL )
-#define portMPU_REGION_OUTER_SHAREABLE                ( 2UL << 3UL )
+#تعریف_کرو پورٹ_MPU_REGION_NON_SHAREABLE                  ( 0UL << 3UL )
+#تعریف_کرو پورٹ_MPU_REGION_INNER_SHAREABLE                ( 1UL << 3UL )
+#تعریف_کرو پورٹ_MPU_REGION_OUTER_SHAREABLE                ( 2UL << 3UL )
 
-#define portMPU_REGION_PRIVILEGED_READ_WRITE          ( 0UL << 1UL )
-#define portMPU_REGION_READ_WRITE                     ( 1UL << 1UL )
-#define portMPU_REGION_PRIVILEGED_READ_ONLY           ( 2UL << 1UL )
-#define portMPU_REGION_READ_ONLY                      ( 3UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIVILEGED_READ_WRITE          ( 0UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_READ_WRITE                     ( 1UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIVILEGED_READ_ONLY           ( 2UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_READ_ONLY                      ( 3UL << 1UL )
 
-#define portMPU_REGION_EXECUTE_NEVER                  ( 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_EXECUTE_NEVER                  ( 1UL )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
     /**
      * @brief Settings to define an MPU region.
      */
-    typedef struct MPURegionSettings
+    تعريفنوع بنية MPURegionSettings
     {
         uint32_t ulRBAR; /**< RBAR for the region. */
         uint32_t ulRLAR; /**< RLAR for the region. */
     } MPURegionSettings_t;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-        #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
-        #endif
+        #جے_بنا_تعریف config_SYSTEM_CALL_ڈھیر_ناپ
+            #غلطی config_SYSTEM_CALL_ڈھیر_ناپ must be defined منزل the desired ناپ دا the system call ڈھیر وچ الفاظ لكل using MPU wrappers v2.
+        #جے_انت
 
         /**
          * @brief System call stack.
          */
-        typedef struct SYSTEM_CALL_STACK_INFO
+        تعريفنوع بنية SYSTEM_CALL_ڈھیر_INFO
         {
-            uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-            uint32_t * pulSystemCallStack;
-            uint32_t * pulSystemCallStackLimit;
-            uint32_t * pulTaskStack;
-            uint32_t ulLinkRegisterAtSystemCallEntry;
-            uint32_t ulStackLimitRegisterAtSystemCallEntry;
-        } xSYSTEM_CALL_STACK_INFO;
+            uint32_t ul_System_Call_ڈھیر_بفر[ config_SYSTEM_CALL_ڈھیر_ناپ ];
+            uint32_t * pul_System_Call_ڈھیر;
+            uint32_t * pul_System_Call_ڈھیر_حد_بندی;
+            uint32_t * pul_Task_ڈھیر;
+            uint32_t ul_Link_رجسٹر_At_System_Call_اندراج;
+            uint32_t ul_ڈھیر_حد_بندی_رجسٹر_At_System_Call_اندراج;
+        } x_SYSTEM_CALL_ڈھیر_INFO;
 
-    #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+    #جے_انت /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
     /**
      * @brief MPU settings as stored in the TCB.
      */
-    #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+    #إذا ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
 
-        #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
+        #إذا ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+------------------------------+------------+-----+
@@ -260,9 +260,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <-----------><--------------><---------><----------------><-----------------------------><-----------><---->
              *      16             17            8               8                     5                      4         1
              */
-            #define MAX_CONTEXT_SIZE    59
+            #تعریف_کرو MAX_CONTEXT_ناپ    59
 
-        #elif ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
+        #وإلاإذا ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+------------------------------+-----+
@@ -273,9 +273,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <-----------><--------------><---------><----------------><-----------------------------><---->
              *      16             17            8               8                     5                   1
              */
-            #define MAX_CONTEXT_SIZE    55
+            #تعریف_کرو MAX_CONTEXT_ناپ    55
 
-        #elif ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
+        #وإلاإذا ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+----------------------+------------+-----+
@@ -286,9 +286,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <-----------><--------------><---------><----------------><---------------------><-----------><---->
              *      16             17            8               8                  4                 4         1
              */
-            #define MAX_CONTEXT_SIZE    58
+            #تعریف_کرو MAX_CONTEXT_ناپ    58
 
-        #else /* if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
+        #وإلا /* if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
             /*
              * +-----------+---------------+----------+-----------------+----------------------+-----+
@@ -299,13 +299,13 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <-----------><--------------><---------><----------------><---------------------><---->
              *      16             17            8               8                  4              1
              */
-            #define MAX_CONTEXT_SIZE    54
+            #تعریف_کرو MAX_CONTEXT_ناپ    54
 
-        #endif /* #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
+        #جے_انت /* #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
-    #else /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+    #وإلا /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
 
-        #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
+        #إذا ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +----------+-----------------+------------------------------+------------+-----+
@@ -316,9 +316,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <---------><----------------><------------------------------><-----------><---->
              *     8               8                      5                       4         1
              */
-            #define MAX_CONTEXT_SIZE    26
+            #تعریف_کرو MAX_CONTEXT_ناپ    26
 
-        #elif ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
+        #وإلاإذا ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 0 ) )
 
             /*
              * +----------+-----------------+------------------------------+-----+
@@ -329,9 +329,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <---------><----------------><------------------------------><---->
              *     8               8                      5                   1
              */
-            #define MAX_CONTEXT_SIZE    22
+            #تعریف_کرو MAX_CONTEXT_ناپ    22
 
-        #elif ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
+        #وإلاإذا ( ( configENABLE_TRUSTZONE == 0 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +----------+-----------------+----------------------+------------+-----+
@@ -342,9 +342,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <---------><----------------><----------------------><-----------><---->
              *     8               8                  4                   4         1
              */
-            #define MAX_CONTEXT_SIZE    25
+            #تعریف_کرو MAX_CONTEXT_ناپ    25
 
-        #else /* #if( configENABLE_TRUSTZONE == 1 ) */
+        #وإلا /* #if( configENABLE_TRUSTZONE == 1 ) */
 
             /*
              * +----------+-----------------+----------------------+-----+
@@ -355,130 +355,130 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              * <---------><----------------><----------------------><---->
              *     8               8                  4              1
              */
-            #define MAX_CONTEXT_SIZE    21
+            #تعریف_کرو MAX_CONTEXT_ناپ    21
 
-        #endif /* #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
+        #جے_انت /* #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
-    #endif /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+    #جے_انت /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
 
     /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-    #define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
-    #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
+    #تعریف_کرو پورٹ_ڈھیر_چوکھٹا_HAS_PADDING_FLAG    ( 1UL << 0UL )
+    #تعریف_کرو پورٹ_TASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
     /* Size of an Access Control List (ACL) entry in bits. */
-    #define portACL_ENTRY_SIZE_BITS             ( 32U )
+    #تعریف_کرو پورٹ_ACL_اندراج_ناپ_بٹ             ( 32U )
 
-    typedef struct MPU_SETTINGS
+    تعريفنوع بنية MPU_SETTINGS
     {
         uint32_t ulMAIR0;                                              /**< MAIR0 for the task containing attributes for all the 4 per task regions. */
-        MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ]; /**< Settings for 4 per task regions. */
-        uint32_t ulContext[ MAX_CONTEXT_SIZE ];
+        MPURegionSettings_t xRegionsSettings[ پورٹ_کل_عدد_REGIONS ]; /**< Settings for 4 per task regions. */
+        uint32_t ulContext[ MAX_CONTEXT_ناپ ];
         uint32_t ulTaskFlags;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-            xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
-                uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
-            #endif
-        #endif
+        #إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
+            x_SYSTEM_CALL_ڈھیر_INFO x_System_Call_ڈھیر_Info;
+            #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                uint32_t ulAccessControlList[ ( config_PROTECTED_KERNEL_OBJECT_POOL_ناپ / پورٹ_ACL_اندراج_ناپ_بٹ ) + 1 ];
+            #جے_انت
+        #جے_انت
     } xMPU_SETTINGS;
 
-#endif /* configENABLE_MPU == 1 */
+#جے_انت /* configENABLE_MPU == 1 */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Validate priority of ISRs that are allowed to call FreeRTOS
  * system calls.
  */
-#if ( configASSERT_DEFINED == 1 )
-    #if ( portHAS_ARMV8M_MAIN_EXTENSION == 1 )
-        void vPortValidateInterruptPriority( void );
-        #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-    #endif
-#endif
+#إذا ( configASSERT_DEFINED == 1 )
+    #إذا ( پورٹ_HAS_ARMV8_M_MAIN_EXTENSION == 1 )
+        فراغ v_پورٹ_Validate_رکاوٹ_ترجیح( فراغ );
+        #تعریف_کرو پورٹ_ASSERT_IF_رکاوٹ_ترجیح_INVALID()    v_پورٹ_Validate_رکاوٹ_ترجیح()
+    #جے_انت
+#جے_انت
 
 /**
  * @brief SVC numbers.
  */
-#define portSVC_ALLOCATE_SECURE_CONTEXT    100
-#define portSVC_FREE_SECURE_CONTEXT        101
-#define portSVC_START_SCHEDULER            102
-#define portSVC_RAISE_PRIVILEGE            103
-#define portSVC_SYSTEM_CALL_EXIT           104
-#define portSVC_YIELD                      105
+#تعریف_کرو پورٹ_SVC_ALLOCATE_SECURE_CONTEXT    100
+#تعریف_کرو پورٹ_SVC_FREE_SECURE_CONTEXT        101
+#تعریف_کرو پورٹ_SVC_شروع_SCHEDULER            102
+#تعریف_کرو پورٹ_SVC_RAISE_PRIVILEGE            103
+#تعریف_کرو پورٹ_SVC_SYSTEM_CALL_EXIT           104
+#تعریف_کرو پورٹ_SVC_YIELD                      105
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Scheduler utilities.
  */
-#if ( configENABLE_MPU == 1 )
-    #define portYIELD()               __asm volatile ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
-    #define portYIELD_WITHIN_API()    vPortYield()
-#else
-    #define portYIELD()               vPortYield()
-    #define portYIELD_WITHIN_API()    vPortYield()
-#endif
+#إذا ( configENABLE_MPU == 1 )
+    #تعریف_کرو پورٹ_YIELD()               __asm متطاير ( "svc %0" ::"i" ( پورٹ_SVC_YIELD ) : "memory" )
+    #تعریف_کرو پورٹ_YIELD_WITHIN_API()    v_پورٹ_Yield()
+#وإلا
+    #تعریف_کرو پورٹ_YIELD()               v_پورٹ_Yield()
+    #تعریف_کرو پورٹ_YIELD_WITHIN_API()    v_پورٹ_Yield()
+#جے_انت
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+#تعریف_کرو پورٹ_NVIC_INT_CTRL_REG     ( *( ( متطاير uint32_t * ) 0xe000ed04 ) )
+#تعریف_کرو پورٹ_NVIC_PENDSVSET_ثنائی_ہندسہ    ( 1UL << 28UL )
+#تعریف_کرو پورٹ_سرا_SWITCHING_ISR( xSwitchRequired )            \
+    افعل                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        إذا( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_منزل_SCHEDULER();                   \
+            پورٹ_NVIC_INT_CTRL_REG = پورٹ_NVIC_PENDSVSET_ثنائی_ہندسہ; \
         }                                                   \
-        else                                                \
+        وإلا                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } طالما( 0 )
+#تعریف_کرو پورٹ_YIELD_FROM_ISR( x )    پورٹ_سرا_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
 
-#define portSET_INTERRUPT_MASK()                  ulSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK( x )             vClearInterruptMask( x )
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vClearInterruptMask( x )
+#تعریف_کرو پورٹ_سیٹ_رکاوٹ_نقاب()                  ul_سیٹ_رکاوٹ_نقاب()
+#تعریف_کرو پورٹ_CLEAR_رکاوٹ_نقاب( x )             v_Clear_رکاوٹ_نقاب( x )
+#تعریف_کرو پورٹ_سیٹ_رکاوٹ_نقاب_FROM_ISR()         ul_سیٹ_رکاوٹ_نقاب()
+#تعریف_کرو پورٹ_CLEAR_رکاوٹ_نقاب_FROM_ISR( x )    v_Clear_رکاوٹ_نقاب( x )
 
-#if ( configNUMBER_OF_CORES == 1 )
-    #define portENTER_CRITICAL()                      vPortEnterCritical()
-    #define portEXIT_CRITICAL()                       vPortExitCritical()
-#else /* ( configNUMBER_OF_CORES == 1 ) */
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
-    extern UBaseType_t vTaskEnterCriticalFromISR( void );
-    extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
+#إذا ( config_نمبر_دا_CORES == 1 )
+    #تعریف_کرو پورٹ_ENTER_CRITICAL()                      v_پورٹ_Enter_Critical()
+    #تعریف_کرو پورٹ_EXIT_CRITICAL()                       v_پورٹ_Exit_Critical()
+#وإلا /* ( configNUMBER_OF_CORES == 1 ) */
+    خارجي فراغ vTaskEnterCritical( فراغ );
+    خارجي فراغ vTaskExitCritical( فراغ );
+    خارجي UBaseType_t vTaskEnterCriticalFromISR( فراغ );
+    خارجي فراغ vTaskExitCriticalFromISR( UBaseType_t ux_Saved_رکاوٹ_حالت );
 
-    #define portENTER_CRITICAL()                      vTaskEnterCritical()
-    #define portEXIT_CRITICAL()                       vTaskExitCritical()
-    #define portENTER_CRITICAL_FROM_ISR()             vTaskEnterCriticalFromISR()
-    #define portEXIT_CRITICAL_FROM_ISR( x )           vTaskExitCriticalFromISR( x )
-#endif /* if ( configNUMBER_OF_CORES != 1 ) */
+    #تعریف_کرو پورٹ_ENTER_CRITICAL()                      vTaskEnterCritical()
+    #تعریف_کرو پورٹ_EXIT_CRITICAL()                       vTaskExitCritical()
+    #تعریف_کرو پورٹ_ENTER_CRITICAL_FROM_ISR()             vTaskEnterCriticalFromISR()
+    #تعریف_کرو پورٹ_EXIT_CRITICAL_FROM_ISR( x )           vTaskExitCriticalFromISR( x )
+#جے_انت /* if ( configNUMBER_OF_CORES != 1 ) */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Tickless idle/low power functionality.
  */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#جے_بنا_تعریف پورٹ_SUPPRESS_TICKS_AND_SLEEP
+    خارجي فراغ v_پورٹ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_ویلا );
+    #تعریف_کرو پورٹ_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_ویلا )    v_پورٹ_Suppress_Ticks_And_Sleep( x_Expected_Idle_ویلا )
+#جے_انت
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Task function macros as described on the FreeRTOS.org WEB site.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#إذا ( configENABLE_TRUSTZONE == 1 )
 
 /**
  * @brief Allocate a secure context for the task.
@@ -489,7 +489,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  *
  * @param[in] ulSecureStackSize The size of the secure stack to be allocated.
  */
-    #define portALLOCATE_SECURE_CONTEXT( ulSecureStackSize )    vPortAllocateSecureContext( ulSecureStackSize )
+    #تعریف_کرو پورٹ_ALLOCATE_SECURE_CONTEXT( ul_Secure_ڈھیر_ناپ )    v_پورٹ_Allocate_Secure_Context( ul_Secure_ڈھیر_ناپ )
 
 /**
  * @brief Called when a task is deleted to delete the task's secure context,
@@ -497,18 +497,18 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  *
  * @param[in] pxTCB The TCB of the task being deleted.
  */
-    #define portCLEAN_UP_TCB( pxTCB )                           vPortFreeSecureContext( ( uint32_t * ) pxTCB )
-#endif /* configENABLE_TRUSTZONE */
+    #تعریف_کرو پورٹ_CLEAN_اتے_TCB( pxTCB )                           v_پورٹ_Free_Secure_Context( ( uint32_t * ) pxTCB )
+#جے_انت /* configENABLE_TRUSTZONE */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
 /**
  * @brief Checks whether or not the processor is privileged.
  *
  * @return 1 if the processor is already privileged, 0 otherwise.
  */
-    #define portIS_PRIVILEGED()      xIsPrivileged()
+    #تعریف_کرو پورٹ_IS_PRIVILEGED()      xIsPrivileged()
 
 /**
  * @brief Raise an SVC request to raise privilege.
@@ -517,132 +517,132 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * then it raises the privilege. If this is called from any other place,
  * the privilege is not raised.
  */
-    #define portRAISE_PRIVILEGE()    __asm volatile ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
+    #تعریف_کرو پورٹ_RAISE_PRIVILEGE()    __asm متطاير ( "svc %0 \n" ::"i" ( پورٹ_SVC_RAISE_PRIVILEGE ) : "memory" );
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
  * register.
  */
-    #define portRESET_PRIVILEGE()    vResetPrivilege()
-#else
-    #define portIS_PRIVILEGED()
-    #define portRAISE_PRIVILEGE()
-    #define portRESET_PRIVILEGE()
-#endif /* configENABLE_MPU */
+    #تعریف_کرو پورٹ_RESET_PRIVILEGE()    vResetPrivilege()
+#وإلا
+    #تعریف_کرو پورٹ_IS_PRIVILEGED()
+    #تعریف_کرو پورٹ_RAISE_PRIVILEGE()
+    #تعریف_کرو پورٹ_RESET_PRIVILEGE()
+#جے_انت /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#إذا ( configENABLE_MPU == 1 )
 
-    extern BaseType_t xPortIsTaskPrivileged( void );
+    خارجي ادھار_Type_t x_پورٹ_Is_Task_Privileged( فراغ );
 
 /**
  * @brief Checks whether or not the calling task is privileged.
  *
  * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
  */
-    #define portIS_TASK_PRIVILEGED()    xPortIsTaskPrivileged()
+    #تعریف_کرو پورٹ_IS_TASK_PRIVILEGED()    x_پورٹ_Is_Task_Privileged()
 
-#endif /* configENABLE_MPU == 1 */
+#جے_انت /* configENABLE_MPU == 1 */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Barriers.
  */
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#تعریف_کرو پورٹ_حافظہ_BARRIER()    __asm متطاير ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Select correct value of configUSE_PORT_OPTIMISED_TASK_SELECTION
  * based on whether or not Mainline extension is implemented. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( configNUMBER_OF_CORES == 1 ) )
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #else
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-    #endif
-#endif /* #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#جے_بنا_تعریف config_USE_پورٹ_OPTIMISED_TASK_SELECTION
+    #إذا ( ( پورٹ_HAS_ARMV8_M_MAIN_EXTENSION == 1 ) && ( config_نمبر_دا_CORES == 1 ) )
+        #تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    1
+    #وإلا
+        #تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    0
+    #جے_انت
+#جے_انت /* #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /**
  * @brief Port-optimised task selection.
  */
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#إذا ( config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1 )
 
 /**
  * @brief Count the number of leading zeros in a 32-bit value.
  */
-    static portFORCE_INLINE uint32_t ulPortCountLeadingZeros( uint32_t ulBitmap )
+    ساكن پورٹ_FORCE_INLINE uint32_t ul_پورٹ_گنتی_Leading_Zeros( uint32_t ulBitmap )
     {
         uint32_t ulReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ulReturn ) : "r" ( ulBitmap ) : "memory" );
+        __asm متطاير ( "clz %0, %1" : "=r" ( ulReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ulReturn;
+        أرجع ulReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
-    #endif
+    #إذا ( configMAX_PRIORITIES > 32 )
+        #غلطی config_USE_پورٹ_OPTIMISED_TASK_SELECTION can only be سیٹ منزل 1 when configMAX_PRIORITIES is less than or equal منزل 32.  It is very rare that a system requires ہور than 10 منزل 15 different priorities as tasks that share a ترجیح will time ٹکڑا.
+    #جے_انت
 
-    #if ( portHAS_ARMV8M_MAIN_EXTENSION == 0 )
-        #error ARMv8-M baseline implementations (such as Cortex-M23) do not support port-optimised task selection.  Please set configUSE_PORT_OPTIMISED_TASK_SELECTION to 0 or leave it undefined.
-    #endif
+    #إذا ( پورٹ_HAS_ARMV8_M_MAIN_EXTENSION == 0 )
+        #غلطی ARMv8-M baseline implementations (such as Cortex-M23) افعل not support پورٹ-optimised task selection.  Please سیٹ config_USE_پورٹ_OPTIMISED_TASK_SELECTION منزل 0 or leave it undefined.
+    #جے_انت
 
 /**
  * @brief Store/clear the ready priorities in a bit map.
  */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )      ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )       ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کرو پورٹ_ریکارڈ_READY_ترجیح( ux_ترجیح, uxReadyPriorities )      ( uxReadyPriorities ) |= ( 1UL << ( ux_ترجیح ) )
+    #تعریف_کرو پورٹ_RESET_READY_ترجیح( ux_ترجیح, uxReadyPriorities )       ( uxReadyPriorities ) &= ~( 1UL << ( ux_ترجیح ) )
 
 /**
  * @brief Get the priority of the highest-priority task that is ready to execute.
  */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ulPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities )    ux_چوٹی_ترجیح = ( 31UL - ul_پورٹ_گنتی_Leading_Zeros( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#جے_انت /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 
-#if ( configNUMBER_OF_CORES > 1 )
-    typedef enum
+#إذا ( config_نمبر_دا_CORES > 1 )
+    تعريفنوع تعداد
     {
-        eIsrLock = 0,
-        eTaskLock,
-        eLockCount
-    } ePortRTOSLock;
+        e_Isr_جندرا = 0,
+        e_Task_جندرا,
+        e_جندرا_گنتی
+    } e_پورٹ_RTOSLock;
 
-    extern volatile uint32_t ulCriticalNestings[ configNUMBER_OF_CORES ];
-    extern void vPortRecursiveLock( uint8_t ucCoreID,
-                                    ePortRTOSLock eLockNum,
-                                    BaseType_t uxAcquire );
-    extern uint8_t ucPortGetCoreID( void );
-    extern void vInterruptCore( uint8_t ucCoreID );
+    خارجي متطاير uint32_t ulCriticalNestings[ config_نمبر_دا_CORES ];
+    خارجي فراغ v_پورٹ_Recursive_جندرا( uint8_t ucCoreID,
+                                    e_پورٹ_RTOSLock e_جندرا_عدد,
+                                    ادھار_Type_t uxAcquire );
+    خارجي uint8_t uc_پورٹ_Get_Core_ID( فراغ );
+    خارجي فراغ v_رکاوٹ_Core( uint8_t ucCoreID );
 
-    #define portGET_CORE_ID()                                  ucPortGetCoreID()
+    #تعریف_کرو پورٹ_GET_CORE_ID()                                  uc_پورٹ_Get_Core_ID()
 
-    #define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( ulCriticalNestings[ ( uint8_t ) xCoreID ] )
-    #define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( ulCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
-    #define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]++ )
-    #define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]-- )
+    #تعریف_کرو پورٹ_GET_CRITICAL_NESTING_گنتی( xCoreID )          ( ulCriticalNestings[ ( uint8_t ) xCoreID ] )
+    #تعریف_کرو پورٹ_سیٹ_CRITICAL_NESTING_گنتی( xCoreID, x )       ( ulCriticalNestings[ ( uint8_t ) xCoreID ] = ( x ) )
+    #تعریف_کرو پورٹ_INCREMENT_CRITICAL_NESTING_گنتی( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]++ )
+    #تعریف_کرو پورٹ_DECREMENT_CRITICAL_NESTING_گنتی( xCoreID )    ( ulCriticalNestings[ ( uint8_t ) xCoreID ]-- )
 
-    #define portMAX_CORE_COUNT                                 ( configNUMBER_OF_CORES )
+    #تعریف_کرو پورٹ_MAX_CORE_گنتی                                 ( config_نمبر_دا_CORES )
 
-    #define portYIELD_CORE( xCoreID )                          vInterruptCore( xCoreID )
+    #تعریف_کرو پورٹ_YIELD_CORE( xCoreID )                          v_رکاوٹ_Core( xCoreID )
 
-    #define portRELEASE_ISR_LOCK( xCoreID )                    vPortRecursiveLock( ( uint8_t ) xCoreID, eIsrLock, pdFALSE )
-    #define portGET_ISR_LOCK( xCoreID )                        vPortRecursiveLock( ( uint8_t ) xCoreID, eIsrLock, pdTRUE )
+    #تعریف_کرو پورٹ_RELEASE_ISR_جندرا( xCoreID )                    v_پورٹ_Recursive_جندرا( ( uint8_t ) xCoreID, e_Isr_جندرا, pdFALSE )
+    #تعریف_کرو پورٹ_GET_ISR_جندرا( xCoreID )                        v_پورٹ_Recursive_جندرا( ( uint8_t ) xCoreID, e_Isr_جندرا, pdTRUE )
 
-    #define portRELEASE_TASK_LOCK( xCoreID )                   vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdFALSE )
-    #define portGET_TASK_LOCK( xCoreID )                       vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdTRUE )
+    #تعریف_کرو پورٹ_RELEASE_TASK_جندرا( xCoreID )                   v_پورٹ_Recursive_جندرا( ( uint8_t ) xCoreID, e_Task_جندرا, pdFALSE )
+    #تعریف_کرو پورٹ_GET_TASK_جندرا( xCoreID )                       v_پورٹ_Recursive_جندرا( ( uint8_t ) xCoreID, e_Task_جندرا, pdTRUE )
 
-    #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
-        uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister );
-    #endif /* ( configENABLE_PAC == 1 || configENABLE_BTI == 1 ) */
-#endif
+    #إذا ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+        uint32_t vConfigurePACBTI( ادھار_Type_t x_Write_Control_رجسٹر );
+    #جے_انت /* ( configENABLE_PAC == 1 || configENABLE_BTI == 1 ) */
+#جے_انت
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
     }
-#endif
+#جے_انت
 /* *INDENT-ON* */
 
-#endif /* PORTMACROCOMMON_H */
+#جے_انت /* PORTMACROCOMMON_H */

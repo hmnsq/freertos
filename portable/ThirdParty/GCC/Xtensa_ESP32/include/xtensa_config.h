@@ -40,20 +40,20 @@
 *
 *******************************************************************************/
 
-#ifndef XTENSA_CONFIG_H
-#define XTENSA_CONFIG_H
+#جے_بنا_تعریف XTENSA_CONFIG_H
+#تعریف_کرو XTENSA_CONFIG_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+    خارجي "C" {
+#جے_انت
 /* *INDENT-ON* */
 
-#include <xtensa/hal.h>
-#include <xtensa/config/core.h>
-#include <xtensa/config/system.h> /* required for XSHAL_CLIB */
+#ضمن <xtensa/hal.h>
+#ضمن <xtensa/config/core.h>
+#ضمن <xtensa/config/system.h> /* required for XSHAL_CLIB */
 
-#include "xtensa_context.h"
+#ضمن "xtensa_context.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -106,27 +106,27 @@
  *  -----------------------------------------------------------------------------*/
 
 /* Extra space required for interrupt/exception hooks. */
-#ifdef XT_INTEXC_HOOKS
-    #ifdef __XTENSA_CALL0_ABI__
-        #define STK_INTEXC_EXTRA     0x200
-    #else
-        #define STK_INTEXC_EXTRA     0x180
-    #endif
-#else
-    #define STK_INTEXC_EXTRA         0
-#endif
+#جے_تعریف_شدہ XT_INTEXC_HOOKS
+    #جے_تعریف_شدہ __XTENSA_CALL0_ABI__
+        #تعریف_کرو STK_INTEXC_EXTRA     0x200
+    #وإلا
+        #تعریف_کرو STK_INTEXC_EXTRA     0x180
+    #جے_انت
+#وإلا
+    #تعریف_کرو STK_INTEXC_EXTRA         0
+#جے_انت
 
-#define XT_CLIB_CONTEXT_AREA_SIZE    0
+#تعریف_کرو XT_CLIB_CONTEXT_AREA_ناپ    0
 
 /*------------------------------------------------------------------------------
  *  Extra size -- interrupt frame plus coprocessor save area plus hook space.
  *  NOTE: Make sure XT_INTEXC_HOOKS is undefined unless you really need the hooks.
  *  ------------------------------------------------------------------------------*/
-#ifdef __XTENSA_CALL0_ABI__
-    #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_SIZE )
-#else
-    #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_SIZE )
-#endif
+#جے_تعریف_شدہ __XTENSA_CALL0_ABI__
+    #تعریف_کرو XT_XTRA_ناپ    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_ناپ )
+#وإلا
+    #تعریف_کرو XT_XTRA_ناپ    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_ناپ )
+#جے_انت
 
 /*------------------------------------------------------------------------------
  *  Space allocated for user code -- function calls and local variables.
@@ -136,23 +136,23 @@
  *  NOTE: The windowed ABI requires more stack, since space has to be reserved
  *  for spilling register windows.
  *  ------------------------------------------------------------------------------*/
-#ifdef __XTENSA_CALL0_ABI__
-    #define XT_USER_SIZE    0x200
-#else
-    #define XT_USER_SIZE    0x400
-#endif
+#جے_تعریف_شدہ __XTENSA_CALL0_ABI__
+    #تعریف_کرو XT_USER_ناپ    0x200
+#وإلا
+    #تعریف_کرو XT_USER_ناپ    0x400
+#جے_انت
 
 /* Minimum recommended stack size. */
-#define XT_STACK_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / sizeof( unsigned char ) )
+#تعریف_کرو XT_ڈھیر_MIN_ناپ      ( ( XT_XTRA_ناپ + XT_USER_ناپ ) / حجم( بنانشانی حرف ) )
 
 /* OS overhead with and without C library thread context. */
-#define XT_STACK_EXTRA         ( XT_XTRA_SIZE )
-#define XT_STACK_EXTRA_CLIB    ( XT_XTRA_SIZE + XT_CLIB_CONTEXT_AREA_SIZE )
+#تعریف_کرو XT_ڈھیر_EXTRA         ( XT_XTRA_ناپ )
+#تعریف_کرو XT_ڈھیر_EXTRA_CLIB    ( XT_XTRA_ناپ + XT_CLIB_CONTEXT_AREA_ناپ )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
     }
-#endif
+#جے_انت
 /* *INDENT-ON* */
 
-#endif /* XTENSA_CONFIG_H */
+#جے_انت /* XTENSA_CONFIG_H */

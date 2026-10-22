@@ -26,24 +26,24 @@
  *
  */
 
-#ifndef PORTMACRO_ASM_H
-#define PORTMACRO_ASM_H
+#جے_بنا_تعریف PORTMACRO_ASM_H
+#تعریف_کرو PORTMACRO_ASM_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+خارجي "C" {
+#جے_انت
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
-#ifndef configTOTAL_MPU_REGIONS
-    #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#elif( configTOTAL_MPU_REGIONS == 12 )
-    #define portMPU_TOTAL_REGIONS ( 12UL )
-#elif( configTOTAL_MPU_REGIONS == 16 )
-    #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
-    #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#endif /* configTOTAL_MPU_REGIONS */
+#جے_بنا_تعریف config_کل_MPU_REGIONS
+    #غلطی "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
+#وإلاإذا( config_کل_MPU_REGIONS == 12 )
+    #تعریف_کرو پورٹ_MPU_کل_REGIONS ( 12UL )
+#وإلاإذا( config_کل_MPU_REGIONS == 16 )
+    #تعریف_کرو پورٹ_MPU_کل_REGIONS ( 16UL )
+#وإلا
+    #غلطی "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
+#جے_انت /* configTOTAL_MPU_REGIONS */
 
 /*
  * The application write can disable Floating Point Unit (FPU) support by
@@ -56,11 +56,11 @@ extern "C" {
  * themselves by using the floating point registers. If the FPU support is
  * disabled, the use of such APIs may result in memory corruption.
  */
-#ifndef configENABLE_FPU
-    #define configENABLE_FPU    1
-#endif /* configENABLE_FPU */
+#جے_بنا_تعریف configENABLE_FPU
+    #تعریف_کرو configENABLE_FPU    1
+#جے_انت /* configENABLE_FPU */
 
-#define portENABLE_FPU configENABLE_FPU
+#تعریف_کرو پورٹ_ENABLE_FPU configENABLE_FPU
 
 /* On the ArmV7-R Architecture the Operating mode of the Processor is set
  * using the Current Program Status Register (CPSR) Mode bits, [4:0]. The only
@@ -76,22 +76,22 @@ extern "C" {
  *
  * @ingroup Port Privilege
  */
-#define USER_MODE   0x10U
-#define FIQ_MODE    0x11U
-#define IRQ_MODE    0x12U
-#define SVC_MODE    0x13U
-#define MON_MODE    0x16U
-#define ABT_MODE    0x17U
-#define HYP_MODE    0x1AU
-#define UND_MODE    0x1BU
-#define SYS_MODE    0x1FU
+#تعریف_کرو USER_منوال   0x10U
+#تعریف_کرو FIQ_منوال    0x11U
+#تعریف_کرو IRQ_منوال    0x12U
+#تعریف_کرو SVC_منوال    0x13U
+#تعریف_کرو MON_منوال    0x16U
+#تعریف_کرو ABT_منوال    0x17U
+#تعریف_کرو HYP_منوال    0x1AU
+#تعریف_کرو UND_منوال    0x1BU
+#تعریف_کرو SYS_منوال    0x1FU
 
 /**
  * @brief Flag used to mark that a FreeRTOS Task is privileged.
  *
  * @ingroup Port Privilege
  */
-#define portTASK_IS_PRIVILEGED_FLAG   ( 1UL << 1UL )
+#تعریف_کرو پورٹ_TASK_IS_PRIVILEGED_FLAG   ( 1UL << 1UL )
 
 /**
  * @brief SVC numbers for various scheduler operations.
@@ -100,8 +100,8 @@ extern "C" {
  *
  * @note These value must not be used in mpu_syscall_numbers.h.
  */
-#define portSVC_YIELD                 0x0100U
-#define portSVC_SYSTEM_CALL_EXIT      0x0104U
+#تعریف_کرو پورٹ_SVC_YIELD                 0x0100U
+#تعریف_کرو پورٹ_SVC_SYSTEM_CALL_EXIT      0x0104U
 
 /**
  * @brief Macros required to manipulate MPU.
@@ -113,110 +113,110 @@ extern "C" {
 
 /* MPU sub-region disable settings. This information is encoded in the MPU
  * Region Size and Enable Register. */
-#define portMPU_SUBREGION_0_DISABLE   ( 0x1UL << 8UL )
-#define portMPU_SUBREGION_1_DISABLE   ( 0x1UL << 9UL )
-#define portMPU_SUBREGION_2_DISABLE   ( 0x1UL << 10UL )
-#define portMPU_SUBREGION_3_DISABLE   ( 0x1UL << 11UL )
-#define portMPU_SUBREGION_4_DISABLE   ( 0x1UL << 12UL )
-#define portMPU_SUBREGION_5_DISABLE   ( 0x1UL << 13UL )
-#define portMPU_SUBREGION_6_DISABLE   ( 0x1UL << 14UL )
-#define portMPU_SUBREGION_7_DISABLE   ( 0x1UL << 15UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_0_DISABLE   ( 0x1UL << 8UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_1_DISABLE   ( 0x1UL << 9UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_2_DISABLE   ( 0x1UL << 10UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_3_DISABLE   ( 0x1UL << 11UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_4_DISABLE   ( 0x1UL << 12UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_5_DISABLE   ( 0x1UL << 13UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_6_DISABLE   ( 0x1UL << 14UL )
+#تعریف_کرو پورٹ_MPU_SUBREGION_7_DISABLE   ( 0x1UL << 15UL )
 
 /* Default MPU regions. */
-#define portFIRST_CONFIGURABLE_REGION ( 0 )
-#define portLAST_CONFIGURABLE_REGION  ( portMPU_TOTAL_REGIONS - 5UL )
-#define portSTACK_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION ( portMPU_TOTAL_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION   ( portMPU_TOTAL_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION     ( portMPU_TOTAL_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS \
-    ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1UL )
+#تعریف_کرو پورٹ_پہلا_CONFIGURABLE_REGION ( 0 )
+#تعریف_کرو پورٹ_آخری_CONFIGURABLE_REGION  ( پورٹ_MPU_کل_REGIONS - 5UL )
+#تعریف_کرو پورٹ_ڈھیر_REGION              ( پورٹ_MPU_کل_REGIONS - 4UL )
+#تعریف_کرو پورٹ_UNPRIVILEGED_FLASH_REGION ( پورٹ_MPU_کل_REGIONS - 3UL )
+#تعریف_کرو پورٹ_PRIVILEGED_FLASH_REGION   ( پورٹ_MPU_کل_REGIONS - 2UL )
+#تعریف_کرو پورٹ_PRIVILEGED_RAM_REGION     ( پورٹ_MPU_کل_REGIONS - 1UL )
+#تعریف_کرو پورٹ_عدد_CONFIGURABLE_REGIONS \
+    ( ( پورٹ_آخری_CONFIGURABLE_REGION - پورٹ_پہلا_CONFIGURABLE_REGION ) + 1UL )
 /* Plus one to make space for the stack region. */
-#define portTOTAL_NUM_REGIONS_IN_TCB        ( portNUM_CONFIGURABLE_REGIONS + 1UL )
+#تعریف_کرو پورٹ_کل_عدد_REGIONS_وچ_TCB        ( پورٹ_عدد_CONFIGURABLE_REGIONS + 1UL )
 
 /* MPU region sizes. This information is encoded in the MPU Region Size and
  * Enable Register. */
-#define portMPU_REGION_SIZE_32B             ( 0x04UL << 1UL )
-#define portMPU_REGION_SIZE_64B             ( 0x05UL << 1UL )
-#define portMPU_REGION_SIZE_128B            ( 0x06UL << 1UL )
-#define portMPU_REGION_SIZE_256B            ( 0x07UL << 1UL )
-#define portMPU_REGION_SIZE_512B            ( 0x08UL << 1UL )
-#define portMPU_REGION_SIZE_1KB             ( 0x09UL << 1UL )
-#define portMPU_REGION_SIZE_2KB             ( 0x0AUL << 1UL )
-#define portMPU_REGION_SIZE_4KB             ( 0x0BUL << 1UL )
-#define portMPU_REGION_SIZE_8KB             ( 0x0CUL << 1UL )
-#define portMPU_REGION_SIZE_16KB            ( 0x0DUL << 1UL )
-#define portMPU_REGION_SIZE_32KB            ( 0x0EUL << 1UL )
-#define portMPU_REGION_SIZE_64KB            ( 0x0FUL << 1UL )
-#define portMPU_REGION_SIZE_128KB           ( 0x10UL << 1UL )
-#define portMPU_REGION_SIZE_256KB           ( 0x11UL << 1UL )
-#define portMPU_REGION_SIZE_512KB           ( 0x12UL << 1UL )
-#define portMPU_REGION_SIZE_1MB             ( 0x13UL << 1UL )
-#define portMPU_REGION_SIZE_2MB             ( 0x14UL << 1UL )
-#define portMPU_REGION_SIZE_4MB             ( 0x15UL << 1UL )
-#define portMPU_REGION_SIZE_8MB             ( 0x16UL << 1UL )
-#define portMPU_REGION_SIZE_16MB            ( 0x17UL << 1UL )
-#define portMPU_REGION_SIZE_32MB            ( 0x18UL << 1UL )
-#define portMPU_REGION_SIZE_64MB            ( 0x19UL << 1UL )
-#define portMPU_REGION_SIZE_128MB           ( 0x1AUL << 1UL )
-#define portMPU_REGION_SIZE_256MB           ( 0x1BUL << 1UL )
-#define portMPU_REGION_SIZE_512MB           ( 0x1CUL << 1UL )
-#define portMPU_REGION_SIZE_1GB             ( 0x1DUL << 1UL )
-#define portMPU_REGION_SIZE_2GB             ( 0x1EUL << 1UL )
-#define portMPU_REGION_SIZE_4GB             ( 0x1FUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_32_B             ( 0x04UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_64_B             ( 0x05UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_128_B            ( 0x06UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_256_B            ( 0x07UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_512_B            ( 0x08UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_1_KB             ( 0x09UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_2_KB             ( 0x0AUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_4_KB             ( 0x0BUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_8_KB             ( 0x0CUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_16_KB            ( 0x0DUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_32_KB            ( 0x0EUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_64_KB            ( 0x0FUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_128_KB           ( 0x10UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_256_KB           ( 0x11UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_512_KB           ( 0x12UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_1_MB             ( 0x13UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_2_MB             ( 0x14UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_4_MB             ( 0x15UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_8_MB             ( 0x16UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_16_MB            ( 0x17UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_32_MB            ( 0x18UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_64_MB            ( 0x19UL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_128_MB           ( 0x1AUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_256_MB           ( 0x1BUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_512_MB           ( 0x1CUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_1_GB             ( 0x1DUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_2_GB             ( 0x1EUL << 1UL )
+#تعریف_کرو پورٹ_MPU_REGION_ناپ_4_GB             ( 0x1FUL << 1UL )
 
 /* MPU memory types. This information is encoded in the TEX, S, C and B bits
  * of the MPU Region Access Control Register. */
-#define portMPU_REGION_STRONGLY_ORDERED_SHAREABLE  ( 0x00UL ) /* TEX=000, S=NA, C=0, B=0. */
-#define portMPU_REGION_DEVICE_SHAREABLE            ( 0x01UL ) /* TEX=000, S=NA, C=0, B=1. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_NONSHARED   ( 0x02UL ) /* TEX=000, S=0, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWTNOWA_SHARED      ( 0x06UL ) /* TEX=000, S=1, C=1, B=0. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_NONSHARED   ( 0x03UL ) /* TEX=000, S=0, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OIWBNOWA_SHARED      ( 0x07UL ) /* TEX=000, S=1, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OINC_NONSHARED       ( 0x08UL ) /* TEX=001, S=0, C=0, B=0. */
-#define portMPU_REGION_NORMAL_OINC_SHARED          ( 0x0CUL ) /* TEX=001, S=1, C=0, B=0. */
-#define portMPU_REGION_NORMAL_OIWBWA_NONSHARED     ( 0x0BUL ) /* TEX=001, S=0, C=1, B=1. */
-#define portMPU_REGION_NORMAL_OIWBWA_SHARED        ( 0x0FUL ) /* TEX=001, S=1, C=1, B=1. */
-#define portMPU_REGION_DEVICE_NONSHAREABLE         ( 0x10UL ) /* TEX=010, S=NA, C=0, B=0. */
+#تعریف_کرو پورٹ_MPU_REGION_STRONGLY_ORDERED_SHAREABLE  ( 0x00UL ) /* TEX=000, S=NA, C=0, B=0. */
+#تعریف_کرو پورٹ_MPU_REGION_DEVICE_SHAREABLE            ( 0x01UL ) /* TEX=000, S=NA, C=0, B=1. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OIWTNOWA_NONSHARED   ( 0x02UL ) /* TEX=000, S=0, C=1, B=0. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OIWTNOWA_SHARED      ( 0x06UL ) /* TEX=000, S=1, C=1, B=0. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OIWBNOWA_NONSHARED   ( 0x03UL ) /* TEX=000, S=0, C=1, B=1. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OIWBNOWA_SHARED      ( 0x07UL ) /* TEX=000, S=1, C=1, B=1. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OINC_NONSHARED       ( 0x08UL ) /* TEX=001, S=0, C=0, B=0. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OINC_SHARED          ( 0x0CUL ) /* TEX=001, S=1, C=0, B=0. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OIWBWA_NONSHARED     ( 0x0BUL ) /* TEX=001, S=0, C=1, B=1. */
+#تعریف_کرو پورٹ_MPU_REGION_عام_OIWBWA_SHARED        ( 0x0FUL ) /* TEX=001, S=1, C=1, B=1. */
+#تعریف_کرو پورٹ_MPU_REGION_DEVICE_NONSHAREABLE         ( 0x10UL ) /* TEX=010, S=NA, C=0, B=0. */
 
 /* MPU access permissions. This information is encoded in the XN and AP bits of
  * the MPU Region Access Control Register. */
-#define portMPU_REGION_AP_BITMASK                  ( 0x07UL << 8UL )
-#define portMPU_REGION_XN_BITMASK                  ( 0x01UL << 12UL )
+#تعریف_کرو پورٹ_MPU_REGION_AP_BITMASK                  ( 0x07UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_XN_BITMASK                  ( 0x01UL << 12UL )
 
-#define portMPU_REGION_PRIV_NA_USER_NA             ( 0x00UL << 8UL )
-#define portMPU_REGION_PRIV_NA_USER_NA_EXEC        ( portMPU_REGION_PRIV_NA_USER_NA ) /* Priv: X, Unpriv: X. */
-#define portMPU_REGION_PRIV_NA_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_NA_USER_NA | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: No Access, Unpriv: No Access. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_NA_USER_NA             ( 0x00UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_NA_USER_NA_EXEC        ( پورٹ_MPU_REGION_PRIV_NA_USER_NA ) /* Priv: X, Unpriv: X. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_NA_USER_NA_NOEXEC      ( پورٹ_MPU_REGION_PRIV_NA_USER_NA | \
+                                                     پورٹ_MPU_REGION_XN_BITMASK ) /* Priv: No Access, Unpriv: No Access. */
 
-#define portMPU_REGION_PRIV_RW_USER_NA             ( 0x01UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_NA_EXEC        ( portMPU_REGION_PRIV_RW_USER_NA ) /* Priv: RWX, Unpriv: X. */
-#define portMPU_REGION_PRIV_RW_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_NA | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: No access. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_NA             ( 0x01UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_NA_EXEC        ( پورٹ_MPU_REGION_PRIV_RW_USER_NA ) /* Priv: RWX, Unpriv: X. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_NA_NOEXEC      ( پورٹ_MPU_REGION_PRIV_RW_USER_NA | \
+                                                     پورٹ_MPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: No access. */
 
-#define portMPU_REGION_PRIV_RW_USER_RO             ( 0x02UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_RO_EXEC        ( portMPU_REGION_PRIV_RW_USER_RO ) /* Priv: RWX, Unpriv: RX. */
-#define portMPU_REGION_PRIV_RW_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RO | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: R. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_RO             ( 0x02UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_RO_EXEC        ( پورٹ_MPU_REGION_PRIV_RW_USER_RO ) /* Priv: RWX, Unpriv: RX. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_RO_NOEXEC      ( پورٹ_MPU_REGION_PRIV_RW_USER_RO | \
+                                                     پورٹ_MPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: R. */
 
-#define portMPU_REGION_PRIV_RW_USER_RW             ( 0x03UL << 8UL )
-#define portMPU_REGION_PRIV_RW_USER_RW_EXEC        ( portMPU_REGION_PRIV_RW_USER_RW ) /* Priv: RWX, Unpriv: RWX. */
-#define portMPU_REGION_PRIV_RW_USER_RW_NOEXEC      ( portMPU_REGION_PRIV_RW_USER_RW | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: RW. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_RW             ( 0x03UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_RW_EXEC        ( پورٹ_MPU_REGION_PRIV_RW_USER_RW ) /* Priv: RWX, Unpriv: RWX. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RW_USER_RW_NOEXEC      ( پورٹ_MPU_REGION_PRIV_RW_USER_RW | \
+                                                     پورٹ_MPU_REGION_XN_BITMASK ) /* Priv: RW, Unpriv: RW. */
 
-#define portMPU_REGION_PRIV_RO_USER_NA             ( 0x05UL << 8UL )
-#define portMPU_REGION_PRIV_RO_USER_NA_EXEC        ( portMPU_REGION_PRIV_RO_USER_NA ) /* Priv: RX, Unpriv: X. */
-#define portMPU_REGION_PRIV_RO_USER_NA_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_NA | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: No access. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RO_USER_NA             ( 0x05UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RO_USER_NA_EXEC        ( پورٹ_MPU_REGION_PRIV_RO_USER_NA ) /* Priv: RX, Unpriv: X. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RO_USER_NA_NOEXEC      ( پورٹ_MPU_REGION_PRIV_RO_USER_NA | \
+                                                     پورٹ_MPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: No access. */
 
-#define portMPU_REGION_PRIV_RO_USER_RO             ( 0x06UL << 8UL )
-#define portMPU_REGION_PRIV_RO_USER_RO_EXEC        ( portMPU_REGION_PRIV_RO_USER_RO ) /* Priv: RX, Unpriv: RX. */
-#define portMPU_REGION_PRIV_RO_USER_RO_NOEXEC      ( portMPU_REGION_PRIV_RO_USER_RO | \
-                                                     portMPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: R. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RO_USER_RO             ( 0x06UL << 8UL )
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RO_USER_RO_EXEC        ( پورٹ_MPU_REGION_PRIV_RO_USER_RO ) /* Priv: RX, Unpriv: RX. */
+#تعریف_کرو پورٹ_MPU_REGION_PRIV_RO_USER_RO_NOEXEC      ( پورٹ_MPU_REGION_PRIV_RO_USER_RO | \
+                                                     پورٹ_MPU_REGION_XN_BITMASK ) /* Priv: R, Unpriv: R. */
 
 /* MPU region management. */
-#define portMPU_REGION_EXECUTE_NEVER               ( 0x01UL << 12UL )
-#define portMPU_REGION_ENABLE                      ( 0x01UL )
+#تعریف_کرو پورٹ_MPU_REGION_EXECUTE_NEVER               ( 0x01UL << 12UL )
+#تعریف_کرو پورٹ_MPU_REGION_ENABLE                      ( 0x01UL )
 
 /**
  * @brief The size (in words) of a task context.
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#إذا( پورٹ_ENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -250,8 +250,8 @@ extern "C" {
      * <------------------><------><---------><--------><---------><--------><----------><----->
      *           1            1        32         13         1         1          1        1
      */
-    #define CONTEXT_SIZE 51U
-#else
+    #تعریف_کرو CONTEXT_ناپ 51U
+#وإلا
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -260,20 +260,20 @@ extern "C" {
      * <------------------><--------><---------><--------><----------><----->
      *           1             13         1         1          1        1
      */
-    #define CONTEXT_SIZE 18U
-#endif /* CONTEXT_SIZE */
+    #تعریف_کرو CONTEXT_ناپ 18U
+#جے_انت /* CONTEXT_SIZE */
 
 /**
  * @brief Offset of xSystemCallStackInfo from the start of a TCB.
  */
-#define portSYSTEM_CALL_INFO_OFFSET             \
+#تعریف_کرو پورٹ_SYSTEM_CALL_INFO_وتھ             \
     ( ( 1U /* pxTopOfStack. */ +                \
-        ( portTOTAL_NUM_REGIONS_IN_TCB * 3U ) + \
+        ( پورٹ_کل_عدد_REGIONS_وچ_TCB * 3U ) + \
         1U /* ulTaskFlags. */                   \
       ) * 4U )
 
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
 } /* extern C */
-#endif
+#جے_انت
 
-#endif /* PORTMACRO_ASM_H */
+#جے_انت /* PORTMACRO_ASM_H */

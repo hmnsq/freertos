@@ -26,52 +26,52 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef FREERTOS_SDK_CONFIG_H
-#define FREERTOS_SDK_CONFIG_H
+#جے_بنا_تعریف FREERTOS_SDK_CONFIG_H
+#تعریف_کرو FREERTOS_SDK_CONFIG_H
 
-#ifndef __ASSEMBLER__
-    #include "FreeRTOSConfig.h"
-    #include "rp2040_config.h"
-    #ifndef PICO_USE_MALLOC_MUTEX
+#جے_بنا_تعریف __ASSEMBLER__
+    #ضمن "FreeRTOSConfig.h"
+    #ضمن "rp2040_config.h"
+    #جے_بنا_تعریف PICO_USE_MALLOC_MUTEX
         /* malloc needs to be made thread safe */
-        #define PICO_USE_MALLOC_MUTEX    1
-    #endif /* PICO_USE_MALLOC_MUTEX */
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+        #تعریف_کرو PICO_USE_MALLOC_MUTEX    1
+    #جے_انت /* PICO_USE_MALLOC_MUTEX */
+    #إذا ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* increase the amount of time it may reasonably take to wake us up */
-        #ifndef PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
-            #define PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
-        #endif
+        #جے_بنا_تعریف PICO_ویلا_SLEEP_OVERHEAD_ADJUST_US
+            #تعریف_کرو PICO_ویلا_SLEEP_OVERHEAD_ADJUST_US    150
+        #جے_انت
 
-        #define lock_owner_id_t                           uint32_t
-        extern uint32_t ulPortLockGetCurrentOwnerId( void );
-        #define lock_get_caller_owner_id()    ulPortLockGetCurrentOwnerId()
-        #define LOCK_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
+        #تعریف_کرو جندرا_owner_id_t                           uint32_t
+        خارجي uint32_t ul_پورٹ_جندرا_Get_Current_Owner_Id( فراغ );
+        #تعریف_کرو جندرا_get_caller_owner_id()    ul_پورٹ_جندرا_Get_Current_Owner_Id()
+        #تعریف_کرو جندرا_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
 
-        struct lock_core;
-        #ifndef lock_internal_spin_unlock_with_wait
-            extern void vPortLockInternalSpinUnlockWithWait( struct lock_core * pxLock,
+        بنية جندرا_core;
+        #جے_بنا_تعریف جندرا_اندرونی_spin_unlock_with_wait
+            خارجي فراغ v_پورٹ_جندرا_اندرونی_Spin_Unlock_With_Wait( بنية جندرا_core * px_جندرا,
                                                              uint32_t ulSave );
-            #define lock_internal_spin_unlock_with_wait( lock, save )    vPortLockInternalSpinUnlockWithWait( lock, save )
-        #endif
+            #تعریف_کرو جندرا_اندرونی_spin_unlock_with_wait( جندرا_2, save )    v_پورٹ_جندرا_اندرونی_Spin_Unlock_With_Wait( جندرا_2, save )
+        #جے_انت
 
-        #ifndef lock_internal_spin_unlock_with_notify
-            extern void vPortLockInternalSpinUnlockWithNotify( struct lock_core * pxLock,
+        #جے_بنا_تعریف جندرا_اندرونی_spin_unlock_with_notify
+            خارجي فراغ v_پورٹ_جندرا_اندرونی_Spin_Unlock_With_Notify( بنية جندرا_core * px_جندرا,
                                                                uint32_t save );
-            #define lock_internal_spin_unlock_with_notify( lock, save )    vPortLockInternalSpinUnlockWithNotify( lock, save );
-        #endif
+            #تعریف_کرو جندرا_اندرونی_spin_unlock_with_notify( جندرا_2, save )    v_پورٹ_جندرا_اندرونی_Spin_Unlock_With_Notify( جندرا_2, save );
+        #جے_انت
 
-        #ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout
-            extern bool xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( struct lock_core * pxLock,
+        #جے_بنا_تعریف جندرا_اندرونی_spin_unlock_with_بہترین_effort_wait_or_timeout
+            خارجي bool x_پورٹ_جندرا_اندرونی_Spin_Unlock_With_بہترین_Effort_Wait_Or_Timeout( بنية جندرا_core * px_جندرا,
                                                                                 uint32_t ulSave,
-                                                                                absolute_time_t uxUntil );
-            #define lock_internal_spin_unlock_with_best_effort_wait_or_timeout( lock, save, until ) \
-    xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( lock, save, until )
-        #endif
-    #endif /* configSUPPORT_PICO_SYNC_INTEROP */
+                                                                                absolute_ویلا_t uxUntil );
+            #تعریف_کرو جندرا_اندرونی_spin_unlock_with_بہترین_effort_wait_or_timeout( جندرا_2, save, until ) \
+    x_پورٹ_جندرا_اندرونی_Spin_Unlock_With_بہترین_Effort_Wait_Or_Timeout( جندرا_2, save, until )
+        #جے_انت
+    #جے_انت /* configSUPPORT_PICO_SYNC_INTEROP */
 
-    #if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
-        extern void xPortSyncInternalYieldUntilBefore( absolute_time_t t );
-        #define sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
-    #endif /* configSUPPORT_PICO_TIME_INTEROP */
-#endif /* __ASSEMBLER__ */
-#endif /* ifndef FREERTOS_SDK_CONFIG_H */
+    #إذا ( config_SUPPORT_PICO_ویلا_INTEROP == 1 )
+        خارجي فراغ x_پورٹ_Sync_اندرونی_Yield_Until_Before( absolute_ویلا_t t );
+        #تعریف_کرو sync_اندرونی_yield_until_before( t )    x_پورٹ_Sync_اندرونی_Yield_Until_Before( t )
+    #جے_انت /* configSUPPORT_PICO_TIME_INTEROP */
+#جے_انت /* __ASSEMBLER__ */
+#جے_انت /* ifndef FREERTOS_SDK_CONFIG_H */

@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
-import os
-import argparse
+استورد os
+استورد argparse
 
-THIS_FILE_PATH = os.path.dirname(os.path.abspath(__file__))
-MANIFEST_FILE = os.path.join(THIS_FILE_PATH, '..', '..', 'manifest.yml')
+THIS_FILE_رستہ = os.رستہ.dirname(os.رستہ.abspath(__file__))
+MANIFEST_FILE = os.رستہ.join(THIS_FILE_رستہ, '..', '..', 'manifest.yml')
 
-def update_manifest_file(new_version_number):
-    updated_lines = []
-    with open(MANIFEST_FILE, 'r') as f:
-        for line in f:
-            line = line.strip()
-            if line.startswith('version'):
-                updated_lines.append(f'version: "V{new_version_number}"\n')
-            else:
-                updated_lines.append(f'{line}\n')
+تعریف update_manifest_file(new_نسخہ_نمبر):
+    updated_سطریں = []
+    نال open(MANIFEST_FILE, 'r') كـ f:
+        لكل سطر في f:
+            سطر = سطر.strip()
+            إذا سطر.startswith('version'):
+                updated_سطریں.append(f'version: "V{new_version_number}"\n')
+            وإلا:
+                updated_سطریں.append(f'{line}\n')
 
-    with open(MANIFEST_FILE, 'w') as f:
-        f.writelines(updated_lines)
+    نال open(MANIFEST_FILE, 'w') كـ f:
+        f.writelines(updated_سطریں)
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--version', required=True, help='New version number.')
-    args = parser.parse_args()
-    return args
+تعریف parse_دلیلاں():
+    parser = argparse.دلیل_Parser()
+    parser.جوڑو_دلیل('-v', '--version', required=سچ, help='New version number.')
+    دلیلاں = parser.parse_دلیلاں()
+    أرجع دلیلاں
 
-def main():
-    args = parse_args()
-    update_manifest_file(args.version)
+تعریف مکھ():
+    دلیلاں = parse_دلیلاں()
+    update_manifest_file(دلیلاں.نسخہ)
 
-if __name__ == '__main__':
-    main()
+إذا __name__ == '__main__':
+    مکھ()

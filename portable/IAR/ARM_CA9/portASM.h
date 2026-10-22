@@ -29,38 +29,38 @@
     EXTERN  vTaskSwitchContext
     EXTERN  ulCriticalNesting
     EXTERN  pxCurrentTCB
-    EXTERN  ulPortTaskHasFPUContext
-    EXTERN  ulAsmAPIPriorityMask
+    EXTERN  ul_پورٹ_Task_Has_FPUContext
+    EXTERN  ul_Asm_APIPriority_نقاب
 
-portSAVE_CONTEXT macro
+پورٹ_SAVE_CONTEXT macro
 
-    ; Save the LR and SPSR onto the system mode stack before switching to
-    ; system mode to save the remaining system mode registers
+    ; Save the LR and SPSR onto the system منوال_2 ڈھیر before switching منزل
+    ; system منوال_2 منزل save the بچیا system منوال_2 registers
     SRSDB   sp!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    ڈالو_2    {R0-R12, R14}
 
-    ; Push the critical nesting count
+    ; ڈالو_3 the critical nesting گنتی
     LDR     R2, =ulCriticalNesting
     LDR     R1, [R2]
-    PUSH    {R1}
+    ڈالو_2    {R1}
 
-    ; Does the task have a floating point context that needs saving?  If
-    ; ulPortTaskHasFPUContext is 0 then no.
-    LDR     R2, =ulPortTaskHasFPUContext
+    ; Does the task have a floating نقطہ_2 context that needs saving?  If
+    ; ul_پورٹ_Task_Has_FPUContext is 0 then no.
+    LDR     R2, =ul_پورٹ_Task_Has_FPUContext
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating نقطہ_2 context, إذا any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
     VPUSHNE {D16-D31}
     PUSHNE  {R1}
 
-    ; Save ulPortTaskHasFPUContext itself
-    PUSH    {R3}
+    ; Save ul_پورٹ_Task_Has_FPUContext itself
+    ڈالو_2    {R3}
 
-    ; Save the stack pointer in the TCB
+    ; Save the ڈھیر اشارہ_گر_2 وچ the TCB
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     STR     SP, [R1]
@@ -69,43 +69,43 @@ portSAVE_CONTEXT macro
 
 ; /**********************************************************************/
 
-portRESTORE_CONTEXT macro
+پورٹ_RESTORE_CONTEXT macro
 
-    ; Set the SP to point to the stack of the task being restored.
+    ; سیٹ_2 the SP منزل نقطہ_2 منزل the ڈھیر دا the task being restored.
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     LDR     SP, [R1]
 
-    ; Is there a floating point context to restore?  If the restored
-    ; ulPortTaskHasFPUContext is zero then no.
-    LDR     R0, =ulPortTaskHasFPUContext
-    POP     {R1}
+    ; Is there a floating نقطہ_2 context منزل restore?  If the restored
+    ; ul_پورٹ_Task_Has_FPUContext is zero then no.
+    LDR     R0, =ul_پورٹ_Task_Has_FPUContext
+    نکالو_2     {R1}
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating نقطہ_2 context, إذا any
     POPNE   {R0}
     VPOPNE  {D16-D31}
     VPOPNE  {D0-D15}
     VMSRNE  FPSCR, R0
 
-    ; Restore the critical section nesting depth
+    ; Restore the critical section nesting ڈونگھائی
     LDR     R0, =ulCriticalNesting
-    POP     {R1}
+    نکالو_2     {R1}
     STR     R1, [R0]
 
-    ; Ensure the priority mask is correct for the critical nesting depth
-    LDR     R2, =portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS
+    ; Ensure the ترجیح نقاب is correct لكل the critical nesting ڈونگھائی
+    LDR     R2, =پورٹ_ICCPMR_ترجیح_نقاب_رجسٹر_پتہ
     CMP     R1, #0
     MOVEQ   R4, #255
-    LDRNE   R4, =( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT )
+    LDRNE   R4, =( config_MAX_API_CALL_رکاوٹ_ترجیح << پورٹ_ترجیح_کھسکاؤ )
     STR     R4, [r2]
 
-    ; Restore all system mode registers other than the SP (which is already
-    ; being used)
-    POP     {R0-R12, R14}
+    ; Restore all system منوال_2 registers other than the SP (which is already
+    ; being ورتیا)
+    نکالو_2     {R0-R12, R14}
 
-    ; Return to the task code, loading CPSR on the way.
+    ; Return منزل the task کوڈ, loading CPSR on the way.
     RFEIA   sp!
 
     endm

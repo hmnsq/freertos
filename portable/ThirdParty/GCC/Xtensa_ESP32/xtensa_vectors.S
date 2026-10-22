@@ -20,25 +20,25 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS أو IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE و NONINFRINGEMENT.
+ * في NO EVENT SHALL THE AUTHORS أو COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER في AN ACTION OF CONTRACT,
+ * TORT أو OTHERWISE, ARISING FROM, OUT OF أو في CONNECTION WITH THE
+ * SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  */
 
 /*******************************************************************************
 --------------------------------------------------------------------------------
 
-        XTENSA VECTORS AND LOW LEVEL HANDLERS FOR AN RTOS
+        XTENSA VECTORS و LOW LEVEL HANDLERS FOR AN RTOS
 
   Xtensa low level exception and interrupt vectors and handlers for an RTOS.
 
   Interrupt handlers and user exception handlers support interaction with
   the RTOS by calling XT_RTOS_INT_ENTER and XT_RTOS_INT_EXIT before and
   after user's specific interrupt handlers. These macros are defined in
-  xtensa_<rtos>.h to call suitable functions in a specific RTOS.
+  xtensa_<rtos>.h to نادي suitable functions in a specific RTOS.
 
   Users can install application-specific interrupt handlers for low and
   medium level interrupts, by calling xt_set_interrupt_handler(). These
@@ -86,7 +86,7 @@
    1. This file should be assembled with the -mlongcalls option to xt-xcc.
    2. The -mlongcalls compiler option causes 'call0 dest' to be expanded to
       a sequence 'l32r a0, dest' 'callx0 a0' which works regardless of the
-      distance from the call to the destination. The linker then relaxes
+      distance from the نادي to the destination. The linker then relaxes
       it back to 'call0 dest' if it determines that dest is within range.
       This allows more flexibility in locating code without the performance
       overhead of the 'l32r' literal data load in cases where the destination
@@ -94,9 +94,9 @@
       has a longer range than 'j' due to the target being word-aligned, so
       the 'l32r' sequence is less likely needed.
    3. The use of 'call0' with -mlongcalls requires that register a0 not be
-      live at the time of the call, which is always the case for a function
-      call but needs to be ensured if 'call0' is used as a jump in lieu of 'j'.
-   4. This use of 'call0' is independent of the C function call ABI.
+      live at the time of the نادي, which is always the case for a function
+      نادي but needs to be ensured if 'call0' is used as a jump in lieu of 'j'.
+   4. This use of 'call0' is independent of the C function نادي ABI.
 
 *******************************************************************************/
 
@@ -175,7 +175,7 @@
 --------------------------------------------------------------------------------
   Macro extract_msb - return the input with only the highest bit set.
 
-  Input  : "ain"  - Input value, clobbered.
+  داخلہ  : "ain"  - داخلہ value, clobbered.
   Output : "aout" - Output value, has only one bit set, MSB of "ain".
   The two arguments must be different AR registers.
 --------------------------------------------------------------------------------
@@ -253,7 +253,7 @@
        last run instruction.
      */
     rsr     a0, EPC_1 + \level - 1          /* return address */
-    movi    a4, 0xC0000000                  /* constant with top 2 bits set (call size) */
+    movi    a4, 0xC0000000                  /* constant with top 2 bits set (نادي size) */
     or      a0, a0, a4                      /* set top 2 bits */
     addx2   a0, a4, a0                      /* clear top bit -- simulating call4 size   */
     #endif
@@ -280,7 +280,7 @@
 2:
     #endif
 
-    /* Now look up in the dispatch table and call user ISR if any. */
+    /* Now look up in the dispatch table and نادي user ISR if any. */
     /* If multiple bits are set then MSB has highest priority.     */
 
     extract_msb  a4, a2                     /* a4 = MSB of a2, a2 trashed */
@@ -323,12 +323,12 @@
     #ifdef __XTENSA_CALL0_ABI__
     mov     a12, a6                         /* save in callee-saved reg */
     l32i    a2, a3, XIE_ARG                 /* a2 = handler arg */
-    callx0  a4                              /* call handler */
+    callx0  a4                              /* نادي handler */
     mov     a2, a12
     #else
     mov     a2, a6                          /* save in windowed reg */
     l32i    a6, a3, XIE_ARG                 /* a6 = handler arg */
-    callx4  a4                              /* call handler */
+    callx4  a4                              /* نادي handler */
     #endif
 
     #ifdef XT_USE_SWPRI
@@ -343,7 +343,7 @@
 .L_xt_user_int_timer_&level&:
     /*
     Interrupt handler for the RTOS tick timer if at this level.
-    We'll be reading the interrupt state again after this call
+    We'll be reading the interrupt state again after this نادي
     so no need to preserve any registers except a6 (vpri_mask).
     */
 
@@ -498,7 +498,7 @@ _xt_intexc_hooks:
 
 /*
 --------------------------------------------------------------------------------
-  EXCEPTION AND LEVEL 1 INTERRUPT VECTORS AND LOW LEVEL HANDLERS
+  EXCEPTION و LEVEL 1 INTERRUPT VECTORS و LOW LEVEL HANDLERS
   (except window exception vectors).
 
   Each vector goes at a predetermined location according to the Xtensa
@@ -761,7 +761,7 @@ _xt_user_exc:
     s32e    a3, sp, -12
     #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
     rsr     a0, EPC_1                       /* return address for debug backtrace */
-    movi    a5, 0xC0000000                  /* constant with top 2 bits set (call size) */
+    movi    a5, 0xC0000000                  /* constant with top 2 bits set (نادي size) */
     rsync                                   /* wait for WSR.PS to complete */
     or      a0, a0, a5                      /* set top 2 bits */
     addx2   a0, a5, a0                      /* clear top bit -- thus simulating call4 size */
@@ -800,10 +800,10 @@ _xt_user_exc:
     l32i    a4, a4, 0                       /* a4 = handler address */
     #ifdef __XTENSA_CALL0_ABI__
     mov     a2, sp                          /* a2 = pointer to exc frame */
-    callx0  a4                              /* call handler */
+    callx0  a4                              /* نادي handler */
     #else
     mov     a6, sp                          /* a6 = pointer to exc frame */
-    callx4  a4                              /* call handler */
+    callx4  a4                              /* نادي handler */
     #endif
 
 .L_xt_user_done:
@@ -1221,7 +1221,7 @@ _xt_lowint1:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to نادي C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 1 XCHAL_INTLEVEL1_MASK
 
@@ -1231,7 +1231,7 @@ _xt_lowint1:
 
 /*
 -------------------------------------------------------------------------------
-  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS AND LOW LEVEL HANDLERS.
+  MEDIUM PRIORITY (LEVEL 2+) INTERRUPT VECTORS و LOW LEVEL HANDLERS.
 
   Medium priority interrupts are by definition those with priority greater
   than 1 and not greater than XCHAL_EXCM_LEVEL. These are disabled by
@@ -1313,7 +1313,7 @@ _xt_medint2:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to نادي C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 2 XCHAL_INTLEVEL2_MASK
 
@@ -1396,7 +1396,7 @@ _xt_medint3:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to نادي C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 3 XCHAL_INTLEVEL3_MASK
 
@@ -1478,7 +1478,7 @@ _xt_medint4:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to نادي C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 4 XCHAL_INTLEVEL4_MASK
 
@@ -1559,7 +1559,7 @@ _xt_medint5:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to نادي C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 5 XCHAL_INTLEVEL5_MASK
 
@@ -1640,7 +1640,7 @@ _xt_medint6:
     wsr     a0, PS
     rsync
 
-    /* OK to call C code at this point, dispatch user ISRs */
+    /* OK to نادي C code at this point, dispatch user ISRs */
 
     dispatch_c_isr 6 XCHAL_INTLEVEL6_MASK
 
@@ -1670,12 +1670,12 @@ _xt_medint6_exit:
 
 /*******************************************************************************
 
-HIGH PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS AND HANDLERS
+HIGH PRIORITY (LEVEL > XCHAL_EXCM_LEVEL) INTERRUPT VECTORS و HANDLERS
 
 High priority interrupts are by definition those with priorities greater
 than XCHAL_EXCM_LEVEL. This includes non-maskable (NMI). High priority
 interrupts cannot interact with the RTOS, that is they must save all regs
-they use and not call any RTOS function.
+they use and not نادي any RTOS function.
 
 A further restriction imposed by the Xtensa windowed architecture is that
 high priority interrupts must not modify the stack area even logically
@@ -1701,7 +1701,7 @@ the minimum necessary before jumping to the handler in the .text section.
 *******************************************************************************/
 
 /*
-These stubs just call xt_highintX/xt_nmi to handle the real interrupt. Please define
+These stubs just نادي xt_highintX/xt_nmi to handle the real interrupt. Please define
 these in an external assembly source file. If these symbols are not defined anywhere
 else, the defaults in xtensa_vector_defaults.S are used.
 */
@@ -1810,7 +1810,7 @@ _NMIExceptionVector:
 
 /*******************************************************************************
 
-WINDOW OVERFLOW AND UNDERFLOW EXCEPTION VECTORS AND ALLOCA EXCEPTION HANDLER
+WINDOW OVERFLOW و UNDERFLOW EXCEPTION VECTORS و ALLOCA EXCEPTION HANDLER
 
 Here is the code for each window overflow/underflow exception vector and
 (interspersed) efficient code for handling the alloca exception cause.
@@ -1829,11 +1829,11 @@ a section per vector.
 These things are coded for XEA2 only (XEA1 is not supported).
 
 Note on Underflow Handlers:
-The underflow handler for returning from call[i+1] to call[i]
-must preserve all the registers from call[i+1]'s window.
+The underflow handler for returning from نادي[i+1] to نادي[i]
+must preserve all the registers from نادي[i+1]'s window.
 In particular, a0 and a1 must be preserved because the RETW instruction
 will be reexecuted (and may even underflow if an intervening exception
-has flushed call[i]'s registers).
+has flushed نادي[i]'s registers).
 Registers a2 and up may contain return values.
 
 *******************************************************************************/
@@ -1846,14 +1846,14 @@ Registers a2 and up may contain return values.
 --------------------------------------------------------------------------------
 Window Overflow Exception for Call4.
 
-Invoked if a call[i] referenced a register (a4-a15)
-that contains data from ancestor call[j];
-call[j] had done a call4 to call[j+1].
+Invoked if a نادي[i] referenced a register (a4-a15)
+that contains data from ancestor نادي[j];
+نادي[j] had done a call4 to نادي[j+1].
 On entry here:
-    window rotated to call[j] start point;
+    window rotated to نادي[j] start point;
         a0-a3 are registers to be saved;
         a4-a15 must be preserved;
-        a5 is call[j+1]'s stack pointer.
+        a5 is نادي[j+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
@@ -1861,24 +1861,24 @@ On entry here:
     .global _WindowOverflow4
 _WindowOverflow4:
 
-    s32e    a0, a5, -16     /* save a0 to call[j+1]'s stack frame */
-    s32e    a1, a5, -12     /* save a1 to call[j+1]'s stack frame */
-    s32e    a2, a5,  -8     /* save a2 to call[j+1]'s stack frame */
-    s32e    a3, a5,  -4     /* save a3 to call[j+1]'s stack frame */
-    rfwo                    /* rotates back to call[i] position */
+    s32e    a0, a5, -16     /* save a0 to نادي[j+1]'s stack frame */
+    s32e    a1, a5, -12     /* save a1 to نادي[j+1]'s stack frame */
+    s32e    a2, a5,  -8     /* save a2 to نادي[j+1]'s stack frame */
+    s32e    a3, a5,  -4     /* save a3 to نادي[j+1]'s stack frame */
+    rfwo                    /* rotates back to نادي[i] position */
 
 /*
 --------------------------------------------------------------------------------
 Window Underflow Exception for Call4
 
-Invoked by RETW returning from call[i+1] to call[i]
-where call[i]'s registers must be reloaded (not live in ARs);
-where call[i] had done a call4 to call[i+1].
+Invoked by RETW returning from نادي[i+1] to نادي[i]
+where نادي[i]'s registers must be reloaded (not live in ARs);
+where نادي[i] had done a call4 to نادي[i+1].
 On entry here:
-        window rotated to call[i] start point;
-        a0-a3 are undefined, must be reloaded with call[i].reg[0..3];
-        a4-a15 must be preserved (they are call[i+1].reg[0..11]);
-        a5 is call[i+1]'s stack pointer.
+        window rotated to نادي[i] start point;
+        a0-a3 are undefined, must be reloaded with نادي[i].reg[0..3];
+        a4-a15 must be preserved (they are نادي[i+1].reg[0..11]);
+        a5 is نادي[i+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
@@ -1886,10 +1886,10 @@ On entry here:
     .global _WindowUnderflow4
 _WindowUnderflow4:
 
-    l32e    a0, a5, -16     /* restore a0 from call[i+1]'s stack frame */
-    l32e    a1, a5, -12     /* restore a1 from call[i+1]'s stack frame */
-    l32e    a2, a5,  -8     /* restore a2 from call[i+1]'s stack frame */
-    l32e    a3, a5,  -4     /* restore a3 from call[i+1]'s stack frame */
+    l32e    a0, a5, -16     /* restore a0 from نادي[i+1]'s stack frame */
+    l32e    a1, a5, -12     /* restore a1 from نادي[i+1]'s stack frame */
+    l32e    a2, a5,  -8     /* restore a2 from نادي[i+1]'s stack frame */
+    l32e    a3, a5,  -4     /* restore a3 from نادي[i+1]'s stack frame */
     rfwu
 
 /*
@@ -1930,14 +1930,14 @@ _xt_alloca_exc:
 --------------------------------------------------------------------------------
 Window Overflow Exception for Call8
 
-Invoked if a call[i] referenced a register (a4-a15)
-that contains data from ancestor call[j];
-call[j] had done a call8 to call[j+1].
+Invoked if a نادي[i] referenced a register (a4-a15)
+that contains data from ancestor نادي[j];
+نادي[j] had done a call8 to نادي[j+1].
 On entry here:
-    window rotated to call[j] start point;
+    window rotated to نادي[j] start point;
         a0-a7 are registers to be saved;
         a8-a15 must be preserved;
-        a9 is call[j+1]'s stack pointer.
+        a9 is نادي[j+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
@@ -1945,30 +1945,30 @@ On entry here:
     .global _WindowOverflow8
 _WindowOverflow8:
 
-    s32e    a0, a9, -16     /* save a0 to call[j+1]'s stack frame */
-    l32e    a0, a1, -12     /* a0 <- call[j-1]'s sp
-                               (used to find end of call[j]'s frame) */
-    s32e    a1, a9, -12     /* save a1 to call[j+1]'s stack frame */
-    s32e    a2, a9,  -8     /* save a2 to call[j+1]'s stack frame */
-    s32e    a3, a9,  -4     /* save a3 to call[j+1]'s stack frame */
-    s32e    a4, a0, -32     /* save a4 to call[j]'s stack frame */
-    s32e    a5, a0, -28     /* save a5 to call[j]'s stack frame */
-    s32e    a6, a0, -24     /* save a6 to call[j]'s stack frame */
-    s32e    a7, a0, -20     /* save a7 to call[j]'s stack frame */
-    rfwo                    /* rotates back to call[i] position */
+    s32e    a0, a9, -16     /* save a0 to نادي[j+1]'s stack frame */
+    l32e    a0, a1, -12     /* a0 <- نادي[j-1]'s sp
+                               (used to find end of نادي[j]'s frame) */
+    s32e    a1, a9, -12     /* save a1 to نادي[j+1]'s stack frame */
+    s32e    a2, a9,  -8     /* save a2 to نادي[j+1]'s stack frame */
+    s32e    a3, a9,  -4     /* save a3 to نادي[j+1]'s stack frame */
+    s32e    a4, a0, -32     /* save a4 to نادي[j]'s stack frame */
+    s32e    a5, a0, -28     /* save a5 to نادي[j]'s stack frame */
+    s32e    a6, a0, -24     /* save a6 to نادي[j]'s stack frame */
+    s32e    a7, a0, -20     /* save a7 to نادي[j]'s stack frame */
+    rfwo                    /* rotates back to نادي[i] position */
 
 /*
 --------------------------------------------------------------------------------
 Window Underflow Exception for Call8
 
-Invoked by RETW returning from call[i+1] to call[i]
-where call[i]'s registers must be reloaded (not live in ARs);
-where call[i] had done a call8 to call[i+1].
+Invoked by RETW returning from نادي[i+1] to نادي[i]
+where نادي[i]'s registers must be reloaded (not live in ARs);
+where نادي[i] had done a call8 to نادي[i+1].
 On entry here:
-        window rotated to call[i] start point;
-        a0-a7 are undefined, must be reloaded with call[i].reg[0..7];
-        a8-a15 must be preserved (they are call[i+1].reg[0..7]);
-        a9 is call[i+1]'s stack pointer.
+        window rotated to نادي[i] start point;
+        a0-a7 are undefined, must be reloaded with نادي[i].reg[0..7];
+        a8-a15 must be preserved (they are نادي[i+1].reg[0..7]);
+        a9 is نادي[i+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
@@ -1976,30 +1976,30 @@ On entry here:
     .global _WindowUnderflow8
 _WindowUnderflow8:
 
-    l32e    a0, a9, -16     /* restore a0 from call[i+1]'s stack frame */
-    l32e    a1, a9, -12     /* restore a1 from call[i+1]'s stack frame */
-    l32e    a2, a9,  -8     /* restore a2 from call[i+1]'s stack frame */
-    l32e    a7, a1, -12     /* a7 <- call[i-1]'s sp
-                               (used to find end of call[i]'s frame) */
-    l32e    a3, a9,  -4     /* restore a3 from call[i+1]'s stack frame */
-    l32e    a4, a7, -32     /* restore a4 from call[i]'s stack frame */
-    l32e    a5, a7, -28     /* restore a5 from call[i]'s stack frame */
-    l32e    a6, a7, -24     /* restore a6 from call[i]'s stack frame */
-    l32e    a7, a7, -20     /* restore a7 from call[i]'s stack frame */
+    l32e    a0, a9, -16     /* restore a0 from نادي[i+1]'s stack frame */
+    l32e    a1, a9, -12     /* restore a1 from نادي[i+1]'s stack frame */
+    l32e    a2, a9,  -8     /* restore a2 from نادي[i+1]'s stack frame */
+    l32e    a7, a1, -12     /* a7 <- نادي[i-1]'s sp
+                               (used to find end of نادي[i]'s frame) */
+    l32e    a3, a9,  -4     /* restore a3 from نادي[i+1]'s stack frame */
+    l32e    a4, a7, -32     /* restore a4 from نادي[i]'s stack frame */
+    l32e    a5, a7, -28     /* restore a5 from نادي[i]'s stack frame */
+    l32e    a6, a7, -24     /* restore a6 from نادي[i]'s stack frame */
+    l32e    a7, a7, -20     /* restore a7 from نادي[i]'s stack frame */
     rfwu
 
 /*
 --------------------------------------------------------------------------------
 Window Overflow Exception for Call12
 
-Invoked if a call[i] referenced a register (a4-a15)
-that contains data from ancestor call[j];
-call[j] had done a call12 to call[j+1].
+Invoked if a نادي[i] referenced a register (a4-a15)
+that contains data from ancestor نادي[j];
+نادي[j] had done a call12 to نادي[j+1].
 On entry here:
-    window rotated to call[j] start point;
+    window rotated to نادي[j] start point;
         a0-a11 are registers to be saved;
         a12-a15 must be preserved;
-        a13 is call[j+1]'s stack pointer.
+        a13 is نادي[j+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
@@ -2007,34 +2007,34 @@ On entry here:
     .global _WindowOverflow12
 _WindowOverflow12:
 
-    s32e    a0,  a13, -16   /* save a0 to call[j+1]'s stack frame */
-    l32e    a0,  a1,  -12   /* a0 <- call[j-1]'s sp
-                               (used to find end of call[j]'s frame) */
-    s32e    a1,  a13, -12   /* save a1 to call[j+1]'s stack frame */
-    s32e    a2,  a13,  -8   /* save a2 to call[j+1]'s stack frame */
-    s32e    a3,  a13,  -4   /* save a3 to call[j+1]'s stack frame */
-    s32e    a4,  a0,  -48   /* save a4 to end of call[j]'s stack frame */
-    s32e    a5,  a0,  -44   /* save a5 to end of call[j]'s stack frame */
-    s32e    a6,  a0,  -40   /* save a6 to end of call[j]'s stack frame */
-    s32e    a7,  a0,  -36   /* save a7 to end of call[j]'s stack frame */
-    s32e    a8,  a0,  -32   /* save a8 to end of call[j]'s stack frame */
-    s32e    a9,  a0,  -28   /* save a9 to end of call[j]'s stack frame */
-    s32e    a10, a0,  -24   /* save a10 to end of call[j]'s stack frame */
-    s32e    a11, a0,  -20   /* save a11 to end of call[j]'s stack frame */
-    rfwo                    /* rotates back to call[i] position */
+    s32e    a0,  a13, -16   /* save a0 to نادي[j+1]'s stack frame */
+    l32e    a0,  a1,  -12   /* a0 <- نادي[j-1]'s sp
+                               (used to find end of نادي[j]'s frame) */
+    s32e    a1,  a13, -12   /* save a1 to نادي[j+1]'s stack frame */
+    s32e    a2,  a13,  -8   /* save a2 to نادي[j+1]'s stack frame */
+    s32e    a3,  a13,  -4   /* save a3 to نادي[j+1]'s stack frame */
+    s32e    a4,  a0,  -48   /* save a4 to end of نادي[j]'s stack frame */
+    s32e    a5,  a0,  -44   /* save a5 to end of نادي[j]'s stack frame */
+    s32e    a6,  a0,  -40   /* save a6 to end of نادي[j]'s stack frame */
+    s32e    a7,  a0,  -36   /* save a7 to end of نادي[j]'s stack frame */
+    s32e    a8,  a0,  -32   /* save a8 to end of نادي[j]'s stack frame */
+    s32e    a9,  a0,  -28   /* save a9 to end of نادي[j]'s stack frame */
+    s32e    a10, a0,  -24   /* save a10 to end of نادي[j]'s stack frame */
+    s32e    a11, a0,  -20   /* save a11 to end of نادي[j]'s stack frame */
+    rfwo                    /* rotates back to نادي[i] position */
 
 /*
 --------------------------------------------------------------------------------
 Window Underflow Exception for Call12
 
-Invoked by RETW returning from call[i+1] to call[i]
-where call[i]'s registers must be reloaded (not live in ARs);
-where call[i] had done a call12 to call[i+1].
+Invoked by RETW returning from نادي[i+1] to نادي[i]
+where نادي[i]'s registers must be reloaded (not live in ARs);
+where نادي[i] had done a call12 to نادي[i+1].
 On entry here:
-        window rotated to call[i] start point;
-        a0-a11 are undefined, must be reloaded with call[i].reg[0..11];
-        a12-a15 must be preserved (they are call[i+1].reg[0..3]);
-        a13 is call[i+1]'s stack pointer.
+        window rotated to نادي[i] start point;
+        a0-a11 are undefined, must be reloaded with نادي[i].reg[0..11];
+        a12-a15 must be preserved (they are نادي[i+1].reg[0..3]);
+        a13 is نادي[i+1]'s stack pointer.
 --------------------------------------------------------------------------------
 */
 
@@ -2042,20 +2042,20 @@ On entry here:
     .global _WindowUnderflow12
 _WindowUnderflow12:
 
-    l32e    a0,  a13, -16   /* restore a0 from call[i+1]'s stack frame */
-    l32e    a1,  a13, -12   /* restore a1 from call[i+1]'s stack frame */
-    l32e    a2,  a13,  -8   /* restore a2 from call[i+1]'s stack frame */
-    l32e    a11, a1,  -12   /* a11 <- call[i-1]'s sp
-                               (used to find end of call[i]'s frame) */
-    l32e    a3,  a13,  -4   /* restore a3 from call[i+1]'s stack frame */
-    l32e    a4,  a11, -48   /* restore a4 from end of call[i]'s stack frame */
-    l32e    a5,  a11, -44   /* restore a5 from end of call[i]'s stack frame */
-    l32e    a6,  a11, -40   /* restore a6 from end of call[i]'s stack frame */
-    l32e    a7,  a11, -36   /* restore a7 from end of call[i]'s stack frame */
-    l32e    a8,  a11, -32   /* restore a8 from end of call[i]'s stack frame */
-    l32e    a9,  a11, -28   /* restore a9 from end of call[i]'s stack frame */
-    l32e    a10, a11, -24   /* restore a10 from end of call[i]'s stack frame */
-    l32e    a11, a11, -20   /* restore a11 from end of call[i]'s stack frame */
+    l32e    a0,  a13, -16   /* restore a0 from نادي[i+1]'s stack frame */
+    l32e    a1,  a13, -12   /* restore a1 from نادي[i+1]'s stack frame */
+    l32e    a2,  a13,  -8   /* restore a2 from نادي[i+1]'s stack frame */
+    l32e    a11, a1,  -12   /* a11 <- نادي[i-1]'s sp
+                               (used to find end of نادي[i]'s frame) */
+    l32e    a3,  a13,  -4   /* restore a3 from نادي[i+1]'s stack frame */
+    l32e    a4,  a11, -48   /* restore a4 from end of نادي[i]'s stack frame */
+    l32e    a5,  a11, -44   /* restore a5 from end of نادي[i]'s stack frame */
+    l32e    a6,  a11, -40   /* restore a6 from end of نادي[i]'s stack frame */
+    l32e    a7,  a11, -36   /* restore a7 from end of نادي[i]'s stack frame */
+    l32e    a8,  a11, -32   /* restore a8 from end of نادي[i]'s stack frame */
+    l32e    a9,  a11, -28   /* restore a9 from end of نادي[i]'s stack frame */
+    l32e    a10, a11, -24   /* restore a10 from end of نادي[i]'s stack frame */
+    l32e    a11, a11, -20   /* restore a11 from end of نادي[i]'s stack frame */
     rfwu
 
 #endif /* XCHAL_HAVE_WINDOWED */

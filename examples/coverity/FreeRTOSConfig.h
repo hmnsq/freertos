@@ -26,108 +26,108 @@
  *
  */
 
-#ifndef FREERTOS_CONFIG_H
-#define FREERTOS_CONFIG_H
+#جے_بنا_تعریف FREERTOS_CONFIG_H
+#تعریف_کرو FREERTOS_CONFIG_H
 
 /******************************************************************************/
 /* Hardware description related definitions. **********************************/
 /******************************************************************************/
 
-#define configCPU_CLOCK_HZ    ( ( unsigned long ) 20000000 )
+#تعریف_کرو configCPU_CLOCK_HZ    ( ( بنانشانی لما ) 20000000 )
 
 /******************************************************************************/
 /* Scheduling behaviour related definitions. **********************************/
 /******************************************************************************/
 
-#define configTICK_RATE_HZ                         ( 100U )
-#define configUSE_PREEMPTION                       1
-#define configUSE_TIME_SLICING                     1
-#define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-#define configUSE_TICKLESS_IDLE                    1
-#define configMAX_PRIORITIES                       5U
-#define configMINIMAL_STACK_SIZE                   128U
-#define configMAX_TASK_NAME_LEN                    4U
-#define configTICK_TYPE_WIDTH_IN_BITS              TICK_TYPE_WIDTH_64_BITS
-#define configIDLE_SHOULD_YIELD                    1
-#define configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
-#define configQUEUE_REGISTRY_SIZE                  0U
-#define configENABLE_BACKWARD_COMPATIBILITY        1
-#define configNUM_THREAD_LOCAL_STORAGE_POINTERS    0
-#define configSTACK_DEPTH_TYPE                     size_t
-#define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
-#define configUSE_NEWLIB_REENTRANT                 0
+#تعریف_کرو config_TICK_شرح_HZ                         ( 100U )
+#تعریف_کرو configUSE_PREEMPTION                       1
+#تعریف_کرو config_USE_ویلا_SLICING                     1
+#تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    0
+#تعریف_کرو configUSE_TICKLESS_IDLE                    1
+#تعریف_کرو configMAX_PRIORITIES                       5U
+#تعریف_کرو config_اقل_ڈھیر_ناپ                   128U
+#تعریف_کرو configMAX_TASK_NAME_LEN                    4U
+#تعریف_کرو config_TICK_TYPE_چوڑائی_وچ_بٹ              TICK_TYPE_چوڑائی_64_بٹ
+#تعریف_کرو configIDLE_SHOULD_YIELD                    1
+#تعریف_کرو configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
+#تعریف_کرو config_قطار_REGISTRY_ناپ                  0U
+#تعریف_کرو configENABLE_BACKWARD_COMPATIBILITY        1
+#تعریف_کرو config_عدد_THREAD_LOCAL_STORAGE_سوچکاں    0
+#تعریف_کرو config_ڈھیر_ڈونگھائی_TYPE                     size_t
+#تعریف_کرو config_سنیہا_بفر_لمائی_TYPE           size_t
+#تعریف_کرو configUSE_NEWLIB_REENTRANT                 0
 
 /******************************************************************************/
 /* Software timer related definitions. ****************************************/
 /******************************************************************************/
 
-#define configUSE_TIMERS                1
-#define configTIMER_TASK_PRIORITY       ( configMAX_PRIORITIES - 1U )
-#define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
-#define configTIMER_QUEUE_LENGTH        10U
+#تعریف_کرو configUSE_TIMERS                1
+#تعریف_کرو config_TIMER_TASK_ترجیح       ( configMAX_PRIORITIES - 1U )
+#تعریف_کرو config_TIMER_TASK_ڈھیر_ڈونگھائی    config_اقل_ڈھیر_ناپ
+#تعریف_کرو config_TIMER_قطار_لمائی        10U
 
 /******************************************************************************/
 /* Memory allocation related definitions. *************************************/
 /******************************************************************************/
 
-#define configSUPPORT_STATIC_ALLOCATION              1
-#define configSUPPORT_DYNAMIC_ALLOCATION             1
-#define configTOTAL_HEAP_SIZE                        4096U
-#define configAPPLICATION_ALLOCATED_HEAP             1
-#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
-#define configUSE_MINI_LIST_ITEM                     0
+#تعریف_کرو config_SUPPORT_STATIC_ونڈ              1
+#تعریف_کرو config_SUPPORT_DYNAMIC_ونڈ             1
+#تعریف_کرو config_کل_ڈھیر_ناپ                        4096U
+#تعریف_کرو config_APPLICATION_ALLOCATED_ڈھیر             1
+#تعریف_کرو config_ڈھیر_ونڈ_FROM_SEPARATE_ڈھیر    0
+#تعریف_کرو config_USE_MINI_LIST_شے                     0
 
 /******************************************************************************/
 /* Interrupt nesting behaviour configuration. *********************************/
 /******************************************************************************/
 
-#define configKERNEL_INTERRUPT_PRIORITY          0U
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY     0U
-#define configMAX_API_CALL_INTERRUPT_PRIORITY    0U
+#تعریف_کرو config_KERNEL_رکاوٹ_ترجیح          0U
+#تعریف_کرو config_MAX_SYSCALL_رکاوٹ_ترجیح     0U
+#تعریف_کرو config_MAX_API_CALL_رکاوٹ_ترجیح    0U
 
 /******************************************************************************/
 /* Hook and callback function related definitions. ****************************/
 /******************************************************************************/
 
-#define configUSE_IDLE_HOOK                   0
-#define configUSE_TICK_HOOK                   0
-#define configUSE_MALLOC_FAILED_HOOK          0
-#define configUSE_DAEMON_TASK_STARTUP_HOOK    0
-#define configCHECK_FOR_STACK_OVERFLOW        0
+#تعریف_کرو configUSE_IDLE_HOOK                   0
+#تعریف_کرو configUSE_TICK_HOOK                   0
+#تعریف_کرو configUSE_MALLOC_FAILED_HOOK          0
+#تعریف_کرو configUSE_DAEMON_TASK_STARTUP_HOOK    0
+#تعریف_کرو config_CHECK_FOR_ڈھیر_حد_توں_ودھ        0
 
 /******************************************************************************/
 /* Run time and task stats gathering related definitions. *********************/
 /******************************************************************************/
 
-#define configGENERATE_RUN_TIME_STATS           0
-#define configUSE_TRACE_FACILITY                0
-#define configUSE_STATS_FORMATTING_FUNCTIONS    0
-#define configKERNEL_PROVIDED_STATIC_MEMORY     1
+#تعریف_کرو config_GENERATE_لگاتار_ویلا_STATS           0
+#تعریف_کرو configUSE_TRACE_FACILITY                0
+#تعریف_کرو configUSE_STATS_FORMATTING_FUNCTIONS    0
+#تعریف_کرو config_KERNEL_PROVIDED_STATIC_حافظہ     1
 
 /******************************************************************************/
 /* Definitions that include or exclude functionality. *************************/
 /******************************************************************************/
 
-#define configUSE_TASK_NOTIFICATIONS           1
-#define configUSE_MUTEXES                      1
-#define configUSE_RECURSIVE_MUTEXES            1
-#define configUSE_COUNTING_SEMAPHORES          1
-#define configUSE_QUEUE_SETS                   1
-#define configUSE_APPLICATION_TASK_TAG         1
-#define INCLUDE_vTaskPrioritySet               1
-#define INCLUDE_uxTaskPriorityGet              1
-#define INCLUDE_vTaskDelete                    1
-#define INCLUDE_vTaskSuspend                   1
-#define INCLUDE_vTaskDelayUntil                1
-#define INCLUDE_vTaskDelay                     1
-#define INCLUDE_xTaskGetSchedulerState         1
-#define INCLUDE_xTaskGetCurrentTaskHandle      1
-#define INCLUDE_uxTaskGetStackHighWaterMark    1
-#define INCLUDE_xTaskGetIdleTaskHandle         1
-#define INCLUDE_eTaskGetState                  1
-#define INCLUDE_xTimerPendFunctionCall         1
-#define INCLUDE_xTaskAbortDelay                1
-#define INCLUDE_xTaskGetHandle                 1
-#define INCLUDE_xTaskResumeFromISR             1
+#تعریف_کرو configUSE_TASK_NOTIFICATIONS           1
+#تعریف_کرو configUSE_MUTEXES                      1
+#تعریف_کرو configUSE_RECURSIVE_MUTEXES            1
+#تعریف_کرو configUSE_COUNTING_SEMAPHORES          1
+#تعریف_کرو config_USE_قطار_SETS                   1
+#تعریف_کرو config_USE_APPLICATION_TASK_ٹیگ         1
+#تعریف_کرو INCLUDE_v_Task_ترجیح_سیٹ               1
+#تعریف_کرو INCLUDE_ux_Task_ترجیح_Get              1
+#تعریف_کرو INCLUDE_vTaskDelete                    1
+#تعریف_کرو INCLUDE_vTaskSuspend                   1
+#تعریف_کرو INCLUDE_vTaskDelayUntil                1
+#تعریف_کرو INCLUDE_vTaskDelay                     1
+#تعریف_کرو INCLUDE_xTaskGetSchedulerState         1
+#تعریف_کرو INCLUDE_xTaskGetCurrentTaskHandle      1
+#تعریف_کرو INCLUDE_ux_Task_Get_ڈھیر_بلند_Water_Mark    1
+#تعریف_کرو INCLUDE_xTaskGetIdleTaskHandle         1
+#تعریف_کرو INCLUDE_eTaskGetState                  1
+#تعریف_کرو INCLUDE_xTimerPendFunctionCall         1
+#تعریف_کرو INCLUDE_xTaskAbortDelay                1
+#تعریف_کرو INCLUDE_xTaskGetHandle                 1
+#تعریف_کرو INCLUDE_xTaskResumeFromISR             1
 
-#endif /* FREERTOS_CONFIG_H */
+#جے_انت /* FREERTOS_CONFIG_H */

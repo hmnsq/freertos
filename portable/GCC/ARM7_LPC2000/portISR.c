@@ -53,33 +53,33 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
+#ضمن "FreeRTOS.h"
 
 /* Constants required to handle interrupts. */
-#define portTIMER_MATCH_ISR_BIT    ( ( uint8_t ) 0x01 )
-#define portCLEAR_VIC_INTERRUPT    ( ( uint32_t ) 0 )
+#تعریف_کرو پورٹ_TIMER_میل_ISR_ثنائی_ہندسہ    ( ( uint8_t ) 0x01 )
+#تعریف_کرو پورٹ_CLEAR_VIC_رکاوٹ    ( ( uint32_t ) 0 )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+#تعریف_کرو پورٹ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+متطاير uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
 /* ISR to handle manual context switches (from a call to taskYIELD()). */
-void vPortYieldProcessor( void ) __attribute__( ( interrupt( "SWI" ), naked ) );
+فراغ v_پورٹ_Yield_Processor( فراغ ) __attribute__( ( رکاوٹ( "SWI" ), naked ) );
 
 /*
  * The scheduler can only be started from ARM mode, hence the inclusion of this
  * function here.
  */
-void vPortISRStartFirstTask( void );
+فراغ v_پورٹ_ISRStart_پہلا_Task( فراغ );
 /*-----------------------------------------------------------*/
 
-void vPortISRStartFirstTask( void )
+فراغ v_پورٹ_ISRStart_پہلا_Task( فراغ )
 {
     /* Simply start the scheduler.  This is included here as it can only be
      * called from ARM mode. */
-    portRESTORE_CONTEXT();
+    پورٹ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -91,36 +91,36 @@ void vPortISRStartFirstTask( void )
  * way the same restore context function can be used when restoring the context
  * saved from the ISR or that saved from a call to vPortYieldProcessor.
  */
-void vPortYieldProcessor( void )
+فراغ v_پورٹ_Yield_Processor( فراغ )
 {
     /* Within an IRQ ISR the link register has an offset from the true return
      * address, but an SWI ISR does not.  Add the offset manually so the same
      * ISR return code can be used in both cases. */
-    __asm volatile ( "ADD       LR, LR, #4" );
+    __asm متطاير ( "ADD       LR, LR, #4" );
 
     /* Perform the context switch.  First save the context of the current task. */
-    portSAVE_CONTEXT();
+    پورٹ_SAVE_CONTEXT();
 
     /* Find the highest priority task that is ready to run. */
-    __asm volatile ( "bl vTaskSwitchContext" );
+    __asm متطاير ( "bl vTaskSwitchContext" );
 
     /* Restore the context of the new task. */
-    portRESTORE_CONTEXT();
+    پورٹ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
 /*
  * The ISR used for the scheduler tick.
  */
-void vTickISR( void ) __attribute__( ( naked ) );
-void vTickISR( void )
+فراغ vTickISR( فراغ ) __attribute__( ( naked ) );
+فراغ vTickISR( فراغ )
 {
     /* Save the context of the interrupted task. */
-    portSAVE_CONTEXT();
+    پورٹ_SAVE_CONTEXT();
 
     /* Increment the RTOS tick count, then look for the highest priority
      * task that is ready to run. */
-    __asm volatile
+    __asm متطاير
     (
         "   bl xTaskIncrementTick   \t\n" \
         "   cmp r0, #0              \t\n" \
@@ -130,11 +130,11 @@ void vTickISR( void )
     );
 
     /* Ready for the next interrupt. */
-    T0_IR = portTIMER_MATCH_ISR_BIT;
-    VICVectAddr = portCLEAR_VIC_INTERRUPT;
+    T0_IR = پورٹ_TIMER_میل_ISR_ثنائی_ہندسہ;
+    VICVectAddr = پورٹ_CLEAR_VIC_رکاوٹ;
 
     /* Restore the context of the new task. */
-    portRESTORE_CONTEXT();
+    پورٹ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -144,14 +144,14 @@ void vTickISR( void )
  * ensure a switch to ARM mode.  When THUMB_INTERWORK is not defined then
  * the utilities are defined as macros in portmacro.h - as per other ports.
  */
-#ifdef THUMB_INTERWORK
+#جے_تعریف_شدہ THUMB_INTERWORK
 
-    void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    فراغ v_پورٹ_Disable_Interrupts_From_Thumb( فراغ ) __attribute__( ( naked ) );
+    فراغ v_پورٹ_Enable_Interrupts_From_Thumb( فراغ ) __attribute__( ( naked ) );
 
-    void vPortDisableInterruptsFromThumb( void )
+    فراغ v_پورٹ_Disable_Interrupts_From_Thumb( فراغ )
     {
-        __asm volatile (
+        __asm متطاير (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -160,9 +160,9 @@ void vTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-    void vPortEnableInterruptsFromThumb( void )
+    فراغ v_پورٹ_Enable_Interrupts_From_Thumb( فراغ )
     {
-        __asm volatile (
+        __asm متطاير (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -171,16 +171,16 @@ void vTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-#endif /* THUMB_INTERWORK */
+#جے_انت /* THUMB_INTERWORK */
 
 /* The code generated by the GCC compiler uses the stack in different ways at
  * different optimisation levels.  The interrupt flags can therefore not always
  * be saved to the stack.  Instead the critical section nesting level is stored
  * in a variable, which is then saved as part of the stack context. */
-void vPortEnterCritical( void )
+فراغ v_پورٹ_Enter_Critical( فراغ )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    __asm volatile (
+    __asm متطاير (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -193,19 +193,19 @@ void vPortEnterCritical( void )
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+فراغ v_پورٹ_Exit_Critical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    إذا( ulCriticalNesting > پورٹ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        إذا( ulCriticalNesting == پورٹ_NO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
-            __asm volatile (
+            __asm متطاير (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */

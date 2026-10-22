@@ -39,38 +39,38 @@
 *******************************************************************************/
 
 
-#ifdef XT_BOARD
-    #include "xtensa/xtbsp.h"
-#endif
+#جے_تعریف_شدہ XT_BOARD
+    #ضمن "xtensa/xtbsp.h"
+#جے_انت
 
-#include "xtensa_rtos.h"
-#include "sdkconfig.h"
-#include "esp_idf_version.h"
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #include    "esp_clk.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32
-        #include "esp32/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/clk.h"
-    #endif
-#endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
+#ضمن "xtensa_rtos.h"
+#ضمن "sdkconfig.h"
+#ضمن "esp_idf_version.h"
+#إذا ( ESP_IDF_نسخہ < ESP_IDF_نسخہ_VAL( 4, 2, 0 ) )
+    #ضمن    "esp_clk.h"
+#وإلا
+    #إذا CONFIG_IDF_نشانہ_ESP32
+        #ضمن "esp32/clk.h"
+    #وإلاإذا CONFIG_IDF_نشانہ_ESP32_S2
+        #ضمن "esp32s2/clk.h"
+    #وإلاإذا CONFIG_IDF_نشانہ_ESP32_S3
+        #ضمن "esp32s3/clk.h"
+    #جے_انت
+#جے_انت /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
-#ifdef XT_RTOS_TIMER_INT
+#جے_تعریف_شدہ XT_RTOS_TIMER_INT
 
-    unsigned _xt_tick_divisor = 0; /* cached number of cycles per tick */
+    بنانشانی xt_tick_مقسوم_علیہ = 0; /* cached number of cycles per tick */
 
-    void _xt_tick_divisor_init( void )
+    فراغ xt_tick_مقسوم_علیہ_init( فراغ )
     {
-        _xt_tick_divisor = esp_clk_cpu_freq() / XT_TICK_PER_SEC;
+        xt_tick_مقسوم_علیہ = esp_clk_cpu_freq() / XT_TICK_فی_SEC;
     }
 
 /* Deprecated, to be removed */
-    int xt_clock_freq( void )
+    صحيح xt_clock_freq( فراغ )
     {
-        return esp_clk_cpu_freq();
+        أرجع esp_clk_cpu_freq();
     }
 
-#endif /* XT_RTOS_TIMER_INT */
+#جے_انت /* XT_RTOS_TIMER_INT */

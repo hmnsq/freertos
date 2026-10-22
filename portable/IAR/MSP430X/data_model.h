@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#جے_بنا_تعریف انکڑے_MODEL_H
+#تعریف_کرو انکڑے_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #تعریف_کرو pushm_x    pushm.w
+    #تعریف_کرو popm_x     popm.w
+    #تعریف_کرو ڈالو_x     ڈالو.w
+    #تعریف_کرو نکالو_x      نکالو.w
+    #تعریف_کرو mov_x      mov.w
+    #تعریف_کرو cmp_x      cmp.w
+#جے_انت
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #تعریف_کرو pushm_x    pushm.a
+    #تعریف_کرو popm_x     popm.a
+    #تعریف_کرو ڈالو_x     pushx.a
+    #تعریف_کرو نکالو_x      popx.a
+    #تعریف_کرو mov_x      mov.w
+    #تعریف_کرو cmp_x      cmp.w
+#جے_انت
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #تعریف_کرو pushm_x    pushm.a
+    #تعریف_کرو popm_x     popm.a
+    #تعریف_کرو ڈالو_x     pushx.a
+    #تعریف_کرو نکالو_x      popx.a
+    #تعریف_کرو mov_x      movx.a
+    #تعریف_کرو cmp_x      cmpx.a
+#جے_انت
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#جے_بنا_تعریف pushm_x
+    #غلطی The assembler options must define one دا the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#جے_انت
 
-#endif /* DATA_MODEL_H */
+#جے_انت /* DATA_MODEL_H */

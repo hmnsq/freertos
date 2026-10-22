@@ -27,13 +27,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جے_بنا_تعریف PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+    خارجي "C" {
+#جے_انت
 /* *INDENT-ON* */
 
 /*------------------------------------------------------------------------------
@@ -49,35 +49,35 @@
 /**
  * Architecture specifics.
  */
-#define portARCH_NAME                    "Cortex-M35P"
-#define portHAS_ARMV8M_MAIN_EXTENSION    1
-#define portARMV8M_MINOR_VERSION         0
-#define portDONT_DISCARD                 __attribute__( ( used ) )
-#define portVALIDATED_FOR_SMP            0
+#تعریف_کرو پورٹ_ARCH_NAME                    "Cortex-M35P"
+#تعریف_کرو پورٹ_HAS_ARMV8_M_MAIN_EXTENSION    1
+#تعریف_کرو پورٹ_ARMV8_M_MINOR_نسخہ         0
+#تعریف_کرو پورٹ_DONT_DISCARD                 __attribute__( ( ورتیا ) )
+#تعریف_کرو پورٹ_VALIDATED_FOR_SMP            0
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#ضمن "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#ifndef configENABLE_MVE
-    #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M35.
-#endif
+#جے_بنا_تعریف configENABLE_MVE
+    #تعریف_کرو configENABLE_MVE    0
+#وإلاإذا ( configENABLE_MVE != 0 )
+    #غلطی configENABLE_MVE must be بایاں undefined, or defined منزل 0 لكل the Cortex-M35.
+#جے_انت
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    ulSetInterruptMask()
-#define portENABLE_INTERRUPTS()     vClearInterruptMask( 0 )
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()    ul_سیٹ_رکاوٹ_نقاب()
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()     v_Clear_رکاوٹ_نقاب( 0 )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
     }
-#endif
+#جے_انت
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جے_انت /* PORTMACRO_H */

@@ -3,8 +3,8 @@
  * license and copyright intentionally withheld to promote copying into user code.
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#جے_بنا_تعریف PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -17,126 +17,126 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                int
-#define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#تعریف_کرو پورٹ_CHAR                 حرف
+#تعریف_کرو پورٹ_FLOAT                عائم
+#تعریف_کرو پورٹ_DOUBLE               مزدوج
+#تعریف_کرو پورٹ_LONG                 لما
+#تعریف_کرو پورٹ_SHORT                صحيح
+#تعریف_کرو پورٹ_ڈھیر_TYPE           uint8_t
+#تعریف_کرو پورٹ_ادھار_TYPE            حرف
 
-#define portSTACK_GROWTH         ( -1 )
-#define portBYTE_ALIGNMENT       4
-#define portPOINTER_SIZE_TYPE    size_t
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+#تعریف_کرو پورٹ_ڈھیر_GROWTH         ( -1 )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT       4
+#تعریف_کرو پورٹ_اشارہ_گر_ناپ_TYPE    size_t
+تعريفنوع پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+تعريفنوع نشانیوالا حرف      ادھار_Type_t;
+تعريفنوع بنانشانی حرف    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffU
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffU
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffffffffffU
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffU
+#وإلاإذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffffffU
+#وإلاإذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_64_بٹ )
+    تعريفنوع uint64_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffffffffffffffU
+#وإلا
+    #غلطی config_TICK_TYPE_چوڑائی_وچ_بٹ سیٹ منزل unsupported tick type چوڑائی.
+#جے_انت
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#جے_بنا_تعریف config_USE_پورٹ_OPTIMISED_TASK_SELECTION
+    #تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    1
+#جے_انت
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #إذا ( configMAX_PRIORITIES > 32 )
+        #غلطی config_USE_پورٹ_OPTIMISED_TASK_SELECTION can only be سیٹ منزل 1 when configMAX_PRIORITIES is less than or equal منزل 32.  It is very rare that a system requires ہور than 10 منزل 15 difference priorities as tasks that share a ترجیح will time ٹکڑا.
+    #جے_انت
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کرو پورٹ_ریکارڈ_READY_ترجیح( ux_ترجیح, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ترجیح ) )
+    #تعریف_کرو پورٹ_RESET_READY_ترجیح( ux_ترجیح, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ترجیح ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    do {                                                                 \
-        uxTopPriority = 0;                                               \
-    } while( 0 )
+    #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities ) \
+    افعل {                                                                 \
+        ux_چوٹی_ترجیح = 0;                                               \
+    } طالما( 0 )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#جے_انت /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* Disable the interrupts */
-#define portDISABLE_INTERRUPTS()    do {} while( 0 )
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()    افعل {} طالما( 0 )
 
 /* Enable the interrupts */
-#define portENABLE_INTERRUPTS()     do {} while( 0 )
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()     افعل {} طالما( 0 )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#إذا ( config_نمبر_دا_CORES == 1 )
 /* preserve current interrupt state and then disable interrupts */
-    #define portENTER_CRITICAL()    do {} while( 0 )
+    #تعریف_کرو پورٹ_ENTER_CRITICAL()    افعل {} طالما( 0 )
 
 /* restore previously preserved interrupt state */
-    #define portEXIT_CRITICAL()     do {} while( 0 )
-#else
+    #تعریف_کرو پورٹ_EXIT_CRITICAL()     افعل {} طالما( 0 )
+#وإلا
 
 /* The port can maintain the critical nesting count in TCB or maintain the critical
  * nesting count in the port. */
-    #define portCRITICAL_NESTING_IN_TCB    1
+    #تعریف_کرو پورٹ_CRITICAL_NESTING_وچ_TCB    1
 
 /* vTaskEnterCritical and vTaskExitCritical should be used in the implementation
  * of portENTER/EXIT_CRITICAL if the number of cores is more than 1 in the system. */
-    #define portENTER_CRITICAL             vTaskEnterCritical
-    #define portEXIT_CRITICAL              vTaskExitCritical
+    #تعریف_کرو پورٹ_ENTER_CRITICAL             vTaskEnterCritical
+    #تعریف_کرو پورٹ_EXIT_CRITICAL              vTaskExitCritical
 
 /* vTaskEnterCriticalFromISR and vTaskExitCriticalFromISR should be used in the
  * implementation of portENTER/EXIT_CRITICAL_FROM_ISR if the number of cores is
  * more than 1 in the system. */
-    #define portENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
-    #define portEXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
+    #تعریف_کرو پورٹ_ENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
+    #تعریف_کرو پورٹ_EXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
 
-#endif /* if ( configNUMBER_OF_CORES == 1 ) */
+#جے_انت /* if ( configNUMBER_OF_CORES == 1 ) */
 
-extern void vPortYield( void );
-#define portYIELD()                                           vPortYield()
+خارجي فراغ v_پورٹ_Yield( فراغ );
+#تعریف_کرو پورٹ_YIELD()                                           v_پورٹ_Yield()
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters ) __attribute__( ( noreturn ) )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#إذا ( config_نمبر_دا_CORES > 1 )
     /* Return the core ID on which the code is running. */
-    #define portGET_CORE_ID()                0
+    #تعریف_کرو پورٹ_GET_CORE_ID()                0
 
 /* Set the interrupt mask. */
-    #define portSET_INTERRUPT_MASK()         0
+    #تعریف_کرو پورٹ_سیٹ_رکاوٹ_نقاب()         0
 
 /* Clear the interrupt mask. */
-    #define portCLEAR_INTERRUPT_MASK( x )    ( ( void ) ( x ) )
+    #تعریف_کرو پورٹ_CLEAR_رکاوٹ_نقاب( x )    ( ( فراغ ) ( x ) )
 
 /* Request the core ID x to yield. */
-    #define portYIELD_CORE( x )              do {} while( 0 )
+    #تعریف_کرو پورٹ_YIELD_CORE( x )              افعل {} طالما( 0 )
 
 /* Acquire the TASK lock. TASK lock is a recursive lock.
  * It should be able to be locked by the same core multiple times. */
-    #define portGET_TASK_LOCK( xCoreID )     do {} while( 0 )
+    #تعریف_کرو پورٹ_GET_TASK_جندرا( xCoreID )     افعل {} طالما( 0 )
 
 /* Release the TASK lock. If a TASK lock is locked by the same core multiple times,
  * it should be released as many times as it is locked. */
-    #define portRELEASE_TASK_LOCK( xCoreID ) do {} while( 0 )
+    #تعریف_کرو پورٹ_RELEASE_TASK_جندرا( xCoreID ) افعل {} طالما( 0 )
 
 /* Acquire the ISR lock. ISR lock is a recursive lock.
  * It should be able to be locked by the same core multiple times. */
-    #define portGET_ISR_LOCK( xCoreID )      do {} while( 0 )
+    #تعریف_کرو پورٹ_GET_ISR_جندرا( xCoreID )      افعل {} طالما( 0 )
 
 /* Release the ISR lock. If a ISR lock is locked by the same core multiple times, \
  * it should be released as many times as it is locked. */
-    #define portRELEASE_ISR_LOCK( xCoreID )  do {} while( 0 )
+    #تعریف_کرو پورٹ_RELEASE_ISR_جندرا( xCoreID )  افعل {} طالما( 0 )
 
-#endif /* if ( configNUMBER_OF_CORES > 1 ) */
+#جے_انت /* if ( configNUMBER_OF_CORES > 1 ) */
 
-#endif /* PORTMACRO_H */
+#جے_انت /* PORTMACRO_H */

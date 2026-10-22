@@ -30,18 +30,18 @@
  * Implementation of functions defined in portable.h
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "FreeRTOSConfig.h"
 
-#include "arc/arc_exception.h"
-#include "arc/arc_timer.h"
-#include "board.h"
+#ضمن "arc/arc_exception.h"
+#ضمن "arc/arc_timer.h"
+#ضمن "board.h"
 
-#include "arc_freertos_exceptions.h"
+#ضمن "arc_freertos_exceptions.h"
 
-volatile unsigned int ulCriticalNesting = 999UL;
-volatile unsigned int context_switch_reqflg; /* task context switch request flag in exceptions and interrupts handling */
+متطاير بنانشانی صحيح ulCriticalNesting = 999UL;
+متطاير بنانشانی صحيح context_switch_reqflg; /* task context switch request flag in exceptions and interrupts handling */
 
 /**
  * \var exc_nest_count
@@ -49,22 +49,22 @@ volatile unsigned int context_switch_reqflg; /* task context switch request flag
  * >1 in int/exc processing
  * @}
  */
-uint32_t exc_nest_count;
+uint32_t exc_nest_گنتی;
 /* --------------------------------------------------------------------------*/
 
 /**
  * @brief kernel tick interrupt handler of freertos
  */
 /* ----------------------------------------------------------------------------*/
-static void vKernelTick( void * ptr )
+ساكن فراغ vKernelTick( فراغ * ptr )
 {
     /* clear timer interrupt */
     arc_timer_int_clear( BOARD_OS_TIMER_ID );
-    board_timer_update( configTICK_RATE_HZ );
+    board_timer_update( config_TICK_شرح_HZ );
 
-    if( xTaskIncrementTick() )
+    إذا( xTaskIncrementTick() )
     {
-        portYIELD_FROM_ISR(); /* need to make task switch */
+        پورٹ_YIELD_FROM_ISR(); /* need to make task switch */
     }
 }
 
@@ -74,16 +74,16 @@ static void vKernelTick( void * ptr )
  * @brief  setup freertos kernel tick
  */
 /* ----------------------------------------------------------------------------*/
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تیاری_Timer_رکاوٹ( فراغ )
 {
-    unsigned int cyc = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+    بنانشانی صحيح cyc = configCPU_CLOCK_HZ / config_TICK_شرح_HZ;
 
     int_disable( BOARD_OS_TIMER_INTNO ); /* disable os timer interrupt */
     arc_timer_stop( BOARD_OS_TIMER_ID );
-    arc_timer_start( BOARD_OS_TIMER_ID, TIMER_CTRL_IE | TIMER_CTRL_NH, cyc );
+    arc_timer_شروع( BOARD_OS_TIMER_ID, TIMER_CTRL_IE | TIMER_CTRL_NH, cyc );
 
     int_handler_install( BOARD_OS_TIMER_INTNO, ( INT_HANDLER_T ) vKernelTick );
-    int_pri_set( BOARD_OS_TIMER_INTNO, INT_PRI_MIN );
+    int_pri_سیٹ( BOARD_OS_TIMER_INTNO, INT_PRI_MIN );
     int_enable( BOARD_OS_TIMER_INTNO );
 }
 
@@ -96,31 +96,31 @@ static void prvSetupTimerInterrupt( void )
  * It's not efficient but simple.
  *
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_دا_ڈھیر,
+                                     TaskFunction_t px_کوڈ,
+                                     فراغ * pvParameters )
 {
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_چوٹی_دا_ڈھیر--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) pvParameters; /* R0 */
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode; /* function body */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) px_کوڈ; /* function body */
 
     /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) start_r; /* dispatch return address */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) شروع_r; /* dispatch return address */
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;
-    return pxTopOfStack;
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) پورٹ_NO_CRITICAL_NESTING;
+    أرجع px_چوٹی_دا_ڈھیر;
 }
 
 /* --------------------------------------------------------------------------*/
@@ -131,14 +131,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
  * @returns
  */
 /* ----------------------------------------------------------------------------*/
-BaseType_t xPortStartScheduler( void )
+ادھار_Type_t x_پورٹ_شروع_Scheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR. */
-    prvSetupTimerInterrupt();
-    start_dispatch();
+    prv_تیاری_Timer_رکاوٹ();
+    شروع_dispatch();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 
 /* --------------------------------------------------------------------------*/
@@ -147,7 +147,7 @@ BaseType_t xPortStartScheduler( void )
  * @brief
  */
 /* ----------------------------------------------------------------------------*/
-void vPortEndScheduler( void )
+فراغ v_پورٹ_سرا_Scheduler( فراغ )
 {
 }
 
@@ -157,11 +157,11 @@ void vPortEndScheduler( void )
  * @brief  generate a task switch request in ISR
  */
 /* ----------------------------------------------------------------------------*/
-void vPortYieldFromIsr( void )
+فراغ v_پورٹ_Yield_From_Isr( فراغ )
 {
-    unsigned int status32;
+    بنانشانی صحيح status32;
 
-    status32 = cpu_lock_save();
+    status32 = cpu_جندرا_save();
     context_switch_reqflg = true;
     cpu_unlock_restore( status32 );
 }
@@ -172,11 +172,11 @@ void vPortYieldFromIsr( void )
  * @brief
  */
 /* ----------------------------------------------------------------------------*/
-void vPortYield( void )
+فراغ v_پورٹ_Yield( فراغ )
 {
-    unsigned int status32;
+    بنانشانی صحيح status32;
 
-    status32 = cpu_lock_save();
+    status32 = cpu_جندرا_save();
     dispatch();
     cpu_unlock_restore( status32 );
 }
@@ -187,19 +187,19 @@ void vPortYield( void )
  * @brief
  */
 /* ----------------------------------------------------------------------------*/
-void vPortEndTask( void )
+فراغ v_پورٹ_سرا_Task( فراغ )
 {
-    #if ( INCLUDE_vTaskDelete == 1 )
-        vTaskDelete( NULL ); /* Delete task itself */
-    #endif
+    #إذا ( INCLUDE_vTaskDelete == 1 )
+        vTaskDelete( عدم ); /* Delete task itself */
+    #جے_انت
 
-    while( 1 ) /* Yield to other task */
+    طالما( 1 ) /* Yield to other task */
     {
-        vPortYield();
+        v_پورٹ_Yield();
     }
 }
 
-#if ARC_FEATURE_STACK_CHECK
+#إذا ARC_FEATURE_ڈھیر_CHECK
 
 /*
  * !!! Note !!!
@@ -207,87 +207,87 @@ void vPortEndTask( void )
  * It's a copy from task.c. We need to know the definition of TCB for the purpose of hardware
  * stack check. Pls don't forget to update it when FreeRTOS is updated.
  */
-    typedef struct tskTaskControlBlock       /* The old naming convention is used to prevent breaking kernel aware debuggers. */
+    تعريفنوع بنية tsk_Task_Control_بلاک       /* The old naming convention is used to prevent breaking kernel aware debuggers. */
     {
-        volatile StackType_t * pxTopOfStack; /*< Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */
+        متطاير ڈھیر_Type_t * px_چوٹی_دا_ڈھیر; /*< Points to the location of the last item placed on the tasks stack.  THIS MUST BE THE FIRST MEMBER OF THE TCB STRUCT. */
 
-        #if ( portUSING_MPU_WRAPPERS == 1 )
+        #إذا ( پورٹ_USING_MPU_WRAPPERS == 1 )
             xMPU_SETTINGS xMPUSettings; /*< The MPU settings are defined as part of the port layer.  THIS MUST BE THE SECOND MEMBER OF THE TCB STRUCT. */
-        #endif
+        #جے_انت
 
-        ListItem_t xStateListItem;                  /*< The list that the state list item of a task is reference from denotes the state of that task (Ready, Blocked, Suspended ). */
-        ListItem_t xEventListItem;                  /*< Used to reference a task from an event list. */
-        UBaseType_t uxPriority;                     /*< The priority of the task.  0 is the lowest priority. */
-        StackType_t * pxStack;                      /*< Points to the start of the stack. */
-        char pcTaskName[ configMAX_TASK_NAME_LEN ]; /*< Descriptive name given to the task when created.  Facilitates debugging only. */ /*lint !e971 Unqualified char types are allowed for strings and single characters only. */
+        List_شے_t x_State_List_شے;                  /*< The list that the state list item of a task is reference from denotes the state of that task (Ready, Blocked, Suspended ). */
+        List_شے_t x_Event_List_شے;                  /*< Used to reference a task from an event list. */
+        UBaseType_t ux_ترجیح;                     /*< The priority of the task.  0 is the lowest priority. */
+        ڈھیر_Type_t * px_ڈھیر;                      /*< Points to the start of the stack. */
+        حرف pcTaskName[ configMAX_TASK_NAME_LEN ]; /*< Descriptive name given to the task when created.  Facilitates debugging only. */ /*lint !e971 Unqualified char types are allowed for strings and single characters only. */
 
-        #if ( ( portSTACK_GROWTH > 0 ) || ( configRECORD_STACK_HIGH_ADDRESS == 1 ) )
-            StackType_t * pxEndOfStack; /*< Points to the highest valid address for the stack. */
-        #endif
+        #إذا ( ( پورٹ_ڈھیر_GROWTH > 0 ) || ( config_ریکارڈ_ڈھیر_بلند_پتہ == 1 ) )
+            ڈھیر_Type_t * px_سرا_دا_ڈھیر; /*< Points to the highest valid address for the stack. */
+        #جے_انت
 
-        #if ( portCRITICAL_NESTING_IN_TCB == 1 )
+        #إذا ( پورٹ_CRITICAL_NESTING_وچ_TCB == 1 )
             UBaseType_t uxCriticalNesting; /*< Holds the critical section nesting depth for ports that do not maintain their own count in the port layer. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #إذا ( configUSE_TRACE_FACILITY == 1 )
             UBaseType_t uxTCBNumber;  /*< Stores a number that increments each time a TCB is created.  It allows debuggers to determine when a task has been deleted and then recreated. */
-            UBaseType_t uxTaskNumber; /*< Stores a number specifically for use by third party trace code. */
-        #endif
+            UBaseType_t ux_Task_نمبر; /*< Stores a number specifically for use by third party trace code. */
+        #جے_انت
 
-        #if ( configUSE_MUTEXES == 1 )
-            UBaseType_t uxBasePriority; /*< The priority last assigned to the task - used by the priority inheritance mechanism. */
+        #إذا ( configUSE_MUTEXES == 1 )
+            UBaseType_t ux_ادھار_ترجیح; /*< The priority last assigned to the task - used by the priority inheritance mechanism. */
             UBaseType_t uxMutexesHeld;
-        #endif
+        #جے_انت
 
-        #if ( configUSE_APPLICATION_TASK_TAG == 1 )
-            TaskHookFunction_t pxTaskTag;
-        #endif
+        #إذا ( config_USE_APPLICATION_TASK_ٹیگ == 1 )
+            TaskHookFunction_t px_Task_ٹیگ;
+        #جے_انت
 
-        #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS > 0 )
-            void * pvThreadLocalStoragePointers[ configNUM_THREAD_LOCAL_STORAGE_POINTERS ];
-        #endif
+        #إذا ( config_عدد_THREAD_LOCAL_STORAGE_سوچکاں > 0 )
+            فراغ * pv_Thread_Local_Storage_سوچکاں[ config_عدد_THREAD_LOCAL_STORAGE_سوچکاں ];
+        #جے_انت
 
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            uint32_t ulRunTimeCounter; /*< Stores the amount of time the task has spent in the Running state. */
-        #endif
+        #إذا ( config_GENERATE_لگاتار_ویلا_STATS == 1 )
+            uint32_t ul_لگاتار_ویلا_Counter; /*< Stores the amount of time the task has spent in the Running state. */
+        #جے_انت
 
-        #if ( configUSE_C_RUNTIME_TLS_SUPPORT == 1 )
-            configTLS_BLOCK_TYPE xTLSBlock; /*< Memory block used as Thread Local Storage (TLS) Block for the task. */
-        #endif
+        #إذا ( configUSE_C_RUNTIME_TLS_SUPPORT == 1 )
+            config_TLS_بلاک_TYPE xTLSBlock; /*< Memory block used as Thread Local Storage (TLS) Block for the task. */
+        #جے_انت
 
-        #if ( configUSE_TASK_NOTIFICATIONS == 1 )
-            volatile uint32_t ulNotifiedValue;
-            volatile uint8_t ucNotifyState;
-        #endif
+        #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
+            متطاير uint32_t ul_Notified_قدر;
+            متطاير uint8_t ucNotifyState;
+        #جے_انت
 
         /* See the comments above the definition of
          * tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE. */
-        #if ( tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE != 0 ) /*lint !e731 !e9029 Macro has been consolidated for readability reasons. */
+        #إذا ( tsk_STATIC_AND_DYNAMIC_ونڈ_POSSIBLE != 0 ) /*lint !e731 !e9029 Macro has been consolidated for readability reasons. */
             uint8_t ucStaticallyAllocated;                     /*< Set to pdTRUE if the task is a statically allocated to ensure no attempt is made to free the memory. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_xTaskAbortDelay == 1 )
+        #إذا ( INCLUDE_xTaskAbortDelay == 1 )
             uint8_t ucDelayAborted;
-        #endif
+        #جے_انت
 
-        #if ( configUSE_POSIX_ERRNO == 1 )
-            int iTaskErrno;
-        #endif
+        #إذا ( configUSE_POSIX_ERRNO == 1 )
+            صحيح iTaskErrno;
+        #جے_انت
     } tskTCB;
 
 
-    void vPortSetStackCheck( TaskHandle_t old,
+    فراغ v_پورٹ_سیٹ_ڈھیر_Check( TaskHandle_t old,
                              TaskHandle_t new )
     {
-        if( new != NULL )
+        إذا( new != عدم )
         {
-            #if ARC_FEATURE_SEC_PRESENT
-                arc_aux_write( AUX_S_KSTACK_BASE, ( uint32_t ) ( new->pxEndOfStack ) );
-                arc_aux_write( AUX_S_KSTACK_TOP, ( uint32_t ) ( new->pxStack ) );
-            #else
-                arc_aux_write( AUX_KSTACK_BASE, ( uint32_t ) ( new->pxEndOfStack ) );
-                arc_aux_write( AUX_KSTACK_TOP, ( uint32_t ) ( new->pxStack ) );
-            #endif
+            #إذا ARC_FEATURE_SEC_PRESENT
+                arc_aux_write( AUX_S_KSTACK_ادھار, ( uint32_t ) ( new->px_سرا_دا_ڈھیر ) );
+                arc_aux_write( AUX_S_KSTACK_چوٹی, ( uint32_t ) ( new->px_ڈھیر ) );
+            #وإلا
+                arc_aux_write( AUX_KSTACK_ادھار, ( uint32_t ) ( new->px_سرا_دا_ڈھیر ) );
+                arc_aux_write( AUX_KSTACK_چوٹی, ( uint32_t ) ( new->px_ڈھیر ) );
+            #جے_انت
         }
     }
-#endif /* if ARC_FEATURE_STACK_CHECK */
+#جے_انت /* if ARC_FEATURE_STACK_CHECK */

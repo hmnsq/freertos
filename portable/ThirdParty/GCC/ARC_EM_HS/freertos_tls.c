@@ -26,49 +26,49 @@
  *
  */
 
-#if defined( __MW__ )
+#إذا defined( __MW__ )
 
-    #include <stdint.h>
-    #include <stdlib.h>
-    #include <string.h>
+    #ضمن <stdint.h>
+    #ضمن <stdlib.h>
+    #ضمن <string.h>
 
-    #include "FreeRTOS.h"
+    #ضمن "FreeRTOS.h"
 
-    #include "queue.h"
-    #include "semphr.h"
-    #include "task.h"
+    #ضمن "queue.h"
+    #ضمن "semphr.h"
+    #ضمن "task.h"
 
-    #include "arc/arc_exception.h"
-    #include "embARC_toolchain.h"
-    #include "embARC_debug.h"
+    #ضمن "arc/arc_exception.h"
+    #ضمن "embARC_toolchain.h"
+    #ضمن "embARC_debug.h"
 
-    #ifdef ENABLE_FREERTOS_TLS_DEBUG
-        #define TLS_DEBUG( fmt, ... )    EMBARC_PRINTF( fmt, ## __VA_ARGS__ )
-    #else
-        #define TLS_DEBUG( fmt, ... )
-    #endif
+    #جے_تعریف_شدہ ENABLE_FREERTOS_TLS_DEBUG
+        #تعریف_کرو TLS_DEBUG( fmt, ... )    EMBARC_PRINTF( fmt, ## __VA_ARGS__ )
+    #وإلا
+        #تعریف_کرو TLS_DEBUG( fmt, ... )
+    #جے_انت
 
 /*
  * Runtime routines to execute constructors and
  * destructors for task local storage.
  */
-    extern void __mw_run_tls_dtor();
-    extern void __mw_run_tls_ctor();
+    خارجي فراغ __mw_run_tls_dtor();
+    خارجي فراغ __mw_run_tls_ctor();
 
-    extern uint32_t exc_nest_count;
+    خارجي uint32_t exc_nest_گنتی;
 
 /*
  * Linker generated symbols to mark .tls section addresses
  * first byte .. last byte
  */
-    extern char _ftls[], _etls[];
-    #pragma weak _ftls
-    #pragma weak _etls
+    خارجي حرف _ftls[], _etls[];
+    #ہدایت weak _ftls
+    #ہدایت weak _etls
 
-    void executable_requires_tls_section( void )
+    فراغ executable_requires_tls_section( فراغ )
     {
-        #if _ARC
-            for( ; ; )
+        #إذا _ARC
+            لكل( ; ; )
             {
                 _flag( 1 );
                 _nop();
@@ -77,164 +77,164 @@
                 _nop();
                 _nop();
             }
-        #endif
+        #جے_انت
     }
-    #pragma off_inline(executable_requires_tls_section);
-    #pragma alias(executable_requires_tls_section, "executable_requires_.tls_section");
+    #ہدایت off_inline(executable_requires_tls_section);
+    #ہدایت alias(executable_requires_tls_section, "executable_requires_.tls_section");
 
-    static void * init_task_tls( void )
+    ساكن فراغ * init_task_tls( فراغ )
     {
         uint32_t len = ( uint32_t ) ( _etls - _ftls );
-        void * tls = NULL;
+        فراغ * tls = عدم;
 
-        #if FREERTOS_HEAP_SEL == 3
+        #إذا FREERTOS_ڈھیر_SEL == 3
         #warning "FreeRTOS TLS support is not compatible with heap 3 solution(FREERTOS_HEAP_SEL=3)!"
         #warning "You can change FREERTOS_HEAP_SEL in freertos.mk to select other heap solution."
-        #else
-            tls = pvPortMalloc( len );
-        #endif
+        #وإلا
+            tls = pv_پورٹ_Malloc( len );
+        #جے_انت
 
-        if( tls )
+        إذا( tls )
         {
             TLS_DEBUG( "Malloc task tls:%dbytes\r\n", len );
-            memcpy( tls, _ftls, len );
+            حافظہ_نقل( tls, _ftls, len );
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return tls;
+        أرجع tls;
     }
 
-    static void free_task_tls( void * pxTCB )
+    ساكن فراغ free_task_tls( فراغ * pxTCB )
     {
         TaskHandle_t task2free = ( TaskHandle_t ) pxTCB;
 
-        if( task2free != NULL )
+        إذا( task2free != عدم )
         {
-            void * tls = pvTaskGetThreadLocalStoragePointer( task2free, 0 );
+            فراغ * tls = pv_Task_Get_Thread_Local_Storage_اشارہ_گر( task2free, 0 );
 
-            if( tls )
+            إذا( tls )
             {
                 TLS_DEBUG( "Free task tls\r\n" );
                 __mw_run_tls_dtor();
-                vPortFree( tls );
-                vTaskSetThreadLocalStoragePointer( task2free, 0, NULL );
+                v_پورٹ_Free( tls );
+                v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر( task2free, 0, عدم );
             }
         }
     }
 
-    void task_end_hook( void * pxTCB )
+    فراغ task_سرا_hook( فراغ * pxTCB )
     {
         free_task_tls( pxTCB );
     }
 
-    static void * get_isr_tls( void )
+    ساكن فراغ * get_isr_tls( فراغ )
     {
         /* In an ISR */
-        static int first = 1;
+        ساكن صحيح پہلا_2 = 1;
 
-        if( _Rarely( first ) )
+        إذا( _Rarely( پہلا_2 ) )
         {
-            first = 0;
+            پہلا_2 = 0;
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return ( void * ) _ftls;
+        أرجع ( فراغ * ) _ftls;
     }
-    #pragma off_inline(get_isr_tls)
+    #ہدایت off_inline(get_isr_tls)
 
-    static void * get_task_tls( void )
+    ساكن فراغ * get_task_tls( فراغ )
     {
         TaskHandle_t cur_task;
 
         cur_task = xTaskGetCurrentTaskHandle();
 
-        if( cur_task == NULL )
+        إذا( cur_task == عدم )
         {
-            return get_isr_tls();
+            أرجع get_isr_tls();
         }
 
-        void * tls = pvTaskGetThreadLocalStoragePointer( cur_task, 0 );
+        فراغ * tls = pv_Task_Get_Thread_Local_Storage_اشارہ_گر( cur_task, 0 );
 
-        if( tls == NULL )
+        إذا( tls == عدم )
         {
             tls = init_task_tls();
 
-            if( tls )
+            إذا( tls )
             {
-                vTaskSetThreadLocalStoragePointer( cur_task, 0, tls );
+                v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر( cur_task, 0, tls );
             }
-            else
+            وإلا
             {
                 tls = get_isr_tls();
             }
         }
 
-        return tls;
+        أرجع tls;
     }
-    #pragma off_inline(get_task_tls)
+    #ہدایت off_inline(get_task_tls)
 
-    #if _ARC /* for ARC XCALLs need to preserve flags */
-        extern void * _Preserve_flags _mwget_tls( void );
-    #endif
+    #إذا _ARC /* for ARC XCALLs need to preserve flags */
+        خارجي فراغ * _Preserve_flags _mwget_tls( فراغ );
+    #جے_انت
 
 /*
  * Back end gens calls to find local data for this task
  */
-    void * _mwget_tls( void )
+    فراغ * _mwget_tls( فراغ )
     {
-        if( _ftls == ( char * ) 0 )
+        إذا( _ftls == ( حرف * ) 0 )
         {
             executable_requires_tls_section();
         }
 
-        if( exc_nest_count > 0 ) /* In ISR */
+        إذا( exc_nest_گنتی > 0 ) /* In ISR */
         {
-            return get_isr_tls();
+            أرجع get_isr_tls();
         }
-        else /* In Task */
+        وإلا /* In Task */
         {
-            return get_task_tls();
+            أرجع get_task_tls();
         }
     }
 
 
 /* simple interface of thread safe */
-    typedef xSemaphoreHandle _lock_t;
-    #if configUSE_RECURSIVE_MUTEXES != 1
-        #error "configUSE_RECURSIVE_MUTEXES in FreeRTOSConfig.h need to 1"
-    #endif
+    تعريفنوع xSemaphoreHandle جندرا_t;
+    #إذا configUSE_RECURSIVE_MUTEXES != 1
+        #غلطی "configUSE_RECURSIVE_MUTEXES in FreeRTOSConfig.h need to 1"
+    #جے_انت
 
-    void _mwmutex_create( _lock_t * mutex_ptr )
+    فراغ _mwmutex_create( جندرا_t * mutex_ptr )
     {
         *mutex_ptr = xSemaphoreCreateRecursiveMutex();
     }
 
-    void _mwmutex_delete( _lock_t * mutex_ptr )
+    فراغ _mwmutex_delete( جندرا_t * mutex_ptr )
     {
-        if( ( *mutex_ptr ) != NULL )
+        إذا( ( *mutex_ptr ) != عدم )
         {
             vSemaphoreDelete( *mutex_ptr );
         }
     }
 
-    void _mwmutex_lock( _lock_t mutex )
+    فراغ mwmutex_جندرا( جندرا_t mutex )
     {
-        if( ( mutex ) != NULL )
+        إذا( ( mutex ) != عدم )
         {
-            while( xSemaphoreTakeRecursive( mutex, portMAX_DELAY ) != pdTRUE )
+            طالما( xSemaphoreTakeRecursive( mutex, پورٹ_MAX_DELAY ) != pdTRUE )
             {
             }
         }
     }
 
-    void _mwmutex_unlock( _lock_t mutex )
+    فراغ _mwmutex_unlock( جندرا_t mutex )
     {
-        if( ( mutex ) != NULL )
+        إذا( ( mutex ) != عدم )
         {
             xSemaphoreGiveRecursive( mutex );
         }
     }
 
-#else /* if defined( __MW__ ) */
+#وإلا /* if defined( __MW__ ) */
 
-#endif /* __MW__ */
+#جے_انت /* __MW__ */

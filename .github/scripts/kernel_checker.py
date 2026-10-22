@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+استورد os
+استورد re
+من common.سرخی_checker استورد سرخی_Checker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -101,7 +101,7 @@ KERNEL_IGNORED_PATTERNS = [
     r'.*template_configuration/*'
 ]
 
-KERNEL_THIRD_PARTY_PATTERNS = [
+KERNEL_تیجا_PARTY_PATTERNS = [
     r'.*portable/ThirdParty/GCC/Posix/port*',
     r'.*portable/ThirdParty/*',
     r'.*portable/IAR/AVR32_UC3/.*',
@@ -126,7 +126,7 @@ KERNEL_ARM_COLLAB_FILES_PATTERNS = [
     r'.*tasks\.c$',
 ]
 
-KERNEL_HEADER = [
+KERNEL_سرخی = [
     '/*\n',
     ' * FreeRTOS Kernel <DEVELOPMENT BRANCH>\n',
     ' * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.\n',
@@ -166,98 +166,98 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
-    def __init__(
+صنف Kernel_سرخی_Checker(سرخی_Checker):
+    تعریف __init__(
         self,
-        header,
+        سرخی,
         padding=1000,
-        ignored_files=None,
-        ignored_ext=None,
-        ignored_patterns=None,
-        py_ext=None,
-        asm_ext=None,
-        third_party_patterns=None,
-        copyright_regex = None
+        ignored_files=کجھ_نئیں,
+        ignored_ext=کجھ_نئیں,
+        ignored_patterns=کجھ_نئیں,
+        py_ext=کجھ_نئیں,
+        asm_ext=کجھ_نئیں,
+        تیجا_party_patterns=کجھ_نئیں,
+        copyright_regex = کجھ_نئیں
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
-                         py_ext, asm_ext, third_party_patterns, copyright_regex)
+        أعلى().__init__(سرخی, padding, ignored_files, ignored_ext, ignored_patterns,
+                         py_ext, asm_ext, تیجا_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
-        self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
-            self.armCollabFilesPatternList.append(re.compile(pattern))
+        self.arm_Collab_Files_نمونہ_List = []
+        لكل نمونہ في KERNEL_ARM_COLLAB_FILES_PATTERNS:
+            self.arm_Collab_Files_نمونہ_List.append(re.compile(نمونہ))
 
-    def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+    تعریف isArmCollabFile(self, رستہ):
+        لكل نمونہ في self.arm_Collab_Files_نمونہ_List:
+            إذا نمونہ.میل(رستہ):
+                أرجع سچ
+        أرجع خطأ
 
-    def checkArmCollabFile(self, path):
-        isValid = False
-        file_ext = os.path.splitext(path)[-1]
+    تعریف checkArmCollabFile(self, رستہ):
+        isValid = خطأ
+        file_ext = os.رستہ.splitext(رستہ)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
-                : len(self.header) + 2
+        نال open(رستہ, encoding="utf-8", errors="ignore") كـ file:
+            chunk = file.اقرأ(لمبائی("".join(self.سرخی)) + self.padding)
+            سطریں = [("%s\n" % سطر) لكل سطر في chunk.strip().splitlines()][
+                : لمبائی(self.سرخی) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            إذا (لمبائی(سطریں) > 0) و (سطریں[0].لبھو("#!") == 0):
+                سطریں.remove(سطریں[0])
+            إذا (لمبائی(سطریں) > 0) و (لمبائی(سطریں[-1].strip()) == 0):
+                سطریں.remove(سطریں[-1])
 
         # Split lines in sections.
-        headers = dict()
-        headers["text"] = []
-        headers["copyright"] = []
-        headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
-            else:
-                headers["text"].append(line)
+        سرخیاں = dict()
+        سرخیاں["text"] = []
+        سرخیاں["copyright"] = []
+        سرخیاں["spdx"] = []
+        لكل سطر في سطریں:
+            إذا self.armCollabRegex.میل(سطر):
+                سرخیاں["copyright"].append(سطر)
+            وإلاإذا "SPDX-License-Identifier:" في سطر:
+                سرخیاں["spdx"].append(سطر)
+            وإلا:
+                سرخیاں["text"].append(سطر)
 
-        text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
-        spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
+        متن_equal = self.is_Valid_سرخی_Section(file_ext, "text", سرخیاں["text"])
+        spdx_equal = self.is_Valid_سرخی_Section(file_ext, "spdx", سرخیاں["spdx"])
 
-        if text_equal and spdx_equal:
+        إذا متن_equal و spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            إذا لمبائی(سرخیاں["copyright"]) == 3 أو لمبائی(سرخیاں["copyright"]) == 2:
+                isValid = سچ
 
-        return isValid
+        أرجع isValid
 
-    def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
-            isValid = self.checkArmCollabFile(path)
-        return isValid
+    تعریف customCheck(self, رستہ):
+        isValid = خطأ
+        إذا self.isArmCollabFile(رستہ):
+            isValid = self.checkArmCollabFile(رستہ)
+        أرجع isValid
 
 
-def main():
-    parser = HeaderChecker.configArgParser()
-    args   = parser.parse_args()
+تعریف مکھ():
+    parser = سرخی_Checker.configArgParser()
+    دلیلاں   = parser.parse_دلیلاں()
 
     # Configure the checks then run
-    checker = KernelHeaderChecker(KERNEL_HEADER,
+    checker = Kernel_سرخی_Checker(KERNEL_سرخی,
                                   copyright_regex=FREERTOS_COPYRIGHT_REGEX,
                                   ignored_files=KERNEL_IGNORED_FILES,
                                   ignored_ext=KERNEL_IGNORED_EXTENSIONS,
                                   ignored_patterns=KERNEL_IGNORED_PATTERNS,
-                                  third_party_patterns=KERNEL_THIRD_PARTY_PATTERNS,
+                                  تیجا_party_patterns=KERNEL_تیجا_PARTY_PATTERNS,
                                   py_ext=KERNEL_PY_EXTENSIONS,
                                   asm_ext=KERNEL_ASM_EXTENSIONS)
-    checker.ignoreFile(os.path.split(__file__)[-1])
+    checker.ignoreFile(os.رستہ.ونڈو(__file__)[-1])
 
-    rc = checker.processArgs(args)
-    if rc:
+    rc = checker.process_دلیلاں(دلیلاں)
+    إذا rc:
         checker.showHelp(__file__)
 
-    return rc
+    أرجع rc
 
-if __name__ == '__main__':
-    exit(main())
+إذا __name__ == '__main__':
+    exit(مکھ())

@@ -26,20 +26,20 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
-#include "embARC.h"
+#جے_بنا_تعریف PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
+#ضمن "embARC.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#جے_تعریف_شدہ __cplusplus
+    خارجي "C" {
+#جے_انت
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
-#endif
+#جے_بنا_تعریف config_ریکارڈ_ڈھیر_بلند_پتہ
+    #تعریف_کرو config_ریکارڈ_ڈھیر_بلند_پتہ    1
+#جے_انت
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -52,103 +52,103 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     portLONG
+#تعریف_کرو پورٹ_CHAR          حرف
+#تعریف_کرو پورٹ_FLOAT         عائم
+#تعریف_کرو پورٹ_DOUBLE        مزدوج
+#تعریف_کرو پورٹ_LONG          لما
+#تعریف_کرو پورٹ_SHORT         چھوٹا
+#تعریف_کرو پورٹ_ڈھیر_TYPE    بنانشانی صحيح
+#تعریف_کرو پورٹ_ادھار_TYPE     پورٹ_LONG
 
-#ifndef Asm
-    #define Asm           __asm__ volatile
-#endif
+#جے_بنا_تعریف Asm
+    #تعریف_کرو Asm           __asm__ متطاير
+#جے_انت
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
-#endif /* NULL */
+#جے_بنا_تعریف عدم
+    #تعریف_کرو عدم    0           /* invalid pointer */
+#جے_انت /* NULL */
 
-#ifndef true
-    #define true    1           /* true */
-#endif /* true */
+#جے_بنا_تعریف true
+    #تعریف_کرو true    1           /* true */
+#جے_انت /* true */
 
-#ifndef false
-    #define false    0          /* false */
-#endif /* false */
+#جے_بنا_تعریف false
+    #تعریف_کرو false    0          /* false */
+#جے_انت /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+تعريفنوع لما             ادھار_Type_t;
+تعريفنوع بنانشانی لما    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_چوڑائی_وچ_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #غلطی config_TICK_TYPE_چوڑائی_وچ_بٹ سیٹ منزل unsupported tick type چوڑائی.
+#جے_انت
 
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
-#define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT         8
-#define portNOP()               Asm( "nop_s" );
-#define IPM_ENABLE_ALL             1
+#تعریف_کرو پورٹ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#تعریف_کرو پورٹ_ڈھیر_GROWTH           ( -1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS         ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT         8
+#تعریف_کرو پورٹ_NOP()               Asm( "nop_s" );
+#تعریف_کرو IPM_ENABLE_ALL             1
 
-#define portYIELD_FROM_ISR()    vPortYieldFromIsr()
-#define portYIELD()             vPortYield()
+#تعریف_کرو پورٹ_YIELD_FROM_ISR()    v_پورٹ_Yield_From_Isr()
+#تعریف_کرو پورٹ_YIELD()             v_پورٹ_Yield()
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS() \
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS() \
     {                            \
-        arc_lock();              \
+        arc_جندرا();              \
     }                            \
 
-#define portENABLE_INTERRUPTS() \
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS() \
     {                           \
         arc_unlock();           \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+خارجي متطاير بنانشانی صحيح ulCriticalNesting;
 
-#define portENTER_CRITICAL()     \
+#تعریف_کرو پورٹ_ENTER_CRITICAL()     \
     {                            \
-        portDISABLE_INTERRUPTS() \
+        پورٹ_DISABLE_INTERRUPTS() \
         ulCriticalNesting++;     \
     }
 
 
-#define portEXIT_CRITICAL()                                    \
+#تعریف_کرو پورٹ_EXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        إذا( ulCriticalNesting > پورٹ_NO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            إذا( ulCriticalNesting == پورٹ_NO_CRITICAL_NESTING ) \
             {                                                  \
-                portENABLE_INTERRUPTS()                        \
+                پورٹ_ENABLE_INTERRUPTS()                        \
             }                                                  \
         }                                                      \
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#تعریف_کرو پورٹ_CONFIGURE_TIMER_FOR_لگاتار_ویلا_STATS()              افعل {} طالما( 0 )     /* we use the timer */
+#تعریف_کرو پورٹ_ALT_GET_لگاتار_ویلا_COUNTER_قدر( dest )            ( dest = x_Tick_گنتی )
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+فراغ v_پورٹ_Yield( فراغ );
+فراغ v_پورٹ_Yield_From_Isr( فراغ );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#جے_تعریف_شدہ __cplusplus
     }
-#endif
+#جے_انت
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#جے_انت /* PORTMACRO_H */

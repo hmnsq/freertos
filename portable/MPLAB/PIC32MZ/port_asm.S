@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -37,10 +37,10 @@
     .extern xISRStackTop
     .extern ulTaskHasFPUContext
 
-    .global vPortStartFirstTask
-    .global vPortYieldISR
-    .global vPortTickInterruptHandler
-    .global vPortInitialiseFPSCR
+    .global v_پورٹ_شروع_پہلا_Task
+    .global v_پورٹ_Yield_ISR
+    .global v_پورٹ_Tick_رکاوٹ_Handler
+    .global v_پورٹ_Initialise_FPSCR
 
 
 /******************************************************************/
@@ -52,59 +52,59 @@
 
     /***************************************************************
     *  The following is needed to locate the
-    *  vPortTickInterruptHandler function into the correct vector
+    *  v_پورٹ_Tick_رکاوٹ_Handler function into the correct vector
     ***************************************************************/
     #ifdef configTICK_INTERRUPT_VECTOR
         #if (configTICK_INTERRUPT_VECTOR == _CORE_TIMER_VECTOR)
-            .equ     __vector_dispatch_0, vPortTickInterruptHandler
+            .equ     __vector_dispatch_0, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_0
             .section .vector_0, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_1_VECTOR)
-            .equ     __vector_dispatch_4, vPortTickInterruptHandler
+            .equ     __vector_dispatch_4, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_4
             .section .vector_4, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_2_VECTOR)
-            .equ     __vector_dispatch_9, vPortTickInterruptHandler
+            .equ     __vector_dispatch_9, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_9
             .section .vector_9, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_3_VECTOR)
-            .equ     __vector_dispatch_14, vPortTickInterruptHandler
+            .equ     __vector_dispatch_14, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_14
             .section .vector_14, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_4_VECTOR)
-            .equ     __vector_dispatch_19, vPortTickInterruptHandler
+            .equ     __vector_dispatch_19, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_19
             .section .vector_19, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_5_VECTOR)
-            .equ     __vector_dispatch_24, vPortTickInterruptHandler
+            .equ     __vector_dispatch_24, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_24
             .section .vector_24, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_6_VECTOR)
-            .equ     __vector_dispatch_28, vPortTickInterruptHandler
+            .equ     __vector_dispatch_28, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_28
             .section .vector_28, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_7_VECTOR)
-            .equ     __vector_dispatch_32, vPortTickInterruptHandler
+            .equ     __vector_dispatch_32, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_32
             .section .vector_32, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_8_VECTOR)
-            .equ     __vector_dispatch_36, vPortTickInterruptHandler
+            .equ     __vector_dispatch_36, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_36
             .section .vector_36, code, keep
         #elif (configTICK_INTERRUPT_VECTOR == _TIMER_9_VECTOR)
-            .equ     __vector_dispatch_40, vPortTickInterruptHandler
+            .equ     __vector_dispatch_40, v_پورٹ_Tick_رکاوٹ_Handler
             .global  __vector_dispatch_40
             .section .vector_40, code, keep
         #endif
     #else
-        .equ     __vector_dispatch_4, vPortTickInterruptHandler
+        .equ     __vector_dispatch_4, v_پورٹ_Tick_رکاوٹ_Handler
         .global  __vector_dispatch_4
         .section .vector_4, code, keep
     #endif
 
-    .ent        vPortTickInterruptHandler
+    .ent        v_پورٹ_Tick_رکاوٹ_Handler
 
-vPortTickInterruptHandler:
+v_پورٹ_Tick_رکاوٹ_Handler:
 
     portSAVE_CONTEXT
 
@@ -113,22 +113,22 @@ vPortTickInterruptHandler:
 
     portRESTORE_CONTEXT
 
-    .end vPortTickInterruptHandler
+    .end v_پورٹ_Tick_رکاوٹ_Handler
 
 /******************************************************************/
 
     .set        noreorder
     .set        noat
     .section .text, code
-    .ent        vPortStartFirstTask
+    .ent        v_پورٹ_شروع_پہلا_Task
 
-vPortStartFirstTask:
+v_پورٹ_شروع_پہلا_Task:
 
     /* Simply restore the context of the highest priority task that has been
     created so far. */
     portRESTORE_CONTEXT
 
-    .end vPortStartFirstTask
+    .end v_پورٹ_شروع_پہلا_Task
 
 
 
@@ -139,15 +139,15 @@ vPortStartFirstTask:
     .set  noreorder
     .set  noat
     /***************************************************************
-    *  The following is needed to locate the vPortYieldISR function
+    *  The following is needed to locate the v_پورٹ_Yield_ISR function
     *  into the correct vector
     ***************************************************************/
-    .equ     __vector_dispatch_1, vPortYieldISR
+    .equ     __vector_dispatch_1, v_پورٹ_Yield_ISR
     .global  __vector_dispatch_1
     .section .vector_1, code
 
-    .ent  vPortYieldISR
-vPortYieldISR:
+    .ent  v_پورٹ_Yield_ISR
+v_پورٹ_Yield_ISR:
 
     #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Code sequence for FPU support, the context save requires advance
@@ -646,7 +646,7 @@ vPortYieldISR:
     eret
     nop
 
-    .end    vPortYieldISR
+    .end    v_پورٹ_Yield_ISR
 
 /******************************************************************/
 
@@ -661,9 +661,9 @@ vPortYieldISR:
     .set    noreorder
     .set    noat
     .section .text, code
-    .ent    vPortInitialiseFPSCR
+    .ent    v_پورٹ_Initialise_FPSCR
 
-vPortInitialiseFPSCR:
+v_پورٹ_Initialise_FPSCR:
 
     /* Initialize the floating point status register in CP1. The initial
     value is passed in a0. */
@@ -707,7 +707,7 @@ vPortInitialiseFPSCR:
     jr      ra
     nop
 
-    .end vPortInitialiseFPSCR
+    .end v_پورٹ_Initialise_FPSCR
 
 #endif /* ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 ) */
 
@@ -720,10 +720,10 @@ vPortInitialiseFPSCR:
     .set        noreorder
     .set        noat
     .section    .text, code
-    .ent        vPortFPUReadback
-    .global     vPortFPUReadback
+    .ent        v_پورٹ_FPUReadback
+    .global     v_پورٹ_FPUReadback
 
-vPortFPUReadback:
+v_پورٹ_FPUReadback:
     sdc1        $f0, 0(a0)
     sdc1        $f1, 8(a0)
     sdc1        $f2, 16(a0)
@@ -760,6 +760,6 @@ vPortFPUReadback:
     jr      ra
     nop
 
-    .end vPortFPUReadback
+    .end v_پورٹ_FPUReadback
 
 #endif /* ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 ) */

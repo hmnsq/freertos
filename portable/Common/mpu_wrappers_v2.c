@@ -34,26 +34,26 @@
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#تعریف_کرو MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "timers.h"
-#include "event_groups.h"
-#include "stream_buffer.h"
-#include "mpu_prototypes.h"
-#include "mpu_syscall_numbers.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "queue.h"
+#ضمن "timers.h"
+#ضمن "event_groups.h"
+#ضمن "stream_buffer.h"
+#ضمن "mpu_prototypes.h"
+#ضمن "mpu_syscall_numbers.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#تعریف_رد MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 /*-----------------------------------------------------------*/
 
-#if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#إذا ( ( پورٹ_USING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    #ifndef configPROTECTED_KERNEL_OBJECT_POOL_SIZE
-        #error configPROTECTED_KERNEL_OBJECT_POOL_SIZE must be defined to maximum number of kernel objects in the application.
-    #endif
+    #جے_بنا_تعریف config_PROTECTED_KERNEL_OBJECT_POOL_ناپ
+        #غلطی config_PROTECTED_KERNEL_OBJECT_POOL_ناپ must be defined منزل ودھ_توں_ودھ نمبر دا kernel objects وچ the application.
+    #جے_انت
 
 /**
  * @brief Offset added to the index before returning to the user.
@@ -61,67 +61,67 @@
  * If the actual handle is stored at index i, ( i + INDEX_OFFSET )
  * is returned to the user.
  */
-    #define INDEX_OFFSET    1
+    #تعریف_کرو اشاریہ_وتھ    1
 
 /**
  * @brief Opaque type for a kernel object.
  */
-    struct OpaqueObject;
-    typedef struct OpaqueObject * OpaqueObjectHandle_t;
+    بنية OpaqueObject;
+    تعريفنوع بنية OpaqueObject * OpaqueObjectHandle_t;
 
 /**
  * @brief Defines kernel object in the kernel object pool.
  */
-    typedef struct KernelObject
+    تعريفنوع بنية KernelObject
     {
-        OpaqueObjectHandle_t xInternalObjectHandle;
+        OpaqueObjectHandle_t x_اندرونی_Object_Handle;
         uint32_t ulKernelObjectType;
-        void * pvKernelObjectData;
+        فراغ * pv_Kernel_Object_انکڑے;
     } KernelObject_t;
 
 /**
  * @brief Kernel object types.
  */
-    #define KERNEL_OBJECT_TYPE_INVALID          ( 0UL )
-    #define KERNEL_OBJECT_TYPE_QUEUE            ( 1UL )
-    #define KERNEL_OBJECT_TYPE_TASK             ( 2UL )
-    #define KERNEL_OBJECT_TYPE_STREAM_BUFFER    ( 3UL )
-    #define KERNEL_OBJECT_TYPE_EVENT_GROUP      ( 4UL )
-    #define KERNEL_OBJECT_TYPE_TIMER            ( 5UL )
+    #تعریف_کرو KERNEL_OBJECT_TYPE_INVALID          ( 0UL )
+    #تعریف_کرو KERNEL_OBJECT_TYPE_قطار            ( 1UL )
+    #تعریف_کرو KERNEL_OBJECT_TYPE_TASK             ( 2UL )
+    #تعریف_کرو KERNEL_OBJECT_TYPE_دھارا_بفر    ( 3UL )
+    #تعریف_کرو KERNEL_OBJECT_TYPE_EVENT_گروہ      ( 4UL )
+    #تعریف_کرو KERNEL_OBJECT_TYPE_TIMER            ( 5UL )
 
 /**
  * @brief Checks whether an external index is valid or not.
  */
-    #define IS_EXTERNAL_INDEX_VALID( lIndex )   \
-    ( ( ( ( lIndex ) >= INDEX_OFFSET ) &&       \
-        ( ( lIndex ) < ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE + INDEX_OFFSET ) ) ) ? pdTRUE : pdFALSE )
+    #تعریف_کرو IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ )   \
+    ( ( ( ( l_اشاریہ ) >= اشاریہ_وتھ ) &&       \
+        ( ( l_اشاریہ ) < ( config_PROTECTED_KERNEL_OBJECT_POOL_ناپ + اشاریہ_وتھ ) ) ) ? pdTRUE : pdFALSE )
 
 /**
  * @brief Checks whether an internal index is valid or not.
  */
-    #define IS_INTERNAL_INDEX_VALID( lIndex )   \
-    ( ( ( ( lIndex ) >= 0 ) &&                  \
-        ( ( lIndex ) < ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE ) ) ) ? pdTRUE : pdFALSE )
+    #تعریف_کرو IS_اندرونی_اشاریہ_VALID( l_اشاریہ )   \
+    ( ( ( ( l_اشاریہ ) >= 0 ) &&                  \
+        ( ( l_اشاریہ ) < ( config_PROTECTED_KERNEL_OBJECT_POOL_ناپ ) ) ) ? pdTRUE : pdFALSE )
 
 /**
  * @brief Converts an internal index into external.
  */
-    #define CONVERT_TO_EXTERNAL_INDEX( lIndex )    ( ( lIndex ) + INDEX_OFFSET )
+    #تعریف_کرو CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ )    ( ( l_اشاریہ ) + اشاریہ_وتھ )
 
 /**
  * @brief Converts an external index into internal.
  */
-    #define CONVERT_TO_INTERNAL_INDEX( lIndex )    ( ( lIndex ) - INDEX_OFFSET )
+    #تعریف_کرو CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ )    ( ( l_اشاریہ ) - اشاریہ_وتھ )
 
 /**
  * @brief Max value that fits in a UBaseType_t type.
  */
-    #define mpuUBASETYPE_MAX    ( ~( ( UBaseType_t ) 0 ) )
+    #تعریف_کرو mpuUBASETYPE_MAX    ( ~( ( UBaseType_t ) 0 ) )
 
 /**
  * @brief Check if multiplying a and b will result in overflow.
  */
-    #define mpuMULTIPLY_BASETYPE_WILL_OVERFLOW( a, b )    ( ( ( a ) > 0 ) && ( ( b ) > ( mpuUBASETYPE_MAX / ( a ) ) ) )
+    #تعریف_کرو mpu_MULTIPLY_BASETYPE_WILL_حد_توں_ودھ( a, b )    ( ( ( a ) > 0 ) && ( ( b ) > ( mpuUBASETYPE_MAX / ( a ) ) ) )
 
 /**
  * @brief Get the index of a free slot in the kernel object pool.
@@ -132,14 +132,14 @@
  * @return Index of a free slot is returned, if a free slot is
  *         found. Otherwise -1 is returned.
  */
-    static int32_t MPU_GetFreeIndexInKernelObjectPool( void ) PRIVILEGED_FUNCTION;
+    ساكن int32_t MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool( فراغ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Set the given index as free in the kernel object pool.
  *
  * @param lIndex The index to set as free.
  */
-    static void MPU_SetIndexFreeInKernelObjectPool( int32_t lIndex ) PRIVILEGED_FUNCTION;
+    ساكن فراغ MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( int32_t l_اشاریہ ) PRIVILEGED_FUNCTION;
 
 /**
  * @brief Get the index at which a given kernel object is stored.
@@ -150,7 +150,7 @@
  * @return Index at which the kernel object is stored if it is a valid
  *         handle, -1 otherwise.
  */
-    static int32_t MPU_GetIndexForHandle( OpaqueObjectHandle_t xHandle,
+    ساكن int32_t MPU_Get_اشاریہ_For_Handle( OpaqueObjectHandle_t xHandle,
                                           uint32_t ulKernelObjectType ) PRIVILEGED_FUNCTION;
 
 /**
@@ -163,9 +163,9 @@
  *        Currently, only used for timer objects to store timer callback.
  * @param ulKernelObjectType The kernel object type.
  */
-    static void MPU_StoreHandleAndDataAtIndex( int32_t lIndex,
+    ساكن فراغ MPU_Store_Handle_And_انکڑے_At_اشاریہ( int32_t l_اشاریہ,
                                                OpaqueObjectHandle_t xHandle,
-                                               void * pvKernelObjectData,
+                                               فراغ * pv_Kernel_Object_انکڑے,
                                                uint32_t ulKernelObjectType ) PRIVILEGED_FUNCTION;
 
 /**
@@ -177,10 +177,10 @@
  *
  * @return The kernel object handle at the index.
  */
-    static OpaqueObjectHandle_t MPU_GetHandleAtIndex( int32_t lIndex,
+    ساكن OpaqueObjectHandle_t MPU_Get_Handle_At_اشاریہ( int32_t l_اشاریہ,
                                                       uint32_t ulKernelObjectType ) PRIVILEGED_FUNCTION;
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
 /**
  * @brief The function registered as callback for all the timers.
@@ -190,72 +190,72 @@
  *
  * @param xInternalHandle The internal timer handle.
  */
-        static void MPU_TimerCallback( TimerHandle_t xInternalHandle ) PRIVILEGED_FUNCTION;
+        ساكن فراغ MPU_TimerCallback( TimerHandle_t x_اندرونی_Handle ) PRIVILEGED_FUNCTION;
 
-    #endif /* #if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* #if ( configUSE_TIMERS == 1 ) */
 
 /*
  * Wrappers to keep all the casting in one place.
  */
-    #define MPU_StoreQueueHandleAtIndex( lIndex, xHandle )                 MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_QUEUE )
-    #define MPU_GetQueueHandleAtIndex( lIndex )                            ( QueueHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_QUEUE )
+    #تعریف_کرو MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, xHandle )                 MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle ), عدم, KERNEL_OBJECT_TYPE_قطار )
+    #تعریف_کرو MPU_Get_قطار_Handle_At_اشاریہ( l_اشاریہ )                            ( قطار_Handle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_قطار )
 
-    #if ( configUSE_QUEUE_SETS == 1 )
-        #define MPU_StoreQueueSetHandleAtIndex( lIndex, xHandle )          MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_QUEUE )
-        #define MPU_GetQueueSetHandleAtIndex( lIndex )                     ( QueueSetHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_QUEUE )
-        #define MPU_StoreQueueSetMemberHandleAtIndex( lIndex, xHandle )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_QUEUE )
-        #define MPU_GetQueueSetMemberHandleAtIndex( lIndex )               ( QueueSetMemberHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_QUEUE )
-        #define MPU_GetIndexForQueueSetMemberHandle( xHandle )             MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_QUEUE )
-    #endif
+    #إذا ( config_USE_قطار_SETS == 1 )
+        #تعریف_کرو MPU_Store_قطار_سیٹ_Handle_At_اشاریہ( l_اشاریہ, xHandle )          MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle ), عدم, KERNEL_OBJECT_TYPE_قطار )
+        #تعریف_کرو MPU_Get_قطار_سیٹ_Handle_At_اشاریہ( l_اشاریہ )                     ( قطار_سیٹ_Handle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_قطار )
+        #تعریف_کرو MPU_Store_قطار_سیٹ_Member_Handle_At_اشاریہ( l_اشاریہ, xHandle )    MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle ), عدم, KERNEL_OBJECT_TYPE_قطار )
+        #تعریف_کرو MPU_Get_قطار_سیٹ_Member_Handle_At_اشاریہ( l_اشاریہ )               ( قطار_سیٹ_Member_Handle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_قطار )
+        #تعریف_کرو MPU_Get_اشاریہ_For_قطار_سیٹ_Member_Handle( xHandle )             MPU_Get_اشاریہ_For_Handle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_قطار )
+    #جے_انت
 
 /*
  * Wrappers to keep all the casting in one place for Task APIs.
  */
-    #define MPU_StoreTaskHandleAtIndex( lIndex, xHandle )            MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_TASK )
-    #define MPU_GetTaskHandleAtIndex( lIndex )                       ( TaskHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_TASK )
-    #define MPU_GetIndexForTaskHandle( xHandle )                     MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_TASK )
+    #تعریف_کرو MPU_Store_Task_Handle_At_اشاریہ( l_اشاریہ, xHandle )            MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle ), عدم, KERNEL_OBJECT_TYPE_TASK )
+    #تعریف_کرو MPU_Get_Task_Handle_At_اشاریہ( l_اشاریہ )                       ( TaskHandle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_TASK )
+    #تعریف_کرو MPU_Get_اشاریہ_For_Task_Handle( xHandle )                     MPU_Get_اشاریہ_For_Handle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_TASK )
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 /*
  * Wrappers to keep all the casting in one place for Event Group APIs.
  */
-        #define MPU_StoreEventGroupHandleAtIndex( lIndex, xHandle )      MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), NULL, KERNEL_OBJECT_TYPE_EVENT_GROUP )
-        #define MPU_GetEventGroupHandleAtIndex( lIndex )                 ( EventGroupHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_EVENT_GROUP )
-        #define MPU_GetIndexForEventGroupHandle( xHandle )               MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_EVENT_GROUP )
+        #تعریف_کرو MPU_Store_Event_گروہ_Handle_At_اشاریہ( l_اشاریہ, xHandle )      MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle ), عدم, KERNEL_OBJECT_TYPE_EVENT_گروہ )
+        #تعریف_کرو MPU_Get_Event_گروہ_Handle_At_اشاریہ( l_اشاریہ )                 ( Event_گروہ_Handle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_EVENT_گروہ )
+        #تعریف_کرو MPU_Get_اشاریہ_For_Event_گروہ_Handle( xHandle )               MPU_Get_اشاریہ_For_Handle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_EVENT_گروہ )
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 /*
  * Wrappers to keep all the casting in one place for Stream Buffer APIs.
  */
-        #define MPU_StoreStreamBufferHandleAtIndex( lIndex, xHandle )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle), NULL, KERNEL_OBJECT_TYPE_STREAM_BUFFER )
-        #define MPU_GetStreamBufferHandleAtIndex( lIndex )               ( StreamBufferHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_STREAM_BUFFER )
-        #define MPU_GetIndexForStreamBufferHandle( xHandle )             MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_STREAM_BUFFER )
+        #تعریف_کرو MPU_Store_دھارا_بفر_Handle_At_اشاریہ( l_اشاریہ, xHandle )    MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle), عدم, KERNEL_OBJECT_TYPE_دھارا_بفر )
+        #تعریف_کرو MPU_Get_دھارا_بفر_Handle_At_اشاریہ( l_اشاریہ )               ( دھارا_بفر_Handle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_دھارا_بفر )
+        #تعریف_کرو MPU_Get_اشاریہ_For_دھارا_بفر_Handle( xHandle )             MPU_Get_اشاریہ_For_Handle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_دھارا_بفر )
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 /*
  * Wrappers to keep all the casting in one place for Timer APIs.
  */
-        #define MPU_StoreTimerHandleAtIndex( lIndex, xHandle, pxApplicationCallback )    MPU_StoreHandleAndDataAtIndex( ( lIndex ), ( OpaqueObjectHandle_t ) ( xHandle ), ( void * ) ( pxApplicationCallback ), KERNEL_OBJECT_TYPE_TIMER )
-        #define MPU_GetTimerHandleAtIndex( lIndex )                                      ( TimerHandle_t ) MPU_GetHandleAtIndex( ( lIndex ), KERNEL_OBJECT_TYPE_TIMER )
-        #define MPU_GetIndexForTimerHandle( xHandle )                                    MPU_GetIndexForHandle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_TIMER )
+        #تعریف_کرو MPU_Store_Timer_Handle_At_اشاریہ( l_اشاریہ, xHandle, pxApplicationCallback )    MPU_Store_Handle_And_انکڑے_At_اشاریہ( ( l_اشاریہ ), ( OpaqueObjectHandle_t ) ( xHandle ), ( فراغ * ) ( pxApplicationCallback ), KERNEL_OBJECT_TYPE_TIMER )
+        #تعریف_کرو MPU_Get_Timer_Handle_At_اشاریہ( l_اشاریہ )                                      ( TimerHandle_t ) MPU_Get_Handle_At_اشاریہ( ( l_اشاریہ ), KERNEL_OBJECT_TYPE_TIMER )
+        #تعریف_کرو MPU_Get_اشاریہ_For_Timer_Handle( xHandle )                                    MPU_Get_اشاریہ_For_Handle( ( OpaqueObjectHandle_t ) ( xHandle ), KERNEL_OBJECT_TYPE_TIMER )
 
-    #endif /* #if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* #if ( configUSE_TIMERS == 1 ) */
 
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Kernel object pool.
  */
-    PRIVILEGED_DATA static KernelObject_t xKernelObjectPool[ configPROTECTED_KERNEL_OBJECT_POOL_SIZE ] = { 0 };
+    PRIVILEGED_انکڑے ساكن KernelObject_t xKernelObjectPool[ config_PROTECTED_KERNEL_OBJECT_POOL_ناپ ] = { 0 };
 /*-----------------------------------------------------------*/
 
-    static int32_t MPU_GetFreeIndexInKernelObjectPool( void ) /* PRIVILEGED_FUNCTION */
+    ساكن int32_t MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool( فراغ ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t i, lFreeIndex = -1;
+        int32_t i, l_Free_اشاریہ = -1;
 
         /* This function is called only from resource create APIs
          * which are not supposed to be called from ISRs. Therefore,
@@ -263,383 +263,383 @@
          * critical section. */
         vTaskSuspendAll();
         {
-            for( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
+            لكل( i = 0; i < config_PROTECTED_KERNEL_OBJECT_POOL_ناپ; i++ )
             {
-                if( xKernelObjectPool[ i ].xInternalObjectHandle == NULL )
+                إذا( xKernelObjectPool[ i ].x_اندرونی_Object_Handle == عدم )
                 {
                     /* Mark this index as not free. */
-                    xKernelObjectPool[ i ].xInternalObjectHandle = ( OpaqueObjectHandle_t ) ( ~0U );
-                    lFreeIndex = i;
-                    break;
+                    xKernelObjectPool[ i ].x_اندرونی_Object_Handle = ( OpaqueObjectHandle_t ) ( ~0U );
+                    l_Free_اشاریہ = i;
+                    اكسر;
                 }
             }
         }
-        ( void ) xTaskResumeAll();
+        ( فراغ ) xTaskResumeAll();
 
-        return lFreeIndex;
+        أرجع l_Free_اشاریہ;
     }
 /*-----------------------------------------------------------*/
 
-    static void MPU_SetIndexFreeInKernelObjectPool( int32_t lIndex ) /* PRIVILEGED_FUNCTION */
+    ساكن فراغ MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( int32_t l_اشاریہ ) /* PRIVILEGED_FUNCTION */
     {
-        configASSERT( IS_INTERNAL_INDEX_VALID( lIndex ) != pdFALSE );
+        configASSERT( IS_اندرونی_اشاریہ_VALID( l_اشاریہ ) != pdFALSE );
 
         taskENTER_CRITICAL();
         {
-            xKernelObjectPool[ lIndex ].xInternalObjectHandle = NULL;
-            xKernelObjectPool[ lIndex ].ulKernelObjectType = KERNEL_OBJECT_TYPE_INVALID;
-            xKernelObjectPool[ lIndex ].pvKernelObjectData = NULL;
+            xKernelObjectPool[ l_اشاریہ ].x_اندرونی_Object_Handle = عدم;
+            xKernelObjectPool[ l_اشاریہ ].ulKernelObjectType = KERNEL_OBJECT_TYPE_INVALID;
+            xKernelObjectPool[ l_اشاریہ ].pv_Kernel_Object_انکڑے = عدم;
         }
         taskEXIT_CRITICAL();
     }
 /*-----------------------------------------------------------*/
 
-    static int32_t MPU_GetIndexForHandle( OpaqueObjectHandle_t xHandle,
+    ساكن int32_t MPU_Get_اشاریہ_For_Handle( OpaqueObjectHandle_t xHandle,
                                           uint32_t ulKernelObjectType ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t i, lIndex = -1;
+        int32_t i, l_اشاریہ = -1;
 
-        configASSERT( xHandle != NULL );
+        configASSERT( xHandle != عدم );
 
-        for( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
+        لكل( i = 0; i < config_PROTECTED_KERNEL_OBJECT_POOL_ناپ; i++ )
         {
-            if( ( xKernelObjectPool[ i ].xInternalObjectHandle == xHandle ) &&
+            إذا( ( xKernelObjectPool[ i ].x_اندرونی_Object_Handle == xHandle ) &&
                 ( xKernelObjectPool[ i ].ulKernelObjectType == ulKernelObjectType ) )
             {
-                lIndex = i;
-                break;
+                l_اشاریہ = i;
+                اكسر;
             }
         }
 
-        return lIndex;
+        أرجع l_اشاریہ;
     }
 /*-----------------------------------------------------------*/
 
-    static void MPU_StoreHandleAndDataAtIndex( int32_t lIndex,
+    ساكن فراغ MPU_Store_Handle_And_انکڑے_At_اشاریہ( int32_t l_اشاریہ,
                                                OpaqueObjectHandle_t xHandle,
-                                               void * pvKernelObjectData,
+                                               فراغ * pv_Kernel_Object_انکڑے,
                                                uint32_t ulKernelObjectType ) /* PRIVILEGED_FUNCTION */
     {
-        configASSERT( IS_INTERNAL_INDEX_VALID( lIndex ) != pdFALSE );
-        xKernelObjectPool[ lIndex ].xInternalObjectHandle = xHandle;
-        xKernelObjectPool[ lIndex ].ulKernelObjectType = ulKernelObjectType;
-        xKernelObjectPool[ lIndex ].pvKernelObjectData = pvKernelObjectData;
+        configASSERT( IS_اندرونی_اشاریہ_VALID( l_اشاریہ ) != pdFALSE );
+        xKernelObjectPool[ l_اشاریہ ].x_اندرونی_Object_Handle = xHandle;
+        xKernelObjectPool[ l_اشاریہ ].ulKernelObjectType = ulKernelObjectType;
+        xKernelObjectPool[ l_اشاریہ ].pv_Kernel_Object_انکڑے = pv_Kernel_Object_انکڑے;
     }
 /*-----------------------------------------------------------*/
 
-    static OpaqueObjectHandle_t MPU_GetHandleAtIndex( int32_t lIndex,
+    ساكن OpaqueObjectHandle_t MPU_Get_Handle_At_اشاریہ( int32_t l_اشاریہ,
                                                       uint32_t ulKernelObjectType ) /* PRIVILEGED_FUNCTION */
     {
-        OpaqueObjectHandle_t xObjectHandle = NULL;
+        OpaqueObjectHandle_t xObjectHandle = عدم;
 
-        configASSERT( IS_INTERNAL_INDEX_VALID( lIndex ) != pdFALSE );
+        configASSERT( IS_اندرونی_اشاریہ_VALID( l_اشاریہ ) != pdFALSE );
 
-        if( xKernelObjectPool[ lIndex ].ulKernelObjectType == ulKernelObjectType )
+        إذا( xKernelObjectPool[ l_اشاریہ ].ulKernelObjectType == ulKernelObjectType )
         {
-            xObjectHandle = xKernelObjectPool[ lIndex ].xInternalObjectHandle;
+            xObjectHandle = xKernelObjectPool[ l_اشاریہ ].x_اندرونی_Object_Handle;
         }
 
-        return xObjectHandle;
+        أرجع xObjectHandle;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        void vGrantAccessToKernelObject( TaskHandle_t xExternalTaskHandle,
+        فراغ v_Grant_Access_منزل_Kernel_Object( TaskHandle_t xExternalTaskHandle,
                                          int32_t lExternalKernelObjectHandle ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lExternalTaskIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            int32_t l_External_Task_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( IS_EXTERNAL_INDEX_VALID( lExternalKernelObjectHandle ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( lExternalKernelObjectHandle ) != pdFALSE )
             {
-                if( xExternalTaskHandle == NULL )
+                إذا( xExternalTaskHandle == عدم )
                 {
-                    vPortGrantAccessToKernelObject( xExternalTaskHandle, CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
+                    v_پورٹ_Grant_Access_منزل_Kernel_Object( xExternalTaskHandle, CONVERT_منزل_اندرونی_اشاریہ( lExternalKernelObjectHandle ) );
                 }
-                else
+                وإلا
                 {
-                    lExternalTaskIndex = ( int32_t ) xExternalTaskHandle;
+                    l_External_Task_اشاریہ = ( int32_t ) xExternalTaskHandle;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_External_Task_اشاریہ ) != pdFALSE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lExternalTaskIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_External_Task_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            vPortGrantAccessToKernelObject( xInternalTaskHandle,
-                                                            CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
+                            v_پورٹ_Grant_Access_منزل_Kernel_Object( x_اندرونی_Task_Handle,
+                                                            CONVERT_منزل_اندرونی_اشاریہ( lExternalKernelObjectHandle ) );
                         }
                     }
                 }
             }
         }
 
-    #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #جے_انت /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
-        void vRevokeAccessToKernelObject( TaskHandle_t xExternalTaskHandle,
+        فراغ v_Revoke_Access_منزل_Kernel_Object( TaskHandle_t xExternalTaskHandle,
                                           int32_t lExternalKernelObjectHandle ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lExternalTaskIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            int32_t l_External_Task_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( IS_EXTERNAL_INDEX_VALID( lExternalKernelObjectHandle ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( lExternalKernelObjectHandle ) != pdFALSE )
             {
-                if( xExternalTaskHandle == NULL )
+                إذا( xExternalTaskHandle == عدم )
                 {
-                    vPortRevokeAccessToKernelObject( xExternalTaskHandle, CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
+                    v_پورٹ_Revoke_Access_منزل_Kernel_Object( xExternalTaskHandle, CONVERT_منزل_اندرونی_اشاریہ( lExternalKernelObjectHandle ) );
                 }
-                else
+                وإلا
                 {
-                    lExternalTaskIndex = ( int32_t ) xExternalTaskHandle;
+                    l_External_Task_اشاریہ = ( int32_t ) xExternalTaskHandle;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lExternalTaskIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_External_Task_اشاریہ ) != pdFALSE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lExternalTaskIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_External_Task_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            vPortRevokeAccessToKernelObject( xInternalTaskHandle,
-                                                             CONVERT_TO_INTERNAL_INDEX( lExternalKernelObjectHandle ) );
+                            v_پورٹ_Revoke_Access_منزل_Kernel_Object( x_اندرونی_Task_Handle,
+                                                             CONVERT_منزل_اندرونی_اشاریہ( lExternalKernelObjectHandle ) );
                         }
                     }
                 }
             }
         }
 
-    #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+    #جے_انت /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        static void MPU_TimerCallback( TimerHandle_t xInternalHandle ) /* PRIVILEGED_FUNCTION */
+        ساكن فراغ MPU_TimerCallback( TimerHandle_t x_اندرونی_Handle ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t i, lIndex = -1;
-            TimerHandle_t xExternalHandle = NULL;
-            TimerCallbackFunction_t pxApplicationCallBack = NULL;
+            int32_t i, l_اشاریہ = -1;
+            TimerHandle_t xExternalHandle = عدم;
+            TimerCallbackFunction_t px_Application_Call_پٹھ = عدم;
 
             /* Coming from the timer task and therefore, should be valid. */
-            configASSERT( xInternalHandle != NULL );
+            configASSERT( x_اندرونی_Handle != عدم );
 
-            for( i = 0; i < configPROTECTED_KERNEL_OBJECT_POOL_SIZE; i++ )
+            لكل( i = 0; i < config_PROTECTED_KERNEL_OBJECT_POOL_ناپ; i++ )
             {
-                if( ( ( TimerHandle_t ) xKernelObjectPool[ i ].xInternalObjectHandle == xInternalHandle ) &&
+                إذا( ( ( TimerHandle_t ) xKernelObjectPool[ i ].x_اندرونی_Object_Handle == x_اندرونی_Handle ) &&
                     ( xKernelObjectPool[ i ].ulKernelObjectType == KERNEL_OBJECT_TYPE_TIMER ) )
                 {
-                    lIndex = i;
-                    break;
+                    l_اشاریہ = i;
+                    اكسر;
                 }
             }
 
-            configASSERT( lIndex != -1 );
-            xExternalHandle = ( TimerHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+            configASSERT( l_اشاریہ != -1 );
+            xExternalHandle = ( TimerHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
 
-            pxApplicationCallBack = ( TimerCallbackFunction_t ) xKernelObjectPool[ lIndex ].pvKernelObjectData;
-            pxApplicationCallBack( xExternalHandle );
+            px_Application_Call_پٹھ = ( TimerCallbackFunction_t ) xKernelObjectPool[ l_اشاریہ ].pv_Kernel_Object_انکڑے;
+            px_Application_Call_پٹھ( xExternalHandle );
         }
 
-    #endif /* #if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* #if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 /*            MPU wrappers for tasks APIs.                   */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskDelayUntil == 1 )
+    #إذا ( INCLUDE_xTaskDelayUntil == 1 )
 
-        BaseType_t MPU_xTaskDelayUntilImpl( TickType_t * const pxPreviousWakeTime,
-                                            TickType_t xTimeIncrement ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTaskDelayUntilImpl( TickType_t * ثابت px_پچھلا_Wake_ویلا,
+                                            TickType_t x_ویلا_Increment ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskDelayUntilImpl( TickType_t * const pxPreviousWakeTime,
-                                            TickType_t xTimeIncrement ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskDelayUntilImpl( TickType_t * ثابت px_پچھلا_Wake_ویلا,
+                                            TickType_t x_ویلا_Increment ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            BaseType_t xIsPreviousWakeTimeAccessible = pdFALSE;
+            ادھار_Type_t xReturn = pdFAIL;
+            ادھار_Type_t x_Is_پچھلا_Wake_ویلا_Accessible = pdFALSE;
 
-            if( ( pxPreviousWakeTime != NULL ) && ( xTimeIncrement > 0U ) )
+            إذا( ( px_پچھلا_Wake_ویلا != عدم ) && ( x_ویلا_Increment > 0U ) )
             {
-                xIsPreviousWakeTimeAccessible = xPortIsAuthorizedToAccessBuffer( pxPreviousWakeTime,
-                                                                                 sizeof( TickType_t ),
+                x_Is_پچھلا_Wake_ویلا_Accessible = x_پورٹ_Is_Authorized_منزل_Access_بفر( px_پچھلا_Wake_ویلا,
+                                                                                 حجم( TickType_t ),
                                                                                  ( tskMPU_WRITE_PERMISSION | tskMPU_READ_PERMISSION ) );
 
-                if( xIsPreviousWakeTimeAccessible == pdTRUE )
+                إذا( x_Is_پچھلا_Wake_ویلا_Accessible == pdTRUE )
                 {
-                    xReturn = xTaskDelayUntil( pxPreviousWakeTime, xTimeIncrement );
+                    xReturn = xTaskDelayUntil( px_پچھلا_Wake_ویلا, x_ویلا_Increment );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
+    #جے_انت /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskAbortDelay == 1 )
+    #إذا ( INCLUDE_xTaskAbortDelay == 1 )
 
-        BaseType_t MPU_xTaskAbortDelayImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTaskAbortDelayImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskAbortDelayImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskAbortDelayImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFAIL;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xTask;
+            l_اشاریہ = ( int32_t ) xTask;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        xReturn = xTaskAbortDelay( xInternalTaskHandle );
+                        xReturn = xTaskAbortDelay( x_اندرونی_Task_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
+    #جے_انت /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelay == 1 )
+    #إذا ( INCLUDE_vTaskDelay == 1 )
 
-        void MPU_vTaskDelayImpl( TickType_t xTicksToDelay ) PRIVILEGED_FUNCTION;
+        فراغ MPU_vTaskDelayImpl( TickType_t x_Ticks_منزل_Delay ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskDelayImpl( TickType_t xTicksToDelay ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_vTaskDelayImpl( TickType_t x_Ticks_منزل_Delay ) /* PRIVILEGED_FUNCTION */
         {
-            vTaskDelay( xTicksToDelay );
+            vTaskDelay( x_Ticks_منزل_Delay );
         }
 
-    #endif /* if ( INCLUDE_vTaskDelay == 1 ) */
+    #جے_انت /* if ( INCLUDE_vTaskDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskPriorityGet == 1 )
+    #إذا ( INCLUDE_ux_Task_ترجیح_Get == 1 )
 
-        UBaseType_t MPU_uxTaskPriorityGetImpl( const TaskHandle_t pxTask ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Task_ترجیح_Get_Impl( ثابت TaskHandle_t pxTask ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTaskPriorityGetImpl( const TaskHandle_t pxTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_ترجیح_Get_Impl( ثابت TaskHandle_t pxTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( pxTask == NULL )
+            إذا( pxTask == عدم )
             {
-                uxReturn = uxTaskPriorityGet( pxTask );
+                uxReturn = ux_Task_ترجیح_Get( pxTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) pxTask;
+                l_اشاریہ = ( int32_t ) pxTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            uxReturn = uxTaskPriorityGet( xInternalTaskHandle );
+                            uxReturn = ux_Task_ترجیح_Get( x_اندرونی_Task_Handle );
                         }
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
+    #جے_انت /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_eTaskGetState == 1 )
+    #إذا ( INCLUDE_eTaskGetState == 1 )
 
         eTaskState MPU_eTaskGetStateImpl( TaskHandle_t pxTask ) PRIVILEGED_FUNCTION;
 
         eTaskState MPU_eTaskGetStateImpl( TaskHandle_t pxTask ) /* PRIVILEGED_FUNCTION */
         {
             eTaskState eReturn = eInvalid;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            lIndex = ( int32_t ) pxTask;
+            l_اشاریہ = ( int32_t ) pxTask;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        eReturn = eTaskGetState( xInternalTaskHandle );
+                        eReturn = eTaskGetState( x_اندرونی_Task_Handle );
                     }
                 }
             }
 
-            return eReturn;
+            أرجع eReturn;
         }
 
-    #endif /* if ( INCLUDE_eTaskGetState == 1 ) */
+    #جے_انت /* if ( INCLUDE_eTaskGetState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #إذا ( configUSE_TRACE_FACILITY == 1 )
 
-        void MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
-                                   TaskStatus_t * pxTaskStatus,
-                                   BaseType_t xGetFreeStackSpace,
+        فراغ MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
+                                   Task_حالت_t * px_Task_حالت,
+                                   ادھار_Type_t x_Get_Free_ڈھیر_Space,
                                    eTaskState eState ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
-                                   TaskStatus_t * pxTaskStatus,
-                                   BaseType_t xGetFreeStackSpace,
+        فراغ MPU_vTaskGetInfoImpl( TaskHandle_t xTask,
+                                   Task_حالت_t * px_Task_حالت,
+                                   ادھار_Type_t x_Get_Free_ڈھیر_Space,
                                    eTaskState eState ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xIsTaskStatusWriteable = pdFALSE;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Is_Task_حالت_Writeable = pdFALSE;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            xIsTaskStatusWriteable = xPortIsAuthorizedToAccessBuffer( pxTaskStatus,
-                                                                      sizeof( TaskStatus_t ),
+            x_Is_Task_حالت_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( px_Task_حالت,
+                                                                      حجم( Task_حالت_t ),
                                                                       tskMPU_WRITE_PERMISSION );
 
-            if( xIsTaskStatusWriteable == pdTRUE )
+            إذا( x_Is_Task_حالت_Writeable == pdTRUE )
             {
-                if( xTask == NULL )
+                إذا( xTask == عدم )
                 {
-                    vTaskGetInfo( xTask, pxTaskStatus, xGetFreeStackSpace, eState );
+                    vTaskGetInfo( xTask, px_Task_حالت, x_Get_Free_ڈھیر_Space, eState );
                 }
-                else
+                وإلا
                 {
-                    lIndex = ( int32_t ) xTask;
+                    l_اشاریہ = ( int32_t ) xTask;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                         {
-                            xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            إذا( x_اندرونی_Task_Handle != عدم )
                             {
-                                vTaskGetInfo( xInternalTaskHandle, pxTaskStatus, xGetFreeStackSpace, eState );
+                                vTaskGetInfo( x_اندرونی_Task_Handle, px_Task_حالت, x_Get_Free_ڈھیر_Space, eState );
                             }
                         }
                     }
@@ -647,62 +647,62 @@
             }
         }
 
-    #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
+    #جے_انت /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+    #إذا ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
 
-        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( void ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( فراغ ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( void ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskGetIdleTaskHandleImpl( فراغ ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xIdleTaskHandle = NULL;
+            TaskHandle_t xIdleTaskHandle = عدم;
 
             xIdleTaskHandle = xTaskGetIdleTaskHandle();
 
-            return xIdleTaskHandle;
+            أرجع xIdleTaskHandle;
         }
 
-    #endif /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
+    #جے_انت /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
+    #إذا ( INCLUDE_vTaskSuspend == 1 )
 
-        void MPU_vTaskSuspendImpl( TaskHandle_t pxTaskToSuspend ) PRIVILEGED_FUNCTION;
+        فراغ MPU_vTaskSuspendImpl( TaskHandle_t px_Task_منزل_Suspend ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskSuspendImpl( TaskHandle_t pxTaskToSuspend ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_vTaskSuspendImpl( TaskHandle_t px_Task_منزل_Suspend ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( pxTaskToSuspend == NULL )
+            إذا( px_Task_منزل_Suspend == عدم )
             {
-                vTaskSuspend( pxTaskToSuspend );
+                vTaskSuspend( px_Task_منزل_Suspend );
             }
-            else
+            وإلا
             {
                 /* After the scheduler starts, only privileged tasks are allowed
                  * to suspend other tasks. */
-                #if ( INCLUDE_xTaskGetSchedulerState == 1 )
-                    if( ( xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED ) || ( portIS_TASK_PRIVILEGED() == pdTRUE ) )
-                #else
-                    if( portIS_TASK_PRIVILEGED() == pdTRUE )
-                #endif
+                #إذا ( INCLUDE_xTaskGetSchedulerState == 1 )
+                    إذا( ( xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED ) || ( پورٹ_IS_TASK_PRIVILEGED() == pdTRUE ) )
+                #وإلا
+                    إذا( پورٹ_IS_TASK_PRIVILEGED() == pdTRUE )
+                #جے_انت
                 {
-                    lIndex = ( int32_t ) pxTaskToSuspend;
+                    l_اشاریہ = ( int32_t ) px_Task_منزل_Suspend;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                         {
-                            xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            إذا( x_اندرونی_Task_Handle != عدم )
                             {
-                                vTaskSuspend( xInternalTaskHandle );
+                                vTaskSuspend( x_اندرونی_Task_Handle );
                             }
                         }
                     }
@@ -710,635 +710,635 @@
             }
         }
 
-    #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
+    #جے_انت /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
+    #إذا ( INCLUDE_vTaskSuspend == 1 )
 
-        void MPU_vTaskResumeImpl( TaskHandle_t pxTaskToResume ) PRIVILEGED_FUNCTION;
+        فراغ MPU_vTaskResumeImpl( TaskHandle_t px_Task_منزل_Resume ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskResumeImpl( TaskHandle_t pxTaskToResume ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_vTaskResumeImpl( TaskHandle_t px_Task_منزل_Resume ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            lIndex = ( int32_t ) pxTaskToResume;
+            l_اشاریہ = ( int32_t ) px_Task_منزل_Resume;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        vTaskResume( xInternalTaskHandle );
+                        vTaskResume( x_اندرونی_Task_Handle );
                     }
                 }
             }
         }
 
-    #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
+    #جے_انت /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    TickType_t MPU_xTaskGetTickCountImpl( void ) PRIVILEGED_FUNCTION;
+    TickType_t MPU_x_Task_Get_Tick_گنتی_Impl( فراغ ) PRIVILEGED_FUNCTION;
 
-    TickType_t MPU_xTaskGetTickCountImpl( void ) /* PRIVILEGED_FUNCTION */
+    TickType_t MPU_x_Task_Get_Tick_گنتی_Impl( فراغ ) /* PRIVILEGED_FUNCTION */
     {
         TickType_t xReturn;
 
-        xReturn = xTaskGetTickCount();
+        xReturn = x_Task_Get_Tick_گنتی();
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasksImpl( void ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_ux_Task_Get_نمبر_دا_Tasks_Impl( فراغ ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasksImpl( void ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_ux_Task_Get_نمبر_دا_Tasks_Impl( فراغ ) /* PRIVILEGED_FUNCTION */
     {
         UBaseType_t uxReturn;
 
-        uxReturn = uxTaskGetNumberOfTasks();
+        uxReturn = ux_Task_Get_نمبر_دا_Tasks();
 
-        return uxReturn;
+        أرجع uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configGENERATE_RUN_TIME_STATS == 1 )
+    #إذا ( config_GENERATE_لگاتار_ویلا_STATS == 1 )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounterImpl( const TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_لگاتار_ویلا_Counter_Impl( ثابت TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounterImpl( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_لگاتار_ویلا_Counter_Impl( ثابت TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            configRUN_TIME_COUNTER_TYPE xReturn = 0;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            config_لگاتار_ویلا_COUNTER_TYPE xReturn = 0;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                xReturn = ulTaskGetRunTimeCounter( xTask );
+                xReturn = ul_Task_Get_لگاتار_ویلا_Counter( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            xReturn = ulTaskGetRunTimeCounter( xInternalTaskHandle );
+                            xReturn = ul_Task_Get_لگاتار_ویلا_Counter( x_اندرونی_Task_Handle );
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
+    #جے_انت /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configGENERATE_RUN_TIME_STATS == 1 )
+    #إذا ( config_GENERATE_لگاتار_ویلا_STATS == 1 )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercentImpl( const TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_لگاتار_ویلا_Percent_Impl( ثابت TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercentImpl( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_لگاتار_ویلا_Percent_Impl( ثابت TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            configRUN_TIME_COUNTER_TYPE xReturn = 0;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            config_لگاتار_ویلا_COUNTER_TYPE xReturn = 0;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                xReturn = ulTaskGetRunTimePercent( xTask );
+                xReturn = ul_Task_Get_لگاتار_ویلا_Percent( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            xReturn = ulTaskGetRunTimePercent( xInternalTaskHandle );
+                            xReturn = ul_Task_Get_لگاتار_ویلا_Percent( x_اندرونی_Task_Handle );
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
+    #جے_انت /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+    #إذا ( ( config_GENERATE_لگاتار_ویلا_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercentImpl( void ) PRIVILEGED_FUNCTION;
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_Idle_لگاتار_ویلا_Percent_Impl( فراغ ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercentImpl( void ) /* PRIVILEGED_FUNCTION */
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_Idle_لگاتار_ویلا_Percent_Impl( فراغ ) /* PRIVILEGED_FUNCTION */
         {
-            configRUN_TIME_COUNTER_TYPE xReturn;
+            config_لگاتار_ویلا_COUNTER_TYPE xReturn;
 
-            xReturn = ulTaskGetIdleRunTimePercent();
+            xReturn = ul_Task_Get_Idle_لگاتار_ویلا_Percent();
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
+    #جے_انت /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+    #إذا ( ( config_GENERATE_لگاتار_ویلا_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounterImpl( void ) PRIVILEGED_FUNCTION;
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_Idle_لگاتار_ویلا_Counter_Impl( فراغ ) PRIVILEGED_FUNCTION;
 
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounterImpl( void ) /* PRIVILEGED_FUNCTION */
+        config_لگاتار_ویلا_COUNTER_TYPE MPU_ul_Task_Get_Idle_لگاتار_ویلا_Counter_Impl( فراغ ) /* PRIVILEGED_FUNCTION */
         {
-            configRUN_TIME_COUNTER_TYPE xReturn;
+            config_لگاتار_ویلا_COUNTER_TYPE xReturn;
 
-            xReturn = ulTaskGetIdleRunTimeCounter();
+            xReturn = ul_Task_Get_Idle_لگاتار_ویلا_Counter();
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
+    #جے_انت /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #إذا ( config_USE_APPLICATION_TASK_ٹیگ == 1 )
 
-        void MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
-                                                 TaskHookFunction_t pxTagValue ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_Task_سیٹ_Application_Task_ٹیگ_Impl( TaskHandle_t xTask,
+                                                 TaskHookFunction_t px_ٹیگ_قدر ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTaskSetApplicationTaskTagImpl( TaskHandle_t xTask,
-                                                 TaskHookFunction_t pxTagValue ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Task_سیٹ_Application_Task_ٹیگ_Impl( TaskHandle_t xTask,
+                                                 TaskHookFunction_t px_ٹیگ_قدر ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                vTaskSetApplicationTaskTag( xTask, pxTagValue );
+                v_Task_سیٹ_Application_Task_ٹیگ( xTask, px_ٹیگ_قدر );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            vTaskSetApplicationTaskTag( xInternalTaskHandle, pxTagValue );
-                        }
-                    }
-                }
-            }
-        }
-
-    #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
-/*-----------------------------------------------------------*/
-
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
-
-        TaskHookFunction_t MPU_xTaskGetApplicationTaskTagImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
-
-        TaskHookFunction_t MPU_xTaskGetApplicationTaskTagImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
-        {
-            TaskHookFunction_t xReturn = NULL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
-
-            if( xTask == NULL )
-            {
-                xReturn = xTaskGetApplicationTaskTag( xTask );
-            }
-            else
-            {
-                lIndex = ( int32_t ) xTask;
-
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-                {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
-                    {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                        if( xInternalTaskHandle != NULL )
-                        {
-                            xReturn = xTaskGetApplicationTaskTag( xInternalTaskHandle );
-                        }
-                    }
-                }
-            }
-
-            return xReturn;
-        }
-
-    #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
-/*-----------------------------------------------------------*/
-
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
-
-        void MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
-                                                        BaseType_t xIndex,
-                                                        void * pvValue ) PRIVILEGED_FUNCTION;
-
-        void MPU_vTaskSetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToSet,
-                                                        BaseType_t xIndex,
-                                                        void * pvValue ) /* PRIVILEGED_FUNCTION */
-        {
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
-
-            if( xTaskToSet == NULL )
-            {
-                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pvValue );
-            }
-            else
-            {
-                lIndex = ( int32_t ) xTaskToSet;
-
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-                {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
-                    {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                        if( xInternalTaskHandle != NULL )
-                        {
-                            vTaskSetThreadLocalStoragePointer( xInternalTaskHandle, xIndex, pvValue );
+                            v_Task_سیٹ_Application_Task_ٹیگ( x_اندرونی_Task_Handle, px_ٹیگ_قدر );
                         }
                     }
                 }
             }
         }
 
-    #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
+    #جے_انت /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+    #إذا ( config_USE_APPLICATION_TASK_ٹیگ == 1 )
 
-        void * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
-                                                           BaseType_t xIndex ) PRIVILEGED_FUNCTION;
+        TaskHookFunction_t MPU_x_Task_Get_Application_Task_ٹیگ_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        void * MPU_pvTaskGetThreadLocalStoragePointerImpl( TaskHandle_t xTaskToQuery,
-                                                           BaseType_t xIndex ) /* PRIVILEGED_FUNCTION */
+        TaskHookFunction_t MPU_x_Task_Get_Application_Task_ٹیگ_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            void * pvReturn = NULL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            TaskHookFunction_t xReturn = عدم;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( xTaskToQuery == NULL )
+            إذا( xTask == عدم )
             {
-                pvReturn = pvTaskGetThreadLocalStoragePointer( xTaskToQuery, xIndex );
+                xReturn = x_Task_Get_Application_Task_ٹیگ( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTaskToQuery;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            pvReturn = pvTaskGetThreadLocalStoragePointer( xInternalTaskHandle, xIndex );
+                            xReturn = x_Task_Get_Application_Task_ٹیگ( x_اندرونی_Task_Handle );
                         }
                     }
                 }
             }
 
-            return pvReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
+    #جے_انت /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #إذا ( config_عدد_THREAD_LOCAL_STORAGE_سوچکاں != 0 )
 
-        UBaseType_t MPU_uxTaskGetSystemStateImpl( TaskStatus_t * pxTaskStatusArray,
-                                                  UBaseType_t uxArraySize,
-                                                  configRUN_TIME_COUNTER_TYPE * pulTotalRunTime ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر_Impl( TaskHandle_t x_Task_منزل_سیٹ,
+                                                        ادھار_Type_t x_اشاریہ,
+                                                        فراغ * pv_قدر ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTaskGetSystemStateImpl( TaskStatus_t * pxTaskStatusArray,
-                                                  UBaseType_t uxArraySize,
-                                                  configRUN_TIME_COUNTER_TYPE * pulTotalRunTime ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر_Impl( TaskHandle_t x_Task_منزل_سیٹ,
+                                                        ادھار_Type_t x_اشاریہ,
+                                                        فراغ * pv_قدر ) /* PRIVILEGED_FUNCTION */
+        {
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
+
+            إذا( x_Task_منزل_سیٹ == عدم )
+            {
+                v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر( x_Task_منزل_سیٹ, x_اشاریہ, pv_قدر );
+            }
+            وإلا
+            {
+                l_اشاریہ = ( int32_t ) x_Task_منزل_سیٹ;
+
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+                {
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
+                    {
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                        إذا( x_اندرونی_Task_Handle != عدم )
+                        {
+                            v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر( x_اندرونی_Task_Handle, x_اشاریہ, pv_قدر );
+                        }
+                    }
+                }
+            }
+        }
+
+    #جے_انت /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
+/*-----------------------------------------------------------*/
+
+    #إذا ( config_عدد_THREAD_LOCAL_STORAGE_سوچکاں != 0 )
+
+        فراغ * MPU_pv_Task_Get_Thread_Local_Storage_اشارہ_گر_Impl( TaskHandle_t x_Task_منزل_Query,
+                                                           ادھار_Type_t x_اشاریہ ) PRIVILEGED_FUNCTION;
+
+        فراغ * MPU_pv_Task_Get_Thread_Local_Storage_اشارہ_گر_Impl( TaskHandle_t x_Task_منزل_Query,
+                                                           ادھار_Type_t x_اشاریہ ) /* PRIVILEGED_FUNCTION */
+        {
+            فراغ * pvReturn = عدم;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
+
+            إذا( x_Task_منزل_Query == عدم )
+            {
+                pvReturn = pv_Task_Get_Thread_Local_Storage_اشارہ_گر( x_Task_منزل_Query, x_اشاریہ );
+            }
+            وإلا
+            {
+                l_اشاریہ = ( int32_t ) x_Task_منزل_Query;
+
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+                {
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
+                    {
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                        إذا( x_اندرونی_Task_Handle != عدم )
+                        {
+                            pvReturn = pv_Task_Get_Thread_Local_Storage_اشارہ_گر( x_اندرونی_Task_Handle, x_اشاریہ );
+                        }
+                    }
+                }
+            }
+
+            أرجع pvReturn;
+        }
+
+    #جے_انت /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
+/*-----------------------------------------------------------*/
+
+    #إذا ( configUSE_TRACE_FACILITY == 1 )
+
+        UBaseType_t MPU_uxTaskGetSystemStateImpl( Task_حالت_t * px_Task_حالت_Array,
+                                                  UBaseType_t ux_Array_ناپ,
+                                                  config_لگاتار_ویلا_COUNTER_TYPE * pul_کل_لگاتار_ویلا ) PRIVILEGED_FUNCTION;
+
+        UBaseType_t MPU_uxTaskGetSystemStateImpl( Task_حالت_t * px_Task_حالت_Array,
+                                                  UBaseType_t ux_Array_ناپ,
+                                                  config_لگاتار_ویلا_COUNTER_TYPE * pul_کل_لگاتار_ویلا ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = 0;
-            BaseType_t xIsTaskStatusArrayWriteable = pdFALSE;
-            BaseType_t xIsTotalRunTimeWriteable = pdFALSE;
+            ادھار_Type_t x_Is_Task_حالت_Array_Writeable = pdFALSE;
+            ادھار_Type_t x_Is_کل_لگاتار_ویلا_Writeable = pdFALSE;
 
-            if( mpuMULTIPLY_BASETYPE_WILL_OVERFLOW( sizeof( TaskStatus_t ), uxArraySize ) == 0 )
+            إذا( mpu_MULTIPLY_BASETYPE_WILL_حد_توں_ودھ( حجم( Task_حالت_t ), ux_Array_ناپ ) == 0 )
             {
-                xIsTaskStatusArrayWriteable = xPortIsAuthorizedToAccessBuffer( pxTaskStatusArray,
-                                                                               sizeof( TaskStatus_t ) * ( size_t ) uxArraySize,
+                x_Is_Task_حالت_Array_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( px_Task_حالت_Array,
+                                                                               حجم( Task_حالت_t ) * ( size_t ) ux_Array_ناپ,
                                                                                tskMPU_WRITE_PERMISSION );
 
-                if( pulTotalRunTime != NULL )
+                إذا( pul_کل_لگاتار_ویلا != عدم )
                 {
-                    xIsTotalRunTimeWriteable = xPortIsAuthorizedToAccessBuffer( pulTotalRunTime,
-                                                                                sizeof( configRUN_TIME_COUNTER_TYPE ),
+                    x_Is_کل_لگاتار_ویلا_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pul_کل_لگاتار_ویلا,
+                                                                                حجم( config_لگاتار_ویلا_COUNTER_TYPE ),
                                                                                 tskMPU_WRITE_PERMISSION );
                 }
 
-                if( ( xIsTaskStatusArrayWriteable == pdTRUE ) &&
-                    ( ( pulTotalRunTime == NULL ) || ( xIsTotalRunTimeWriteable == pdTRUE ) ) )
+                إذا( ( x_Is_Task_حالت_Array_Writeable == pdTRUE ) &&
+                    ( ( pul_کل_لگاتار_ویلا == عدم ) || ( x_Is_کل_لگاتار_ویلا_Writeable == pdTRUE ) ) )
                 {
-                    uxReturn = uxTaskGetSystemState( pxTaskStatusArray, uxArraySize, pulTotalRunTime );
+                    uxReturn = uxTaskGetSystemState( px_Task_حالت_Array, ux_Array_ناپ, pul_کل_لگاتار_ویلا );
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
+    #جے_انت /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
+    #إذا ( INCLUDE_ux_Task_Get_ڈھیر_بلند_Water_Mark == 1 )
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMarkImpl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Task_Get_ڈھیر_بلند_Water_Mark_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTaskGetStackHighWaterMarkImpl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_Get_ڈھیر_بلند_Water_Mark_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = 0;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                uxReturn = uxTaskGetStackHighWaterMark( xTask );
+                uxReturn = ux_Task_Get_ڈھیر_بلند_Water_Mark( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            uxReturn = uxTaskGetStackHighWaterMark( xInternalTaskHandle );
+                            uxReturn = ux_Task_Get_ڈھیر_بلند_Water_Mark( x_اندرونی_Task_Handle );
                         }
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
+    #جے_انت /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
+    #إذا ( INCLUDE_ux_Task_Get_ڈھیر_بلند_Water_Mark2 == 1 )
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
+        config_ڈھیر_ڈونگھائی_TYPE MPU_ux_Task_Get_ڈھیر_بلند_Water_Mark2_Impl( TaskHandle_t xTask ) PRIVILEGED_FUNCTION;
 
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        config_ڈھیر_ڈونگھائی_TYPE MPU_ux_Task_Get_ڈھیر_بلند_Water_Mark2_Impl( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            configSTACK_DEPTH_TYPE uxReturn = 0;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            config_ڈھیر_ڈونگھائی_TYPE uxReturn = 0;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                uxReturn = uxTaskGetStackHighWaterMark2( xTask );
+                uxReturn = ux_Task_Get_ڈھیر_بلند_Water_Mark2( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                     {
-                        xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalTaskHandle != NULL )
+                        إذا( x_اندرونی_Task_Handle != عدم )
                         {
-                            uxReturn = uxTaskGetStackHighWaterMark2( xInternalTaskHandle );
+                            uxReturn = ux_Task_Get_ڈھیر_بلند_Water_Mark2( x_اندرونی_Task_Handle );
                         }
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
+    #جے_انت /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) )
+    #إذا ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) )
 
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( void ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( فراغ ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( void ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandleImpl( فراغ ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            TaskHandle_t xExternalTaskHandle = NULL;
-            int32_t lIndex;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            TaskHandle_t xExternalTaskHandle = عدم;
+            int32_t l_اشاریہ;
 
-            xInternalTaskHandle = xTaskGetCurrentTaskHandle();
+            x_اندرونی_Task_Handle = xTaskGetCurrentTaskHandle();
 
-            if( xInternalTaskHandle != NULL )
+            إذا( x_اندرونی_Task_Handle != عدم )
             {
-                lIndex = MPU_GetIndexForTaskHandle( xInternalTaskHandle );
+                l_اشاریہ = MPU_Get_اشاریہ_For_Task_Handle( x_اندرونی_Task_Handle );
 
-                if( lIndex != -1 )
+                إذا( l_اشاریہ != -1 )
                 {
-                    xExternalTaskHandle = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    xExternalTaskHandle = ( TaskHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
             }
 
-            return xExternalTaskHandle;
+            أرجع xExternalTaskHandle;
         }
 
-    #endif /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) ) */
+    #جے_انت /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetSchedulerState == 1 )
+    #إذا ( INCLUDE_xTaskGetSchedulerState == 1 )
 
-        BaseType_t MPU_xTaskGetSchedulerStateImpl( void ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTaskGetSchedulerStateImpl( فراغ ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGetSchedulerStateImpl( void ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskGetSchedulerStateImpl( فراغ ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = taskSCHEDULER_NOT_STARTED;
+            ادھار_Type_t xReturn = taskSCHEDULER_NOT_STARTED;
 
             xReturn = xTaskGetSchedulerState();
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
+    #جے_انت /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskSetTimeOutStateImpl( TimeOut_t * const pxTimeOut ) PRIVILEGED_FUNCTION;
+    فراغ MPU_v_Task_سیٹ_ویلا_باہرلا_State_Impl( ویلا_باہرلا_t * ثابت px_ویلا_باہرلا ) PRIVILEGED_FUNCTION;
 
-    void MPU_vTaskSetTimeOutStateImpl( TimeOut_t * const pxTimeOut ) /* PRIVILEGED_FUNCTION */
+    فراغ MPU_v_Task_سیٹ_ویلا_باہرلا_State_Impl( ویلا_باہرلا_t * ثابت px_ویلا_باہرلا ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xIsTimeOutWriteable = pdFALSE;
+        ادھار_Type_t x_Is_ویلا_باہرلا_Writeable = pdFALSE;
 
-        if( pxTimeOut != NULL )
+        إذا( px_ویلا_باہرلا != عدم )
         {
-            xIsTimeOutWriteable = xPortIsAuthorizedToAccessBuffer( pxTimeOut,
-                                                                   sizeof( TimeOut_t ),
+            x_Is_ویلا_باہرلا_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( px_ویلا_باہرلا,
+                                                                   حجم( ویلا_باہرلا_t ),
                                                                    tskMPU_WRITE_PERMISSION );
 
-            if( xIsTimeOutWriteable == pdTRUE )
+            إذا( x_Is_ویلا_باہرلا_Writeable == pdTRUE )
             {
-                vTaskSetTimeOutState( pxTimeOut );
+                v_Task_سیٹ_ویلا_باہرلا_State( px_ویلا_باہرلا );
             }
         }
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xTaskCheckForTimeOutImpl( TimeOut_t * const pxTimeOut,
-                                             TickType_t * const pxTicksToWait ) PRIVILEGED_FUNCTION;
+    ادھار_Type_t MPU_x_Task_Check_For_ویلا_باہرلا_Impl( ویلا_باہرلا_t * ثابت px_ویلا_باہرلا,
+                                             TickType_t * ثابت px_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-    BaseType_t MPU_xTaskCheckForTimeOutImpl( TimeOut_t * const pxTimeOut,
-                                             TickType_t * const pxTicksToWait ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_Task_Check_For_ویلا_باہرلا_Impl( ویلا_باہرلا_t * ثابت px_ویلا_باہرلا,
+                                             TickType_t * ثابت px_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xReturn = pdFALSE;
-        BaseType_t xIsTimeOutWriteable = pdFALSE;
-        BaseType_t xIsTicksToWaitWriteable = pdFALSE;
+        ادھار_Type_t xReturn = pdFALSE;
+        ادھار_Type_t x_Is_ویلا_باہرلا_Writeable = pdFALSE;
+        ادھار_Type_t x_Is_Ticks_منزل_Wait_Writeable = pdFALSE;
 
-        if( ( pxTimeOut != NULL ) && ( pxTicksToWait != NULL ) )
+        إذا( ( px_ویلا_باہرلا != عدم ) && ( px_Ticks_منزل_Wait != عدم ) )
         {
-            xIsTimeOutWriteable = xPortIsAuthorizedToAccessBuffer( pxTimeOut,
-                                                                   sizeof( TimeOut_t ),
+            x_Is_ویلا_باہرلا_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( px_ویلا_باہرلا,
+                                                                   حجم( ویلا_باہرلا_t ),
                                                                    tskMPU_WRITE_PERMISSION );
-            xIsTicksToWaitWriteable = xPortIsAuthorizedToAccessBuffer( pxTicksToWait,
-                                                                       sizeof( TickType_t ),
+            x_Is_Ticks_منزل_Wait_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( px_Ticks_منزل_Wait,
+                                                                       حجم( TickType_t ),
                                                                        tskMPU_WRITE_PERMISSION );
 
-            if( ( xIsTimeOutWriteable == pdTRUE ) && ( xIsTicksToWaitWriteable == pdTRUE ) )
+            إذا( ( x_Is_ویلا_باہرلا_Writeable == pdTRUE ) && ( x_Is_Ticks_منزل_Wait_Writeable == pdTRUE ) )
             {
-                xReturn = xTaskCheckForTimeOut( pxTimeOut, pxTicksToWait );
+                xReturn = x_Task_Check_For_ویلا_باہرلا( px_ویلا_باہرلا, px_Ticks_منزل_Wait );
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotify( TaskHandle_t xTaskToNotify,
-                                           UBaseType_t uxIndexToNotify,
-                                           uint32_t ulValue,
+        ادھار_Type_t MPU_xTaskGenericNotify( TaskHandle_t x_Task_منزل_Notify,
+                                           UBaseType_t ux_اشاریہ_منزل_Notify,
+                                           uint32_t ul_قدر,
                                            eNotifyAction eAction,
-                                           uint32_t * pulPreviousNotificationValue ) /* FREERTOS_SYSTEM_CALL */
+                                           uint32_t * pul_پچھلا_Notification_قدر ) /* FREERTOS_SYSTEM_CALL */
         {
-            BaseType_t xReturn = pdFAIL;
+            ادھار_Type_t xReturn = pdFAIL;
             xTaskGenericNotifyParams_t xParams;
 
-            xParams.xTaskToNotify = xTaskToNotify;
-            xParams.uxIndexToNotify = uxIndexToNotify;
-            xParams.ulValue = ulValue;
+            xParams.x_Task_منزل_Notify = x_Task_منزل_Notify;
+            xParams.ux_اشاریہ_منزل_Notify = ux_اشاریہ_منزل_Notify;
+            xParams.ul_قدر = ul_قدر;
             xParams.eAction = eAction;
-            xParams.pulPreviousNotificationValue = pulPreviousNotificationValue;
+            xParams.pul_پچھلا_Notification_قدر = pul_پچھلا_Notification_قدر;
 
-            xReturn = MPU_xTaskGenericNotifyEntry( &( xParams ) );
+            xReturn = MPU_x_Task_Generic_Notify_اندراج( &( xParams ) );
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-        BaseType_t MPU_xTaskGenericNotifyImpl( const xTaskGenericNotifyParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTaskGenericNotifyImpl( ثابت xTaskGenericNotifyParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGenericNotifyImpl( const xTaskGenericNotifyParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskGenericNotifyImpl( ثابت xTaskGenericNotifyParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xIsPreviousNotificationValueWriteable = pdFALSE;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
-            BaseType_t xAreParamsReadable = pdFALSE;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Is_پچھلا_Notification_قدر_Writeable = pdFALSE;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
+            ادھار_Type_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            إذا( pxParams != عدم )
             {
-                xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xTaskGenericNotifyParams_t ),
+                xAreParamsReadable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams,
+                                                                      حجم( xTaskGenericNotifyParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            إذا( xAreParamsReadable == pdTRUE )
             {
-                if( ( pxParams->uxIndexToNotify < configTASK_NOTIFICATION_ARRAY_ENTRIES ) &&
+                إذا( ( pxParams->ux_اشاریہ_منزل_Notify < configTASK_NOTIFICATION_ARRAY_ENTRIES ) &&
                     ( ( pxParams->eAction == eNoAction ) ||
-                      ( pxParams->eAction == eSetBits ) ||
+                      ( pxParams->eAction == e_سیٹ_بٹ ) ||
                       ( pxParams->eAction == eIncrement ) ||
-                      ( pxParams->eAction == eSetValueWithOverwrite ) ||
-                      ( pxParams->eAction == eSetValueWithoutOverwrite ) ) )
+                      ( pxParams->eAction == e_سیٹ_قدر_With_Overwrite ) ||
+                      ( pxParams->eAction == e_سیٹ_قدر_Without_Overwrite ) ) )
                 {
-                    if( pxParams->pulPreviousNotificationValue != NULL )
+                    إذا( pxParams->pul_پچھلا_Notification_قدر != عدم )
                     {
-                        xIsPreviousNotificationValueWriteable = xPortIsAuthorizedToAccessBuffer( pxParams->pulPreviousNotificationValue,
-                                                                                                 sizeof( uint32_t ),
+                        x_Is_پچھلا_Notification_قدر_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams->pul_پچھلا_Notification_قدر,
+                                                                                                 حجم( uint32_t ),
                                                                                                  tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pulPreviousNotificationValue == NULL ) ||
-                        ( xIsPreviousNotificationValueWriteable == pdTRUE ) )
+                    إذا( ( pxParams->pul_پچھلا_Notification_قدر == عدم ) ||
+                        ( x_Is_پچھلا_Notification_قدر_Writeable == pdTRUE ) )
                     {
-                        lIndex = ( int32_t ) ( pxParams->xTaskToNotify );
+                        l_اشاریہ = ( int32_t ) ( pxParams->x_Task_منزل_Notify );
 
-                        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                         {
-                            xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                            إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                             {
-                                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                                x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                                if( xInternalTaskHandle != NULL )
+                                إذا( x_اندرونی_Task_Handle != عدم )
                                 {
-                                    xReturn = xTaskGenericNotify( xInternalTaskHandle,
-                                                                  pxParams->uxIndexToNotify,
-                                                                  pxParams->ulValue,
+                                    xReturn = xTaskGenericNotify( x_اندرونی_Task_Handle,
+                                                                  pxParams->ux_اشاریہ_منزل_Notify,
+                                                                  pxParams->ul_قدر,
                                                                   pxParams->eAction,
-                                                                  pxParams->pulPreviousNotificationValue );
+                                                                  pxParams->pul_پچھلا_Notification_قدر );
                                 }
                             }
                         }
@@ -1346,193 +1346,193 @@
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #جے_انت /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotifyWait( UBaseType_t uxIndexToWaitOn,
-                                               uint32_t ulBitsToClearOnEntry,
-                                               uint32_t ulBitsToClearOnExit,
-                                               uint32_t * pulNotificationValue,
-                                               TickType_t xTicksToWait )
+        ادھار_Type_t MPU_xTaskGenericNotifyWait( UBaseType_t ux_اشاریہ_منزل_Wait_On,
+                                               uint32_t ul_بٹ_منزل_Clear_On_اندراج,
+                                               uint32_t ul_بٹ_منزل_Clear_On_Exit,
+                                               uint32_t * pul_Notification_قدر,
+                                               TickType_t x_Ticks_منزل_Wait )
         {
-            BaseType_t xReturn = pdFAIL;
+            ادھار_Type_t xReturn = pdFAIL;
             xTaskGenericNotifyWaitParams_t xParams;
 
-            xParams.uxIndexToWaitOn = uxIndexToWaitOn;
-            xParams.ulBitsToClearOnEntry = ulBitsToClearOnEntry;
-            xParams.ulBitsToClearOnExit = ulBitsToClearOnExit;
-            xParams.pulNotificationValue = pulNotificationValue;
-            xParams.xTicksToWait = xTicksToWait;
+            xParams.ux_اشاریہ_منزل_Wait_On = ux_اشاریہ_منزل_Wait_On;
+            xParams.ul_بٹ_منزل_Clear_On_اندراج = ul_بٹ_منزل_Clear_On_اندراج;
+            xParams.ul_بٹ_منزل_Clear_On_Exit = ul_بٹ_منزل_Clear_On_Exit;
+            xParams.pul_Notification_قدر = pul_Notification_قدر;
+            xParams.x_Ticks_منزل_Wait = x_Ticks_منزل_Wait;
 
-            xReturn = MPU_xTaskGenericNotifyWaitEntry( &( xParams ) );
+            xReturn = MPU_x_Task_Generic_Notify_Wait_اندراج( &( xParams ) );
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-        BaseType_t MPU_xTaskGenericNotifyWaitImpl( const xTaskGenericNotifyWaitParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTaskGenericNotifyWaitImpl( ثابت xTaskGenericNotifyWaitParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGenericNotifyWaitImpl( const xTaskGenericNotifyWaitParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskGenericNotifyWaitImpl( ثابت xTaskGenericNotifyWaitParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            BaseType_t xIsNotificationValueWritable = pdFALSE;
-            BaseType_t xAreParamsReadable = pdFALSE;
+            ادھار_Type_t xReturn = pdFAIL;
+            ادھار_Type_t x_Is_Notification_قدر_Writable = pdFALSE;
+            ادھار_Type_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            إذا( pxParams != عدم )
             {
-                xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xTaskGenericNotifyWaitParams_t ),
+                xAreParamsReadable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams,
+                                                                      حجم( xTaskGenericNotifyWaitParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            إذا( xAreParamsReadable == pdTRUE )
             {
-                if( pxParams->uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+                إذا( pxParams->ux_اشاریہ_منزل_Wait_On < configTASK_NOTIFICATION_ARRAY_ENTRIES )
                 {
-                    if( pxParams->pulNotificationValue != NULL )
+                    إذا( pxParams->pul_Notification_قدر != عدم )
                     {
-                        xIsNotificationValueWritable = xPortIsAuthorizedToAccessBuffer( pxParams->pulNotificationValue,
-                                                                                        sizeof( uint32_t ),
+                        x_Is_Notification_قدر_Writable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams->pul_Notification_قدر,
+                                                                                        حجم( uint32_t ),
                                                                                         tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pulNotificationValue == NULL ) ||
-                        ( xIsNotificationValueWritable == pdTRUE ) )
+                    إذا( ( pxParams->pul_Notification_قدر == عدم ) ||
+                        ( x_Is_Notification_قدر_Writable == pdTRUE ) )
                     {
-                        xReturn = xTaskGenericNotifyWait( pxParams->uxIndexToWaitOn,
-                                                          pxParams->ulBitsToClearOnEntry,
-                                                          pxParams->ulBitsToClearOnExit,
-                                                          pxParams->pulNotificationValue,
-                                                          pxParams->xTicksToWait );
+                        xReturn = xTaskGenericNotifyWait( pxParams->ux_اشاریہ_منزل_Wait_On,
+                                                          pxParams->ul_بٹ_منزل_Clear_On_اندراج,
+                                                          pxParams->ul_بٹ_منزل_Clear_On_Exit,
+                                                          pxParams->pul_Notification_قدر,
+                                                          pxParams->x_Ticks_منزل_Wait );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #جے_انت /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t uxIndexToWaitOn,
-                                                  BaseType_t xClearCountOnExit,
-                                                  TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+        uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t ux_اشاریہ_منزل_Wait_On,
+                                                  ادھار_Type_t x_Clear_گنتی_On_Exit,
+                                                  TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-        uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t uxIndexToWaitOn,
-                                                  BaseType_t xClearCountOnExit,
-                                                  TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+        uint32_t MPU_ulTaskGenericNotifyTakeImpl( UBaseType_t ux_اشاریہ_منزل_Wait_On,
+                                                  ادھار_Type_t x_Clear_گنتی_On_Exit,
+                                                  TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
         {
             uint32_t ulReturn = 0;
 
-            if( uxIndexToWaitOn < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+            إذا( ux_اشاریہ_منزل_Wait_On < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, xClearCountOnExit, xTicksToWait );
+                ulReturn = ulTaskGenericNotifyTake( ux_اشاریہ_منزل_Wait_On, x_Clear_گنتی_On_Exit, x_Ticks_منزل_Wait );
             }
 
-            return ulReturn;
+            أرجع ulReturn;
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #جے_انت /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotifyStateClearImpl( TaskHandle_t xTask,
-                                                         UBaseType_t uxIndexToClear ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTaskGenericNotifyStateClearImpl( TaskHandle_t xTask,
+                                                         UBaseType_t ux_اشاریہ_منزل_Clear ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTaskGenericNotifyStateClearImpl( TaskHandle_t xTask,
-                                                         UBaseType_t uxIndexToClear ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskGenericNotifyStateClearImpl( TaskHandle_t xTask,
+                                                         UBaseType_t ux_اشاریہ_منزل_Clear ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( uxIndexToClear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+            إذا( ux_اشاریہ_منزل_Clear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                if( xTask == NULL )
+                إذا( xTask == عدم )
                 {
-                    xReturn = xTaskGenericNotifyStateClear( xTask, uxIndexToClear );
+                    xReturn = xTaskGenericNotifyStateClear( xTask, ux_اشاریہ_منزل_Clear );
                 }
-                else
+                وإلا
                 {
-                    lIndex = ( int32_t ) xTask;
+                    l_اشاریہ = ( int32_t ) xTask;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                         {
-                            xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            إذا( x_اندرونی_Task_Handle != عدم )
                             {
-                                xReturn = xTaskGenericNotifyStateClear( xInternalTaskHandle, uxIndexToClear );
+                                xReturn = xTaskGenericNotifyStateClear( x_اندرونی_Task_Handle, ux_اشاریہ_منزل_Clear );
                             }
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #جے_انت /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        uint32_t MPU_ulTaskGenericNotifyValueClearImpl( TaskHandle_t xTask,
-                                                        UBaseType_t uxIndexToClear,
-                                                        uint32_t ulBitsToClear ) PRIVILEGED_FUNCTION;
+        uint32_t MPU_ul_Task_Generic_Notify_قدر_Clear_Impl( TaskHandle_t xTask,
+                                                        UBaseType_t ux_اشاریہ_منزل_Clear,
+                                                        uint32_t ul_بٹ_منزل_Clear ) PRIVILEGED_FUNCTION;
 
-        uint32_t MPU_ulTaskGenericNotifyValueClearImpl( TaskHandle_t xTask,
-                                                        UBaseType_t uxIndexToClear,
-                                                        uint32_t ulBitsToClear ) /* PRIVILEGED_FUNCTION */
+        uint32_t MPU_ul_Task_Generic_Notify_قدر_Clear_Impl( TaskHandle_t xTask,
+                                                        UBaseType_t ux_اشاریہ_منزل_Clear,
+                                                        uint32_t ul_بٹ_منزل_Clear ) /* PRIVILEGED_FUNCTION */
         {
             uint32_t ulReturn = 0;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTask = pdFALSE;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Task = pdFALSE;
 
-            if( uxIndexToClear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
+            إذا( ux_اشاریہ_منزل_Clear < configTASK_NOTIFICATION_ARRAY_ENTRIES )
             {
-                if( xTask == NULL )
+                إذا( xTask == عدم )
                 {
-                    ulReturn = ulTaskGenericNotifyValueClear( xTask, uxIndexToClear, ulBitsToClear );
+                    ulReturn = ul_Task_Generic_Notify_قدر_Clear( xTask, ux_اشاریہ_منزل_Clear, ul_بٹ_منزل_Clear );
                 }
-                else
+                وإلا
                 {
-                    lIndex = ( int32_t ) xTask;
+                    l_اشاریہ = ( int32_t ) xTask;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessTask = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_Task = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessTask == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_Task == pdTRUE )
                         {
-                            xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalTaskHandle != NULL )
+                            إذا( x_اندرونی_Task_Handle != عدم )
                             {
-                                ulReturn = ulTaskGenericNotifyValueClear( xInternalTaskHandle, uxIndexToClear, ulBitsToClear );
+                                ulReturn = ul_Task_Generic_Notify_قدر_Clear( x_اندرونی_Task_Handle, ux_اشاریہ_منزل_Clear, ul_بٹ_منزل_Clear );
                             }
                         }
                     }
                 }
             }
 
-            return ulReturn;
+            أرجع ulReturn;
         }
 
-    #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #جے_انت /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Privileged only wrappers for Task APIs. These are needed so that
@@ -1540,1203 +1540,1203 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_DYNAMIC_ونڈ == 1 )
 
-        BaseType_t MPU_xTaskCreate( TaskFunction_t pvTaskCode,
-                                    const char * const pcName,
-                                    const configSTACK_DEPTH_TYPE uxStackDepth,
-                                    void * pvParameters,
-                                    UBaseType_t uxPriority,
+        ادھار_Type_t MPU_xTaskCreate( TaskFunction_t pv_Task_کوڈ,
+                                    ثابت حرف * ثابت pcName,
+                                    ثابت config_ڈھیر_ڈونگھائی_TYPE ux_ڈھیر_ڈونگھائی,
+                                    فراغ * pvParameters,
+                                    UBaseType_t ux_ترجیح,
                                     TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
                 /* xTaskCreate() can only be used to create privileged tasks in MPU port. */
-                if( ( uxPriority & portPRIVILEGE_BIT ) != 0 )
+                إذا( ( ux_ترجیح & پورٹ_PRIVILEGE_ثنائی_ہندسہ ) != 0 )
                 {
-                    xReturn = xTaskCreate( pvTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, &( xInternalTaskHandle ) );
+                    xReturn = xTaskCreate( pv_Task_کوڈ, pcName, ux_ڈھیر_ڈونگھائی, pvParameters, ux_ترجیح, &( x_اندرونی_Task_Handle ) );
 
-                    if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
+                    إذا( ( xReturn == pdPASS ) && ( x_اندرونی_Task_Handle != عدم ) )
                     {
-                        MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
+                        MPU_Store_Task_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Task_Handle );
 
-                        if( pxCreatedTask != NULL )
+                        إذا( pxCreatedTask != عدم )
                         {
-                            *pxCreatedTask = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                            *pxCreatedTask = ( TaskHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                         }
                     }
-                    else
+                    وإلا
                     {
-                        MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                        MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
+    #جے_انت /* configSUPPORT_DYNAMIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 )
 
-        TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t pxTaskCode,
-                                            const char * const pcName,
-                                            const configSTACK_DEPTH_TYPE uxStackDepth,
-                                            void * const pvParameters,
-                                            UBaseType_t uxPriority,
-                                            StackType_t * const puxStackBuffer,
-                                            StaticTask_t * const pxTaskBuffer ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t px_Task_کوڈ,
+                                            ثابت حرف * ثابت pcName,
+                                            ثابت config_ڈھیر_ڈونگھائی_TYPE ux_ڈھیر_ڈونگھائی,
+                                            فراغ * ثابت pvParameters,
+                                            UBaseType_t ux_ترجیح,
+                                            ڈھیر_Type_t * ثابت pux_ڈھیر_بفر,
+                                            StaticTask_t * ثابت px_Task_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xExternalTaskHandle = NULL;
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
+            TaskHandle_t xExternalTaskHandle = عدم;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalTaskHandle = xTaskCreateStatic( pxTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, puxStackBuffer, pxTaskBuffer );
+                x_اندرونی_Task_Handle = xTaskCreateStatic( px_Task_کوڈ, pcName, ux_ڈھیر_ڈونگھائی, pvParameters, ux_ترجیح, pux_ڈھیر_بفر, px_Task_بفر );
 
-                if( xInternalTaskHandle != NULL )
+                إذا( x_اندرونی_Task_Handle != عدم )
                 {
-                    MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
+                    MPU_Store_Task_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Task_Handle );
 
-                    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                    #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                     {
                         /* By default, an unprivileged task has access to itself. */
-                        if( ( uxPriority & portPRIVILEGE_BIT ) == 0 )
+                        إذا( ( ux_ترجیح & پورٹ_PRIVILEGE_ثنائی_ہندسہ ) == 0 )
                         {
-                            vPortGrantAccessToKernelObject( xInternalTaskHandle, lIndex );
+                            v_پورٹ_Grant_Access_منزل_Kernel_Object( x_اندرونی_Task_Handle, l_اشاریہ );
                         }
                     }
-                    #endif
+                    #جے_انت
 
-                    xExternalTaskHandle = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    xExternalTaskHandle = ( TaskHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalTaskHandle;
+            أرجع xExternalTaskHandle;
         }
 
-    #endif /* configSUPPORT_STATIC_ALLOCATION */
+    #جے_انت /* configSUPPORT_STATIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelete == 1 )
+    #إذا ( INCLUDE_vTaskDelete == 1 )
 
-        void MPU_vTaskDelete( TaskHandle_t pxTaskToDelete ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_vTaskDelete( TaskHandle_t px_Task_منزل_Delete ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            if( pxTaskToDelete == NULL )
+            إذا( px_Task_منزل_Delete == عدم )
             {
-                xInternalTaskHandle = xTaskGetCurrentTaskHandle();
-                lIndex = MPU_GetIndexForTaskHandle( xInternalTaskHandle );
+                x_اندرونی_Task_Handle = xTaskGetCurrentTaskHandle();
+                l_اشاریہ = MPU_Get_اشاریہ_For_Task_Handle( x_اندرونی_Task_Handle );
 
-                if( lIndex != -1 )
+                إذا( l_اشاریہ != -1 )
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
 
-                vTaskDelete( xInternalTaskHandle );
+                vTaskDelete( x_اندرونی_Task_Handle );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) pxTaskToDelete;
+                l_اشاریہ = ( int32_t ) px_Task_منزل_Delete;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-                        vTaskDelete( xInternalTaskHandle );
+                        MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+                        vTaskDelete( x_اندرونی_Task_Handle );
                     }
                 }
             }
         }
 
-    #endif /* #if ( INCLUDE_vTaskDelete == 1 ) */
+    #جے_انت /* #if ( INCLUDE_vTaskDelete == 1 ) */
 /*-----------------------------------------------------------*/
 
 
-    #if ( INCLUDE_vTaskPrioritySet == 1 )
+    #إذا ( INCLUDE_v_Task_ترجیح_سیٹ == 1 )
 
-        void MPU_vTaskPrioritySet( TaskHandle_t pxTask,
-                                   UBaseType_t uxNewPriority ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Task_ترجیح_سیٹ( TaskHandle_t pxTask,
+                                   UBaseType_t ux_New_ترجیح ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            if( pxTask == NULL )
+            إذا( pxTask == عدم )
             {
-                vTaskPrioritySet( pxTask, uxNewPriority );
+                v_Task_ترجیح_سیٹ( pxTask, ux_New_ترجیح );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) pxTask;
+                l_اشاریہ = ( int32_t ) pxTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        vTaskPrioritySet( xInternalTaskHandle, uxNewPriority );
+                        v_Task_ترجیح_سیٹ( x_اندرونی_Task_Handle, ux_New_ترجیح );
                     }
                 }
             }
         }
 
-    #endif /* if ( INCLUDE_vTaskPrioritySet == 1 ) */
+    #جے_انت /* if ( INCLUDE_vTaskPrioritySet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetHandle == 1 )
+    #إذا ( INCLUDE_xTaskGetHandle == 1 )
 
-        TaskHandle_t MPU_xTaskGetHandle( const char * pcNameToQuery ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTaskGetHandle( ثابت حرف * pc_Name_منزل_Query ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            TaskHandle_t xExternalTaskHandle = NULL;
-            int32_t lIndex;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            TaskHandle_t xExternalTaskHandle = عدم;
+            int32_t l_اشاریہ;
 
-            xInternalTaskHandle = xTaskGetHandle( pcNameToQuery );
+            x_اندرونی_Task_Handle = xTaskGetHandle( pc_Name_منزل_Query );
 
-            if( xInternalTaskHandle != NULL )
+            إذا( x_اندرونی_Task_Handle != عدم )
             {
-                lIndex = MPU_GetIndexForTaskHandle( xInternalTaskHandle );
+                l_اشاریہ = MPU_Get_اشاریہ_For_Task_Handle( x_اندرونی_Task_Handle );
 
-                if( lIndex != -1 )
+                إذا( l_اشاریہ != -1 )
                 {
-                    xExternalTaskHandle = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    xExternalTaskHandle = ( TaskHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
             }
 
-            return xExternalTaskHandle;
+            أرجع xExternalTaskHandle;
         }
 
-    #endif /* if ( INCLUDE_xTaskGetHandle == 1 ) */
+    #جے_انت /* if ( INCLUDE_xTaskGetHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #إذا ( config_USE_APPLICATION_TASK_ٹیگ == 1 )
 
-        BaseType_t MPU_xTaskCallApplicationTaskHook( TaskHandle_t xTask,
-                                                     void * pvParameter ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskCallApplicationTaskHook( TaskHandle_t xTask,
+                                                     فراغ * pvParameter ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
                 xReturn = xTaskCallApplicationTaskHook( xTask, pvParameter );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        xReturn = xTaskCallApplicationTaskHook( xInternalTaskHandle, pvParameter );
+                        xReturn = xTaskCallApplicationTaskHook( x_اندرونی_Task_Handle, pvParameter );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
+    #جے_انت /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_DYNAMIC_ونڈ == 1 )
 
-        BaseType_t MPU_xTaskCreateRestricted( const TaskParameters_t * const pxTaskDefinition,
+        ادھار_Type_t MPU_xTaskCreateRestricted( ثابت TaskParameters_t * ثابت pxTaskDefinition,
                                               TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xReturn = xTaskCreateRestricted( pxTaskDefinition, &( xInternalTaskHandle ) );
+                xReturn = xTaskCreateRestricted( pxTaskDefinition, &( x_اندرونی_Task_Handle ) );
 
-                if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
+                إذا( ( xReturn == pdPASS ) && ( x_اندرونی_Task_Handle != عدم ) )
                 {
-                    MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
+                    MPU_Store_Task_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Task_Handle );
 
-                    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                    #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                     {
                         /* By default, an unprivileged task has access to itself. */
-                        if( ( pxTaskDefinition->uxPriority & portPRIVILEGE_BIT ) == 0 )
+                        إذا( ( pxTaskDefinition->ux_ترجیح & پورٹ_PRIVILEGE_ثنائی_ہندسہ ) == 0 )
                         {
-                            vPortGrantAccessToKernelObject( xInternalTaskHandle, lIndex );
+                            v_پورٹ_Grant_Access_منزل_Kernel_Object( x_اندرونی_Task_Handle, l_اشاریہ );
                         }
                     }
-                    #endif
+                    #جے_انت
 
-                    if( pxCreatedTask != NULL )
+                    إذا( pxCreatedTask != عدم )
                     {
-                        *pxCreatedTask = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                        *pxCreatedTask = ( TaskHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                     }
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
+    #جے_انت /* configSUPPORT_DYNAMIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 )
 
-        BaseType_t MPU_xTaskCreateRestrictedStatic( const TaskParameters_t * const pxTaskDefinition,
+        ادھار_Type_t MPU_xTaskCreateRestrictedStatic( ثابت TaskParameters_t * ثابت pxTaskDefinition,
                                                     TaskHandle_t * pxCreatedTask ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xReturn = xTaskCreateRestrictedStatic( pxTaskDefinition, &( xInternalTaskHandle ) );
+                xReturn = xTaskCreateRestrictedStatic( pxTaskDefinition, &( x_اندرونی_Task_Handle ) );
 
-                if( ( xReturn == pdPASS ) && ( xInternalTaskHandle != NULL ) )
+                إذا( ( xReturn == pdPASS ) && ( x_اندرونی_Task_Handle != عدم ) )
                 {
-                    MPU_StoreTaskHandleAtIndex( lIndex, xInternalTaskHandle );
+                    MPU_Store_Task_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Task_Handle );
 
-                    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+                    #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                     {
                         /* By default, an unprivileged task has access to itself. */
-                        if( ( pxTaskDefinition->uxPriority & portPRIVILEGE_BIT ) == 0 )
+                        إذا( ( pxTaskDefinition->ux_ترجیح & پورٹ_PRIVILEGE_ثنائی_ہندسہ ) == 0 )
                         {
-                            vPortGrantAccessToKernelObject( xInternalTaskHandle, lIndex );
+                            v_پورٹ_Grant_Access_منزل_Kernel_Object( x_اندرونی_Task_Handle, l_اشاریہ );
                         }
                     }
-                    #endif
+                    #جے_انت
 
-                    if( pxCreatedTask != NULL )
+                    إذا( pxCreatedTask != عدم )
                     {
-                        *pxCreatedTask = ( TaskHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                        *pxCreatedTask = ( TaskHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                     }
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* configSUPPORT_STATIC_ALLOCATION */
+    #جے_انت /* configSUPPORT_STATIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskAllocateMPURegions( TaskHandle_t xTaskToModify,
-                                      const MemoryRegion_t * const xRegions ) /* PRIVILEGED_FUNCTION */
+    فراغ MPU_vTaskAllocateMPURegions( TaskHandle_t x_Task_منزل_Modify,
+                                      ثابت حافظہ_Region_t * ثابت xRegions ) /* PRIVILEGED_FUNCTION */
     {
-        TaskHandle_t xInternalTaskHandle = NULL;
-        int32_t lIndex;
+        TaskHandle_t x_اندرونی_Task_Handle = عدم;
+        int32_t l_اشاریہ;
 
-        if( xTaskToModify == NULL )
+        إذا( x_Task_منزل_Modify == عدم )
         {
-            vTaskAllocateMPURegions( xTaskToModify, xRegions );
+            vTaskAllocateMPURegions( x_Task_منزل_Modify, xRegions );
         }
-        else
+        وإلا
         {
-            lIndex = ( int32_t ) xTaskToModify;
+            l_اشاریہ = ( int32_t ) x_Task_منزل_Modify;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTaskHandle != NULL )
+                إذا( x_اندرونی_Task_Handle != عدم )
                 {
-                    vTaskAllocateMPURegions( xInternalTaskHandle, xRegions );
+                    vTaskAllocateMPURegions( x_اندرونی_Task_Handle, xRegions );
                 }
             }
         }
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 )
 
-        BaseType_t MPU_xTaskGetStaticBuffers( TaskHandle_t xTask,
-                                              StackType_t ** ppuxStackBuffer,
-                                              StaticTask_t ** ppxTaskBuffer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskGetStaticBuffers( TaskHandle_t xTask,
+                                              ڈھیر_Type_t ** ppux_ڈھیر_بفر,
+                                              StaticTask_t ** ppx_Task_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xInternalTaskHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xReturn = pdFALSE;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t xReturn = pdFALSE;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                xInternalTaskHandle = xTaskGetCurrentTaskHandle();
-                xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppuxStackBuffer, ppxTaskBuffer );
+                x_اندرونی_Task_Handle = xTaskGetCurrentTaskHandle();
+                xReturn = xTaskGetStaticBuffers( x_اندرونی_Task_Handle, ppux_ڈھیر_بفر, ppx_Task_بفر );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        xReturn = xTaskGetStaticBuffers( xInternalTaskHandle, ppuxStackBuffer, ppxTaskBuffer );
+                        xReturn = xTaskGetStaticBuffers( x_اندرونی_Task_Handle, ppux_ڈھیر_بفر, ppx_Task_بفر );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
+    #جے_انت /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
 
-    char * MPU_pcTaskGetName( TaskHandle_t xTaskToQuery ) /* PRIVILEGED_FUNCTION */
+    حرف * MPU_pcTaskGetName( TaskHandle_t x_Task_منزل_Query ) /* PRIVILEGED_FUNCTION */
     {
-        char * pcReturn = NULL;
-        int32_t lIndex;
-        TaskHandle_t xInternalTaskHandle = NULL;
+        حرف * pcReturn = عدم;
+        int32_t l_اشاریہ;
+        TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-        if( xTaskToQuery == NULL )
+        إذا( x_Task_منزل_Query == عدم )
         {
-            pcReturn = pcTaskGetName( xTaskToQuery );
+            pcReturn = pcTaskGetName( x_Task_منزل_Query );
         }
-        else
+        وإلا
         {
-            lIndex = ( int32_t ) xTaskToQuery;
+            l_اشاریہ = ( int32_t ) x_Task_منزل_Query;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTaskHandle != NULL )
+                إذا( x_اندرونی_Task_Handle != عدم )
                 {
-                    pcReturn = pcTaskGetName( xInternalTaskHandle );
+                    pcReturn = pcTaskGetName( x_اندرونی_Task_Handle );
                 }
             }
         }
 
-        return pcReturn;
+        أرجع pcReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskPriorityGet == 1 )
+    #إذا ( INCLUDE_ux_Task_ترجیح_Get == 1 )
 
-        UBaseType_t MPU_uxTaskPriorityGetFromISR( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_ترجیح_Get_From_ISR( ثابت TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                uxReturn = uxTaskPriorityGetFromISR( xTask );
+                uxReturn = ux_Task_ترجیح_Get_From_ISR( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        uxReturn = uxTaskPriorityGetFromISR( xInternalTaskHandle );
+                        uxReturn = ux_Task_ترجیح_Get_From_ISR( x_اندرونی_Task_Handle );
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* #if ( INCLUDE_uxTaskPriorityGet == 1 ) */
+    #جے_انت /* #if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) )
+    #إذا ( ( INCLUDE_ux_Task_ترجیح_Get == 1 ) && ( configUSE_MUTEXES == 1 ) )
 
-        UBaseType_t MPU_uxTaskBasePriorityGet( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_ادھار_ترجیح_Get( ثابت TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                uxReturn = uxTaskBasePriorityGet( xTask );
+                uxReturn = ux_Task_ادھار_ترجیح_Get( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        uxReturn = uxTaskBasePriorityGet( xInternalTaskHandle );
+                        uxReturn = ux_Task_ادھار_ترجیح_Get( x_اندرونی_Task_Handle );
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) ) */
+    #جے_انت /* #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) )
+    #إذا ( ( INCLUDE_ux_Task_ترجیح_Get == 1 ) && ( configUSE_MUTEXES == 1 ) )
 
-        UBaseType_t MPU_uxTaskBasePriorityGetFromISR( const TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Task_ادھار_ترجیح_Get_From_ISR( ثابت TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = configMAX_PRIORITIES;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                uxReturn = uxTaskBasePriorityGetFromISR( xTask );
+                uxReturn = ux_Task_ادھار_ترجیح_Get_From_ISR( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        uxReturn = uxTaskBasePriorityGetFromISR( xInternalTaskHandle );
+                        uxReturn = ux_Task_ادھار_ترجیح_Get_From_ISR( x_اندرونی_Task_Handle );
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) ) */
+    #جے_انت /* #if ( ( INCLUDE_uxTaskPriorityGet == 1 ) && ( configUSE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )
+    #إذا ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )
 
-        BaseType_t MPU_xTaskResumeFromISR( TaskHandle_t xTaskToResume ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTaskResumeFromISR( TaskHandle_t x_Task_منزل_Resume ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            lIndex = ( int32_t ) xTaskToResume;
+            l_اشاریہ = ( int32_t ) x_Task_منزل_Resume;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTaskHandle != NULL )
+                إذا( x_اندرونی_Task_Handle != عدم )
                 {
-                    xReturn = xTaskResumeFromISR( xInternalTaskHandle );
+                    xReturn = xTaskResumeFromISR( x_اندرونی_Task_Handle );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )*/
+    #جے_انت /* #if ( ( INCLUDE_xTaskResumeFromISR == 1 ) && ( INCLUDE_vTaskSuspend == 1 ) )*/
 /*---------------------------------------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #إذا ( config_USE_APPLICATION_TASK_ٹیگ == 1 )
 
-        TaskHookFunction_t MPU_xTaskGetApplicationTaskTagFromISR( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
+        TaskHookFunction_t MPU_x_Task_Get_Application_Task_ٹیگ_From_ISR( TaskHandle_t xTask ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHookFunction_t xReturn = NULL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            TaskHookFunction_t xReturn = عدم;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            if( xTask == NULL )
+            إذا( xTask == عدم )
             {
-                xReturn = xTaskGetApplicationTaskTagFromISR( xTask );
+                xReturn = x_Task_Get_Application_Task_ٹیگ_From_ISR( xTask );
             }
-            else
+            وإلا
             {
-                lIndex = ( int32_t ) xTask;
+                l_اشاریہ = ( int32_t ) xTask;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTaskHandle != NULL )
+                    إذا( x_اندرونی_Task_Handle != عدم )
                     {
-                        xReturn = xTaskGetApplicationTaskTagFromISR( xInternalTaskHandle );
+                        xReturn = x_Task_Get_Application_Task_ٹیگ_From_ISR( x_اندرونی_Task_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
+    #جے_انت /* #if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*---------------------------------------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        BaseType_t MPU_xTaskGenericNotifyFromISR( TaskHandle_t xTaskToNotify,
-                                                  UBaseType_t uxIndexToNotify,
-                                                  uint32_t ulValue,
+        ادھار_Type_t MPU_xTaskGenericNotifyFromISR( TaskHandle_t x_Task_منزل_Notify,
+                                                  UBaseType_t ux_اشاریہ_منزل_Notify,
+                                                  uint32_t ul_قدر,
                                                   eNotifyAction eAction,
-                                                  uint32_t * pulPreviousNotificationValue,
-                                                  BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+                                                  uint32_t * pul_پچھلا_Notification_قدر,
+                                                  ادھار_Type_t * px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            lIndex = ( int32_t ) xTaskToNotify;
+            l_اشاریہ = ( int32_t ) x_Task_منزل_Notify;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTaskHandle != NULL )
+                إذا( x_اندرونی_Task_Handle != عدم )
                 {
-                    xReturn = xTaskGenericNotifyFromISR( xInternalTaskHandle, uxIndexToNotify, ulValue, eAction, pulPreviousNotificationValue, pxHigherPriorityTaskWoken );
+                    xReturn = xTaskGenericNotifyFromISR( x_اندرونی_Task_Handle, ux_اشاریہ_منزل_Notify, ul_قدر, eAction, pul_پچھلا_Notification_قدر, px_Higher_ترجیح_Task_Woken );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
+    #جے_انت /* #if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*---------------------------------------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-        void MPU_vTaskGenericNotifyGiveFromISR( TaskHandle_t xTaskToNotify,
-                                                UBaseType_t uxIndexToNotify,
-                                                BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_vTaskGenericNotifyGiveFromISR( TaskHandle_t x_Task_منزل_Notify,
+                                                UBaseType_t ux_اشاریہ_منزل_Notify,
+                                                ادھار_Type_t * px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lIndex;
-            TaskHandle_t xInternalTaskHandle = NULL;
+            int32_t l_اشاریہ;
+            TaskHandle_t x_اندرونی_Task_Handle = عدم;
 
-            lIndex = ( int32_t ) xTaskToNotify;
+            l_اشاریہ = ( int32_t ) x_Task_منزل_Notify;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTaskHandle = MPU_GetTaskHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Task_Handle = MPU_Get_Task_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTaskHandle != NULL )
+                إذا( x_اندرونی_Task_Handle != عدم )
                 {
-                    vTaskGenericNotifyGiveFromISR( xInternalTaskHandle, uxIndexToNotify, pxHigherPriorityTaskWoken );
+                    vTaskGenericNotifyGiveFromISR( x_اندرونی_Task_Handle, ux_اشاریہ_منزل_Notify, px_Higher_ترجیح_Task_Woken );
                 }
             }
         }
-    #endif /*#if ( configUSE_TASK_NOTIFICATIONS == 1 )*/
+    #جے_انت /*#if ( configUSE_TASK_NOTIFICATIONS == 1 )*/
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 /*            MPU wrappers for queue APIs.                   */
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueGenericSendImpl( QueueHandle_t xQueue,
-                                          const void * const pvItemToQueue,
-                                          TickType_t xTicksToWait,
-                                          BaseType_t xCopyPosition ) PRIVILEGED_FUNCTION;
+    ادھار_Type_t MPU_x_قطار_Generic_Send_Impl( قطار_Handle_t x_قطار,
+                                          ثابت فراغ * ثابت pv_شے_منزل_قطار,
+                                          TickType_t x_Ticks_منزل_Wait,
+                                          ادھار_Type_t xCopyPosition ) PRIVILEGED_FUNCTION;
 
-    BaseType_t MPU_xQueueGenericSendImpl( QueueHandle_t xQueue,
-                                          const void * const pvItemToQueue,
-                                          TickType_t xTicksToWait,
-                                          BaseType_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Generic_Send_Impl( قطار_Handle_t x_قطار,
+                                          ثابت فراغ * ثابت pv_شے_منزل_قطار,
+                                          TickType_t x_Ticks_منزل_Wait,
+                                          ادھار_Type_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-        BaseType_t xReturn = pdFAIL;
-        BaseType_t xIsItemToQueueReadable = pdFALSE;
-        BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
-        UBaseType_t uxQueueItemSize, uxQueueLength;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+        ادھار_Type_t xReturn = pdFAIL;
+        ادھار_Type_t x_Is_شے_منزل_قطار_Readable = pdFALSE;
+        ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
+        UBaseType_t ux_قطار_شے_ناپ, ux_قطار_لمائی;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
-                    uxQueueLength = uxQueueGetQueueLength( xInternalQueueHandle );
+                    ux_قطار_شے_ناپ = ux_قطار_Get_قطار_شے_ناپ( x_اندرونی_قطار_Handle );
+                    ux_قطار_لمائی = ux_قطار_Get_قطار_لمائی( x_اندرونی_قطار_Handle );
 
-                    if( ( !( ( pvItemToQueue == NULL ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) ) &&
-                        ( !( ( xCopyPosition == queueOVERWRITE ) && ( uxQueueLength != ( UBaseType_t ) 1U ) ) )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
-                        #endif
+                    إذا( ( !( ( pv_شے_منزل_قطار == عدم ) && ( ux_قطار_شے_ناپ != ( UBaseType_t ) 0U ) ) ) &&
+                        ( !( ( xCopyPosition == قطار_OVERWRITE ) && ( ux_قطار_لمائی != ( UBaseType_t ) 1U ) ) )
+                        #إذا ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( x_Ticks_منزل_Wait != 0U ) ) )
+                        #جے_انت
                         )
                     {
-                        if( pvItemToQueue != NULL )
+                        إذا( pv_شے_منزل_قطار != عدم )
                         {
-                            xIsItemToQueueReadable = xPortIsAuthorizedToAccessBuffer( pvItemToQueue,
-                                                                                      uxQueueItemSize,
+                            x_Is_شے_منزل_قطار_Readable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pv_شے_منزل_قطار,
+                                                                                      ux_قطار_شے_ناپ,
                                                                                       tskMPU_READ_PERMISSION );
                         }
 
-                        if( ( pvItemToQueue == NULL ) || ( xIsItemToQueueReadable == pdTRUE ) )
+                        إذا( ( pv_شے_منزل_قطار == عدم ) || ( x_Is_شے_منزل_قطار_Readable == pdTRUE ) )
                         {
-                            xReturn = xQueueGenericSend( xInternalQueueHandle, pvItemToQueue, xTicksToWait, xCopyPosition );
+                            xReturn = x_قطار_Generic_Send( x_اندرونی_قطار_Handle, pv_شے_منزل_قطار, x_Ticks_منزل_Wait, xCopyPosition );
                         }
                     }
                 }
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueMessagesWaitingImpl( const QueueHandle_t pxQueue ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_ux_قطار_Messages_اڈیک_Impl( ثابت قطار_Handle_t px_قطار ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxQueueMessagesWaitingImpl( const QueueHandle_t pxQueue ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_ux_قطار_Messages_اڈیک_Impl( ثابت قطار_Handle_t px_قطار ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
         UBaseType_t uxReturn = 0;
-        BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+        ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
-        lIndex = ( int32_t ) pxQueue;
+        l_اشاریہ = ( int32_t ) px_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    uxReturn = uxQueueMessagesWaiting( xInternalQueueHandle );
+                    uxReturn = ux_قطار_Messages_اڈیک( x_اندرونی_قطار_Handle );
                 }
             }
         }
 
-        return uxReturn;
+        أرجع uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueSpacesAvailableImpl( const QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
+    UBaseType_t MPU_ux_قطار_Spaces_دستیاب_Impl( ثابت قطار_Handle_t x_قطار ) PRIVILEGED_FUNCTION;
 
-    UBaseType_t MPU_uxQueueSpacesAvailableImpl( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    UBaseType_t MPU_ux_قطار_Spaces_دستیاب_Impl( ثابت قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
         UBaseType_t uxReturn = 0;
-        BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+        ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    uxReturn = uxQueueSpacesAvailable( xInternalQueueHandle );
+                    uxReturn = ux_قطار_Spaces_دستیاب( x_اندرونی_قطار_Handle );
                 }
             }
         }
 
-        return uxReturn;
+        أرجع uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueReceiveImpl( QueueHandle_t pxQueue,
-                                      void * const pvBuffer,
-                                      TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+    ادھار_Type_t MPU_x_قطار_Receive_Impl( قطار_Handle_t px_قطار,
+                                      فراغ * ثابت pv_بفر,
+                                      TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-    BaseType_t MPU_xQueueReceiveImpl( QueueHandle_t pxQueue,
-                                      void * const pvBuffer,
-                                      TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Receive_Impl( قطار_Handle_t px_قطار,
+                                      فراغ * ثابت pv_بفر,
+                                      TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-        BaseType_t xReturn = pdFAIL;
-        BaseType_t xIsReceiveBufferWritable = pdFALSE;
-        BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
-        UBaseType_t uxQueueItemSize;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+        ادھار_Type_t xReturn = pdFAIL;
+        ادھار_Type_t x_Is_Receive_بفر_Writable = pdFALSE;
+        ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
+        UBaseType_t ux_قطار_شے_ناپ;
 
-        lIndex = ( int32_t ) pxQueue;
+        l_اشاریہ = ( int32_t ) px_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
+                    ux_قطار_شے_ناپ = ux_قطار_Get_قطار_شے_ناپ( x_اندرونی_قطار_Handle );
 
-                    if( ( !( ( ( pvBuffer ) == NULL ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
-                        #endif
+                    إذا( ( !( ( ( pv_بفر ) == عدم ) && ( ux_قطار_شے_ناپ != ( UBaseType_t ) 0U ) ) )
+                        #إذا ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( x_Ticks_منزل_Wait != 0U ) ) )
+                        #جے_انت
                         )
                     {
-                        xIsReceiveBufferWritable = xPortIsAuthorizedToAccessBuffer( pvBuffer,
-                                                                                    uxQueueItemSize,
+                        x_Is_Receive_بفر_Writable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pv_بفر,
+                                                                                    ux_قطار_شے_ناپ,
                                                                                     tskMPU_WRITE_PERMISSION );
 
-                        if( xIsReceiveBufferWritable == pdTRUE )
+                        إذا( x_Is_Receive_بفر_Writable == pdTRUE )
                         {
-                            xReturn = xQueueReceive( xInternalQueueHandle, pvBuffer, xTicksToWait );
+                            xReturn = x_قطار_Receive( x_اندرونی_قطار_Handle, pv_بفر, x_Ticks_منزل_Wait );
                         }
                     }
                 }
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueuePeekImpl( QueueHandle_t xQueue,
-                                   void * const pvBuffer,
-                                   TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+    ادھار_Type_t MPU_x_قطار_Peek_Impl( قطار_Handle_t x_قطار,
+                                   فراغ * ثابت pv_بفر,
+                                   TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-    BaseType_t MPU_xQueuePeekImpl( QueueHandle_t xQueue,
-                                   void * const pvBuffer,
-                                   TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Peek_Impl( قطار_Handle_t x_قطار,
+                                   فراغ * ثابت pv_بفر,
+                                   TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-        BaseType_t xReturn = pdFAIL;
-        BaseType_t xIsReceiveBufferWritable = pdFALSE;
-        UBaseType_t uxQueueItemSize;
-        BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+        ادھار_Type_t xReturn = pdFAIL;
+        ادھار_Type_t x_Is_Receive_بفر_Writable = pdFALSE;
+        UBaseType_t ux_قطار_شے_ناپ;
+        ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
+                    ux_قطار_شے_ناپ = ux_قطار_Get_قطار_شے_ناپ( x_اندرونی_قطار_Handle );
 
-                    if( ( !( ( ( pvBuffer ) == NULL ) && ( uxQueueItemSize != ( UBaseType_t ) 0U ) ) )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
-                        #endif
+                    إذا( ( !( ( ( pv_بفر ) == عدم ) && ( ux_قطار_شے_ناپ != ( UBaseType_t ) 0U ) ) )
+                        #إذا ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( x_Ticks_منزل_Wait != 0U ) ) )
+                        #جے_انت
                         )
                     {
-                        xIsReceiveBufferWritable = xPortIsAuthorizedToAccessBuffer( pvBuffer,
-                                                                                    uxQueueItemSize,
+                        x_Is_Receive_بفر_Writable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pv_بفر,
+                                                                                    ux_قطار_شے_ناپ,
                                                                                     tskMPU_WRITE_PERMISSION );
 
-                        if( xIsReceiveBufferWritable == pdTRUE )
+                        إذا( x_Is_Receive_بفر_Writable == pdTRUE )
                         {
-                            xReturn = xQueuePeek( xInternalQueueHandle, pvBuffer, xTicksToWait );
+                            xReturn = x_قطار_Peek( x_اندرونی_قطار_Handle, pv_بفر, x_Ticks_منزل_Wait );
                         }
                     }
                 }
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueSemaphoreTakeImpl( QueueHandle_t xQueue,
-                                            TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+    ادھار_Type_t MPU_x_قطار_Semaphore_Take_Impl( قطار_Handle_t x_قطار,
+                                            TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-    BaseType_t MPU_xQueueSemaphoreTakeImpl( QueueHandle_t xQueue,
-                                            TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Semaphore_Take_Impl( قطار_Handle_t x_قطار,
+                                            TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-        BaseType_t xReturn = pdFAIL;
-        UBaseType_t uxQueueItemSize;
-        BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+        ادھار_Type_t xReturn = pdFAIL;
+        UBaseType_t ux_قطار_شے_ناپ;
+        ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+            إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
+                    ux_قطار_شے_ناپ = ux_قطار_Get_قطار_شے_ناپ( x_اندرونی_قطار_Handle );
 
-                    if( ( uxQueueItemSize == 0U )
-                        #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
-                        #endif
+                    إذا( ( ux_قطار_شے_ناپ == 0U )
+                        #إذا ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                            && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( x_Ticks_منزل_Wait != 0U ) ) )
+                        #جے_انت
                         )
                     {
-                        xReturn = xQueueSemaphoreTake( xInternalQueueHandle, xTicksToWait );
+                        xReturn = x_قطار_Semaphore_Take( x_اندرونی_قطار_Handle, x_Ticks_منزل_Wait );
                     }
                 }
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+    #إذا ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
 
-        TaskHandle_t MPU_xQueueGetMutexHolderImpl( QueueHandle_t xSemaphore ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_x_قطار_Get_Mutex_Holder_Impl( قطار_Handle_t xSemaphore ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xQueueGetMutexHolderImpl( QueueHandle_t xSemaphore ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_x_قطار_Get_Mutex_Holder_Impl( قطار_Handle_t xSemaphore ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xMutexHolderTaskInternalHandle = NULL;
-            TaskHandle_t xMutexHolderTaskExternalHandle = NULL;
-            int32_t lIndex, lMutexHolderTaskIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+            TaskHandle_t x_Mutex_Holder_Task_اندرونی_Handle = عدم;
+            TaskHandle_t xMutexHolderTaskExternalHandle = عدم;
+            int32_t l_اشاریہ, l_Mutex_Holder_Task_اشاریہ;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
 
-            lIndex = ( int32_t ) xSemaphore;
+            l_اشاریہ = ( int32_t ) xSemaphore;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
                 {
-                    xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    إذا( x_اندرونی_قطار_Handle != عدم )
                     {
-                        xMutexHolderTaskInternalHandle = xQueueGetMutexHolder( xInternalQueueHandle );
+                        x_Mutex_Holder_Task_اندرونی_Handle = x_قطار_Get_Mutex_Holder( x_اندرونی_قطار_Handle );
 
-                        if( xMutexHolderTaskInternalHandle != NULL )
+                        إذا( x_Mutex_Holder_Task_اندرونی_Handle != عدم )
                         {
-                            lMutexHolderTaskIndex = MPU_GetIndexForTaskHandle( xMutexHolderTaskInternalHandle );
+                            l_Mutex_Holder_Task_اشاریہ = MPU_Get_اشاریہ_For_Task_Handle( x_Mutex_Holder_Task_اندرونی_Handle );
 
-                            if( lMutexHolderTaskIndex != -1 )
+                            إذا( l_Mutex_Holder_Task_اشاریہ != -1 )
                             {
-                                xMutexHolderTaskExternalHandle = ( TaskHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lMutexHolderTaskIndex ) );
+                                xMutexHolderTaskExternalHandle = ( TaskHandle_t ) ( CONVERT_منزل_EXTERNAL_اشاریہ( l_Mutex_Holder_Task_اشاریہ ) );
                             }
                         }
                     }
                 }
             }
 
-            return xMutexHolderTaskExternalHandle;
+            أرجع xMutexHolderTaskExternalHandle;
         }
 
-    #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #إذا ( configUSE_RECURSIVE_MUTEXES == 1 )
 
-        BaseType_t MPU_xQueueTakeMutexRecursiveImpl( QueueHandle_t xMutex,
-                                                     TickType_t xBlockTime ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_قطار_Take_Mutex_Recursive_Impl( قطار_Handle_t xMutex,
+                                                     TickType_t x_بلاک_ویلا ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xQueueTakeMutexRecursiveImpl( QueueHandle_t xMutex,
-                                                     TickType_t xBlockTime ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_قطار_Take_Mutex_Recursive_Impl( قطار_Handle_t xMutex,
+                                                     TickType_t x_بلاک_ویلا ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
-            int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
-            UBaseType_t uxQueueItemSize;
+            ادھار_Type_t xReturn = pdFAIL;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
+            int32_t l_اشاریہ;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            UBaseType_t ux_قطار_شے_ناپ;
 
-            lIndex = ( int32_t ) xMutex;
+            l_اشاریہ = ( int32_t ) xMutex;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
                 {
-                    xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    إذا( x_اندرونی_قطار_Handle != عدم )
                     {
-                        uxQueueItemSize = uxQueueGetQueueItemSize( xInternalQueueHandle );
+                        ux_قطار_شے_ناپ = ux_قطار_Get_قطار_شے_ناپ( x_اندرونی_قطار_Handle );
 
-                        if( uxQueueItemSize == 0 )
+                        إذا( ux_قطار_شے_ناپ == 0 )
                         {
-                            xReturn = xQueueTakeMutexRecursive( xInternalQueueHandle, xBlockTime );
+                            xReturn = x_قطار_Take_Mutex_Recursive( x_اندرونی_قطار_Handle, x_بلاک_ویلا );
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
+    #جے_انت /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #إذا ( configUSE_RECURSIVE_MUTEXES == 1 )
 
-        BaseType_t MPU_xQueueGiveMutexRecursiveImpl( QueueHandle_t xMutex ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_قطار_Give_Mutex_Recursive_Impl( قطار_Handle_t xMutex ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xQueueGiveMutexRecursiveImpl( QueueHandle_t xMutex ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_قطار_Give_Mutex_Recursive_Impl( قطار_Handle_t xMutex ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
-            int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
+            ادھار_Type_t xReturn = pdFAIL;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
+            int32_t l_اشاریہ;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
 
-            lIndex = ( int32_t ) xMutex;
+            l_اشاریہ = ( int32_t ) xMutex;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
                 {
-                    xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    إذا( x_اندرونی_قطار_Handle != عدم )
                     {
-                        xReturn = xQueueGiveMutexRecursive( xInternalQueueHandle );
+                        xReturn = x_قطار_Give_Mutex_Recursive( x_اندرونی_قطار_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
+    #جے_انت /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #إذا ( config_USE_قطار_SETS == 1 )
 
-        QueueSetMemberHandle_t MPU_xQueueSelectFromSetImpl( QueueSetHandle_t xQueueSet,
-                                                            TickType_t xBlockTimeTicks ) PRIVILEGED_FUNCTION;
+        قطار_سیٹ_Member_Handle_t MPU_x_قطار_Select_From_سیٹ_Impl( قطار_سیٹ_Handle_t x_قطار_سیٹ,
+                                                            TickType_t x_بلاک_ویلا_Ticks ) PRIVILEGED_FUNCTION;
 
-        QueueSetMemberHandle_t MPU_xQueueSelectFromSetImpl( QueueSetHandle_t xQueueSet,
-                                                            TickType_t xBlockTimeTicks ) /* PRIVILEGED_FUNCTION */
+        قطار_سیٹ_Member_Handle_t MPU_x_قطار_Select_From_سیٹ_Impl( قطار_سیٹ_Handle_t x_قطار_سیٹ,
+                                                            TickType_t x_بلاک_ویلا_Ticks ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetMemberHandle_t xSelectedMemberInternal = NULL;
-            QueueSetMemberHandle_t xSelectedMemberExternal = NULL;
-            int32_t lIndexQueueSet, lIndexSelectedMember;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueueSet = pdFALSE;
+            قطار_سیٹ_Handle_t x_اندرونی_قطار_سیٹ_Handle = عدم;
+            قطار_سیٹ_Member_Handle_t x_Selected_Member_اندرونی = عدم;
+            قطار_سیٹ_Member_Handle_t xSelectedMemberExternal = عدم;
+            int32_t l_اشاریہ_قطار_سیٹ, l_اشاریہ_Selected_Member;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ = pdFALSE;
 
-            lIndexQueueSet = ( int32_t ) xQueueSet;
+            l_اشاریہ_قطار_سیٹ = ( int32_t ) x_قطار_سیٹ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ_قطار_سیٹ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessQueueSet = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueueSet == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ == pdTRUE )
                 {
-                    xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
+                    x_اندرونی_قطار_سیٹ_Handle = MPU_Get_قطار_سیٹ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ ) );
 
-                    if( xInternalQueueSetHandle != NULL )
+                    إذا( x_اندرونی_قطار_سیٹ_Handle != عدم )
                     {
-                        xSelectedMemberInternal = xQueueSelectFromSet( xInternalQueueSetHandle, xBlockTimeTicks );
+                        x_Selected_Member_اندرونی = x_قطار_Select_From_سیٹ( x_اندرونی_قطار_سیٹ_Handle, x_بلاک_ویلا_Ticks );
 
-                        if( xSelectedMemberInternal != NULL )
+                        إذا( x_Selected_Member_اندرونی != عدم )
                         {
-                            lIndexSelectedMember = MPU_GetIndexForQueueSetMemberHandle( xSelectedMemberInternal );
+                            l_اشاریہ_Selected_Member = MPU_Get_اشاریہ_For_قطار_سیٹ_Member_Handle( x_Selected_Member_اندرونی );
 
-                            if( lIndexSelectedMember != -1 )
+                            إذا( l_اشاریہ_Selected_Member != -1 )
                             {
-                                xSelectedMemberExternal = ( QueueSetMemberHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lIndexSelectedMember ) );
+                                xSelectedMemberExternal = ( قطار_سیٹ_Member_Handle_t ) ( CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ_Selected_Member ) );
                             }
                         }
                     }
                 }
             }
 
-            return xSelectedMemberExternal;
+            أرجع xSelectedMemberExternal;
         }
 
-    #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
+    #جے_انت /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #إذا ( config_USE_قطار_SETS == 1 )
 
-        BaseType_t MPU_xQueueAddToSetImpl( QueueSetMemberHandle_t xQueueOrSemaphore,
-                                           QueueSetHandle_t xQueueSet ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_قطار_جوڑو_منزل_سیٹ_Impl( قطار_سیٹ_Member_Handle_t x_قطار_Or_Semaphore,
+                                           قطار_سیٹ_Handle_t x_قطار_سیٹ ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xQueueAddToSetImpl( QueueSetMemberHandle_t xQueueOrSemaphore,
-                                           QueueSetHandle_t xQueueSet ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_قطار_جوڑو_منزل_سیٹ_Impl( قطار_سیٹ_Member_Handle_t x_قطار_Or_Semaphore,
+                                           قطار_سیٹ_Handle_t x_قطار_سیٹ ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            QueueSetMemberHandle_t xInternalQueueSetMemberHandle = NULL;
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            int32_t lIndexQueueSet, lIndexQueueSetMember;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueueSet = pdFALSE;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueueSetMember = pdFALSE;
+            ادھار_Type_t xReturn = pdFAIL;
+            قطار_سیٹ_Member_Handle_t x_اندرونی_قطار_سیٹ_Member_Handle = عدم;
+            قطار_سیٹ_Handle_t x_اندرونی_قطار_سیٹ_Handle = عدم;
+            int32_t l_اشاریہ_قطار_سیٹ, l_اشاریہ_قطار_سیٹ_Member;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ = pdFALSE;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ_Member = pdFALSE;
 
-            lIndexQueueSet = ( int32_t ) xQueueSet;
-            lIndexQueueSetMember = ( int32_t ) xQueueOrSemaphore;
+            l_اشاریہ_قطار_سیٹ = ( int32_t ) x_قطار_سیٹ;
+            l_اشاریہ_قطار_سیٹ_Member = ( int32_t ) x_قطار_Or_Semaphore;
 
-            if( ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE ) &&
-                ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSetMember ) != pdFALSE ) )
+            إذا( ( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ_قطار_سیٹ ) != pdFALSE ) &&
+                ( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ_قطار_سیٹ_Member ) != pdFALSE ) )
             {
-                xCallingTaskIsAuthorizedToAccessQueueSet = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
-                xCallingTaskIsAuthorizedToAccessQueueSetMember = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSetMember ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ_Member = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ_Member ) );
 
-                if( ( xCallingTaskIsAuthorizedToAccessQueueSet == pdTRUE ) && ( xCallingTaskIsAuthorizedToAccessQueueSetMember == pdTRUE ) )
+                إذا( ( x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ == pdTRUE ) && ( x_Calling_Task_Is_Authorized_منزل_Access_قطار_سیٹ_Member == pdTRUE ) )
                 {
-                    xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
-                    xInternalQueueSetMemberHandle = MPU_GetQueueSetMemberHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSetMember ) );
+                    x_اندرونی_قطار_سیٹ_Handle = MPU_Get_قطار_سیٹ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ ) );
+                    x_اندرونی_قطار_سیٹ_Member_Handle = MPU_Get_قطار_سیٹ_Member_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ_Member ) );
 
-                    if( ( xInternalQueueSetHandle != NULL ) && ( xInternalQueueSetMemberHandle != NULL ) )
+                    إذا( ( x_اندرونی_قطار_سیٹ_Handle != عدم ) && ( x_اندرونی_قطار_سیٹ_Member_Handle != عدم ) )
                     {
-                        xReturn = xQueueAddToSet( xInternalQueueSetMemberHandle, xInternalQueueSetHandle );
+                        xReturn = x_قطار_جوڑو_منزل_سیٹ( x_اندرونی_قطار_سیٹ_Member_Handle, x_اندرونی_قطار_سیٹ_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
+    #جے_انت /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
+    #إذا config_قطار_REGISTRY_ناپ > 0
 
-        void MPU_vQueueAddToRegistryImpl( QueueHandle_t xQueue,
-                                          const char * pcName ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_قطار_جوڑو_منزل_Registry_Impl( قطار_Handle_t x_قطار,
+                                          ثابت حرف * pcName ) PRIVILEGED_FUNCTION;
 
-        void MPU_vQueueAddToRegistryImpl( QueueHandle_t xQueue,
-                                          const char * pcName ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_قطار_جوڑو_منزل_Registry_Impl( قطار_Handle_t x_قطار,
+                                          ثابت حرف * pcName ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+            int32_t l_اشاریہ;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
-            lIndex = ( int32_t ) xQueue;
+            l_اشاریہ = ( int32_t ) x_قطار;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
                 {
-                    xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    إذا( x_اندرونی_قطار_Handle != عدم )
                     {
-                        vQueueAddToRegistry( xInternalQueueHandle, pcName );
-                    }
-                }
-            }
-        }
-
-    #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
-/*-----------------------------------------------------------*/
-
-    #if configQUEUE_REGISTRY_SIZE > 0
-
-        void MPU_vQueueUnregisterQueueImpl( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
-
-        void MPU_vQueueUnregisterQueueImpl( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
-        {
-            int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
-
-            lIndex = ( int32_t ) xQueue;
-
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-            {
-                xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
-                {
-                    xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                    if( xInternalQueueHandle != NULL )
-                    {
-                        vQueueUnregisterQueue( xInternalQueueHandle );
+                        v_قطار_جوڑو_منزل_Registry( x_اندرونی_قطار_Handle, pcName );
                     }
                 }
             }
         }
 
-    #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
+    #جے_انت /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
+    #إذا config_قطار_REGISTRY_ناپ > 0
 
-        const char * MPU_pcQueueGetNameImpl( QueueHandle_t xQueue ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_قطار_Unregister_قطار_Impl( قطار_Handle_t x_قطار ) PRIVILEGED_FUNCTION;
 
-        const char * MPU_pcQueueGetNameImpl( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_قطار_Unregister_قطار_Impl( قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
         {
-            const char * pcReturn = NULL;
-            QueueHandle_t xInternalQueueHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessQueue = pdFALSE;
+            int32_t l_اشاریہ;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
 
-            lIndex = ( int32_t ) xQueue;
+            l_اشاریہ = ( int32_t ) x_قطار;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessQueue = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessQueue == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
                 {
-                    xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalQueueHandle != NULL )
+                    إذا( x_اندرونی_قطار_Handle != عدم )
                     {
-                        pcReturn = pcQueueGetName( xInternalQueueHandle );
+                        v_قطار_Unregister_قطار( x_اندرونی_قطار_Handle );
+                    }
+                }
+            }
+        }
+
+    #جے_انت /* if configQUEUE_REGISTRY_SIZE > 0 */
+/*-----------------------------------------------------------*/
+
+    #إذا config_قطار_REGISTRY_ناپ > 0
+
+        ثابت حرف * MPU_pc_قطار_Get_Name_Impl( قطار_Handle_t x_قطار ) PRIVILEGED_FUNCTION;
+
+        ثابت حرف * MPU_pc_قطار_Get_Name_Impl( قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
+        {
+            ثابت حرف * pcReturn = عدم;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_قطار = pdFALSE;
+
+            l_اشاریہ = ( int32_t ) x_قطار;
+
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+            {
+                x_Calling_Task_Is_Authorized_منزل_Access_قطار = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_قطار == pdTRUE )
+                {
+                    x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                    إذا( x_اندرونی_قطار_Handle != عدم )
+                    {
+                        pcReturn = pc_قطار_Get_Name( x_اندرونی_قطار_Handle );
                     }
                 }
             }
 
-            return pcReturn;
+            أرجع pcReturn;
         }
 
-    #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
+    #جے_انت /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
 /* Privileged only wrappers for Queue APIs. These are needed so that
@@ -2744,801 +2744,801 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    void MPU_vQueueDelete( QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    فراغ MPU_v_قطار_Delete( قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
     {
-        QueueHandle_t xInternalQueueHandle = NULL;
-        int32_t lIndex;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+        int32_t l_اشاریہ;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                vQueueDelete( xInternalQueueHandle );
-                MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                v_قطار_Delete( x_اندرونی_قطار_Handle );
+                MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
             }
         }
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #إذا ( ( configUSE_MUTEXES == 1 ) && ( config_SUPPORT_DYNAMIC_ونڈ == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
+        قطار_Handle_t MPU_x_قطار_Create_Mutex( ثابت uint8_t uc_قطار_Type ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
-            int32_t lIndex;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            قطار_Handle_t x_External_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueHandle = xQueueCreateMutex( ucQueueType );
+                x_اندرونی_قطار_Handle = x_قطار_Create_Mutex( uc_قطار_Type );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
-                    xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_Handle );
+                    x_External_قطار_Handle = ( قطار_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueHandle;
+            أرجع x_External_قطار_Handle;
         }
 
-    #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #إذا ( ( configUSE_MUTEXES == 1 ) && ( config_SUPPORT_STATIC_ونڈ == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateMutexStatic( const uint8_t ucQueueType,
-                                                   StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
+        قطار_Handle_t MPU_x_قطار_Create_Mutex_Static( ثابت uint8_t uc_قطار_Type,
+                                                   Static_قطار_t * px_Static_قطار ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
-            int32_t lIndex;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            قطار_Handle_t x_External_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueHandle = xQueueCreateMutexStatic( ucQueueType, pxStaticQueue );
+                x_اندرونی_قطار_Handle = x_قطار_Create_Mutex_Static( uc_قطار_Type, px_Static_قطار );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
-                    xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_Handle );
+                    x_External_قطار_Handle = ( قطار_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueHandle;
+            أرجع x_External_قطار_Handle;
         }
 
-    #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #إذا ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( config_SUPPORT_DYNAMIC_ونڈ == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t uxCountValue,
-                                                         UBaseType_t uxInitialCount ) /* PRIVILEGED_FUNCTION */
+        قطار_Handle_t MPU_x_قطار_Create_Counting_Semaphore( UBaseType_t ux_گنتی_قدر,
+                                                         UBaseType_t ux_Initial_گنتی ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
-            int32_t lIndex;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            قطار_Handle_t x_External_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueHandle = xQueueCreateCountingSemaphore( uxCountValue, uxInitialCount );
+                x_اندرونی_قطار_Handle = x_قطار_Create_Counting_Semaphore( ux_گنتی_قدر, ux_Initial_گنتی );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
-                    xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_Handle );
+                    x_External_قطار_Handle = ( قطار_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueHandle;
+            أرجع x_External_قطار_Handle;
         }
 
-    #endif /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #إذا ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( config_SUPPORT_STATIC_ونڈ == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( const UBaseType_t uxMaxCount,
-                                                               const UBaseType_t uxInitialCount,
-                                                               StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
+        قطار_Handle_t MPU_x_قطار_Create_Counting_Semaphore_Static( ثابت UBaseType_t ux_Max_گنتی,
+                                                               ثابت UBaseType_t ux_Initial_گنتی,
+                                                               Static_قطار_t * px_Static_قطار ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
-            int32_t lIndex;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            قطار_Handle_t x_External_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueHandle = xQueueCreateCountingSemaphoreStatic( uxMaxCount, uxInitialCount, pxStaticQueue );
+                x_اندرونی_قطار_Handle = x_قطار_Create_Counting_Semaphore_Static( ux_Max_گنتی, ux_Initial_گنتی, px_Static_قطار );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
-                    xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_Handle );
+                    x_External_قطار_Handle = ( قطار_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueHandle;
+            أرجع x_External_قطار_Handle;
         }
 
-    #endif /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_DYNAMIC_ونڈ == 1 )
 
-        QueueHandle_t MPU_xQueueGenericCreate( UBaseType_t uxQueueLength,
-                                               UBaseType_t uxItemSize,
-                                               uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
+        قطار_Handle_t MPU_x_قطار_Generic_Create( UBaseType_t ux_قطار_لمائی,
+                                               UBaseType_t ux_شے_ناپ,
+                                               uint8_t uc_قطار_Type ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
-            int32_t lIndex;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            قطار_Handle_t x_External_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueHandle = xQueueGenericCreate( uxQueueLength, uxItemSize, ucQueueType );
+                x_اندرونی_قطار_Handle = x_قطار_Generic_Create( ux_قطار_لمائی, ux_شے_ناپ, uc_قطار_Type );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
-                    xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_Handle );
+                    x_External_قطار_Handle = ( قطار_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueHandle;
+            أرجع x_External_قطار_Handle;
         }
 
-    #endif /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) */
+    #جے_انت /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 )
 
-        QueueHandle_t MPU_xQueueGenericCreateStatic( const UBaseType_t uxQueueLength,
-                                                     const UBaseType_t uxItemSize,
-                                                     uint8_t * pucQueueStorage,
-                                                     StaticQueue_t * pxStaticQueue,
-                                                     const uint8_t ucQueueType ) /* PRIVILEGED_FUNCTION */
+        قطار_Handle_t MPU_x_قطار_Generic_Create_Static( ثابت UBaseType_t ux_قطار_لمائی,
+                                                     ثابت UBaseType_t ux_شے_ناپ,
+                                                     uint8_t * puc_قطار_Storage,
+                                                     Static_قطار_t * px_Static_قطار,
+                                                     ثابت uint8_t uc_قطار_Type ) /* PRIVILEGED_FUNCTION */
         {
-            QueueHandle_t xInternalQueueHandle = NULL;
-            QueueHandle_t xExternalQueueHandle = NULL;
-            int32_t lIndex;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            قطار_Handle_t x_External_قطار_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueHandle = xQueueGenericCreateStatic( uxQueueLength, uxItemSize, pucQueueStorage, pxStaticQueue, ucQueueType );
+                x_اندرونی_قطار_Handle = x_قطار_Generic_Create_Static( ux_قطار_لمائی, ux_شے_ناپ, puc_قطار_Storage, px_Static_قطار, uc_قطار_Type );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    MPU_StoreQueueHandleAtIndex( lIndex, xInternalQueueHandle );
-                    xExternalQueueHandle = ( QueueHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_Handle );
+                    x_External_قطار_Handle = ( قطار_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueHandle;
+            أرجع x_External_قطار_Handle;
         }
 
-    #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
+    #جے_انت /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueGenericReset( QueueHandle_t xQueue,
-                                       BaseType_t xNewQueue ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Generic_Reset( قطار_Handle_t x_قطار,
+                                       ادھار_Type_t x_New_قطار ) /* PRIVILEGED_FUNCTION */
     {
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-        BaseType_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+        ادھار_Type_t xReturn = pdFAIL;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                xReturn = xQueueGenericReset( xInternalQueueHandle, xNewQueue );
+                xReturn = x_قطار_Generic_Reset( x_اندرونی_قطار_Handle, x_New_قطار );
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #إذا ( ( config_USE_قطار_SETS == 1 ) && ( config_SUPPORT_DYNAMIC_ونڈ == 1 ) )
 
-        QueueSetHandle_t MPU_xQueueCreateSet( UBaseType_t uxEventQueueLength ) /* PRIVILEGED_FUNCTION */
+        قطار_سیٹ_Handle_t MPU_x_قطار_Create_سیٹ( UBaseType_t ux_Event_قطار_لمائی ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetHandle_t xExternalQueueSetHandle = NULL;
-            int32_t lIndex;
+            قطار_سیٹ_Handle_t x_اندرونی_قطار_سیٹ_Handle = عدم;
+            قطار_سیٹ_Handle_t x_External_قطار_سیٹ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueSetHandle = xQueueCreateSet( uxEventQueueLength );
+                x_اندرونی_قطار_سیٹ_Handle = x_قطار_Create_سیٹ( ux_Event_قطار_لمائی );
 
-                if( xInternalQueueSetHandle != NULL )
+                إذا( x_اندرونی_قطار_سیٹ_Handle != عدم )
                 {
-                    MPU_StoreQueueSetHandleAtIndex( lIndex, xInternalQueueSetHandle );
-                    xExternalQueueSetHandle = ( QueueSetHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_سیٹ_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_سیٹ_Handle );
+                    x_External_قطار_سیٹ_Handle = ( قطار_سیٹ_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueSetHandle;
+            أرجع x_External_قطار_سیٹ_Handle;
         }
 
-    #endif /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #إذا ( ( config_USE_قطار_SETS == 1 ) && ( config_SUPPORT_STATIC_ونڈ == 1 ) )
 
-        QueueSetHandle_t MPU_xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength,
-                                                    uint8_t * pucQueueStorage,
-                                                    StaticQueue_t * pxStaticQueue ) /* PRIVILEGED_FUNCTION */
+        قطار_سیٹ_Handle_t MPU_x_قطار_Create_سیٹ_Static( ثابت UBaseType_t ux_Event_قطار_لمائی,
+                                                    uint8_t * puc_قطار_Storage,
+                                                    Static_قطار_t * px_Static_قطار ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetHandle_t xExternalQueueSetHandle = NULL;
-            int32_t lIndex;
+            قطار_سیٹ_Handle_t x_اندرونی_قطار_سیٹ_Handle = عدم;
+            قطار_سیٹ_Handle_t x_External_قطار_سیٹ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalQueueSetHandle = xQueueCreateSetStatic( uxEventQueueLength, pucQueueStorage, pxStaticQueue );
+                x_اندرونی_قطار_سیٹ_Handle = x_قطار_Create_سیٹ_Static( ux_Event_قطار_لمائی, puc_قطار_Storage, px_Static_قطار );
 
-                if( xInternalQueueSetHandle != NULL )
+                إذا( x_اندرونی_قطار_سیٹ_Handle != عدم )
                 {
-                    MPU_StoreQueueSetHandleAtIndex( lIndex, xInternalQueueSetHandle );
-                    xExternalQueueSetHandle = ( QueueSetHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_قطار_سیٹ_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_قطار_سیٹ_Handle );
+                    x_External_قطار_سیٹ_Handle = ( قطار_سیٹ_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalQueueSetHandle;
+            أرجع x_External_قطار_سیٹ_Handle;
         }
 
-    #endif /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
+    #جے_انت /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #إذا ( config_USE_قطار_SETS == 1 )
 
-        BaseType_t MPU_xQueueRemoveFromSet( QueueSetMemberHandle_t xQueueOrSemaphore,
-                                            QueueSetHandle_t xQueueSet ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_قطار_Remove_From_سیٹ( قطار_سیٹ_Member_Handle_t x_قطار_Or_Semaphore,
+                                            قطار_سیٹ_Handle_t x_قطار_سیٹ ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            QueueSetMemberHandle_t xInternalQueueSetMemberHandle = NULL;
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            int32_t lIndexQueueSet, lIndexQueueSetMember;
+            ادھار_Type_t xReturn = pdFAIL;
+            قطار_سیٹ_Member_Handle_t x_اندرونی_قطار_سیٹ_Member_Handle = عدم;
+            قطار_سیٹ_Handle_t x_اندرونی_قطار_سیٹ_Handle = عدم;
+            int32_t l_اشاریہ_قطار_سیٹ, l_اشاریہ_قطار_سیٹ_Member;
 
-            lIndexQueueSet = ( int32_t ) xQueueSet;
-            lIndexQueueSetMember = ( int32_t ) xQueueOrSemaphore;
+            l_اشاریہ_قطار_سیٹ = ( int32_t ) x_قطار_سیٹ;
+            l_اشاریہ_قطار_سیٹ_Member = ( int32_t ) x_قطار_Or_Semaphore;
 
-            if( ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE ) &&
-                ( IS_EXTERNAL_INDEX_VALID( lIndexQueueSetMember ) != pdFALSE ) )
+            إذا( ( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ_قطار_سیٹ ) != pdFALSE ) &&
+                ( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ_قطار_سیٹ_Member ) != pdFALSE ) )
             {
-                xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
-                xInternalQueueSetMemberHandle = MPU_GetQueueSetMemberHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSetMember ) );
+                x_اندرونی_قطار_سیٹ_Handle = MPU_Get_قطار_سیٹ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ ) );
+                x_اندرونی_قطار_سیٹ_Member_Handle = MPU_Get_قطار_سیٹ_Member_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ_Member ) );
 
-                if( ( xInternalQueueSetHandle != NULL ) && ( xInternalQueueSetMemberHandle != NULL ) )
+                إذا( ( x_اندرونی_قطار_سیٹ_Handle != عدم ) && ( x_اندرونی_قطار_سیٹ_Member_Handle != عدم ) )
                 {
-                    xReturn = xQueueRemoveFromSet( xInternalQueueSetMemberHandle, xInternalQueueSetHandle );
+                    xReturn = x_قطار_Remove_From_سیٹ( x_اندرونی_قطار_سیٹ_Member_Handle, x_اندرونی_قطار_سیٹ_Handle );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
+    #جے_انت /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 )
 
-        BaseType_t MPU_xQueueGenericGetStaticBuffers( QueueHandle_t xQueue,
-                                                      uint8_t ** ppucQueueStorage,
-                                                      StaticQueue_t ** ppxStaticQueue ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_قطار_Generic_Get_Static_Buffers( قطار_Handle_t x_قطار,
+                                                      uint8_t ** ppuc_قطار_Storage,
+                                                      Static_قطار_t ** ppx_Static_قطار ) /* PRIVILEGED_FUNCTION */
         {
-            int32_t lIndex;
-            QueueHandle_t xInternalQueueHandle = NULL;
-            BaseType_t xReturn = pdFALSE;
+            int32_t l_اشاریہ;
+            قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+            ادھار_Type_t xReturn = pdFALSE;
 
-            lIndex = ( int32_t ) xQueue;
+            l_اشاریہ = ( int32_t ) x_قطار;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalQueueHandle != NULL )
+                إذا( x_اندرونی_قطار_Handle != عدم )
                 {
-                    xReturn = xQueueGenericGetStaticBuffers( xInternalQueueHandle, ppucQueueStorage, ppxStaticQueue );
+                    xReturn = x_قطار_Generic_Get_Static_Buffers( x_اندرونی_قطار_Handle, ppuc_قطار_Storage, ppx_Static_قطار );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /*if ( configSUPPORT_STATIC_ALLOCATION == 1 )*/
+    #جے_انت /*if ( configSUPPORT_STATIC_ALLOCATION == 1 )*/
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueGenericSendFromISR( QueueHandle_t xQueue,
-                                             const void * const pvItemToQueue,
-                                             BaseType_t * const pxHigherPriorityTaskWoken,
-                                             const BaseType_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Generic_Send_From_ISR( قطار_Handle_t x_قطار,
+                                             ثابت فراغ * ثابت pv_شے_منزل_قطار,
+                                             ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken,
+                                             ثابت ادھار_Type_t xCopyPosition ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xReturn = pdFAIL;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        ادھار_Type_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                xReturn = xQueueGenericSendFromISR( xInternalQueueHandle, pvItemToQueue, pxHigherPriorityTaskWoken, xCopyPosition );
+                xReturn = x_قطار_Generic_Send_From_ISR( x_اندرونی_قطار_Handle, pv_شے_منزل_قطار, px_Higher_ترجیح_Task_Woken, xCopyPosition );
             }
         }
 
-        return xReturn;
-    }
-
-/*-----------------------------------------------------------*/
-
-    BaseType_t MPU_xQueueGiveFromISR( QueueHandle_t xQueue,
-                                      BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
-    {
-        BaseType_t xReturn = pdFAIL;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-
-        lIndex = ( int32_t ) xQueue;
-
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-        {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-            if( xInternalQueueHandle != NULL )
-            {
-                xReturn = xQueueGiveFromISR( xInternalQueueHandle, pxHigherPriorityTaskWoken );
-            }
-        }
-
-        return xReturn;
+        أرجع xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueuePeekFromISR( QueueHandle_t xQueue,
-                                      void * const pvBuffer ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Give_From_ISR( قطار_Handle_t x_قطار,
+                                      ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xReturn = pdFAIL;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        ادھار_Type_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                xReturn = xQueuePeekFromISR( xInternalQueueHandle, pvBuffer );
+                xReturn = x_قطار_Give_From_ISR( x_اندرونی_قطار_Handle, px_Higher_ترجیح_Task_Woken );
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueReceiveFromISR( QueueHandle_t xQueue,
-                                         void * const pvBuffer,
-                                         BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Peek_From_ISR( قطار_Handle_t x_قطار,
+                                      فراغ * ثابت pv_بفر ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xReturn = pdFAIL;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        ادھار_Type_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                xReturn = xQueueReceiveFromISR( xInternalQueueHandle, pvBuffer, pxHigherPriorityTaskWoken );
+                xReturn = x_قطار_Peek_From_ISR( x_اندرونی_قطار_Handle, pv_بفر );
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xQueueIsQueueEmptyFromISR( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Receive_From_ISR( قطار_Handle_t x_قطار,
+                                         فراغ * ثابت pv_بفر,
+                                         ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
     {
-        BaseType_t xReturn = pdFAIL;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        ادھار_Type_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                xReturn = xQueueIsQueueEmptyFromISR( xInternalQueueHandle );
+                xReturn = x_قطار_Receive_From_ISR( x_اندرونی_قطار_Handle, pv_بفر, px_Higher_ترجیح_Task_Woken );
             }
         }
 
-        return xReturn;
-    }
-/*-----------------------------------------------------------*/
-
-    BaseType_t MPU_xQueueIsQueueFullFromISR( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
-    {
-        BaseType_t xReturn = pdFAIL;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
-
-        lIndex = ( int32_t ) xQueue;
-
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-        {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-            if( xInternalQueueHandle != NULL )
-            {
-                xReturn = xQueueIsQueueFullFromISR( xInternalQueueHandle );
-            }
-        }
-
-        return xReturn;
+        أرجع xReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueMessagesWaitingFromISR( const QueueHandle_t xQueue ) /* PRIVILEGED_FUNCTION */
+    ادھار_Type_t MPU_x_قطار_Is_قطار_خالی_تھاواں_From_ISR( ثابت قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
+    {
+        ادھار_Type_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+
+        l_اشاریہ = ( int32_t ) x_قطار;
+
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+        {
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+            إذا( x_اندرونی_قطار_Handle != عدم )
+            {
+                xReturn = x_قطار_Is_قطار_خالی_تھاواں_From_ISR( x_اندرونی_قطار_Handle );
+            }
+        }
+
+        أرجع xReturn;
+    }
+/*-----------------------------------------------------------*/
+
+    ادھار_Type_t MPU_x_قطار_Is_قطار_بھریا_From_ISR( ثابت قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
+    {
+        ادھار_Type_t xReturn = pdFAIL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
+
+        l_اشاریہ = ( int32_t ) x_قطار;
+
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+        {
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+            إذا( x_اندرونی_قطار_Handle != عدم )
+            {
+                xReturn = x_قطار_Is_قطار_بھریا_From_ISR( x_اندرونی_قطار_Handle );
+            }
+        }
+
+        أرجع xReturn;
+    }
+
+/*-----------------------------------------------------------*/
+
+    UBaseType_t MPU_ux_قطار_Messages_اڈیک_From_ISR( ثابت قطار_Handle_t x_قطار ) /* PRIVILEGED_FUNCTION */
     {
         UBaseType_t uxReturn = 0;
-        int32_t lIndex;
-        QueueHandle_t xInternalQueueHandle = NULL;
+        int32_t l_اشاریہ;
+        قطار_Handle_t x_اندرونی_قطار_Handle = عدم;
 
-        lIndex = ( int32_t ) xQueue;
+        l_اشاریہ = ( int32_t ) x_قطار;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalQueueHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_قطار_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalQueueHandle != NULL )
+            إذا( x_اندرونی_قطار_Handle != عدم )
             {
-                uxReturn = uxQueueMessagesWaitingFromISR( xInternalQueueHandle );
+                uxReturn = ux_قطار_Messages_اڈیک_From_ISR( x_اندرونی_قطار_Handle );
             }
         }
 
-        return uxReturn;
+        أرجع uxReturn;
     }
 
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+    #إذا ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
 
-        TaskHandle_t MPU_xQueueGetMutexHolderFromISR( QueueHandle_t xSemaphore ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_x_قطار_Get_Mutex_Holder_From_ISR( قطار_Handle_t xSemaphore ) /* PRIVILEGED_FUNCTION */
         {
-            TaskHandle_t xMutexHolderTaskInternalHandle = NULL;
-            TaskHandle_t xMutexHolderTaskExternalHandle = NULL;
-            int32_t lIndex, lMutexHolderTaskIndex;
-            QueueHandle_t xInternalSemaphoreHandle = NULL;
+            TaskHandle_t x_Mutex_Holder_Task_اندرونی_Handle = عدم;
+            TaskHandle_t xMutexHolderTaskExternalHandle = عدم;
+            int32_t l_اشاریہ, l_Mutex_Holder_Task_اشاریہ;
+            قطار_Handle_t x_اندرونی_Semaphore_Handle = عدم;
 
-            lIndex = ( int32_t ) xSemaphore;
+            l_اشاریہ = ( int32_t ) xSemaphore;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalSemaphoreHandle = MPU_GetQueueHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Semaphore_Handle = MPU_Get_قطار_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalSemaphoreHandle != NULL )
+                إذا( x_اندرونی_Semaphore_Handle != عدم )
                 {
-                    xMutexHolderTaskInternalHandle = xQueueGetMutexHolder( xInternalSemaphoreHandle );
+                    x_Mutex_Holder_Task_اندرونی_Handle = x_قطار_Get_Mutex_Holder( x_اندرونی_Semaphore_Handle );
 
-                    if( xMutexHolderTaskInternalHandle != NULL )
+                    إذا( x_Mutex_Holder_Task_اندرونی_Handle != عدم )
                     {
-                        lMutexHolderTaskIndex = MPU_GetIndexForTaskHandle( xMutexHolderTaskInternalHandle );
+                        l_Mutex_Holder_Task_اشاریہ = MPU_Get_اشاریہ_For_Task_Handle( x_Mutex_Holder_Task_اندرونی_Handle );
 
-                        if( lMutexHolderTaskIndex != -1 )
+                        إذا( l_Mutex_Holder_Task_اشاریہ != -1 )
                         {
-                            xMutexHolderTaskExternalHandle = ( TaskHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lMutexHolderTaskIndex ) );
+                            xMutexHolderTaskExternalHandle = ( TaskHandle_t ) ( CONVERT_منزل_EXTERNAL_اشاریہ( l_Mutex_Holder_Task_اشاریہ ) );
                         }
                     }
                 }
             }
 
-            return xMutexHolderTaskExternalHandle;
+            أرجع xMutexHolderTaskExternalHandle;
         }
 
-    #endif /* #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
+    #جے_انت /* #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #إذا ( config_USE_قطار_SETS == 1 )
 
-        QueueSetMemberHandle_t MPU_xQueueSelectFromSetFromISR( QueueSetHandle_t xQueueSet ) /* PRIVILEGED_FUNCTION */
+        قطار_سیٹ_Member_Handle_t MPU_x_قطار_Select_From_سیٹ_From_ISR( قطار_سیٹ_Handle_t x_قطار_سیٹ ) /* PRIVILEGED_FUNCTION */
         {
-            QueueSetHandle_t xInternalQueueSetHandle = NULL;
-            QueueSetMemberHandle_t xSelectedMemberInternal = NULL;
-            QueueSetMemberHandle_t xSelectedMemberExternal = NULL;
-            int32_t lIndexQueueSet, lIndexSelectedMember;
+            قطار_سیٹ_Handle_t x_اندرونی_قطار_سیٹ_Handle = عدم;
+            قطار_سیٹ_Member_Handle_t x_Selected_Member_اندرونی = عدم;
+            قطار_سیٹ_Member_Handle_t xSelectedMemberExternal = عدم;
+            int32_t l_اشاریہ_قطار_سیٹ, l_اشاریہ_Selected_Member;
 
-            lIndexQueueSet = ( int32_t ) xQueueSet;
+            l_اشاریہ_قطار_سیٹ = ( int32_t ) x_قطار_سیٹ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndexQueueSet ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ_قطار_سیٹ ) != pdFALSE )
             {
-                xInternalQueueSetHandle = MPU_GetQueueSetHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndexQueueSet ) );
+                x_اندرونی_قطار_سیٹ_Handle = MPU_Get_قطار_سیٹ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ_قطار_سیٹ ) );
 
-                if( xInternalQueueSetHandle != NULL )
+                إذا( x_اندرونی_قطار_سیٹ_Handle != عدم )
                 {
-                    xSelectedMemberInternal = xQueueSelectFromSetFromISR( xInternalQueueSetHandle );
+                    x_Selected_Member_اندرونی = x_قطار_Select_From_سیٹ_From_ISR( x_اندرونی_قطار_سیٹ_Handle );
 
-                    if( xSelectedMemberInternal != NULL )
+                    إذا( x_Selected_Member_اندرونی != عدم )
                     {
-                        lIndexSelectedMember = MPU_GetIndexForQueueSetMemberHandle( xSelectedMemberInternal );
+                        l_اشاریہ_Selected_Member = MPU_Get_اشاریہ_For_قطار_سیٹ_Member_Handle( x_Selected_Member_اندرونی );
 
-                        if( lIndexSelectedMember != -1 )
+                        إذا( l_اشاریہ_Selected_Member != -1 )
                         {
-                            xSelectedMemberExternal = ( QueueSetMemberHandle_t ) ( CONVERT_TO_EXTERNAL_INDEX( lIndexSelectedMember ) );
+                            xSelectedMemberExternal = ( قطار_سیٹ_Member_Handle_t ) ( CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ_Selected_Member ) );
                         }
                     }
                 }
             }
 
-            return xSelectedMemberExternal;
+            أرجع xSelectedMemberExternal;
         }
 
-    #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
+    #جے_انت /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 /*            MPU wrappers for timers APIs.                  */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        void * MPU_pvTimerGetTimerIDImpl( const TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        فراغ * MPU_pvTimerGetTimerIDImpl( ثابت TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        void * MPU_pvTimerGetTimerIDImpl( const TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        فراغ * MPU_pvTimerGetTimerIDImpl( ثابت TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
-            void * pvReturn = NULL;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            فراغ * pvReturn = عدم;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        pvReturn = pvTimerGetTimerID( xInternalTimerHandle );
+                        pvReturn = pvTimerGetTimerID( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return pvReturn;
+            أرجع pvReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        void MPU_vTimerSetTimerIDImpl( TimerHandle_t xTimer,
-                                       void * pvNewID ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_Timer_سیٹ_Timer_IDImpl( TimerHandle_t xTimer,
+                                       فراغ * pvNewID ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTimerSetTimerIDImpl( TimerHandle_t xTimer,
-                                       void * pvNewID ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Timer_سیٹ_Timer_IDImpl( TimerHandle_t xTimer,
+                                       فراغ * pvNewID ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        vTimerSetTimerID( xInternalTimerHandle, pvNewID );
+                        v_Timer_سیٹ_Timer_ID( x_اندرونی_Timer_Handle, pvNewID );
                     }
                 }
             }
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerIsTimerActiveImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_Timer_Is_Timer_سرگرم_Impl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTimerIsTimerActiveImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_Timer_Is_Timer_سرگرم_Impl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        xReturn = xTimerIsTimerActive( xInternalTimerHandle );
+                        xReturn = x_Timer_Is_Timer_سرگرم( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( void ) PRIVILEGED_FUNCTION;
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( فراغ ) PRIVILEGED_FUNCTION;
 
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( void ) /* PRIVILEGED_FUNCTION */
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandleImpl( فراغ ) /* PRIVILEGED_FUNCTION */
         {
             TaskHandle_t xReturn;
 
             xReturn = xTimerGetTimerDaemonTaskHandle();
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerGenericCommandFromTask( TimerHandle_t xTimer,
-                                                     const BaseType_t xCommandID,
-                                                     const TickType_t xOptionalValue,
-                                                     BaseType_t * const pxHigherPriorityTaskWoken,
-                                                     const TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+        ادھار_Type_t MPU_xTimerGenericCommandFromTask( TimerHandle_t xTimer,
+                                                     ثابت ادھار_Type_t xCommandID,
+                                                     ثابت TickType_t x_Optional_قدر,
+                                                     ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken,
+                                                     ثابت TickType_t x_Ticks_منزل_Wait ) /* FREERTOS_SYSTEM_CALL */
         {
-            BaseType_t xReturn = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
             xTimerGenericCommandFromTaskParams_t xParams;
 
             xParams.xTimer = xTimer;
             xParams.xCommandID = xCommandID;
-            xParams.xOptionalValue = xOptionalValue;
-            xParams.pxHigherPriorityTaskWoken = pxHigherPriorityTaskWoken;
-            xParams.xTicksToWait = xTicksToWait;
+            xParams.x_Optional_قدر = x_Optional_قدر;
+            xParams.px_Higher_ترجیح_Task_Woken = px_Higher_ترجیح_Task_Woken;
+            xParams.x_Ticks_منزل_Wait = x_Ticks_منزل_Wait;
 
-            xReturn = MPU_xTimerGenericCommandFromTaskEntry( &( xParams ) );
+            xReturn = MPU_x_Timer_Generic_Command_From_Task_اندراج( &( xParams ) );
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-        BaseType_t MPU_xTimerGenericCommandFromTaskImpl( const xTimerGenericCommandFromTaskParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_xTimerGenericCommandFromTaskImpl( ثابت xTimerGenericCommandFromTaskParams_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTimerGenericCommandFromTaskImpl( const xTimerGenericCommandFromTaskParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTimerGenericCommandFromTaskImpl( ثابت xTimerGenericCommandFromTaskParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xIsHigherPriorityTaskWokenWriteable = pdFALSE;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
-            BaseType_t xAreParamsReadable = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Is_Higher_ترجیح_Task_Woken_Writeable = pdFALSE;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
+            ادھار_Type_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            إذا( pxParams != عدم )
             {
-                xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xTimerGenericCommandFromTaskParams_t ),
+                xAreParamsReadable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams,
+                                                                      حجم( xTimerGenericCommandFromTaskParams_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            إذا( xAreParamsReadable == pdTRUE )
             {
-                if( pxParams->xCommandID < tmrFIRST_FROM_ISR_COMMAND )
+                إذا( pxParams->xCommandID < tmr_پہلا_FROM_ISR_COMMAND )
                 {
-                    if( pxParams->pxHigherPriorityTaskWoken != NULL )
+                    إذا( pxParams->px_Higher_ترجیح_Task_Woken != عدم )
                     {
-                        xIsHigherPriorityTaskWokenWriteable = xPortIsAuthorizedToAccessBuffer( pxParams->pxHigherPriorityTaskWoken,
-                                                                                               sizeof( BaseType_t ),
+                        x_Is_Higher_ترجیح_Task_Woken_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams->px_Higher_ترجیح_Task_Woken,
+                                                                                               حجم( ادھار_Type_t ),
                                                                                                tskMPU_WRITE_PERMISSION );
                     }
 
-                    if( ( pxParams->pxHigherPriorityTaskWoken == NULL ) ||
-                        ( xIsHigherPriorityTaskWokenWriteable == pdTRUE ) )
+                    إذا( ( pxParams->px_Higher_ترجیح_Task_Woken == عدم ) ||
+                        ( x_Is_Higher_ترجیح_Task_Woken_Writeable == pdTRUE ) )
                     {
-                        lIndex = ( int32_t ) ( pxParams->xTimer );
+                        l_اشاریہ = ( int32_t ) ( pxParams->xTimer );
 
-                        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                         {
-                            xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                            إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                             {
-                                xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                                x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                                if( xInternalTimerHandle != NULL )
+                                إذا( x_اندرونی_Timer_Handle != عدم )
                                 {
-                                    xReturn = xTimerGenericCommandFromTask( xInternalTimerHandle,
+                                    xReturn = xTimerGenericCommandFromTask( x_اندرونی_Timer_Handle,
                                                                             pxParams->xCommandID,
-                                                                            pxParams->xOptionalValue,
-                                                                            pxParams->pxHigherPriorityTaskWoken,
-                                                                            pxParams->xTicksToWait );
+                                                                            pxParams->x_Optional_قدر,
+                                                                            pxParams->px_Higher_ترجیح_Task_Woken,
+                                                                            pxParams->x_Ticks_منزل_Wait );
                                 }
                             }
                         }
@@ -3546,213 +3546,213 @@
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        const char * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        ثابت حرف * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        const char * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        ثابت حرف * MPU_pcTimerGetNameImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
-            const char * pcReturn = NULL;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            ثابت حرف * pcReturn = عدم;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        pcReturn = pcTimerGetName( xInternalTimerHandle );
+                        pcReturn = pcTimerGetName( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return pcReturn;
+            أرجع pcReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        void MPU_vTimerSetReloadModeImpl( TimerHandle_t xTimer,
-                                          const BaseType_t xAutoReload ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_Timer_سیٹ_Reload_منوال_Impl( TimerHandle_t xTimer,
+                                          ثابت ادھار_Type_t xAutoReload ) PRIVILEGED_FUNCTION;
 
-        void MPU_vTimerSetReloadModeImpl( TimerHandle_t xTimer,
-                                          const BaseType_t xAutoReload ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Timer_سیٹ_Reload_منوال_Impl( TimerHandle_t xTimer,
+                                          ثابت ادھار_Type_t xAutoReload ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        vTimerSetReloadMode( xInternalTimerHandle, xAutoReload );
+                        v_Timer_سیٹ_Reload_منوال( x_اندرونی_Timer_Handle, xAutoReload );
                     }
                 }
             }
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerGetReloadModeImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_Timer_Get_Reload_منوال_Impl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xTimerGetReloadModeImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_Timer_Get_Reload_منوال_Impl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        xReturn = xTimerGetReloadMode( xInternalTimerHandle );
+                        xReturn = x_Timer_Get_Reload_منوال( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        UBaseType_t MPU_uxTimerGetReloadModeImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Timer_Get_Reload_منوال_Impl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxTimerGetReloadModeImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Timer_Get_Reload_منوال_Impl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t uxReturn = 0;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        uxReturn = uxTimerGetReloadMode( xInternalTimerHandle );
+                        uxReturn = ux_Timer_Get_Reload_منوال( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return uxReturn;
+            أرجع uxReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
         TickType_t MPU_xTimerGetPeriodImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
         TickType_t MPU_xTimerGetPeriodImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             TickType_t xReturn = 0;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        xReturn = xTimerGetPeriod( xInternalTimerHandle );
+                        xReturn = xTimerGetPeriod( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        TickType_t MPU_xTimerGetExpiryTimeImpl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
+        TickType_t MPU_x_Timer_Get_Expiry_ویلا_Impl( TimerHandle_t xTimer ) PRIVILEGED_FUNCTION;
 
-        TickType_t MPU_xTimerGetExpiryTimeImpl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
+        TickType_t MPU_x_Timer_Get_Expiry_ویلا_Impl( TimerHandle_t xTimer ) /* PRIVILEGED_FUNCTION */
         {
             TickType_t xReturn = 0;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessTimer = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Timer = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessTimer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Timer = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessTimer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Timer == pdTRUE )
                 {
-                    xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalTimerHandle != NULL )
+                    إذا( x_اندرونی_Timer_Handle != عدم )
                     {
-                        xReturn = xTimerGetExpiryTime( xInternalTimerHandle );
+                        xReturn = x_Timer_Get_Expiry_ویلا( x_اندرونی_Timer_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Privileged only wrappers for Timer APIs. These are needed so that
@@ -3760,440 +3760,440 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
+    #إذا ( config_SUPPORT_DYNAMIC_ونڈ == 1 ) && ( configUSE_TIMERS == 1 )
 
-        TimerHandle_t MPU_xTimerCreate( const char * const pcTimerName,
-                                        const TickType_t xTimerPeriodInTicks,
-                                        const BaseType_t xAutoReload,
-                                        void * const pvTimerID,
+        TimerHandle_t MPU_xTimerCreate( ثابت حرف * ثابت pcTimerName,
+                                        ثابت TickType_t x_Timer_Period_وچ_Ticks,
+                                        ثابت ادھار_Type_t xAutoReload,
+                                        فراغ * ثابت pvTimerID,
                                         TimerCallbackFunction_t pxCallbackFunction ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            TimerHandle_t xExternalTimerHandle = NULL;
-            int32_t lIndex;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            TimerHandle_t xExternalTimerHandle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalTimerHandle = xTimerCreate( pcTimerName, xTimerPeriodInTicks, xAutoReload, pvTimerID, MPU_TimerCallback );
+                x_اندرونی_Timer_Handle = xTimerCreate( pcTimerName, x_Timer_Period_وچ_Ticks, xAutoReload, pvTimerID, MPU_TimerCallback );
 
-                if( xInternalTimerHandle != NULL )
+                إذا( x_اندرونی_Timer_Handle != عدم )
                 {
-                    MPU_StoreTimerHandleAtIndex( lIndex, xInternalTimerHandle, pxCallbackFunction );
-                    xExternalTimerHandle = ( TimerHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_Timer_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Timer_Handle, pxCallbackFunction );
+                    xExternalTimerHandle = ( TimerHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalTimerHandle;
+            أرجع xExternalTimerHandle;
         }
 
-    #endif /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 ) && ( configUSE_TIMERS == 1 )
 
-        TimerHandle_t MPU_xTimerCreateStatic( const char * const pcTimerName,
-                                              const TickType_t xTimerPeriodInTicks,
-                                              const BaseType_t xAutoReload,
-                                              void * const pvTimerID,
+        TimerHandle_t MPU_xTimerCreateStatic( ثابت حرف * ثابت pcTimerName,
+                                              ثابت TickType_t x_Timer_Period_وچ_Ticks,
+                                              ثابت ادھار_Type_t xAutoReload,
+                                              فراغ * ثابت pvTimerID,
                                               TimerCallbackFunction_t pxCallbackFunction,
-                                              StaticTimer_t * pxTimerBuffer ) /* PRIVILEGED_FUNCTION */
+                                              StaticTimer_t * px_Timer_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            TimerHandle_t xExternalTimerHandle = NULL;
-            int32_t lIndex;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            TimerHandle_t xExternalTimerHandle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalTimerHandle = xTimerCreateStatic( pcTimerName, xTimerPeriodInTicks, xAutoReload, pvTimerID, MPU_TimerCallback, pxTimerBuffer );
+                x_اندرونی_Timer_Handle = xTimerCreateStatic( pcTimerName, x_Timer_Period_وچ_Ticks, xAutoReload, pvTimerID, MPU_TimerCallback, px_Timer_بفر );
 
-                if( xInternalTimerHandle != NULL )
+                إذا( x_اندرونی_Timer_Handle != عدم )
                 {
-                    MPU_StoreTimerHandleAtIndex( lIndex, xInternalTimerHandle, pxCallbackFunction );
-                    xExternalTimerHandle = ( TimerHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_Timer_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Timer_Handle, pxCallbackFunction );
+                    xExternalTimerHandle = ( TimerHandle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
-                }
-            }
-
-            return xExternalTimerHandle;
-        }
-
-    #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
-/*-----------------------------------------------------------*/
-
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 )
-
-        BaseType_t MPU_xTimerGetStaticBuffer( TimerHandle_t xTimer,
-                                              StaticTimer_t ** ppxTimerBuffer ) /* PRIVILEGED_FUNCTION */
-        {
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xReturn = pdFALSE;
-
-            lIndex = ( int32_t ) xTimer;
-
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-            {
-                xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                if( xInternalTimerHandle != NULL )
-                {
-                    xReturn = xTimerGetStaticBuffer( xInternalTimerHandle, ppxTimerBuffer );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xReturn;
+            أرجع xExternalTimerHandle;
         }
 
-    #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( config_SUPPORT_STATIC_ونڈ == 1 ) && ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerGenericCommandFromISR( TimerHandle_t xTimer,
-                                                    const BaseType_t xCommandID,
-                                                    const TickType_t xOptionalValue,
-                                                    BaseType_t * const pxHigherPriorityTaskWoken,
-                                                    const TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_Timer_Get_Static_بفر( TimerHandle_t xTimer,
+                                              StaticTimer_t ** ppx_Timer_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t xReturn = pdFALSE;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTimerHandle != NULL )
+                إذا( x_اندرونی_Timer_Handle != عدم )
                 {
-                    xReturn = xTimerGenericCommandFromISR( xInternalTimerHandle, xCommandID, xOptionalValue, pxHigherPriorityTaskWoken, xTicksToWait );
+                    xReturn = x_Timer_Get_Static_بفر( x_اندرونی_Timer_Handle, ppx_Timer_بفر );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #إذا ( configUSE_TIMERS == 1 )
 
-        BaseType_t MPU_xTimerDelete( TimerHandle_t xTimer, TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_xTimerGenericCommandFromISR( TimerHandle_t xTimer,
+                                                    ثابت ادھار_Type_t xCommandID,
+                                                    ثابت TickType_t x_Optional_قدر,
+                                                    ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken,
+                                                    ثابت TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            TimerHandle_t xInternalTimerHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xTimer;
+            l_اشاریہ = ( int32_t ) xTimer;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalTimerHandle = MPU_GetTimerHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalTimerHandle != NULL )
+                إذا( x_اندرونی_Timer_Handle != عدم )
                 {
-                    xReturn = xTimerGenericCommandFromTask( xInternalTimerHandle,
+                    xReturn = xTimerGenericCommandFromISR( x_اندرونی_Timer_Handle, xCommandID, x_Optional_قدر, px_Higher_ترجیح_Task_Woken, x_Ticks_منزل_Wait );
+                }
+            }
+
+            أرجع xReturn;
+        }
+
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
+/*-----------------------------------------------------------*/
+
+    #إذا ( configUSE_TIMERS == 1 )
+
+        ادھار_Type_t MPU_xTimerDelete( TimerHandle_t xTimer, TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
+        {
+            ادھار_Type_t xReturn = pdFALSE;
+            TimerHandle_t x_اندرونی_Timer_Handle = عدم;
+            int32_t l_اشاریہ;
+
+            l_اشاریہ = ( int32_t ) xTimer;
+
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+            {
+                x_اندرونی_Timer_Handle = MPU_Get_Timer_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                إذا( x_اندرونی_Timer_Handle != عدم )
+                {
+                    xReturn = xTimerGenericCommandFromTask( x_اندرونی_Timer_Handle,
                                                             tmrCOMMAND_DELETE,
                                                             0U, /* xOptionalValue */
-                                                            NULL, /* pxHigherPriorityTaskWoken */
-                                                            xTicksToWait );
-                    if( xReturn != pdFALSE )
+                                                            عدم, /* pxHigherPriorityTaskWoken */
+                                                            x_Ticks_منزل_Wait );
+                    إذا( xReturn != pdFALSE )
                     {
-                        MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* if ( configUSE_TIMERS == 1 ) */
+    #جے_انت /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 /*           MPU wrappers for event group APIs.              */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupWaitBits( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToWaitFor,
-                                             const BaseType_t xClearOnExit,
-                                             const BaseType_t xWaitForAllBits,
-                                             TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+        Event_بٹ_t MPU_x_Event_گروہ_Wait_بٹ( Event_گروہ_Handle_t x_Event_گروہ,
+                                             ثابت Event_بٹ_t ux_بٹ_منزل_Wait_For,
+                                             ثابت ادھار_Type_t xClearOnExit,
+                                             ثابت ادھار_Type_t x_Wait_For_All_بٹ,
+                                             TickType_t x_Ticks_منزل_Wait ) /* FREERTOS_SYSTEM_CALL */
         {
-            EventBits_t xReturn = 0;
-            xEventGroupWaitBitsParams_t xParams;
+            Event_بٹ_t xReturn = 0;
+            x_Event_گروہ_Wait_بٹ_Params_t xParams;
 
-            xParams.xEventGroup = xEventGroup;
-            xParams.uxBitsToWaitFor = uxBitsToWaitFor;
+            xParams.x_Event_گروہ = x_Event_گروہ;
+            xParams.ux_بٹ_منزل_Wait_For = ux_بٹ_منزل_Wait_For;
             xParams.xClearOnExit = xClearOnExit;
-            xParams.xWaitForAllBits = xWaitForAllBits;
-            xParams.xTicksToWait = xTicksToWait;
+            xParams.x_Wait_For_All_بٹ = x_Wait_For_All_بٹ;
+            xParams.x_Ticks_منزل_Wait = x_Ticks_منزل_Wait;
 
-            xReturn = MPU_xEventGroupWaitBitsEntry( &( xParams ) );
+            xReturn = MPU_x_Event_گروہ_Wait_بٹ_اندراج( &( xParams ) );
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-        EventBits_t MPU_xEventGroupWaitBitsImpl( const xEventGroupWaitBitsParams_t * pxParams ) PRIVILEGED_FUNCTION;
+        Event_بٹ_t MPU_x_Event_گروہ_Wait_بٹ_Impl( ثابت x_Event_گروہ_Wait_بٹ_Params_t * pxParams ) PRIVILEGED_FUNCTION;
 
-        EventBits_t MPU_xEventGroupWaitBitsImpl( const xEventGroupWaitBitsParams_t * pxParams ) /* PRIVILEGED_FUNCTION */
+        Event_بٹ_t MPU_x_Event_گروہ_Wait_بٹ_Impl( ثابت x_Event_گروہ_Wait_بٹ_Params_t * pxParams ) /* PRIVILEGED_FUNCTION */
         {
-            EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
-            BaseType_t xAreParamsReadable = pdFALSE;
+            Event_بٹ_t xReturn = 0;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = pdFALSE;
+            ادھار_Type_t xAreParamsReadable = pdFALSE;
 
-            if( pxParams != NULL )
+            إذا( pxParams != عدم )
             {
-                xAreParamsReadable = xPortIsAuthorizedToAccessBuffer( pxParams,
-                                                                      sizeof( xEventGroupWaitBitsParams_t ),
+                xAreParamsReadable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pxParams,
+                                                                      حجم( x_Event_گروہ_Wait_بٹ_Params_t ),
                                                                       tskMPU_READ_PERMISSION );
             }
 
-            if( xAreParamsReadable == pdTRUE )
+            إذا( xAreParamsReadable == pdTRUE )
             {
-                if( ( ( pxParams->uxBitsToWaitFor & eventEVENT_BITS_CONTROL_BYTES ) == 0U ) &&
-                    ( pxParams->uxBitsToWaitFor != 0U )
-                    #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-                        && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( pxParams->xTicksToWait != 0U ) ) )
-                    #endif
+                إذا( ( ( pxParams->ux_بٹ_منزل_Wait_For & event_EVENT_بٹ_CONTROL_بائٹاں ) == 0U ) &&
+                    ( pxParams->ux_بٹ_منزل_Wait_For != 0U )
+                    #إذا ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                        && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( pxParams->x_Ticks_منزل_Wait != 0U ) ) )
+                    #جے_انت
                     )
                 {
-                    lIndex = ( int32_t ) ( pxParams->xEventGroup );
+                    l_اشاریہ = ( int32_t ) ( pxParams->x_Event_گروہ );
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ == pdTRUE )
                         {
-                            xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalEventGroupHandle != NULL )
+                            إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                             {
-                                xReturn = xEventGroupWaitBits( xInternalEventGroupHandle,
-                                                               pxParams->uxBitsToWaitFor,
+                                xReturn = x_Event_گروہ_Wait_بٹ( x_اندرونی_Event_گروہ_Handle,
+                                                               pxParams->ux_بٹ_منزل_Wait_For,
                                                                pxParams->xClearOnExit,
-                                                               pxParams->xWaitForAllBits,
-                                                               pxParams->xTicksToWait );
+                                                               pxParams->x_Wait_For_All_بٹ,
+                                                               pxParams->x_Ticks_منزل_Wait );
                             }
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupClearBitsImpl( EventGroupHandle_t xEventGroup,
-                                                  const EventBits_t uxBitsToClear ) PRIVILEGED_FUNCTION;
+        Event_بٹ_t MPU_x_Event_گروہ_Clear_بٹ_Impl( Event_گروہ_Handle_t x_Event_گروہ,
+                                                  ثابت Event_بٹ_t ux_بٹ_منزل_Clear ) PRIVILEGED_FUNCTION;
 
-        EventBits_t MPU_xEventGroupClearBitsImpl( EventGroupHandle_t xEventGroup,
-                                                  const EventBits_t uxBitsToClear ) /* PRIVILEGED_FUNCTION */
+        Event_بٹ_t MPU_x_Event_گروہ_Clear_بٹ_Impl( Event_گروہ_Handle_t x_Event_گروہ,
+                                                  ثابت Event_بٹ_t ux_بٹ_منزل_Clear ) /* PRIVILEGED_FUNCTION */
         {
-            EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
+            Event_بٹ_t xReturn = 0;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = pdFALSE;
 
-            if( ( uxBitsToClear & eventEVENT_BITS_CONTROL_BYTES ) == 0U )
+            إذا( ( ux_بٹ_منزل_Clear & event_EVENT_بٹ_CONTROL_بائٹاں ) == 0U )
             {
-                lIndex = ( int32_t ) xEventGroup;
+                l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ == pdTRUE )
                     {
-                        xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalEventGroupHandle != NULL )
+                        إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                         {
-                            xReturn = xEventGroupClearBits( xInternalEventGroupHandle, uxBitsToClear );
+                            xReturn = x_Event_گروہ_Clear_بٹ( x_اندرونی_Event_گروہ_Handle, ux_بٹ_منزل_Clear );
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupSetBitsImpl( EventGroupHandle_t xEventGroup,
-                                                const EventBits_t uxBitsToSet ) PRIVILEGED_FUNCTION;
+        Event_بٹ_t MPU_x_Event_گروہ_سیٹ_بٹ_Impl( Event_گروہ_Handle_t x_Event_گروہ,
+                                                ثابت Event_بٹ_t ux_بٹ_منزل_سیٹ ) PRIVILEGED_FUNCTION;
 
-        EventBits_t MPU_xEventGroupSetBitsImpl( EventGroupHandle_t xEventGroup,
-                                                const EventBits_t uxBitsToSet ) /* PRIVILEGED_FUNCTION */
+        Event_بٹ_t MPU_x_Event_گروہ_سیٹ_بٹ_Impl( Event_گروہ_Handle_t x_Event_گروہ,
+                                                ثابت Event_بٹ_t ux_بٹ_منزل_سیٹ ) /* PRIVILEGED_FUNCTION */
         {
-            EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
+            Event_بٹ_t xReturn = 0;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = pdFALSE;
 
-            if( ( uxBitsToSet & eventEVENT_BITS_CONTROL_BYTES ) == 0U )
+            إذا( ( ux_بٹ_منزل_سیٹ & event_EVENT_بٹ_CONTROL_بائٹاں ) == 0U )
             {
-                lIndex = ( int32_t ) xEventGroup;
+                l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ == pdTRUE )
                     {
-                        xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalEventGroupHandle != NULL )
+                        إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                         {
-                            xReturn = xEventGroupSetBits( xInternalEventGroupHandle, uxBitsToSet );
+                            xReturn = x_Event_گروہ_سیٹ_بٹ( x_اندرونی_Event_گروہ_Handle, ux_بٹ_منزل_سیٹ );
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupSyncImpl( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToSet,
-                                             const EventBits_t uxBitsToWaitFor,
-                                             TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+        Event_بٹ_t MPU_x_Event_گروہ_Sync_Impl( Event_گروہ_Handle_t x_Event_گروہ,
+                                             ثابت Event_بٹ_t ux_بٹ_منزل_سیٹ,
+                                             ثابت Event_بٹ_t ux_بٹ_منزل_Wait_For,
+                                             TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-        EventBits_t MPU_xEventGroupSyncImpl( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToSet,
-                                             const EventBits_t uxBitsToWaitFor,
-                                             TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+        Event_بٹ_t MPU_x_Event_گروہ_Sync_Impl( Event_گروہ_Handle_t x_Event_گروہ,
+                                             ثابت Event_بٹ_t ux_بٹ_منزل_سیٹ,
+                                             ثابت Event_بٹ_t ux_بٹ_منزل_Wait_For,
+                                             TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
         {
-            EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
+            Event_بٹ_t xReturn = 0;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = pdFALSE;
 
-            if( ( ( uxBitsToWaitFor & eventEVENT_BITS_CONTROL_BYTES ) == 0U ) &&
-                ( uxBitsToWaitFor != 0U )
-                #if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-                    && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( xTicksToWait != 0U ) ) )
-                #endif
+            إذا( ( ( ux_بٹ_منزل_Wait_For & event_EVENT_بٹ_CONTROL_بائٹاں ) == 0U ) &&
+                ( ux_بٹ_منزل_Wait_For != 0U )
+                #إذا ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+                    && ( !( ( xTaskGetSchedulerState() == taskSCHEDULER_SUSPENDED ) && ( x_Ticks_منزل_Wait != 0U ) ) )
+                #جے_انت
                 )
             {
-                lIndex = ( int32_t ) xEventGroup;
+                l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-                if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                 {
-                    xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                    إذا( x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ == pdTRUE )
                     {
-                        xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xInternalEventGroupHandle != NULL )
+                        إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                         {
-                            xReturn = xEventGroupSync( xInternalEventGroupHandle, uxBitsToSet, uxBitsToWaitFor, xTicksToWait );
+                            xReturn = x_Event_گروہ_Sync( x_اندرونی_Event_گروہ_Handle, ux_بٹ_منزل_سیٹ, ux_بٹ_منزل_Wait_For, x_Ticks_منزل_Wait );
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+    #إذا ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        UBaseType_t MPU_uxEventGroupGetNumberImpl( void * xEventGroup ) PRIVILEGED_FUNCTION;
+        UBaseType_t MPU_ux_Event_گروہ_Get_نمبر_Impl( فراغ * x_Event_گروہ ) PRIVILEGED_FUNCTION;
 
-        UBaseType_t MPU_uxEventGroupGetNumberImpl( void * xEventGroup ) /* PRIVILEGED_FUNCTION */
+        UBaseType_t MPU_ux_Event_گروہ_Get_نمبر_Impl( فراغ * x_Event_گروہ ) /* PRIVILEGED_FUNCTION */
         {
             UBaseType_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = pdFALSE;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ == pdTRUE )
                 {
-                    xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalEventGroupHandle != NULL )
+                    إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                     {
-                        xReturn = uxEventGroupGetNumber( xInternalEventGroupHandle );
+                        xReturn = ux_Event_گروہ_Get_نمبر( x_اندرونی_Event_گروہ_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
+    #جے_انت /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+    #إذا ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-        void MPU_vEventGroupSetNumberImpl( void * xEventGroup,
-                                           UBaseType_t uxEventGroupNumber ) PRIVILEGED_FUNCTION;
+        فراغ MPU_v_Event_گروہ_سیٹ_نمبر_Impl( فراغ * x_Event_گروہ,
+                                           UBaseType_t ux_Event_گروہ_نمبر ) PRIVILEGED_FUNCTION;
 
-        void MPU_vEventGroupSetNumberImpl( void * xEventGroup,
-                                           UBaseType_t uxEventGroupNumber ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Event_گروہ_سیٹ_نمبر_Impl( فراغ * x_Event_گروہ,
+                                           UBaseType_t ux_Event_گروہ_نمبر ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessEventGroup = pdFALSE;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = pdFALSE;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessEventGroup = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessEventGroup == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_Event_گروہ == pdTRUE )
                 {
-                    xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalEventGroupHandle != NULL )
+                    إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                     {
-                        vEventGroupSetNumber( xInternalEventGroupHandle, uxEventGroupNumber );
+                        v_Event_گروہ_سیٹ_نمبر( x_اندرونی_Event_گروہ_Handle, ux_Event_گروہ_نمبر );
                     }
                 }
             }
         }
 
-    #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
+    #جے_انت /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
 /* Privileged only wrappers for Event Group APIs. These are needed so that
@@ -4201,510 +4201,510 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #إذا ( ( config_SUPPORT_DYNAMIC_ونڈ == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
 
-        EventGroupHandle_t MPU_xEventGroupCreate( void ) /* PRIVILEGED_FUNCTION */
+        Event_گروہ_Handle_t MPU_x_Event_گروہ_Create( فراغ ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            EventGroupHandle_t xExternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            Event_گروہ_Handle_t x_External_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalEventGroupHandle = xEventGroupCreate();
+                x_اندرونی_Event_گروہ_Handle = x_Event_گروہ_Create();
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    MPU_StoreEventGroupHandleAtIndex( lIndex, xInternalEventGroupHandle );
-                    xExternalEventGroupHandle = ( EventGroupHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_Event_گروہ_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Event_گروہ_Handle );
+                    x_External_Event_گروہ_Handle = ( Event_گروہ_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalEventGroupHandle;
+            أرجع x_External_Event_گروہ_Handle;
         }
 
-    #endif /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
+    #جے_انت /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #إذا ( ( config_SUPPORT_STATIC_ونڈ == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
 
-        EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) /* PRIVILEGED_FUNCTION */
+        Event_گروہ_Handle_t MPU_x_Event_گروہ_Create_Static( Static_Event_گروہ_t * px_Event_گروہ_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            EventGroupHandle_t xExternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            Event_گروہ_Handle_t x_External_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = MPU_GetFreeIndexInKernelObjectPool();
+            l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-            if( lIndex != -1 )
+            إذا( l_اشاریہ != -1 )
             {
-                xInternalEventGroupHandle = xEventGroupCreateStatic( pxEventGroupBuffer );
+                x_اندرونی_Event_گروہ_Handle = x_Event_گروہ_Create_Static( px_Event_گروہ_بفر );
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    MPU_StoreEventGroupHandleAtIndex( lIndex, xInternalEventGroupHandle );
-                    xExternalEventGroupHandle = ( EventGroupHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                    MPU_Store_Event_گروہ_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_Event_گروہ_Handle );
+                    x_External_Event_گروہ_Handle = ( Event_گروہ_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                 }
-                else
+                وإلا
                 {
-                    MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                 }
             }
 
-            return xExternalEventGroupHandle;
+            أرجع x_External_Event_گروہ_Handle;
         }
 
-    #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
+    #جے_انت /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 
-        void MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_Event_گروہ_Delete( Event_گروہ_Handle_t x_Event_گروہ ) /* PRIVILEGED_FUNCTION */
         {
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    vEventGroupDelete( xInternalEventGroupHandle );
-                    MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    v_Event_گروہ_Delete( x_اندرونی_Event_گروہ_Handle );
+                    MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
                 }
             }
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #إذا ( ( config_SUPPORT_STATIC_ونڈ == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
 
-        BaseType_t MPU_xEventGroupGetStaticBuffer( EventGroupHandle_t xEventGroup,
-                                                   StaticEventGroup_t ** ppxEventGroupBuffer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_Event_گروہ_Get_Static_بفر( Event_گروہ_Handle_t x_Event_گروہ,
+                                                   Static_Event_گروہ_t ** ppx_Event_گروہ_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    xReturn = xEventGroupGetStaticBuffer( xInternalEventGroupHandle, ppxEventGroupBuffer );
+                    xReturn = x_Event_گروہ_Get_Static_بفر( x_اندرونی_Event_گروہ_Handle, ppx_Event_گروہ_بفر );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
+    #جے_انت /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
+    #إذا ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
 
-        BaseType_t MPU_xEventGroupClearBitsFromISR( EventGroupHandle_t xEventGroup,
-                                                    const EventBits_t uxBitsToClear ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_Event_گروہ_Clear_بٹ_From_ISR( Event_گروہ_Handle_t x_Event_گروہ,
+                                                    ثابت Event_بٹ_t ux_بٹ_منزل_Clear ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    xReturn = xEventGroupClearBitsFromISR( xInternalEventGroupHandle, uxBitsToClear );
+                    xReturn = x_Event_گروہ_Clear_بٹ_From_ISR( x_اندرونی_Event_گروہ_Handle, ux_بٹ_منزل_Clear );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) ) */
+    #جے_انت /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
+    #إذا ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) )
 
-        BaseType_t MPU_xEventGroupSetBitsFromISR( EventGroupHandle_t xEventGroup,
-                                                  const EventBits_t uxBitsToSet,
-                                                  BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_Event_گروہ_سیٹ_بٹ_From_ISR( Event_گروہ_Handle_t x_Event_گروہ,
+                                                  ثابت Event_بٹ_t ux_بٹ_منزل_سیٹ,
+                                                  ادھار_Type_t * px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    xReturn = xEventGroupSetBitsFromISR( xInternalEventGroupHandle, uxBitsToSet, pxHigherPriorityTaskWoken );
+                    xReturn = x_Event_گروہ_سیٹ_بٹ_From_ISR( x_اندرونی_Event_گروہ_Handle, ux_بٹ_منزل_سیٹ, px_Higher_ترجیح_Task_Woken );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) ) */
+    #جے_انت /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #إذا ( configUSE_EVENT_GROUPS == 1 )
 
-        EventBits_t MPU_xEventGroupGetBitsFromISR( EventGroupHandle_t xEventGroup ) /* PRIVILEGED_FUNCTION */
+        Event_بٹ_t MPU_x_Event_گروہ_Get_بٹ_From_ISR( Event_گروہ_Handle_t x_Event_گروہ ) /* PRIVILEGED_FUNCTION */
         {
-            EventBits_t xReturn = 0;
-            EventGroupHandle_t xInternalEventGroupHandle = NULL;
-            int32_t lIndex;
+            Event_بٹ_t xReturn = 0;
+            Event_گروہ_Handle_t x_اندرونی_Event_گروہ_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xEventGroup;
+            l_اشاریہ = ( int32_t ) x_Event_گروہ;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalEventGroupHandle = MPU_GetEventGroupHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_Event_گروہ_Handle = MPU_Get_Event_گروہ_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalEventGroupHandle != NULL )
+                إذا( x_اندرونی_Event_گروہ_Handle != عدم )
                 {
-                    xReturn = xEventGroupGetBitsFromISR( xInternalEventGroupHandle );
+                    xReturn = x_Event_گروہ_Get_بٹ_From_ISR( x_اندرونی_Event_گروہ_Handle );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
+    #جے_انت /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /*-----------------------------------------------------------*/
 /*           MPU wrappers for stream buffer APIs.            */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferSendImpl( StreamBufferHandle_t xStreamBuffer,
-                                          const void * pvTxData,
-                                          size_t xDataLengthBytes,
-                                          TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+        size_t MPU_x_دھارا_بفر_Send_Impl( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                          ثابت فراغ * pv_Tx_انکڑے,
+                                          size_t x_انکڑے_لمائی_بائٹاں,
+                                          TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-        size_t MPU_xStreamBufferSendImpl( StreamBufferHandle_t xStreamBuffer,
-                                          const void * pvTxData,
-                                          size_t xDataLengthBytes,
-                                          TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+        size_t MPU_x_دھارا_بفر_Send_Impl( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                          ثابت فراغ * pv_Tx_انکڑے,
+                                          size_t x_انکڑے_لمائی_بائٹاں,
+                                          TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xIsTxDataBufferReadable = pdFALSE;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Is_Tx_انکڑے_بفر_Readable = pdFALSE;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            if( pvTxData != NULL )
+            إذا( pv_Tx_انکڑے != عدم )
             {
-                xIsTxDataBufferReadable = xPortIsAuthorizedToAccessBuffer( pvTxData,
-                                                                           xDataLengthBytes,
+                x_Is_Tx_انکڑے_بفر_Readable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pv_Tx_انکڑے,
+                                                                           x_انکڑے_لمائی_بائٹاں,
                                                                            tskMPU_READ_PERMISSION );
 
-                if( xIsTxDataBufferReadable == pdTRUE )
+                إذا( x_Is_Tx_انکڑے_بفر_Readable == pdTRUE )
                 {
-                    lIndex = ( int32_t ) xStreamBuffer;
+                    l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                         {
-                            xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalStreamBufferHandle != NULL )
+                            إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                             {
-                                xReturn = xStreamBufferSend( xInternalStreamBufferHandle, pvTxData, xDataLengthBytes, xTicksToWait );
+                                xReturn = x_دھارا_بفر_Send( x_اندرونی_دھارا_بفر_Handle, pv_Tx_انکڑے, x_انکڑے_لمائی_بائٹاں, x_Ticks_منزل_Wait );
                             }
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferReceiveImpl( StreamBufferHandle_t xStreamBuffer,
-                                             void * pvRxData,
-                                             size_t xBufferLengthBytes,
-                                             TickType_t xTicksToWait ) PRIVILEGED_FUNCTION;
+        size_t MPU_x_دھارا_بفر_Receive_Impl( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                             فراغ * pv_Rx_انکڑے,
+                                             size_t x_بفر_لمائی_بائٹاں,
+                                             TickType_t x_Ticks_منزل_Wait ) PRIVILEGED_FUNCTION;
 
-        size_t MPU_xStreamBufferReceiveImpl( StreamBufferHandle_t xStreamBuffer,
-                                             void * pvRxData,
-                                             size_t xBufferLengthBytes,
-                                             TickType_t xTicksToWait ) /* PRIVILEGED_FUNCTION */
+        size_t MPU_x_دھارا_بفر_Receive_Impl( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                             فراغ * pv_Rx_انکڑے,
+                                             size_t x_بفر_لمائی_بائٹاں,
+                                             TickType_t x_Ticks_منزل_Wait ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xIsRxDataBufferWriteable = pdFALSE;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Is_Rx_انکڑے_بفر_Writeable = pdFALSE;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            if( pvRxData != NULL )
+            إذا( pv_Rx_انکڑے != عدم )
             {
-                xIsRxDataBufferWriteable = xPortIsAuthorizedToAccessBuffer( pvRxData,
-                                                                            xBufferLengthBytes,
+                x_Is_Rx_انکڑے_بفر_Writeable = x_پورٹ_Is_Authorized_منزل_Access_بفر( pv_Rx_انکڑے,
+                                                                            x_بفر_لمائی_بائٹاں,
                                                                             tskMPU_WRITE_PERMISSION );
 
-                if( xIsRxDataBufferWriteable == pdTRUE )
+                إذا( x_Is_Rx_انکڑے_بفر_Writeable == pdTRUE )
                 {
-                    lIndex = ( int32_t ) xStreamBuffer;
+                    l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-                    if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+                    إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
                     {
-                        xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                        x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                        if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                        إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                         {
-                            xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                            x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                            if( xInternalStreamBufferHandle != NULL )
+                            إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                             {
-                                xReturn = xStreamBufferReceive( xInternalStreamBufferHandle, pvRxData, xBufferLengthBytes, xTicksToWait );
+                                xReturn = x_دھارا_بفر_Receive( x_اندرونی_دھارا_بفر_Handle, pv_Rx_انکڑے, x_بفر_لمائی_بائٹاں, x_Ticks_منزل_Wait );
                             }
                         }
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferIsFullImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_دھارا_بفر_Is_بھریا_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xStreamBufferIsFullImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Is_بھریا_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                 {
-                    xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        xReturn = xStreamBufferIsFull( xInternalStreamBufferHandle );
+                        xReturn = x_دھارا_بفر_Is_بھریا( x_اندرونی_دھارا_بفر_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferIsEmptyImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
+        ادھار_Type_t MPU_x_دھارا_بفر_Is_خالی_تھاواں_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xStreamBufferIsEmptyImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Is_خالی_تھاواں_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                 {
-                    xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        xReturn = xStreamBufferIsEmpty( xInternalStreamBufferHandle );
+                        xReturn = x_دھارا_بفر_Is_خالی_تھاواں( x_اندرونی_دھارا_بفر_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferSpacesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
+        size_t MPU_x_دھارا_بفر_Spaces_دستیاب_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) PRIVILEGED_FUNCTION;
 
-        size_t MPU_xStreamBufferSpacesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
-        {
-            size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
-
-            lIndex = ( int32_t ) xStreamBuffer;
-
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-            {
-                xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
-                {
-                    xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                    if( xInternalStreamBufferHandle != NULL )
-                    {
-                        xReturn = xStreamBufferSpacesAvailable( xInternalStreamBufferHandle );
-                    }
-                }
-            }
-
-            return xReturn;
-        }
-
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
-/*-----------------------------------------------------------*/
-
-    #if ( configUSE_STREAM_BUFFERS == 1 )
-
-        size_t MPU_xStreamBufferBytesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
-
-        size_t MPU_xStreamBufferBytesAvailableImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        size_t MPU_x_دھارا_بفر_Spaces_دستیاب_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                 {
-                    xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        xReturn = xStreamBufferBytesAvailable( xInternalStreamBufferHandle );
+                        xReturn = x_دھارا_بفر_Spaces_دستیاب( x_اندرونی_دھارا_بفر_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferSetTriggerLevelImpl( StreamBufferHandle_t xStreamBuffer,
+        size_t MPU_x_دھارا_بفر_بائٹاں_دستیاب_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) PRIVILEGED_FUNCTION;
+
+        size_t MPU_x_دھارا_بفر_بائٹاں_دستیاب_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
+        {
+            size_t xReturn = 0;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
+
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
+
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+            {
+                x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
+                {
+                    x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
+                    {
+                        xReturn = x_دھارا_بفر_بائٹاں_دستیاب( x_اندرونی_دھارا_بفر_Handle );
+                    }
+                }
+            }
+
+            أرجع xReturn;
+        }
+
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+/*-----------------------------------------------------------*/
+
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
+
+        ادھار_Type_t MPU_x_دھارا_بفر_سیٹ_Trigger_Level_Impl( دھارا_بفر_Handle_t x_دھارا_بفر,
                                                          size_t xTriggerLevel ) PRIVILEGED_FUNCTION;
 
-        BaseType_t MPU_xStreamBufferSetTriggerLevelImpl( StreamBufferHandle_t xStreamBuffer,
+        ادھار_Type_t MPU_x_دھارا_بفر_سیٹ_Trigger_Level_Impl( دھارا_بفر_Handle_t x_دھارا_بفر,
                                                          size_t xTriggerLevel ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                 {
-                    xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        xReturn = xStreamBufferSetTriggerLevel( xInternalStreamBufferHandle, xTriggerLevel );
+                        xReturn = x_دھارا_بفر_سیٹ_Trigger_Level( x_اندرونی_دھارا_بفر_Handle, xTriggerLevel );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        size_t MPU_xStreamBufferNextMessageLengthBytesImpl( StreamBufferHandle_t xStreamBuffer ) PRIVILEGED_FUNCTION;
+        size_t MPU_x_دھارا_بفر_اگلا_سنیہا_لمائی_بائٹاں_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) PRIVILEGED_FUNCTION;
 
-        size_t MPU_xStreamBufferNextMessageLengthBytesImpl( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        size_t MPU_x_دھارا_بفر_اگلا_سنیہا_لمائی_بائٹاں_Impl( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
         {
             size_t xReturn = 0;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-            BaseType_t xCallingTaskIsAuthorizedToAccessStreamBuffer = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+            ادھار_Type_t x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = pdFALSE;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xCallingTaskIsAuthorizedToAccessStreamBuffer = xPortIsAuthorizedToAccessKernelObject( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر = x_پورٹ_Is_Authorized_منزل_Access_Kernel_Object( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xCallingTaskIsAuthorizedToAccessStreamBuffer == pdTRUE )
+                إذا( x_Calling_Task_Is_Authorized_منزل_Access_دھارا_بفر == pdTRUE )
                 {
-                    xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                    x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        xReturn = xStreamBufferNextMessageLengthBytes( xInternalStreamBufferHandle );
+                        xReturn = x_دھارا_بفر_اگلا_سنیہا_لمائی_بائٹاں( x_اندرونی_دھارا_بفر_Handle );
                     }
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Privileged only wrappers for Stream Buffer APIs. These are needed so that
@@ -4712,345 +4712,345 @@
  * with all the APIs. */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #إذا ( ( config_SUPPORT_DYNAMIC_ونڈ == 1 ) && ( config_USE_دھارا_BUFFERS == 1 ) )
 
-        StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
-                                                             size_t xTriggerLevelBytes,
-                                                             BaseType_t xStreamBufferType,
-                                                             StreamBufferCallbackFunction_t pxSendCompletedCallback,
-                                                             StreamBufferCallbackFunction_t pxReceiveCompletedCallback ) /* PRIVILEGED_FUNCTION */
+        دھارا_بفر_Handle_t MPU_x_دھارا_بفر_Generic_Create( size_t x_بفر_ناپ_بائٹاں,
+                                                             size_t x_Trigger_Level_بائٹاں,
+                                                             ادھار_Type_t x_دھارا_بفر_Type,
+                                                             دھارا_بفر_Callback_Function_t pxSendCompletedCallback,
+                                                             دھارا_بفر_Callback_Function_t pxReceiveCompletedCallback ) /* PRIVILEGED_FUNCTION */
         {
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            StreamBufferHandle_t xExternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            دھارا_بفر_Handle_t x_External_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
             /**
              * Stream buffer application level callback functionality is disabled for MPU
              * enabled ports.
              */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
+            configASSERT( ( pxSendCompletedCallback == عدم ) &&
+                          ( pxReceiveCompletedCallback == عدم ) );
 
-            if( ( pxSendCompletedCallback == NULL ) &&
-                ( pxReceiveCompletedCallback == NULL ) )
+            إذا( ( pxSendCompletedCallback == عدم ) &&
+                ( pxReceiveCompletedCallback == عدم ) )
             {
-                lIndex = MPU_GetFreeIndexInKernelObjectPool();
+                l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-                if( lIndex != -1 )
+                إذا( l_اشاریہ != -1 )
                 {
-                    xInternalStreamBufferHandle = xStreamBufferGenericCreate( xBufferSizeBytes,
-                                                                              xTriggerLevelBytes,
-                                                                              xStreamBufferType,
-                                                                              NULL,
-                                                                              NULL );
+                    x_اندرونی_دھارا_بفر_Handle = x_دھارا_بفر_Generic_Create( x_بفر_ناپ_بائٹاں,
+                                                                              x_Trigger_Level_بائٹاں,
+                                                                              x_دھارا_بفر_Type,
+                                                                              عدم,
+                                                                              عدم );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        MPU_StoreStreamBufferHandleAtIndex( lIndex, xInternalStreamBufferHandle );
-                        xExternalStreamBufferHandle = ( StreamBufferHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                        MPU_Store_دھارا_بفر_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_دھارا_بفر_Handle );
+                        x_External_دھارا_بفر_Handle = ( دھارا_بفر_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                     }
-                    else
+                    وإلا
                     {
-                        MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                        MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                     }
                 }
             }
-            else
+            وإلا
             {
-                traceSTREAM_BUFFER_CREATE_FAILED( xStreamBufferType );
-                xExternalStreamBufferHandle = NULL;
+                trace_دھارا_بفر_CREATE_FAILED( x_دھارا_بفر_Type );
+                x_External_دھارا_بفر_Handle = عدم;
             }
 
-            return xExternalStreamBufferHandle;
+            أرجع x_External_دھارا_بفر_Handle;
         }
 
-    #endif /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
+    #جے_انت /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #إذا ( ( config_SUPPORT_STATIC_ونڈ == 1 ) && ( config_USE_دھارا_BUFFERS == 1 ) )
 
-        StreamBufferHandle_t MPU_xStreamBufferGenericCreateStatic( size_t xBufferSizeBytes,
-                                                                   size_t xTriggerLevelBytes,
-                                                                   BaseType_t xStreamBufferType,
-                                                                   uint8_t * const pucStreamBufferStorageArea,
-                                                                   StaticStreamBuffer_t * const pxStaticStreamBuffer,
-                                                                   StreamBufferCallbackFunction_t pxSendCompletedCallback,
-                                                                   StreamBufferCallbackFunction_t pxReceiveCompletedCallback ) /* PRIVILEGED_FUNCTION */
+        دھارا_بفر_Handle_t MPU_x_دھارا_بفر_Generic_Create_Static( size_t x_بفر_ناپ_بائٹاں,
+                                                                   size_t x_Trigger_Level_بائٹاں,
+                                                                   ادھار_Type_t x_دھارا_بفر_Type,
+                                                                   uint8_t * ثابت puc_دھارا_بفر_Storage_Area,
+                                                                   Static_دھارا_بفر_t * ثابت px_Static_دھارا_بفر,
+                                                                   دھارا_بفر_Callback_Function_t pxSendCompletedCallback,
+                                                                   دھارا_بفر_Callback_Function_t pxReceiveCompletedCallback ) /* PRIVILEGED_FUNCTION */
         {
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            StreamBufferHandle_t xExternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            دھارا_بفر_Handle_t x_External_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
             /**
              * Stream buffer application level callback functionality is disabled for MPU
              * enabled ports.
              */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
+            configASSERT( ( pxSendCompletedCallback == عدم ) &&
+                          ( pxReceiveCompletedCallback == عدم ) );
 
-            if( ( pxSendCompletedCallback == NULL ) &&
-                ( pxReceiveCompletedCallback == NULL ) )
+            إذا( ( pxSendCompletedCallback == عدم ) &&
+                ( pxReceiveCompletedCallback == عدم ) )
             {
-                lIndex = MPU_GetFreeIndexInKernelObjectPool();
+                l_اشاریہ = MPU_Get_Free_اشاریہ_وچ_Kernel_Object_Pool();
 
-                if( lIndex != -1 )
+                إذا( l_اشاریہ != -1 )
                 {
-                    xInternalStreamBufferHandle = xStreamBufferGenericCreateStatic( xBufferSizeBytes,
-                                                                                    xTriggerLevelBytes,
-                                                                                    xStreamBufferType,
-                                                                                    pucStreamBufferStorageArea,
-                                                                                    pxStaticStreamBuffer,
-                                                                                    NULL,
-                                                                                    NULL );
+                    x_اندرونی_دھارا_بفر_Handle = x_دھارا_بفر_Generic_Create_Static( x_بفر_ناپ_بائٹاں,
+                                                                                    x_Trigger_Level_بائٹاں,
+                                                                                    x_دھارا_بفر_Type,
+                                                                                    puc_دھارا_بفر_Storage_Area,
+                                                                                    px_Static_دھارا_بفر,
+                                                                                    عدم,
+                                                                                    عدم );
 
-                    if( xInternalStreamBufferHandle != NULL )
+                    إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                     {
-                        MPU_StoreStreamBufferHandleAtIndex( lIndex, xInternalStreamBufferHandle );
-                        xExternalStreamBufferHandle = ( StreamBufferHandle_t ) CONVERT_TO_EXTERNAL_INDEX( lIndex );
+                        MPU_Store_دھارا_بفر_Handle_At_اشاریہ( l_اشاریہ, x_اندرونی_دھارا_بفر_Handle );
+                        x_External_دھارا_بفر_Handle = ( دھارا_بفر_Handle_t ) CONVERT_منزل_EXTERNAL_اشاریہ( l_اشاریہ );
                     }
-                    else
+                    وإلا
                     {
-                        MPU_SetIndexFreeInKernelObjectPool( lIndex );
+                        MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( l_اشاریہ );
                     }
                 }
             }
-            else
+            وإلا
             {
-                traceSTREAM_BUFFER_CREATE_STATIC_FAILED( xReturn, xStreamBufferType );
-                xExternalStreamBufferHandle = NULL;
+                trace_دھارا_بفر_CREATE_STATIC_FAILED( xReturn, x_دھارا_بفر_Type );
+                x_External_دھارا_بفر_Handle = عدم;
             }
 
-            return xExternalStreamBufferHandle;
+            أرجع x_External_دھارا_بفر_Handle;
         }
 
-    #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
+    #جے_انت /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        void MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        فراغ MPU_v_دھارا_بفر_Delete( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                 {
-                    vStreamBufferDelete( xInternalStreamBufferHandle );
+                    v_دھارا_بفر_Delete( x_اندرونی_دھارا_بفر_Handle );
                 }
 
-                MPU_SetIndexFreeInKernelObjectPool( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                MPU_سیٹ_اشاریہ_Free_وچ_Kernel_Object_Pool( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
             }
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferReset( StreamBufferHandle_t xStreamBuffer ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Reset( دھارا_بفر_Handle_t x_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                 {
-                    xReturn = xStreamBufferReset( xInternalStreamBufferHandle );
-                }
-            }
-
-            return xReturn;
-        }
-
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
-/*-----------------------------------------------------------*/
-
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
-
-        BaseType_t MPU_xStreamBufferGetStaticBuffers( StreamBufferHandle_t xStreamBuffers,
-                                                      uint8_t * ppucStreamBufferStorageArea,
-                                                      StaticStreamBuffer_t * ppxStaticStreamBuffer ) /* PRIVILEGED_FUNCTION */
-        {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
-
-            lIndex = ( int32_t ) xStreamBuffers;
-
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
-            {
-                xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
-
-                if( xInternalStreamBufferHandle != NULL )
-                {
-                    xReturn = MPU_xStreamBufferGetStaticBuffers( xInternalStreamBufferHandle, ppucStreamBufferStorageArea, ppxStaticStreamBuffer );
+                    xReturn = x_دھارا_بفر_Reset( x_اندرونی_دھارا_بفر_Handle );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( ( config_SUPPORT_STATIC_ونڈ == 1 ) && ( config_USE_دھارا_BUFFERS == 1 ) )
 
-    size_t MPU_xStreamBufferSendFromISR( StreamBufferHandle_t xStreamBuffer,
-                                         const void * pvTxData,
-                                         size_t xDataLengthBytes,
-                                         BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Get_Static_Buffers( دھارا_بفر_Handle_t x_دھارا_Buffers,
+                                                      uint8_t * ppuc_دھارا_بفر_Storage_Area,
+                                                      Static_دھارا_بفر_t * ppx_Static_دھارا_بفر ) /* PRIVILEGED_FUNCTION */
+        {
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
+
+            l_اشاریہ = ( int32_t ) x_دھارا_Buffers;
+
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
+            {
+                x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
+
+                إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
+                {
+                    xReturn = MPU_x_دھارا_بفر_Get_Static_Buffers( x_اندرونی_دھارا_بفر_Handle, ppuc_دھارا_بفر_Storage_Area, ppx_Static_دھارا_بفر );
+                }
+            }
+
+            أرجع xReturn;
+        }
+
+    #جے_انت /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
+/*-----------------------------------------------------------*/
+
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
+
+    size_t MPU_x_دھارا_بفر_Send_From_ISR( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                         ثابت فراغ * pv_Tx_انکڑے,
+                                         size_t x_انکڑے_لمائی_بائٹاں,
+                                         ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
     {
         size_t xReturn = 0;
-        StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-        int32_t lIndex;
+        دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+        int32_t l_اشاریہ;
 
-        lIndex = ( int32_t ) xStreamBuffer;
+        l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalStreamBufferHandle != NULL )
+            إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
             {
-                xReturn = xStreamBufferSendFromISR( xInternalStreamBufferHandle, pvTxData, xDataLengthBytes, pxHigherPriorityTaskWoken );
+                xReturn = x_دھارا_بفر_Send_From_ISR( x_اندرونی_دھارا_بفر_Handle, pv_Tx_انکڑے, x_انکڑے_لمائی_بائٹاں, px_Higher_ترجیح_Task_Woken );
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-    size_t MPU_xStreamBufferReceiveFromISR( StreamBufferHandle_t xStreamBuffer,
-                                            void * pvRxData,
-                                            size_t xBufferLengthBytes,
-                                            BaseType_t * const pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+    size_t MPU_x_دھارا_بفر_Receive_From_ISR( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                            فراغ * pv_Rx_انکڑے,
+                                            size_t x_بفر_لمائی_بائٹاں,
+                                            ادھار_Type_t * ثابت px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
     {
         size_t xReturn = 0;
-        StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-        int32_t lIndex;
+        دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+        int32_t l_اشاریہ;
 
-        lIndex = ( int32_t ) xStreamBuffer;
+        l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-        if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+        إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
         {
-            xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+            x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-            if( xInternalStreamBufferHandle != NULL )
+            إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
             {
-                xReturn = xStreamBufferReceiveFromISR( xInternalStreamBufferHandle, pvRxData, xBufferLengthBytes, pxHigherPriorityTaskWoken );
+                xReturn = x_دھارا_بفر_Receive_From_ISR( x_اندرونی_دھارا_بفر_Handle, pv_Rx_انکڑے, x_بفر_لمائی_بائٹاں, px_Higher_ترجیح_Task_Woken );
             }
         }
 
-        return xReturn;
+        أرجع xReturn;
     }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferSendCompletedFromISR( StreamBufferHandle_t xStreamBuffer,
-                                                          BaseType_t * pxHigherPriorityTaskWoken ) /* PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Send_Completed_From_ISR( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                                          ادھار_Type_t * px_Higher_ترجیح_Task_Woken ) /* PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                 {
-                    xReturn = xStreamBufferSendCompletedFromISR( xInternalStreamBufferHandle, pxHigherPriorityTaskWoken );
+                    xReturn = x_دھارا_بفر_Send_Completed_From_ISR( x_اندرونی_دھارا_بفر_Handle, px_Higher_ترجیح_Task_Woken );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferReceiveCompletedFromISR( StreamBufferHandle_t xStreamBuffer,
-                                                             BaseType_t * pxHigherPriorityTaskWoken ) /*PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Receive_Completed_From_ISR( دھارا_بفر_Handle_t x_دھارا_بفر,
+                                                             ادھار_Type_t * px_Higher_ترجیح_Task_Woken ) /*PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFALSE;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFALSE;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                 {
-                    xReturn = xStreamBufferReceiveCompletedFromISR( xInternalStreamBufferHandle, pxHigherPriorityTaskWoken );
+                    xReturn = x_دھارا_بفر_Receive_Completed_From_ISR( x_اندرونی_دھارا_بفر_Handle, px_Higher_ترجیح_Task_Woken );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #إذا ( config_USE_دھارا_BUFFERS == 1 )
 
-        BaseType_t MPU_xStreamBufferResetFromISR( StreamBufferHandle_t xStreamBuffer ) /*PRIVILEGED_FUNCTION */
+        ادھار_Type_t MPU_x_دھارا_بفر_Reset_From_ISR( دھارا_بفر_Handle_t x_دھارا_بفر ) /*PRIVILEGED_FUNCTION */
         {
-            BaseType_t xReturn = pdFAIL;
-            StreamBufferHandle_t xInternalStreamBufferHandle = NULL;
-            int32_t lIndex;
+            ادھار_Type_t xReturn = pdFAIL;
+            دھارا_بفر_Handle_t x_اندرونی_دھارا_بفر_Handle = عدم;
+            int32_t l_اشاریہ;
 
-            lIndex = ( int32_t ) xStreamBuffer;
+            l_اشاریہ = ( int32_t ) x_دھارا_بفر;
 
-            if( IS_EXTERNAL_INDEX_VALID( lIndex ) != pdFALSE )
+            إذا( IS_EXTERNAL_اشاریہ_VALID( l_اشاریہ ) != pdFALSE )
             {
-                xInternalStreamBufferHandle = MPU_GetStreamBufferHandleAtIndex( CONVERT_TO_INTERNAL_INDEX( lIndex ) );
+                x_اندرونی_دھارا_بفر_Handle = MPU_Get_دھارا_بفر_Handle_At_اشاریہ( CONVERT_منزل_اندرونی_اشاریہ( l_اشاریہ ) );
 
-                if( xInternalStreamBufferHandle != NULL )
+                إذا( x_اندرونی_دھارا_بفر_Handle != عدم )
                 {
-                    xReturn = xStreamBufferResetFromISR( xInternalStreamBufferHandle );
+                    xReturn = x_دھارا_بفر_Reset_From_ISR( x_اندرونی_دھارا_بفر_Handle );
                 }
             }
 
-            return xReturn;
+            أرجع xReturn;
         }
 
-    #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
+    #جے_انت /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 
 /*-----------------------------------------------------------*/
 
 /* Functions that the application writer wants to execute in privileged mode
  * can be defined in application_defined_privileged_functions.h. */
 
-    #if configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
-        #include "application_defined_privileged_functions.h"
-    #endif
+    #إذا configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
+        #ضمن "application_defined_privileged_functions.h"
+    #جے_انت
 /*-----------------------------------------------------------*/
 
 /**
@@ -5059,209 +5059,209 @@
  * The index in the array MUST match the corresponding system call number
  * defined in mpu_wrappers.h.
  */
-    PRIVILEGED_DATA UBaseType_t uxSystemCallImplementations[ NUM_SYSTEM_CALLS ] =
+    PRIVILEGED_انکڑے UBaseType_t uxSystemCallImplementations[ عدد_SYSTEM_CALLS ] =
     {
-        #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+        #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
             ( UBaseType_t ) MPU_xTaskGenericNotifyImpl,                     /* SYSTEM_CALL_xTaskGenericNotify. */
             ( UBaseType_t ) MPU_xTaskGenericNotifyWaitImpl,                 /* SYSTEM_CALL_xTaskGenericNotifyWait. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotify. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotifyWait. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_TIMERS == 1 )
+        #إذا ( configUSE_TIMERS == 1 )
             ( UBaseType_t ) MPU_xTimerGenericCommandFromTaskImpl,           /* SYSTEM_CALL_xTimerGenericCommandFromTask. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerGenericCommandFromTask. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_EVENT_GROUPS == 1 )
-            ( UBaseType_t ) MPU_xEventGroupWaitBitsImpl,                    /* SYSTEM_CALL_xEventGroupWaitBits. */
-        #else
+        #إذا ( configUSE_EVENT_GROUPS == 1 )
+            ( UBaseType_t ) MPU_x_Event_گروہ_Wait_بٹ_Impl,                    /* SYSTEM_CALL_xEventGroupWaitBits. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupWaitBits. */
-        #endif
+        #جے_انت
 
         /* The system calls above this line take 5 parameters. */
 
-        #if ( INCLUDE_xTaskDelayUntil == 1 )
+        #إذا ( INCLUDE_xTaskDelayUntil == 1 )
             ( UBaseType_t ) MPU_xTaskDelayUntilImpl,                        /* SYSTEM_CALL_xTaskDelayUntil. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskDelayUntil. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_xTaskAbortDelay == 1 )
+        #إذا ( INCLUDE_xTaskAbortDelay == 1 )
             ( UBaseType_t ) MPU_xTaskAbortDelayImpl,                        /* SYSTEM_CALL_xTaskAbortDelay. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskAbortDelay. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_vTaskDelay == 1 )
+        #إذا ( INCLUDE_vTaskDelay == 1 )
             ( UBaseType_t ) MPU_vTaskDelayImpl,                             /* SYSTEM_CALL_vTaskDelay. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskDelay. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_uxTaskPriorityGet == 1 )
-            ( UBaseType_t ) MPU_uxTaskPriorityGetImpl,                      /* SYSTEM_CALL_uxTaskPriorityGet. */
-        #else
+        #إذا ( INCLUDE_ux_Task_ترجیح_Get == 1 )
+            ( UBaseType_t ) MPU_ux_Task_ترجیح_Get_Impl,                      /* SYSTEM_CALL_uxTaskPriorityGet. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskPriorityGet. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_eTaskGetState == 1 )
+        #إذا ( INCLUDE_eTaskGetState == 1 )
             ( UBaseType_t ) MPU_eTaskGetStateImpl,                          /* SYSTEM_CALL_eTaskGetState. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_eTaskGetState. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #إذا ( configUSE_TRACE_FACILITY == 1 )
             ( UBaseType_t ) MPU_vTaskGetInfoImpl,                           /* SYSTEM_CALL_vTaskGetInfo. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskGetInfo. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+        #إذا ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
             ( UBaseType_t ) MPU_xTaskGetIdleTaskHandleImpl,                 /* SYSTEM_CALL_xTaskGetIdleTaskHandle. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetIdleTaskHandle. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_vTaskSuspend == 1 )
+        #إذا ( INCLUDE_vTaskSuspend == 1 )
             ( UBaseType_t ) MPU_vTaskSuspendImpl,                           /* SYSTEM_CALL_vTaskSuspend. */
             ( UBaseType_t ) MPU_vTaskResumeImpl,                            /* SYSTEM_CALL_vTaskResume. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskSuspend. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskResume. */
-        #endif
+        #جے_انت
 
-        ( UBaseType_t ) MPU_xTaskGetTickCountImpl,                          /* SYSTEM_CALL_xTaskGetTickCount. */
-        ( UBaseType_t ) MPU_uxTaskGetNumberOfTasksImpl,                     /* SYSTEM_CALL_uxTaskGetNumberOfTasks. */
+        ( UBaseType_t ) MPU_x_Task_Get_Tick_گنتی_Impl,                          /* SYSTEM_CALL_xTaskGetTickCount. */
+        ( UBaseType_t ) MPU_ux_Task_Get_نمبر_دا_Tasks_Impl,                     /* SYSTEM_CALL_uxTaskGetNumberOfTasks. */
 
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            ( UBaseType_t ) MPU_ulTaskGetRunTimeCounterImpl,                /* SYSTEM_CALL_ulTaskGetRunTimeCounter. */
-            ( UBaseType_t ) MPU_ulTaskGetRunTimePercentImpl,                /* SYSTEM_CALL_ulTaskGetRunTimePercent. */
-        #else
+        #إذا ( config_GENERATE_لگاتار_ویلا_STATS == 1 )
+            ( UBaseType_t ) MPU_ul_Task_Get_لگاتار_ویلا_Counter_Impl,                /* SYSTEM_CALL_ulTaskGetRunTimeCounter. */
+            ( UBaseType_t ) MPU_ul_Task_Get_لگاتار_ویلا_Percent_Impl,                /* SYSTEM_CALL_ulTaskGetRunTimePercent. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetRunTimeCounter. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetRunTimePercent. */
-        #endif
+        #جے_انت
 
-        #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
-            ( UBaseType_t ) MPU_ulTaskGetIdleRunTimePercentImpl,            /* SYSTEM_CALL_ulTaskGetIdleRunTimePercent. */
-            ( UBaseType_t ) MPU_ulTaskGetIdleRunTimeCounterImpl,            /* SYSTEM_CALL_ulTaskGetIdleRunTimeCounter. */
-        #else
+        #إذا ( ( config_GENERATE_لگاتار_ویلا_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+            ( UBaseType_t ) MPU_ul_Task_Get_Idle_لگاتار_ویلا_Percent_Impl,            /* SYSTEM_CALL_ulTaskGetIdleRunTimePercent. */
+            ( UBaseType_t ) MPU_ul_Task_Get_Idle_لگاتار_ویلا_Counter_Impl,            /* SYSTEM_CALL_ulTaskGetIdleRunTimeCounter. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetIdleRunTimePercent. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGetIdleRunTimeCounter. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_APPLICATION_TASK_TAG == 1 )
-            ( UBaseType_t ) MPU_vTaskSetApplicationTaskTagImpl,             /* SYSTEM_CALL_vTaskSetApplicationTaskTag. */
-            ( UBaseType_t ) MPU_xTaskGetApplicationTaskTagImpl,             /* SYSTEM_CALL_xTaskGetApplicationTaskTag. */
-        #else
+        #إذا ( config_USE_APPLICATION_TASK_ٹیگ == 1 )
+            ( UBaseType_t ) MPU_v_Task_سیٹ_Application_Task_ٹیگ_Impl,             /* SYSTEM_CALL_vTaskSetApplicationTaskTag. */
+            ( UBaseType_t ) MPU_x_Task_Get_Application_Task_ٹیگ_Impl,             /* SYSTEM_CALL_xTaskGetApplicationTaskTag. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskSetApplicationTaskTag. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetApplicationTaskTag. */
-        #endif
+        #جے_انت
 
-        #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
-            ( UBaseType_t ) MPU_vTaskSetThreadLocalStoragePointerImpl,      /* SYSTEM_CALL_vTaskSetThreadLocalStoragePointer. */
-            ( UBaseType_t ) MPU_pvTaskGetThreadLocalStoragePointerImpl,     /* SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer. */
-        #else
+        #إذا ( config_عدد_THREAD_LOCAL_STORAGE_سوچکاں != 0 )
+            ( UBaseType_t ) MPU_v_Task_سیٹ_Thread_Local_Storage_اشارہ_گر_Impl,      /* SYSTEM_CALL_vTaskSetThreadLocalStoragePointer. */
+            ( UBaseType_t ) MPU_pv_Task_Get_Thread_Local_Storage_اشارہ_گر_Impl,     /* SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTaskSetThreadLocalStoragePointer. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #إذا ( configUSE_TRACE_FACILITY == 1 )
             ( UBaseType_t ) MPU_uxTaskGetSystemStateImpl,                   /* SYSTEM_CALL_uxTaskGetSystemState. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetSystemState. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
-            ( UBaseType_t ) MPU_uxTaskGetStackHighWaterMarkImpl,            /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
-        #else
+        #إذا ( INCLUDE_ux_Task_Get_ڈھیر_بلند_Water_Mark == 1 )
+            ( UBaseType_t ) MPU_ux_Task_Get_ڈھیر_بلند_Water_Mark_Impl,            /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetStackHighWaterMark. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
-            ( UBaseType_t ) MPU_uxTaskGetStackHighWaterMark2Impl,           /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
-        #else
+        #إذا ( INCLUDE_ux_Task_Get_ڈھیر_بلند_Water_Mark2 == 1 )
+            ( UBaseType_t ) MPU_ux_Task_Get_ڈھیر_بلند_Water_Mark2_Impl,           /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTaskGetStackHighWaterMark2. */
-        #endif
+        #جے_انت
 
-        #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
+        #إذا ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
             ( UBaseType_t ) MPU_xTaskGetCurrentTaskHandleImpl,              /* SYSTEM_CALL_xTaskGetCurrentTaskHandle. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetCurrentTaskHandle. */
-        #endif
+        #جے_انت
 
-        #if ( INCLUDE_xTaskGetSchedulerState == 1 )
+        #إذا ( INCLUDE_xTaskGetSchedulerState == 1 )
             ( UBaseType_t ) MPU_xTaskGetSchedulerStateImpl,                 /* SYSTEM_CALL_xTaskGetSchedulerState. */
-        #else
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGetSchedulerState. */
-        #endif
+        #جے_انت
 
-        ( UBaseType_t ) MPU_vTaskSetTimeOutStateImpl,                       /* SYSTEM_CALL_vTaskSetTimeOutState. */
-        ( UBaseType_t ) MPU_xTaskCheckForTimeOutImpl,                       /* SYSTEM_CALL_xTaskCheckForTimeOut. */
+        ( UBaseType_t ) MPU_v_Task_سیٹ_ویلا_باہرلا_State_Impl,                       /* SYSTEM_CALL_vTaskSetTimeOutState. */
+        ( UBaseType_t ) MPU_x_Task_Check_For_ویلا_باہرلا_Impl,                       /* SYSTEM_CALL_xTaskCheckForTimeOut. */
 
-        #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+        #إذا ( configUSE_TASK_NOTIFICATIONS == 1 )
             ( UBaseType_t ) MPU_ulTaskGenericNotifyTakeImpl,                /* SYSTEM_CALL_ulTaskGenericNotifyTake. */
             ( UBaseType_t ) MPU_xTaskGenericNotifyStateClearImpl,           /* SYSTEM_CALL_xTaskGenericNotifyStateClear. */
-            ( UBaseType_t ) MPU_ulTaskGenericNotifyValueClearImpl,          /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
-        #else
+            ( UBaseType_t ) MPU_ul_Task_Generic_Notify_قدر_Clear_Impl,          /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGenericNotifyTake. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTaskGenericNotifyStateClear. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_ulTaskGenericNotifyValueClear. */
-        #endif
+        #جے_انت
 
-        ( UBaseType_t ) MPU_xQueueGenericSendImpl,                          /* SYSTEM_CALL_xQueueGenericSend. */
-        ( UBaseType_t ) MPU_uxQueueMessagesWaitingImpl,                     /* SYSTEM_CALL_uxQueueMessagesWaiting. */
-        ( UBaseType_t ) MPU_uxQueueSpacesAvailableImpl,                     /* SYSTEM_CALL_uxQueueSpacesAvailable. */
-        ( UBaseType_t ) MPU_xQueueReceiveImpl,                              /* SYSTEM_CALL_xQueueReceive. */
-        ( UBaseType_t ) MPU_xQueuePeekImpl,                                 /* SYSTEM_CALL_xQueuePeek. */
-        ( UBaseType_t ) MPU_xQueueSemaphoreTakeImpl,                        /* SYSTEM_CALL_xQueueSemaphoreTake. */
+        ( UBaseType_t ) MPU_x_قطار_Generic_Send_Impl,                          /* SYSTEM_CALL_xQueueGenericSend. */
+        ( UBaseType_t ) MPU_ux_قطار_Messages_اڈیک_Impl,                     /* SYSTEM_CALL_uxQueueMessagesWaiting. */
+        ( UBaseType_t ) MPU_ux_قطار_Spaces_دستیاب_Impl,                     /* SYSTEM_CALL_uxQueueSpacesAvailable. */
+        ( UBaseType_t ) MPU_x_قطار_Receive_Impl,                              /* SYSTEM_CALL_xQueueReceive. */
+        ( UBaseType_t ) MPU_x_قطار_Peek_Impl,                                 /* SYSTEM_CALL_xQueuePeek. */
+        ( UBaseType_t ) MPU_x_قطار_Semaphore_Take_Impl,                        /* SYSTEM_CALL_xQueueSemaphoreTake. */
 
-        #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
-            ( UBaseType_t ) MPU_xQueueGetMutexHolderImpl,                   /* SYSTEM_CALL_xQueueGetMutexHolder. */
-        #else
+        #إذا ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+            ( UBaseType_t ) MPU_x_قطار_Get_Mutex_Holder_Impl,                   /* SYSTEM_CALL_xQueueGetMutexHolder. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueGetMutexHolder. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_RECURSIVE_MUTEXES == 1 )
-            ( UBaseType_t ) MPU_xQueueTakeMutexRecursiveImpl,               /* SYSTEM_CALL_xQueueTakeMutexRecursive. */
-            ( UBaseType_t ) MPU_xQueueGiveMutexRecursiveImpl,               /* SYSTEM_CALL_xQueueGiveMutexRecursive. */
-        #else
+        #إذا ( configUSE_RECURSIVE_MUTEXES == 1 )
+            ( UBaseType_t ) MPU_x_قطار_Take_Mutex_Recursive_Impl,               /* SYSTEM_CALL_xQueueTakeMutexRecursive. */
+            ( UBaseType_t ) MPU_x_قطار_Give_Mutex_Recursive_Impl,               /* SYSTEM_CALL_xQueueGiveMutexRecursive. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueTakeMutexRecursive. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueGiveMutexRecursive. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_QUEUE_SETS == 1 )
-            ( UBaseType_t ) MPU_xQueueSelectFromSetImpl,                    /* SYSTEM_CALL_xQueueSelectFromSet. */
-            ( UBaseType_t ) MPU_xQueueAddToSetImpl,                         /* SYSTEM_CALL_xQueueAddToSet. */
-        #else
+        #إذا ( config_USE_قطار_SETS == 1 )
+            ( UBaseType_t ) MPU_x_قطار_Select_From_سیٹ_Impl,                    /* SYSTEM_CALL_xQueueSelectFromSet. */
+            ( UBaseType_t ) MPU_x_قطار_جوڑو_منزل_سیٹ_Impl,                         /* SYSTEM_CALL_xQueueAddToSet. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueSelectFromSet. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xQueueAddToSet. */
-        #endif
+        #جے_انت
 
-        #if configQUEUE_REGISTRY_SIZE > 0
-            ( UBaseType_t ) MPU_vQueueAddToRegistryImpl,                    /* SYSTEM_CALL_vQueueAddToRegistry. */
-            ( UBaseType_t ) MPU_vQueueUnregisterQueueImpl,                  /* SYSTEM_CALL_vQueueUnregisterQueue. */
-            ( UBaseType_t ) MPU_pcQueueGetNameImpl,                         /* SYSTEM_CALL_pcQueueGetName. */
-        #else
+        #إذا config_قطار_REGISTRY_ناپ > 0
+            ( UBaseType_t ) MPU_v_قطار_جوڑو_منزل_Registry_Impl,                    /* SYSTEM_CALL_vQueueAddToRegistry. */
+            ( UBaseType_t ) MPU_v_قطار_Unregister_قطار_Impl,                  /* SYSTEM_CALL_vQueueUnregisterQueue. */
+            ( UBaseType_t ) MPU_pc_قطار_Get_Name_Impl,                         /* SYSTEM_CALL_pcQueueGetName. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vQueueAddToRegistry. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vQueueUnregisterQueue. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_pcQueueGetName. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_TIMERS == 1 )
+        #إذا ( configUSE_TIMERS == 1 )
             ( UBaseType_t ) MPU_pvTimerGetTimerIDImpl,                      /* SYSTEM_CALL_pvTimerGetTimerID. */
-            ( UBaseType_t ) MPU_vTimerSetTimerIDImpl,                       /* SYSTEM_CALL_vTimerSetTimerID. */
-            ( UBaseType_t ) MPU_xTimerIsTimerActiveImpl,                    /* SYSTEM_CALL_xTimerIsTimerActive. */
+            ( UBaseType_t ) MPU_v_Timer_سیٹ_Timer_IDImpl,                       /* SYSTEM_CALL_vTimerSetTimerID. */
+            ( UBaseType_t ) MPU_x_Timer_Is_Timer_سرگرم_Impl,                    /* SYSTEM_CALL_xTimerIsTimerActive. */
             ( UBaseType_t ) MPU_xTimerGetTimerDaemonTaskHandleImpl,         /* SYSTEM_CALL_xTimerGetTimerDaemonTaskHandle. */
             ( UBaseType_t ) MPU_pcTimerGetNameImpl,                         /* SYSTEM_CALL_pcTimerGetName. */
-            ( UBaseType_t ) MPU_vTimerSetReloadModeImpl,                    /* SYSTEM_CALL_vTimerSetReloadMode. */
-            ( UBaseType_t ) MPU_xTimerGetReloadModeImpl,                    /* SYSTEM_CALL_xTimerGetReloadMode. */
-            ( UBaseType_t ) MPU_uxTimerGetReloadModeImpl,                   /* SYSTEM_CALL_uxTimerGetReloadMode. */
+            ( UBaseType_t ) MPU_v_Timer_سیٹ_Reload_منوال_Impl,                    /* SYSTEM_CALL_vTimerSetReloadMode. */
+            ( UBaseType_t ) MPU_x_Timer_Get_Reload_منوال_Impl,                    /* SYSTEM_CALL_xTimerGetReloadMode. */
+            ( UBaseType_t ) MPU_ux_Timer_Get_Reload_منوال_Impl,                   /* SYSTEM_CALL_uxTimerGetReloadMode. */
             ( UBaseType_t ) MPU_xTimerGetPeriodImpl,                        /* SYSTEM_CALL_xTimerGetPeriod. */
-            ( UBaseType_t ) MPU_xTimerGetExpiryTimeImpl,                    /* SYSTEM_CALL_xTimerGetExpiryTime. */
-        #else
+            ( UBaseType_t ) MPU_x_Timer_Get_Expiry_ویلا_Impl,                    /* SYSTEM_CALL_xTimerGetExpiryTime. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_pvTimerGetTimerID. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vTimerSetTimerID. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerIsTimerActive. */
@@ -5272,38 +5272,38 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxTimerGetReloadMode. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerGetPeriod. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xTimerGetExpiryTime. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_EVENT_GROUPS == 1 )
-            ( UBaseType_t ) MPU_xEventGroupClearBitsImpl,                   /* SYSTEM_CALL_xEventGroupClearBits. */
-            ( UBaseType_t ) MPU_xEventGroupSetBitsImpl,                     /* SYSTEM_CALL_xEventGroupSetBits. */
-            ( UBaseType_t ) MPU_xEventGroupSyncImpl,                        /* SYSTEM_CALL_xEventGroupSync. */
+        #إذا ( configUSE_EVENT_GROUPS == 1 )
+            ( UBaseType_t ) MPU_x_Event_گروہ_Clear_بٹ_Impl,                   /* SYSTEM_CALL_xEventGroupClearBits. */
+            ( UBaseType_t ) MPU_x_Event_گروہ_سیٹ_بٹ_Impl,                     /* SYSTEM_CALL_xEventGroupSetBits. */
+            ( UBaseType_t ) MPU_x_Event_گروہ_Sync_Impl,                        /* SYSTEM_CALL_xEventGroupSync. */
 
-            #if ( configUSE_TRACE_FACILITY == 1 )
-                ( UBaseType_t ) MPU_uxEventGroupGetNumberImpl,              /* SYSTEM_CALL_uxEventGroupGetNumber. */
-                ( UBaseType_t ) MPU_vEventGroupSetNumberImpl,               /* SYSTEM_CALL_vEventGroupSetNumber. */
-            #else
+            #إذا ( configUSE_TRACE_FACILITY == 1 )
+                ( UBaseType_t ) MPU_ux_Event_گروہ_Get_نمبر_Impl,              /* SYSTEM_CALL_uxEventGroupGetNumber. */
+                ( UBaseType_t ) MPU_v_Event_گروہ_سیٹ_نمبر_Impl,               /* SYSTEM_CALL_vEventGroupSetNumber. */
+            #وإلا
                 ( UBaseType_t ) 0,                                          /* SYSTEM_CALL_uxEventGroupGetNumber. */
                 ( UBaseType_t ) 0,                                          /* SYSTEM_CALL_vEventGroupSetNumber. */
-            #endif
-        #else
+            #جے_انت
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupClearBits. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupSetBits. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xEventGroupSync. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_uxEventGroupGetNumber. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_vEventGroupSetNumber. */
-        #endif
+        #جے_انت
 
-        #if ( configUSE_STREAM_BUFFERS == 1 )
-            ( UBaseType_t ) MPU_xStreamBufferSendImpl,                      /* SYSTEM_CALL_xStreamBufferSend. */
-            ( UBaseType_t ) MPU_xStreamBufferReceiveImpl,                   /* SYSTEM_CALL_xStreamBufferReceive. */
-            ( UBaseType_t ) MPU_xStreamBufferIsFullImpl,                    /* SYSTEM_CALL_xStreamBufferIsFull. */
-            ( UBaseType_t ) MPU_xStreamBufferIsEmptyImpl,                   /* SYSTEM_CALL_xStreamBufferIsEmpty. */
-            ( UBaseType_t ) MPU_xStreamBufferSpacesAvailableImpl,           /* SYSTEM_CALL_xStreamBufferSpacesAvailable. */
-            ( UBaseType_t ) MPU_xStreamBufferBytesAvailableImpl,            /* SYSTEM_CALL_xStreamBufferBytesAvailable. */
-            ( UBaseType_t ) MPU_xStreamBufferSetTriggerLevelImpl,           /* SYSTEM_CALL_xStreamBufferSetTriggerLevel. */
-            ( UBaseType_t ) MPU_xStreamBufferNextMessageLengthBytesImpl     /* SYSTEM_CALL_xStreamBufferNextMessageLengthBytes. */
-        #else
+        #إذا ( config_USE_دھارا_BUFFERS == 1 )
+            ( UBaseType_t ) MPU_x_دھارا_بفر_Send_Impl,                      /* SYSTEM_CALL_xStreamBufferSend. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_Receive_Impl,                   /* SYSTEM_CALL_xStreamBufferReceive. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_Is_بھریا_Impl,                    /* SYSTEM_CALL_xStreamBufferIsFull. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_Is_خالی_تھاواں_Impl,                   /* SYSTEM_CALL_xStreamBufferIsEmpty. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_Spaces_دستیاب_Impl,           /* SYSTEM_CALL_xStreamBufferSpacesAvailable. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_بائٹاں_دستیاب_Impl,            /* SYSTEM_CALL_xStreamBufferBytesAvailable. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_سیٹ_Trigger_Level_Impl,           /* SYSTEM_CALL_xStreamBufferSetTriggerLevel. */
+            ( UBaseType_t ) MPU_x_دھارا_بفر_اگلا_سنیہا_لمائی_بائٹاں_Impl     /* SYSTEM_CALL_xStreamBufferNextMessageLengthBytes. */
+        #وإلا
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferSend. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferReceive. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferIsFull. */
@@ -5312,10 +5312,10 @@
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferBytesAvailable. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferSetTriggerLevel. */
             ( UBaseType_t ) 0,                                              /* SYSTEM_CALL_xStreamBufferNextMessageLengthBytes. */
-        #endif
+        #جے_انت
 
     };
 /*-----------------------------------------------------------*/
 
-#endif /* #if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
+#جے_انت /* #if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) ) */
 /*-----------------------------------------------------------*/

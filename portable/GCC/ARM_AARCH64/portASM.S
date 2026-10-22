@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -43,7 +43,7 @@
 
     .global FreeRTOS_IRQ_Handler
     .global FreeRTOS_SWI_Handler
-    .global vPortRestoreTaskContext
+    .global v_پورٹ_Restore_Task_Context
 
 
 .macro portSAVE_CONTEXT
@@ -86,7 +86,7 @@
     LDR     X3, [X0]
 
     /* Save the FPU context indicator. */
-    LDR     X0, ullPortTaskHasFPUContextConst
+    LDR     X0, ull_پورٹ_Task_Has_FPUContext_Const
     LDR     X2, [X0]
 
     /* Save the FPU context, if any (32 128-bit registers). */
@@ -146,7 +146,7 @@
     CMP     X3, #0
     LDR     X5, [X4]                    /* X5 holds the address of the ICCPMR register. */
     B.EQ    1f
-    LDR     X6, ullMaxAPIPriorityMaskConst
+    LDR     X6, ull_Max_APIPriority_نقاب_Const
     LDR     X1, [X6]                    /* X1 holds the mask value. */
 1:
     STR     W1, [X5]                    /* Write the mask value to ICCPMR. */
@@ -155,7 +155,7 @@
     STR     X3, [X0]                    /* Restore the task's critical nesting count. */
 
     /* Restore the FPU context indicator. */
-    LDR     X0, ullPortTaskHasFPUContextConst
+    LDR     X0, ull_پورٹ_Task_Has_FPUContext_Const
     STR     X2, [X0]
 
     /* Restore the FPU context, if any. */
@@ -248,11 +248,11 @@ FreeRTOS_Abort:
     B       .
 
 /******************************************************************************
- * vPortRestoreTaskContext is used to start the scheduler.
+ * v_پورٹ_Restore_Task_Context is used to start the scheduler.
  *****************************************************************************/
 .align 8
-.type vPortRestoreTaskContext, %function
-vPortRestoreTaskContext:
+.type v_پورٹ_Restore_Task_Context, %function
+v_پورٹ_Restore_Task_Context:
 .set freertos_vector_base,  _freertos_vector_table
 
     /* Install the FreeRTOS interrupt handlers. */
@@ -299,12 +299,12 @@ FreeRTOS_IRQ_Handler:
     STP     X2, X3, [SP, #-0x10]!
 
     /* Increment the interrupt nesting counter. */
-    LDR     X5, ullPortInterruptNestingConst
+    LDR     X5, ull_پورٹ_رکاوٹ_Nesting_Const
     LDR     X1, [X5]    /* Old nesting count in X1. */
     ADD     X6, X1, #1
     STR     X6, [X5]    /* Address of nesting count variable in X5. */
 
-    /* Maintain the interrupt nesting information across the function call. */
+    /* Maintain the interrupt nesting information across the function نادي. */
     STP     X1, X5, [SP, #-0x10]!
 
     /* Read value from the interrupt acknowledge register, which is stored in W0
@@ -313,7 +313,7 @@ FreeRTOS_IRQ_Handler:
     LDR     X3, [X2]
     LDR     W0, [X3]    /* ICCIAR in W0 as parameter. */
 
-    /* Maintain the ICCIAR value across the function call. */
+    /* Maintain the ICCIAR value across the function نادي. */
     STP     X0, X1, [SP, #-0x10]!
 
     /* Call the C handler. */
@@ -341,7 +341,7 @@ FreeRTOS_IRQ_Handler:
     B.NE    Exit_IRQ_No_Context_Switch
 
     /* Is a context switch required? */
-    LDR     X0, ullPortYieldRequiredConst
+    LDR     X0, ull_پورٹ_Yield_Required_Const
     LDR     X1, [X0]
     CMP     X1, #0
     B.EQ    Exit_IRQ_No_Context_Switch
@@ -412,12 +412,12 @@ Exit_IRQ_No_Context_Switch:
 .align 8
 pxCurrentTCBConst: .dword pxCurrentTCB
 ullCriticalNestingConst: .dword ullCriticalNesting
-ullPortTaskHasFPUContextConst: .dword ullPortTaskHasFPUContext
+ull_پورٹ_Task_Has_FPUContext_Const: .dword ullPortTaskHasFPUContext
 
 ullICCPMRConst: .dword ullICCPMR
-ullMaxAPIPriorityMaskConst: .dword ullMaxAPIPriorityMask
-ullPortInterruptNestingConst: .dword ullPortInterruptNesting
-ullPortYieldRequiredConst: .dword ullPortYieldRequired
+ull_Max_APIPriority_نقاب_Const: .dword ullMaxAPIPriorityMask
+ull_پورٹ_رکاوٹ_Nesting_Const: .dword ullPortInterruptNesting
+ull_پورٹ_Yield_Required_Const: .dword ullPortYieldRequired
 ullICCIARConst: .dword ullICCIAR
 ullICCEOIRConst: .dword ullICCEOIR
 vApplicationIRQHandlerConst: .word vApplicationIRQHandler

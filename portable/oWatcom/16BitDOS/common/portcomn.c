@@ -45,30 +45,30 @@ Changes from V2.6.1:
 
 
 
-#include <stdlib.h>
-#include "FreeRTOS.h"
+#ضمن <stdlib.h>
+#ضمن "FreeRTOS.h"
 
 /*-----------------------------------------------------------*/
 
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ڈھیر_Type_t *px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t *px_چوٹی_دا_ڈھیر, TaskFunction_t px_کوڈ, فراغ *pvParameters )
 {
-StackType_t DS_Reg = 0;
-StackType_t * pxOriginalSP;
+ڈھیر_Type_t DS_Reg = 0;
+ڈھیر_Type_t * pxOriginalSP;
 
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x4444;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x5555;
-    pxTopOfStack--;
+    *px_چوٹی_دا_ڈھیر = 0x1111;
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = 0x2222;
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = 0x3333;
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = 0x4444;
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = 0x5555;
+    px_چوٹی_دا_ڈھیر--;
 
 
     /*lint -e950 -e611 -e923 Lint doesn't like this much - but nothing I can do about it. */
@@ -77,65 +77,65 @@ StackType_t * pxOriginalSP;
     instruction to load the program counter, so first there would be the
     status register and interrupt return address.  We make this the start
     of the task. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_چوٹی_دا_ڈھیر = پورٹ_INITIAL_SW;
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = FP_SEG( px_کوڈ );
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = FP_OFF( px_کوڈ );
+    px_چوٹی_دا_ڈھیر--;
 
     /* We are going to setup the stack for the new task to look like
     the stack frame was setup by a compiler generated ISR.  We need to know
     the address of the existing stack top to place in the SP register within
     the stack frame.  pxOriginalSP holds SP before (simulated) pusha was
     called. */
-    pxOriginalSP = pxTopOfStack;
+    pxOriginalSP = px_چوٹی_دا_ڈھیر;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = FP_OFF( pvParameters );     /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pvParameters );     /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxOriginalSP );     /* SP */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
+    *px_چوٹی_دا_ڈھیر = FP_OFF( pvParameters );     /* AX */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) 0xCCCC; /* CX */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = FP_SEG( pvParameters );     /* DX */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) 0xBBBB; /* BX */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = FP_OFF( pxOriginalSP );     /* SP */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) 0xBBBB; /* BP */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) 0x0123; /* SI */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) 0xDDDD; /* DI */
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
 
-    pxTopOfStack--;
-    *pxTopOfStack = DS_Reg; /* DS */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = DS_Reg; /* DS */
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = ( ڈھیر_Type_t ) 0xEEEE; /* ES */
 
     /* The AX register is pushed again twice - don't know why. */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pvParameters );     /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pvParameters );     /* AX */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = FP_OFF( pvParameters );     /* AX */
+    px_چوٹی_دا_ڈھیر--;
+    *px_چوٹی_دا_ڈھیر = FP_OFF( pvParameters );     /* AX */
 
 
-    #ifdef DEBUG_BUILD
+    #جے_تعریف_شدہ DEBUG_BUILD
         /* The compiler adds space to each ISR stack if building to
         include debug information.  Presumably this is used by the
         debugger - we don't need to initialise it to anything just
         make sure it is there. */
-        pxTopOfStack--;
-    #endif
+        px_چوٹی_دا_ڈھیر--;
+    #جے_انت
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    أرجع px_چوٹی_دا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
