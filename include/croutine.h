@@ -50,7 +50,7 @@ typedef void * CoRoutineHandle_t;
 typedef void (* crCOROUTINE_CODE)( CoRoutineHandle_t xHandle,
                                    UBaseType_t uxIndex );
 
-typedef struct corCoRoutineControlBlock
+typedef sa_nracanaa corCoRoutineControlBlock
 {
     crCOROUTINE_CODE pxCoRoutineFunction;
     ListItem_t xGenericListItem; /**< List item used to place the CRCB in ready and blocked queues. */
@@ -213,7 +213,7 @@ void vCoRoutineSchedule( void );
  */
 #define crSTART( pxCRCB )                            \
     switch( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
-        case 0:
+        pak_sa 0:
 
 /**
  * croutine. h
@@ -256,11 +256,11 @@ void vCoRoutineSchedule( void );
  * only.  The macros should not be used directly by application writers.
  */
 #define crSET_STATE0( xHandle )                                       \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); return; \
-    case ( __LINE__ * 2 ):
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); ལོག; \
+    pak_sa ( __LINE__ * 2 ):
 #define crSET_STATE1( xHandle )                                               \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); return; \
-    case ( ( __LINE__ * 2 ) + 1 ):
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); ལོག; \
+    pak_sa ( ( __LINE__ * 2 ) + 1 ):
 
 /**
  * croutine. h
@@ -312,12 +312,12 @@ void vCoRoutineSchedule( void );
  */
 #define crDELAY( xHandle, xTicksToDelay )                          \
     do {                                                           \
-        if( ( xTicksToDelay ) > 0 )                                \
+        གལ་སྲིད( ( xTicksToDelay ) > 0 )                                \
         {                                                          \
             vCoRoutineAddToDelayedList( ( xTicksToDelay ), NULL ); \
         }                                                          \
         crSET_STATE0( ( xHandle ) );                               \
-    } while( 0 )
+    } སྐབས( 0 )
 
 /**
  * @code{c}
@@ -407,17 +407,17 @@ void vCoRoutineSchedule( void );
 #define crQUEUE_SEND( xHandle, pxQueue, pvItemToQueue, xTicksToWait, pxResult )           \
     do {                                                                                  \
         *( pxResult ) = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                           \
+        གལ་སྲིད( *( pxResult ) == errQUEUE_BLOCKED )                                           \
         {                                                                                 \
             crSET_STATE0( ( xHandle ) );                                                  \
             *pxResult = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), 0 );                \
         }                                                                                 \
-        if( *pxResult == errQUEUE_YIELD )                                                 \
+        གལ་སྲིད( *pxResult == errQUEUE_YIELD )                                                 \
         {                                                                                 \
             crSET_STATE1( ( xHandle ) );                                                  \
             *pxResult = pdPASS;                                                           \
         }                                                                                 \
-    } while( 0 )
+    } སྐབས( 0 )
 
 /**
  * croutine. h
@@ -501,17 +501,17 @@ void vCoRoutineSchedule( void );
 #define crQUEUE_RECEIVE( xHandle, pxQueue, pvBuffer, xTicksToWait, pxResult )           \
     do {                                                                                \
         *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                         \
+        གལ་སྲིད( *( pxResult ) == errQUEUE_BLOCKED )                                         \
         {                                                                               \
             crSET_STATE0( ( xHandle ) );                                                \
             *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), 0 );            \
         }                                                                               \
-        if( *( pxResult ) == errQUEUE_YIELD )                                           \
+        གལ་སྲིད( *( pxResult ) == errQUEUE_YIELD )                                           \
         {                                                                               \
             crSET_STATE1( ( xHandle ) );                                                \
             *( pxResult ) = pdPASS;                                                     \
         }                                                                               \
-    } while( 0 )
+    } སྐབས( 0 )
 
 /**
  * croutine. h

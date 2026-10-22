@@ -49,9 +49,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint32_t
@@ -61,7 +61,7 @@ typedef portSTACK_TYPE StackType_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#གལ་སྲིད( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -71,7 +71,7 @@ typedef unsigned long UBaseType_t;
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC 1
-#else
+#དེ་མིན
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -97,7 +97,7 @@ value was found to be above configMAX_SYSCALL_INTERRUPT_PRIORITY when an ISR
 safe FreeRTOS API function was executed.  ISR safe FreeRTOS API functions are
 those that end in FromISR.  FreeRTOS maintains a separate interrupt API to
 ensure API function and interrupt entry is as fast and as simple as possible. */
-#if ( configASSERT_DEFINED == 1 )
+#གལ་སྲིད ( configASSERT_DEFINED == 1 )
     #define portDISABLE_INTERRUPTS()                                            \
     {                                                                           \
     uint32_t ulStatus;                                                          \
@@ -106,13 +106,13 @@ ensure API function and interrupt entry is as fast and as simple as possible. */
         ulStatus = _CP0_GET_STATUS();                                           \
                                                                                 \
         /* Is the current IPL below configMAX_SYSCALL_INTERRUPT_PRIORITY? */    \
-        if( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY ) \
+        གལ་སྲིད( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY ) \
         {                                                                       \
             ulStatus &= ~portALL_IPL_BITS;                                      \
             _CP0_SET_STATUS( ( ulStatus | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) ) ); \
         }                                                                       \
     }
-#else /* configASSERT */
+#དེ་མིན /* configASSERT */
     #define portDISABLE_INTERRUPTS()                                        \
     {                                                                       \
     uint32_t ulStatus;                                                      \
@@ -146,11 +146,11 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 #define portSET_INTERRUPT_MASK_FROM_ISR() uxPortSetInterruptMaskFromISR()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedStatusRegister ) vPortClearInterruptMaskFromISR( uxSavedStatusRegister )
 
-#if ( __mips_hard_float == 0 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+#གལ་སྲིད ( __mips_hard_float == 0 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
     #error configUSE_TASK_FPU_SUPPORT can only be set to 1 when the part supports a hardware FPU module.
 #endif
 
-#if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+#གལ་སྲིད ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
     void vPortTaskUsesFPU( void );
     #define portTASK_USES_FLOATING_POINT() vPortTaskUsesFPU()
 #endif
@@ -159,10 +159,10 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#གལ་སྲིད configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #གལ་སྲིད( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -190,10 +190,10 @@ uint32_t ulCause;                               \
     _CP0_SET_CAUSE( ulCause );                  \
 }
 
-extern volatile UBaseType_t uxInterruptNesting;
+extern ca_ncala UBaseType_t uxInterruptNesting;
 #define portASSERT_IF_IN_ISR() configASSERT( uxInterruptNesting == 0 )
 
-#define portNOP()   __asm volatile ( "nop" )
+#define portNOP()   __asm ca_ncala ( "nop" )
 
 /*-----------------------------------------------------------*/
 
@@ -205,16 +205,16 @@ extern volatile UBaseType_t uxInterruptNesting;
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     do                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        གལ་སྲིད( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        དེ་མིན                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } སྐབས( 0 )
 
 /* Required by the kernel aware debugger. */
 #ifdef __DEBUG

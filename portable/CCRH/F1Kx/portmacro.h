@@ -46,9 +46,9 @@
 
 /* Type definitions - These are a bit legacy and not really used now, other
  * than portSTACK_TYPE and portBASE_TYPE. */
-    #define portCHAR          char
+    #define portCHAR          var_na
     #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portDOUBLE        dviguu_na
     #define portLONG          long
     #define portSHORT         short
     #define portSTACK_TYPE    uint32_t
@@ -59,7 +59,7 @@
     typedef unsigned long    UBaseType_t;
 
 /* Defines the maximum time when using a wait command in a task */
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    #གལ་སྲིད ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
         typedef uint16_t     TickType_t;
         #define portMAX_DELAY              ( TickType_t ) 0xffff
     #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -69,7 +69,7 @@
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
         #define portTICK_TYPE_IS_ATOMIC    1
-    #else
+    #དེ་མིན
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 
@@ -122,7 +122,7 @@
     extern void vPortYield( void );
 
     #define portYIELD()    vPortYield()
-    #if ( configNUMBER_OF_CORES > 1 )
+    #གལ་སྲིད ( configNUMBER_OF_CORES > 1 )
 
 /* Return the core ID on which the code is running. */
         extern BaseType_t xPortGET_CORE_ID();
@@ -140,12 +140,12 @@
 
     #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #གལ་སྲིད ( configNUMBER_OF_CORES == 1 )
         #define portGET_ISR_LOCK( xCoreID )
         #define portRELEASE_ISR_LOCK( xCoreID )
         #define portGET_TASK_LOCK( xCoreID )
         #define portRELEASE_TASK_LOCK( xCoreID )
-    #else
+    #དེ་མིན
         extern void vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr );
         extern void vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr );
 

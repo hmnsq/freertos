@@ -76,7 +76,7 @@ StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t p
     *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
     pxTopOfStack -= 14; /* A5 to D0. */
 
-    return pxTopOfStack;
+    ལོག pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -92,7 +92,7 @@ extern void vPortStartFirstTask( void );
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    ལོག pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -104,21 +104,21 @@ void vPortEndScheduler( void )
 
 void vPortEnterCritical( void )
 {
-    if( ulCriticalNesting == 0UL )
+    གལ་སྲིད( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
         do
         {
             portDISABLE_INTERRUPTS();
-            if( MCF_INTC0_INTFRCH == 0UL )
+            གལ་སྲིད( MCF_INTC0_INTFRCH == 0UL )
             {
-                break;
+                bha_nga;
             }
 
             portENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } སྐབས( 1 );
     }
     ulCriticalNesting++;
 }
@@ -127,7 +127,7 @@ void vPortEnterCritical( void )
 void vPortExitCritical( void )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    གལ་སྲིད( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
