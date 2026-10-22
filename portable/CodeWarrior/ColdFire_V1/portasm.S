@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ਜਾਂ
+ * IMPLIED, INCLUDING BUT ਨਹੀਂ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ਅਤੇ NONINFRINGEMENT. ਵਿੱਚ NO EVENT SHALL THE AUTHORS ਜਾਂ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ਜਾਂ OTHER LIABILITY, WHETHER
+ * ਵਿੱਚ AN ACTION OF CONTRACT, TORT ਜਾਂ OTHERWISE, ARISING FROM, OUT OF ਜਾਂ ਵਿੱਚ
+ * CONNECTION WITH THE SOFTWARE ਜਾਂ THE USE ਜਾਂ OTHER DEALINGS ਵਿੱਚ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,18 +31,18 @@
  *
  * Notes:
  *
- * ulPortSetIPL() and mcf5xxx_wr_cacr() copied with permission from FreeScale
+ * ul_ਪੋਰਟ_ਸੈੱਟ_IPL() and mcf5xxx_wr_cacr() copied with permission from FreeScale
  * supplied source files.
  */
 
-    .global ulPortSetIPL
-    .global _ulPortSetIPL
-    .global mcf5xxx_wr_cacrx
-    .global _mcf5xxx_wr_cacrx
-    .global vPortYieldISR
-    .global _vPortYieldISR
-    .global vPortStartFirstTask
-    .global _vPortStartFirstTask
+    .ਵੈਸ਼੍ਵਿਕ ul_ਪੋਰਟ_ਸੈੱਟ_IPL
+    .ਵੈਸ਼੍ਵਿਕ _ulPortSetIPL
+    .ਵੈਸ਼੍ਵਿਕ mcf5xxx_wr_cacrx
+    .ਵੈਸ਼੍ਵਿਕ _mcf5xxx_wr_cacrx
+    .ਵੈਸ਼੍ਵਿਕ v_ਪੋਰਟ_Yield_ISR
+    .ਵੈਸ਼੍ਵਿਕ _vPortYieldISR
+    .ਵੈਸ਼੍ਵਿਕ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task
+    .ਵੈਸ਼੍ਵਿਕ _vPortStartFirstTask
     .extern _pxCurrentTCB
     .extern _vPortYieldHandler
 
@@ -78,7 +78,7 @@
  * value are used.
  */
 
-ulPortSetIPL:
+ul_ਪੋਰਟ_ਸੈੱਟ_IPL:
 _ulPortSetIPL:
     link    A6,#-8
     movem.l D6-D7,(SP)
@@ -114,7 +114,7 @@ _mcf5xxx_wr_cacrx:
 
 /* Yield interrupt. */
 _vPortYieldISR:
-vPortYieldISR:
+v_ਪੋਰਟ_Yield_ISR:
     portSAVE_CONTEXT
     jsr _vPortYieldHandler
     portRESTORE_CONTEXT
@@ -122,7 +122,7 @@ vPortYieldISR:
 /********************************************************************/
 
 
-vPortStartFirstTask:
+v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task:
 _vPortStartFirstTask:
     portRESTORE_CONTEXT
 

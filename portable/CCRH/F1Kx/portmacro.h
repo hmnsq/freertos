@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
-    #ifdef __cplusplus
-        extern "C"
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+        ਬਾਹਰੀ "C"
         {
-    #endif
+    #ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -46,148 +46,148 @@
 
 /* Type definitions - These are a bit legacy and not really used now, other
  * than portSTACK_TYPE and portBASE_TYPE. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
 /* Defines the maximum time when using a wait command in a task */
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    #ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+        ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffff
+    #ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+        ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-        #define portTICK_TYPE_IS_ATOMIC    1
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+    #ਨਹੀਂਤਾਂ
+        #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+    #ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics */
 
-    #define portSTSR( reg )              __stsr( ( reg ) )
-    #define portLDSR( reg, val )         __ldsr( ( reg ), ( val ) )
-    #define portSTSR_CCRH( reg, sel )    __stsr_rh( ( reg ), ( sel ) )
-    #define portSYNCM()                  __syncm()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_STSR( reg )              __stsr( ( reg ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LDSR( reg, val )         __ldsr( ( reg ), ( val ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_STSR_CCRH( reg, sel )    __stsr_rh( ( reg ), ( sel ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SYNCM()                  __syncm()
 
 /* Determine the descending of the stack from high address to address */
-    #define portSTACK_GROWTH      ( -1 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
 
 /* Determine the time (in milliseconds) corresponding to each tick */
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
 
 /* It is a multiple of 4 (the two lower-order bits of the address = 0),
  * otherwise it will cause MAE (Misaligned Exception) according to the manual */
-    #define portBYTE_ALIGNMENT    ( 4 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    ( 4 )
 
 /* Interrupt control macros. */
 
-    #define portENABLE_INTERRUPTS()     __EI() /* Macro to enable all maskable interrupts. */
-    #define portDISABLE_INTERRUPTS()    __DI() /* Macro to disable all maskable interrupts. */
-    #define taskENABLE_INTERRUPTS()     portENABLE_INTERRUPTS()
-    #define taskDISABLE_INTERRUPTS()    portDISABLE_INTERRUPTS()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     __EI() /* Macro to enable all maskable interrupts. */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    __DI() /* Macro to disable all maskable interrupts. */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ taskENABLE_INTERRUPTS()     ਪੋਰਟ_ENABLE_INTERRUPTS()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ taskDISABLE_INTERRUPTS()    ਪੋਰਟ_DISABLE_INTERRUPTS()
 
 /* SMP build which means configNUM_CORES is relevant */
-    #define portSUPPORT_SMP              1
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SUPPORT_SMP              1
 
-    #define portMAX_CORE_COUNT           2
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES    1
-    #endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_CORE_ਗਿਣਤੀ           2
+    #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_ਸੰਖਿਆ_ਦਾ_CORES
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_ਸੰਖਿਆ_ਦਾ_CORES    1
+    #ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 /* Scheduler utilities */
 
 /* Called at the end of an ISR that can cause a context switch */
-    extern void vPortSetSwitch( BaseType_t xSwitchRequired );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸੈੱਟ_Switch( ਅਧਾਰ_Type_t xSwitchRequired );
 
-    #define portEND_SWITCHING_ISR( x )    vPortSetSwitch( x )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )    v_ਪੋਰਟ_ਸੈੱਟ_Switch( x )
 
-    #define portYIELD_FROM_ISR( x )       portEND_SWITCHING_ISR( x )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )       ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )
 
 /* Use to transfer control from one task to perform other tasks of
  * higher priority */
-    extern void vPortYield( void );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ );
 
-    #define portYIELD()    vPortYield()
-    #if ( configNUMBER_OF_CORES > 1 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()    v_ਪੋਰਟ_Yield()
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
 /* Return the core ID on which the code is running. */
-        extern BaseType_t xPortGET_CORE_ID();
+        ਬਾਹਰੀ ਅਧਾਰ_Type_t x_ਪੋਰਟ_GET_CORE_ID();
 
-        #define portGET_CORE_ID()    xPortGET_CORE_ID()
-        #define coreid    xPortGET_CORE_ID()
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_CORE_ID()    x_ਪੋਰਟ_GET_CORE_ID()
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ coreid    x_ਪੋਰਟ_GET_CORE_ID()
 
 /* Request the core ID x to yield. */
-        extern void vPortYieldCore( uint32_t coreID );
+        ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Yield_Core( uint32_t coreID );
 
-        #define portYIELD_CORE( x )                vPortYieldCore( x )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_CORE( x )                v_ਪੋਰਟ_Yield_Core( x )
 
-        #define portENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
-        #define portEXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
 
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #ਜੇ_ਅੰਤ /* if ( configNUMBER_OF_CORES > 1 ) */
 
-    #if ( configNUMBER_OF_CORES == 1 )
-        #define portGET_ISR_LOCK( xCoreID )
-        #define portRELEASE_ISR_LOCK( xCoreID )
-        #define portGET_TASK_LOCK( xCoreID )
-        #define portRELEASE_TASK_LOCK( xCoreID )
-    #else
-        extern void vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr );
-        extern void vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr );
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES == 1 )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_ISR_ਤਾਲਾ( xCoreID )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RELEASE_ISR_ਤਾਲਾ( xCoreID )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_TASK_ਤਾਲਾ( xCoreID )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RELEASE_TASK_ਤਾਲਾ( xCoreID )
+    #ਨਹੀਂਤਾਂ
+        ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Acquire( ਅਧਾਰ_Type_t xCoreID, ਅਧਾਰ_Type_t xFromIsr );
+        ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Release( ਅਧਾਰ_Type_t xCoreID, ਅਧਾਰ_Type_t xFromIsr );
 
-        #define portGET_ISR_LOCK( xCoreID )         vPortRecursiveLockAcquire( ( xCoreID ), pdTRUE )
-        #define portRELEASE_ISR_LOCK( xCoreID )     vPortRecursiveLockRelease( ( xCoreID ), pdTRUE )
-        #define portGET_TASK_LOCK( xCoreID )        vPortRecursiveLockAcquire( ( xCoreID ), pdFALSE )
-        #define portRELEASE_TASK_LOCK( xCoreID )    vPortRecursiveLockRelease( ( xCoreID ), pdFALSE )
-    #endif /* if ( configNUMBER_OF_CORES == 1 ) */
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_ISR_ਤਾਲਾ( xCoreID )         v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Acquire( ( xCoreID ), pdTRUE )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RELEASE_ISR_ਤਾਲਾ( xCoreID )     v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Release( ( xCoreID ), pdTRUE )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_TASK_ਤਾਲਾ( xCoreID )        v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Acquire( ( xCoreID ), pdFALSE )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RELEASE_TASK_ਤਾਲਾ( xCoreID )    v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Release( ( xCoreID ), pdFALSE )
+    #ਜੇ_ਅੰਤ /* if ( configNUMBER_OF_CORES == 1 ) */
 
 /*-----------------------------------------------------------*/
 /* Critical section management. */
 
 /* The critical nesting functions defined within tasks.c */
 
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
+    ਬਾਹਰੀ ਖਾਲੀ vTaskEnterCritical( ਖਾਲੀ );
+    ਬਾਹਰੀ ਖਾਲੀ vTaskExitCritical( ਖਾਲੀ );
 
 /* Macro to mark the start of a critical code region */
-    #define portENTER_CRITICAL()    vTaskEnterCritical()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()    vTaskEnterCritical()
 
 /* Macro to mark the end of a critical code region */
-    #define portEXIT_CRITICAL()     vTaskExitCritical()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()     vTaskExitCritical()
 
 /*-----------------------------------------------------------*/
 /* Macros to set and clear the interrupt mask. */
-    portLONG xPortSetInterruptMask();
-    void vPortClearInterruptMask( portLONG );
+    ਪੋਰਟ_LONG x_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ();
+    ਖਾਲੀ v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( ਪੋਰਟ_LONG );
 
-    #define portSET_INTERRUPT_MASK()                  xPortSetInterruptMask()
-    #define portCLEAR_INTERRUPT_MASK( x )             vPortClearInterruptMask( ( x ) )
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         xPortSetInterruptMask()
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( ( x ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ()                  x_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ( x )             v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( ( x ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR()         x_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x )    v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( ( x ) )
 
 /*-----------------------------------------------------------*/
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
-    #ifdef __cplusplus
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-    #endif
-#endif /* PORTMACRO_H */
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

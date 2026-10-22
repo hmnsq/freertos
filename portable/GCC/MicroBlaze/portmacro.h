@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,90 +46,90 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-void microblaze_disable_interrupts( void );
-void microblaze_enable_interrupts( void );
-#define portDISABLE_INTERRUPTS()    microblaze_disable_interrupts()
-#define portENABLE_INTERRUPTS()     microblaze_enable_interrupts()
+ਖਾਲੀ microblaze_disable_interrupts( ਖਾਲੀ );
+ਖਾਲੀ microblaze_enable_interrupts( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    microblaze_disable_interrupts()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     microblaze_enable_interrupts()
 /*-----------------------------------------------------------*/
 
 /* Critical section macros. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
-#define portENTER_CRITICAL()                  \
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                  \
     {                                         \
-        extern UBaseType_t uxCriticalNesting; \
+        ਬਾਹਰੀ UBaseType_t uxCriticalNesting; \
         microblaze_disable_interrupts();      \
         uxCriticalNesting++;                  \
     }
 
-#define portEXIT_CRITICAL()                      \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                      \
     {                                            \
-        extern UBaseType_t uxCriticalNesting;    \
+        ਬਾਹਰੀ UBaseType_t uxCriticalNesting;    \
         /* Interrupts are disabled, so we can */ \
         /* access the variable directly. */      \
         uxCriticalNesting--;                     \
-        if( uxCriticalNesting == 0 )             \
+        ਜੇ( uxCriticalNesting == 0 )             \
         {                                        \
             /* The nesting has unwound and we \
              * can enable interrupts again. */ \
-            portENABLE_INTERRUPTS();           \
+            ਪੋਰਟ_ENABLE_INTERRUPTS();           \
         }                                      \
     }
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void );
-#define portYIELD()             vPortYield()
+ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()             v_ਪੋਰਟ_Yield()
 
-void vTaskSwitchContext();
-#define portYIELD_FROM_ISR()    vTaskSwitchContext()
+ਖਾਲੀ vTaskSwitchContext();
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR()    vTaskSwitchContext()
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()               asm volatile ( "NOP" )
-#define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()               asm ਅਸਥਿਰ ( "NOP" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਮ੍ਰਿਤੀ_BARRIER()    asm ਅਸਥਿਰ ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

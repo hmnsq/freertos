@@ -26,170 +26,170 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 
 /******************************************************************************
 *   Defines
 ******************************************************************************/
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           size_t
-#define portPOINTER_SIZE_TYPE    size_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR                 ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT                ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE               ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG                 ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT                ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE           size_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੂਚਕ_ਮਾਪ_TYPE    size_t
 
-typedef portSTACK_TYPE           StackType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE           ਢੇਰ_Type_t;
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
-    #define portBASE_TYPE    long long
-    typedef long long            BaseType_t;
-    typedef unsigned long long   UBaseType_t;
-#else
-    #define portBASE_TYPE    long
-    typedef long                 BaseType_t;
-    typedef unsigned long        UBaseType_t;
-#endif
+#ਜੇ defined( __x86_64__ ) || defined( _M_X64 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE    ਲੰਮਾ ਲੰਮਾ
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ ਲੰਮਾ            ਅਧਾਰ_Type_t;
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ ਲੰਮਾ   UBaseType_t;
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE    ਲੰਮਾ
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ                 ਅਧਾਰ_Type_t;
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ        UBaseType_t;
+#ਜੇ_ਅੰਤ
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t             TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t             TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t             TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32/64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t             TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_64_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint64_t             TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#ਜੇ defined( __x86_64__ ) || defined( _M_X64 )
 /* 64-bit tick type on a 64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#endif
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+#ਜੇ_ਅੰਤ
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH          ( -1 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portINLINE                __inline
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH          ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INLINE                __inline
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
-    #define portBYTE_ALIGNMENT    8
-#else
-    #define portBYTE_ALIGNMENT    4
-#endif
+#ਜੇ defined( __x86_64__ ) || defined( _M_X64 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    8
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    4
+#ਜੇ_ਅੰਤ
 
-#define portYIELD()    vPortGenerateSimulatedInterrupt( portINTERRUPT_YIELD )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()    v_ਪੋਰਟ_Generate_Simulated_ਰੁਕਾਵਟ( ਪੋਰਟ_ਰੁਕਾਵਟ_YIELD )
 
 
-extern volatile BaseType_t xInsideInterrupt;
-#define portSOFTWARE_BARRIER()    while( xInsideInterrupt != pdFALSE )
+ਬਾਹਰੀ ਅਸਥਿਰ ਅਧਾਰ_Type_t x_Inside_ਰੁਕਾਵਟ;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SOFTWARE_BARRIER()    ਜਦੋਂ( x_Inside_ਰੁਕਾਵਟ != pdFALSE )
 
 
 /* Simulated interrupts return pdFALSE if no context switch should be performed,
  * or a non-zero number if a context switch should be performed. */
-#define portYIELD_FROM_ISR( x )       return x
-#define portEND_SWITCHING_ISR( x )    portYIELD_FROM_ISR( ( x ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )       ਵਾਪਸ x
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )    ਪੋਰਟ_YIELD_FROM_ISR( ( x ) )
 
-void vPortCloseRunningThread( void * pvTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-void vPortDeleteThread( void * pvThreadToDelete );
-#define portCLEAN_UP_TCB( pxTCB )                                  vPortDeleteThread( pxTCB )
-#define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortCloseRunningThread( ( pvTaskToDelete ), ( pxPendYield ) )
-#define portDISABLE_INTERRUPTS()                                   vPortEnterCritical()
-#define portENABLE_INTERRUPTS()                                    vPortExitCritical()
+ਖਾਲੀ v_ਪੋਰਟ_Close_Running_Thread( ਖਾਲੀ * pv_Task_ਮੰਜ਼ਿਲ_Delete,
+                              ਅਸਥਿਰ ਅਧਾਰ_Type_t * pxPendYield );
+ਖਾਲੀ v_ਪੋਰਟ_Delete_Thread( ਖਾਲੀ * pv_Thread_ਮੰਜ਼ਿਲ_Delete );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAN_ਉੱਪਰ_TCB( pxTCB )                                  v_ਪੋਰਟ_Delete_Thread( pxTCB )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRE_TASK_DELETE_HOOK( pv_Task_ਮੰਜ਼ਿਲ_Delete, pxPendYield )    v_ਪੋਰਟ_Close_Running_Thread( ( pv_Task_ਮੰਜ਼ਿਲ_Delete ), ( pxPendYield ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                                   v_ਪੋਰਟ_Enter_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()                                    v_ਪੋਰਟ_Exit_Critical()
 
 /* Critical section handling. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
 
-#define portENTER_CRITICAL()    vPortEnterCritical()
-#define portEXIT_CRITICAL()     vPortExitCritical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()    v_ਪੋਰਟ_Enter_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()     v_ਪੋਰਟ_Exit_Critical()
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION    1
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ਜੇ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #ਜੇ ( configMAX_PRIORITIES > 32 )
+        #ਗਲਤੀ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION can only be ਸੈੱਟ ਮੰਜ਼ਿਲ 1 when configMAX_PRIORITIES is less than or equal ਮੰਜ਼ਿਲ 32.  It is very rare that a system requires ਹੋਰ than 10 ਮੰਜ਼ਿਲ 15 difference priorities as tasks that share a ਤਰਜੀਹ will time ਟੁਕੜਾ.
+    #ਜੇ_ਅੰਤ
 
     /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( ( ( UBaseType_t ) 1 ) << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( ( ( UBaseType_t ) 1 ) << ( uxPriority ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰਿਕਾਰਡ_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( ( ( UBaseType_t ) 1 ) << ( ux_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( ( ( UBaseType_t ) 1 ) << ( ux_ਤਰਜੀਹ ) )
 
-    #ifdef __GNUC__
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __GNUC__
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-        __asm volatile ( "bsr %1, %0\n\t"                                       \
-                         : "=r" ( uxTopPriority )                               \
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities )    \
+        __asm ਅਸਥਿਰ ( "bsr %1, %0\n\t"                                       \
+                         : "=r" ( ux_ਸਿਖਰ_ਤਰਜੀਹ )                               \
                          : "rm" ( uxReadyPriorities )                           \
                          : "cc" )
 
-    #else /* __GNUC__ */
-        #include <intrin.h>
+    #ਨਹੀਂਤਾਂ /* __GNUC__ */
+        #ਅਨ੍ਤਰ੍ਭਾਵ <intrin.h>
 
         /* BitScanReverse returns the bit position of the most significant '1'
          * in the word. */
-        #if defined( __x86_64__ ) || defined( _M_X64 )
-            #pragma intrinsic(_BitScanReverse64)
+        #ਜੇ defined( __x86_64__ ) || defined( _M_X64 )
+            #ਹਦਾਇਤ intrinsic(ਦੋਆਧਾਰੀ_ਅੰਕ_ਜਾਂਚ_Reverse64)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-            do                                                                      \
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities )    \
+            ਕਰੋ                                                                      \
             {                                                                       \
-                unsigned long ulTopPriority;                                        \
-                _BitScanReverse64( &ulTopPriority, ( uxReadyPriorities ) );         \
-                uxTopPriority = ulTopPriority;                                      \
-            } while( 0 )
+                ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ ul_ਸਿਖਰ_ਤਰਜੀਹ;                                        \
+                ਦੋਆਧਾਰੀ_ਅੰਕ_ਜਾਂਚ_Reverse64( &ul_ਸਿਖਰ_ਤਰਜੀਹ, ( uxReadyPriorities ) );         \
+                ux_ਸਿਖਰ_ਤਰਜੀਹ = ul_ਸਿਖਰ_ਤਰਜੀਹ;                                      \
+            } ਜਦੋਂ( 0 )
 
-        #else /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
-            #pragma intrinsic(_BitScanReverse)
+        #ਨਹੀਂਤਾਂ /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+            #ਹਦਾਇਤ intrinsic(ਦੋਆਧਾਰੀ_ਅੰਕ_ਜਾਂਚ_ਉਲਟ)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( uxTopPriority ), ( uxReadyPriorities ) )
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities )    ਦੋਆਧਾਰੀ_ਅੰਕ_ਜਾਂਚ_ਉਲਟ( ( ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ * ) &( ux_ਸਿਖਰ_ਤਰਜੀਹ ), ( uxReadyPriorities ) )
 
-        #endif /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+        #ਜੇ_ਅੰਤ /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
 
-    #endif /* __GNUC__ */
+    #ਜੇ_ਅੰਤ /* __GNUC__ */
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#ਜੇ_ਅੰਤ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#ifndef __GNUC__
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __GNUC__
     __pragma( warning( disable:4211 ) ) /* Nonstandard extension used, as extern is only nonstandard to MSVC. */
-#endif
+#ਜੇ_ਅੰਤ
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
-#define portINTERRUPT_YIELD                        ( 0UL )
-#define portINTERRUPT_TICK                         ( 1UL )
-#define portINTERRUPT_APPLICATION_DEFINED_START    ( 2UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰੁਕਾਵਟ_YIELD                        ( 0UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰੁਕਾਵਟ_TICK                         ( 1UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰੁਕਾਵਟ_APPLICATION_DEFINED_ਸ਼ੁਰੂ    ( 2UL )
 
 /*
  * Raise a simulated interrupt represented by the bit mask in ulInterruptMask.
  * Each bit can be used to represent an individual interrupt - with the first
  * two bits being used for the Yield and Tick interrupts respectively.
  */
-void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
+ਖਾਲੀ v_ਪੋਰਟ_Generate_Simulated_ਰੁਕਾਵਟ( uint32_t ul_ਰੁਕਾਵਟ_ਸੰਖਿਆ );
 
 /*
  * Raise a simulated interrupt represented by the bit mask in ulInterruptMask.
@@ -197,7 +197,7 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
  * two bits being used for the Yield and Tick interrupts respectively. This function
  * can be called in a windows thread.
  */
-void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumber );
+ਖਾਲੀ v_ਪੋਰਟ_Generate_Simulated_ਰੁਕਾਵਟ_From_Windows_Thread( uint32_t ul_ਰੁਕਾਵਟ_ਸੰਖਿਆ );
 
 /*
  * Install an interrupt handler to be called by the simulated interrupt handler
@@ -208,11 +208,11 @@ void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumbe
  * Interrupt handler functions must return a non-zero value if executing the
  * handler resulted in a task switch being required.
  */
-void vPortSetInterruptHandler( uint32_t ulInterruptNumber,
-                               uint32_t ( * pvHandler )( void ) );
+ਖਾਲੀ v_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_Handler( uint32_t ul_ਰੁਕਾਵਟ_ਸੰਖਿਆ,
+                               uint32_t ( * pvHandler )( ਖਾਲੀ ) );
 
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
 }
-#endif
+#ਜੇ_ਅੰਤ
 
-#endif /* ifndef PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* ifndef PORTMACRO_H */

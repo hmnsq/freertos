@@ -31,176 +31,176 @@
 *----------------------------------------------------------*/
 
 /* IAR includes. */
-#include <intrinsics.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <intrinsics.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
-#if ( configMAX_SYSCALL_INTERRUPT_PRIORITY == 0 )
-    #error configMAX_SYSCALL_INTERRUPT_PRIORITY must not be set to 0.  See http: /*www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
-#endif
+#ਜੇ ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ == 0 )
+    #ਗਲਤੀ config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ must not be ਸੈੱਟ ਮੰਜ਼ਿਲ 0.  See http: /*www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
+#ਜੇ_ਅੰਤ
 
 /* Prototype of all Interrupt Service Routines (ISRs). */
-typedef void ( * portISR_t )( void );
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਖਾਲੀ ( * ਪੋਰਟ_ISR_t )( ਖਾਲੀ );
 
 /* Constants required to manipulate the core.  Registers first... */
-#define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_SHPR2_REG                    ( *( ( volatile uint32_t * ) 0xe000ed1c ) )
-#define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG             ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000e010 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG             ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000e014 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG    ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000e018 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SHPR2_REG                    ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000ed1c ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SHPR3_REG                    ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000ed20 ) )
 /* ...then bits in the registers. */
-#define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
-#define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
-#define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
-#define portNVIC_PENDSVCLEAR_BIT              ( 1UL << 27UL )
-#define portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
-#define portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ              ( 1UL << 2UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ              ( 1UL << 1UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_ENABLE_ਦੋਆਧਾਰੀ_ਅੰਕ           ( 1UL << 0UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_ਗਿਣਤੀ_FLAG_ਦੋਆਧਾਰੀ_ਅੰਕ       ( 1UL << 16UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_PENDSVCLEAR_ਦੋਆਧਾਰੀ_ਅੰਕ              ( 1UL << 27UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_PEND_SYSTICK_ਸੈੱਟ_ਦੋਆਧਾਰੀ_ਅੰਕ         ( 1UL << 26UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_PEND_SYSTICK_CLEAR_ਦੋਆਧਾਰੀ_ਅੰਕ       ( 1UL << 25UL )
 
-#define portMIN_INTERRUPT_PRIORITY            ( 255UL )
-#define portNVIC_PENDSV_PRI                   ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 16UL )
-#define portNVIC_SYSTICK_PRI                  ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 24UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MIN_ਰੁਕਾਵਟ_ਤਰਜੀਹ            ( 255UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_PENDSV_PRI                   ( ( ( uint32_t ) ਪੋਰਟ_MIN_ਰੁਕਾਵਟ_ਤਰਜੀਹ ) << 16UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_PRI                  ( ( ( uint32_t ) ਪੋਰਟ_MIN_ਰੁਕਾਵਟ_ਤਰਜੀਹ ) << 24UL )
 
 /* Constants used to check the installation of the FreeRTOS interrupt handlers. */
-#define portSCB_VTOR_REG                      ( *( ( portISR_t ** ) 0xE000ED08 ) )
-#define portVECTOR_INDEX_SVC                  ( 11 )
-#define portVECTOR_INDEX_PENDSV               ( 14 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SCB_VTOR_REG                      ( *( ( ਪੋਰਟ_ISR_t ** ) 0xE000ED08 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਦਿਸ਼_ਸੂਚਕਾਂਕ_SVC                  ( 11 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਦਿਸ਼_ਸੂਚਕਾਂਕ_PENDSV               ( 14 )
 
 /* Constants required to check the validity of an interrupt priority. */
-#define portFIRST_USER_INTERRUPT_NUMBER       ( 16 )
-#define portNVIC_IP_REGISTERS_OFFSET_16       ( 0xE000E3F0 )
-#define portAIRCR_REG                         ( *( ( volatile uint32_t * ) 0xE000ED0C ) )
-#define portMAX_8_BIT_VALUE                   ( ( uint8_t ) 0xff )
-#define portTOP_BIT_OF_BYTE                   ( ( uint8_t ) 0x80 )
-#define portMAX_PRIGROUP_BITS                 ( ( uint8_t ) 7 )
-#define portPRIORITY_GROUP_MASK               ( 0x07UL << 8UL )
-#define portPRIGROUP_SHIFT                    ( 8UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਪਹਿਲਾ_USER_ਰੁਕਾਵਟ_ਸੰਖਿਆ       ( 16 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_IP_REGISTERS_ਵਿੱਥ_16       ( 0xE000E3F0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_AIRCR_REG                         ( *( ( ਅਸਥਿਰ uint32_t * ) 0xE000ED0C ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_8_ਦੋਆਧਾਰੀ_ਅੰਕ_ਮੁੱਲ                   ( ( uint8_t ) 0xff )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਖਰ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਦਾ_BYTE                   ( ( uint8_t ) 0x80 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_PRIGROUP_ਬਿੱਟ                 ( ( uint8_t ) 7 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਤਰਜੀਹ_ਸਮੂਹ_ਨਕਾਬ               ( 0x07UL << 8UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRIGROUP_ਖਿਸਕਾਓ                    ( 8UL )
 
 /* Masks off all bits but the VECTACTIVE bits in the ICSR register. */
-#define portVECTACTIVE_MASK                   ( 0xFFUL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_VECTACTIVE_ਨਕਾਬ                   ( 0xFFUL )
 
 /* Constants required to set up the initial stack. */
-#define portINITIAL_XPSR                      ( 0x01000000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_XPSR                      ( 0x01000000 )
 
 /* The systick is a 24-bit counter. */
-#define portMAX_24_BIT_NUMBER                 ( 0xffffffUL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_24_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੰਖਿਆ                 ( 0xffffffUL )
 
 /* A fiddle factor to estimate the number of SysTick counts that would have
  * occurred while the SysTick counter is stopped during tickless idle
  * calculations. */
-#define portMISSED_COUNTS_FACTOR              ( 94UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MISSED_COUNTS_ਗੁਣਕ              ( 94UL )
 
 /* For strict compliance with the Cortex-M spec the task start address should
  * have bit-0 clear, as it is loaded into the PC on exit from an ISR. */
-#define portSTART_ADDRESS_MASK                ( ( StackType_t ) 0xfffffffeUL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਤਾ_ਨਕਾਬ                ( ( ਢੇਰ_Type_t ) 0xfffffffeUL )
 
 /* Let the user override the default SysTick clock rate.  If defined by the
  * user, this symbol must equal the SysTick clock rate when the CLK bit is 0 in the
  * configuration register. */
-#ifndef configSYSTICK_CLOCK_HZ
-    #define configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configSYSTICK_CLOCK_HZ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
     /* Ensure the SysTick is clocked at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
-#else
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG    ( ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ )
+#ਨਹੀਂਤਾਂ
     /* Select the option to clock SysTick not at the same frequency as the core. */
-    #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG    ( 0 )
+#ਜੇ_ਅੰਤ
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void );
+ਖਾਲੀ v_ਪੋਰਟ_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
 /*
  * Exception handlers.
  */
-void xPortSysTickHandler( void );
+ਖਾਲੀ x_ਪੋਰਟ_Sys_Tick_Handler( ਖਾਲੀ );
 
 /*
  * Start first task is a separate function so it can be tested in isolation.
  */
-extern void vPortStartFirstTask( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ਸਥਿਰ ਖਾਲੀ prvTaskExitError( ਖਾਲੀ );
 
 /*
  * FreeRTOS handlers implemented in assembly.
  */
-extern void vPortSVCHandler( void );
-extern void xPortPendSVHandler( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_SVCHandler( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ x_ਪੋਰਟ_Pend_SVHandler( ਖਾਲੀ );
 /*-----------------------------------------------------------*/
 
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. */
-static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
+ਸਥਿਰ UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
 /*
  * The number of SysTick increments that make up one tick period.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t ulTimerCountsForOneTick = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+#ਜੇ ( configUSE_TICKLESS_IDLE == 1 )
+    ਸਥਿਰ uint32_t ulTimerCountsForOneTick = 0;
+#ਜੇ_ਅੰਤ /* configUSE_TICKLESS_IDLE */
 
 /*
  * The maximum number of tick periods that can be suppressed is limited by the
  * 24 bit resolution of the SysTick timer.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t xMaximumPossibleSuppressedTicks = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+#ਜੇ ( configUSE_TICKLESS_IDLE == 1 )
+    ਸਥਿਰ uint32_t x_ਵੱਧ_ਤੋਂ_ਵੱਧ_Possible_Suppressed_Ticks = 0;
+#ਜੇ_ਅੰਤ /* configUSE_TICKLESS_IDLE */
 
 /*
  * Compensate for the CPU cycles that pass while the SysTick is stopped (low
  * power functionality only.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t ulStoppedTimerCompensation = 0;
-#endif /* configUSE_TICKLESS_IDLE */
+#ਜੇ ( configUSE_TICKLESS_IDLE == 1 )
+    ਸਥਿਰ uint32_t ulStoppedTimerCompensation = 0;
+#ਜੇ_ਅੰਤ /* configUSE_TICKLESS_IDLE */
 
 /*
  * Used by the portASSERT_IF_INTERRUPT_PRIORITY_INVALID() macro to ensure
  * FreeRTOS API functions are not called from interrupts that have been assigned
  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
  */
-#if ( configASSERT_DEFINED == 1 )
-    static uint8_t ucMaxSysCallPriority = 0;
-    static uint32_t ulMaxPRIGROUPValue = 0;
-    static const volatile uint8_t * const pcInterruptPriorityRegisters = ( const volatile uint8_t * const ) portNVIC_IP_REGISTERS_OFFSET_16;
-#endif /* configASSERT_DEFINED */
+#ਜੇ ( configASSERT_DEFINED == 1 )
+    ਸਥਿਰ uint8_t uc_Max_Sys_Call_ਤਰਜੀਹ = 0;
+    ਸਥਿਰ uint32_t ulMaxPRIGROUPValue = 0;
+    ਸਥਿਰ ਅਚਲ ਅਸਥਿਰ uint8_t * ਅਚਲ pc_ਰੁਕਾਵਟ_ਤਰਜੀਹ_Registers = ( ਅਚਲ ਅਸਥਿਰ uint8_t * ਅਚਲ ) ਪੋਰਟ_NVIC_IP_REGISTERS_ਵਿੱਥ_16;
+#ਜੇ_ਅੰਤ /* configASSERT_DEFINED */
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
-    pxTopOfStack--;                                                      /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
-    *pxTopOfStack = portINITIAL_XPSR;                                    /* xPSR */
-    pxTopOfStack--;
-    *pxTopOfStack = ( ( StackType_t ) pxCode ) & portSTART_ADDRESS_MASK; /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError;                    /* LR */
-    pxTopOfStack -= 5;                                                   /* R12, R3, R2 and R1. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;                        /* R0 */
-    pxTopOfStack -= 8;                                                   /* R11, R10, R9, R8, R7, R6, R5 and R4. */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;                                                      /* Offset added to account for the way the MCU uses the stack on entry/exit of interrupts. */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ਪੋਰਟ_INITIAL_XPSR;                                    /* xPSR */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ( ਢੇਰ_Type_t ) px_ਕੋਡ ) & ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਤਾ_ਨਕਾਬ; /* PC */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) prvTaskExitError;                    /* LR */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 5;                                                   /* R12, R3, R2 and R1. */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pvParameters;                        /* R0 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 8;                                                   /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ਸਥਿਰ ਖਾਲੀ prvTaskExitError( ਖਾਲੀ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -209,9 +209,9 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error. */
     configASSERT( uxCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    ਲਈ( ; ; )
     {
     }
 }
@@ -220,7 +220,7 @@ static void prvTaskExitError( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
     /* An application can install FreeRTOS interrupt handlers in one of the
      * following ways:
@@ -234,9 +234,9 @@ BaseType_t xPortStartScheduler( void )
      * configCHECK_HANDLER_INSTALLATION to 0 in their FreeRTOSConfig.h. Direct
      * routing, which is validated here when configCHECK_HANDLER_INSTALLATION
      * is 1, should be preferred when possible. */
-    #if ( configCHECK_HANDLER_INSTALLATION == 1 )
+    #ਜੇ ( configCHECK_HANDLER_INSTALLATION == 1 )
     {
-        const portISR_t * const pxVectorTable = portSCB_VTOR_REG;
+        ਅਚਲ ਪੋਰਟ_ISR_t * ਅਚਲ px_ਸਦਿਸ਼_ਸਾਰਣੀ = ਪੋਰਟ_SCB_VTOR_REG;
 
         /* Validate that the application has correctly installed the FreeRTOS
          * handlers for SVCall and PendSV interrupts. We do not check the
@@ -251,17 +251,17 @@ BaseType_t xPortStartScheduler( void )
          * Systems with a configurable address for the interrupt vector table
          * can also encounter assertion failures or even system faults here if
          * VTOR is not set correctly to point to the application's vector table. */
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_SVC ] == vPortSVCHandler );
-        configASSERT( pxVectorTable[ portVECTOR_INDEX_PENDSV ] == xPortPendSVHandler );
+        configASSERT( px_ਸਦਿਸ਼_ਸਾਰਣੀ[ ਪੋਰਟ_ਸਦਿਸ਼_ਸੂਚਕਾਂਕ_SVC ] == v_ਪੋਰਟ_SVCHandler );
+        configASSERT( px_ਸਦਿਸ਼_ਸਾਰਣੀ[ ਪੋਰਟ_ਸਦਿਸ਼_ਸੂਚਕਾਂਕ_PENDSV ] == x_ਪੋਰਟ_Pend_SVHandler );
     }
-    #endif /* configCHECK_HANDLER_INSTALLATION */
+    #ਜੇ_ਅੰਤ /* configCHECK_HANDLER_INSTALLATION */
 
-    #if ( configASSERT_DEFINED == 1 )
+    #ਜੇ ( configASSERT_DEFINED == 1 )
     {
-        volatile uint8_t ucOriginalPriority;
-        volatile uint32_t ulImplementedPrioBits = 0;
-        volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( portNVIC_IP_REGISTERS_OFFSET_16 + portFIRST_USER_INTERRUPT_NUMBER );
-        volatile uint8_t ucMaxPriorityValue;
+        ਅਸਥਿਰ uint8_t uc_Original_ਤਰਜੀਹ;
+        ਅਸਥਿਰ uint32_t ul_Implemented_Prio_ਬਿੱਟ = 0;
+        ਅਸਥਿਰ uint8_t * ਅਚਲ puc_ਪਹਿਲਾ_User_ਤਰਜੀਹ_ਰਜਿਸਟਰ = ( ਅਸਥਿਰ uint8_t * ਅਚਲ ) ( ਪੋਰਟ_NVIC_IP_REGISTERS_ਵਿੱਥ_16 + ਪੋਰਟ_ਪਹਿਲਾ_USER_ਰੁਕਾਵਟ_ਸੰਖਿਆ );
+        ਅਸਥਿਰ uint8_t uc_Max_ਤਰਜੀਹ_ਮੁੱਲ;
 
         /* Determine the maximum priority from which ISR safe FreeRTOS API
          * functions can be called.  ISR safe functions are those that end in
@@ -269,17 +269,17 @@ BaseType_t xPortStartScheduler( void )
          * ensure interrupt entry is as fast and simple as possible.
          *
          * Save the interrupt priority value that is about to be clobbered. */
-        ucOriginalPriority = *pucFirstUserPriorityRegister;
+        uc_Original_ਤਰਜੀਹ = *puc_ਪਹਿਲਾ_User_ਤਰਜੀਹ_ਰਜਿਸਟਰ;
 
         /* Determine the number of priority bits available.  First write to all
          * possible bits. */
-        *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+        *puc_ਪਹਿਲਾ_User_ਤਰਜੀਹ_ਰਜਿਸਟਰ = ਪੋਰਟ_MAX_8_ਦੋਆਧਾਰੀ_ਅੰਕ_ਮੁੱਲ;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+        uc_Max_ਤਰਜੀਹ_ਮੁੱਲ = *puc_ਪਹਿਲਾ_User_ਤਰਜੀਹ_ਰਜਿਸਟਰ;
 
         /* Use the same mask on the maximum system call priority. */
-        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
+        uc_Max_Sys_Call_ਤਰਜੀਹ = config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ & uc_Max_ਤਰਜੀਹ_ਮੁੱਲ;
 
         /* Check that the maximum system call priority is nonzero after
          * accounting for the number of priority bits supported by the
@@ -287,22 +287,22 @@ BaseType_t xPortStartScheduler( void )
          * register to 0 unmasks all interrupts, and interrupts with priority 0
          * cannot be masked using BASEPRI.
          * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
-        configASSERT( ucMaxSysCallPriority );
+        configASSERT( uc_Max_Sys_Call_ਤਰਜੀਹ );
 
         /* Check that the bits not implemented in hardware are zero in
          * configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( uint8_t ) ( ~( uint32_t ) ucMaxPriorityValue ) ) == 0U );
+        configASSERT( ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ & ( uint8_t ) ( ~( uint32_t ) uc_Max_ਤਰਜੀਹ_ਮੁੱਲ ) ) == 0U );
 
         /* Calculate the maximum acceptable priority group value for the number
          * of bits read back. */
 
-        while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+        ਜਦੋਂ( ( uc_Max_ਤਰਜੀਹ_ਮੁੱਲ & ਪੋਰਟ_ਸਿਖਰ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਦਾ_BYTE ) == ਪੋਰਟ_ਸਿਖਰ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਦਾ_BYTE )
         {
-            ulImplementedPrioBits++;
-            ucMaxPriorityValue <<= ( uint8_t ) 0x01;
+            ul_Implemented_Prio_ਬਿੱਟ++;
+            uc_Max_ਤਰਜੀਹ_ਮੁੱਲ <<= ( uint8_t ) 0x01;
         }
 
-        if( ulImplementedPrioBits == 8 )
+        ਜੇ( ul_Implemented_Prio_ਬਿੱਟ == 8 )
         {
             /* When the hardware implements 8 priority bits, there is no way for
              * the software to configure PRIGROUP to not have sub-priorities. As
@@ -321,47 +321,47 @@ BaseType_t xPortStartScheduler( void )
              * The following assert ensures that the sub-priority bit in the
              * configMAX_SYSCALL_INTERRUPT_PRIORITY is clear to avoid the above mentioned
              * confusion. */
-            configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & 0x1U ) == 0U );
+            configASSERT( ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ & 0x1U ) == 0U );
             ulMaxPRIGROUPValue = 0;
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
-            ulMaxPRIGROUPValue = portMAX_PRIGROUP_BITS - ulImplementedPrioBits;
+            ulMaxPRIGROUPValue = ਪੋਰਟ_MAX_PRIGROUP_ਬਿੱਟ - ul_Implemented_Prio_ਬਿੱਟ;
         }
 
         /* Shift the priority group value back to its position within the AIRCR
          * register. */
-        ulMaxPRIGROUPValue <<= portPRIGROUP_SHIFT;
-        ulMaxPRIGROUPValue &= portPRIORITY_GROUP_MASK;
+        ulMaxPRIGROUPValue <<= ਪੋਰਟ_PRIGROUP_ਖਿਸਕਾਓ;
+        ulMaxPRIGROUPValue &= ਪੋਰਟ_ਤਰਜੀਹ_ਸਮੂਹ_ਨਕਾਬ;
 
         /* Restore the clobbered interrupt priority register to its original
          * value. */
-        *pucFirstUserPriorityRegister = ucOriginalPriority;
+        *puc_ਪਹਿਲਾ_User_ਤਰਜੀਹ_ਰਜਿਸਟਰ = uc_Original_ਤਰਜੀਹ;
     }
-    #endif /* configASSERT_DEFINED */
+    #ਜੇ_ਅੰਤ /* configASSERT_DEFINED */
 
     /* Make PendSV and SysTick the lowest priority interrupts, and make SVCall
      * the highest priority. */
-    portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
-    portNVIC_SHPR3_REG |= portNVIC_SYSTICK_PRI;
-    portNVIC_SHPR2_REG = 0;
+    ਪੋਰਟ_NVIC_SHPR3_REG |= ਪੋਰਟ_NVIC_PENDSV_PRI;
+    ਪੋਰਟ_NVIC_SHPR3_REG |= ਪੋਰਟ_NVIC_SYSTICK_PRI;
+    ਪੋਰਟ_NVIC_SHPR2_REG = 0;
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    vPortSetupTimerInterrupt();
+    v_ਪੋਰਟ_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ();
 
     /* Initialise the critical nesting count ready for the first task. */
     uxCriticalNesting = 0;
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
     /* Should not get here! */
-    return 0;
+    ਵਾਪਸ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -369,9 +369,9 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ )
 {
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
     uxCriticalNesting++;
 
     /* This is not the interrupt safe version of the enter critical function so
@@ -379,63 +379,63 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( uxCriticalNesting == 1 )
+    ਜੇ( uxCriticalNesting == 1 )
     {
-        configASSERT( ( portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK ) == 0 );
+        configASSERT( ( ਪੋਰਟ_NVIC_INT_CTRL_REG & ਪੋਰਟ_VECTACTIVE_ਨਕਾਬ ) == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ )
 {
     configASSERT( uxCriticalNesting );
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == 0 )
+    ਜੇ( uxCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        ਪੋਰਟ_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void xPortSysTickHandler( void )
+ਖਾਲੀ x_ਪੋਰਟ_Sys_Tick_Handler( ਖਾਲੀ )
 {
     /* The SysTick runs at the lowest interrupt priority, so when this interrupt
      * executes all interrupts must be unmasked.  There is therefore no need to
      * save and then restore the interrupt mask value as its value is already
      * known. */
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
-            traceISR_EXIT_TO_SCHEDULER();
+            trace_ISR_EXIT_ਮੰਜ਼ਿਲ_SCHEDULER();
 
             /* A context switch is required.  Context switching is performed in
              * the PendSV interrupt.  Pend the PendSV interrupt. */
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+            ਪੋਰਟ_NVIC_INT_CTRL_REG = ਪੋਰਟ_NVIC_PENDSVSET_ਦੋਆਧਾਰੀ_ਅੰਕ;
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
             traceISR_EXIT();
         }
     }
-    portENABLE_INTERRUPTS();
+    ਪੋਰਟ_ENABLE_INTERRUPTS();
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#ਜੇ ( configUSE_TICKLESS_IDLE == 1 )
 
-    __weak void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    __weak ਖਾਲੀ v_ਪੋਰਟ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_ਸਮਾਂ )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
-        TickType_t xModifiableIdleTime;
+        uint32_t ul_Reload_ਮੁੱਲ, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ul_Sys_Tick_Decrements_ਖੱਬਾ;
+        TickType_t x_Modifiable_Idle_ਸਮਾਂ;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        ਜੇ( x_Expected_Idle_ਸਮਾਂ > x_ਵੱਧ_ਤੋਂ_ਵੱਧ_Possible_Suppressed_Ticks )
         {
-            xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+            x_Expected_Idle_ਸਮਾਂ = x_ਵੱਧ_ਤੋਂ_ਵੱਧ_Possible_Suppressed_Ticks;
         }
 
         /* Enter a critical section but don't use the taskENTER_CRITICAL()
@@ -446,30 +446,30 @@ void xPortSysTickHandler( void )
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        ਜੇ( e_Task_Confirm_Sleep_ਬਹੁਲਕ_ਸਥਿਤੀ() == eAbortSleep )
         {
             /* Re-enable interrupts - see comments above the __disable_interrupt()
              * call above. */
             __enable_interrupt();
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
             /* Stop the SysTick momentarily.  The time the SysTick is stopped for
              * is accounted for as best it can be, but using the tickless mode will
              * inevitably result in some tiny drift of the time maintained by the
              * kernel with respect to calendar time. */
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = ( ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG | ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ );
 
             /* Use the SysTick current-value register to determine the number of
              * SysTick decrements remaining until the next tick interrupt.  If the
              * current-value register is zero, then there are actually
              * ulTimerCountsForOneTick decrements remaining, not zero, because the
              * SysTick requests the interrupt when decrementing from 1 to 0. */
-            ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            ul_Sys_Tick_Decrements_ਖੱਬਾ = ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG;
 
-            if( ulSysTickDecrementsLeft == 0 )
+            ਜੇ( ul_Sys_Tick_Decrements_ਖੱਬਾ == 0 )
             {
-                ulSysTickDecrementsLeft = ulTimerCountsForOneTick;
+                ul_Sys_Tick_Decrements_ਖੱਬਾ = ulTimerCountsForOneTick;
             }
 
             /* Calculate the reload value required to wait xExpectedIdleTime
@@ -478,45 +478,45 @@ void xPortSysTickHandler( void )
              * pending, then clear the IRQ, suppressing the first tick, and correct
              * the reload value to reflect that the second tick period is already
              * underway.  The expected idle time is always at least two ticks. */
-            ulReloadValue = ulSysTickDecrementsLeft + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+            ul_Reload_ਮੁੱਲ = ul_Sys_Tick_Decrements_ਖੱਬਾ + ( ulTimerCountsForOneTick * ( x_Expected_Idle_ਸਮਾਂ - 1UL ) );
 
-            if( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
+            ਜੇ( ( ਪੋਰਟ_NVIC_INT_CTRL_REG & ਪੋਰਟ_NVIC_PEND_SYSTICK_ਸੈੱਟ_ਦੋਆਧਾਰੀ_ਅੰਕ ) != 0 )
             {
-                portNVIC_INT_CTRL_REG = portNVIC_PEND_SYSTICK_CLEAR_BIT;
-                ulReloadValue -= ulTimerCountsForOneTick;
+                ਪੋਰਟ_NVIC_INT_CTRL_REG = ਪੋਰਟ_NVIC_PEND_SYSTICK_CLEAR_ਦੋਆਧਾਰੀ_ਅੰਕ;
+                ul_Reload_ਮੁੱਲ -= ulTimerCountsForOneTick;
             }
 
-            if( ulReloadValue > ulStoppedTimerCompensation )
+            ਜੇ( ul_Reload_ਮੁੱਲ > ulStoppedTimerCompensation )
             {
-                ulReloadValue -= ulStoppedTimerCompensation;
+                ul_Reload_ਮੁੱਲ -= ulStoppedTimerCompensation;
             }
 
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG = ul_Reload_ਮੁੱਲ;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG = 0UL;
 
             /* Restart SysTick. */
-            portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
+            ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG |= ਪੋਰਟ_NVIC_SYSTICK_ENABLE_ਦੋਆਧਾਰੀ_ਅੰਕ;
 
             /* Sleep until something happens.  configPRE_SLEEP_PROCESSING() can
              * set its parameter to 0 to indicate that its implementation contains
              * its own wait for interrupt or wait for event instruction, and so wfi
              * should not be executed again.  However, the original expected idle
              * time variable must remain unmodified, so a copy is taken. */
-            xModifiableIdleTime = xExpectedIdleTime;
-            configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
+            x_Modifiable_Idle_ਸਮਾਂ = x_Expected_Idle_ਸਮਾਂ;
+            configPRE_SLEEP_PROCESSING( x_Modifiable_Idle_ਸਮਾਂ );
 
-            if( xModifiableIdleTime > 0 )
+            ਜੇ( x_Modifiable_Idle_ਸਮਾਂ > 0 )
             {
                 __DSB();
                 __WFI();
                 __ISB();
             }
 
-            configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
+            configPOST_SLEEP_PROCESSING( x_Expected_Idle_ਸਮਾਂ );
 
             /* Re-enable interrupts to allow the interrupt that brought the MCU
              * out of sleep mode to execute immediately.  See comments above
@@ -540,60 +540,60 @@ void xPortSysTickHandler( void )
              * be, but using the tickless mode will inevitably result in some tiny
              * drift of the time maintained by the kernel with respect to calendar
              * time*/
-            portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
+            ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = ( ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG | ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ );
 
             /* Determine whether the SysTick has already counted to zero. */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            ਜੇ( ( ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG & ਪੋਰਟ_NVIC_SYSTICK_ਗਿਣਤੀ_FLAG_ਦੋਆਧਾਰੀ_ਅੰਕ ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_ਲੱਦੋ_ਮੁੱਲ;
 
                 /* The tick interrupt ended the sleep (or is now pending), and
                  * a new tick period has started.  Reset portNVIC_SYSTICK_LOAD_REG
                  * with whatever remains of the new tick period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_ਲੱਦੋ_ਮੁੱਲ = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_ਮੁੱਲ - ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long or because the SysTick current-value register
                  * is zero. */
-                if( ( ulCalculatedLoadValue <= ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                ਜੇ( ( ul_Calculated_ਲੱਦੋ_ਮੁੱਲ <= ulStoppedTimerCompensation ) || ( ul_Calculated_ਲੱਦੋ_ਮੁੱਲ > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_ਲੱਦੋ_ਮੁੱਲ = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG = ul_Calculated_ਲੱਦੋ_ਮੁੱਲ;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
                  * forward by one less than the time spent waiting. */
-                ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
+                ulCompleteTickPeriods = x_Expected_Idle_ਸਮਾਂ - 1UL;
             }
-            else
+            ਨਹੀਂਤਾਂ
             {
                 /* Something other than the tick interrupt ended the sleep. */
 
                 /* Use the SysTick current-value register to determine the
                  * number of SysTick decrements remaining until the expected idle
                  * time would have ended. */
-                ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-                #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
+                ul_Sys_Tick_Decrements_ਖੱਬਾ = ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG;
+                #ਜੇ ( ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG != ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ )
                 {
                     /* If the SysTick is not using the core clock, the current-
                      * value register might still be zero here.  In that case, the
                      * SysTick didn't load from the reload register, and there are
                      * ulReloadValue decrements remaining in the expected idle
                      * time, not zero. */
-                    if( ulSysTickDecrementsLeft == 0 )
+                    ਜੇ( ul_Sys_Tick_Decrements_ਖੱਬਾ == 0 )
                     {
-                        ulSysTickDecrementsLeft = ulReloadValue;
+                        ul_Sys_Tick_Decrements_ਖੱਬਾ = ul_Reload_ਮੁੱਲ;
                     }
                 }
-                #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+                #ਜੇ_ਅੰਤ /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
                 /* Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ulSysTickDecrementsLeft;
+                ulCompletedSysTickDecrements = ( x_Expected_Idle_ਸਮਾਂ * ulTimerCountsForOneTick ) - ul_Sys_Tick_Decrements_ਖੱਬਾ;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -601,7 +601,7 @@ void xPortSysTickHandler( void )
 
                 /* The reload value is set to whatever fraction of a single tick
                  * period remains. */
-                portNVIC_SYSTICK_LOAD_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
+                ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG = ( ( ulCompleteTickPeriods + 1UL ) * ulTimerCountsForOneTick ) - ulCompletedSysTickDecrements;
             }
 
             /* Restart SysTick so it runs from portNVIC_SYSTICK_LOAD_REG again,
@@ -611,81 +611,81 @@ void xPortSysTickHandler( void )
              * from portNVIC_SYSTICK_LOAD_REG immediately instead of at the next
              * cycle of the other clock.  Then portNVIC_SYSTICK_LOAD_REG is ready
              * to receive the standard value immediately. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
-            portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-            #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
+            ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG = 0UL;
+            ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_NVIC_SYSTICK_ENABLE_ਦੋਆਧਾਰੀ_ਅੰਕ;
+            #ਜੇ ( ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG == ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ )
             {
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
+                ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG = ulTimerCountsForOneTick - 1UL;
             }
-            #else
+            #ਨਹੀਂਤਾਂ
             {
                 /* The temporary usage of the core clock has served its purpose,
                  * as described above.  Resume usage of the other clock. */
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
+                ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ;
 
-                if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+                ਜੇ( ( ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG & ਪੋਰਟ_NVIC_SYSTICK_ਗਿਣਤੀ_FLAG_ਦੋਆਧਾਰੀ_ਅੰਕ ) != 0 )
                 {
                     /* The partial tick period already ended.  Be sure the SysTick
                      * counts it only once. */
-                    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0;
+                    ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG = 0;
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
-                portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
+                ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG = ulTimerCountsForOneTick - 1UL;
+                ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG | ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_NVIC_SYSTICK_ENABLE_ਦੋਆਧਾਰੀ_ਅੰਕ;
             }
-            #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
+            #ਜੇ_ਅੰਤ /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
 
             /* Step the tick to account for any tick periods that elapsed. */
-            vTaskStepTick( ulCompleteTickPeriods );
+            v_Task_ਕਦਮ_Tick( ulCompleteTickPeriods );
 
             /* Exit with interrupts enabled. */
             __enable_interrupt();
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#ਜੇ_ਅੰਤ /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-__weak void vPortSetupTimerInterrupt( void )
+__weak ਖਾਲੀ v_ਪੋਰਟ_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
     /* Calculate the constants required to configure the tick interrupt. */
-    #if ( configUSE_TICKLESS_IDLE == 1 )
+    #ਜੇ ( configUSE_TICKLESS_IDLE == 1 )
     {
-        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
-        xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
-        ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
+        ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / config_TICK_ਦਰ_HZ );
+        x_ਵੱਧ_ਤੋਂ_ਵੱਧ_Possible_Suppressed_Ticks = ਪੋਰਟ_MAX_24_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੰਖਿਆ / ulTimerCountsForOneTick;
+        ulStoppedTimerCompensation = ਪੋਰਟ_MISSED_COUNTS_ਗੁਣਕ / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
     }
-    #endif /* configUSE_TICKLESS_IDLE */
+    #ਜੇ_ਅੰਤ /* configUSE_TICKLESS_IDLE */
 
     /* Stop and clear the SysTick. */
-    portNVIC_SYSTICK_CTRL_REG = 0UL;
-    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+    ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = 0UL;
+    ਪੋਰਟ_NVIC_SYSTICK_CURRENT_ਮੁੱਲ_REG = 0UL;
 
     /* Configure SysTick to interrupt at the requested rate. */
-    portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
-    portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT );
+    ਪੋਰਟ_NVIC_SYSTICK_ਲੱਦੋ_REG = ( configSYSTICK_CLOCK_HZ / config_TICK_ਦਰ_HZ ) - 1UL;
+    ਪੋਰਟ_NVIC_SYSTICK_CTRL_REG = ( ਪੋਰਟ_NVIC_SYSTICK_CLK_ਦੋਆਧਾਰੀ_ਅੰਕ_CONFIG | ਪੋਰਟ_NVIC_SYSTICK_INT_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_NVIC_SYSTICK_ENABLE_ਦੋਆਧਾਰੀ_ਅੰਕ );
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#ਜੇ ( configASSERT_DEFINED == 1 )
 
-    void vPortValidateInterruptPriority( void )
+    ਖਾਲੀ v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ( ਖਾਲੀ )
     {
-        uint32_t ulCurrentInterrupt;
-        uint8_t ucCurrentPriority;
+        uint32_t ul_Current_ਰੁਕਾਵਟ;
+        uint8_t uc_Current_ਤਰਜੀਹ;
 
         /* Obtain the number of the currently executing interrupt. */
-        __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+        __asm ਅਸਥਿਰ ( "mrs %0, ipsr" : "=r" ( ul_Current_ਰੁਕਾਵਟ )::"memory" );
 
         /* Is the interrupt number a user defined interrupt? */
-        if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+        ਜੇ( ul_Current_ਰੁਕਾਵਟ >= ਪੋਰਟ_ਪਹਿਲਾ_USER_ਰੁਕਾਵਟ_ਸੰਖਿਆ )
         {
             /* Look up the interrupt's priority. */
-            ucCurrentPriority = pcInterruptPriorityRegisters[ ulCurrentInterrupt ];
+            uc_Current_ਤਰਜੀਹ = pc_ਰੁਕਾਵਟ_ਤਰਜੀਹ_Registers[ ul_Current_ਰੁਕਾਵਟ ];
 
             /* The following assertion will fail if a service routine (ISR) for
              * an interrupt that has been assigned a priority above
@@ -710,7 +710,7 @@ __weak void vPortSetupTimerInterrupt( void )
              * The following links provide detailed information:
              * https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html
              * https://www.freertos.org/Why-FreeRTOS/FAQs */
-            configASSERT( ucCurrentPriority >= ucMaxSysCallPriority );
+            configASSERT( uc_Current_ਤਰਜੀਹ >= uc_Max_Sys_Call_ਤਰਜੀਹ );
         }
 
         /* Priority grouping:  The interrupt controller (NVIC) allows the bits
@@ -726,7 +726,7 @@ __weak void vPortSetupTimerInterrupt( void )
          * scheduler.  Note however that some vendor specific peripheral libraries
          * assume a non-zero priority group setting, in which cases using a value
          * of zero will result in unpredictable behaviour. */
-        configASSERT( ( portAIRCR_REG & portPRIORITY_GROUP_MASK ) <= ulMaxPRIGROUPValue );
+        configASSERT( ( ਪੋਰਟ_AIRCR_REG & ਪੋਰਟ_ਤਰਜੀਹ_ਸਮੂਹ_ਨਕਾਬ ) <= ulMaxPRIGROUPValue );
     }
 
-#endif /* configASSERT_DEFINED */
+#ਜੇ_ਅੰਤ /* configASSERT_DEFINED */

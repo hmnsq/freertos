@@ -27,151 +27,151 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
 /* This port uses xTaskGetCurrentTaskHandle to get TCB stack, it is required to
  * enable this API. */
-#if ( ( INCLUDE_xTaskGetCurrentTaskHandle != 1 ) && ( configNUMBER_OF_CORES == 1 ) )
-    #error INCLUDE_xTaskGetCurrentTaskHandle must be set to 1 in single core.
-#endif
+#ਜੇ ( ( INCLUDE_xTaskGetCurrentTaskHandle != 1 ) && ( config_ਸੰਖਿਆ_ਦਾ_CORES == 1 ) )
+    #ਗਲਤੀ INCLUDE_xTaskGetCurrentTaskHandle must be ਸੈੱਟ ਮੰਜ਼ਿਲ 1 ਵਿੱਚ_2 single core.
+#ਜੇ_ਅੰਤ
 
 /***********************************************************
 * Macro definitions
 ***********************************************************/
 
 /* Hardware specific macros */
-#define portPSW_REGISTER_ID          ( 5 )
-#define portFPSR_REGISTER_ID         ( 6 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PSW_ਰਜਿਸਟਰ_ID          ( 5 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FPSR_ਰਜਿਸਟਰ_ID         ( 6 )
 
 /* PSW.EBV and PSW.CUx bits are kept as current status */
-#define portINITIAL_PSW_MASK         ( 0x000f8000 )
-#define portCURRENT_PSW_VALUE        ( portSTSR( portPSW_REGISTER_ID ) )
-#define portCURRENT_SR_ZERO_VALUE    ( ( StackType_t ) 0x00000000 )
-#define portCURRENT_FPSR_VALUE       ( portSTSR( portFPSR_REGISTER_ID ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_PSW_ਨਕਾਬ         ( 0x000f8000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CURRENT_PSW_ਮੁੱਲ        ( ਪੋਰਟ_STSR( ਪੋਰਟ_PSW_ਰਜਿਸਟਰ_ID ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CURRENT_SR_ZERO_ਮੁੱਲ    ( ( ਢੇਰ_Type_t ) 0x00000000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CURRENT_FPSR_ਮੁੱਲ       ( ਪੋਰਟ_STSR( ਪੋਰਟ_FPSR_ਰਜਿਸਟਰ_ID ) )
 
 /* Mask for FPU configuration bits (FN, PEM, RM, FS) */
-#define portINITIAL_FPSR_MASK        ( 0x00ae0000 )
-#define portPSW_ID_MASK              ( 0x00000020 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_FPSR_ਨਕਾਬ        ( 0x00ae0000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PSW_ID_ਨਕਾਬ              ( 0x00000020 )
 
 /* Define necessary hardware IO for OSTM timer. OSTM0 is used by default as
  * it is common for almost device variants. If it conflicts with application,
  * the application shall implement another timer.*/
-#define portOSTM_EIC_ADDR            ( 0xFFFFB0A8 )
-#define portOSTM0CMP_ADDR            ( 0xFFD70000 )
-#define portOSTM0CTL_ADDR            ( 0xFFD70020 )
-#define portOSTM0TS_ADDR             ( 0xFFD70014 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_EIC_ADDR            ( 0xFFFFB0A8 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM0_CMP_ADDR            ( 0xFFD70000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM0_CTL_ADDR            ( 0xFFD70020 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM0_TS_ADDR             ( 0xFFD70014 )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
 /* IPIR  base address, the peripheral is used for Inter-Processor communication
  * Hardware supports 4 channels which is offset by 0x0, 0x4, 0x8, 0xC bytes from
  * base address. By default, channel 0 is selected. */
-    #ifdef configIPIR_CHANNEL
-        #define portIPIR_BASE_ADDR    ( ( 0xFFFEEC80 ) + ( configIPIR_CHANNEL << 2 ) )
-    #else
-        #define portIPIR_BASE_ADDR    ( 0xFFFEEC80 )
-    #endif
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ configIPIR_CHANNEL
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IPIR_ਅਧਾਰ_ADDR    ( ( 0xFFFEEC80 ) + ( configIPIR_CHANNEL << 2 ) )
+    #ਨਹੀਂਤਾਂ
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IPIR_ਅਧਾਰ_ADDR    ( 0xFFFEEC80 )
+    #ਜੇ_ਅੰਤ
 
 /*  Address used for exclusive control for variable shared between PEs
  * (common resources), each CPU cores have independent access path to
  * this address. By default, G0MEV0 register is selected*/
-    #ifdef configEXCLUSIVE_ADDRESS
-        #define portMEV_BASE_ADDR    configEXCLUSIVE_ADDRESS
-    #else
-        #define portMEV_BASE_ADDR    ( 0xFFFEEC00 )
-    #endif
-#endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ config_EXCLUSIVE_ਪਤਾ
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MEV_ਅਧਾਰ_ADDR    config_EXCLUSIVE_ਪਤਾ
+    #ਨਹੀਂਤਾਂ
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MEV_ਅਧਾਰ_ADDR    ( 0xFFFEEC00 )
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ /* if ( configNUMBER_OF_CORES > 1 ) */
 
 /* Macros required to set up the initial stack. */
-#define portSTACK_INITIAL_VALUE_R1     ( ( StackType_t ) 0x01010101 )
-#define portSTACK_INITIAL_VALUE_R2     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x02 )
-#define portSTACK_INITIAL_VALUE_R3     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x03 )
-#define portSTACK_INITIAL_VALUE_R4     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x04 )
-#define portSTACK_INITIAL_VALUE_R5     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x05 )
-#define portSTACK_INITIAL_VALUE_R6     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x06 )
-#define portSTACK_INITIAL_VALUE_R7     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x07 )
-#define portSTACK_INITIAL_VALUE_R8     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x08 )
-#define portSTACK_INITIAL_VALUE_R9     ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x09 )
-#define portSTACK_INITIAL_VALUE_R10    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x10 )
-#define portSTACK_INITIAL_VALUE_R11    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x11 )
-#define portSTACK_INITIAL_VALUE_R12    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x12 )
-#define portSTACK_INITIAL_VALUE_R13    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x13 )
-#define portSTACK_INITIAL_VALUE_R14    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x14 )
-#define portSTACK_INITIAL_VALUE_R15    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x15 )
-#define portSTACK_INITIAL_VALUE_R16    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x16 )
-#define portSTACK_INITIAL_VALUE_R17    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x17 )
-#define portSTACK_INITIAL_VALUE_R18    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x18 )
-#define portSTACK_INITIAL_VALUE_R19    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x19 )
-#define portSTACK_INITIAL_VALUE_R20    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x20 )
-#define portSTACK_INITIAL_VALUE_R21    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x21 )
-#define portSTACK_INITIAL_VALUE_R22    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x22 )
-#define portSTACK_INITIAL_VALUE_R23    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x23 )
-#define portSTACK_INITIAL_VALUE_R24    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x24 )
-#define portSTACK_INITIAL_VALUE_R25    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x25 )
-#define portSTACK_INITIAL_VALUE_R26    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x26 )
-#define portSTACK_INITIAL_VALUE_R27    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x27 )
-#define portSTACK_INITIAL_VALUE_R28    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x28 )
-#define portSTACK_INITIAL_VALUE_R29    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x29 )
-#define portSTACK_INITIAL_VALUE_R30    ( ( StackType_t ) portSTACK_INITIAL_VALUE_R1 * 0x30 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1     ( ( ਢੇਰ_Type_t ) 0x01010101 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R2     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x02 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R3     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x03 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R4     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x04 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R5     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x05 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R6     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x06 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R7     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x07 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R8     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x08 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R9     ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x09 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R10    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x10 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R11    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x11 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R12    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x12 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R13    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x13 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R14    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x14 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R15    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x15 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R16    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x16 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R17    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x17 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R18    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x18 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R19    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x19 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R20    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x20 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R21    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x21 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R22    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x22 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R23    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x23 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R24    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x24 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R25    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x25 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R26    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x26 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R27    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x27 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R28    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x28 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R29    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x29 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R30    ( ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1 * 0x30 )
 
 /***********************************************************
 * Typedef definitions
 ***********************************************************/
 
 /* OSTM Count Start Trigger Register (OSTMnTS) */
-#define portOSTM_COUNTER_START              ( 0x01U ) /* Starts the counter */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_COUNTER_ਸ਼ੁਰੂ              ( 0x01U ) /* Starts the counter */
 
 /* OSTM Count Stop Trigger Register (OSTMnTT) */
-#define portOSTM_COUNTER_STOP               ( 0x01U ) /* Stops the counter */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_COUNTER_STOP               ( 0x01U ) /* Stops the counter */
 
 /* OSTM Control Register (OSTMnCTL) */
-#define portOSTM_MODE_INTERVAL_TIMER        ( 0x00U )
-#define portOSTM_MODE_FREE_RUNNING          ( 0x02U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_ਬਹੁਲਕ_INTERVAL_TIMER        ( 0x00U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_ਬਹੁਲਕ_FREE_RUNNING          ( 0x02U )
 
 /* Disables or Enable the interrupts when counting starts */
-#define portOSTM_START_INTERRUPT_DISABLE    ( 0x00U )
-#define portOSTM_START_INTERRUPT_ENABLE     ( 0x01U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_ਸ਼ੁਰੂ_ਰੁਕਾਵਟ_DISABLE    ( 0x00U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OSTM_ਸ਼ੁਰੂ_ਰੁਕਾਵਟ_ENABLE     ( 0x01U )
 
 /* Interrupt vector method select (TBxxx) */
-#define portINT_DIRECT_VECTOR               ( 0x0U )
-#define portINT_TABLE_VECTOR                ( 0x1U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਸਿੱਧਾ_ਸਦਿਸ਼               ( 0x0U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਸਾਰਣੀ_ਸਦਿਸ਼                ( 0x1U )
 
 /* Interrupt mask (MKxxx) */
-#define portINT_PROCESSING_ENABLED          ( 0x0U )
-#define portINT_PROCESSING_DISABLED         ( 0x1U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_PROCESSING_ENABLED          ( 0x0U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_PROCESSING_DISABLED         ( 0x1U )
 
 /* Specify 16 interrupt priority levels */
-#define portINT_PRIORITY_HIGHEST            ( 0x0000U ) /* Level 0 (highest) */
-#define portINT_PRIORITY_LEVEL1             ( 0x0001U ) /* Level 1 */
-#define portINT_PRIORITY_LEVEL2             ( 0x0002U ) /* Level 2 */
-#define portINT_PRIORITY_LEVEL3             ( 0x0003U ) /* Level 3 */
-#define portINT_PRIORITY_LEVEL4             ( 0x0004U ) /* Level 4 */
-#define portINT_PRIORITY_LEVEL5             ( 0x0005U ) /* Level 5 */
-#define portINT_PRIORITY_LEVEL6             ( 0x0006U ) /* Level 6 */
-#define portINT_PRIORITY_LEVEL7             ( 0x0007U ) /* Level 7 */
-#define portINT_PRIORITY_LEVEL8             ( 0x0008U ) /* Level 8 */
-#define portINT_PRIORITY_LEVEL9             ( 0x0009U ) /* Level 9 */
-#define portINT_PRIORITY_LEVEL10            ( 0x000AU ) /* Level 10 */
-#define portINT_PRIORITY_LEVEL11            ( 0x000BU ) /* Level 11 */
-#define portINT_PRIORITY_LEVEL12            ( 0x000CU ) /* Level 12 */
-#define portINT_PRIORITY_LEVEL13            ( 0x000DU ) /* Level 13 */
-#define portINT_PRIORITY_LEVEL14            ( 0x000EU ) /* Level 14 */
-#define portINT_PRIORITY_LOWEST             ( 0x000FU ) /* Level 15 (lowest) */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_HIGHEST            ( 0x0000U ) /* Level 0 (highest) */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL1             ( 0x0001U ) /* Level 1 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL2             ( 0x0002U ) /* Level 2 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL3             ( 0x0003U ) /* Level 3 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL4             ( 0x0004U ) /* Level 4 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL5             ( 0x0005U ) /* Level 5 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL6             ( 0x0006U ) /* Level 6 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL7             ( 0x0007U ) /* Level 7 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL8             ( 0x0008U ) /* Level 8 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL9             ( 0x0009U ) /* Level 9 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL10            ( 0x000AU ) /* Level 10 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL11            ( 0x000BU ) /* Level 11 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL12            ( 0x000CU ) /* Level 12 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL13            ( 0x000DU ) /* Level 13 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL14            ( 0x000EU ) /* Level 14 */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_ਤਰਜੀਹ_ਸਭ_ਤੋਂ_ਨੀਵਾਂ             ( 0x000FU ) /* Level 15 (lowest) */
 
 /* Macros indicating status of scheduler request */
-#define PORT_SCHEDULER_NOREQUEST            0UL
-#define PORT_SCHEDULER_TASKSWITCH           1UL       /* Do not modify */
-#define PORT_SCHEDULER_STARTFIRSTTASK       2UL       /* Do not modify */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SCHEDULER_NOREQUEST            0UL
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SCHEDULER_TASKSWITCH           1UL       /* Do not modify */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SCHEDULER_STARTFIRSTTASK       2UL       /* Do not modify */
 
-#ifndef configSETUP_TICK_INTERRUPT
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_ਤਿਆਰੀ_TICK_ਰੁਕਾਵਟ
 
 /* The user has not provided their own tick interrupt configuration so use
  * the definition in this file (which uses the interval timer). */
-    #define configSETUP_TICK_INTERRUPT()    prvSetupTimerInterrupt()
-#endif /* configSETUP_TICK_INTERRUPT */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_ਤਿਆਰੀ_TICK_ਰੁਕਾਵਟ()    prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ()
+#ਜੇ_ਅੰਤ /* configSETUP_TICK_INTERRUPT */
 
-#if ( !defined( configMAX_INT_NESTING ) || ( configMAX_INT_NESTING == 0 ) )
+#ਜੇ ( !defined( configMAX_INT_NESTING ) || ( configMAX_INT_NESTING == 0 ) )
 
 /* Set the default value for depth of nested interrupt. In theory, the
  * microcontroller have mechanism to limit number of nested level of interrupt
@@ -181,13 +181,13 @@
  * In addition, the execution time of interrupt handler should be very short
  * (typically not exceed 20us), this constraint does not impact to system.
  */
-    #define configMAX_INT_NESTING    2UL
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configMAX_INT_NESTING    2UL
+#ਜੇ_ਅੰਤ
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ਸਥਿਰ ਖਾਲੀ prvTaskExitError( ਖਾਲੀ );
 
 /*
  * Sets up the periodic ISR used for the RTOS tick using the OSTM.
@@ -195,28 +195,28 @@ static void prvTaskExitError( void );
  * FreeRTOSConfig.h) such that their own tick interrupt configuration is used
  * in place of prvSetupTimerInterrupt().
  */
-static void prvSetupTimerInterrupt( void );
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
 /*
  * Functions implement spin-lock between cores by atomic accesses to Exclusive
  * Control Register (G0MEVm). There are separated access path between CPU cores,
  * but they should wait if access to same register
  */
-    static void prvExclusiveLock( BaseType_t xFromIsr );
-    static void prvExclusiveRelease( BaseType_t xFromIsr );
+    ਸਥਿਰ ਖਾਲੀ prv_Exclusive_ਤਾਲਾ( ਅਧਾਰ_Type_t xFromIsr );
+    ਸਥਿਰ ਖਾਲੀ prvExclusiveRelease( ਅਧਾਰ_Type_t xFromIsr );
 
-#endif
+#ਜੇ_ਅੰਤ
 
 /*
  * Function to start the first task executing
  */
-extern void vPortStartFirstTask( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
 /* Scheduler request on each cores which are starting first task and switching
  * context */
-volatile BaseType_t xPortScheduleStatus[ configNUMBER_OF_CORES ] = { 0 };
+ਅਸਥਿਰ ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ config_ਸੰਖਿਆ_ਦਾ_CORES ] = { 0 };
 
 /* Counts the interrupt nesting depth. A context switch is only performed if
  * the nesting depth is 0. In addition, the interrupt shares same stack
@@ -224,44 +224,44 @@ volatile BaseType_t xPortScheduleStatus[ configNUMBER_OF_CORES ] = { 0 };
  * may be overflowed.
  * It is necessary to control maximum stack depth.
  */
-volatile UBaseType_t uxInterruptNesting[ configNUMBER_OF_CORES ] = { 0 };
-volatile const UBaseType_t uxPortMaxInterruptDepth = configMAX_INT_NESTING;
+ਅਸਥਿਰ UBaseType_t ux_ਰੁਕਾਵਟ_Nesting[ config_ਸੰਖਿਆ_ਦਾ_CORES ] = { 0 };
+ਅਸਥਿਰ ਅਚਲ UBaseType_t ux_ਪੋਰਟ_Max_ਰੁਕਾਵਟ_ਡੂੰਘਾਈ = configMAX_INT_NESTING;
 
 /* Count number of nested locks by same cores. The lock is completely released
  * only if this count is decreased to 0, the lock is separated for task
  * and isr */
-UBaseType_t uxLockNesting[ configNUMBER_OF_CORES ][ 2 ] = { 0 };
+UBaseType_t ux_ਤਾਲਾ_Nesting[ config_ਸੰਖਿਆ_ਦਾ_CORES ][ 2 ] = { 0 };
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
 /* Pointer to exclusive access memory */
-    volatile BaseType_t * pxPortExclusiveReg = ( volatile BaseType_t * ) ( portMEV_BASE_ADDR );
-#endif
+    ਅਸਥਿਰ ਅਧਾਰ_Type_t * px_ਪੋਰਟ_Exclusive_Reg = ( ਅਸਥਿਰ ਅਧਾਰ_Type_t * ) ( ਪੋਰਟ_MEV_ਅਧਾਰ_ADDR );
+#ਜੇ_ਅੰਤ
 
 /* Interrupt handler for OSTM timer which handling tick increment and resulting
  * to switch context. */
-void vPortTickISR( void );
+ਖਾਲੀ v_ਪੋਰਟ_Tick_ISR( ਖਾਲੀ );
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
 /* Yield specific cores by send inter-processor interrupt */
-    void vPortYieldCore( uint32_t xCoreID );
+    ਖਾਲੀ v_ਪੋਰਟ_Yield_Core( uint32_t xCoreID );
 
 /*
  * Inter-processor interrupt handler. The interrupt is triggered by
  * portYIELD_CORE().
  */
-    void vPortIPIHander( void );
+    ਖਾਲੀ v_ਪੋਰਟ_IPIHander( ਖਾਲੀ );
 
 /* These functions below implement recursive spinlock for exclusive access among
  * cores. The core will wait until lock will be available, whilst the core which
  * already had lock can acquire lock without waiting. This function could be
  * call from task and interrupt context, the critical section is called
  * as in ISR */
-    void vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr );
-    void vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr );
+    ਖਾਲੀ v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Acquire( ਅਧਾਰ_Type_t xCoreID, ਅਧਾਰ_Type_t xFromIsr );
+    ਖਾਲੀ v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Release( ਅਧਾਰ_Type_t xCoreID, ਅਧਾਰ_Type_t xFromIsr );
 
-#endif /* (configNUMBER_OF_CORES > 1) */
+#ਜੇ_ਅੰਤ /* (configNUMBER_OF_CORES > 1) */
 
 /*-----------------------------------------------------------*/
 
@@ -269,29 +269,29 @@ void vPortTickISR( void );
  * These below functions implement interrupt mask from interrupt. They are not
  * called in nesting, it is protected by FreeRTOS kernel.
  */
-portLONG xPortSetInterruptMask( void )
+ਪੋਰਟ_LONG x_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ( ਖਾਲੀ )
 {
-    portLONG ulPSWValue = portSTSR( portPSW_REGISTER_ID );
+    ਪੋਰਟ_LONG ulPSWValue = ਪੋਰਟ_STSR( ਪੋਰਟ_PSW_ਰਜਿਸਟਰ_ID );
 
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
 
     /* It returns current value of Program Status Word register */
-    return ulPSWValue;
+    ਵਾਪਸ ulPSWValue;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( portLONG uxSavedInterruptStatus )
+ਖਾਲੀ v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( ਪੋਰਟ_LONG ux_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ )
 {
-    portLONG ulPSWValue = portSTSR( portPSW_REGISTER_ID );
+    ਪੋਰਟ_LONG ulPSWValue = ਪੋਰਟ_STSR( ਪੋਰਟ_PSW_ਰਜਿਸਟਰ_ID );
 
     /* Interrupt Disable status is indicates by bit#5 of PSW
     * (1: Interrupt is disabled; 0: Interrupt is enabled) */
 
     /* Revert to the status before interrupt mask. */
-    ulPSWValue &= ( ~( portPSW_ID_MASK ) );
-    ulPSWValue |= ( portPSW_ID_MASK & uxSavedInterruptStatus );
-    portLDSR( portPSW_REGISTER_ID, ulPSWValue );
+    ulPSWValue &= ( ~( ਪੋਰਟ_PSW_ID_ਨਕਾਬ ) );
+    ulPSWValue |= ( ਪੋਰਟ_PSW_ID_ਨਕਾਬ & ux_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ );
+    ਪੋਰਟ_LDSR( ਪੋਰਟ_PSW_ਰਜਿਸਟਰ_ID, ulPSWValue );
 }
 
 /*-----------------------------------------------------------*/
@@ -302,16 +302,16 @@ void vPortClearInterruptMask( portLONG uxSavedInterruptStatus )
  * Bit 31 to 19 are read only and always be read as 0. HTCFG0.PEID is 1 and 2
  * corresponding to core 0 (PE1) and core 1 (PE2). It is adjusted to 0 and 1.
  */
-BaseType_t xPortGET_CORE_ID( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_GET_CORE_ID( ਖਾਲੀ )
 {
-    #if ( configNUMBER_OF_CORES > 1 )
-        return ( portSTSR_CCRH( 0, 2 ) >> 16 ) - 1;
-    #else
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
+        ਵਾਪਸ ( ਪੋਰਟ_STSR_CCRH( 0, 2 ) >> 16 ) - 1;
+    #ਨਹੀਂਤਾਂ
 
         /* In single core, xPortGET_CORE_ID is used in this port only.
          * The dummy core ID could be controlled inside this port. */
-        return 0;
-    #endif
+        ਵਾਪਸ 0;
+    #ਜੇ_ਅੰਤ
 }
 
 /*-----------------------------------------------------------*/
@@ -323,13 +323,13 @@ BaseType_t xPortGET_CORE_ID( void )
  * TCBs of current cores. Also, the C function could switch to corresponding
  * pointer by pre-compile conditions.
  */
-void * pvPortGetCurrentTCB( void )
+ਖਾਲੀ * pv_ਪੋਰਟ_Get_Current_TCB( ਖਾਲੀ )
 {
-    void * pvCurrentTCB = ( void * ) xTaskGetCurrentTaskHandle();
+    ਖਾਲੀ * pvCurrentTCB = ( ਖਾਲੀ * ) xTaskGetCurrentTaskHandle();
 
-    configASSERT( pvCurrentTCB != NULL );
+    configASSERT( pvCurrentTCB != ਨਿਰਾ );
 
-    return pvCurrentTCB;
+    ਵਾਪਸ pvCurrentTCB;
 }
 
 /*-----------------------------------------------------------*/
@@ -339,11 +339,11 @@ void * pvPortGetCurrentTCB( void )
  * the scheduler status for the core on which the function is called. The
  * scheduler status is set to indicate that a task switch should occur.
  */
-void vPortSetSwitch( BaseType_t xSwitchRequired )
+ਖਾਲੀ v_ਪੋਰਟ_ਸੈੱਟ_Switch( ਅਧਾਰ_Type_t xSwitchRequired )
 {
-    if( xSwitchRequired != pdFALSE )
+    ਜੇ( xSwitchRequired != pdFALSE )
     {
-        xPortScheduleStatus[ xPortGET_CORE_ID() ] = PORT_SCHEDULER_TASKSWITCH;
+        x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ x_ਪੋਰਟ_GET_CORE_ID() ] = ਪੋਰਟ_SCHEDULER_TASKSWITCH;
     }
 }
 
@@ -358,93 +358,93 @@ void vPortSetSwitch( BaseType_t xSwitchRequired )
  * @param[in]  pxCode        Task function, stored as initial PC for the task
  * @param[in]  pvParameters  Parameters for task
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
     /* Simulate the stack frame as it would be created by
      * a context switch interrupt. */
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError;            /* R31 (LP) */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R5;  /* R5 (TP)  */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;                /* R6       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R7;  /* R7       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R8;  /* R8       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R9;  /* R9       */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R10; /* R10      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R11; /* R11      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R12; /* R12      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R13; /* R13      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R14; /* R14      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R15; /* R15      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R16; /* R16      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R17; /* R17      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R18; /* R18      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R19; /* R19      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R20; /* R20      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R21; /* R21      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R22; /* R22      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R23; /* R23      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R24; /* R24      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R25; /* R25      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R26; /* R26      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R27; /* R27      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R28; /* R28      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R29; /* R29      */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R30; /* R30 (EP) */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R1;  /* R1        */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portSTACK_INITIAL_VALUE_R2;  /* R2        */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) prvTaskExitError;            /* R31 (LP) */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R5;  /* R5 (TP)  */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pvParameters;                /* R6       */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R7;  /* R7       */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R8;  /* R8       */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R9;  /* R9       */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R10; /* R10      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R11; /* R11      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R12; /* R12      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R13; /* R13      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R14; /* R14      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R15; /* R15      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R16; /* R16      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R17; /* R17      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R18; /* R18      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R19; /* R19      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R20; /* R20      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R21; /* R21      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R22; /* R22      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R23; /* R23      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R24; /* R24      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R25; /* R25      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R26; /* R26      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R27; /* R27      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R28; /* R28      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R29; /* R29      */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R30; /* R30 (EP) */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R1;  /* R1        */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_ਢੇਰ_INITIAL_ਮੁੱਲ_R2;  /* R2        */
 
-    pxTopOfStack--;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Keep System pre-configuration (HV, CUx, EBV) as current setting in
      * PSW register */
-    *pxTopOfStack = ( StackType_t ) ( portCURRENT_PSW_VALUE & portINITIAL_PSW_MASK ); /* EIPSW */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;                                           /* EIPC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                        /* EIIC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ( portCURRENT_PSW_VALUE & portINITIAL_PSW_MASK ); /* CTPSW */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                        /* CTPC */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ( ਪੋਰਟ_CURRENT_PSW_ਮੁੱਲ & ਪੋਰਟ_INITIAL_PSW_ਨਕਾਬ ); /* EIPSW */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) px_ਕੋਡ;                                           /* EIPC */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_CURRENT_SR_ZERO_ਮੁੱਲ;                        /* EIIC */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ( ਪੋਰਟ_CURRENT_PSW_ਮੁੱਲ & ਪੋਰਟ_INITIAL_PSW_ਨਕਾਬ ); /* CTPSW */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_CURRENT_SR_ZERO_ਮੁੱਲ;                        /* CTPC */
 
 /* __FPU is defined by CCRH compiler if FPU is enabled */
-    #if ( configENABLE_FPU == 1 )
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) ( portCURRENT_FPSR_VALUE & portINITIAL_FPSR_MASK ); /* FPSR */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) portCURRENT_SR_ZERO_VALUE;                          /* FPEPC */
-    #endif /* (configENABLE_FPU == 1) */
+    #ਜੇ ( configENABLE_FPU == 1 )
+        px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+        *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ( ਪੋਰਟ_CURRENT_FPSR_ਮੁੱਲ & ਪੋਰਟ_INITIAL_FPSR_ਨਕਾਬ ); /* FPSR */
+        px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+        *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_CURRENT_SR_ZERO_ਮੁੱਲ;                          /* FPEPC */
+    #ਜੇ_ਅੰਤ /* (configENABLE_FPU == 1) */
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 
 /*-----------------------------------------------------------*/
@@ -452,42 +452,42 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 /*
  * Configures the tick frequency and starts the first task.
  */
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-    #if ( configNUMBER_OF_CORES > 1 )
-        BaseType_t xCurrentCore = xPortGET_CORE_ID();
-    #endif
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
+        ਅਧਾਰ_Type_t xCurrentCore = x_ਪੋਰਟ_GET_CORE_ID();
+    #ਜੇ_ਅੰਤ
 
     /* Prevent interrupt by timer interrupt during starting first task.
      * The interrupt shall be enabled automatically by being restored from
      * task stack */
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
 
     /* Setup the tick interrupt */
-    configSETUP_TICK_INTERRUPT();
+    config_ਤਿਆਰੀ_TICK_ਰੁਕਾਵਟ();
 
-    #if ( configNUMBER_OF_CORES > 1 )
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
         /* Start scheduler on other cores */
-        for( uint16_t xCoreID = 0; xCoreID < configNUMBER_OF_CORES; xCoreID++ )
+        ਲਈ( uint16_t xCoreID = 0; xCoreID < config_ਸੰਖਿਆ_ਦਾ_CORES; xCoreID++ )
         {
-            if( xCoreID != xCurrentCore )
+            ਜੇ( xCoreID != xCurrentCore )
             {
                 /* Send yielding request to other cores with flag to start
                  * first task. TaskContextSwitch is not executed */
-                xPortScheduleStatus[ xCoreID ] = PORT_SCHEDULER_STARTFIRSTTASK;
-                vPortYieldCore( xCoreID );
+                x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ xCoreID ] = ਪੋਰਟ_SCHEDULER_STARTFIRSTTASK;
+                v_ਪੋਰਟ_Yield_Core( xCoreID );
             }
-            else
+            ਨਹੀਂਤਾਂ
             {
                 /* Nothing to do. The first task is started in this call by
                  * below vPortStartFirstTask() */
-                xPortScheduleStatus[ xCoreID ] = PORT_SCHEDULER_NOREQUEST;
+                x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ xCoreID ] = ਪੋਰਟ_SCHEDULER_NOREQUEST;
             }
         }
-    #endif /* if ( configNUMBER_OF_CORES > 1 ) */
+    #ਜੇ_ਅੰਤ /* if ( configNUMBER_OF_CORES > 1 ) */
 
     /* Start first task in primary core */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
     /* Should never get here as the tasks will now be executing! */
     prvTaskExitError();
@@ -497,12 +497,12 @@ BaseType_t xPortStartScheduler( void )
      * Call vTaskSwitchContext() so link time optimization does not remove
      * the symbol. */
     vTaskSwitchContext(
-        #if ( configNUMBER_OF_CORES > 1 )
+        #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
             xCurrentCore
-        #endif
+        #ਜੇ_ਅੰਤ
         );
 
-    return pdFALSE;
+    ਵਾਪਸ pdFALSE;
 }
 
 /*-----------------------------------------------------------*/
@@ -510,7 +510,7 @@ BaseType_t xPortStartScheduler( void )
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void )
+ਸਥਿਰ ਖਾਲੀ prvTaskExitError( ਖਾਲੀ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -531,9 +531,9 @@ static void prvTaskExitError( void )
      * The warning is acceptable to ensure program is halt regardless of
      * configASSERT(pdFALSE) implementation
      */
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    ਲਈ( ; ; )
     {
         /* Infinite loop to ensure the function does not return. */
     }
@@ -541,7 +541,7 @@ static void prvTaskExitError( void )
 
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -550,17 +550,17 @@ void vPortEndScheduler( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
-    void vPortYieldCore( uint32_t xCoreID )
+    ਖਾਲੀ v_ਪੋਰਟ_Yield_Core( uint32_t xCoreID )
     {
         /* Check if we need to yield on a different core */
-        if( xCoreID != xPortGET_CORE_ID() )
+        ਜੇ( xCoreID != x_ਪੋਰਟ_GET_CORE_ID() )
         {
-            volatile uint32_t * pulIPIRReg;
+            ਅਸਥਿਰ uint32_t * pulIPIRReg;
 
             /* Determine the IPI register based on the target core ID */
-            pulIPIRReg = ( volatile uint32_t * ) ( portIPIR_BASE_ADDR );
+            pulIPIRReg = ( ਅਸਥਿਰ uint32_t * ) ( ਪੋਰਟ_IPIR_ਅਧਾਰ_ADDR );
 
             /*Inter-processor interrupt generates an interrupt request by
              * writing 1 to applicable bits of target cores. The interrupt
@@ -570,10 +570,10 @@ void vPortEndScheduler( void )
              */
             *pulIPIRReg = ( 1 << xCoreID );
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
             /* Yielding current core */
-            vPortYield();
+            v_ਪੋਰਟ_Yield();
         }
     }
 
@@ -584,49 +584,49 @@ void vPortEndScheduler( void )
  * triggered by portYIELD_CORE(). vTaskSwitchContext() is invoked to
  * switch tasks
  */
-    void vPortIPIHander( void )
+    ਖਾਲੀ v_ਪੋਰਟ_IPIHander( ਖਾਲੀ )
     {
-        BaseType_t xCurrentCore = xPortGET_CORE_ID();
+        ਅਧਾਰ_Type_t xCurrentCore = x_ਪੋਰਟ_GET_CORE_ID();
 
         /* 1st execution starts 1st task, TaskSwitchContext is not executed */
-        if( PORT_SCHEDULER_STARTFIRSTTASK != xPortScheduleStatus[ xCurrentCore ] )
+        ਜੇ( ਪੋਰਟ_SCHEDULER_STARTFIRSTTASK != x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ xCurrentCore ] )
         {
-            xPortScheduleStatus[ xCurrentCore ] = PORT_SCHEDULER_TASKSWITCH;
+            x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ xCurrentCore ] = ਪੋਰਟ_SCHEDULER_TASKSWITCH;
         }
     }
 
 /*-----------------------------------------------------------*/
 
-#endif /* (configNUMBER_OF_CORES > 1) */
+#ਜੇ_ਅੰਤ /* (configNUMBER_OF_CORES > 1) */
 
-void vPortTickISR( void )
+ਖਾਲੀ v_ਪੋਰਟ_Tick_ISR( ਖਾਲੀ )
 {
     /* In case of multicores with SMP,  xTaskIncrementTick is required to
      * called in critical section to avoid conflict resource as this function
      * could be called by xTaskResumeAll() from any cores. */
-    #if ( configNUMBER_OF_CORES > 1 )
-        BaseType_t xSavedInterruptStatus;
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
+        ਅਧਾਰ_Type_t x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ;
 
-        xSavedInterruptStatus = portENTER_CRITICAL_FROM_ISR();
-    #endif
+        x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ = ਪੋਰਟ_ENTER_CRITICAL_FROM_ISR();
+    #ਜੇ_ਅੰਤ
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             /* Pend a context switch. */
-            xPortScheduleStatus[ xPortGET_CORE_ID() ] = PORT_SCHEDULER_TASKSWITCH;
+            x_ਪੋਰਟ_ਸਮਾਂ_ਸਾਰਣੀ_ਸਥਿਤੀ[ x_ਪੋਰਟ_GET_CORE_ID() ] = ਪੋਰਟ_SCHEDULER_TASKSWITCH;
         }
     }
-    #if ( configNUMBER_OF_CORES > 1 )
-        portEXIT_CRITICAL_FROM_ISR( xSavedInterruptStatus );
-    #endif
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
+        ਪੋਰਟ_EXIT_CRITICAL_FROM_ISR( x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ );
+    #ਜੇ_ਅੰਤ
 }
 
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-    volatile uint32_t * pulOSTMIntReg;
+    ਅਸਥਿਰ uint32_t * pulOSTMIntReg;
 
     /* Interrupt configuration for OSTM Timer
      * By default, the second lowest priority is set for timer interrupt to
@@ -634,53 +634,53 @@ static void prvSetupTimerInterrupt( void )
      * priority for non-critical event. It try to keep timer on time.
      * In addition, direct vector table is used by default.
      */
-    pulOSTMIntReg = ( volatile uint32_t * ) portOSTM_EIC_ADDR;
-    *pulOSTMIntReg = ( portINT_PROCESSING_ENABLED | portINT_DIRECT_VECTOR | portINT_PRIORITY_LEVEL14 );
+    pulOSTMIntReg = ( ਅਸਥਿਰ uint32_t * ) ਪੋਰਟ_OSTM_EIC_ADDR;
+    *pulOSTMIntReg = ( ਪੋਰਟ_INT_PROCESSING_ENABLED | ਪੋਰਟ_INT_ਸਿੱਧਾ_ਸਦਿਸ਼ | ਪੋਰਟ_INT_ਤਰਜੀਹ_LEVEL14 );
 
     /* Set OSTM0 control setting */
-    *( ( volatile uint32_t * ) portOSTM0CTL_ADDR ) =
-        ( portOSTM_MODE_INTERVAL_TIMER | portOSTM_START_INTERRUPT_DISABLE );
-    *( ( volatile uint32_t * ) portOSTM0CMP_ADDR ) =
-        ( ( configCPU_CLOCK_HZ / configTIMER_PRESCALE ) / configTICK_RATE_HZ ) - 1;
+    *( ( ਅਸਥਿਰ uint32_t * ) ਪੋਰਟ_OSTM0_CTL_ADDR ) =
+        ( ਪੋਰਟ_OSTM_ਬਹੁਲਕ_INTERVAL_TIMER | ਪੋਰਟ_OSTM_ਸ਼ੁਰੂ_ਰੁਕਾਵਟ_DISABLE );
+    *( ( ਅਸਥਿਰ uint32_t * ) ਪੋਰਟ_OSTM0_CMP_ADDR ) =
+        ( ( configCPU_CLOCK_HZ / configTIMER_PRESCALE ) / config_TICK_ਦਰ_HZ ) - 1;
 
     /* Enable OSTM0 operation */
-    *( ( volatile uint32_t * ) portOSTM0TS_ADDR ) = portOSTM_COUNTER_START;
+    *( ( ਅਸਥਿਰ uint32_t * ) ਪੋਰਟ_OSTM0_TS_ADDR ) = ਪੋਰਟ_OSTM_COUNTER_ਸ਼ੁਰੂ;
 }
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES > 1 )
 
 /*
  * These functions implement spin-lock mechanism among cores using hardware
  * exclusive control with atomic access by CLR1 and SET1 instruction.
  * Nesting calls to these APIs are possible.
  */
-    #pragma inline_asm prvExclusiveLock
-    static void prvExclusiveLock( BaseType_t xBitPosition )
+    #ਹਦਾਇਤ inline_asm prv_Exclusive_ਤਾਲਾ
+    ਸਥਿਰ ਖਾਲੀ prv_Exclusive_ਤਾਲਾ( ਅਧਾਰ_Type_t x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position )
     {
         /* No problem with r19, CCRH does not required to restore same value
          * before and after function call. */
-        mov     # _pxPortExclusiveReg, r19
+        mov     # px_ਪੋਰਟ_Exclusive_Reg_2, r19
         ld.w    0[ r19 ], r19
 
-prvExclusiveLock_Lock:
+prv_Exclusive_ਤਾਲਾ_ਤਾਲਾ:
 
         /* r6 is xBitPosition */
         set1 r6, [ r19 ]
-        bz prvExclusiveLock_Lock_success
+        bz prv_Exclusive_ਤਾਲਾ_ਤਾਲਾ_success
         snooze
-        br prvExclusiveLock_Lock
+        br prv_Exclusive_ਤਾਲਾ_ਤਾਲਾ
 
-prvExclusiveLock_Lock_success:
+prv_Exclusive_ਤਾਲਾ_ਤਾਲਾ_success:
     }
 
 /*-----------------------------------------------------------*/
 
-    #pragma inline_asm prvExclusiveRelease
-    static void prvExclusiveRelease( BaseType_t xBitPosition )
+    #ਹਦਾਇਤ inline_asm prvExclusiveRelease
+    ਸਥਿਰ ਖਾਲੀ prvExclusiveRelease( ਅਧਾਰ_Type_t x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position )
     {
-        mov     # _pxPortExclusiveReg, r19
+        mov     # px_ਪੋਰਟ_Exclusive_Reg_2, r19
         ld.w    0[ r19 ], r19
 
         /* r6 is xBitPosition */
@@ -688,45 +688,45 @@ prvExclusiveLock_Lock_success:
     }
 
 /*-----------------------------------------------------------*/
-    void vPortRecursiveLockAcquire( BaseType_t xCoreID, BaseType_t xFromIsr )
+    ਖਾਲੀ v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Acquire( ਅਧਾਰ_Type_t xCoreID, ਅਧਾਰ_Type_t xFromIsr )
     {
-        BaseType_t xSavedInterruptStatus;
-        BaseType_t xBitPosition = ( xFromIsr == pdTRUE );
+        ਅਧਾਰ_Type_t x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ;
+        ਅਧਾਰ_Type_t x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position = ( xFromIsr == pdTRUE );
 
-        xSavedInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ = ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR();
 
-        if( uxLockNesting[ xCoreID ][ xBitPosition ] == 0 )
+        ਜੇ( ux_ਤਾਲਾ_Nesting[ xCoreID ][ x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position ] == 0 )
         {
-            prvExclusiveLock( xBitPosition );
+            prv_Exclusive_ਤਾਲਾ( x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position );
         }
 
-        uxLockNesting[ xCoreID ][ xBitPosition ]++;
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( xSavedInterruptStatus );
+        ux_ਤਾਲਾ_Nesting[ xCoreID ][ x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position ]++;
+        ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ );
     }
 
-    void vPortRecursiveLockRelease( BaseType_t xCoreID, BaseType_t xFromIsr )
+    ਖਾਲੀ v_ਪੋਰਟ_Recursive_ਤਾਲਾ_Release( ਅਧਾਰ_Type_t xCoreID, ਅਧਾਰ_Type_t xFromIsr )
     {
-        BaseType_t xSavedInterruptStatus;
-        BaseType_t xBitPosition = ( xFromIsr == pdTRUE );
+        ਅਧਾਰ_Type_t x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ;
+        ਅਧਾਰ_Type_t x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position = ( xFromIsr == pdTRUE );
 
-        xSavedInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ = ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR();
 
         /* Sync memory */
-        portSYNCM();
+        ਪੋਰਟ_SYNCM();
 
         /* Error check whether vPortRecursiveLockRelease() is not called in
          * pair with vPortRecursiveLockAcquire() */
-        configASSERT( ( uxLockNesting[ xCoreID ][ xBitPosition ] > 0 ) );
-        uxLockNesting[ xCoreID ][ xBitPosition ]--;
+        configASSERT( ( ux_ਤਾਲਾ_Nesting[ xCoreID ][ x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position ] > 0 ) );
+        ux_ਤਾਲਾ_Nesting[ xCoreID ][ x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position ]--;
 
-        if( uxLockNesting[ xCoreID ][ xBitPosition ] == 0 )
+        ਜੇ( ux_ਤਾਲਾ_Nesting[ xCoreID ][ x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position ] == 0 )
         {
-            prvExclusiveRelease( xBitPosition );
+            prvExclusiveRelease( x_ਦੋਆਧਾਰੀ_ਅੰਕ_Position );
         }
 
-        portCLEAR_INTERRUPT_MASK_FROM_ISR( xSavedInterruptStatus );
+        ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ );
     }
 
 /*-----------------------------------------------------------*/
 
-#endif /* (configNUMBER_OF_CORES > 1) */
+#ਜੇ_ਅੰਤ /* (configNUMBER_OF_CORES > 1) */

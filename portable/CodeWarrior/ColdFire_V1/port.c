@@ -27,31 +27,31 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_FORMAT_ਸਦਿਸ਼       ( ( ਢੇਰ_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_ਸਥਿਤੀ_ਰਜਿਸਟਰ     ( ( ਢੇਰ_Type_t ) 0x2000)
 
 /* The clock prescale into the timer peripheral. */
-#define portPRESCALE_VALUE              ( ( uint8_t ) 10 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRESCALE_ਮੁੱਲ              ( ( uint8_t ) 10 )
 
 /* The clock frequency into the RTC. */
-#define portRTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
 
-asm void interrupt VectorNumber_VL1swi vPortYieldISR( void );
-static void prvSetupTimerInterrupt( void );
+asm ਖਾਲੀ ਰੁਕਾਵਟ ਸਦਿਸ਼_ਸੰਖਿਆ_VL1swi v_ਪੋਰਟ_Yield_ISR( ਖਾਲੀ );
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ਸਥਿਰ uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ਢੇਰ_Type_t *px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ, TaskFunction_t px_ਕੋਡ, ਖਾਲੀ *pvParameters )
 {
 
 uint32_t ulOriginalA5;
@@ -59,52 +59,52 @@ uint32_t ulOriginalA5;
     __asm{ MOVE.L A5, ulOriginalA5 };
 
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) 0xDEADBEEF;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) px_ਕੋਡ;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਪੋਰਟ_INITIAL_FORMAT_ਸਦਿਸ਼ << 16UL ) | ( ਪੋਰਟ_INITIAL_ਸਥਿਤੀ_ਰਜਿਸਟਰ );
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x0; /*FP*/
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 14; /* A5 to D0. */
 
     /* Parameter in A0. */
-    *( pxTopOfStack + 8 ) = ( StackType_t ) pvParameters;
+    *( px_ਸਿਖਰ_ਦਾ_ਢੇਰ + 8 ) = ( ਢੇਰ_Type_t ) pvParameters;
 
     /* A5 must be maintained as it is reserved by the compiler. */
-    *( pxTopOfStack + 13 ) = ulOriginalA5;
+    *( px_ਸਿਖਰ_ਦਾ_ਢੇਰ + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-extern void vPortStartFirstTask( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
     ulCriticalNesting = 0UL;
 
     /* Configure a timer to generate the tick interrupt. */
-    prvSetupTimerInterrupt();
+    prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
-    return pdFALSE;
+    ਵਾਪਸ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
     /* Prescale by 1 - ie no prescale. */
     RTCSC |= 8;
 
     /* Compare match value. */
-    RTCMOD = portRTC_CLOCK_HZ / configTICK_RATE_HZ;
+    RTCMOD = ਪੋਰਟ_RTC_CLOCK_HZ / config_TICK_ਦਰ_HZ;
 
     /* Enable the RTC to generate interrupts - interrupts are already disabled
     when this code executes. */
@@ -112,72 +112,72 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ )
 {
-    if( ulCriticalNesting == 0UL )
+    ਜੇ( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        ਕਰੋ
         {
-            portDISABLE_INTERRUPTS();
-            if( INTC_FRC == 0UL )
+            ਪੋਰਟ_DISABLE_INTERRUPTS();
+            ਜੇ( INTC_FRC == 0UL )
             {
-                break;
+                ਰੋਕੋ;
             }
 
-            portENABLE_INTERRUPTS();
+            ਪੋਰਟ_ENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } ਜਦੋਂ( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    ਜੇ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        ਪੋਰਟ_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+ਖਾਲੀ v_ਪੋਰਟ_Yield_Handler( ਖਾਲੀ )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ = ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR();
     {
         /* Note this will clear all forced interrupts - this is done for speed. */
         INTC_CFRC = 0x3E;
         vTaskSwitchContext();
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ );
 }
 /*-----------------------------------------------------------*/
 
-void interrupt VectorNumber_Vrtc vPortTickISR( void )
+ਖਾਲੀ ਰੁਕਾਵਟ ਸਦਿਸ਼_ਸੰਖਿਆ_Vrtc v_ਪੋਰਟ_Tick_ISR( ਖਾਲੀ )
 {
-uint32_t ulSavedInterruptMask;
+uint32_t ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ;
 
     /* Clear the interrupt. */
-    RTCSC |= RTCSC_RTIF_MASK;
+    RTCSC |= RTCSC_RTIF_ਨਕਾਬ;
 
     /* Increment the RTOS tick. */
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ = ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ );
 }

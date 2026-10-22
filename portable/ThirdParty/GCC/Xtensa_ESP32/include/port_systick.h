@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#pragma once
+#ਹਦਾਇਤ once
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /**
  * @brief Set up the SysTick interrupt
  */
-void vPortSetupTimer( void );
+ਖਾਲੀ v_ਪੋਰਟ_ਤਿਆਰੀ_Timer( ਖਾਲੀ );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */

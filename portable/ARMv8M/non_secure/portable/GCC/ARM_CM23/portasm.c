@@ -27,37 +27,37 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_FPU == 1 )
-    #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
-#endif
+#ਜੇ ( configENABLE_FPU == 1 )
+    #ਗਲਤੀ Cortex-M23 does not have a Floating ਬਿੰਦੂ Unit (FPU) and therefore configENABLE_FPU must be ਸੈੱਟ ਮੰਜ਼ਿਲ 0.
+#ਜੇ_ਅੰਤ
 
-#if ( configENABLE_MPU == 1 )
-    #define SECURE_CONTEXT_OFFSET   -20
-#else
-    #define SECURE_CONTEXT_OFFSET   0
-#endif
+#ਜੇ ( configENABLE_MPU == 1 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SECURE_CONTEXT_ਵਿੱਥ   -20
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SECURE_CONTEXT_ਵਿੱਥ   0
+#ਜੇ_ਅੰਤ
 
-#if ( configENABLE_MPU == 1 )
+#ਜੇ ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ਖਾਲੀ v_Restore_Context_ਦਾ_ਪਹਿਲਾ_Task( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ਅਸਥਿਰ
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -145,11 +145,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#ਨਹੀਂਤਾਂ /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ਖਾਲੀ v_Restore_Context_ਦਾ_ਪਹਿਲਾ_Task( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ਅਸਥਿਰ
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -169,12 +169,12 @@
         );
     }
 
-#endif /* configENABLE_MPU */
+#ਜੇ_ਅੰਤ /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+ਅਧਾਰ_Type_t xIsPrivileged( ਖਾਲੀ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -192,9 +192,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ਖਾਲੀ vRaisePrivilege( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -208,9 +208,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 }
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+ਖਾਲੀ vResetPrivilege( ਖਾਲੀ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -224,9 +224,9 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 }
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ਖਾਲੀ v_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -239,14 +239,14 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
         "   isb                                             \n"
         "   svc %0                                          \n" /* System call to start the first task. */
         "   nop                                             \n"
-        ::"i" ( portSVC_START_SCHEDULER ) : "memory"
+        ::"i" ( ਪੋਰਟ_SVC_ਸ਼ੁਰੂ_SCHEDULER ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ul_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ( ਖਾਲੀ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -258,9 +258,9 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 }
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+ਖਾਲੀ v_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( __attribute__( ( ਅਣਵਰਤਿਆ ) ) uint32_t ul_ਨਕਾਬ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -271,11 +271,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ਜੇ ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ਖਾਲੀ PendSV_Handler( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ਅਸਥਿਰ
         (
             " .syntax unified                                 \n"
             " .extern SecureContext_SaveContext               \n"
@@ -421,11 +421,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#ਨਹੀਂਤਾਂ /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ਖਾਲੀ PendSV_Handler( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ਅਸਥਿਰ
         (
             "   .syntax unified                                 \n"
             "   .extern SecureContext_SaveContext               \n"
@@ -506,14 +506,14 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#endif /* configENABLE_MPU */
+#ਜੇ_ਅੰਤ /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ਜੇ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ਖਾਲੀ SVC_Handler( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ਅਸਥਿਰ
         (
             ".syntax unified                \n"
             ".extern vPortSVCHandler_C      \n"
@@ -547,16 +547,16 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
             "    b vSystemCallExit          \n"
             "                               \n"
             : /* No outputs. */
-            : "i" ( NUM_SYSTEM_CALLS ), "i" ( portSVC_SYSTEM_CALL_EXIT )
+            : "i" ( ਅੰਕ_SYSTEM_CALLS ), "i" ( ਪੋਰਟ_SVC_SYSTEM_CALL_EXIT )
             : "r0", "r1", "r2", "r3", "memory"
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ਨਹੀਂਤਾਂ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    ਖਾਲੀ SVC_Handler( ਖਾਲੀ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ਅਸਥਿਰ
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -574,25 +574,25 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#endif /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ਜੇ_ਅੰਤ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) /* __attribute__ (( naked )) */
+ਖਾਲੀ v_ਪੋਰਟ_Allocate_Secure_Context( uint32_t ul_Secure_ਢੇਰ_ਮਾਪ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
         "   svc %0                                          \n" /* Secure context is allocated in the supervisor call. */
         "   bx lr                                           \n" /* Return. */
-        ::"i" ( portSVC_ALLOCATE_SECURE_CONTEXT ) : "memory"
+        ::"i" ( ਪੋਰਟ_SVC_ALLOCATE_SECURE_CONTEXT ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+ਖਾਲੀ v_ਪੋਰਟ_Free_Secure_Context( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -605,7 +605,7 @@ void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PR
         " free_secure_context:                              \n"
         "   svc %1                                          \n" /* Secure context is freed in the supervisor call. */
         "   bx lr                                           \n" /* Return. */
-        ::"i" ( SECURE_CONTEXT_OFFSET ), "i" ( portSVC_FREE_SECURE_CONTEXT ) : "memory"
+        ::"i" ( SECURE_CONTEXT_ਵਿੱਥ ), "i" ( ਪੋਰਟ_SVC_FREE_SECURE_CONTEXT ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/

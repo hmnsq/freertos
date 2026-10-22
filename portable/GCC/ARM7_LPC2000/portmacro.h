@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,34 +46,34 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     portLONG
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਪੋਰਟ_LONG
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
-#define portNOP()    __asm volatile ( "NOP" );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()    __asm ਅਸਥਿਰ ( "NOP" );
 /*-----------------------------------------------------------*/
 
 
@@ -86,13 +86,13 @@ typedef unsigned long    UBaseType_t;
  * THUMB mode code will result in a compile time error.
  */
 
-#define portRESTORE_CONTEXT()                                                 \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESTORE_CONTEXT()                                                 \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        ਬਾਹਰੀ ਅਸਥਿਰ ਖਾਲੀ * ਅਸਥਿਰ pxCurrentTCB;                         \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Set the LR to the task stack. */                                   \
-        __asm volatile (                                                      \
+        __asm ਅਸਥਿਰ (                                                      \
             "LDR        R0, =pxCurrentTCB                               \n\t" \
             "LDR        R0, [R0]                                        \n\t" \
             "LDR        LR, [R0]                                        \n\t" \
@@ -118,18 +118,18 @@ typedef unsigned long    UBaseType_t;
             /* correct address. */                                            \
             "SUBS   PC, LR, #4                                          \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( ਖਾਲੀ ) ulCriticalNesting;                                           \
+        ( ਖਾਲੀ ) pxCurrentTCB;                                                \
     }
 /*-----------------------------------------------------------*/
 
-#define portSAVE_CONTEXT()                                                    \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SAVE_CONTEXT()                                                    \
     {                                                                         \
-        extern volatile void * volatile pxCurrentTCB;                         \
-        extern volatile uint32_t ulCriticalNesting;                           \
+        ਬਾਹਰੀ ਅਸਥਿਰ ਖਾਲੀ * ਅਸਥਿਰ pxCurrentTCB;                         \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint32_t ulCriticalNesting;                           \
                                                                               \
         /* Push R0 as we are going to use the register. */                    \
-        __asm volatile (                                                      \
+        __asm ਅਸਥਿਰ (                                                      \
             "STMDB  SP!, {R0}                                           \n\t" \
                                                                               \
             /* Set R0 to point to the task stack pointer. */                  \
@@ -165,13 +165,13 @@ typedef unsigned long    UBaseType_t;
             "LDR    R0, [R0]                                            \n\t" \
             "STR    LR, [R0]                                            \n\t" \
             );                                                                \
-        ( void ) ulCriticalNesting;                                           \
-        ( void ) pxCurrentTCB;                                                \
+        ( ਖਾਲੀ ) ulCriticalNesting;                                           \
+        ( ਖਾਲੀ ) pxCurrentTCB;                                                \
     }
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR()    vTaskSwitchContext()
-#define portYIELD()             __asm volatile ( "SWI 0" )
+ਬਾਹਰੀ ਖਾਲੀ vTaskSwitchContext( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR()    vTaskSwitchContext()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()             __asm ਅਸਥਿਰ ( "SWI 0" )
 /*-----------------------------------------------------------*/
 
 
@@ -184,49 +184,49 @@ extern void vTaskSwitchContext( void );
  * defined then the utilities are defined as macros here - as per other ports.
  */
 
-#ifdef THUMB_INTERWORK
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ THUMB_INTERWORK
 
-    extern void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    extern void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Disable_Interrupts_From_Thumb( ਖਾਲੀ ) __attribute__( ( naked ) );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enable_Interrupts_From_Thumb( ਖਾਲੀ ) __attribute__( ( naked ) );
 
-    #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
-    #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    v_ਪੋਰਟ_Disable_Interrupts_From_Thumb()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     v_ਪੋਰਟ_Enable_Interrupts_From_Thumb()
 
-#else
+#ਨਹੀਂਤਾਂ
 
-    #define portDISABLE_INTERRUPTS()                                       \
-    __asm volatile (                                                       \
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                                       \
+    __asm ਅਸਥਿਰ (                                                       \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
         "MSR    CPSR, R0        \n\t"   /* Write back modified value.   */ \
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
-    #define portENABLE_INTERRUPTS()                                        \
-    __asm volatile (                                                       \
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()                                        \
+    __asm ਅਸਥਿਰ (                                                       \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
         "MSR    CPSR, R0        \n\t"   /* Write back modified value.   */ \
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
-#endif /* THUMB_INTERWORK */
+#ਜੇ_ਅੰਤ /* THUMB_INTERWORK */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
 
-#define portENTER_CRITICAL()    vPortEnterCritical();
-#define portEXIT_CRITICAL()     vPortExitCritical();
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()    v_ਪੋਰਟ_Enter_Critical();
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()     v_ਪੋਰਟ_Exit_Critical();
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

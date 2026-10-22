@@ -11,8 +11,8 @@
  * https://github.com/zephyrproject-rtos/zephyr/blob/dafd3485bf67880e667b6e9a758b0b64fb688d63/arch/xtensa/include/xtensa-asm2-s.h
  */
 
-#ifndef __XT_ASM_UTILS_H
-#define __XT_ASM_UTILS_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __XT_ASM_UTILS_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ __XT_ASM_UTILS_H
 
 /*
  * SPILL_ALL_WINDOWS
@@ -49,7 +49,7 @@
  */
 
 .macro SPILL_ALL_WINDOWS
-#if XCHAL_NUM_AREGS == 64
+#ਜੇ XCHAL_ਅੰਕ_AREGS == 64
     and a12, a12, a12
     rotw 3
     and a12, a12, a12
@@ -60,16 +60,16 @@
     rotw 3
     and a12, a12, a12
     rotw 4
-#elif XCHAL_NUM_AREGS == 32
+#ਜਾਂਜੇ XCHAL_ਅੰਕ_AREGS == 32
     and a12, a12, a12
     rotw 3
     and a12, a12, a12
     rotw 3
     and a4, a4, a4
     rotw 2
-#else /* if XCHAL_NUM_AREGS == 64 */
-    #error Unrecognized XCHAL_NUM_AREGS
-#endif /* if XCHAL_NUM_AREGS == 64 */
+#ਨਹੀਂਤਾਂ /* if XCHAL_NUM_AREGS == 64 */
+    #ਗਲਤੀ Unrecognized XCHAL_ਅੰਕ_AREGS
+#ਜੇ_ਅੰਤ /* if XCHAL_NUM_AREGS == 64 */
    .endm
 
-#endif /* ifndef __XT_ASM_UTILS_H */
+#ਜੇ_ਅੰਤ /* ifndef __XT_ASM_UTILS_H */

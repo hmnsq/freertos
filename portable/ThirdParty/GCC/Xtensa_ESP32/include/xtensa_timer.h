@@ -47,19 +47,19 @@
 *
 *******************************************************************************/
 
-#ifndef XTENSA_TIMER_H
-#define XTENSA_TIMER_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XTENSA_TIMER_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XTENSA_TIMER_H
 
-#ifdef __ASSEMBLER__
-    #include    <xtensa/coreasm.h>
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __ASSEMBLER__
+    #ਅਨ੍ਤਰ੍ਭਾਵ    <xtensa/coreasm.h>
+#ਜੇ_ਅੰਤ
 
-#include    <xtensa/corebits.h>
-#include    <xtensa/config/system.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ    <xtensa/corebits.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ    <xtensa/config/system.h>
 
-#include    "xtensa_rtos.h" /* in case this wasn't included directly */
+#ਅਨ੍ਤਰ੍ਭਾਵ    "xtensa_rtos.h" /* in case this wasn't included directly */
 
-#include    "FreeRTOSConfig.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ    "FreeRTOSConfig.h"
 
 /*
  * Select timer to use for periodic tick, and determine its interrupt number
@@ -68,54 +68,54 @@
  * not be on a high priority interrupt - an error will be reported in invalid).
  * Otherwise select the first low or medium priority interrupt timer available.
  */
-#if XCHAL_NUM_TIMERS == 0
+#ਜੇ XCHAL_ਅੰਕ_TIMERS == 0
 
-    #error "This Xtensa configuration is unsupported, it has no timers."
+    #ਗਲਤੀ "This Xtensa configuration is unsupported, it has no timers."
 
-#else
+#ਨਹੀਂਤਾਂ
 
-    #ifndef XT_TIMER_INDEX
-        #if XCHAL_TIMER3_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER3_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    3
-            #endif
-        #endif
-        #if XCHAL_TIMER2_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER2_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    2
-            #endif
-        #endif
-        #if XCHAL_TIMER1_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER1_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    1
-            #endif
-        #endif
-        #if XCHAL_TIMER0_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER0_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    0
-            #endif
-        #endif
-    #endif /* ifndef XT_TIMER_INDEX */
-    #ifndef XT_TIMER_INDEX
-        #error "There is no suitable timer in this Xtensa configuration."
-    #endif
+    #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XT_TIMER_ਸੂਚਕਾਂਕ
+        #ਜੇ XCHAL_TIMER3_ਰੁਕਾਵਟ != XTHAL_TIMER_UNCONFIGURED
+            #ਜੇ XCHAL_INT_LEVEL( XCHAL_TIMER3_ਰੁਕਾਵਟ ) <= XCHAL_EXCM_LEVEL
+                #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ  XT_TIMER_ਸੂਚਕਾਂਕ
+                #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_ਸੂਚਕਾਂਕ    3
+            #ਜੇ_ਅੰਤ
+        #ਜੇ_ਅੰਤ
+        #ਜੇ XCHAL_TIMER2_ਰੁਕਾਵਟ != XTHAL_TIMER_UNCONFIGURED
+            #ਜੇ XCHAL_INT_LEVEL( XCHAL_TIMER2_ਰੁਕਾਵਟ ) <= XCHAL_EXCM_LEVEL
+                #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ  XT_TIMER_ਸੂਚਕਾਂਕ
+                #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_ਸੂਚਕਾਂਕ    2
+            #ਜੇ_ਅੰਤ
+        #ਜੇ_ਅੰਤ
+        #ਜੇ XCHAL_TIMER1_ਰੁਕਾਵਟ != XTHAL_TIMER_UNCONFIGURED
+            #ਜੇ XCHAL_INT_LEVEL( XCHAL_TIMER1_ਰੁਕਾਵਟ ) <= XCHAL_EXCM_LEVEL
+                #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ  XT_TIMER_ਸੂਚਕਾਂਕ
+                #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_ਸੂਚਕਾਂਕ    1
+            #ਜੇ_ਅੰਤ
+        #ਜੇ_ਅੰਤ
+        #ਜੇ XCHAL_TIMER0_ਰੁਕਾਵਟ != XTHAL_TIMER_UNCONFIGURED
+            #ਜੇ XCHAL_INT_LEVEL( XCHAL_TIMER0_ਰੁਕਾਵਟ ) <= XCHAL_EXCM_LEVEL
+                #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ  XT_TIMER_ਸੂਚਕਾਂਕ
+                #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_ਸੂਚਕਾਂਕ    0
+            #ਜੇ_ਅੰਤ
+        #ਜੇ_ਅੰਤ
+    #ਜੇ_ਅੰਤ /* ifndef XT_TIMER_INDEX */
+    #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XT_TIMER_ਸੂਚਕਾਂਕ
+        #ਗਲਤੀ "There is no suitable timer in this Xtensa configuration."
+    #ਜੇ_ਅੰਤ
 
-    #define XT_CCOMPARE        ( CCOMPARE + XT_TIMER_INDEX )
-    #define XT_TIMER_INTNUM    XCHAL_TIMER_INTERRUPT( XT_TIMER_INDEX )
-    #define XT_TIMER_INTPRI    XCHAL_INT_LEVEL( XT_TIMER_INTNUM )
-    #define XT_TIMER_INTEN     ( 1 << XT_TIMER_INTNUM )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_CCOMPARE        ( CCOMPARE + XT_TIMER_ਸੂਚਕਾਂਕ )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_INTNUM    XCHAL_TIMER_ਰੁਕਾਵਟ( XT_TIMER_ਸੂਚਕਾਂਕ )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_INTPRI    XCHAL_INT_LEVEL( XT_TIMER_INTNUM )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_INTEN     ( 1 << XT_TIMER_INTNUM )
 
-    #if XT_TIMER_INTNUM == XTHAL_TIMER_UNCONFIGURED
-        #error "The timer selected by XT_TIMER_INDEX does not exist in this core."
-    #elif XT_TIMER_INTPRI > XCHAL_EXCM_LEVEL
-        #error "The timer interrupt cannot be high priority (use medium or low)."
-    #endif
+    #ਜੇ XT_TIMER_INTNUM == XTHAL_TIMER_UNCONFIGURED
+        #ਗਲਤੀ "The timer selected by XT_TIMER_INDEX does not exist in this core."
+    #ਜਾਂਜੇ XT_TIMER_INTPRI > XCHAL_EXCM_LEVEL
+        #ਗਲਤੀ "The timer interrupt cannot be high priority (use medium or low)."
+    #ਜੇ_ਅੰਤ
 
-#endif /* XCHAL_NUM_TIMERS */
+#ਜੇ_ਅੰਤ /* XCHAL_NUM_TIMERS */
 
 /*
  * Set processor clock frequency, used to determine clock divisor for timer tick.
@@ -134,13 +134,13 @@
  * compile with xt-xcc option "-DXT_SIMULATOR".
  * Adjust this frequency to taste (it's not real-time anyway!).
  */
-#if defined( XT_SIMULATOR ) && !defined( XT_CLOCK_FREQ )
-    #define XT_CLOCK_FREQ    configCPU_CLOCK_HZ
-#endif
+#ਜੇ defined( XT_SIMULATOR ) && !defined( XT_CLOCK_FREQ )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_CLOCK_FREQ    configCPU_CLOCK_HZ
+#ਜੇ_ਅੰਤ
 
-#if !defined( XT_CLOCK_FREQ ) && !defined( XT_BOARD )
-    #error "XT_CLOCK_FREQ must be defined for the target platform."
-#endif
+#ਜੇ !defined( XT_CLOCK_FREQ ) && !defined( XT_BOARD )
+    #ਗਲਤੀ "XT_CLOCK_FREQ must be defined for the target platform."
+#ਜੇ_ਅੰਤ
 
 /*
  * Default number of timer "ticks" per second (default 100 for 10ms tick).
@@ -149,20 +149,20 @@
  * editing this here or in xtensa_rtos.h, or compiling with xt-xcc option
  * "-DXT_TICK_PER_SEC=<value>" where <value> is a suitable number.
  */
-#ifndef XT_TICK_PER_SEC
-    #define XT_TICK_PER_SEC    configTICK_RATE_HZ    /* 10 ms tick = 100 ticks per second */
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ XT_TICK_ਪ੍ਰਤੀ_SEC
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TICK_ਪ੍ਰਤੀ_SEC    config_TICK_ਦਰ_HZ    /* 10 ms tick = 100 ticks per second */
+#ਜੇ_ਅੰਤ
 
 /*
  * Derivation of clock divisor for timer tick and interrupt (one per tick).
  */
-#ifdef XT_CLOCK_FREQ
-    #define XT_TICK_DIVISOR    ( XT_CLOCK_FREQ / XT_TICK_PER_SEC )
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ XT_CLOCK_FREQ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TICK_ਭਾਜਕ    ( XT_CLOCK_FREQ / XT_TICK_ਪ੍ਰਤੀ_SEC )
+#ਜੇ_ਅੰਤ
 
-#ifndef __ASSEMBLER__
-    extern unsigned _xt_tick_divisor;
-    extern void _xt_tick_divisor_init( void );
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __ASSEMBLER__
+    ਬਾਹਰੀ ਬਿਨਾਨਿਸ਼ਾਨੀ xt_tick_ਭਾਜਕ;
+    ਬਾਹਰੀ ਖਾਲੀ xt_tick_ਭਾਜਕ_init( ਖਾਲੀ );
+#ਜੇ_ਅੰਤ
 
-#endif /* XTENSA_TIMER_H */
+#ਜੇ_ਅੰਤ /* XTENSA_TIMER_H */

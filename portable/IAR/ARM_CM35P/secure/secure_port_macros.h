@@ -26,115 +26,115 @@
  *
  */
 
-#ifndef __SECURE_PORT_MACROS_H__
-#define __SECURE_PORT_MACROS_H__
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __SECURE_PORT_MACROS_H__
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ __SECURE_PORT_MACROS_H__
 
 /**
  * @brief Byte alignment requirements.
  */
-#define secureportBYTE_ALIGNMENT         8
-#define secureportBYTE_ALIGNMENT_MASK    ( 0x0007 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportBYTE_ALIGNMENT         8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_BYTE_ALIGNMENT_ਨਕਾਬ    ( 0x0007 )
 
 /**
  * @brief Macro to declare a function as non-secure callable.
  */
-#if defined( __IAR_SYSTEMS_ICC__ )
-    #define secureportNON_SECURE_CALLABLE    __cmse_nonsecure_entry __root
-#else
-    #define secureportNON_SECURE_CALLABLE    __attribute__( ( cmse_nonsecure_entry ) ) __attribute__( ( used ) )
-#endif
+#ਜੇ defined( __IAR_SYSTEMS_ICC__ )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportNON_SECURE_CALLABLE    __cmse_nonsecure_entry __root
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportNON_SECURE_CALLABLE    __attribute__( ( cmse_nonsecure_ਇੰਦਰਾਜ ) ) __attribute__( ( ਵਰਤਿਆ ) )
+#ਜੇ_ਅੰਤ
 
 /**
  * @brief Set the secure PRIMASK value.
  */
-#define secureportSET_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_ਸੈੱਟ_SECURE_PRIMASK( ul_Primask_ਮੁੱਲ ) \
+    __asm ਅਸਥਿਰ ( "msr primask, %0" : : "r" ( ul_Primask_ਮੁੱਲ ) : "memory" )
 
 /**
  * @brief Set the non-secure PRIMASK value.
  */
-#define secureportSET_NON_SECURE_PRIMASK( ulPrimaskValue ) \
-    __asm volatile ( "msr primask_ns, %0" : : "r" ( ulPrimaskValue ) : "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_ਸੈੱਟ_NON_SECURE_PRIMASK( ul_Primask_ਮੁੱਲ ) \
+    __asm ਅਸਥਿਰ ( "msr primask_ns, %0" : : "r" ( ul_Primask_ਮੁੱਲ ) : "memory" )
 
 /**
  * @brief Read the PSP value in the given variable.
  */
-#define secureportREAD_PSP( pucOutCurrentStackPointer ) \
-    __asm volatile ( "mrs %0, psp"  : "=r" ( pucOutCurrentStackPointer ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportREAD_PSP( puc_ਬਾਹਰਲਾ_Current_ਢੇਰ_ਸੂਚਕ ) \
+    __asm ਅਸਥਿਰ ( "mrs %0, psp"  : "=r" ( puc_ਬਾਹਰਲਾ_Current_ਢੇਰ_ਸੂਚਕ ) )
 
 /**
  * @brief Set the PSP to the given value.
  */
-#define secureportSET_PSP( pucCurrentStackPointer ) \
-    __asm volatile ( "msr psp, %0" : : "r" ( pucCurrentStackPointer ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_ਸੈੱਟ_PSP( puc_Current_ਢੇਰ_ਸੂਚਕ ) \
+    __asm ਅਸਥਿਰ ( "msr psp, %0" : : "r" ( puc_Current_ਢੇਰ_ਸੂਚਕ ) )
 
 /**
  * @brief Read the PSPLIM value in the given variable.
  */
-#define secureportREAD_PSPLIM( pucOutStackLimit ) \
-    __asm volatile ( "mrs %0, psplim"  : "=r" ( pucOutStackLimit ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportREAD_PSPLIM( puc_ਬਾਹਰਲਾ_ਢੇਰ_ਹੱਦਬੰਦੀ ) \
+    __asm ਅਸਥਿਰ ( "mrs %0, psplim"  : "=r" ( puc_ਬਾਹਰਲਾ_ਢੇਰ_ਹੱਦਬੰਦੀ ) )
 
 /**
  * @brief Set the PSPLIM to the given value.
  */
-#define secureportSET_PSPLIM( pucStackLimit ) \
-    __asm volatile ( "msr psplim, %0" : : "r" ( pucStackLimit ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_ਸੈੱਟ_PSPLIM( puc_ਢੇਰ_ਹੱਦਬੰਦੀ ) \
+    __asm ਅਸਥਿਰ ( "msr psplim, %0" : : "r" ( puc_ਢੇਰ_ਹੱਦਬੰਦੀ ) )
 
 /**
  * @brief Set the NonSecure MSP to the given value.
  */
-#define secureportSET_MSP_NS( pucMainStackPointer ) \
-    __asm volatile ( "msr msp_ns, %0" : : "r" ( pucMainStackPointer ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_ਸੈੱਟ_MSP_NS( puc_Main_ਢੇਰ_ਸੂਚਕ ) \
+    __asm ਅਸਥਿਰ ( "msr msp_ns, %0" : : "r" ( puc_Main_ਢੇਰ_ਸੂਚਕ ) )
 
 /**
  * @brief Set the CONTROL register to the given value.
  */
-#define secureportSET_CONTROL( ulControl ) \
-    __asm volatile ( "msr control, %0" : : "r" ( ulControl ) : "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureport_ਸੈੱਟ_CONTROL( ulControl ) \
+    __asm ਅਸਥਿਰ ( "msr control, %0" : : "r" ( ulControl ) : "memory" )
 
 /**
  * @brief Read the Interrupt Program Status Register (IPSR) value in the given
  * variable.
  */
-#define secureportREAD_IPSR( ulIPSR ) \
-    __asm volatile ( "mrs %0, ipsr"  : "=r" ( ulIPSR ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportREAD_IPSR( ulIPSR ) \
+    __asm ਅਸਥਿਰ ( "mrs %0, ipsr"  : "=r" ( ulIPSR ) )
 
 /**
  * @brief PRIMASK value to enable interrupts.
  */
-#define secureportPRIMASK_ENABLE_INTERRUPTS_VAL     0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportPRIMASK_ENABLE_INTERRUPTS_VAL     0
 
 /**
  * @brief PRIMASK value to disable interrupts.
  */
-#define secureportPRIMASK_DISABLE_INTERRUPTS_VAL    1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportPRIMASK_DISABLE_INTERRUPTS_VAL    1
 
 /**
  * @brief Disable secure interrupts.
  */
-#define secureportDISABLE_SECURE_INTERRUPTS()        secureportSET_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportDISABLE_SECURE_INTERRUPTS()        secureport_ਸੈੱਟ_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
 
 /**
  * @brief Disable non-secure interrupts.
  *
  * This effectively disables context switches.
  */
-#define secureportDISABLE_NON_SECURE_INTERRUPTS()    secureportSET_NON_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportDISABLE_NON_SECURE_INTERRUPTS()    secureport_ਸੈੱਟ_NON_SECURE_PRIMASK( secureportPRIMASK_DISABLE_INTERRUPTS_VAL )
 
 /**
  * @brief Enable non-secure interrupts.
  */
-#define secureportENABLE_NON_SECURE_INTERRUPTS()     secureportSET_NON_SECURE_PRIMASK( secureportPRIMASK_ENABLE_INTERRUPTS_VAL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportENABLE_NON_SECURE_INTERRUPTS()     secureport_ਸੈੱਟ_NON_SECURE_PRIMASK( secureportPRIMASK_ENABLE_INTERRUPTS_VAL )
 
 /**
  * @brief Assert definition.
  */
-#define secureportASSERT( x )                      \
-    if( ( x ) == 0 )                               \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ secureportASSERT( x )                      \
+    ਜੇ( ( x ) == 0 )                               \
     {                                              \
         secureportDISABLE_SECURE_INTERRUPTS();     \
         secureportDISABLE_NON_SECURE_INTERRUPTS(); \
-        for( ; ; ) {; }                            \
+        ਲਈ( ; ; ) {; }                            \
     }
 
-#endif /* __SECURE_PORT_MACROS_H__ */
+#ਜੇ_ਅੰਤ /* __SECURE_PORT_MACROS_H__ */

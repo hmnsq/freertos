@@ -34,26 +34,26 @@
  * 1 tab == 4 spaces!
  */
 
-#ifndef FREERTOS_CONFIG_XTENSA_H
-#define FREERTOS_CONFIG_XTENSA_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ FREERTOS_CONFIG_XTENSA_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ FREERTOS_CONFIG_XTENSA_H
 
-#include "sdkconfig.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "sdkconfig.h"
 
 /* enable use of optimized task selection by the scheduler */
-#if defined( CONFIG_FREERTOS_OPTIMIZED_SCHEDULER ) && !defined( configUSE_PORT_OPTIMISED_TASK_SELECTION )
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#ਜੇ defined( CONFIG_FREERTOS_OPTIMIZED_SCHEDULER ) && !defined( config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION    1
+#ਜੇ_ਅੰਤ
 
-#define XT_USE_THREAD_SAFE_CLIB                        0
-#undef XT_USE_SWPRI
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_USE_THREAD_ਸੁਰੱਖਿਅਤ_CLIB                        0
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ XT_USE_SWPRI
 
-#if CONFIG_FREERTOS_CORETIMER_0
-    #define XT_TIMER_INDEX    0
-#elif CONFIG_FREERTOS_CORETIMER_1
-    #define XT_TIMER_INDEX    1
-#endif
+#ਜੇ CONFIG_FREERTOS_CORETIMER_0
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_ਸੂਚਕਾਂਕ    0
+#ਜਾਂਜੇ CONFIG_FREERTOS_CORETIMER_1
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_TIMER_ਸੂਚਕਾਂਕ    1
+#ਜੇ_ਅੰਤ
 
-#ifndef __ASSEMBLER__
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __ASSEMBLER__
 
 /**
  * This function is defined to provide a deprecation warning whenever
@@ -61,61 +61,61 @@
  * Update the code to use esp_clk_cpu_freq function instead.
  * @return current CPU clock frequency, in Hz
  */
-    int xt_clock_freq( void ) __attribute__( ( deprecated ) );
+    ਪੂਰਨ xt_clock_freq( ਖਾਲੀ ) __attribute__( ( deprecated ) );
 
-    #define XT_CLOCK_FREQ    ( xt_clock_freq() )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ XT_CLOCK_FREQ    ( xt_clock_freq() )
 
-#endif // __ASSEMBLER__
+#ਜੇ_ਅੰਤ // __ASSEMBLER__
 
 /* Required for configuration-dependent settings */
-#include <xtensa_config.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <xtensa_config.h>
 
 /* configASSERT behaviour */
-#ifndef __ASSEMBLER__
-    #include <assert.h>
-    #include "esp_rom_sys.h"
-    #if CONFIG_IDF_TARGET_ESP32
-        #include "esp32/rom/ets_sys.h" /* will be removed in idf v5.0 */
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/rom/ets_sys.h"
-    #elif CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/rom/ets_sys.h"
-    #endif
-#endif // __ASSEMBLER__
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __ASSEMBLER__
+    #ਅਨ੍ਤਰ੍ਭਾਵ <assert.h>
+    #ਅਨ੍ਤਰ੍ਭਾਵ "esp_rom_sys.h"
+    #ਜੇ CONFIG_IDF_ਨਿਸ਼ਾਨਾ_ESP32
+        #ਅਨ੍ਤਰ੍ਭਾਵ "esp32/rom/ets_sys.h" /* will be removed in idf v5.0 */
+    #ਜਾਂਜੇ CONFIG_IDF_ਨਿਸ਼ਾਨਾ_ESP32_S2
+        #ਅਨ੍ਤਰ੍ਭਾਵ "esp32s2/rom/ets_sys.h"
+    #ਜਾਂਜੇ CONFIG_IDF_ਨਿਸ਼ਾਨਾ_ESP32_S3
+        #ਅਨ੍ਤਰ੍ਭਾਵ "esp32s3/rom/ets_sys.h"
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ // __ASSEMBLER__
 
 /* If CONFIG_FREERTOS_ASSERT_DISABLE is set then configASSERT is defined empty later in FreeRTOS.h and the macro */
 /* configASSERT_DEFINED remains unset (meaning some warnings are avoided) */
-#if ( configASSERT_DEFINED == 1 )
-    #undef configASSERT
-    #if defined( CONFIG_FREERTOS_ASSERT_FAIL_PRINT_CONTINUE )
-        #define configASSERT( a )                                           \
-    if( unlikely( !( a ) ) ) {                                              \
+#ਜੇ ( configASSERT_DEFINED == 1 )
+    #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ configASSERT
+    #ਜੇ defined( CONFIG_FREERTOS_ASSERT_FAIL_PRINT_CONTINUE )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configASSERT( a )                                           \
+    ਜੇ( unlikely( !( a ) ) ) {                                              \
         esp_rom_printf( "%s:%d (%s)- assert failed!\n", __FILE__, __LINE__, \
                         __FUNCTION__ );                                     \
     }
-    #elif defined( CONFIG_FREERTOS_ASSERT_FAIL_ABORT )
-        #define configASSERT( a )    assert( a )
-    #endif
-#endif /* ifdef configASSERT */
+    #ਜਾਂਜੇ defined( CONFIG_FREERTOS_ASSERT_FAIL_ABORT )
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configASSERT( a )    ਪ੍ਰਤਿਜ੍ਞਾ( a )
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ /* ifdef configASSERT */
 
-#if CONFIG_FREERTOS_ASSERT_ON_UNTESTED_FUNCTION
-    #define UNTESTED_FUNCTION()                                                                     \
+#ਜੇ CONFIG_FREERTOS_ASSERT_ON_UNTESTED_FUNCTION
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ UNTESTED_FUNCTION()                                                                     \
     { esp_rom_printf( "Untested FreeRTOS function %s\r\n", __FUNCTION__ ); configASSERT( false ); } \
-    while( 0 )
-#else
-    #define UNTESTED_FUNCTION()
-#endif
+    ਜਦੋਂ( 0 )
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ UNTESTED_FUNCTION()
+#ਜੇ_ਅੰਤ
 
-#define configXT_BOARD                          1           /* Board mode */
-#define configXT_SIMULATOR                      0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configXT_BOARD                          1           /* Board mode */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configXT_SIMULATOR                      0
 
 /* The maximum interrupt priority from which FreeRTOS.org API functions can
  * be called.  Only API functions that end in ...FromISR() can be used within
  * interrupts. */
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY    XCHAL_EXCM_LEVEL
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ    XCHAL_EXCM_LEVEL
 
 /* Stack alignment, architecture specific. Must be a power of two. */
-#define configSTACK_ALIGNMENT                   16
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_ਢੇਰ_ALIGNMENT                   16
 
 
 /* The Xtensa port uses a separate interrupt stack. Adjust the stack size
@@ -123,17 +123,17 @@
  * Size needs to be aligned to the stack increment, since the location of
  * the stack for the 2nd CPU will be calculated using configISR_STACK_SIZE.
  */
-#ifndef configISR_STACK_SIZE
-    #define configISR_STACK_SIZE    ( ( CONFIG_FREERTOS_ISR_STACKSIZE + configSTACK_ALIGNMENT - 1 ) & ( ~( configSTACK_ALIGNMENT - 1 ) ) )
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_ISR_ਢੇਰ_ਮਾਪ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_ISR_ਢੇਰ_ਮਾਪ    ( ( CONFIG_FREERTOS_ISR_STACKSIZE + config_ਢੇਰ_ALIGNMENT - 1 ) & ( ~( config_ਢੇਰ_ALIGNMENT - 1 ) ) )
+#ਜੇ_ਅੰਤ
 
-#ifndef __ASSEMBLER__
-    #if CONFIG_APPTRACE_SV_ENABLE
-        extern uint32_t port_switch_flag[];
-        #define os_task_switch_is_pended( _cpu_ )    ( port_switch_flag[ _cpu_ ] )
-    #else
-        #define os_task_switch_is_pended( _cpu_ )    ( false )
-    #endif
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __ASSEMBLER__
+    #ਜੇ CONFIG_APPTRACE_SV_ENABLE
+        ਬਾਹਰੀ uint32_t ਪੋਰਟ_switch_flag[];
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ os_task_switch_is_pended( _cpu_ )    ( ਪੋਰਟ_switch_flag[ _cpu_ ] )
+    #ਨਹੀਂਤਾਂ
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ os_task_switch_is_pended( _cpu_ )    ( false )
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
-#endif // FREERTOS_CONFIG_XTENSA_H
+#ਜੇ_ਅੰਤ // FREERTOS_CONFIG_XTENSA_H

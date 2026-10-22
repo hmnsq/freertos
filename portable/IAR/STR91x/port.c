@@ -32,35 +32,35 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "91x_lib.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "91x_lib.h"
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <assert.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <assert.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
-#ifndef configUSE_WATCHDOG_TICK
-    #error configUSE_WATCHDOG_TICK must be set to either 1 or 0 in FreeRTOSConfig.h to use either the Watchdog or timer 2 to generate the tick interrupt respectively.
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configUSE_WATCHDOG_TICK
+    #ਗਲਤੀ configUSE_WATCHDOG_TICK must be ਸੈੱਟ ਮੰਜ਼ਿਲ either 1 or 0 ਵਿੱਚ_2 FreeRTOSConfig.h ਮੰਜ਼ਿਲ use either the Watchdog or timer 2 ਮੰਜ਼ਿਲ generate the tick ਰੁਕਾਵਟ respectively.
+#ਜੇ_ਅੰਤ
 
 /* Constants required to setup the initial stack. */
-#ifndef _RUN_TASK_IN_ARM_MODE_
-    #define portINITIAL_SPSR       ( ( StackType_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
-#else
-    #define portINITIAL_SPSR       ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਲੜੀਵਾਰ_TASK_ਵਿੱਚ_ARM_ਬਹੁਲਕ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SPSR       ( ( ਢੇਰ_Type_t ) 0x3f )      /* System mode, THUMB mode, interrupts enabled. */
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SPSR       ( ( ਢੇਰ_Type_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
+#ਜੇ_ਅੰਤ
 
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INSTRUCTION_ਮਾਪ       ( ( ਢੇਰ_Type_t ) 4 )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-#ifndef abs
-    #define abs( x )    ( ( x ) > 0 ? ( x ) : -( x ) )
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਨਿਰਪੇਖ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਨਿਰਪੇਖ( x )    ( ( x ) > 0 ? ( x ) : -( x ) )
+#ਜੇ_ਅੰਤ
 
 /**
  * Toggle a led using the following algorithm:
@@ -74,21 +74,21 @@
  * }
  *
  */
-#define TOGGLE_LED( port, pin )                                           \
-    if( ( ( ( ( port )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != Bit_RESET ) \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ TOGGLE_LED( ਪੋਰਟ, pin )                                           \
+    ਜੇ( ( ( ( ( ਪੋਰਟ )->DR[ ( pin ) << 2 ] ) ) & ( pin ) ) != ਦੋਆਧਾਰੀ_ਅੰਕ_RESET ) \
     {                                                                     \
-        ( port )->DR[ ( pin ) << 2 ] = 0x00;                              \
+        ( ਪੋਰਟ )->DR[ ( pin ) << 2 ] = 0x00;                              \
     }                                                                     \
-    else                                                                  \
+    ਨਹੀਂਤਾਂ                                                                  \
     {                                                                     \
-        ( port )->DR[ ( pin ) << 2 ] = ( pin );                           \
+        ( ਪੋਰਟ )->DR[ ( pin ) << 2 ] = ( pin );                           \
     }
 
 
 /*-----------------------------------------------------------*/
 
 /* Setup the watchdog to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -98,15 +98,15 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
 /* Tick interrupt routines for cooperative and preemptive operation
  * respectively.  The preemptive version is not defined as __irq as it is called
  * from an asm wrapper function. */
-void WDG_IRQHandler( void );
+ਖਾਲੀ WDG_IRQHandler( ਖਾਲੀ );
 
 /* VIC interrupt default handler. */
-static void prvDefaultHandler( void );
+ਸਥਿਰ ਖਾਲੀ prvDefaultHandler( ਖਾਲੀ );
 
-#if configUSE_WATCHDOG_TICK == 0
+#ਜੇ configUSE_WATCHDOG_TICK == 0
     /* Used to update the OCR timer register */
-    static u16 s_nPulseLength;
-#endif
+    ਸਥਿਰ u16 s_n_Pulse_ਲੰਮਾਈ;
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
@@ -116,17 +116,17 @@ static void prvDefaultHandler( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    ਢੇਰ_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -134,73 +134,73 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) px_ਕੋਡ + ਪੋਰਟ_INSTRUCTION_ਮਾਪ;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x12121212;    /* R12 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x11111111;    /* R11 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x10101010;    /* R10 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x09090909;    /* R9 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x08080808;    /* R8 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x07070707;    /* R7 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x06060606;    /* R6 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x05050505;    /* R5 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x04040404;    /* R4 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x03030303;    /* R3 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x02020202;    /* R2 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x01010101;    /* R1 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pvParameters; /* R0 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_INITIAL_SPSR;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ਪੋਰਟ_NO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-    extern void vPortStartFirstTask( void );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ();
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
     /* Should not get here! */
-    return 0;
+    ਵਾਪਸ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -209,9 +209,9 @@ void vPortEndScheduler( void )
 
 /* This function is called from an asm wrapper, so does not require the __irq
  * keyword. */
-#if configUSE_WATCHDOG_TICK == 1
+#ਜੇ configUSE_WATCHDOG_TICK == 1
 
-    static void prvFindFactors( u32 n,
+    ਸਥਿਰ ਖਾਲੀ prv_ਲੱਭੋ_Factors( u32 n,
                                 u16 * a,
                                 u32 * b )
     {
@@ -225,26 +225,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 65536ul ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        ਲਈ( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            ਜੇ( ਨਿਰਪੇਖ( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            ਜੇ( ਨਿਰਪੇਖ( err ) < ਨਿਰਪੇਖ( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                ਜੇ( err == 0 )
                 {
-                    break;
+                    ਰੋਕੋ;
                 }
             }
         }
@@ -254,11 +254,11 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    static void prvSetupTimerInterrupt( void )
+    ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
     {
         WDG_InitTypeDef xWdg;
         uint16_t a;
-        uint32_t n = configCPU_PERIPH_HZ / configTICK_RATE_HZ, b;
+        uint32_t n = configCPU_PERIPH_HZ / config_TICK_ਦਰ_HZ, b;
 
         /* Configure the watchdog as a free running timer that generates a
          * periodic interrupt. */
@@ -266,7 +266,7 @@ void vPortEndScheduler( void )
         SCU_APBPeriphClockConfig( __WDG, ENABLE );
         WDG_DeInit();
         WDG_StructInit( &xWdg );
-        prvFindFactors( n, &a, &b );
+        prv_ਲੱਭੋ_Factors( n, &a, &b );
         xWdg.WDG_Prescaler = a - 1;
         xWdg.WDG_Preload = b - 1;
         WDG_Init( &xWdg );
@@ -284,11 +284,11 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    void WDG_IRQHandler( void )
+    ਖਾਲੀ WDG_IRQHandler( ਖਾਲੀ )
     {
         {
             /* Increment the tick counter. */
-            if( xTaskIncrementTick() != pdFALSE )
+            ਜੇ( xTaskIncrementTick() != pdFALSE )
             {
                 /* Select a new task to execute. */
                 vTaskSwitchContext();
@@ -299,9 +299,9 @@ void vPortEndScheduler( void )
         }
     }
 
-#else /* if configUSE_WATCHDOG_TICK == 1 */
+#ਨਹੀਂਤਾਂ /* if configUSE_WATCHDOG_TICK == 1 */
 
-    static void prvFindFactors( u32 n,
+    ਸਥਿਰ ਖਾਲੀ prv_ਲੱਭੋ_Factors( u32 n,
                                 u8 * a,
                                 u16 * b )
     {
@@ -316,26 +316,26 @@ void vPortEndScheduler( void )
         *a = a0 = ( ( n - 1 ) / 256 ) + 1;
         *b = b0 = n / *a;
 
-        for( ; *a <= 256; ( *a )++ )
+        ਲਈ( ; *a <= 256; ( *a )++ )
         {
             *b = n / *a;
             err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
 
-            if( abs( err ) > ( *a / 2 ) )
+            ਜੇ( ਨਿਰਪੇਖ( err ) > ( *a / 2 ) )
             {
                 ( *b )++;
                 err = ( int32_t ) *a * ( int32_t ) *b - ( int32_t ) n;
             }
 
-            if( abs( err ) < abs( err_min ) )
+            ਜੇ( ਨਿਰਪੇਖ( err ) < ਨਿਰਪੇਖ( err_min ) )
             {
                 err_min = err;
                 a0 = *a;
                 b0 = *b;
 
-                if( err == 0 )
+                ਜੇ( err == 0 )
                 {
-                    break;
+                    ਰੋਕੋ;
                 }
             }
         }
@@ -345,26 +345,26 @@ void vPortEndScheduler( void )
     }
     /*-----------------------------------------------------------*/
 
-    static void prvSetupTimerInterrupt( void )
+    ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
     {
         uint8_t a;
         uint16_t b;
-        uint32_t n = configCPU_PERIPH_HZ / configTICK_RATE_HZ;
+        uint32_t n = configCPU_PERIPH_HZ / config_TICK_ਦਰ_HZ;
 
         TIM_InitTypeDef timer;
 
         SCU_APBPeriphClockConfig( __TIM23, ENABLE );
         TIM_DeInit( TIM2 );
         TIM_StructInit( &timer );
-        prvFindFactors( n, &a, &b );
+        prv_ਲੱਭੋ_Factors( n, &a, &b );
 
-        timer.TIM_Mode = TIM_OCM_CHANNEL_1;
+        timer.TIM_ਬਹੁਲਕ = TIM_OCM_CHANNEL_1;
         timer.TIM_OC1_Modes = TIM_TIMING;
-        timer.TIM_Clock_Source = TIM_CLK_APB;
-        timer.TIM_Clock_Edge = TIM_CLK_EDGE_RISING;
+        timer.TIM_Clock_ਸਰੋਤ = TIM_CLK_APB;
+        timer.TIM_Clock_ਕਿਨਾਰਾ = TIM_CLK_ਕਿਨਾਰਾ_RISING;
         timer.TIM_Prescaler = a - 1;
-        timer.TIM_Pulse_Level_1 = TIM_HIGH;
-        timer.TIM_Pulse_Length_1 = s_nPulseLength = b - 1;
+        timer.TIM_Pulse_Level_1 = TIM_ਉੱਚਾ;
+        timer.TIM_Pulse_ਲੰਮਾਈ_1 = s_n_Pulse_ਲੰਮਾਈ = b - 1;
 
         TIM_Init( TIM2, &timer );
         TIM_ITConfig( TIM2, TIM_IT_OC1, ENABLE );
@@ -377,17 +377,17 @@ void vPortEndScheduler( void )
         VIC1->DVAR = ( uint32_t ) prvDefaultHandler;
 
         TIM_CounterCmd( TIM2, TIM_CLEAR );
-        TIM_CounterCmd( TIM2, TIM_START );
+        TIM_CounterCmd( TIM2, TIM_ਸ਼ੁਰੂ );
     }
     /*-----------------------------------------------------------*/
 
-    void TIM2_IRQHandler( void )
+    ਖਾਲੀ TIM2_IRQHandler( ਖਾਲੀ )
     {
         /* Reset the timer counter to avoid overflow. */
-        TIM2->OC1R += s_nPulseLength;
+        TIM2->OC1R += s_n_Pulse_ਲੰਮਾਈ;
 
         /* Increment the tick counter. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             /* Select a new task to run. */
             vTaskSwitchContext();
@@ -397,14 +397,14 @@ void vPortEndScheduler( void )
         TIM2->SR &= ~TIM_FLAG_OC1;
     }
 
-#endif /* USE_WATCHDOG_TICK */
+#ਜੇ_ਅੰਤ /* USE_WATCHDOG_TICK */
 
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortEnterCritical( void )
+__arm __interwork ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ )
 {
     /* Disable interrupts first! */
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
 
     /* Now that interrupts are disabled, ulCriticalNesting can be accessed
      * directly.  Increment ulCriticalNesting to keep a count of how many times
@@ -413,23 +413,23 @@ __arm __interwork void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__arm __interwork void vPortExitCritical( void )
+__arm __interwork ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ਜੇ( ulCriticalNesting > ਪੋਰਟ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ਜੇ( ulCriticalNesting == ਪੋਰਟ_NO_CRITICAL_NESTING )
         {
-            portENABLE_INTERRUPTS();
+            ਪੋਰਟ_ENABLE_INTERRUPTS();
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvDefaultHandler( void )
+ਸਥਿਰ ਖਾਲੀ prvDefaultHandler( ਖਾਲੀ )
 {
 }

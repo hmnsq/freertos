@@ -19,50 +19,50 @@
 
 
 
-static inline bool __attribute__( ( always_inline ) )
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux,
-                                int timeout_cycles,
-                                const char * fnName,
-                                int line )
+ਸਥਿਰ ਸਤਰਅੰਦਰ bool __attribute__( ( always_inline ) )
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+    PORTMUX_AQUIRE_MUX_FN_NAME( ਪੋਰਟ_MUX_TYPE * mux,
+                                ਪੂਰਨ timeout_ਚੱਕਰਾਂ,
+                                ਅਚਲ ਅੱਖਰ * fnName,
+                                ਪੂਰਨ ਸਤਰ )
     {
-#else
-    PORTMUX_AQUIRE_MUX_FN_NAME( portMUX_TYPE * mux, int timeout_cycles )
+#ਨਹੀਂਤਾਂ
+    PORTMUX_AQUIRE_MUX_FN_NAME( ਪੋਰਟ_MUX_TYPE * mux, ਪੂਰਨ timeout_ਚੱਕਰਾਂ )
     {
-        #endif
+        #ਜੇ_ਅੰਤ
 
 
-        #if !CONFIG_FREERTOS_UNICORE
+        #ਜੇ !CONFIG_FREERTOS_UNICORE
             uint32_t res;
-            portBASE_TYPE coreID, otherCoreID;
-            uint32_t ccount_start;
-            bool set_timeout = timeout_cycles > portMUX_NO_TIMEOUT;
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                if( !set_timeout )
+            ਪੋਰਟ_ਅਧਾਰ_TYPE coreID, otherCoreID;
+            uint32_t ccount_ਸ਼ੁਰੂ;
+            bool ਸੈੱਟ_timeout = timeout_ਚੱਕਰਾਂ > ਪੋਰਟ_MUX_NO_TIMEOUT;
+            #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+                ਜੇ( !ਸੈੱਟ_timeout )
                 {
-                    timeout_cycles = 10000; /* Always set a timeout in debug mode */
-                    set_timeout = true;
+                    timeout_ਚੱਕਰਾਂ = 10000; /* Always set a timeout in debug mode */
+                    ਸੈੱਟ_timeout = true;
                 }
-            #endif
+            #ਜੇ_ਅੰਤ
 
-            if( set_timeout ) /* Timeout */
+            ਜੇ( ਸੈੱਟ_timeout ) /* Timeout */
             {
-                RSR( CCOUNT, ccount_start );
+                RSR( CCOUNT, ccount_ਸ਼ੁਰੂ );
             }
 
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
+            #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
                 uint32_t owner = mux->owner;
 
-                #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                    if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
-                #else
-                    if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
-                #endif
+                #ਜੇ ( ESP_IDF_ਸੰਸਕਰਣ < ESP_IDF_ਸੰਸਕਰਣ_VAL( 4, 2, 0 ) )
+                    ਜੇ( ( owner != ਪੋਰਟ_MUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
+                #ਨਹੀਂਤਾਂ
+                    ਜੇ( ( owner != ਪੋਰਟ_MUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
+                #ਜੇ_ਅੰਤ
                 {
-                    ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, line );
-                    mux->owner = portMUX_FREE_VAL;
+                    ets_printf( "ERROR: vPortCPUAcquireMutex: mux %p is uninitialized (0x%X)! Called from %s line %d.\n", mux, owner, fnName, ਸਤਰ );
+                    mux->owner = ਪੋਰਟ_MUX_FREE_VAL;
                 }
-            #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+            #ਜੇ_ਅੰਤ /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
             /* Spin until we own the core */
 
@@ -71,13 +71,13 @@ static inline bool __attribute__( ( always_inline ) )
             /* Note: coreID is the full 32 bit core ID (CORE_ID_PRO/CORE_ID_APP),
              * not the 0/1 value returned by xPortGetCoreID()
              */
-            #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                otherCoreID = CORE_ID_XOR_SWAP ^ coreID;
-            #else
-                otherCoreID = CORE_ID_REGVAL_XOR_SWAP ^ coreID;
-            #endif
+            #ਜੇ ( ESP_IDF_ਸੰਸਕਰਣ < ESP_IDF_ਸੰਸਕਰਣ_VAL( 4, 2, 0 ) )
+                otherCoreID = CORE_ID_XOR_ਅਦਲਾ_ਬਦਲੀ ^ coreID;
+            #ਨਹੀਂਤਾਂ
+                otherCoreID = CORE_ID_REGVAL_XOR_ਅਦਲਾ_ਬਦਲੀ ^ coreID;
+            #ਜੇ_ਅੰਤ
 
-            do
+            ਕਰੋ
             {
                 /* mux->owner should be one of portMUX_FREE_VAL, CORE_ID_PRO,
                  * CORE_ID_APP:
@@ -87,109 +87,109 @@ static inline bool __attribute__( ( always_inline ) )
                  * - If "otherCoreID", we spin here.
                  */
                 res = coreID;
-                PORTMUX_COMPARE_SET_FN_NAME( &mux->owner, portMUX_FREE_VAL, &res );
+                PORTMUX_COMPARE_ਸੈੱਟ_FN_NAME( &mux->owner, ਪੋਰਟ_MUX_FREE_VAL, &res );
 
-                if( res != otherCoreID )
+                ਜੇ( res != otherCoreID )
                 {
-                    break; /* mux->owner is "our" coreID */
+                    ਰੋਕੋ; /* mux->owner is "our" coreID */
                 }
 
-                if( set_timeout )
+                ਜੇ( ਸੈੱਟ_timeout )
                 {
                     uint32_t ccount_now;
                     RSR( CCOUNT, ccount_now );
 
-                    if( ccount_now - ccount_start > ( unsigned ) timeout_cycles )
+                    ਜੇ( ccount_now - ccount_ਸ਼ੁਰੂ > ( ਬਿਨਾਨਿਸ਼ਾਨੀ ) timeout_ਚੱਕਰਾਂ )
                     {
-                        #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                            ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->lastLockedFn, mux->lastLockedLine, fnName, line );
-                            ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->count );
-                        #endif
-                        return false;
+                        #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+                            ets_printf( "Timeout on mux! last non-recursive lock %s line %d, curr %s line %d\n", mux->ਆਖਰੀ_Locked_Fn, mux->ਆਖਰੀ_Locked_ਸਤਰ, fnName, ਸਤਰ );
+                            ets_printf( "Owner 0x%x count %d\n", mux->owner, mux->ਗਿਣਤੀ_2 );
+                        #ਜੇ_ਅੰਤ
+                        ਵਾਪਸ false;
                     }
                 }
-            } while( 1 );
+            } ਜਦੋਂ( 1 );
 
-            assert( res == coreID || res == portMUX_FREE_VAL );           /* any other value implies memory corruption or uninitialized mux */
-            assert( ( res == portMUX_FREE_VAL ) == ( mux->count == 0 ) ); /* we're first to lock iff count is zero */
-            assert( mux->count < 0xFF );                                  /* Bad count value implies memory corruption */
+            ਪ੍ਰਤਿਜ੍ਞਾ( res == coreID || res == ਪੋਰਟ_MUX_FREE_VAL );           /* any other value implies memory corruption or uninitialized mux */
+            ਪ੍ਰਤਿਜ੍ਞਾ( ( res == ਪੋਰਟ_MUX_FREE_VAL ) == ( mux->ਗਿਣਤੀ_2 == 0 ) ); /* we're first to lock iff count is zero */
+            ਪ੍ਰਤਿਜ੍ਞਾ( mux->ਗਿਣਤੀ_2 < 0xFF );                                  /* Bad count value implies memory corruption */
 
             /* now we own it, we can increment the refcount */
-            mux->count++;
+            mux->ਗਿਣਤੀ_2++;
 
 
-            #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                if( res == portMUX_FREE_VAL ) /*initial lock */
+            #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+                ਜੇ( res == ਪੋਰਟ_MUX_FREE_VAL ) /*initial lock */
                 {
-                    mux->lastLockedFn = fnName;
-                    mux->lastLockedLine = line;
+                    mux->ਆਖਰੀ_Locked_Fn = fnName;
+                    mux->ਆਖਰੀ_Locked_ਸਤਰ = ਸਤਰ;
                 }
-                else
+                ਨਹੀਂਤਾਂ
                 {
-                    ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->count - 1,
-                                mux->lastLockedFn, mux->lastLockedLine, fnName, line );
+                    ets_printf( "Recursive lock: count=%d last non-recursive lock %s line %d, curr %s line %d\n", mux->ਗਿਣਤੀ_2 - 1,
+                                mux->ਆਖਰੀ_Locked_Fn, mux->ਆਖਰੀ_Locked_ਸਤਰ, fnName, ਸਤਰ );
                 }
-            #endif /* CONFIG_FREERTOS_PORTMUX_DEBUG */
-        #endif /* CONFIG_FREERTOS_UNICORE */
-        return true;
+            #ਜੇ_ਅੰਤ /* CONFIG_FREERTOS_PORTMUX_DEBUG */
+        #ਜੇ_ਅੰਤ /* CONFIG_FREERTOS_UNICORE */
+        ਵਾਪਸ true;
     }
 
-#ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-        static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux,
-                                                        const char * fnName,
-                                                        int line )
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+        ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ PORTMUX_RELEASE_MUX_FN_NAME( ਪੋਰਟ_MUX_TYPE * mux,
+                                                        ਅਚਲ ਅੱਖਰ * fnName,
+                                                        ਪੂਰਨ ਸਤਰ )
         {
-#else
-        static inline void PORTMUX_RELEASE_MUX_FN_NAME( portMUX_TYPE * mux )
+#ਨਹੀਂਤਾਂ
+        ਸਥਿਰ ਸਤਰਅੰਦਰ ਖਾਲੀ PORTMUX_RELEASE_MUX_FN_NAME( ਪੋਰਟ_MUX_TYPE * mux )
         {
-            #endif
+            #ਜੇ_ਅੰਤ
 
 
-            #if !CONFIG_FREERTOS_UNICORE
-                portBASE_TYPE coreID;
-                #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                    const char * lastLockedFn = mux->lastLockedFn;
-                    int lastLockedLine = mux->lastLockedLine;
-                    mux->lastLockedFn = fnName;
-                    mux->lastLockedLine = line;
+            #ਜੇ !CONFIG_FREERTOS_UNICORE
+                ਪੋਰਟ_ਅਧਾਰ_TYPE coreID;
+                #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+                    ਅਚਲ ਅੱਖਰ * ਆਖਰੀ_Locked_Fn = mux->ਆਖਰੀ_Locked_Fn;
+                    ਪੂਰਨ ਆਖਰੀ_Locked_ਸਤਰ = mux->ਆਖਰੀ_Locked_ਸਤਰ;
+                    mux->ਆਖਰੀ_Locked_Fn = fnName;
+                    mux->ਆਖਰੀ_Locked_ਸਤਰ = ਸਤਰ;
                     uint32_t owner = mux->owner;
 
-                    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-                        if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
-                    #else
-                        if( ( owner != portMUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
-                    #endif
+                    #ਜੇ ( ESP_IDF_ਸੰਸਕਰਣ < ESP_IDF_ਸੰਸਕਰਣ_VAL( 4, 2, 0 ) )
+                        ਜੇ( ( owner != ਪੋਰਟ_MUX_FREE_VAL ) && ( owner != CORE_ID_PRO ) && ( owner != CORE_ID_APP ) )
+                    #ਨਹੀਂਤਾਂ
+                        ਜੇ( ( owner != ਪੋਰਟ_MUX_FREE_VAL ) && ( owner != CORE_ID_REGVAL_PRO ) && ( owner != CORE_ID_REGVAL_APP ) )
+                    #ਜੇ_ਅੰਤ
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p is invalid (0x%x)!\n", mux, mux->owner );
                     }
-                #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+                #ਜੇ_ਅੰਤ /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
-                #if CONFIG_FREERTOS_PORTMUX_DEBUG || !defined( NDEBUG )
+                #ਜੇ CONFIG_FREERTOS_PORTMUX_DEBUG || !defined( NDEBUG )
                     RSR( PRID, coreID );
-                #endif
+                #ਜੇ_ਅੰਤ
 
-                #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-                    if( coreID != mux->owner )
+                #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG
+                    ਜੇ( coreID != mux->owner )
                     {
                         ets_printf( "ERROR: vPortCPUReleaseMutex: mux %p was already unlocked!\n", mux );
-                        ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", lastLockedFn, lastLockedLine, fnName, line );
+                        ets_printf( "Last non-recursive unlock %s line %d, curr unlock %s line %d\n", ਆਖਰੀ_Locked_Fn, ਆਖਰੀ_Locked_ਸਤਰ, fnName, ਸਤਰ );
                     }
-                #endif
+                #ਜੇ_ਅੰਤ
 
-                assert( coreID == mux->owner ); /* This is a mutex we didn't lock, or it's corrupt */
+                ਪ੍ਰਤਿਜ੍ਞਾ( coreID == mux->owner ); /* This is a mutex we didn't lock, or it's corrupt */
 
-                mux->count--;
+                mux->ਗਿਣਤੀ_2--;
 
-                if( mux->count == 0 )
+                ਜੇ( mux->ਗਿਣਤੀ_2 == 0 )
                 {
-                    mux->owner = portMUX_FREE_VAL;
+                    mux->owner = ਪੋਰਟ_MUX_FREE_VAL;
                 }
-                else
+                ਨਹੀਂਤਾਂ
                 {
-                    assert( mux->count < 0x100 ); /* Indicates memory corruption */
-                    #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG_RECURSIVE
-                        ets_printf( "Recursive unlock: count=%d last locked %s line %d, curr %s line %d\n", mux->count, lastLockedFn, lastLockedLine, fnName, line );
-                    #endif
+                    ਪ੍ਰਤਿਜ੍ਞਾ( mux->ਗਿਣਤੀ_2 < 0x100 ); /* Indicates memory corruption */
+                    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ CONFIG_FREERTOS_PORTMUX_DEBUG_RECURSIVE
+                        ets_printf( "Recursive unlock: count=%d last locked %s line %d, curr %s line %d\n", mux->ਗਿਣਤੀ_2, ਆਖਰੀ_Locked_Fn, ਆਖਰੀ_Locked_ਸਤਰ, fnName, ਸਤਰ );
+                    #ਜੇ_ਅੰਤ
                 }
-            #endif //!CONFIG_FREERTOS_UNICORE
+            #ਜੇ_ਅੰਤ //!CONFIG_FREERTOS_UNICORE
         }

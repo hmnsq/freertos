@@ -37,12 +37,12 @@ Changes from V3.0.0
 Changes from V3.0.1
 */
 
-#include <FreeRTOS.h>
-#include <task.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <FreeRTOS.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <task.h>
 
 /* IO port constants. */
-#define portBIT_SET     (1)
-#define portBIT_CLEAR   (0)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ     (1)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR   (0)
 
 /*
  * Hardware setup for the tick.
@@ -50,34 +50,34 @@ Changes from V3.0.1
  * and requested tickrate, a prescaled value with a matching
  * prescaler are determined.
  */
-#define portTIMER_COMPARE_BASE          ((APROCFREQ/4)/configTICK_RATE_HZ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ          ((APROCFREQ/4)/config_TICK_ਦਰ_HZ)
 
-#if portTIMER_COMPARE_BASE   < 0x10000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE)
-    #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
-    #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x20000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 2)
-    #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
-    #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#elif portTIMER_COMPARE_BASE < 0x40000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 4)
-    #define portTIMER_COMPARE_PS1       (portBIT_SET)
-    #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x80000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 8)
-    #define portTIMER_COMPARE_PS1       (portBIT_SET)
-    #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#else
-    #error "TickRate out of range"
-#endif
+#ਜੇ ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ   < 0x10000
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_ਮੁੱਲ     (ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS1       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS0       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR)
+#ਜਾਂਜੇ ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ < 0x20000
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_ਮੁੱਲ     (ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ / 2)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS1       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS0       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ)
+#ਜਾਂਜੇ ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ < 0x40000
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_ਮੁੱਲ     (ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ / 4)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS1       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS0       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR)
+#ਜਾਂਜੇ ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ < 0x80000
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_ਮੁੱਲ     (ਪੋਰਟ_TIMER_COMPARE_ਅਧਾਰ / 8)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS1       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ)
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_COMPARE_PS0       (ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ)
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ "TickRate out of range"
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
 /*
  * Setup a timer for a regular tick.
  */
-void portSetupTick( void )
+ਖਾਲੀ ਪੋਰਟ_ਤਿਆਰੀ_Tick( ਖਾਲੀ )
 {
     /*
      * Interrupts are disabled when this function is called.
@@ -91,28 +91,28 @@ void portSetupTick( void )
     /*
      * Set the compare match value.
      */
-    CCPR1H = ( uint8_t ) ( ( portTIMER_COMPARE_VALUE >> 8 ) & 0xff );
-    CCPR1L = ( uint8_t )   ( portTIMER_COMPARE_VALUE & 0xff );
+    CCPR1H = ( uint8_t ) ( ( ਪੋਰਟ_TIMER_COMPARE_ਮੁੱਲ >> 8 ) & 0xff );
+    CCPR1L = ( uint8_t )   ( ਪੋਰਟ_TIMER_COMPARE_ਮੁੱਲ & 0xff );
 
     /*
      * Set Compare Special Event Trigger Mode
      */
-    bCCP1M3     = portBIT_SET;
-    bCCP1M2     = portBIT_CLEAR;
-    bCCP1M1     = portBIT_SET;
-    bCCP1M0     = portBIT_SET;
+    bCCP1M3     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;
+    bCCP1M2     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR;
+    bCCP1M1     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;
+    bCCP1M0     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;
 
     /*
      * Enable CCP1 interrupt
      */
-    bCCP1IE     = portBIT_SET;
+    bCCP1IE     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;
 
     /*
      * We are only going to use the global interrupt bit, so disable
      * interruptpriorities and enable peripheral interrupts.
      */
-    bIPEN       = portBIT_CLEAR;
-    bPEIE       = portBIT_SET;
+    bIPEN       = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR;
+    bPEIE       = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;
 
     /*
      * Set up timer1
@@ -128,12 +128,12 @@ void portSetupTick( void )
     /*
      * Setup the timer
      */
-    bRD16       = portBIT_SET;              // 16-bit
-    bT1CKPS1    = portTIMER_COMPARE_PS1;    // prescaler
-    bT1CKPS0    = portTIMER_COMPARE_PS0;    // prescaler
-    bT1OSCEN    = portBIT_SET;              // Oscillator enable
-    bT1SYNC     = portBIT_SET;              // No external clock sync
-    bTMR1CS     = portBIT_CLEAR;            // Internal clock
+    bRD16       = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;              // 16-bit
+    bT1CKPS1    = ਪੋਰਟ_TIMER_COMPARE_PS1;    // prescaler
+    bT1CKPS0    = ਪੋਰਟ_TIMER_COMPARE_PS0;    // prescaler
+    bT1OSCEN    = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;              // Oscillator enable
+    bT1SYNC     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;              // No external clock sync
+    bTMR1CS     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_CLEAR;            // Internal clock
 
-    bTMR1ON     = portBIT_SET;              // Start timer1
+    bTMR1ON     = ਪੋਰਟ_ਦੋਆਧਾਰੀ_ਅੰਕ_ਸੈੱਟ;              // Start timer1
 }

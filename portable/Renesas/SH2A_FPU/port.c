@@ -31,208 +31,208 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "string.h"
 
 /*-----------------------------------------------------------*/
 
 /* The SR assigned to a newly created task.  The only important thing in this
  * value is for all interrupts to be enabled. */
-#define portINITIAL_SR                 ( 0UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SR                 ( 0UL )
 
 /* Dimensions the array into which the floating point context is saved.
  * Allocate enough space for FPR0 to FPR15, FPUL and FPSCR, each of which is 4
  * bytes big.  If this number is changed then the 72 in portasm.src also needs
  * changing. */
-#define portFLOP_REGISTERS_TO_STORE    ( 18 )
-#define portFLOP_STORAGE_SIZE          ( portFLOP_REGISTERS_TO_STORE * 4 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOP_REGISTERS_ਮੰਜ਼ਿਲ_STORE    ( 18 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOP_STORAGE_ਮਾਪ          ( ਪੋਰਟ_FLOP_REGISTERS_ਮੰਜ਼ਿਲ_STORE * 4 )
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error configSUPPORT_DYNAMIC_ALLOCATION must be 1 to use this port.
-#endif
+#ਜੇ ( config_SUPPORT_DYNAMIC_ਵੰਡ == 0 )
+    #ਗਲਤੀ config_SUPPORT_DYNAMIC_ਵੰਡ must be 1 ਮੰਜ਼ਿਲ use this ਪੋਰਟ.
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
 /*
  * The TRAPA handler used to force a context switch.
  */
-void vPortYield( void );
+ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ );
 
 /*
  * Function to start the first task executing - defined in portasm.src.
  */
-extern void vPortStartFirstTask( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
 /*
  * Obtains the current GBR value - defined in portasm.src.
  */
-extern uint32_t ulPortGetGBR( void );
+ਬਾਹਰੀ uint32_t ul_ਪੋਰਟ_Get_GBR( ਖਾਲੀ );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
     /* Mark the end of the stack - used for debugging only and can be removed. */
-    *pxTopOfStack = 0x11111111UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333UL;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 0x11111111UL;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 0x22222222UL;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 0x33333333UL;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* SR. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ਪੋਰਟ_INITIAL_SR;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* PC. */
-    *pxTopOfStack = ( uint32_t ) pxCode;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( uint32_t ) px_ਕੋਡ;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* PR. */
-    *pxTopOfStack = 15;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 15;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* 14. */
-    *pxTopOfStack = 14;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 14;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R13. */
-    *pxTopOfStack = 13;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 13;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R12. */
-    *pxTopOfStack = 12;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 12;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R11. */
-    *pxTopOfStack = 11;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 11;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R10. */
-    *pxTopOfStack = 10;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 10;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R9. */
-    *pxTopOfStack = 9;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 9;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R8. */
-    *pxTopOfStack = 8;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 8;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R7. */
-    *pxTopOfStack = 7;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 7;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R6. */
-    *pxTopOfStack = 6;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 6;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R5. */
-    *pxTopOfStack = 5;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 5;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R4. */
-    *pxTopOfStack = ( uint32_t ) pvParameters;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( uint32_t ) pvParameters;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R3. */
-    *pxTopOfStack = 3;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 3;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R2. */
-    *pxTopOfStack = 2;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 2;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R1. */
-    *pxTopOfStack = 1;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 1;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* R0 */
-    *pxTopOfStack = 0;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 0;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* MACL. */
-    *pxTopOfStack = 16;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 16;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* MACH. */
-    *pxTopOfStack = 17;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = 17;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* GBR. */
-    *pxTopOfStack = ulPortGetGBR();
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ul_ਪੋਰਟ_Get_GBR();
 
     /* GBR = global base register.
     * VBR = vector base register.
     * TBR = jump table base register.
     * R15 is the stack pointer. */
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    ਬਾਹਰੀ ਖਾਲੀ v_Application_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
     /* Call an application function to set up the timer that will generate the
      * tick interrupt.  This way the application can decide which peripheral to
      * use.  A demo application is provided to show a suitable example. */
-    vApplicationSetupTimerInterrupt();
+    v_Application_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ();
 
     /* Start the first task.  This will only restore the standard registers and
      * not the flop registers.  This does not really matter though because the only
      * flop register that is initialised to a particular value is fpscr, and it is
      * only initialised to the current value, which will still be the current value
      * when the first task starts executing. */
-    trapa( portSTART_SCHEDULER_TRAP_NO );
+    trapa( ਪੋਰਟ_ਸ਼ੁਰੂ_SCHEDULER_TRAP_NO );
 
     /* Should not get here. */
-    return pdFAIL;
+    ਵਾਪਸ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ )
 {
-    int32_t lInterruptMask;
+    int32_t l_ਰੁਕਾਵਟ_ਨਕਾਬ;
 
     /* Ensure the yield trap runs at the same priority as the other interrupts
      * that can cause a context switch. */
-    lInterruptMask = get_imask();
+    l_ਰੁਕਾਵਟ_ਨਕਾਬ = get_imask();
 
     /* taskYIELD() can only be called from a task, not an interrupt, so the
      * current interrupt mask can only be 0 or portKERNEL_INTERRUPT_PRIORITY and
      * the mask can be set without risk of accidentally lowering the mask value. */
-    set_imask( portKERNEL_INTERRUPT_PRIORITY );
+    ਸੈੱਟ_imask( ਪੋਰਟ_KERNEL_ਰੁਕਾਵਟ_ਤਰਜੀਹ );
 
-    trapa( portYIELD_TRAP_NO );
+    trapa( ਪੋਰਟ_YIELD_TRAP_NO );
 
     /* Restore the interrupt mask to whatever it was previously (when the
      * function was entered). */
-    set_imask( ( int ) lInterruptMask );
+    ਸੈੱਟ_imask( ( ਪੂਰਨ ) l_ਰੁਕਾਵਟ_ਨਕਾਬ );
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਵਰਤਦਾ_Floating_ਬਿੰਦੂ( TaskHandle_t xTask )
 {
-    uint32_t * pulFlopBuffer;
-    BaseType_t xReturn;
-    extern void * volatile pxCurrentTCB;
+    uint32_t * pul_Flop_ਬਫਰ;
+    ਅਧਾਰ_Type_t xReturn;
+    ਬਾਹਰੀ ਖਾਲੀ * ਅਸਥਿਰ pxCurrentTCB;
 
     /* This function tells the kernel that the task referenced by xTask is
      * going to use the floating point registers and therefore requires the
@@ -240,33 +240,33 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 
     /* Passing NULL as xTask is used to indicate that the calling task is the
      * subject task - so pxCurrentTCB is the task handle. */
-    if( xTask == NULL )
+    ਜੇ( xTask == ਨਿਰਾ )
     {
         xTask = ( TaskHandle_t ) pxCurrentTCB;
     }
 
     /* Allocate a buffer large enough to hold all the flop registers. */
-    pulFlopBuffer = ( uint32_t * ) pvPortMalloc( portFLOP_STORAGE_SIZE );
+    pul_Flop_ਬਫਰ = ( uint32_t * ) pv_ਪੋਰਟ_Malloc( ਪੋਰਟ_FLOP_STORAGE_ਮਾਪ );
 
-    if( pulFlopBuffer != NULL )
+    ਜੇ( pul_Flop_ਬਫਰ != ਨਿਰਾ )
     {
         /* Start with the registers in a benign state. */
-        memset( ( void * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
+        memset( ( ਖਾਲੀ * ) pul_Flop_ਬਫਰ, 0x00, ਪੋਰਟ_FLOP_STORAGE_ਮਾਪ );
 
         /* The first thing to get saved in the buffer is the FPSCR value -
          * initialise this to the current FPSCR value. */
-        *pulFlopBuffer = get_fpscr();
+        *pul_Flop_ਬਫਰ = get_fpscr();
 
         /* Use the task tag to point to the flop buffer.  Pass pointer to just
          * above the buffer because the flop save routine uses a pre-decrement. */
-        vTaskSetApplicationTaskTag( xTask, ( void * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
+        v_Task_ਸੈੱਟ_Application_Task_ਟੈਗ( xTask, ( ਖਾਲੀ * ) ( pul_Flop_ਬਫਰ + ਪੋਰਟ_FLOP_REGISTERS_ਮੰਜ਼ਿਲ_STORE ) );
         xReturn = pdPASS;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
         xReturn = pdFAIL;
     }
 
-    return xReturn;
+    ਵਾਪਸ xReturn;
 }
 /*-----------------------------------------------------------*/

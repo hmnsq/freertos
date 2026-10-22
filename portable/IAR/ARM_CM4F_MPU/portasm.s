@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ਜਾਂ
+ * IMPLIED, INCLUDING BUT ਨਹੀਂ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ਅਤੇ NONINFRINGEMENT. ਵਿੱਚ NO EVENT SHALL THE AUTHORS ਜਾਂ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ਜਾਂ OTHER LIABILITY, WHETHER
+ * ਵਿੱਚ AN ACTION OF CONTRACT, TORT ਜਾਂ OTHERWISE, ARISING FROM, OUT OF ਜਾਂ ਵਿੱਚ
+ * CONNECTION WITH THE SOFTWARE ਜਾਂ THE USE ਜਾਂ OTHER DEALINGS ਵਿੱਚ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -37,19 +37,19 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    ਬਾਹਰੀ pxCurrentTCB
+    ਬਾਹਰੀ vTaskSwitchContext
+    ਬਾਹਰੀ vPortSVCHandler_C
+    ਬਾਹਰੀ vSystemCallEnter
+    ਬਾਹਰੀ vSystemCallExit
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC vPortEnableVFP
-    PUBLIC vPortRestoreContextOfFirstTask
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
+    ਜਨਤਕ x_ਪੋਰਟ_Pend_SVHandler
+    ਜਨਤਕ v_ਪੋਰਟ_SVCHandler
+    ਜਨਤਕ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task
+    ਜਨਤਕ v_ਪੋਰਟ_Enable_VFP
+    ਜਨਤਕ v_ਪੋਰਟ_Restore_Context_ਦਾ_ਪਹਿਲਾ_Task
+    ਜਨਤਕ xIsPrivileged
+    ਜਨਤਕ vResetPrivilege
 
 /*-----------------------------------------------------------*/
 
@@ -68,7 +68,7 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
 #define portSVC_SYSTEM_CALL_EXIT       103
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_ਪੋਰਟ_Pend_SVHandler:
 
     ldr r3, =pxCurrentTCB
     ldr r2, [r3]                           /* r2 = pxCurrentTCB. */
@@ -161,7 +161,7 @@ xPortPendSVHandler:
 
 #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-vPortSVCHandler:
+v_ਪੋਰਟ_SVCHandler:
     tst lr, #4
     ite eq
     mrseq r0, msp
@@ -185,7 +185,7 @@ vPortSVCHandler:
 
 #else /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-vPortSVCHandler:
+v_ਪੋਰਟ_SVCHandler:
     #ifndef USE_PROCESS_STACK
         tst lr, #4
         ite eq
@@ -199,7 +199,7 @@ vPortSVCHandler:
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 /*-----------------------------------------------------------*/
 
-vPortStartFirstTask:
+v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task:
     /* Use the NVIC offset register to locate the stack. */
     ldr r0, =0xE000ED08
     ldr r0, [r0]
@@ -221,7 +221,7 @@ vPortStartFirstTask:
 
 /*-----------------------------------------------------------*/
 
-vPortRestoreContextOfFirstTask:
+v_ਪੋਰਟ_Restore_Context_ਦਾ_ਪਹਿਲਾ_Task:
     ldr r0, =0xE000ED08                    /* Use the NVIC offset register to locate the stack. */
     ldr r0, [r0]
     ldr r0, [r0]
@@ -275,7 +275,7 @@ vPortRestoreContextOfFirstTask:
 
 /*-----------------------------------------------------------*/
 
-vPortEnableVFP:
+v_ਪੋਰਟ_Enable_VFP:
     /* The FPU enable bits are in the CPACR. */
     ldr.w r0, =0xE000ED88
     ldr r1, [r0]
@@ -289,7 +289,7 @@ vPortEnableVFP:
 
 xIsPrivileged:
     mrs r0, control     /* r0 = CONTROL. */
-    tst r0, #1          /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1          /* Perform r0 & 1 (bitwise ਅਤੇ) and update the conditions flag. */
     ite ne
     movne r0, #0        /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
@@ -303,4 +303,4 @@ vResetPrivilege:
     bx lr               /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-    END
+    ਅੰਤ

@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,141 +47,141 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT        8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH          ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT        8
 
 /* Constants used with memory barrier intrinsics. */
-#define portSY_FULL_READ_WRITE    ( 15 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SY_ਭਰਿਆ_READ_WRITE    ( 15 )
 
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-#define portYIELD()                                     \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()                                     \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
-        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+        ਪੋਰਟ_NVIC_INT_CTRL_REG = ਪੋਰਟ_NVIC_PENDSVSET_ਦੋਆਧਾਰੀ_ਅੰਕ; \
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
-        __dsb( portSY_FULL_READ_WRITE );                           \
-        __isb( portSY_FULL_READ_WRITE );                           \
+        __dsb( ਪੋਰਟ_SY_ਭਰਿਆ_READ_WRITE );                           \
+        __isb( ਪੋਰਟ_SY_ਭਰਿਆ_READ_WRITE );                           \
     }
 /*-----------------------------------------------------------*/
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_INT_CTRL_REG     ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000ed04 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_PENDSVSET_ਦੋਆਧਾਰੀ_ਅੰਕ    ( 1UL << 28UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( xSwitchRequired ) \
+    ਕਰੋ                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ਜੇ( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_ਮੰਜ਼ਿਲ_SCHEDULER();        \
+            ਪੋਰਟ_YIELD();                         \
         }                                        \
-        else                                     \
+        ਨਹੀਂਤਾਂ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } ਜਦੋਂ( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )    ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
 
-#define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
-#define portENABLE_INTERRUPTS()                   vPortSetBASEPRI( 0 )
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortSetBASEPRI( x )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                  v_ਪੋਰਟ_Raise_BASEPRI()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()                   v_ਪੋਰਟ_ਸੈੱਟ_BASEPRI( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                      v_ਪੋਰਟ_Enter_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                       v_ਪੋਰਟ_Exit_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR()         ul_ਪੋਰਟ_Raise_BASEPRI()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x )    v_ਪੋਰਟ_ਸੈੱਟ_BASEPRI( x )
 
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਪੋਰਟ_SUPPRESS_TICKS_AND_SLEEP
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_ਸਮਾਂ );
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_ਸਮਾਂ )    v_ਪੋਰਟ_Suppress_Ticks_And_Sleep( x_Expected_Idle_ਸਮਾਂ )
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Port specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION    1
+#ਜੇ_ਅੰਤ
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ਜੇ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #ਜੇ ( configMAX_PRIORITIES > 32 )
+        #ਗਲਤੀ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION can only be ਸੈੱਟ ਮੰਜ਼ਿਲ 1 when configMAX_PRIORITIES is less than or equal ਮੰਜ਼ਿਲ 32.  It is very rare that a system requires ਹੋਰ than 10 ਮੰਜ਼ਿਲ 15 difference priorities as tasks that share a ਤਰਜੀਹ will time ਟੁਕੜਾ.
+    #ਜੇ_ਅੰਤ
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰਿਕਾਰਡ_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ਤਰਜੀਹ ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities )    ux_ਸਿਖਰ_ਤਰਜੀਹ = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
 
-#endif /* taskRECORD_READY_PRIORITY */
+#ਜੇ_ਅੰਤ /* taskRECORD_READY_PRIORITY */
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif
+#ਜੇ ( configASSERT_DEFINED == 1 )
+    ਖਾਲੀ v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ( ਖਾਲੀ );
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASSERT_IF_ਰੁਕਾਵਟ_ਤਰਜੀਹ_INVALID()    v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ()
+#ਜੇ_ਅੰਤ
 
 /* portNOP() is not required by this port. */
-#define portNOP()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()
 
-#define portINLINE              __inline
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INLINE              __inline
 
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    __forceinline
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਪੋਰਟ_FORCE_INLINE
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FORCE_INLINE    __forceinline
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
+ਸਥਿਰ ਪੋਰਟ_FORCE_INLINE ਖਾਲੀ v_ਪੋਰਟ_ਸੈੱਟ_BASEPRI( uint32_t ulBASEPRI )
 {
     __asm
     {
@@ -194,9 +194,9 @@ static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortRaiseBASEPRI( void )
+ਸਥਿਰ ਪੋਰਟ_FORCE_INLINE ਖਾਲੀ v_ਪੋਰਟ_Raise_BASEPRI( ਖਾਲੀ )
 {
-    uint32_t ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+    uint32_t ulNewBASEPRI = config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ;
 
     __asm
     {
@@ -211,7 +211,7 @@ static portFORCE_INLINE void vPortRaiseBASEPRI( void )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
+ਸਥਿਰ ਪੋਰਟ_FORCE_INLINE ਖਾਲੀ v_ਪੋਰਟ_Clear_BASEPRIFrom_ISR( ਖਾਲੀ )
 {
     __asm
     {
@@ -225,9 +225,9 @@ static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+ਸਥਿਰ ਪੋਰਟ_FORCE_INLINE uint32_t ul_ਪੋਰਟ_Raise_BASEPRI( ਖਾਲੀ )
 {
-    uint32_t ulReturn, ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+    uint32_t ulReturn, ulNewBASEPRI = config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ;
 
     __asm
     {
@@ -241,39 +241,39 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
 /* *INDENT-ON* */
     }
 
-    return ulReturn;
+    ਵਾਪਸ ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
+ਸਥਿਰ ਪੋਰਟ_FORCE_INLINE ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Inside_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_ਰੁਕਾਵਟ;
+    ਅਧਾਰ_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
     __asm
     {
 /* *INDENT-OFF* */
-            mrs ulCurrentInterrupt, ipsr
+            mrs ul_Current_ਰੁਕਾਵਟ, ipsr
 /* *INDENT-ON* */
     }
 
-    if( ulCurrentInterrupt == 0 )
+    ਜੇ( ul_Current_ਰੁਕਾਵਟ == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    ਵਾਪਸ xReturn;
 }
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

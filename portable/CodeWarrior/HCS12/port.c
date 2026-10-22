@@ -27,8 +27,8 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
 
 /*-----------------------------------------------------------
@@ -40,25 +40,25 @@
  * Configure a timer to generate the RTOS tick at the frequency specified
  * within FreeRTOSConfig.h.
  */
-static void prvSetupTimerInterrupt( void );
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
 /* Interrupt service routines have to be in non-banked memory - as does the
 scheduler startup function. */
-#pragma CODE_SEG __NEAR_SEG NON_BANKED
+#ਹਦਾਇਤ ਕੋਡ_SEG __NEAR_SEG NON_BANKED
 
     /* Manual context switch function.  This is the SWI ISR. */
-    void interrupt vPortYield( void );
+    ਖਾਲੀ ਰੁਕਾਵਟ v_ਪੋਰਟ_Yield( ਖਾਲੀ );
 
     /* Tick context switch function.  This is the timer ISR. */
-    void interrupt vPortTickInterrupt( void );
+    ਖਾਲੀ ਰੁਕਾਵਟ v_ਪੋਰਟ_Tick_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
     /* Simply called by xPortStartScheduler().  xPortStartScheduler() does not
     start the scheduler directly because the header file containing the
     xPortStartScheduler() prototype is part of the common kernel code, and
     therefore cannot use the CODE_SEG pragma. */
-    static BaseType_t xBankedStartScheduler( void );
+    ਸਥਿਰ ਅਧਾਰ_Type_t x_Banked_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ );
 
-#pragma CODE_SEG DEFAULT
+#ਹਦਾਇਤ ਕੋਡ_SEG DEFAULT
 
 /* Calls to portENTER_CRITICAL() can be nested.  When they are nested the
 critical section should not be left (i.e. interrupts should not be re-enabled)
@@ -66,14 +66,14 @@ until the nesting depth reaches 0.  This variable simply tracks the nesting
 depth.  Each task maintains its own critical nesting depth variable so
 uxCriticalNesting is saved and restored from the task stack during a context
 switch. */
-volatile UBaseType_t uxCriticalNesting = 0xff;
+ਅਸਥਿਰ UBaseType_t uxCriticalNesting = 0xff;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ਢੇਰ_Type_t *px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t *px_ਸਿਖਰ_ਦਾ_ਢੇਰ, TaskFunction_t px_ਕੋਡ, ਖਾਲੀ *pvParameters )
 {
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -95,66 +95,66 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
 
     /* The address of the task function is placed in the stack byte at a time. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pxCode) ) + 1 );
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pxCode) ) + 0 );
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) *( ((ਢੇਰ_Type_t *) (&px_ਕੋਡ) ) + 1 );
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) *( ((ਢੇਰ_Type_t *) (&px_ਕੋਡ) ) + 0 );
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Next are all the registers that form part of the task context. */
 
     /* Y register */
-    *pxTopOfStack = ( StackType_t ) 0xff;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xee;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xff;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xee;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* X register */
-    *pxTopOfStack = ( StackType_t ) 0xdd;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xcc;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xdd;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xcc;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* A register contains parameter high byte. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pvParameters) ) + 0 );
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) *( ((ਢੇਰ_Type_t *) (&pvParameters) ) + 0 );
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* B register contains parameter low byte. */
-    *pxTopOfStack = ( StackType_t ) *( ((StackType_t *) (&pvParameters) ) + 1 );
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) *( ((ਢੇਰ_Type_t *) (&pvParameters) ) + 1 );
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* CCR: Note that when the task starts interrupts will be enabled since
     "I" bit of CCR is cleared */
-    *pxTopOfStack = ( StackType_t ) 0x00;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x00;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    #ifdef BANKED_MODEL
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ BANKED_MODEL
         /* The page of the task. */
-        *pxTopOfStack = ( StackType_t ) ( ( int ) pxCode );
-        pxTopOfStack--;
-    #endif
+        *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ( ( ਪੂਰਨ ) px_ਕੋਡ );
+        px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    #ਜੇ_ਅੰਤ
 
     /* Finally the critical nesting depth is initialised with 0 (not within
     a critical section). */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x00;
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* It is unlikely that the HCS12 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-    TickTimer_SetFreqHz( configTICK_RATE_HZ );
+    Tick_Timer_ਸੈੱਟ_Freq_Hz( config_TICK_ਦਰ_HZ );
     TickTimer_Enable();
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
     /* xPortStartScheduler() does not start the scheduler directly because
     the header file containing the xPortStartScheduler() prototype is part
@@ -162,26 +162,26 @@ BaseType_t xPortStartScheduler( void )
     Instead it simply calls the locally defined xBankedStartScheduler() -
     which does use the CODE_SEG pragma. */
 
-    return xBankedStartScheduler();
+    ਵਾਪਸ x_Banked_ਸ਼ੁਰੂ_Scheduler();
 }
 /*-----------------------------------------------------------*/
 
-#pragma CODE_SEG __NEAR_SEG NON_BANKED
+#ਹਦਾਇਤ ਕੋਡ_SEG __NEAR_SEG NON_BANKED
 
-static BaseType_t xBankedStartScheduler( void )
+ਸਥਿਰ ਅਧਾਰ_Type_t x_Banked_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
     /* Configure the timer that will generate the RTOS tick.  Interrupts are
     disabled when this function is called. */
-    prvSetupTimerInterrupt();
+    prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ();
 
     /* Restore the context of the first task. */
-    portRESTORE_CONTEXT();
+    ਪੋਰਟ_RESTORE_CONTEXT();
 
     /* Simulate the end of an interrupt to start the scheduler off. */
     __asm( "rti" );
 
     /* Should not get here! */
-    return pdFALSE;
+    ਵਾਪਸ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -193,11 +193,11 @@ static BaseType_t xBankedStartScheduler( void )
  * Manual context switch forced by calling portYIELD().  This is the SWI
  * handler.
  */
-void interrupt vPortYield( void )
+ਖਾਲੀ ਰੁਕਾਵਟ v_ਪੋਰਟ_Yield( ਖਾਲੀ )
 {
-    portSAVE_CONTEXT();
+    ਪੋਰਟ_SAVE_CONTEXT();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT();
+    ਪੋਰਟ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -206,15 +206,15 @@ void interrupt vPortYield( void )
  * being used then this simply increments the tick count.  If the
  * preemptive scheduler is being used a context switch can occur.
  */
-void interrupt vPortTickInterrupt( void )
+ਖਾਲੀ ਰੁਕਾਵਟ v_ਪੋਰਟ_Tick_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-    #if configUSE_PREEMPTION == 1
+    #ਜੇ configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
-        portSAVE_CONTEXT();
+        ਪੋਰਟ_SAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -223,14 +223,14 @@ void interrupt vPortTickInterrupt( void )
 
         /* Restore the context of a task - which may be a different task
         to that interrupted. */
-        portRESTORE_CONTEXT();
+        ਪੋਰਟ_RESTORE_CONTEXT();
     }
-    #else
+    #ਨਹੀਂਤਾਂ
     {
         xTaskIncrementTick();
         TFLG1 = 1;
     }
-    #endif
+    #ਜੇ_ਅੰਤ
 }
 
-#pragma CODE_SEG DEFAULT
+#ਹਦਾਇਤ ਕੋਡ_SEG DEFAULT

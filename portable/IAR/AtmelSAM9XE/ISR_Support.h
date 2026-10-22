@@ -32,15 +32,15 @@ EXTERN ulCriticalNesting
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+ਪੋਰਟ_SAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+ਧੱਕੋ_3 R0 as we are going ਮੰਜ਼ਿਲ use the ਰਜਿਸਟਰ.
    STMDB SP !, {
     R0
 }
 
-Set R0 to point to the task stack pointer.
+ਸੈੱਟ_2 R0 ਮੰਜ਼ਿਲ ਬਿੰਦੂ_2 ਮੰਜ਼ਿਲ the task ਢੇਰ ਸੂਚਕ_2.
    STMDB SP, {
     SP
 }
@@ -52,22 +52,22 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+ਧੱਕੋ_3 the ਵਾਪਸ ਪਤਾ_2 onto the ਢੇਰ.
           STMDB R0 !, {
            LR
        }
 
-       Now we have saved LR we can use it instead of R0.
+       Now we have saved LR we can use it instead ਦਾ R0.
           MOV LR, R0
 
 ;
 
-Pop R0 so we can save it onto the system mode stack.
+ਕੱਢੋ_3 R0 so we can save it onto the system ਬਹੁਲਕ_2 ਢੇਰ.
    LDMIA SP !, {
     R0
 }
 
-Push all the system mode registers onto the task stack.
+ਧੱਕੋ_3 all the system ਬਹੁਲਕ_2 registers onto the task ਢੇਰ.
    STMDB LR, {
     R0 - LR
 }
@@ -76,7 +76,7 @@ NOP
 SUB LR, LR, # 60
 
 ;
-Push the SPSR onto the task stack.
+ਧੱਕੋ_3 the SPSR onto the task ਢੇਰ.
    MRS R0, SPSR
 STMDB LR !, {
     R0
@@ -88,9 +88,9 @@ STMDB LR !, {
     R0
 }
 
-Store the new top of stack
+Store the new ਸਿਖਰ_2 ਦਾ ਢੇਰ
 
-for the task.
+ਲਈ the task.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 STR LR, [ R0 ]
@@ -98,18 +98,18 @@ STR LR, [ R0 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+ਪੋਰਟ_RESTORE_CONTEXT MACRO
 
 ;
-Set the LR to the task stack.
+ਸੈੱਟ_2 the LR ਮੰਜ਼ਿਲ the task ਢੇਰ.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 LDR LR, [ R0 ]
 
 ;
-The critical nesting depth is the first item on the stack.
+The critical nesting ਡੂੰਘਾਈ is the ਪਹਿਲਾ_2 ਵਸਤੂ_2 on the ਢੇਰ.
    ;
-Load it into the ulCriticalNesting variable.
+ਲੱਦੋ it into the ulCriticalNesting variable.
    LDR R0, = ulCriticalNesting
              LDMFD LR !, {
     R1
@@ -118,16 +118,16 @@ Load it into the ulCriticalNesting variable.
 STR R1, [ R0 ]
 
 ;
-Get the SPSR from the stack.
+Get the SPSR from the ਢੇਰ.
    LDMFD LR !, {
     R0
 }
 MSR SPSR_cxsf, R0
 
 ;
-Restore all system mode registers
+Restore all system ਬਹੁਲਕ_2 registers
 
-for the task.
+ਲਈ the task.
    LDMFD LR, {
     R0 - R14
 }
@@ -136,15 +136,15 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the ਵਾਪਸ ਪਤਾ_2.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And ਵਾਪਸ -correcting the offset ਵਿੱਚ_2 the LR ਮੰਜ਼ਿਲ obtain the
 ;
 
-correct address.
+correct ਪਤਾ_2.
    SUBS PC, LR, # 4
 
 ENDM

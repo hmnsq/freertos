@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,27 +46,27 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t         TickType_t;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    32
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    32
 
 /*-----------------------------------------------------------*/
 
@@ -77,144 +77,144 @@ typedef uint32_t         TickType_t;
  * and 15 is the highest.  Therefore the following two interrupts are at the lowest
  * priority.  *NOTE 1* If the yield vector is changed then it must also be changed
  * in the portYIELD_INTERRUPT definition immediately below. */
-#define portAPIC_TIMER_INT_VECTOR       ( 0x21 )
-#define portAPIC_YIELD_INT_VECTOR       ( 0x20 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_TIMER_INT_ਸਦਿਸ਼       ( 0x21 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_YIELD_INT_ਸਦਿਸ਼       ( 0x20 )
 
 /* Build yield interrupt instruction. */
-#define portYIELD_INTERRUPT             "int $0x20"
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_ਰੁਕਾਵਟ             "int $0x20"
 
 /* APIC register addresses. */
-#define portAPIC_EOI                    ( *( ( volatile uint32_t * ) 0xFEE000B0UL ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_EOI                    ( *( ( ਅਸਥਿਰ uint32_t * ) 0xFEE000B0UL ) )
 
 /* APIC bit definitions. */
-#define portAPIC_ENABLE_BIT             ( 1UL << 8UL )
-#define portAPIC_TIMER_PERIODIC         ( 1UL << 17UL )
-#define portAPIC_DISABLE                ( 1UL << 16UL )
-#define portAPIC_NMI                    ( 4 << 8 )
-#define portAPIC_DIV_16                 ( 0x03 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_ENABLE_ਦੋਆਧਾਰੀ_ਅੰਕ             ( 1UL << 8UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_TIMER_PERIODIC         ( 1UL << 17UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_DISABLE                ( 1UL << 16UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_NMI                    ( 4 << 8 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_DIV_16                 ( 0x03 )
 
 /* Define local API register addresses. */
-#define portAPIC_ID_REGISTER            ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
-#define portAPIC_SPURIOUS_INT           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
-#define portAPIC_LVT_TIMER              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
-#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
-#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
-#define portAPIC_TASK_PRIORITY          ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
-#define portAPIC_LVT_ERROR              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
-#define portAPIC_ERROR_STATUS           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
-#define portAPIC_LDR                    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
-#define portAPIC_TMRDIV                 ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
-#define portAPIC_LVT_PERF               ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
-#define portAPIC_LVT_LINT0              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
-#define portAPIC_LVT_LINT1              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_ID_ਰਜਿਸਟਰ            ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x20UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_SPURIOUS_INT           ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0xF0UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_LVT_TIMER              ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x320UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_TIMER_INITIAL_ਗਿਣਤੀ    ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x380UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_TIMER_CURRENT_ਗਿਣਤੀ    ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x390UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_TASK_ਤਰਜੀਹ          ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x80UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_LVT_ERROR              ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x370UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_ERROR_ਸਥਿਤੀ           ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x280UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_LDR                    ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0xD0UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_TMRDIV                 ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x3E0UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_LVT_PERF               ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x340UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_LVT_LINT0              ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x350UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_LVT_LINT1              ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0x360UL ) ) )
 
 /* Don't yield if inside a critical section - instead hold the yield pending
  * so it is performed when the critical section is exited. */
-#define portYIELD()                                  \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()                                  \
     {                                                \
-        extern volatile uint32_t ulCriticalNesting;  \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( ulCriticalNesting != 0 )                 \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint32_t ulCriticalNesting;  \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint32_t ul_ਪੋਰਟ_Yield_Pending; \
+        ਜੇ( ulCriticalNesting != 0 )                 \
         {                                            \
-            ulPortYieldPending = pdTRUE;             \
+            ul_ਪੋਰਟ_Yield_Pending = pdTRUE;             \
         }                                            \
-        else                                         \
+        ਨਹੀਂਤਾਂ                                         \
         {                                            \
-            __asm volatile ( portYIELD_INTERRUPT );  \
+            __asm ਅਸਥਿਰ ( ਪੋਰਟ_YIELD_ਰੁਕਾਵਟ );  \
         }                                            \
     }
 
 /* Called at the end of an ISR that can cause a context switch - pend a yield if
  * xSwitchRequired is not false. */
-#define portEND_SWITCHING_ISR( xSwitchRequired )     \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( xSwitchRequired )     \
     {                                                \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( xSwitchRequired != pdFALSE )             \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint32_t ul_ਪੋਰਟ_Yield_Pending; \
+        ਜੇ( xSwitchRequired != pdFALSE )             \
         {                                            \
-            ulPortYieldPending = 1;                  \
+            ul_ਪੋਰਟ_Yield_Pending = 1;                  \
         }                                            \
     }
 
 /* Same as portEND_SWITCHING_ISR() - take your pick which name to use. */
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )    ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
 /* Critical sections for use in interrupts. */
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR()         ul_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x )    v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( x )
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ uint32_t ul_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( uint32_t ul_New_ਨਕਾਬ_ਮੁੱਲ );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    __asm volatile ( "cli" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( "sti" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()        v_ਪੋਰਟ_Enter_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()         v_ਪੋਰਟ_Exit_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    __asm ਅਸਥਿਰ ( "cli" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     __asm ਅਸਥਿਰ ( "sti" )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ਜੇ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    __asm volatile ( "bsr %1, %0\n\t"                                    \
-                     : "=r" ( uxTopPriority ) : "rm" ( uxReadyPriorities ) : "cc" )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities ) \
+    __asm ਅਸਥਿਰ ( "bsr %1, %0\n\t"                                    \
+                     : "=r" ( ux_ਸਿਖਰ_ਤਰਜੀਹ ) : "rm" ( uxReadyPriorities ) : "cc" )
 
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰਿਕਾਰਡ_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ਤਰਜੀਹ ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#ਜੇ_ਅੰਤ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()    __asm volatile ( "NOP" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()    __asm ਅਸਥਿਰ ( "NOP" )
 
 /*-----------------------------------------------------------
 * Misc
 *----------------------------------------------------------*/
 
-#define portNUM_VECTORS     256
-#define portMAX_PRIORITY    15
-typedef void ( * ISR_Handler_t ) ( void );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅੰਕ_VECTORS     256
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_ਤਰਜੀਹ    15
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਖਾਲੀ ( * ISR_Handler_t ) ( ਖਾਲੀ );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-#ifndef configSUPPORT_FPU
-    #define configSUPPORT_FPU    0
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configSUPPORT_FPU
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configSUPPORT_FPU    0
+#ਜੇ_ਅੰਤ
 
-#if configSUPPORT_FPU == 1
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
-#endif
+#ਜੇ configSUPPORT_FPU == 1
+    ਖਾਲੀ v_ਪੋਰਟ_Task_ਵਰਤਦਾ_FPU( ਖਾਲੀ );
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_ਵਰਤਦਾ_FLOATING_ਬਿੰਦੂ()    v_ਪੋਰਟ_Task_ਵਰਤਦਾ_FPU()
+#ਜੇ_ਅੰਤ
 
 /* See the comments under the configUSE_COMMON_INTERRUPT_ENTRY_POINT definition
  * below. */
-BaseType_t xPortRegisterCInterruptHandler( ISR_Handler_t pxHandler,
-                                           uint32_t ulVectorNumber );
-BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
-                                         uint32_t ulVectorNumber );
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਰਜਿਸਟਰ_CInterrupt_Handler( ISR_Handler_t pxHandler,
+                                           uint32_t ul_ਸਦਿਸ਼_ਸੰਖਿਆ );
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_Install_ਰੁਕਾਵਟ_Handler( ISR_Handler_t pxHandler,
+                                         uint32_t ul_ਸਦਿਸ਼_ਸੰਖਿਆ );
 
-#ifndef configAPIC_BASE
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_APIC_ਅਧਾਰ
 
 /* configAPIC_BASE_ADDRESS sets the base address of the local APIC.  It can
  * be overridden in FreeRTOSConfig.h should it not be constant. */
-    #define configAPIC_BASE    0xFEE00000UL
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_APIC_ਅਧਾਰ    0xFEE00000UL
+#ਜੇ_ਅੰਤ
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION
 
 /* The FreeRTOS scheduling algorithm selects the task that will enter the
  * Running state.  configUSE_PORT_OPTIMISED_TASK_SELECTION is used to set how
@@ -230,11 +230,11 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * This is the fastest method, but restricts the maximum number of unique RTOS
  * task priorities to 32 (the same task priority can be assigned to any number
  * of RTOS tasks). */
-    #warning configUSE_PORT_OPTIMISED_TASK_SELECTION was not defined in FreeRTOSConfig.h and has been defaulted to 1
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+    #warning config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION was not defined ਵਿੱਚ_2 FreeRTOSConfig.h and has been defaulted ਮੰਜ਼ਿਲ 1
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION    1
+#ਜੇ_ਅੰਤ
 
-#ifndef configUSE_COMMON_INTERRUPT_ENTRY_POINT
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_COMMON_ਰੁਕਾਵਟ_ਇੰਦਰਾਜ_ਬਿੰਦੂ
 
 /* There are two ways of implementing interrupt handlers:
  *
@@ -252,11 +252,11 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  *
  *  This method can always be used.  It is slightly more complex than
  *  method 1 but benefits from a faster interrupt entry time. */
-    #warning configUSE_COMMON_INTERRUPT_ENTRY_POINT was not defined in FreeRTOSConfig.h and has been defaulted to 1.
-    #define configUSE_COMMON_INTERRUPT_ENTRY_POINT    1
-#endif
+    #warning config_USE_COMMON_ਰੁਕਾਵਟ_ਇੰਦਰਾਜ_ਬਿੰਦੂ was not defined ਵਿੱਚ_2 FreeRTOSConfig.h and has been defaulted ਮੰਜ਼ਿਲ 1.
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_COMMON_ਰੁਕਾਵਟ_ਇੰਦਰਾਜ_ਬਿੰਦੂ    1
+#ਜੇ_ਅੰਤ
 
-#ifndef configISR_STACK_SIZE
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_ISR_ਢੇਰ_ਮਾਪ
 
 /* Interrupt entry code will switch the stack in use to a dedicated system
  * stack.
@@ -265,38 +265,38 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
  * on the system stack, and must be large enough to hold a potentially nested
  * interrupt stack frame. */
 
-    #error configISR_STACK_SIZE was not defined in FreeRTOSConfig.h.
-#endif
+    #ਗਲਤੀ config_ISR_ਢੇਰ_ਮਾਪ was not defined ਵਿੱਚ_2 FreeRTOSConfig.h.
+#ਜੇ_ਅੰਤ
 
-#ifndef configMAX_API_CALL_INTERRUPT_PRIORITY
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_MAX_API_CALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ
 
 /* Interrupt safe FreeRTOS functions (those that end in "FromISR" must not
  * be called from an interrupt that has a priority above that set by
  * configMAX_API_CALL_INTERRUPT_PRIORITY.  */
-    #warning configMAX_API_CALL_INTERRUPT_PRIORITY was not defined in FreeRTOSConfig.h and has been defaulted to 10
-    #define configMAX_API_CALL_INTERRUPT_PRIORITY    10
-#endif
+    #warning config_MAX_API_CALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ was not defined ਵਿੱਚ_2 FreeRTOSConfig.h and has been defaulted ਮੰਜ਼ਿਲ 10
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_MAX_API_CALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ    10
+#ਜੇ_ਅੰਤ
 
-#ifndef configSUPPORT_FPU
-    #warning configSUPPORT_FPU was not defined in FreeRTOSConfig.h and has been defaulted to 0
-    #define configSUPPORT_FPU    0
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configSUPPORT_FPU
+    #warning configSUPPORT_FPU was not defined ਵਿੱਚ_2 FreeRTOSConfig.h and has been defaulted ਮੰਜ਼ਿਲ 0
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configSUPPORT_FPU    0
+#ਜੇ_ਅੰਤ
 
 /* The value written to the task priority register to raise the interrupt mask
  * to the maximum from which FreeRTOS API calls can be made. */
-#define portAPIC_PRIORITY_SHIFT        ( 4UL )
-#define portAPIC_MAX_SUB_PRIORITY      ( 0x0fUL )
-#define portMAX_API_CALL_PRIORITY      ( ( configMAX_API_CALL_INTERRUPT_PRIORITY << portAPIC_PRIORITY_SHIFT ) | portAPIC_MAX_SUB_PRIORITY )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_ਤਰਜੀਹ_ਖਿਸਕਾਓ        ( 4UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_MAX_SUB_ਤਰਜੀਹ      ( 0x0fUL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_API_CALL_ਤਰਜੀਹ      ( ( config_MAX_API_CALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ << ਪੋਰਟ_APIC_ਤਰਜੀਹ_ਖਿਸਕਾਓ ) | ਪੋਰਟ_APIC_MAX_SUB_ਤਰਜੀਹ )
 
 /* Asserts if interrupt safe FreeRTOS functions are called from a priority
  * above the max system call interrupt priority. */
-#define portAPIC_PROCESSOR_PRIORITY    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
-#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( portAPIC_PROCESSOR_PRIORITY ) <= ( portMAX_API_CALL_PRIORITY ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_APIC_PROCESSOR_ਤਰਜੀਹ    ( *( ( ਅਸਥਿਰ uint32_t * ) ( config_APIC_ਅਧਾਰ + 0xA0UL ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASSERT_IF_ਰੁਕਾਵਟ_ਤਰਜੀਹ_INVALID()    configASSERT( ( ਪੋਰਟ_APIC_PROCESSOR_ਤਰਜੀਹ ) <= ( ਪੋਰਟ_MAX_API_CALL_ਤਰਜੀਹ ) )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

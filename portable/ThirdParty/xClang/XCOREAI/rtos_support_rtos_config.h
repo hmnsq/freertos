@@ -1,12 +1,12 @@
 /* Copyright (c) 2020, XMOS Ltd, All rights reserved */
 
-#ifndef RTOS_SUPPORT_RTOS_CONFIG_H_
-#define RTOS_SUPPORT_RTOS_CONFIG_H_
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ RTOS_SUPPORT_RTOS_CONFIG_H_
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_SUPPORT_RTOS_CONFIG_H_
 
 /**
  * Lets the application know that the RTOS in use is FreeRTOS.
  */
-#define RTOS_FREERTOS                              1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_FREERTOS                              1
 
 /**
  * The number of words to extend the stack by when entering an ISR.
@@ -17,29 +17,29 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-#define RTOS_SUPPORT_INTERRUPT_STACK_GROWTH        ( 44 + 1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_SUPPORT_ਰੁਕਾਵਟ_ਢੇਰ_GROWTH        ( 44 + 1 )
 
 /**
  * The word offset into the stack where R1 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R1_STACK_OFFSET     9
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_SUPPORT_ਰੁਕਾਵਟ_R1_ਢੇਰ_ਵਿੱਥ     9
 
 /**
  * The word offset into the stack where R11 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R11_STACK_OFFSET    19
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_SUPPORT_ਰੁਕਾਵਟ_R11_ਢੇਰ_ਵਿੱਥ    19
 
 /**
  * The RTOS provided handler that should run when a
  * core receives an intercore interrupt request.
  */
-#define RTOS_INTERCORE_INTERRUPT_ISR()       \
-    do {                                     \
-        void vIntercoreInterruptISR( void ); \
-        vIntercoreInterruptISR();            \
-    } while( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_INTERCORE_ਰੁਕਾਵਟ_ISR()       \
+    ਕਰੋ {                                     \
+        ਖਾਲੀ v_Intercore_ਰੁਕਾਵਟ_ISR( ਖਾਲੀ ); \
+        v_Intercore_ਰੁਕਾਵਟ_ISR();            \
+    } ਜਦੋਂ( 0 )
 
 /**
  * The number of hardware locks that the RTOS
@@ -49,47 +49,47 @@
  * Note that the IRQ routines require a lock and
  * will share the first one with the RTOS.
  */
-#define RTOS_LOCK_COUNT            2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_ਤਾਲਾ_ਗਿਣਤੀ            2
 
 /**
  * Remaps all calls to debug_printf() to rtos_printf().
  * When this is on, files should not include both rtos_support.h
  * and debug_print.h.
  */
-#define RTOS_DEBUG_PRINTF_REMAP    1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RTOS_DEBUG_PRINTF_REMAP    1
 
 
-#ifdef configENABLE_DEBUG_PRINTF
-    #if configENABLE_DEBUG_PRINTF
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ configENABLE_DEBUG_PRINTF
+    #ਜੇ configENABLE_DEBUG_PRINTF
 
 /* ensure that debug_printf is enabled */
-        #ifdef DEBUG_PRINT_ENABLE
-            #undef DEBUG_PRINT_ENABLE
-        #endif
-        #define DEBUG_PRINT_ENABLE                        1
+        #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ DEBUG_PRINT_ENABLE
+            #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ DEBUG_PRINT_ENABLE
+        #ਜੇ_ਅੰਤ
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DEBUG_PRINT_ENABLE                        1
 
-        #ifndef configTASKS_DEBUG
-            #define configTASKS_DEBUG                     0
-        #endif
-        #if configTASKS_DEBUG == 1
-            #define DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
-        #else
-            #define DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
-        #endif
+        #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configTASKS_DEBUG
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configTASKS_DEBUG                     0
+        #ਜੇ_ਅੰਤ
+        #ਜੇ configTASKS_DEBUG == 1
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
+        #ਨਹੀਂਤਾਂ
+            #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
+        #ਜੇ_ਅੰਤ
 
-    #else /* configENABLE_DEBUG_PRINTF */
+    #ਨਹੀਂਤਾਂ /* configENABLE_DEBUG_PRINTF */
 
 /* ensure that debug_printf is disabled */
-        #ifdef DEBUG_UNIT
-            #undef DEBUG_UNIT
-        #endif
-        #ifdef DEBUG_PRINT_ENABLE
-            #undef DEBUG_PRINT_ENABLE
-        #endif
+        #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ DEBUG_UNIT
+            #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ DEBUG_UNIT
+        #ਜੇ_ਅੰਤ
+        #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ DEBUG_PRINT_ENABLE
+            #ਪਰਿਭਾਸ਼ਾ_ਰੱਦ DEBUG_PRINT_ENABLE
+        #ਜੇ_ਅੰਤ
 
-        #define DEBUG_PRINT_ENABLE    0
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ DEBUG_PRINT_ENABLE    0
 
-    #endif /* configENABLE_DEBUG_PRINTF */
-#endif /* ifdef configENABLE_DEBUG_PRINTF */
+    #ਜੇ_ਅੰਤ /* configENABLE_DEBUG_PRINTF */
+#ਜੇ_ਅੰਤ /* ifdef configENABLE_DEBUG_PRINTF */
 
-#endif /* RTOS_SUPPORT_RTOS_CONFIG_H_ */
+#ਜੇ_ਅੰਤ /* RTOS_SUPPORT_RTOS_CONFIG_H_ */

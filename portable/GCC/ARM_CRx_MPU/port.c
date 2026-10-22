@@ -27,28 +27,28 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers. That should only be done when
  * task.h is included from an application file. */
-#ifndef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
-    #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
-#endif /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE */
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ਜੇ_ਅੰਤ /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "portmacro.h"
-#include "task.h"
-#include "mpu_syscall_numbers.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "portmacro.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "mpu_syscall_numbers.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Max value that fits in a uint32_t type. */
-#define portUINT32_MAX    ( ~( ( uint32_t ) 0 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_UINT32_MAX    ( ~( ( uint32_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define portADD_UINT32_WILL_OVERFLOW( a, b )    ( ( a ) > ( portUINT32_MAX - ( b ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਜੋੜੋ_UINT32_WILL_ਉਛਾਲ( a, b )    ( ( a ) > ( ਪੋਰਟ_UINT32_MAX - ( b ) ) )
 /* ----------------------------------------------------------------------------------- */
 
 /**
@@ -61,21 +61,21 @@
  * before the scheduler starts. As it is stored as part of the task context, it
  * will be set to 0 when the first task is started.
  */
-PRIVILEGED_DATA volatile UBaseType_t ulCriticalNesting = 0xFFFF;
+PRIVILEGED_ਅੰਕੜੇ ਅਸਥਿਰ UBaseType_t ulCriticalNesting = 0xFFFF;
 
 /**
  * @brief Set to 1 to pend a context switch from an ISR.
  *
  * @ingroup Interrupt Management
  */
-PRIVILEGED_DATA volatile UBaseType_t ulPortYieldRequired = pdFALSE;
+PRIVILEGED_ਅੰਕੜੇ ਅਸਥਿਰ UBaseType_t ul_ਪੋਰਟ_Yield_Required = pdFALSE;
 
 /**
  * @brief Interrupt nesting depth, used to count the number of interrupts to unwind.
  *
  * @ingroup Interrupt Management
  */
-PRIVILEGED_DATA volatile UBaseType_t ulPortInterruptNesting = 0UL;
+PRIVILEGED_ਅੰਕੜੇ ਅਸਥਿਰ UBaseType_t ul_ਪੋਰਟ_ਰੁਕਾਵਟ_Nesting = 0UL;
 
 /**
  * @brief Variable to track whether or not the scheduler has been started.
@@ -84,7 +84,7 @@ PRIVILEGED_DATA volatile UBaseType_t ulPortInterruptNesting = 0UL;
  *
  * This is the port specific version of the xSchedulerRunning in tasks.c.
  */
-PRIVILEGED_DATA static BaseType_t prvPortSchedulerRunning = pdFALSE;
+PRIVILEGED_ਅੰਕੜੇ ਸਥਿਰ ਅਧਾਰ_Type_t prv_ਪੋਰਟ_Scheduler_Running = pdFALSE;
 
 /* -------------------------- Private Function Declarations -------------------------- */
 
@@ -103,10 +103,10 @@ PRIVILEGED_DATA static BaseType_t prvPortSchedulerRunning = pdFALSE;
  * @return pdTRUE if MPU region settings authorizes the requested access to the
  * given buffer, pdFALSE otherwise.
  */
-PRIVILEGED_FUNCTION static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xTaskMPURegion,
-                                                                    const uint32_t ulBufferStart,
-                                                                    const uint32_t ulBufferLength,
-                                                                    const uint32_t ulAccessRequested );
+PRIVILEGED_FUNCTION ਸਥਿਰ ਅਧਾਰ_Type_t prv_MPURegion_Authorizes_ਬਫਰ( ਅਚਲ xMPU_REGION_REGISTERS * xTaskMPURegion,
+                                                                    ਅਚਲ uint32_t ul_ਬਫਰ_ਸ਼ੁਰੂ,
+                                                                    ਅਚਲ uint32_t ul_ਬਫਰ_ਲੰਮਾਈ,
+                                                                    ਅਚਲ uint32_t ulAccessRequested );
 
 /**
  * @brief Determine the smallest MPU Region Size Encoding for the given MPU
@@ -118,14 +118,14 @@ PRIVILEGED_FUNCTION static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_R
  *
  * @return The smallest MPU Region Size Encoding for the given MPU region size.
  */
-PRIVILEGED_FUNCTION static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize );
+PRIVILEGED_FUNCTION ਸਥਿਰ uint32_t prv_Get_MPURegion_ਮਾਪ_Encoding( uint32_t ul_Actual_MPURegion_ਮਾਪ );
 
 /**
  * @brief Set up MPU.
  *
  * @ingroup MPU Control
  */
-PRIVILEGED_FUNCTION static void prvSetupMPU( void );
+PRIVILEGED_FUNCTION ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_MPU( ਖਾਲੀ );
 
 /* -------------------------- Exported Function Declarations -------------------------- */
 
@@ -134,14 +134,14 @@ PRIVILEGED_FUNCTION static void prvSetupMPU( void );
  *
  * @ingroup Critical Section
  */
-PRIVILEGED_FUNCTION void vPortEnterCritical( void );
+PRIVILEGED_FUNCTION ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
 
 /**
  * @brief Exit critical section.
  *
  * @ingroup Critical Section
  */
-PRIVILEGED_FUNCTION void vPortExitCritical( void );
+PRIVILEGED_FUNCTION ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
 
 /* ----------------------------------------------------------------------------------- */
 
@@ -159,166 +159,166 @@ PRIVILEGED_FUNCTION void vPortExitCritical( void );
  * @return Location where to restore the task's context from.
  */
 /* PRIVILEGED_FUNCTION */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters,
-                                     BaseType_t xRunPrivileged,
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters,
+                                     ਅਧਾਰ_Type_t x_ਲੜੀਵਾਰ_Privileged,
                                      xMPU_SETTINGS * xMPUSettings )
 {
     /* Setup the initial context of the task. The context is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
-    UBaseType_t ulIndex = CONTEXT_SIZE - 1U;
+    UBaseType_t ul_ਸੂਚਕਾਂਕ = CONTEXT_ਮਾਪ - 1U;
 
-    xSYSTEM_CALL_STACK_INFO * xSysCallInfo = NULL;
+    x_SYSTEM_CALL_ਢੇਰ_INFO * xSysCallInfo = ਨਿਰਾ;
 
-    if( xRunPrivileged == pdTRUE )
+    ਜੇ( x_ਲੜੀਵਾਰ_Privileged == pdTRUE )
     {
-        xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
+        xMPUSettings->ulTaskFlags |= ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG;
         /* Current Program Status Register (CPSR). */
-        xMPUSettings->ulContext[ ulIndex ] = SYS_MODE;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = SYS_ਬਹੁਲਕ;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
-        xMPUSettings->ulTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
+        xMPUSettings->ulTaskFlags &= ( ~ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG );
         /* Current Program Status Register (CPSR). */
-        xMPUSettings->ulContext[ ulIndex ] = USER_MODE;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = USER_ਬਹੁਲਕ;
     }
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x0UL )
+    ਜੇ( ( ( uint32_t ) px_ਕੋਡ & ਪੋਰਟ_THUMB_ਬਹੁਲਕ_ਪਤਾ ) != 0x0UL )
     {
         /* The task will cause the processor to start in THUMB state, set the
          * Thumb state bit in the CPSR. */
-        xMPUSettings->ulContext[ ulIndex ] |= portTHUMB_MODE_BIT;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] |= ਪੋਰਟ_THUMB_ਬਹੁਲਕ_ਦੋਆਧਾਰੀ_ਅੰਕ;
     }
 
-    ulIndex--;
+    ul_ਸੂਚਕਾਂਕ--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pxCode; /* PC. */
-    ulIndex--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) px_ਕੋਡ; /* PC. */
+    ul_ਸੂਚਕਾਂਕ--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
-    ulIndex--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) ਪੋਰਟ_TASK_RETURN_ਪਤਾ; /* LR. */
+    ul_ਸੂਚਕਾਂਕ--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pxTopOfStack; /* SP. */
-    ulIndex--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) px_ਸਿਖਰ_ਦਾ_ਢੇਰ; /* SP. */
+    ul_ਸੂਚਕਾਂਕ--;
 
     /* General Purpose Registers. */
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x12121212; /* R12. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x11111111; /* R11. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x10101010; /* R10. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x09090909; /* R9. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x08080808; /* R8. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x07070707; /* R7. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x06060606; /* R6. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x05050505; /* R5. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x04040404; /* R4. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x03030303; /* R3. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x02020202; /* R2. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x01010101; /* R1. */
-    ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pvParameters; /* R0. */
-    ulIndex--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x12121212; /* R12. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x11111111; /* R11. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x10101010; /* R10. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x09090909; /* R9. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x08080808; /* R8. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x07070707; /* R7. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x06060606; /* R6. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x05050505; /* R5. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x04040404; /* R4. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x03030303; /* R3. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x02020202; /* R2. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x01010101; /* R1. */
+    ul_ਸੂਚਕਾਂਕ--;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) pvParameters; /* R0. */
+    ul_ਸੂਚਕਾਂਕ--;
 
-    #if( portENABLE_FPU == 1 )
+    #ਜੇ( ਪੋਰਟ_ENABLE_FPU == 1 )
     {
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000015; /* S31. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1500000; /* S30. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000014; /* S29. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1400000; /* S28. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000013; /* S27. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1300000; /* S26. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000012; /* S25. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1200000; /* S24. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000011; /* S23. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1100000; /* S22. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000010; /* S21. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1000000; /* S20. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000009; /* S19. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD9000000; /* S18. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000008; /* S17. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD8000000; /* S16. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000007; /* S15. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD7000000; /* S14. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000006; /* S13. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD6000000; /* S12. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000005; /* S11. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD5000000; /* S10. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000004; /* S9. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD4000000; /* S8. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000003; /* S7. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD3000000; /* S6. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000002; /* S5. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD2000000; /* S4. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000001; /* S3. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1000000; /* S2. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000000; /* S1. */
-        ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000000; /* S0. */
-        ulIndex--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000015; /* S31. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1500000; /* S30. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000014; /* S29. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1400000; /* S28. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000013; /* S27. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1300000; /* S26. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000012; /* S25. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1200000; /* S24. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000011; /* S23. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1100000; /* S22. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000010; /* S21. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1000000; /* S20. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000009; /* S19. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD9000000; /* S18. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000008; /* S17. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD8000000; /* S16. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000007; /* S15. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD7000000; /* S14. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000006; /* S13. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD6000000; /* S12. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000005; /* S11. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD5000000; /* S10. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000004; /* S9. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD4000000; /* S8. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000003; /* S7. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD3000000; /* S6. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000002; /* S5. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD2000000; /* S4. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000001; /* S3. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD1000000; /* S2. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000000; /* S1. */
+        ul_ਸੂਚਕਾਂਕ--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0xD0000000; /* S0. */
+        ul_ਸੂਚਕਾਂਕ--;
 
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x00000000; /* FPSR. */
-        ulIndex--;
+        xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ( ਢੇਰ_Type_t ) 0x00000000; /* FPSR. */
+        ul_ਸੂਚਕਾਂਕ--;
     }
-    #endif /* portENABLE_FPU */
+    #ਜੇ_ਅੰਤ /* portENABLE_FPU */
 
     /* The task will start with a critical nesting count of 0. */
-    xMPUSettings->ulContext[ ulIndex ] = portNO_CRITICAL_NESTING;
+    xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] = ਪੋਰਟ_NO_CRITICAL_NESTING;
 
     /* Ensure that the system call stack is double word aligned. */
-    xSysCallInfo = &( xMPUSettings->xSystemCallStackInfo );
-    xSysCallInfo->pulSystemCallStackPointer = &( xSysCallInfo->ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1U ] );
-    xSysCallInfo->pulSystemCallStackPointer = ( uint32_t * ) ( ( ( uint32_t ) ( xSysCallInfo->pulSystemCallStackPointer ) ) &
-                                                               ( ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) ) );
+    xSysCallInfo = &( xMPUSettings->x_System_Call_ਢੇਰ_Info );
+    xSysCallInfo->pul_System_Call_ਢੇਰ_ਸੂਚਕ = &( xSysCallInfo->ul_System_Call_ਢੇਰ_ਬਫਰ[ config_SYSTEM_CALL_ਢੇਰ_ਮਾਪ - 1U ] );
+    xSysCallInfo->pul_System_Call_ਢੇਰ_ਸੂਚਕ = ( uint32_t * ) ( ( ( uint32_t ) ( xSysCallInfo->pul_System_Call_ਢੇਰ_ਸੂਚਕ ) ) &
+                                                               ( ( uint32_t ) ( ~( ਪੋਰਟ_BYTE_ALIGNMENT_ਨਕਾਬ ) ) ) );
 
     /* This is not NULL only for the duration of a system call. */
-    xSysCallInfo->pulTaskStackPointer = NULL;
+    xSysCallInfo->pul_Task_ਢੇਰ_ਸੂਚਕ = ਨਿਰਾ;
 
     /* Set the System Call to return to vPortSystemCallExit. */
-    xSysCallInfo->pulSystemCallExitAddress = ( uint32_t * ) ( &vPortSystemCallExit );
+    xSysCallInfo->pul_System_Call_Exit_ਪਤਾ = ( uint32_t * ) ( &v_ਪੋਰਟ_System_Call_Exit );
 
     /* Return the address where this task's context should be restored from. */
-    return &( xMPUSettings->ulContext[ ulIndex ] );
+    ਵਾਪਸ &( xMPUSettings->ulContext[ ul_ਸੂਚਕਾਂਕ ] );
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -335,70 +335,70 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
  * @param ulStackDepth The length of the task's stack.
  */
 /* PRIVILEGED_FUNCTION */
-void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                const struct xMEMORY_REGION * const xRegions,
-                                StackType_t * pxBottomOfStack,
-                                uint32_t ulStackDepth )
+ਖਾਲੀ v_ਪੋਰਟ_Store_Task_MPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                ਅਚਲ ਬਣਤਰ x_ਸਮ੍ਰਿਤੀ_REGION * ਅਚਲ xRegions,
+                                ਢੇਰ_Type_t * px_Bottom_ਦਾ_ਢੇਰ,
+                                uint32_t ul_ਢੇਰ_ਡੂੰਘਾਈ )
 {
-    #if defined( __ARMCC_VERSION )
+    #ਜੇ defined( __ARMCC_VERSION )
         /* Declaration when these variable are defined in code instead of being
          * exported from linker scripts. */
-        extern uint32_t * __SRAM_segment_start__;
-        extern uint32_t * __SRAM_segment_end__;
-    #else
+        ਬਾਹਰੀ uint32_t * __SRAM_segment_start__;
+        ਬਾਹਰੀ uint32_t * __SRAM_segment_end__;
+    #ਨਹੀਂਤਾਂ
         /* Declaration when these variable are exported from linker scripts. */
-        extern uint32_t __SRAM_segment_start__[];
-        extern uint32_t __SRAM_segment_end__[];
-    #endif /* if defined( __ARMCC_VERSION ) */
+        ਬਾਹਰੀ uint32_t __SRAM_segment_start__[];
+        ਬਾਹਰੀ uint32_t __SRAM_segment_end__[];
+    #ਜੇ_ਅੰਤ /* if defined( __ARMCC_VERSION ) */
 
-    uint32_t ulIndex = 0x0;
-    uint32_t ulRegionLength;
-    uint32_t ulRegionLengthEncoded;
-    uint32_t ulRegionLengthDecoded;
+    uint32_t ul_ਸੂਚਕਾਂਕ = 0x0;
+    uint32_t ul_Region_ਲੰਮਾਈ;
+    uint32_t ul_Region_ਲੰਮਾਈ_Encoded;
+    uint32_t ul_Region_ਲੰਮਾਈ_Decoded;
 
-    if( xRegions == NULL )
+    ਜੇ( xRegions == ਨਿਰਾ )
     {
         /* No MPU regions are specified so allow access to all of the RAM. */
-        ulRegionLength = ( uint32_t ) __SRAM_segment_end__ - ( uint32_t ) __SRAM_segment_start__;
-        ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
-        ulRegionLength |= portMPU_REGION_ENABLE;
+        ul_Region_ਲੰਮਾਈ = ( uint32_t ) __SRAM_segment_end__ - ( uint32_t ) __SRAM_segment_start__;
+        ul_Region_ਲੰਮਾਈ_Encoded = prv_Get_MPURegion_ਮਾਪ_Encoding( ul_Region_ਲੰਮਾਈ );
+        ul_Region_ਲੰਮਾਈ |= ਪੋਰਟ_MPU_REGION_ENABLE;
 
         /* MPU Settings is zero'd out in the TCB before this function is called.
          * We, therefore, do not need to explicitly zero out unused MPU regions
          * in xMPUSettings. */
-        ulIndex = portSTACK_REGION;
+        ul_ਸੂਚਕਾਂਕ = ਪੋਰਟ_ਢੇਰ_REGION;
 
-        xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) __SRAM_segment_start__;
-        xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
-                                                          portMPU_REGION_ENABLE );
-        xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = ( portMPU_REGION_PRIV_RW_USER_RW_NOEXEC |
-                                                               portMPU_REGION_NORMAL_OIWTNOWA_SHARED );
+        xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਅਧਾਰ_ਪਤਾ = ( uint32_t ) __SRAM_segment_start__;
+        xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਮਾਪ = ( ul_Region_ਲੰਮਾਈ_Encoded |
+                                                          ਪੋਰਟ_MPU_REGION_ENABLE );
+        xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ulRegionAttribute = ( ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_RW_NOEXEC |
+                                                               ਪੋਰਟ_MPU_REGION_ਸਾਧਾਰਨ_OIWTNOWA_SHARED );
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
-        for( ulIndex = 0UL; ulIndex < portNUM_CONFIGURABLE_REGIONS; ulIndex++ )
+        ਲਈ( ul_ਸੂਚਕਾਂਕ = 0UL; ul_ਸੂਚਕਾਂਕ < ਪੋਰਟ_ਅੰਕ_CONFIGURABLE_REGIONS; ul_ਸੂਚਕਾਂਕ++ )
         {
             /* If a length has been provided, the region is in use. */
-            if( ( xRegions[ ulIndex ] ).ulLengthInBytes > 0UL )
+            ਜੇ( ( xRegions[ ul_ਸੂਚਕਾਂਕ ] ).ul_ਲੰਮਾਈ_ਵਿੱਚ_ਬਾਈਟਾਂ > 0UL )
             {
-                ulRegionLength = xRegions[ ulIndex ].ulLengthInBytes;
-                ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
+                ul_Region_ਲੰਮਾਈ = xRegions[ ul_ਸੂਚਕਾਂਕ ].ul_ਲੰਮਾਈ_ਵਿੱਚ_ਬਾਈਟਾਂ;
+                ul_Region_ਲੰਮਾਈ_Encoded = prv_Get_MPURegion_ਮਾਪ_Encoding( ul_Region_ਲੰਮਾਈ );
 
                 /* MPU region base address must be aligned to the region size
                  * boundary. */
-                ulRegionLengthDecoded = 2UL << ( ulRegionLengthEncoded >> 1UL );
-                configASSERT( ( ( ( uint32_t ) xRegions[ ulIndex ].pvBaseAddress ) % ( ulRegionLengthDecoded ) ) == 0UL );
+                ul_Region_ਲੰਮਾਈ_Decoded = 2UL << ( ul_Region_ਲੰਮਾਈ_Encoded >> 1UL );
+                configASSERT( ( ( ( uint32_t ) xRegions[ ul_ਸੂਚਕਾਂਕ ].pv_ਅਧਾਰ_ਪਤਾ ) % ( ul_Region_ਲੰਮਾਈ_Decoded ) ) == 0UL );
 
-                xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) xRegions[ ulIndex ].pvBaseAddress;
-                xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
-                                                                  portMPU_REGION_ENABLE );
-                xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = xRegions[ ulIndex ].ulParameters;
+                xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਅਧਾਰ_ਪਤਾ = ( uint32_t ) xRegions[ ul_ਸੂਚਕਾਂਕ ].pv_ਅਧਾਰ_ਪਤਾ;
+                xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਮਾਪ = ( ul_Region_ਲੰਮਾਈ_Encoded |
+                                                                  ਪੋਰਟ_MPU_REGION_ENABLE );
+                xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ulRegionAttribute = xRegions[ ul_ਸੂਚਕਾਂਕ ].ulParameters;
             }
-            else
+            ਨਹੀਂਤਾਂ
             {
-                xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = 0x0UL;
-                xMPUSettings->xRegion[ ulIndex ].ulRegionSize = 0x0UL;
-                xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = 0x0UL;
+                xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਅਧਾਰ_ਪਤਾ = 0x0UL;
+                xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਮਾਪ = 0x0UL;
+                xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ulRegionAttribute = 0x0UL;
             }
         }
 
@@ -406,21 +406,21 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
          * which case the stack region parameters will be valid. At all other
          * times the stack parameters will not be valid and it is assumed that the
          * stack region has already been configured. */
-        if( ulStackDepth != 0x0UL )
+        ਜੇ( ul_ਢੇਰ_ਡੂੰਘਾਈ != 0x0UL )
         {
-            ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulStackDepth * ( uint32_t ) sizeof( StackType_t ) );
+            ul_Region_ਲੰਮਾਈ_Encoded = prv_Get_MPURegion_ਮਾਪ_Encoding( ul_ਢੇਰ_ਡੂੰਘਾਈ * ( uint32_t ) ਆਕਾਰ( ਢੇਰ_Type_t ) );
 
             /* MPU region base address must be aligned to the region size
              * boundary. */
-            ulRegionLengthDecoded = 2UL << ( ulRegionLengthEncoded >> 1UL );
-            configASSERT( ( ( uint32_t ) pxBottomOfStack % ( ulRegionLengthDecoded ) ) == 0U );
+            ul_Region_ਲੰਮਾਈ_Decoded = 2UL << ( ul_Region_ਲੰਮਾਈ_Encoded >> 1UL );
+            configASSERT( ( ( uint32_t ) px_Bottom_ਦਾ_ਢੇਰ % ( ul_Region_ਲੰਮਾਈ_Decoded ) ) == 0U );
 
-            ulIndex = portSTACK_REGION;
-            xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) pxBottomOfStack;
-            xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
-                                                              portMPU_REGION_ENABLE );
-            xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = ( portMPU_REGION_PRIV_RW_USER_RW_NOEXEC |
-                                                                   portMPU_REGION_NORMAL_OIWTNOWA_SHARED );
+            ul_ਸੂਚਕਾਂਕ = ਪੋਰਟ_ਢੇਰ_REGION;
+            xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਅਧਾਰ_ਪਤਾ = ( uint32_t ) px_Bottom_ਦਾ_ਢੇਰ;
+            xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ul_Region_ਮਾਪ = ( ul_Region_ਲੰਮਾਈ_Encoded |
+                                                              ਪੋਰਟ_MPU_REGION_ENABLE );
+            xMPUSettings->xRegion[ ul_ਸੂਚਕਾਂਕ ].ulRegionAttribute = ( ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_RW_NOEXEC |
+                                                                   ਪੋਰਟ_MPU_REGION_ਸਾਧਾਰਨ_OIWTNOWA_SHARED );
         }
     }
 }
@@ -428,136 +428,136 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortIsTaskPrivileged( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Task_Privileged( ਖਾਲੀ )
 {
-    BaseType_t xTaskIsPrivileged = pdFALSE;
+    ਅਧਾਰ_Type_t xTaskIsPrivileged = pdFALSE;
 
     /* Calling task's MPU settings. */
-    const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL );
+    ਅਚਲ xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( ਨਿਰਾ );
 
-    if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+    ਜੇ( ( xTaskMpuSettings->ulTaskFlags & ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG ) == ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG )
     {
         xTaskIsPrivileged = pdTRUE;
     }
 
-    return xTaskIsPrivileged;
+    ਵਾਪਸ xTaskIsPrivileged;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
     /* Start the timer that generates the tick ISR. */
-    configSETUP_TICK_INTERRUPT();
+    config_ਤਿਆਰੀ_TICK_ਰੁਕਾਵਟ();
 
     /* Configure MPU regions that are common to all tasks. */
-    prvSetupMPU();
+    prv_ਤਿਆਰੀ_MPU();
 
-    prvPortSchedulerRunning = pdTRUE;
+    prv_ਪੋਰਟ_Scheduler_Running = pdTRUE;
 
     /* Load the context of the first task. */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
     /* Will only get here if vTaskStartScheduler() was called with the CPU in
      * a non-privileged mode or the binary point register was not set to its lowest
      * possible value. prvTaskExitError() is referenced to prevent a compiler
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
-    ( void ) prvTaskExitError();
-    return pdFALSE;
+    ( ਖਾਲੀ ) prvTaskExitError();
+    ਵਾਪਸ pdFALSE;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
+ਸਥਿਰ uint32_t prv_Get_MPURegion_ਮਾਪ_Encoding( uint32_t ul_Actual_MPURegion_ਮਾਪ )
 {
-    uint32_t ulRegionSize, ulReturnValue = 4U;
+    uint32_t ul_Region_ਮਾਪ, ul_Return_ਮੁੱਲ = 4U;
 
     /* 32 bytes is the smallest valid region for Cortex R4 and R5 CPUs. */
-    for( ulRegionSize = 0x20UL; ulReturnValue < 0x1FUL; ( ulRegionSize <<= 1UL ) )
+    ਲਈ( ul_Region_ਮਾਪ = 0x20UL; ul_Return_ਮੁੱਲ < 0x1FUL; ( ul_Region_ਮਾਪ <<= 1UL ) )
     {
-        if( ulActualMPURegionSize <= ulRegionSize )
+        ਜੇ( ul_Actual_MPURegion_ਮਾਪ <= ul_Region_ਮਾਪ )
         {
-            break;
+            ਰੋਕੋ;
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
-            ulReturnValue++;
+            ul_Return_ਮੁੱਲ++;
         }
     }
 
     /* Shift the code by one before returning so it can be written directly
      * into the correct bit position of the attribute register. */
-    return ulReturnValue << 1UL;
+    ਵਾਪਸ ul_Return_ਮੁੱਲ << 1UL;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-static void prvSetupMPU( void )
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_MPU( ਖਾਲੀ )
 {
-#if defined( __ARMCC_VERSION )
+#ਜੇ defined( __ARMCC_VERSION )
     /* Declaration when these variable are defined in code. */
     /* Sections used for FLASH. */
-    extern uint32_t * __FLASH_segment_start__;
-    extern uint32_t * __FLASH_segment_end__;
-    extern uint32_t * __privileged_functions_start__;
-    extern uint32_t * __privileged_functions_end__;
+    ਬਾਹਰੀ uint32_t * __FLASH_segment_start__;
+    ਬਾਹਰੀ uint32_t * __FLASH_segment_end__;
+    ਬਾਹਰੀ uint32_t * __privileged_functions_start__;
+    ਬਾਹਰੀ uint32_t * __privileged_functions_end__;
 
     /* Sections used for RAM. */
-    extern uint32_t * __SRAM_segment_start__;
-    extern uint32_t * __SRAM_segment_end__;
-    extern uint32_t * __privileged_data_start__;
-    extern uint32_t * __privileged_data_end__;
-#else
+    ਬਾਹਰੀ uint32_t * __SRAM_segment_start__;
+    ਬਾਹਰੀ uint32_t * __SRAM_segment_end__;
+    ਬਾਹਰੀ uint32_t * __privileged_data_start__;
+    ਬਾਹਰੀ uint32_t * __privileged_data_end__;
+#ਨਹੀਂਤਾਂ
     /* Declaration when these variable are exported from linker scripts. */
     /* Sections used for FLASH. */
-    extern uint32_t __FLASH_segment_start__[];
-    extern uint32_t __FLASH_segment_end__[];
-    extern uint32_t __privileged_functions_start__[];
-    extern uint32_t __privileged_functions_end__[];
+    ਬਾਹਰੀ uint32_t __FLASH_segment_start__[];
+    ਬਾਹਰੀ uint32_t __FLASH_segment_end__[];
+    ਬਾਹਰੀ uint32_t __privileged_functions_start__[];
+    ਬਾਹਰੀ uint32_t __privileged_functions_end__[];
 
     /* Sections used for RAM. */
-    extern uint32_t __SRAM_segment_start__[];
-    extern uint32_t __SRAM_segment_end__[];
-    extern uint32_t __privileged_data_start__[];
-    extern uint32_t __privileged_data_end__[];
-#endif /* if defined( __ARMCC_VERSION ) */
+    ਬਾਹਰੀ uint32_t __SRAM_segment_start__[];
+    ਬਾਹਰੀ uint32_t __SRAM_segment_end__[];
+    ਬਾਹਰੀ uint32_t __privileged_data_start__[];
+    ਬਾਹਰੀ uint32_t __privileged_data_end__[];
+#ਜੇ_ਅੰਤ /* if defined( __ARMCC_VERSION ) */
 
-    uint32_t ulRegionLength;
-    uint32_t ulRegionLengthEncoded;
+    uint32_t ul_Region_ਲੰਮਾਈ;
+    uint32_t ul_Region_ਲੰਮਾਈ_Encoded;
 
     /* Disable the MPU before programming it. */
     vMPUDisable();
 
     /* Priv: RX, Unpriv: RX for entire Flash. */
-    ulRegionLength = ( uint32_t ) __FLASH_segment_end__ - ( uint32_t ) __FLASH_segment_start__;
-    ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
-    vMPUSetRegion( portUNPRIVILEGED_FLASH_REGION,
+    ul_Region_ਲੰਮਾਈ = ( uint32_t ) __FLASH_segment_end__ - ( uint32_t ) __FLASH_segment_start__;
+    ul_Region_ਲੰਮਾਈ_Encoded = prv_Get_MPURegion_ਮਾਪ_Encoding( ul_Region_ਲੰਮਾਈ );
+    vMPUSetRegion( ਪੋਰਟ_UNPRIVILEGED_FLASH_REGION,
                    ( uint32_t ) __FLASH_segment_start__,
-                   ( ulRegionLengthEncoded | portMPU_REGION_ENABLE ),
-                   ( portMPU_REGION_PRIV_RO_USER_RO_EXEC |
-                     portMPU_REGION_NORMAL_OIWTNOWA_SHARED ) );
+                   ( ul_Region_ਲੰਮਾਈ_Encoded | ਪੋਰਟ_MPU_REGION_ENABLE ),
+                   ( ਪੋਰਟ_MPU_REGION_PRIV_RO_USER_RO_EXEC |
+                     ਪੋਰਟ_MPU_REGION_ਸਾਧਾਰਨ_OIWTNOWA_SHARED ) );
 
     /* Priv: RX, Unpriv: No access for privileged functions. */
-    ulRegionLength = ( uint32_t ) __privileged_functions_end__ - ( uint32_t ) __privileged_functions_start__;
-    ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
-    vMPUSetRegion( portPRIVILEGED_FLASH_REGION,
+    ul_Region_ਲੰਮਾਈ = ( uint32_t ) __privileged_functions_end__ - ( uint32_t ) __privileged_functions_start__;
+    ul_Region_ਲੰਮਾਈ_Encoded = prv_Get_MPURegion_ਮਾਪ_Encoding( ul_Region_ਲੰਮਾਈ );
+    vMPUSetRegion( ਪੋਰਟ_PRIVILEGED_FLASH_REGION,
                    ( uint32_t ) __privileged_functions_start__,
-                   ( ulRegionLengthEncoded | portMPU_REGION_ENABLE ),
-                   ( portMPU_REGION_PRIV_RO_USER_NA_EXEC |
-                     portMPU_REGION_NORMAL_OIWTNOWA_SHARED ) );
+                   ( ul_Region_ਲੰਮਾਈ_Encoded | ਪੋਰਟ_MPU_REGION_ENABLE ),
+                   ( ਪੋਰਟ_MPU_REGION_PRIV_RO_USER_NA_EXEC |
+                     ਪੋਰਟ_MPU_REGION_ਸਾਧਾਰਨ_OIWTNOWA_SHARED ) );
 
     /* Priv: RW, Unpriv: No Access for privileged data. */
-    ulRegionLength = ( uint32_t ) __privileged_data_end__ - ( uint32_t ) __privileged_data_start__;
-    ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
-    vMPUSetRegion( portPRIVILEGED_RAM_REGION,
+    ul_Region_ਲੰਮਾਈ = ( uint32_t ) __privileged_data_end__ - ( uint32_t ) __privileged_data_start__;
+    ul_Region_ਲੰਮਾਈ_Encoded = prv_Get_MPURegion_ਮਾਪ_Encoding( ul_Region_ਲੰਮਾਈ );
+    vMPUSetRegion( ਪੋਰਟ_PRIVILEGED_RAM_REGION,
                    ( uint32_t ) __privileged_data_start__,
-                   ( ulRegionLengthEncoded | portMPU_REGION_ENABLE ),
-                   ( portMPU_REGION_PRIV_RW_USER_NA_NOEXEC |
-                     portMPU_REGION_PRIV_RW_USER_NA_NOEXEC ) );
+                   ( ul_Region_ਲੰਮਾਈ_Encoded | ਪੋਰਟ_MPU_REGION_ENABLE ),
+                   ( ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_NA_NOEXEC |
+                     ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_NA_NOEXEC ) );
 
     /* Enable the MPU background region - it allows privileged operating modes
      * access to unmapped regions of memory without generating a fault. */
@@ -570,44 +570,44 @@ static void prvSetupMPU( void )
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xTaskMPURegion,
-                                                const uint32_t ulBufferStart,
-                                                const uint32_t ulBufferLength,
-                                                const uint32_t ulAccessRequested )
+ਸਥਿਰ ਅਧਾਰ_Type_t prv_MPURegion_Authorizes_ਬਫਰ( ਅਚਲ xMPU_REGION_REGISTERS * xTaskMPURegion,
+                                                ਅਚਲ uint32_t ul_ਬਫਰ_ਸ਼ੁਰੂ,
+                                                ਅਚਲ uint32_t ul_ਬਫਰ_ਲੰਮਾਈ,
+                                                ਅਚਲ uint32_t ulAccessRequested )
 {
-    BaseType_t xAccessGranted = pdFALSE;
-    uint32_t ulBufferEnd;
-    uint32_t ulMPURegionLength;
-    uint32_t ulMPURegionStart;
-    uint32_t ulMPURegionEnd;
+    ਅਧਾਰ_Type_t xAccessGranted = pdFALSE;
+    uint32_t ul_ਬਫਰ_ਸਿਰਾ;
+    uint32_t ul_MPURegion_ਲੰਮਾਈ;
+    uint32_t ul_MPURegion_ਸ਼ੁਰੂ;
+    uint32_t ul_MPURegion_ਸਿਰਾ;
     uint32_t ulMPURegionAccessPermissions;
 
-    if( portADD_UINT32_WILL_OVERFLOW( ulBufferStart, ( ulBufferLength - 1UL ) ) == pdFALSE )
+    ਜੇ( ਪੋਰਟ_ਜੋੜੋ_UINT32_WILL_ਉਛਾਲ( ul_ਬਫਰ_ਸ਼ੁਰੂ, ( ul_ਬਫਰ_ਲੰਮਾਈ - 1UL ) ) == pdFALSE )
     {
-        ulBufferEnd = ulBufferStart + ulBufferLength - 1UL;
-        ulMPURegionLength = 2UL << ( xTaskMPURegion->ulRegionSize >> 1UL );
-        ulMPURegionStart = xTaskMPURegion->ulRegionBaseAddress;
-        ulMPURegionEnd = xTaskMPURegion->ulRegionBaseAddress + ulMPURegionLength - 1UL;
+        ul_ਬਫਰ_ਸਿਰਾ = ul_ਬਫਰ_ਸ਼ੁਰੂ + ul_ਬਫਰ_ਲੰਮਾਈ - 1UL;
+        ul_MPURegion_ਲੰਮਾਈ = 2UL << ( xTaskMPURegion->ul_Region_ਮਾਪ >> 1UL );
+        ul_MPURegion_ਸ਼ੁਰੂ = xTaskMPURegion->ul_Region_ਅਧਾਰ_ਪਤਾ;
+        ul_MPURegion_ਸਿਰਾ = xTaskMPURegion->ul_Region_ਅਧਾਰ_ਪਤਾ + ul_MPURegion_ਲੰਮਾਈ - 1UL;
 
-        if( ( ulBufferStart >= ulMPURegionStart ) &&
-            ( ulBufferEnd <= ulMPURegionEnd ) &&
-            ( ulBufferStart <= ulBufferEnd ) )
+        ਜੇ( ( ul_ਬਫਰ_ਸ਼ੁਰੂ >= ul_MPURegion_ਸ਼ੁਰੂ ) &&
+            ( ul_ਬਫਰ_ਸਿਰਾ <= ul_MPURegion_ਸਿਰਾ ) &&
+            ( ul_ਬਫਰ_ਸ਼ੁਰੂ <= ul_ਬਫਰ_ਸਿਰਾ ) )
         {
-            ulMPURegionAccessPermissions = xTaskMPURegion->ulRegionAttribute & portMPU_REGION_AP_BITMASK;
+            ulMPURegionAccessPermissions = xTaskMPURegion->ulRegionAttribute & ਪੋਰਟ_MPU_REGION_AP_BITMASK;
 
-            if( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
+            ਜੇ( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
             {
-                if( ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RO ) ||
-                    ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RO_USER_RO ) ||
-                    ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW ) )
+                ਜੇ( ( ulMPURegionAccessPermissions == ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_RO ) ||
+                    ( ulMPURegionAccessPermissions == ਪੋਰਟ_MPU_REGION_PRIV_RO_USER_RO ) ||
+                    ( ulMPURegionAccessPermissions == ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_RW ) )
 
                 {
                     xAccessGranted = pdTRUE;
                 }
             }
-            else if( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
+            ਨਹੀਂਤਾਂ ਜੇ( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
             {
-                if( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW )
+                ਜੇ( ulMPURegionAccessPermissions == ਪੋਰਟ_MPU_REGION_PRIV_RW_USER_RW )
                 {
                     xAccessGranted = pdTRUE;
                 }
@@ -615,69 +615,69 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
         }
     }
 
-    return xAccessGranted;
+    ਵਾਪਸ xAccessGranted;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
-                                            size_t xBufferLength,
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Authorized_ਮੰਜ਼ਿਲ_Access_ਬਫਰ( ਅਚਲ ਖਾਲੀ * pv_ਬਫਰ,
+                                            size_t x_ਬਫਰ_ਲੰਮਾਈ,
                                             uint32_t ulAccessRequested )
 {
-    BaseType_t xAccessGranted = pdFALSE;
-    uint32_t ulRegionIndex;
-    xMPU_SETTINGS * xTaskMPUSettings = NULL;
+    ਅਧਾਰ_Type_t xAccessGranted = pdFALSE;
+    uint32_t ul_Region_ਸੂਚਕਾਂਕ;
+    xMPU_SETTINGS * xTaskMPUSettings = ਨਿਰਾ;
 
-    if( prvPortSchedulerRunning == pdFALSE )
+    ਜੇ( prv_ਪੋਰਟ_Scheduler_Running == pdFALSE )
     {
         /* Grant access to all the memory before the scheduler is started. It is
          * necessary because there is no task running yet and therefore, we
          * cannot use the permissions of any task. */
         xAccessGranted = pdTRUE;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
         /* Calling task's MPU settings. */
-        xTaskMPUSettings = xTaskGetMPUSettings( NULL );
+        xTaskMPUSettings = xTaskGetMPUSettings( ਨਿਰਾ );
 
-        if( ( xTaskMPUSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        ਜੇ( ( xTaskMPUSettings->ulTaskFlags & ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG ) == ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG )
         {
             /* Privileged tasks have access to all the memory. */
             xAccessGranted = pdTRUE;
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
-            for( ulRegionIndex = 0x0UL; ulRegionIndex < portTOTAL_NUM_REGIONS_IN_TCB; ulRegionIndex++ )
+            ਲਈ( ul_Region_ਸੂਚਕਾਂਕ = 0x0UL; ul_Region_ਸੂਚਕਾਂਕ < ਪੋਰਟ_ਕੁੱਲ_ਅੰਕ_REGIONS_ਵਿੱਚ_TCB; ul_Region_ਸੂਚਕਾਂਕ++ )
             {
-                xAccessGranted = prvMPURegionAuthorizesBuffer( &( xTaskMPUSettings->xRegion[ ulRegionIndex ] ),
-                                                               ( uint32_t ) pvBuffer,
-                                                               ( uint32_t ) xBufferLength,
+                xAccessGranted = prv_MPURegion_Authorizes_ਬਫਰ( &( xTaskMPUSettings->xRegion[ ul_Region_ਸੂਚਕਾਂਕ ] ),
+                                                               ( uint32_t ) pv_ਬਫਰ,
+                                                               ( uint32_t ) x_ਬਫਰ_ਲੰਮਾਈ,
                                                                ulAccessRequested );
 
-                if( xAccessGranted == pdTRUE )
+                ਜੇ( xAccessGranted == pdTRUE )
                 {
-                    break;
+                    ਰੋਕੋ;
                 }
             }
         }
     }
 
-    return xAccessGranted;
+    ਵਾਪਸ xAccessGranted;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#ਜੇ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Authorized_ਮੰਜ਼ਿਲ_Access_Kernel_Object( int32_t l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object )
 {
-    uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
-    BaseType_t xAccessGranted = pdFALSE;
-    const xMPU_SETTINGS * xTaskMpuSettings;
+    uint32_t ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ, ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ;
+    ਅਧਾਰ_Type_t xAccessGranted = pdFALSE;
+    ਅਚਲ xMPU_SETTINGS * xTaskMpuSettings;
 
-    if( prvPortSchedulerRunning == pdFALSE )
+    ਜੇ( prv_ਪੋਰਟ_Scheduler_Running == pdFALSE )
     {
         /* Grant access to all the kernel objects before the scheduler
          * is started. It is necessary because there is no task running
@@ -685,96 +685,96 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
          * task. */
         xAccessGranted = pdTRUE;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
         /* Calling task's MPU settings. */
-        xTaskMpuSettings = xTaskGetMPUSettings( NULL );
+        xTaskMpuSettings = xTaskGetMPUSettings( ਨਿਰਾ );
 
-        ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject
-                                          / portACL_ENTRY_SIZE_BITS );
-        ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject
-                                        % portACL_ENTRY_SIZE_BITS );
+        ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ = ( ( uint32_t ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object
+                                          / ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ );
+        ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ = ( ( uint32_t ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object
+                                        % ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ );
 
-        if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        ਜੇ( ( xTaskMpuSettings->ulTaskFlags & ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG ) == ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        ਨਹੀਂਤਾਂ
         {
-            if( ( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] ) &
-                  ( 1U << ulAccessControlListEntryBit ) ) != 0UL )
+            ਜੇ( ( ( xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ ] ) &
+                  ( 1U << ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ ) ) != 0UL )
             {
                 xAccessGranted = pdTRUE;
             }
         }
     }
 
-    return xAccessGranted;
+    ਵਾਪਸ xAccessGranted;
 }
 
-#else
+#ਨਹੀਂਤਾਂ
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Authorized_ਮੰਜ਼ਿਲ_Access_Kernel_Object( int32_t l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object )
 {
-    ( void ) lInternalIndexOfKernelObject;
+    ( ਖਾਲੀ ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object;
 
     /* If Access Control List feature is not used, all the tasks have
      * access to all the kernel objects. */
-    return pdTRUE;
+    ਵਾਪਸ pdTRUE;
 }
 
-#endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+#ਜੇ_ਅੰਤ /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#ਜੇ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
-void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                     int32_t lInternalIndexOfKernelObject )
+ਖਾਲੀ v_ਪੋਰਟ_Grant_Access_ਮੰਜ਼ਿਲ_Kernel_Object( TaskHandle_t x_ਅੰਦਰੂਨੀ_Task_Handle,
+                                     int32_t l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object )
 {
-    uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+    uint32_t ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ, ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ;
     xMPU_SETTINGS * xTaskMpuSettings;
 
-    ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject
-                                      / portACL_ENTRY_SIZE_BITS );
-    ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject
-                                    % portACL_ENTRY_SIZE_BITS );
+    ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ = ( ( uint32_t ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object
+                                      / ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ );
+    ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ = ( ( uint32_t ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object
+                                    % ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ );
 
-    xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+    xTaskMpuSettings = xTaskGetMPUSettings( x_ਅੰਦਰੂਨੀ_Task_Handle );
 
-    xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] |= ( 1U << ulAccessControlListEntryBit );
+    xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ ] |= ( 1U << ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ );
 }
 
-#endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+#ਜੇ_ਅੰਤ /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#ਜੇ( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
-void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
-                                      int32_t lInternalIndexOfKernelObject )
+ਖਾਲੀ v_ਪੋਰਟ_Revoke_Access_ਮੰਜ਼ਿਲ_Kernel_Object( TaskHandle_t x_ਅੰਦਰੂਨੀ_Task_Handle,
+                                      int32_t l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object )
 {
-    uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
+    uint32_t ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ, ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ;
     xMPU_SETTINGS * xTaskMpuSettings;
 
-    ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject
-                                      / portACL_ENTRY_SIZE_BITS );
-    ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject
-                                    % portACL_ENTRY_SIZE_BITS );
+    ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ = ( ( uint32_t ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object
+                                      / ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ );
+    ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ = ( ( uint32_t ) l_ਅੰਦਰੂਨੀ_ਸੂਚਕਾਂਕ_ਦਾ_Kernel_Object
+                                    % ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ );
 
-    xTaskMpuSettings = xTaskGetMPUSettings( xInternalTaskHandle );
+    xTaskMpuSettings = xTaskGetMPUSettings( x_ਅੰਦਰੂਨੀ_Task_Handle );
 
-    xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] &= ~( 1U << ulAccessControlListEntryBit );
+    xTaskMpuSettings->ulAccessControlList[ ul_Access_Control_List_ਇੰਦਰਾਜ_ਸੂਚਕਾਂਕ ] &= ~( 1U << ul_Access_Control_List_ਇੰਦਰਾਜ_ਦੋਆਧਾਰੀ_ਅੰਕ );
 }
 
-#endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
+#ਜੇ_ਅੰਤ /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
 /* ----------------------------------------------------------------------------------- */
 
-void prvTaskExitError( void )
+ਖਾਲੀ prvTaskExitError( ਖਾਲੀ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
@@ -782,29 +782,29 @@ void prvTaskExitError( void )
      *
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error. */
-    configASSERT( ulPortInterruptNesting == ~0UL );
+    configASSERT( ul_ਪੋਰਟ_ਰੁਕਾਵਟ_Nesting == ~0UL );
 
-    for( ;; )
+    ਲਈ( ;; )
     {
     }
 }
 
 /* ----------------------------------------------------------------------------------- */
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
-    prvPortSchedulerRunning = pdFALSE;
+    prv_ਪੋਰਟ_Scheduler_Running = pdFALSE;
 
     /* Not implemented in this port. Artificially force an assert. */
-    configASSERT( prvPortSchedulerRunning == pdTRUE );
+    configASSERT( prv_ਪੋਰਟ_Scheduler_Running == pdTRUE );
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-void vPortEnterCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ )
 {
-    portDISABLE_INTERRUPTS();
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
 
     /* Now that interrupts are disabled, ulCriticalNesting can be accessed
      * directly.  Increment ulCriticalNesting to keep a count of how many times
@@ -816,17 +816,17 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert
      * if the critical nesting count is 1 to protect against recursive calls if
      * the assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    ਜੇ( ulCriticalNesting == 1 )
     {
-        configASSERT( ulPortInterruptNesting == 0 );
+        configASSERT( ul_ਪੋਰਟ_ਰੁਕਾਵਟ_Nesting == 0 );
     }
 }
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-void vPortExitCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ਜੇ( ulCriticalNesting > ਪੋਰਟ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -834,11 +834,11 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ਜੇ( ulCriticalNesting == ਪੋਰਟ_NO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
-            portENABLE_INTERRUPTS();
+            ਪੋਰਟ_ENABLE_INTERRUPTS();
         }
     }
 }

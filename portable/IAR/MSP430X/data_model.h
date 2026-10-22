@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਅੰਕੜੇ_MODEL_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਅੰਕੜੇ_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#ਜੇ __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ pushm_x    pushm.w
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ popm_x     popm.w
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਧੱਕੋ_x     ਧੱਕੋ.w
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੱਢੋ_x      ਕੱਢੋ.w
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ mov_x      mov.w
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cmp_x      cmp.w
+#ਜੇ_ਅੰਤ
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#ਜੇ __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ pushm_x    pushm.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ popm_x     popm.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਧੱਕੋ_x     pushx.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੱਢੋ_x      popx.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ mov_x      mov.w
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cmp_x      cmp.w
+#ਜੇ_ਅੰਤ
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#ਜੇ __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ pushm_x    pushm.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ popm_x     popm.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਧੱਕੋ_x     pushx.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਕੱਢੋ_x      popx.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ mov_x      movx.a
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cmp_x      cmpx.a
+#ਜੇ_ਅੰਤ
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ pushm_x
+    #ਗਲਤੀ The assembler options must define one ਦਾ the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#ਜੇ_ਅੰਤ
 
-#endif /* DATA_MODEL_H */
+#ਜੇ_ਅੰਤ /* DATA_MODEL_H */

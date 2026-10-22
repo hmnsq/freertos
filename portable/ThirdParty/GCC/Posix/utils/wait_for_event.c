@@ -26,13 +26,13 @@
  *
  */
 
-#include <pthread.h>
-#include <stdlib.h>
-#include <errno.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <pthread.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <errno.h>
 
-#include "wait_for_event.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "wait_for_event.h"
 
-struct event
+ਬਣਤਰ event
 {
     pthread_mutex_t mutex;
     pthread_mutexattr_t mutexattr;
@@ -41,96 +41,96 @@ struct event
 };
 /*-----------------------------------------------------------*/
 
-struct event * event_create( void )
+ਬਣਤਰ event * event_create( ਖਾਲੀ )
 {
-    struct event * ev = malloc( sizeof( struct event ) );
+    ਬਣਤਰ event * ev = ਸਮ੍ਰਿਤੀ_ਦਿਓ( ਆਕਾਰ( ਬਣਤਰ event ) );
 
-    if( ev != NULL )
+    ਜੇ( ev != ਨਿਰਾ )
     {
         ev->event_triggered = false;
         pthread_mutexattr_init( &ev->mutexattr );
-        #ifndef __APPLE__
+        #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __APPLE__
             pthread_mutexattr_setrobust( &ev->mutexattr, PTHREAD_MUTEX_ROBUST );
-        #endif
+        #ਜੇ_ਅੰਤ
         pthread_mutex_init( &ev->mutex, &ev->mutexattr );
-        pthread_cond_init( &ev->cond, NULL );
+        pthread_cond_init( &ev->cond, ਨਿਰਾ );
     }
 
-    return ev;
+    ਵਾਪਸ ev;
 }
 /*-----------------------------------------------------------*/
 
-void event_delete( struct event * ev )
+ਖਾਲੀ event_delete( ਬਣਤਰ event * ev )
 {
     pthread_mutex_destroy( &ev->mutex );
     pthread_mutexattr_destroy( &ev->mutexattr );
     pthread_cond_destroy( &ev->cond );
-    free( ev );
+    ਮੁਕਤ( ev );
 }
 /*-----------------------------------------------------------*/
 
-bool event_wait( struct event * ev )
+bool event_wait( ਬਣਤਰ event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ਜੇ( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
-        #ifndef __APPLE__
+        #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
             pthread_mutex_consistent( &ev->mutex );
-        #endif
+        #ਜੇ_ਅੰਤ
     }
 
-    while( ev->event_triggered == false )
+    ਜਦੋਂ( ev->event_triggered == false )
     {
         pthread_cond_wait( &ev->cond, &ev->mutex );
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    ਵਾਪਸ true;
 }
 /*-----------------------------------------------------------*/
 
-bool event_wait_timed( struct event * ev,
+bool event_wait_timed( ਬਣਤਰ event * ev,
                        time_t ms )
 {
-    struct timespec ts;
-    int ret = 0;
+    ਬਣਤਰ timespec ts;
+    ਪੂਰਨ ret = 0;
 
     clock_gettime( CLOCK_REALTIME, &ts );
     ts.tv_sec += ms / 1000;
     ts.tv_nsec += ( ( ms % 1000 ) * 1000000 );
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ਜੇ( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
-        #ifndef __APPLE__
+        #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
             pthread_mutex_consistent( &ev->mutex );
-        #endif
+        #ਜੇ_ਅੰਤ
     }
 
-    while( ( ev->event_triggered == false ) && ( ret == 0 ) )
+    ਜਦੋਂ( ( ev->event_triggered == false ) && ( ret == 0 ) )
     {
         ret = pthread_cond_timedwait( &ev->cond, &ev->mutex, &ts );
 
-        if( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
+        ਜੇ( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
         {
-            return false;
+            ਵਾਪਸ false;
         }
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    ਵਾਪਸ true;
 }
 /*-----------------------------------------------------------*/
 
-void event_signal( struct event * ev )
+ਖਾਲੀ event_signal( ਬਣਤਰ event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ਜੇ( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
-        #ifndef __APPLE__
+        #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
             pthread_mutex_consistent( &ev->mutex );
-        #endif
+        #ਜੇ_ਅੰਤ
     }
     ev->event_triggered = true;
     pthread_cond_signal( &ev->cond );

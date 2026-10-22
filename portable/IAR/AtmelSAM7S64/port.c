@@ -32,32 +32,32 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
 /* Constants required to setup the initial stack. */
-#define portINITIAL_SPSR           ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT         ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE       ( ( StackType_t ) 4 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SPSR           ( ( ਢੇਰ_Type_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_THUMB_ਬਹੁਲਕ_ਦੋਆਧਾਰੀ_ਅੰਕ         ( ( ਢੇਰ_Type_t ) 0x20 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INSTRUCTION_ਮਾਪ       ( ( ਢੇਰ_Type_t ) 4 )
 
 /* Constants required to setup the PIT. */
-#define portPIT_CLOCK_DIVISOR      ( ( uint32_t ) 16 )
-#define portPIT_COUNTER_VALUE      ( ( ( configCPU_CLOCK_HZ / portPIT_CLOCK_DIVISOR ) / 1000UL ) * portTICK_PERIOD_MS )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PIT_CLOCK_ਭਾਜਕ      ( ( uint32_t ) 16 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PIT_COUNTER_ਮੁੱਲ      ( ( ( configCPU_CLOCK_HZ / ਪੋਰਟ_PIT_CLOCK_ਭਾਜਕ ) / 1000UL ) * ਪੋਰਟ_TICK_PERIOD_MS )
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
 
-#define portINT_LEVEL_SENSITIVE    0
-#define portPIT_ENABLE             ( ( uint16_t ) 0x1 << 24 )
-#define portPIT_INT_ENABLE         ( ( uint16_t ) 0x1 << 25 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INT_LEVEL_SENSITIVE    0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PIT_ENABLE             ( ( uint16_t ) 0x1 << 24 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PIT_INT_ENABLE         ( ( uint16_t ) 0x1 << 25 )
 /*-----------------------------------------------------------*/
 
 /* Setup the PIT to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ );
 
 /* ulCriticalNesting will get set to zero when the first task starts.  It
  * cannot be initialised to 0 as this will cause interrupts to be enabled
@@ -72,17 +72,17 @@ uint32_t ulCriticalNesting = ( uint32_t ) 9999;
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    ਢੇਰ_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -90,92 +90,92 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) px_ਕੋਡ + ਪੋਰਟ_INSTRUCTION_ਮਾਪ;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x12121212;    /* R12 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x11111111;    /* R11 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x10101010;    /* R10 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x09090909;    /* R9 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x08080808;    /* R8 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x07070707;    /* R7 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x06060606;    /* R6 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x05050505;    /* R5 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x04040404;    /* R4 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x03030303;    /* R3 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x02020202;    /* R2 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x01010101;    /* R1 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pvParameters; /* R0 */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* The status register is set for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) ਪੋਰਟ_INITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    ਜੇ( ( ( uint32_t ) px_ਕੋਡ & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_ਸਿਖਰ_ਦਾ_ਢੇਰ |= ਪੋਰਟ_THUMB_ਬਹੁਲਕ_ਦੋਆਧਾਰੀ_ਅੰਕ;
     }
 
-    pxTopOfStack--;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ਪੋਰਟ_NO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-    extern void vPortStartFirstTask( void );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ();
 
     /* Start the first task. */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
     /* Should not get here! */
-    return 0;
+    ਵਾਪਸ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#ਜੇ configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
-    static __arm __irq void vPortNonPreemptiveTick( void );
-    static __arm __irq void vPortNonPreemptiveTick( void )
+    ਸਥਿਰ __arm __irq ਖਾਲੀ v_ਪੋਰਟ_Non_Preemptive_Tick( ਖਾਲੀ );
+    ਸਥਿਰ __arm __irq ਖਾਲੀ v_ਪੋਰਟ_Non_Preemptive_Tick( ਖਾਲੀ )
     {
         uint32_t ulDummy;
 
@@ -185,44 +185,44 @@ void vPortEndScheduler( void )
         xTaskIncrementTick();
 
         /* Clear the PIT interrupt. */
-        ulDummy = AT91C_BASE_PITC->PITC_PIVR;
+        ulDummy = AT91_C_ਅਧਾਰ_PITC->PITC_PIVR;
 
         /* End the interrupt in the AIC. */
-        AT91C_BASE_AIC->AIC_EOICR = ulDummy;
+        AT91_C_ਅਧਾਰ_AIC->AIC_EOICR = ulDummy;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#ਨਹੀਂਤਾਂ /* if configUSE_PREEMPTION == 0 */
 
 /* Currently the IAR port requires the preemptive tick function to be
  * defined in an asm file. */
 
-#endif /* if configUSE_PREEMPTION == 0 */
+#ਜੇ_ਅੰਤ /* if configUSE_PREEMPTION == 0 */
 
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ਸਥਿਰ ਖਾਲੀ prv_ਤਿਆਰੀ_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-    AT91PS_PITC pxPIT = AT91C_BASE_PITC;
+    AT91PS_PITC pxPIT = AT91_C_ਅਧਾਰ_PITC;
 
     /* Setup the AIC for PIT interrupts.  The interrupt routine chosen depends
      * on whether the preemptive or cooperative scheduler is being used. */
-    #if configUSE_PREEMPTION == 0
-        AT91F_AIC_ConfigureIt( AT91C_BASE_AIC, AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPortNonPreemptiveTick );
-    #else
-        extern void( vPortPreemptiveTick )( void );
-        AT91F_AIC_ConfigureIt( AT91C_BASE_AIC, AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPortPreemptiveTick );
-    #endif
+    #ਜੇ configUSE_PREEMPTION == 0
+        AT91F_AIC_ConfigureIt( AT91_C_ਅਧਾਰ_AIC, AT91C_ID_SYS, AT91_C_AIC_ਪੂਰਵ_HIGHEST, ਪੋਰਟ_INT_LEVEL_SENSITIVE, ( ਖਾਲੀ ( * )( ਖਾਲੀ ) )v_ਪੋਰਟ_Non_Preemptive_Tick );
+    #ਨਹੀਂਤਾਂ
+        ਬਾਹਰੀ ਖਾਲੀ( v_ਪੋਰਟ_Preemptive_Tick )( ਖਾਲੀ );
+        AT91F_AIC_ConfigureIt( AT91_C_ਅਧਾਰ_AIC, AT91C_ID_SYS, AT91_C_AIC_ਪੂਰਵ_HIGHEST, ਪੋਰਟ_INT_LEVEL_SENSITIVE, ( ਖਾਲੀ ( * )( ਖਾਲੀ ) )v_ਪੋਰਟ_Preemptive_Tick );
+    #ਜੇ_ਅੰਤ
 
     /* Configure the PIT period. */
-    pxPIT->PITC_PIMR = portPIT_ENABLE | portPIT_INT_ENABLE | portPIT_COUNTER_VALUE;
+    pxPIT->PITC_PIMR = ਪੋਰਟ_PIT_ENABLE | ਪੋਰਟ_PIT_INT_ENABLE | ਪੋਰਟ_PIT_COUNTER_ਮੁੱਲ;
 
     /* Enable the interrupt.  Global interrupts are disabled at this point so
      * this is safe. */
-    AT91F_AIC_EnableIt( AT91C_BASE_AIC, AT91C_ID_SYS );
+    AT91F_AIC_EnableIt( AT91_C_ਅਧਾਰ_AIC, AT91C_ID_SYS );
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ )
 {
     /* Disable interrupts first! */
     __disable_interrupt();
@@ -234,16 +234,16 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ਜੇ( ulCriticalNesting > ਪੋਰਟ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ਜੇ( ulCriticalNesting == ਪੋਰਟ_NO_CRITICAL_NESTING )
         {
             __enable_interrupt();
         }

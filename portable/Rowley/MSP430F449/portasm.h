@@ -26,47 +26,47 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਪੋਰਟ_ASM_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASM_H
 
-portSAVE_CONTEXT macro
+ਪੋਰਟ_SAVE_CONTEXT macro
                 /* Save the remaining registers. */
-        push    r4
-        push    r5
-        push    r6
-        push    r7
-        push    r8
-        push    r9
-        push    r10
-        push    r11
-        push    r12
-        push    r13
-        push    r14
-        push    r15
+        ਧੱਕੋ    r4
+        ਧੱਕੋ    r5
+        ਧੱਕੋ    r6
+        ਧੱਕੋ    r7
+        ਧੱਕੋ    r8
+        ਧੱਕੋ    r9
+        ਧੱਕੋ    r10
+        ਧੱਕੋ    r11
+        ਧੱਕੋ    r12
+        ਧੱਕੋ    r13
+        ਧੱਕੋ    r14
+        ਧੱਕੋ    r15
         mov.w   &_usCriticalNesting, r14
-        push    r14
+        ਧੱਕੋ    r14
         mov.w   &_pxCurrentTCB, r12
         mov.w   r1, @r12
         endm
 /*-----------------------------------------------------------*/
 
-portRESTORE_CONTEXT macro
+ਪੋਰਟ_RESTORE_CONTEXT macro
         mov.w   &_pxCurrentTCB, r12
         mov.w   @r12, r1
-        pop     r15
+        ਕੱਢੋ     r15
         mov.w   r15, &_usCriticalNesting
-        pop     r15
-        pop     r14
-        pop     r13
-        pop     r12
-        pop     r11
-        pop     r10
-        pop     r9
-        pop     r8
-        pop     r7
-        pop     r6
-        pop     r5
-        pop     r4
+        ਕੱਢੋ     r15
+        ਕੱਢੋ     r14
+        ਕੱਢੋ     r13
+        ਕੱਢੋ     r12
+        ਕੱਢੋ     r11
+        ਕੱਢੋ     r10
+        ਕੱਢੋ     r9
+        ਕੱਢੋ     r8
+        ਕੱਢੋ     r7
+        ਕੱਢੋ     r6
+        ਕੱਢੋ     r5
+        ਕੱਢੋ     r4
 
         /* The last thing on the stack will be the status register.
                 Ensure the power down bits are clear ready for the next
@@ -77,4 +77,4 @@ portRESTORE_CONTEXT macro
         endm
 /*-----------------------------------------------------------*/
 
-#endif
+#ਜੇ_ਅੰਤ

@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -45,35 +45,35 @@
  *-----------------------------------------------------------
  */
 
-#include <avr/wdt.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <avr/wdt.h>
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                int
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR                 ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT                ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE               ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG                 ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT                ਪੂਰਨ
 
-#define portPOINTER_SIZE_TYPE    uint16_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੂਚਕ_ਮਾਪ_TYPE    uint16_t
 
-typedef uint8_t        StackType_t;
-typedef int8_t         BaseType_t;
-typedef uint8_t        UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint8_t        ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ int8_t         ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint8_t        UBaseType_t;
 
-#if configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS
-    typedef uint16_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ਜੇ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t   TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t   TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-#define portENTER_CRITICAL()                        \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                        \
     __asm__ __volatile__ (                          \
         "in __tmp_reg__, __SREG__"        "\n\t"    \
         "cli"                             "\n\t"    \
@@ -82,7 +82,7 @@ typedef uint8_t        UBaseType_t;
         )
 
 
-#define portEXIT_CRITICAL()                         \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                         \
     __asm__ __volatile__ (                          \
         "pop __tmp_reg__"                 "\n\t"    \
         "out __SREG__, __tmp_reg__"       "\n\t"    \
@@ -90,8 +90,8 @@ typedef uint8_t        UBaseType_t;
         )
 
 
-#define portDISABLE_INTERRUPTS()    __asm__ __volatile__ ( "cli" ::: "memory" )
-#define portENABLE_INTERRUPTS()     __asm__ __volatile__ ( "sei" ::: "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    __asm__ __volatile__ ( "cli" ::: "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     __asm__ __volatile__ ( "sei" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
@@ -100,9 +100,9 @@ typedef uint8_t        UBaseType_t;
  * Prefer to use the enhanced Watchdog Timer, but also Timer0 is ok.
  */
 
-#if defined( WDIE ) && defined( WDIF ) /* If Enhanced WDT with interrupt capability is available */
+#ਜੇ defined( WDIE ) && defined( WDIF ) /* If Enhanced WDT with interrupt capability is available */
 
-    #define portUSE_WDTO    WDTO_15MS  /* use the Watchdog Timer for xTaskIncrementTick */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_USE_WDTO    WDTO_15MS  /* use the Watchdog Timer for xTaskIncrementTick */
 
 /* Watchdog period options:         WDTO_15MS
  *                                  WDTO_30MS
@@ -114,54 +114,54 @@ typedef uint8_t        UBaseType_t;
  *                                  WDTO_2S
  */
 
-#else
+#ਨਹੀਂਤਾਂ
 
-    #define portUSE_TIMER0    /* use the 8-bit Timer0 for xTaskIncrementTick */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_USE_TIMER0    /* use the 8-bit Timer0 for xTaskIncrementTick */
 
-#endif
+#ਜੇ_ਅੰਤ
 
-#define portSTACK_GROWTH    ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH    ( -1 )
 
 /* Timing for the scheduler.
  * Watchdog Timer is 128kHz nominal,
  * but 120 kHz at 5V DC and 25 degrees is actually more accurate,
  * from data sheet.
  */
-#if defined( portUSE_WDTO )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) _BV( portUSE_WDTO + 4 ) )
-#else
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#endif
+#ਜੇ defined( ਪੋਰਟ_USE_WDTO )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) _BV( ਪੋਰਟ_USE_WDTO + 4 ) )
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਜੇ_ਅੰਤ
 
-#define portBYTE_ALIGNMENT        1
-#define portNOP()    __asm__ __volatile__ ( "nop" );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT        1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()    __asm__ __volatile__ ( "nop" );
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-extern void vPortYield( void )      __attribute__( ( naked ) );
-#define portYIELD()             vPortYield()
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ )      __attribute__( ( naked ) );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()             v_ਪੋਰਟ_Yield()
 
-extern void vPortYieldFromISR( void )   __attribute__( ( naked ) );
-#define portYIELD_FROM_ISR()    vPortYieldFromISR()
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Yield_From_ISR( ਖਾਲੀ )   __attribute__( ( naked ) );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR()    v_ਪੋਰਟ_Yield_From_ISR()
 /*-----------------------------------------------------------*/
 
-#if defined( __AVR_3_BYTE_PC__ )
+#ਜੇ defined( __AVR_3_BYTE_PC__ )
 /* Task function macros as described on the FreeRTOS.org WEB site. */
 
 /* Add .lowtext tag from the avr linker script avr6.x for ATmega2560 and ATmega2561
  * to make sure functions are loaded in low memory.
  */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( section( ".lowtext" ) ) )
-#else
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters ) __attribute__( ( section( ".lowtext" ) ) )
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਜੇ_ਅੰਤ
 
-#define portTASK_FUNCTION( vFunction, pvParameters )              void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )              ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

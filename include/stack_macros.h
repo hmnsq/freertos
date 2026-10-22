@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef STACK_MACROS_H
-#define STACK_MACROS_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਢੇਰ_MACROS_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਢੇਰ_MACROS_H
 
 /*
  * Call the stack overflow hook function if the stack of the task being swapped
@@ -49,9 +49,9 @@
  * portSTACK_LIMIT_PADDING is a number of extra words to consider to be in
  * use on the stack.
  */
-#ifndef portSTACK_LIMIT_PADDING
-    #define portSTACK_LIMIT_PADDING    0
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਪੋਰਟ_ਢੇਰ_ਹੱਦਬੰਦੀ_PADDING
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_ਹੱਦਬੰਦੀ_PADDING    0
+#ਜੇ_ਅੰਤ
 
 /* Stack overflow check is not straight forward to implement for MPU ports
  * because of the following reasons:
@@ -64,92 +64,92 @@
  * Additionally, architectures with hardware stack overflow checking support
  * (such as Armv8-M) will trigger a fault when a task's stack overflows.
  */
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ਜੇ ( ( config_CHECK_FOR_ਢੇਰ_ਉਛਾਲ == 1 ) && ( ਪੋਰਟ_ਢੇਰ_GROWTH < 0 ) && ( ਪੋਰਟ_USING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                      \
-    do                                                                                          \
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ task_CHECK_FOR_ਢੇਰ_ਉਛਾਲ()                                                      \
+    ਕਰੋ                                                                                          \
     {                                                                                           \
         /* Is the currently saved stack pointer within the stack limit? */                      \
-        if( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING )     \
+        ਜੇ( pxCurrentTCB->px_ਸਿਖਰ_ਦਾ_ਢੇਰ <= pxCurrentTCB->px_ਢੇਰ + ਪੋਰਟ_ਢੇਰ_ਹੱਦਬੰਦੀ_PADDING )     \
         {                                                                                       \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
+            ਅੱਖਰ * pc_ਉਛਾਲ_Task_Name = pxCurrentTCB->pcTaskName;                               \
+            v_Application_ਢੇਰ_ਉਛਾਲ_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_ਉਛਾਲ_Task_Name ); \
         }                                                                                       \
-    } while( 0 )
+    } ਜਦੋਂ( 0 )
 
-#endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
+#ਜੇ_ਅੰਤ /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ਜੇ ( ( config_CHECK_FOR_ਢੇਰ_ਉਛਾਲ == 1 ) && ( ਪੋਰਟ_ਢੇਰ_GROWTH > 0 ) && ( ਪੋਰਟ_USING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ task_CHECK_FOR_ਢੇਰ_ਉਛਾਲ()                                                       \
+    ਕਰੋ                                                                                           \
     {                                                                                            \
         /* Is the currently saved stack pointer within the stack limit? */                       \
-        if( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) \
+        ਜੇ( pxCurrentTCB->px_ਸਿਖਰ_ਦਾ_ਢੇਰ >= pxCurrentTCB->px_ਸਿਰਾ_ਦਾ_ਢੇਰ - ਪੋਰਟ_ਢੇਰ_ਹੱਦਬੰਦੀ_PADDING ) \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            ਅੱਖਰ * pc_ਉਛਾਲ_Task_Name = pxCurrentTCB->pcTaskName;                                \
+            v_Application_ਢੇਰ_ਉਛਾਲ_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_ਉਛਾਲ_Task_Name );  \
         }                                                                                        \
-    } while( 0 )
+    } ਜਦੋਂ( 0 )
 
-#endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
+#ਜੇ_ਅੰਤ /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ਜੇ ( ( config_CHECK_FOR_ਢੇਰ_ਉਛਾਲ > 1 ) && ( ਪੋਰਟ_ਢੇਰ_GROWTH < 0 ) && ( ਪੋਰਟ_USING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ task_CHECK_FOR_ਢੇਰ_ਉਛਾਲ()                                                       \
+    ਕਰੋ                                                                                           \
     {                                                                                            \
-        const uint32_t * const pulStack = ( uint32_t * ) pxCurrentTCB->pxStack;                  \
-        const uint32_t ulCheckValue = ( uint32_t ) 0xa5a5a5a5U;                                  \
+        ਅਚਲ uint32_t * ਅਚਲ pul_ਢੇਰ = ( uint32_t * ) pxCurrentTCB->px_ਢੇਰ;                  \
+        ਅਚਲ uint32_t ul_Check_ਮੁੱਲ = ( uint32_t ) 0xa5a5a5a5U;                                  \
                                                                                                  \
-        if( ( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING ) || \
-            ( pulStack[ 0 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 1 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 2 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 3 ] != ulCheckValue ) )                                                  \
+        ਜੇ( ( pxCurrentTCB->px_ਸਿਖਰ_ਦਾ_ਢੇਰ <= pxCurrentTCB->px_ਢੇਰ + ਪੋਰਟ_ਢੇਰ_ਹੱਦਬੰਦੀ_PADDING ) || \
+            ( pul_ਢੇਰ[ 0 ] != ul_Check_ਮੁੱਲ ) ||                                                 \
+            ( pul_ਢੇਰ[ 1 ] != ul_Check_ਮੁੱਲ ) ||                                                 \
+            ( pul_ਢੇਰ[ 2 ] != ul_Check_ਮੁੱਲ ) ||                                                 \
+            ( pul_ਢੇਰ[ 3 ] != ul_Check_ਮੁੱਲ ) )                                                  \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            ਅੱਖਰ * pc_ਉਛਾਲ_Task_Name = pxCurrentTCB->pcTaskName;                                \
+            v_Application_ਢੇਰ_ਉਛਾਲ_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_ਉਛਾਲ_Task_Name );  \
         }                                                                                        \
-    } while( 0 )
+    } ਜਦੋਂ( 0 )
 
-#endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
+#ਜੇ_ਅੰਤ /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#ਜੇ ( ( config_CHECK_FOR_ਢੇਰ_ਉਛਾਲ > 1 ) && ( ਪੋਰਟ_ਢੇਰ_GROWTH > 0 ) && ( ਪੋਰਟ_USING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                                                                \
-    do                                                                                                                                    \
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ task_CHECK_FOR_ਢੇਰ_ਉਛਾਲ()                                                                                                \
+    ਕਰੋ                                                                                                                                    \
     {                                                                                                                                     \
-        int8_t * pcEndOfStack = ( int8_t * ) pxCurrentTCB->pxEndOfStack;                                                                  \
-        static const uint8_t ucExpectedStackBytes[] = { tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE }; \
+        int8_t * pc_ਸਿਰਾ_ਦਾ_ਢੇਰ = ( int8_t * ) pxCurrentTCB->px_ਸਿਰਾ_ਦਾ_ਢੇਰ;                                                                  \
+        ਸਥਿਰ ਅਚਲ uint8_t uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ[] = { tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE,   \
+                                                        tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE,   \
+                                                        tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE,   \
+                                                        tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE,   \
+                                                        tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE, tsk_ਢੇਰ_FILL_BYTE }; \
                                                                                                                                           \
-        pcEndOfStack -= sizeof( ucExpectedStackBytes );                                                                                   \
+        pc_ਸਿਰਾ_ਦਾ_ਢੇਰ -= ਆਕਾਰ( uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ );                                                                                   \
                                                                                                                                           \
-        if( ( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) ||                                     \
-            ( memcmp( ( void * ) pcEndOfStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) != 0 ) )                 \
+        ਜੇ( ( pxCurrentTCB->px_ਸਿਖਰ_ਦਾ_ਢੇਰ >= pxCurrentTCB->px_ਸਿਰਾ_ਦਾ_ਢੇਰ - ਪੋਰਟ_ਢੇਰ_ਹੱਦਬੰਦੀ_PADDING ) ||                                     \
+            ( memcmp( ( ਖਾਲੀ * ) pc_ਸਿਰਾ_ਦਾ_ਢੇਰ, ( ਖਾਲੀ * ) uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ, ਆਕਾਰ( uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ ) ) != 0 ) )                 \
         {                                                                                                                                 \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
+            ਅੱਖਰ * pc_ਉਛਾਲ_Task_Name = pxCurrentTCB->pcTaskName;                                                                         \
+            v_Application_ਢੇਰ_ਉਛਾਲ_Hook( ( TaskHandle_t ) pxCurrentTCB, pc_ਉਛਾਲ_Task_Name );                                           \
         }                                                                                                                                 \
-    } while( 0 )
+    } ਜਦੋਂ( 0 )
 
-#endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
+#ਜੇ_ਅੰਤ /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Remove stack overflow macro if not being used. */
-#ifndef taskCHECK_FOR_STACK_OVERFLOW
-    #define taskCHECK_FOR_STACK_OVERFLOW()
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ task_CHECK_FOR_ਢੇਰ_ਉਛਾਲ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ task_CHECK_FOR_ਢੇਰ_ਉਛਾਲ()
+#ਜੇ_ਅੰਤ
 
 
 
-#endif /* STACK_MACROS_H */
+#ਜੇ_ਅੰਤ /* STACK_MACROS_H */

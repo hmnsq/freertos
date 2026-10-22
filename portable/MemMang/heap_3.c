@@ -38,58 +38,58 @@
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
 
-#include <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
-#define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
-#undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
-#endif
+#ਜੇ ( config_SUPPORT_DYNAMIC_ਵੰਡ == 0 )
+    #ਗਲਤੀ This file must not be ਵਰਤਿਆ ਜੇ config_SUPPORT_DYNAMIC_ਵੰਡ is 0
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+ਖਾਲੀ * pv_ਪੋਰਟ_Malloc( size_t x_Wanted_ਮਾਪ )
 {
-    void * pvReturn;
+    ਖਾਲੀ * pvReturn;
 
     vTaskSuspendAll();
     {
-        pvReturn = malloc( xWantedSize );
-        traceMALLOC( pvReturn, xWantedSize );
+        pvReturn = ਸਮ੍ਰਿਤੀ_ਦਿਓ( x_Wanted_ਮਾਪ );
+        traceMALLOC( pvReturn, x_Wanted_ਮਾਪ );
     }
-    ( void ) xTaskResumeAll();
+    ( ਖਾਲੀ ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #ਜੇ ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        ਜੇ( pvReturn == ਨਿਰਾ )
         {
             vApplicationMallocFailedHook();
         }
     }
-    #endif
+    #ਜੇ_ਅੰਤ
 
-    return pvReturn;
+    ਵਾਪਸ pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+ਖਾਲੀ v_ਪੋਰਟ_Free( ਖਾਲੀ * pv )
 {
-    if( pv != NULL )
+    ਜੇ( pv != ਨਿਰਾ )
     {
         vTaskSuspendAll();
         {
-            free( pv );
+            ਮੁਕਤ( pv );
             traceFREE( pv, 0 );
         }
-        ( void ) xTaskResumeAll();
+        ( ਖਾਲੀ ) xTaskResumeAll();
     }
 }
 /*-----------------------------------------------------------*/
@@ -99,7 +99,7 @@ void vPortFree( void * pv )
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਢੇਰ_Reset_State( ਖਾਲੀ )
 {
     /* No state needs to be re-initialised in heap_3. */
 }

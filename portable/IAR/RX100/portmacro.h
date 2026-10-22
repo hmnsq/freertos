@@ -27,19 +27,19 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
-#include <intrinsics.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <intrinsics.h>
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /* Hardware specifics. */
-#include "machine.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "machine.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -53,42 +53,42 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    __no_operation()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    8         /* Could make four, according to manual. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      -1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()    __no_operation()
 
-#define portYIELD()                     \
-    __asm volatile                      \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()                     \
+    __asm ਅਸਥਿਰ                      \
     (                                   \
         "MOV.L #0x872E0, R15        \n" \
         "MOV.B #1, [R15]            \n" \
@@ -96,7 +96,7 @@ typedef unsigned long    UBaseType_t;
         ::: "R15"                       \
     )
 
-#define portYIELD_FROM_ISR( x )                           do { if( ( x ) != pdFALSE ) { portYIELD(); } } while( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )                           ਕਰੋ { ਜੇ( ( x ) != pdFALSE ) { ਪੋਰਟ_YIELD(); } } ਜਦੋਂ( 0 )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -107,50 +107,50 @@ typedef unsigned long    UBaseType_t;
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-#define portENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
-#if ( configASSERT_DEFINED == 1 )
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( __get_interrupt_level() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
-    #define portDISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#endif
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
+#ਜੇ ( configASSERT_DEFINED == 1 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASSERT_IF_ਰੁਕਾਵਟ_ਤਰਜੀਹ_INVALID()    configASSERT( ( __get_interrupt_level() <= config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                      ਜੇ( __get_interrupt_level() < config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ ) __set_interrupt_level( ( uint8_t ) config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ )
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ )
+#ਜੇ_ਅੰਤ
 
 /* Critical nesting counts are stored in the TCB. */
-#define portCRITICAL_NESTING_IN_TCB    ( 1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CRITICAL_NESTING_ਵਿੱਚ_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()                                           vTaskEnterCritical()
-#define portEXIT_CRITICAL()                                            vTaskExitCritical()
+ਬਾਹਰੀ ਖਾਲੀ vTaskEnterCritical( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ vTaskExitCritical( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                                           vTaskEnterCritical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                                            vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-#define portSET_INTERRUPT_MASK_FROM_ISR()                              __get_interrupt_level(); portDISABLE_INTERRUPTS()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    __set_interrupt_level( ( uint8_t ) ( uxSavedInterruptStatus ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR()                              __get_interrupt_level(); ਪੋਰਟ_DISABLE_INTERRUPTS()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( ux_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ )    __set_interrupt_level( ( uint8_t ) ( ux_Saved_ਰੁਕਾਵਟ_ਸਥਿਤੀ ) )
 
 /* Tickless idle/low power functionality. */
-#if configUSE_TICKLESS_IDLE == 1
-    #ifndef portSUPPRESS_TICKS_AND_SLEEP
-        extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-        #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-    #endif
-#endif
+#ਜੇ configUSE_TICKLESS_IDLE == 1
+    #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਪੋਰਟ_SUPPRESS_TICKS_AND_SLEEP
+        ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_ਸਮਾਂ );
+        #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_ਸਮਾਂ )    v_ਪੋਰਟ_Suppress_Ticks_And_Sleep( x_Expected_Idle_ਸਮਾਂ )
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /* Prevent warnings of undefined behaviour: the order of volatile accesses is
  * undefined - all warnings have been manually checked and are not an issue, and
  * the warnings cannot be prevent by code changes without undesirable effects. */
-#pragma diag_suppress=Pa082
+#ਹਦਾਇਤ diag_suppress=Pa082
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

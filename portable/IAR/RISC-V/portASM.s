@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ਜਾਂ
+ * IMPLIED, INCLUDING BUT ਨਹੀਂ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ਅਤੇ NONINFRINGEMENT. ਵਿੱਚ NO EVENT SHALL THE AUTHORS ਜਾਂ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ਜਾਂ OTHER LIABILITY, WHETHER
+ * ਵਿੱਚ AN ACTION OF CONTRACT, TORT ਜਾਂ OTHERWISE, ARISING FROM, OUT OF ਜਾਂ ਵਿੱਚ
+ * CONNECTION WITH THE SOFTWARE ਜਾਂ THE USE ਜਾਂ OTHER DEALINGS ਵਿੱਚ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  *
  * CARE MUST BE TAKEN TO INCLDUE THE CORRECT
  * freertos_risc_v_chip_specific_extensions.h HEADER FILE FOR THE CHIP
- * IN USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
+ * ਵਿੱਚ USE.  To include the correct freertos_risc_v_chip_specific_extensions.h
  * header file ensure the path to the correct header file is in the assembler's
  * include path.
  *
@@ -85,19 +85,19 @@ definitions. */
 #define CSR_MEPC            0x341
 #define CSR_MCAUSE          0x342
 
-    PUBLIC xPortStartFirstTask
-    PUBLIC pxPortInitialiseStack
-    PUBLIC freertos_risc_v_trap_handler
-    PUBLIC freertos_risc_v_exception_handler
-    PUBLIC freertos_risc_v_interrupt_handler
-    PUBLIC freertos_risc_v_mtimer_interrupt_handler
+    ਜਨਤਕ x_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task
+    ਜਨਤਕ px_ਪੋਰਟ_Initialise_ਢੇਰ
+    ਜਨਤਕ freertos_risc_v_trap_handler
+    ਜਨਤਕ freertos_risc_v_exception_handler
+    ਜਨਤਕ freertos_risc_v_interrupt_handler
+    ਜਨਤਕ freertos_risc_v_mtimer_interrupt_handler
 
-    EXTERN vTaskSwitchContext
-    EXTERN xTaskIncrementTick
-    EXTERN pullMachineTimerCompareRegister
-    EXTERN pullNextTime
-    EXTERN uxTimerIncrementsForOneTick /* size_t type so 32-bit on 32-bit core and 64-bits on 64-bit core. */
-    EXTERN xTaskReturnAddress
+    ਬਾਹਰੀ vTaskSwitchContext
+    ਬਾਹਰੀ xTaskIncrementTick
+    ਬਾਹਰੀ pullMachineTimerCompareRegister
+    ਬਾਹਰੀ pullNextTime
+    ਬਾਹਰੀ uxTimerIncrementsForOneTick /* size_t type so 32-bit on 32-bit core and 64-bits on 64-bit core. */
+    ਬਾਹਰੀ xTaskReturnAddress
 
     PUBWEAK freertos_risc_v_application_exception_handler
     PUBWEAK freertos_risc_v_application_interrupt_handler
@@ -142,10 +142,10 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
 /*-----------------------------------------------------------*/
 
 /*
- * Unlike other ports pxPortInitialiseStack() is written in assembly code as it
+ * Unlike other ports px_ਪੋਰਟ_Initialise_ਢੇਰ() is written in assembly code as it
  * needs access to the portasmADDITIONAL_CONTEXT_SIZE constant.  The prototype
  * for the function is as per the other ports:
- * StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
+ * StackType_t *px_ਪੋਰਟ_Initialise_ਢੇਰ( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters );
  *
  * As per the standard RISC-V ABI pxTopOfStack is passed in in a0, pxCode in
  * a1, and pvParameters in a2.  The new top of stack is passed out in a0.
@@ -168,7 +168,7 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
  * x28-31        t3-6        Temporaries                       Caller
  *
  * The RISC-V context is saved to FreeRTOS tasks in the following stack frame,
- * where the global and thread pointers are currently assumed to be constant so
+ * where the ਵੈਸ਼੍ਵਿਕ and thread pointers are currently assumed to be constant so
  * are not saved:
  *
  * mstatus
@@ -204,7 +204,7 @@ portUPDATE_MTIMER_COMPARE_REGISTER MACRO
  * [chip specific registers go here]
  * pxCode
  */
-pxPortInitialiseStack:
+px_ਪੋਰਟ_Initialise_ਢੇਰ:
     csrr t0, CSR_MSTATUS                /* Obtain current mstatus value. */
     andi t0, t0, ~0x8                   /* Ensure interrupts are disabled when the stack is restored within an ISR.  Required when a task is created after the schedulre has been started, otherwise interrupts would be disabled anyway. */
     addi t1, x0, 0x188                  /* Generate the value 0x1880, which are the MPIE and MPP bits to set in mstatus. */
@@ -237,7 +237,7 @@ no_more_regs:
     ret
 /*-----------------------------------------------------------*/
 
-xPortStartFirstTask:
+x_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task:
     load_x  sp, pxCurrentTCB            /* Load pxCurrentTCB. */
     load_x  sp, 0( sp )                 /* Read sp from first TCB member. */
 
@@ -308,13 +308,13 @@ freertos_risc_v_application_interrupt_handler:
 freertos_risc_v_exception_handler:
     portcontextSAVE_EXCEPTION_CONTEXT
     /* a0 now contains mcause. */
-    li t0, 11                           /* 11 == environment call. */
-    bne a0, t0, other_exception         /* Not an M environment call, so some other exception. */
-    call vTaskSwitchContext
+    li t0, 11                           /* 11 == environment ਬੁਲਾਓ. */
+    bne a0, t0, other_exception         /* Not an M environment ਬੁਲਾਓ, so some other exception. */
+    ਬੁਲਾਓ vTaskSwitchContext
     portcontextRESTORE_CONTEXT
 
 other_exception:
-    call freertos_risc_v_application_exception_handler
+    ਬੁਲਾਓ freertos_risc_v_application_exception_handler
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
 
@@ -323,7 +323,7 @@ other_exception:
 
 freertos_risc_v_interrupt_handler:
     portcontextSAVE_INTERRUPT_CONTEXT
-    call freertos_risc_v_application_interrupt_handler
+    ਬੁਲਾਓ freertos_risc_v_application_interrupt_handler
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
 
@@ -333,9 +333,9 @@ freertos_risc_v_interrupt_handler:
 freertos_risc_v_mtimer_interrupt_handler:
     portcontextSAVE_INTERRUPT_CONTEXT
     portUPDATE_MTIMER_COMPARE_REGISTER
-    call xTaskIncrementTick
+    ਬੁਲਾਓ xTaskIncrementTick
     beqz a0, exit_without_context_switch    /* Don't switch context if incrementing tick didn't unblock a task. */
-    call vTaskSwitchContext
+    ਬੁਲਾਓ vTaskSwitchContext
 exit_without_context_switch:
     portcontextRESTORE_CONTEXT
 /*-----------------------------------------------------------*/
@@ -372,26 +372,26 @@ handle_interrupt:
         bne a0, t1, application_interrupt_handler
 
         portUPDATE_MTIMER_COMPARE_REGISTER
-        call xTaskIncrementTick
+        ਬੁਲਾਓ xTaskIncrementTick
         beqz a0, processed_source       /* Don't switch context if incrementing tick didn't unblock a task. */
-        call vTaskSwitchContext
+        ਬੁਲਾਓ vTaskSwitchContext
         j processed_source
 
 #endif /* portasmHAS_MTIME */
 
 application_interrupt_handler:
-    call freertos_risc_v_application_interrupt_handler
+    ਬੁਲਾਓ freertos_risc_v_application_interrupt_handler
     j processed_source
 
 handle_exception:
     /* a0 contains mcause. */
-    li t0, 11                                   /* 11 == environment call. */
-    bne a0, t0, application_exception_handler   /* Not an M environment call, so some other exception. */
-    call vTaskSwitchContext
+    li t0, 11                                   /* 11 == environment ਬੁਲਾਓ. */
+    bne a0, t0, application_exception_handler   /* Not an M environment ਬੁਲਾਓ, so some other exception. */
+    ਬੁਲਾਓ vTaskSwitchContext
     j processed_source
 
 application_exception_handler:
-    call freertos_risc_v_application_exception_handler
+    ਬੁਲਾਓ freertos_risc_v_application_exception_handler
     j processed_source                  /* No other exceptions handled yet. */
 
 processed_source:

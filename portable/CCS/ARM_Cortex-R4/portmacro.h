@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef __PORTMACRO_H__
-#define __PORTMACRO_H__
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ __PORTMACRO_H__
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ __PORTMACRO_H__
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,80 +40,80 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR        ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT       ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE      ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG        ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT       ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE  uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE   ਲੰਮਾ
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ UBaseType_t;
 
-#if (configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS)
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY (TickType_t) 0xFFFF
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY (TickType_t) 0xFFFFFFFFF
+#ਜੇ (config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ)
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY (TickType_t) 0xFFFF
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY (TickType_t) 0xFFFFFFFFF
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC 1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC 1
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH    (-1)
-#define portTICK_PERIOD_MS    ((TickType_t) 1000 / configTICK_RATE_HZ)
-#define portBYTE_ALIGNMENT  8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH    (-1)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ((TickType_t) 1000 / config_TICK_ਦਰ_HZ)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT  8
 
 /* Critical section handling. */
-extern void vPortEnterCritical(void);
-extern void vPortExitCritical(void);
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    asm( " CPSID I" )
-#define portENABLE_INTERRUPTS()     asm( " CPSIE I" )
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical(ਖਾਲੀ);
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical(ਖਾਲੀ);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()        v_ਪੋਰਟ_Enter_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()         v_ਪੋਰਟ_Exit_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    asm( " CPSID I" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     asm( " CPSIE I" )
 
 /* Scheduler utilities. */
-#pragma SWI_ALIAS( vPortYield, 0 )
-extern void vPortYield( void );
-#define portYIELD()                 vPortYield()
-#define portSYS_SSIR1_REG           ( * ( ( volatile uint32_t * ) 0xFFFFFFB0 ) )
-#define portSYS_SSIR1_SSKEY         ( 0x7500UL )
-#define portYIELD_WITHIN_API()      { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  asm( " DSB " ); asm( " ISB " ); }
-#define portYIELD_FROM_ISR( x )     do { if( x != pdFALSE ) { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  ( void ) portSYS_SSIR1_REG; } } while( 0 )
+#ਹਦਾਇਤ SWI_ALIAS( v_ਪੋਰਟ_Yield, 0 )
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()                 v_ਪੋਰਟ_Yield()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SYS_SSIR1_REG           ( * ( ( ਅਸਥਿਰ uint32_t * ) 0xFFFFFFB0 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SYS_SSIR1_SSKEY         ( 0x7500UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_WITHIN_API()      { ਪੋਰਟ_SYS_SSIR1_REG = ਪੋਰਟ_SYS_SSIR1_SSKEY;  asm( " DSB " ); asm( " ISB " ); }
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )     ਕਰੋ { ਜੇ( x != pdFALSE ) { ਪੋਰਟ_SYS_SSIR1_REG = ਪੋਰਟ_SYS_SSIR1_SSKEY;  ( ਖਾਲੀ ) ਪੋਰਟ_SYS_SSIR1_REG; } } ਜਦੋਂ( 0 )
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION 1
+#ਜੇ_ਅੰਤ
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ਜੇ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #ਜੇ( configMAX_PRIORITIES > 32 )
+        #ਗਲਤੀ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION can only be ਸੈੱਟ ਮੰਜ਼ਿਲ 1 when configMAX_PRIORITIES is less than or equal ਮੰਜ਼ਿਲ 32.  It is very rare that a system requires ਹੋਰ than 10 ਮੰਜ਼ਿਲ 15 difference priorities as tasks that share a ਤਰਜੀਹ will time ਟੁਕੜਾ.
+    #ਜੇ_ਅੰਤ
 
     /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰਿਕਾਰਡ_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL << ( ux_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL << ( ux_ਤਰਜੀਹ ) )
 
     /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31 - __clz( ( uxReadyPriorities ) ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities ) ux_ਸਿਖਰ_ਤਰਜੀਹ = ( 31 - __clz( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#ਜੇ_ਅੰਤ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION(vFunction, pvParameters)       void vFunction(void *pvParameters)
-#define portTASK_FUNCTION_PROTO(vFunction, pvParameters) void vFunction(void *pvParameters)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION(vFunction, pvParameters)       ਖਾਲੀ vFunction(ਖਾਲੀ *pvParameters)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO(vFunction, pvParameters) ਖਾਲੀ vFunction(ਖਾਲੀ *pvParameters)
 
-#endif /* __PORTMACRO_H__ */
+#ਜੇ_ਅੰਤ /* __PORTMACRO_H__ */

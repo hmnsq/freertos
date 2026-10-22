@@ -26,37 +26,37 @@
  *
  */
 
-#ifndef CO_ROUTINE_H
-#define CO_ROUTINE_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ CO_ROUTINE_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ CO_ROUTINE_H
 
-#ifndef INC_FREERTOS_H
-    #error "include FreeRTOS.h must appear in source files before include croutine.h"
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ INC_FREERTOS_H
+    #ਗਲਤੀ "include FreeRTOS.h must appear in source files before include croutine.h"
+#ਜੇ_ਅੰਤ
 
-#include "list.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "list.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /* Used to hide the implementation of the co-routine control block.  The
  * control block structure however has to be included in the header due to
  * the macro implementation of the co-routine functionality. */
-typedef void * CoRoutineHandle_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਖਾਲੀ * CoRoutineHandle_t;
 
 /* Defines the prototype to which co-routine functions must conform. */
-typedef void (* crCOROUTINE_CODE)( CoRoutineHandle_t xHandle,
-                                   UBaseType_t uxIndex );
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਖਾਲੀ (* cr_COROUTINE_ਕੋਡ)( CoRoutineHandle_t xHandle,
+                                   UBaseType_t ux_ਸੂਚਕਾਂਕ );
 
-typedef struct corCoRoutineControlBlock
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ cor_Co_Routine_Control_ਖੰਡ
 {
-    crCOROUTINE_CODE pxCoRoutineFunction;
-    ListItem_t xGenericListItem; /**< List item used to place the CRCB in ready and blocked queues. */
-    ListItem_t xEventListItem;   /**< List item used to place the CRCB in event lists. */
-    UBaseType_t uxPriority;      /**< The priority of the co-routine in relation to other co-routines. */
-    UBaseType_t uxIndex;         /**< Used to distinguish between co-routines when multiple co-routines use the same co-routine function. */
+    cr_COROUTINE_ਕੋਡ pxCoRoutineFunction;
+    List_ਵਸਤੂ_t x_Generic_List_ਵਸਤੂ; /**< List item used to place the CRCB in ready and blocked queues. */
+    List_ਵਸਤੂ_t x_Event_List_ਵਸਤੂ;   /**< List item used to place the CRCB in event lists. */
+    UBaseType_t ux_ਤਰਜੀਹ;      /**< The priority of the co-routine in relation to other co-routines. */
+    UBaseType_t ux_ਸੂਚਕਾਂਕ;         /**< Used to distinguish between co-routines when multiple co-routines use the same co-routine function. */
     uint16_t uxState;            /**< Used internally by the co-routine implementation. */
 } CRCB_t;                        /* Co-routine control block.  Note must be identical in size down to uxPriority with TCB_t. */
 
@@ -133,9 +133,9 @@ typedef struct corCoRoutineControlBlock
  * \defgroup xCoRoutineCreate xCoRoutineCreate
  * \ingroup Tasks
  */
-BaseType_t xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode,
-                             UBaseType_t uxPriority,
-                             UBaseType_t uxIndex );
+ਅਧਾਰ_Type_t xCoRoutineCreate( cr_COROUTINE_ਕੋਡ px_Co_Routine_ਕੋਡ,
+                             UBaseType_t ux_ਤਰਜੀਹ,
+                             UBaseType_t ux_ਸੂਚਕਾਂਕ );
 
 
 /**
@@ -178,7 +178,7 @@ BaseType_t xCoRoutineCreate( crCOROUTINE_CODE pxCoRoutineCode,
  * \defgroup vCoRoutineSchedule vCoRoutineSchedule
  * \ingroup Tasks
  */
-void vCoRoutineSchedule( void );
+ਖਾਲੀ v_Co_Routine_ਸਮਾਂ_ਸਾਰਣੀ( ਖਾਲੀ );
 
 /**
  * croutine. h
@@ -211,9 +211,9 @@ void vCoRoutineSchedule( void );
  * \defgroup crSTART crSTART
  * \ingroup Tasks
  */
-#define crSTART( pxCRCB )                            \
-    switch( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
-        case 0:
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਸ਼ੁਰੂ( pxCRCB )                            \
+    ਚੋਣ( ( ( CRCB_t * ) ( pxCRCB ) )->uxState ) { \
+        ਹਾਲਤ 0:
 
 /**
  * croutine. h
@@ -248,19 +248,19 @@ void vCoRoutineSchedule( void );
  */
 
 /* *INDENT-OFF* */
-#define crEND()    }
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਸਿਰਾ()    }
 /* *INDENT-ON* */
 
 /*
  * These macros are intended for internal use by the co-routine implementation
  * only.  The macros should not be used directly by application writers.
  */
-#define crSET_STATE0( xHandle )                                       \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); return; \
-    case ( __LINE__ * 2 ):
-#define crSET_STATE1( xHandle )                                               \
-    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); return; \
-    case ( ( __LINE__ * 2 ) + 1 ):
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਸੈੱਟ_STATE0( xHandle )                                       \
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( __LINE__ * 2 ); ਵਾਪਸ; \
+    ਹਾਲਤ ( __LINE__ * 2 ):
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਸੈੱਟ_STATE1( xHandle )                                               \
+    ( ( CRCB_t * ) ( xHandle ) )->uxState = ( ( __LINE__ * 2 ) + 1 ); ਵਾਪਸ; \
+    ਹਾਲਤ ( ( __LINE__ * 2 ) + 1 ):
 
 /**
  * croutine. h
@@ -310,14 +310,14 @@ void vCoRoutineSchedule( void );
  * \defgroup crDELAY crDELAY
  * \ingroup Tasks
  */
-#define crDELAY( xHandle, xTicksToDelay )                          \
-    do {                                                           \
-        if( ( xTicksToDelay ) > 0 )                                \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ crDELAY( xHandle, x_Ticks_ਮੰਜ਼ਿਲ_Delay )                          \
+    ਕਰੋ {                                                           \
+        ਜੇ( ( x_Ticks_ਮੰਜ਼ਿਲ_Delay ) > 0 )                                \
         {                                                          \
-            vCoRoutineAddToDelayedList( ( xTicksToDelay ), NULL ); \
+            v_Co_Routine_ਜੋੜੋ_ਮੰਜ਼ਿਲ_Delayed_List( ( x_Ticks_ਮੰਜ਼ਿਲ_Delay ), ਨਿਰਾ ); \
         }                                                          \
-        crSET_STATE0( ( xHandle ) );                               \
-    } while( 0 )
+        cr_ਸੈੱਟ_STATE0( ( xHandle ) );                               \
+    } ਜਦੋਂ( 0 )
 
 /**
  * @code{c}
@@ -404,20 +404,20 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_SEND crQUEUE_SEND
  * \ingroup Tasks
  */
-#define crQUEUE_SEND( xHandle, pxQueue, pvItemToQueue, xTicksToWait, pxResult )           \
-    do {                                                                                  \
-        *( pxResult ) = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                           \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਕਤਾਰ_SEND( xHandle, px_ਕਤਾਰ, pv_ਵਸਤੂ_ਮੰਜ਼ਿਲ_ਕਤਾਰ, x_Ticks_ਮੰਜ਼ਿਲ_Wait, px_ਨਤੀਜਾ )           \
+    ਕਰੋ {                                                                                  \
+        *( px_ਨਤੀਜਾ ) = x_ਕਤਾਰ_CRSend( ( px_ਕਤਾਰ ), ( pv_ਵਸਤੂ_ਮੰਜ਼ਿਲ_ਕਤਾਰ ), ( x_Ticks_ਮੰਜ਼ਿਲ_Wait ) ); \
+        ਜੇ( *( px_ਨਤੀਜਾ ) == err_ਕਤਾਰ_BLOCKED )                                           \
         {                                                                                 \
-            crSET_STATE0( ( xHandle ) );                                                  \
-            *pxResult = xQueueCRSend( ( pxQueue ), ( pvItemToQueue ), 0 );                \
+            cr_ਸੈੱਟ_STATE0( ( xHandle ) );                                                  \
+            *px_ਨਤੀਜਾ = x_ਕਤਾਰ_CRSend( ( px_ਕਤਾਰ ), ( pv_ਵਸਤੂ_ਮੰਜ਼ਿਲ_ਕਤਾਰ ), 0 );                \
         }                                                                                 \
-        if( *pxResult == errQUEUE_YIELD )                                                 \
+        ਜੇ( *px_ਨਤੀਜਾ == err_ਕਤਾਰ_YIELD )                                                 \
         {                                                                                 \
-            crSET_STATE1( ( xHandle ) );                                                  \
-            *pxResult = pdPASS;                                                           \
+            cr_ਸੈੱਟ_STATE1( ( xHandle ) );                                                  \
+            *px_ਨਤੀਜਾ = pdPASS;                                                           \
         }                                                                                 \
-    } while( 0 )
+    } ਜਦੋਂ( 0 )
 
 /**
  * croutine. h
@@ -498,20 +498,20 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_RECEIVE crQUEUE_RECEIVE
  * \ingroup Tasks
  */
-#define crQUEUE_RECEIVE( xHandle, pxQueue, pvBuffer, xTicksToWait, pxResult )           \
-    do {                                                                                \
-        *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), ( xTicksToWait ) ); \
-        if( *( pxResult ) == errQUEUE_BLOCKED )                                         \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਕਤਾਰ_RECEIVE( xHandle, px_ਕਤਾਰ, pv_ਬਫਰ, x_Ticks_ਮੰਜ਼ਿਲ_Wait, px_ਨਤੀਜਾ )           \
+    ਕਰੋ {                                                                                \
+        *( px_ਨਤੀਜਾ ) = x_ਕਤਾਰ_CRReceive( ( px_ਕਤਾਰ ), ( pv_ਬਫਰ ), ( x_Ticks_ਮੰਜ਼ਿਲ_Wait ) ); \
+        ਜੇ( *( px_ਨਤੀਜਾ ) == err_ਕਤਾਰ_BLOCKED )                                         \
         {                                                                               \
-            crSET_STATE0( ( xHandle ) );                                                \
-            *( pxResult ) = xQueueCRReceive( ( pxQueue ), ( pvBuffer ), 0 );            \
+            cr_ਸੈੱਟ_STATE0( ( xHandle ) );                                                \
+            *( px_ਨਤੀਜਾ ) = x_ਕਤਾਰ_CRReceive( ( px_ਕਤਾਰ ), ( pv_ਬਫਰ ), 0 );            \
         }                                                                               \
-        if( *( pxResult ) == errQUEUE_YIELD )                                           \
+        ਜੇ( *( px_ਨਤੀਜਾ ) == err_ਕਤਾਰ_YIELD )                                           \
         {                                                                               \
-            crSET_STATE1( ( xHandle ) );                                                \
-            *( pxResult ) = pdPASS;                                                     \
+            cr_ਸੈੱਟ_STATE1( ( xHandle ) );                                                \
+            *( px_ਨਤੀਜਾ ) = pdPASS;                                                     \
         }                                                                               \
-    } while( 0 )
+    } ਜਦੋਂ( 0 )
 
 /**
  * croutine. h
@@ -609,8 +609,8 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_SEND_FROM_ISR crQUEUE_SEND_FROM_ISR
  * \ingroup Tasks
  */
-#define crQUEUE_SEND_FROM_ISR( pxQueue, pvItemToQueue, xCoRoutinePreviouslyWoken ) \
-    xQueueCRSendFromISR( ( pxQueue ), ( pvItemToQueue ), ( xCoRoutinePreviouslyWoken ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਕਤਾਰ_SEND_FROM_ISR( px_ਕਤਾਰ, pv_ਵਸਤੂ_ਮੰਜ਼ਿਲ_ਕਤਾਰ, xCoRoutinePreviouslyWoken ) \
+    x_ਕਤਾਰ_CRSend_From_ISR( ( px_ਕਤਾਰ ), ( pv_ਵਸਤੂ_ਮੰਜ਼ਿਲ_ਕਤਾਰ ), ( xCoRoutinePreviouslyWoken ) )
 
 
 /**
@@ -725,8 +725,8 @@ void vCoRoutineSchedule( void );
  * \defgroup crQUEUE_RECEIVE_FROM_ISR crQUEUE_RECEIVE_FROM_ISR
  * \ingroup Tasks
  */
-#define crQUEUE_RECEIVE_FROM_ISR( pxQueue, pvBuffer, pxCoRoutineWoken ) \
-    xQueueCRReceiveFromISR( ( pxQueue ), ( pvBuffer ), ( pxCoRoutineWoken ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ cr_ਕਤਾਰ_RECEIVE_FROM_ISR( px_ਕਤਾਰ, pv_ਬਫਰ, pxCoRoutineWoken ) \
+    x_ਕਤਾਰ_CRReceive_From_ISR( ( px_ਕਤਾਰ ), ( pv_ਬਫਰ ), ( pxCoRoutineWoken ) )
 
 /*
  * This function is intended for internal use by the co-routine macros only.
@@ -737,7 +737,7 @@ void vCoRoutineSchedule( void );
  * Removes the current co-routine from its ready list and places it in the
  * appropriate delayed list.
  */
-void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
+ਖਾਲੀ v_Co_Routine_ਜੋੜੋ_ਮੰਜ਼ਿਲ_Delayed_List( TickType_t x_Ticks_ਮੰਜ਼ਿਲ_Delay,
                                  List_t * pxEventList );
 
 /*
@@ -747,19 +747,19 @@ void vCoRoutineAddToDelayedList( TickType_t xTicksToDelay,
  * Removes the highest priority co-routine from the event list and places it in
  * the pending ready list.
  */
-BaseType_t xCoRoutineRemoveFromEventList( const List_t * pxEventList );
+ਅਧਾਰ_Type_t xCoRoutineRemoveFromEventList( ਅਚਲ List_t * pxEventList );
 
 
 /*
  * This function resets the internal state of the coroutine module. It must be
  * called by the application before restarting the scheduler.
  */
-void vCoRoutineResetState( void ) PRIVILEGED_FUNCTION;
+ਖਾਲੀ vCoRoutineResetState( ਖਾਲੀ ) PRIVILEGED_FUNCTION;
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* CO_ROUTINE_H */
+#ਜੇ_ਅੰਤ /* CO_ROUTINE_H */

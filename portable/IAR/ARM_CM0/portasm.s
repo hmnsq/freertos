@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ਜਾਂ
+ * IMPLIED, INCLUDING BUT ਨਹੀਂ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ਅਤੇ NONINFRINGEMENT. ਵਿੱਚ NO EVENT SHALL THE AUTHORS ਜਾਂ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ਜਾਂ OTHER LIABILITY, WHETHER
+ * ਵਿੱਚ AN ACTION OF CONTRACT, TORT ਜਾਂ OTHERWISE, ARISING FROM, OUT OF ਜਾਂ ਵਿੱਚ
+ * CONNECTION WITH THE SOFTWARE ਜਾਂ THE USE ਜਾਂ OTHER DEALINGS ਵਿੱਚ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,16 +31,16 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN vPortYieldFromISR
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    ਬਾਹਰੀ vPortYieldFromISR
+    ਬਾਹਰੀ pxCurrentTCB
+    ਬਾਹਰੀ vTaskSwitchContext
 
-    PUBLIC vSetMSP
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC ulSetInterruptMaskFromISR
-    PUBLIC vClearInterruptMaskFromISR
+    ਜਨਤਕ vSetMSP
+    ਜਨਤਕ x_ਪੋਰਟ_Pend_SVHandler
+    ਜਨਤਕ vPortSVCHandler
+    ਜਨਤਕ vPortStartFirstTask
+    ਜਨਤਕ ulSetInterruptMaskFromISR
+    ਜਨਤਕ vClearInterruptMaskFromISR
 
 /*-----------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ vSetMSP
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_ਪੋਰਟ_Pend_SVHandler:
     mrs r0, psp
 
     ldr r3, =pxCurrentTCB   /* Get the location of the current TCB. */
@@ -129,4 +129,4 @@ vClearInterruptMaskFromISR
     msr PRIMASK, r0
     bx lr
 
-    END
+    ਅੰਤ

@@ -26,20 +26,20 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
-#include "embARC.h"
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
+#ਅਨ੍ਤਰ੍ਭਾਵ "embARC.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_ਰਿਕਾਰਡ_ਢੇਰ_ਉੱਚਾ_ਪਤਾ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_ਰਿਕਾਰਡ_ਢੇਰ_ਉੱਚਾ_ਪਤਾ    1
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -52,103 +52,103 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     portLONG
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਪੋਰਟ_LONG
 
-#ifndef Asm
-    #define Asm           __asm__ volatile
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ Asm
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Asm           __asm__ ਅਸਥਿਰ
+#ਜੇ_ਅੰਤ
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
-#endif /* NULL */
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਨਿਰਾ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਨਿਰਾ    0           /* invalid pointer */
+#ਜੇ_ਅੰਤ /* NULL */
 
-#ifndef true
-    #define true    1           /* true */
-#endif /* true */
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ true
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ true    1           /* true */
+#ਜੇ_ਅੰਤ /* true */
 
-#ifndef false
-    #define false    0          /* false */
-#endif /* false */
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ false
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ false    0          /* false */
+#ਜੇ_ਅੰਤ /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
-#define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT         8
-#define portNOP()               Asm( "nop_s" );
-#define IPM_ENABLE_ALL             1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH           ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS         ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT         8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()               Asm( "nop_s" );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ IPM_ENABLE_ALL             1
 
-#define portYIELD_FROM_ISR()    vPortYieldFromIsr()
-#define portYIELD()             vPortYield()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR()    v_ਪੋਰਟ_Yield_From_Isr()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()             v_ਪੋਰਟ_Yield()
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS() \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS() \
     {                            \
-        arc_lock();              \
+        arc_ਤਾਲਾ();              \
     }                            \
 
-#define portENABLE_INTERRUPTS() \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS() \
     {                           \
         arc_unlock();           \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+ਬਾਹਰੀ ਅਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ ulCriticalNesting;
 
-#define portENTER_CRITICAL()     \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()     \
     {                            \
-        portDISABLE_INTERRUPTS() \
+        ਪੋਰਟ_DISABLE_INTERRUPTS() \
         ulCriticalNesting++;     \
     }
 
 
-#define portEXIT_CRITICAL()                                    \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        ਜੇ( ulCriticalNesting > ਪੋਰਟ_NO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            ਜੇ( ulCriticalNesting == ਪੋਰਟ_NO_CRITICAL_NESTING ) \
             {                                                  \
-                portENABLE_INTERRUPTS()                        \
+                ਪੋਰਟ_ENABLE_INTERRUPTS()                        \
             }                                                  \
         }                                                      \
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CONFIGURE_TIMER_FOR_ਲੜੀਵਾਰ_ਸਮਾਂ_STATS()              ਕਰੋ {} ਜਦੋਂ( 0 )     /* we use the timer */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ALT_GET_ਲੜੀਵਾਰ_ਸਮਾਂ_COUNTER_ਮੁੱਲ( dest )            ( dest = x_Tick_ਗਿਣਤੀ )
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ );
+ਖਾਲੀ v_ਪੋਰਟ_Yield_From_Isr( ਖਾਲੀ );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

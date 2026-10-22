@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,42 +47,42 @@
 
 /* Type definitions. */
 
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint16_t
-#define portBASE_TYPE     short
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint16_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਛੋਟਾ
 
-typedef portSTACK_TYPE     StackType_t;
-typedef short              BaseType_t;
-typedef unsigned short     UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE     ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਛੋਟਾ              ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਛੋਟਾ     UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef unsigned int   TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t       TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ   TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t       TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-#define portDISABLE_INTERRUPTS()    __asm( "DI" )
-#define portENABLE_INTERRUPTS()     __asm( "EI" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()    __asm( "DI" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()     __asm( "EI" )
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-#define portNO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
 
-#define portENTER_CRITICAL()                                                      \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint16_t usCriticalNesting;                               \
                                                                                   \
-        portDISABLE_INTERRUPTS();                                                 \
+        ਪੋਰਟ_DISABLE_INTERRUPTS();                                                 \
                                                                                   \
         /* Now that interrupts are disabled, ulCriticalNesting can be accessed */ \
         /* directly.  Increment ulCriticalNesting to keep a count of how many */  \
@@ -90,62 +90,62 @@ typedef unsigned short     UBaseType_t;
         usCriticalNesting++;                                                      \
     }
 
-#define portEXIT_CRITICAL()                                                         \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile uint16_t usCriticalNesting;                                 \
+        ਬਾਹਰੀ ਅਸਥਿਰ uint16_t usCriticalNesting;                                 \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        ਜੇ( usCriticalNesting > ਪੋਰਟ_NO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            ਜੇ( usCriticalNesting == ਪੋਰਟ_NO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
-                portENABLE_INTERRUPTS();                                            \
+                ਪੋਰਟ_ENABLE_INTERRUPTS();                                            \
             }                                                                       \
         }                                                                           \
     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortStart( void );
-#define portYIELD()                                       __asm( "BRK" )
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } while( 0 )
-#define portNOP()                                         __asm( "NOP" )
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()                                       __asm( "BRK" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x_Higher_ਤਰਜੀਹ_Task_Woken )    ਕਰੋ { ਜੇ( x_Higher_ਤਰਜੀਹ_Task_Woken ) vTaskSwitchContext( ); } ਜਦੋਂ( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()                                         __asm( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 
-static __interrupt void P0_isr( void );
+ਸਥਿਰ __interrupt ਖਾਲੀ P0_isr( ਖਾਲੀ );
 
 /* --------------------------------------------------------------------------*/
 /* Option-bytes and security ID                                              */
 /* --------------------------------------------------------------------------*/
-#define OPT_BYTES_SIZE       4
-#define SECU_ID_SIZE         10
-#define WATCHDOG_DISABLED    0x00
-#define LVI_ENABLED          0xFE
-#define LVI_DISABLED         0xFF
-#define RESERVED_FF          0xFF
-#define OCD_DISABLED         0x04
-#define OCD_ENABLED          0x81
-#define OCD_ENABLED_ERASE    0x80
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ OPT_ਬਾਈਟਾਂ_ਮਾਪ       4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ SECU_ID_ਮਾਪ         10
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ WATCHDOG_DISABLED    0x00
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ LVI_ENABLED          0xFE
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ LVI_DISABLED         0xFF
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ RESERVED_FF          0xFF
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ OCD_DISABLED         0x04
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ OCD_ENABLED          0x81
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ OCD_ENABLED_ERASE    0x80
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

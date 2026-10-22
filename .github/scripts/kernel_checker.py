@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+ਆਯਾਤ os
+ਆਯਾਤ re
+ਤਃ common.ਸਿਰਲੇਖ_checker ਆਯਾਤ ਸਿਰਲੇਖ_Checker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -101,7 +101,7 @@ KERNEL_IGNORED_PATTERNS = [
     r'.*template_configuration/*'
 ]
 
-KERNEL_THIRD_PARTY_PATTERNS = [
+KERNEL_ਤੀਜਾ_PARTY_PATTERNS = [
     r'.*portable/ThirdParty/GCC/Posix/port*',
     r'.*portable/ThirdParty/*',
     r'.*portable/IAR/AVR32_UC3/.*',
@@ -126,7 +126,7 @@ KERNEL_ARM_COLLAB_FILES_PATTERNS = [
     r'.*tasks\.c$',
 ]
 
-KERNEL_HEADER = [
+KERNEL_ਸਿਰਲੇਖ = [
     '/*\n',
     ' * FreeRTOS Kernel <DEVELOPMENT BRANCH>\n',
     ' * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.\n',
@@ -166,98 +166,98 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
-    def __init__(
+ਵਰਗ Kernel_ਸਿਰਲੇਖ_Checker(ਸਿਰਲੇਖ_Checker):
+    ਪਰਿਭਾਸ਼ਾ __init__(
         self,
-        header,
+        ਸਿਰਲੇਖ,
         padding=1000,
-        ignored_files=None,
-        ignored_ext=None,
-        ignored_patterns=None,
-        py_ext=None,
-        asm_ext=None,
-        third_party_patterns=None,
-        copyright_regex = None
+        ignored_files=ਕੁਝ_ਨਹੀਂ,
+        ignored_ext=ਕੁਝ_ਨਹੀਂ,
+        ignored_patterns=ਕੁਝ_ਨਹੀਂ,
+        py_ext=ਕੁਝ_ਨਹੀਂ,
+        asm_ext=ਕੁਝ_ਨਹੀਂ,
+        ਤੀਜਾ_party_patterns=ਕੁਝ_ਨਹੀਂ,
+        copyright_regex = ਕੁਝ_ਨਹੀਂ
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
-                         py_ext, asm_ext, third_party_patterns, copyright_regex)
+        ਪਰਮ().__init__(ਸਿਰਲੇਖ, padding, ignored_files, ignored_ext, ignored_patterns,
+                         py_ext, asm_ext, ਤੀਜਾ_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
-        self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
-            self.armCollabFilesPatternList.append(re.compile(pattern))
+        self.arm_Collab_Files_ਨਮੂਨਾ_List = []
+        ਲਈ ਨਮੂਨਾ ਵਿੱਚ KERNEL_ARM_COLLAB_FILES_PATTERNS:
+            self.arm_Collab_Files_ਨਮੂਨਾ_List.append(re.compile(ਨਮੂਨਾ))
 
-    def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+    ਪਰਿਭਾਸ਼ਾ isArmCollabFile(self, ਰਸਤਾ):
+        ਲਈ ਨਮੂਨਾ ਵਿੱਚ self.arm_Collab_Files_ਨਮੂਨਾ_List:
+            ਜੇ ਨਮੂਨਾ.ਮੇਲ(ਰਸਤਾ):
+                ਵਾਪਸ ਸੱਚ
+        ਵਾਪਸ ਝੂਠ
 
-    def checkArmCollabFile(self, path):
-        isValid = False
-        file_ext = os.path.splitext(path)[-1]
+    ਪਰਿਭਾਸ਼ਾ checkArmCollabFile(self, ਰਸਤਾ):
+        isValid = ਝੂਠ
+        file_ext = os.ਰਸਤਾ.splitext(ਰਸਤਾ)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
-                : len(self.header) + 2
+        ਨਾਲ open(ਰਸਤਾ, encoding="utf-8", errors="ignore") ਇਵ file:
+            chunk = file.ਪਠ(ਲੰਬਾਈ("".join(self.ਸਿਰਲੇਖ)) + self.padding)
+            ਸਤਰਾਂ = [("%s\n" % ਸਤਰ) ਲਈ ਸਤਰ ਵਿੱਚ chunk.strip().splitlines()][
+                : ਲੰਬਾਈ(self.ਸਿਰਲੇਖ) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            ਜੇ (ਲੰਬਾਈ(ਸਤਰਾਂ) > 0) ਅਤੇ (ਸਤਰਾਂ[0].ਲੱਭੋ("#!") == 0):
+                ਸਤਰਾਂ.remove(ਸਤਰਾਂ[0])
+            ਜੇ (ਲੰਬਾਈ(ਸਤਰਾਂ) > 0) ਅਤੇ (ਲੰਬਾਈ(ਸਤਰਾਂ[-1].strip()) == 0):
+                ਸਤਰਾਂ.remove(ਸਤਰਾਂ[-1])
 
         # Split lines in sections.
-        headers = dict()
-        headers["text"] = []
-        headers["copyright"] = []
-        headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
-            else:
-                headers["text"].append(line)
+        ਸਿਰਲੇਖਾਂ = dict()
+        ਸਿਰਲੇਖਾਂ["text"] = []
+        ਸਿਰਲੇਖਾਂ["copyright"] = []
+        ਸਿਰਲੇਖਾਂ["spdx"] = []
+        ਲਈ ਸਤਰ ਵਿੱਚ ਸਤਰਾਂ:
+            ਜੇ self.armCollabRegex.ਮੇਲ(ਸਤਰ):
+                ਸਿਰਲੇਖਾਂ["copyright"].append(ਸਤਰ)
+            ਜਾਂਜੇ "SPDX-License-Identifier:" ਵਿੱਚ ਸਤਰ:
+                ਸਿਰਲੇਖਾਂ["spdx"].append(ਸਤਰ)
+            ਨਹੀਂਤਾਂ:
+                ਸਿਰਲੇਖਾਂ["text"].append(ਸਤਰ)
 
-        text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
-        spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
+        ਪਾਠ_equal = self.is_Valid_ਸਿਰਲੇਖ_Section(file_ext, "text", ਸਿਰਲੇਖਾਂ["text"])
+        spdx_equal = self.is_Valid_ਸਿਰਲੇਖ_Section(file_ext, "spdx", ਸਿਰਲੇਖਾਂ["spdx"])
 
-        if text_equal and spdx_equal:
+        ਜੇ ਪਾਠ_equal ਅਤੇ spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            ਜੇ ਲੰਬਾਈ(ਸਿਰਲੇਖਾਂ["copyright"]) == 3 ਜਾਂ ਲੰਬਾਈ(ਸਿਰਲੇਖਾਂ["copyright"]) == 2:
+                isValid = ਸੱਚ
 
-        return isValid
+        ਵਾਪਸ isValid
 
-    def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
-            isValid = self.checkArmCollabFile(path)
-        return isValid
+    ਪਰਿਭਾਸ਼ਾ customCheck(self, ਰਸਤਾ):
+        isValid = ਝੂਠ
+        ਜੇ self.isArmCollabFile(ਰਸਤਾ):
+            isValid = self.checkArmCollabFile(ਰਸਤਾ)
+        ਵਾਪਸ isValid
 
 
-def main():
-    parser = HeaderChecker.configArgParser()
-    args   = parser.parse_args()
+ਪਰਿਭਾਸ਼ਾ ਮੁੱਖ():
+    parser = ਸਿਰਲੇਖ_Checker.configArgParser()
+    ਦਲੀਲਾਂ   = parser.parse_ਦਲੀਲਾਂ()
 
     # Configure the checks then run
-    checker = KernelHeaderChecker(KERNEL_HEADER,
+    checker = Kernel_ਸਿਰਲੇਖ_Checker(KERNEL_ਸਿਰਲੇਖ,
                                   copyright_regex=FREERTOS_COPYRIGHT_REGEX,
                                   ignored_files=KERNEL_IGNORED_FILES,
                                   ignored_ext=KERNEL_IGNORED_EXTENSIONS,
                                   ignored_patterns=KERNEL_IGNORED_PATTERNS,
-                                  third_party_patterns=KERNEL_THIRD_PARTY_PATTERNS,
+                                  ਤੀਜਾ_party_patterns=KERNEL_ਤੀਜਾ_PARTY_PATTERNS,
                                   py_ext=KERNEL_PY_EXTENSIONS,
                                   asm_ext=KERNEL_ASM_EXTENSIONS)
-    checker.ignoreFile(os.path.split(__file__)[-1])
+    checker.ignoreFile(os.ਰਸਤਾ.ਵੰਡੋ(__file__)[-1])
 
-    rc = checker.processArgs(args)
-    if rc:
+    rc = checker.process_ਦਲੀਲਾਂ(ਦਲੀਲਾਂ)
+    ਜੇ rc:
         checker.showHelp(__file__)
 
-    return rc
+    ਵਾਪਸ rc
 
-if __name__ == '__main__':
-    exit(main())
+ਜੇ __name__ == '__main__':
+    exit(ਮੁੱਖ())

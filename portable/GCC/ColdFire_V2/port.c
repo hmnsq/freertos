@@ -27,107 +27,107 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
-#define portINITIAL_FORMAT_VECTOR      ( ( StackType_t ) 0x4000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_FORMAT_ਸਦਿਸ਼      ( ( ਢੇਰ_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER    ( ( StackType_t ) 0x2000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_ਸਥਿਤੀ_ਰਜਿਸਟਰ    ( ( ਢੇਰ_Type_t ) 0x2000 )
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ਸਥਿਰ uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) pvParameters;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( StackType_t ) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0xDEADBEEF;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) px_ਕੋਡ;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਪੋਰਟ_INITIAL_FORMAT_ਸਦਿਸ਼ << 16UL ) | ( ਪੋਰਟ_INITIAL_ਸਥਿਤੀ_ਰਜਿਸਟਰ );
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14;                  /* A5 to D0. */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = ( ਢੇਰ_Type_t ) 0x0; /*FP*/
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 14;                  /* A5 to D0. */
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-    extern void vPortStartFirstTask( void );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
 
     ulCriticalNesting = 0UL;
 
     /* Configure the interrupts used by this port. */
-    vApplicationSetupInterrupts();
+    v_Application_ਤਿਆਰੀ_Interrupts();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
-    return pdFALSE;
+    ਵਾਪਸ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ )
 {
-    if( ulCriticalNesting == 0UL )
+    ਜੇ( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
          * critical section being entered. */
-        do
+        ਕਰੋ
         {
-            portDISABLE_INTERRUPTS();
+            ਪੋਰਟ_DISABLE_INTERRUPTS();
 
-            if( MCF_INTC0_INTFRCL == 0UL )
+            ਜੇ( MCF_INTC0_INTFRCL == 0UL )
             {
-                break;
+                ਰੋਕੋ;
             }
 
-            portENABLE_INTERRUPTS();
-        } while( 1 );
+            ਪੋਰਟ_ENABLE_INTERRUPTS();
+        } ਜਦੋਂ( 1 );
     }
 
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ )
 {
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ਜੇ( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        ਪੋਰਟ_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+ਖਾਲੀ v_ਪੋਰਟ_Yield_Handler( ਖਾਲੀ )
 {
-    uint32_t ulSavedInterruptMask;
+    uint32_t ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ = ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR();
     /* Note this will clear all forced interrupts - this is done for speed. */
     MCF_INTC0_INTFRCL = 0;
     vTaskSwitchContext();
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( ul_Saved_ਰੁਕਾਵਟ_ਨਕਾਬ );
 }

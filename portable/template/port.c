@@ -3,80 +3,80 @@
  * license and copyright intentionally withheld to promote copying into user code.
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-    return pdTRUE;
+    ਵਾਪਸ pdTRUE;
 }
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
 }
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ਢੇਰ_Type_t * px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t * px_ਸਿਖਰ_ਦਾ_ਢੇਰ,
+                                     TaskFunction_t px_ਕੋਡ,
+                                     ਖਾਲੀ * pvParameters )
 {
-    ( void ) pxTopOfStack;
-    ( void ) pvParameters;
-    ( void ) * pxCode;
+    ( ਖਾਲੀ ) px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
+    ( ਖਾਲੀ ) pvParameters;
+    ( ਖਾਲੀ ) * px_ਕੋਡ;
 
-    return NULL;
+    ਵਾਪਸ ਨਿਰਾ;
 }
 
-void vPortYield( void )
+ਖਾਲੀ v_ਪੋਰਟ_Yield( ਖਾਲੀ )
 {
     /* Save the current Context */
 
     /* Switch to the highest priority task that is ready to run. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES == 1 )
     {
         vTaskSwitchContext();
     }
-    #else
+    #ਨਹੀਂਤਾਂ
     {
-        vTaskSwitchContext( portGET_CORE_ID() );
+        vTaskSwitchContext( ਪੋਰਟ_GET_CORE_ID() );
     }
-    #endif
+    #ਜੇ_ਅੰਤ
 
     /* Start executing the task we have just switched to. */
 }
 
-static void prvTickISR( void )
+ਸਥਿਰ ਖਾਲੀ prvTickISR( ਖਾਲੀ )
 {
     /* Interrupts must have been enabled for the ISR to fire, so we have to
      * save the context with interrupts enabled. */
 
-    #if ( configNUMBER_OF_CORES == 1 )
+    #ਜੇ ( config_ਸੰਖਿਆ_ਦਾ_CORES == 1 )
     {
         /* Maintain the tick count. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch to the highest priority task that is ready to run. */
             vTaskSwitchContext();
         }
     }
-    #else
+    #ਨਹੀਂਤਾਂ
     {
-        UBaseType_t ulPreviousMask;
+        UBaseType_t ul_ਪਿਛਲਾ_ਨਕਾਬ;
 
         /* Tasks or ISRs running on other cores may still in critical section in
          * multiple cores environment. Incrementing tick needs to performed in
          * critical section. */
-        ulPreviousMask = taskENTER_CRITICAL_FROM_ISR();
+        ul_ਪਿਛਲਾ_ਨਕਾਬ = taskENTER_CRITICAL_FROM_ISR();
 
         /* Maintain the tick count. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch to the highest priority task that is ready to run. */
-            vTaskSwitchContext( portGET_CORE_ID() );
+            vTaskSwitchContext( ਪੋਰਟ_GET_CORE_ID() );
         }
 
-        taskEXIT_CRITICAL_FROM_ISR( ulPreviousMask );
+        taskEXIT_CRITICAL_FROM_ISR( ul_ਪਿਛਲਾ_ਨਕਾਬ );
     }
-    #endif /* if ( configNUMBER_OF_CORES == 1 ) */
+    #ਜੇ_ਅੰਤ /* if ( configNUMBER_OF_CORES == 1 ) */
 
     /* start executing the new task */
 }

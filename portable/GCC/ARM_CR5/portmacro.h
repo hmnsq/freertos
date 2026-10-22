@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,67 +46,67 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t         TickType_t;
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint32_t ulPortYieldRequired;     \
+        ਬਾਹਰੀ uint32_t ul_ਪੋਰਟ_Yield_Required;     \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        ਜੇ( xSwitchRequired != pdFALSE )         \
         {                                        \
-            ulPortYieldRequired = pdTRUE;        \
+            ul_ਪੋਰਟ_Yield_Required = pdTRUE;        \
         }                                        \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#define portYIELD()                __asm volatile ( "SWI 0" ::: "memory" );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )    ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()                __asm ਅਸਥਿਰ ( "SWI 0" ::: "memory" );
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
-extern void vPortInstallFreeRTOSVectorTable( void );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ uint32_t ul_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( uint32_t ul_New_ਨਕਾਬ_ਮੁੱਲ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Install_Free_RTOSVector_ਸਾਰਣੀ( ਖਾਲੀ );
 
 /*
  * These macros do not globally disable/enable interrupts. They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY.
  */
-#define portENTER_CRITICAL()                      vPortEnterCritical();
-#define portEXIT_CRITICAL()                       vPortExitCritical();
-#define portDISABLE_INTERRUPTS()                  ulPortSetInterruptMask()
-#define portENABLE_INTERRUPTS()                   vPortClearInterruptMask( 0 )
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                      v_ਪੋਰਟ_Enter_Critical();
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                       v_ਪੋਰਟ_Exit_Critical();
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                  ul_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()                   v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR()         ul_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x )    v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ( x )
 
 /*-----------------------------------------------------------*/
 
@@ -115,14 +115,14 @@ extern void vPortInstallFreeRTOSVectorTable( void );
  * not required for this port but included in case common demo code that uses these
  * macros is used.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 
 /*
  * Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick.
  */
-void FreeRTOS_Tick_Handler( void );
+ਖਾਲੀ FreeRTOS_Tick_Handler( ਖਾਲੀ );
 
 /*
  * If configUSE_TASK_FPU_SUPPORT is set to 1, then tasks are created without an
@@ -130,91 +130,91 @@ void FreeRTOS_Tick_Handler( void );
  * prior to any FPU instructions. If configUSE_TASK_FPU_SUPPORT is set to 2,
  * then all tasks have an FPU context allocated by default.
  */
-#if ( configUSE_TASK_FPU_SUPPORT == 1 )
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
-#elif ( configUSE_TASK_FPU_SUPPORT == 2 )
+#ਜੇ ( configUSE_TASK_FPU_SUPPORT == 1 )
+    ਖਾਲੀ v_ਪੋਰਟ_Task_ਵਰਤਦਾ_FPU( ਖਾਲੀ );
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_ਵਰਤਦਾ_FLOATING_ਬਿੰਦੂ()    v_ਪੋਰਟ_Task_ਵਰਤਦਾ_FPU()
+#ਜਾਂਜੇ ( configUSE_TASK_FPU_SUPPORT == 2 )
 
 /*
  * Each task has an FPU context already, so define this function away to
  * prevent it being called accidentally.
  */
-    #define vPortTaskUsesFPU()
-    #define portTASK_USES_FLOATING_POINT()
-#endif /* configUSE_TASK_FPU_SUPPORT */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ v_ਪੋਰਟ_Task_ਵਰਤਦਾ_FPU()
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_ਵਰਤਦਾ_FLOATING_ਬਿੰਦੂ()
+#ਜੇ_ਅੰਤ /* configUSE_TASK_FPU_SUPPORT */
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਭ_ਤੋਂ_ਨੀਵਾਂ_ਰੁਕਾਵਟ_ਤਰਜੀਹ           ( ( ( uint32_t ) config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES ) - 1UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਭ_ਤੋਂ_ਨੀਵਾਂ_USABLE_ਰੁਕਾਵਟ_ਤਰਜੀਹ    ( ਪੋਰਟ_ਸਭ_ਤੋਂ_ਨੀਵਾਂ_ਰੁਕਾਵਟ_ਤਰਜੀਹ - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION    1
+#ਜੇ_ਅੰਤ
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ਜੇ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰਿਕਾਰਡ_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ਤਰਜੀਹ ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( uxReadyPriorities ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities )    ux_ਸਿਖਰ_ਤਰਜੀਹ = ( 31 - __builtin_clz( uxReadyPriorities ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#ਜੇ_ਅੰਤ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif /* configASSERT */
+#ਜੇ ( configASSERT_DEFINED == 1 )
+    ਖਾਲੀ v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ( ਖਾਲੀ );
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASSERT_IF_ਰੁਕਾਵਟ_ਤਰਜੀਹ_INVALID()    v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ()
+#ਜੇ_ਅੰਤ /* configASSERT */
 
-#define portNOP()                                         __asm volatile ( "NOP" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()                                         __asm ਅਸਥਿਰ ( "NOP" )
 
 
 /*
  * The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller.
  */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
-    #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 32
-    #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 64
-    #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 128
-    #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 256
-    #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
-#endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#ਜੇ config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES == 16
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਤਰਜੀਹ_ਖਿਸਕਾਓ            4
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਮੁੱਲ    3
+#ਜਾਂਜੇ config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES == 32
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਤਰਜੀਹ_ਖਿਸਕਾਓ            3
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਮੁੱਲ    2
+#ਜਾਂਜੇ config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES == 64
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਤਰਜੀਹ_ਖਿਸਕਾਓ            2
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਮੁੱਲ    1
+#ਜਾਂਜੇ config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES == 128
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਤਰਜੀਹ_ਖਿਸਕਾਓ            1
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਮੁੱਲ    0
+#ਜਾਂਜੇ config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES == 256
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਤਰਜੀਹ_ਖਿਸਕਾਓ            0
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਮੁੱਲ    0
+#ਨਹੀਂਤਾਂ /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+    #ਗਲਤੀ Invalid config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES setting.  config_UNIQUE_ਰੁਕਾਵਟ_PRIORITIES must be ਸੈੱਟ ਮੰਜ਼ਿਲ the ਸੰਖਿਆ ਦਾ unique priorities implemented by the ਨਿਸ਼ਾਨਾ hardware
+#ਜੇ_ਅੰਤ /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
 /* Interrupt controller access addresses. */
-#define portICCPMR_PRIORITY_MASK_OFFSET                      ( 0x04 )
-#define portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET              ( 0x0C )
-#define portICCEOIR_END_OF_INTERRUPT_OFFSET                  ( 0x10 )
-#define portICCBPR_BINARY_POINT_OFFSET                       ( 0x08 )
-#define portICCRPR_RUNNING_PRIORITY_OFFSET                   ( 0x14 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCPMR_ਤਰਜੀਹ_ਨਕਾਬ_ਵਿੱਥ                      ( 0x04 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCIAR_ਰੁਕਾਵਟ_ACKNOWLEDGE_ਵਿੱਥ              ( 0x0C )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCEOIR_ਸਿਰਾ_ਦਾ_ਰੁਕਾਵਟ_ਵਿੱਥ                  ( 0x10 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCBPR_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਵਿੱਥ                       ( 0x08 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCRPR_RUNNING_ਤਰਜੀਹ_ਵਿੱਥ                   ( 0x14 )
 
-#define portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS       ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET )
-#define portICCPMR_PRIORITY_MASK_REGISTER                    ( *( ( volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET ) ) )
-#define portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS    ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCIAR_INTERRUPT_ACKNOWLEDGE_OFFSET )
-#define portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS        ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCEOIR_END_OF_INTERRUPT_OFFSET )
-#define portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS            ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCPMR_PRIORITY_MASK_OFFSET )
-#define portICCBPR_BINARY_POINT_REGISTER                     ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCBPR_BINARY_POINT_OFFSET ) ) )
-#define portICCRPR_RUNNING_PRIORITY_REGISTER                 ( *( ( const volatile uint32_t * ) ( portINTERRUPT_CONTROLLER_CPU_INTERFACE_ADDRESS + portICCRPR_RUNNING_PRIORITY_OFFSET ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ       ( config_ਰੁਕਾਵਟ_CONTROLLER_ਅਧਾਰ_ਪਤਾ + config_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਵਿੱਥ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCPMR_ਤਰਜੀਹ_ਨਕਾਬ_ਰਜਿਸਟਰ                    ( *( ( ਅਸਥਿਰ uint32_t * ) ( ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ + ਪੋਰਟ_ICCPMR_ਤਰਜੀਹ_ਨਕਾਬ_ਵਿੱਥ ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCIAR_ਰੁਕਾਵਟ_ACKNOWLEDGE_ਰਜਿਸਟਰ_ਪਤਾ    ( ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ + ਪੋਰਟ_ICCIAR_ਰੁਕਾਵਟ_ACKNOWLEDGE_ਵਿੱਥ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCEOIR_ਸਿਰਾ_ਦਾ_ਰੁਕਾਵਟ_ਰਜਿਸਟਰ_ਪਤਾ        ( ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ + ਪੋਰਟ_ICCEOIR_ਸਿਰਾ_ਦਾ_ਰੁਕਾਵਟ_ਵਿੱਥ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCPMR_ਤਰਜੀਹ_ਨਕਾਬ_ਰਜਿਸਟਰ_ਪਤਾ            ( ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ + ਪੋਰਟ_ICCPMR_ਤਰਜੀਹ_ਨਕਾਬ_ਵਿੱਥ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCBPR_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਰਜਿਸਟਰ                     ( *( ( ਅਚਲ ਅਸਥਿਰ uint32_t * ) ( ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ + ਪੋਰਟ_ICCBPR_ਦੁਆਧਾਰੀ_ਬਿੰਦੂ_ਵਿੱਥ ) ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ICCRPR_RUNNING_ਤਰਜੀਹ_ਰਜਿਸਟਰ                 ( *( ( ਅਚਲ ਅਸਥਿਰ uint32_t * ) ( ਪੋਰਟ_ਰੁਕਾਵਟ_CONTROLLER_CPU_INTERFACE_ਪਤਾ + ਪੋਰਟ_ICCRPR_RUNNING_ਤਰਜੀਹ_ਵਿੱਥ ) ) )
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਮ੍ਰਿਤੀ_BARRIER()    __asm ਅਸਥਿਰ ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     } /* extern C */
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

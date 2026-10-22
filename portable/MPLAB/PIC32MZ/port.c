@@ -31,49 +31,49 @@
   *----------------------------------------------------------*/
 
 /* Microchip specific headers. */
-#include <xc.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <xc.h>
 
 /* Standard headers. */
-#include <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
 
-#if !defined(__PIC32MZ__)
-    #error This port is designed to work with XC32 on PIC32MZ MCUs.  Please update your C compiler version or settings.
-#endif
+#ਜੇ !defined(__PIC32MZ__)
+    #ਗਲਤੀ This ਪੋਰਟ is designed ਮੰਜ਼ਿਲ work with XC32 on PIC32MZ MCUs.  Please update your C compiler ਸੰਸਕਰਣ or settings.
+#ਜੇ_ਅੰਤ
 
-#if( ( configMAX_SYSCALL_INTERRUPT_PRIORITY >= 0x7 ) || ( configMAX_SYSCALL_INTERRUPT_PRIORITY == 0 ) )
-    #error configMAX_SYSCALL_INTERRUPT_PRIORITY must be less than 7 and greater than 0
-#endif
+#ਜੇ( ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ >= 0x7 ) || ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ == 0 ) )
+    #ਗਲਤੀ config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ must be less than 7 and greater than 0
+#ਜੇ_ਅੰਤ
 
 /* Hardware specifics. */
-#define portTIMER_PRESCALE  8
-#define portPRESCALE_BITS   1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_PRESCALE  8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRESCALE_ਬਿੱਟ   1
 
 /* Bits within various registers. */
-#define portIE_BIT                  ( 0x00000001 )
-#define portEXL_BIT                 ( 0x00000002 )
-#define portMX_BIT                  ( 0x01000000 ) /* Allow access to DSP instructions. */
-#define portCU1_BIT                 ( 0x20000000 ) /* enable CP1 for parts with hardware. */
-#define portFR_BIT                  ( 0x04000000 ) /* Enable 64 bit floating point registers. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IE_ਦੋਆਧਾਰੀ_ਅੰਕ                  ( 0x00000001 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXL_ਦੋਆਧਾਰੀ_ਅੰਕ                 ( 0x00000002 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MX_ਦੋਆਧਾਰੀ_ਅੰਕ                  ( 0x01000000 ) /* Allow access to DSP instructions. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CU1_ਦੋਆਧਾਰੀ_ਅੰਕ                 ( 0x20000000 ) /* enable CP1 for parts with hardware. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FR_ਦੋਆਧਾਰੀ_ਅੰਕ                  ( 0x04000000 ) /* Enable 64 bit floating point registers. */
 
 /* Bits within the CAUSE register. */
-#define portCORE_SW_0               ( 0x00000100 )
-#define portCORE_SW_1               ( 0x00000200 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CORE_SW_0               ( 0x00000100 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CORE_SW_1               ( 0x00000200 )
 
 /* The EXL bit is set to ensure interrupts do not occur while the context of
 the first task is being restored. */
-#if ( __mips_hard_float == 1 )
-    #define portINITIAL_SR          ( portIE_BIT | portEXL_BIT | portMX_BIT | portFR_BIT | portCU1_BIT )
-#else
-    #define portINITIAL_SR          ( portIE_BIT | portEXL_BIT | portMX_BIT )
-#endif
+#ਜੇ ( __mips_hard_float == 1 )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SR          ( ਪੋਰਟ_IE_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_EXL_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_MX_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_FR_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_CU1_ਦੋਆਧਾਰੀ_ਅੰਕ )
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SR          ( ਪੋਰਟ_IE_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_EXL_ਦੋਆਧਾਰੀ_ਅੰਕ | ਪੋਰਟ_MX_ਦੋਆਧਾਰੀ_ਅੰਕ )
+#ਜੇ_ਅੰਤ
 
 /* The initial value to store into the FPU status and control register. This is
  only used on parts that support a hardware FPU. */
-#define portINITIAL_FPSCR           (0x1000000) /* High perf on denormal ops */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_FPSCR           (0x1000000) /* High perf on denormal ops */
 
 
 /*
@@ -93,121 +93,121 @@ override this behaviour by:
        used configCLEAR_TICK_TIMER_INTERRUPT() is defined to
        IFS0CLR = _IFS0_T1IF_MASK.
 */
-#ifndef configTICK_INTERRUPT_VECTOR
-    #define configTICK_INTERRUPT_VECTOR _TIMER_1_VECTOR
-    #define configCLEAR_TICK_TIMER_INTERRUPT() IFS0CLR = _IFS0_T1IF_MASK
-#else
-    #ifndef configCLEAR_TICK_TIMER_INTERRUPT
-        #error If configTICK_INTERRUPT_VECTOR is defined in application code then configCLEAR_TICK_TIMER_INTERRUPT must also be defined in application code.
-    #endif
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_TICK_ਰੁਕਾਵਟ_ਸਦਿਸ਼
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_TICK_ਰੁਕਾਵਟ_ਸਦਿਸ਼ TIMER_1_ਸਦਿਸ਼
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_CLEAR_TICK_TIMER_ਰੁਕਾਵਟ() IFS0CLR = IFS0_T1_IF_ਨਕਾਬ
+#ਨਹੀਂਤਾਂ
+    #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_CLEAR_TICK_TIMER_ਰੁਕਾਵਟ
+        #ਗਲਤੀ If config_TICK_ਰੁਕਾਵਟ_ਸਦਿਸ਼ is defined ਵਿੱਚ_2 application ਕੋਡ then config_CLEAR_TICK_TIMER_ਰੁਕਾਵਟ must also be defined ਵਿੱਚ_2 application ਕੋਡ.
+    #ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 /* Let the user override the pre-loading of the initial RA with the address of
 prvTaskExitError() in case it messes up unwinding of the stack in the
 debugger - in which case configTASK_RETURN_ADDRESS can be defined as 0 (NULL). */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS prvTaskExitError
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ config_TASK_RETURN_ਪਤਾ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_RETURN_ਪਤਾ config_TASK_RETURN_ਪਤਾ
+#ਨਹੀਂਤਾਂ
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_RETURN_ਪਤਾ prvTaskExitError
+#ਜੇ_ਅੰਤ
 
 /* Set configCHECK_FOR_STACK_OVERFLOW to 3 to add ISR stack checking to task
 stack checking.  A problem in the ISR stack will trigger an assert, not call the
 stack overflow hook function (because the stack overflow hook is specific to a
 task stack, not the ISR stack). */
-#if( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#ਜੇ( config_CHECK_FOR_ਢੇਰ_ਉਛਾਲ > 2 )
 
     /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
     the task stacks, and so will legitimately appear in many positions within
     the ISR stack. */
-    #define portISR_STACK_FILL_BYTE 0xee
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE 0xee
 
-    static const uint8_t ucExpectedStackBytes[] = {
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE,     \
-                                    portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE };   \
+    ਸਥਿਰ ਅਚਲ uint8_t uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ[] = {
+                                    ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE,     \
+                                    ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE,     \
+                                    ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE,     \
+                                    ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE,     \
+                                    ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE };   \
 
-    #define portCHECK_ISR_STACK() configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHECK_ISR_ਢੇਰ() configASSERT( ( memcmp( ( ਖਾਲੀ * ) xISRStack, ( ਖਾਲੀ * ) uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ, ਆਕਾਰ( uc_Expected_ਢੇਰ_ਬਾਈਟਾਂ ) ) == 0 ) )
+#ਨਹੀਂਤਾਂ
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
-#endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHECK_ISR_ਢੇਰ()
+#ਜੇ_ਅੰਤ /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 /*-----------------------------------------------------------*/
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ਸਥਿਰ ਖਾਲੀ prvTaskExitError( ਖਾਲੀ );
 
 /*-----------------------------------------------------------*/
 
 /* Records the interrupt nesting depth.  This is initialised to one as it is
 decremented to 0 when the first task starts. */
-volatile UBaseType_t uxInterruptNesting = 0x01;
+ਅਸਥਿਰ UBaseType_t ux_ਰੁਕਾਵਟ_Nesting = 0x01;
 
 /* Stores the task stack pointer when a switch is made to use the system stack. */
-UBaseType_t uxSavedTaskStackPointer = 0;
+UBaseType_t ux_Saved_Task_ਢੇਰ_ਸੂਚਕ = 0;
 
 /* The stack used by interrupt service routines that cause a context switch. */
-__attribute__ ((aligned(8))) StackType_t xISRStack[ configISR_STACK_SIZE ] = { 0 };
+__attribute__ ((aligned(8))) ਢੇਰ_Type_t xISRStack[ config_ISR_ਢੇਰ_ਮਾਪ ] = { 0 };
 
 /* The top of stack value ensures there is enough space to store 6 registers on
 the callers stack, as some functions seem to want to do this.  8 byte alignment
 is required to allow double word floating point stack pushes generated by the
 compiler. */
-const StackType_t * const xISRStackTop = &( xISRStack[ ( configISR_STACK_SIZE & ~portBYTE_ALIGNMENT_MASK ) - 8 ] );
+ਅਚਲ ਢੇਰ_Type_t * ਅਚਲ x_ISRStack_ਸਿਖਰ = &( xISRStack[ ( config_ISR_ਢੇਰ_ਮਾਪ & ~ਪੋਰਟ_BYTE_ALIGNMENT_ਨਕਾਬ ) - 8 ] );
 
 /* Saved as part of the task context. Set to pdFALSE if the task does not
  require an FPU context. */
-#if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+#ਜੇ ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
     uint32_t ulTaskHasFPUContext = 0;
-#endif
+#ਜੇ_ਅੰਤ
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ਢੇਰ_Type_t *px_ਪੋਰਟ_Initialise_ਢੇਰ( ਢੇਰ_Type_t *px_ਸਿਖਰ_ਦਾ_ਢੇਰ, TaskFunction_t px_ਕੋਡ, ਖਾਲੀ *pvParameters )
 {
     /* Ensure 8 byte alignment is maintained when leaving this function. */
-    pxTopOfStack--;
-    pxTopOfStack--;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) 0xDEADBEEF;
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = (StackType_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) 0x12345678;   /* Word to which the stack pointer will be left pointing after context restore. */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = (StackType_t) _CP0_GET_CAUSE();
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) _CP0_GET_CAUSE();
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = (StackType_t) portINITIAL_SR;/* CP0_STATUS */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) ਪੋਰਟ_INITIAL_SR;/* CP0_STATUS */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = (StackType_t) pxCode;       /* CP0_EPC */
-    pxTopOfStack--;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) px_ਕੋਡ;       /* CP0_EPC */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ--;
 
-    *pxTopOfStack = (StackType_t) 0x00000000;   /* DSPControl */
-    pxTopOfStack -= 7;                          /* Includes space for AC1 - AC3. */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) 0x00000000;   /* DSPControl */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 7;                          /* Includes space for AC1 - AC3. */
 
-    *pxTopOfStack = (StackType_t) portTASK_RETURN_ADDRESS;  /* ra */
-    pxTopOfStack -= 15;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) ਪੋਰਟ_TASK_RETURN_ਪਤਾ;  /* ra */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 15;
 
-    *pxTopOfStack = (StackType_t) pvParameters; /* Parameters to pass in. */
-    pxTopOfStack -= 15;
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) pvParameters; /* Parameters to pass in. */
+    px_ਸਿਖਰ_ਦਾ_ਢੇਰ -= 15;
 
-    *pxTopOfStack = (StackType_t) pdFALSE; /*by default disable FPU context save on parts with FPU */
+    *px_ਸਿਖਰ_ਦਾ_ਢੇਰ = (ਢੇਰ_Type_t) pdFALSE; /*by default disable FPU context save on parts with FPU */
 
-    return pxTopOfStack;
+    ਵਾਪਸ px_ਸਿਖਰ_ਦਾ_ਢੇਰ;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ਸਥਿਰ ਖਾਲੀ prvTaskExitError( ਖਾਲੀ )
 {
     /* A function that implements a task must not exit or attempt to return to
     its caller as there is nothing to return to.  If a task wants to exit it
@@ -215,9 +215,9 @@ static void prvTaskExitError( void )
 
     Artificially force an assert() to be triggered if configASSERT() is
     defined, then stop here so application writers can catch the error. */
-    configASSERT( uxSavedTaskStackPointer == 0UL );
-    portDISABLE_INTERRUPTS();
-    for( ;; );
+    configASSERT( ux_Saved_Task_ਢੇਰ_ਸੂਚਕ == 0UL );
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
+    ਲਈ( ;; );
 }
 /*-----------------------------------------------------------*/
 
@@ -230,19 +230,19 @@ static void prvTaskExitError( void )
  * vector number.  When Timer 1 is used the vector number is defined as
  * _TIMER_1_VECTOR.
  */
-__attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void )
+__attribute__(( weak )) ਖਾਲੀ v_Application_ਤਿਆਰੀ_Tick_Timer_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-const uint32_t ulCompareMatch = ( (configPERIPHERAL_CLOCK_HZ / portTIMER_PRESCALE) / configTICK_RATE_HZ ) - 1UL;
+ਅਚਲ uint32_t ul_Compare_ਮੇਲ = ( (configPERIPHERAL_CLOCK_HZ / ਪੋਰਟ_TIMER_PRESCALE) / config_TICK_ਦਰ_HZ ) - 1UL;
 
     /* PR1 is 16-bit. Ensure that the configPERIPHERAL_CLOCK_HZ and
      * configTICK_RATE_HZ are defined such that ulCompareMatch value would fit
      * in 16-bits. */
-    configASSERT( ( ulCompareMatch & 0xFFFF0000 ) == 0 );
+    configASSERT( ( ul_Compare_ਮੇਲ & 0xFFFF0000 ) == 0 );
 
     T1CON = 0x0000;
-    T1CONbits.TCKPS = portPRESCALE_BITS;
-    PR1 = ulCompareMatch;
-    IPC1bits.T1IP = configKERNEL_INTERRUPT_PRIORITY;
+    T1CONbits.TCKPS = ਪੋਰਟ_PRESCALE_ਬਿੱਟ;
+    PR1 = ul_Compare_ਮੇਲ;
+    IPC1bits.T1IP = config_KERNEL_ਰੁਕਾਵਟ_ਤਰਜੀਹ;
 
     /* Clear the interrupt as a starting condition. */
     IFS0bits.T1IF = 0;
@@ -255,45 +255,45 @@ const uint32_t ulCompareMatch = ( (configPERIPHERAL_CLOCK_HZ / portTIMER_PRESCAL
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler(void)
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler(ਖਾਲੀ)
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
-    configASSERT( uxInterruptNesting == 1000UL );
+    configASSERT( ux_ਰੁਕਾਵਟ_Nesting == 1000UL );
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
-extern void vPortStartFirstTask( void );
-extern void *pxCurrentTCB;
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ *pxCurrentTCB;
 
-    #if ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+    #ਜੇ ( config_CHECK_FOR_ਢੇਰ_ਉਛਾਲ > 2 )
     {
         /* Fill the ISR stack to make it easy to asses how much is being used. */
-        memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+        memset( ( ਖਾਲੀ * ) xISRStack, ਪੋਰਟ_ISR_ਢੇਰ_FILL_BYTE, ਆਕਾਰ( xISRStack ) );
     }
-    #endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #ਜੇ_ਅੰਤ /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
     /* Clear the software interrupt flag. */
-    IFS0CLR = _IFS0_CS0IF_MASK;
+    IFS0CLR = IFS0_CS0_IF_ਨਕਾਬ;
 
     /* Set software timer priority. */
-    IPC0CLR = _IPC0_CS0IP_MASK;
-    IPC0SET = ( configKERNEL_INTERRUPT_PRIORITY << _IPC0_CS0IP_POSITION );
+    IPC0CLR = IPC0_CS0_IP_ਨਕਾਬ;
+    IPC0_ਸੈੱਟ = ( config_KERNEL_ਰੁਕਾਵਟ_ਤਰਜੀਹ << _IPC0_CS0IP_POSITION );
 
     /* Enable software interrupt. */
-    IEC0CLR = _IEC0_CS0IE_MASK;
-    IEC0SET = 1 << _IEC0_CS0IE_POSITION;
+    IEC0CLR = IEC0_CS0_IE_ਨਕਾਬ;
+    IEC0_ਸੈੱਟ = 1 << _IEC0_CS0IE_POSITION;
 
     /* Setup the timer to generate the tick.  Interrupts will have been
     disabled by the time we get here. */
-    vApplicationSetupTickTimerInterrupt();
+    v_Application_ਤਿਆਰੀ_Tick_Timer_ਰੁਕਾਵਟ();
 
     /* Kick off the highest priority task that has been created so far.
     Its stack location is loaded into uxSavedTaskStackPointer. */
-    uxSavedTaskStackPointer = *( UBaseType_t * ) pxCurrentTCB;
-    vPortStartFirstTask();
+    ux_Saved_Task_ਢੇਰ_ਸੂਚਕ = *( UBaseType_t * ) pxCurrentTCB;
+    v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task();
 
     /* Should never get here as the tasks will now be executing!  Call the task
     exit error function to prevent compiler warnings about a static function
@@ -301,74 +301,74 @@ extern void *pxCurrentTCB;
     functionality by defining configTASK_RETURN_ADDRESS. */
     prvTaskExitError();
 
-    return pdFALSE;
+    ਵਾਪਸ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortIncrementTick( void )
+ਖਾਲੀ v_ਪੋਰਟ_Increment_Tick( ਖਾਲੀ )
 {
-UBaseType_t uxSavedStatus;
+UBaseType_t ux_Saved_ਸਥਿਤੀ;
 
-    uxSavedStatus = uxPortSetInterruptMaskFromISR();
+    ux_Saved_ਸਥਿਤੀ = ux_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_From_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             /* Pend a context switch. */
-            _CP0_BIS_CAUSE( portCORE_SW_0 );
+            _CP0_BIS_CAUSE( ਪੋਰਟ_CORE_SW_0 );
         }
     }
-    vPortClearInterruptMaskFromISR( uxSavedStatus );
+    v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ_From_ISR( ux_Saved_ਸਥਿਤੀ );
 
     /* Look for the ISR stack getting near or past its limit. */
-    portCHECK_ISR_STACK();
+    ਪੋਰਟ_CHECK_ISR_ਢੇਰ();
 
     /* Clear timer interrupt. */
-    configCLEAR_TICK_TIMER_INTERRUPT();
+    config_CLEAR_TICK_TIMER_ਰੁਕਾਵਟ();
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t uxPortSetInterruptMaskFromISR( void )
+UBaseType_t ux_ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_From_ISR( ਖਾਲੀ )
 {
-UBaseType_t uxSavedStatusRegister;
+UBaseType_t ux_Saved_ਸਥਿਤੀ_ਰਜਿਸਟਰ;
 
     __builtin_disable_interrupts();
-    uxSavedStatusRegister = _CP0_GET_STATUS() | 0x01;
+    ux_Saved_ਸਥਿਤੀ_ਰਜਿਸਟਰ = CP0_GET_ਸਥਿਤੀ() | 0x01;
     /* This clears the IPL bits, then sets them to
     configMAX_SYSCALL_INTERRUPT_PRIORITY.  This function should not be called
     from an interrupt that has a priority above
     configMAX_SYSCALL_INTERRUPT_PRIORITY so, when used correctly, the action
     can only result in the IPL being unchanged or raised, and therefore never
     lowered. */
-    _CP0_SET_STATUS( ( ( uxSavedStatusRegister & ( ~portALL_IPL_BITS ) ) ) | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) );
+    CP0_ਸੈੱਟ_ਸਥਿਤੀ( ( ( ux_Saved_ਸਥਿਤੀ_ਰਜਿਸਟਰ & ( ~ਪੋਰਟ_ALL_IPL_ਬਿੱਟ ) ) ) | ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ << ਪੋਰਟ_IPL_ਖਿਸਕਾਓ ) );
 
-    return uxSavedStatusRegister;
+    ਵਾਪਸ ux_Saved_ਸਥਿਤੀ_ਰਜਿਸਟਰ;
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMaskFromISR( UBaseType_t uxSavedStatusRegister )
+ਖਾਲੀ v_ਪੋਰਟ_Clear_ਰੁਕਾਵਟ_ਨਕਾਬ_From_ISR( UBaseType_t ux_Saved_ਸਥਿਤੀ_ਰਜਿਸਟਰ )
 {
-    _CP0_SET_STATUS( uxSavedStatusRegister );
+    CP0_ਸੈੱਟ_ਸਥਿਤੀ( ux_Saved_ਸਥਿਤੀ_ਰਜਿਸਟਰ );
 }
 /*-----------------------------------------------------------*/
 
-#if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+#ਜੇ ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
 
-    void vPortTaskUsesFPU(void)
+    ਖਾਲੀ v_ਪੋਰਟ_Task_ਵਰਤਦਾ_FPU(ਖਾਲੀ)
     {
-    extern void vPortInitialiseFPSCR( uint32_t uxFPSCRInit );
+    ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Initialise_FPSCR( uint32_t uxFPSCRInit );
 
-        portENTER_CRITICAL();
+        ਪੋਰਟ_ENTER_CRITICAL();
 
         /* Initialise the floating point status register. */
-        vPortInitialiseFPSCR(portINITIAL_FPSCR);
+        v_ਪੋਰਟ_Initialise_FPSCR(ਪੋਰਟ_INITIAL_FPSCR);
 
         /* A task is registering the fact that it needs a FPU context. Set the
         FPU flag (saved as part of the task context). */
         ulTaskHasFPUContext = pdTRUE;
 
-        portEXIT_CRITICAL();
+        ਪੋਰਟ_EXIT_CRITICAL();
     }
 
-#endif /* __mips_hard_float == 1 */
+#ਜੇ_ਅੰਤ /* __mips_hard_float == 1 */
 
 /*-----------------------------------------------------------*/

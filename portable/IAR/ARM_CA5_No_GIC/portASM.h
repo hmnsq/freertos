@@ -29,40 +29,40 @@
     EXTERN  vTaskSwitchContext
     EXTERN  ulCriticalNesting
     EXTERN  pxCurrentTCB
-    EXTERN  ulPortTaskHasFPUContext
-    EXTERN  ulAsmAPIPriorityMask
+    EXTERN  ul_ਪੋਰਟ_Task_Has_FPUContext
+    EXTERN  ul_Asm_APIPriority_ਨਕਾਬ
 
-portSAVE_CONTEXT macro
+ਪੋਰਟ_SAVE_CONTEXT macro
 
-    ; Save the LR and SPSR onto the system mode stack before switching to
-    ; system mode to save the remaining system mode registers
+    ; Save the LR and SPSR onto the system ਬਹੁਲਕ_2 ਢੇਰ before switching ਮੰਜ਼ਿਲ
+    ; system ਬਹੁਲਕ_2 ਮੰਜ਼ਿਲ save the ਬਚਿਆ system ਬਹੁਲਕ_2 registers
     SRSDB   sp!, #SYS_MODE
     CPS     #SYS_MODE
-    PUSH    {R0-R12, R14}
+    ਧੱਕੋ_2    {R0-R12, R14}
 
-    ; Push the critical nesting count
+    ; ਧੱਕੋ_3 the critical nesting ਗਿਣਤੀ_2
     LDR     R2, =ulCriticalNesting
     LDR     R1, [R2]
-    PUSH    {R1}
+    ਧੱਕੋ_2    {R1}
 
-    ; Does the task have a floating point context that needs saving?  If
-    ; ulPortTaskHasFPUContext is 0 then no.
-    LDR     R2, =ulPortTaskHasFPUContext
+    ; Does the task have a floating ਬਿੰਦੂ_2 context that needs saving?  If
+    ; ul_ਪੋਰਟ_Task_Has_FPUContext is 0 then no.
+    LDR     R2, =ul_ਪੋਰਟ_Task_Has_FPUContext
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating ਬਿੰਦੂ_2 context, ਜੇ any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
-#if configFPU_D32 == 1
+#ਜੇ configFPU_D32 == 1
     VPUSHNE {D16-D31}
-#endif ; configFPU_D32
+#ਜੇ_ਅੰਤ ; configFPU_D32
     PUSHNE  {R1}
 
-    ; Save ulPortTaskHasFPUContext itself
-    PUSH    {R3}
+    ; Save ul_ਪੋਰਟ_Task_Has_FPUContext itself
+    ਧੱਕੋ_2    {R3}
 
-    ; Save the stack pointer in the TCB
+    ; Save the ਢੇਰ ਸੂਚਕ_2 ਵਿੱਚ_2 the TCB
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     STR     SP, [R1]
@@ -71,39 +71,39 @@ portSAVE_CONTEXT macro
 
 ; /**********************************************************************/
 
-portRESTORE_CONTEXT macro
+ਪੋਰਟ_RESTORE_CONTEXT macro
 
-    ; Set the SP to point to the stack of the task being restored.
+    ; ਸੈੱਟ_2 the SP ਮੰਜ਼ਿਲ ਬਿੰਦੂ_2 ਮੰਜ਼ਿਲ the ਢੇਰ ਦਾ the task being restored.
     LDR     R0, =pxCurrentTCB
     LDR     R1, [R0]
     LDR     SP, [R1]
 
-    ; Is there a floating point context to restore?  If the restored
-    ; ulPortTaskHasFPUContext is zero then no.
-    LDR     R0, =ulPortTaskHasFPUContext
-    POP     {R1}
+    ; Is there a floating ਬਿੰਦੂ_2 context ਮੰਜ਼ਿਲ restore?  If the restored
+    ; ul_ਪੋਰਟ_Task_Has_FPUContext is zero then no.
+    LDR     R0, =ul_ਪੋਰਟ_Task_Has_FPUContext
+    ਕੱਢੋ_2     {R1}
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating ਬਿੰਦੂ_2 context, ਜੇ any
     POPNE   {R0}
-#if configFPU_D32 == 1
+#ਜੇ configFPU_D32 == 1
     VPOPNE  {D16-D31}
-#endif ; configFPU_D32
+#ਜੇ_ਅੰਤ ; configFPU_D32
     VPOPNE  {D0-D15}
     VMSRNE  FPSCR, R0
 
-    ; Restore the critical section nesting depth
+    ; Restore the critical section nesting ਡੂੰਘਾਈ
     LDR     R0, =ulCriticalNesting
-    POP     {R1}
+    ਕੱਢੋ_2     {R1}
     STR     R1, [R0]
 
-    ; Restore all system mode registers other than the SP (which is already
-    ; being used)
-    POP     {R0-R12, R14}
+    ; Restore all system ਬਹੁਲਕ_2 registers other than the SP (which is already
+    ; being ਵਰਤਿਆ)
+    ਕੱਢੋ_2     {R0-R12, R14}
 
-    ; Return to the task code, loading CPSR on the way.  CPSR has the interrupt
-    ; enable bit set appropriately for the task about to execute.
+    ; Return ਮੰਜ਼ਿਲ the task ਕੋਡ, loading CPSR on the way.  CPSR has the ਰੁਕਾਵਟ
+    ; enable ਦੋਆਧਾਰੀ_ਅੰਕ_2 ਸੈੱਟ appropriately ਲਈ the task about ਮੰਜ਼ਿਲ execute.
     RFEIA   sp!
 
     endm

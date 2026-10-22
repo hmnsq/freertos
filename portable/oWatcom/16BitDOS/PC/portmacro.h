@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,73 +46,73 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR        ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT       ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE      ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG        ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT       ਪੂਰਨ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE  uint16_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE   ਛੋਟਾ
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਛੋਟਾ ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਛੋਟਾ UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#ਜੇ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ  == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t             TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ ਸੈੱਟ ਮੰਜ਼ਿਲ unsupported tick type ਚੌੜਾਈ.
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* Critical section definitions.  portENTER_CRITICAL() must be defined as a
 macro for portable.h to work properly. */
-void portLOCAL_ENTER_CRITICAL( void );
-#pragma aux portLOCAL_ENTER_CRITICAL =  "pushf" \
+ਖਾਲੀ ਪੋਰਟ_LOCAL_ENTER_CRITICAL( ਖਾਲੀ );
+#ਹਦਾਇਤ aux ਪੋਰਟ_LOCAL_ENTER_CRITICAL =  "pushf" \
                                         "cli";
-#define portENTER_CRITICAL() portLOCAL_ENTER_CRITICAL()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL() ਪੋਰਟ_LOCAL_ENTER_CRITICAL()
 
-void portEXIT_CRITICAL( void );
-#pragma aux portEXIT_CRITICAL   =       "popf";
+ਖਾਲੀ ਪੋਰਟ_EXIT_CRITICAL( ਖਾਲੀ );
+#ਹਦਾਇਤ aux ਪੋਰਟ_EXIT_CRITICAL   =       "popf";
 
-void portDISABLE_INTERRUPTS( void );
-#pragma aux portDISABLE_INTERRUPTS =    "cli";
+ਖਾਲੀ ਪੋਰਟ_DISABLE_INTERRUPTS( ਖਾਲੀ );
+#ਹਦਾਇਤ aux ਪੋਰਟ_DISABLE_INTERRUPTS =    "cli";
 
-void portENABLE_INTERRUPTS( void );
-#pragma aux portENABLE_INTERRUPTS =     "sti";
+ਖਾਲੀ ਪੋਰਟ_ENABLE_INTERRUPTS( ਖਾਲੀ );
+#ਹਦਾਇਤ aux ਪੋਰਟ_ENABLE_INTERRUPTS =     "sti";
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH        ( -1 )
-#define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
-#define portDOS_TICK_RATE       ( 18.20648 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portTICKS_PER_DOS_TICK  ( ( uint16_t ) ( ( ( portDOUBLE ) configTICK_RATE_HZ / portDOS_TICK_RATE ) + 0.5 ) )
-#define portINITIAL_SW          ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
-#define portBYTE_ALIGNMENT      ( 2 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH        ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SWITCH_INT_ਸੰਖਿਆ   0x80
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()             __asm{ ਪੂਰਨ ਪੋਰਟ_SWITCH_INT_ਸੰਖਿਆ }
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOS_TICK_ਦਰ       ( 18.20648 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICKS_ਪ੍ਰਤੀ_DOS_TICK  ( ( uint16_t ) ( ( ( ਪੋਰਟ_DOUBLE ) config_TICK_ਦਰ_HZ / ਪੋਰਟ_DOS_TICK_ਦਰ ) + 0.5 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INITIAL_SW          ( ( ਪੋਰਟ_ਢੇਰ_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT      ( 2 )
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )             inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )   outp( xAddr, ucValue )
-#define portNOP() __asm{ nop }
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਨਿਵੇਸ਼_BYTE( xAddr )             inp( xAddr )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_OUTPUT_BYTE( xAddr, uc_ਮੁੱਲ )   outp( xAddr, uc_ਮੁੱਲ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP() __asm{ nop }
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vTaskFunction, pvParameters ) void vTaskFunction( void *pvParameters )
-#define portTASK_FUNCTION( vTaskFunction, pvParameters ) void vTaskFunction( void *pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vTaskFunction, pvParameters ) ਖਾਲੀ vTaskFunction( ਖਾਲੀ *pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vTaskFunction, pvParameters ) ਖਾਲੀ vTaskFunction( ਖਾਲੀ *pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
     }
-#endif
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

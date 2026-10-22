@@ -137,17 +137,17 @@ portRESTORE_CONTEXT .macro
 ;/*-----------------------------------------------------------*/
 ; Start the first task by restoring its context.
 
-        .def vPortStartFirstTask
+        .def v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task
 
-vPortStartFirstTask:
+v_ਪੋਰਟ_ਸ਼ੁਰੂ_ਪਹਿਲਾ_Task:
         portRESTORE_CONTEXT
 
 ;/*-----------------------------------------------------------*/
 ; Yield to another task.
 
-        .def vPortYieldProcessor
+        .def v_ਪੋਰਟ_Yield_Processor
 
-vPortYieldProcessor:
+v_ਪੋਰਟ_Yield_Processor:
         ; Within an IRQ ISR the link register has an offset from the true return
         ; address.  SWI doesn't do this. Add the offset manually so the ISR
         ; return code can be used.
@@ -165,9 +165,9 @@ vPortYieldProcessor:
 ;/*-----------------------------------------------------------*/
 ; Yield to another task from within the FreeRTOS API
 
-        .def vPortYeildWithinAPI
+        .def v_ਪੋਰਟ_Yeild_Within_API
 
-vPortYeildWithinAPI:
+v_ਪੋਰਟ_Yeild_Within_API:
         ; Save the context of the current task.
 
         portSAVE_CONTEXT
@@ -185,9 +185,9 @@ vPortYeildWithinAPI:
 ;/*-----------------------------------------------------------*/
 ; Preemptive Tick
 
-        .def vPortPreemptiveTick
+        .def v_ਪੋਰਟ_Preemptive_Tick
 
-vPortPreemptiveTick:
+v_ਪੋਰਟ_Preemptive_Tick:
 
         ; Save the context of the current task.
         portSAVE_CONTEXT
@@ -213,9 +213,9 @@ vPortPreemptiveTick:
 
     .if (__TI_VFP_SUPPORT__)
 
-        .def vPortInitialiseFPSCR
+        .def v_ਪੋਰਟ_Initialise_FPSCR
 
-vPortInitialiseFPSCR:
+v_ਪੋਰਟ_Initialise_FPSCR:
 
         MOV     R0, #0
         FMXR    FPSCR, R0

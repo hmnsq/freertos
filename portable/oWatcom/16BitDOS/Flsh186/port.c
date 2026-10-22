@@ -49,136 +49,136 @@ Changes from V2.6.1
  * port.
  *----------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <i86.h>
-#include <dos.h>
-#include <setjmp.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <i86.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <dos.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <setjmp.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portasm.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "task.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "portasm.h"
 
 /*lint -e950 Non ANSI reserved words okay in this file only. */
 
-#define portTIMER_EOI_TYPE      ( 8 )
-#define portRESET_PIC()         portOUTPUT_WORD( ( uint16_t ) 0xff22, portTIMER_EOI_TYPE )
-#define portTIMER_INT_NUMBER    0x12
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_EOI_TYPE      ( 8 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_PIC()         ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( ( uint16_t ) 0xff22, ਪੋਰਟ_TIMER_EOI_TYPE )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_INT_ਸੰਖਿਆ    0x12
 
-#define portTIMER_1_CONTROL_REGISTER    ( ( uint16_t ) 0xff5e )
-#define portTIMER_0_CONTROL_REGISTER    ( ( uint16_t ) 0xff56 )
-#define portTIMER_INTERRUPT_ENABLE      ( ( uint16_t ) 0x2000 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_1_CONTROL_ਰਜਿਸਟਰ    ( ( uint16_t ) 0xff5e )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_0_CONTROL_ਰਜਿਸਟਰ    ( ( uint16_t ) 0xff56 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIMER_ਰੁਕਾਵਟ_ENABLE      ( ( uint16_t ) 0x2000 )
 
 /* Setup the hardware to generate the required tick frequency. */
-static void prvSetTickFrequency( uint32_t ulTickRateHz );
+ਸਥਿਰ ਖਾਲੀ prv_ਸੈੱਟ_Tick_Frequency( uint32_t ul_Tick_ਦਰ_Hz );
 
 /* Set the hardware back to the state as per before the scheduler started. */
-static void prvExitFunction( void );
+ਸਥਿਰ ਖਾਲੀ prvExitFunction( ਖਾਲੀ );
 
-#if configUSE_PREEMPTION == 1
+#ਜੇ configUSE_PREEMPTION == 1
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
-    static void __interrupt __far prvPreemptiveTick( void );
-#else
+    ਸਥਿਰ ਖਾਲੀ __interrupt __far prvPreemptiveTick( ਖਾਲੀ );
+#ਨਹੀਂਤਾਂ
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
-    static void __interrupt __far prvNonPreemptiveTick( void );
-#endif
+    ਸਥਿਰ ਖਾਲੀ __interrupt __far prvNonPreemptiveTick( ਖਾਲੀ );
+#ਜੇ_ਅੰਤ
 
 /* Trap routine used by taskYIELD() to manually cause a context switch. */
-static void __interrupt __far prvYieldProcessor( void );
+ਸਥਿਰ ਖਾਲੀ __interrupt __far prvYieldProcessor( ਖਾਲੀ );
 
 /*lint -e956 File scopes necessary here. */
 
 /* Set true when the vectors are set so the scheduler will service the tick. */
-static int16_t sSchedulerRunning = pdFALSE;
+ਸਥਿਰ int16_t sSchedulerRunning = pdFALSE;
 
 /* Points to the original routine installed on the vector we use for manual context switches.  This is then used to restore the original routine during prvExitFunction(). */
-static void ( __interrupt __far *pxOldSwitchISR )();
+ਸਥਿਰ ਖਾਲੀ ( __interrupt __far *pxOldSwitchISR )();
 
 /* Used to restore the original DOS context when the scheduler is ended. */
-static jmp_buf xJumpBuf;
+ਸਥਿਰ jmp_buf xJumpBuf;
 
 /*lint +e956 */
 
 /*-----------------------------------------------------------*/
-BaseType_t xPortStartScheduler( void )
+ਅਧਾਰ_Type_t x_ਪੋਰਟ_ਸ਼ੁਰੂ_Scheduler( ਖਾਲੀ )
 {
     /* This is called with interrupts already disabled. */
 
     /* Remember what was on the interrupts we are going to use
     so we can put them back later if required. */
-    pxOldSwitchISR = _dos_getvect( portSWITCH_INT_NUMBER );
+    pxOldSwitchISR = _dos_getvect( ਪੋਰਟ_SWITCH_INT_ਸੰਖਿਆ );
 
     /* Put our manual switch (yield) function on a known
     vector. */
-    _dos_setvect( portSWITCH_INT_NUMBER, prvYieldProcessor );
+    _dos_setvect( ਪੋਰਟ_SWITCH_INT_ਸੰਖਿਆ, prvYieldProcessor );
 
-    #if configUSE_PREEMPTION == 1
+    #ਜੇ configUSE_PREEMPTION == 1
     {
         /* Put our tick switch function on the timer interrupt. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
+        _dos_setvect( ਪੋਰਟ_TIMER_INT_ਸੰਖਿਆ, prvPreemptiveTick );
     }
-    #else
+    #ਨਹੀਂਤਾਂ
     {
         /* We want the timer interrupt to just increment the tick count. */
-        _dos_setvect( portTIMER_INT_NUMBER, prvNonPreemptiveTick );
+        _dos_setvect( ਪੋਰਟ_TIMER_INT_ਸੰਖਿਆ, prvNonPreemptiveTick );
     }
-    #endif
+    #ਜੇ_ਅੰਤ
 
-    prvSetTickFrequency( configTICK_RATE_HZ );
+    prv_ਸੈੱਟ_Tick_Frequency( config_TICK_ਦਰ_HZ );
 
     /* Clean up function if we want to return to DOS. */
-    if( setjmp( xJumpBuf ) != 0 )
+    ਜੇ( setjmp( xJumpBuf ) != 0 )
     {
         prvExitFunction();
         sSchedulerRunning = pdFALSE;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
         sSchedulerRunning = pdTRUE;
 
         /* Kick off the scheduler by setting up the context of the first task. */
-        portFIRST_CONTEXT();
+        ਪੋਰਟ_ਪਹਿਲਾ_CONTEXT();
     }
 
-    return sSchedulerRunning;
+    ਵਾਪਸ sSchedulerRunning;
 }
 /*-----------------------------------------------------------*/
 
 /* The tick ISR used depend on whether or not the preemptive or cooperative
 kernel is being used. */
-#if configUSE_PREEMPTION == 1
-    static void __interrupt __far prvPreemptiveTick( void )
+#ਜੇ configUSE_PREEMPTION == 1
+    ਸਥਿਰ ਖਾਲੀ __interrupt __far prvPreemptiveTick( ਖਾਲੀ )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        ਜੇ( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
-            portSWITCH_CONTEXT();
+            ਪੋਰਟ_SWITCH_CONTEXT();
         }
 
         /* Reset the PIC ready for the next time. */
-        portRESET_PIC();
+        ਪੋਰਟ_RESET_PIC();
     }
-#else
-    static void __interrupt __far prvNonPreemptiveTick( void )
+#ਨਹੀਂਤਾਂ
+    ਸਥਿਰ ਖਾਲੀ __interrupt __far prvNonPreemptiveTick( ਖਾਲੀ )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
         so we don't have to switch in the context of the next task. */
         xTaskIncrementTick();
-        portRESET_PIC();
+        ਪੋਰਟ_RESET_PIC();
     }
-#endif
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
-static void __interrupt __far prvYieldProcessor( void )
+ਸਥਿਰ ਖਾਲੀ __interrupt __far prvYieldProcessor( ਖਾਲੀ )
 {
     /* Switch in the context of the next task to be run. */
-    portSWITCH_CONTEXT();
+    ਪੋਰਟ_SWITCH_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ਖਾਲੀ v_ਪੋਰਟ_ਸਿਰਾ_Scheduler( ਖਾਲੀ )
 {
     /* Jump back to the processor state prior to starting the
     scheduler.  This means we are not going to be using a
@@ -187,59 +187,59 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-static void prvExitFunction( void )
+ਸਥਿਰ ਖਾਲੀ prvExitFunction( ਖਾਲੀ )
 {
-const uint16_t usTimerDisable = 0x0000;
+ਅਚਲ uint16_t usTimerDisable = 0x0000;
 uint16_t usTimer0Control;
 
     /* Interrupts should be disabled here anyway - but no
     harm in making sure. */
-    portDISABLE_INTERRUPTS();
-    if( sSchedulerRunning == pdTRUE )
+    ਪੋਰਟ_DISABLE_INTERRUPTS();
+    ਜੇ( sSchedulerRunning == pdTRUE )
     {
         /* Put back the switch interrupt routines that was in place
         before the scheduler started. */
-        _dos_setvect( portSWITCH_INT_NUMBER, pxOldSwitchISR );
+        _dos_setvect( ਪੋਰਟ_SWITCH_INT_ਸੰਖਿਆ, pxOldSwitchISR );
     }
 
     /* Disable the timer used for the tick to ensure the scheduler is
     not called before restoring interrupts.  There was previously nothing
     on this timer so there is no old ISR to restore. */
-    portOUTPUT_WORD( portTIMER_1_CONTROL_REGISTER, usTimerDisable );
+    ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( ਪੋਰਟ_TIMER_1_CONTROL_ਰਜਿਸਟਰ, usTimerDisable );
 
     /* Restart the DOS tick. */
-    usTimer0Control = portINPUT_WORD( portTIMER_0_CONTROL_REGISTER );
-    usTimer0Control |= portTIMER_INTERRUPT_ENABLE;
-    portOUTPUT_WORD( portTIMER_0_CONTROL_REGISTER, usTimer0Control );
+    usTimer0Control = ਪੋਰਟ_ਨਿਵੇਸ਼_ਸ਼ਬਦ( ਪੋਰਟ_TIMER_0_CONTROL_ਰਜਿਸਟਰ );
+    usTimer0Control |= ਪੋਰਟ_TIMER_ਰੁਕਾਵਟ_ENABLE;
+    ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( ਪੋਰਟ_TIMER_0_CONTROL_ਰਜਿਸਟਰ, usTimer0Control );
 
 
-    portENABLE_INTERRUPTS();
+    ਪੋਰਟ_ENABLE_INTERRUPTS();
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetTickFrequency( uint32_t ulTickRateHz )
+ਸਥਿਰ ਖਾਲੀ prv_ਸੈੱਟ_Tick_Frequency( uint32_t ul_Tick_ਦਰ_Hz )
 {
-const uint16_t usMaxCountRegister = 0xff5a;
-const uint16_t usTimerPriorityRegister = 0xff32;
-const uint16_t usTimerEnable = 0xC000;
-const uint16_t usRetrigger = 0x0001;
-const uint16_t usTimerHighPriority = 0x0000;
+ਅਚਲ uint16_t us_Max_ਗਿਣਤੀ_ਰਜਿਸਟਰ = 0xff5a;
+ਅਚਲ uint16_t us_Timer_ਤਰਜੀਹ_ਰਜਿਸਟਰ = 0xff32;
+ਅਚਲ uint16_t usTimerEnable = 0xC000;
+ਅਚਲ uint16_t usRetrigger = 0x0001;
+ਅਚਲ uint16_t us_Timer_ਉੱਚਾ_ਤਰਜੀਹ = 0x0000;
 uint16_t usTimer0Control;
 
 /* ( CPU frequency / 4 ) / clock 2 max count [inpw( 0xff62 ) = 7] */
 
-const uint32_t ulClockFrequency = 0x7f31a0;
+ਅਚਲ uint32_t ulClockFrequency = 0x7f31a0;
 
-uint32_t ulTimerCount = ulClockFrequency / ulTickRateHz;
+uint32_t ul_Timer_ਗਿਣਤੀ = ulClockFrequency / ul_Tick_ਦਰ_Hz;
 
-    portOUTPUT_WORD( portTIMER_1_CONTROL_REGISTER, usTimerEnable | portTIMER_INTERRUPT_ENABLE | usRetrigger );
-    portOUTPUT_WORD( usMaxCountRegister, ( uint16_t ) ulTimerCount );
-    portOUTPUT_WORD( usTimerPriorityRegister, usTimerHighPriority );
+    ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( ਪੋਰਟ_TIMER_1_CONTROL_ਰਜਿਸਟਰ, usTimerEnable | ਪੋਰਟ_TIMER_ਰੁਕਾਵਟ_ENABLE | usRetrigger );
+    ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( us_Max_ਗਿਣਤੀ_ਰਜਿਸਟਰ, ( uint16_t ) ul_Timer_ਗਿਣਤੀ );
+    ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( us_Timer_ਤਰਜੀਹ_ਰਜਿਸਟਰ, us_Timer_ਉੱਚਾ_ਤਰਜੀਹ );
 
     /* Stop the DOS tick - don't do this if you want to maintain a TOD clock. */
-    usTimer0Control = portINPUT_WORD( portTIMER_0_CONTROL_REGISTER );
-    usTimer0Control &= ~portTIMER_INTERRUPT_ENABLE;
-    portOUTPUT_WORD( portTIMER_0_CONTROL_REGISTER, usTimer0Control );
+    usTimer0Control = ਪੋਰਟ_ਨਿਵੇਸ਼_ਸ਼ਬਦ( ਪੋਰਟ_TIMER_0_CONTROL_ਰਜਿਸਟਰ );
+    usTimer0Control &= ~ਪੋਰਟ_TIMER_ਰੁਕਾਵਟ_ENABLE;
+    ਪੋਰਟ_OUTPUT_ਸ਼ਬਦ( ਪੋਰਟ_TIMER_0_CONTROL_ਰਜਿਸਟਰ, usTimer0Control );
 }
 
 

@@ -27,14 +27,14 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PORTMACRO_H
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ PORTMACRO_H
 
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
+    ਬਾਹਰੀ "C" {
+#ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -48,61 +48,61 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CHAR          ਅੱਖਰ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FLOAT         ਦਸ਼ਮਲਵ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DOUBLE        ਦੁੱਗਣਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_LONG          ਲੰਮਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SHORT         ਛੋਟਾ
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_TYPE    uint32_t
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅਧਾਰ_TYPE     ਲੰਮਾ
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਪੋਰਟ_ਢੇਰ_TYPE   ਢੇਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਲੰਮਾ             ਅਧਾਰ_Type_t;
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#ਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_16_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint16_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffff
+#ਜਾਂਜੇ ( config_TICK_TYPE_ਚੌੜਾਈ_ਵਿੱਚ_ਬਿੱਟ == TICK_TYPE_ਚੌੜਾਈ_32_ਬਿੱਟ )
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ uint32_t     TickType_t;
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_TYPE_IS_ATOMIC    1
+#ਨਹੀਂਤਾਂ
+    #ਗਲਤੀ "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
+#ਜੇ_ਅੰਤ
 
 /* Errata 837070 workaround must be enabled on Cortex-M7 r0p0
  * and r0p1 cores. */
-#ifndef configENABLE_ERRATA_837070_WORKAROUND
-    #define configENABLE_ERRATA_837070_WORKAROUND    0
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configENABLE_ERRATA_837070_WORKAROUND
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configENABLE_ERRATA_837070_WORKAROUND    0
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* MPU specific constants. */
-#define portUSING_MPU_WRAPPERS                                   1
-#define portPRIVILEGE_BIT                                        ( 0x80000000UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_USING_MPU_WRAPPERS                                   1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRIVILEGE_ਦੋਆਧਾਰੀ_ਅੰਕ                                        ( 0x80000000UL )
 
-#define portMPU_REGION_READ_WRITE                                ( 0x03UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_ONLY                      ( 0x05UL << 24UL )
-#define portMPU_REGION_READ_ONLY                                 ( 0x06UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_WRITE                     ( 0x01UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY    ( 0x02UL << 24UL )
-#define portMPU_REGION_CACHEABLE_BUFFERABLE                      ( 0x07UL << 16UL )
-#define portMPU_REGION_EXECUTE_NEVER                             ( 0x01UL << 28UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_READ_WRITE                                ( 0x03UL << 24UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_PRIVILEGED_READ_ONLY                      ( 0x05UL << 24UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_READ_ONLY                                 ( 0x06UL << 24UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_PRIVILEGED_READ_WRITE                     ( 0x01UL << 24UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY    ( 0x02UL << 24UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_CACHEABLE_BUFFERABLE                      ( 0x07UL << 16UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_REGION_EXECUTE_NEVER                             ( 0x01UL << 28UL )
 
 /* Location of the TEX,S,C,B bits in the MPU Region Attribute and Size
  * Register (RASR). */
-#define portMPU_RASR_TEX_S_C_B_LOCATION                          ( 16UL )
-#define portMPU_RASR_TEX_S_C_B_MASK                              ( 0x3FUL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_RASR_TEX_S_C_B_LOCATION                          ( 16UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MPU_RASR_TEX_S_C_B_ਨਕਾਬ                              ( 0x3FUL )
 
 /* MPU settings that can be overridden in FreeRTOSConfig.h. */
-#ifndef configTOTAL_MPU_REGIONS
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_ਕੁੱਲ_MPU_REGIONS
     /* Define to 8 for backward compatibility. */
-    #define configTOTAL_MPU_REGIONS    ( 8UL )
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_ਕੁੱਲ_MPU_REGIONS    ( 8UL )
+#ਜੇ_ਅੰਤ
 
 /*
  * The TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits define the
@@ -168,56 +168,56 @@ typedef unsigned long    UBaseType_t;
 
 /* TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits for flash
  * region. */
-#ifndef configTEX_S_C_B_FLASH
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configTEX_S_C_B_FLASH
     /* Default to TEX=000, S=1, C=1, B=1 for backward compatibility. */
-    #define configTEX_S_C_B_FLASH    ( 0x07UL )
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configTEX_S_C_B_FLASH    ( 0x07UL )
+#ਜੇ_ਅੰਤ
 
 /* TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits for RAM
  * region. */
-#ifndef configTEX_S_C_B_SRAM
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configTEX_S_C_B_SRAM
     /* Default to TEX=000, S=1, C=1, B=1 for backward compatibility. */
-    #define configTEX_S_C_B_SRAM          ( 0x07UL )
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configTEX_S_C_B_SRAM          ( 0x07UL )
+#ਜੇ_ਅੰਤ
 
-#define portSTACK_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
-#define portGENERAL_PERIPHERALS_REGION    ( configTOTAL_MPU_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION     ( configTOTAL_MPU_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION       ( configTOTAL_MPU_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION         ( configTOTAL_MPU_REGIONS - 1UL )
-#define portFIRST_CONFIGURABLE_REGION     ( 0UL )
-#define portLAST_CONFIGURABLE_REGION      ( configTOTAL_MPU_REGIONS - 6UL )
-#define portNUM_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
-#define portTOTAL_NUM_REGIONS_IN_TCB      ( portNUM_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_REGION                  ( config_ਕੁੱਲ_MPU_REGIONS - 5UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GENERAL_PERIPHERALS_REGION    ( config_ਕੁੱਲ_MPU_REGIONS - 4UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_UNPRIVILEGED_FLASH_REGION     ( config_ਕੁੱਲ_MPU_REGIONS - 3UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRIVILEGED_FLASH_REGION       ( config_ਕੁੱਲ_MPU_REGIONS - 2UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_PRIVILEGED_RAM_REGION         ( config_ਕੁੱਲ_MPU_REGIONS - 1UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਪਹਿਲਾ_CONFIGURABLE_REGION     ( 0UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਆਖਰੀ_CONFIGURABLE_REGION      ( config_ਕੁੱਲ_MPU_REGIONS - 6UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਅੰਕ_CONFIGURABLE_REGIONS      ( config_ਕੁੱਲ_MPU_REGIONS - 5UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਕੁੱਲ_ਅੰਕ_REGIONS_ਵਿੱਚ_TCB      ( ਪੋਰਟ_ਅੰਕ_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
 
-typedef struct MPU_REGION_REGISTERS
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ MPU_REGION_REGISTERS
 {
-    uint32_t ulRegionBaseAddress;
+    uint32_t ul_Region_ਅਧਾਰ_ਪਤਾ;
     uint32_t ulRegionAttribute;
 } xMPU_REGION_REGISTERS;
 
-typedef struct MPU_REGION_SETTINGS
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ MPU_REGION_SETTINGS
 {
-    uint32_t ulRegionStartAddress;
-    uint32_t ulRegionEndAddress;
+    uint32_t ul_Region_ਸ਼ੁਰੂ_ਪਤਾ;
+    uint32_t ul_Region_ਸਿਰਾ_ਪਤਾ;
     uint32_t ulRegionPermissions;
 } xMPU_REGION_SETTINGS;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#ਜੇ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #ifndef configSYSTEM_CALL_STACK_SIZE
-        #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
-    #endif
+    #ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_SYSTEM_CALL_ਢੇਰ_ਮਾਪ
+        #ਗਲਤੀ "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
+    #ਜੇ_ਅੰਤ
 
-    typedef struct SYSTEM_CALL_STACK_INFO
+    ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ SYSTEM_CALL_ਢੇਰ_INFO
     {
-        uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-        uint32_t * pulSystemCallStack;
-        uint32_t * pulTaskStack;
-        uint32_t ulLinkRegisterAtSystemCallEntry;
-    } xSYSTEM_CALL_STACK_INFO;
+        uint32_t ul_System_Call_ਢੇਰ_ਬਫਰ[ config_SYSTEM_CALL_ਢੇਰ_ਮਾਪ ];
+        uint32_t * pul_System_Call_ਢੇਰ;
+        uint32_t * pul_Task_ਢੇਰ;
+        uint32_t ul_Link_ਰਜਿਸਟਰ_At_System_Call_ਇੰਦਰਾਜ;
+    } x_SYSTEM_CALL_ਢੇਰ_INFO;
 
-#endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
+#ਜੇ_ਅੰਤ /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
 /*
  * +---------+---------------+-----------------+-----------------+-----+
@@ -228,164 +228,164 @@ typedef struct MPU_REGION_SETTINGS
  * <--------><---------------><----------------><----------------><---->
  *     16           17               10                 9           1
  */
-#define MAX_CONTEXT_SIZE                    ( 53 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ MAX_CONTEXT_ਮਾਪ                    ( 53 )
 
 /* Size of an Access Control List (ACL) entry in bits. */
-#define portACL_ENTRY_SIZE_BITS             ( 32U )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ             ( 32U )
 
 /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-#define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
-#define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_ਚੌਖਟਾ_HAS_PADDING_FLAG    ( 1UL << 0UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
-typedef struct MPU_SETTINGS
+ਕਿਸਮਪਰਿਭਾਸ਼ਾ ਬਣਤਰ MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    xMPU_REGION_SETTINGS xRegionSettings[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    uint32_t ulContext[ MAX_CONTEXT_SIZE ];
+    xMPU_REGION_REGISTERS xRegion[ ਪੋਰਟ_ਕੁੱਲ_ਅੰਕ_REGIONS_ਵਿੱਚ_TCB ];
+    xMPU_REGION_SETTINGS xRegionSettings[ ਪੋਰਟ_ਕੁੱਲ_ਅੰਕ_REGIONS_ਵਿੱਚ_TCB ];
+    uint32_t ulContext[ MAX_CONTEXT_ਮਾਪ ];
     uint32_t ulTaskFlags;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-        xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-        #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
-            uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
-        #endif
-    #endif
+    #ਜੇ ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        x_SYSTEM_CALL_ਢੇਰ_INFO x_System_Call_ਢੇਰ_Info;
+        #ਜੇ ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            uint32_t ulAccessControlList[ ( config_PROTECTED_KERNEL_OBJECT_POOL_ਮਾਪ / ਪੋਰਟ_ACL_ਇੰਦਰਾਜ_ਮਾਪ_ਬਿੱਟ ) + 1 ];
+        #ਜੇ_ਅੰਤ
+    #ਜੇ_ਅੰਤ
 } xMPU_SETTINGS;
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
-#define portDONT_DISCARD      __attribute__( ( used ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਢੇਰ_GROWTH      ( -1 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_ਦਰ_HZ )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_BYTE_ALIGNMENT    8
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DONT_DISCARD      __attribute__( ( ਵਰਤਿਆ ) )
 /*-----------------------------------------------------------*/
 
 /* SVC numbers for various services. */
-#define portSVC_START_SCHEDULER        100
-#define portSVC_YIELD                  101
-#define portSVC_RAISE_PRIVILEGE        102
-#define portSVC_SYSTEM_CALL_EXIT       103
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SVC_ਸ਼ੁਰੂ_SCHEDULER        100
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SVC_YIELD                  101
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SVC_RAISE_PRIVILEGE        102
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SVC_SYSTEM_CALL_EXIT       103
 
 /* Scheduler utilities. */
 
-#define portYIELD()    __asm volatile ( "   SVC %0  \n" ::"i" ( portSVC_YIELD ) : "memory" )
-#define portYIELD_WITHIN_API()                          \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD()    __asm ਅਸਥਿਰ ( "   SVC %0  \n" ::"i" ( ਪੋਰਟ_SVC_YIELD ) : "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_WITHIN_API()                          \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
-        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+        ਪੋਰਟ_NVIC_INT_CTRL_REG = ਪੋਰਟ_NVIC_PENDSVSET_ਦੋਆਧਾਰੀ_ਅੰਕ; \
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
-        __asm volatile ( "dsb" ::: "memory" );                     \
-        __asm volatile ( "isb" );                                  \
+        __asm ਅਸਥਿਰ ( "dsb" ::: "memory" );                     \
+        __asm ਅਸਥਿਰ ( "isb" );                                  \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_INT_CTRL_REG     ( *( ( ਅਸਥਿਰ uint32_t * ) 0xe000ed04 ) )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NVIC_PENDSVSET_ਦੋਆਧਾਰੀ_ਅੰਕ    ( 1UL << 28UL )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( xSwitchRequired )            \
+    ਕਰੋ                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        ਜੇ( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_ਮੰਜ਼ਿਲ_SCHEDULER();                   \
+            ਪੋਰਟ_NVIC_INT_CTRL_REG = ਪੋਰਟ_NVIC_PENDSVSET_ਦੋਆਧਾਰੀ_ਅੰਕ; \
         }                                                   \
-        else                                                \
+        ਨਹੀਂਤਾਂ                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } ਜਦੋਂ( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_YIELD_FROM_ISR( x )    ਪੋਰਟ_ਸਿਰਾ_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortSetBASEPRI( x )
-#define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
-#define portENABLE_INTERRUPTS()                   vPortSetBASEPRI( 0 )
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Enter_Critical( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Exit_Critical( ਖਾਲੀ );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸੈੱਟ_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR()         ul_ਪੋਰਟ_Raise_BASEPRI()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CLEAR_ਰੁਕਾਵਟ_ਨਕਾਬ_FROM_ISR( x )    v_ਪੋਰਟ_ਸੈੱਟ_BASEPRI( x )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_DISABLE_INTERRUPTS()                  v_ਪੋਰਟ_Raise_BASEPRI()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENABLE_INTERRUPTS()                   v_ਪੋਰਟ_ਸੈੱਟ_BASEPRI( 0 )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ENTER_CRITICAL()                      v_ਪੋਰਟ_Enter_Critical()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_EXIT_CRITICAL()                       v_ਪੋਰਟ_Exit_Critical()
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TASK_FUNCTION( vFunction, pvParameters )          ਖਾਲੀ vFunction( ਖਾਲੀ * pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION    1
+#ਜੇ_ਅੰਤ
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ਜੇ config_USE_ਪੋਰਟ_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) ਸਥਿਰ ਸਤਰਅੰਦਰ uint8_t uc_ਪੋਰਟ_ਗਿਣਤੀ_Leading_Zeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
+        __asm ਅਸਥਿਰ ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ucReturn;
+        ਵਾਪਸ ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
-    #endif
+    #ਜੇ ( configMAX_PRIORITIES > 32 )
+        #ਗਲਤੀ "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
+    #ਜੇ_ਅੰਤ
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਰਿਕਾਰਡ_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ਤਰਜੀਹ ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_READY_ਤਰਜੀਹ( ux_ਤਰਜੀਹ, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ਤਰਜੀਹ ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_GET_HIGHEST_ਤਰਜੀਹ( ux_ਸਿਖਰ_ਤਰਜੀਹ, uxReadyPriorities )    ux_ਸਿਖਰ_ਤਰਜੀਹ = ( 31UL - ( uint32_t ) uc_ਪੋਰਟ_ਗਿਣਤੀ_Leading_Zeros( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#ਜੇ_ਅੰਤ /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif
+#ਜੇ ( configASSERT_DEFINED == 1 )
+    ਖਾਲੀ v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ( ਖਾਲੀ );
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASSERT_IF_ਰੁਕਾਵਟ_ਤਰਜੀਹ_INVALID()    v_ਪੋਰਟ_Validate_ਰੁਕਾਵਟ_ਤਰਜੀਹ()
+#ਜੇ_ਅੰਤ
 
 /* portNOP() is not required by this port. */
-#define portNOP()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NOP()
 
-#define portINLINE              __inline
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_INLINE              __inline
 
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ ਪੋਰਟ_FORCE_INLINE
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_FORCE_INLINE    ਸਤਰਅੰਦਰ __attribute__( ( always_inline ) )
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xIsPrivileged( void );
-extern void vResetPrivilege( void );
-extern void vPortSwitchToUserMode( void );
+ਬਾਹਰੀ ਅਧਾਰ_Type_t xIsPrivileged( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ vResetPrivilege( ਖਾਲੀ );
+ਬਾਹਰੀ ਖਾਲੀ v_ਪੋਰਟ_Switch_ਮੰਜ਼ਿਲ_User_ਬਹੁਲਕ( ਖਾਲੀ );
 
 /**
  * @brief Checks whether or not the processor is privileged.
  *
  * @return 1 if the processor is already privileged, 0 otherwise.
  */
-#define portIS_PRIVILEGED()          xIsPrivileged()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IS_PRIVILEGED()          xIsPrivileged()
 
 /**
  * @brief Raise an SVC request to raise privilege.
  */
-#define portRAISE_PRIVILEGE()        __asm volatile ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RAISE_PRIVILEGE()        __asm ਅਸਥਿਰ ( "svc %0 \n" ::"i" ( ਪੋਰਟ_SVC_RAISE_PRIVILEGE ) : "memory" );
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
  * register.
  */
-#define portRESET_PRIVILEGE()        vResetPrivilege()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_RESET_PRIVILEGE()        vResetPrivilege()
 
 /**
  * @brief Make a task unprivileged.
@@ -393,110 +393,110 @@ extern void vPortSwitchToUserMode( void );
  * It must be called from privileged tasks only. Calling it from unprivileged
  * task will result in a memory protection fault.
  */
-#define portSWITCH_TO_USER_MODE()    vPortSwitchToUserMode()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SWITCH_ਮੰਜ਼ਿਲ_USER_ਬਹੁਲਕ()    v_ਪੋਰਟ_Switch_ਮੰਜ਼ਿਲ_User_ਬਹੁਲਕ()
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xPortIsTaskPrivileged( void );
+ਬਾਹਰੀ ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Task_Privileged( ਖਾਲੀ );
 
 /**
  * @brief Checks whether or not the calling task is privileged.
  *
  * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
  */
-#define portIS_TASK_PRIVILEGED()    xPortIsTaskPrivileged()
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IS_TASK_PRIVILEGED()    x_ਪੋਰਟ_Is_Task_Privileged()
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
+ਪੋਰਟ_FORCE_INLINE ਸਥਿਰ ਅਧਾਰ_Type_t x_ਪੋਰਟ_Is_Inside_ਰੁਕਾਵਟ( ਖਾਲੀ )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_ਰੁਕਾਵਟ;
+    ਅਧਾਰ_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm ਅਸਥਿਰ ( "mrs %0, ipsr" : "=r" ( ul_Current_ਰੁਕਾਵਟ )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    ਜੇ( ul_Current_ਰੁਕਾਵਟ == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    ਨਹੀਂਤਾਂ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    ਵਾਪਸ xReturn;
 }
 
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static void vPortRaiseBASEPRI( void )
+ਪੋਰਟ_FORCE_INLINE ਸਥਿਰ ਖਾਲੀ v_ਪੋਰਟ_Raise_BASEPRI( ਖਾਲੀ )
 {
     uint32_t ulNewBASEPRI;
 
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   mov %0, %1                                              \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #ਜੇ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsid i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
-        #endif
+        #ਜੇ_ਅੰਤ
         "   msr basepri, %0                                         \n"
         "   isb                                                     \n"
         "   dsb                                                     \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #ਜੇ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsie i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
-        #endif
-        : "=r" ( ulNewBASEPRI ) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "memory"
+        #ਜੇ_ਅੰਤ
+        : "=r" ( ulNewBASEPRI ) : "i" ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ ) : "memory"
     );
 }
 
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
+ਪੋਰਟ_FORCE_INLINE ਸਥਿਰ uint32_t ul_ਪੋਰਟ_Raise_BASEPRI( ਖਾਲੀ )
 {
     uint32_t ulOriginalBASEPRI, ulNewBASEPRI;
 
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
         "   mrs %0, basepri                                         \n"
         "   mov %1, %2                                              \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #ਜੇ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsid i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
-        #endif
+        #ਜੇ_ਅੰਤ
         "   msr basepri, %1                                         \n"
         "   isb                                                     \n"
         "   dsb                                                     \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #ਜੇ ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsie i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
-        #endif
-        : "=r" ( ulOriginalBASEPRI ), "=r" ( ulNewBASEPRI ) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "memory"
+        #ਜੇ_ਅੰਤ
+        : "=r" ( ulOriginalBASEPRI ), "=r" ( ulNewBASEPRI ) : "i" ( config_MAX_SYSCALL_ਰੁਕਾਵਟ_ਤਰਜੀਹ ) : "memory"
     );
 
     /* This return will not be reached but is necessary to prevent compiler
      * warnings. */
-    return ulOriginalBASEPRI;
+    ਵਾਪਸ ulOriginalBASEPRI;
 }
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
+ਪੋਰਟ_FORCE_INLINE ਸਥਿਰ ਖਾਲੀ v_ਪੋਰਟ_ਸੈੱਟ_BASEPRI( uint32_t ul_New_ਨਕਾਬ_ਮੁੱਲ )
 {
-    __asm volatile
+    __asm ਅਸਥਿਰ
     (
-        "   msr basepri, %0 " ::"r" ( ulNewMaskValue ) : "memory"
+        "   msr basepri, %0 " ::"r" ( ul_New_ਨਕਾਬ_ਮੁੱਲ ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ਸਮ੍ਰਿਤੀ_BARRIER()    __asm ਅਸਥਿਰ ( "" ::: "memory" )
 
-#ifndef configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
     #warning "configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY is not defined. We recommend defining it to 1 in FreeRTOSConfig.h for better security. www.FreeRTOS.org/FreeRTOS-V10.3.x.html"
-    #define configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY    0
-#endif
+    #ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY    0
+#ਜੇ_ਅੰਤ
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-    #ifdef __cplusplus
+    #ਜੇ_ਪਰਿਭਾਸ਼ਿਤ __cplusplus
         }
-    #endif
+    #ਜੇ_ਅੰਤ
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#ਜੇ_ਅੰਤ /* PORTMACRO_H */

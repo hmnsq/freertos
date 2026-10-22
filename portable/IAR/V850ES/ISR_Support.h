@@ -29,25 +29,25 @@
 EXTERN pxCurrentTCB
 EXTERN usCriticalNesting
 
-#include "FreeRTOSConfig.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOSConfig.h"
 
 ;
 Context save and restore macro definitions
 ;
 
-portSAVE_CONTEXT MACRO
+ਪੋਰਟ_SAVE_CONTEXT MACRO
 
-    add - 0x0C, sp;
-prepare stack to save necessary values
+    ਜੋੜੋ - 0x0C, sp;
+prepare ਢੇਰ ਮੰਜ਼ਿਲ save necessary ਮੁੱਲਾਂ
 st.w lp, 8[ sp ];
-store LP to stack
+store LP ਮੰਜ਼ਿਲ ਢੇਰ
     stsr    0, r31
     st.w lp, 4[ sp ];
-store EIPC to stack
+store EIPC ਮੰਜ਼ਿਲ ਢੇਰ
     stsr    1, lp
     st.w lp, 0[ sp ];
-store EIPSW to stack
-#if configDATA_MODE == 1; Using the Tiny data model
+store EIPSW ਮੰਜ਼ਿਲ ਢੇਰ
+#ਜੇ config_ਅੰਕੜੇ_ਬਹੁਲਕ == 1; Using the Tiny ਅੰਕੜੇ_2 model
 prepare {
     r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
 }, 76, sp;
@@ -68,7 +68,7 @@ sst.w r7, 24[ ep ]
 sst.w r6, 20[ ep ]
 sst.w r5, 16[ ep ]
 sst.w r4, 12[ ep ]
-#else; Using the Small / Large data model
+#ਨਹੀਂਤਾਂ; Using the Small / Large ਅੰਕੜੇ_2 model
 prepare {
     r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
 }, 72, sp;
@@ -88,38 +88,38 @@ sst.w r8, 24[ ep ]
 sst.w r7, 20[ ep ]
 sst.w r6, 16[ ep ]
 sst.w r5, 12[ ep ]
-#endif /* configDATA_MODE */
+#ਜੇ_ਅੰਤ /* configDATA_MODE */
 sst.w r2, 8[ ep ]
 sst.w r1, 4[ ep ]
 MOVHI hi1( usCriticalNesting ), r0, r1;
-save usCriticalNesting value to stack
+save usCriticalNesting ਮੁੱਲ ਮੰਜ਼ਿਲ ਢੇਰ
 ld.w lw1( usCriticalNesting )[ r1 ], r2
 sst.w r2, 0[ ep ]
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-save SP to top of current TCB
+save SP ਮੰਜ਼ਿਲ ਸਿਖਰ_2 ਦਾ current TCB
 ld.w lw1( pxCurrentTCB )[ r1 ], r2
 st.w sp, 0[ r2 ]
 ENDM
 
 
-portRESTORE_CONTEXT MACRO
+ਪੋਰਟ_RESTORE_CONTEXT MACRO
 
 MOVHI hi1( pxCurrentTCB ), r0, r1;
-get Stackpointer address
+get Stackpointer ਪਤਾ_2
 ld.w lw1( pxCurrentTCB )[ r1 ], sp
 MOV sp, r1
 ld.w    0[ r1 ], sp;
-load stackpointer
+ਲੱਦੋ_2 stackpointer
 MOV sp, ep;
-set stack pointer to element pointer
+ਸੈੱਟ ਢੇਰ ਸੂਚਕ_2 ਮੰਜ਼ਿਲ element ਸੂਚਕ_2
 sld.w   0[ ep ], r1;
-load usCriticalNesting value from stack
+ਲੱਦੋ_2 usCriticalNesting ਮੁੱਲ from ਢੇਰ
 MOVHI hi1( usCriticalNesting ), r0, r2
 st.w r1, lw1( usCriticalNesting )[ r2 ]
 sld.w   4[ ep ], r1;
 restore general purpose registers
 sld.w   8[ ep ], r2
-#if configDATA_MODE == 1; Using Tiny data model
+#ਜੇ config_ਅੰਕੜੇ_ਬਹੁਲਕ == 1; Using Tiny ਅੰਕੜੇ_2 model
     sld.w   12[ ep ], r4
     sld.w   16[ ep ], r5
     sld.w   20[ ep ], r6
@@ -139,7 +139,7 @@ sld.w   8[ ep ], r2
     dispose 76, {
         r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
     }
-#else; Using Small / Large data model
+#ਨਹੀਂਤਾਂ; Using Small / Large ਅੰਕੜੇ_2 model
     sld.w   12[ ep ], r5
     sld.w   16[ ep ], r6
     sld.w   20[ ep ], r7
@@ -158,17 +158,17 @@ sld.w   8[ ep ], r2
     dispose 72, {
         r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
     }
-#endif /* configDATA_MODE */
+#ਜੇ_ਅੰਤ /* configDATA_MODE */
 ld.w    0[ sp ], lp;
-restore EIPSW from stack
+restore EIPSW from ਢੇਰ
 ldsr lp, 1
 ld.w    4[ sp ], lp;
-restore EIPC from stack
+restore EIPC from ਢੇਰ
 ldsr lp, 0
 ld.w    8[ sp ], lp;
-restore LP from stack
-    add     0x0C, sp;
-set SP to right position
+restore LP from ਢੇਰ
+    ਜੋੜੋ     0x0C, sp;
+ਸੈੱਟ SP ਮੰਜ਼ਿਲ ਸੱਜਾ position
 
 RETI
 

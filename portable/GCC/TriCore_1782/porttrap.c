@@ -27,18 +27,18 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "FreeRTOS.h"
 
 /* Machine includes */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
-#include <machine/cint.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <tc1782.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <machine/intrinsics.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <machine/cint.h>
 /*---------------------------------------------------------------------------*/
 
 /*
  * This reference is required by the Save/Restore Context Macros.
  */
-extern volatile uint32_t * pxCurrentTCB;
+ਬਾਹਰੀ ਅਸਥਿਰ uint32_t * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /*
@@ -51,232 +51,232 @@ extern volatile uint32_t * pxCurrentTCB;
  */
 
 /* The Trap Classes. */
-#define portMMU_TRAP                                                      0
-#define portIPT_TRAP                                                      1
-#define portIE_TRAP                                                       2
-#define portCM_TRAP                                                       3
-#define portSBP_TRAP                                                      4
-#define portASSERT_TRAP                                                   5
-#define portNMI_TRAP                                                      7
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_MMU_TRAP                                                      0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IPT_TRAP                                                      1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_IE_TRAP                                                       2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_CM_TRAP                                                       3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_SBP_TRAP                                                      4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_ASSERT_TRAP                                                   5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_NMI_TRAP                                                      7
 
 /* MMU Trap Identifications. */
-#define portTIN_MMU_VIRTUAL_ADDRESS_FILL                                  0
-#define portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION                            1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_MMU_VIRTUAL_ਪਤਾ_FILL                                  0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_MMU_VIRTUAL_ਪਤਾ_PROTECTION                            1
 
 /* Internal Protection Trap Identifications. */
-#define portTIN_IPT_PRIVILEGED_INSTRUCTION                                1
-#define portTIN_IPT_MEMORY_PROTECTION_READ                                2
-#define portTIN_IPT_MEMORY_PROTECTION_WRITE                               3
-#define portTIN_IPT_MEMORY_PROTECTION_EXECUTION                           4
-#define portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS                   5
-#define portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS                        6
-#define portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION    7
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_PRIVILEGED_INSTRUCTION                                1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_READ                                2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_WRITE                               3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_EXECUTION                           4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_PERIPHERAL_ACCESS                   5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_NULL_ਪਤਾ                        6
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_GLOBAL_ਰਜਿਸਟਰ_WRITE_PROTECTION    7
 
 /* Instruction Error Trap Identifications. */
-#define portTIN_IE_ILLEGAL_OPCODE                                         1
-#define portTIN_IE_UNIMPLEMENTED_OPCODE                                   2
-#define portTIN_IE_INVALID_OPERAND                                        3
-#define portTIN_IE_DATA_ADDRESS_ALIGNMENT                                 4
-#define portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS                           5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IE_ILLEGAL_OPCODE                                         1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IE_UNIMPLEMENTED_OPCODE                                   2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IE_INVALID_ਸੰਕਾਰਜ                                        3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IE_ਅੰਕੜੇ_ਪਤਾ_ALIGNMENT                                 4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_IE_INVALID_LOCAL_ਸਮ੍ਰਿਤੀ_ਪਤਾ                           5
 
 /* Context Management Trap Identifications. */
-#define portTIN_CM_FREE_CONTEXT_LIST_DEPLETION                            1
-#define portTIN_CM_CALL_DEPTH_OVERFLOW                                    2
-#define portTIN_CM_CALL_DEPTH_UNDEFLOW                                    3
-#define portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
-#define portTIN_CM_CALL_STACK_UNDERFLOW                                   5
-#define portTIN_CM_CONTEXT_TYPE                                           6
-#define portTIN_CM_NESTING_ERROR                                          7
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_FREE_CONTEXT_LIST_DEPLETION                            1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_CALL_ਡੂੰਘਾਈ_ਉਛਾਲ                                    2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_CALL_ਡੂੰਘਾਈ_UNDEFLOW                                    3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_CALL_ਢੇਰ_UNDERFLOW                                   5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_CONTEXT_TYPE                                           6
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_CM_NESTING_ERROR                                          7
 
 /* System Bus and Peripherals Trap Identifications. */
-#define portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR                       1
-#define portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR                         2
-#define portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR                        3
-#define portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR                   4
-#define portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR                        5
-#define portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR                           6
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_SBP_ਪ੍ਰੋਗਰਾਮ_FETCH_SYNCHRONOUS_ERROR                       1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_SBP_ਅੰਕੜੇ_ACCESS_SYNCHRONOUS_ERROR                         2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_SBP_ਅੰਕੜੇ_ACCESS_ASYNCHRONOUS_ERROR                        3
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR                   4
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_SBP_ਪ੍ਰੋਗਰਾਮ_ਸਮ੍ਰਿਤੀ_INTEGRITY_ERROR                        5
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_SBP_ਅੰਕੜੇ_ਸਮ੍ਰਿਤੀ_INTEGRITY_ERROR                           6
 
 /* Assertion Trap Identifications. */
-#define portTIN_ASSERT_ARITHMETIC_OVERFLOW                                1
-#define portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW                         2
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_ASSERT_ARITHMETIC_ਉਛਾਲ                                1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_ASSERT_STICKY_ARITHMETIC_ਉਛਾਲ                         2
 
 /* Non-maskable Interrupt Trap Identifications. */
-#define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਪੋਰਟ_TIN_NMI_NON_MASKABLE_ਰੁਕਾਵਟ                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ vMMUTrap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ v_ਅੰਦਰੂਨੀ_Protection_Trap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ vInstructionErrorTrap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ vContextManagementTrap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ vSystemBusAndPeripheralsTrap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ vAssertionTrap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ਖਾਲੀ v_Non_Maskable_ਰੁਕਾਵਟ_Trap( ਪੂਰਨ iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
-void vTrapInstallHandlers( void )
+ਖਾਲੀ vTrapInstallHandlers( ਖਾਲੀ )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_MMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_IPT_TRAP, v_ਅੰਦਰੂਨੀ_Protection_Trap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_IE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_CM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_SBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_ASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    ਜੇ( 0 == _install_trap_handler( ਪੋਰਟ_NMI_TRAP, v_Non_Maskable_ਰੁਕਾਵਟ_Trap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+ਖਾਲੀ vMMUTrap( ਪੂਰਨ iTrapIdentification )
 {
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_MMU_VIRTUAL_ADDRESS_FILL:
-        case portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
-        default:
+        ਹਾਲਤ ਪੋਰਟ_TIN_MMU_VIRTUAL_ਪਤਾ_FILL:
+        ਹਾਲਤ ਪੋਰਟ_TIN_MMU_VIRTUAL_ਪਤਾ_PROTECTION:
+        ਮੂਲ:
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+ਖਾਲੀ v_ਅੰਦਰੂਨੀ_Protection_Trap( ਪੂਰਨ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_IPT_PRIVILEGED_INSTRUCTION:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_PRIVILEGED_INSTRUCTION:
         /* Instruction is not allowed at current execution level, eg DISABLE at User-0. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_READ:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_READ:
         /* Load word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_WRITE:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_WRITE:
         /* Store Word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_EXECUTION:
         /* PC jumped to an address outside of the valid range. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_PERIPHERAL_ACCESS:
         /* Access to a peripheral denied at current execution level. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_NULL_ਪਤਾ:
         /* NULL Pointer. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IPT_ਸਮ੍ਰਿਤੀ_PROTECTION_GLOBAL_ਰਜਿਸਟਰ_WRITE_PROTECTION:
         /* Tried to modify a global address pointer register. */
 
-        default:
+        ਮੂਲ:
 
             pxCurrentTCB[ 0 ] = __MFCR( $PCXI );
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+ਖਾਲੀ vInstructionErrorTrap( ਪੂਰਨ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_IE_ILLEGAL_OPCODE:
-        case portTIN_IE_UNIMPLEMENTED_OPCODE:
-        case portTIN_IE_INVALID_OPERAND:
-        case portTIN_IE_DATA_ADDRESS_ALIGNMENT:
-        case portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
-        default:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IE_ILLEGAL_OPCODE:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IE_UNIMPLEMENTED_OPCODE:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IE_INVALID_ਸੰਕਾਰਜ:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IE_ਅੰਕੜੇ_ਪਤਾ_ALIGNMENT:
+        ਹਾਲਤ ਪੋਰਟ_TIN_IE_INVALID_LOCAL_ਸਮ੍ਰਿਤੀ_ਪਤਾ:
+        ਮੂਲ:
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+ਖਾਲੀ vContextManagementTrap( ਪੂਰਨ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
-        case portTIN_CM_CALL_DEPTH_OVERFLOW:
-        case portTIN_CM_CALL_DEPTH_UNDEFLOW:
-        case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
-        case portTIN_CM_CONTEXT_TYPE:
-        case portTIN_CM_NESTING_ERROR:
-        default:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_FREE_CONTEXT_LIST_DEPLETION:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_CALL_ਡੂੰਘਾਈ_ਉਛਾਲ:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_CALL_ਡੂੰਘਾਈ_UNDEFLOW:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_CALL_ਢੇਰ_UNDERFLOW:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_CONTEXT_TYPE:
+        ਹਾਲਤ ਪੋਰਟ_TIN_CM_NESTING_ERROR:
+        ਮੂਲ:
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+ਖਾਲੀ vSystemBusAndPeripheralsTrap( ਪੂਰਨ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
-        case portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
-        default:
+        ਹਾਲਤ ਪੋਰਟ_TIN_SBP_ਪ੍ਰੋਗਰਾਮ_FETCH_SYNCHRONOUS_ERROR:
+        ਹਾਲਤ ਪੋਰਟ_TIN_SBP_ਅੰਕੜੇ_ACCESS_SYNCHRONOUS_ERROR:
+        ਹਾਲਤ ਪੋਰਟ_TIN_SBP_ਅੰਕੜੇ_ACCESS_ASYNCHRONOUS_ERROR:
+        ਹਾਲਤ ਪੋਰਟ_TIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
+        ਹਾਲਤ ਪੋਰਟ_TIN_SBP_ਪ੍ਰੋਗਰਾਮ_ਸਮ੍ਰਿਤੀ_INTEGRITY_ERROR:
+        ਹਾਲਤ ਪੋਰਟ_TIN_SBP_ਅੰਕੜੇ_ਸਮ੍ਰਿਤੀ_INTEGRITY_ERROR:
+        ਮੂਲ:
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+ਖਾਲੀ vAssertionTrap( ਪੂਰਨ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_ASSERT_ARITHMETIC_OVERFLOW:
-        case portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
-        default:
+        ਹਾਲਤ ਪੋਰਟ_TIN_ASSERT_ARITHMETIC_ਉਛਾਲ:
+        ਹਾਲਤ ਪੋਰਟ_TIN_ASSERT_STICKY_ARITHMETIC_ਉਛਾਲ:
+        ਮੂਲ:
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+ਖਾਲੀ v_Non_Maskable_ਰੁਕਾਵਟ_Trap( ਪੂਰਨ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    ਚੋਣ( iTrapIdentification )
     {
-        case portTIN_NMI_NON_MASKABLE_INTERRUPT:
-        default:
+        ਹਾਲਤ ਪੋਰਟ_TIN_NMI_NON_MASKABLE_ਰੁਕਾਵਟ:
+        ਮੂਲ:
             _debug();
-            break;
+            ਰੋਕੋ;
     }
 }
 /*---------------------------------------------------------------------------*/
