@@ -36,30 +36,30 @@
 *----------------------------------------------------------*/
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Processor constants. */
-#include "AT91SAM7X256.h"
+#ضمن "AT91SAM7X256.h"
 
 /* Constants required to setup the task context. */
-#define portINITIAL_SPSR                   ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT                 ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE               ( ( StackType_t ) 4 )
-#define portNO_CRITICAL_SECTION_NESTING    ( ( StackType_t ) 0 )
+#define portINITIAL_SPSR                   ( ( مكدس_Type_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
+#define portTHUMB_MODE_BIT                 ( ( مكدس_Type_t ) 0x20 )
+#define portINSTRUCTION_SIZE               ( ( مكدس_Type_t ) 4 )
+#define portNO_CRITICAL_SECTION_NESTING    ( ( مكدس_Type_t ) 0 )
 
 /* Constants required to setup the tick ISR. */
 #define portENABLE_TIMER                   ( ( uint8_t ) 0x01 )
-#define portPRESCALE_VALUE                 0x00
+#define port_PRESCALE_قيمة                 0x00
 #define portINTERRUPT_ON_MATCH             ( ( uint32_t ) 0x01 )
-#define portRESET_COUNT_ON_MATCH           ( ( uint32_t ) 0x02 )
+#define port_RESET_عدد_ON_MATCH           ( ( uint32_t ) 0x02 )
 
 /* Constants required to setup the PIT. */
-#define portPIT_CLOCK_DIVISOR              ( ( uint32_t ) 16 )
-#define portPIT_COUNTER_VALUE              ( ( ( configCPU_CLOCK_HZ / portPIT_CLOCK_DIVISOR ) / 1000UL ) * portTICK_PERIOD_MS )
+#define port_PIT_CLOCK_قاسم              ( ( uint32_t ) 16 )
+#define port_PIT_COUNTER_قيمة              ( ( ( configCPU_CLOCK_HZ / port_PIT_CLOCK_قاسم ) / 1000UL ) * portTICK_PERIOD_MS )
 
 #define portINT_LEVEL_SENSITIVE            0
 #define portPIT_ENABLE                     ( ( uint16_t ) 0x1 << 24 )
@@ -67,13 +67,13 @@
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * The scheduler can only be started from ARM mode, so
  * vPortISRStartFirstSTask() is defined in portISR.c.
  */
-extern void vPortISRStartFirstTask( void );
+خارجي فراغ vPortISRStartFirstTask( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -83,17 +83,17 @@ extern void vPortISRStartFirstTask( void );
  *
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+مكدس_Type_t * px_Port_Initialise_مكدس( مكدس_Type_t * px_قمة_Of_مكدس,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    مكدس_Type_t * pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_قمة_Of_مكدس;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_قمة_Of_مكدس--;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -101,67 +101,67 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pxCode + portINSTRUCTION_SIZE;
+    px_قمة_Of_مكدس--;
 
-    *pxTopOfStack = ( StackType_t ) 0x00000000;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00000000;    /* R14 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x12121212;    /* R12 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x11111111;    /* R11 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x10101010;    /* R10 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x09090909;    /* R9 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x08080808;    /* R8 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x07070707;    /* R7 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x06060606;    /* R6 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x05050505;    /* R5 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x04040404;    /* R4 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x03030303;    /* R3 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x02020202;    /* R2 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x01010101;    /* R1 */
+    px_قمة_Of_مكدس--;
 
     /* When the task starts is will expect to find the function parameter in
      * R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pvParameters; /* R0 */
+    px_قمة_Of_مكدس--;
 
     /* The last thing onto the stack is the status register, which is set for
      * system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) portINITIAL_SPSR;
 
     #ifdef THUMB_INTERWORK
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_قمة_Of_مكدس |= portTHUMB_MODE_BIT;
     }
     #endif
 
-    pxTopOfStack--;
+    px_قمة_Of_مكدس--;
 
     /* Some optimisation levels use the stack differently to others.  This
      * means the interrupt flags cannot always be stored on the stack and will
      * instead be stored in a variable, which is then saved as part of the
      * tasks context. */
-    *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
+    *px_قمة_Of_مكدس = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    أرجع px_قمة_Of_مكدس;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -171,11 +171,11 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -185,22 +185,22 @@ void vPortEndScheduler( void )
 /*
  * Setup the timer 0 to generate the tick interrupts at the required frequency.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     AT91PS_PITC pxPIT = AT91C_BASE_PITC;
 
     /* Setup the AIC for PIT interrupts.  The interrupt routine chosen depends
      * on whether the preemptive or cooperative scheduler is being used. */
-    #if configUSE_PREEMPTION == 0
-        extern void( vNonPreemptiveTick ) ( void );
-        AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vNonPreemptiveTick );
-    #else
-        extern void( vPreemptiveTick )( void );
-        AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( void ( * )( void ) )vPreemptiveTick );
+    #إذا configUSE_PREEMPTION == 0
+        خارجي فراغ( vNonPreemptiveTick ) ( فراغ );
+        AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( فراغ ( * )( فراغ ) )vNonPreemptiveTick );
+    #وإلا
+        خارجي فراغ( vPreemptiveTick )( فراغ );
+        AT91F_AIC_ConfigureIt( AT91C_ID_SYS, AT91C_AIC_PRIOR_HIGHEST, portINT_LEVEL_SENSITIVE, ( فراغ ( * )( فراغ ) )vPreemptiveTick );
     #endif
 
     /* Configure the PIT period. */
-    pxPIT->PITC_PIMR = portPIT_ENABLE | portPIT_INT_ENABLE | portPIT_COUNTER_VALUE;
+    pxPIT->PITC_PIMR = portPIT_ENABLE | portPIT_INT_ENABLE | port_PIT_COUNTER_قيمة;
 
     /* Enable the interrupt.  Global interrupts are disabled at this point so
      * this is safe. */

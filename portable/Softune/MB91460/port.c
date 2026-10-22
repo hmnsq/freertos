@@ -26,59 +26,59 @@
  *
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "mb91467d.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "mb91467d.h"
 
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 #pragma asm
 #macro  SaveContext
-     ORCCR #0x20                                ;Switch to user stack
+     ORCCR #0x20                                ;Switch to user مكدس
      ST RP,@-R15                                ;Store RP
      STM0 (R7,R6,R5,R4,R3,R2,R1,R0)             ;Store R7-R0
      STM1 (R14,R13,R12,R11,R10,R9,R8)           ;Store R14-R8
      ST MDH, @-R15                              ;Store MDH
      ST MDL, @-R15                              ;Store MDL
 
-     ANDCCR #0xDF                               ;Switch back to system stack
+     ANDCCR #0xDF                               ;Switch back to system مكدس
      LD @R15+,R0                                ;Store PC to R0
-     ORCCR #0x20                                ;Switch to user stack
-     ST R0,@-R15                                ;Store PC to User stack
+     ORCCR #0x20                                ;Switch to user مكدس
+     ST R0,@-R15                                ;Store PC to User مكدس
 
-     ANDCCR #0xDF                               ;Switch back to system stack
+     ANDCCR #0xDF                               ;Switch back to system مكدس
      LD @R15+,R0                                ;Store PS to R0
-     ORCCR #0x20                                ;Switch to user stack
-     ST R0,@-R15                                ;Store PS to User stack
+     ORCCR #0x20                                ;Switch to user مكدس
+     ST R0,@-R15                                ;Store PS to User مكدس
 
      LDI #_pxCurrentTCB, R0                     ;Get pxCurrentTCB address
-     LD @R0, R0                                 ;Get the pxCurrentTCB->pxTopOfStack address
-     ST R15,@R0                                 ;Store USP to pxCurrentTCB->pxTopOfStack
+     LD @R0, R0                                 ;Get the pxCurrentTCB->px_قمة_Of_مكدس address
+     ST R15,@R0                                 ;Store USP to pxCurrentTCB->px_قمة_Of_مكدس
 
-     ANDCCR #0xDF                               ;Switch back to system stack for the rest of tick ISR
+     ANDCCR #0xDF                               ;Switch back to system مكدس لكل the rest of tick ISR
 #endm
 
 #macro RestoreContext
      LDI #_pxCurrentTCB, R0                     ;Get pxCurrentTCB address
-     LD @R0, R0                                 ;Get the pxCurrentTCB->pxTopOfStack address
-     ORCCR #0x20                                ;Switch to user stack
-     LD @R0, R15                                ;Restore USP from pxCurrentTCB->pxTopOfStack
+     LD @R0, R0                                 ;Get the pxCurrentTCB->px_قمة_Of_مكدس address
+     ORCCR #0x20                                ;Switch to user مكدس
+     LD @R0, R15                                ;Restore USP from pxCurrentTCB->px_قمة_Of_مكدس
 
      LD @R15+,R0                                ;Store PS to R0
-     ANDCCR #0xDF                               ;Switch to system stack
-     ST R0,@-R15                                ;Store PS to system stack
+     ANDCCR #0xDF                               ;Switch to system مكدس
+     ST R0,@-R15                                ;Store PS to system مكدس
 
-     ORCCR #0x20                                ;Switch to user stack
+     ORCCR #0x20                                ;Switch to user مكدس
      LD @R15+,R0                                ;Store PC to R0
-     ANDCCR #0xDF                               ;Switch to system stack
-     ST R0,@-R15                                ;Store PC to system stack
+     ANDCCR #0xDF                               ;Switch to system مكدس
+     ST R0,@-R15                                ;Store PC to system مكدس
 
      ORCCR #0x20                                ;Switch back to retrieve the remaining context
 
@@ -88,7 +88,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
      LDM0 (R7,R6,R5,R4,R3,R2,R1,R0)             ;Restore R7-R0
      LD @R15+, RP                               ;Restore RP
 
-     ANDCCR #0xDF                               ;Switch back to system stack for the rest of tick ISR
+     ANDCCR #0xDF                               ;Switch back to system مكدس لكل the rest of tick ISR
 #endm
 #pragma endasm
 
@@ -97,7 +97,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
 /*
  * Perform hardware setup to enable ticks from timer 1,
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -106,78 +106,78 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+مكدس_Type_t *px_Port_Initialise_مكدس( مكدس_Type_t *px_قمة_Of_مكدس, TaskFunction_t pxCode, فراغ *pvParameters )
 {
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x11111111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333;
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = 0x11111111;
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x22222222;
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = 0x33333333;
+    px_قمة_Of_مكدس--;
 
     /* This is a redundant push to the stack, it may be required if
     in some implementations of the compiler the parameter to the task
     is passed on to the stack rather than in R4 register. */
-    *pxTopOfStack = (StackType_t)(pvParameters);
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = (مكدس_Type_t)(pvParameters);
+    px_قمة_Of_مكدس--;
 
-    *pxTopOfStack = ( StackType_t ) 0x00000000; /* RP */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00007777; /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00006666; /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00005555; /* R5 */
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00000000; /* RP */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00007777; /* R7 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00006666; /* R6 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00005555; /* R5 */
+    px_قمة_Of_مكدس--;
 
     /* In the current implementation of the compiler the first
     parameter to the task (or function) is passed via R4 parameter
     to the task, hence the pvParameters pointer is copied into the R4
     register. See compiler manual section 4.6.2 for more information. */
-    *pxTopOfStack = ( StackType_t ) (pvParameters); /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00003333; /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00002222; /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00001111; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000001; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000EEEE; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000DDDD; /* R13 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000CCCC; /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000BBBB; /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0000AAAA; /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00009999; /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00008888; /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11110000; /* MDH */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x22220000; /* MDL */
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) (pvParameters); /* R4 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00003333; /* R3 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00002222; /* R2 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00001111; /* R1 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00000001; /* R0 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x0000EEEE; /* R14 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x0000DDDD; /* R13 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x0000CCCC; /* R12 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x0000BBBB; /* R11 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x0000AAAA; /* R10 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00009999; /* R9 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x00008888; /* R8 */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x11110000; /* MDH */
+    px_قمة_Of_مكدس--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x22220000; /* MDL */
+    px_قمة_Of_مكدس--;
 
     /* The start of the task code. */
-    *pxTopOfStack = ( StackType_t ) pxCode; /* PC */
-    pxTopOfStack--;
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) pxCode; /* PC */
+    px_قمة_Of_مكدس--;
 
     /* PS - User Mode, USP, ILM=31, Interrupts enabled */
-    *pxTopOfStack = ( StackType_t ) 0x001F0030; /* PS */
+    *px_قمة_Of_مكدس = ( مكدس_Type_t ) 0x001F0030; /* PS */
 
-    return pxTopOfStack;
+    أرجع px_قمة_Of_مكدس;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Setup the hardware to generate the tick. */
     prvSetupTimerInterrupt();
@@ -192,21 +192,21 @@ BaseType_t xPortStartScheduler( void )
     __asm(" reti ");
 
     /* Should not get here. */
-    return pdFAIL;
+    أرجع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented - unlikely to ever be required as there is nothing to
     return to. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
 /* The peripheral clock divided by 32 is used by the timer. */
-const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTICK_RATE_HZ ) / 32UL ) - 1UL );
+ثابت uint16_t us_Reload_قيمة = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTICK_RATE_HZ ) / 32UL ) - 1UL );
 
     /* Setup RLT0 to generate a tick interrupt. */
 
@@ -216,7 +216,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     TMCSR0_RELD = 1;        /* Reload */
 
     TMCSR0_UF = 0;          /* Clear underflow flag */
-    TMRLR0 = usReloadValue;
+    TMRLR0 = us_Reload_قيمة;
     TMCSR0_INTE = 1;        /* Interrupt Enable */
     TMCSR0_CNTE = 1;        /* Count Enable */
     TMCSR0_TRG = 1;         /* Trigger */
@@ -225,7 +225,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#إذا configUSE_PREEMPTION == 1
 
     /*
      * Tick ISR for preemptive scheduler. The tick count is incremented
@@ -247,7 +247,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     AND R1,@R0                              ;Clear RLT0 interrupt flag
 
     CALL32   _xTaskIncrementTick,R12        ;Increment Tick
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context إذا required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -257,14 +257,14 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
 
     #pragma endasm
 
-#else
+#وإلا
 
     /*
      * Tick ISR for the cooperative scheduler.  All this does is increment the
      * tick count.  We don't need to switch context, this can only be done by
      * manual calls to taskYIELD();
      */
-    __interrupt void ReloadTimer0_IRQHandler( void )
+    __interrupt فراغ ReloadTimer0_IRQHandler( فراغ )
     {
         /* Clear RLT0 interrupt flag */
         TMCSR0_UF = 0;
@@ -290,7 +290,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     LDI #_dicr, R0
     BANDL #0x0E, @R0                        ;Clear Delayed interrupt flag
 
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context إذا required
 
     ANDCCR #0xEF                            ;Disable Interrupts
     RestoreContext                          ;Restore context
@@ -312,7 +312,7 @@ const uint16_t usReloadValue = ( uint16_t ) ( ( ( configPER_CLOCK_HZ / configTIC
     _vPortYield:
 
     SaveContext                             ;Save context
-    CALL32   _vTaskSwitchContext,R12        ;Switch context if required
+    CALL32   _vTaskSwitchContext,R12        ;Switch context إذا required
     RestoreContext                          ;Restore context
 
     RETI
