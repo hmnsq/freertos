@@ -58,64 +58,64 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <xtensa/config/core.h>
+#ضمن <stdlib.h>
+#ضمن <string.h>
+#ضمن <xtensa/config/core.h>
 
-#include "xtensa_rtos.h"
-#include "esp_idf_version.h"
+#ضمن "xtensa_rtos.h"
+#ضمن "esp_idf_version.h"
 
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #include "rom/ets_sys.h"
-    #include "esp_panic.h"
-    #include "esp_crosscore_int.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/rom/ets_sys.h"
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/rom/ets_sys.h"
-    #elif CONFIG_IDF_TARGET_ESP32
-        #include "esp32/rom/ets_sys.h"
+#ܐܢ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #ضمن "rom/ets_sys.h"
+    #ضمن "esp_panic.h"
+    #ضمن "esp_crosscore_int.h"
+#ܐܚܪܢܐ
+    #ܐܢ CONFIG_IDF_TARGET_ESP32S3
+        #ضمن "esp32s3/rom/ets_sys.h"
+    #وإلاإذا CONFIG_IDF_TARGET_ESP32S2
+        #ضمن "esp32s2/rom/ets_sys.h"
+    #وإلاإذا CONFIG_IDF_TARGET_ESP32
+        #ضمن "esp32/rom/ets_sys.h"
     #endif
-    #include "esp_private/panic_reason.h"
-    #include "esp_debug_helpers.h"
-    #include "esp_private/crosscore_int.h"
-    #include "esp_log.h"
+    #ضمن "esp_private/panic_reason.h"
+    #ضمن "esp_debug_helpers.h"
+    #ضمن "esp_private/crosscore_int.h"
+    #ضمن "esp_log.h"
 #endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
-#include "soc/cpu.h"
+#ضمن "soc/cpu.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
-#include "esp_heap_caps.h"
+#ضمن "esp_heap_caps.h"
 
-#include "esp_intr_alloc.h"
+#ضمن "esp_intr_alloc.h"
 
-#include "port_systick.h"
+#ضمن "port_systick.h"
 
 /* Defined in xtensa_context.S */
-extern void _xt_coproc_init( void );
+خارجي فراغ _xt_coproc_init( فراغ );
 
 _Static_assert( tskNO_AFFINITY == CONFIG_FREERTOS_NO_AFFINITY, "incorrect tskNO_AFFINITY value" );
 
 /*-----------------------------------------------------------*/
 
-extern volatile int port_xSchedulerRunning[ portNUM_PROCESSORS ];
+خارجي متطاير صحيح port_xSchedulerRunning[ portNUM_PROCESSORS ];
 unsigned port_interruptNesting[ portNUM_PROCESSORS ] = { 0 }; /* Interrupt nesting level. Increased/decreased in portasm.c, _frxt_int_enter/_frxt_int_exit */
 
 /*-----------------------------------------------------------*/
 
 /* User exception dispatcher when exiting */
-void _xt_user_exit( void );
+فراغ _xt_user_exit( فراغ );
 
-#if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+#ܐܢ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
 /* Wrapper to allow task functions to return (increases stack overhead by 16 bytes) */
-    static void vPortTaskWrapper( TaskFunction_t pxCode,
-                                  void * pvParameters )
+    ساكن فراغ vPortTaskWrapper( TaskFunction_t pxCode,
+                                  فراغ * pvParameters )
     {
         pxCode( pvParameters );
         /*FreeRTOS tasks should not return. Log the task name and abort. */
-        char * pcTaskName = pcTaskGetTaskName( NULL );
+        حرف * pcTaskName = pcTaskGetTaskName( عدم );
         ESP_LOGE( "FreeRTOS", "FreeRTOS Task \"%s\" should not return, Aborting now!", pcTaskName );
         abort();
     }
@@ -125,15 +125,15 @@ void _xt_user_exit( void );
  * Stack initialization
  */
 /* *INDENT-OFF* */
-#if portUSING_MPU_WRAPPERS
+#ܐܢ portUSING_MPU_WRAPPERS
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          TaskFunction_t pxCode,
-                                         void * pvParameters,
+                                         فراغ * pvParameters,
                                          BaseType_t xRunPrivileged )
-#else
+#ܐܚܪܢܐ
     StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                          TaskFunction_t pxCode,
-                                         void * pvParameters )
+                                         فراغ * pvParameters )
 #endif
 /* *INDENT-ON* */
 {
@@ -141,13 +141,13 @@ void _xt_user_exit( void );
     StackType_t * tp;
     XtExcFrame * frame;
 
-    #if XCHAL_CP_NUM > 0
+    #ܐܢ XCHAL_CP_NUM > 0
         uint32_t * p;
     #endif
 
     uint32_t * threadptr;
-    void * task_thread_local_start;
-    extern int _thread_local_start, _thread_local_end, _flash_rodata_start, _flash_rodata_align;
+    فراغ * task_thread_local_start;
+    خارجي صحيح _thread_local_start, _thread_local_end, _flash_rodata_start, _flash_rodata_align;
 
     /* TODO: check that TLS area fits the stack */
     uint32_t thread_local_sz = ( uint8_t * ) &_thread_local_end - ( uint8_t * ) &_thread_local_start;
@@ -169,7 +169,7 @@ void _xt_user_exit( void );
     sp = ( StackType_t * ) ( ( ( UBaseType_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz - XT_STK_FRMSZ ) & ~0xf );
 
     /* Clear the entire frame (do not use memset() because we don't depend on C library) */
-    for( tp = sp; tp <= pxTopOfStack; ++tp )
+    لكل( tp = sp; tp <= pxTopOfStack; ++tp )
     {
         *tp = 0;
     }
@@ -177,9 +177,9 @@ void _xt_user_exit( void );
     frame = ( XtExcFrame * ) sp;
 
     /* Explicitly initialize certain saved registers */
-    #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+    #ܐܢ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
         frame->pc = ( UBaseType_t ) vPortTaskWrapper; /* task wrapper                       */
-    #else
+    #ܐܚܪܢܐ
         frame->pc = ( UBaseType_t ) pxCode;           /* task entrypoint                    */
     #endif
     frame->a0 = 0;                                    /* to terminate GDB backtrace     */
@@ -189,19 +189,19 @@ void _xt_user_exit( void );
     /* Set initial PS to int level 0, EXCM disabled ('rfe' will enable), user mode. */
     /* Also set entry point argument parameter. */
     #ifdef __XTENSA_CALL0_ABI__
-        #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+        #ܐܢ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
             frame->a2 = ( UBaseType_t ) pxCode;
             frame->a3 = ( UBaseType_t ) pvParameters;
-        #else
+        #ܐܚܪܢܐ
             frame->a2 = ( UBaseType_t ) pvParameters;
         #endif
         frame->ps = PS_UM | PS_EXCM;
-    #else
+    #ܐܚܪܢܐ
         /* + for windowed ABI also set WOE and CALLINC (pretend task was 'call4'd). */
-        #if CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
+        #ܐܢ CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER
             frame->a6 = ( UBaseType_t ) pxCode;
             frame->a7 = ( UBaseType_t ) pvParameters;
-        #else
+        #ܐܚܪܢܐ
             frame->a6 = ( UBaseType_t ) pvParameters;
         #endif
         frame->ps = PS_UM | PS_EXCM | PS_WOE | PS_CALLINC( 1 );
@@ -213,7 +213,7 @@ void _xt_user_exit( void );
     #endif
 
     /* Init threadptr register and set up TLS run-time area. */
-    task_thread_local_start = ( void * ) ( ( ( uint32_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz ) & ~0xf );
+    task_thread_local_start = ( فراغ * ) ( ( ( uint32_t ) pxTopOfStack - XT_CP_SIZE - thread_local_sz ) & ~0xf );
     memcpy( task_thread_local_start, &_thread_local_start, thread_local_sz );
     threadptr = ( uint32_t * ) ( sp + XT_STK_EXTRA );
 
@@ -225,12 +225,12 @@ void _xt_user_exit( void );
      *    offset = address - tls_section_vma + align_up(TCB_SIZE, tls_section_alignment)
      * where TCB_SIZE is hardcoded to 8.
      */
-    const uint32_t tls_section_alignment = ( uint32_t ) &_flash_rodata_align; /* ALIGN value of .flash.rodata section */
-    const uint32_t tcb_size = 8;                                              /* Unrelated to FreeRTOS, this is the constant from BFD */
-    const uint32_t base = ( tcb_size + tls_section_alignment - 1 ) & ( ~( tls_section_alignment - 1 ) );
+    ثابت uint32_t tls_section_alignment = ( uint32_t ) &_flash_rodata_align; /* ALIGN value of .flash.rodata section */
+    ثابت uint32_t tcb_size = 8;                                              /* Unrelated to FreeRTOS, this is the constant from BFD */
+    ثابت uint32_t base = ( tcb_size + tls_section_alignment - 1 ) & ( ~( tls_section_alignment - 1 ) );
     *threadptr = ( uint32_t ) task_thread_local_start - ( ( uint32_t ) &_thread_local_start - ( uint32_t ) &_flash_rodata_start ) - base;
 
-    #if XCHAL_CP_NUM > 0
+    #ܐܢ XCHAL_CP_NUM > 0
         /* Init the coprocessor save area (see xtensa_context.h) */
 
         /* No access to TCB here, so derive indirectly. Stack growth is top to bottom.
@@ -243,12 +243,12 @@ void _xt_user_exit( void );
         p[ 2 ] = ( ( ( uint32_t ) p ) + 12 + XCHAL_TOTAL_SA_ALIGN - 1 ) & -XCHAL_TOTAL_SA_ALIGN;
     #endif
 
-    return sp;
+    ܦܢܐ sp;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the Xtensa port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -257,12 +257,12 @@ void vPortEndScheduler( void )
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     portDISABLE_INTERRUPTS();
     /* Interrupts are disabled at this point and stack contains PS with enabled interrupts when task context is restored */
 
-    #if XCHAL_CP_NUM > 0
+    #ܐܢ XCHAL_CP_NUM > 0
         /* Initialize co-processor management for tasks. Leave CPENABLE alone. */
         _xt_coproc_init();
     #endif
@@ -286,15 +286,15 @@ BaseType_t xPortStartScheduler( void )
     port_xSchedulerRunning[ xPortGetCoreID() ] = 1;
 
     /* Cannot be directly called from C; never returns */
-    __asm__ volatile ( "call0    _frxt_dispatch\n" );
+    __asm__ متطاير ( "call0    _frxt_dispatch\n" );
 
     /* Should not get here. */
-    return pdTRUE;
+    ܦܢܐ pdTRUE;
 }
 
 /*-----------------------------------------------------------*/
 
-void vPortYieldOtherCore( BaseType_t coreid )
+فراغ vPortYieldOtherCore( BaseType_t coreid )
 {
     esp_crosscore_int_send_yield( coreid );
 }
@@ -304,13 +304,13 @@ void vPortYieldOtherCore( BaseType_t coreid )
 /*
  * Used to set coprocessor area in stack. Current hack is to reuse MPU pointer for coprocessor area.
  */
-#if portUSING_MPU_WRAPPERS
-    void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                    const struct xMEMORY_REGION * const xRegions,
+#ܐܢ portUSING_MPU_WRAPPERS
+    فراغ vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                    ثابت بنية xMEMORY_REGION * ثابت xRegions,
                                     StackType_t * pxBottomOfStack,
                                     configSTACK_DEPTH_TYPE uxStackDepth )
     {
-        #if XCHAL_CP_NUM > 0
+        #ܐܢ XCHAL_CP_NUM > 0
             xMPUSettings->coproc_area = ( StackType_t * ) ( ( uint32_t ) ( pxBottomOfStack + uxStackDepth - 1 ) );
             xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( portPOINTER_SIZE_TYPE ) xMPUSettings->coproc_area ) & ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
             xMPUSettings->coproc_area = ( StackType_t * ) ( ( ( uint32_t ) xMPUSettings->coproc_area - XT_CP_SIZE ) & ~0xf );
@@ -321,7 +321,7 @@ void vPortYieldOtherCore( BaseType_t coreid )
         #endif
     }
 
-    void vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings )
+    فراغ vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings )
     {
         /* If task has live floating point registers somewhere, release them */
         _xt_coproc_release( xMPUSettings->coproc_area );
@@ -335,13 +335,13 @@ void vPortYieldOtherCore( BaseType_t coreid )
  */
 BaseType_t xPortInIsrContext()
 {
-    unsigned int irqStatus;
+    unsigned صحيح irqStatus;
     BaseType_t ret;
 
     irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
     ret = ( port_interruptNesting[ xPortGetCoreID() ] != 0 );
     portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-    return ret;
+    ܦܢܐ ret;
 }
 
 /*
@@ -350,10 +350,10 @@ BaseType_t xPortInIsrContext()
  */
 BaseType_t IRAM_ATTR xPortInterruptedFromISRContext()
 {
-    return( port_interruptNesting[ xPortGetCoreID() ] != 0 );
+    ܦܢܐ( port_interruptNesting[ xPortGetCoreID() ] != 0 );
 }
 
-void IRAM_ATTR vPortEvaluateYieldFromISR( int argc,
+فراغ IRAM_ATTR vPortEvaluateYieldFromISR( صحيح argc,
                                           ... )
 {
     BaseType_t xYield;
@@ -361,31 +361,31 @@ void IRAM_ATTR vPortEvaluateYieldFromISR( int argc,
 
     va_start( ap, argc );
 
-    if( argc )
+    ܐܢ( argc )
     {
-        xYield = ( BaseType_t ) va_arg( ap, int );
+        xYield = ( BaseType_t ) va_arg( ap, صحيح );
         va_end( ap );
     }
-    else
+    ܐܚܪܢܐ
     {
         /*it is a empty parameter vPortYieldFromISR macro call: */
         va_end( ap );
         traceISR_EXIT_TO_SCHEDULER();
         _frxt_setup_switch();
-        return;
+        ܦܢܐ;
     }
 
     /*Yield exists, so need evaluate it first then switch: */
-    if( xYield == pdTRUE )
+    ܐܢ( xYield == pdTRUE )
     {
         traceISR_EXIT_TO_SCHEDULER();
         _frxt_setup_switch();
     }
 }
 
-void vPortAssertIfInISR()
+فراغ vPortAssertIfInISR()
 {
-    if( xPortInIsrContext() )
+    ܐܢ( xPortInIsrContext() )
     {
         esp_rom_printf( "core=%d port_interruptNesting=%d\n\n", xPortGetCoreID(), port_interruptNesting[ xPortGetCoreID() ] );
     }
@@ -396,7 +396,7 @@ void vPortAssertIfInISR()
 /*
  * For kernel use: Initialize a per-CPU mux. Mux will be initialized unlocked.
  */
-void vPortCPUInitializeMutex( portMUX_TYPE * mux )
+فراغ vPortCPUInitializeMutex( portMUX_TYPE * mux )
 {
     #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
         esp_rom_printf( "Initializing mux %p\n", mux );
@@ -407,51 +407,51 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
     mux->count = 0;
 }
 
-#include "portmux_impl.h"
+#ضمن "portmux_impl.h"
 
 /*
  * For kernel use: Acquire a per-CPU mux. Spinlocks, so don't hold on to these muxes for too long.
  */
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    void vPortCPUAcquireMutex( portMUX_TYPE * mux,
-                               const char * fnName,
-                               int line )
+    فراغ vPortCPUAcquireMutex( portMUX_TYPE * mux,
+                               ثابت حرف * fnName,
+                               صحيح line )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned صحيح irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT, fnName, line );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
 
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles,
-                                      const char * fnName,
-                                      int line )
+                                      صحيح timeout_cycles,
+                                      ثابت حرف * fnName,
+                                      صحيح line )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned صحيح irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
         bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles, fnName, line );
 
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-        return result;
+        ܦܢܐ result;
     }
 
-#else /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
-    void vPortCPUAcquireMutex( portMUX_TYPE * mux )
+#ܐܚܪܢܐ /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
+    فراغ vPortCPUAcquireMutex( portMUX_TYPE * mux )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned صحيح irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUAcquireMutexIntsDisabled( mux, portMUX_NO_TIMEOUT );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
 
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles )
+                                      صحيح timeout_cycles )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned صحيح irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
         bool result = vPortCPUAcquireMutexIntsDisabled( mux, timeout_cycles );
 
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
-        return result;
+        ܦܢܐ result;
     }
 #endif /* ifdef CONFIG_FREERTOS_PORTMUX_DEBUG */
 
@@ -462,19 +462,19 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
  * Mux must be already locked by this core
  */
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux,
-                               const char * fnName,
-                               int line )
+    فراغ vPortCPUReleaseMutex( portMUX_TYPE * mux,
+                               ثابت حرف * fnName,
+                               صحيح line )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned صحيح irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUReleaseMutexIntsDisabled( mux, fnName, line );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
     }
-#else
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux )
+#ܐܚܪܢܐ
+    فراغ vPortCPUReleaseMutex( portMUX_TYPE * mux )
     {
-        unsigned int irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
+        unsigned صحيح irqStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
         vPortCPUReleaseMutexIntsDisabled( mux );
         portCLEAR_INTERRUPT_MASK_FROM_ISR( irqStatus );
@@ -484,7 +484,7 @@ void vPortCPUInitializeMutex( portMUX_TYPE * mux )
 #define STACK_WATCH_AREA_SIZE       ( 32 )
 #define STACK_WATCH_POINT_NUMBER    ( SOC_CPU_WATCHPOINTS_NUM - 1 )
 
-void vPortSetStackWatchpoint( void * pxStackStart )
+فراغ vPortSetStackWatchpoint( فراغ * pxStackStart )
 {
     /*Set watchpoint 1 to watch the last 32 bytes of the stack. */
     /*Unfortunately, the Xtensa watchpoints can't set a watchpoint on a random [base - base+n] region because */
@@ -492,22 +492,22 @@ void vPortSetStackWatchpoint( void * pxStackStart )
     /*bytes of the stack we can actually watch. In general, this can cause the watchpoint to be triggered at most */
     /*28 bytes early. The value 32 is chosen because it's larger than the stack canary, which in FreeRTOS is 20 bytes. */
     /*This way, we make sure we trigger before/when the stack canary is corrupted, not after. */
-    int addr = ( int ) pxStackStart;
+    صحيح addr = ( صحيح ) pxStackStart;
 
     addr = ( addr + 31 ) & ( ~31 );
-    esp_cpu_set_watchpoint( STACK_WATCH_POINT_NUMBER, ( char * ) addr, 32, ESP_WATCHPOINT_STORE );
+    esp_cpu_set_watchpoint( STACK_WATCH_POINT_NUMBER, ( حرف * ) addr, 32, ESP_WATCHPOINT_STORE );
 }
 
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#ܐܢ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
 
-    #if defined( CONFIG_SPIRAM_SUPPORT )
+    #ܐܢ defined( CONFIG_SPIRAM_SUPPORT )
 
 /*
  * Compare & set (S32C1) does not work in external RAM. Instead, this routine uses a mux (in internal memory) to fake it.
  */
-        static portMUX_TYPE extram_mux = portMUX_INITIALIZER_UNLOCKED;
+        ساكن portMUX_TYPE extram_mux = portMUX_INITIALIZER_UNLOCKED;
 
-        void uxPortCompareSetExtram( volatile uint32_t * addr,
+        فراغ uxPortCompareSetExtram( متطاير uint32_t * addr,
                                      uint32_t compare,
                                      uint32_t * set )
         {
@@ -517,12 +517,12 @@ void vPortSetStackWatchpoint( void * pxStackStart )
 
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                 vPortCPUAcquireMutexIntsDisabled( &extram_mux, portMUX_NO_TIMEOUT, __FUNCTION__, __LINE__ );
-            #else
+            #ܐܚܪܢܐ
                 vPortCPUAcquireMutexIntsDisabled( &extram_mux, portMUX_NO_TIMEOUT );
             #endif
             prev = *addr;
 
-            if( prev == compare )
+            ܐܢ( prev == compare )
             {
                 *addr = *set;
             }
@@ -530,7 +530,7 @@ void vPortSetStackWatchpoint( void * pxStackStart )
             *set = prev;
             #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
                 vPortCPUReleaseMutexIntsDisabled( &extram_mux, __FUNCTION__, __LINE__ );
-            #else
+            #ܐܚܪܢܐ
                 vPortCPUReleaseMutexIntsDisabled( &extram_mux );
             #endif
 
@@ -541,9 +541,9 @@ void vPortSetStackWatchpoint( void * pxStackStart )
 #endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 
-uint32_t xPortGetTickRateHz( void )
+uint32_t xPortGetTickRateHz( فراغ )
 {
-    return ( uint32_t ) configTICK_RATE_HZ;
+    ܦܢܐ ( uint32_t ) configTICK_RATE_HZ;
 }
 
 /* For now, running FreeRTOS on one core and a bare metal on the other (or other OSes) */
@@ -551,17 +551,17 @@ uint32_t xPortGetTickRateHz( void )
 /* should mirror each other's values. */
 /* */
 /* And since this should be true, we can just check for CONFIG_FREERTOS_UNICORE. */
-#if CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
+#ܐܢ CONFIG_FREERTOS_UNICORE != CONFIG_ESP_SYSTEM_SINGLE_CORE_MODE
     #error "FreeRTOS and system configuration mismatch regarding the use of multiple cores."
 #endif
 
-extern void esp_startup_start_app_common( void );
+خارجي فراغ esp_startup_start_app_common( فراغ );
 
-void esp_startup_start_app( void )
+فراغ esp_startup_start_app( فراغ )
 {
-    #if !CONFIG_ESP_INT_WDT
-        #if CONFIG_ESP32_ECO3_CACHE_LOCK_FIX
-            assert( !soc_has_cache_lock_bug() && "ESP32 Rev 3 + Dual Core + PSRAM requires INT WDT enabled in project config!" );
+    #ܐܢ !CONFIG_ESP_INT_WDT
+        #ܐܢ CONFIG_ESP32_ECO3_CACHE_LOCK_FIX
+            أكد( !soc_has_cache_lock_bug() && "ESP32 Rev 3 + Dual Core + PSRAM requires INT WDT enabled in project config!" );
         #endif
     #endif
 

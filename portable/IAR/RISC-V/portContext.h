@@ -29,19 +29,19 @@
 #ifndef PORTCONTEXT_H
 #define PORTCONTEXT_H
 
-#if __riscv_xlen == 64
+#ܐܢ __riscv_xlen == 64
     #define portWORD_SIZE    8
     #define store_x          sd
     #define load_x           ld
-#elif __riscv_xlen == 32
+#وإلاإذا __riscv_xlen == 32
     #define store_x          sw
     #define load_x           lw
     #define portWORD_SIZE    4
-#else
+#ܐܚܪܢܐ
     #error Assembler did not define __riscv_xlen
 #endif
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#ضمن "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
@@ -52,7 +52,7 @@
     #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    13
     #define portMSTATUS_OFFSET             14
-#else
+#ܐܚܪܢܐ
     #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    29
     #define portMSTATUS_OFFSET             30

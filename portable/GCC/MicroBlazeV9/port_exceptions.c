@@ -27,12 +27,12 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Hardware includes. */
-#include <microblaze_exceptions_i.h>
-#include <microblaze_exceptions_g.h>
+#ضمن <microblaze_exceptions_i.h>
+#ضمن <microblaze_exceptions_g.h>
 
 /* The Xilinx library defined exception entry point stacks a number of
  * registers.  These definitions are offsets from the stack pointer to the various
@@ -63,23 +63,23 @@
 /* Exclude this entire file if the MicroBlaze is not configured to handle
  * exceptions, or the application defined configuration constant
  * configINSTALL_EXCEPTION_HANDLERS is not set to 1. */
-#if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
+#ܐܢ ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
 
 /* This variable is set in the exception entry code, before
  * vPortExceptionHandler is called. */
-    UINTPTR *pulStackPointerOnFunctionEntry = NULL;
+    UINTPTR *pulStackPointerOnFunctionEntry = عدم;
 
 /* This is the structure that is filled with the MicroBlaze context as it
  * existed immediately prior to the exception occurrence.  A pointer to this
  * structure is passed into the vApplicationExceptionRegisterDump() callback
  * function, if one is defined. */
-    static xPortRegisterDump xRegisterDump;
+    ساكن xPortRegisterDump xRegisterDump;
 
 /* This is the FreeRTOS exception handler that is installed for all exception
  * types.  It is called from vPortExceptionHandlerEntry() - which is itself defined
  * in portasm.S. */
-    void vPortExceptionHandler( void * pvExceptionID );
-    extern void vPortExceptionHandlerEntry( void * pvExceptionID );
+    فراغ vPortExceptionHandler( فراغ * pvExceptionID );
+    خارجي فراغ vPortExceptionHandlerEntry( فراغ * pvExceptionID );
 /*-----------------------------------------------------------*/
 
 /* vApplicationExceptionRegisterDump() is a callback function that the
@@ -87,21 +87,21 @@
  * structure.  If the application chooses not to define a version of
  * vApplicationExceptionRegisterDump() then this weekly defined default
  * implementation will be called instead. */
-    extern void vApplicationExceptionRegisterDump( xPortRegisterDump * xRegisterDump ) __attribute__( ( weak ) );
-    void vApplicationExceptionRegisterDump( xPortRegisterDump * xRegisterDump )
+    خارجي فراغ vApplicationExceptionRegisterDump( xPortRegisterDump * xRegisterDump ) __attribute__( ( weak ) );
+    فراغ vApplicationExceptionRegisterDump( xPortRegisterDump * xRegisterDump )
     {
-        ( void ) xRegisterDump;
+        ( فراغ ) xRegisterDump;
 
-        for( ; ; )
+        لكل( ; ; )
         {
             portNOP();
         }
     }
 /*-----------------------------------------------------------*/
 
-    void vPortExceptionHandler( void * pvExceptionID )
+    فراغ vPortExceptionHandler( فراغ * pvExceptionID )
     {
-        extern void * pxCurrentTCB;
+        خارجي فراغ * pxCurrentTCB;
 
         /* Fill an xPortRegisterDump structure with the MicroBlaze context as it
          * was immediately before the exception occurrence. */
@@ -109,7 +109,7 @@
         /* First fill in the name and handle of the task that was in the Running
          * state when the exception occurred. */
         xRegisterDump.xCurrentTaskHandle = pxCurrentTCB;
-        xRegisterDump.pcCurrentTaskName = pcTaskGetName( NULL );
+        xRegisterDump.pcCurrentTaskName = pcTaskGetName( عدم );
 
         configASSERT( pulStackPointerOnFunctionEntry );
 
@@ -158,11 +158,11 @@
          * exception. */
         xRegisterDump.ulPC = xRegisterDump.ulR17_return_address_from_exceptions - portexINSTRUCTION_SIZE;
 
-        #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
+        #ܐܢ ( XPAR_MICROBLAZE_USE_FPU != 0 )
         {
             xRegisterDump.ulFSR = mffsr();
         }
-        #else
+        #ܐܚܪܢܐ
         {
             xRegisterDump.ulFSR = 0UL;
         }
@@ -171,40 +171,40 @@
         /* Also fill in a string that describes what type of exception this is.
          * The string uses the same ID names as defined in the MicroBlaze standard
          * library exception header files. */
-        switch( ( uint32_t ) pvExceptionID )
+        بدل( ( uint32_t ) pvExceptionID )
         {
-            case XEXC_ID_FSL:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_FSL";
-                break;
+            حالة XEXC_ID_FSL:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_FSL";
+                اكسر;
 
-            case XEXC_ID_UNALIGNED_ACCESS:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_UNALIGNED_ACCESS";
-                break;
+            حالة XEXC_ID_UNALIGNED_ACCESS:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_UNALIGNED_ACCESS";
+                اكسر;
 
-            case XEXC_ID_ILLEGAL_OPCODE:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_ILLEGAL_OPCODE";
-                break;
+            حالة XEXC_ID_ILLEGAL_OPCODE:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_ILLEGAL_OPCODE";
+                اكسر;
 
-            case XEXC_ID_M_AXI_I_EXCEPTION:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_M_AXI_I_EXCEPTION or XEXC_ID_IPLB_EXCEPTION";
-                break;
+            حالة XEXC_ID_M_AXI_I_EXCEPTION:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_M_AXI_I_EXCEPTION or XEXC_ID_IPLB_EXCEPTION";
+                اكسر;
 
-            case XEXC_ID_M_AXI_D_EXCEPTION:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_M_AXI_D_EXCEPTION or XEXC_ID_DPLB_EXCEPTION";
-                break;
+            حالة XEXC_ID_M_AXI_D_EXCEPTION:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_M_AXI_D_EXCEPTION or XEXC_ID_DPLB_EXCEPTION";
+                اكسر;
 
-            case XEXC_ID_DIV_BY_ZERO:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_DIV_BY_ZERO";
-                break;
+            حالة XEXC_ID_DIV_BY_ZERO:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_DIV_BY_ZERO";
+                اكسر;
 
-            case XEXC_ID_STACK_VIOLATION:
-                xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_STACK_VIOLATION or XEXC_ID_MMU";
-                break;
+            حالة XEXC_ID_STACK_VIOLATION:
+                xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_STACK_VIOLATION or XEXC_ID_MMU";
+                اكسر;
 
-                #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
-                    case XEXC_ID_FPU:
-                        xRegisterDump.pcExceptionCause = ( int8_t * const ) "XEXC_ID_FPU see ulFSR value";
-                        break;
+                #ܐܢ ( XPAR_MICROBLAZE_USE_FPU != 0 )
+                    حالة XEXC_ID_FPU:
+                        xRegisterDump.pcExceptionCause = ( int8_t * ثابت ) "XEXC_ID_FPU see ulFSR value";
+                        اكسر;
                 #endif /* XPAR_MICROBLAZE_USE_FPU */
         }
 
@@ -216,55 +216,55 @@
         vApplicationExceptionRegisterDump( &xRegisterDump );
 
         /* Must not attempt to leave this function! */
-        for( ; ; )
+        لكل( ; ; )
         {
             portNOP();
         }
     }
 /*-----------------------------------------------------------*/
 
-    void vPortExceptionsInstallHandlers( void )
+    فراغ vPortExceptionsInstallHandlers( فراغ )
     {
-        static uint32_t ulHandlersAlreadyInstalled = pdFALSE;
+        ساكن uint32_t ulHandlersAlreadyInstalled = pdFALSE;
 
-        if( ulHandlersAlreadyInstalled == pdFALSE )
+        ܐܢ( ulHandlersAlreadyInstalled == pdFALSE )
         {
             ulHandlersAlreadyInstalled = pdTRUE;
 
-            #if XPAR_MICROBLAZE_UNALIGNED_EXCEPTIONS == 1
-                microblaze_register_exception_handler( XEXC_ID_UNALIGNED_ACCESS, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_UNALIGNED_ACCESS );
+            #ܐܢ XPAR_MICROBLAZE_UNALIGNED_EXCEPTIONS == 1
+                microblaze_register_exception_handler( XEXC_ID_UNALIGNED_ACCESS, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_UNALIGNED_ACCESS );
             #endif /* XPAR_MICROBLAZE_UNALIGNED_EXCEPTIONS*/
 
-            #if XPAR_MICROBLAZE_ILL_OPCODE_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_ILLEGAL_OPCODE, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_ILLEGAL_OPCODE );
+            #ܐܢ XPAR_MICROBLAZE_ILL_OPCODE_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_ILLEGAL_OPCODE, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_ILLEGAL_OPCODE );
             #endif /* XPAR_MICROBLAZE_ILL_OPCODE_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_M_AXI_I_BUS_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_M_AXI_I_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_M_AXI_I_EXCEPTION );
+            #ܐܢ XPAR_MICROBLAZE_M_AXI_I_BUS_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_M_AXI_I_EXCEPTION, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_M_AXI_I_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_M_AXI_I_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_M_AXI_D_BUS_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_M_AXI_D_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_M_AXI_D_EXCEPTION );
+            #ܐܢ XPAR_MICROBLAZE_M_AXI_D_BUS_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_M_AXI_D_EXCEPTION, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_M_AXI_D_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_M_AXI_D_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_IPLB_BUS_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_IPLB_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_IPLB_EXCEPTION );
+            #ܐܢ XPAR_MICROBLAZE_IPLB_BUS_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_IPLB_EXCEPTION, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_IPLB_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_IPLB_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_DPLB_BUS_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_DPLB_EXCEPTION, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_DPLB_EXCEPTION );
+            #ܐܢ XPAR_MICROBLAZE_DPLB_BUS_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_DPLB_EXCEPTION, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_DPLB_EXCEPTION );
             #endif /* XPAR_MICROBLAZE_DPLB_BUS_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_DIV_ZERO_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_DIV_BY_ZERO, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_DIV_BY_ZERO );
+            #ܐܢ XPAR_MICROBLAZE_DIV_ZERO_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_DIV_BY_ZERO, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_DIV_BY_ZERO );
             #endif /* XPAR_MICROBLAZE_DIV_ZERO_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_FPU_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_FPU, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_FPU );
+            #ܐܢ XPAR_MICROBLAZE_FPU_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_FPU, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_FPU );
             #endif /* XPAR_MICROBLAZE_FPU_EXCEPTION */
 
-            #if XPAR_MICROBLAZE_FSL_EXCEPTION == 1
-                microblaze_register_exception_handler( XEXC_ID_FSL, vPortExceptionHandlerEntry, ( void * ) XEXC_ID_FSL );
+            #ܐܢ XPAR_MICROBLAZE_FSL_EXCEPTION == 1
+                microblaze_register_exception_handler( XEXC_ID_FSL, vPortExceptionHandlerEntry, ( فراغ * ) XEXC_ID_FSL );
             #endif /* XPAR_MICROBLAZE_FSL_EXCEPTION */
 
             microblaze_enable_exceptions();

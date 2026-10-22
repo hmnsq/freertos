@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -54,29 +54,29 @@
 /**
  * @brief Type definitions.
  */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع portSTACK_TYPE   StackType_t;
+تعريفنوع long             BaseType_t;
+تعريفنوع unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t        TickType_t;
+#ܐܢ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t        TickType_t;
     #define portMAX_DELAY   ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t        TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t        TickType_t;
     #define portMAX_DELAY   ( TickType_t ) 0xffffffffUL
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
      * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#ܐܚܪܢܐ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -91,7 +91,7 @@ typedef unsigned long    UBaseType_t;
 #define portNOP()
 #define portINLINE                         __inline
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE               inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE               مضمن __attribute__( ( always_inline ) )
 #endif
 #define portDONT_DISCARD                   __attribute__( ( used ) )
 /*-----------------------------------------------------------*/
@@ -99,29 +99,29 @@ typedef unsigned long    UBaseType_t;
 /**
  * @brief Extern declarations.
  */
-extern BaseType_t xPortIsInsideInterrupt( void );
+خارجي BaseType_t xPortIsInsideInterrupt( فراغ );
 
-extern void vPortYield( void ) /* PRIVILEGED_FUNCTION */;
+خارجي فراغ vPortYield( فراغ ) /* PRIVILEGED_FUNCTION */;
 
-extern void vPortEnterCritical( void ) /* PRIVILEGED_FUNCTION */;
-extern void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */;
+خارجي فراغ vPortEnterCritical( فراغ ) /* PRIVILEGED_FUNCTION */;
+خارجي فراغ vPortExitCritical( فراغ ) /* PRIVILEGED_FUNCTION */;
 
-extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
-extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+خارجي uint32_t ulSetInterruptMask( فراغ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
+خارجي فراغ vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
-#if ( configENABLE_MPU == 1 )
-    extern BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */;
-    extern void vResetPrivilege( void ) /* __attribute__ (( naked )) */;
+#ܐܢ ( configENABLE_MPU == 1 )
+    خارجي BaseType_t xIsPrivileged( فراغ ) /* __attribute__ (( naked )) */;
+    خارجي فراغ vResetPrivilege( فراغ ) /* __attribute__ (( naked )) */;
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
+#ܐܢ ( configENABLE_MPU == 1 )
     #define portUSING_MPU_WRAPPERS          1
     #define portPRIVILEGE_BIT               ( 0x80000000UL )
-#else
+#ܐܚܪܢܐ
     #define portPRIVILEGE_BIT               ( 0x0UL )
 #endif /* configENABLE_MPU */
 
@@ -193,27 +193,27 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portMPU_REGION_PRIV_RO_UNPRIV_RO            ( 0x6UL << 24UL )
 #define portMPU_REGION_EXECUTE_NEVER                ( 0x1UL << 28UL )
 
-#if ( configENABLE_MPU == 1 )
+#ܐܢ ( configENABLE_MPU == 1 )
 
     /**
      * @brief Settings to define an MPU region.
      */
-    typedef struct MPURegionSettings
+    تعريفنوع بنية MPURegionSettings
     {
         uint32_t ulRBAR; /**< MPU Region Base Address Register (RBAR) for the region. */
         uint32_t ulRASR; /**< MPU Region Attribute and Size Register (RASR) for the region. */
     } MPURegionSettings_t;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #ܐܢ ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
         #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
+            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words لكل using MPU wrappers v2.
         #endif
 
         /**
          * @brief System call stack.
          */
-        typedef struct SYSTEM_CALL_STACK_INFO
+        تعريفنوع بنية SYSTEM_CALL_STACK_INFO
         {
             uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
             uint32_t * pulSystemCallStack;
@@ -245,15 +245,15 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     /* Size of an Access Control List (ACL) entry in bits. */
     #define portACL_ENTRY_SIZE_BITS             ( 32U )
 
-    typedef struct MPU_SETTINGS
+    تعريفنوع بنية MPU_SETTINGS
     {
         MPURegionSettings_t xRegionsSettings[ portTOTAL_NUM_REGIONS ]; /**< Settings for 4 per task regions. */
         uint32_t ulContext[ CONTEXT_SIZE ];
         uint32_t ulTaskFlags;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ܐܢ ( configUSE_MPU_WRAPPERS_V1 == 0 )
             xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            #ܐܢ ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif
         #endif
@@ -274,29 +274,29 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Scheduler utilities.
  */
-#if ( configENABLE_MPU == 1 )
-    #define portYIELD()               __asm volatile ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
+#ܐܢ ( configENABLE_MPU == 1 )
+    #define portYIELD()               __asm متطاير ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
     #define portYIELD_WITHIN_API()    vPortYield()
-#else
+#ܐܚܪܢܐ
     #define portYIELD()               vPortYield()
     #define portYIELD_WITHIN_API()    vPortYield()
 #endif
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( متطاير uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+    ܥܒܕ                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        ܐܢ( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        ܐܚܪܢܐ                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } ܟܡܐ( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -305,8 +305,8 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  */
 #define portSET_INTERRUPT_MASK_FROM_ISR()       ulSetInterruptMask()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  vClearInterruptMask( x )
-#define portDISABLE_INTERRUPTS()                __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()                 __asm volatile ( " cpsie i " ::: "memory" )
+#define portDISABLE_INTERRUPTS()                __asm متطاير ( " cpsid i " ::: "memory" )
+#define portENABLE_INTERRUPTS()                 __asm متطاير ( " cpsie i " ::: "memory" )
 #define portENTER_CRITICAL()                    vPortEnterCritical()
 #define portEXIT_CRITICAL()                     vPortExitCritical()
 /*-----------------------------------------------------------*/
@@ -315,7 +315,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * @brief Tickless idle/low power functionality.
  */
 #ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+    خارجي فراغ vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
     #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
 #endif
 /*-----------------------------------------------------------*/
@@ -323,11 +323,11 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Task function macros as described on the FreeRTOS.org website.
  */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ܐܢ ( configENABLE_MPU == 1 )
 
     /**
      * @brief Checks whether or not the processor is privileged.
@@ -343,7 +343,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      * then it raises the privilege. If this is called from any other place,
      * the privilege is not raised.
      */
-    #define portRAISE_PRIVILEGE()    __asm volatile ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
+    #define portRAISE_PRIVILEGE()    __asm متطاير ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
 
     /**
      * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
@@ -351,7 +351,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
      */
     #define portRESET_PRIVILEGE()    vResetPrivilege()
 
-#else
+#ܐܚܪܢܐ
 
     #define portIS_PRIVILEGED()
     #define portRAISE_PRIVILEGE()
@@ -360,9 +360,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ܐܢ ( configENABLE_MPU == 1 )
 
-    extern BaseType_t xPortIsTaskPrivileged( void );
+    خارجي BaseType_t xPortIsTaskPrivileged( فراغ );
 
     /**
      * @brief Checks whether or not the calling task is privileged.
@@ -377,7 +377,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Barriers.
  */
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm متطاير ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */

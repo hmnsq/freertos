@@ -31,11 +31,11 @@
  *----------------------------------------------------------*/
 
 /* Standard includes. */
-#include <string.h>
+#ضمن <string.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to setup timer 2 to produce the RTOS tick. */
 #define portCLOCK_DIVISOR                               ( ( uint32_t ) 12 )
@@ -54,26 +54,26 @@
 
 /* Used during a context switch to store the size of the stack being copied
 to or from XRAM. */
-data static uint8_t ucStackBytes;
+data ساكن uint8_t ucStackBytes;
 
 /* Used during a context switch to point to the next byte in XRAM from/to which
 a RAM byte is to be copied. */
-xdata static StackType_t * data pxXRAMStack;
+xdata ساكن StackType_t * data pxXRAMStack;
 
 /* Used during a context switch to point to the next byte in RAM from/to which
 an XRAM byte is to be copied. */
-data static StackType_t * data pxRAMStack;
+data ساكن StackType_t * data pxRAMStack;
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /*
  * Setup the hardware to generate an interrupt off timer 2 at the required
  * frequency.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*-----------------------------------------------------------*/
 /*
@@ -101,7 +101,7 @@ static void prvSetupTimerInterrupt( void );
                                                                                             \
         /* Copy each stack byte in turn.  pxXRAMStack is incremented first as we            \
         have already stored the stack size into XRAM. */                                    \
-        while( ucStackBytes )                                                               \
+        ܟܡܐ( ucStackBytes )                                                               \
         {                                                                                   \
                 pxXRAMStack++;                                                              \
                 *pxXRAMStack = *pxRAMStack;                                                 \
@@ -127,13 +127,13 @@ static void prvSetupTimerInterrupt( void );
         ucStackBytes = pxXRAMStack[ 0 ];                                                    \
                                                                                             \
         /* Copy the required number of bytes back into the stack. */                        \
-        do                                                                                  \
+        ܥܒܕ                                                                                  \
         {                                                                                   \
                 pxXRAMStack++;                                                              \
                 pxRAMStack++;                                                               \
                 *pxRAMStack = *pxXRAMStack;                                                 \
                 ucStackBytes--;                                                             \
-        } while( ucStackBytes );                                                            \
+        } ܟܡܐ( ucStackBytes );                                                            \
                                                                                             \
         /* Restore the stack pointer ready to use the restored stack. */                    \
         SP = ( uint8_t ) pxRAMStack;                                                        \
@@ -213,7 +213,7 @@ static void prvSetupTimerInterrupt( void );
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, فراغ *pvParameters )
 {
 uint32_t ulAddress;
 StackType_t *pxStartOfStack;
@@ -292,14 +292,14 @@ StackType_t *pxStartOfStack;
 
         /* Unlike most ports, we return the start of the stack as this is where the
         size of the stack is stored. */
-        return pxStartOfStack;
+        ܦܢܐ pxStartOfStack;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
         /* Setup timer 2 to generate the RTOS tick. */
         prvSetupTimerInterrupt();
@@ -314,11 +314,11 @@ BaseType_t xPortStartScheduler( void )
         portRESTORE_CONTEXT();
 
         /* Should never get here! */
-        return pdTRUE;
+        ܦܢܐ pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
         /* Not implemented for this port. */
 }
@@ -328,7 +328,7 @@ void vPortEndScheduler( void )
  * Manual context switch.  The first thing we do is save the registers so we
  * can use a naked attribute.
  */
-void vPortYield( void ) _naked
+فراغ vPortYield( فراغ ) _naked
 {
         /* Save the execution context onto the stack, then copy the entire stack
         to XRAM.  This is necessary as the internal RAM is only large enough to
@@ -349,8 +349,8 @@ void vPortYield( void ) _naked
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
-        void vTimer2ISR( void ) interrupt 5 _naked
+#ܐܢ configUSE_PREEMPTION == 1
+        فراغ vTimer2ISR( فراغ ) interrupt 5 _naked
         {
                 /* Preemptive context switch function triggered by the timer 2 ISR.
                 This does the same as vPortYield() (see above) with the addition
@@ -359,7 +359,7 @@ void vPortYield( void ) _naked
                 portSAVE_CONTEXT();
                 portCOPY_STACK_TO_XRAM();
 
-                if( xTaskIncrementTick() != pdFALSE )
+                ܐܢ( xTaskIncrementTick() != pdFALSE )
                 {
                         vTaskSwitchContext();
                 }
@@ -368,8 +368,8 @@ void vPortYield( void ) _naked
                 portCOPY_XRAM_TO_STACK();
                 portRESTORE_CONTEXT();
         }
-#else
-        void vTimer2ISR( void ) interrupt 5
+#ܐܚܪܢܐ
+        فراغ vTimer2ISR( فراغ ) interrupt 5
         {
                 /* When using the cooperative scheduler the timer 2 ISR is only
                 required to increment the RTOS tick count. */
@@ -380,16 +380,16 @@ void vPortYield( void ) _naked
 #endif
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
 uint8_t ucOriginalSFRPage;
 
 /* Constants calculated to give the required timer capture values. */
-const uint32_t ulTicksPerSecond = configCPU_CLOCK_HZ / portCLOCK_DIVISOR;
-const uint32_t ulCaptureTime = ulTicksPerSecond / configTICK_RATE_HZ;
-const uint32_t ulCaptureValue = portMAX_TIMER_VALUE - ulCaptureTime;
-const uint8_t ucLowCaptureByte = ( uint8_t ) ( ulCaptureValue & ( uint32_t ) 0xff );
-const uint8_t ucHighCaptureByte = ( uint8_t ) ( ulCaptureValue >> ( uint32_t ) 8 );
+ثابت uint32_t ulTicksPerSecond = configCPU_CLOCK_HZ / portCLOCK_DIVISOR;
+ثابت uint32_t ulCaptureTime = ulTicksPerSecond / configTICK_RATE_HZ;
+ثابت uint32_t ulCaptureValue = portMAX_TIMER_VALUE - ulCaptureTime;
+ثابت uint8_t ucLowCaptureByte = ( uint8_t ) ( ulCaptureValue & ( uint32_t ) 0xff );
+ثابت uint8_t ucHighCaptureByte = ( uint8_t ) ( ulCaptureValue >> ( uint32_t ) 8 );
 
         /* NOTE:  This uses a timer only present on 8052 architecture. */
 

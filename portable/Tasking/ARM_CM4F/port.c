@@ -31,13 +31,13 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to manipulate the NVIC. */
-#define portNVIC_SYSTICK_CTRL       ( ( volatile uint32_t * ) 0xe000e010 )
-#define portNVIC_SYSTICK_LOAD       ( ( volatile uint32_t * ) 0xe000e014 )
-#define portNVIC_SHPR3_REG          ( ( volatile uint32_t * ) 0xe000ed20 )
+#define portNVIC_SYSTICK_CTRL       ( ( متطاير uint32_t * ) 0xe000e010 )
+#define portNVIC_SYSTICK_LOAD       ( ( متطاير uint32_t * ) 0xe000e014 )
+#define portNVIC_SHPR3_REG          ( ( متطاير uint32_t * ) 0xe000ed20 )
 #define portNVIC_SYSTICK_CLK        0x00000004
 #define portNVIC_SYSTICK_INT        0x00000002
 #define portNVIC_SYSTICK_ENABLE     0x00000001
@@ -49,7 +49,7 @@
 #define portVECTACTIVE_MASK         ( 0xFFUL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR                   ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
+#define portFPCCR                   ( ( متطاير uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
 #define portASPEN_AND_LSPEN_BITS    ( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
@@ -61,7 +61,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#ܐܚܪܢܐ
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -71,36 +71,36 @@
 
 /* The priority used by the kernel is assigned to a variable to make access
  * from inline assembler easier. */
-const uint32_t ulKernelPriority = portMIN_INTERRUPT_PRIORITY;
+ثابت uint32_t ulKernelPriority = portMIN_INTERRUPT_PRIORITY;
 
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. */
-static uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
+ساكن uint32_t ulCriticalNesting = 0xaaaaaaaaUL;
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * Exception handlers.
  */
-void SysTick_Handler( void );
+فراغ SysTick_Handler( فراغ );
 
 /*
  * Functions defined in port_asm.asm.
  */
-extern void vPortEnableVFP( void );
-extern void vPortStartFirstTask( void );
+خارجي فراغ vPortEnableVFP( فراغ );
+خارجي فراغ vPortStartFirstTask( فراغ );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ساكن فراغ prvTaskExitError( فراغ );
 
 /* This exists purely to allow the const to be used from within the
  * port_asm.asm assembly file. */
-const uint32_t ulMaxSyscallInterruptPriorityConst = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+ثابت uint32_t ulMaxSyscallInterruptPriorityConst = configMAX_SYSCALL_INTERRUPT_PRIORITY;
 
 /*-----------------------------------------------------------*/
 
@@ -109,7 +109,7 @@ const uint32_t ulMaxSyscallInterruptPriorityConst = configMAX_SYSCALL_INTERRUPT_
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
@@ -135,11 +135,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     pxTopOfStack -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    ܦܢܐ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساكن فراغ prvTaskExitError( فراغ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -150,7 +150,7 @@ static void prvTaskExitError( void )
     configASSERT( ulCriticalNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    لكل( ; ; )
     {
     }
 }
@@ -159,7 +159,7 @@ static void prvTaskExitError( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* configMAX_SYSCALL_INTERRUPT_PRIORITY must not be set to 0.
      * See https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html */
@@ -186,11 +186,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ܦܢܐ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -198,7 +198,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+فراغ vPortYield( فراغ )
 {
     /* Set a PendSV to request a context switch. */
     *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
@@ -210,7 +210,7 @@ void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     portDISABLE_INTERRUPTS();
     ulCriticalNesting++;
@@ -222,39 +222,39 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    ܐܢ( ulCriticalNesting == 1 )
     {
         configASSERT( ( ( *( portNVIC_INT_CTRL ) ) & portVECTACTIVE_MASK ) == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
     configASSERT( ulCriticalNesting );
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    ܐܢ( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void SysTick_Handler( void )
+فراغ SysTick_Handler( فراغ )
 {
     uint32_t ulDummy;
 
     ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
     traceISR_ENTER();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        ܐܢ( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
             /* Pend a context switch. */
             *( portNVIC_INT_CTRL ) = portNVIC_PENDSVSET;
         }
-        else
+        ܐܚܪܢܐ
         {
             traceISR_EXIT();
         }
@@ -267,7 +267,7 @@ void SysTick_Handler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+فراغ prvSetupTimerInterrupt( فراغ )
 {
     /* Configure SysTick to interrupt at the requested rate. */
     *( portNVIC_SYSTICK_LOAD ) = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;

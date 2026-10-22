@@ -28,11 +28,11 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to setup the initial task context. */
 #define portINITIAL_SPSR                   ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
@@ -64,18 +64,18 @@
  * as part of the task context and must be initialised to a non zero value. */
 
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+متطاير uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * The scheduler can only be started from ARM mode, so
  * vPortStartFirstSTask() is defined in portISR.c.
  */
-extern __asm void vPortStartFirstTask( void );
+خارجي __asm فراغ vPortStartFirstTask( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -84,7 +84,7 @@ extern __asm void vPortStartFirstTask( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     StackType_t * pxOriginalTOS;
 
@@ -140,7 +140,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    ܐܢ( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -155,11 +155,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * as part of the task context and is initially set to zero. */
     *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    ܦܢܐ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR. */
     prvSetupTimerInterrupt();
@@ -169,11 +169,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    ܦܢܐ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  If this is required - stop the tick ISR then
@@ -181,14 +181,14 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#ܐܢ configUSE_PREEMPTION == 0
 
 /*
  * The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick.
  */
-    void vNonPreemptiveTick( void ) __irq;
-    void vNonPreemptiveTick( void ) __irq
+    فراغ vNonPreemptiveTick( فراغ ) __irq;
+    فراغ vNonPreemptiveTick( فراغ ) __irq
     {
         /* Increment the tick count - this may make a delaying task ready
          * to run - but a context switch is not performed. */
@@ -198,7 +198,7 @@ void vPortEndScheduler( void )
         VICVectAddr = portCLEAR_VIC_INTERRUPT; /* Acknowledge the Interrupt */
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#ܐܚܪܢܐ /* if configUSE_PREEMPTION == 0 */
 
 /*
  **************************************************************************
@@ -208,12 +208,12 @@ void vPortEndScheduler( void )
  **************************************************************************
  */
 
-    void vPreemptiveTick( void );
+    فراغ vPreemptiveTick( فراغ );
 
 #endif /* if configUSE_PREEMPTION == 0 */
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     uint32_t ulCompareMatch;
 
@@ -226,7 +226,7 @@ static void prvSetupTimerInterrupt( void )
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #ܐܢ portPRESCALE_VALUE != 0
     {
         ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
     }
@@ -243,11 +243,11 @@ static void prvSetupTimerInterrupt( void )
 
     /* The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
-    #if configUSE_PREEMPTION == 1
+    #ܐܢ configUSE_PREEMPTION == 1
     {
         VICVectAddr0 = ( uint32_t ) vPreemptiveTick;
     }
-    #else
+    #ܐܚܪܢܐ
     {
         VICVectAddr0 = ( uint32_t ) vNonPreemptiveTick;
     }
@@ -261,7 +261,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
     __disable_irq();
@@ -273,16 +273,16 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ܐܢ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ܐܢ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL(). */
             __enable_irq();

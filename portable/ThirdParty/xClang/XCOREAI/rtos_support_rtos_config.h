@@ -36,10 +36,10 @@
  * core receives an intercore interrupt request.
  */
 #define RTOS_INTERCORE_INTERRUPT_ISR()       \
-    do {                                     \
-        void vIntercoreInterruptISR( void ); \
+    ܥܒܕ {                                     \
+        فراغ vIntercoreInterruptISR( فراغ ); \
         vIntercoreInterruptISR();            \
-    } while( 0 )
+    } ܟܡܐ( 0 )
 
 /**
  * The number of hardware locks that the RTOS
@@ -60,7 +60,7 @@
 
 
 #ifdef configENABLE_DEBUG_PRINTF
-    #if configENABLE_DEBUG_PRINTF
+    #ܐܢ configENABLE_DEBUG_PRINTF
 
 /* ensure that debug_printf is enabled */
         #ifdef DEBUG_PRINT_ENABLE
@@ -71,13 +71,13 @@
         #ifndef configTASKS_DEBUG
             #define configTASKS_DEBUG                     0
         #endif
-        #if configTASKS_DEBUG == 1
+        #ܐܢ configTASKS_DEBUG == 1
             #define DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
-        #else
+        #ܐܚܪܢܐ
             #define DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
         #endif
 
-    #else /* configENABLE_DEBUG_PRINTF */
+    #ܐܚܪܢܐ /* configENABLE_DEBUG_PRINTF */
 
 /* ensure that debug_printf is disabled */
         #ifdef DEBUG_UNIT

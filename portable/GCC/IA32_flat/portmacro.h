@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,19 +46,19 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع portSTACK_TYPE   StackType_t;
+تعريفنوع long             BaseType_t;
+تعريفنوع unsigned long    UBaseType_t;
 
-typedef uint32_t         TickType_t;
+تعريفنوع uint32_t         TickType_t;
 #define portMAX_DELAY    ( ( TickType_t ) 0xffffffffUL )
 
 /*-----------------------------------------------------------*/
@@ -84,7 +84,7 @@ typedef uint32_t         TickType_t;
 #define portYIELD_INTERRUPT             "int $0x20"
 
 /* APIC register addresses. */
-#define portAPIC_EOI                    ( *( ( volatile uint32_t * ) 0xFEE000B0UL ) )
+#define portAPIC_EOI                    ( *( ( متطاير uint32_t * ) 0xFEE000B0UL ) )
 
 /* APIC bit definitions. */
 #define portAPIC_ENABLE_BIT             ( 1UL << 8UL )
@@ -94,33 +94,33 @@ typedef uint32_t         TickType_t;
 #define portAPIC_DIV_16                 ( 0x03 )
 
 /* Define local API register addresses. */
-#define portAPIC_ID_REGISTER            ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
-#define portAPIC_SPURIOUS_INT           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
-#define portAPIC_LVT_TIMER              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
-#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
-#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
-#define portAPIC_TASK_PRIORITY          ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
-#define portAPIC_LVT_ERROR              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
-#define portAPIC_ERROR_STATUS           ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
-#define portAPIC_LDR                    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
-#define portAPIC_TMRDIV                 ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
-#define portAPIC_LVT_PERF               ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
-#define portAPIC_LVT_LINT0              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
-#define portAPIC_LVT_LINT1              ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
+#define portAPIC_ID_REGISTER            ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x20UL ) ) )
+#define portAPIC_SPURIOUS_INT           ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0xF0UL ) ) )
+#define portAPIC_LVT_TIMER              ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x320UL ) ) )
+#define portAPIC_TIMER_INITIAL_COUNT    ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x380UL ) ) )
+#define portAPIC_TIMER_CURRENT_COUNT    ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x390UL ) ) )
+#define portAPIC_TASK_PRIORITY          ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x80UL ) ) )
+#define portAPIC_LVT_ERROR              ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x370UL ) ) )
+#define portAPIC_ERROR_STATUS           ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x280UL ) ) )
+#define portAPIC_LDR                    ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0xD0UL ) ) )
+#define portAPIC_TMRDIV                 ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x3E0UL ) ) )
+#define portAPIC_LVT_PERF               ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x340UL ) ) )
+#define portAPIC_LVT_LINT0              ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x350UL ) ) )
+#define portAPIC_LVT_LINT1              ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0x360UL ) ) )
 
 /* Don't yield if inside a critical section - instead hold the yield pending
  * so it is performed when the critical section is exited. */
 #define portYIELD()                                  \
     {                                                \
-        extern volatile uint32_t ulCriticalNesting;  \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( ulCriticalNesting != 0 )                 \
+        خارجي متطاير uint32_t ulCriticalNesting;  \
+        خارجي متطاير uint32_t ulPortYieldPending; \
+        ܐܢ( ulCriticalNesting != 0 )                 \
         {                                            \
             ulPortYieldPending = pdTRUE;             \
         }                                            \
-        else                                         \
+        ܐܚܪܢܐ                                         \
         {                                            \
-            __asm volatile ( portYIELD_INTERRUPT );  \
+            __asm متطاير ( portYIELD_INTERRUPT );  \
         }                                            \
     }
 
@@ -128,8 +128,8 @@ typedef uint32_t         TickType_t;
  * xSwitchRequired is not false. */
 #define portEND_SWITCHING_ISR( xSwitchRequired )     \
     {                                                \
-        extern volatile uint32_t ulPortYieldPending; \
-        if( xSwitchRequired != pdFALSE )             \
+        خارجي متطاير uint32_t ulPortYieldPending; \
+        ܐܢ( xSwitchRequired != pdFALSE )             \
         {                                            \
             ulPortYieldPending = 1;                  \
         }                                            \
@@ -146,32 +146,32 @@ typedef uint32_t         TickType_t;
 #define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortSetInterruptMask()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern uint32_t ulPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+خارجي فراغ vPortEnterCritical( فراغ );
+خارجي فراغ vPortExitCritical( فراغ );
+خارجي uint32_t ulPortSetInterruptMask( فراغ );
+خارجي فراغ vPortClearInterruptMask( uint32_t ulNewMaskValue );
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
 #define portENTER_CRITICAL()        vPortEnterCritical()
 #define portEXIT_CRITICAL()         vPortExitCritical()
-#define portDISABLE_INTERRUPTS()    __asm volatile ( "cli" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( "sti" )
+#define portDISABLE_INTERRUPTS()    __asm متطاير ( "cli" )
+#define portENABLE_INTERRUPTS()     __asm متطاير ( "sti" )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ܐܢ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
     #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    __asm volatile ( "bsr %1, %0\n\t"                                    \
+    __asm متطاير ( "bsr %1, %0\n\t"                                    \
                      : "=r" ( uxTopPriority ) : "rm" ( uxReadyPriorities ) : "cc" )
 
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -179,7 +179,7 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()    __asm volatile ( "NOP" )
+#define portNOP()    __asm متطاير ( "NOP" )
 
 /*-----------------------------------------------------------
 * Misc
@@ -187,7 +187,7 @@ extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
 
 #define portNUM_VECTORS     256
 #define portMAX_PRIORITY    15
-typedef void ( * ISR_Handler_t ) ( void );
+تعريفنوع فراغ ( * ISR_Handler_t ) ( فراغ );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
@@ -195,8 +195,8 @@ typedef void ( * ISR_Handler_t ) ( void );
     #define configSUPPORT_FPU    0
 #endif
 
-#if configSUPPORT_FPU == 1
-    void vPortTaskUsesFPU( void );
+#ܐܢ configSUPPORT_FPU == 1
+    فراغ vPortTaskUsesFPU( فراغ );
     #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
 #endif
 
@@ -290,7 +290,7 @@ BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
 
 /* Asserts if interrupt safe FreeRTOS functions are called from a priority
  * above the max system call interrupt priority. */
-#define portAPIC_PROCESSOR_PRIORITY    ( *( ( volatile uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
+#define portAPIC_PROCESSOR_PRIORITY    ( *( ( متطاير uint32_t * ) ( configAPIC_BASE + 0xA0UL ) ) )
 #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( portAPIC_PROCESSOR_PRIORITY ) <= ( portMAX_API_CALL_PRIORITY ) )
 
 /* *INDENT-OFF* */

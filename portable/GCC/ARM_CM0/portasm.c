@@ -27,27 +27,27 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#ضمن <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE ensures that PRIVILEGED_FUNCTION
  * is defined correctly and privileged functions are placed in correct sections. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Portasm includes. */
-#include "portasm.h"
+#ضمن "portasm.h"
 
 /* System call numbers includes. */
-#include "mpu_syscall_numbers.h"
+#ضمن "mpu_syscall_numbers.h"
 
 /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE is needed to be defined only for the
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_MPU == 1 )
+#ܐܢ ( configENABLE_MPU == 1 )
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ vRestoreContextOfFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -133,11 +133,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#ܐܚܪܢܐ /* configENABLE_MPU */
 
-    void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ vRestoreContextOfFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -162,9 +162,9 @@
 
 /*-----------------------------------------------------------*/
 
-BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
+BaseType_t xIsPrivileged( فراغ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm متطاير
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -185,9 +185,9 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 
 /*-----------------------------------------------------------*/
 
-void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+فراغ vRaisePrivilege( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -202,9 +202,9 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 /*-----------------------------------------------------------*/
 
-void vResetPrivilege( void ) /* __attribute__ (( naked )) */
+فراغ vResetPrivilege( فراغ ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm متطاير
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -219,12 +219,12 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 
 /*-----------------------------------------------------------*/
 
-void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+فراغ vStartFirstTask( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
     /* Don't reset the MSP stack as is done on CM3/4 devices. The reason is that
      * the Vector Table Offset Register (VTOR) is optional in CM0+ architecture
      * and therefore, may not be available on all the devices. */
-    __asm volatile
+    __asm متطاير
     (
         " .syntax unified                                 \n"
         " cpsie i                                         \n" /* Globally enable interrupts. */
@@ -240,9 +240,9 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 /*-----------------------------------------------------------*/
 
-uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+uint32_t ulSetInterruptMask( فراغ ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -255,9 +255,9 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 
 /*-----------------------------------------------------------*/
 
-void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
+فراغ vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm متطاير
     (
         " .syntax unified                                 \n"
         "                                                 \n"
@@ -269,11 +269,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ܐܢ ( configENABLE_MPU == 1 )
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ PendSV_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -387,11 +387,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#ܐܚܪܢܐ /* configENABLE_MPU */
 
-    void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ PendSV_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .extern pxCurrentTCB                            \n"
             " .syntax unified                                 \n"
@@ -437,11 +437,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ܐܢ ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ SVC_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .syntax unified                \n"
             " .extern vPortSVCHandler_C      \n"
@@ -493,11 +493,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ܐܚܪܢܐ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
+    فراغ SVC_Handler( فراغ ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm متطاير
         (
             " .syntax unified                \n"
             " .extern vPortSVCHandler_C      \n"

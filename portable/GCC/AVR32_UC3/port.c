@@ -71,19 +71,19 @@
  */
 
 /* Standard includes. */
-#include <sys/cpu.h>
-#include <sys/usart.h>
-#include <malloc.h>
+#ضمن <sys/cpu.h>
+#ضمن <sys/usart.h>
+#ضمن <malloc.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* AVR32 UC3 includes. */
-#include <avr32/io.h>
-#include "gpio.h"
-#if ( configTICK_USE_TC == 1 )
-    #include "tc.h"
+#ضمن <avr32/io.h>
+#ضمن "gpio.h"
+#ܐܢ ( configTICK_USE_TC == 1 )
+    #ضمن "tc.h"
 #endif
 
 
@@ -93,16 +93,16 @@
 
 /* Each task maintains its own critical nesting variable. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+متطاير uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configTICK_USE_TC == 0 )
-    static void prvScheduleNextTick( void );
-#else
-    static void prvClearTcInt( void );
+#ܐܢ ( configTICK_USE_TC == 0 )
+    ساكن فراغ prvScheduleNextTick( فراغ );
+#ܐܚܪܢܐ
+    ساكن فراغ prvClearTcInt( فراغ );
 #endif
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -114,19 +114,19 @@ static void prvSetupTimerInterrupt( void );
  * vectors are not compatible with the SCALL management in the current FreeRTOS
  * port. More low-level initializations are besides added here.
  */
-void _init_startup( void )
+فراغ _init_startup( فراغ )
 {
     /* Import the Exception Vector Base Address. */
-    extern void _evba;
+    خارجي فراغ _evba;
 
-    #if configHEAP_INIT
-        extern void __heap_start__;
-        extern void __heap_end__;
+    #ܐܢ configHEAP_INIT
+        خارجي فراغ __heap_start__;
+        خارجي فراغ __heap_end__;
         BaseType_t * pxMem;
     #endif
 
     /* Load the Exception Vector Base Address in the corresponding system register. */
-    Set_system_register( AVR32_EVBA, ( int ) &_evba );
+    Set_system_register( AVR32_EVBA, ( صحيح ) &_evba );
 
     /* Enable exceptions. */
     ENABLE_ALL_EXCEPTIONS();
@@ -134,9 +134,9 @@ void _init_startup( void )
     /* Initialize interrupt handling. */
     INTC_init_interrupts();
 
-    #if configHEAP_INIT
+    #ܐܢ configHEAP_INIT
         /* Initialize the heap used by malloc. */
-        for( pxMem = &__heap_start__; pxMem < ( BaseType_t * ) &__heap_end__; )
+        لكل( pxMem = &__heap_start__; pxMem < ( BaseType_t * ) &__heap_end__; )
         {
             *pxMem++ = 0xA5A5A5A5;
         }
@@ -146,18 +146,18 @@ void _init_startup( void )
     set_cpu_hz( configCPU_CLOCK_HZ );
 
     /* Code section present if and only if the debug trace is activated. */
-    #if configDBG
+    #ܐܢ configDBG
     {
-        static const gpio_map_t DBG_USART_GPIO_MAP =
+        ساكن ثابت gpio_map_t DBG_USART_GPIO_MAP =
         {
             { configDBG_USART_RX_PIN, configDBG_USART_RX_FUNCTION },
             { configDBG_USART_TX_PIN, configDBG_USART_TX_FUNCTION }
         };
 
         /* Initialize the USART used for the debug trace with the configured parameters. */
-        set_usart_base( ( void * ) configDBG_USART );
+        set_usart_base( ( فراغ * ) configDBG_USART );
         gpio_enable_module( DBG_USART_GPIO_MAP,
-                            sizeof( DBG_USART_GPIO_MAP ) / sizeof( DBG_USART_GPIO_MAP[ 0 ] ) );
+                            حجم( DBG_USART_GPIO_MAP ) / حجم( DBG_USART_GPIO_MAP[ 0 ] ) );
         usart_init( configDBG_USART_BAUDRATE );
     }
     #endif /* if configDBG */
@@ -183,7 +183,7 @@ void _init_startup( void )
  * safe section as memory allocation management uses global data.
  * See the aforementioned details.
  */
-void __malloc_lock( struct _reent * ptr )
+فراغ __malloc_lock( بنية _reent * ptr )
 {
     vTaskSuspendAll();
 }
@@ -193,17 +193,17 @@ void __malloc_lock( struct _reent * ptr )
  * a safe section as memory allocation management uses global data.
  * See the aforementioned details.
  */
-void __malloc_unlock( struct _reent * ptr )
+فراغ __malloc_unlock( بنية _reent * ptr )
 {
     xTaskResumeAll();
 }
 /*-----------------------------------------------------------*/
 
 /* Added as there is no such function in FreeRTOS. */
-void * pvPortRealloc( void * pv,
+فراغ * pvPortRealloc( فراغ * pv,
                       size_t xWantedSize )
 {
-    void * pvReturn;
+    فراغ * pvReturn;
 
     vTaskSuspendAll();
     {
@@ -211,7 +211,7 @@ void * pvPortRealloc( void * pv,
     }
     xTaskResumeAll();
 
-    return pvReturn;
+    ܦܢܐ pvReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -220,15 +220,15 @@ void * pvPortRealloc( void * pv,
 
 /* The preemptive scheduler is defined as "naked" as the full context is saved
  * on entry as part of the context switch. */
-__attribute__( ( __naked__ ) ) static void vTick( void )
+__attribute__( ( __naked__ ) ) ساكن فراغ vTick( فراغ )
 {
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT_OS_INT();
 
-    #if ( configTICK_USE_TC == 1 )
+    #ܐܢ ( configTICK_USE_TC == 1 )
         /* Clear the interrupt flag. */
         prvClearTcInt();
-    #else
+    #ܐܚܪܢܐ
 
         /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
          * clock cycles from now. */
@@ -246,7 +246,7 @@ __attribute__( ( __naked__ ) ) static void vTick( void )
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( __naked__ ) ) void SCALLYield( void )
+__attribute__( ( __naked__ ) ) فراغ SCALLYield( فراغ )
 {
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT_SCALL();
@@ -259,7 +259,7 @@ __attribute__( ( __naked__ ) ) void SCALLYield( void )
  * different optimisation levels.  The interrupt flags can therefore not always
  * be saved to the stack.  Instead the critical section nesting level is stored
  * in a variable, which is then saved as part of the stack context. */
-__attribute__( ( __noinline__ ) ) void vPortEnterCritical( void )
+__attribute__( ( __noinline__ ) ) فراغ vPortEnterCritical( فراغ )
 {
     /* Disable interrupts */
     portDISABLE_INTERRUPTS();
@@ -271,13 +271,13 @@ __attribute__( ( __noinline__ ) ) void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( __noinline__ ) ) void vPortExitCritical( void )
+__attribute__( ( __noinline__ ) ) فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    ܐܢ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         ulCriticalNesting--;
 
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        ܐܢ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable all interrupt/exception. */
             portENABLE_INTERRUPTS();
@@ -294,7 +294,7 @@ __attribute__( ( __noinline__ ) ) void vPortExitCritical( void )
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro. */
@@ -319,11 +319,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack-- = ( StackType_t ) 0x07070707;                    /* R7 */
     *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_NESTING;         /* ulCriticalNesting */
 
-    return pxTopOfStack;
+    ܦܢܐ pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -333,11 +333,11 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here! */
-    return 0;
+    ܦܢܐ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the AVR32 port will require this function as there
      * is nothing to return to.  */
@@ -346,8 +346,8 @@ void vPortEndScheduler( void )
 
 /* Schedule the COUNT&COMPARE match interrupt in (configCPU_CLOCK_HZ/configTICK_RATE_HZ)
  * clock cycles from now. */
-#if ( configTICK_USE_TC == 0 )
-    static void prvScheduleFirstTick( void )
+#ܐܢ ( configTICK_USE_TC == 0 )
+    ساكن فراغ prvScheduleFirstTick( فراغ )
     {
         uint32_t lCycles;
 
@@ -356,7 +356,7 @@ void vPortEndScheduler( void )
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        ܐܢ( 0 == lCycles )
         {
             lCycles++;
         }
@@ -364,7 +364,7 @@ void vPortEndScheduler( void )
         Set_system_register( AVR32_COMPARE, lCycles );
     }
 
-    __attribute__( ( __noinline__ ) ) static void prvScheduleNextTick( void )
+    __attribute__( ( __noinline__ ) ) ساكن فراغ prvScheduleNextTick( فراغ )
     {
         uint32_t lCycles, lCount;
 
@@ -373,22 +373,22 @@ void vPortEndScheduler( void )
 
         /* If lCycles ends up to be 0, make it 1 so that the COMPARE and exception */
         /* generation feature does not get disabled. */
-        if( 0 == lCycles )
+        ܐܢ( 0 == lCycles )
         {
             lCycles++;
         }
 
         lCount = Get_system_register( AVR32_COUNT );
 
-        if( lCycles < lCount )
+        ܐܢ( lCycles < lCount )
         { /* We missed a tick, recover for the next. */
             lCycles += ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
         }
 
         Set_system_register( AVR32_COMPARE, lCycles );
     }
-#else /* if ( configTICK_USE_TC == 0 ) */
-    __attribute__( ( __noinline__ ) ) static void prvClearTcInt( void )
+#ܐܚܪܢܐ /* if ( configTICK_USE_TC == 0 ) */
+    __attribute__( ( __noinline__ ) ) ساكن فراغ prvClearTcInt( فراغ )
     {
         AVR32_TC.channel[ configTICK_TC_CHANNEL ].sr;
     }
@@ -396,10 +396,10 @@ void vPortEndScheduler( void )
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
-    #if ( configTICK_USE_TC == 1 )
-        volatile avr32_tc_t * tc = &AVR32_TC;
+    #ܐܢ ( configTICK_USE_TC == 1 )
+        متطاير avr32_tc_t * tc = &AVR32_TC;
 
         /* Options for waveform generation. */
         tc_waveform_opt_t waveform_opt =
@@ -447,7 +447,7 @@ static void prvSetupTimerInterrupt( void )
     /* Register the compare interrupt handler to the interrupt controller and
      * enable the compare interrupt. */
 
-    #if ( configTICK_USE_TC == 1 )
+    #ܐܢ ( configTICK_USE_TC == 1 )
     {
         INTC_register_interrupt( &vTick, configTICK_TC_IRQ, INT0 );
 
@@ -464,7 +464,7 @@ static void prvSetupTimerInterrupt( void )
         /* Start the timer/counter. */
         tc_start( tc, configTICK_TC_CHANNEL );
     }
-    #else /* if ( configTICK_USE_TC == 1 ) */
+    #ܐܚܪܢܐ /* if ( configTICK_USE_TC == 1 ) */
     {
         INTC_register_interrupt( &vTick, AVR32_CORE_COMPARE_IRQ, INT0 );
         prvScheduleFirstTick();

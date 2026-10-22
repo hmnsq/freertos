@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,26 +47,26 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#define portBASE_TYPE     حرف
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+تعريفنوع portSTACK_TYPE   StackType_t;
+تعريفنوع signed حرف      BaseType_t;
+تعريفنوع unsigned حرف    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ܐܢ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#ܐܚܪܢܐ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -90,7 +90,7 @@ typedef unsigned char    UBaseType_t;
  */
 #define portENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        خارجي متطاير UBaseType_t uxCriticalNesting; \
                                                        \
         portDISABLE_INTERRUPTS();                      \
         uxCriticalNesting++;                           \
@@ -103,10 +103,10 @@ typedef unsigned char    UBaseType_t;
  */
 #define  portEXIT_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        خارجي متطاير UBaseType_t uxCriticalNesting; \
                                                        \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        ܐܢ( uxCriticalNesting == 0 )                   \
         {                                              \
             portENABLE_INTERRUPTS();                   \
         }                                              \
@@ -135,8 +135,8 @@ typedef unsigned char    UBaseType_t;
     #define portRESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; فراغ *            \n\
+        .globl uxCriticalNesting        ; حرف              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
         lds  0,x                ; Stack             \n\
@@ -154,8 +154,8 @@ typedef unsigned char    UBaseType_t;
     #define portSAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; فراغ *            \n\
+        .globl uxCriticalNesting        ; حرف              \n\
                                             \n\
         movb 0x30, 1,-sp            ; PPAGE             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
@@ -164,7 +164,7 @@ typedef unsigned char    UBaseType_t;
         sts  0,x                ; Stack             \n\
         " );                   \
     }
-#else /* ifdef BANKED_MODEL */
+#ܐܚܪܢܐ /* ifdef BANKED_MODEL */
 
 /*
  * These macros are as per the BANKED versions above, but without saving
@@ -174,8 +174,8 @@ typedef unsigned char    UBaseType_t;
     #define portRESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; فراغ *            \n\
+        .globl uxCriticalNesting        ; حرف              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
         lds  0,x                ; Stack             \n\
@@ -187,8 +187,8 @@ typedef unsigned char    UBaseType_t;
     #define portSAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; فراغ *            \n\
+        .globl uxCriticalNesting        ; حرف              \n\
                                             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
@@ -241,8 +241,8 @@ typedef unsigned char    UBaseType_t;
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
