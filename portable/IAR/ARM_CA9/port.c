@@ -27,14 +27,14 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#अन्तर्भाव <stdlib.h>
 
 /* IAR includes. */
-#include <intrinsics.h>
+#अन्तर्भाव <intrinsics.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 #ifndef configINTERRUPT_CONTROLLER_BASE_ADDRESS
     #error "configINTERRUPT_CONTROLLER_BASE_ADDRESS must be defined.  See www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html"
@@ -56,23 +56,23 @@
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  See www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html"
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
+#सचे configMAX_API_CALL_INTERRUPT_PRIORITY == 0
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0"
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
+#सचे configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_PRIORITIES as the lower the numeric priority value the higher the logical interrupt priority"
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#सचे configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #सचे ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* In case security extensions are implemented. */
-#if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
+#सचे configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )"
 #endif
 
@@ -86,23 +86,23 @@
 
 /* In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority. */
-#define portUNMASK_VALUE                 ( 0xFFUL )
+#define port_UNMASK_मानम्                 ( 0xFFUL )
 
 /* Tasks are not created with a floating point context, but can be given a
  * floating point context after they have been created.  A variable is stored as
  * part of the tasks context that holds portNO_FLOATING_POINT_CONTEXT if the task
  * does not have an FPU context, or any other value if the task does have an FPU
  * context. */
-#define portNO_FLOATING_POINT_CONTEXT    ( ( StackType_t ) 0 )
+#define portNO_FLOATING_POINT_CONTEXT    ( ( राशिः_Type_t ) 0 )
 
 /* Constants required to setup the initial task context. */
-#define portINITIAL_SPSR                 ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT               ( ( StackType_t ) 0x20 )
+#define portINITIAL_SPSR                 ( ( राशिः_Type_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
+#define portTHUMB_MODE_BIT               ( ( राशिः_Type_t ) 0x20 )
 #define portTHUMB_MODE_ADDRESS           ( 0x01UL )
 
 /* Used by portASSERT_IF_INTERRUPT_PRIORITY_INVALID() when ensuring the binary
  * point is zero. */
-#define portBINARY_POINT_BITS            ( ( uint8_t ) 0x03 )
+#define port_द्विमान_POINT_BITS            ( ( uint8_t ) 0x03 )
 
 /* Masks all bits in the APSR other than the mode bits. */
 #define portAPSR_MODE_BITS_MASK          ( 0x1F )
@@ -115,7 +115,7 @@
 #define portCLEAR_INTERRUPT_MASK()                            \
     {                                                         \
         __disable_irq();                                      \
-        portICCPMR_PRIORITY_MASK_REGISTER = portUNMASK_VALUE; \
+        portICCPMR_PRIORITY_MASK_REGISTER = port_UNMASK_मानम्; \
         __asm( "DSB        \n"                                \
                "ISB        \n" );                             \
         __enable_irq();                                       \
@@ -127,12 +127,12 @@
  * Starts the first task executing.  This function is necessarily written in
  * assembly code so is implemented in portASM.s.
  */
-extern void vPortRestoreTaskContext( void );
+बाह्य शून्य vPortRestoreTaskContext( शून्य );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+स्थिर शून्य prvTaskExitError( शून्य );
 
 /*-----------------------------------------------------------*/
 
@@ -141,7 +141,7 @@ static void prvTaskExitError( void );
  * a non zero value to ensure interrupts don't inadvertently become unmasked before
  * the scheduler starts.  As it is stored as part of the task context it will
  * automatically be set to 0 when the first task is started. */
-volatile uint32_t ulCriticalNesting = 9999UL;
+चञ्चल uint32_t ulCriticalNesting = 9999UL;
 
 /* Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero
  * then a floating point context must be saved and restored for the task. */
@@ -160,9 +160,9 @@ uint32_t ulPortInterruptNesting = 0UL;
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+राशिः_Type_t * px_Port_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_Of_राशिः,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro.
@@ -170,71 +170,71 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * The fist real value on the stack is the status register, which is set for
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address. */
-    *pxTopOfStack = NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_शिखरम्_Of_राशिः = रिक्त;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = रिक्त;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = रिक्त;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    सचे( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_शिखरम्_Of_राशिः |= portTHUMB_MODE_BIT;
     }
 
-    pxTopOfStack--;
+    px_शिखरम्_Of_राशिः--;
 
     /* Next the return address, which in this case is the start of the task. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pxCode;
+    px_शिखरम्_Of_राशिः--;
 
     /* Next all the registers other than the stack pointer. */
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;       /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;       /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;       /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;       /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;       /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;       /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;       /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;       /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;       /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;       /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;       /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;       /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;     /* R0 */
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) prvTaskExitError; /* R14 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x12121212;       /* R12 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x11111111;       /* R11 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x10101010;       /* R10 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x09090909;       /* R9 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x08080808;       /* R8 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x07070707;       /* R7 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x06060606;       /* R6 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x05050505;       /* R5 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x04040404;       /* R4 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x03030303;       /* R3 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x02020202;       /* R2 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) 0x01010101;       /* R1 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pvParameters;     /* R0 */
+    px_शिखरम्_Of_राशिः--;
 
     /* The task will start with a critical nesting count of 0 as interrupts are
      * enabled. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = portNO_CRITICAL_NESTING;
+    px_शिखरम्_Of_राशिः--;
 
     /* The task will start without a floating point context.  A task that uses
      * the floating point hardware must call vPortTaskUsesFPU() before executing
      * any floating point instructions. */
-    *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+    *px_शिखरम्_Of_राशिः = portNO_FLOATING_POINT_CONTEXT;
 
-    return pxTopOfStack;
+    पटिनिवत्त px_शिखरम्_Of_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+स्थिर शून्य prvTaskExitError( शून्य )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -245,31 +245,31 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    अत्थाय( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
     uint32_t ulAPSR;
 
     /* Only continue if the CPU is not in User mode.  The CPU must be in a
      * Privileged mode for the scheduler to start. */
-    __asm volatile ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
+    __asm चञ्चल ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
 
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    सचे( ulAPSR != portAPSR_USER_MODE )
     {
         /* Only continue if the binary point value is set to its lowest possible
          * setting.  See the comments in vPortValidateInterruptPriority() below for
          * more information. */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( port_ICCBPR_द्विमान_POINT_REGISTER & port_द्विमान_POINT_BITS ) <= port_MAX_द्विमान_POINT_मानम् );
 
-        if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+        सचे( ( port_ICCBPR_द्विमान_POINT_REGISTER & port_द्विमान_POINT_BITS ) <= port_MAX_द्विमान_POINT_मानम् )
         {
             /* Start the timer that generates the tick ISR. */
             configSETUP_TICK_INTERRUPT();
@@ -282,11 +282,11 @@ BaseType_t xPortStartScheduler( void )
     /* Will only get here if vTaskStartScheduler() was called with the CPU in
      * a non-privileged mode or the binary point register was not set to its lowest
      * possible value. */
-    return 0;
+    पटिनिवत्त 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -294,7 +294,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+शून्य vPortEnterCritical( शून्य )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();  */
     ulPortSetInterruptMask();
@@ -309,16 +309,16 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    सचे( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+शून्य vPortExitCritical( शून्य )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    सचे( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -326,7 +326,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        सचे( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -336,7 +336,7 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void FreeRTOS_Tick_Handler( void )
+शून्य FreeRTOS_Tick_Handler( शून्य )
 {
     /* Set interrupt mask before altering scheduler structures.   The tick
      * handler runs at the lowest priority, so interrupts cannot already be masked,
@@ -348,7 +348,7 @@ void FreeRTOS_Tick_Handler( void )
     __enable_irq();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    सचे( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }
@@ -359,7 +359,7 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortTaskUsesFPU( void )
+शून्य vPortTaskUsesFPU( शून्य )
 {
     uint32_t ulInitialFPSCR = 0;
 
@@ -372,27 +372,27 @@ void vPortTaskUsesFPU( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+शून्य vPortClearInterruptMask( uint32_t ul_New_Mask_मानम् )
 {
-    if( ulNewMaskValue == pdFALSE )
+    सचे( ul_New_Mask_मानम् == pdFALSE )
     {
         portCLEAR_INTERRUPT_MASK();
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortSetInterruptMask( void )
+uint32_t ulPortSetInterruptMask( शून्य )
 {
     uint32_t ulReturn;
 
     __disable_irq();
 
-    if( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
+    सचे( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
     {
         /* Interrupts were already masked. */
         ulReturn = pdTRUE;
     }
-    else
+    अञ्ञथा
     {
         ulReturn = pdFALSE;
         portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
@@ -402,13 +402,13 @@ uint32_t ulPortSetInterruptMask( void )
 
     __enable_irq();
 
-    return ulReturn;
+    पटिनिवत्त ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#सचे ( configASSERT_DEFINED == 1 )
 
-    void vPortValidateInterruptPriority( void )
+    शून्य vPortValidateInterruptPriority( शून्य )
     {
         /* The following assertion will fail if a service routine (ISR) for
          * an interrupt that has been assigned a priority above
@@ -440,7 +440,7 @@ uint32_t ulPortSetInterruptMask( void )
          * The priority grouping is configured by the GIC's binary point register
          * (ICCBPR).  Writing 0 to ICCBPR will ensure it is set to its lowest
          * possible value (which may be above 0). */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( port_ICCBPR_द्विमान_POINT_REGISTER & port_द्विमान_POINT_BITS ) <= port_MAX_द्विमान_POINT_मानम् );
     }
 
 #endif /* configASSERT_DEFINED */

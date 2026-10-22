@@ -31,107 +31,107 @@
 *----------------------------------------------------------*/
 
 /* Standard Includes. */
-#include <string.h>
-#include <errno.h>
+#अन्तर्भाव <string.h>
+#अन्तर्भाव <errno.h>
 
 /* Altera includes. */
-#include "sys/alt_irq.h"
-#include "sys/alt_exceptions.h"
-#include "altera_avalon_timer_regs.h"
-#include "priv/alt_irq_table.h"
+#अन्तर्भाव "sys/alt_irq.h"
+#अन्तर्भाव "sys/alt_exceptions.h"
+#अन्तर्भाव "altera_avalon_timer_regs.h"
+#अन्तर्भाव "priv/alt_irq_table.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Interrupts are enabled. */
-#define portINITIAL_ESTATUS    ( StackType_t ) 0x01
+#define portINITIAL_ESTATUS    ( राशिः_Type_t ) 0x01
 
-int _alt_ic_isr_register( alt_u32 ic_id,
+पूर्णाङ्क _alt_ic_isr_register( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags );
+                          शून्य * isr_context,
+                          शून्य * flags );
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+स्थिर शून्य prvSetupTimerInterrupt( शून्य );
 
 /*
  * Call back for the alarm function.
  */
-void vPortSysTickHandler( void * context );
+शून्य vPortSysTickHandler( शून्य * context );
 
 /*-----------------------------------------------------------*/
 
-static void prvReadGp( uint32_t * ulValue )
+स्थिर शून्य prvReadGp( uint32_t * ul_मानम् )
 {
-    asm ( "stw gp, (%0)" ::"r" ( ulValue ) );
+    asm ( "stw gp, (%0)" ::"r" ( ul_मानम् ) );
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+राशिः_Type_t * px_Port_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_Of_राशिः,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
-    StackType_t * pxFramePointer = pxTopOfStack - 1;
-    StackType_t xGlobalPointer;
+    राशिः_Type_t * pxFramePointer = px_शिखरम्_Of_राशिः - 1;
+    राशिः_Type_t xGlobalPointer;
 
     prvReadGp( &xGlobalPointer );
 
     /* End of stack marker. */
-    *pxTopOfStack = 0xdeadbeef;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = 0xdeadbeef;
+    px_शिखरम्_Of_राशिः--;
 
-    *pxTopOfStack = ( StackType_t ) pxFramePointer;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pxFramePointer;
+    px_शिखरम्_Of_राशिः--;
 
-    *pxTopOfStack = xGlobalPointer;
+    *px_शिखरम्_Of_राशिः = xGlobalPointer;
 
     /* Space for R23 to R16. */
-    pxTopOfStack -= 9;
+    px_शिखरम्_Of_राशिः -= 9;
 
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pxCode;
+    px_शिखरम्_Of_राशिः--;
 
-    *pxTopOfStack = portINITIAL_ESTATUS;
+    *px_शिखरम्_Of_राशिः = portINITIAL_ESTATUS;
 
     /* Space for R15 to R5. */
-    pxTopOfStack -= 12;
+    px_शिखरम्_Of_राशिः -= 12;
 
-    *pxTopOfStack = ( StackType_t ) pvParameters;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pvParameters;
 
     /* Space for R3 to R1, muldiv and RA. */
-    pxTopOfStack -= 5;
+    px_शिखरम्_Of_राशिः -= 5;
 
-    return pxTopOfStack;
+    पटिनिवत्त px_शिखरम्_Of_राशिः;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
     prvSetupTimerInterrupt();
 
     /* Start the first task. */
-    asm volatile ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
+    asm चञ्चल ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
                    " jmp r2                                          " );
 
     /* Should not get here! */
-    return 0;
+    पटिनिवत्त 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* It is unlikely that the NIOS2 port will require this function as there
      * is nothing to return to.  */
@@ -142,15 +142,15 @@ void vPortEndScheduler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+शून्य prvSetupTimerInterrupt( शून्य )
 {
     /* Try to register the interrupt handler. */
-    if( -EINVAL == _alt_ic_isr_register( SYS_CLK_IRQ_INTERRUPT_CONTROLLER_ID, SYS_CLK_IRQ, vPortSysTickHandler, 0x0, 0x0 ) )
+    सचे( -EINVAL == _alt_ic_isr_register( SYS_CLK_IRQ_INTERRUPT_CONTROLLER_ID, SYS_CLK_IRQ, vPortSysTickHandler, 0x0, 0x0 ) )
     {
         /* Failed to install the Interrupt Handler. */
         asm ( "break" );
     }
-    else
+    अञ्ञथा
     {
         /* Configure SysTick to interrupt at the requested rate. */
         IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_BASE, ALTERA_AVALON_TIMER_CONTROL_STOP_MSK );
@@ -164,10 +164,10 @@ void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortSysTickHandler( void * context )
+शून्य vPortSysTickHandler( शून्य * context )
 {
     /* Increment the kernel tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    सचे( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -183,17 +183,17 @@ void vPortSysTickHandler( void * context )
  * kernel has its scheduler started so that contexts are saved and switched
  * correctly.
  */
-int _alt_ic_isr_register( alt_u32 ic_id,
+पूर्णाङ्क _alt_ic_isr_register( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags )
+                          शून्य * isr_context,
+                          शून्य * flags )
 {
-    int rc = -EINVAL;
+    पूर्णाङ्क rc = -EINVAL;
     alt_irq_context status;
-    int id = irq; /* IRQ interpreted as the interrupt ID. */
+    पूर्णाङ्क id = irq; /* IRQ interpreted as the interrupt ID. */
 
-    if( id < ALT_NIRQ )
+    सचे( id < ALT_NIRQ )
     {
         /*
          * interrupts are disabled while the handler tables are updated to ensure
@@ -211,6 +211,6 @@ int _alt_ic_isr_register( alt_u32 ic_id,
         /* alt_irq_enable_all(status); This line is removed to prevent the interrupt from being immediately enabled. */
     }
 
-    return rc;
+    पटिनिवत्त rc;
 }
 /*-----------------------------------------------------------*/

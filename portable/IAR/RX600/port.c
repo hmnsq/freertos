@@ -31,21 +31,21 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Library includes. */
-#include "string.h"
+#अन्तर्भाव "string.h"
 
 /* Hardware specifics. */
-#include <iorx62n.h>
+#अन्तर्भाव <iorx62n.h>
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( राशिः_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( राशिः_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
@@ -53,94 +53,94 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-extern void prvStartFirstTask( void );
+बाह्य शून्य prvStartFirstTask( शून्य );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt शून्य vTickISR( शून्य );
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+बाह्य शून्य * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+राशिः_Type_t * px_Port_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_Of_राशिः,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_शिखरम्_Of_राशिः = 0x00;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = portINITIAL_PSW;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xffffffff; /* r15. */
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xeeeeeeee;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xdddddddd;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xcccccccc;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xbbbbbbbb;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xaaaaaaaa;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x99999999;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x88888888;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x77777777;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x66666666;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x55555555;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x44444444;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x33333333;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x22222222;
+        px_शिखरम्_Of_राशिः--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #अञ्ञथा /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_शिखरम्_Of_राशिः -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678; /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321; /* Accumulator. */
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pvParameters; /* R1 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = portINITIAL_FPSW;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x12345678; /* Accumulator. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x87654321; /* Accumulator. */
 
-    return pxTopOfStack;
+    पटिनिवत्त px_शिखरम्_Of_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    बाह्य शून्य vApplicationSetupTimerInterrupt( शून्य );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    सचे( pxCurrentTCB != रिक्त )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -161,12 +161,12 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    पटिनिवत्त pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector = configTICK_VECTOR
-__interrupt void vTickISR( void )
+__interrupt शून्य vTickISR( शून्य )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -175,7 +175,7 @@ __interrupt void vTickISR( void )
      * necessitates. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        सचे( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -184,10 +184,10 @@ __interrupt void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == रिक्त );
 }
 /*-----------------------------------------------------------*/

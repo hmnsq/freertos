@@ -32,13 +32,13 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Library includes. */
-#include "xtime_l.h"
-#include "xintc.h"
-#include "xintc_i.h"
+#अन्तर्भाव "xtime_l.h"
+#अन्तर्भाव "xintc.h"
+#अन्तर्भाव "xintc_i.h"
 
 /*-----------------------------------------------------------*/
 
@@ -47,10 +47,10 @@
 #define portEXTERNAL_INTERRUPT_ENABLE    ( 1UL << 15UL )
 #define portMACHINE_CHECK_ENABLE         ( 1UL << 12UL )
 
-#if configUSE_FPU == 1
+#सचे configUSE_FPU == 1
     #define portAPU_PRESENT              ( 1UL << 25UL )
     #define portFCM_FPU_PRESENT          ( 1UL << 13UL )
-#else
+#अञ्ञथा
     #define portAPU_PRESENT              ( 0UL )
     #define portFCM_FPU_PRESENT          ( 0UL )
 #endif
@@ -58,36 +58,36 @@
 #define portINITIAL_MSR                  ( portCRITICAL_INTERRUPT_ENABLE | portEXTERNAL_INTERRUPT_ENABLE | portMACHINE_CHECK_ENABLE | portAPU_PRESENT | portFCM_FPU_PRESENT )
 
 
-extern const unsigned _SDA_BASE_;
-extern const unsigned _SDA2_BASE_;
+बाह्य ध्रुव unsigned _SDA_BASE_;
+बाह्य ध्रुव unsigned _SDA2_BASE_;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the system timer to generate the tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+स्थिर शून्य prvSetupTimerInterrupt( शून्य );
 
 /*
  * The handler for the tick interrupt - defined in portasm.s.
  */
-extern void vPortTickISR( void );
+बाह्य शून्य vPortTickISR( शून्य );
 
 /*
  * The handler for the yield function - defined in portasm.s.
  */
-extern void vPortYield( void );
+बाह्य शून्य vPortYield( शून्य );
 
 /*
  * Function to start the scheduler running by starting the highest
  * priority task that has thus far been created.
  */
-extern void vPortStartFirstTask( void );
+बाह्य शून्य vPortStartFirstTask( शून्य );
 
 /*-----------------------------------------------------------*/
 
 /* Structure used to hold the state of the interrupt controller. */
-static XIntc xInterruptController;
+स्थिर XIntc xInterruptController;
 
 /*-----------------------------------------------------------*/
 
@@ -97,70 +97,70 @@ static XIntc xInterruptController;
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+राशिः_Type_t * px_Port_Initialise_राशिः( राशिः_Type_t * px_शिखरम्_Of_राशिः,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     शून्य * pvParameters )
 {
     /* Place a known value at the bottom of the stack for debugging. */
-    *pxTopOfStack = 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = 0xDEADBEEF;
+    px_शिखरम्_Of_राशिः--;
 
     /* EABI stack frame. */
-    pxTopOfStack -= 20; /* Previous backchain and LR, R31 to R4 inclusive. */
+    px_शिखरम्_Of_राशिः -= 20; /* Previous backchain and LR, R31 to R4 inclusive. */
 
     /* Parameters in R13. */
-    *pxTopOfStack = ( StackType_t ) &_SDA_BASE_; /* address of the first small data area */
-    pxTopOfStack -= 10;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) &_SDA_BASE_; /* address of the first small data area */
+    px_शिखरम्_Of_राशिः -= 10;
 
     /* Parameters in R3. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pvParameters;
+    px_शिखरम्_Of_राशिः--;
 
     /* Parameters in R2. */
-    *pxTopOfStack = ( StackType_t ) &_SDA2_BASE_; /* address of the second small data area */
-    pxTopOfStack--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) &_SDA2_BASE_; /* address of the second small data area */
+    px_शिखरम्_Of_राशिः--;
 
     /* R1 is the stack pointer so is omitted. */
 
-    *pxTopOfStack = 0x10000001UL;                      /* R0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* USPRG0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* CR. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* XER. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* CTR. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) vPortEndScheduler; /* LR. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;            /* SRR0. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_MSR;                   /* SRR1. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) vPortEndScheduler; /* Next LR. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* Backchain. */
+    *px_शिखरम्_Of_राशिः = 0x10000001UL;                      /* R0. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x00000000UL;                      /* USPRG0. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x00000000UL;                      /* CR. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x00000000UL;                      /* XER. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x00000000UL;                      /* CTR. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) vPortEndScheduler; /* LR. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pxCode;            /* SRR0. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = portINITIAL_MSR;                   /* SRR1. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) vPortEndScheduler; /* Next LR. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x00000000UL;                      /* Backchain. */
 
-    return pxTopOfStack;
+    पटिनिवत्त px_शिखरम्_Of_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
     prvSetupTimerInterrupt();
-    XExc_RegisterHandler( XEXC_ID_SYSTEM_CALL, ( XExceptionHandler ) vPortYield, ( void * ) 0 );
+    XExc_RegisterHandler( XEXC_ID_SYSTEM_CALL, ( XExceptionHandler ) vPortYield, ( शून्य * ) 0 );
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    पटिनिवत्त pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Not implemented. */
-    for( ; ; )
+    अत्थाय( ; ; )
     {
     }
 }
@@ -169,9 +169,9 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void )
+स्थिर शून्य prvSetupTimerInterrupt( शून्य )
 {
-    const uint32_t ulInterval = ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL );
+    ध्रुव uint32_t ulInterval = ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL );
 
     XTime_DECClearInterrupt();
     XTime_FITClearInterrupt();
@@ -179,7 +179,7 @@ static void prvSetupTimerInterrupt( void )
     XTime_WDTDisableInterrupt();
     XTime_FITDisableInterrupt();
 
-    XExc_RegisterHandler( XEXC_ID_DEC_INT, ( XExceptionHandler ) vPortTickISR, ( void * ) 0 );
+    XExc_RegisterHandler( XEXC_ID_DEC_INT, ( XExceptionHandler ) vPortTickISR, ( शून्य * ) 0 );
 
     XTime_DECEnableAutoReload();
     XTime_DECSetInterval( ulInterval );
@@ -187,15 +187,15 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortISRHandler( void * pvNullDoNotUse )
+शून्य vPortISRHandler( शून्य * pvNullDoNotUse )
 {
     uint32_t ulInterruptStatus, ulInterruptMask = 1UL;
-    BaseType_t xInterruptNumber;
+    BaseType_t x_Interrupt_सङ्ख्या;
     XIntc_Config * pxInterruptController;
     XIntc_VectorTableEntry * pxTable;
 
     /* Just to remove compiler warning. */
-    ( void ) pvNullDoNotUse;
+    ( शून्य ) pvNullDoNotUse;
 
     /* Get the configuration by using the device ID - in this case it is
      * assumed that only one interrupt controller is being used. */
@@ -204,15 +204,15 @@ void vPortISRHandler( void * pvNullDoNotUse )
     /* Which interrupts are pending? */
     ulInterruptStatus = XIntc_mGetIntrStatus( pxInterruptController->BaseAddress );
 
-    for( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
+    अत्थाय( x_Interrupt_सङ्ख्या = 0; x_Interrupt_सङ्ख्या < XPAR_INTC_MAX_अङ्कः_INTR_INPUTS; x_Interrupt_सङ्ख्या++ )
     {
-        if( ulInterruptStatus & 0x01UL )
+        सचे( ulInterruptStatus & 0x01UL )
         {
             /* Clear the pending interrupt. */
             XIntc_mAckIntr( pxInterruptController->BaseAddress, ulInterruptMask );
 
             /* Call the registered handler. */
-            pxTable = &( pxInterruptController->HandlerTable[ xInterruptNumber ] );
+            pxTable = &( pxInterruptController->HandlerTable[ x_Interrupt_सङ्ख्या ] );
             pxTable->Handler( pxTable->CallBackRef );
         }
 
@@ -221,17 +221,17 @@ void vPortISRHandler( void * pvNullDoNotUse )
         ulInterruptStatus >>= 0x01UL;
 
         /* Have we serviced all interrupts? */
-        if( ulInterruptStatus == 0UL )
+        सचे( ulInterruptStatus == 0UL )
         {
-            break;
+            भङ्ग;
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetupInterruptController( void )
+शून्य vPortSetupInterruptController( शून्य )
 {
-    extern void vPortISRWrapper( void );
+    बाह्य शून्य vPortISRWrapper( शून्य );
 
     /* Perform all library calls necessary to initialise the exception table
      * and interrupt controller.  This assumes only one interrupt controller is in
@@ -242,7 +242,7 @@ void vPortSetupInterruptController( void )
     /* The library functions save the context - we then jump to a wrapper to
      * save the stack into the TCB.  The wrapper then calls the handler defined
      * above. */
-    XExc_RegisterHandler( XEXC_ID_NON_CRITICAL_INT, ( XExceptionHandler ) vPortISRWrapper, NULL );
+    XExc_RegisterHandler( XEXC_ID_NON_CRITICAL_INT, ( XExceptionHandler ) vPortISRWrapper, रिक्त );
     XIntc_Initialize( &xInterruptController, XPAR_XPS_INTC_0_DEVICE_ID );
     XIntc_Start( &xInterruptController, XIN_REAL_MODE );
 }
@@ -250,18 +250,18 @@ void vPortSetupInterruptController( void )
 
 BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef )
+                                         शून्य * pvCallBackRef )
 {
     BaseType_t xReturn = pdFAIL;
 
     /* This function is defined here so the scope of xInterruptController can
      * remain within this file. */
 
-    if( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
+    सचे( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
     {
         XIntc_Enable( &xInterruptController, ucInterruptID );
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    पटिनिवत्त xReturn;
 }

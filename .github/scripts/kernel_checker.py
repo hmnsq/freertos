@@ -28,9 +28,9 @@
 # *
 # */
 
-import os
-import re
-from common.header_checker import HeaderChecker
+आनयन os
+आनयन re
+तः common.header_checker आनयन HeaderChecker
 
 #--------------------------------------------------------------------------------------------------
 #                                            CONFIG
@@ -166,7 +166,7 @@ FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX = r"(^(;|#)?( *(\/\*|\*|#|\/\/))? Copyright 
                                       r"(^(;|#)?( *(\/\*|\*|#|\/\/))? <open-source-office@arm\.com>( \*\/)?$)"
 
 
-class KernelHeaderChecker(HeaderChecker):
+वग्ग KernelHeaderChecker(HeaderChecker):
     def __init__(
         self,
         header,
@@ -179,63 +179,63 @@ class KernelHeaderChecker(HeaderChecker):
         third_party_patterns=None,
         copyright_regex = None
     ):
-        super().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
+        पर().__init__(header, padding, ignored_files, ignored_ext, ignored_patterns,
                          py_ext, asm_ext, third_party_patterns, copyright_regex)
 
         self.armCollabRegex = re.compile(FREERTOS_ARM_COLLAB_COPYRIGHT_REGEX)
 
         self.armCollabFilesPatternList = []
-        for pattern in KERNEL_ARM_COLLAB_FILES_PATTERNS:
+        अत्थाय pattern अन्तः KERNEL_ARM_COLLAB_FILES_PATTERNS:
             self.armCollabFilesPatternList.append(re.compile(pattern))
 
     def isArmCollabFile(self, path):
-        for pattern in self.armCollabFilesPatternList:
-            if pattern.match(path):
-                return True
-        return False
+        अत्थाय pattern अन्तः self.armCollabFilesPatternList:
+            सचे pattern.match(path):
+                पटिनिवत्त सच्च
+        पटिनिवत्त मिच्छा
 
     def checkArmCollabFile(self, path):
-        isValid = False
+        isValid = मिच्छा
         file_ext = os.path.splitext(path)[-1]
 
-        with open(path, encoding="utf-8", errors="ignore") as file:
-            chunk = file.read(len("".join(self.header)) + self.padding)
-            lines = [("%s\n" % line) for line in chunk.strip().splitlines()][
+        with open(path, encoding="utf-8", errors="ignore") इव file:
+            chunk = file.पठ(len("".join(self.header)) + self.padding)
+            पङ्क्तयः = [("%s\n" % पङ्क्तिः) अत्थाय पङ्क्तिः अन्तः chunk.strip().splitlines()][
                 : len(self.header) + 2
             ]
-            if (len(lines) > 0) and (lines[0].find("#!") == 0):
-                lines.remove(lines[0])
-            if (len(lines) > 0) and (len(lines[-1].strip()) == 0):
-                lines.remove(lines[-1])
+            सचे (len(पङ्क्तयः) > 0) च (पङ्क्तयः[0].find("#!") == 0):
+                पङ्क्तयः.remove(पङ्क्तयः[0])
+            सचे (len(पङ्क्तयः) > 0) च (len(पङ्क्तयः[-1].strip()) == 0):
+                पङ्क्तयः.remove(पङ्क्तयः[-1])
 
         # Split lines in sections.
         headers = dict()
         headers["text"] = []
         headers["copyright"] = []
         headers["spdx"] = []
-        for line in lines:
-            if self.armCollabRegex.match(line):
-                headers["copyright"].append(line)
-            elif "SPDX-License-Identifier:" in line:
-                headers["spdx"].append(line)
-            else:
-                headers["text"].append(line)
+        अत्थाय पङ्क्तिः अन्तः पङ्क्तयः:
+            सचे self.armCollabRegex.match(पङ्क्तिः):
+                headers["copyright"].append(पङ्क्तिः)
+            नोचेद्यदि "SPDX-License-Identifier:" अन्तः पङ्क्तिः:
+                headers["spdx"].append(पङ्क्तिः)
+            अञ्ञथा:
+                headers["text"].append(पङ्क्तिः)
 
         text_equal = self.isValidHeaderSection(file_ext, "text", headers["text"])
         spdx_equal = self.isValidHeaderSection(file_ext, "spdx", headers["spdx"])
 
-        if text_equal and spdx_equal:
+        सचे text_equal च spdx_equal:
             # Some files do not have "open-source-office@arm.com" line.
-            if len(headers["copyright"]) == 3 or len(headers["copyright"]) == 2:
-                isValid = True
+            सचे len(headers["copyright"]) == 3 वा len(headers["copyright"]) == 2:
+                isValid = सच्च
 
-        return isValid
+        पटिनिवत्त isValid
 
     def customCheck(self, path):
-        isValid = False
-        if self.isArmCollabFile(path):
+        isValid = मिच्छा
+        सचे self.isArmCollabFile(path):
             isValid = self.checkArmCollabFile(path)
-        return isValid
+        पटिनिवत्त isValid
 
 
 def main():
@@ -254,10 +254,10 @@ def main():
     checker.ignoreFile(os.path.split(__file__)[-1])
 
     rc = checker.processArgs(args)
-    if rc:
+    सचे rc:
         checker.showHelp(__file__)
 
-    return rc
+    पटिनिवत्त rc
 
-if __name__ == '__main__':
+सचे __name__ == '__main__':
     exit(main())

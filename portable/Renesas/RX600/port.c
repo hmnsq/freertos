@@ -31,29 +31,29 @@
  *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#अन्तर्भाव "FreeRTOS.h"
+#अन्तर्भाव "task.h"
 
 /* Library includes. */
-#include "string.h"
+#अन्तर्भाव "string.h"
 
 /* Hardware specifics. */
-#include "iodefine.h"
+#अन्तर्भाव "iodefine.h"
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
 PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( राशिः_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( राशिः_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
 /* The following lines are to ensure vSoftwareInterruptEntry can be referenced,
  and therefore installed in the vector table, when the FreeRTOS code is built
 as a library. */
-extern BaseType_t vSoftwareInterruptEntry;
-const BaseType_t * p_vSoftwareInterruptEntry = &vSoftwareInterruptEntry;
+बाह्य BaseType_t vSoftwareInterruptEntry;
+ध्रुव BaseType_t * p_vSoftwareInterruptEntry = &vSoftwareInterruptEntry;
 
 /*-----------------------------------------------------------*/
 
@@ -61,14 +61,14 @@ const BaseType_t * p_vSoftwareInterruptEntry = &vSoftwareInterruptEntry;
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void );
+स्थिर शून्य prvStartFirstTask( शून्य );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-static void prvYieldHandler( void );
+स्थिर शून्य prvYieldHandler( शून्य );
 
 /*
  * The entry point for the software interrupt handler.  This is the function
@@ -76,89 +76,89 @@ static void prvYieldHandler( void );
  * the vector table, but the code that installs it is in prvYieldHandler rather
  * than using a #pragma.
  */
-void vSoftwareInterruptISR( void );
+शून्य vSoftwareInterruptISR( शून्य );
 
 /*-----------------------------------------------------------*/
 
 /* This is accessed by the inline assembler functions so is file scope for
 convenience. */
-extern void *pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+बाह्य शून्य *pxCurrentTCB;
+बाह्य शून्य vTaskSwitchContext( शून्य );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+राशिः_Type_t *px_Port_Initialise_राशिः( राशिः_Type_t *px_शिखरम्_Of_राशिः, TaskFunction_t pxCode, शून्य *pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_शिखरम्_Of_राशिः = 0x00;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = portINITIAL_PSW;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
     value.  Otherwise code space can be saved by just setting the registers
     that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xffffffff; /* r15. */
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xeeeeeeee;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xdddddddd;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xcccccccc;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xbbbbbbbb;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0xaaaaaaaa;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x99999999;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x88888888;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x77777777;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x66666666;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x55555555;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x44444444;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x33333333;
+        px_शिखरम्_Of_राशिः--;
+        *px_शिखरम्_Of_राशिः = 0x22222222;
+        px_शिखरम्_Of_राशिः--;
     }
-    #else
+    #अञ्ञथा
     {
-        pxTopOfStack -= 15;
+        px_शिखरम्_Of_राशिः -= 15;
     }
     #endif
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678; /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321; /* Accumulator. */
+    *px_शिखरम्_Of_राशिः = ( राशिः_Type_t ) pvParameters; /* R1 */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = portINITIAL_FPSW;
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x12345678; /* Accumulator. */
+    px_शिखरम्_Of_राशिः--;
+    *px_शिखरम्_Of_राशिः = 0x87654321; /* Accumulator. */
 
-    return pxTopOfStack;
+    पटिनिवत्त px_शिखरम्_Of_राशिः;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( शून्य )
 {
-extern void vApplicationSetupTimerInterrupt( void );
+बाह्य शून्य vApplicationSetupTimerInterrupt( शून्य );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    सचे( pxCurrentTCB != रिक्त )
     {
         /* Call an application function to set up the timer that will generate the
         tick interrupt.  This way the application can decide which peripheral to
@@ -179,15 +179,15 @@ extern void vApplicationSetupTimerInterrupt( void );
     }
 
     /* Just to make sure the function is not optimised away. */
-    ( void ) vSoftwareInterruptISR();
+    ( शून्य ) vSoftwareInterruptISR();
 
     /* Should not get here. */
-    return pdFAIL;
+    पटिनिवत्त pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma inline_asm prvStartFirstTask
-static void prvStartFirstTask( void )
+स्थिर शून्य prvStartFirstTask( शून्य )
 {
     /* When starting the scheduler there is nothing that needs moving to the
     interrupt stack because the function is not called from an interrupt.
@@ -202,11 +202,11 @@ static void prvStartFirstTask( void )
 
     /* Restore the registers from the stack of the task pointed to by
     pxCurrentTCB. */
-    POP     R15
+    निष्कासय_2     R15
     MVTACLO R15         /* Accumulator low 32 bits. */
-    POP     R15
+    निष्कासय_2     R15
     MVTACHI R15         /* Accumulator high 32 bits. */
-    POP     R15
+    निष्कासय_2     R15
     MVTC    R15,FPSW    /* Floating point status word. */
     POPM    R1-R15      /* R1 to R15 - R0 is not included as it is the SP. */
     RTE                 /* This pops the remaining registers. */
@@ -216,13 +216,13 @@ static void prvStartFirstTask( void )
 /*-----------------------------------------------------------*/
 
 #pragma interrupt ( vTickISR( vect = _VECT( configTICK_VECTOR ), enable ) )
-void vTickISR( void )
+शून्य vTickISR( शून्य )
 {
     /* Increment the tick, and perform any processing the new tick value
     necessitates. */
     set_ipl( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        सचे( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -231,14 +231,14 @@ void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+शून्य vSoftwareInterruptISR( शून्य )
 {
     prvYieldHandler();
 }
 /*-----------------------------------------------------------*/
 
 #pragma inline_asm prvYieldHandler
-static void prvYieldHandler( void )
+स्थिर शून्य prvYieldHandler( शून्य )
 {
     /* Re-enable interrupts. */
     SETPSW  I
@@ -247,7 +247,7 @@ static void prvYieldHandler( void )
     the interrupt occurred from the interrupt stack to the user stack.
 
     R15 is saved before it is clobbered. */
-    PUSH.L  R15
+    प्रक्षिप_2.L  R15
 
     /* Read the user stack pointer. */
     MVFC    USP, R15
@@ -272,12 +272,12 @@ static void prvYieldHandler( void )
 
     /* Save the FPSW and accumulator. */
     MVFC    FPSW, R15
-    PUSH.L  R15
+    प्रक्षिप_2.L  R15
     MVFACHI R15
-    PUSH.L  R15
-    MVFACMI R15 ; Middle order word.
-    SHLL    #16, R15 ; Shifted left as it is restored to the low order word.
-    PUSH.L  R15
+    प्रक्षिप_2.L  R15
+    MVFACMI R15 ; मध्यः order word.
+    SHLL    #16, R15 ; Shifted वामः as it is restored to the नीचः_2 order word.
+    प्रक्षिप_2.L  R15
 
     /* Save the stack pointer to the TCB. */
     MOV.L   #_pxCurrentTCB, R15
@@ -302,11 +302,11 @@ static void prvYieldHandler( void )
 
     /* Restore the context of the new task.  The PSW (Program Status Word) and
     PC will be popped by the RTE instruction. */
-    POP     R15
+    निष्कासय_2     R15
     MVTACLO R15
-    POP     R15
+    निष्कासय_2     R15
     MVTACHI R15
-    POP     R15
+    निष्कासय_2     R15
     MVTC    R15,FPSW
     POPM    R1-R15
     RTE
@@ -315,13 +315,13 @@ static void prvYieldHandler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+शून्य vPortEndScheduler( शून्य )
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == रिक्त );
 
     /* The following line is just to prevent the symbol getting optimised away. */
-    ( void ) vTaskSwitchContext();
+    ( शून्य ) vTaskSwitchContext();
 }
 /*-----------------------------------------------------------*/
