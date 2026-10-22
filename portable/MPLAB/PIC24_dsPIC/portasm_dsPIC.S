@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT নহয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE আৰু NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -28,7 +28,7 @@
 
 #if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
 
-        .global _vPortYield
+        .ৱৈশ্ৱিক _vPortYield
         .extern _vTaskSwitchContext
         .extern uxCriticalNesting
 
@@ -68,7 +68,7 @@ _vPortYield:
         MOV     _pxCurrentTCB, W0           /* Save the new top of stack into the TCB. */
         MOV     W15, [W0]
 
-        call    _vTaskSwitchContext
+        আহ্ৱান    _vTaskSwitchContext
 
         MOV     _pxCurrentTCB, W0           /* Restore the stack pointer for the task. */
         MOV     [W0], W15

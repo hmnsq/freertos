@@ -37,13 +37,13 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাৱ "FreeRTOS.h"
+#অন্তর্ভাৱ "task.h"
 
 /* Constants required to handle critical sections. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-volatile uint32_t ulCriticalNesting = 9999UL;
+চঞ্চল uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
@@ -51,14 +51,14 @@ volatile uint32_t ulCriticalNesting = 9999UL;
  * The scheduler can only be started from ARM mode, hence the inclusion of this
  * function here.
  */
-void vPortISRStartFirstTask( void );
+শূন্য vPortISRStartFirstTask( শূন্য );
 /*-----------------------------------------------------------*/
 
-void vPortISRStartFirstTask( void )
+শূন্য vPortISRStartFirstTask( শূন্য )
 {
     /* Simply start the scheduler.  This is included here as it can only be
      * called from ARM mode. */
-    asm volatile (                                                        \
+    asm চঞ্চল (                                                        \
         "LDR        R0, =pxCurrentTCB                               \n\t" \
         "LDR        R0, [R0]                                        \n\t" \
         "LDR        LR, [R0]                                        \n\t" \
@@ -87,11 +87,11 @@ void vPortISRStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortTickISR( void )
+শূন্য vPortTickISR( শূন্য )
 {
     /* Increment the RTOS tick count, then look for the highest priority
      * task that is ready to run. */
-    if( xTaskIncrementTick() != pdFALSE )
+    যদি( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -110,12 +110,12 @@ void vPortTickISR( void )
  */
 #ifdef THUMB_INTERWORK
 
-    void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    শূন্য vPortDisableInterruptsFromThumb( শূন্য ) __attribute__( ( naked ) );
+    শূন্য vPortEnableInterruptsFromThumb( শূন্য ) __attribute__( ( naked ) );
 
-    void vPortDisableInterruptsFromThumb( void )
+    শূন্য vPortDisableInterruptsFromThumb( শূন্য )
     {
-        asm volatile (
+        asm চঞ্চল (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -124,9 +124,9 @@ void vPortTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-    void vPortEnableInterruptsFromThumb( void )
+    শূন্য vPortEnableInterruptsFromThumb( শূন্য )
     {
-        asm volatile (
+        asm চঞ্চল (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -138,10 +138,10 @@ void vPortTickISR( void )
 #endif /* THUMB_INTERWORK */
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+শূন্য vPortEnterCritical( শূন্য )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    asm volatile (
+    asm চঞ্চল (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -155,19 +155,19 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+শূন্য vPortExitCritical( শূন্য )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    যদি( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        যদি( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
-            asm volatile (
+            asm চঞ্চল (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */

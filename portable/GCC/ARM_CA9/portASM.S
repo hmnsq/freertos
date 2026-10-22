@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT নহয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE আৰু NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,9 +47,9 @@
     .extern ulPortInterruptNesting
     .extern ulPortTaskHasFPUContext
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SWI_Handler
-    .global vPortRestoreTaskContext
+    .ৱৈশ্ৱিক FreeRTOS_IRQ_Handler
+    .ৱৈশ্ৱিক FreeRTOS_SWI_Handler
+    .ৱৈশ্ৱিক vPortRestoreTaskContext
 
 
 
@@ -148,7 +148,7 @@ FreeRTOS_SWI_Handler:
 
     /* Ensure bit 2 of the stack pointer is clear. */
     MOV     r2, sp
-    AND     r2, r2, #4
+    আৰু     r2, r2, #4
     SUB     sp, sp, r2
 
     LDR R0, vTaskSwitchContextConst
@@ -201,7 +201,7 @@ FreeRTOS_IRQ_Handler:
     future use.  _RB_ Does this ever actually need to be done provided the start
     of the stack is 8-byte aligned? */
     MOV     r2, sp
-    AND     r2, r2, #4
+    আৰু     r2, r2, #4
     SUB     sp, sp, r2
 
     /* Call the interrupt handler.  r4 pushed to maintain alignment. */
@@ -267,7 +267,7 @@ switch_before_exit:
     Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     future use. */
     MOV     r2, sp
-    AND     r2, r2, #4
+    আৰু     r2, r2, #4
     SUB     sp, sp, r2
 
     LDR     R0, vTaskSwitchContextConst
@@ -287,7 +287,7 @@ switch_before_exit:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * আহ্ৱান vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry their IRQ handler must be called

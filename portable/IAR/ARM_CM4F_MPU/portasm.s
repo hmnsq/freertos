@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT নহয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE আৰু NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -37,19 +37,19 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    বাহ্য pxCurrentTCB
+    বাহ্য vTaskSwitchContext
+    বাহ্য vPortSVCHandler_C
+    বাহ্য vSystemCallEnter
+    বাহ্য vSystemCallExit
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC vPortEnableVFP
-    PUBLIC vPortRestoreContextOfFirstTask
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
+    সার্ৱজনিক xPortPendSVHandler
+    সার্ৱজনিক vPortSVCHandler
+    সার্ৱজনিক vPortStartFirstTask
+    সার্ৱজনিক vPortEnableVFP
+    সার্ৱজনিক vPortRestoreContextOfFirstTask
+    সার্ৱজনিক xIsPrivileged
+    সার্ৱজনিক vResetPrivilege
 
 /*-----------------------------------------------------------*/
 
@@ -289,7 +289,7 @@ vPortEnableVFP:
 
 xIsPrivileged:
     mrs r0, control     /* r0 = CONTROL. */
-    tst r0, #1          /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1          /* Perform r0 & 1 (bitwise আৰু) and update the conditions flag. */
     ite ne
     movne r0, #0        /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
@@ -303,4 +303,4 @@ vResetPrivilege:
     bx lr               /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-    END
+    শেষ

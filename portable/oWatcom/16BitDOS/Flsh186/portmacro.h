@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্য "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,65 +47,65 @@
 
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
+#define portCHAR        ৱর্ণ
+#define portFLOAT       ভিন্ন
 #define portDOUBLE      long
 #define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
+#define portSHORT       পূর্ণাঙ্ক
+#define port_স্তূপ_TYPE  uint16_t
 #define portBASE_TYPE   short
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+প্রকারনির্দেশ port_স্তূপ_TYPE স্তূপ_Type_t;
+প্রকারনির্দেশ short BaseType_t;
+প্রকারনির্দেশ unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t TickType_t;
+#যদি( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        প্রকারনির্দেশ uint16_t TickType_t;
         #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#নোচেদ্যদি ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারনির্দেশ uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-void portENTER_CRITICAL( void );
+শূন্য portENTER_CRITICAL( শূন্য );
 #pragma aux portENTER_CRITICAL = "pushf" \
                                  "cli";
 
-void portEXIT_CRITICAL( void );
+শূন্য portEXIT_CRITICAL( শূন্য );
 #pragma aux portEXIT_CRITICAL   = "popf";
 
-void portDISABLE_INTERRUPTS( void );
+শূন্য portDISABLE_INTERRUPTS( শূন্য );
 #pragma aux portDISABLE_INTERRUPTS = "cli";
 
-void portENABLE_INTERRUPTS( void );
+শূন্য portENABLE_INTERRUPTS( শূন্য );
 #pragma aux portENABLE_INTERRUPTS = "sti";
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH        ( -1 )
-#define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define port_স্তূপ_GROWTH        ( -1 )
+#define port_SWITCH_INT_সংখ্যা   0x80
+#define portYIELD()             __asm{ পূর্ণাঙ্ক port_SWITCH_INT_সংখ্যা }
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT      2
-#define portINITIAL_SW          ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#define portINITIAL_SW          ( ( port_স্তূপ_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
 #define portNOP()               __asm{ nop }
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )                 inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )       outp( xAddr, ucValue )
-#define portINPUT_WORD( xAddr )                 inpw( xAddr )
-#define portOUTPUT_WORD( xAddr, usValue )       outpw( xAddr, usValue )
+#define port_প্ৰবেশ_BYTE( xAddr )                 inp( xAddr )
+#define portOUTPUT_BYTE( xAddr, uc_মান )       outp( xAddr, uc_মান )
+#define port_প্ৰবেশ_WORD( xAddr )                 inpw( xAddr )
+#define portOUTPUT_WORD( xAddr, us_মান )       outpw( xAddr, us_মান )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) শূন্য vFunction( শূন্য *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) শূন্য vFunction( শূন্য *pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

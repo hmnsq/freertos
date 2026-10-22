@@ -27,8 +27,8 @@
  */
 
 /* FreeRTOS includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাৱ "FreeRTOS.h"
+#অন্তর্ভাৱ "task.h"
 
 /*-----------------------------------------------------------*/
 
@@ -38,24 +38,24 @@ uint32_t ulCriticalNesting = 9999;
 /*-----------------------------------------------------------*/
 
 /* Registers required to configure the RTI. */
-#define portRTI_GCTRL_REG       ( * ( ( volatile uint32_t * ) 0xFFFFFC00 ) )
-#define portRTI_TBCTRL_REG      ( * ( ( volatile uint32_t * ) 0xFFFFFC04 ) )
-#define portRTI_COMPCTRL_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC0C ) )
-#define portRTI_CNT0_FRC0_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC10 ) )
-#define portRTI_CNT0_UC0_REG    ( * ( ( volatile uint32_t * ) 0xFFFFFC14 ) )
-#define portRTI_CNT0_CPUC0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC18 ) )
-#define portRTI_CNT0_COMP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC50 ) )
-#define portRTI_CNT0_UDCP0_REG  ( * ( ( volatile uint32_t * ) 0xFFFFFC54 ) )
-#define portRTI_SETINTENA_REG   ( * ( ( volatile uint32_t * ) 0xFFFFFC80 ) )
-#define portRTI_CLEARINTENA_REG ( * ( ( volatile uint32_t * ) 0xFFFFFC84 ) )
-#define portRTI_INTFLAG_REG     ( * ( ( volatile uint32_t * ) 0xFFFFFC88 ) )
+#define portRTI_GCTRL_REG       ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC00 ) )
+#define portRTI_TBCTRL_REG      ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC04 ) )
+#define portRTI_COMPCTRL_REG    ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC0C ) )
+#define portRTI_CNT0_FRC0_REG   ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC10 ) )
+#define portRTI_CNT0_UC0_REG    ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC14 ) )
+#define portRTI_CNT0_CPUC0_REG  ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC18 ) )
+#define portRTI_CNT0_COMP0_REG  ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC50 ) )
+#define portRTI_CNT0_UDCP0_REG  ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC54 ) )
+#define portRTI_SETINTENA_REG   ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC80 ) )
+#define portRTI_CLEARINTENA_REG ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC84 ) )
+#define portRTI_INTFLAG_REG     ( * ( ( চঞ্চল uint32_t * ) 0xFFFFFC88 ) )
 
 
 /* Constants required to set up the initial stack of each task. */
-#define portINITIAL_SPSR        ( ( StackType_t ) 0x1F )
-#define portINITIAL_FPSCR       ( ( StackType_t ) 0x00 )
-#define portINSTRUCTION_SIZE    ( ( StackType_t ) 0x04 )
-#define portTHUMB_MODE_BIT      ( ( StackType_t ) 0x20 )
+#define portINITIAL_SPSR        ( ( স্তূপ_Type_t ) 0x1F )
+#define portINITIAL_FPSCR       ( ( স্তূপ_Type_t ) 0x00 )
+#define portINSTRUCTION_SIZE    ( ( স্তূপ_Type_t ) 0x04 )
+#define portTHUMB_MODE_BIT      ( ( স্তূপ_Type_t ) 0x20 )
 
 /* The number of words on the stack frame between the saved Top Of Stack and
 R0 (in which the parameters are passed. */
@@ -64,7 +64,7 @@ R0 (in which the parameters are passed. */
 /*-----------------------------------------------------------*/
 
 /* vPortStartFirstSTask() is defined in portASM.asm */
-extern void vPortStartFirstTask( void );
+বাহ্য শূন্য vPortStartFirstTask( শূন্য );
 
 /*-----------------------------------------------------------*/
 
@@ -78,16 +78,16 @@ uint32_t ulTaskHasFPUContext = 0;
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+স্তূপ_Type_t *px_Port_Initialise_স্তূপ( স্তূপ_Type_t *px_শীৰ্ষ_Of_স্তূপ, TaskFunction_t pxCode, শূন্য *pvParameters )
 {
-StackType_t *pxOriginalTOS;
+স্তূপ_Type_t *pxOriginalTOS;
 
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_শীৰ্ষ_Of_স্তূপ;
 
-    #if __TI_VFP_SUPPORT__
+    #যদি __TI_VFP_SUPPORT__
     {
         /* Ensure the stack is correctly aligned on exit. */
-        pxTopOfStack--;
+        px_শীৰ্ষ_Of_স্তূপ--;
     }
     #endif
 
@@ -97,76 +97,76 @@ StackType_t *pxOriginalTOS;
     /* First on the stack is the return address - which is the start of the as
     the task has not executed yet.  The offset is added to make the return
     address appear as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pxCode + portINSTRUCTION_SIZE;
+    px_শীৰ্ষ_Of_স্তূপ--;
 
-    *pxTopOfStack = ( StackType_t ) 0x00000000; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
+    *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x00000000; /* R14 */
+    px_শীৰ্ষ_Of_স্তূপ--;
+    *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_শীৰ্ষ_Of_স্তূপ--;
 
     #ifdef portPRELOAD_TASK_REGISTERS
     {
-        *pxTopOfStack = ( StackType_t ) 0x12121212; /* R12 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11111111; /* R11 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10101010; /* R10 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09090909; /* R9 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x08080808; /* R8 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07070707; /* R7 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06060606; /* R6 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x05050505; /* R5 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x04040404; /* R4 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x03030303; /* R3 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x02020202; /* R2 */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x01010101; /* R1 */
-        pxTopOfStack--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x12121212; /* R12 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x11111111; /* R11 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x10101010; /* R10 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x09090909; /* R9 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x08080808; /* R8 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x07070707; /* R7 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x06060606; /* R6 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x05050505; /* R5 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x04040404; /* R4 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x03030303; /* R3 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x02020202; /* R2 */
+        px_শীৰ্ষ_Of_স্তূপ--;
+        *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x01010101; /* R1 */
+        px_শীৰ্ষ_Of_স্তূপ--;
     }
-    #else
+    #অন্যথা
     {
-        pxTopOfStack -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
+        px_শীৰ্ষ_Of_স্তূপ -= portSPACE_BETWEEN_TOS_AND_PARAMETERS;
     }
     #endif
 
     /* Function parameters are passed in R0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
-    pxTopOfStack--;
+    *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pvParameters; /* R0 */
+    px_শীৰ্ষ_Of_স্তূপ--;
 
     /* Set the status register for system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
+    *px_শীৰ্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) ( ( _get_CPSR() & ~0xFF ) | portINITIAL_SPSR );
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    যদি( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* The task will start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_শীৰ্ষ_Of_স্তূপ |= portTHUMB_MODE_BIT;
     }
 
     #ifdef __TI_VFP_SUPPORT__
     {
-        pxTopOfStack--;
+        px_শীৰ্ষ_Of_স্তূপ--;
 
         /* The last thing on the stack is the tasks ulUsingFPU value, which by
         default is set to indicate that the stack frame does not include FPU
         registers. */
-        *pxTopOfStack = pdFALSE;
+        *px_শীৰ্ষ_Of_স্তূপ = pdFALSE;
     }
     #endif
 
-    return pxTopOfStack;
+    ঘূৰাই px_শীৰ্ষ_Of_স্তূপ;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt(void)
+স্থির শূন্য prvSetupTimerInterrupt(শূন্য)
 {
     /* Disable timer 0. */
     portRTI_GCTRL_REG &= 0xFFFFFFFEUL;
@@ -199,7 +199,7 @@ static void prvSetupTimerInterrupt(void)
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler(void)
+BaseType_t xPortStartScheduler(শূন্য)
 {
     /* Start the timer that generates the tick ISR. */
     prvSetupTimerInterrupt();
@@ -212,14 +212,14 @@ BaseType_t xPortStartScheduler(void)
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return pdFAIL;
+    ঘূৰাই pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-void vPortEndScheduler(void)
+শূন্য vPortEndScheduler(শূন্য)
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
@@ -227,11 +227,11 @@ void vPortEndScheduler(void)
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#যদি configUSE_PREEMPTION == 0
 
     /* The cooperative scheduler requires a normal IRQ service routine to
      * simply increment the system tick. */
-    __interrupt void vPortNonPreemptiveTick( void )
+    __interrupt শূন্য vPortNonPreemptiveTick( শূন্য )
     {
         /* clear clock interrupt flag */
         portRTI_INTFLAG_REG = 0x00000001;
@@ -241,7 +241,7 @@ void vPortEndScheduler(void)
         xTaskIncrementTick();
     }
 
- #else
+ #অন্যথা
 
     /*
      **************************************************************************
@@ -250,7 +250,7 @@ void vPortEndScheduler(void)
      * is set to 1 in portmacro.h
      **************************************************************************
      */
-    void vPortPreemptiveTick( void );
+    শূন্য vPortPreemptiveTick( শূন্য );
 
 #endif
 /*-----------------------------------------------------------*/
@@ -259,7 +259,7 @@ void vPortEndScheduler(void)
 /*
  * Disable interrupts, and keep a count of the nesting depth.
  */
-void vPortEnterCritical( void )
+শূন্য vPortEnterCritical( শূন্য )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS(); */
     portDISABLE_INTERRUPTS();
@@ -275,16 +275,16 @@ void vPortEnterCritical( void )
  * Decrement the critical nesting count, and if it has reached zero, re-enable
  * interrupts.
  */
-void vPortExitCritical( void )
+শূন্য vPortExitCritical( শূন্য )
 {
-    if( ulCriticalNesting > 0 )
+    যদি( ulCriticalNesting > 0 )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
         re-enabled. */
-        if( ulCriticalNesting == 0 )
+        যদি( ulCriticalNesting == 0 )
         {
             /* Enable interrupts as per portENABLE_INTERRUPTS(). */
             portENABLE_INTERRUPTS();
@@ -293,11 +293,11 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-#if __TI_VFP_SUPPORT__
+#যদি __TI_VFP_SUPPORT__
 
-    void vPortTaskUsesFPU( void )
+    শূন্য vPortTaskUsesFPU( শূন্য )
     {
-    extern void vPortInitialiseFPSCR( void );
+    বাহ্য শূন্য vPortInitialiseFPSCR( শূন্য );
 
         /* A task is registering the fact that it needs an FPU context.  Set the
         FPU flag (saved as part of the task context. */

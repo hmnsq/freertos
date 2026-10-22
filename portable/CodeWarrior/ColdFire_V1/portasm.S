@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT নহয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE আৰু NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -35,14 +35,14 @@
  * supplied source files.
  */
 
-    .global ulPortSetIPL
-    .global _ulPortSetIPL
-    .global mcf5xxx_wr_cacrx
-    .global _mcf5xxx_wr_cacrx
-    .global vPortYieldISR
-    .global _vPortYieldISR
-    .global vPortStartFirstTask
-    .global _vPortStartFirstTask
+    .ৱৈশ্ৱিক ulPortSetIPL
+    .ৱৈশ্ৱিক _ulPortSetIPL
+    .ৱৈশ্ৱিক mcf5xxx_wr_cacrx
+    .ৱৈশ্ৱিক _mcf5xxx_wr_cacrx
+    .ৱৈশ্ৱিক vPortYieldISR
+    .ৱৈশ্ৱিক _vPortYieldISR
+    .ৱৈশ্ৱিক vPortStartFirstTask
+    .ৱৈশ্ৱিক _vPortStartFirstTask
     .extern _pxCurrentTCB
     .extern _vPortYieldHandler
 

@@ -30,10 +30,10 @@
 #define PORTMACRO_H
 
 /* Hardware specific includes. */
-#include "mb91467d.h"
+#অন্তর্ভাৱ "mb91467d.h"
 
 /* Standard includes. */
-#include <stddef.h>
+#অন্তর্ভাৱ <stddef.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -46,33 +46,33 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        ৱর্ণ
+#define portFLOAT       ভিন্ন
+#define portDOUBLE      দ্ৱিগুণ
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_স্তূপ_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+প্রকারনির্দেশ port_স্তূপ_TYPE স্তূপ_Type_t;
+প্রকারনির্দেশ long BaseType_t;
+প্রকারনির্দেশ unsigned long UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#যদি( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারনির্দেশ uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#নোচেদ্যদি ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারনির্দেশ uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#if configKERNEL_INTERRUPT_PRIORITY != 30
-    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM value set in the following line - 30 (1Eh) being the default.
+#যদি configKERNEL_INTERRUPT_PRIORITY != 30
+    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM মান set in the following সাৰি - 30 (1Eh) being the স্ৱভাৱ.
 #endif
 #define portDISABLE_INTERRUPTS() __asm(" STILM #1Eh ")
 #define portENABLE_INTERRUPTS() __asm(" STILM #1Fh ")
@@ -88,7 +88,7 @@ typedef unsigned long UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH            ( -1 )
+#define port_স্তূপ_GROWTH            ( -1 )
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT          4
 #define portNOP()                   __asm( " nop " );
@@ -102,10 +102,10 @@ typedef unsigned long UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) শূন্য vFunction( শূন্য *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) শূন্য vFunction( শূন্য *pvParameters )
 
-#define portMINIMAL_STACK_SIZE configMINIMAL_STACK_SIZE
+#define port_MINIMAL_স্তূপ_SIZE config_MINIMAL_স্তূপ_SIZE
 
 
 #endif /* PORTMACRO_H */

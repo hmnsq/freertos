@@ -30,7 +30,7 @@
 #define __SECURE_HEAP_H__
 
 /* Standard includes. */
-#include <stdlib.h>
+#অন্তর্ভাৱ <stdlib.h>
 
 /**
  * @brief Allocates memory from heap.
@@ -40,27 +40,27 @@
  * @return Pointer to the memory region if the allocation is successful, NULL
  * otherwise.
  */
-void * pvPortMalloc( size_t xWantedSize );
+শূন্য * pvPortMalloc( size_t xWantedSize );
 
 /**
  * @brief Frees the previously allocated memory.
  *
  * @param[in] pv Pointer to the memory to be freed.
  */
-void vPortFree( void * pv );
+শূন্য vPortFree( শূন্য * pv );
 
 /**
  * @brief Get the free heap size.
  *
  * @return Free heap size.
  */
-size_t xPortGetFreeHeapSize( void );
+size_t xPortGetFreeHeapSize( শূন্য );
 
 /**
  * @brief Get the minimum ever free heap size.
  *
  * @return Minimum ever free heap size.
  */
-size_t xPortGetMinimumEverFreeHeapSize( void );
+size_t xPortGetMinimumEverFreeHeapSize( শূন্য );
 
 #endif /* __SECURE_HEAP_H__ */

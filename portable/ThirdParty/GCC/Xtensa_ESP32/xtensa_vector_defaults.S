@@ -16,12 +16,12 @@
 
 /*
 This file contains the default handlers for the high interrupt levels as well as some specialized exceptions.
-The default behaviour is to just exit the interrupt or call the panic handler on the exceptions
+The default behaviour is to just exit the interrupt or আহ্ৱান the panic handler on the exceptions
 */
 
 
 #if XCHAL_HAVE_DEBUG
-    .global    xt_debugexception
+    .ৱৈশ্ৱিক    xt_debugexception
     .weak xt_debugexception
     .set xt_debugexception, _xt_debugexception
     .section .iram1,"ax"
@@ -120,7 +120,7 @@ _xt_debug_di_exc:
 
 
 #if XCHAL_NUM_INTLEVELS >=2 && XCHAL_EXCM_LEVEL <2 && XCHAL_DEBUGLEVEL !=2
-    .global    xt_highint2
+    .ৱৈশ্ৱিক    xt_highint2
     .weak xt_highint2
     .set xt_highint2, _xt_highint2
     .section .iram1,"ax"
@@ -138,7 +138,7 @@ _xt_highint2:
 
 #if XCHAL_NUM_INTLEVELS >=3 && XCHAL_EXCM_LEVEL <3 && XCHAL_DEBUGLEVEL !=3
 
-    .global    xt_highint3
+    .ৱৈশ্ৱিক    xt_highint3
     .weak xt_highint3
     .set xt_highint3, _xt_highint3
     .section .iram1,"ax"
@@ -157,7 +157,7 @@ _xt_highint3:
 
 #if XCHAL_NUM_INTLEVELS >=4 && XCHAL_EXCM_LEVEL <4 && XCHAL_DEBUGLEVEL !=4
 
-    .global    xt_highint4
+    .ৱৈশ্ৱিক    xt_highint4
     .weak xt_highint4
     .set xt_highint4, _xt_highint4
     .section .iram1,"ax"
@@ -176,7 +176,7 @@ _xt_highint4:
 
 #if XCHAL_NUM_INTLEVELS >=5 && XCHAL_EXCM_LEVEL <5 && XCHAL_DEBUGLEVEL !=5
 
-    .global    xt_highint5
+    .ৱৈশ্ৱিক    xt_highint5
     .weak xt_highint5
     .set xt_highint5, _xt_highint5
     .section .iram1,"ax"
@@ -196,8 +196,8 @@ _xt_highint5:
 
 #if XCHAL_NUM_INTLEVELS >=6 && XCHAL_EXCM_LEVEL <6 && XCHAL_DEBUGLEVEL !=6
 
-    .global    _xt_highint6
-    .global    xt_highint6
+    .ৱৈশ্ৱিক    _xt_highint6
+    .ৱৈশ্ৱিক    xt_highint6
     .weak xt_highint6
     .set xt_highint6, _xt_highint6
     .section .iram1,"ax"
@@ -216,8 +216,8 @@ _xt_highint6:
 
 #if XCHAL_HAVE_NMI
 
-    .global    _xt_nmi
-    .global    xt_nmi
+    .ৱৈশ্ৱিক    _xt_nmi
+    .ৱৈশ্ৱিক    xt_nmi
     .weak xt_nmi
     .set xt_nmi, _xt_nmi
     .section .iram1,"ax"
