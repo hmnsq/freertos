@@ -31,13 +31,13 @@
     .extern vTaskSwitchContext
     .extern ulMaxSyscallInterruptPriorityConst
 
-    .global _vector_14
-    .global _lc_ref__vector_pp_14
-    .global SVC_Handler
-    .global vPortStartFirstTask
-    .global vPortEnableVFP
-    .global ulPortSetInterruptMask
-    .global vPortClearInterruptMask
+    .عام _vector_14
+    .عام _lc_ref__vector_pp_14
+    .عام SVC_Handler
+    .عام vPortStartFirstTask
+    .عام vPortEnableVFP
+    .عام ul_پورٹ_سیٹ_مداخلت_نقاب
+    .عام v_پورٹ_Clear_مداخلت_نقاب
 
 ;-----------------------------------------------------------
 
@@ -211,13 +211,13 @@ vPortEnableVFP .type func
     .section .text
     .thumb
     .align 4
-ulPortSetInterruptMask:
+ul_پورٹ_سیٹ_مداخلت_نقاب:
     mrs r0, basepri
     ldr.w r1, =ulMaxSyscallInterruptPriorityConst
     ldr r1, [r1]
     msr basepri, r1
     bx r14
-    .size   ulPortSetInterruptMask, $-ulPortSetInterruptMask
+    .size   ul_پورٹ_سیٹ_مداخلت_نقاب, $-ul_پورٹ_سیٹ_مداخلت_نقاب
     .endsec
 
 ;-----------------------------------------------------------
@@ -225,10 +225,10 @@ ulPortSetInterruptMask:
     .section .text
     .thumb
     .align 4
-vPortClearInterruptMask:
+v_پورٹ_Clear_مداخلت_نقاب:
     msr basepri, r0
     bx r14
-    .size   vPortClearInterruptMask, $-vPortClearInterruptMask
+    .size   v_پورٹ_Clear_مداخلت_نقاب, $-v_پورٹ_Clear_مداخلت_نقاب
     .endsec
 
 ;-----------------------------------------------------------

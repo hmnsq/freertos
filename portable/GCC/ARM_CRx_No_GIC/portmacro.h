@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+    خارجی "C" {
+#اگر_ختم
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,52 +46,52 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کرو پورٹ_CHAR          حرف
+#تعریف_کرو پورٹ_FLOAT         اعشاری
+#تعریف_کرو پورٹ_DOUBLE        دوہرا
+#تعریف_کرو پورٹ_LONG          طویل
+#تعریف_کرو پورٹ_SHORT         مختصر
+#تعریف_کرو پورٹ_ڈھیر_TYPE    uint32_t
+#تعریف_کرو پورٹ_بنیاد_TYPE     طویل
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+قسمتعریف طویل             بنیاد_Type_t;
+قسمتعریف غیرعلامتی طویل    UBaseType_t;
 
-typedef uint32_t         TickType_t;
-#define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
+قسمتعریف uint32_t         TickType_t;
+#تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-#define portTICK_TYPE_IS_ATOMIC    1
+#تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT    8
+#تعریف_کرو پورٹ_ڈھیر_GROWTH      ( -1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired )      \
+#تعریف_کرو پورٹ_انتہا_SWITCHING_ISR( xSwitchRequired )      \
     {                                                 \
-        extern volatile uint32_t ulPortYieldRequired; \
+        خارجی متلون uint32_t ul_پورٹ_Yield_Required; \
                                                       \
-        if( xSwitchRequired != pdFALSE )              \
+        اگر( xSwitchRequired != pdFALSE )              \
         {                                             \
-            ulPortYieldRequired = pdTRUE;             \
+            ul_پورٹ_Yield_Required = pdTRUE;             \
         }                                             \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+#تعریف_کرو پورٹ_YIELD_FROM_ISR( x )    پورٹ_انتہا_SWITCHING_ISR( x )
 
-void vPortYield( void );
+خالی v_پورٹ_Yield( خالی );
 
-#define portYIELD()     vPortYield();
+#تعریف_کرو پورٹ_YIELD()     v_پورٹ_Yield();
 
 /*-----------------------------------------------------------*/
 
@@ -99,38 +99,38 @@ void vPortYield( void );
  * Critical section management.
  */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern void vPortEnableInterrupts( void );
-extern void vPortDisableInterrupts( void );
-extern uint32_t ulPortSetInterruptMaskFromISR( void );
+خارجی خالی v_پورٹ_Enter_Critical( خالی );
+خارجی خالی v_پورٹ_Exit_Critical( خالی );
+خارجی خالی v_پورٹ_Enable_Interrupts( خالی );
+خارجی خالی v_پورٹ_Disable_Interrupts( خالی );
+خارجی uint32_t ul_پورٹ_سیٹ_مداخلت_نقاب_From_ISR( خالی );
 
 /* In the absence of a priority mask register, these functions and macros
  * globally enable and disable interrupts. */
-#define portENTER_CRITICAL()                    vPortEnterCritical();
-#define portEXIT_CRITICAL()                     vPortExitCritical();
-#define portENABLE_INTERRUPTS()                 vPortEnableInterrupts();
-#define portDISABLE_INTERRUPTS()                vPortDisableInterrupts();
-#define portSET_INTERRUPT_MASK_FROM_ISR()       ulPortSetInterruptMaskFromISR();
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )  do { if( x == 0 ) portENABLE_INTERRUPTS(); } while( 0 )
+#تعریف_کرو پورٹ_ENTER_CRITICAL()                    v_پورٹ_Enter_Critical();
+#تعریف_کرو پورٹ_EXIT_CRITICAL()                     v_پورٹ_Exit_Critical();
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()                 v_پورٹ_Enable_Interrupts();
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()                v_پورٹ_Disable_Interrupts();
+#تعریف_کرو پورٹ_سیٹ_مداخلت_نقاب_FROM_ISR()       ul_پورٹ_سیٹ_مداخلت_نقاب_From_ISR();
+#تعریف_کرو پورٹ_CLEAR_مداخلت_نقاب_FROM_ISR( x )  کرو { اگر( x == 0 ) پورٹ_ENABLE_INTERRUPTS(); } جب( 0 )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    خالی vFunction( خالی * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          خالی vFunction( خالی * pvParameters )
 
 /* Tickless idle/low power functionality. */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#اگر_غیر_تعریف_شدہ پورٹ_SUPPRESS_TICKS_AND_SLEEP
+    خارجی خالی v_پورٹ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_وقت );
+    #تعریف_کرو پورٹ_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_وقت )    v_پورٹ_Suppress_Ticks_And_Sleep( x_Expected_Idle_وقت )
+#اگر_ختم
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+خالی FreeRTOS_Tick_Handler( خالی );
 
 /**
  * @brief Returns the number of leading zeros in a 32 bit variable.
@@ -139,47 +139,47 @@ void FreeRTOS_Tick_Handler( void );
  *
  * @return The number of leading zeros in ulBitmap.
  */
-UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+UBaseType_t ul_پورٹ_گنتی_Leading_Zeros( UBaseType_t ulBitmap );
 
 /* If configUSE_TASK_FPU_SUPPORT is set to 1 (or left undefined) then tasks are
  * created without an FPU context and must call vPortTaskUsesFPU() to give
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU
  * context by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
-    void vPortTaskUsesFPU( void );
-#else
+#اگر ( configUSE_TASK_FPU_SUPPORT != 2 )
+    خالی v_پورٹ_Task_استعمال_کرتا_FPU( خالی );
+#ورنہ
     /* Each task has an FPU context already, so define this function as a
      * no-op. */
-    #define vPortTaskUsesFPU()
-#endif
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    #تعریف_کرو v_پورٹ_Task_استعمال_کرتا_FPU()
+#اگر_ختم
+#تعریف_کرو پورٹ_TASK_استعمال_کرتا_FLOATING_نقطہ()    v_پورٹ_Task_استعمال_کرتا_FPU()
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#تعریف_کرو پورٹ_سب_سے_نیچا_مداخلت_ترجیح           ( ( ( uint32_t ) config_UNIQUE_مداخلت_PRIORITIES ) - 1UL )
+#تعریف_کرو پورٹ_سب_سے_نیچا_USABLE_مداخلت_ترجیح    ( پورٹ_سب_سے_نیچا_مداخلت_ترجیح - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#اگر_غیر_تعریف_شدہ config_USE_پورٹ_OPTIMISED_TASK_SELECTION
+    #تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    1
+#اگر_ختم
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#اگر config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1
 
     /* Store, clear and get the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )  uxTopPriority = ( 31UL - ulPortCountLeadingZeros( ( uxTopReadyPriority ) ) )
+    #تعریف_کرو پورٹ_ریکارڈ_READY_ترجیح( ux_ترجیح, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ترجیح ) )
+    #تعریف_کرو پورٹ_RESET_READY_ترجیح( ux_ترجیح, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ترجیح ) )
+    #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities )  ux_چوٹی_ترجیح = ( 31UL - ul_پورٹ_گنتی_Leading_Zeros( ( ux_چوٹی_Ready_ترجیح ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#اگر_ختم /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#define portNOP()               __asm volatile ( "NOP" )
-#define portINLINE              __inline
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#تعریف_کرو پورٹ_NOP()               __asm متلون ( "NOP" )
+#تعریف_کرو پورٹ_INLINE              __inline
+#تعریف_کرو پورٹ_حافظہ_BARRIER()    __asm متلون ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
     }
-#endif
+#اگر_ختم
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

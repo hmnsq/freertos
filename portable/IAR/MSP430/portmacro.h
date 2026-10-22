@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,44 +40,44 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         int
-#define portSTACK_TYPE    uint16_t
-#define portBASE_TYPE     short
+#تعریف_کرو پورٹ_CHAR          حرف
+#تعریف_کرو پورٹ_FLOAT         اعشاری
+#تعریف_کرو پورٹ_DOUBLE        دوہرا
+#تعریف_کرو پورٹ_LONG          طویل
+#تعریف_کرو پورٹ_SHORT         صحیح
+#تعریف_کرو پورٹ_ڈھیر_TYPE    uint16_t
+#تعریف_کرو پورٹ_بنیاد_TYPE     مختصر
 
-typedef portSTACK_TYPE   StackType_t;
-typedef short            BaseType_t;
-typedef unsigned short   UBaseType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+قسمتعریف مختصر            بنیاد_Type_t;
+قسمتعریف غیرعلامتی مختصر   UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    قسمتعریف uint16_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffff
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    قسمتعریف uint32_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#ورنہ
+    #غلطی config_TICK_TYPE_چوڑائی_اندر_بٹ سیٹ مقصد unsupported tick type چوڑائی.
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-#define portDISABLE_INTERRUPTS()    _DINT(); _NOP()
-#define portENABLE_INTERRUPTS()     _EINT(); _NOP()
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()    _DINT(); _NOP()
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()     _EINT(); _NOP()
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-#define portNO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
+#تعریف_کرو پورٹ_NO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
 
-#define portENTER_CRITICAL()                                                     \
+#تعریف_کرو پورٹ_ENTER_CRITICAL()                                                     \
     {                                                                            \
-        extern volatile uint16_t usCriticalNesting;                              \
+        خارجی متلون uint16_t usCriticalNesting;                              \
                                                                                  \
-        portDISABLE_INTERRUPTS();                                                \
+        پورٹ_DISABLE_INTERRUPTS();                                                \
                                                                                  \
         /* Now interrupts are disabled usCriticalNesting can be accessed */      \
         /* directly.  Increment ulCriticalNesting to keep a count of how many */ \
@@ -85,20 +85,20 @@ typedef unsigned short   UBaseType_t;
         usCriticalNesting++;                                                     \
     }
 
-#define portEXIT_CRITICAL()                                                         \
+#تعریف_کرو پورٹ_EXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile uint16_t usCriticalNesting;                                 \
+        خارجی متلون uint16_t usCriticalNesting;                                 \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        اگر( usCriticalNesting > پورٹ_NO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            اگر( usCriticalNesting == پورٹ_NO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
-                portENABLE_INTERRUPTS();                                            \
+                پورٹ_ENABLE_INTERRUPTS();                                            \
             }                                                                       \
         }                                                                           \
     }
@@ -109,27 +109,27 @@ typedef unsigned short   UBaseType_t;
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-extern void vPortYield( void );
-#define portYIELD()    vPortYield()
+خارجی خالی v_پورٹ_Yield( خالی );
+#تعریف_کرو پورٹ_YIELD()    v_پورٹ_Yield()
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT       2
-#define portSTACK_GROWTH         ( -1 )
-#define portTICK_PERIOD_MS       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()
-#define portPOINTER_SIZE_TYPE    uint16_t
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT       2
+#تعریف_کرو پورٹ_ڈھیر_GROWTH         ( -1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS       ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_NOP()
+#تعریف_کرو پورٹ_اشارہ_گر_سائز_TYPE    uint16_t
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    خالی vFunction( خالی * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          خالی vFunction( خالی * pvParameters )
 
-#if configINTERRUPT_EXAMPLE_METHOD == 2
+#اگر config_مداخلت_EXAMPLE_طریقہ == 2
 
-    extern void vTaskSwitchContext( void );
-    #define portYIELD_FROM_ISR( x )    do { if( x ) vTaskSwitchContext( ); } while( 0 )
+    خارجی خالی vTaskSwitchContext( خالی );
+    #تعریف_کرو پورٹ_YIELD_FROM_ISR( x )    کرو { اگر( x ) vTaskSwitchContext( ); } جب( 0 )
 
-#endif
+#اگر_ختم
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

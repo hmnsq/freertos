@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS یا
+ * IMPLIED, INCLUDING BUT نہیں LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE اور NONINFRINGEMENT. میں NO EVENT SHALL THE AUTHORS یا
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES یا OTHER LIABILITY, WHETHER
+ * میں AN ACTION OF CONTRACT, TORT یا OTHERWISE, ARISING FROM, OUT OF یا میں
+ * CONNECTION WITH THE SOFTWARE یا THE USE یا OTHER DEALINGS میں THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,16 +31,16 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN vPortYieldFromISR
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    خارجی vPortYieldFromISR
+    خارجی pxCurrentTCB
+    خارجی vTaskSwitchContext
 
-    PUBLIC vSetMSP
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC ulSetInterruptMaskFromISR
-    PUBLIC vClearInterruptMaskFromISR
+    عوامی vSetMSP
+    عوامی x_پورٹ_Pend_SVHandler
+    عوامی vPortSVCHandler
+    عوامی vPortStartFirstTask
+    عوامی ulSetInterruptMaskFromISR
+    عوامی vClearInterruptMaskFromISR
 
 /*-----------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ vSetMSP
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_پورٹ_Pend_SVHandler:
     mrs r0, psp
 
     ldr r3, =pxCurrentTCB   /* Get the location of the current TCB. */
@@ -129,4 +129,4 @@ vClearInterruptMaskFromISR
     msr PRIMASK, r0
     bx lr
 
-    END
+    اختتام

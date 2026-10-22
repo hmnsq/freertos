@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+    خارجی "C" {
+#اگر_ختم
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,74 +46,74 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   short
-#define portPOINTER_SIZE_TYPE size_t
-#define SIZE_MAX    ( ( size_t ) -1 )
+#تعریف_کرو پورٹ_CHAR        حرف
+#تعریف_کرو پورٹ_FLOAT       اعشاری
+#تعریف_کرو پورٹ_DOUBLE      دوہرا
+#تعریف_کرو پورٹ_LONG        طویل
+#تعریف_کرو پورٹ_SHORT       مختصر
+#تعریف_کرو پورٹ_ڈھیر_TYPE  uint16_t
+#تعریف_کرو پورٹ_بنیاد_TYPE   مختصر
+#تعریف_کرو پورٹ_اشارہ_گر_سائز_TYPE size_t
+#تعریف_کرو SIZE_MAX    ( ( size_t ) -1 )
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE ڈھیر_Type_t;
+قسمتعریف مختصر بنیاد_Type_t;
+قسمتعریف غیرعلامتی مختصر UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
+#اگر( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    قسمتعریف uint16_t TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY ( TickType_t ) 0xffff
 /* 16-bit tick type on a 16-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC 1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC 1
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ  == TICK_TYPE_چوڑائی_32_بٹ )
+    قسمتعریف uint32_t             TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#ورنہ
+    #غلطی config_TICK_TYPE_چوڑائی_اندر_بٹ سیٹ مقصد unsupported tick type چوڑائی.
+#اگر_ختم
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          2
-#define portSTACK_GROWTH            1
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT          2
+#تعریف_کرو پورٹ_ڈھیر_GROWTH            1
+#تعریف_کرو پورٹ_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    SET_CPU_IPL( configKERNEL_INTERRUPT_PRIORITY ); __asm volatile ( "NOP" )
-#define portENABLE_INTERRUPTS()     SET_CPU_IPL( 0 )
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()    سیٹ_CPU_IPL( config_KERNEL_مداخلت_ترجیح ); __asm متلون ( "NOP" )
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()     سیٹ_CPU_IPL( 0 )
 
 /* Note that exiting a critical sectino will set the IPL bits to 0, no matter
 what their value was prior to entering the critical section. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
+خارجی خالی v_پورٹ_Enter_Critical( خالی );
+خارجی خالی v_پورٹ_Exit_Critical( خالی );
+#تعریف_کرو پورٹ_ENTER_CRITICAL()        v_پورٹ_Enter_Critical()
+#تعریف_کرو پورٹ_EXIT_CRITICAL()         v_پورٹ_Exit_Critical()
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-#define portYIELD()             asm volatile ( "CALL _vPortYield            \n"     \
+خارجی خالی v_پورٹ_Yield( خالی );
+#تعریف_کرو پورٹ_YIELD()             asm متلون ( "CALL _vPortYield            \n"     \
                                                 "NOP                      " );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters ) خالی vFunction( خالی *pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters ) خالی vFunction( خالی *pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Required by the kernel aware debugger. */
-#ifdef __DEBUG
-    #define portREMOVE_STATIC_QUALIFIER
-#endif
+#اگر_تعریف_شدہ __DEBUG
+    #تعریف_کرو پورٹ_REMOVE_STATIC_QUALIFIER
+#اگر_ختم
 
-#define portNOP()               asm volatile ( "NOP" )
+#تعریف_کرو پورٹ_NOP()               asm متلون ( "NOP" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
     }
-#endif
+#اگر_ختم
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

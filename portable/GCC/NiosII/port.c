@@ -31,107 +31,107 @@
 *----------------------------------------------------------*/
 
 /* Standard Includes. */
-#include <string.h>
-#include <errno.h>
+#شامل <string.h>
+#شامل <errno.h>
 
 /* Altera includes. */
-#include "sys/alt_irq.h"
-#include "sys/alt_exceptions.h"
-#include "altera_avalon_timer_regs.h"
-#include "priv/alt_irq_table.h"
+#شامل "sys/alt_irq.h"
+#شامل "sys/alt_exceptions.h"
+#شامل "altera_avalon_timer_regs.h"
+#شامل "priv/alt_irq_table.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Interrupts are enabled. */
-#define portINITIAL_ESTATUS    ( StackType_t ) 0x01
+#تعریف_کرو پورٹ_INITIAL_ESTATUS    ( ڈھیر_Type_t ) 0x01
 
-int _alt_ic_isr_register( alt_u32 ic_id,
+صحیح alt_ic_isr_رجسٹر( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags );
+                          خالی * isr_context,
+                          خالی * flags );
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+ساکن خالی prv_تیاری_Timer_مداخلت( خالی );
 
 /*
  * Call back for the alarm function.
  */
-void vPortSysTickHandler( void * context );
+خالی v_پورٹ_Sys_Tick_Handler( خالی * context );
 
 /*-----------------------------------------------------------*/
 
-static void prvReadGp( uint32_t * ulValue )
+ساکن خالی prvReadGp( uint32_t * ul_قدر )
 {
-    asm ( "stw gp, (%0)" ::"r" ( ulValue ) );
+    asm ( "stw gp, (%0)" ::"r" ( ul_قدر ) );
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_کا_ڈھیر,
+                                     TaskFunction_t px_رمز,
+                                     خالی * pvParameters )
 {
-    StackType_t * pxFramePointer = pxTopOfStack - 1;
-    StackType_t xGlobalPointer;
+    ڈھیر_Type_t * px_چوکھٹا_اشارہ_گر = px_چوٹی_کا_ڈھیر - 1;
+    ڈھیر_Type_t x_Global_اشارہ_گر;
 
-    prvReadGp( &xGlobalPointer );
+    prvReadGp( &x_Global_اشارہ_گر );
 
     /* End of stack marker. */
-    *pxTopOfStack = 0xdeadbeef;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0xdeadbeef;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = ( StackType_t ) pxFramePointer;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) px_چوکھٹا_اشارہ_گر;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = xGlobalPointer;
+    *px_چوٹی_کا_ڈھیر = x_Global_اشارہ_گر;
 
     /* Space for R23 to R16. */
-    pxTopOfStack -= 9;
+    px_چوٹی_کا_ڈھیر -= 9;
 
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) px_رمز;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = portINITIAL_ESTATUS;
+    *px_چوٹی_کا_ڈھیر = پورٹ_INITIAL_ESTATUS;
 
     /* Space for R15 to R5. */
-    pxTopOfStack -= 12;
+    px_چوٹی_کا_ڈھیر -= 12;
 
-    *pxTopOfStack = ( StackType_t ) pvParameters;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) pvParameters;
 
     /* Space for R3 to R1, muldiv and RA. */
-    pxTopOfStack -= 5;
+    px_چوٹی_کا_ڈھیر -= 5;
 
-    return pxTopOfStack;
+    واپس px_چوٹی_کا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+بنیاد_Type_t x_پورٹ_آغاز_Scheduler( خالی )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخلت();
 
     /* Start the first task. */
-    asm volatile ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
+    asm متلون ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
                    " jmp r2                                          " );
 
     /* Should not get here! */
-    return 0;
+    واپس 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+خالی v_پورٹ_انتہا_Scheduler( خالی )
 {
     /* It is unlikely that the NIOS2 port will require this function as there
      * is nothing to return to.  */
@@ -142,38 +142,38 @@ void vPortEndScheduler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+خالی prv_تیاری_Timer_مداخلت( خالی )
 {
     /* Try to register the interrupt handler. */
-    if( -EINVAL == _alt_ic_isr_register( SYS_CLK_IRQ_INTERRUPT_CONTROLLER_ID, SYS_CLK_IRQ, vPortSysTickHandler, 0x0, 0x0 ) )
+    اگر( -EINVAL == alt_ic_isr_رجسٹر( SYS_CLK_IRQ_مداخلت_CONTROLLER_ID, SYS_CLK_IRQ, v_پورٹ_Sys_Tick_Handler, 0x0, 0x0 ) )
     {
         /* Failed to install the Interrupt Handler. */
         asm ( "break" );
     }
-    else
+    ورنہ
     {
         /* Configure SysTick to interrupt at the requested rate. */
-        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_BASE, ALTERA_AVALON_TIMER_CONTROL_STOP_MSK );
-        IOWR_ALTERA_AVALON_TIMER_PERIODL( SYS_CLK_BASE, ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) & 0xFFFF );
-        IOWR_ALTERA_AVALON_TIMER_PERIODH( SYS_CLK_BASE, ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) >> 16 );
-        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_BASE, ALTERA_AVALON_TIMER_CONTROL_CONT_MSK | ALTERA_AVALON_TIMER_CONTROL_START_MSK | ALTERA_AVALON_TIMER_CONTROL_ITO_MSK );
+        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_بنیاد, ALTERA_AVALON_TIMER_CONTROL_STOP_MSK );
+        IOWR_ALTERA_AVALON_TIMER_PERIODL( SYS_CLK_بنیاد, ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ ) & 0xFFFF );
+        IOWR_ALTERA_AVALON_TIMER_PERIODH( SYS_CLK_بنیاد, ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ ) >> 16 );
+        IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_بنیاد, ALTERA_AVALON_TIMER_CONTROL_CONT_MSK | ALTERA_AVALON_TIMER_CONTROL_آغاز_MSK | ALTERA_AVALON_TIMER_CONTROL_ITO_MSK );
     }
 
     /* Clear any already pending interrupts generated by the Timer. */
-    IOWR_ALTERA_AVALON_TIMER_STATUS( SYS_CLK_BASE, ~ALTERA_AVALON_TIMER_STATUS_TO_MSK );
+    IOWR_ALTERA_AVALON_TIMER_حالت( SYS_CLK_بنیاد, ~ALTERA_AVALON_TIMER_حالت_مقصد_MSK );
 }
 /*-----------------------------------------------------------*/
 
-void vPortSysTickHandler( void * context )
+خالی v_پورٹ_Sys_Tick_Handler( خالی * context )
 {
     /* Increment the kernel tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    اگر( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
 
     /* Clear the interrupt. */
-    IOWR_ALTERA_AVALON_TIMER_STATUS( SYS_CLK_BASE, ~ALTERA_AVALON_TIMER_STATUS_TO_MSK );
+    IOWR_ALTERA_AVALON_TIMER_حالت( SYS_CLK_بنیاد, ~ALTERA_AVALON_TIMER_حالت_مقصد_MSK );
 }
 /*-----------------------------------------------------------*/
 
@@ -183,17 +183,17 @@ void vPortSysTickHandler( void * context )
  * kernel has its scheduler started so that contexts are saved and switched
  * correctly.
  */
-int _alt_ic_isr_register( alt_u32 ic_id,
+صحیح alt_ic_isr_رجسٹر( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags )
+                          خالی * isr_context,
+                          خالی * flags )
 {
-    int rc = -EINVAL;
+    صحیح rc = -EINVAL;
     alt_irq_context status;
-    int id = irq; /* IRQ interpreted as the interrupt ID. */
+    صحیح id = irq; /* IRQ interpreted as the interrupt ID. */
 
-    if( id < ALT_NIRQ )
+    اگر( id < ALT_NIRQ )
     {
         /*
          * interrupts are disabled while the handler tables are updated to ensure
@@ -211,6 +211,6 @@ int _alt_ic_isr_register( alt_u32 ic_id,
         /* alt_irq_enable_all(status); This line is removed to prevent the interrupt from being immediately enabled. */
     }
 
-    return rc;
+    واپس rc;
 }
 /*-----------------------------------------------------------*/

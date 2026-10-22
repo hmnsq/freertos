@@ -27,12 +27,12 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#تعریف_کرو پورٹ_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
 
 /* Initial PSW value allocated to a newly created task.
  *   11000110
@@ -45,7 +45,7 @@
  *   |--------------------- Zero Flag set
  *   ---------------------- Global Interrupt Flag set (enabled)
  */
-#define portPSW                         ( 0xc6UL )
+#تعریف_کرو پورٹ_PSW                         ( 0xc6UL )
 
 /* Each task maintains a count of the critical section nesting depth.  Each time
  * a critical section is entered the count is incremented.  Each time a critical
@@ -55,20 +55,20 @@
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as that could cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متلون uint16_t usCriticalNesting = پورٹ_INITIAL_CRITICAL_NESTING;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-__attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void );
+__attribute__( ( weak ) ) خالی v_Application_تیاری_Timer_مداخلت( خالی );
 
 /*
  * Starts the scheduler by loading the context of the first task to run.
  * (defined in portasm.S).
  */
-extern void vPortStartFirstTask( void );
+خارجی خالی v_پورٹ_آغاز_پہلا_Task( خالی );
 
 /*-----------------------------------------------------------*/
 
@@ -78,9 +78,9 @@ extern void vPortStartFirstTask( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_کا_ڈھیر,
+                                     TaskFunction_t px_رمز,
+                                     خالی * pvParameters )
 {
     uint32_t * pulLocal;
 
@@ -88,126 +88,126 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Parameters are passed in on the stack, and written using a 32bit value
      * hence a space is left for the second two bytes. */
-    pxTopOfStack--;
+    px_چوٹی_کا_ڈھیر--;
 
     /* Write in the parameter value. */
-    pulLocal = ( uint32_t * ) pxTopOfStack;
-    *pulLocal = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    pulLocal = ( uint32_t * ) px_چوٹی_کا_ڈھیر;
+    *pulLocal = ( ڈھیر_Type_t ) pvParameters;
+    px_چوٹی_کا_ڈھیر--;
 
     /* The return address, leaving space for the first two bytes of the
      * 32-bit value. */
-    pxTopOfStack--;
-    pulLocal = ( uint32_t * ) pxTopOfStack;
+    px_چوٹی_کا_ڈھیر--;
+    pulLocal = ( uint32_t * ) px_چوٹی_کا_ڈھیر;
     *pulLocal = ( uint32_t ) 0;
-    pxTopOfStack--;
+    px_چوٹی_کا_ڈھیر--;
 
     /* The start address / PSW value is also written in as a 32bit value,
      * so leave a space for the second two bytes. */
-    pxTopOfStack--;
+    px_چوٹی_کا_ڈھیر--;
 
     /* Task function start address combined with the PSW. */
-    pulLocal = ( uint32_t * ) pxTopOfStack;
-    *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-    pxTopOfStack--;
+    pulLocal = ( uint32_t * ) px_چوٹی_کا_ڈھیر;
+    *pulLocal = ( ( ( uint32_t ) px_رمز ) | ( پورٹ_PSW << 24UL ) );
+    px_چوٹی_کا_ڈھیر--;
 
     /* An initial value for the AX register. */
-    *pxTopOfStack = ( StackType_t ) 0x1111;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x1111;
+    px_چوٹی_کا_ڈھیر--;
 
     /* An initial value for the HL register. */
-    *pxTopOfStack = ( StackType_t ) 0x2222;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x2222;
+    px_چوٹی_کا_ڈھیر--;
 
     /* CS and ES registers. */
-    *pxTopOfStack = ( StackType_t ) 0x0F00;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x0F00;
+    px_چوٹی_کا_ڈھیر--;
 
     /* The remaining general purpose registers bank 0 (DE and BC) and the other
      * two register banks...register bank 3 is dedicated for use by interrupts so
      * is not saved as part of the task context. */
-    pxTopOfStack -= 10;
+    px_چوٹی_کا_ڈھیر -= 10;
 
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) پورٹ_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack that has been generated so it
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    واپس px_چوٹی_کا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنیاد_Type_t x_پورٹ_آغاز_Scheduler( خالی )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
-    vApplicationSetupTimerInterrupt();
+    v_Application_تیاری_Timer_مداخلت();
 
     /* Restore the context of the first task that is going to run. */
-    vPortStartFirstTask();
+    v_پورٹ_آغاز_پہلا_Task();
 
     /* Execution should not reach here as the tasks are now running! */
-    return pdTRUE;
+    واپس pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+خالی v_پورٹ_انتہا_Scheduler( خالی )
 {
     /* It is unlikely that the RL78 port will get stopped. */
 }
 /*-----------------------------------------------------------*/
 
-__attribute__( ( weak ) ) void vApplicationSetupTimerInterrupt( void )
+__attribute__( ( weak ) ) خالی v_Application_تیاری_Timer_مداخلت( خالی )
 {
-    const uint16_t usClockHz = 15000UL; /* Internal clock. */
-    const uint16_t usCompareMatch = ( usClockHz / configTICK_RATE_HZ ) + 1UL;
+    ثابت uint16_t usClockHz = 15000UL; /* Internal clock. */
+    ثابت uint16_t us_Compare_مطابقت = ( usClockHz / config_TICK_شرح_HZ ) + 1UL;
 
     /* Use the internal 15K clock. */
-    OSMC = ( unsigned char ) 0x16;
+    OSMC = ( غیرعلامتی حرف ) 0x16;
 
-    #ifdef RTCEN
+    #اگر_تعریف_شدہ RTCEN
     {
         /* Supply the interval timer clock. */
-        RTCEN = ( unsigned char ) 1U;
+        RTCEN = ( غیرعلامتی حرف ) 1U;
 
         /* Disable INTIT interrupt. */
-        ITMK = ( unsigned char ) 1;
+        ITMK = ( غیرعلامتی حرف ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( غیرعلامتی حرف ) 0x0000;
 
         /* Clear INIT interrupt. */
-        ITIF = ( unsigned char ) 0;
+        ITIF = ( غیرعلامتی حرف ) 0;
 
         /* Set interval and enable interrupt operation. */
-        ITMC = usCompareMatch | 0x8000U;
+        ITMC = us_Compare_مطابقت | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        ITMK = ( unsigned char ) 0;
+        ITMK = ( غیرعلامتی حرف ) 0;
     }
-    #endif /* ifdef RTCEN */
+    #اگر_ختم /* ifdef RTCEN */
 
-    #ifdef TMKAEN
+    #اگر_تعریف_شدہ TMKAEN
     {
         /* Supply the interval timer clock. */
-        TMKAEN = ( unsigned char ) 1U;
+        TMKAEN = ( غیرعلامتی حرف ) 1U;
 
         /* Disable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 1;
+        TMKAMK = ( غیرعلامتی حرف ) 1;
 
         /* Disable ITMC operation. */
-        ITMC = ( unsigned char ) 0x0000;
+        ITMC = ( غیرعلامتی حرف ) 0x0000;
 
         /* Clear INIT interrupt. */
-        TMKAIF = ( unsigned char ) 0;
+        TMKAIF = ( غیرعلامتی حرف ) 0;
 
         /* Set interval and enable interrupt operation. */
-        ITMC = usCompareMatch | 0x8000U;
+        ITMC = us_Compare_مطابقت | 0x8000U;
 
         /* Enable INTIT interrupt. */
-        TMKAMK = ( unsigned char ) 0;
+        TMKAMK = ( غیرعلامتی حرف ) 0;
     }
-    #endif /* ifdef TMKAEN */
+    #اگر_ختم /* ifdef TMKAEN */
 }
 /*-----------------------------------------------------------*/

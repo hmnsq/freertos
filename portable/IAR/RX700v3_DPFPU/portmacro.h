@@ -27,16 +27,16 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /* Hardware specifics. */
-#include <intrinsics.h>
+#شامل <intrinsics.h>
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+    خارجی "C" {
+#اگر_ختم
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -51,9 +51,9 @@
 
 /* When the FIT configurator or the Smart Configurator is used, platform.h has to be
  * used. */
-#ifndef configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H
-    #define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H    0
-#endif
+#اگر_غیر_تعریف_شدہ config_INCLUDE_PLATFORM_H_INSTEAD_کا_IODEFINE_H
+    #تعریف_کرو config_INCLUDE_PLATFORM_H_INSTEAD_کا_IODEFINE_H    0
+#اگر_ختم
 
 /* If configUSE_TASK_DPFPU_SUPPORT is set to 1 (or undefined) then each task will
  * be created without a DPFPU context, and a task must call vTaskUsesDPFPU() before
@@ -61,77 +61,77 @@
  * tasks are created with a DPFPU context by default, and calling vTaskUsesDPFPU() has
  * no effect.  If configUSE_TASK_DPFPU_SUPPORT is set to 0 then tasks never take care
  * of any DPFPU context (even if DPFPU registers are used). */
-#ifndef configUSE_TASK_DPFPU_SUPPORT
-    #define configUSE_TASK_DPFPU_SUPPORT    1
-#endif
+#اگر_غیر_تعریف_شدہ configUSE_TASK_DPFPU_SUPPORT
+    #تعریف_کرو configUSE_TASK_DPFPU_SUPPORT    1
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کرو پورٹ_CHAR          حرف
+#تعریف_کرو پورٹ_FLOAT         اعشاری
+#تعریف_کرو پورٹ_DOUBLE        دوہرا
+#تعریف_کرو پورٹ_LONG          طویل
+#تعریف_کرو پورٹ_SHORT         مختصر
+#تعریف_کرو پورٹ_ڈھیر_TYPE    uint32_t
+#تعریف_کرو پورٹ_بنیاد_TYPE     طویل
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+قسمتعریف طویل             بنیاد_Type_t;
+قسمتعریف غیرعلامتی طویل    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    قسمتعریف uint16_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffff
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    قسمتعریف uint32_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
+#ورنہ
+    #غلطی config_TICK_TYPE_چوڑائی_اندر_بٹ سیٹ مقصد unsupported tick type چوڑائی.
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    __no_operation()
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT    8         /* Could make four, according to manual. */
+#تعریف_کرو پورٹ_ڈھیر_GROWTH      -1
+#تعریف_کرو پورٹ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_NOP()    __no_operation()
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
-#define portYIELD()                     \
-    __asm volatile                      \
+#تعریف_کرو پورٹ_YIELD()                     \
+    __asm متلون                      \
     (                                   \
         "PUSH.L R10                 \n" \
         "MOV.L  #0x872E0, R10       \n" \
         "MOV.B  #0x1, [R10]         \n" \
         "CMP    [R10].UB, R10       \n" \
         "POP    R10                 \n" \
-        portCDT_NO_PARSE( ::: ) "cc"    \
+        پورٹ_CDT_NO_PARSE( ::: ) "cc"    \
     )
 
-#define portYIELD_FROM_ISR( x )    do { if( ( x ) != pdFALSE ) portYIELD( ); } while( 0 )
+#تعریف_کرو پورٹ_YIELD_FROM_ISR( x )    کرو { اگر( ( x ) != pdFALSE ) پورٹ_YIELD( ); } جب( 0 )
 
 /* Workaround to reduce errors/warnings caused by e2 studio CDT's INDEXER and CODAN. */
-#ifdef __CDT_PARSER__
-    #ifndef __asm
-        #define __asm    asm
-    #endif
-    #ifndef __attribute__
-        #define __attribute__( ... )
-    #endif
-    #define portCDT_NO_PARSE( token )
-#else
-    #define portCDT_NO_PARSE( token )    token
-#endif
+#اگر_تعریف_شدہ __CDT_PARSER__
+    #اگر_غیر_تعریف_شدہ __asm
+        #تعریف_کرو __asm    asm
+    #اگر_ختم
+    #اگر_غیر_تعریف_شدہ __attribute__
+        #تعریف_کرو __attribute__( ... )
+    #اگر_ختم
+    #تعریف_کرو پورٹ_CDT_NO_PARSE( token )
+#ورنہ
+    #تعریف_کرو پورٹ_CDT_NO_PARSE( token )    token
+#اگر_ختم
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -142,32 +142,32 @@ typedef unsigned long    UBaseType_t;
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-#define portENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
-#if ( configASSERT_DEFINED == 1 )
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( __get_interrupt_level() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( __get_interrupt_level() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
-    #define portDISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#endif
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()                           __set_interrupt_level( ( uint8_t ) 0 )
+#اگر ( configASSERT_DEFINED == 1 )
+    #تعریف_کرو پورٹ_ASSERT_IF_مداخلت_ترجیح_INVALID()    configASSERT( ( __get_interrupt_level() <= config_MAX_SYSCALL_مداخلت_ترجیح ) )
+    #تعریف_کرو پورٹ_DISABLE_INTERRUPTS()                      اگر( __get_interrupt_level() < config_MAX_SYSCALL_مداخلت_ترجیح ) __set_interrupt_level( ( uint8_t ) config_MAX_SYSCALL_مداخلت_ترجیح )
+#ورنہ
+    #تعریف_کرو پورٹ_DISABLE_INTERRUPTS()                      __set_interrupt_level( ( uint8_t ) config_MAX_SYSCALL_مداخلت_ترجیح )
+#اگر_ختم
 
 /* Critical nesting counts are stored in the TCB. */
-#define portCRITICAL_NESTING_IN_TCB    ( 1 )
+#تعریف_کرو پورٹ_CRITICAL_NESTING_اندر_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()                                           vTaskEnterCritical()
-#define portEXIT_CRITICAL()                                            vTaskExitCritical()
+خارجی خالی vTaskEnterCritical( خالی );
+خارجی خالی vTaskExitCritical( خالی );
+#تعریف_کرو پورٹ_ENTER_CRITICAL()                                           vTaskEnterCritical()
+#تعریف_کرو پورٹ_EXIT_CRITICAL()                                            vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-#define portSET_INTERRUPT_MASK_FROM_ISR()                              __get_interrupt_level(); portDISABLE_INTERRUPTS()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    __set_interrupt_level( ( uint8_t ) ( uxSavedInterruptStatus ) )
+#تعریف_کرو پورٹ_سیٹ_مداخلت_نقاب_FROM_ISR()                              __get_interrupt_level(); پورٹ_DISABLE_INTERRUPTS()
+#تعریف_کرو پورٹ_CLEAR_مداخلت_نقاب_FROM_ISR( ux_Saved_مداخلت_حالت )    __set_interrupt_level( ( uint8_t ) ( ux_Saved_مداخلت_حالت ) )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    خالی vFunction( خالی * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          خالی vFunction( خالی * pvParameters )
 
 /*-----------------------------------------------------------*/
 
@@ -176,28 +176,28 @@ extern void vTaskExitCritical( void );
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
-    void vPortTaskUsesDPFPU( void );
-#else
+#اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    خالی v_پورٹ_Task_استعمال_کرتا_DPFPU( خالی );
+#ورنہ
 
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
-    #define vPortTaskUsesDPFPU()
-#endif
-#define portTASK_USES_DPFPU()             vPortTaskUsesDPFPU()
+    #تعریف_کرو v_پورٹ_Task_استعمال_کرتا_DPFPU()
+#اگر_ختم
+#تعریف_کرو پورٹ_TASK_استعمال_کرتا_DPFPU()             v_پورٹ_Task_استعمال_کرتا_DPFPU()
 
 /* Definition to allow compatibility with existing FreeRTOS Demo using flop.c. */
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesDPFPU()
+#تعریف_کرو پورٹ_TASK_استعمال_کرتا_FLOATING_نقطہ()    v_پورٹ_Task_استعمال_کرتا_DPFPU()
 
 /* Prevent warnings of undefined behaviour: the order of volatile accesses is
  * undefined - all warnings have been manually checked and are not an issue, and
  * the warnings cannot be prevent by code changes without undesirable effects. */
-#pragma diag_suppress=Pa082
+#ہدایت diag_suppress=Pa082
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
     }
-#endif
+#اگر_ختم
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

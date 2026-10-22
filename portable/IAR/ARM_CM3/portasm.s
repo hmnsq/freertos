@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS یا
+ * IMPLIED, INCLUDING BUT نہیں LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE اور NONINFRINGEMENT. میں NO EVENT SHALL THE AUTHORS یا
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES یا OTHER LIABILITY, WHETHER
+ * میں AN ACTION OF CONTRACT, TORT یا OTHERWISE, ARISING FROM, OUT OF یا میں
+ * CONNECTION WITH THE SOFTWARE یا THE USE یا OTHER DEALINGS میں THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,18 +31,18 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    خارجی pxCurrentTCB
+    خارجی vTaskSwitchContext
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
+    عوامی x_پورٹ_Pend_SVHandler
+    عوامی v_پورٹ_SVCHandler
+    عوامی vPortStartFirstTask
 
 
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_پورٹ_Pend_SVHandler:
     mrs r0, psp
     isb
     ldr r3, =pxCurrentTCB           /* Get the location of the current TCB. */
@@ -71,7 +71,7 @@ xPortPendSVHandler:
 
 /*-----------------------------------------------------------*/
 
-vPortSVCHandler:
+v_پورٹ_SVCHandler:
     /* Get the location of the current TCB. */
     ldr r3, =pxCurrentTCB
     ldr r1, [r3]
@@ -101,4 +101,4 @@ vPortStartFirstTask
     isb
     svc 0
 
-    END
+    اختتام

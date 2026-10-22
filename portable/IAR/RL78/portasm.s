@@ -28,14 +28,14 @@
 
 #include "portmacro.h"
 
-    EXTERN    _vTaskSwitchContext
-    EXTERN    _xTaskIncrementTick
+    خارجی    _vTaskSwitchContext
+    خارجی    _xTaskIncrementTick
 
-    EXTERN    _interrupt_vector_table
+    خارجی    _interrupt_vector_table
 
-    PUBLIC    _vPortYield
-    PUBLIC    _vPortStartFirstTask
-    PUBLIC    _vPortTickISR
+    عوامی    _vPortYield
+    عوامی    _vPortStartFirstTask
+    عوامی    _vPortTickISR
 
 #if !defined(__IASMRL78__) || (__VER__ < 310)
     #error "This port requires the IAR Assembler for RL78 version 3.10 or later."
@@ -81,4 +81,4 @@ _vPortTickISR:
     RETI
 ;-------------------------------------------------------------------------------
 
-    END
+    اختتام

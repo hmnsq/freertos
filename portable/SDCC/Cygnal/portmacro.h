@@ -26,16 +26,16 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
-#if configUSE_PREEMPTION == 0
-    void vTimer2ISR( void ) interrupt 5;
-#else
-    void vTimer2ISR( void ) interrupt 5 _naked;
-#endif
+#اگر configUSE_PREEMPTION == 0
+    خالی vTimer2ISR( خالی ) مداخلت 5;
+#ورنہ
+    خالی vTimer2ISR( خالی ) مداخلت 5 _naked;
+#اگر_ختم
 
-void vSerialISR( void ) interrupt 4;
+خالی vSerialISR( خالی ) مداخلت 4;
 
 
 /*-----------------------------------------------------------
@@ -49,68 +49,68 @@ void vSerialISR( void ) interrupt 4;
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      float
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#تعریف_کرو پورٹ_CHAR        حرف
+#تعریف_کرو پورٹ_FLOAT       اعشاری
+#تعریف_کرو پورٹ_DOUBLE      اعشاری
+#تعریف_کرو پورٹ_LONG        طویل
+#تعریف_کرو پورٹ_SHORT       مختصر
+#تعریف_کرو پورٹ_ڈھیر_TYPE  uint8_t
+#تعریف_کرو پورٹ_بنیاد_TYPE   حرف
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE ڈھیر_Type_t;
+قسمتعریف علامتی حرف بنیاد_Type_t;
+قسمتعریف غیرعلامتی حرف UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#اگر( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    قسمتعریف uint16_t TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY ( TickType_t ) 0xffff
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ  == TICK_TYPE_چوڑائی_32_بٹ )
+    قسمتعریف uint32_t             TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#ورنہ
+    #غلطی config_TICK_TYPE_چوڑائی_اندر_بٹ سیٹ مقصد unsupported tick type چوڑائی.
+#اگر_ختم
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portENTER_CRITICAL()        _asm        \
-                                    push    ACC \
-                                    push    IE  \
+#تعریف_کرو پورٹ_ENTER_CRITICAL()        _asm        \
+                                    ڈالو    ACC \
+                                    ڈالو    IE  \
                                     _endasm;    \
                                     EA = 0;
 
-#define portEXIT_CRITICAL()         _asm            \
-                                    pop     ACC     \
+#تعریف_کرو پورٹ_EXIT_CRITICAL()         _asm            \
+                                    نکالو     ACC     \
                                     _endasm;        \
                                     ACC &= 0x80;    \
                                     IE |= ACC;      \
                                     _asm            \
-                                    pop     ACC     \
+                                    نکالو     ACC     \
                                     _endasm;
 
-#define portDISABLE_INTERRUPTS()    EA = 0;
-#define portENABLE_INTERRUPTS()     EA = 1;
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()    EA = 0;
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()     EA = 1;
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          1
-#define portSTACK_GROWTH            ( 1 )
-#define portTICK_PERIOD_MS          ( ( uint32_t ) 1000 / configTICK_RATE_HZ )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT          1
+#تعریف_کرو پورٹ_ڈھیر_GROWTH            ( 1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS          ( ( uint32_t ) 1000 / config_TICK_شرح_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void ) _naked;
-#define portYIELD() vPortYield();
+خالی v_پورٹ_Yield( خالی ) _naked;
+#تعریف_کرو پورٹ_YIELD() v_پورٹ_Yield();
 /*-----------------------------------------------------------*/
 
-#define portNOP()               _asm    \
+#تعریف_کرو پورٹ_NOP()               _asm    \
                                     nop \
                                 _endasm;
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters ) خالی vFunction( خالی *pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters ) خالی vFunction( خالی *pvParameters )
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

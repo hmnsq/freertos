@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS یا
+ * IMPLIED, INCLUDING BUT نہیں LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE اور NONINFRINGEMENT. میں NO EVENT SHALL THE AUTHORS یا
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES یا OTHER LIABILITY, WHETHER
+ * میں AN ACTION OF CONTRACT, TORT یا OTHERWISE, ARISING FROM, OUT OF یا میں
+ * CONNECTION WITH THE SOFTWARE یا THE USE یا OTHER DEALINGS میں THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  */
     .text
     .align 4
-    .global dispatch
+    .عام dispatch
 dispatch:
 /*
  *  the pre-conditions of this routine are task context, CPU is
@@ -67,7 +67,7 @@ dispatch_r:
 /*
  *  start dispatch
  */
-    .global start_dispatch
+    .عام start_dispatch
     .align 4
 start_dispatch:
 /*
@@ -120,7 +120,7 @@ dispatcher_0:
  *
  */
     .text
-    .global start_r
+    .عام start_r
     .align 4
 start_r:
     seti    /* unlock cpu */
@@ -131,7 +131,7 @@ start_r:
 
 /****** exceptions and interrupts handing ******/
 /****** entry for exception handling ******/
-    .global exc_entry_cpu
+    .عام exc_entry_cpu
     .align 4
 exc_entry_cpu:
 
@@ -219,7 +219,7 @@ ret_exc_r:
 #endif
 
 /****** entry for normal interrupt exception handling ******/
-    .global exc_entry_int   /* entry for interrupt handling */
+    .عام exc_entry_int   /* entry for interrupt handling */
     .align 4
 exc_entry_int:
 

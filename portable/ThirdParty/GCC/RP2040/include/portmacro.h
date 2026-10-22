@@ -27,18 +27,18 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+    خارجی "C" {
+#اگر_ختم
 /* *INDENT-ON* */
 
-#include "pico.h"
-#include "hardware/sync.h"
-#include "rp2040_config.h"
+#شامل "pico.h"
+#شامل "hardware/sync.h"
+#شامل "rp2040_config.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,243 +51,243 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کرو پورٹ_CHAR          حرف
+#تعریف_کرو پورٹ_FLOAT         اعشاری
+#تعریف_کرو پورٹ_DOUBLE        دوہرا
+#تعریف_کرو پورٹ_LONG          طویل
+#تعریف_کرو پورٹ_SHORT         مختصر
+#تعریف_کرو پورٹ_ڈھیر_TYPE    uint32_t
+#تعریف_کرو پورٹ_بنیاد_TYPE     طویل
 
-typedef portSTACK_TYPE   StackType_t;
-typedef int32_t          BaseType_t;
-typedef uint32_t         UBaseType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+قسمتعریف int32_t          بنیاد_Type_t;
+قسمتعریف uint32_t         UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    قسمتعریف uint16_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffff
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    قسمتعریف uint32_t     TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
+#ورنہ
+    #غلطی config_TICK_TYPE_چوڑائی_اندر_بٹ سیٹ مقصد unsupported tick type چوڑائی.
+#اگر_ختم
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                ( -1 )
-#define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT              8
-#define portDONT_DISCARD                __attribute__( ( used ) )
+#تعریف_کرو پورٹ_ڈھیر_GROWTH                ( -1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS              ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_BYTE_ALIGNMENT              8
+#تعریف_کرو پورٹ_DONT_DISCARD                __attribute__( ( مستعمل ) )
 
 /* We have to use PICO_DIVIDER_DISABLE_INTERRUPTS as the source of truth rather than our config,
  * as our FreeRTOSConfig.h header cannot be included by ASM code - which is what this affects in the SDK */
-#define portUSE_DIVIDER_SAVE_RESTORE    !PICO_DIVIDER_DISABLE_INTERRUPTS
-#if portUSE_DIVIDER_SAVE_RESTORE
-    #define portSTACK_LIMIT_PADDING     4
-#endif
+#تعریف_کرو پورٹ_USE_DIVIDER_SAVE_RESTORE    !PICO_DIVIDER_DISABLE_INTERRUPTS
+#اگر پورٹ_USE_DIVIDER_SAVE_RESTORE
+    #تعریف_کرو پورٹ_ڈھیر_حد_بندی_PADDING     4
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
 
 /* Scheduler utilities. */
-extern void vPortYield( void );
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portYIELD()                vPortYield()
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+خارجی خالی v_پورٹ_Yield( خالی );
+#تعریف_کرو پورٹ_NVIC_INT_CTRL_REG     ( *( ( متلون uint32_t * ) 0xe000ed04 ) )
+#تعریف_کرو پورٹ_NVIC_PENDSVSET_ثنائی_ہندسہ    ( 1UL << 28UL )
+#تعریف_کرو پورٹ_YIELD()                v_پورٹ_Yield()
+#تعریف_کرو پورٹ_انتہا_SWITCHING_ISR( xSwitchRequired )            \
+    کرو                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        اگر( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_مقصد_SCHEDULER();                   \
+            پورٹ_NVIC_INT_CTRL_REG = پورٹ_NVIC_PENDSVSET_ثنائی_ہندسہ; \
         }                                                   \
-        else                                                \
+        ورنہ                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } جب( 0 )
+#تعریف_کرو پورٹ_YIELD_FROM_ISR( x )    پورٹ_انتہا_SWITCHING_ISR( x )
 
 /*-----------------------------------------------------------*/
 
 /* Exception handlers */
-#if ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 0 )
+#اگر ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 0 )
     /* We only need to override the SDK's weak functions if we want to replace them at compile time */
-    #define vPortSVCHandler        isr_svcall
-    #define xPortPendSVHandler     isr_pendsv
-    #define xPortSysTickHandler    isr_systick
-#endif
+    #تعریف_کرو v_پورٹ_SVCHandler        isr_svcall
+    #تعریف_کرو x_پورٹ_Pend_SVHandler     isr_pendsv
+    #تعریف_کرو x_پورٹ_Sys_Tick_Handler    isr_systick
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
 /* Multi-core */
-#define portMAX_CORE_COUNT    2
+#تعریف_کرو پورٹ_MAX_CORE_گنتی    2
 
 /* Check validity of number of cores specified in config */
-#if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
-    #error "Invalid number of cores specified in config!"
-#endif
+#اگر ( config_نمبر_کا_CORES < 1 || پورٹ_MAX_CORE_گنتی < config_نمبر_کا_CORES )
+    #غلطی "Invalid number of cores specified in config!"
+#اگر_ختم
 
-#if ( configTICK_CORE < 0 || configTICK_CORE > configNUMBER_OF_CORES )
-    #error "Invalid tick core specified in config!"
-#endif
+#اگر ( configTICK_CORE < 0 || configTICK_CORE > config_نمبر_کا_CORES )
+    #غلطی "Invalid tick core specified in config!"
+#اگر_ختم
 /* FreeRTOS core id is always zero based, so always 0 if we're running on only one core */
-#if configNUMBER_OF_CORES == portMAX_CORE_COUNT
-    #define portGET_CORE_ID()    get_core_num()
-#else
-    #define portGET_CORE_ID()    0
-#endif
+#اگر config_نمبر_کا_CORES == پورٹ_MAX_CORE_گنتی
+    #تعریف_کرو پورٹ_GET_CORE_ID()    get_core_عدد()
+#ورنہ
+    #تعریف_کرو پورٹ_GET_CORE_ID()    0
+#اگر_ختم
 
-#define portCHECK_IF_IN_ISR()                                 \
+#تعریف_کرو پورٹ_CHECK_IF_اندر_ISR()                                 \
     ( {                                                       \
         uint32_t ulIPSR;                                      \
-        __asm volatile ( "mrs %0, IPSR" : "=r" ( ulIPSR )::); \
+        __asm متلون ( "mrs %0, IPSR" : "=r" ( ulIPSR )::); \
         ( ( uint8_t ) ulIPSR ) > 0; } )
 
 /* Use #define rather than inline method to make it easier for user code
  * to work with kernel versions both with and without xPortIsInsideInterrupt */
-#define xPortIsInsideInterrupt() ((BaseType_t)portCHECK_IF_IN_ISR())
+#تعریف_کرو x_پورٹ_Is_Inside_مداخلت() ((بنیاد_Type_t)پورٹ_CHECK_IF_اندر_ISR())
 
-void vYieldCore( int xCoreID );
-#define portYIELD_CORE( a )                  vYieldCore( a )
+خالی vYieldCore( صحیح xCoreID );
+#تعریف_کرو پورٹ_YIELD_CORE( a )                  vYieldCore( a )
 
 /*-----------------------------------------------------------*/
 
 /* Critical nesting count management. */
-#define portCRITICAL_NESTING_IN_TCB    0
+#تعریف_کرو پورٹ_CRITICAL_NESTING_اندر_TCB    0
 
-extern UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ];
-#define portGET_CRITICAL_NESTING_COUNT( xCoreID )          ( uxCriticalNestings[ ( xCoreID ) ] )
-#define portSET_CRITICAL_NESTING_COUNT( xCoreID, x )       ( uxCriticalNestings[ ( xCoreID ) ] = ( x ) )
-#define portINCREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]++ )
-#define portDECREMENT_CRITICAL_NESTING_COUNT( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]-- )
+خارجی UBaseType_t uxCriticalNestings[ config_نمبر_کا_CORES ];
+#تعریف_کرو پورٹ_GET_CRITICAL_NESTING_گنتی( xCoreID )          ( uxCriticalNestings[ ( xCoreID ) ] )
+#تعریف_کرو پورٹ_سیٹ_CRITICAL_NESTING_گنتی( xCoreID, x )       ( uxCriticalNestings[ ( xCoreID ) ] = ( x ) )
+#تعریف_کرو پورٹ_INCREMENT_CRITICAL_NESTING_گنتی( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]++ )
+#تعریف_کرو پورٹ_DECREMENT_CRITICAL_NESTING_گنتی( xCoreID )    ( uxCriticalNestings[ ( xCoreID ) ]-- )
 
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-#define portSET_INTERRUPT_MASK()                                  \
+#تعریف_کرو پورٹ_سیٹ_مداخلت_نقاب()                                  \
     ( {                                                           \
         uint32_t ulState;                                         \
-        __asm volatile ( "mrs %0, PRIMASK" : "=r" ( ulState )::); \
-        __asm volatile ( " cpsid i " ::: "memory" );              \
+        __asm متلون ( "mrs %0, PRIMASK" : "=r" ( ulState )::); \
+        __asm متلون ( " cpsid i " ::: "memory" );              \
         ulState; } )
 
-#define portCLEAR_INTERRUPT_MASK( ulState )    __asm volatile ( "msr PRIMASK,%0" ::"r" ( ulState ) : )
+#تعریف_کرو پورٹ_CLEAR_مداخلت_نقاب( ulState )    __asm متلون ( "msr PRIMASK,%0" ::"r" ( ulState ) : )
 
-extern uint32_t ulSetInterruptMaskFromISR( void ) __attribute__( ( naked ) );
-extern void vClearInterruptMaskFromISR( uint32_t ulMask )  __attribute__( ( naked ) );
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMaskFromISR()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vClearInterruptMaskFromISR( x )
+خارجی uint32_t ul_سیٹ_مداخلت_نقاب_From_ISR( خالی ) __attribute__( ( naked ) );
+خارجی خالی v_Clear_مداخلت_نقاب_From_ISR( uint32_t ul_نقاب )  __attribute__( ( naked ) );
+#تعریف_کرو پورٹ_سیٹ_مداخلت_نقاب_FROM_ISR()         ul_سیٹ_مداخلت_نقاب_From_ISR()
+#تعریف_کرو پورٹ_CLEAR_مداخلت_نقاب_FROM_ISR( x )    v_Clear_مداخلت_نقاب_From_ISR( x )
 
-#define portDISABLE_INTERRUPTS()                  __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()                   __asm volatile ( " cpsie i " ::: "memory" )
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()                  __asm متلون ( " cpsid i " ::: "memory" )
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()                   __asm متلون ( " cpsie i " ::: "memory" )
 
-#if ( configNUMBER_OF_CORES == 1 )
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    #define portENTER_CRITICAL()    vPortEnterCritical()
-    #define portEXIT_CRITICAL()     vPortExitCritical()
-#else
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
-    extern UBaseType_t vTaskEnterCriticalFromISR( void );
-    extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
-    #define portENTER_CRITICAL()               vTaskEnterCritical()
-    #define portEXIT_CRITICAL()                vTaskExitCritical()
-    #define portENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
-    #define portEXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
-#endif /* if ( configNUMBER_OF_CORES == 1 ) */
+#اگر ( config_نمبر_کا_CORES == 1 )
+    خارجی خالی v_پورٹ_Enter_Critical( خالی );
+    خارجی خالی v_پورٹ_Exit_Critical( خالی );
+    #تعریف_کرو پورٹ_ENTER_CRITICAL()    v_پورٹ_Enter_Critical()
+    #تعریف_کرو پورٹ_EXIT_CRITICAL()     v_پورٹ_Exit_Critical()
+#ورنہ
+    خارجی خالی vTaskEnterCritical( خالی );
+    خارجی خالی vTaskExitCritical( خالی );
+    خارجی UBaseType_t vTaskEnterCriticalFromISR( خالی );
+    خارجی خالی vTaskExitCriticalFromISR( UBaseType_t ux_Saved_مداخلت_حالت );
+    #تعریف_کرو پورٹ_ENTER_CRITICAL()               vTaskEnterCritical()
+    #تعریف_کرو پورٹ_EXIT_CRITICAL()                vTaskExitCritical()
+    #تعریف_کرو پورٹ_ENTER_CRITICAL_FROM_ISR()      vTaskEnterCriticalFromISR()
+    #تعریف_کرو پورٹ_EXIT_CRITICAL_FROM_ISR( x )    vTaskExitCriticalFromISR( x )
+#اگر_ختم /* if ( configNUMBER_OF_CORES == 1 ) */
 
-#define portRTOS_SPINLOCK_COUNT    2
+#تعریف_کرو پورٹ_RTOS_SPINLOCK_گنتی    2
 
-#if PICO_SDK_VERSION_MAJOR < 2
-__force_inline static bool spin_try_lock_unsafe(spin_lock_t *lock) {
-   return *lock;
+#اگر PICO_SDK_نسخہ_MAJOR < 2
+__force_inline ساکن bool spin_try_تالا_unsafe(spin_تالا_t *تالا_3) {
+   واپس *تالا_3;
 }
-#endif
+#اگر_ختم
 
 /* Note this is a single method with uxAcquire parameter since we have
  * static vars, the method is always called with a compile time constant for
  * uxAcquire, and the compiler should do the right thing! */
-static inline void vPortRecursiveLock( BaseType_t xCoreID,
-                                       uint32_t ulLockNum,
-                                       spin_lock_t * pxSpinLock,
-                                       BaseType_t uxAcquire )
+ساکن اندرونی خالی v_پورٹ_Recursive_تالا( بنیاد_Type_t xCoreID,
+                                       uint32_t ul_تالا_عدد,
+                                       spin_تالا_t * px_Spin_تالا,
+                                       بنیاد_Type_t uxAcquire )
 {
-    static volatile uint8_t ucOwnedByCore[ portMAX_CORE_COUNT ][portRTOS_SPINLOCK_COUNT];
-    static volatile uint8_t ucRecursionCountByLock[ portRTOS_SPINLOCK_COUNT ];
+    ساکن متلون uint8_t ucOwnedByCore[ پورٹ_MAX_CORE_گنتی ][پورٹ_RTOS_SPINLOCK_گنتی];
+    ساکن متلون uint8_t uc_Recursion_گنتی_By_تالا[ پورٹ_RTOS_SPINLOCK_گنتی ];
 
-    configASSERT( ulLockNum < portRTOS_SPINLOCK_COUNT );
+    configASSERT( ul_تالا_عدد < پورٹ_RTOS_SPINLOCK_گنتی );
 
-    if( uxAcquire )
+    اگر( uxAcquire )
     {
-        if (!spin_try_lock_unsafe(pxSpinLock)) {
-            if( ucOwnedByCore[ xCoreID ][ ulLockNum ] )
+        اگر (!spin_try_تالا_unsafe(px_Spin_تالا)) {
+            اگر( ucOwnedByCore[ xCoreID ][ ul_تالا_عدد ] )
             {
-                configASSERT( ucRecursionCountByLock[ ulLockNum ] != 255u );
-                ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] + 1;
-                return;
+                configASSERT( uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] != 255u );
+                uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] = uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] + 1;
+                واپس;
             }
-            spin_lock_unsafe_blocking(pxSpinLock);
+            spin_تالا_unsafe_blocking(px_Spin_تالا);
         }
-        configASSERT( ucRecursionCountByLock[ ulLockNum ] == 0 );
-        ucRecursionCountByLock[ ulLockNum ] = 1;
-        ucOwnedByCore[ xCoreID ][ ulLockNum ] = 1;
+        configASSERT( uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] == 0 );
+        uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] = 1;
+        ucOwnedByCore[ xCoreID ][ ul_تالا_عدد ] = 1;
     }
-    else
+    ورنہ
     {
-        configASSERT( ( ucOwnedByCore[ xCoreID ] [ulLockNum ] ) != 0 );
-        configASSERT( ucRecursionCountByLock[ ulLockNum ] != 0 );
+        configASSERT( ( ucOwnedByCore[ xCoreID ] [ul_تالا_عدد ] ) != 0 );
+        configASSERT( uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] != 0 );
 
-        ucRecursionCountByLock[ ulLockNum ] = ucRecursionCountByLock[ ulLockNum ] - 1;
-        if ( ucRecursionCountByLock[ ulLockNum ] == 0U )
+        uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] = uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] - 1;
+        اگر ( uc_Recursion_گنتی_By_تالا[ ul_تالا_عدد ] == 0U )
         {
-            ucOwnedByCore[ xCoreID ] [ ulLockNum ] = 0;
-            spin_unlock_unsafe(pxSpinLock);
+            ucOwnedByCore[ xCoreID ] [ ul_تالا_عدد ] = 0;
+            spin_unlock_unsafe(px_Spin_تالا);
         }
     }
 }
 
-#if ( configNUMBER_OF_CORES == 1 )
-    #define portGET_ISR_LOCK( xCoreID )
-    #define portRELEASE_ISR_LOCK( xCoreID )
-    #define portGET_TASK_LOCK( xCoreID )
-    #define portRELEASE_TASK_LOCK( xCoreID )
-#else
-    #define portGET_ISR_LOCK( xCoreID )         vPortRecursiveLock( ( xCoreID ), 0, spin_lock_instance( configSMP_SPINLOCK_0 ), pdTRUE )
-    #define portRELEASE_ISR_LOCK( xCoreID )     vPortRecursiveLock( ( xCoreID ), 0, spin_lock_instance( configSMP_SPINLOCK_0 ), pdFALSE )
-    #define portGET_TASK_LOCK( xCoreID )        vPortRecursiveLock( ( xCoreID ), 1, spin_lock_instance( configSMP_SPINLOCK_1 ), pdTRUE )
-    #define portRELEASE_TASK_LOCK( xCoreID )    vPortRecursiveLock( ( xCoreID ), 1, spin_lock_instance( configSMP_SPINLOCK_1 ), pdFALSE )
-#endif
+#اگر ( config_نمبر_کا_CORES == 1 )
+    #تعریف_کرو پورٹ_GET_ISR_تالا( xCoreID )
+    #تعریف_کرو پورٹ_RELEASE_ISR_تالا( xCoreID )
+    #تعریف_کرو پورٹ_GET_TASK_تالا( xCoreID )
+    #تعریف_کرو پورٹ_RELEASE_TASK_تالا( xCoreID )
+#ورنہ
+    #تعریف_کرو پورٹ_GET_ISR_تالا( xCoreID )         v_پورٹ_Recursive_تالا( ( xCoreID ), 0, spin_تالا_instance( configSMP_SPINLOCK_0 ), pdTRUE )
+    #تعریف_کرو پورٹ_RELEASE_ISR_تالا( xCoreID )     v_پورٹ_Recursive_تالا( ( xCoreID ), 0, spin_تالا_instance( configSMP_SPINLOCK_0 ), pdFALSE )
+    #تعریف_کرو پورٹ_GET_TASK_تالا( xCoreID )        v_پورٹ_Recursive_تالا( ( xCoreID ), 1, spin_تالا_instance( configSMP_SPINLOCK_1 ), pdTRUE )
+    #تعریف_کرو پورٹ_RELEASE_TASK_تالا( xCoreID )    v_پورٹ_Recursive_تالا( ( xCoreID ), 1, spin_تالا_instance( configSMP_SPINLOCK_1 ), pdFALSE )
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
-#ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-    #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-#endif
+#اگر_غیر_تعریف_شدہ پورٹ_SUPPRESS_TICKS_AND_SLEEP
+    خارجی خالی v_پورٹ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_وقت );
+    #تعریف_کرو پورٹ_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_وقت )    v_پورٹ_Suppress_Ticks_And_Sleep( x_Expected_Idle_وقت )
+#اگر_ختم
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    خالی vFunction( خالی * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          خالی vFunction( خالی * pvParameters )
 
-#define portNOP()               __asm volatile ( "nop" )
+#تعریف_کرو پورٹ_NOP()               __asm متلون ( "nop" )
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#تعریف_کرو پورٹ_حافظہ_BARRIER()    __asm متلون ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
     }
-#endif
+#اگر_ختم
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

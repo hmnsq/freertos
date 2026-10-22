@@ -36,20 +36,20 @@
 
 /*---------------------------------------------------------------------------*/
 
-#include "FreeRTOSConfig.h"
-#include <stdlib.h>
+#شامل "FreeRTOSConfig.h"
+#شامل <stdlib.h>
 
-    static  long         brk_siz  =  0;
-    typedef int          _heep_t;
-    #define ROUNDUP(s)   (((s)+sizeof(_heep_t)-1)&~(sizeof(_heep_t)-1))
-    static  _heep_t      _heep[ROUNDUP(configTOTAL_HEAP_SIZE)/sizeof(_heep_t)];
-    #define              _heep_size      ROUNDUP(configTOTAL_HEAP_SIZE)
+    ساکن  طویل         brk_siz  =  0;
+    قسمتعریف صحیح          _heep_t;
+    #تعریف_کرو ROUNDUP(s)   (((s)+حجم(_heep_t)-1)&~(حجم(_heep_t)-1))
+    ساکن  _heep_t      _heep[ROUNDUP(config_کل_ڈھیر_سائز)/حجم(_heep_t)];
+    #تعریف_کرو              heep_سائز      ROUNDUP(config_کل_ڈھیر_سائز)
 
-    extern  char  *sbrk(int  size)
+    خارجی  حرف  *sbrk(صحیح  سائز)
     {
-       if  (brk_siz  +  size  >  _heep_size  ||  brk_siz  +  size  <  0)
+       اگر  (brk_siz  +  سائز  >  heep_سائز  ||  brk_siz  +  سائز  <  0)
 
-          return((char*)-1);
-       brk_siz  +=  size;
-       return(  (char*)_heep  +  brk_siz  -  size);
+          واپس((حرف*)-1);
+       brk_siz  +=  سائز;
+       واپس(  (حرف*)_heep  +  brk_siz  -  سائز);
     }

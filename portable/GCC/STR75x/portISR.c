@@ -37,13 +37,13 @@
  */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Constants required to handle critical sections. */
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#تعریف_کرو پورٹ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
 
-volatile uint32_t ulCriticalNesting = 9999UL;
+متلون uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
@@ -51,14 +51,14 @@ volatile uint32_t ulCriticalNesting = 9999UL;
  * The scheduler can only be started from ARM mode, hence the inclusion of this
  * function here.
  */
-void vPortISRStartFirstTask( void );
+خالی v_پورٹ_ISRStart_پہلا_Task( خالی );
 /*-----------------------------------------------------------*/
 
-void vPortISRStartFirstTask( void )
+خالی v_پورٹ_ISRStart_پہلا_Task( خالی )
 {
     /* Simply start the scheduler.  This is included here as it can only be
      * called from ARM mode. */
-    asm volatile (                                                        \
+    asm متلون (                                                        \
         "LDR        R0, =pxCurrentTCB                               \n\t" \
         "LDR        R0, [R0]                                        \n\t" \
         "LDR        LR, [R0]                                        \n\t" \
@@ -87,17 +87,17 @@ void vPortISRStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortTickISR( void )
+خالی v_پورٹ_Tick_ISR( خالی )
 {
     /* Increment the RTOS tick count, then look for the highest priority
      * task that is ready to run. */
-    if( xTaskIncrementTick() != pdFALSE )
+    اگر( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
 
     /* Ready for the next interrupt. */
-    TB_ClearITPendingBit( TB_IT_Update );
+    TB_Clear_ITPending_ثنائی_ہندسہ( TB_IT_Update );
 }
 
 /*-----------------------------------------------------------*/
@@ -108,14 +108,14 @@ void vPortTickISR( void )
  * ensure a switch to ARM mode.  When THUMB_INTERWORK is not defined then
  * the utilities are defined as macros in portmacro.h - as per other ports.
  */
-#ifdef THUMB_INTERWORK
+#اگر_تعریف_شدہ THUMB_INTERWORK
 
-    void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    خالی v_پورٹ_Disable_Interrupts_From_Thumb( خالی ) __attribute__( ( naked ) );
+    خالی v_پورٹ_Enable_Interrupts_From_Thumb( خالی ) __attribute__( ( naked ) );
 
-    void vPortDisableInterruptsFromThumb( void )
+    خالی v_پورٹ_Disable_Interrupts_From_Thumb( خالی )
     {
-        asm volatile (
+        asm متلون (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -124,9 +124,9 @@ void vPortTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-    void vPortEnableInterruptsFromThumb( void )
+    خالی v_پورٹ_Enable_Interrupts_From_Thumb( خالی )
     {
-        asm volatile (
+        asm متلون (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -135,13 +135,13 @@ void vPortTickISR( void )
             "BX     R14" );               /* Return back to thumb.                    */
     }
 
-#endif /* THUMB_INTERWORK */
+#اگر_ختم /* THUMB_INTERWORK */
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+خالی v_پورٹ_Enter_Critical( خالی )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    asm volatile (
+    asm متلون (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -155,19 +155,19 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+خالی v_پورٹ_Exit_Critical( خالی )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    اگر( ulCriticalNesting > پورٹ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        اگر( ulCriticalNesting == پورٹ_NO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
-            asm volatile (
+            asm متلون (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */

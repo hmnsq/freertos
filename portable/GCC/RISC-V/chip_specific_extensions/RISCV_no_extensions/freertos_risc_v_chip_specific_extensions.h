@@ -51,12 +51,12 @@
  */
 
 
-#ifndef __FREERTOS_RISC_V_EXTENSIONS_H__
-#define __FREERTOS_RISC_V_EXTENSIONS_H__
+#اگر_غیر_تعریف_شدہ __FREERTOS_RISC_V_EXTENSIONS_H__
+#تعریف_کرو __FREERTOS_RISC_V_EXTENSIONS_H__
 
-#define portasmHAS_SIFIVE_CLINT           0
-#define portasmHAS_MTIME                  0
-#define portasmADDITIONAL_CONTEXT_SIZE    0
+#تعریف_کرو portasmHAS_SIFIVE_CLINT           0
+#تعریف_کرو portasmHAS_MTIME                  0
+#تعریف_کرو portasm_ADDITIONAL_CONTEXT_سائز    0
 
 .macro portasmSAVE_ADDITIONAL_REGISTERS
 /* No additional registers to save, so this macro does nothing. */
@@ -66,4 +66,4 @@
 /* No additional registers to restore, so this macro does nothing. */
    .endm
 
-#endif /* __FREERTOS_RISC_V_EXTENSIONS_H__ */
+#اگر_ختم /* __FREERTOS_RISC_V_EXTENSIONS_H__ */

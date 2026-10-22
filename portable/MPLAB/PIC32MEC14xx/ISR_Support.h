@@ -26,29 +26,29 @@
  *
  */
 
-#include "FreeRTOSConfig.h"
+#شامل "FreeRTOSConfig.h"
 
-#define portCONTEXT_SIZE 132
-#define portEPC_STACK_LOCATION 124
-#define portSTATUS_STACK_LOCATION 128
+#تعریف_کرو پورٹ_CONTEXT_سائز 132
+#تعریف_کرو پورٹ_EPC_ڈھیر_LOCATION 124
+#تعریف_کرو پورٹ_حالت_ڈھیر_LOCATION 128
 
-#ifdef __LANGUAGE_ASSEMBLY__
+#اگر_تعریف_شدہ __LANGUAGE_ASSEMBLY__
 
 /******************************************************************/
-.macro  portSAVE_CONTEXT
+.macro  پورٹ_SAVE_CONTEXT
 
     /* Make room for the context. First save the current status so it can be
     manipulated, and the cause and EPC registers so their original values are
     captured. */
     mfc0    k0, _CP0_CAUSE
-    addiu   sp, sp, -portCONTEXT_SIZE
-    mfc0    k1, _CP0_STATUS
+    addiu   sp, sp, -پورٹ_CONTEXT_سائز
+    mfc0    k1, CP0_حالت
 
     /* Also save s6 and s5 so they can be used.  Any nesting interrupts should
     maintain the values of these registers across the ISR. */
     sw      s6, 44(sp)
     sw      s5, 40(sp)
-    sw      k1, portSTATUS_STACK_LOCATION(sp)
+    sw      k1, پورٹ_حالت_ڈھیر_LOCATION(sp)
 
     /* Prepare to enable interrupts above the current priority.
     k0 = k0 >> 10. Moves RIPL[17:10] to [7:0] */
@@ -72,10 +72,10 @@
 
 
     /* s5 is used as the frame pointer. */
-    add     s5, zero, sp
+    جوڑو     s5, zero, sp
 
     /* Check the nesting count value. */
-    la      k0, uxInterruptNesting
+    la      k0, ux_مداخلت_Nesting
     lw      s6, (k0)
 
     /* If the nesting count is 0 then swap to the system stack, otherwise
@@ -84,7 +84,7 @@
     nop
 
     /* Swap to the system stack. */
-    la      sp, xISRStackTop
+    la      sp, x_ISRStack_چوٹی
     lw      sp, (sp)
 
     /* Increment and save the nesting count. */
@@ -95,7 +95,7 @@
     mfc0    s6, _CP0_EPC
 
     /* Re-enable interrupts. */
-    mtc0    k1, _CP0_STATUS
+    mtc0    k1, CP0_حالت
 
     /* Save the context into the space just created.  s6 is saved again
     here as it now contains the EPC value.  No other s registers need be
@@ -118,7 +118,7 @@
     sw      a0, 60(s5)
     sw      v1, 56(s5)
     sw      v0, 52(s5)
-    sw      s6, portEPC_STACK_LOCATION(s5)
+    sw      s6, پورٹ_EPC_ڈھیر_LOCATION(s5)
     sw      $1, 16(s5)
 
     /* MEC14xx does not have DSP, removed 7 words */
@@ -128,29 +128,29 @@
     sw      s6, 8(s5)
 
     /* Update the task stack pointer value if nesting is zero. */
-    la      s6, uxInterruptNesting
+    la      s6, ux_مداخلت_Nesting
     lw      s6, (s6)
     addiu   s6, s6, -1
     bne     s6, zero, 1f
     nop
 
     /* Save the stack pointer. */
-    la      s6, uxSavedTaskStackPointer
+    la      s6, ux_Saved_Task_ڈھیر_اشارہ_گر
     sw      s5, (s6)
 1:
     .endm
 
 /******************************************************************/
-.macro  portRESTORE_CONTEXT
+.macro  پورٹ_RESTORE_CONTEXT
 
     /* Restore the stack pointer from the TCB.  This is only done if the
     nesting count is 1. */
-    la      s6, uxInterruptNesting
+    la      s6, ux_مداخلت_Nesting
     lw      s6, (s6)
     addiu   s6, s6, -1
     bne     s6, zero, 1f
     nop
-    la      s6, uxSavedTaskStackPointer
+    la      s6, ux_Saved_Task_ڈھیر_اشارہ_گر
     lw      s5, (s6)
 
     /* Restore the context.
@@ -189,21 +189,21 @@
     ehb
 
     /* Decrement the nesting count. */
-    la      k0, uxInterruptNesting
+    la      k0, ux_مداخلت_Nesting
     lw      k1, (k0)
     addiu   k1, k1, -1
     sw      k1, 0(k0)
 
-    lw      k0, portSTATUS_STACK_LOCATION(s5)
-    lw      k1, portEPC_STACK_LOCATION(s5)
+    lw      k0, پورٹ_حالت_ڈھیر_LOCATION(s5)
+    lw      k1, پورٹ_EPC_ڈھیر_LOCATION(s5)
 
     /* Leave the stack in its original state.  First load sp from s5, then
     restore s5 from the stack. */
-    add     sp, zero, s5
+    جوڑو     sp, zero, s5
     lw      s5, 40(sp)
-    addiu   sp, sp, portCONTEXT_SIZE
+    addiu   sp, sp, پورٹ_CONTEXT_سائز
 
-    mtc0    k0, _CP0_STATUS
+    mtc0    k0, CP0_حالت
     mtc0    k1, _CP0_EPC
     ehb
     eret
@@ -211,4 +211,4 @@
 
     .endm
 
-#endif /* #ifdef __LANGUAGE_ASSEMBLY__ */
+#اگر_ختم /* #ifdef __LANGUAGE_ASSEMBLY__ */

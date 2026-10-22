@@ -26,52 +26,52 @@
  * https://github.com/FreeRTOS
  */
 
-#ifndef FREERTOS_SDK_CONFIG_H
-#define FREERTOS_SDK_CONFIG_H
+#اگر_غیر_تعریف_شدہ FREERTOS_SDK_CONFIG_H
+#تعریف_کرو FREERTOS_SDK_CONFIG_H
 
-#ifndef __ASSEMBLER__
-    #include "FreeRTOSConfig.h"
-    #include "rp2040_config.h"
-    #ifndef PICO_USE_MALLOC_MUTEX
+#اگر_غیر_تعریف_شدہ __ASSEMBLER__
+    #شامل "FreeRTOSConfig.h"
+    #شامل "rp2040_config.h"
+    #اگر_غیر_تعریف_شدہ PICO_USE_MALLOC_MUTEX
         /* malloc needs to be made thread safe */
-        #define PICO_USE_MALLOC_MUTEX    1
-    #endif /* PICO_USE_MALLOC_MUTEX */
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+        #تعریف_کرو PICO_USE_MALLOC_MUTEX    1
+    #اگر_ختم /* PICO_USE_MALLOC_MUTEX */
+    #اگر ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* increase the amount of time it may reasonably take to wake us up */
-        #ifndef PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
-            #define PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
-        #endif
+        #اگر_غیر_تعریف_شدہ PICO_وقت_SLEEP_OVERHEAD_ADJUST_US
+            #تعریف_کرو PICO_وقت_SLEEP_OVERHEAD_ADJUST_US    150
+        #اگر_ختم
 
-        #define lock_owner_id_t                           uint32_t
-        extern uint32_t ulPortLockGetCurrentOwnerId( void );
-        #define lock_get_caller_owner_id()    ulPortLockGetCurrentOwnerId()
-        #define LOCK_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
+        #تعریف_کرو تالا_owner_id_t                           uint32_t
+        خارجی uint32_t ul_پورٹ_تالا_Get_Current_Owner_Id( خالی );
+        #تعریف_کرو تالا_get_caller_owner_id()    ul_پورٹ_تالا_Get_Current_Owner_Id()
+        #تعریف_کرو تالا_INVALID_OWNER_ID                     ( ( uint32_t ) -1 )
 
-        struct lock_core;
-        #ifndef lock_internal_spin_unlock_with_wait
-            extern void vPortLockInternalSpinUnlockWithWait( struct lock_core * pxLock,
+        ساخت تالا_core;
+        #اگر_غیر_تعریف_شدہ تالا_اندرونی_spin_unlock_with_wait
+            خارجی خالی v_پورٹ_تالا_اندرونی_Spin_Unlock_With_Wait( ساخت تالا_core * px_تالا,
                                                              uint32_t ulSave );
-            #define lock_internal_spin_unlock_with_wait( lock, save )    vPortLockInternalSpinUnlockWithWait( lock, save )
-        #endif
+            #تعریف_کرو تالا_اندرونی_spin_unlock_with_wait( تالا_3, save )    v_پورٹ_تالا_اندرونی_Spin_Unlock_With_Wait( تالا_3, save )
+        #اگر_ختم
 
-        #ifndef lock_internal_spin_unlock_with_notify
-            extern void vPortLockInternalSpinUnlockWithNotify( struct lock_core * pxLock,
+        #اگر_غیر_تعریف_شدہ تالا_اندرونی_spin_unlock_with_notify
+            خارجی خالی v_پورٹ_تالا_اندرونی_Spin_Unlock_With_Notify( ساخت تالا_core * px_تالا,
                                                                uint32_t save );
-            #define lock_internal_spin_unlock_with_notify( lock, save )    vPortLockInternalSpinUnlockWithNotify( lock, save );
-        #endif
+            #تعریف_کرو تالا_اندرونی_spin_unlock_with_notify( تالا_3, save )    v_پورٹ_تالا_اندرونی_Spin_Unlock_With_Notify( تالا_3, save );
+        #اگر_ختم
 
-        #ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout
-            extern bool xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( struct lock_core * pxLock,
+        #اگر_غیر_تعریف_شدہ تالا_اندرونی_spin_unlock_with_بہترین_effort_wait_or_timeout
+            خارجی bool x_پورٹ_تالا_اندرونی_Spin_Unlock_With_بہترین_Effort_Wait_Or_Timeout( ساخت تالا_core * px_تالا,
                                                                                 uint32_t ulSave,
-                                                                                absolute_time_t uxUntil );
-            #define lock_internal_spin_unlock_with_best_effort_wait_or_timeout( lock, save, until ) \
-    xPortLockInternalSpinUnlockWithBestEffortWaitOrTimeout( lock, save, until )
-        #endif
-    #endif /* configSUPPORT_PICO_SYNC_INTEROP */
+                                                                                absolute_وقت_t uxUntil );
+            #تعریف_کرو تالا_اندرونی_spin_unlock_with_بہترین_effort_wait_or_timeout( تالا_3, save, until ) \
+    x_پورٹ_تالا_اندرونی_Spin_Unlock_With_بہترین_Effort_Wait_Or_Timeout( تالا_3, save, until )
+        #اگر_ختم
+    #اگر_ختم /* configSUPPORT_PICO_SYNC_INTEROP */
 
-    #if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
-        extern void xPortSyncInternalYieldUntilBefore( absolute_time_t t );
-        #define sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
-    #endif /* configSUPPORT_PICO_TIME_INTEROP */
-#endif /* __ASSEMBLER__ */
-#endif /* ifndef FREERTOS_SDK_CONFIG_H */
+    #اگر ( config_SUPPORT_PICO_وقت_INTEROP == 1 )
+        خارجی خالی x_پورٹ_Sync_اندرونی_Yield_Until_Before( absolute_وقت_t t );
+        #تعریف_کرو sync_اندرونی_yield_until_before( t )    x_پورٹ_Sync_اندرونی_Yield_Until_Before( t )
+    #اگر_ختم /* configSUPPORT_PICO_TIME_INTEROP */
+#اگر_ختم /* __ASSEMBLER__ */
+#اگر_ختم /* ifndef FREERTOS_SDK_CONFIG_H */

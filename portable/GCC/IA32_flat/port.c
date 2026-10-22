@@ -27,112 +27,112 @@
  */
 
 /* Standard includes. */
-#include <limits.h>
+#شامل <limits.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#اگر ( config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1 )
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #اگر ( configMAX_PRIORITIES > 32 )
+        #غلطی config_USE_پورٹ_OPTIMISED_TASK_SELECTION can only be سیٹ مقصد 1 when configMAX_PRIORITIES is less than or equal مقصد 32.  It is very rare that a system requires مزید than 10 مقصد 15 difference priorities as tasks that share a ترجیح will time قاش.
+    #اگر_ختم
+#اگر_ختم /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configISR_STACK_SIZE < ( configMINIMAL_STACK_SIZE * 2 ) )
-    #warning configISR_STACK_SIZE is probably too small!
-#endif /* ( configISR_STACK_SIZE < configMINIMAL_STACK_SIZE * 2 ) */
+#اگر ( config_ISR_ڈھیر_سائز < ( config_اقل_ڈھیر_سائز * 2 ) )
+    #warning config_ISR_ڈھیر_سائز is probably too small!
+#اگر_ختم /* ( configISR_STACK_SIZE < configMINIMAL_STACK_SIZE * 2 ) */
 
-#if ( ( configMAX_API_CALL_INTERRUPT_PRIORITY > portMAX_PRIORITY ) || ( configMAX_API_CALL_INTERRUPT_PRIORITY < 2 ) )
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be between 2 and 15
-#endif
+#اگر ( ( config_MAX_API_CALL_مداخلت_ترجیح > پورٹ_MAX_ترجیح ) || ( config_MAX_API_CALL_مداخلت_ترجیح < 2 ) )
+    #غلطی config_MAX_API_CALL_مداخلت_ترجیح must be between 2 and 15
+#اگر_ختم
 
-#if ( ( configSUPPORT_FPU == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 0 ) )
-    #error configSUPPORT_DYNAMIC_ALLOCATION must be set to 1 to use this port with an FPU
-#endif
+#اگر ( ( configSUPPORT_FPU == 1 ) && ( config_SUPPORT_DYNAMIC_تخصیص == 0 ) )
+    #غلطی config_SUPPORT_DYNAMIC_تخصیص must be سیٹ مقصد 1 مقصد use this پورٹ with an FPU
+#اگر_ختم
 
 /* A critical section is exited when the critical section nesting count reaches
  * this value. */
-#define portNO_CRITICAL_NESTING          ( ( uint32_t ) 0 )
+#تعریف_کرو پورٹ_NO_CRITICAL_NESTING          ( ( uint32_t ) 0 )
 
 /* Tasks are not created with a floating point context, but can be given a
  * floating point context after they have been created.  A variable is stored as
  * part of the tasks context that holds portNO_FLOATING_POINT_CONTEXT if the task
  * does not have an FPU context, or any other value if the task does have an FPU
  * context. */
-#define portNO_FLOATING_POINT_CONTEXT    ( ( StackType_t ) 0 )
+#تعریف_کرو پورٹ_NO_FLOATING_نقطہ_CONTEXT    ( ( ڈھیر_Type_t ) 0 )
 
 /* Only the IF bit is set so tasks start with interrupts enabled. */
-#define portINITIAL_EFLAGS               ( 0x200UL )
+#تعریف_کرو پورٹ_INITIAL_EFLAGS               ( 0x200UL )
 
 /* Error interrupts are at the highest priority vectors. */
-#define portAPIC_LVT_ERROR_VECTOR        ( 0xfe )
-#define portAPIC_SPURIOUS_INT_VECTOR     ( 0xff )
+#تعریف_کرو پورٹ_APIC_LVT_ERROR_سمتیہ        ( 0xfe )
+#تعریف_کرو پورٹ_APIC_SPURIOUS_INT_سمتیہ     ( 0xff )
 
 /* EFLAGS bits. */
-#define portEFLAGS_IF                    ( 0x200UL )
+#تعریف_کرو پورٹ_EFLAGS_IF                    ( 0x200UL )
 
 /* FPU context size if FSAVE is used. */
-#define portFPU_CONTEXT_SIZE_BYTES       108
+#تعریف_کرو پورٹ_FPU_CONTEXT_سائز_بائٹیں       108
 
 /* The expected size of each entry in the IDT.  Used to check structure packing
  * is set correctly. */
-#define portEXPECTED_IDT_ENTRY_SIZE      8
+#تعریف_کرو پورٹ_EXPECTED_IDT_اندراج_سائز      8
 
 /* Default flags setting for entries in the IDT. */
-#define portIDT_FLAGS                    ( 0x8E )
+#تعریف_کرو پورٹ_IDT_FLAGS                    ( 0x8E )
 
 /* This is the lowest possible ISR vector available to application code. */
-#define portAPIC_MIN_ALLOWABLE_VECTOR    ( 0x20 )
+#تعریف_کرو پورٹ_APIC_MIN_ALLOWABLE_سمتیہ    ( 0x20 )
 
 /* If configASSERT() is defined then the system stack is filled with this value
  * to allow for a crude stack overflow check. */
-#define portSTACK_WORD                   ( 0xecececec )
+#تعریف_کرو پورٹ_ڈھیر_لفظ                   ( 0xecececec )
 /*-----------------------------------------------------------*/
 
 /*
  * Starts the first task executing.
  */
-extern void vPortStartFirstTask( void );
+خارجی خالی v_پورٹ_آغاز_پہلا_Task( خالی );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ساکن خالی prvTaskExitError( خالی );
 
 /*
  * Complete one descriptor in the IDT.
  */
-static void prvSetInterruptGate( uint8_t ucNumber,
+ساکن خالی prv_سیٹ_مداخلت_Gate( uint8_t uc_نمبر,
                                  ISR_Handler_t pxHandlerFunction,
                                  uint8_t ucFlags );
 
 /*
  * The default handler installed in each IDT position.
  */
-extern void vPortCentralInterruptWrapper( void );
+خارجی خالی v_پورٹ_Central_مداخلت_Wrapper( خالی );
 
 /*
  * Handler for portYIELD().
  */
-extern void vPortYieldCall( void );
+خارجی خالی v_پورٹ_Yield_Call( خالی );
 
 /*
  * Configure the APIC to generate the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void );
+ساکن خالی prv_تیاری_Timer_مداخلت( خالی );
 
 /*
  * Tick interrupt handler.
  */
-extern void vPortTimerHandler( void );
+خارجی خالی v_پورٹ_Timer_Handler( خالی );
 
 /*
  * Check an interrupt vector is not too high, too low, in use by FreeRTOS, or
  * already in use by the application.
  */
-static BaseType_t prvCheckValidityOfVectorNumber( uint32_t ulVectorNumber );
+ساکن بنیاد_Type_t prv_Check_Validity_کا_سمتیہ_نمبر( uint32_t ul_سمتیہ_نمبر );
 
 /*-----------------------------------------------------------*/
 
@@ -140,11 +140,11 @@ static BaseType_t prvCheckValidityOfVectorNumber( uint32_t ulVectorNumber );
  * variable must be initialised to a non zero value to ensure interrupts don't
  * inadvertently become unmasked before the scheduler starts. It is set to zero
  * before the first task starts executing. */
-volatile uint32_t ulCriticalNesting = 9999UL;
+متلون uint32_t ulCriticalNesting = 9999UL;
 
 /* A structure used to map the various fields of an IDT entry into separate
  * structure members. */
-struct IDTEntry
+ساخت IDTEntry
 {
     uint16_t usISRLow;          /* Low 16 bits of handler address. */
     uint16_t usSegmentSelector; /* Flat model means this is not changed. */
@@ -153,180 +153,180 @@ struct IDTEntry
     uint16_t usISRHigh;         /* High 16 bits of handler address. */
 }
 __attribute__( ( packed ) );
-typedef struct IDTEntry IDTEntry_t;
+قسمتعریف ساخت IDTEntry IDTEntry_t;
 
 
 /* Use to pass the location of the IDT to the CPU. */
-struct IDTPointer
+ساخت IDTPointer
 {
-    uint16_t usTableLimit;
-    uint32_t ulTableBase; /* The address of the first entry in xInterruptDescriptorTable. */
+    uint16_t us_جدول_حد_بندی;
+    uint32_t ul_جدول_بنیاد; /* The address of the first entry in xInterruptDescriptorTable. */
 }
 __attribute__( ( __packed__ ) );
-typedef struct IDTPointer IDTPointer_t;
+قسمتعریف ساخت IDTPointer IDTPointer_t;
 
 /* The IDT itself. */
-static __attribute__( ( aligned( 32 ) ) ) IDTEntry_t xInterruptDescriptorTable[ portNUM_VECTORS ];
+ساکن __attribute__( ( aligned( 32 ) ) ) IDTEntry_t x_مداخلت_Descriptor_جدول[ پورٹ_عدد_VECTORS ];
 
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+#اگر ( config_USE_COMMON_مداخلت_اندراج_نقطہ == 1 )
 
 /* A table in which application defined interrupt handlers are stored.  These
  * are called by the central interrupt handler if a common interrupt entry
  * point it used. */
-static ISR_Handler_t xInterruptHandlerTable[ portNUM_VECTORS ] = { NULL };
+ساکن ISR_Handler_t x_مداخلت_Handler_جدول[ پورٹ_عدد_VECTORS ] = { تہی };
 
-#endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
+#اگر_ختم /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
 
-#if ( configSUPPORT_FPU == 1 )
+#اگر ( configSUPPORT_FPU == 1 )
 
 /* Saved as part of the task context.  If pucPortTaskFPUContextBuffer is NULL
  * then the task does not have an FPU context.  If pucPortTaskFPUContextBuffer is
  * not NULL then it points to a buffer into which the FPU context can be saved. */
-    uint8_t * pucPortTaskFPUContextBuffer __attribute__( ( used ) ) = pdFALSE;
+    uint8_t * puc_پورٹ_Task_FPUContext_بفر __attribute__( ( مستعمل ) ) = pdFALSE;
 
-#endif /* configSUPPORT_FPU */
+#اگر_ختم /* configSUPPORT_FPU */
 
 /* The stack used by interrupt handlers. */
-static uint32_t ulSystemStack[ configISR_STACK_SIZE ] __attribute__( ( used ) ) = { 0 };
+ساکن uint32_t ul_System_ڈھیر[ config_ISR_ڈھیر_سائز ] __attribute__( ( مستعمل ) ) = { 0 };
 
 /* Don't use the very top of the system stack so the return address
  * appears as 0 if the debugger tries to unwind the stack. */
-volatile uint32_t ulTopOfSystemStack __attribute__( ( used ) ) = ( uint32_t ) &( ulSystemStack[ configISR_STACK_SIZE - 5 ] );
+متلون uint32_t ul_چوٹی_کا_System_ڈھیر __attribute__( ( مستعمل ) ) = ( uint32_t ) &( ul_System_ڈھیر[ config_ISR_ڈھیر_سائز - 5 ] );
 
 /* If a yield is requested from an interrupt or from a critical section then
  * the yield is not performed immediately, and ulPortYieldPending is set to pdTRUE
  * instead to indicate the yield should be performed at the end of the interrupt
  * when the critical section is exited. */
-volatile uint32_t ulPortYieldPending __attribute__( ( used ) ) = pdFALSE;
+متلون uint32_t ul_پورٹ_Yield_Pending __attribute__( ( مستعمل ) ) = pdFALSE;
 
 /* Counts the interrupt nesting depth.  Used to know when to switch to the
  * interrupt/system stack and when to save/restore a complete context. */
-volatile uint32_t ulInterruptNesting __attribute__( ( used ) ) = 0;
+متلون uint32_t ul_مداخلت_Nesting __attribute__( ( مستعمل ) ) = 0;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_کا_ڈھیر,
+                                     TaskFunction_t px_رمز,
+                                     خالی * pvParameters )
 {
-    uint32_t ulCodeSegment;
+    uint32_t ul_رمز_Segment;
 
     /* Setup the initial stack as expected by the portFREERTOS_INTERRUPT_EXIT macro. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0x00;
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = 0x00;
+    px_چوٹی_کا_ڈھیر--;
 
     /* Parameters first. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) pvParameters;
+    px_چوٹی_کا_ڈھیر--;
 
     /* There is nothing to return to so assert if attempting to use the return
      * address. */
-    *pxTopOfStack = ( StackType_t ) prvTaskExitError;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) prvTaskExitError;
+    px_چوٹی_کا_ڈھیر--;
 
     /* iret used to start the task pops up to here. */
-    *pxTopOfStack = portINITIAL_EFLAGS;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = پورٹ_INITIAL_EFLAGS;
+    px_چوٹی_کا_ڈھیر--;
 
     /* CS */
-    __asm volatile ( "movl %%cs, %0" : "=r" ( ulCodeSegment ) );
-    *pxTopOfStack = ulCodeSegment;
-    pxTopOfStack--;
+    __asm متلون ( "movl %%cs, %0" : "=r" ( ul_رمز_Segment ) );
+    *px_چوٹی_کا_ڈھیر = ul_رمز_Segment;
+    px_چوٹی_کا_ڈھیر--;
 
     /* First instruction in the task. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) px_رمز;
+    px_چوٹی_کا_ڈھیر--;
 
     /* General purpose registers as expected by a POPA instruction. */
-    *pxTopOfStack = 0xEA;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0xEA;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = 0xEC;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0xEC;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = 0xED1; /* EDX */
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0xED1; /* EDX */
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = 0xEB1; /* EBX */
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0xEB1; /* EBX */
+    px_چوٹی_کا_ڈھیر--;
 
     /* Hole for ESP. */
-    pxTopOfStack--;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = 0x00; /* EBP */
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0x00; /* EBP */
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = 0xE5; /* ESI */
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = 0xE5; /* ESI */
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = 0xeeeeeeee; /* EDI */
+    *px_چوٹی_کا_ڈھیر = 0xeeeeeeee; /* EDI */
 
-    #if ( configSUPPORT_FPU == 1 )
+    #اگر ( configSUPPORT_FPU == 1 )
     {
-        pxTopOfStack--;
+        px_چوٹی_کا_ڈھیر--;
 
         /* Buffer for FPU context, which is initialised to NULL as tasks are not
          * created with an FPU context. */
-        *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+        *px_چوٹی_کا_ڈھیر = پورٹ_NO_FLOATING_نقطہ_CONTEXT;
     }
-    #endif /* configSUPPORT_FPU */
+    #اگر_ختم /* configSUPPORT_FPU */
 
-    return pxTopOfStack;
+    واپس px_چوٹی_کا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetInterruptGate( uint8_t ucNumber,
+ساکن خالی prv_سیٹ_مداخلت_Gate( uint8_t uc_نمبر,
                                  ISR_Handler_t pxHandlerFunction,
                                  uint8_t ucFlags )
 {
-    uint16_t usCodeSegment;
-    uint32_t ulBase = ( uint32_t ) pxHandlerFunction;
+    uint16_t us_رمز_Segment;
+    uint32_t ul_بنیاد = ( uint32_t ) pxHandlerFunction;
 
-    xInterruptDescriptorTable[ ucNumber ].usISRLow = ( uint16_t ) ( ulBase & USHRT_MAX );
-    xInterruptDescriptorTable[ ucNumber ].usISRHigh = ( uint16_t ) ( ( ulBase >> 16UL ) & USHRT_MAX );
+    x_مداخلت_Descriptor_جدول[ uc_نمبر ].usISRLow = ( uint16_t ) ( ul_بنیاد & USHRT_MAX );
+    x_مداخلت_Descriptor_جدول[ uc_نمبر ].usISRHigh = ( uint16_t ) ( ( ul_بنیاد >> 16UL ) & USHRT_MAX );
 
     /* When the flat model is used the CS will never change. */
-    __asm volatile ( "mov %%cs, %0" : "=r" ( usCodeSegment ) );
-    xInterruptDescriptorTable[ ucNumber ].usSegmentSelector = usCodeSegment;
-    xInterruptDescriptorTable[ ucNumber ].ucZero = 0;
-    xInterruptDescriptorTable[ ucNumber ].ucFlags = ucFlags;
+    __asm متلون ( "mov %%cs, %0" : "=r" ( us_رمز_Segment ) );
+    x_مداخلت_Descriptor_جدول[ uc_نمبر ].usSegmentSelector = us_رمز_Segment;
+    x_مداخلت_Descriptor_جدول[ uc_نمبر ].ucZero = 0;
+    x_مداخلت_Descriptor_جدول[ uc_نمبر ].ucFlags = ucFlags;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetupIDT( void )
+خالی v_پورٹ_تیاری_IDT( خالی )
 {
-    uint32_t ulNum;
+    uint32_t ul_عدد;
     IDTPointer_t xIDT;
 
-    #if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+    #اگر ( config_USE_COMMON_مداخلت_اندراج_نقطہ == 1 )
     {
-        for( ulNum = 0; ulNum < portNUM_VECTORS; ulNum++ )
+        برائے( ul_عدد = 0; ul_عدد < پورٹ_عدد_VECTORS; ul_عدد++ )
         {
             /* If a handler has not already been installed on this vector. */
-            if( ( xInterruptDescriptorTable[ ulNum ].usISRLow == 0x00 ) && ( xInterruptDescriptorTable[ ulNum ].usISRHigh == 0x00 ) )
+            اگر( ( x_مداخلت_Descriptor_جدول[ ul_عدد ].usISRLow == 0x00 ) && ( x_مداخلت_Descriptor_جدول[ ul_عدد ].usISRHigh == 0x00 ) )
             {
-                prvSetInterruptGate( ( uint8_t ) ulNum, vPortCentralInterruptWrapper, portIDT_FLAGS );
+                prv_سیٹ_مداخلت_Gate( ( uint8_t ) ul_عدد, v_پورٹ_Central_مداخلت_Wrapper, پورٹ_IDT_FLAGS );
             }
         }
     }
-    #endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
+    #اگر_ختم /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
 
     /* Set IDT address. */
-    xIDT.ulTableBase = ( uint32_t ) xInterruptDescriptorTable;
-    xIDT.usTableLimit = sizeof( xInterruptDescriptorTable ) - 1;
+    xIDT.ul_جدول_بنیاد = ( uint32_t ) x_مداخلت_Descriptor_جدول;
+    xIDT.us_جدول_حد_بندی = حجم( x_مداخلت_Descriptor_جدول ) - 1;
 
     /* Set IDT in CPU. */
-    __asm volatile ( "lidt %0" ::"m" ( xIDT ) );
+    __asm متلون ( "lidt %0" ::"m" ( xIDT ) );
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساکن خالی prvTaskExitError( خالی )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -335,94 +335,94 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error. */
     configASSERT( ulCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    پورٹ_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    برائے( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساکن خالی prv_تیاری_Timer_مداخلت( خالی )
 {
-    extern void vPortAPICErrorHandlerWrapper( void );
-    extern void vPortAPICSpuriousHandler( void );
+    خارجی خالی v_پورٹ_APICError_Handler_Wrapper( خالی );
+    خارجی خالی v_پورٹ_APICSpurious_Handler( خالی );
 
     /* Initialise LAPIC to a well known state. */
-    portAPIC_LDR = 0xFFFFFFFF;
-    portAPIC_LDR = ( ( portAPIC_LDR & 0x00FFFFFF ) | 0x00000001 );
-    portAPIC_LVT_TIMER = portAPIC_DISABLE;
-    portAPIC_LVT_PERF = portAPIC_NMI;
-    portAPIC_LVT_LINT0 = portAPIC_DISABLE;
-    portAPIC_LVT_LINT1 = portAPIC_DISABLE;
-    portAPIC_TASK_PRIORITY = 0;
+    پورٹ_APIC_LDR = 0xFFFFFFFF;
+    پورٹ_APIC_LDR = ( ( پورٹ_APIC_LDR & 0x00FFFFFF ) | 0x00000001 );
+    پورٹ_APIC_LVT_TIMER = پورٹ_APIC_DISABLE;
+    پورٹ_APIC_LVT_PERF = پورٹ_APIC_NMI;
+    پورٹ_APIC_LVT_LINT0 = پورٹ_APIC_DISABLE;
+    پورٹ_APIC_LVT_LINT1 = پورٹ_APIC_DISABLE;
+    پورٹ_APIC_TASK_ترجیح = 0;
 
     /* Install APIC timer ISR vector. */
-    prvSetInterruptGate( ( uint8_t ) portAPIC_TIMER_INT_VECTOR, vPortTimerHandler, portIDT_FLAGS );
+    prv_سیٹ_مداخلت_Gate( ( uint8_t ) پورٹ_APIC_TIMER_INT_سمتیہ, v_پورٹ_Timer_Handler, پورٹ_IDT_FLAGS );
 
     /* Install API error handler. */
-    prvSetInterruptGate( ( uint8_t ) portAPIC_LVT_ERROR_VECTOR, vPortAPICErrorHandlerWrapper, portIDT_FLAGS );
+    prv_سیٹ_مداخلت_Gate( ( uint8_t ) پورٹ_APIC_LVT_ERROR_سمتیہ, v_پورٹ_APICError_Handler_Wrapper, پورٹ_IDT_FLAGS );
 
     /* Install Yield handler. */
-    prvSetInterruptGate( ( uint8_t ) portAPIC_YIELD_INT_VECTOR, vPortYieldCall, portIDT_FLAGS );
+    prv_سیٹ_مداخلت_Gate( ( uint8_t ) پورٹ_APIC_YIELD_INT_سمتیہ, v_پورٹ_Yield_Call, پورٹ_IDT_FLAGS );
 
     /* Install spurious interrupt vector. */
-    prvSetInterruptGate( ( uint8_t ) portAPIC_SPURIOUS_INT_VECTOR, vPortAPICSpuriousHandler, portIDT_FLAGS );
+    prv_سیٹ_مداخلت_Gate( ( uint8_t ) پورٹ_APIC_SPURIOUS_INT_سمتیہ, v_پورٹ_APICSpurious_Handler, پورٹ_IDT_FLAGS );
 
     /* Enable the APIC, mapping the spurious interrupt at the same time. */
-    portAPIC_SPURIOUS_INT = portAPIC_SPURIOUS_INT_VECTOR | portAPIC_ENABLE_BIT;
+    پورٹ_APIC_SPURIOUS_INT = پورٹ_APIC_SPURIOUS_INT_سمتیہ | پورٹ_APIC_ENABLE_ثنائی_ہندسہ;
 
     /* Set timer error vector. */
-    portAPIC_LVT_ERROR = portAPIC_LVT_ERROR_VECTOR;
+    پورٹ_APIC_LVT_ERROR = پورٹ_APIC_LVT_ERROR_سمتیہ;
 
     /* Set the interrupt frequency. */
-    portAPIC_TMRDIV = portAPIC_DIV_16;
-    portAPIC_TIMER_INITIAL_COUNT = ( ( configCPU_CLOCK_HZ >> 4UL ) / configTICK_RATE_HZ ) - 1UL;
+    پورٹ_APIC_TMRDIV = پورٹ_APIC_DIV_16;
+    پورٹ_APIC_TIMER_INITIAL_گنتی = ( ( configCPU_CLOCK_HZ >> 4UL ) / config_TICK_شرح_HZ ) - 1UL;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنیاد_Type_t x_پورٹ_آغاز_Scheduler( خالی )
 {
-    BaseType_t xWord;
+    بنیاد_Type_t x_لفظ;
 
     /* Some versions of GCC require the -mno-ms-bitfields command line option
      * for packing to work. */
-    configASSERT( sizeof( struct IDTEntry ) == portEXPECTED_IDT_ENTRY_SIZE );
+    configASSERT( حجم( ساخت IDTEntry ) == پورٹ_EXPECTED_IDT_اندراج_سائز );
 
     /* Fill part of the system stack with a known value to help detect stack
      * overflow.  A few zeros are left so GDB doesn't get confused unwinding
      * the stack. */
-    for( xWord = 0; xWord < configISR_STACK_SIZE - 20; xWord++ )
+    برائے( x_لفظ = 0; x_لفظ < config_ISR_ڈھیر_سائز - 20; x_لفظ++ )
     {
-        ulSystemStack[ xWord ] = portSTACK_WORD;
+        ul_System_ڈھیر[ x_لفظ ] = پورٹ_ڈھیر_لفظ;
     }
 
     /* Initialise Interrupt Descriptor Table (IDT). */
-    vPortSetupIDT();
+    v_پورٹ_تیاری_IDT();
 
     /* Initialise LAPIC and install system handlers. */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخلت();
 
     /* Make sure the stack used by interrupts is aligned. */
-    ulTopOfSystemStack &= ~portBYTE_ALIGNMENT_MASK;
+    ul_چوٹی_کا_System_ڈھیر &= ~پورٹ_BYTE_ALIGNMENT_نقاب;
 
     ulCriticalNesting = 0;
 
     /* Enable LAPIC Counter.*/
-    portAPIC_LVT_TIMER = portAPIC_TIMER_PERIODIC | portAPIC_TIMER_INT_VECTOR;
+    پورٹ_APIC_LVT_TIMER = پورٹ_APIC_TIMER_PERIODIC | پورٹ_APIC_TIMER_INT_سمتیہ;
 
     /* Sometimes needed. */
-    portAPIC_TMRDIV = portAPIC_DIV_16;
+    پورٹ_APIC_TMRDIV = پورٹ_APIC_DIV_16;
 
     /* Should not return from the following function as the scheduler will then
      * be executing the tasks. */
-    vPortStartFirstTask();
+    v_پورٹ_آغاز_پہلا_Task();
 
-    return 0;
+    واپس 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+خالی v_پورٹ_انتہا_Scheduler( خالی )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -430,20 +430,20 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+خالی v_پورٹ_Enter_Critical( خالی )
 {
-    if( ulCriticalNesting == 0 )
+    اگر( ulCriticalNesting == 0 )
     {
-        #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+        #اگر ( config_MAX_API_CALL_مداخلت_ترجیح == پورٹ_MAX_ترجیح )
         {
-            __asm volatile ( "cli" );
+            __asm متلون ( "cli" );
         }
-        #else
+        #ورنہ
         {
-            portAPIC_TASK_PRIORITY = portMAX_API_CALL_PRIORITY;
-            configASSERT( portAPIC_TASK_PRIORITY == portMAX_API_CALL_PRIORITY );
+            پورٹ_APIC_TASK_ترجیح = پورٹ_MAX_API_CALL_ترجیح;
+            configASSERT( پورٹ_APIC_TASK_ترجیح == پورٹ_MAX_API_CALL_ترجیح );
         }
-        #endif
+        #اگر_ختم
     }
 
     /* Now that interrupts are disabled, ulCriticalNesting can be accessed
@@ -453,9 +453,9 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+خالی v_پورٹ_Exit_Critical( خالی )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    اگر( ulCriticalNesting > پورٹ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -463,226 +463,226 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        اگر( ulCriticalNesting == پورٹ_NO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
-            #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+            #اگر ( config_MAX_API_CALL_مداخلت_ترجیح == پورٹ_MAX_ترجیح )
             {
-                __asm volatile ( "sti" );
+                __asm متلون ( "sti" );
             }
-            #else
+            #ورنہ
             {
-                portAPIC_TASK_PRIORITY = 0;
+                پورٹ_APIC_TASK_ترجیح = 0;
             }
-            #endif
+            #اگر_ختم
 
             /* If a yield was pended from within the critical section then
              * perform the yield now. */
-            if( ulPortYieldPending != pdFALSE )
+            اگر( ul_پورٹ_Yield_Pending != pdFALSE )
             {
-                ulPortYieldPending = pdFALSE;
-                __asm volatile ( portYIELD_INTERRUPT );
+                ul_پورٹ_Yield_Pending = pdFALSE;
+                __asm متلون ( پورٹ_YIELD_مداخلت );
             }
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortSetInterruptMask( void )
+uint32_t ul_پورٹ_سیٹ_مداخلت_نقاب( خالی )
 {
-    volatile uint32_t ulOriginalMask;
+    متلون uint32_t ul_Original_نقاب;
 
     /* Set mask to max syscall priority. */
-    #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+    #اگر ( config_MAX_API_CALL_مداخلت_ترجیح == پورٹ_MAX_ترجیح )
     {
         /* Return whether interrupts were already enabled or not.  Pop adjusts
          * the stack first. */
-        __asm volatile ( "pushf      \t\n"
+        __asm متلون ( "pushf      \t\n"
                          "pop %0     \t\n"
                          "cli            "
-                         : "=rm" ( ulOriginalMask )::"memory" );
+                         : "=rm" ( ul_Original_نقاب )::"memory" );
 
-        ulOriginalMask &= portEFLAGS_IF;
+        ul_Original_نقاب &= پورٹ_EFLAGS_IF;
     }
-    #else
+    #ورنہ
     {
         /* Return original mask. */
-        ulOriginalMask = portAPIC_TASK_PRIORITY;
-        portAPIC_TASK_PRIORITY = portMAX_API_CALL_PRIORITY;
-        configASSERT( portAPIC_TASK_PRIORITY == portMAX_API_CALL_PRIORITY );
+        ul_Original_نقاب = پورٹ_APIC_TASK_ترجیح;
+        پورٹ_APIC_TASK_ترجیح = پورٹ_MAX_API_CALL_ترجیح;
+        configASSERT( پورٹ_APIC_TASK_ترجیح == پورٹ_MAX_API_CALL_ترجیح );
     }
-    #endif /* if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY ) */
+    #اگر_ختم /* if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY ) */
 
-    return ulOriginalMask;
+    واپس ul_Original_نقاب;
 }
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+خالی v_پورٹ_Clear_مداخلت_نقاب( uint32_t ul_New_نقاب_قدر )
 {
-    #if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY )
+    #اگر ( config_MAX_API_CALL_مداخلت_ترجیح == پورٹ_MAX_ترجیح )
     {
-        if( ulNewMaskValue != pdFALSE )
+        اگر( ul_New_نقاب_قدر != pdFALSE )
         {
-            __asm volatile ( "sti" );
+            __asm متلون ( "sti" );
         }
     }
-    #else
+    #ورنہ
     {
-        portAPIC_TASK_PRIORITY = ulNewMaskValue;
-        configASSERT( portAPIC_TASK_PRIORITY == ulNewMaskValue );
+        پورٹ_APIC_TASK_ترجیح = ul_New_نقاب_قدر;
+        configASSERT( پورٹ_APIC_TASK_ترجیح == ul_New_نقاب_قدر );
     }
-    #endif /* if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY ) */
+    #اگر_ختم /* if ( configMAX_API_CALL_INTERRUPT_PRIORITY == portMAX_PRIORITY ) */
 }
 /*-----------------------------------------------------------*/
 
-#if ( configSUPPORT_FPU == 1 )
+#اگر ( configSUPPORT_FPU == 1 )
 
-    void vPortTaskUsesFPU( void )
+    خالی v_پورٹ_Task_استعمال_کرتا_FPU( خالی )
     {
         /* A task is registering the fact that it needs an FPU context.  Allocate a
          * buffer into which the context can be saved. */
-        pucPortTaskFPUContextBuffer = ( uint8_t * ) pvPortMalloc( portFPU_CONTEXT_SIZE_BYTES );
-        configASSERT( pucPortTaskFPUContextBuffer );
+        puc_پورٹ_Task_FPUContext_بفر = ( uint8_t * ) pv_پورٹ_Malloc( پورٹ_FPU_CONTEXT_سائز_بائٹیں );
+        configASSERT( puc_پورٹ_Task_FPUContext_بفر );
 
         /* Initialise the floating point registers. */
-        __asm volatile ( "fninit" );
+        __asm متلون ( "fninit" );
     }
 
-#endif /* configSUPPORT_FPU */
+#اگر_ختم /* configSUPPORT_FPU */
 /*-----------------------------------------------------------*/
 
-void vPortAPICErrorHandler( void )
+خالی v_پورٹ_APICError_Handler( خالی )
 {
 /* Variable to hold the APIC error status for viewing in the debugger. */
-    volatile uint32_t ulErrorStatus = 0;
+    متلون uint32_t ul_Error_حالت = 0;
 
-    portAPIC_ERROR_STATUS = 0;
-    ulErrorStatus = portAPIC_ERROR_STATUS;
-    ( void ) ulErrorStatus;
+    پورٹ_APIC_ERROR_حالت = 0;
+    ul_Error_حالت = پورٹ_APIC_ERROR_حالت;
+    ( خالی ) ul_Error_حالت;
 
     /* Force an assert. */
     configASSERT( ulCriticalNesting == ~0UL );
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+#اگر ( config_USE_COMMON_مداخلت_اندراج_نقطہ == 1 )
 
-    void vPortCentralInterruptHandler( uint32_t ulVector )
+    خالی v_پورٹ_Central_مداخلت_Handler( uint32_t ul_سمتیہ )
     {
-        if( ulVector < portNUM_VECTORS )
+        اگر( ul_سمتیہ < پورٹ_عدد_VECTORS )
         {
-            if( xInterruptHandlerTable[ ulVector ] != NULL )
+            اگر( x_مداخلت_Handler_جدول[ ul_سمتیہ ] != تہی )
             {
-                ( xInterruptHandlerTable[ ulVector ] )();
+                ( x_مداخلت_Handler_جدول[ ul_سمتیہ ] )();
             }
         }
 
         /* Check for a system stack overflow. */
-        configASSERT( ulSystemStack[ 10 ] == portSTACK_WORD );
-        configASSERT( ulSystemStack[ 12 ] == portSTACK_WORD );
-        configASSERT( ulSystemStack[ 14 ] == portSTACK_WORD );
+        configASSERT( ul_System_ڈھیر[ 10 ] == پورٹ_ڈھیر_لفظ );
+        configASSERT( ul_System_ڈھیر[ 12 ] == پورٹ_ڈھیر_لفظ );
+        configASSERT( ul_System_ڈھیر[ 14 ] == پورٹ_ڈھیر_لفظ );
     }
 
-#endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
+#اگر_ختم /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
+#اگر ( config_USE_COMMON_مداخلت_اندراج_نقطہ == 1 )
 
-    BaseType_t xPortRegisterCInterruptHandler( ISR_Handler_t pxHandler,
-                                               uint32_t ulVectorNumber )
+    بنیاد_Type_t x_پورٹ_رجسٹر_CInterrupt_Handler( ISR_Handler_t pxHandler,
+                                               uint32_t ul_سمتیہ_نمبر )
     {
-        BaseType_t xReturn;
+        بنیاد_Type_t xReturn;
 
-        xReturn = prvCheckValidityOfVectorNumber( ulVectorNumber );
+        xReturn = prv_Check_Validity_کا_سمتیہ_نمبر( ul_سمتیہ_نمبر );
 
-        if( xReturn != pdFAIL )
+        اگر( xReturn != pdFAIL )
         {
             /* Save the handler passed in by the application in the vector number
              * passed in.  The addresses are then called from the central interrupt
              * handler. */
-            xInterruptHandlerTable[ ulVectorNumber ] = pxHandler;
+            x_مداخلت_Handler_جدول[ ul_سمتیہ_نمبر ] = pxHandler;
         }
 
-        return xReturn;
+        واپس xReturn;
     }
 
-#endif /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
+#اگر_ختم /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortInstallInterruptHandler( ISR_Handler_t pxHandler,
-                                         uint32_t ulVectorNumber )
+بنیاد_Type_t x_پورٹ_Install_مداخلت_Handler( ISR_Handler_t pxHandler,
+                                         uint32_t ul_سمتیہ_نمبر )
 {
-    BaseType_t xReturn;
+    بنیاد_Type_t xReturn;
 
-    xReturn = prvCheckValidityOfVectorNumber( ulVectorNumber );
+    xReturn = prv_Check_Validity_کا_سمتیہ_نمبر( ul_سمتیہ_نمبر );
 
-    if( xReturn != pdFAIL )
+    اگر( xReturn != pdFAIL )
     {
         taskENTER_CRITICAL();
         {
             /* Update the IDT to include the application defined handler. */
-            prvSetInterruptGate( ( uint8_t ) ulVectorNumber, ( ISR_Handler_t ) pxHandler, portIDT_FLAGS );
+            prv_سیٹ_مداخلت_Gate( ( uint8_t ) ul_سمتیہ_نمبر, ( ISR_Handler_t ) pxHandler, پورٹ_IDT_FLAGS );
         }
         taskEXIT_CRITICAL();
     }
 
-    return xReturn;
+    واپس xReturn;
 }
 /*-----------------------------------------------------------*/
 
-static BaseType_t prvCheckValidityOfVectorNumber( uint32_t ulVectorNumber )
+ساکن بنیاد_Type_t prv_Check_Validity_کا_سمتیہ_نمبر( uint32_t ul_سمتیہ_نمبر )
 {
-    BaseType_t xReturn;
+    بنیاد_Type_t xReturn;
 
     /* Check validity of vector number. */
-    if( ulVectorNumber >= portNUM_VECTORS )
+    اگر( ul_سمتیہ_نمبر >= پورٹ_عدد_VECTORS )
     {
         /* Too high. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber < portAPIC_MIN_ALLOWABLE_VECTOR )
+    ورنہ اگر( ul_سمتیہ_نمبر < پورٹ_APIC_MIN_ALLOWABLE_سمتیہ )
     {
         /* Too low. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_TIMER_INT_VECTOR )
+    ورنہ اگر( ul_سمتیہ_نمبر == پورٹ_APIC_TIMER_INT_سمتیہ )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_YIELD_INT_VECTOR )
+    ورنہ اگر( ul_سمتیہ_نمبر == پورٹ_APIC_YIELD_INT_سمتیہ )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_LVT_ERROR_VECTOR )
+    ورنہ اگر( ul_سمتیہ_نمبر == پورٹ_APIC_LVT_ERROR_سمتیہ )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-    else if( ulVectorNumber == portAPIC_SPURIOUS_INT_VECTOR )
+    ورنہ اگر( ul_سمتیہ_نمبر == پورٹ_APIC_SPURIOUS_INT_سمتیہ )
     {
         /* In use by FreeRTOS. */
         xReturn = pdFAIL;
     }
-#if ( configUSE_COMMON_INTERRUPT_ENTRY_POINT == 1 )
-    else if( xInterruptHandlerTable[ ulVectorNumber ] != NULL )
+#اگر ( config_USE_COMMON_مداخلت_اندراج_نقطہ == 1 )
+    ورنہ اگر( x_مداخلت_Handler_جدول[ ul_سمتیہ_نمبر ] != تہی )
     {
         /* Already in use by the application. */
         xReturn = pdFAIL;
     }
-#endif  /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
-    else
+#اگر_ختم  /* configUSE_COMMON_INTERRUPT_ENTRY_POINT */
+    ورنہ
     {
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    واپس xReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vGenerateYieldInterrupt( void )
+خالی v_Generate_Yield_مداخلت( خالی )
 {
-    __asm volatile ( portYIELD_INTERRUPT );
+    __asm متلون ( پورٹ_YIELD_مداخلت );
 }

@@ -43,7 +43,7 @@
 #define LOADSTORE_HANDLER_STACK_SZ      8
     .section .bss, "aw"
     .balign 16
-LoadStoreHandlerStack:
+بھرو_Store_Handler_ڈھیر:
     .rept LOADSTORE_HANDLER_STACK_SZ
     .word 0
     .endr
@@ -55,18 +55,18 @@ LoadStoreHandlerStack:
  * Called from UserExceptionVector if EXCCAUSE is LoadStoreErrorCause
  */
 
-    .global   LoadStoreErrorHandler
+    .عام   بھرو_Store_Error_Handler
     .section .iram1, "ax"
 
     .literal_position
 
     .balign 4
-LoadStoreErrorHandler:
-    .type   LoadStoreErrorHandler, @function
+بھرو_Store_Error_Handler:
+    .type   بھرو_Store_Error_Handler, @function
 
     wsr     a0, depc                            // Save return address in depc
     mov     a0, sp
-    movi    sp, LoadStoreHandlerStack
+    movi    sp, بھرو_Store_Handler_ڈھیر
     s32i    a0, sp, 0x04                        // Since a0 contains value of a1
     s32i    a2, sp, 0x08
     s32i    a3, sp, 0x0c
@@ -249,7 +249,7 @@ LoadStoreErrorHandler:
  * Called from UserExceptionVector if EXCCAUSE is LoadStoreAlignmentCause
  */
 
-    .global   AlignmentErrorHandler
+    .عام   AlignmentErrorHandler
     .section .iram1, "ax"
 
     .literal_position
@@ -260,7 +260,7 @@ AlignmentErrorHandler:
 
     wsr     a0, depc                            // Save return address in depc
     mov     a0, sp
-    movi    sp, LoadStoreHandlerStack
+    movi    sp, بھرو_Store_Handler_ڈھیر
     s32i    a0, sp, 0x04                        // Since a0 contains value of a1
     s32i    a2, sp, 0x08
     s32i    a3, sp, 0x0c

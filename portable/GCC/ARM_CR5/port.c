@@ -27,52 +27,52 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <string.h>
+#شامل <stdlib.h>
+#شامل <string.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
-#ifndef configINTERRUPT_CONTROLLER_BASE_ADDRESS
-    #error configINTERRUPT_CONTROLLER_BASE_ADDRESS must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#اگر_غیر_تعریف_شدہ config_مداخلت_CONTROLLER_بنیاد_پتہ
+    #غلطی config_مداخلت_CONTROLLER_بنیاد_پتہ must be defined.  Refer مقصد Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#اگر_ختم
 
-#ifndef configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET
-    #error configINTERRUPT_CONTROLLER_CPU_INTERFACE_OFFSET must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#اگر_غیر_تعریف_شدہ config_مداخلت_CONTROLLER_CPU_INTERFACE_انحراف
+    #غلطی config_مداخلت_CONTROLLER_CPU_INTERFACE_انحراف must be defined.  Refer مقصد Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#اگر_ختم
 
-#ifndef configUNIQUE_INTERRUPT_PRIORITIES
-    #error configUNIQUE_INTERRUPT_PRIORITIES must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#اگر_غیر_تعریف_شدہ config_UNIQUE_مداخلت_PRIORITIES
+    #غلطی config_UNIQUE_مداخلت_PRIORITIES must be defined.  Refer مقصد Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#اگر_ختم
 
-#ifndef configSETUP_TICK_INTERRUPT
-    #error configSETUP_TICK_INTERRUPT() must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif /* configSETUP_TICK_INTERRUPT */
+#اگر_غیر_تعریف_شدہ config_تیاری_TICK_مداخلت
+    #غلطی config_تیاری_TICK_مداخلت() must be defined.  Refer مقصد Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#اگر_ختم /* configSETUP_TICK_INTERRUPT */
 
-#ifndef configMAX_API_CALL_INTERRUPT_PRIORITY
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  Refer to Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
-#endif
+#اگر_غیر_تعریف_شدہ config_MAX_API_CALL_مداخلت_ترجیح
+    #غلطی config_MAX_API_CALL_مداخلت_ترجیح must be defined.  Refer مقصد Cortex-A equivalent: http: /*www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html */
+#اگر_ختم
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0
-#endif
+#اگر config_MAX_API_CALL_مداخلت_ترجیح == 0
+    #غلطی config_MAX_API_CALL_مداخلت_ترجیح must not be سیٹ مقصد 0
+#اگر_ختم
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_PRIORITIES as the lower the numeric priority value the higher the logical interrupt priority
-#endif
+#اگر config_MAX_API_CALL_مداخلت_ترجیح > config_UNIQUE_مداخلت_PRIORITIES
+    #غلطی config_MAX_API_CALL_مداخلت_ترجیح must be less than or equal مقصد config_UNIQUE_مداخلت_PRIORITIES as the زیریں the numeric ترجیح قدر the higher the logical مداخلت ترجیح
+#اگر_ختم
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#اگر config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #اگر ( configMAX_PRIORITIES > 32 )
+        #غلطی config_USE_پورٹ_OPTIMISED_TASK_SELECTION can only be سیٹ مقصد 1 when configMAX_PRIORITIES is less than or equal مقصد 32.  It is very rare that a system requires مزید than 10 مقصد 15 difference priorities as tasks that share a ترجیح will time قاش.
+    #اگر_ختم
+#اگر_ختم /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* In case security extensions are implemented. */
-#if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
-    #error configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
-#endif
+#اگر config_MAX_API_CALL_مداخلت_ترجیح <= ( config_UNIQUE_مداخلت_PRIORITIES / 2 )
+    #غلطی config_MAX_API_CALL_مداخلت_ترجیح must be greater than ( config_UNIQUE_مداخلت_PRIORITIES / 2 )
+#اگر_ختم
 
 /*
  * __ARM_FP is defined by the c preprocessor when FPU support is enabled,
@@ -83,35 +83,35 @@
  *       When setting configUSE_TASK_FPU_SUPPORT == 1, care must be taken to
  *       ensure that the FPU registers are not used without an FPU context.
  */
-#if ( configUSE_TASK_FPU_SUPPORT == 0 )
-    #ifdef __ARM_FP
-        #error __ARM_FP is defined, so configUSE_TASK_FPU_SUPPORT must be set to either to 1 or 2.
-    #endif /* __ARM_FP */
-#elif ( configUSE_TASK_FPU_SUPPORT == 1 ) || ( configUSE_TASK_FPU_SUPPORT == 2 )
-    #ifndef __ARM_FP
-        #error __ARM_FP is not defined, so configUSE_TASK_FPU_SUPPORT must be set to 0.
-    #endif /* __ARM_FP */
-#endif /* configUSE_TASK_FPU_SUPPORT */
+#اگر ( configUSE_TASK_FPU_SUPPORT == 0 )
+    #اگر_تعریف_شدہ __ARM_FP
+        #غلطی __ARM_FP is defined, so configUSE_TASK_FPU_SUPPORT must be سیٹ مقصد either مقصد 1 or 2.
+    #اگر_ختم /* __ARM_FP */
+#وگرنہ_اگر ( configUSE_TASK_FPU_SUPPORT == 1 ) || ( configUSE_TASK_FPU_SUPPORT == 2 )
+    #اگر_غیر_تعریف_شدہ __ARM_FP
+        #غلطی __ARM_FP is not defined, so configUSE_TASK_FPU_SUPPORT must be سیٹ مقصد 0.
+    #اگر_ختم /* __ARM_FP */
+#اگر_ختم /* configUSE_TASK_FPU_SUPPORT */
 
 /*
  * Some vendor specific files default configCLEAR_TICK_INTERRUPT() in
  * portmacro.h.
  */
-#ifndef configCLEAR_TICK_INTERRUPT
-    #define configCLEAR_TICK_INTERRUPT()
-#endif
+#اگر_غیر_تعریف_شدہ config_CLEAR_TICK_مداخلت
+    #تعریف_کرو config_CLEAR_TICK_مداخلت()
+#اگر_ختم
 
 /*
  * A critical section is exited when the critical section nesting count reaches
  * this value.
  */
-#define portNO_CRITICAL_NESTING          ( ( uint32_t ) 0 )
+#تعریف_کرو پورٹ_NO_CRITICAL_NESTING          ( ( uint32_t ) 0 )
 
 /*
  * In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority.
  */
-#define portUNMASK_VALUE                 ( 0xFFUL )
+#تعریف_کرو پورٹ_UNMASK_قدر                 ( 0xFFUL )
 
 /*
  * Tasks are not created with a floating point context, but can be given a
@@ -120,67 +120,67 @@
  * does not have an FPU context, or any other value if the task does have an FPU
  * context.
  */
-#define portNO_FLOATING_POINT_CONTEXT    ( ( StackType_t ) 0 )
+#تعریف_کرو پورٹ_NO_FLOATING_نقطہ_CONTEXT    ( ( ڈھیر_Type_t ) 0 )
 
 /* Constants required to setup the initial task context. */
-#define portINITIAL_SPSR                 ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enabled. */
-#define portTHUMB_MODE_BIT               ( ( StackType_t ) 0x20 )
-#define portINTERRUPT_ENABLE_BIT         ( 0x80UL )
-#define portTHUMB_MODE_ADDRESS           ( 0x01UL )
+#تعریف_کرو پورٹ_INITIAL_SPSR                 ( ( ڈھیر_Type_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enabled. */
+#تعریف_کرو پورٹ_THUMB_منوال_ثنائی_ہندسہ               ( ( ڈھیر_Type_t ) 0x20 )
+#تعریف_کرو پورٹ_مداخلت_ENABLE_ثنائی_ہندسہ         ( 0x80UL )
+#تعریف_کرو پورٹ_THUMB_منوال_پتہ           ( 0x01UL )
 
 /*
  * Used by portASSERT_IF_INTERRUPT_PRIORITY_INVALID() when ensuring the binary
  * point is zero.
  */
-#define portBINARY_POINT_BITS            ( ( uint8_t ) 0x03 )
+#تعریف_کرو پورٹ_ثنائی_نقطہ_بٹ            ( ( uint8_t ) 0x03 )
 
 /* Masks all bits in the APSR other than the mode bits. */
-#define portAPSR_MODE_BITS_MASK          ( 0x1F )
+#تعریف_کرو پورٹ_APSR_منوال_بٹ_نقاب          ( 0x1F )
 
 /* The value of the mode bits in the APSR when the CPU is executing in user
  * mode. */
-#define portAPSR_USER_MODE               ( 0x10 )
+#تعریف_کرو پورٹ_APSR_USER_منوال               ( 0x10 )
 
 /* The critical section macros only mask interrupts up to an application
  * determined priority level.  Sometimes it is necessary to turn interrupt off in
  * the CPU itself before modifying certain hardware registers. */
-#define portCPU_IRQ_DISABLE()                  \
-    __asm volatile ( "CPSID i" ::: "memory" ); \
-    __asm volatile ( "DSB" );                  \
-    __asm volatile ( "ISB" );
+#تعریف_کرو پورٹ_CPU_IRQ_DISABLE()                  \
+    __asm متلون ( "CPSID i" ::: "memory" ); \
+    __asm متلون ( "DSB" );                  \
+    __asm متلون ( "ISB" );
 
-#define portCPU_IRQ_ENABLE()                   \
-    __asm volatile ( "CPSIE i" ::: "memory" ); \
-    __asm volatile ( "DSB" );                  \
-    __asm volatile ( "ISB" );
+#تعریف_کرو پورٹ_CPU_IRQ_ENABLE()                   \
+    __asm متلون ( "CPSIE i" ::: "memory" ); \
+    __asm متلون ( "DSB" );                  \
+    __asm متلون ( "ISB" );
 
 
 /* Macro to unmask all interrupt priorities. */
-#define portCLEAR_INTERRUPT_MASK()                            \
+#تعریف_کرو پورٹ_CLEAR_مداخلت_نقاب()                            \
     {                                                         \
-        portCPU_IRQ_DISABLE();                                \
-        portICCPMR_PRIORITY_MASK_REGISTER = portUNMASK_VALUE; \
-        __asm volatile ( "DSB       \n"                       \
+        پورٹ_CPU_IRQ_DISABLE();                                \
+        پورٹ_ICCPMR_ترجیح_نقاب_رجسٹر = پورٹ_UNMASK_قدر; \
+        __asm متلون ( "DSB       \n"                       \
                          "ISB       \n" );                    \
-        portCPU_IRQ_ENABLE();                                 \
+        پورٹ_CPU_IRQ_ENABLE();                                 \
     }
 
-#define portINTERRUPT_PRIORITY_REGISTER_OFFSET    0x400UL
-#define portMAX_8_BIT_VALUE                       ( ( uint8_t ) 0xff )
-#define portBIT_0_SET                             ( ( uint8_t ) 0x01 )
+#تعریف_کرو پورٹ_مداخلت_ترجیح_رجسٹر_انحراف    0x400UL
+#تعریف_کرو پورٹ_MAX_8_ثنائی_ہندسہ_قدر                       ( ( uint8_t ) 0xff )
+#تعریف_کرو پورٹ_ثنائی_ہندسہ_0_سیٹ                             ( ( uint8_t ) 0x01 )
 
 /*
  * Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case is messes up unwinding of the stack in the
  * debugger.
  */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#اگر_تعریف_شدہ config_TASK_RETURN_پتہ
+    #تعریف_کرو پورٹ_TASK_RETURN_پتہ    config_TASK_RETURN_پتہ
+#ورنہ
+    #تعریف_کرو پورٹ_TASK_RETURN_پتہ    prvTaskExitError
+#اگر_ختم
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#اگر ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * The space on the stack required to hold the FPU registers.
@@ -193,8 +193,8 @@
  * the size of the bank remains the same. The FPU has also a 32-bit
  * status register.
  */
-    #define portFPU_REGISTER_WORDS    ( ( 16 * 2 ) + 1 )
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+    #تعریف_کرو پورٹ_FPU_رجسٹر_الفاظ    ( ( 16 * 2 ) + 1 )
+#اگر_ختم /* configUSE_TASK_FPU_SUPPORT != 0 */
 
 /*-----------------------------------------------------------*/
 
@@ -202,14 +202,14 @@
  * Starts the first task executing.  This function is necessarily written in
  * assembly code so is implemented in portASM.s.
  */
-extern void vPortRestoreTaskContext( void );
+خارجی خالی v_پورٹ_Restore_Task_Context( خالی );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ساکن خالی prvTaskExitError( خالی );
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#اگر ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * If the application provides an implementation of vApplicationIRQHandler(),
@@ -230,8 +230,8 @@ static void prvTaskExitError( void );
  * FPU registers to be saved on interrupt entry their IRQ handler must be
  * called vApplicationIRQHandler().
  */
-    void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) __attribute__( ( weak ) );
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+    خالی vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) __attribute__( ( weak ) );
+#اگر_ختم /* configUSE_TASK_FPU_SUPPORT != 0 */
 
 /*-----------------------------------------------------------*/
 
@@ -242,40 +242,40 @@ static void prvTaskExitError( void );
  * the scheduler starts.  As it is stored as part of the task context it will
  * automatically be set to 0 when the first task is started.
  */
-volatile uint32_t ulCriticalNesting = 9999UL;
+متلون uint32_t ulCriticalNesting = 9999UL;
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#اگر ( configUSE_TASK_FPU_SUPPORT != 0 )
 
 /*
  * Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
  * a floating point context must be saved and restored for the task.
  */
-    uint32_t ulPortTaskHasFPUContext = pdFALSE;
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+    uint32_t ul_پورٹ_Task_Has_FPUContext = pdFALSE;
+#اگر_ختم /* configUSE_TASK_FPU_SUPPORT != 0 */
 
 /* Set to 1 to pend a context switch from an ISR. */
-uint32_t ulPortYieldRequired = pdFALSE;
+uint32_t ul_پورٹ_Yield_Required = pdFALSE;
 
 /*
  * Counts the interrupt nesting depth.  A context switch is only performed if
  * if the nesting depth is 0.
  */
-uint32_t ulPortInterruptNesting = 0UL;
+uint32_t ul_پورٹ_مداخلت_Nesting = 0UL;
 
 /* Used in asm code. */
-__attribute__( ( used ) ) const uint32_t ulICCIAR = portICCIAR_INTERRUPT_ACKNOWLEDGE_REGISTER_ADDRESS;
-__attribute__( ( used ) ) const uint32_t ulICCEOIR = portICCEOIR_END_OF_INTERRUPT_REGISTER_ADDRESS;
-__attribute__( ( used ) ) const uint32_t ulICCPMR = portICCPMR_PRIORITY_MASK_REGISTER_ADDRESS;
-__attribute__( ( used ) ) const uint32_t ulMaxAPIPriorityMask = ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
+__attribute__( ( مستعمل ) ) ثابت uint32_t ulICCIAR = پورٹ_ICCIAR_مداخلت_ACKNOWLEDGE_رجسٹر_پتہ;
+__attribute__( ( مستعمل ) ) ثابت uint32_t ulICCEOIR = پورٹ_ICCEOIR_انتہا_کا_مداخلت_رجسٹر_پتہ;
+__attribute__( ( مستعمل ) ) ثابت uint32_t ulICCPMR = پورٹ_ICCPMR_ترجیح_نقاب_رجسٹر_پتہ;
+__attribute__( ( مستعمل ) ) ثابت uint32_t ul_Max_APIPriority_نقاب = ( config_MAX_API_CALL_مداخلت_ترجیح << پورٹ_ترجیح_سرکاؤ );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_کا_ڈھیر,
+                                     TaskFunction_t px_رمز,
+                                     خالی * pvParameters )
 {
     /*
      * Setup the initial stack of the task.  The stack is set exactly as
@@ -285,63 +285,63 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address.
      */
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) تہی;
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) تہی;
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) تہی;
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) پورٹ_INITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    اگر( ( ( uint32_t ) px_رمز & پورٹ_THUMB_منوال_پتہ ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_چوٹی_کا_ڈھیر |= پورٹ_THUMB_منوال_ثنائی_ہندسہ;
     }
 
-    pxTopOfStack--;
+    px_چوٹی_کا_ڈھیر--;
 
     /* Next the return address, which in this case is the start of the task. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) px_رمز;
+    px_چوٹی_کا_ڈھیر--;
 
     /* Next all the registers other than the stack pointer. */
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;              /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;              /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;              /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;              /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;              /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;              /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;              /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;              /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;              /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;              /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;              /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;              /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0 */
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) پورٹ_TASK_RETURN_پتہ; /* R14 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x12121212;              /* R12 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x11111111;              /* R11 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x10101010;              /* R10 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x09090909;              /* R9 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x08080808;              /* R8 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x07070707;              /* R7 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x06060606;              /* R6 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x05050505;              /* R5 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x04040404;              /* R4 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x03030303;              /* R3 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x02020202;              /* R2 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x01010101;              /* R1 */
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) pvParameters;            /* R0 */
 
     /*
      * The task will start with a critical nesting count of 0 as interrupts are
      * enabled.
      */
-    pxTopOfStack--;
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
+    px_چوٹی_کا_ڈھیر--;
+    *px_چوٹی_کا_ڈھیر = پورٹ_NO_CRITICAL_NESTING;
 
-    #if ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #اگر ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /*
          * The task will start without a floating point context.
@@ -349,33 +349,33 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * vPortTaskUsesFPU() before executing any floating point
          * instructions.
          */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+        px_چوٹی_کا_ڈھیر--;
+        *px_چوٹی_کا_ڈھیر = پورٹ_NO_FLOATING_نقطہ_CONTEXT;
     }
-    #elif ( configUSE_TASK_FPU_SUPPORT == 2 )
+    #وگرنہ_اگر ( configUSE_TASK_FPU_SUPPORT == 2 )
     {
         /*
          * The task will start with a floating point context. Leave enough
          * space for the registers and ensure they are initialized to 0.
          */
-        pxTopOfStack -= portFPU_REGISTER_WORDS;
-        memset( pxTopOfStack, 0x00, portFPU_REGISTER_WORDS * sizeof( StackType_t ) );
+        px_چوٹی_کا_ڈھیر -= پورٹ_FPU_رجسٹر_الفاظ;
+        memset( px_چوٹی_کا_ڈھیر, 0x00, پورٹ_FPU_رجسٹر_الفاظ * حجم( ڈھیر_Type_t ) );
 
-        pxTopOfStack--;
-        *pxTopOfStack = pdTRUE;
-        ulPortTaskHasFPUContext = pdTRUE;
+        px_چوٹی_کا_ڈھیر--;
+        *px_چوٹی_کا_ڈھیر = pdTRUE;
+        ul_پورٹ_Task_Has_FPUContext = pdTRUE;
     }
-    #elif ( configUSE_TASK_FPU_SUPPORT != 0 )
+    #وگرنہ_اگر ( configUSE_TASK_FPU_SUPPORT != 0 )
     {
-        #error Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be set to 0, 1, or 2.
+        #غلطی Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be سیٹ مقصد 0, 1, or 2.
     }
-    #endif /* configUSE_TASK_FPU_SUPPORT */
+    #اگر_ختم /* configUSE_TASK_FPU_SUPPORT */
 
-    return pxTopOfStack;
+    واپس px_چوٹی_کا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساکن خالی prvTaskExitError( خالی )
 {
     /*
      * A function that implements a task must not exit or attempt to return to
@@ -385,65 +385,65 @@ static void prvTaskExitError( void )
      * Artificially force an assert() to be triggered if configASSERT() is
      * defined, then stop here so application writers can catch the error.
      */
-    configASSERT( ulPortInterruptNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    configASSERT( ul_پورٹ_مداخلت_Nesting == ~0UL );
+    پورٹ_DISABLE_INTERRUPTS();
 
-    for( ; ; )
+    برائے( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT != 0 )
+#اگر ( configUSE_TASK_FPU_SUPPORT != 0 )
 
-    void vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) /* __attribute__( ( weak ) ) */
+    خالی vApplicationFPUSafeIRQHandler( uint32_t ulICCIAR ) /* __attribute__( ( weak ) ) */
     {
-        ( void ) ulICCIAR;
-        configASSERT( ( volatile void * ) NULL );
+        ( خالی ) ulICCIAR;
+        configASSERT( ( متلون خالی * ) تہی );
     }
 
-#endif /* configUSE_TASK_FPU_SUPPORT != 0 */
+#اگر_ختم /* configUSE_TASK_FPU_SUPPORT != 0 */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنیاد_Type_t x_پورٹ_آغاز_Scheduler( خالی )
 {
-    uint32_t ulAPSR, ulCycles = 8; /* 8 bits per byte. */
+    uint32_t ulAPSR, ul_ادوار = 8; /* 8 bits per byte. */
 
-    #if ( configASSERT_DEFINED == 1 )
+    #اگر ( configASSERT_DEFINED == 1 )
     {
-        volatile uint8_t ucOriginalPriority;
-        volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( configINTERRUPT_CONTROLLER_BASE_ADDRESS + portINTERRUPT_PRIORITY_REGISTER_OFFSET );
-        volatile uint8_t ucMaxPriorityValue;
+        متلون uint8_t uc_Original_ترجیح;
+        متلون uint8_t * ثابت puc_پہلا_User_ترجیح_رجسٹر = ( متلون uint8_t * ثابت ) ( config_مداخلت_CONTROLLER_بنیاد_پتہ + پورٹ_مداخلت_ترجیح_رجسٹر_انحراف );
+        متلون uint8_t uc_Max_ترجیح_قدر;
 
         /*
          * Determine how many priority bits are implemented in the GIC.
          * Save the interrupt priority value that is about to be clobbered.
          */
-        ucOriginalPriority = *pucFirstUserPriorityRegister;
+        uc_Original_ترجیح = *puc_پہلا_User_ترجیح_رجسٹر;
 
         /*
          * Determine the number of priority bits available.  First write to
          * all possible bits.
          */
-        *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+        *puc_پہلا_User_ترجیح_رجسٹر = پورٹ_MAX_8_ثنائی_ہندسہ_قدر;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+        uc_Max_ترجیح_قدر = *puc_پہلا_User_ترجیح_رجسٹر;
 
         /* Shift to the least significant bits. */
-        while( ( ucMaxPriorityValue & portBIT_0_SET ) != portBIT_0_SET )
+        جب( ( uc_Max_ترجیح_قدر & پورٹ_ثنائی_ہندسہ_0_سیٹ ) != پورٹ_ثنائی_ہندسہ_0_سیٹ )
         {
-            ucMaxPriorityValue >>= ( uint8_t ) 0x01;
+            uc_Max_ترجیح_قدر >>= ( uint8_t ) 0x01;
 
             /*
              * If ulCycles reaches 0 then ucMaxPriorityValue must have been
              * read as 0, indicating a misconfiguration.
              */
-            ulCycles--;
+            ul_ادوار--;
 
-            if( ulCycles == 0 )
+            اگر( ul_ادوار == 0 )
             {
-                break;
+                توڑو;
             }
         }
 
@@ -451,34 +451,34 @@ BaseType_t xPortStartScheduler( void )
          * Sanity check configUNIQUE_INTERRUPT_PRIORITIES matches the read
          * value.
          */
-        configASSERT( ucMaxPriorityValue == portLOWEST_INTERRUPT_PRIORITY );
+        configASSERT( uc_Max_ترجیح_قدر == پورٹ_سب_سے_نیچا_مداخلت_ترجیح );
 
         /*
          * Restore the clobbered interrupt priority register to its original
          * value.
          */
-        *pucFirstUserPriorityRegister = ucOriginalPriority;
+        *puc_پہلا_User_ترجیح_رجسٹر = uc_Original_ترجیح;
     }
-    #endif /* configASSERT_DEFINED */
+    #اگر_ختم /* configASSERT_DEFINED */
 
     /*
      * Only continue if the CPU is not in User mode.  The CPU must be in a
      * Privileged mode for the scheduler to start.
      */
-    __asm volatile ( "MRS %0, APSR" : "=r" ( ulAPSR )::"memory" );
-    ulAPSR &= portAPSR_MODE_BITS_MASK;
-    configASSERT( ulAPSR != portAPSR_USER_MODE );
+    __asm متلون ( "MRS %0, APSR" : "=r" ( ulAPSR )::"memory" );
+    ulAPSR &= پورٹ_APSR_منوال_بٹ_نقاب;
+    configASSERT( ulAPSR != پورٹ_APSR_USER_منوال );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    اگر( ulAPSR != پورٹ_APSR_USER_منوال )
     {
         /*
          * Only continue if the binary point value is set to its lowest possible
          * setting.  See the comments in vPortValidateInterruptPriority() below for
          * more information.
          */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( پورٹ_ICCBPR_ثنائی_نقطہ_رجسٹر & پورٹ_ثنائی_نقطہ_بٹ ) <= پورٹ_MAX_ثنائی_نقطہ_قدر );
 
-        if( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE )
+        اگر( ( پورٹ_ICCBPR_ثنائی_نقطہ_رجسٹر & پورٹ_ثنائی_نقطہ_بٹ ) <= پورٹ_MAX_ثنائی_نقطہ_قدر )
         {
             /*
              * Interrupts are turned off in the CPU itself to ensure tick does
@@ -486,13 +486,13 @@ BaseType_t xPortStartScheduler( void )
              * automatically turned back on in the CPU when the first task starts
              * executing.
              */
-            portCPU_IRQ_DISABLE();
+            پورٹ_CPU_IRQ_DISABLE();
 
             /* Start the timer that generates the tick ISR. */
-            configSETUP_TICK_INTERRUPT();
+            config_تیاری_TICK_مداخلت();
 
             /* Start the first task executing. */
-            vPortRestoreTaskContext();
+            v_پورٹ_Restore_Task_Context();
         }
     }
 
@@ -503,13 +503,13 @@ BaseType_t xPortStartScheduler( void )
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address.
      */
-    ( void ) prvTaskExitError;
+    ( خالی ) prvTaskExitError;
 
-    return 0;
+    واپس 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+خالی v_پورٹ_انتہا_Scheduler( خالی )
 {
     /*
      * Not implemented in ports where there is nothing to return to.
@@ -519,10 +519,10 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+خالی v_پورٹ_Enter_Critical( خالی )
 {
     /* Mask interrupts up to the max syscall interrupt priority. */
-    ulPortSetInterruptMask();
+    ul_پورٹ_سیٹ_مداخلت_نقاب();
 
     /*
      * Now that interrupts are disabled, ulCriticalNesting can be accessed
@@ -538,16 +538,16 @@ void vPortEnterCritical( void )
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section.
      */
-    if( ulCriticalNesting == 1 )
+    اگر( ulCriticalNesting == 1 )
     {
-        configASSERT( ulPortInterruptNesting == 0 );
+        configASSERT( ul_پورٹ_مداخلت_Nesting == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+خالی v_پورٹ_Exit_Critical( خالی )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    اگر( ulCriticalNesting > پورٹ_NO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being exited. */
         ulCriticalNesting--;
@@ -556,19 +556,19 @@ void vPortExitCritical( void )
          * If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled.
          */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        اگر( ulCriticalNesting == پورٹ_NO_CRITICAL_NESTING )
         {
             /*
              * Critical nesting has reached zero so all interrupt priorities
              * should be unmasked.
              */
-            portCLEAR_INTERRUPT_MASK();
+            پورٹ_CLEAR_مداخلت_نقاب();
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void FreeRTOS_Tick_Handler( void )
+خالی FreeRTOS_Tick_Handler( خالی )
 {
     /*
      * Set interrupt mask before altering scheduler structures.   The tick
@@ -577,27 +577,27 @@ void FreeRTOS_Tick_Handler( void )
      * necessary to turn off interrupts in the CPU itself while the ICCPMR is being
      * updated.
      */
-    portCPU_IRQ_DISABLE();
-    portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
-    __asm volatile ( "dsb       \n"
+    پورٹ_CPU_IRQ_DISABLE();
+    پورٹ_ICCPMR_ترجیح_نقاب_رجسٹر = ( uint32_t ) ( config_MAX_API_CALL_مداخلت_ترجیح << پورٹ_ترجیح_سرکاؤ );
+    __asm متلون ( "dsb       \n"
                      "isb       \n" ::: "memory" );
-    portCPU_IRQ_ENABLE();
+    پورٹ_CPU_IRQ_ENABLE();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    اگر( xTaskIncrementTick() != pdFALSE )
     {
-        ulPortYieldRequired = pdTRUE;
+        ul_پورٹ_Yield_Required = pdTRUE;
     }
 
     /* Ensure all interrupt priorities are active again. */
-    portCLEAR_INTERRUPT_MASK();
-    configCLEAR_TICK_INTERRUPT();
+    پورٹ_CLEAR_مداخلت_نقاب();
+    config_CLEAR_TICK_مداخلت();
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT == 1 )
+#اگر ( configUSE_TASK_FPU_SUPPORT == 1 )
 
-    void vPortTaskUsesFPU( void )
+    خالی v_پورٹ_Task_استعمال_کرتا_FPU( خالی )
     {
         uint32_t ulInitialFPSCR = 0;
 
@@ -605,53 +605,53 @@ void FreeRTOS_Tick_Handler( void )
          * A task is registering the fact that it needs an FPU context. Set the
          * FPU flag (which is saved as part of the task context).
          */
-        ulPortTaskHasFPUContext = pdTRUE;
+        ul_پورٹ_Task_Has_FPUContext = pdTRUE;
 
         /* Initialise the floating point status register. */
-        __asm volatile ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) : "memory" );
+        __asm متلون ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) : "memory" );
     }
 
-#endif /* configUSE_TASK_FPU_SUPPORT == 1 */
+#اگر_ختم /* configUSE_TASK_FPU_SUPPORT == 1 */
 /*-----------------------------------------------------------*/
 
-void vPortClearInterruptMask( uint32_t ulNewMaskValue )
+خالی v_پورٹ_Clear_مداخلت_نقاب( uint32_t ul_New_نقاب_قدر )
 {
-    if( ulNewMaskValue == pdFALSE )
+    اگر( ul_New_نقاب_قدر == pdFALSE )
     {
-        portCLEAR_INTERRUPT_MASK();
+        پورٹ_CLEAR_مداخلت_نقاب();
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortSetInterruptMask( void )
+uint32_t ul_پورٹ_سیٹ_مداخلت_نقاب( خالی )
 {
     uint32_t ulReturn;
 
     /* Interrupts must be masked while ICCPMR is updated. */
-    portCPU_IRQ_DISABLE();
+    پورٹ_CPU_IRQ_DISABLE();
 
-    if( portICCPMR_PRIORITY_MASK_REGISTER == ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
+    اگر( پورٹ_ICCPMR_ترجیح_نقاب_رجسٹر == ( uint32_t ) ( config_MAX_API_CALL_مداخلت_ترجیح << پورٹ_ترجیح_سرکاؤ ) )
     {
         /* Interrupts were already masked. */
         ulReturn = pdTRUE;
     }
-    else
+    ورنہ
     {
         ulReturn = pdFALSE;
-        portICCPMR_PRIORITY_MASK_REGISTER = ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT );
-        __asm volatile ( "dsb       \n"
+        پورٹ_ICCPMR_ترجیح_نقاب_رجسٹر = ( uint32_t ) ( config_MAX_API_CALL_مداخلت_ترجیح << پورٹ_ترجیح_سرکاؤ );
+        __asm متلون ( "dsb       \n"
                          "isb       \n" ::: "memory" );
     }
 
-    portCPU_IRQ_ENABLE();
+    پورٹ_CPU_IRQ_ENABLE();
 
-    return ulReturn;
+    واپس ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#اگر ( configASSERT_DEFINED == 1 )
 
-    void vPortValidateInterruptPriority( void )
+    خالی v_پورٹ_Validate_مداخلت_ترجیح( خالی )
     {
         /*
          * The following assertion will fail if a service routine (ISR) for
@@ -670,7 +670,7 @@ uint32_t ulPortSetInterruptMask( void )
          * interrupt entry is as fast and simple as possible.
          */
 
-        configASSERT( portICCRPR_RUNNING_PRIORITY_REGISTER >= ( uint32_t ) ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) );
+        configASSERT( پورٹ_ICCRPR_RUNNING_ترجیح_رجسٹر >= ( uint32_t ) ( config_MAX_API_CALL_مداخلت_ترجیح << پورٹ_ترجیح_سرکاؤ ) );
 
         /*
          * Priority grouping:  The interrupt controller (GIC) allows the bits
@@ -684,8 +684,8 @@ uint32_t ulPortSetInterruptMask( void )
          * (ICCBPR).  Writing 0 to ICCBPR will ensure it is set to its lowest
          * possible value (which may be above 0).
          */
-        configASSERT( ( portICCBPR_BINARY_POINT_REGISTER & portBINARY_POINT_BITS ) <= portMAX_BINARY_POINT_VALUE );
+        configASSERT( ( پورٹ_ICCBPR_ثنائی_نقطہ_رجسٹر & پورٹ_ثنائی_نقطہ_بٹ ) <= پورٹ_MAX_ثنائی_نقطہ_قدر );
     }
 
-#endif /* configASSERT_DEFINED */
+#اگر_ختم /* configASSERT_DEFINED */
 /*-----------------------------------------------------------*/

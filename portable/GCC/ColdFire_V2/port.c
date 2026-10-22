@@ -27,107 +27,107 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
-#define portINITIAL_FORMAT_VECTOR      ( ( StackType_t ) 0x4000 )
+#تعریف_کرو پورٹ_INITIAL_FORMAT_سمتیہ      ( ( ڈھیر_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER    ( ( StackType_t ) 0x2000 )
+#تعریف_کرو پورٹ_INITIAL_حالت_رجسٹر    ( ( ڈھیر_Type_t ) 0x2000 )
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+ساکن uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_کا_ڈھیر,
+                                     TaskFunction_t px_رمز,
+                                     خالی * pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) pvParameters;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = ( StackType_t ) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0xDEADBEEF;
+    px_چوٹی_کا_ڈھیر--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) px_رمز;
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_چوٹی_کا_ڈھیر = ( پورٹ_INITIAL_FORMAT_سمتیہ << 16UL ) | ( پورٹ_INITIAL_حالت_رجسٹر );
+    px_چوٹی_کا_ڈھیر--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14;                  /* A5 to D0. */
+    *px_چوٹی_کا_ڈھیر = ( ڈھیر_Type_t ) 0x0; /*FP*/
+    px_چوٹی_کا_ڈھیر -= 14;                  /* A5 to D0. */
 
-    return pxTopOfStack;
+    واپس px_چوٹی_کا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنیاد_Type_t x_پورٹ_آغاز_Scheduler( خالی )
 {
-    extern void vPortStartFirstTask( void );
+    خارجی خالی v_پورٹ_آغاز_پہلا_Task( خالی );
 
     ulCriticalNesting = 0UL;
 
     /* Configure the interrupts used by this port. */
-    vApplicationSetupInterrupts();
+    v_Application_تیاری_Interrupts();
 
     /* Start the first task executing. */
-    vPortStartFirstTask();
+    v_پورٹ_آغاز_پہلا_Task();
 
-    return pdFALSE;
+    واپس pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+خالی v_پورٹ_انتہا_Scheduler( خالی )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+خالی v_پورٹ_Enter_Critical( خالی )
 {
-    if( ulCriticalNesting == 0UL )
+    اگر( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
          * critical section being entered. */
-        do
+        کرو
         {
-            portDISABLE_INTERRUPTS();
+            پورٹ_DISABLE_INTERRUPTS();
 
-            if( MCF_INTC0_INTFRCL == 0UL )
+            اگر( MCF_INTC0_INTFRCL == 0UL )
             {
-                break;
+                توڑو;
             }
 
-            portENABLE_INTERRUPTS();
-        } while( 1 );
+            پورٹ_ENABLE_INTERRUPTS();
+        } جب( 1 );
     }
 
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+خالی v_پورٹ_Exit_Critical( خالی )
 {
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    اگر( ulCriticalNesting == 0 )
     {
-        portENABLE_INTERRUPTS();
+        پورٹ_ENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+خالی v_پورٹ_Yield_Handler( خالی )
 {
-    uint32_t ulSavedInterruptMask;
+    uint32_t ul_Saved_مداخلت_نقاب;
 
-    ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
+    ul_Saved_مداخلت_نقاب = پورٹ_سیٹ_مداخلت_نقاب_FROM_ISR();
     /* Note this will clear all forced interrupts - this is done for speed. */
     MCF_INTC0_INTFRCL = 0;
     vTaskSwitchContext();
-    portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
+    پورٹ_CLEAR_مداخلت_نقاب_FROM_ISR( ul_Saved_مداخلت_نقاب );
 }

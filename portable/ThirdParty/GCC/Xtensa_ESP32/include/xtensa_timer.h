@@ -47,19 +47,19 @@
 *
 *******************************************************************************/
 
-#ifndef XTENSA_TIMER_H
-#define XTENSA_TIMER_H
+#اگر_غیر_تعریف_شدہ XTENSA_TIMER_H
+#تعریف_کرو XTENSA_TIMER_H
 
-#ifdef __ASSEMBLER__
-    #include    <xtensa/coreasm.h>
-#endif
+#اگر_تعریف_شدہ __ASSEMBLER__
+    #شامل    <xtensa/coreasm.h>
+#اگر_ختم
 
-#include    <xtensa/corebits.h>
-#include    <xtensa/config/system.h>
+#شامل    <xtensa/corebits.h>
+#شامل    <xtensa/config/system.h>
 
-#include    "xtensa_rtos.h" /* in case this wasn't included directly */
+#شامل    "xtensa_rtos.h" /* in case this wasn't included directly */
 
-#include    "FreeRTOSConfig.h"
+#شامل    "FreeRTOSConfig.h"
 
 /*
  * Select timer to use for periodic tick, and determine its interrupt number
@@ -68,54 +68,54 @@
  * not be on a high priority interrupt - an error will be reported in invalid).
  * Otherwise select the first low or medium priority interrupt timer available.
  */
-#if XCHAL_NUM_TIMERS == 0
+#اگر XCHAL_عدد_TIMERS == 0
 
-    #error "This Xtensa configuration is unsupported, it has no timers."
+    #غلطی "This Xtensa configuration is unsupported, it has no timers."
 
-#else
+#ورنہ
 
-    #ifndef XT_TIMER_INDEX
-        #if XCHAL_TIMER3_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER3_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    3
-            #endif
-        #endif
-        #if XCHAL_TIMER2_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER2_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    2
-            #endif
-        #endif
-        #if XCHAL_TIMER1_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER1_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    1
-            #endif
-        #endif
-        #if XCHAL_TIMER0_INTERRUPT != XTHAL_TIMER_UNCONFIGURED
-            #if XCHAL_INT_LEVEL( XCHAL_TIMER0_INTERRUPT ) <= XCHAL_EXCM_LEVEL
-                #undef  XT_TIMER_INDEX
-                #define XT_TIMER_INDEX    0
-            #endif
-        #endif
-    #endif /* ifndef XT_TIMER_INDEX */
-    #ifndef XT_TIMER_INDEX
-        #error "There is no suitable timer in this Xtensa configuration."
-    #endif
+    #اگر_غیر_تعریف_شدہ XT_TIMER_اشاریہ
+        #اگر XCHAL_TIMER3_مداخلت != XTHAL_TIMER_UNCONFIGURED
+            #اگر XCHAL_INT_LEVEL( XCHAL_TIMER3_مداخلت ) <= XCHAL_EXCM_LEVEL
+                #تعریف_منسوخ  XT_TIMER_اشاریہ
+                #تعریف_کرو XT_TIMER_اشاریہ    3
+            #اگر_ختم
+        #اگر_ختم
+        #اگر XCHAL_TIMER2_مداخلت != XTHAL_TIMER_UNCONFIGURED
+            #اگر XCHAL_INT_LEVEL( XCHAL_TIMER2_مداخلت ) <= XCHAL_EXCM_LEVEL
+                #تعریف_منسوخ  XT_TIMER_اشاریہ
+                #تعریف_کرو XT_TIMER_اشاریہ    2
+            #اگر_ختم
+        #اگر_ختم
+        #اگر XCHAL_TIMER1_مداخلت != XTHAL_TIMER_UNCONFIGURED
+            #اگر XCHAL_INT_LEVEL( XCHAL_TIMER1_مداخلت ) <= XCHAL_EXCM_LEVEL
+                #تعریف_منسوخ  XT_TIMER_اشاریہ
+                #تعریف_کرو XT_TIMER_اشاریہ    1
+            #اگر_ختم
+        #اگر_ختم
+        #اگر XCHAL_TIMER0_مداخلت != XTHAL_TIMER_UNCONFIGURED
+            #اگر XCHAL_INT_LEVEL( XCHAL_TIMER0_مداخلت ) <= XCHAL_EXCM_LEVEL
+                #تعریف_منسوخ  XT_TIMER_اشاریہ
+                #تعریف_کرو XT_TIMER_اشاریہ    0
+            #اگر_ختم
+        #اگر_ختم
+    #اگر_ختم /* ifndef XT_TIMER_INDEX */
+    #اگر_غیر_تعریف_شدہ XT_TIMER_اشاریہ
+        #غلطی "There is no suitable timer in this Xtensa configuration."
+    #اگر_ختم
 
-    #define XT_CCOMPARE        ( CCOMPARE + XT_TIMER_INDEX )
-    #define XT_TIMER_INTNUM    XCHAL_TIMER_INTERRUPT( XT_TIMER_INDEX )
-    #define XT_TIMER_INTPRI    XCHAL_INT_LEVEL( XT_TIMER_INTNUM )
-    #define XT_TIMER_INTEN     ( 1 << XT_TIMER_INTNUM )
+    #تعریف_کرو XT_CCOMPARE        ( CCOMPARE + XT_TIMER_اشاریہ )
+    #تعریف_کرو XT_TIMER_INTNUM    XCHAL_TIMER_مداخلت( XT_TIMER_اشاریہ )
+    #تعریف_کرو XT_TIMER_INTPRI    XCHAL_INT_LEVEL( XT_TIMER_INTNUM )
+    #تعریف_کرو XT_TIMER_INTEN     ( 1 << XT_TIMER_INTNUM )
 
-    #if XT_TIMER_INTNUM == XTHAL_TIMER_UNCONFIGURED
-        #error "The timer selected by XT_TIMER_INDEX does not exist in this core."
-    #elif XT_TIMER_INTPRI > XCHAL_EXCM_LEVEL
-        #error "The timer interrupt cannot be high priority (use medium or low)."
-    #endif
+    #اگر XT_TIMER_INTNUM == XTHAL_TIMER_UNCONFIGURED
+        #غلطی "The timer selected by XT_TIMER_INDEX does not exist in this core."
+    #وگرنہ_اگر XT_TIMER_INTPRI > XCHAL_EXCM_LEVEL
+        #غلطی "The timer interrupt cannot be high priority (use medium or low)."
+    #اگر_ختم
 
-#endif /* XCHAL_NUM_TIMERS */
+#اگر_ختم /* XCHAL_NUM_TIMERS */
 
 /*
  * Set processor clock frequency, used to determine clock divisor for timer tick.
@@ -134,13 +134,13 @@
  * compile with xt-xcc option "-DXT_SIMULATOR".
  * Adjust this frequency to taste (it's not real-time anyway!).
  */
-#if defined( XT_SIMULATOR ) && !defined( XT_CLOCK_FREQ )
-    #define XT_CLOCK_FREQ    configCPU_CLOCK_HZ
-#endif
+#اگر defined( XT_SIMULATOR ) && !defined( XT_CLOCK_FREQ )
+    #تعریف_کرو XT_CLOCK_FREQ    configCPU_CLOCK_HZ
+#اگر_ختم
 
-#if !defined( XT_CLOCK_FREQ ) && !defined( XT_BOARD )
-    #error "XT_CLOCK_FREQ must be defined for the target platform."
-#endif
+#اگر !defined( XT_CLOCK_FREQ ) && !defined( XT_BOARD )
+    #غلطی "XT_CLOCK_FREQ must be defined for the target platform."
+#اگر_ختم
 
 /*
  * Default number of timer "ticks" per second (default 100 for 10ms tick).
@@ -149,20 +149,20 @@
  * editing this here or in xtensa_rtos.h, or compiling with xt-xcc option
  * "-DXT_TICK_PER_SEC=<value>" where <value> is a suitable number.
  */
-#ifndef XT_TICK_PER_SEC
-    #define XT_TICK_PER_SEC    configTICK_RATE_HZ    /* 10 ms tick = 100 ticks per second */
-#endif
+#اگر_غیر_تعریف_شدہ XT_TICK_فی_SEC
+    #تعریف_کرو XT_TICK_فی_SEC    config_TICK_شرح_HZ    /* 10 ms tick = 100 ticks per second */
+#اگر_ختم
 
 /*
  * Derivation of clock divisor for timer tick and interrupt (one per tick).
  */
-#ifdef XT_CLOCK_FREQ
-    #define XT_TICK_DIVISOR    ( XT_CLOCK_FREQ / XT_TICK_PER_SEC )
-#endif
+#اگر_تعریف_شدہ XT_CLOCK_FREQ
+    #تعریف_کرو XT_TICK_مقسوم_علیہ    ( XT_CLOCK_FREQ / XT_TICK_فی_SEC )
+#اگر_ختم
 
-#ifndef __ASSEMBLER__
-    extern unsigned _xt_tick_divisor;
-    extern void _xt_tick_divisor_init( void );
-#endif
+#اگر_غیر_تعریف_شدہ __ASSEMBLER__
+    خارجی غیرعلامتی xt_tick_مقسوم_علیہ;
+    خارجی خالی xt_tick_مقسوم_علیہ_init( خالی );
+#اگر_ختم
 
-#endif /* XTENSA_TIMER_H */
+#اگر_ختم /* XTENSA_TIMER_H */

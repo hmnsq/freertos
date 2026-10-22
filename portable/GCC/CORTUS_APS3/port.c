@@ -27,81 +27,81 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#شامل <stdlib.h>
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Machine includes */
-#include <machine/counter.h>
-#include <machine/ic.h>
+#شامل <machine/counter.h>
+#شامل <machine/ic.h>
 /*-----------------------------------------------------------*/
 
 /* The initial PSR has the Previous Interrupt Enabled (PIEN) flag set. */
-#define portINITIAL_PSR    ( 0x00020000 )
+#تعریف_کرو پورٹ_INITIAL_PSR    ( 0x00020000 )
 
 /*-----------------------------------------------------------*/
 
 /*
  * Perform any hardware configuration necessary to generate the tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+ساکن خالی prv_تیاری_Timer_مداخلت( خالی );
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ڈھیر_Type_t * px_پورٹ_Initialise_ڈھیر( ڈھیر_Type_t * px_چوٹی_کا_ڈھیر,
+                                     TaskFunction_t px_رمز,
+                                     خالی * pvParameters )
 {
     /* Make space on the stack for the context - this leaves a couple of spaces
      * empty.  */
-    pxTopOfStack -= 20;
+    px_چوٹی_کا_ڈھیر -= 20;
 
     /* Fill the registers with known values to assist debugging. */
-    pxTopOfStack[ 16 ] = 0;
-    pxTopOfStack[ 15 ] = portINITIAL_PSR;
-    pxTopOfStack[ 14 ] = ( uint32_t ) pxCode;
-    pxTopOfStack[ 13 ] = 0x00000000UL; /* R15. */
-    pxTopOfStack[ 12 ] = 0x00000000UL; /* R14. */
-    pxTopOfStack[ 11 ] = 0x0d0d0d0dUL;
-    pxTopOfStack[ 10 ] = 0x0c0c0c0cUL;
-    pxTopOfStack[ 9 ] = 0x0b0b0b0bUL;
-    pxTopOfStack[ 8 ] = 0x0a0a0a0aUL;
-    pxTopOfStack[ 7 ] = 0x09090909UL;
-    pxTopOfStack[ 6 ] = 0x08080808UL;
-    pxTopOfStack[ 5 ] = 0x07070707UL;
-    pxTopOfStack[ 4 ] = 0x06060606UL;
-    pxTopOfStack[ 3 ] = 0x05050505UL;
-    pxTopOfStack[ 2 ] = 0x04040404UL;
-    pxTopOfStack[ 1 ] = 0x03030303UL;
-    pxTopOfStack[ 0 ] = ( uint32_t ) pvParameters;
+    px_چوٹی_کا_ڈھیر[ 16 ] = 0;
+    px_چوٹی_کا_ڈھیر[ 15 ] = پورٹ_INITIAL_PSR;
+    px_چوٹی_کا_ڈھیر[ 14 ] = ( uint32_t ) px_رمز;
+    px_چوٹی_کا_ڈھیر[ 13 ] = 0x00000000UL; /* R15. */
+    px_چوٹی_کا_ڈھیر[ 12 ] = 0x00000000UL; /* R14. */
+    px_چوٹی_کا_ڈھیر[ 11 ] = 0x0d0d0d0dUL;
+    px_چوٹی_کا_ڈھیر[ 10 ] = 0x0c0c0c0cUL;
+    px_چوٹی_کا_ڈھیر[ 9 ] = 0x0b0b0b0bUL;
+    px_چوٹی_کا_ڈھیر[ 8 ] = 0x0a0a0a0aUL;
+    px_چوٹی_کا_ڈھیر[ 7 ] = 0x09090909UL;
+    px_چوٹی_کا_ڈھیر[ 6 ] = 0x08080808UL;
+    px_چوٹی_کا_ڈھیر[ 5 ] = 0x07070707UL;
+    px_چوٹی_کا_ڈھیر[ 4 ] = 0x06060606UL;
+    px_چوٹی_کا_ڈھیر[ 3 ] = 0x05050505UL;
+    px_چوٹی_کا_ڈھیر[ 2 ] = 0x04040404UL;
+    px_چوٹی_کا_ڈھیر[ 1 ] = 0x03030303UL;
+    px_چوٹی_کا_ڈھیر[ 0 ] = ( uint32_t ) pvParameters;
 
-    return pxTopOfStack;
+    واپس px_چوٹی_کا_ڈھیر;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنیاد_Type_t x_پورٹ_آغاز_Scheduler( خالی )
 {
     /* Set-up the timer interrupt. */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخلت();
 
     /* Integrated Interrupt Controller: Enable all interrupts. */
     ic->ien = 1;
 
     /* Restore callee saved registers. */
-    portRESTORE_CONTEXT();
+    پورٹ_RESTORE_CONTEXT();
 
     /* Should not get here. */
-    return 0;
+    واپس 0;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساکن خالی prv_تیاری_Timer_مداخلت( خالی )
 {
     /* Enable timer interrupts */
-    counter1->reload = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1;
-    counter1->value = counter1->reload;
-    counter1->mask = 1;
+    counter1->reload = ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ ) - 1;
+    counter1->قدر = counter1->reload;
+    counter1->نقاب = 1;
 
     /* Set the IRQ Handler priority and enable it. */
     irq[ IRQ_COUNTER1 ].ien = 1;
@@ -109,19 +109,19 @@ static void prvSetupTimerInterrupt( void )
 /*-----------------------------------------------------------*/
 
 /* Trap 31 handler. */
-void interrupt31_handler( void ) __attribute__( ( naked ) );
-void interrupt31_handler( void )
+خالی interrupt31_handler( خالی ) __attribute__( ( naked ) );
+خالی interrupt31_handler( خالی )
 {
-    portSAVE_CONTEXT();
-    __asm volatile ( "call vTaskSwitchContext" );
-    portRESTORE_CONTEXT();
+    پورٹ_SAVE_CONTEXT();
+    __asm متلون ( "call vTaskSwitchContext" );
+    پورٹ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-static void prvProcessTick( void ) __attribute__( ( noinline ) );
-static void prvProcessTick( void )
+ساکن خالی prvProcessTick( خالی ) __attribute__( ( noinline ) );
+ساکن خالی prvProcessTick( خالی )
 {
-    if( xTaskIncrementTick() != pdFALSE )
+    اگر( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -132,16 +132,16 @@ static void prvProcessTick( void )
 /*-----------------------------------------------------------*/
 
 /* Timer 1 interrupt handler, used for tick interrupt. */
-void interrupt7_handler( void ) __attribute__( ( naked ) );
-void interrupt7_handler( void )
+خالی interrupt7_handler( خالی ) __attribute__( ( naked ) );
+خالی interrupt7_handler( خالی )
 {
-    portSAVE_CONTEXT();
+    پورٹ_SAVE_CONTEXT();
     prvProcessTick();
-    portRESTORE_CONTEXT();
+    پورٹ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+خالی v_پورٹ_انتہا_Scheduler( خالی )
 {
     /* Nothing to do. Unlikely to want to end. */
 }

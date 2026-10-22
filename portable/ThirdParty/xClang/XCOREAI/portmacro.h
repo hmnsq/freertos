@@ -1,63 +1,63 @@
 /* Copyright (c) 2020, XMOS Ltd, All rights reserved */
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+    #تعریف_کرو PORTMACRO_H
 
-    #ifndef __ASSEMBLER__
+    #اگر_غیر_تعریف_شدہ __ASSEMBLER__
 
 /* Inclusion of xc1.h will result in clock being defined as a type.
  * By default, FreeRTOS will require standard time.h, where clock is a function.
  */
-        #ifndef USE_XCORE_CLOCK_TYPE
-            #define _clock_defined
-        #endif
+        #اگر_غیر_تعریف_شدہ USE_XCORE_CLOCK_TYPE
+            #تعریف_کرو _clock_defined
+        #اگر_ختم
 
-        #include <xs1.h>
-        #include "rtos_support.h"
+        #شامل <xs1.h>
+        #شامل "rtos_support.h"
 
-        #ifdef __cplusplus
-        extern "C" {
-        #endif
+        #اگر_تعریف_شدہ __cplusplus
+        خارجی "C" {
+        #اگر_ختم
 
 /* Type definitions. */
-        #define portSTACK_TYPE    uint32_t
-        typedef portSTACK_TYPE   StackType_t;
-        typedef double           portDOUBLE;
-        typedef int32_t          BaseType_t;
-        typedef uint32_t         UBaseType_t;
+        #تعریف_کرو پورٹ_ڈھیر_TYPE    uint32_t
+        قسمتعریف پورٹ_ڈھیر_TYPE   ڈھیر_Type_t;
+        قسمتعریف دوہرا           پورٹ_DOUBLE;
+        قسمتعریف int32_t          بنیاد_Type_t;
+        قسمتعریف uint32_t         UBaseType_t;
 
-        #define portBASE_TYPE    BaseType_t
+        #تعریف_کرو پورٹ_بنیاد_TYPE    بنیاد_Type_t
 
-        #if ( configUSE_16_BIT_TICKS == 1 )
-            typedef uint16_t     TickType_t;
-            #define portMAX_DELAY              ( TickType_t ) 0xffff
-        #else
-            typedef uint32_t     TickType_t;
-            #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+        #اگر ( config_USE_16_ثنائی_ہندسہ_TICKS == 1 )
+            قسمتعریف uint16_t     TickType_t;
+            #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffff
+        #ورنہ
+            قسمتعریف uint32_t     TickType_t;
+            #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-            #define portTICK_TYPE_IS_ATOMIC    1
-        #endif
+            #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
+        #اگر_ختم
 /*-----------------------------------------------------------*/
 
-    #endif /* __ASSEMBLER__ */
+    #اگر_ختم /* __ASSEMBLER__ */
 
 /* Architecture specifics. These can be used by assembly files as well. */
-    #define portSTACK_GROWTH               ( -1 )
-    #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT             8
-    #define portCRITICAL_NESTING_IN_TCB    1
-    #define portMAX_CORE_COUNT             8
-    #ifndef configNUMBER_OF_CORES
-        #define configNUMBER_OF_CORES      1
-    #endif
+    #تعریف_کرو پورٹ_ڈھیر_GROWTH               ( -1 )
+    #تعریف_کرو پورٹ_TICK_PERIOD_MS             ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+    #تعریف_کرو پورٹ_BYTE_ALIGNMENT             8
+    #تعریف_کرو پورٹ_CRITICAL_NESTING_اندر_TCB    1
+    #تعریف_کرو پورٹ_MAX_CORE_گنتی             8
+    #اگر_غیر_تعریف_شدہ config_نمبر_کا_CORES
+        #تعریف_کرو config_نمبر_کا_CORES      1
+    #اگر_ختم
 
 /* This may be set to zero in the config file if the rtos_time
  *  functions are not needed or if it is incremented elsewhere. */
-    #ifndef configUPDATE_RTOS_TIME_FROM_TICK_ISR
-        #define configUPDATE_RTOS_TIME_FROM_TICK_ISR    1
-    #endif
+    #اگر_غیر_تعریف_شدہ config_UPDATE_RTOS_وقت_FROM_TICK_ISR
+        #تعریف_کرو config_UPDATE_RTOS_وقت_FROM_TICK_ISR    1
+    #اگر_ختم
 
 /*
  * When entering an ISR we need to grow the stack by one more word than
@@ -66,147 +66,147 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-    #define portTHREAD_CONTEXT_STACK_GROWTH    RTOS_SUPPORT_INTERRUPT_STACK_GROWTH
+    #تعریف_کرو پورٹ_THREAD_CONTEXT_ڈھیر_GROWTH    RTOS_SUPPORT_مداخلت_ڈھیر_GROWTH
 
-    #ifndef __ASSEMBLER__
+    #اگر_غیر_تعریف_شدہ __ASSEMBLER__
 
 /* Check validity of number of cores specified in config */
-        #if ( configNUMBER_OF_CORES < 1 || portMAX_CORE_COUNT < configNUMBER_OF_CORES )
-            #error "Invalid number of cores specified in config!"
-        #endif
+        #اگر ( config_نمبر_کا_CORES < 1 || پورٹ_MAX_CORE_گنتی < config_نمبر_کا_CORES )
+            #غلطی "Invalid number of cores specified in config!"
+        #اگر_ختم
 
-        #define portMEMORY_BARRIER()                  RTOS_MEMORY_BARRIER()
-        #define portTASK_STACK_DEPTH( pxTaskCode )    RTOS_THREAD_STACK_SIZE( pxTaskCode )
+        #تعریف_کرو پورٹ_حافظہ_BARRIER()                  RTOS_حافظہ_BARRIER()
+        #تعریف_کرو پورٹ_TASK_ڈھیر_گہرائی( px_Task_رمز )    RTOS_THREAD_ڈھیر_سائز( px_Task_رمز )
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-        #define portYIELD()    asm volatile ( "KCALLI_lu6 0" ::: "memory" )
+        #تعریف_کرو پورٹ_YIELD()    asm متلون ( "KCALLI_lu6 0" ::: "memory" )
 
-        #define portEND_SWITCHING_ISR( xSwitchRequired )               \
-    do                                                                 \
+        #تعریف_کرو پورٹ_انتہا_SWITCHING_ISR( xSwitchRequired )               \
+    کرو                                                                 \
     {                                                                  \
-        if( xSwitchRequired != pdFALSE )                               \
+        اگر( xSwitchRequired != pdFALSE )                               \
         {                                                              \
-            extern uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ]; \
-            ulPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;         \
+            خارجی uint32_t ul_پورٹ_Yield_Required[ پورٹ_MAX_CORE_گنتی ]; \
+            ul_پورٹ_Yield_Required[ پورٹ_GET_CORE_ID() ] = pdTRUE;         \
         }                                                              \
-    } while( 0 )
+    } جب( 0 )
 
-        #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+        #تعریف_کرو پورٹ_YIELD_FROM_ISR( x )    پورٹ_انتہا_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* SMP utilities. */
-        #define portGET_CORE_ID()      rtos_core_id_get()
+        #تعریف_کرو پورٹ_GET_CORE_ID()      rtos_core_id_get()
 
-        void vPortYieldOtherCore( int xOtherCoreID );
-        #define portYIELD_CORE( x )    vPortYieldOtherCore( x )
+        خالی v_پورٹ_Yield_Other_Core( صحیح xOtherCoreID );
+        #تعریف_کرو پورٹ_YIELD_CORE( x )    v_پورٹ_Yield_Other_Core( x )
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-        #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-            #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-        #endif
+        #اگر_غیر_تعریف_شدہ config_USE_پورٹ_OPTIMISED_TASK_SELECTION
+            #تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    0
+        #اگر_ختم
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #اگر config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-            #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-            #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+            #تعریف_کرو پورٹ_ریکارڈ_READY_ترجیح( ux_ترجیح, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_ترجیح ) )
+            #تعریف_کرو پورٹ_RESET_READY_ترجیح( ux_ترجیح, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_ترجیح ) )
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
+            #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities )    ux_چوٹی_ترجیح = ( 31UL - ( uint32_t ) __builtin_clz( uxReadyPriorities ) )
 
-        #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+        #اگر_ختم /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
 
-        #define portGET_INTERRUPT_STATE()                 rtos_interrupt_mask_get()
+        #تعریف_کرو پورٹ_GET_مداخلت_STATE()                 rtos_مداخلت_نقاب_get()
 
 /*
  * This differs from the standard portDISABLE_INTERRUPTS()
  * in that it also returns what the interrupt state was
  * before it disabling interrupts.
  */
-        #define portDISABLE_INTERRUPTS()                  rtos_interrupt_mask_all()
+        #تعریف_کرو پورٹ_DISABLE_INTERRUPTS()                  rtos_مداخلت_نقاب_all()
 
-        #define portENABLE_INTERRUPTS()                   rtos_interrupt_unmask_all()
+        #تعریف_کرو پورٹ_ENABLE_INTERRUPTS()                   rtos_مداخلت_unmask_all()
 
 /*
  * Port set interrupt mask and clear interrupt mask.
  */
-        #define portSET_INTERRUPT_MASK()                  rtos_interrupt_mask_all()
-        #define portCLEAR_INTERRUPT_MASK( ulState )       rtos_interrupt_mask_set( ulState )
+        #تعریف_کرو پورٹ_سیٹ_مداخلت_نقاب()                  rtos_مداخلت_نقاب_all()
+        #تعریف_کرو پورٹ_CLEAR_مداخلت_نقاب( ulState )       rtos_مداخلت_نقاب_سیٹ( ulState )
 
 /*
  * Will enable interrupts if ulState is non-zero.
  */
-        #define portRESTORE_INTERRUPTS( ulState )         rtos_interrupt_mask_set( ulState )
+        #تعریف_کرو پورٹ_RESTORE_INTERRUPTS( ulState )         rtos_مداخلت_نقاب_سیٹ( ulState )
 
 /*
  * Returns non-zero if currently running in an
  * ISR or otherwise in kernel mode.
  */
-        #define portCHECK_IF_IN_ISR()                     rtos_isr_running()
+        #تعریف_کرو پورٹ_CHECK_IF_اندر_ISR()                     rtos_isr_running()
 
-        #define portASSERT_IF_IN_ISR()                    configASSERT( portCHECK_IF_IN_ISR() == 0 )
+        #تعریف_کرو پورٹ_ASSERT_IF_اندر_ISR()                    configASSERT( پورٹ_CHECK_IF_اندر_ISR() == 0 )
 
-        #define portGET_ISR_LOCK( xCoreID )               do{ ( void )( xCoreID ); rtos_lock_acquire( 0 ); } while( 0 )
-        #define portRELEASE_ISR_LOCK( xCoreID )           do{ ( void )( xCoreID ); rtos_lock_release( 0 ); } while( 0 )
-        #define portGET_TASK_LOCK( xCoreID )              do{ ( void )( xCoreID ); rtos_lock_acquire( 1 ); } while( 0 )
-        #define portRELEASE_TASK_LOCK( xCoreID )          do{ ( void )( xCoreID ); rtos_lock_release( 1 ); } while( 0 )
+        #تعریف_کرو پورٹ_GET_ISR_تالا( xCoreID )               کرو{ ( خالی )( xCoreID ); rtos_تالا_acquire( 0 ); } جب( 0 )
+        #تعریف_کرو پورٹ_RELEASE_ISR_تالا( xCoreID )           کرو{ ( خالی )( xCoreID ); rtos_تالا_release( 0 ); } جب( 0 )
+        #تعریف_کرو پورٹ_GET_TASK_تالا( xCoreID )              کرو{ ( خالی )( xCoreID ); rtos_تالا_acquire( 1 ); } جب( 0 )
+        #تعریف_کرو پورٹ_RELEASE_TASK_تالا( xCoreID )          کرو{ ( خالی )( xCoreID ); rtos_تالا_release( 1 ); } جب( 0 )
 
 
-        void vTaskEnterCritical( void );
-        void vTaskExitCritical( void );
-        #define portENTER_CRITICAL()    vTaskEnterCritical()
-        #define portEXIT_CRITICAL()     vTaskExitCritical()
+        خالی vTaskEnterCritical( خالی );
+        خالی vTaskExitCritical( خالی );
+        #تعریف_کرو پورٹ_ENTER_CRITICAL()    vTaskEnterCritical()
+        #تعریف_کرو پورٹ_EXIT_CRITICAL()     vTaskExitCritical()
 
-        extern UBaseType_t vTaskEnterCriticalFromISR( void );
-        extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
-        #define portENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
-        #define portEXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
+        خارجی UBaseType_t vTaskEnterCriticalFromISR( خالی );
+        خارجی خالی vTaskExitCriticalFromISR( UBaseType_t ux_Saved_مداخلت_حالت );
+        #تعریف_کرو پورٹ_ENTER_CRITICAL_FROM_ISR    vTaskEnterCriticalFromISR
+        #تعریف_کرو پورٹ_EXIT_CRITICAL_FROM_ISR     vTaskExitCriticalFromISR
 
 /*-----------------------------------------------------------*/
 
 /* Runtime stats support */
-        #if ( configGENERATE_RUN_TIME_STATS == 1 )
-            int xscope_gettime( void );
-            #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()    /* nothing needed here */
-            #define portGET_RUN_TIME_COUNTER_VALUE()            xscope_gettime()
-        #endif
+        #اگر ( config_GENERATE_تسلسل_وقت_STATS == 1 )
+            صحیح xscope_gettime( خالی );
+            #تعریف_کرو پورٹ_CONFIGURE_TIMER_FOR_تسلسل_وقت_STATS()    /* nothing needed here */
+            #تعریف_کرو پورٹ_GET_تسلسل_وقت_شمار_قدر()            xscope_gettime()
+        #اگر_ختم
 /*-----------------------------------------------------------*/
 
 /* Maps sprintf and snprintf to the lite version in lib_rtos_support */
-        #if ( configUSE_DEBUG_SPRINTF == 1 )
-            #define sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
-            #define snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
-        #endif
+        #اگر ( configUSE_DEBUG_SPRINTF == 1 )
+            #تعریف_کرو sprintf( ... )     rtos_sprintf( __VA_ARGS__ )
+            #تعریف_کرو snprintf( ... )    rtos_snprintf( __VA_ARGS__ )
+        #اگر_ختم
 
 /* Attribute for the pxCallbackFunction member of the Timer_t struct.
  * Required by xcc to calculate stack usage. */
-        #define portTIMER_CALLBACK_ATTRIBUTE    __attribute__( ( fptrgroup( "timerCallbackGroup" ) ) )
+        #تعریف_کرو پورٹ_TIMER_CALLBACK_ATTRIBUTE    __attribute__( ( fptrgroup( "timerCallbackGroup" ) ) )
 
 /* Timer callback function macros. For xcc this ensures they get added to the timer callback
  * group so that stack usage for certain functions in timers.c can be calculated. */
-        #define portTIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    void vFunction( TimerHandle_t xTimer )
-        #define portTIMER_CALLBACK_FUNCTION( vFunction, xTimer )          portTIMER_CALLBACK_ATTRIBUTE void vFunction( TimerHandle_t xTimer )
+        #تعریف_کرو پورٹ_TIMER_CALLBACK_FUNCTION_PROTO( vFunction, xTimer )    خالی vFunction( TimerHandle_t xTimer )
+        #تعریف_کرو پورٹ_TIMER_CALLBACK_FUNCTION( vFunction, xTimer )          پورٹ_TIMER_CALLBACK_ATTRIBUTE خالی vFunction( TimerHandle_t xTimer )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-        #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-        #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+        #تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    خالی vFunction( خالی * pvParameters )
+        #تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          خالی vFunction( خالی * pvParameters )
 /*-----------------------------------------------------------*/
 
 
-        #ifdef __cplusplus
+        #اگر_تعریف_شدہ __cplusplus
 }
-        #endif
+        #اگر_ختم
 
-    #endif /* __ASSEMBLER__ */
+    #اگر_ختم /* __ASSEMBLER__ */
 
-#endif /* PORTMACRO_H */
+#اگر_ختم /* PORTMACRO_H */

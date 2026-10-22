@@ -26,170 +26,170 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#اگر_غیر_تعریف_شدہ PORTMACRO_H
+#تعریف_کرو PORTMACRO_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#اگر_تعریف_شدہ __cplusplus
+خارجی "C" {
+#اگر_ختم
 
 /******************************************************************************
 *   Defines
 ******************************************************************************/
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
-#define portLONG                 long
-#define portSHORT                short
-#define portSTACK_TYPE           size_t
-#define portPOINTER_SIZE_TYPE    size_t
+#تعریف_کرو پورٹ_CHAR                 حرف
+#تعریف_کرو پورٹ_FLOAT                اعشاری
+#تعریف_کرو پورٹ_DOUBLE               دوہرا
+#تعریف_کرو پورٹ_LONG                 طویل
+#تعریف_کرو پورٹ_SHORT                مختصر
+#تعریف_کرو پورٹ_ڈھیر_TYPE           size_t
+#تعریف_کرو پورٹ_اشارہ_گر_سائز_TYPE    size_t
 
-typedef portSTACK_TYPE           StackType_t;
+قسمتعریف پورٹ_ڈھیر_TYPE           ڈھیر_Type_t;
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
-    #define portBASE_TYPE    long long
-    typedef long long            BaseType_t;
-    typedef unsigned long long   UBaseType_t;
-#else
-    #define portBASE_TYPE    long
-    typedef long                 BaseType_t;
-    typedef unsigned long        UBaseType_t;
-#endif
+#اگر defined( __x86_64__ ) || defined( _M_X64 )
+    #تعریف_کرو پورٹ_بنیاد_TYPE    طویل طویل
+    قسمتعریف طویل طویل            بنیاد_Type_t;
+    قسمتعریف غیرعلامتی طویل طویل   UBaseType_t;
+#ورنہ
+    #تعریف_کرو پورٹ_بنیاد_TYPE    طویل
+    قسمتعریف طویل                 بنیاد_Type_t;
+    قسمتعریف غیرعلامتی طویل        UBaseType_t;
+#اگر_ختم
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t             TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_16_بٹ )
+    قسمتعریف uint16_t             TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffff
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_32_بٹ )
+    قسمتعریف uint32_t             TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32/64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t             TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
+    #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
+#وگرنہ_اگر ( config_TICK_TYPE_چوڑائی_اندر_بٹ == TICK_TYPE_چوڑائی_64_بٹ )
+    قسمتعریف uint64_t             TickType_t;
+    #تعریف_کرو پورٹ_MAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#اگر defined( __x86_64__ ) || defined( _M_X64 )
 /* 64-bit tick type on a 64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#endif
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کرو پورٹ_TICK_TYPE_IS_ATOMIC    1
+#اگر_ختم
+#ورنہ
+    #غلطی config_TICK_TYPE_چوڑائی_اندر_بٹ سیٹ مقصد unsupported tick type چوڑائی.
+#اگر_ختم
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH          ( -1 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portINLINE                __inline
+#تعریف_کرو پورٹ_ڈھیر_GROWTH          ( -1 )
+#تعریف_کرو پورٹ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کرو پورٹ_INLINE                __inline
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
-    #define portBYTE_ALIGNMENT    8
-#else
-    #define portBYTE_ALIGNMENT    4
-#endif
+#اگر defined( __x86_64__ ) || defined( _M_X64 )
+    #تعریف_کرو پورٹ_BYTE_ALIGNMENT    8
+#ورنہ
+    #تعریف_کرو پورٹ_BYTE_ALIGNMENT    4
+#اگر_ختم
 
-#define portYIELD()    vPortGenerateSimulatedInterrupt( portINTERRUPT_YIELD )
+#تعریف_کرو پورٹ_YIELD()    v_پورٹ_Generate_Simulated_مداخلت( پورٹ_مداخلت_YIELD )
 
 
-extern volatile BaseType_t xInsideInterrupt;
-#define portSOFTWARE_BARRIER()    while( xInsideInterrupt != pdFALSE )
+خارجی متلون بنیاد_Type_t x_Inside_مداخلت;
+#تعریف_کرو پورٹ_SOFTWARE_BARRIER()    جب( x_Inside_مداخلت != pdFALSE )
 
 
 /* Simulated interrupts return pdFALSE if no context switch should be performed,
  * or a non-zero number if a context switch should be performed. */
-#define portYIELD_FROM_ISR( x )       return x
-#define portEND_SWITCHING_ISR( x )    portYIELD_FROM_ISR( ( x ) )
+#تعریف_کرو پورٹ_YIELD_FROM_ISR( x )       واپس x
+#تعریف_کرو پورٹ_انتہا_SWITCHING_ISR( x )    پورٹ_YIELD_FROM_ISR( ( x ) )
 
-void vPortCloseRunningThread( void * pvTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-void vPortDeleteThread( void * pvThreadToDelete );
-#define portCLEAN_UP_TCB( pxTCB )                                  vPortDeleteThread( pxTCB )
-#define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortCloseRunningThread( ( pvTaskToDelete ), ( pxPendYield ) )
-#define portDISABLE_INTERRUPTS()                                   vPortEnterCritical()
-#define portENABLE_INTERRUPTS()                                    vPortExitCritical()
+خالی v_پورٹ_Close_Running_Thread( خالی * pv_Task_مقصد_Delete,
+                              متلون بنیاد_Type_t * pxPendYield );
+خالی v_پورٹ_Delete_Thread( خالی * pv_Thread_مقصد_Delete );
+#تعریف_کرو پورٹ_CLEAN_اوپر_TCB( pxTCB )                                  v_پورٹ_Delete_Thread( pxTCB )
+#تعریف_کرو پورٹ_PRE_TASK_DELETE_HOOK( pv_Task_مقصد_Delete, pxPendYield )    v_پورٹ_Close_Running_Thread( ( pv_Task_مقصد_Delete ), ( pxPendYield ) )
+#تعریف_کرو پورٹ_DISABLE_INTERRUPTS()                                   v_پورٹ_Enter_Critical()
+#تعریف_کرو پورٹ_ENABLE_INTERRUPTS()                                    v_پورٹ_Exit_Critical()
 
 /* Critical section handling. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
+خالی v_پورٹ_Enter_Critical( خالی );
+خالی v_پورٹ_Exit_Critical( خالی );
 
-#define portENTER_CRITICAL()    vPortEnterCritical()
-#define portEXIT_CRITICAL()     vPortExitCritical()
+#تعریف_کرو پورٹ_ENTER_CRITICAL()    v_پورٹ_Enter_Critical()
+#تعریف_کرو پورٹ_EXIT_CRITICAL()     v_پورٹ_Exit_Critical()
 
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#اگر_غیر_تعریف_شدہ config_USE_پورٹ_OPTIMISED_TASK_SELECTION
+    #تعریف_کرو config_USE_پورٹ_OPTIMISED_TASK_SELECTION    1
+#اگر_ختم
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#اگر config_USE_پورٹ_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-    #endif
+    #اگر ( configMAX_PRIORITIES > 32 )
+        #غلطی config_USE_پورٹ_OPTIMISED_TASK_SELECTION can only be سیٹ مقصد 1 when configMAX_PRIORITIES is less than or equal مقصد 32.  It is very rare that a system requires مزید than 10 مقصد 15 difference priorities as tasks that share a ترجیح will time قاش.
+    #اگر_ختم
 
     /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( ( ( UBaseType_t ) 1 ) << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( ( ( UBaseType_t ) 1 ) << ( uxPriority ) )
+    #تعریف_کرو پورٹ_ریکارڈ_READY_ترجیح( ux_ترجیح, uxReadyPriorities )    ( uxReadyPriorities ) |= ( ( ( UBaseType_t ) 1 ) << ( ux_ترجیح ) )
+    #تعریف_کرو پورٹ_RESET_READY_ترجیح( ux_ترجیح, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( ( ( UBaseType_t ) 1 ) << ( ux_ترجیح ) )
 
-    #ifdef __GNUC__
+    #اگر_تعریف_شدہ __GNUC__
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-        __asm volatile ( "bsr %1, %0\n\t"                                       \
-                         : "=r" ( uxTopPriority )                               \
+        #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities )    \
+        __asm متلون ( "bsr %1, %0\n\t"                                       \
+                         : "=r" ( ux_چوٹی_ترجیح )                               \
                          : "rm" ( uxReadyPriorities )                           \
                          : "cc" )
 
-    #else /* __GNUC__ */
-        #include <intrin.h>
+    #ورنہ /* __GNUC__ */
+        #شامل <intrin.h>
 
         /* BitScanReverse returns the bit position of the most significant '1'
          * in the word. */
-        #if defined( __x86_64__ ) || defined( _M_X64 )
-            #pragma intrinsic(_BitScanReverse64)
+        #اگر defined( __x86_64__ ) || defined( _M_X64 )
+            #ہدایت intrinsic(ثنائی_ہندسہ_جائزہ_Reverse64)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-            do                                                                      \
+            #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities )    \
+            کرو                                                                      \
             {                                                                       \
-                unsigned long ulTopPriority;                                        \
-                _BitScanReverse64( &ulTopPriority, ( uxReadyPriorities ) );         \
-                uxTopPriority = ulTopPriority;                                      \
-            } while( 0 )
+                غیرعلامتی طویل ul_چوٹی_ترجیح;                                        \
+                ثنائی_ہندسہ_جائزہ_Reverse64( &ul_چوٹی_ترجیح, ( uxReadyPriorities ) );         \
+                ux_چوٹی_ترجیح = ul_چوٹی_ترجیح;                                      \
+            } جب( 0 )
 
-        #else /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
-            #pragma intrinsic(_BitScanReverse)
+        #ورنہ /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+            #ہدایت intrinsic(ثنائی_ہندسہ_جائزہ_الٹ)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( uxTopPriority ), ( uxReadyPriorities ) )
+            #تعریف_کرو پورٹ_GET_HIGHEST_ترجیح( ux_چوٹی_ترجیح, uxReadyPriorities )    ثنائی_ہندسہ_جائزہ_الٹ( ( غیرعلامتی طویل * ) &( ux_چوٹی_ترجیح ), ( uxReadyPriorities ) )
 
-        #endif /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+        #اگر_ختم /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
 
-    #endif /* __GNUC__ */
+    #اگر_ختم /* __GNUC__ */
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#اگر_ختم /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#ifndef __GNUC__
+#اگر_غیر_تعریف_شدہ __GNUC__
     __pragma( warning( disable:4211 ) ) /* Nonstandard extension used, as extern is only nonstandard to MSVC. */
-#endif
+#اگر_ختم
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    خالی vFunction( خالی * pvParameters )
+#تعریف_کرو پورٹ_TASK_FUNCTION( vFunction, pvParameters )          خالی vFunction( خالی * pvParameters )
 
-#define portINTERRUPT_YIELD                        ( 0UL )
-#define portINTERRUPT_TICK                         ( 1UL )
-#define portINTERRUPT_APPLICATION_DEFINED_START    ( 2UL )
+#تعریف_کرو پورٹ_مداخلت_YIELD                        ( 0UL )
+#تعریف_کرو پورٹ_مداخلت_TICK                         ( 1UL )
+#تعریف_کرو پورٹ_مداخلت_APPLICATION_DEFINED_آغاز    ( 2UL )
 
 /*
  * Raise a simulated interrupt represented by the bit mask in ulInterruptMask.
  * Each bit can be used to represent an individual interrupt - with the first
  * two bits being used for the Yield and Tick interrupts respectively.
  */
-void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
+خالی v_پورٹ_Generate_Simulated_مداخلت( uint32_t ul_مداخلت_نمبر );
 
 /*
  * Raise a simulated interrupt represented by the bit mask in ulInterruptMask.
@@ -197,7 +197,7 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
  * two bits being used for the Yield and Tick interrupts respectively. This function
  * can be called in a windows thread.
  */
-void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumber );
+خالی v_پورٹ_Generate_Simulated_مداخلت_From_Windows_Thread( uint32_t ul_مداخلت_نمبر );
 
 /*
  * Install an interrupt handler to be called by the simulated interrupt handler
@@ -208,11 +208,11 @@ void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumbe
  * Interrupt handler functions must return a non-zero value if executing the
  * handler resulted in a task switch being required.
  */
-void vPortSetInterruptHandler( uint32_t ulInterruptNumber,
-                               uint32_t ( * pvHandler )( void ) );
+خالی v_پورٹ_سیٹ_مداخلت_Handler( uint32_t ul_مداخلت_نمبر,
+                               uint32_t ( * pvHandler )( خالی ) );
 
-#ifdef __cplusplus
+#اگر_تعریف_شدہ __cplusplus
 }
-#endif
+#اگر_ختم
 
-#endif /* ifndef PORTMACRO_H */
+#اگر_ختم /* ifndef PORTMACRO_H */

@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#شامل <FreeRTOS.h>
+#شامل <task.h>
+#شامل <queue.h>
+#شامل <timers.h>
+#شامل <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#شامل <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+ساکن خالی exampleTask( خالی * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+ساکن خالی exampleTask( خالی * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( خالی ) parameters;
 
-    for( ; ; )
+    برائے( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,43 +62,43 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+صحیح مین( خالی )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    ساکن StaticTask_t exampleTaskTCB;
+    ساکن ڈھیر_Type_t example_Task_ڈھیر[ config_اقل_ڈھیر_سائز ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( خالی ) لکھو( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( خالی ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_اقل_ڈھیر_سائز,
+                                تہی,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_ڈھیر[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
-    vTaskStartScheduler();
+    v_Task_آغاز_Scheduler();
 
-    for( ; ; )
+    برائے( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    واپس 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#اگر ( config_CHECK_FOR_ڈھیر_حد_سے_تجاوز > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    خالی v_Application_ڈھیر_حد_سے_تجاوز_Hook( TaskHandle_t xTask,
+                                        حرف * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( خالی ) xTask;
+        ( خالی ) pcTaskName;
     }
 
-#endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
+#اگر_ختم /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
 /*-----------------------------------------------------------*/
