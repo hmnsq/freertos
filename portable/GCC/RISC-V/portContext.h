@@ -37,19 +37,19 @@
     #define configENABLE_VPU 0
 #endif
 
-#if __riscv_xlen == 64
+#यदि __riscv_xlen == 64
     #define portWORD_SIZE    8
     #define store_x          sd
     #define load_x           ld
-#elif __riscv_xlen == 32
+#नोचेद्यदि __riscv_xlen == 32
     #define store_x          sw
     #define load_x           lw
     #define portWORD_SIZE    4
-#else
+#अन्यथा
     #error Assembler did not define __riscv_xlen
 #endif
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#अन्तर्भाव "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
@@ -59,12 +59,12 @@
 #ifdef __riscv_32e
     #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    14
-#else
+#अन्यथा
     #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    30
 #endif
 
-#if ( configENABLE_FPU == 1 )
+#यदि ( configENABLE_FPU == 1 )
     /* Bit [14:13] in the mstatus encode the status of FPU state which is one of
      * the following values:
      * 1. Value: 0, Meaning: Off.
@@ -79,26 +79,26 @@
     #define MSTATUS_FS_OFFSET               13
 
     #ifdef __riscv_fdiv
-        #if __riscv_flen == 32
+        #यदि __riscv_flen == 32
             #define load_f                  flw
             #define store_f                 fsw
-        #elif __riscv_flen == 64
+        #नोचेद्यदि __riscv_flen == 64
             #define load_f                  fld
             #define store_f                 fsd
-        #else
+        #अन्यथा
             #error Assembler did not define __riscv_flen
         #endif
 
         #define portFPU_REG_SIZE                ( __riscv_flen / 8 )
-        #define portFPU_REG_COUNT               33 /* 32 Floating point registers plus one CSR. */
+        #define port_FPU_REG_गिनती               33 /* 32 Floating point registers plus one CSR. */
         #define portFPU_REG_OFFSET( regIndex )  ( ( 2 * portWORD_SIZE ) + ( regIndex * portFPU_REG_SIZE ) )
-        #define portFPU_CONTEXT_SIZE            ( portFPU_REG_SIZE * portFPU_REG_COUNT )
-    #else
-        #error configENABLE_FPU must not be set to 1 if the hardware does not have FPU
+        #define portFPU_CONTEXT_SIZE            ( portFPU_REG_SIZE * port_FPU_REG_गिनती )
+    #अन्यथा
+        #error configENABLE_FPU must not be set to 1 यदि the hardware does not have FPU
     #endif
 #endif
 
-#if ( configENABLE_VPU == 1 )
+#यदि ( configENABLE_VPU == 1 )
     /* Bit [10:9] in the mstatus encode the status of VPU state which is one of
      * the following values:
      * 1. Value: 0, Meaning: Off.
@@ -113,15 +113,15 @@
     #define MSTATUS_VS_OFFSET               9
 
     #ifndef __riscv_vector
-        #error configENABLE_VPU must not be set to 1 if the hardware does not have VPU
+        #error configENABLE_VPU must not be set to 1 यदि the hardware does not have VPU
     #endif
 #endif
 /*-----------------------------------------------------------*/
 
-.extern pxCurrentTCB
-.extern xISRStackTop
-.extern xCriticalNesting
-.extern pxCriticalNesting
+.बाह्य pxCurrentTCB
+.बाह्य x_ISRStack_शीर्ष
+.बाह्य xCriticalNesting
+.बाह्य pxCriticalNesting
 /*-----------------------------------------------------------*/
 
     .macro portcontexSAVE_FPU_CONTEXT
@@ -306,7 +306,7 @@ store_x x15, 13 * portWORD_SIZE( sp )
 load_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
 store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the critical nesting value to the stack. */
 
-#if( configENABLE_FPU == 1 )
+#यदि( configENABLE_FPU == 1 )
     csrr t0, mstatus
     srl t1, t0, MSTATUS_FS_OFFSET
     andi t1, t1, 3
@@ -317,7 +317,7 @@ store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the criti
 1:
 #endif
 
-#if( configENABLE_VPU == 1 )
+#यदि( configENABLE_VPU == 1 )
     csrr t0, mstatus
     srl t1, t0, MSTATUS_VS_OFFSET
     andi t1, t1, 3
@@ -333,7 +333,7 @@ store_x t0, 1 * portWORD_SIZE( sp )
 
 portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_extensions.h to save any registers unique to the RISC-V implementation. */
 
-#if( configENABLE_FPU == 1 )
+#यदि( configENABLE_FPU == 1 )
     /* Mark the FPU as clean, if it was dirty and we saved FPU registers. */
     srl t1, t0, MSTATUS_FS_OFFSET
     andi t1, t1, 3
@@ -348,7 +348,7 @@ portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_ext
 3:
 #endif
 
-#if( configENABLE_VPU == 1 )
+#यदि( configENABLE_VPU == 1 )
     /* Mark the VPU as clean, if it was dirty and we saved VPU registers. */
     srl t1, t0, MSTATUS_VS_OFFSET
     andi t1, t1, 3
@@ -375,7 +375,7 @@ csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_शीर्ष /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
@@ -384,7 +384,7 @@ portcontextSAVE_CONTEXT_INTERNAL
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_शीर्ष /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
@@ -405,7 +405,7 @@ portasmRESTORE_ADDITIONAL_REGISTERS
 load_x t3, 1 * portWORD_SIZE( sp )
 csrw mstatus, t3
 
-#if( configENABLE_VPU == 1 )
+#यदि( configENABLE_VPU == 1 )
     srl t1, t3, MSTATUS_VS_OFFSET
     andi t1, t1, 3
     addi t2, x0, 3
@@ -415,7 +415,7 @@ csrw mstatus, t3
 5:
 #endif /* ifdef portasmSTORE_VPU_CONTEXT */
 
-#if( configENABLE_FPU == 1 )
+#यदि( configENABLE_FPU == 1 )
     srl t1, t3, MSTATUS_FS_OFFSET
     andi t1, t1, 3
     addi t2, x0, 3
