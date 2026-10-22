@@ -27,47 +27,47 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#அந்தர்பாவ "FreeRTOS.h"
+#அந்தர்பாவ "task.h"
 
-#define portINITIAL_FORMAT_VECTOR      ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR      ( ( அடுக்கு_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER    ( ( StackType_t ) 0x2000 )
+#define portINITIAL_STATUS_REGISTER    ( ( அடுக்கு_Type_t ) 0x2000 )
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+நிலையான uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+அடுக்கு_Type_t * px_Port_Initialise_அடுக்கு( அடுக்கு_Type_t * px_உச்சி_Of_அடுக்கு,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     வெறுமை * pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pvParameters;
+    px_உச்சி_Of_அடுக்கு--;
 
-    *pxTopOfStack = ( StackType_t ) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0xDEADBEEF;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pxCode;
+    px_உச்சி_Of_அடுக்கு--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_உச்சி_Of_அடுக்கு--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14;                  /* A5 to D0. */
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x0; /*FP*/
+    px_உச்சி_Of_அடுக்கு -= 14;                  /* A5 to D0. */
 
-    return pxTopOfStack;
+    திரும்பு px_உச்சி_Of_அடுக்கு;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( வெறுமை )
 {
-    extern void vPortStartFirstTask( void );
+    வெளி வெறுமை vPortStartFirstTask( வெறுமை );
 
     ulCriticalNesting = 0UL;
 
@@ -77,51 +77,51 @@ BaseType_t xPortStartScheduler( void )
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    திரும்பு pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+வெறுமை vPortEndScheduler( வெறுமை )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+வெறுமை vPortEnterCritical( வெறுமை )
 {
-    if( ulCriticalNesting == 0UL )
+    எனில்( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
          * critical section being entered. */
-        do
+        செய்
         {
             portDISABLE_INTERRUPTS();
 
-            if( MCF_INTC0_INTFRCL == 0UL )
+            எனில்( MCF_INTC0_INTFRCL == 0UL )
             {
-                break;
+                நிறுத்து;
             }
 
             portENABLE_INTERRUPTS();
-        } while( 1 );
+        } போது( 1 );
     }
 
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+வெறுமை vPortExitCritical( வெறுமை )
 {
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    எனில்( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+வெறுமை vPortYieldHandler( வெறுமை )
 {
     uint32_t ulSavedInterruptMask;
 

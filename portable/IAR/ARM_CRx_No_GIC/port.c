@@ -27,15 +27,15 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#அந்தர்பாவ <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#அந்தர்பாவ "FreeRTOS.h"
+#அந்தர்பாவ "task.h"
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#எனில் configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #எனில் ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -57,11 +57,11 @@
  * part of the tasks context that holds portNO_FLOATING_POINT_CONTEXT if the task
  * does not have an FPU context, or any other value if the task does have an FPU
  * context. */
-#define portNO_FLOATING_POINT_CONTEXT    ( ( StackType_t ) 0 )
+#define portNO_FLOATING_POINT_CONTEXT    ( ( அடுக்கு_Type_t ) 0 )
 
 /* Constants required to setup the initial task context. */
-#define portINITIAL_SPSR                 ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enabled. */
-#define portTHUMB_MODE_BIT               ( ( StackType_t ) 0x20 )
+#define portINITIAL_SPSR                 ( ( அடுக்கு_Type_t ) 0x1f ) /* System mode, ARM mode, IRQ enabled FIQ enabled. */
+#define portTHUMB_MODE_BIT               ( ( அடுக்கு_Type_t ) 0x20 )
 #define portTHUMB_MODE_ADDRESS           ( 0x01UL )
 
 /* Masks all bits in the APSR other than the mode bits. */
@@ -76,7 +76,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#இல்லையெனில்
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -86,12 +86,12 @@
  * Starts the first task executing.  This function is necessarily written in
  * assembly code so is implemented in portASM.s.
  */
-extern void vPortRestoreTaskContext( void );
+வெளி வெறுமை vPortRestoreTaskContext( வெறுமை );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+நிலையான வெறுமை prvTaskExitError( வெறுமை );
 
 /*-----------------------------------------------------------*/
 
@@ -100,27 +100,27 @@ static void prvTaskExitError( void );
  * a non zero value to ensure interrupts don't inadvertently become unmasked before
  * the scheduler starts.  As it is stored as part of the task context it will
  * automatically be set to 0 when the first task is started. */
-volatile uint32_t ulCriticalNesting = 9999UL;
+நிலையற்ற uint32_t ulCriticalNesting = 9999UL;
 
 /* Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
  * a floating point context must be saved and restored for the task. */
-volatile uint32_t ulPortTaskHasFPUContext = pdFALSE;
+நிலையற்ற uint32_t ulPortTaskHasFPUContext = pdFALSE;
 
 /* Set to 1 to pend a context switch from an ISR. */
-volatile uint32_t ulPortYieldRequired = pdFALSE;
+நிலையற்ற uint32_t ulPortYieldRequired = pdFALSE;
 
 /* Counts the interrupt nesting depth.  A context switch is only performed if
  * if the nesting depth is 0. */
-volatile uint32_t ulPortInterruptNesting = 0UL;
+நிலையற்ற uint32_t ulPortInterruptNesting = 0UL;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+அடுக்கு_Type_t * px_Port_Initialise_அடுக்கு( அடுக்கு_Type_t * px_உச்சி_Of_அடுக்கு,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     வெறுமை * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro.
@@ -128,71 +128,71 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * The fist real value on the stack is the status register, which is set for
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address. */
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) வெற்று;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) வெற்று;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) வெற்று;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    எனில்( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_உச்சி_Of_அடுக்கு |= portTHUMB_MODE_BIT;
     }
 
-    pxTopOfStack--;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* Next the return address, which in this case is the start of the task. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pxCode;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* Next all the registers other than the stack pointer. */
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;              /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;              /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;              /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;              /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;              /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;              /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;              /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;              /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;              /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;              /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;              /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;              /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0 */
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) portTASK_RETURN_ADDRESS; /* R14 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x12121212;              /* R12 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x11111111;              /* R11 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x10101010;              /* R10 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x09090909;              /* R9 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x08080808;              /* R8 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x07070707;              /* R7 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x06060606;              /* R6 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x05050505;              /* R5 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x04040404;              /* R4 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x03030303;              /* R3 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x02020202;              /* R2 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x01010101;              /* R1 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pvParameters;            /* R0 */
+    px_உச்சி_Of_அடுக்கு--;
 
     /* The task will start with a critical nesting count of 0 as interrupts are
      * enabled. */
-    *pxTopOfStack = portNO_CRITICAL_NESTING;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = portNO_CRITICAL_NESTING;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* The task will start without a floating point context.  A task that uses
      * the floating point hardware must call vPortTaskUsesFPU() before executing
      * any floating point instructions. */
-    *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
+    *px_உச்சி_Of_அடுக்கு = portNO_FLOATING_POINT_CONTEXT;
 
-    return pxTopOfStack;
+    திரும்பு px_உச்சி_Of_அடுக்கு;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+நிலையான வெறுமை prvTaskExitError( வெறுமை )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -203,24 +203,24 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    க்கு( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( வெறுமை )
 {
     uint32_t ulAPSR;
 
     /* Only continue if the CPU is not in User mode.  The CPU must be in a
      * Privileged mode for the scheduler to start. */
-    __asm volatile ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
+    __asm நிலையற்ற ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
 
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    எனில்( ulAPSR != portAPSR_USER_MODE )
     {
         /* Start the timer that generates the tick ISR. */
         portDISABLE_INTERRUPTS();
@@ -235,12 +235,12 @@ BaseType_t xPortStartScheduler( void )
      * possible value.  prvTaskExitError() is referenced to prevent a compiler
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
-    ( void ) prvTaskExitError;
-    return 0;
+    ( வெறுமை ) prvTaskExitError;
+    திரும்பு 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+வெறுமை vPortEndScheduler( வெறுமை )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -248,7 +248,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+வெறுமை vPortEnterCritical( வெறுமை )
 {
     portDISABLE_INTERRUPTS();
 
@@ -262,16 +262,16 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    எனில்( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+வெறுமை vPortExitCritical( வெறுமை )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    எனில்( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -279,7 +279,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        எனில்( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -289,14 +289,14 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void FreeRTOS_Tick_Handler( void )
+வெறுமை FreeRTOS_Tick_Handler( வெறுமை )
 {
     uint32_t ulInterruptStatus;
 
     ulInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    எனில்( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }
@@ -307,7 +307,7 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortTaskUsesFPU( void )
+வெறுமை vPortTaskUsesFPU( வெறுமை )
 {
     uint32_t ulInitialFPSCR = 0;
 
@@ -316,6 +316,6 @@ void vPortTaskUsesFPU( void )
     ulPortTaskHasFPUContext = pdTRUE;
 
     /* Initialise the floating point status register. */
-    __asm volatile ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) );
+    __asm நிலையற்ற ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) );
 }
 /*-----------------------------------------------------------*/

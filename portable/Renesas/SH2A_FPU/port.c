@@ -31,11 +31,11 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#அந்தர்பாவ "FreeRTOS.h"
+#அந்தர்பாவ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#அந்தர்பாவ "string.h"
 
 /*-----------------------------------------------------------*/
 
@@ -50,7 +50,7 @@
 #define portFLOP_REGISTERS_TO_STORE    ( 18 )
 #define portFLOP_STORAGE_SIZE          ( portFLOP_REGISTERS_TO_STORE * 4 )
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+#எனில் ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
     #error configSUPPORT_DYNAMIC_ALLOCATION must be 1 to use this port.
 #endif
 
@@ -59,130 +59,130 @@
 /*
  * The TRAPA handler used to force a context switch.
  */
-void vPortYield( void );
+வெறுமை vPortYield( வெறுமை );
 
 /*
  * Function to start the first task executing - defined in portasm.src.
  */
-extern void vPortStartFirstTask( void );
+வெளி வெறுமை vPortStartFirstTask( வெறுமை );
 
 /*
  * Obtains the current GBR value - defined in portasm.src.
  */
-extern uint32_t ulPortGetGBR( void );
+வெளி uint32_t ulPortGetGBR( வெறுமை );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+அடுக்கு_Type_t * px_Port_Initialise_அடுக்கு( அடுக்கு_Type_t * px_உச்சி_Of_அடுக்கு,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     வெறுமை * pvParameters )
 {
     /* Mark the end of the stack - used for debugging only and can be removed. */
-    *pxTopOfStack = 0x11111111UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222UL;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333UL;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 0x11111111UL;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x22222222UL;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x33333333UL;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* SR. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = portINITIAL_SR;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* PC. */
-    *pxTopOfStack = ( uint32_t ) pxCode;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( uint32_t ) pxCode;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* PR. */
-    *pxTopOfStack = 15;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 15;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* 14. */
-    *pxTopOfStack = 14;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 14;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R13. */
-    *pxTopOfStack = 13;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 13;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R12. */
-    *pxTopOfStack = 12;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 12;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R11. */
-    *pxTopOfStack = 11;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 11;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R10. */
-    *pxTopOfStack = 10;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 10;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R9. */
-    *pxTopOfStack = 9;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 9;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R8. */
-    *pxTopOfStack = 8;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 8;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R7. */
-    *pxTopOfStack = 7;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 7;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R6. */
-    *pxTopOfStack = 6;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 6;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R5. */
-    *pxTopOfStack = 5;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 5;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R4. */
-    *pxTopOfStack = ( uint32_t ) pvParameters;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( uint32_t ) pvParameters;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R3. */
-    *pxTopOfStack = 3;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 3;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R2. */
-    *pxTopOfStack = 2;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 2;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R1. */
-    *pxTopOfStack = 1;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 1;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* R0 */
-    *pxTopOfStack = 0;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 0;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* MACL. */
-    *pxTopOfStack = 16;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 16;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* MACH. */
-    *pxTopOfStack = 17;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = 17;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* GBR. */
-    *pxTopOfStack = ulPortGetGBR();
+    *px_உச்சி_Of_அடுக்கு = ulPortGetGBR();
 
     /* GBR = global base register.
     * VBR = vector base register.
     * TBR = jump table base register.
     * R15 is the stack pointer. */
 
-    return pxTopOfStack;
+    திரும்பு px_உச்சி_Of_அடுக்கு;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( வெறுமை )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    வெளி வெறுமை vApplicationSetupTimerInterrupt( வெறுமை );
 
     /* Call an application function to set up the timer that will generate the
      * tick interrupt.  This way the application can decide which peripheral to
@@ -197,17 +197,17 @@ BaseType_t xPortStartScheduler( void )
     trapa( portSTART_SCHEDULER_TRAP_NO );
 
     /* Should not get here. */
-    return pdFAIL;
+    திரும்பு pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+வெறுமை vPortEndScheduler( வெறுமை )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortYield( void )
+வெறுமை vPortYield( வெறுமை )
 {
     int32_t lInterruptMask;
 
@@ -224,7 +224,7 @@ void vPortYield( void )
 
     /* Restore the interrupt mask to whatever it was previously (when the
      * function was entered). */
-    set_imask( ( int ) lInterruptMask );
+    set_imask( ( முழு ) lInterruptMask );
 }
 /*-----------------------------------------------------------*/
 
@@ -232,7 +232,7 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 {
     uint32_t * pulFlopBuffer;
     BaseType_t xReturn;
-    extern void * volatile pxCurrentTCB;
+    வெளி வெறுமை * நிலையற்ற pxCurrentTCB;
 
     /* This function tells the kernel that the task referenced by xTask is
      * going to use the floating point registers and therefore requires the
@@ -240,7 +240,7 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 
     /* Passing NULL as xTask is used to indicate that the calling task is the
      * subject task - so pxCurrentTCB is the task handle. */
-    if( xTask == NULL )
+    எனில்( xTask == வெற்று )
     {
         xTask = ( TaskHandle_t ) pxCurrentTCB;
     }
@@ -248,10 +248,10 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
     /* Allocate a buffer large enough to hold all the flop registers. */
     pulFlopBuffer = ( uint32_t * ) pvPortMalloc( portFLOP_STORAGE_SIZE );
 
-    if( pulFlopBuffer != NULL )
+    எனில்( pulFlopBuffer != வெற்று )
     {
         /* Start with the registers in a benign state. */
-        memset( ( void * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
+        memset( ( வெறுமை * ) pulFlopBuffer, 0x00, portFLOP_STORAGE_SIZE );
 
         /* The first thing to get saved in the buffer is the FPSCR value -
          * initialise this to the current FPSCR value. */
@@ -259,14 +259,14 @@ BaseType_t xPortUsesFloatingPoint( TaskHandle_t xTask )
 
         /* Use the task tag to point to the flop buffer.  Pass pointer to just
          * above the buffer because the flop save routine uses a pre-decrement. */
-        vTaskSetApplicationTaskTag( xTask, ( void * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
+        vTaskSetApplicationTaskTag( xTask, ( வெறுமை * ) ( pulFlopBuffer + portFLOP_REGISTERS_TO_STORE ) );
         xReturn = pdPASS;
     }
-    else
+    இல்லையெனில்
     {
         xReturn = pdFAIL;
     }
 
-    return xReturn;
+    திரும்பு xReturn;
 }
 /*-----------------------------------------------------------*/

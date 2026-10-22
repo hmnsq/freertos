@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,38 +47,38 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          எழுத்து
+#define portFLOAT         தசம
+#define portDOUBLE        இரட்டை
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_அடுக்கு_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+வகைவரை port_அடுக்கு_TYPE   அடுக்கு_Type_t;
+வகைவரை long             BaseType_t;
+வகைவரை unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#எனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    வகைவரை uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    வகைவரை uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
+    வகைவரை uint64_t TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
-#else /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
+#இல்லையெனில் /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif /* if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS ) */
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_அடுக்கு_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 #define portDONT_DISCARD      __attribute__( ( used ) )
@@ -92,31 +92,31 @@ typedef unsigned long    UBaseType_t;
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
-        __asm volatile ( "dsb" ::: "memory" );                     \
-        __asm volatile ( "isb" );                                  \
+        __asm நிலையற்ற ( "dsb" ::: "memory" );                     \
+        __asm நிலையற்ற ( "isb" );                                  \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( நிலையற்ற uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    செய்                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        எனில்( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        இல்லையெனில்                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } போது( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+வெளி வெறுமை vPortEnterCritical( வெறுமை );
+வெளி வெறுமை vPortExitCritical( வெறுமை );
 #define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortSetBASEPRI( x )
 #define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
@@ -129,13 +129,13 @@ extern void vPortExitCritical( void );
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    வெறுமை vFunction( வெறுமை * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          வெறுமை vFunction( வெறுமை * pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
 #ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+    வெளி வெறுமை vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
     #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
 #endif
 /*-----------------------------------------------------------*/
@@ -145,20 +145,20 @@ extern void vPortExitCritical( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#எனில் configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) நிலையான உள்வரி uint8_t uc_Port_மொத்தம்_Leading_Zeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
+        __asm நிலையற்ற ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ucReturn;
+        திரும்பு ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #எனில் ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -168,14 +168,14 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_உச்சி_Priority, uxReadyPriorities )    ux_உச்சி_Priority = ( 31UL - ( uint32_t ) uc_Port_மொத்தம்_Leading_Zeros( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
+#எனில் ( configASSERT_DEFINED == 1 )
+    வெறுமை vPortValidateInterruptPriority( வெறுமை );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
 
@@ -185,36 +185,36 @@ extern void vPortExitCritical( void );
 #define portINLINE              __inline
 
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE    உள்வரி __attribute__( ( always_inline ) )
 #endif
 
-portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
+portFORCE_INLINE நிலையான BaseType_t xPortIsInsideInterrupt( வெறுமை )
 {
     uint32_t ulCurrentInterrupt;
     BaseType_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm நிலையற்ற ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    எனில்( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    இல்லையெனில்
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    திரும்பு xReturn;
 }
 
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static void vPortRaiseBASEPRI( void )
+portFORCE_INLINE நிலையான வெறுமை vPortRaiseBASEPRI( வெறுமை )
 {
     uint32_t ulNewBASEPRI;
 
-    __asm volatile
+    __asm நிலையற்ற
     (
         "   mov %0, %1                                              \n" \
         "   msr basepri, %0                                         \n" \
@@ -226,11 +226,11 @@ portFORCE_INLINE static void vPortRaiseBASEPRI( void )
 
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
+portFORCE_INLINE நிலையான uint32_t ulPortRaiseBASEPRI( வெறுமை )
 {
     uint32_t ulOriginalBASEPRI, ulNewBASEPRI;
 
-    __asm volatile
+    __asm நிலையற்ற
     (
         "   mrs %0, basepri                                         \n" \
         "   mov %1, %2                                              \n" \
@@ -242,20 +242,20 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
 
     /* This return will not be reached but is necessary to prevent compiler
      * warnings. */
-    return ulOriginalBASEPRI;
+    திரும்பு ulOriginalBASEPRI;
 }
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static void vPortSetBASEPRI( uint32_t ulNewMaskValue )
+portFORCE_INLINE நிலையான வெறுமை vPortSetBASEPRI( uint32_t ul_New_Mask_மதிப்பு )
 {
-    __asm volatile
+    __asm நிலையற்ற
     (
-        "   msr basepri, %0 " ::"r" ( ulNewMaskValue ) : "memory"
+        "   msr basepri, %0 " ::"r" ( ul_New_Mask_மதிப்பு ) : "memory"
     );
 }
 /*-----------------------------------------------------------*/
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm நிலையற்ற ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

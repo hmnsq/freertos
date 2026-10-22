@@ -26,8 +26,8 @@
 # *
 # */
 
-import os
-import shutil
+இறக்குமதி os
+இறக்குமதி shutil
 
 _THIS_FILE_DIRECTORY_ = os.path.dirname(os.path.realpath(__file__))
 _FREERTOS_PORTABLE_DIRECTORY_ = os.path.dirname(_THIS_FILE_DIRECTORY_)
@@ -147,15 +147,15 @@ _NONSECURE_PORTABLE_FILE_PATHS_ = {
 
 
 def copy_files_in_dir(src_abs_path, dst_abs_path):
-    if os.path.isfile(src_abs_path):
+    எனில் os.path.isfile(src_abs_path):
         print('Src: {}'.format(src_abs_path))
         print('Dst: {}\n'.format(dst_abs_path))
         shutil.copy2(src_abs_path, dst_abs_path)
-    else:
-        for src_file in os.listdir(src_abs_path):
+    இல்லையெனில்:
+        க்கு src_file உள் os.listdir(src_abs_path):
             src_file_abs_path = os.path.join(src_abs_path, src_file)
-            if os.path.isfile(src_file_abs_path) and src_file != 'ReadMe.txt':
-                if not os.path.exists(dst_abs_path):
+            எனில் os.path.isfile(src_file_abs_path) மற்றும் src_file != 'ReadMe.txt':
+                எனில் இல்லை os.path.exists(dst_abs_path):
                     os.makedirs(dst_abs_path)
                 print('Src: {}'.format(src_file_abs_path))
                 print('Dst: {}\n'.format(dst_abs_path))
@@ -163,7 +163,7 @@ def copy_files_in_dir(src_abs_path, dst_abs_path):
 
 
 def copy_common_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path):
-    for src_path in src_paths:
+    க்கு src_path உள் src_paths:
 
         src_abs_path = os.path.join(_THIS_FILE_DIRECTORY_, src_path)
         dst_abs_path = os.path.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_path)
@@ -172,7 +172,7 @@ def copy_common_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path)
 
 
 def copy_portable_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path):
-    for src_path in src_paths[compiler][arch]:
+    க்கு src_path உள் src_paths[compiler][arch]:
 
         src_abs_path = os.path.join(_THIS_FILE_DIRECTORY_, src_path)
         dst_abs_path = os.path.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_path)
@@ -182,21 +182,21 @@ def copy_portable_files_for_compiler_and_arch(compiler, arch, src_paths, dst_pat
 
 def copy_files():
     # Copy Secure Files
-    for compiler in _COMPILERS_:
-        for arch in _ARCH_S_:
+    க்கு compiler உள் _COMPILERS_:
+        க்கு arch உள் _ARCH_S_:
             copy_common_files_for_compiler_and_arch(compiler, arch, _SECURE_COMMON_FILE_PATHS_, 'secure')
             copy_portable_files_for_compiler_and_arch(compiler, arch, _SECURE_PORTABLE_FILE_PATHS_, 'secure')
 
     # Copy Non-Secure Files
-    for compiler in _COMPILERS_:
-        for arch in _ARCH_NS_:
+    க்கு compiler உள் _COMPILERS_:
+        க்கு arch உள் _ARCH_NS_:
             copy_common_files_for_compiler_and_arch(compiler, arch, _NONSECURE_COMMON_FILE_PATHS_, 'non_secure')
             copy_portable_files_for_compiler_and_arch(compiler, arch, _NONSECURE_PORTABLE_FILE_PATHS_, 'non_secure')
 
 
-def main():
+def முதன்மை():
     copy_files()
 
 
-if __name__ == '__main__':
-    main()
+எனில் __name__ == '__main__':
+    முதன்மை()

@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS அல்லது
+ * IMPLIED, INCLUDING BUT இல்லை LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE மற்றும் NONINFRINGEMENT. உள் NO EVENT SHALL THE AUTHORS அல்லது
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES அல்லது OTHER LIABILITY, WHETHER
+ * உள் AN ACTION OF CONTRACT, TORT அல்லது OTHERWISE, ARISING FROM, OUT OF அல்லது உள்
+ * CONNECTION WITH THE SOFTWARE அல்லது THE USE அல்லது OTHER DEALINGS உள் THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -36,8 +36,8 @@ the code is included in C files but excluded by the preprocessor in assembly
 files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler. */
 #include "FreeRTOSConfig.h"
 
-    PUBLIC SecureContext_LoadContextAsm
-    PUBLIC SecureContext_SaveContextAsm
+    பொது SecureContext_LoadContextAsm
+    பொது SecureContext_SaveContextAsm
 
 #if ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
@@ -85,4 +85,4 @@ SecureContext_SaveContextAsm:
         bx lr
 /*-----------------------------------------------------------*/
 
-    END
+    முடி

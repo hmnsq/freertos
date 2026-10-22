@@ -40,37 +40,37 @@
 
 
 #ifdef XT_BOARD
-    #include "xtensa/xtbsp.h"
+    #அந்தர்பாவ "xtensa/xtbsp.h"
 #endif
 
-#include "xtensa_rtos.h"
-#include "sdkconfig.h"
-#include "esp_idf_version.h"
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-    #include    "esp_clk.h"
-#else
-    #if CONFIG_IDF_TARGET_ESP32
-        #include "esp32/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S2
-        #include "esp32s2/clk.h"
-    #elif CONFIG_IDF_TARGET_ESP32S3
-        #include "esp32s3/clk.h"
+#அந்தர்பாவ "xtensa_rtos.h"
+#அந்தர்பாவ "sdkconfig.h"
+#அந்தர்பாவ "esp_idf_version.h"
+#எனில் ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #அந்தர்பாவ    "esp_clk.h"
+#இல்லையெனில்
+    #எனில் CONFIG_IDF_TARGET_ESP32
+        #அந்தர்பாவ "esp32/clk.h"
+    #அல்லதெனில் CONFIG_IDF_TARGET_ESP32S2
+        #அந்தர்பாவ "esp32s2/clk.h"
+    #அல்லதெனில் CONFIG_IDF_TARGET_ESP32S3
+        #அந்தர்பாவ "esp32s3/clk.h"
     #endif
 #endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 #ifdef XT_RTOS_TIMER_INT
 
-    unsigned _xt_tick_divisor = 0; /* cached number of cycles per tick */
+    unsigned xt_tick_வகுஎண் = 0; /* cached number of cycles per tick */
 
-    void _xt_tick_divisor_init( void )
+    வெறுமை xt_tick_வகுஎண்_init( வெறுமை )
     {
-        _xt_tick_divisor = esp_clk_cpu_freq() / XT_TICK_PER_SEC;
+        xt_tick_வகுஎண் = esp_clk_cpu_freq() / XT_TICK_PER_SEC;
     }
 
 /* Deprecated, to be removed */
-    int xt_clock_freq( void )
+    முழு xt_clock_freq( வெறுமை )
     {
-        return esp_clk_cpu_freq();
+        திரும்பு esp_clk_cpu_freq();
     }
 
 #endif /* XT_RTOS_TIMER_INT */

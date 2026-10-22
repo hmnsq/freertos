@@ -25,16 +25,16 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#include <stdlib.h>
-#include <stdint.h>
-#include <csi_core.h>
+#அந்தர்பாவ <stdlib.h>
+#அந்தர்பாவ <stdint.h>
+#அந்தர்பாவ <csi_core.h>
 
-extern void vPortYield( void );
+வெளி வெறுமை vPortYield( வெறுமை );
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
     class vPortYield;
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -50,61 +50,61 @@ extern void vPortYield( void );
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          எழுத்து
+#define portFLOAT         தசம
+#define portDOUBLE        இரட்டை
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_அடுக்கு_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
-typedef void (* portvectorfunc)( void );
+வகைவரை port_அடுக்கு_TYPE   அடுக்கு_Type_t;
+வகைவரை long             BaseType_t;
+வகைவரை unsigned long    UBaseType_t;
+வகைவரை வெறுமை (* portvectorfunc)( வெறுமை );
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#எனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    வகைவரை uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    வகைவரை uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#இல்லையெனில்
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    8
-#define portSTACK_GROWTH      -1
+#define port_அடுக்கு_GROWTH      -1
 #define portMS_PERIOD_TICK    10
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 
 
-static inline void vPortEnableInterrupt( void )
+நிலையான உள்வரி வெறுமை vPortEnableInterrupt( வெறுமை )
 {
     __enable_irq();
 }
 
-static inline void vPortDisableInterrupt( void )
+நிலையான உள்வரி வெறுமை vPortDisableInterrupt( வெறுமை )
 {
     __disable_irq();
 }
 
-static inline portLONG GetCurrentPSR( void )
+நிலையான உள்வரி portLONG GetCurrentPSR( வெறுமை )
 {
-    return __get_PSR();
+    திரும்பு __get_PSR();
 }
 
-static inline portLONG SaveLocalPSR( void )
+நிலையான உள்வரி portLONG SaveLocalPSR( வெறுமை )
 {
     portLONG flags = __get_PSR();
 
     __disable_irq();
-    return flags;
+    திரும்பு flags;
 }
 
-static inline void RestoreLocalPSR( portLONG newMask )
+நிலையான உள்வரி வெறுமை RestoreLocalPSR( portLONG newMask )
 {
     __asm__ __volatile__ (
         "mtcr   %0, psr \n"
@@ -114,9 +114,9 @@ static inline void RestoreLocalPSR( portLONG newMask )
         );
 }
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern __attribute__( ( naked ) ) void cpu_yeild( void );
+வெளி வெறுமை vPortEnterCritical( வெறுமை );
+வெளி வெறுமை vPortExitCritical( வெறுமை );
+வெளி __attribute__( ( naked ) ) வெறுமை cpu_yeild( வெறுமை );
 
 #define portDISABLE_INTERRUPTS()                  vPortDisableInterrupt()
 #define portENABLE_INTERRUPTS()                   vPortEnableInterrupt()
@@ -127,15 +127,15 @@ extern __attribute__( ( naked ) ) void cpu_yeild( void );
 
 #define portNOP()                                 asm ( "nop" )
 
-extern portLONG ulCriticalNesting;
-extern portLONG pendsvflag;
+வெளி portLONG ulCriticalNesting;
+வெளி portLONG pendsvflag;
 
 #define portYIELD()              \
-    if( ulCriticalNesting == 0 ) \
+    எனில்( ulCriticalNesting == 0 ) \
     {                            \
         vPortYield();            \
     }                            \
-    else                         \
+    இல்லையெனில்                         \
     {                            \
         pendsvflag = 1;          \
     }                            \
@@ -144,22 +144,22 @@ extern portLONG pendsvflag;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    வெறுமை vFunction( வெறுமை * pvParameters ) __attribute__( ( noreturn ) )
+#define portTASK_FUNCTION( vFunction, pvParameters )          வெறுமை vFunction( வெறுமை * pvParameters )
 /*-----------------------------------------------------------*/
 
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do {                                         \
-        if( xSwitchRequired != pdFALSE )         \
+    செய் {                                         \
+        எனில்( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        இல்லையெனில்                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } போது( 0 )
 
 #define portYIELD_FROM_ISR( a )    vTaskSwitchContext()
 

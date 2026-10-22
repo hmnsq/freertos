@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+வகைவரை வெறுமை TCB_t;
+வெளி நிலையற்ற TCB_t * நிலையற்ற pxCurrentTCB;
+வெளி வெறுமை vTaskSwitchContext( வெறுமை );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+வெறுமை portSWITCH_CONTEXT( வெறுமை );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+வெறுமை portFIRST_CONTEXT( வெறுமை );
 
 #define portSWITCH_CONTEXT()                                         \
                         asm { mov   ax, seg pxCurrentTCB        } \
@@ -63,13 +63,13 @@ void portFIRST_CONTEXT( void );
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { எடு   bp                          }   \
+                            asm { எடு   di                          }   \
+                            asm { எடு   si                          }   \
+                            asm { எடு   ds                          }   \
+                            asm { எடு   es                          }   \
+                            asm { எடு   dx                          }   \
+                            asm { எடு   cx                          }   \
+                            asm { எடு   bx                          }   \
+                            asm { எடு   ax                          }   \
                             asm { iret                              }

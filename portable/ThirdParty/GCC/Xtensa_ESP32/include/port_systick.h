@@ -8,14 +8,14 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
 /**
  * @brief Set up the SysTick interrupt
  */
-void vPortSetupTimer( void );
+வெறுமை vPortSetupTimer( வெறுமை );
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

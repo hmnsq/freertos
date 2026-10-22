@@ -31,13 +31,13 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
+#ifndef config_RECORD_அடுக்கு_உயர்வு_ADDRESS
+    #define config_RECORD_அடுக்கு_உயர்வு_ADDRESS    1
 #endif
 
 /*-----------------------------------------------------------
@@ -51,23 +51,23 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          எழுத்து
+#define portFLOAT         தசம
+#define portDOUBLE        இரட்டை
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
+#define port_அடுக்கு_TYPE    unsigned முழு
 #define portBASE_TYPE     portLONG
 
 #ifndef Asm
-    #define Asm           __asm__ volatile
+    #define Asm           __asm__ நிலையற்ற
 #endif
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
+#ifndef வெற்று
+    #define வெற்று    0           /* invalid pointer */
 #endif /* NULL */
 
 #ifndef true
@@ -78,22 +78,22 @@
     #define false    0          /* false */
 #endif /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+வகைவரை port_அடுக்கு_TYPE   அடுக்கு_Type_t;
+வகைவரை long             BaseType_t;
+வகைவரை unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#எனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    வகைவரை uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    வகைவரை uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#இல்லையெனில்
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
+#define port_அடுக்கு_GROWTH           ( -1 )
 #define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT         8
 #define portNOP()               Asm( "nop_s" );
@@ -115,7 +115,7 @@ typedef unsigned long    UBaseType_t;
         Asm( "seti" );          \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+வெளி நிலையற்ற unsigned முழு ulCriticalNesting;
 
 #define portENTER_CRITICAL()     \
     {                            \
@@ -126,10 +126,10 @@ extern volatile unsigned int ulCriticalNesting;
 
 #define portEXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        எனில்( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            எனில்( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
             {                                                  \
                 portENABLE_INTERRUPTS()                        \
             }                                                  \
@@ -137,19 +137,19 @@ extern volatile unsigned int ulCriticalNesting;
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    வெறுமை vFunction( வெறுமை * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          வெறுமை vFunction( வெறுமை * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              செய் {} போது( 0 )     /* we use the timer */
+#define port_ALT_GET_RUN_TIME_COUNTER_மதிப்பு( dest )            ( dest = x_Tick_மொத்தம் )
 
-#if defined( __MW__ )
-    extern void task_end_hook( void * pxTCB );
-    #define portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( void * ) pxTCB )
+#எனில் defined( __MW__ )
+    வெளி வெறுமை task_end_hook( வெறுமை * pxTCB );
+    #define portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( வெறுமை * ) pxTCB )
 #endif
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+வெறுமை vPortYield( வெறுமை );
+வெறுமை vPortYieldFromIsr( வெறுமை );
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

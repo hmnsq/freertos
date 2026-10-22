@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS அல்லது
+ * IMPLIED, INCLUDING BUT இல்லை LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE மற்றும் NONINFRINGEMENT. உள் NO EVENT SHALL THE AUTHORS அல்லது
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES அல்லது OTHER LIABILITY, WHETHER
+ * உள் AN ACTION OF CONTRACT, TORT அல்லது OTHERWISE, ARISING FROM, OUT OF அல்லது உள்
+ * CONNECTION WITH THE SOFTWARE அல்லது THE USE அல்லது OTHER DEALINGS உள் THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -46,7 +46,7 @@
 
 #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    PUBLIC MPU_xTaskDelayUntil
+    பொது MPU_xTaskDelayUntil
 MPU_xTaskDelayUntil:
     push {r0}
     mrs r0, control
@@ -59,7 +59,7 @@ MPU_xTaskDelayUntil:
         svc #SYSTEM_CALL_xTaskDelayUntil
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskAbortDelay
+    பொது MPU_xTaskAbortDelay
 MPU_xTaskAbortDelay:
     push {r0}
     mrs r0, control
@@ -72,7 +72,7 @@ MPU_xTaskAbortDelay:
         svc #SYSTEM_CALL_xTaskAbortDelay
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskDelay
+    பொது MPU_vTaskDelay
 MPU_vTaskDelay:
     push {r0}
     mrs r0, control
@@ -85,7 +85,7 @@ MPU_vTaskDelay:
         svc #SYSTEM_CALL_vTaskDelay
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxTaskPriorityGet
+    பொது MPU_uxTaskPriorityGet
 MPU_uxTaskPriorityGet:
     push {r0}
     mrs r0, control
@@ -98,7 +98,7 @@ MPU_uxTaskPriorityGet:
         svc #SYSTEM_CALL_uxTaskPriorityGet
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_eTaskGetState
+    பொது MPU_eTaskGetState
 MPU_eTaskGetState:
     push {r0}
     mrs r0, control
@@ -111,7 +111,7 @@ MPU_eTaskGetState:
         svc #SYSTEM_CALL_eTaskGetState
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskGetInfo
+    பொது MPU_vTaskGetInfo
 MPU_vTaskGetInfo:
     push {r0}
     mrs r0, control
@@ -124,7 +124,7 @@ MPU_vTaskGetInfo:
         svc #SYSTEM_CALL_vTaskGetInfo
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGetIdleTaskHandle
+    பொது MPU_xTaskGetIdleTaskHandle
 MPU_xTaskGetIdleTaskHandle:
     push {r0}
     mrs r0, control
@@ -137,7 +137,7 @@ MPU_xTaskGetIdleTaskHandle:
         svc #SYSTEM_CALL_xTaskGetIdleTaskHandle
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskSuspend
+    பொது MPU_vTaskSuspend
 MPU_vTaskSuspend:
     push {r0}
     mrs r0, control
@@ -150,7 +150,7 @@ MPU_vTaskSuspend:
         svc #SYSTEM_CALL_vTaskSuspend
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskResume
+    பொது MPU_vTaskResume
 MPU_vTaskResume:
     push {r0}
     mrs r0, control
@@ -163,7 +163,7 @@ MPU_vTaskResume:
         svc #SYSTEM_CALL_vTaskResume
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGetTickCount
+    பொது MPU_xTaskGetTickCount
 MPU_xTaskGetTickCount:
     push {r0}
     mrs r0, control
@@ -176,7 +176,7 @@ MPU_xTaskGetTickCount:
         svc #SYSTEM_CALL_xTaskGetTickCount
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxTaskGetNumberOfTasks
+    பொது MPU_uxTaskGetNumberOfTasks
 MPU_uxTaskGetNumberOfTasks:
     push {r0}
     mrs r0, control
@@ -189,7 +189,7 @@ MPU_uxTaskGetNumberOfTasks:
         svc #SYSTEM_CALL_uxTaskGetNumberOfTasks
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_ulTaskGetRunTimeCounter
+    பொது MPU_ulTaskGetRunTimeCounter
 MPU_ulTaskGetRunTimeCounter:
     push {r0}
     mrs r0, control
@@ -202,7 +202,7 @@ MPU_ulTaskGetRunTimeCounter:
         svc #SYSTEM_CALL_ulTaskGetRunTimeCounter
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_ulTaskGetRunTimePercent
+    பொது MPU_ulTaskGetRunTimePercent
 MPU_ulTaskGetRunTimePercent:
     push {r0}
     mrs r0, control
@@ -215,7 +215,7 @@ MPU_ulTaskGetRunTimePercent:
         svc #SYSTEM_CALL_ulTaskGetRunTimePercent
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_ulTaskGetIdleRunTimePercent
+    பொது MPU_ulTaskGetIdleRunTimePercent
 MPU_ulTaskGetIdleRunTimePercent:
     push {r0}
     mrs r0, control
@@ -228,7 +228,7 @@ MPU_ulTaskGetIdleRunTimePercent:
         svc #SYSTEM_CALL_ulTaskGetIdleRunTimePercent
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_ulTaskGetIdleRunTimeCounter
+    பொது MPU_ulTaskGetIdleRunTimeCounter
 MPU_ulTaskGetIdleRunTimeCounter:
     push {r0}
     mrs r0, control
@@ -241,7 +241,7 @@ MPU_ulTaskGetIdleRunTimeCounter:
         svc #SYSTEM_CALL_ulTaskGetIdleRunTimeCounter
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskSetApplicationTaskTag
+    பொது MPU_vTaskSetApplicationTaskTag
 MPU_vTaskSetApplicationTaskTag:
     push {r0}
     mrs r0, control
@@ -254,7 +254,7 @@ MPU_vTaskSetApplicationTaskTag:
         svc #SYSTEM_CALL_vTaskSetApplicationTaskTag
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGetApplicationTaskTag
+    பொது MPU_xTaskGetApplicationTaskTag
 MPU_xTaskGetApplicationTaskTag:
     push {r0}
     mrs r0, control
@@ -267,7 +267,7 @@ MPU_xTaskGetApplicationTaskTag:
         svc #SYSTEM_CALL_xTaskGetApplicationTaskTag
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskSetThreadLocalStoragePointer
+    பொது MPU_vTaskSetThreadLocalStoragePointer
 MPU_vTaskSetThreadLocalStoragePointer:
     push {r0}
     mrs r0, control
@@ -280,7 +280,7 @@ MPU_vTaskSetThreadLocalStoragePointer:
         svc #SYSTEM_CALL_vTaskSetThreadLocalStoragePointer
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_pvTaskGetThreadLocalStoragePointer
+    பொது MPU_pvTaskGetThreadLocalStoragePointer
 MPU_pvTaskGetThreadLocalStoragePointer:
     push {r0}
     mrs r0, control
@@ -293,7 +293,7 @@ MPU_pvTaskGetThreadLocalStoragePointer:
         svc #SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxTaskGetSystemState
+    பொது MPU_uxTaskGetSystemState
 MPU_uxTaskGetSystemState:
     push {r0}
     mrs r0, control
@@ -306,7 +306,7 @@ MPU_uxTaskGetSystemState:
         svc #SYSTEM_CALL_uxTaskGetSystemState
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxTaskGetStackHighWaterMark
+    பொது MPU_uxTaskGetStackHighWaterMark
 MPU_uxTaskGetStackHighWaterMark:
     push {r0}
     mrs r0, control
@@ -319,7 +319,7 @@ MPU_uxTaskGetStackHighWaterMark:
         svc #SYSTEM_CALL_uxTaskGetStackHighWaterMark
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxTaskGetStackHighWaterMark2
+    பொது MPU_uxTaskGetStackHighWaterMark2
 MPU_uxTaskGetStackHighWaterMark2:
     push {r0}
     mrs r0, control
@@ -332,7 +332,7 @@ MPU_uxTaskGetStackHighWaterMark2:
         svc #SYSTEM_CALL_uxTaskGetStackHighWaterMark2
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGetCurrentTaskHandle
+    பொது MPU_xTaskGetCurrentTaskHandle
 MPU_xTaskGetCurrentTaskHandle:
     push {r0}
     mrs r0, control
@@ -345,7 +345,7 @@ MPU_xTaskGetCurrentTaskHandle:
         svc #SYSTEM_CALL_xTaskGetCurrentTaskHandle
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGetSchedulerState
+    பொது MPU_xTaskGetSchedulerState
 MPU_xTaskGetSchedulerState:
     push {r0}
     mrs r0, control
@@ -358,7 +358,7 @@ MPU_xTaskGetSchedulerState:
         svc #SYSTEM_CALL_xTaskGetSchedulerState
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTaskSetTimeOutState
+    பொது MPU_vTaskSetTimeOutState
 MPU_vTaskSetTimeOutState:
     push {r0}
     mrs r0, control
@@ -371,7 +371,7 @@ MPU_vTaskSetTimeOutState:
         svc #SYSTEM_CALL_vTaskSetTimeOutState
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskCheckForTimeOut
+    பொது MPU_xTaskCheckForTimeOut
 MPU_xTaskCheckForTimeOut:
     push {r0}
     mrs r0, control
@@ -384,7 +384,7 @@ MPU_xTaskCheckForTimeOut:
         svc #SYSTEM_CALL_xTaskCheckForTimeOut
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGenericNotifyEntry
+    பொது MPU_xTaskGenericNotifyEntry
 MPU_xTaskGenericNotifyEntry:
     push {r0}
     mrs r0, control
@@ -397,7 +397,7 @@ MPU_xTaskGenericNotifyEntry:
         svc #SYSTEM_CALL_xTaskGenericNotify
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGenericNotifyWaitEntry
+    பொது MPU_xTaskGenericNotifyWaitEntry
 MPU_xTaskGenericNotifyWaitEntry:
     push {r0}
     mrs r0, control
@@ -410,7 +410,7 @@ MPU_xTaskGenericNotifyWaitEntry:
         svc #SYSTEM_CALL_xTaskGenericNotifyWait
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_ulTaskGenericNotifyTake
+    பொது MPU_ulTaskGenericNotifyTake
 MPU_ulTaskGenericNotifyTake:
     push {r0}
     mrs r0, control
@@ -423,7 +423,7 @@ MPU_ulTaskGenericNotifyTake:
         svc #SYSTEM_CALL_ulTaskGenericNotifyTake
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTaskGenericNotifyStateClear
+    பொது MPU_xTaskGenericNotifyStateClear
 MPU_xTaskGenericNotifyStateClear:
     push {r0}
     mrs r0, control
@@ -436,7 +436,7 @@ MPU_xTaskGenericNotifyStateClear:
         svc #SYSTEM_CALL_xTaskGenericNotifyStateClear
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_ulTaskGenericNotifyValueClear
+    பொது MPU_ulTaskGenericNotifyValueClear
 MPU_ulTaskGenericNotifyValueClear:
     push {r0}
     mrs r0, control
@@ -449,7 +449,7 @@ MPU_ulTaskGenericNotifyValueClear:
         svc #SYSTEM_CALL_ulTaskGenericNotifyValueClear
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueGenericSend
+    பொது MPU_xQueueGenericSend
 MPU_xQueueGenericSend:
     push {r0}
     mrs r0, control
@@ -462,7 +462,7 @@ MPU_xQueueGenericSend:
         svc #SYSTEM_CALL_xQueueGenericSend
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxQueueMessagesWaiting
+    பொது MPU_uxQueueMessagesWaiting
 MPU_uxQueueMessagesWaiting:
     push {r0}
     mrs r0, control
@@ -475,7 +475,7 @@ MPU_uxQueueMessagesWaiting:
         svc #SYSTEM_CALL_uxQueueMessagesWaiting
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxQueueSpacesAvailable
+    பொது MPU_uxQueueSpacesAvailable
 MPU_uxQueueSpacesAvailable:
     push {r0}
     mrs r0, control
@@ -488,7 +488,7 @@ MPU_uxQueueSpacesAvailable:
         svc #SYSTEM_CALL_uxQueueSpacesAvailable
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueReceive
+    பொது MPU_xQueueReceive
 MPU_xQueueReceive:
     push {r0}
     mrs r0, control
@@ -501,7 +501,7 @@ MPU_xQueueReceive:
         svc #SYSTEM_CALL_xQueueReceive
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueuePeek
+    பொது MPU_xQueuePeek
 MPU_xQueuePeek:
     push {r0}
     mrs r0, control
@@ -514,7 +514,7 @@ MPU_xQueuePeek:
         svc #SYSTEM_CALL_xQueuePeek
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueSemaphoreTake
+    பொது MPU_xQueueSemaphoreTake
 MPU_xQueueSemaphoreTake:
     push {r0}
     mrs r0, control
@@ -527,7 +527,7 @@ MPU_xQueueSemaphoreTake:
         svc #SYSTEM_CALL_xQueueSemaphoreTake
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueGetMutexHolder
+    பொது MPU_xQueueGetMutexHolder
 MPU_xQueueGetMutexHolder:
     push {r0}
     mrs r0, control
@@ -540,7 +540,7 @@ MPU_xQueueGetMutexHolder:
         svc #SYSTEM_CALL_xQueueGetMutexHolder
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueTakeMutexRecursive
+    பொது MPU_xQueueTakeMutexRecursive
 MPU_xQueueTakeMutexRecursive:
     push {r0}
     mrs r0, control
@@ -553,7 +553,7 @@ MPU_xQueueTakeMutexRecursive:
         svc #SYSTEM_CALL_xQueueTakeMutexRecursive
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueGiveMutexRecursive
+    பொது MPU_xQueueGiveMutexRecursive
 MPU_xQueueGiveMutexRecursive:
     push {r0}
     mrs r0, control
@@ -566,7 +566,7 @@ MPU_xQueueGiveMutexRecursive:
         svc #SYSTEM_CALL_xQueueGiveMutexRecursive
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueSelectFromSet
+    பொது MPU_xQueueSelectFromSet
 MPU_xQueueSelectFromSet:
     push {r0}
     mrs r0, control
@@ -579,7 +579,7 @@ MPU_xQueueSelectFromSet:
         svc #SYSTEM_CALL_xQueueSelectFromSet
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xQueueAddToSet
+    பொது MPU_xQueueAddToSet
 MPU_xQueueAddToSet:
     push {r0}
     mrs r0, control
@@ -592,7 +592,7 @@ MPU_xQueueAddToSet:
         svc #SYSTEM_CALL_xQueueAddToSet
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vQueueAddToRegistry
+    பொது MPU_vQueueAddToRegistry
 MPU_vQueueAddToRegistry:
     push {r0}
     mrs r0, control
@@ -605,7 +605,7 @@ MPU_vQueueAddToRegistry:
         svc #SYSTEM_CALL_vQueueAddToRegistry
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vQueueUnregisterQueue
+    பொது MPU_vQueueUnregisterQueue
 MPU_vQueueUnregisterQueue:
     push {r0}
     mrs r0, control
@@ -618,7 +618,7 @@ MPU_vQueueUnregisterQueue:
         svc #SYSTEM_CALL_vQueueUnregisterQueue
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_pcQueueGetName
+    பொது MPU_pcQueueGetName
 MPU_pcQueueGetName:
     push {r0}
     mrs r0, control
@@ -631,7 +631,7 @@ MPU_pcQueueGetName:
         svc #SYSTEM_CALL_pcQueueGetName
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_pvTimerGetTimerID
+    பொது MPU_pvTimerGetTimerID
 MPU_pvTimerGetTimerID:
     push {r0}
     mrs r0, control
@@ -644,7 +644,7 @@ MPU_pvTimerGetTimerID:
         svc #SYSTEM_CALL_pvTimerGetTimerID
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTimerSetTimerID
+    பொது MPU_vTimerSetTimerID
 MPU_vTimerSetTimerID:
     push {r0}
     mrs r0, control
@@ -657,7 +657,7 @@ MPU_vTimerSetTimerID:
         svc #SYSTEM_CALL_vTimerSetTimerID
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTimerIsTimerActive
+    பொது MPU_xTimerIsTimerActive
 MPU_xTimerIsTimerActive:
     push {r0}
     mrs r0, control
@@ -670,7 +670,7 @@ MPU_xTimerIsTimerActive:
         svc #SYSTEM_CALL_xTimerIsTimerActive
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTimerGetTimerDaemonTaskHandle
+    பொது MPU_xTimerGetTimerDaemonTaskHandle
 MPU_xTimerGetTimerDaemonTaskHandle:
     push {r0}
     mrs r0, control
@@ -683,7 +683,7 @@ MPU_xTimerGetTimerDaemonTaskHandle:
         svc #SYSTEM_CALL_xTimerGetTimerDaemonTaskHandle
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTimerGenericCommandFromTaskEntry
+    பொது MPU_xTimerGenericCommandFromTaskEntry
 MPU_xTimerGenericCommandFromTaskEntry:
     push {r0}
     mrs r0, control
@@ -696,7 +696,7 @@ MPU_xTimerGenericCommandFromTaskEntry:
         svc #SYSTEM_CALL_xTimerGenericCommandFromTask
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_pcTimerGetName
+    பொது MPU_pcTimerGetName
 MPU_pcTimerGetName:
     push {r0}
     mrs r0, control
@@ -709,7 +709,7 @@ MPU_pcTimerGetName:
         svc #SYSTEM_CALL_pcTimerGetName
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vTimerSetReloadMode
+    பொது MPU_vTimerSetReloadMode
 MPU_vTimerSetReloadMode:
     push {r0}
     mrs r0, control
@@ -722,7 +722,7 @@ MPU_vTimerSetReloadMode:
         svc #SYSTEM_CALL_vTimerSetReloadMode
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTimerGetReloadMode
+    பொது MPU_xTimerGetReloadMode
 MPU_xTimerGetReloadMode:
     push {r0}
     mrs r0, control
@@ -735,7 +735,7 @@ MPU_xTimerGetReloadMode:
         svc #SYSTEM_CALL_xTimerGetReloadMode
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxTimerGetReloadMode
+    பொது MPU_uxTimerGetReloadMode
 MPU_uxTimerGetReloadMode:
     push {r0}
     mrs r0, control
@@ -748,7 +748,7 @@ MPU_uxTimerGetReloadMode:
         svc #SYSTEM_CALL_uxTimerGetReloadMode
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTimerGetPeriod
+    பொது MPU_xTimerGetPeriod
 MPU_xTimerGetPeriod:
     push {r0}
     mrs r0, control
@@ -761,7 +761,7 @@ MPU_xTimerGetPeriod:
         svc #SYSTEM_CALL_xTimerGetPeriod
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xTimerGetExpiryTime
+    பொது MPU_xTimerGetExpiryTime
 MPU_xTimerGetExpiryTime:
     push {r0}
     mrs r0, control
@@ -774,7 +774,7 @@ MPU_xTimerGetExpiryTime:
         svc #SYSTEM_CALL_xTimerGetExpiryTime
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xEventGroupWaitBitsEntry
+    பொது MPU_xEventGroupWaitBitsEntry
 MPU_xEventGroupWaitBitsEntry:
     push {r0}
     mrs r0, control
@@ -787,7 +787,7 @@ MPU_xEventGroupWaitBitsEntry:
         svc #SYSTEM_CALL_xEventGroupWaitBits
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xEventGroupClearBits
+    பொது MPU_xEventGroupClearBits
 MPU_xEventGroupClearBits:
     push {r0}
     mrs r0, control
@@ -800,7 +800,7 @@ MPU_xEventGroupClearBits:
         svc #SYSTEM_CALL_xEventGroupClearBits
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xEventGroupSetBits
+    பொது MPU_xEventGroupSetBits
 MPU_xEventGroupSetBits:
     push {r0}
     mrs r0, control
@@ -813,7 +813,7 @@ MPU_xEventGroupSetBits:
         svc #SYSTEM_CALL_xEventGroupSetBits
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xEventGroupSync
+    பொது MPU_xEventGroupSync
 MPU_xEventGroupSync:
     push {r0}
     mrs r0, control
@@ -826,7 +826,7 @@ MPU_xEventGroupSync:
         svc #SYSTEM_CALL_xEventGroupSync
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_uxEventGroupGetNumber
+    பொது MPU_uxEventGroupGetNumber
 MPU_uxEventGroupGetNumber:
     push {r0}
     mrs r0, control
@@ -839,7 +839,7 @@ MPU_uxEventGroupGetNumber:
         svc #SYSTEM_CALL_uxEventGroupGetNumber
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_vEventGroupSetNumber
+    பொது MPU_vEventGroupSetNumber
 MPU_vEventGroupSetNumber:
     push {r0}
     mrs r0, control
@@ -852,7 +852,7 @@ MPU_vEventGroupSetNumber:
         svc #SYSTEM_CALL_vEventGroupSetNumber
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferSend
+    பொது MPU_xStreamBufferSend
 MPU_xStreamBufferSend:
     push {r0}
     mrs r0, control
@@ -865,7 +865,7 @@ MPU_xStreamBufferSend:
         svc #SYSTEM_CALL_xStreamBufferSend
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferReceive
+    பொது MPU_xStreamBufferReceive
 MPU_xStreamBufferReceive:
     push {r0}
     mrs r0, control
@@ -878,7 +878,7 @@ MPU_xStreamBufferReceive:
         svc #SYSTEM_CALL_xStreamBufferReceive
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferIsFull
+    பொது MPU_xStreamBufferIsFull
 MPU_xStreamBufferIsFull:
     push {r0}
     mrs r0, control
@@ -891,7 +891,7 @@ MPU_xStreamBufferIsFull:
         svc #SYSTEM_CALL_xStreamBufferIsFull
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferIsEmpty
+    பொது MPU_xStreamBufferIsEmpty
 MPU_xStreamBufferIsEmpty:
     push {r0}
     mrs r0, control
@@ -904,7 +904,7 @@ MPU_xStreamBufferIsEmpty:
         svc #SYSTEM_CALL_xStreamBufferIsEmpty
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferSpacesAvailable
+    பொது MPU_xStreamBufferSpacesAvailable
 MPU_xStreamBufferSpacesAvailable:
     push {r0}
     mrs r0, control
@@ -917,7 +917,7 @@ MPU_xStreamBufferSpacesAvailable:
         svc #SYSTEM_CALL_xStreamBufferSpacesAvailable
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferBytesAvailable
+    பொது MPU_xStreamBufferBytesAvailable
 MPU_xStreamBufferBytesAvailable:
     push {r0}
     mrs r0, control
@@ -930,7 +930,7 @@ MPU_xStreamBufferBytesAvailable:
         svc #SYSTEM_CALL_xStreamBufferBytesAvailable
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferSetTriggerLevel
+    பொது MPU_xStreamBufferSetTriggerLevel
 MPU_xStreamBufferSetTriggerLevel:
     push {r0}
     mrs r0, control
@@ -943,7 +943,7 @@ MPU_xStreamBufferSetTriggerLevel:
         svc #SYSTEM_CALL_xStreamBufferSetTriggerLevel
 /*-----------------------------------------------------------*/
 
-    PUBLIC MPU_xStreamBufferNextMessageLengthBytes
+    பொது MPU_xStreamBufferNextMessageLengthBytes
 MPU_xStreamBufferNextMessageLengthBytes:
     push {r0}
     mrs r0, control
@@ -1243,4 +1243,4 @@ MPU_xStreamBufferNextMessageLengthBytesImpl:
 
 #endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
-    END
+    முடி

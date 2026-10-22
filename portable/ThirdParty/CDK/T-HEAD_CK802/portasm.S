@@ -13,12 +13,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS அல்லது
+ * IMPLIED, INCLUDING BUT இல்லை LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE மற்றும் NONINFRINGEMENT. உள் NO EVENT SHALL THE AUTHORS அல்லது
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES அல்லது OTHER LIABILITY, WHETHER
+ * உள் AN ACTION OF CONTRACT, TORT அல்லது OTHERWISE, ARISING FROM, OUT OF அல்லது உள்
+ * CONNECTION WITH THE SOFTWARE அல்லது THE USE அல்லது OTHER DEALINGS உள் THE SOFTWARE.
  *
  */
 
@@ -28,7 +28,7 @@
  * Functions: vPortStartTask
  *
  ********************************************************************/
-.global vPortStartTask
+.வைஶ்விக vPortStartTask
 .type   vPortStartTask, %function
 vPortStartTask:
     psrclr   ie
@@ -49,7 +49,7 @@ vPortStartTask:
  * Functions: vPortYield
  *
  ********************************************************************/
-.global vPortYield
+.வைஶ்விக vPortYield
 .type   vPortYield, %function
 vPortYield:
     psrclr  ee
@@ -84,7 +84,7 @@ vPortYield:
  * Functions: NOVIC_IRQ_Default_Handler
  *
  ********************************************************************/
-.global NOVIC_IRQ_Default_Handler
+.வைஶ்விக NOVIC_IRQ_Default_Handler
 .type   NOVIC_IRQ_Default_Handler, %function
 NOVIC_IRQ_Default_Handler:
     psrset  ee

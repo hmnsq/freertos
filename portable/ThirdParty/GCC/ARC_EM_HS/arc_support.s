@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS அல்லது
+ * IMPLIED, INCLUDING BUT இல்லை LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE மற்றும் NONINFRINGEMENT. உள் NO EVENT SHALL THE AUTHORS அல்லது
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES அல்லது OTHER LIABILITY, WHETHER
+ * உள் AN ACTION OF CONTRACT, TORT அல்லது OTHERWISE, ARISING FROM, OUT OF அல்லது உள்
+ * CONNECTION WITH THE SOFTWARE அல்லது THE USE அல்லது OTHER DEALINGS உள் THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -47,7 +47,7 @@
  */
     .text
     .align 4
-    .global dispatch
+    .வைஶ்விக dispatch
 dispatch:
 /*
  *  the pre-conditions of this routine are task context, CPU is
@@ -67,7 +67,7 @@ dispatch_r:
 /*
  *  start dispatch
  */
-    .global start_dispatch
+    .வைஶ்விக start_dispatch
     .align 4
 start_dispatch:
 /*
@@ -132,7 +132,7 @@ dispatcher_0:
  *
  */
     .text
-    .global start_r
+    .வைஶ்விக start_r
     .align 4
 start_r:
     seti    /* unlock cpu */
@@ -143,7 +143,7 @@ start_r:
 
 /****** exceptions and interrupts handing ******/
 /****** entry for exception handling ******/
-    .global exc_entry_cpu
+    .வைஶ்விக exc_entry_cpu
     .align 4
 exc_entry_cpu:
 
@@ -218,7 +218,7 @@ ret_exc_r:
     rtie
 
 /****** entry for normal interrupt exception handling ******/
-    .global exc_entry_int   /* entry for interrupt handling */
+    .வைஶ்விக exc_entry_int   /* entry for interrupt handling */
     .align 4
 exc_entry_int:
 #if ARC_FEATURE_FIRQ == 1
@@ -322,7 +322,7 @@ ret_int_r:
     rtie
 
 #if ARC_FEATURE_FIRQ == 1
-    .global exc_entry_firq
+    .வைஶ்விக exc_entry_firq
     .align 4
 exc_entry_firq:
 #if ARC_FEATURE_STACK_CHECK && ARC_FEATURE_RGF_NUM_BANKS > 1

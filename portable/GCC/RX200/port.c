@@ -31,20 +31,20 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#அந்தர்பாவ "FreeRTOS.h"
+#அந்தர்பாவ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#அந்தர்பாவ "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#எனில் ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #அந்தர்பாவ "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#இல்லையெனில் /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #அந்தர்பாவ "iodefine.h"
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -52,16 +52,16 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( அடுக்கு_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( அடுக்கு_Type_t ) 0x00000100 )
 
 /* These macros allow a critical section to be added around the call to
  * xTaskIncrementTick(), which is only ever called from interrupts at the kernel
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm நிலையற்ற ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm நிலையற்ற ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
 
 /*-----------------------------------------------------------*/
 
@@ -69,7 +69,7 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+நிலையான வெறுமை prvStartFirstTask( வெறுமை ) __attribute__( ( naked ) );
 
 
 /*
@@ -77,14 +77,14 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#எனில் ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_ATTRIB_INTERRUPT வெறுமை vSoftwareInterruptISR( வெறுமை ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#இல்லையெனில் /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    வெறுமை vSoftwareInterruptISR( வெறுமை ) __attribute__( ( naked ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
@@ -92,105 +92,105 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#எனில் ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_ATTRIB_INTERRUPT வெறுமை vTickISR( வெறுமை ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#இல்லையெனில் /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vTickISR( void ) __attribute__( ( interrupt ) );
+    வெறுமை vTickISR( வெறுமை ) __attribute__( ( interrupt ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+வெளி வெறுமை * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+அடுக்கு_Type_t * px_Port_Initialise_அடுக்கு( அடுக்கு_Type_t * px_உச்சி_Of_அடுக்கு,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     வெறுமை * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_உச்சி_Of_அடுக்கு = 0x00;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = portINITIAL_PSW;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0xffffffff; /* r15. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0xeeeeeeee;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0xdddddddd;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0xcccccccc;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0xbbbbbbbb;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0xaaaaaaaa;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x99999999;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x88888888;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x77777777;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x66666666;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x55555555;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x44444444;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x33333333;
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = 0x22222222;
+        px_உச்சி_Of_அடுக்கு--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #இல்லையெனில் /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_உச்சி_Of_அடுக்கு -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 1. */
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pvParameters; /* R1 */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = portINITIAL_FPSW;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x11111111; /* Accumulator 0. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x22222222; /* Accumulator 0. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x33333333; /* Accumulator 0. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x44444444; /* Accumulator 1. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x55555555; /* Accumulator 1. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    திரும்பு px_உச்சி_Of_அடுக்கு;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( வெறுமை )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    வெளி வெறுமை vApplicationSetupTimerInterrupt( வெறுமை );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    எனில்( pxCurrentTCB != வெற்று )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -211,21 +211,21 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    திரும்பு pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+வெறுமை vPortEndScheduler( வெறுமை )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == வெற்று );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+நிலையான வெறுமை prvStartFirstTask( வெறுமை )
 {
-    __asm volatile
+    __asm நிலையற்ற
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -283,9 +283,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+வெறுமை vSoftwareInterruptISR( வெறுமை )
 {
-    __asm volatile
+    __asm நிலையற்ற
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -397,16 +397,16 @@ void vSoftwareInterruptISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vTickISR( void )
+வெறுமை vTickISR( வெறுமை )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW I" );
+    __asm நிலையற்ற ( "SETPSW I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portMASK_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        எனில்( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -415,9 +415,9 @@ void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ulPortGetIPL( வெறுமை )
 {
-    __asm volatile
+    __asm நிலையற்ற
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -425,13 +425,13 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    திரும்பு 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+வெறுமை vPortSetIPL( uint32_t ulNewIPL )
 {
-    __asm volatile
+    __asm நிலையற்ற
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \

@@ -26,7 +26,7 @@
 ; *
 ; */
 
-    INCLUDE portmacro.inc
+    அந்தர்பாவ portmacro.inc
 
     IMPORT  vTaskSwitchContext
     IMPORT  xTaskIncrementTick
@@ -121,4 +121,4 @@ SkipContextSwitch
 
     portRESTORE_CONTEXT                 ; Restore the context of the highest
                                         ; priority task that is ready to run.
-    END
+    முடி

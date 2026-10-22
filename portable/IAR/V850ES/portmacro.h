@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,26 +46,26 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          எழுத்து
+#define portFLOAT         தசம
+#define portDOUBLE        இரட்டை
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     int
+#define port_அடுக்கு_TYPE    unsigned முழு
+#define portBASE_TYPE     முழு
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+வகைவரை port_அடுக்கு_TYPE   அடுக்கு_Type_t;
+வகைவரை long             BaseType_t;
+வகைவரை unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#எனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    வகைவரை uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    வகைவரை uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#இல்லையெனில்
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -80,7 +80,7 @@ typedef unsigned long    UBaseType_t;
 
 #define portENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;            \
+        வெளி நிலையற்ற /*uint16_t*/ port_அடுக்கு_TYPE usCriticalNesting;            \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -92,16 +92,16 @@ typedef unsigned long    UBaseType_t;
 
 #define portEXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile /*uint16_t*/ portSTACK_TYPE usCriticalNesting;              \
+        வெளி நிலையற்ற /*uint16_t*/ port_அடுக்கு_TYPE usCriticalNesting;              \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        எனில்( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            எனில்( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
                 portENABLE_INTERRUPTS();                                            \
             }                                                                       \
@@ -110,26 +110,26 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-extern void vPortStart( void );
-extern void portSAVE_CONTEXT( void );
-extern void portRESTORE_CONTEXT( void );
+வெளி வெறுமை vPortYield( வெறுமை );
+வெளி வெறுமை vPortStart( வெறுமை );
+வெளி வெறுமை portSAVE_CONTEXT( வெறுமை );
+வெளி வெறுமை portRESTORE_CONTEXT( வெறுமை );
 #define portYIELD()                                       __asm( "trap 0" )
 #define portNOP()                                         __asm( "NOP" )
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } while( 0 )
+வெளி வெறுமை vTaskSwitchContext( வெறுமை );
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    செய் { எனில்( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } போது( 0 )
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
+#define port_அடுக்கு_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    வெறுமை vFunction( வெறுமை * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          வெறுமை vFunction( வெறுமை * pvParameters )
 
 
 /* *INDENT-OFF* */

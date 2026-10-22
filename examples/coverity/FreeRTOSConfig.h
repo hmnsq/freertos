@@ -45,15 +45,15 @@
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
 #define configUSE_TICKLESS_IDLE                    1
 #define configMAX_PRIORITIES                       5U
-#define configMINIMAL_STACK_SIZE                   128U
+#define config_MINIMAL_அடுக்கு_SIZE                   128U
 #define configMAX_TASK_NAME_LEN                    4U
 #define configTICK_TYPE_WIDTH_IN_BITS              TICK_TYPE_WIDTH_64_BITS
 #define configIDLE_SHOULD_YIELD                    1
 #define configTASK_NOTIFICATION_ARRAY_ENTRIES      1U
 #define configQUEUE_REGISTRY_SIZE                  0U
 #define configENABLE_BACKWARD_COMPATIBILITY        1
-#define configNUM_THREAD_LOCAL_STORAGE_POINTERS    0
-#define configSTACK_DEPTH_TYPE                     size_t
+#define config_இலக்கம்_THREAD_LOCAL_STORAGE_POINTERS    0
+#define config_அடுக்கு_DEPTH_TYPE                     size_t
 #define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
 #define configUSE_NEWLIB_REENTRANT                 0
 
@@ -63,7 +63,7 @@
 
 #define configUSE_TIMERS                1
 #define configTIMER_TASK_PRIORITY       ( configMAX_PRIORITIES - 1U )
-#define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
+#define config_TIMER_TASK_அடுக்கு_DEPTH    config_MINIMAL_அடுக்கு_SIZE
 #define configTIMER_QUEUE_LENGTH        10U
 
 /******************************************************************************/
@@ -74,7 +74,7 @@
 #define configSUPPORT_DYNAMIC_ALLOCATION             1
 #define configTOTAL_HEAP_SIZE                        4096U
 #define configAPPLICATION_ALLOCATED_HEAP             1
-#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
+#define config_அடுக்கு_ALLOCATION_FROM_SEPARATE_HEAP    0
 #define configUSE_MINI_LIST_ITEM                     0
 
 /******************************************************************************/
@@ -93,7 +93,7 @@
 #define configUSE_TICK_HOOK                   0
 #define configUSE_MALLOC_FAILED_HOOK          0
 #define configUSE_DAEMON_TASK_STARTUP_HOOK    0
-#define configCHECK_FOR_STACK_OVERFLOW        0
+#define config_CHECK_FOR_அடுக்கு_OVERFLOW        0
 
 /******************************************************************************/
 /* Run time and task stats gathering related definitions. *********************/
@@ -122,7 +122,7 @@
 #define INCLUDE_vTaskDelay                     1
 #define INCLUDE_xTaskGetSchedulerState         1
 #define INCLUDE_xTaskGetCurrentTaskHandle      1
-#define INCLUDE_uxTaskGetStackHighWaterMark    1
+#define INCLUDE_ux_Task_Get_அடுக்கு_உயர்வு_Water_Mark    1
 #define INCLUDE_xTaskGetIdleTaskHandle         1
 #define INCLUDE_eTaskGetState                  1
 #define INCLUDE_xTimerPendFunctionCall         1

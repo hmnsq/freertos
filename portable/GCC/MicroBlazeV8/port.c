@@ -32,21 +32,21 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#அந்தர்பாவ "FreeRTOS.h"
+#அந்தர்பாவ "task.h"
 
 /* Standard includes. */
-#include <string.h>
+#அந்தர்பாவ <string.h>
 
 /* Hardware includes. */
-#include <xintc_i.h>
-#include <xil_exception.h>
-#include <microblaze_exceptions_g.h>
+#அந்தர்பாவ <xintc_i.h>
+#அந்தர்பாவ <xil_exception.h>
+#அந்தர்பாவ <microblaze_exceptions_g.h>
 
 /* Tasks are started with a critical section nesting of 0 - however, prior to
  * the scheduler being commenced interrupts should not be enabled, so the critical
  * nesting variable is initialised to a non-zero value. */
-#define portINITIAL_NESTING_VALUE    ( 0xff )
+#define port_INITIAL_NESTING_மதிப்பு    ( 0xff )
 
 /* The bit within the MSR register that enabled/disables interrupts and
  * exceptions respectively. */
@@ -63,19 +63,19 @@
 /*
  * Initialise the interrupt controller instance.
  */
-static int32_t prvInitialiseInterruptController( void );
+நிலையான int32_t prvInitialiseInterruptController( வெறுமை );
 
 /* Ensure the interrupt controller instance variable is initialised before it is
  * used, and that the initialisation only happens once.
  */
-static int32_t prvEnsureInterruptControllerIsInitialised( void );
+நிலையான int32_t prvEnsureInterruptControllerIsInitialised( வெறுமை );
 
 /*-----------------------------------------------------------*/
 
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+நிலையற்ற UBaseType_t uxCriticalNesting = port_INITIAL_NESTING_மதிப்பு;
 
 /* This port uses a separate stack for interrupts.  This prevents the stack of
  * every task needing to be large enough to hold an entire interrupt stack on top
@@ -90,11 +90,11 @@ uint32_t * pulISRStack;
  * an unusual mechanism, but is used for this port because a single interrupt can
  * cause the servicing of multiple peripherals - and it is inefficient to call
  * vTaskSwitchContext() multiple times as each peripheral is serviced. */
-volatile uint32_t ulTaskSwitchRequested = 0UL;
+நிலையற்ற uint32_t ulTaskSwitchRequested = 0UL;
 
 /* The instance of the interrupt controller used by this port.  This is required
  * by the Xilinx library API functions. */
-static XIntc xInterruptControllerInstance;
+நிலையான XIntc xInterruptControllerInstance;
 
 /*-----------------------------------------------------------*/
 
@@ -104,142 +104,142 @@ static XIntc xInterruptControllerInstance;
  *
  * See the portable.h header file.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+அடுக்கு_Type_t * px_Port_Initialise_அடுக்கு( அடுக்கு_Type_t * px_உச்சி_Of_அடுக்கு,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     வெறுமை * pvParameters )
 {
-    extern void * _SDA2_BASE_;
-    extern void * _SDA_BASE_;
-    const uint32_t ulR2 = ( uint32_t ) &_SDA2_BASE_;
-    const uint32_t ulR13 = ( uint32_t ) &_SDA_BASE_;
+    வெளி வெறுமை * _SDA2_BASE_;
+    வெளி வெறுமை * _SDA_BASE_;
+    மாறிலி uint32_t ulR2 = ( uint32_t ) &_SDA2_BASE_;
+    மாறிலி uint32_t ulR13 = ( uint32_t ) &_SDA_BASE_;
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is essential for the Microblaze port and these lines must
      * not be omitted. */
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x00000000;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x00000000;
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x00000000;
+    px_உச்சி_Of_அடுக்கு--;
 
-    #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
+    #எனில் ( XPAR_MICROBLAZE_USE_FPU != 0 )
         /* The FSR value placed in the initial task context is just 0. */
-        *pxTopOfStack = portINITIAL_FSR;
-        pxTopOfStack--;
+        *px_உச்சி_Of_அடுக்கு = portINITIAL_FSR;
+        px_உச்சி_Of_அடுக்கு--;
     #endif
 
     /* The MSR value placed in the initial task context should have interrupts
      * disabled.  Each task will enable interrupts automatically when it enters
      * the running state for the first time. */
-    *pxTopOfStack = mfmsr() & ~portMSR_IE;
+    *px_உச்சி_Of_அடுக்கு = mfmsr() & ~portMSR_IE;
 
-    #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
+    #எனில் ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
     {
         /* Ensure exceptions are enabled for the task. */
-        *pxTopOfStack |= portMSR_EE;
+        *px_உச்சி_Of_அடுக்கு |= portMSR_EE;
     }
     #endif
 
-    pxTopOfStack--;
+    px_உச்சி_Of_அடுக்கு--;
 
     /* First stack an initial value for the critical section nesting.  This
      * is initialised to zero. */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x00;
 
     /* R0 is always zero. */
     /* R1 is the SP. */
 
     /* Place an initial value for all the general purpose registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ulR2;         /* R2 - read only small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03;         /* R3 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04;         /* R4 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R5 contains the function call parameters. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) ulR2;         /* R2 - read only small data area. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x03;         /* R3 - return values and temporaries. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x04;         /* R4 - return values and temporaries. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pvParameters; /* R5 contains the function call parameters. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06; /* R6 - other parameters and temporaries.  Used as the return address from vPortTaskEntryPoint. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07; /* R7 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x08; /* R8 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09; /* R9 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0a; /* R10 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0b; /* R11 - temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0c; /* R12 - temporaries. */
-        pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 8;
+    #ifdef port_PRE_LOAD_அடுக்கு_FOR_DEBUGGING
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x06; /* R6 - other parameters and temporaries.  Used as the return address from vPortTaskEntryPoint. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x07; /* R7 - other parameters and temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x08; /* R8 - other parameters and temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x09; /* R9 - other parameters and temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x0a; /* R10 - other parameters and temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x0b; /* R11 - temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x0c; /* R12 - temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+    #இல்லையெனில் /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+        px_உச்சி_Of_அடுக்கு -= 8;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
-    *pxTopOfStack = ( StackType_t ) ulR13;  /* R13 - read/write small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode; /* R14 - return address for interrupt. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;   /* R15 - return address for subroutine. */
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) ulR13;  /* R13 - read/write small data area. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) pxCode; /* R14 - return address for interrupt. */
+    px_உச்சி_Of_அடுக்கு--;
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) வெற்று;   /* R15 - return address for subroutine. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10; /* R16 - return address for trap (debugger). */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11; /* R17 - return address for exceptions, if configured. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x12; /* R18 - reserved for assembler and compiler temporaries. */
-        pxTopOfStack--;
-    #else
-        pxTopOfStack -= 4;
+    #ifdef port_PRE_LOAD_அடுக்கு_FOR_DEBUGGING
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x10; /* R16 - return address for trap (debugger). */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x11; /* R17 - return address for exceptions, if configured. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x12; /* R18 - reserved for assembler and compiler temporaries. */
+        px_உச்சி_Of_அடுக்கு--;
+    #இல்லையெனில்
+        px_உச்சி_Of_அடுக்கு -= 4;
     #endif
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
+    *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x00; /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x14; /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x15; /* R21 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x16; /* R22 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x17; /* R23 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x18; /* R24 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x19; /* R25 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1a; /* R26 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1b; /* R27 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1c; /* R28 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1d; /* R29 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1e; /* R30 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1f; /* R31 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 13;
+    #ifdef port_PRE_LOAD_அடுக்கு_FOR_DEBUGGING
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x14; /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x15; /* R21 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x16; /* R22 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x17; /* R23 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x18; /* R24 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x19; /* R25 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x1a; /* R26 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x1b; /* R27 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x1c; /* R28 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x1d; /* R29 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x1e; /* R30 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+        *px_உச்சி_Of_அடுக்கு = ( அடுக்கு_Type_t ) 0x1f; /* R31 - must be saved across function calls. Callee-save. */
+        px_உச்சி_Of_அடுக்கு--;
+    #இல்லையெனில் /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+        px_உச்சி_Of_அடுக்கு -= 13;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
     /* Return a pointer to the top of the stack that has been generated so this
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    திரும்பு px_உச்சி_Of_அடுக்கு;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( வெறுமை )
 {
-    extern void( vPortStartFirstTask )( void );
-    extern uint32_t _stack[];
+    வெளி வெறுமை( vPortStartFirstTask )( வெறுமை );
+    வெளி uint32_t அடுக்கு_3[];
 
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called.
@@ -253,7 +253,7 @@ BaseType_t xPortStartScheduler( void )
     vApplicationSetupTimerInterrupt();
 
     /* Reuse the stack from main() as the stack for the interrupts/exceptions. */
-    pulISRStack = ( uint32_t * ) _stack;
+    pulISRStack = ( uint32_t * ) அடுக்கு_3;
 
     /* Ensure there is enough space for the functions called from the interrupt
      * service routines to write back into the stack frame of the caller. */
@@ -264,11 +264,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    திரும்பு pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+வெறுமை vPortEndScheduler( வெறுமை )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -279,9 +279,9 @@ void vPortEndScheduler( void )
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-void vPortYield( void )
+வெறுமை vPortYield( வெறுமை )
 {
-    extern void VPortYieldASM( void );
+    வெளி வெறுமை VPortYieldASM( வெறுமை );
 
     /* Perform the context switch in a critical section to assure it is
      * not interrupted by the tick ISR.  It is not a problem to do this as
@@ -290,14 +290,14 @@ void vPortYield( void )
     {
         /* Jump directly to the yield function to ensure there is no
          * compiler generated prologue code. */
-        asm volatile ( "bralid r14, VPortYieldASM      \n\t" \
+        asm நிலையற்ற ( "bralid r14, VPortYieldASM      \n\t" \
                        "or r0, r0, r0                  \n\t" );
     }
     portEXIT_CRITICAL();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnableInterrupt( uint8_t ucInterruptID )
+வெறுமை vPortEnableInterrupt( uint8_t ucInterruptID )
 {
     int32_t lReturn;
 
@@ -306,7 +306,7 @@ void vPortEnableInterrupt( uint8_t ucInterruptID )
      * to this file. */
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    எனில்( lReturn == pdPASS )
     {
         XIntc_Enable( &xInterruptControllerInstance, ucInterruptID );
     }
@@ -315,7 +315,7 @@ void vPortEnableInterrupt( uint8_t ucInterruptID )
 }
 /*-----------------------------------------------------------*/
 
-void vPortDisableInterrupt( uint8_t ucInterruptID )
+வெறுமை vPortDisableInterrupt( uint8_t ucInterruptID )
 {
     int32_t lReturn;
 
@@ -324,7 +324,7 @@ void vPortDisableInterrupt( uint8_t ucInterruptID )
      * to this file. */
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    எனில்( lReturn == pdPASS )
     {
         XIntc_Disable( &xInterruptControllerInstance, ucInterruptID );
     }
@@ -335,7 +335,7 @@ void vPortDisableInterrupt( uint8_t ucInterruptID )
 
 BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef )
+                                         வெறுமை * pvCallBackRef )
 {
     int32_t lReturn;
 
@@ -344,44 +344,44 @@ BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
 
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    எனில்( lReturn == pdPASS )
     {
         lReturn = XIntc_Connect( &xInterruptControllerInstance, ucInterruptID, pxHandler, pvCallBackRef );
     }
 
-    if( lReturn == XST_SUCCESS )
+    எனில்( lReturn == XST_SUCCESS )
     {
         lReturn = pdPASS;
     }
 
     configASSERT( lReturn == pdPASS );
 
-    return lReturn;
+    திரும்பு lReturn;
 }
 /*-----------------------------------------------------------*/
 
-static int32_t prvEnsureInterruptControllerIsInitialised( void )
+நிலையான int32_t prvEnsureInterruptControllerIsInitialised( வெறுமை )
 {
-    static int32_t lInterruptControllerInitialised = pdFALSE;
+    நிலையான int32_t lInterruptControllerInitialised = pdFALSE;
     int32_t lReturn;
 
     /* Ensure the interrupt controller instance variable is initialised before
      * it is used, and that the initialisation only happens once. */
-    if( lInterruptControllerInitialised != pdTRUE )
+    எனில்( lInterruptControllerInitialised != pdTRUE )
     {
         lReturn = prvInitialiseInterruptController();
 
-        if( lReturn == pdPASS )
+        எனில்( lReturn == pdPASS )
         {
             lInterruptControllerInitialised = pdTRUE;
         }
     }
-    else
+    இல்லையெனில்
     {
         lReturn = pdPASS;
     }
 
-    return lReturn;
+    திரும்பு lReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -389,12 +389,12 @@ static int32_t prvEnsureInterruptControllerIsInitialised( void )
  * Handler for the timer interrupt.  This is the handler that the application
  * defined callback function vApplicationSetupTimerInterrupt() should install.
  */
-void vPortTickISR( void * pvUnused )
+வெறுமை vPortTickISR( வெறுமை * pvUnused )
 {
-    extern void vApplicationClearTimerInterrupt( void );
+    வெளி வெறுமை vApplicationClearTimerInterrupt( வெறுமை );
 
     /* Ensure the unused parameter does not generate a compiler warning. */
-    ( void ) pvUnused;
+    ( வெறுமை ) pvUnused;
 
     /* This port uses an application defined callback function to clear the tick
      * interrupt because the kernel will run on lots of different MicroBlaze and
@@ -405,7 +405,7 @@ void vPortTickISR( void * pvUnused )
     vApplicationClearTimerInterrupt();
 
     /* Increment the RTOS tick - this might cause a task to unblock. */
-    if( xTaskIncrementTick() != pdFALSE )
+    எனில்( xTaskIncrementTick() != pdFALSE )
     {
         /* Force vTaskSwitchContext() to be called as the interrupt exits. */
         ulTaskSwitchRequested = 1;
@@ -413,13 +413,13 @@ void vPortTickISR( void * pvUnused )
 }
 /*-----------------------------------------------------------*/
 
-static int32_t prvInitialiseInterruptController( void )
+நிலையான int32_t prvInitialiseInterruptController( வெறுமை )
 {
     int32_t lStatus;
 
     lStatus = XIntc_Initialize( &xInterruptControllerInstance, configINTERRUPT_CONTROLLER_TO_USE );
 
-    if( lStatus == XST_SUCCESS )
+    எனில்( lStatus == XST_SUCCESS )
     {
         /* Initialise the exception table. */
         Xil_ExceptionInit();
@@ -430,7 +430,7 @@ static int32_t prvInitialiseInterruptController( void )
         /* Install exception handlers if the MicroBlaze is configured to handle
          * exceptions, and the application defined constant
          * configINSTALL_EXCEPTION_HANDLERS is set to 1. */
-        #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
+        #எனில் ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
         {
             vPortExceptionsInstallHandlers();
         }
@@ -440,11 +440,11 @@ static int32_t prvInitialiseInterruptController( void )
          * scheduler starts. */
         lStatus = XIntc_Start( &xInterruptControllerInstance, XIN_REAL_MODE );
 
-        if( lStatus == XST_SUCCESS )
+        எனில்( lStatus == XST_SUCCESS )
         {
             lStatus = pdPASS;
         }
-        else
+        இல்லையெனில்
         {
             lStatus = pdFAIL;
         }
@@ -452,6 +452,6 @@ static int32_t prvInitialiseInterruptController( void )
 
     configASSERT( lStatus == pdPASS );
 
-    return lStatus;
+    திரும்பு lStatus;
 }
 /*-----------------------------------------------------------*/

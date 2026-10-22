@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#அந்தர்பாவ <FreeRTOS.h>
+#அந்தர்பாவ <task.h>
+#அந்தர்பாவ <queue.h>
+#அந்தர்பாவ <timers.h>
+#அந்தர்பாவ <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#அந்தர்பாவ <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+நிலையான வெறுமை exampleTask( வெறுமை * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+நிலையான வெறுமை exampleTask( வெறுமை * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( வெறுமை ) parameters;
 
-    for( ; ; )
+    க்கு( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,42 +62,42 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+முழு முதன்மை( வெறுமை )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    நிலையான StaticTask_t exampleTaskTCB;
+    நிலையான அடுக்கு_Type_t example_Task_அடுக்கு[ config_MINIMAL_அடுக்கு_SIZE ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( வெறுமை ) printf( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( வெறுமை ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_MINIMAL_அடுக்கு_SIZE,
+                                வெற்று,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_அடுக்கு[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    க்கு( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    திரும்பு 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#எனில் ( config_CHECK_FOR_அடுக்கு_OVERFLOW > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    வெறுமை v_Application_அடுக்கு_Overflow_Hook( TaskHandle_t xTask,
+                                        எழுத்து * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( வெறுமை ) xTask;
+        ( வெறுமை ) pcTaskName;
     }
 
 #endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */

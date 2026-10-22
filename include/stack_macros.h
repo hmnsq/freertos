@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef STACK_MACROS_H
-#define STACK_MACROS_H
+#ifndef அடுக்கு_MACROS_H
+#define அடுக்கு_MACROS_H
 
 /*
  * Call the stack overflow hook function if the stack of the task being swapped
@@ -49,8 +49,8 @@
  * portSTACK_LIMIT_PADDING is a number of extra words to consider to be in
  * use on the stack.
  */
-#ifndef portSTACK_LIMIT_PADDING
-    #define portSTACK_LIMIT_PADDING    0
+#ifndef port_அடுக்கு_LIMIT_PADDING
+    #define port_அடுக்கு_LIMIT_PADDING    0
 #endif
 
 /* Stack overflow check is not straight forward to implement for MPU ports
@@ -64,90 +64,90 @@
  * Additionally, architectures with hardware stack overflow checking support
  * (such as Armv8-M) will trigger a fault when a task's stack overflows.
  */
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#எனில் ( ( config_CHECK_FOR_அடுக்கு_OVERFLOW == 1 ) && ( port_அடுக்கு_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                      \
-    do                                                                                          \
+    #define task_CHECK_FOR_அடுக்கு_OVERFLOW()                                                      \
+    செய்                                                                                          \
     {                                                                                           \
         /* Is the currently saved stack pointer within the stack limit? */                      \
-        if( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING )     \
+        எனில்( pxCurrentTCB->px_உச்சி_Of_அடுக்கு <= pxCurrentTCB->px_அடுக்கு + port_அடுக்கு_LIMIT_PADDING )     \
         {                                                                                       \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
+            எழுத்து * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
+            v_Application_அடுக்கு_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
         }                                                                                       \
-    } while( 0 )
+    } போது( 0 )
 
 #endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#எனில் ( ( config_CHECK_FOR_அடுக்கு_OVERFLOW == 1 ) && ( port_அடுக்கு_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #define task_CHECK_FOR_அடுக்கு_OVERFLOW()                                                       \
+    செய்                                                                                           \
     {                                                                                            \
         /* Is the currently saved stack pointer within the stack limit? */                       \
-        if( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) \
+        எனில்( pxCurrentTCB->px_உச்சி_Of_அடுக்கு >= pxCurrentTCB->px_End_Of_அடுக்கு - port_அடுக்கு_LIMIT_PADDING ) \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            எழுத்து * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
+            v_Application_அடுக்கு_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
         }                                                                                        \
-    } while( 0 )
+    } போது( 0 )
 
 #endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#எனில் ( ( config_CHECK_FOR_அடுக்கு_OVERFLOW > 1 ) && ( port_அடுக்கு_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #define task_CHECK_FOR_அடுக்கு_OVERFLOW()                                                       \
+    செய்                                                                                           \
     {                                                                                            \
-        const uint32_t * const pulStack = ( uint32_t * ) pxCurrentTCB->pxStack;                  \
-        const uint32_t ulCheckValue = ( uint32_t ) 0xa5a5a5a5U;                                  \
+        மாறிலி uint32_t * மாறிலி pul_அடுக்கு = ( uint32_t * ) pxCurrentTCB->px_அடுக்கு;                  \
+        மாறிலி uint32_t ul_Check_மதிப்பு = ( uint32_t ) 0xa5a5a5a5U;                                  \
                                                                                                  \
-        if( ( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING ) || \
-            ( pulStack[ 0 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 1 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 2 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 3 ] != ulCheckValue ) )                                                  \
+        எனில்( ( pxCurrentTCB->px_உச்சி_Of_அடுக்கு <= pxCurrentTCB->px_அடுக்கு + port_அடுக்கு_LIMIT_PADDING ) || \
+            ( pul_அடுக்கு[ 0 ] != ul_Check_மதிப்பு ) ||                                                 \
+            ( pul_அடுக்கு[ 1 ] != ul_Check_மதிப்பு ) ||                                                 \
+            ( pul_அடுக்கு[ 2 ] != ul_Check_மதிப்பு ) ||                                                 \
+            ( pul_அடுக்கு[ 3 ] != ul_Check_மதிப்பு ) )                                                  \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            எழுத்து * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
+            v_Application_அடுக்கு_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
         }                                                                                        \
-    } while( 0 )
+    } போது( 0 )
 
 #endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#எனில் ( ( config_CHECK_FOR_அடுக்கு_OVERFLOW > 1 ) && ( port_அடுக்கு_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                                                                \
-    do                                                                                                                                    \
+    #define task_CHECK_FOR_அடுக்கு_OVERFLOW()                                                                                                \
+    செய்                                                                                                                                    \
     {                                                                                                                                     \
-        int8_t * pcEndOfStack = ( int8_t * ) pxCurrentTCB->pxEndOfStack;                                                                  \
-        static const uint8_t ucExpectedStackBytes[] = { tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE }; \
+        int8_t * pc_End_Of_அடுக்கு = ( int8_t * ) pxCurrentTCB->px_End_Of_அடுக்கு;                                                                  \
+        நிலையான மாறிலி uint8_t uc_Expected_அடுக்கு_Bytes[] = { tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE,   \
+                                                        tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE,   \
+                                                        tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE,   \
+                                                        tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE,   \
+                                                        tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE, tsk_அடுக்கு_FILL_BYTE }; \
                                                                                                                                           \
-        pcEndOfStack -= sizeof( ucExpectedStackBytes );                                                                                   \
+        pc_End_Of_அடுக்கு -= அளவு( uc_Expected_அடுக்கு_Bytes );                                                                                   \
                                                                                                                                           \
-        if( ( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) ||                                     \
-            ( memcmp( ( void * ) pcEndOfStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) != 0 ) )                 \
+        எனில்( ( pxCurrentTCB->px_உச்சி_Of_அடுக்கு >= pxCurrentTCB->px_End_Of_அடுக்கு - port_அடுக்கு_LIMIT_PADDING ) ||                                     \
+            ( memcmp( ( வெறுமை * ) pc_End_Of_அடுக்கு, ( வெறுமை * ) uc_Expected_அடுக்கு_Bytes, அளவு( uc_Expected_அடுக்கு_Bytes ) ) != 0 ) )                 \
         {                                                                                                                                 \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
+            எழுத்து * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
+            v_Application_அடுக்கு_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
         }                                                                                                                                 \
-    } while( 0 )
+    } போது( 0 )
 
 #endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Remove stack overflow macro if not being used. */
-#ifndef taskCHECK_FOR_STACK_OVERFLOW
-    #define taskCHECK_FOR_STACK_OVERFLOW()
+#ifndef task_CHECK_FOR_அடுக்கு_OVERFLOW
+    #define task_CHECK_FOR_அடுக்கு_OVERFLOW()
 #endif
 
 

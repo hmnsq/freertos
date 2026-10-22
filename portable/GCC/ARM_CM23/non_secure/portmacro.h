@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -57,25 +57,25 @@
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#அந்தர்பாவ "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
-#if ( configTOTAL_MPU_REGIONS == 16 )
-    #error 16 MPU regions are not yet supported for this port.
+#எனில் ( configTOTAL_MPU_REGIONS == 16 )
+    #error 16 MPU regions are not yet supported க்கு this port.
 #endif
 
 #ifndef configENABLE_MVE
     #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M23.
+#அல்லதெனில் ( configENABLE_MVE != 0 )
+    #error configENABLE_MVE must be இடது undefined, or defined to 0 க்கு the Cortex-M23.
 #endif
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Critical section management.
  */
-#define portDISABLE_INTERRUPTS()    __asm volatile ( " cpsid i " ::: "memory" )
-#define portENABLE_INTERRUPTS()     __asm volatile ( " cpsie i " ::: "memory" )
+#define portDISABLE_INTERRUPTS()    __asm நிலையற்ற ( " cpsid i " ::: "memory" )
+#define portENABLE_INTERRUPTS()     __asm நிலையற்ற ( " cpsie i " ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */

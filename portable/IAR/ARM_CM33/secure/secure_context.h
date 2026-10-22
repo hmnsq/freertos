@@ -30,15 +30,15 @@
 #define __SECURE_CONTEXT_H__
 
 /* Standard includes. */
-#include <stdint.h>
+#அந்தர்பாவ <stdint.h>
 
 /* FreeRTOS includes. */
-#include "FreeRTOSConfig.h"
+#அந்தர்பாவ "FreeRTOSConfig.h"
 
 /**
  * @brief PSP value when no secure context is loaded.
  */
-#define securecontextNO_STACK              0x0
+#define securecontext_NO_அடுக்கு              0x0
 
 /**
  * @brief Invalid context ID.
@@ -52,19 +52,19 @@
  * @note Since stack grows down, pucStackStart is the highest address while
  * pucStackLimit is the first address of the allocated memory.
  */
-typedef struct SecureContext
+வகைவரை கட்டமைப்பு SecureContext
 {
-    uint8_t * pucCurrentStackPointer; /**< Current value of stack pointer (PSP). */
-    uint8_t * pucStackLimit;          /**< Last location of the stack memory (PSPLIM). */
-    uint8_t * pucStackStart;          /**< First location of the stack memory. */
-    void * pvTaskHandle;              /**< Task handle of the task this context is associated with. */
+    uint8_t * puc_Current_அடுக்கு_Pointer; /**< Current value of stack pointer (PSP). */
+    uint8_t * puc_அடுக்கு_Limit;          /**< Last location of the stack memory (PSPLIM). */
+    uint8_t * puc_அடுக்கு_Start;          /**< First location of the stack memory. */
+    வெறுமை * pvTaskHandle;              /**< Task handle of the task this context is associated with. */
 } SecureContext_t;
 /*-----------------------------------------------------------*/
 
 /**
  * @brief Opaque handle for a secure context.
  */
-typedef uint32_t SecureContextHandle_t;
+வகைவரை uint32_t SecureContextHandle_t;
 /*-----------------------------------------------------------*/
 
 /**
@@ -76,7 +76,7 @@ typedef uint32_t SecureContextHandle_t;
  * @note This function must be called in the handler mode. It is no-op if called
  * in the thread mode.
  */
-void SecureContext_Init( void );
+வெறுமை SecureContext_Init( வெறுமை );
 
 /**
  * @brief Allocates a context on the secure side.
@@ -90,13 +90,13 @@ void SecureContext_Init( void );
  * @return Opaque context handle if context is successfully allocated, NULL
  * otherwise.
  */
-#if ( configENABLE_MPU == 1 )
-    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
+#எனில் ( configENABLE_MPU == 1 )
+    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_அடுக்கு_Size,
                                                          uint32_t ulIsTaskPrivileged,
-                                                         void * pvTaskHandle );
-#else /* configENABLE_MPU */
-    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ulSecureStackSize,
-                                                         void * pvTaskHandle );
+                                                         வெறுமை * pvTaskHandle );
+#இல்லையெனில் /* configENABLE_MPU */
+    SecureContextHandle_t SecureContext_AllocateContext( uint32_t ul_Secure_அடுக்கு_Size,
+                                                         வெறுமை * pvTaskHandle );
 #endif /* configENABLE_MPU */
 
 /**
@@ -108,8 +108,8 @@ void SecureContext_Init( void );
  * @param[in] xSecureContextHandle Context handle corresponding to the
  * context to be freed.
  */
-void SecureContext_FreeContext( SecureContextHandle_t xSecureContextHandle,
-                                void * pvTaskHandle );
+வெறுமை SecureContext_FreeContext( SecureContextHandle_t xSecureContextHandle,
+                                வெறுமை * pvTaskHandle );
 
 /**
  * @brief Loads the given context.
@@ -120,8 +120,8 @@ void SecureContext_FreeContext( SecureContextHandle_t xSecureContextHandle,
  * @param[in] xSecureContextHandle Context handle corresponding to the context
  * to be loaded.
  */
-void SecureContext_LoadContext( SecureContextHandle_t xSecureContextHandle,
-                                void * pvTaskHandle );
+வெறுமை SecureContext_LoadContext( SecureContextHandle_t xSecureContextHandle,
+                                வெறுமை * pvTaskHandle );
 
 /**
  * @brief Saves the given context.
@@ -132,7 +132,7 @@ void SecureContext_LoadContext( SecureContextHandle_t xSecureContextHandle,
  * @param[in] xSecureContextHandle Context handle corresponding to the context
  * to be saved.
  */
-void SecureContext_SaveContext( SecureContextHandle_t xSecureContextHandle,
-                                void * pvTaskHandle );
+வெறுமை SecureContext_SaveContext( SecureContextHandle_t xSecureContextHandle,
+                                வெறுமை * pvTaskHandle );
 
 #endif /* __SECURE_CONTEXT_H__ */

@@ -40,42 +40,42 @@
  *-----------------------------------------------------------
  */
 
-#include <intrinsics.h>
+#அந்தர்பாவ <intrinsics.h>
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          எழுத்து
+#define portFLOAT         தசம
+#define portDOUBLE        இரட்டை
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_அடுக்கு_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+வகைவரை port_அடுக்கு_TYPE   அடுக்கு_Type_t;
+வகைவரை long             BaseType_t;
+வகைவரை unsigned long    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#எனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    வகைவரை uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    வகைவரை uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#இல்லையெனில்
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_அடுக்கு_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 #define portYIELD()    asm ( "SWI 0" )
@@ -83,10 +83,10 @@ typedef unsigned long    UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-__arm __interwork void vPortDisableInterruptsFromThumb( void );
-__arm __interwork void vPortEnableInterruptsFromThumb( void );
-__arm __interwork void vPortEnterCritical( void );
-__arm __interwork void vPortExitCritical( void );
+__arm __interwork வெறுமை vPortDisableInterruptsFromThumb( வெறுமை );
+__arm __interwork வெறுமை vPortEnableInterruptsFromThumb( வெறுமை );
+__arm __interwork வெறுமை vPortEnterCritical( வெறுமை );
+__arm __interwork வெறுமை vPortExitCritical( வெறுமை );
 
 #define portDISABLE_INTERRUPTS()    __disable_interrupt()
 #define portENABLE_INTERRUPTS()     __enable_interrupt()
@@ -97,14 +97,14 @@ __arm __interwork void vPortExitCritical( void );
 /* Task utilities. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern void vTaskSwitchContext( void );  \
+        வெளி வெறுமை vTaskSwitchContext( வெறுமை );  \
                                                  \
-        if( xSwitchRequired )                    \
+        எனில்( xSwitchRequired )                    \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        இல்லையெனில்                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
@@ -119,8 +119,8 @@ __arm __interwork void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    வெறுமை vFunction( வெறுமை * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          வெறுமை vFunction( வெறுமை * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

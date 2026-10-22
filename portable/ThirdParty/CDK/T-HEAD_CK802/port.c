@@ -23,10 +23,10 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#அந்தர்பாவ "FreeRTOS.h"
+#அந்தர்பாவ "task.h"
 
-extern void vPortStartTask( void );
+வெளி வெறுமை vPortStartTask( வெறுமை );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
@@ -36,13 +36,13 @@ portLONG ulCriticalNesting = 0x9999UL;
  * and implement task switch after exit critical area */
 portLONG pendsvflag = 0;
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+அடுக்கு_Type_t * px_Port_Initialise_அடுக்கு( அடுக்கு_Type_t * px_உச்சி_Of_அடுக்கு,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     வெறுமை * pvParameters )
 {
-    StackType_t * stk = NULL;
+    அடுக்கு_Type_t * stk = வெற்று;
 
-    stk = pxTopOfStack;
+    stk = px_உச்சி_Of_அடுக்கு;
 
     *( --stk ) = ( uint32_t ) pxCode;       /* Entry Point                                         */
     *( --stk ) = ( uint32_t ) 0xE0000140L;  /* PSR                                                 */
@@ -62,46 +62,46 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    திரும்பு stk;
 }
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( வெறுமை )
 {
     ulCriticalNesting = 0UL;
 
     vPortStartTask();
 
-    return pdFALSE;
+    திரும்பு pdFALSE;
 }
 
 
-void vPortEndScheduler( void )
+வெறுமை vPortEndScheduler( வெறுமை )
 {
     /* Not implemented as there is nothing to return to. */
 }
 
-void vPortEnterCritical( void )
+வெறுமை vPortEnterCritical( வெறுமை )
 {
     portDISABLE_INTERRUPTS();
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+வெறுமை vPortExitCritical( வெறுமை )
 {
-    if( ulCriticalNesting == 0 )
+    எனில்( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        போது( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    எனில்( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        எனில்( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,8 +109,8 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
-    void xPortSysTickHandler( void )
+#எனில் configUSE_PREEMPTION == 0
+    வெறுமை xPortSysTickHandler( வெறுமை )
     {
         portLONG ulDummy;
 
@@ -119,20 +119,20 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
-    void xPortSysTickHandler( void )
+#இல்லையெனில்
+    வெறுமை xPortSysTickHandler( வெறுமை )
     {
         portLONG ulDummy;
 
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            எனில்( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            இல்லையெனில்
             {
                 traceISR_EXIT();
             }
@@ -141,7 +141,7 @@ void vPortExitCritical( void )
     }
 #endif /* if configUSE_PREEMPTION == 0 */
 
-void vPortYieldHandler( void )
+வெறுமை vPortYieldHandler( வெறுமை )
 {
     uint32_t ulSavedInterruptMask;
 
@@ -152,17 +152,17 @@ void vPortYieldHandler( void )
     portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
 }
 
-__attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
+__attribute__( ( weak ) ) வெறுமை v_Application_அடுக்கு_Overflow_Hook( xTaskHandle * pxTask,
                                                               signed portCHAR * pcTaskName )
 {
-    for( ; ; )
+    க்கு( ; ; )
     {
     }
 }
 
-__attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
+__attribute__( ( weak ) ) வெறுமை vApplicationMallocFailedHook( வெறுமை )
 {
-    for( ; ; )
+    க்கு( ; ; )
     {
     }
 }

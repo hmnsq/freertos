@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    வெளி "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,35 +47,35 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          எழுத்து
+#define portFLOAT         தசம
+#define portDOUBLE        இரட்டை
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_அடுக்கு_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+வகைவரை port_அடுக்கு_TYPE   அடுக்கு_Type_t;
+வகைவரை long             BaseType_t;
+வகைவரை unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#எனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    வகைவரை uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#அல்லதெனில் ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    வகைவரை uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#இல்லையெனில்
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_அடுக்கு_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
-#define portYIELD()    asm volatile ( "SWI 0" )
-#define portNOP()      asm volatile ( "NOP" )
+#define portYIELD()    asm நிலையற்ற ( "SWI 0" )
+#define portNOP()      asm நிலையற்ற ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
@@ -89,16 +89,16 @@ typedef unsigned long    UBaseType_t;
 
 #ifdef THUMB_INTERWORK
 
-    extern void vPortDisableInterruptsFromThumb( void ) __attribute__( ( naked ) );
-    extern void vPortEnableInterruptsFromThumb( void ) __attribute__( ( naked ) );
+    வெளி வெறுமை vPortDisableInterruptsFromThumb( வெறுமை ) __attribute__( ( naked ) );
+    வெளி வெறுமை vPortEnableInterruptsFromThumb( வெறுமை ) __attribute__( ( naked ) );
 
     #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
     #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
 
-#else
+#இல்லையெனில்
 
     #define portDISABLE_INTERRUPTS()                                       \
-    asm volatile (                                                         \
+    asm நிலையற்ற (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
@@ -106,7 +106,7 @@ typedef unsigned long    UBaseType_t;
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
     #define portENABLE_INTERRUPTS()                                        \
-    asm volatile (                                                         \
+    asm நிலையற்ற (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
@@ -115,8 +115,8 @@ typedef unsigned long    UBaseType_t;
 
 #endif /* THUMB_INTERWORK */
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+வெளி வெறுமை vPortEnterCritical( வெறுமை );
+வெளி வெறுமை vPortExitCritical( வெறுமை );
 
 #define portENTER_CRITICAL()    vPortEnterCritical();
 #define portEXIT_CRITICAL()     vPortExitCritical();
@@ -125,14 +125,14 @@ extern void vPortExitCritical( void );
 /* Task utilities. */
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern void vTaskSwitchContext( void );  \
+        வெளி வெறுமை vTaskSwitchContext( வெறுமை );  \
                                                  \
-        if( xSwitchRequired )                    \
+        எனில்( xSwitchRequired )                    \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        இல்லையெனில்                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
@@ -140,8 +140,8 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    வெறுமை vFunction( வெறுமை * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          வெறுமை vFunction( வெறுமை * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
