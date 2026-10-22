@@ -37,34 +37,34 @@
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "timers.h"
-#include "event_groups.h"
-#include "stream_buffer.h"
-#include "mpu_prototypes.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
+#شامل "queue.h"
+#شامل "timers.h"
+#شامل "event_groups.h"
+#شامل "stream_buffer.h"
+#شامل "mpu_prototypes.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 /*-----------------------------------------------------------*/
 
-#if ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
+#اگر ( ( portUSING_MPU_WRAPPERS == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 1 ) )
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #اگر ( configENABLE_ACCESS_CONTROL_LIST == 1 )
         #error Access control list is not available with this MPU wrapper. Please set configENABLE_ACCESS_CONTROL_LIST to 0.
     #endif
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #اگر ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
         BaseType_t MPU_xTaskCreate( TaskFunction_t pvTaskCode,
-                                    const char * const pcName,
-                                    const configSTACK_DEPTH_TYPE uxStackDepth,
-                                    void * pvParameters,
+                                    ثابت نویسه * ثابت pcName,
+                                    ثابت config_پشته_DEPTH_TYPE ux_پشته_Depth,
+                                    تهی * pvParameters,
                                     UBaseType_t uxPriority,
                                     TaskHandle_t * pxCreatedTask ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -72,34 +72,34 @@
                 uxPriority = uxPriority & ~( portPRIVILEGE_BIT );
                 portMEMORY_BARRIER();
 
-                xReturn = xTaskCreate( pvTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, pxCreatedTask );
+                xReturn = xTaskCreate( pvTaskCode, pcName, ux_پشته_Depth, pvParameters, uxPriority, pxCreatedTask );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xTaskCreate( pvTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, pxCreatedTask );
+                xReturn = xTaskCreate( pvTaskCode, pcName, ux_پشته_Depth, pvParameters, uxPriority, pxCreatedTask );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #اگر ( configSUPPORT_STATIC_ALLOCATION == 1 )
         TaskHandle_t MPU_xTaskCreateStatic( TaskFunction_t pxTaskCode,
-                                            const char * const pcName,
-                                            const configSTACK_DEPTH_TYPE uxStackDepth,
-                                            void * const pvParameters,
+                                            ثابت نویسه * ثابت pcName,
+                                            ثابت config_پشته_DEPTH_TYPE ux_پشته_Depth,
+                                            تهی * ثابت pvParameters,
                                             UBaseType_t uxPriority,
-                                            StackType_t * const puxStackBuffer,
-                                            StaticTask_t * const pxTaskBuffer ) /* FREERTOS_SYSTEM_CALL */
+                                            پشته_Type_t * ثابت pux_پشته_Buffer,
+                                            StaticTask_t * ثابت pxTaskBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             TaskHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -107,26 +107,26 @@
                 uxPriority = uxPriority & ~( portPRIVILEGE_BIT );
                 portMEMORY_BARRIER();
 
-                xReturn = xTaskCreateStatic( pxTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, puxStackBuffer, pxTaskBuffer );
+                xReturn = xTaskCreateStatic( pxTaskCode, pcName, ux_پشته_Depth, pvParameters, uxPriority, pux_پشته_Buffer, pxTaskBuffer );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xTaskCreateStatic( pxTaskCode, pcName, uxStackDepth, pvParameters, uxPriority, puxStackBuffer, pxTaskBuffer );
+                xReturn = xTaskCreateStatic( pxTaskCode, pcName, ux_پشته_Depth, pvParameters, uxPriority, pux_پشته_Buffer, pxTaskBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* configSUPPORT_STATIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelete == 1 )
-        void MPU_vTaskDelete( TaskHandle_t pxTaskToDelete ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_vTaskDelete == 1 )
+        تهی MPU_vTaskDelete( TaskHandle_t pxTaskToDelete ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -137,7 +137,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskDelete( pxTaskToDelete );
             }
@@ -145,13 +145,13 @@
     #endif /* if ( INCLUDE_vTaskDelete == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskDelayUntil == 1 )
-        BaseType_t MPU_xTaskDelayUntil( TickType_t * const pxPreviousWakeTime,
+    #اگر ( INCLUDE_xTaskDelayUntil == 1 )
+        BaseType_t MPU_xTaskDelayUntil( TickType_t * ثابت pxPreviousWakeTime,
                                         TickType_t xTimeIncrement ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -162,22 +162,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskDelayUntil( pxPreviousWakeTime, xTimeIncrement );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskAbortDelay == 1 )
+    #اگر ( INCLUDE_xTaskAbortDelay == 1 )
         BaseType_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -188,20 +188,20 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskAbortDelay( xTask );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskDelay == 1 )
-        void MPU_vTaskDelay( TickType_t xTicksToDelay ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_vTaskDelay == 1 )
+        تهی MPU_vTaskDelay( TickType_t xTicksToDelay ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -212,7 +212,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskDelay( xTicksToDelay );
             }
@@ -220,12 +220,12 @@
     #endif /* if ( INCLUDE_vTaskDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskPriorityGet == 1 )
-        UBaseType_t MPU_uxTaskPriorityGet( const TaskHandle_t pxTask ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_uxTaskPriorityGet == 1 )
+        UBaseType_t MPU_uxTaskPriorityGet( ثابت TaskHandle_t pxTask ) /* FREERTOS_SYSTEM_CALL */
         {
             UBaseType_t uxReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -236,21 +236,21 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 uxReturn = uxTaskPriorityGet( pxTask );
             }
 
-            return uxReturn;
+            بازگشت uxReturn;
         }
     #endif /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskPrioritySet == 1 )
-        void MPU_vTaskPrioritySet( TaskHandle_t pxTask,
+    #اگر ( INCLUDE_vTaskPrioritySet == 1 )
+        تهی MPU_vTaskPrioritySet( TaskHandle_t pxTask,
                                    UBaseType_t uxNewPriority ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -261,7 +261,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskPrioritySet( pxTask, uxNewPriority );
             }
@@ -269,12 +269,12 @@
     #endif /* if ( INCLUDE_vTaskPrioritySet == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_eTaskGetState == 1 )
+    #اگر ( INCLUDE_eTaskGetState == 1 )
         eTaskState MPU_eTaskGetState( TaskHandle_t pxTask ) /* FREERTOS_SYSTEM_CALL */
         {
             eTaskState eReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -285,47 +285,47 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 eReturn = eTaskGetState( pxTask );
             }
 
-            return eReturn;
+            بازگشت eReturn;
         }
     #endif /* if ( INCLUDE_eTaskGetState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
-        void MPU_vTaskGetInfo( TaskHandle_t xTask,
+    #اگر ( configUSE_TRACE_FACILITY == 1 )
+        تهی MPU_vTaskGetInfo( TaskHandle_t xTask,
                                TaskStatus_t * pxTaskStatus,
-                               BaseType_t xGetFreeStackSpace,
+                               BaseType_t x_Get_Free_پشته_Space,
                                eTaskState eState ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                vTaskGetInfo( xTask, pxTaskStatus, xGetFreeStackSpace, eState );
+                vTaskGetInfo( xTask, pxTaskStatus, x_Get_Free_پشته_Space, eState );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                vTaskGetInfo( xTask, pxTaskStatus, xGetFreeStackSpace, eState );
+                vTaskGetInfo( xTask, pxTaskStatus, x_Get_Free_پشته_Space, eState );
             }
         }
     #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
-        TaskHandle_t MPU_xTaskGetIdleTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+        TaskHandle_t MPU_xTaskGetIdleTaskHandle( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             TaskHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -335,20 +335,20 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskGetIdleTaskHandle();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
-        void MPU_vTaskSuspend( TaskHandle_t pxTaskToSuspend ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_vTaskSuspend == 1 )
+        تهی MPU_vTaskSuspend( TaskHandle_t pxTaskToSuspend ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -359,7 +359,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskSuspend( pxTaskToSuspend );
             }
@@ -367,10 +367,10 @@
     #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_vTaskSuspend == 1 )
-        void MPU_vTaskResume( TaskHandle_t pxTaskToResume ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_vTaskSuspend == 1 )
+        تهی MPU_vTaskResume( TaskHandle_t pxTaskToResume ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -381,7 +381,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskResume( pxTaskToResume );
             }
@@ -389,9 +389,9 @@
     #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskSuspendAll( void ) /* FREERTOS_SYSTEM_CALL */
+    تهی MPU_vTaskSuspendAll( تهی ) /* FREERTOS_SYSTEM_CALL */
     {
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -402,18 +402,18 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             vTaskSuspendAll();
         }
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xTaskResumeAll( void ) /* FREERTOS_SYSTEM_CALL */
+    BaseType_t MPU_xTaskResumeAll( تهی ) /* FREERTOS_SYSTEM_CALL */
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -424,69 +424,69 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xTaskResumeAll();
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    TickType_t MPU_xTaskGetTickCount( void ) /* FREERTOS_SYSTEM_CALL */
+    TickType_t MPU_x_Task_Get_Tick_شمار( تهی ) /* FREERTOS_SYSTEM_CALL */
     {
         TickType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
 
-            xReturn = xTaskGetTickCount();
+            xReturn = x_Task_Get_Tick_شمار();
             portMEMORY_BARRIER();
 
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
-            xReturn = xTaskGetTickCount();
+            xReturn = x_Task_Get_Tick_شمار();
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) /* FREERTOS_SYSTEM_CALL */
+    UBaseType_t MPU_ux_Task_Get_عدد_Of_Tasks( تهی ) /* FREERTOS_SYSTEM_CALL */
     {
         UBaseType_t uxReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
 
-            uxReturn = uxTaskGetNumberOfTasks();
+            uxReturn = ux_Task_Get_عدد_Of_Tasks();
             portMEMORY_BARRIER();
 
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
-            uxReturn = uxTaskGetNumberOfTasks();
+            uxReturn = ux_Task_Get_عدد_Of_Tasks();
         }
 
-        return uxReturn;
+        بازگشت uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetHandle == 1 )
-        TaskHandle_t MPU_xTaskGetHandle( const char * pcNameToQuery ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_xTaskGetHandle == 1 )
+        TaskHandle_t MPU_xTaskGetHandle( ثابت نویسه * pcNameToQuery ) /* FREERTOS_SYSTEM_CALL */
         {
             TaskHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -497,21 +497,21 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskGetHandle( pcNameToQuery );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( INCLUDE_xTaskGetHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
-        void MPU_vTaskListTasks( char * pcWriteBuffer,
+    #اگر ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+        تهی MPU_vTaskListTasks( نویسه * pcWriteBuffer,
                                  size_t uxBufferLength ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -522,7 +522,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskListTasks( pcWriteBuffer, uxBufferLength );
             }
@@ -530,11 +530,11 @@
     #endif /* if ( ( configUSE_TRACE_FACILITY == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
-        void MPU_vTaskGetRunTimeStatistics( char * pcWriteBuffer,
+    #اگر ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+        تهی MPU_vTaskGetRunTimeStatistics( نویسه * pcWriteBuffer,
                                             size_t uxBufferLength ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -545,7 +545,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTaskGetRunTimeStatistics( pcWriteBuffer, uxBufferLength );
             }
@@ -553,12 +553,12 @@
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( configUSE_STATS_FORMATTING_FUNCTIONS > 0 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             configRUN_TIME_COUNTER_TYPE xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -569,22 +569,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = ulTaskGetIdleRunTimePercent();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
-        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+        configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             configRUN_TIME_COUNTER_TYPE xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -595,45 +595,45 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = ulTaskGetIdleRunTimeCounter();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
-        void MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
-                                             TaskHookFunction_t pxTagValue ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_APPLICATION_TASK_TAG == 1 )
+        تهی MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
+                                             TaskHookFunction_t px_Tag_مقدار ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                vTaskSetApplicationTaskTag( xTask, pxTagValue );
+                vTaskSetApplicationTaskTag( xTask, px_Tag_مقدار );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                vTaskSetApplicationTaskTag( xTask, pxTagValue );
+                vTaskSetApplicationTaskTag( xTask, px_Tag_مقدار );
             }
         }
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #اگر ( configUSE_APPLICATION_TASK_TAG == 1 )
         TaskHookFunction_t MPU_xTaskGetApplicationTaskTag( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
         {
             TaskHookFunction_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -644,47 +644,47 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskGetApplicationTaskTag( xTask );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
-        void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
+    #اگر ( config_رقم_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+        تهی MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
                                                     BaseType_t xIndex,
-                                                    void * pvValue ) /* FREERTOS_SYSTEM_CALL */
+                                                    تهی * pv_مقدار ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pvValue );
+                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pv_مقدار );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pvValue );
+                vTaskSetThreadLocalStoragePointer( xTaskToSet, xIndex, pv_مقدار );
             }
         }
     #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
-        void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
+    #اگر ( config_رقم_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+        تهی * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
                                                        BaseType_t xIndex ) /* FREERTOS_SYSTEM_CALL */
         {
-            void * pvReturn;
+            تهی * pvReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -695,23 +695,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 pvReturn = pvTaskGetThreadLocalStoragePointer( xTaskToQuery, xIndex );
             }
 
-            return pvReturn;
+            بازگشت pvReturn;
         }
     #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_APPLICATION_TASK_TAG == 1 )
+    #اگر ( configUSE_APPLICATION_TASK_TAG == 1 )
         BaseType_t MPU_xTaskCallApplicationTaskHook( TaskHandle_t xTask,
-                                                     void * pvParameter ) /* FREERTOS_SYSTEM_CALL */
+                                                     تهی * pvParameter ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -722,24 +722,24 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskCallApplicationTaskHook( xTask, pvParameter );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #اگر ( configUSE_TRACE_FACILITY == 1 )
         UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * pxTaskStatusArray,
                                               UBaseType_t uxArraySize,
                                               configRUN_TIME_COUNTER_TYPE * pulTotalRunTime ) /* FREERTOS_SYSTEM_CALL */
         {
             UBaseType_t uxReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -750,12 +750,12 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 uxReturn = uxTaskGetSystemState( pxTaskStatusArray, uxArraySize, pulTotalRunTime );
             }
 
-            return uxReturn;
+            بازگشت uxReturn;
         }
     #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
@@ -764,7 +764,7 @@
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -775,73 +775,73 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xTaskCatchUpTicks( xTicksToCatchUp );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
-        UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_ux_Task_Get_پشته_بالا_Water_Mark == 1 )
+        UBaseType_t MPU_ux_Task_Get_پشته_بالا_Water_Mark( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
         {
             UBaseType_t uxReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                uxReturn = uxTaskGetStackHighWaterMark( xTask );
+                uxReturn = ux_Task_Get_پشته_بالا_Water_Mark( xTask );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                uxReturn = uxTaskGetStackHighWaterMark( xTask );
+                uxReturn = ux_Task_Get_پشته_بالا_Water_Mark( xTask );
             }
 
-            return uxReturn;
+            بازگشت uxReturn;
         }
     #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
-        configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_ux_Task_Get_پشته_بالا_Water_Mark2 == 1 )
+        config_پشته_DEPTH_TYPE MPU_ux_Task_Get_پشته_بالا_Water_Mark2( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
         {
-            configSTACK_DEPTH_TYPE uxReturn;
+            config_پشته_DEPTH_TYPE uxReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                uxReturn = uxTaskGetStackHighWaterMark2( xTask );
+                uxReturn = ux_Task_Get_پشته_بالا_Water_Mark2( xTask );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                uxReturn = uxTaskGetStackHighWaterMark2( xTask );
+                uxReturn = ux_Task_Get_پشته_بالا_Water_Mark2( xTask );
             }
 
-            return uxReturn;
+            بازگشت uxReturn;
         }
     #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) )
-        TaskHandle_t MPU_xTaskGetCurrentTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) )
+        TaskHandle_t MPU_xTaskGetCurrentTaskHandle( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             TaskHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -851,22 +851,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskGetCurrentTaskHandle();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_RECURSIVE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTaskGetSchedulerState == 1 )
-        BaseType_t MPU_xTaskGetSchedulerState( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( INCLUDE_xTaskGetSchedulerState == 1 )
+        BaseType_t MPU_xTaskGetSchedulerState( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -877,19 +877,19 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskGetSchedulerState();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
 /*-----------------------------------------------------------*/
 
-    void MPU_vTaskSetTimeOutState( TimeOut_t * const pxTimeOut ) /* FREERTOS_SYSTEM_CALL */
+    تهی MPU_vTaskSetTimeOutState( TimeOut_t * ثابت pxTimeOut ) /* FREERTOS_SYSTEM_CALL */
     {
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -900,19 +900,19 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             vTaskSetTimeOutState( pxTimeOut );
         }
     }
 /*-----------------------------------------------------------*/
 
-    BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * const pxTimeOut,
-                                         TickType_t * const pxTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+    BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * ثابت pxTimeOut,
+                                         TickType_t * ثابت pxTicksToWait ) /* FREERTOS_SYSTEM_CALL */
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -923,110 +923,110 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xTaskCheckForTimeOut( pxTimeOut, pxTicksToWait );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #اگر ( configUSE_TASK_NOTIFICATIONS == 1 )
         BaseType_t MPU_xTaskGenericNotify( TaskHandle_t xTaskToNotify,
                                            UBaseType_t uxIndexToNotify,
-                                           uint32_t ulValue,
+                                           uint32_t ul_مقدار,
                                            eNotifyAction eAction,
-                                           uint32_t * pulPreviousNotificationValue ) /* FREERTOS_SYSTEM_CALL */
+                                           uint32_t * pul_Previous_Notification_مقدار ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                xReturn = xTaskGenericNotify( xTaskToNotify, uxIndexToNotify, ulValue, eAction, pulPreviousNotificationValue );
+                xReturn = xTaskGenericNotify( xTaskToNotify, uxIndexToNotify, ul_مقدار, eAction, pul_Previous_Notification_مقدار );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xTaskGenericNotify( xTaskToNotify, uxIndexToNotify, ulValue, eAction, pulPreviousNotificationValue );
+                xReturn = xTaskGenericNotify( xTaskToNotify, uxIndexToNotify, ul_مقدار, eAction, pul_Previous_Notification_مقدار );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #اگر ( configUSE_TASK_NOTIFICATIONS == 1 )
         BaseType_t MPU_xTaskGenericNotifyWait( UBaseType_t uxIndexToWaitOn,
                                                uint32_t ulBitsToClearOnEntry,
                                                uint32_t ulBitsToClearOnExit,
-                                               uint32_t * pulNotificationValue,
+                                               uint32_t * pul_Notification_مقدار,
                                                TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                xReturn = xTaskGenericNotifyWait( uxIndexToWaitOn, ulBitsToClearOnEntry, ulBitsToClearOnExit, pulNotificationValue, xTicksToWait );
+                xReturn = xTaskGenericNotifyWait( uxIndexToWaitOn, ulBitsToClearOnEntry, ulBitsToClearOnExit, pul_Notification_مقدار, xTicksToWait );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xTaskGenericNotifyWait( uxIndexToWaitOn, ulBitsToClearOnEntry, ulBitsToClearOnExit, pulNotificationValue, xTicksToWait );
+                xReturn = xTaskGenericNotifyWait( uxIndexToWaitOn, ulBitsToClearOnEntry, ulBitsToClearOnExit, pul_Notification_مقدار, xTicksToWait );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #اگر ( configUSE_TASK_NOTIFICATIONS == 1 )
         uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                              BaseType_t xClearCountOnExit,
+                                              BaseType_t x_Clear_شمار_On_Exit,
                                               TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             uint32_t ulReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, xClearCountOnExit, xTicksToWait );
+                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, x_Clear_شمار_On_Exit, xTicksToWait );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, xClearCountOnExit, xTicksToWait );
+                ulReturn = ulTaskGenericNotifyTake( uxIndexToWaitOn, x_Clear_شمار_On_Exit, xTicksToWait );
             }
 
-            return ulReturn;
+            بازگشت ulReturn;
         }
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
+    #اگر ( configUSE_TASK_NOTIFICATIONS == 1 )
         BaseType_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
                                                      UBaseType_t uxIndexToClear ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1037,52 +1037,52 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTaskGenericNotifyStateClear( xTask, uxIndexToClear );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TASK_NOTIFICATIONS == 1 )
-        uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
+    #اگر ( configUSE_TASK_NOTIFICATIONS == 1 )
+        uint32_t MPU_ul_Task_Generic_Notify_مقدار_Clear( TaskHandle_t xTask,
                                                     UBaseType_t uxIndexToClear,
                                                     uint32_t ulBitsToClear ) /* FREERTOS_SYSTEM_CALL */
         {
             uint32_t ulReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                ulReturn = ulTaskGenericNotifyValueClear( xTask, uxIndexToClear, ulBitsToClear );
+                ulReturn = ul_Task_Generic_Notify_مقدار_Clear( xTask, uxIndexToClear, ulBitsToClear );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                ulReturn = ulTaskGenericNotifyValueClear( xTask, uxIndexToClear, ulBitsToClear );
+                ulReturn = ul_Task_Generic_Notify_مقدار_Clear( xTask, uxIndexToClear, ulBitsToClear );
             }
 
-            return ulReturn;
+            بازگشت ulReturn;
         }
     #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #اگر ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
         QueueHandle_t MPU_xQueueGenericCreate( UBaseType_t uxQueueLength,
                                                UBaseType_t uxItemSize,
                                                uint8_t ucQueueType ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1093,26 +1093,26 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueGenericCreate( uxQueueLength, uxItemSize, ucQueueType );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
-        QueueHandle_t MPU_xQueueGenericCreateStatic( const UBaseType_t uxQueueLength,
-                                                     const UBaseType_t uxItemSize,
+    #اگر ( configSUPPORT_STATIC_ALLOCATION == 1 )
+        QueueHandle_t MPU_xQueueGenericCreateStatic( ثابت UBaseType_t uxQueueLength,
+                                                     ثابت UBaseType_t uxItemSize,
                                                      uint8_t * pucQueueStorage,
                                                      StaticQueue_t * pxStaticQueue,
-                                                     const uint8_t ucQueueType ) /* FREERTOS_SYSTEM_CALL */
+                                                     ثابت uint8_t ucQueueType ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1123,12 +1123,12 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueGenericCreateStatic( uxQueueLength, uxItemSize, pucQueueStorage, pxStaticQueue, ucQueueType );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
 /*-----------------------------------------------------------*/
@@ -1138,7 +1138,7 @@
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1149,23 +1149,23 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xQueueGenericReset( pxQueue, xNewQueue );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue,
-                                      const void * const pvItemToQueue,
+                                      ثابت تهی * ثابت pvItemToQueue,
                                       TickType_t xTicksToWait,
                                       BaseType_t xCopyPosition ) /* FREERTOS_SYSTEM_CALL */
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1176,20 +1176,20 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xQueueGenericSend( xQueue, pvItemToQueue, xTicksToWait, xCopyPosition );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t pxQueue ) /* FREERTOS_SYSTEM_CALL */
+    UBaseType_t MPU_uxQueueMessagesWaiting( ثابت QueueHandle_t pxQueue ) /* FREERTOS_SYSTEM_CALL */
     {
         UBaseType_t uxReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1200,20 +1200,20 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             uxReturn = uxQueueMessagesWaiting( pxQueue );
         }
 
-        return uxReturn;
+        بازگشت uxReturn;
     }
 /*-----------------------------------------------------------*/
 
-    UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+    UBaseType_t MPU_uxQueueSpacesAvailable( ثابت QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
     {
         UBaseType_t uxReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1224,22 +1224,22 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             uxReturn = uxQueueSpacesAvailable( xQueue );
         }
 
-        return uxReturn;
+        بازگشت uxReturn;
     }
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueueReceive( QueueHandle_t pxQueue,
-                                  void * const pvBuffer,
+                                  تهی * ثابت pvBuffer,
                                   TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1250,22 +1250,22 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xQueueReceive( pxQueue, pvBuffer, xTicksToWait );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
     BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue,
-                               void * const pvBuffer,
+                               تهی * ثابت pvBuffer,
                                TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1276,12 +1276,12 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xQueuePeek( xQueue, pvBuffer, xTicksToWait );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -1290,7 +1290,7 @@
     {
         BaseType_t xReturn;
 
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1301,21 +1301,21 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             xReturn = xQueueSemaphoreTake( xQueue, xTicksToWait );
         }
 
-        return xReturn;
+        بازگشت xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+    #اگر ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
         TaskHandle_t MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore ) /* FREERTOS_SYSTEM_CALL */
         {
-            void * xReturn;
+            تهی * xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1326,22 +1326,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueGetMutexHolder( xSemaphore );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
-        QueueHandle_t MPU_xQueueCreateMutex( const uint8_t ucQueueType ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+        QueueHandle_t MPU_xQueueCreateMutex( ثابت uint8_t ucQueueType ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1352,23 +1352,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueCreateMutex( ucQueueType );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
-        QueueHandle_t MPU_xQueueCreateMutexStatic( const uint8_t ucQueueType,
+    #اگر ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+        QueueHandle_t MPU_xQueueCreateMutexStatic( ثابت uint8_t ucQueueType,
                                                    StaticQueue_t * pxStaticQueue ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1379,79 +1379,79 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueCreateMutexStatic( ucQueueType, pxStaticQueue );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
-        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t uxCountValue,
-                                                         UBaseType_t uxInitialCount ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+        QueueHandle_t MPU_xQueueCreateCountingSemaphore( UBaseType_t ux_شمار_مقدار,
+                                                         UBaseType_t ux_Initial_شمار ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                xReturn = xQueueCreateCountingSemaphore( uxCountValue, uxInitialCount );
+                xReturn = xQueueCreateCountingSemaphore( ux_شمار_مقدار, ux_Initial_شمار );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xQueueCreateCountingSemaphore( uxCountValue, uxInitialCount );
+                xReturn = xQueueCreateCountingSemaphore( ux_شمار_مقدار, ux_Initial_شمار );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+    #اگر ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
 
-        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( const UBaseType_t uxMaxCount,
-                                                               const UBaseType_t uxInitialCount,
+        QueueHandle_t MPU_xQueueCreateCountingSemaphoreStatic( ثابت UBaseType_t ux_Max_شمار,
+                                                               ثابت UBaseType_t ux_Initial_شمار,
                                                                StaticQueue_t * pxStaticQueue ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                xReturn = xQueueCreateCountingSemaphoreStatic( uxMaxCount, uxInitialCount, pxStaticQueue );
+                xReturn = xQueueCreateCountingSemaphoreStatic( ux_Max_شمار, ux_Initial_شمار, pxStaticQueue );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xQueueCreateCountingSemaphoreStatic( uxMaxCount, uxInitialCount, pxStaticQueue );
+                xReturn = xQueueCreateCountingSemaphoreStatic( ux_Max_شمار, ux_Initial_شمار, pxStaticQueue );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_COUNTING_SEMAPHORES == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #اگر ( configUSE_RECURSIVE_MUTEXES == 1 )
         BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
                                                  TickType_t xBlockTime ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1462,22 +1462,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueTakeMutexRecursive( xMutex, xBlockTime );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_RECURSIVE_MUTEXES == 1 )
+    #اگر ( configUSE_RECURSIVE_MUTEXES == 1 )
         BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t xMutex ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1488,22 +1488,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueGiveMutexRecursive( xMutex );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
+    #اگر ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) )
         QueueSetHandle_t MPU_xQueueCreateSet( UBaseType_t uxEventQueueLength ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueSetHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1514,24 +1514,24 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueCreateSet( uxEventQueueLength );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
-        QueueSetHandle_t MPU_xQueueCreateSetStatic( const UBaseType_t uxEventQueueLength,
+    #اگر ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) )
+        QueueSetHandle_t MPU_xQueueCreateSetStatic( ثابت UBaseType_t uxEventQueueLength,
                                                     uint8_t * pucQueueStorage,
                                                     StaticQueue_t * pxStaticQueue ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueSetHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1542,23 +1542,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueCreateSetStatic( uxEventQueueLength, pucQueueStorage, pxStaticQueue );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( ( configUSE_QUEUE_SETS == 1 ) && ( configSUPPORT_STATIC_ALLOCATION == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #اگر ( configUSE_QUEUE_SETS == 1 )
         QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet,
                                                         TickType_t xBlockTimeTicks ) /* FREERTOS_SYSTEM_CALL */
         {
             QueueSetMemberHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1569,23 +1569,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueSelectFromSet( xQueueSet, xBlockTimeTicks );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #اگر ( configUSE_QUEUE_SETS == 1 )
         BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
                                        QueueSetHandle_t xQueueSet ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1596,23 +1596,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueAddToSet( xQueueOrSemaphore, xQueueSet );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_QUEUE_SETS == 1 )
+    #اگر ( configUSE_QUEUE_SETS == 1 )
         BaseType_t MPU_xQueueRemoveFromSet( QueueSetMemberHandle_t xQueueOrSemaphore,
                                             QueueSetHandle_t xQueueSet ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1623,21 +1623,21 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xQueueRemoveFromSet( xQueueOrSemaphore, xQueueSet );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
-        void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
-                                      const char * pcName ) /* FREERTOS_SYSTEM_CALL */
+    #اگر configQUEUE_REGISTRY_SIZE > 0
+        تهی MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
+                                      ثابت نویسه * pcName ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1648,7 +1648,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vQueueAddToRegistry( xQueue, pcName );
             }
@@ -1656,10 +1656,10 @@
     #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
-        void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+    #اگر configQUEUE_REGISTRY_SIZE > 0
+        تهی MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1670,7 +1670,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vQueueUnregisterQueue( xQueue );
             }
@@ -1678,12 +1678,12 @@
     #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
-    #if configQUEUE_REGISTRY_SIZE > 0
-        const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+    #اگر configQUEUE_REGISTRY_SIZE > 0
+        ثابت نویسه * MPU_pcQueueGetName( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
         {
-            const char * pcReturn;
+            ثابت نویسه * pcReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1694,19 +1694,19 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 pcReturn = pcQueueGetName( xQueue );
             }
 
-            return pcReturn;
+            بازگشت pcReturn;
         }
     #endif /* if configQUEUE_REGISTRY_SIZE > 0 */
 /*-----------------------------------------------------------*/
 
-    void MPU_vQueueDelete( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+    تهی MPU_vQueueDelete( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
     {
-        if( portIS_PRIVILEGED() == pdFALSE )
+        اگر( portIS_PRIVILEGED() == pdFALSE )
         {
             portRAISE_PRIVILEGE();
             portMEMORY_BARRIER();
@@ -1717,19 +1717,19 @@
             portRESET_PRIVILEGE();
             portMEMORY_BARRIER();
         }
-        else
+        وگرنه
         {
             vQueueDelete( xQueue );
         }
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
-        void * MPU_pvTimerGetTimerID( const TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_TIMERS == 1 )
+        تهی * MPU_pvTimerGetTimerID( ثابت TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
         {
-            void * pvReturn;
+            تهی * pvReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1740,21 +1740,21 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 pvReturn = pvTimerGetTimerID( xTimer );
             }
 
-            return pvReturn;
+            بازگشت pvReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
-        void MPU_vTimerSetTimerID( TimerHandle_t xTimer,
-                                   void * pvNewID ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_TIMERS == 1 )
+        تهی MPU_vTimerSetTimerID( TimerHandle_t xTimer,
+                                   تهی * pvNewID ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1765,7 +1765,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTimerSetTimerID( xTimer, pvNewID );
             }
@@ -1773,12 +1773,12 @@
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #اگر ( configUSE_TIMERS == 1 )
         BaseType_t MPU_xTimerIsTimerActive( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1789,22 +1789,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTimerIsTimerActive( xTimer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
-        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_TIMERS == 1 )
+        TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             TaskHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1815,21 +1815,21 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTimerGetTimerDaemonTaskHandle();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
-        void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
-                                      const BaseType_t xAutoReload ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_TIMERS == 1 )
+        تهی MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
+                                      ثابت BaseType_t xAutoReload ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1840,7 +1840,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vTimerSetReloadMode( xTimer, xAutoReload );
             }
@@ -1848,12 +1848,12 @@
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #اگر ( configUSE_TIMERS == 1 )
         UBaseType_t MPU_uxTimerGetReloadMode( TimerHandle_t xTimer )
         {
             UBaseType_t uxReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1864,22 +1864,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 uxReturn = uxTimerGetReloadMode( xTimer );
             }
 
-            return uxReturn;
+            بازگشت uxReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
-        const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_TIMERS == 1 )
+        ثابت نویسه * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
         {
-            const char * pcReturn;
+            ثابت نویسه * pcReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1890,22 +1890,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 pcReturn = pcTimerGetName( xTimer );
             }
 
-            return pcReturn;
+            بازگشت pcReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #اگر ( configUSE_TIMERS == 1 )
         TickType_t MPU_xTimerGetPeriod( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
         {
             TickType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1916,22 +1916,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTimerGetPeriod( xTimer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #اگر ( configUSE_TIMERS == 1 )
         TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
         {
             TickType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1942,52 +1942,52 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xTimerGetExpiryTime( xTimer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TIMERS == 1 )
+    #اگر ( configUSE_TIMERS == 1 )
         BaseType_t MPU_xTimerGenericCommandFromTask( TimerHandle_t xTimer,
-                                                     const BaseType_t xCommandID,
-                                                     const TickType_t xOptionalValue,
-                                                     BaseType_t * const pxHigherPriorityTaskWoken,
-                                                     const TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+                                                     ثابت BaseType_t xCommandID,
+                                                     ثابت TickType_t x_Optional_مقدار,
+                                                     BaseType_t * ثابت pxHigherPriorityTaskWoken,
+                                                     ثابت TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
 
-                xReturn = xTimerGenericCommandFromTask( xTimer, xCommandID, xOptionalValue, pxHigherPriorityTaskWoken, xTicksToWait );
+                xReturn = xTimerGenericCommandFromTask( xTimer, xCommandID, x_Optional_مقدار, pxHigherPriorityTaskWoken, xTicksToWait );
                 portMEMORY_BARRIER();
 
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
-                xReturn = xTimerGenericCommandFromTask( xTimer, xCommandID, xOptionalValue, pxHigherPriorityTaskWoken, xTicksToWait );
+                xReturn = xTimerGenericCommandFromTask( xTimer, xCommandID, x_Optional_مقدار, pxHigherPriorityTaskWoken, xTicksToWait );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
-        EventGroupHandle_t MPU_xEventGroupCreate( void ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+        EventGroupHandle_t MPU_xEventGroupCreate( تهی ) /* FREERTOS_SYSTEM_CALL */
         {
             EventGroupHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -1998,22 +1998,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xEventGroupCreate();
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
+    #اگر ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) )
         EventGroupHandle_t MPU_xEventGroupCreateStatic( StaticEventGroup_t * pxEventGroupBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             EventGroupHandle_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2024,26 +2024,26 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xEventGroupCreateStatic( pxEventGroupBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_EVENT_GROUPS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #اگر ( configUSE_EVENT_GROUPS == 1 )
         EventBits_t MPU_xEventGroupWaitBits( EventGroupHandle_t xEventGroup,
-                                             const EventBits_t uxBitsToWaitFor,
-                                             const BaseType_t xClearOnExit,
-                                             const BaseType_t xWaitForAllBits,
+                                             ثابت EventBits_t uxBitsToWaitFor,
+                                             ثابت BaseType_t xClearOnExit,
+                                             ثابت BaseType_t xWaitForAllBits,
                                              TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             EventBits_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2054,23 +2054,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xEventGroupWaitBits( xEventGroup, uxBitsToWaitFor, xClearOnExit, xWaitForAllBits, xTicksToWait );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #اگر ( configUSE_EVENT_GROUPS == 1 )
         EventBits_t MPU_xEventGroupClearBits( EventGroupHandle_t xEventGroup,
-                                              const EventBits_t uxBitsToClear ) /* FREERTOS_SYSTEM_CALL */
+                                              ثابت EventBits_t uxBitsToClear ) /* FREERTOS_SYSTEM_CALL */
         {
             EventBits_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2081,23 +2081,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xEventGroupClearBits( xEventGroup, uxBitsToClear );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #اگر ( configUSE_EVENT_GROUPS == 1 )
         EventBits_t MPU_xEventGroupSetBits( EventGroupHandle_t xEventGroup,
-                                            const EventBits_t uxBitsToSet ) /* FREERTOS_SYSTEM_CALL */
+                                            ثابت EventBits_t uxBitsToSet ) /* FREERTOS_SYSTEM_CALL */
         {
             EventBits_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2108,25 +2108,25 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xEventGroupSetBits( xEventGroup, uxBitsToSet );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
+    #اگر ( configUSE_EVENT_GROUPS == 1 )
         EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
-                                         const EventBits_t uxBitsToSet,
-                                         const EventBits_t uxBitsToWaitFor,
+                                         ثابت EventBits_t uxBitsToSet,
+                                         ثابت EventBits_t uxBitsToWaitFor,
                                          TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             EventBits_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2137,20 +2137,20 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xEventGroupSync( xEventGroup, uxBitsToSet, uxBitsToWaitFor, xTicksToWait );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_EVENT_GROUPS == 1 )
-        void MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_EVENT_GROUPS == 1 )
+        تهی MPU_vEventGroupDelete( EventGroupHandle_t xEventGroup ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2161,7 +2161,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vEventGroupDelete( xEventGroup );
             }
@@ -2169,15 +2169,15 @@
     #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         size_t MPU_xStreamBufferSend( StreamBufferHandle_t xStreamBuffer,
-                                      const void * pvTxData,
+                                      ثابت تهی * pvTxData,
                                       size_t xDataLengthBytes,
                                       TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             size_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2188,22 +2188,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferSend( xStreamBuffer, pvTxData, xDataLengthBytes, xTicksToWait );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             size_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2214,25 +2214,25 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferNextMessageLengthBytes( xStreamBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         size_t MPU_xStreamBufferReceive( StreamBufferHandle_t xStreamBuffer,
-                                         void * pvRxData,
+                                         تهی * pvRxData,
                                          size_t xBufferLengthBytes,
                                          TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
         {
             size_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2243,20 +2243,20 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferReceive( xStreamBuffer, pvRxData, xBufferLengthBytes, xTicksToWait );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
-        void MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
+        تهی MPU_vStreamBufferDelete( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2267,7 +2267,7 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 vStreamBufferDelete( xStreamBuffer );
             }
@@ -2275,12 +2275,12 @@
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         BaseType_t MPU_xStreamBufferIsFull( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2291,22 +2291,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferIsFull( xStreamBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         BaseType_t MPU_xStreamBufferIsEmpty( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2317,22 +2317,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferIsEmpty( xStreamBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         BaseType_t MPU_xStreamBufferReset( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2343,22 +2343,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferReset( xStreamBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         size_t MPU_xStreamBufferSpacesAvailable( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             size_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2368,22 +2368,22 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferSpacesAvailable( xStreamBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         size_t MPU_xStreamBufferBytesAvailable( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
         {
             size_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2394,23 +2394,23 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferBytesAvailable( xStreamBuffer );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_STREAM_BUFFERS == 1 )
+    #اگر ( configUSE_STREAM_BUFFERS == 1 )
         BaseType_t MPU_xStreamBufferSetTriggerLevel( StreamBufferHandle_t xStreamBuffer,
                                                      size_t xTriggerLevel ) /* FREERTOS_SYSTEM_CALL */
         {
             BaseType_t xReturn;
 
-            if( portIS_PRIVILEGED() == pdFALSE )
+            اگر( portIS_PRIVILEGED() == pdFALSE )
             {
                 portRAISE_PRIVILEGE();
                 portMEMORY_BARRIER();
@@ -2421,17 +2421,17 @@
                 portRESET_PRIVILEGE();
                 portMEMORY_BARRIER();
             }
-            else
+            وگرنه
             {
                 xReturn = xStreamBufferSetTriggerLevel( xStreamBuffer, xTriggerLevel );
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #اگر ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
         StreamBufferHandle_t MPU_xStreamBufferGenericCreate( size_t xBufferSizeBytes,
                                                              size_t xTriggerLevelBytes,
                                                              BaseType_t xStreamBufferType,
@@ -2444,13 +2444,13 @@
              * Stream buffer application level callback functionality is disabled for MPU
              * enabled ports.
              */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
+            configASSERT( ( pxSendCompletedCallback == پوچ ) &&
+                          ( pxReceiveCompletedCallback == پوچ ) );
 
-            if( ( pxSendCompletedCallback == NULL ) &&
-                ( pxReceiveCompletedCallback == NULL ) )
+            اگر( ( pxSendCompletedCallback == پوچ ) &&
+                ( pxReceiveCompletedCallback == پوچ ) )
             {
-                if( portIS_PRIVILEGED() == pdFALSE )
+                اگر( portIS_PRIVILEGED() == pdFALSE )
                 {
                     portRAISE_PRIVILEGE();
                     portMEMORY_BARRIER();
@@ -2458,39 +2458,39 @@
                     xReturn = xStreamBufferGenericCreate( xBufferSizeBytes,
                                                           xTriggerLevelBytes,
                                                           xStreamBufferType,
-                                                          NULL,
-                                                          NULL );
+                                                          پوچ,
+                                                          پوچ );
                     portMEMORY_BARRIER();
 
                     portRESET_PRIVILEGE();
                     portMEMORY_BARRIER();
                 }
-                else
+                وگرنه
                 {
                     xReturn = xStreamBufferGenericCreate( xBufferSizeBytes,
                                                           xTriggerLevelBytes,
                                                           xStreamBufferType,
-                                                          NULL,
-                                                          NULL );
+                                                          پوچ,
+                                                          پوچ );
                 }
             }
-            else
+            وگرنه
             {
                 traceSTREAM_BUFFER_CREATE_FAILED( xStreamBufferType );
-                xReturn = NULL;
+                xReturn = پوچ;
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-    #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
+    #اگر ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) )
         StreamBufferHandle_t MPU_xStreamBufferGenericCreateStatic( size_t xBufferSizeBytes,
                                                                    size_t xTriggerLevelBytes,
                                                                    BaseType_t xStreamBufferType,
-                                                                   uint8_t * const pucStreamBufferStorageArea,
-                                                                   StaticStreamBuffer_t * const pxStaticStreamBuffer,
+                                                                   uint8_t * ثابت pucStreamBufferStorageArea,
+                                                                   StaticStreamBuffer_t * ثابت pxStaticStreamBuffer,
                                                                    StreamBufferCallbackFunction_t pxSendCompletedCallback,
                                                                    StreamBufferCallbackFunction_t pxReceiveCompletedCallback ) /* FREERTOS_SYSTEM_CALL */
         {
@@ -2500,13 +2500,13 @@
              * Stream buffer application level callback functionality is disabled for MPU
              * enabled ports.
              */
-            configASSERT( ( pxSendCompletedCallback == NULL ) &&
-                          ( pxReceiveCompletedCallback == NULL ) );
+            configASSERT( ( pxSendCompletedCallback == پوچ ) &&
+                          ( pxReceiveCompletedCallback == پوچ ) );
 
-            if( ( pxSendCompletedCallback == NULL ) &&
-                ( pxReceiveCompletedCallback == NULL ) )
+            اگر( ( pxSendCompletedCallback == پوچ ) &&
+                ( pxReceiveCompletedCallback == پوچ ) )
             {
-                if( portIS_PRIVILEGED() == pdFALSE )
+                اگر( portIS_PRIVILEGED() == pdFALSE )
                 {
                     portRAISE_PRIVILEGE();
                     portMEMORY_BARRIER();
@@ -2516,31 +2516,31 @@
                                                                 xStreamBufferType,
                                                                 pucStreamBufferStorageArea,
                                                                 pxStaticStreamBuffer,
-                                                                NULL,
-                                                                NULL );
+                                                                پوچ,
+                                                                پوچ );
                     portMEMORY_BARRIER();
 
                     portRESET_PRIVILEGE();
                     portMEMORY_BARRIER();
                 }
-                else
+                وگرنه
                 {
                     xReturn = xStreamBufferGenericCreateStatic( xBufferSizeBytes,
                                                                 xTriggerLevelBytes,
                                                                 xStreamBufferType,
                                                                 pucStreamBufferStorageArea,
                                                                 pxStaticStreamBuffer,
-                                                                NULL,
-                                                                NULL );
+                                                                پوچ,
+                                                                پوچ );
                 }
             }
-            else
+            وگرنه
             {
                 traceSTREAM_BUFFER_CREATE_STATIC_FAILED( xReturn, xStreamBufferType );
-                xReturn = NULL;
+                xReturn = پوچ;
             }
 
-            return xReturn;
+            بازگشت xReturn;
         }
     #endif /* #if ( ( configSUPPORT_STATIC_ALLOCATION == 1 ) && ( configUSE_STREAM_BUFFERS == 1 ) ) */
 /*-----------------------------------------------------------*/
@@ -2572,8 +2572,8 @@
  * }
  */
 
-    #if configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
-        #include "application_defined_privileged_functions.h"
+    #اگر configINCLUDE_APPLICATION_DEFINED_PRIVILEGED_FUNCTIONS == 1
+        #شامل "application_defined_privileged_functions.h"
     #endif
 /*-----------------------------------------------------------*/
 

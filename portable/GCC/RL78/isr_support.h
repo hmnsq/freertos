@@ -27,8 +27,8 @@
  */
 
 /* Variables used by scheduler */
-.extern _pxCurrentTCB
-   .extern _usCriticalNesting
+.بیرونی _pxCurrentTCB
+   .بیرونی _usCriticalNesting
 
 /*
  * portSAVE_CONTEXT MACRO
@@ -41,40 +41,40 @@
 SEL RB0
 
 /* Save AX Register to stack. */
-PUSH AX
-PUSH HL
+افزودن_2 AX
+افزودن_2 HL
 /* Save CS register. */
 MOV A, CS
 XCH A, X
 /* Save ES register. */
 MOV A, ES
-PUSH AX
+افزودن_2 AX
 /* Save the remaining general purpose registers from bank 0. */
-PUSH DE
-PUSH BC
+افزودن_2 DE
+افزودن_2 BC
 /* Save the other register banks - only necessary in the GCC port. */
 SEL RB1
-PUSH AX
-PUSH BC
-PUSH DE
-PUSH HL
+افزودن_2 AX
+افزودن_2 BC
+افزودن_2 DE
+افزودن_2 HL
 SEL RB2
-PUSH AX
-PUSH BC
-PUSH DE
-PUSH HL
+افزودن_2 AX
+افزودن_2 BC
+افزودن_2 DE
+افزودن_2 HL
 /* Registers in bank 3 are for ISR use only so don't need saving. */
 SEL RB0
 /* Save the usCriticalNesting value. */
 MOVW AX, !_usCriticalNesting
-PUSH AX
+افزودن_2 AX
 /* Save the Stack pointer. */
 MOVW AX, !_pxCurrentTCB
 MOVW HL, AX
 MOVW AX, SP
 MOVW[ HL ], AX
 /* Switch stack pointers. */
-movw sp, # _stack /* Set stack pointer */
+movw sp, # پشته_3 /* Set stack pointer */
 
    .endm
 
@@ -93,35 +93,35 @@ MOVW HL, AX
 MOVW AX, [ HL ]
 MOVW SP, AX
 /* Restore usCriticalNesting value. */
-POP AX
+برداشت_2 AX
 MOVW    !_usCriticalNesting, AX
 
 /* Restore the alternative register banks - only necessary in the GCC
  * port.  Register bank 3 is dedicated for interrupts use so is not saved or
  * restored. */
 SEL RB2
-POP HL
-POP DE
-POP BC
-POP AX
+برداشت_2 HL
+برداشت_2 DE
+برداشت_2 BC
+برداشت_2 AX
 SEL RB1
-POP HL
-POP DE
-POP BC
-POP AX
+برداشت_2 HL
+برداشت_2 DE
+برداشت_2 BC
+برداشت_2 AX
 SEL RB0
 /* Restore the necessary general purpose registers. */
-POP BC
-POP DE
+برداشت_2 BC
+برداشت_2 DE
 /* Restore the ES register. */
-POP AX
+برداشت_2 AX
 MOV ES, A
 /* Restore the CS register. */
 XCH A, X
 MOV CS, A
 /* Restore general purpose register HL. */
-POP HL
+برداشت_2 HL
 /* Restore AX. */
-POP AX
+برداشت_2 AX
 
    .endm

@@ -31,49 +31,49 @@
  *----------------------------------------------------------*/
 
 /* Standard includes. */
-#include <string.h>
+#شامل <string.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Constants required to setup timer 2 to produce the RTOS tick. */
-#define portCLOCK_DIVISOR                               ( ( uint32_t ) 12 )
-#define portMAX_TIMER_VALUE                             ( ( uint32_t ) 0xffff )
+#define port_CLOCK_مقسوم_علیه                               ( ( uint32_t ) 12 )
+#define port_MAX_TIMER_مقدار                             ( ( uint32_t ) 0xffff )
 #define portENABLE_TIMER                                ( ( uint8_t ) 0x04 )
 #define portTIMER_2_INTERRUPT_ENABLE                    ( ( uint8_t ) 0x20 )
 
 /* The value used in the IE register when a task first starts. */
-#define portGLOBAL_INTERRUPT_BIT                        ( ( StackType_t ) 0x80 )
+#define portGLOBAL_INTERRUPT_BIT                        ( ( پشته_Type_t ) 0x80 )
 
 /* The value used in the PSW register when a task first starts. */
-#define portINITIAL_PSW                                 ( ( StackType_t ) 0x00 )
+#define portINITIAL_PSW                                 ( ( پشته_Type_t ) 0x00 )
 
 /* Macro to clear the timer 2 interrupt flag. */
 #define portCLEAR_INTERRUPT_FLAG()                      TMR2CN &= ~0x80;
 
 /* Used during a context switch to store the size of the stack being copied
 to or from XRAM. */
-data static uint8_t ucStackBytes;
+data ایستا uint8_t uc_پشته_Bytes;
 
 /* Used during a context switch to point to the next byte in XRAM from/to which
 a RAM byte is to be copied. */
-xdata static StackType_t * data pxXRAMStack;
+xdata ایستا پشته_Type_t * data pxXRAMStack;
 
 /* Used during a context switch to point to the next byte in RAM from/to which
 an XRAM byte is to be copied. */
-data static StackType_t * data pxRAMStack;
+data ایستا پشته_Type_t * data pxRAMStack;
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعریفنوع تهی TCB_t;
+بیرونی فرار TCB_t * فرار pxCurrentTCB;
 
 /*
  * Setup the hardware to generate an interrupt off timer 2 at the required
  * frequency.
  */
-static void prvSetupTimerInterrupt( void );
+ایستا تهی prvSetupTimerInterrupt( تهی );
 
 /*-----------------------------------------------------------*/
 /*
@@ -81,32 +81,32 @@ static void prvSetupTimerInterrupt( void );
  * required as the 8051 only contains enough internal RAM for a single stack,
  * but we have a stack for every task.
  */
-#define portCOPY_STACK_TO_XRAM()                                                            \
+#define port_COPY_پشته_TO_XRAM()                                                            \
 {                                                                                           \
         /* pxCurrentTCB points to a TCB which itself points to the location into            \
         which the first stack byte should be copied. Set pxXRAMStack to point               \
         to the location into which the first stack byte is to be copied. */                 \
-        pxXRAMStack = ( xdata StackType_t * ) *( ( xdata StackType_t ** ) pxCurrentTCB );   \
+        pxXRAMStack = ( xdata پشته_Type_t * ) *( ( xdata پشته_Type_t ** ) pxCurrentTCB );   \
                                                                                             \
         /* Set pxRAMStack to point to the first byte to be coped from the stack. */         \
-        pxRAMStack = ( data StackType_t * data ) configSTACK_START;                         \
+        pxRAMStack = ( data پشته_Type_t * data ) config_پشته_START;                         \
                                                                                             \
         /* Calculate the size of the stack we are about to copy from the current            \
         stack pointer value. */                                                             \
-        ucStackBytes = SP - ( configSTACK_START - 1 );                                      \
+        uc_پشته_Bytes = SP - ( config_پشته_START - 1 );                                      \
                                                                                             \
         /* Before starting to copy the stack, store the calculated stack size so            \
         the stack can be restored when the task is resumed. */                              \
-        *pxXRAMStack = ucStackBytes;                                                        \
+        *pxXRAMStack = uc_پشته_Bytes;                                                        \
                                                                                             \
         /* Copy each stack byte in turn.  pxXRAMStack is incremented first as we            \
         have already stored the stack size into XRAM. */                                    \
-        while( ucStackBytes )                                                               \
+        وقتی( uc_پشته_Bytes )                                                               \
         {                                                                                   \
                 pxXRAMStack++;                                                              \
                 *pxXRAMStack = *pxRAMStack;                                                 \
                 pxRAMStack++;                                                               \
-                ucStackBytes--;                                                             \
+                uc_پشته_Bytes--;                                                             \
         }                                                                                   \
 }
 /*-----------------------------------------------------------*/
@@ -115,25 +115,25 @@ static void prvSetupTimerInterrupt( void );
  * Macro that copies the stack of the task being resumed from XRAM into
  * internal RAM.
  */
-#define portCOPY_XRAM_TO_STACK()                                                            \
+#define port_COPY_XRAM_TO_پشته()                                                            \
 {                                                                                           \
         /* Setup the pointers as per portCOPY_STACK_TO_XRAM(), but this time to             \
         copy the data back out of XRAM and into the stack. */                               \
-        pxXRAMStack = ( xdata StackType_t * ) *( ( xdata StackType_t ** ) pxCurrentTCB );   \
-        pxRAMStack = ( data StackType_t * data ) ( configSTACK_START - 1 );                 \
+        pxXRAMStack = ( xdata پشته_Type_t * ) *( ( xdata پشته_Type_t ** ) pxCurrentTCB );   \
+        pxRAMStack = ( data پشته_Type_t * data ) ( config_پشته_START - 1 );                 \
                                                                                             \
         /* The first value stored in XRAM was the size of the stack - i.e. the              \
         number of bytes we need to copy back. */                                            \
-        ucStackBytes = pxXRAMStack[ 0 ];                                                    \
+        uc_پشته_Bytes = pxXRAMStack[ 0 ];                                                    \
                                                                                             \
         /* Copy the required number of bytes back into the stack. */                        \
-        do                                                                                  \
+        انجامبده                                                                                  \
         {                                                                                   \
                 pxXRAMStack++;                                                              \
                 pxRAMStack++;                                                               \
                 *pxRAMStack = *pxXRAMStack;                                                 \
-                ucStackBytes--;                                                             \
-        } while( ucStackBytes );                                                            \
+                uc_پشته_Bytes--;                                                             \
+        } وقتی( uc_پشته_Bytes );                                                            \
                                                                                             \
         /* Restore the stack pointer ready to use the restored stack. */                    \
         SP = ( uint8_t ) pxRAMStack;                                                        \
@@ -149,26 +149,26 @@ static void prvSetupTimerInterrupt( void );
         _asm                                                                                \
                 /* Push ACC first, as when restoring the context it must be restored        \
                 last (it is used to set the IE register). */                                \
-                push        ACC                                                             \
+                افزودن        ACC                                                             \
                 /* Store the IE register then disable interrupts. */                        \
-                push        IE                                                              \
+                افزودن        IE                                                              \
                 clr                _EA                                                      \
-                push        DPL                                                             \
-                push        DPH                                                             \
-                push        b                                                               \
-                push        ar2                                                             \
-                push        ar3                                                             \
-                push        ar4                                                             \
-                push        ar5                                                             \
-                push        ar6                                                             \
-                push        ar7                                                             \
-                push        ar0                                                             \
-                push        ar1                                                             \
-                push        PSW                                                             \
+                افزودن        DPL                                                             \
+                افزودن        DPH                                                             \
+                افزودن        b                                                               \
+                افزودن        ar2                                                             \
+                افزودن        ar3                                                             \
+                افزودن        ar4                                                             \
+                افزودن        ar5                                                             \
+                افزودن        ar6                                                             \
+                افزودن        ar7                                                             \
+                افزودن        ar0                                                             \
+                افزودن        ar1                                                             \
+                افزودن        PSW                                                             \
         _endasm;                                                                            \
                 PSW = 0;                                                                    \
         _asm                                                                                \
-                push        _bp                                                             \
+                افزودن        _bp                                                             \
         _endasm;                                                                            \
 }
 /*-----------------------------------------------------------*/
@@ -180,23 +180,23 @@ static void prvSetupTimerInterrupt( void );
 #define portRESTORE_CONTEXT()                                                               \
 {                                                                                           \
         _asm                                                                                \
-                pop                _bp                                                      \
-                pop                PSW                                                      \
-                pop                ar1                                                      \
-                pop                ar0                                                      \
-                pop                ar7                                                      \
-                pop                ar6                                                      \
-                pop                ar5                                                      \
-                pop                ar4                                                      \
-                pop                ar3                                                      \
-                pop                ar2                                                      \
-                pop                b                                                        \
-                pop                DPH                                                      \
-                pop                DPL                                                      \
+                برداشت                _bp                                                      \
+                برداشت                PSW                                                      \
+                برداشت                ar1                                                      \
+                برداشت                ar0                                                      \
+                برداشت                ar7                                                      \
+                برداشت                ar6                                                      \
+                برداشت                ar5                                                      \
+                برداشت                ar4                                                      \
+                برداشت                ar3                                                      \
+                برداشت                ar2                                                      \
+                برداشت                b                                                        \
+                برداشت                DPH                                                      \
+                برداشت                DPL                                                      \
                 /* The next byte of the stack is the IE register.  Only the global          \
                 enable bit forms part of the task context.  Pop off the IE then set         \
                 the global enable bit to match that of the stored IE register. */           \
-                pop                ACC                                                      \
+                برداشت                ACC                                                      \
                 JB                ACC.7,0098$                                               \
                 CLR                IE.7                                                     \
                 LJMP        0099$                                                           \
@@ -204,7 +204,7 @@ static void prvSetupTimerInterrupt( void );
                 SETB        IE.7                                                            \
         0099$:                                                                              \
                 /* Finally pop off the ACC, which was the first register saved. */          \
-                pop                ACC                                                      \
+                برداشت                ACC                                                      \
                 reti                                                                        \
         _endasm;                                                                            \
 }
@@ -213,14 +213,14 @@ static void prvSetupTimerInterrupt( void );
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+پشته_Type_t *px_Port_Initialise_پشته( پشته_Type_t *px_بالاترین_Of_پشته, TaskFunction_t pxCode, تهی *pvParameters )
 {
 uint32_t ulAddress;
-StackType_t *pxStartOfStack;
+پشته_Type_t *px_Start_Of_پشته;
 
         /* Leave space to write the size of the stack as the first byte. */
-        pxStartOfStack = pxTopOfStack;
-        pxTopOfStack++;
+        px_Start_Of_پشته = px_بالاترین_Of_پشته;
+        px_بالاترین_Of_پشته++;
 
         /* Place a few bytes of known values on the bottom of the stack.
         This is just useful for debugging and can be uncommented if required.
@@ -237,69 +237,69 @@ StackType_t *pxStartOfStack;
 
         The return address that would have been pushed by the MCU. */
         ulAddress = ( uint32_t ) pxCode;
-        *pxTopOfStack = ( StackType_t ) ulAddress;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) ulAddress;
         ulAddress >>= 8;
-        pxTopOfStack++;
-        *pxTopOfStack = ( StackType_t ) ( ulAddress );
-        pxTopOfStack++;
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) ( ulAddress );
+        px_بالاترین_Of_پشته++;
 
         /* Next all the registers will have been pushed by portSAVE_CONTEXT(). */
-        *pxTopOfStack = 0xaa;        /* acc */
-        pxTopOfStack++;
+        *px_بالاترین_Of_پشته = 0xaa;        /* acc */
+        px_بالاترین_Of_پشته++;
 
         /* We want tasks to start with interrupts enabled. */
-        *pxTopOfStack = portGLOBAL_INTERRUPT_BIT;
-        pxTopOfStack++;
+        *px_بالاترین_Of_پشته = portGLOBAL_INTERRUPT_BIT;
+        px_بالاترین_Of_پشته++;
 
         /* The function parameters will be passed in the DPTR and B register as
         a three byte generic pointer is used. */
         ulAddress = ( uint32_t ) pvParameters;
-        *pxTopOfStack = ( StackType_t ) ulAddress;        /* DPL */
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) ulAddress;        /* DPL */
         ulAddress >>= 8;
-        *pxTopOfStack++;
-        *pxTopOfStack = ( StackType_t ) ulAddress;        /* DPH */
+        *px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) ulAddress;        /* DPH */
         ulAddress >>= 8;
-        pxTopOfStack++;
-        *pxTopOfStack = ( StackType_t ) ulAddress;        /* b */
-        pxTopOfStack++;
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) ulAddress;        /* b */
+        px_بالاترین_Of_پشته++;
 
         /* The remaining registers are straight forward. */
-        *pxTopOfStack = 0x02;        /* R2 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x03;        /* R3 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x04;        /* R4 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x05;        /* R5 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x06;        /* R6 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x07;        /* R7 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x00;        /* R0 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x01;        /* R1 */
-        pxTopOfStack++;
-        *pxTopOfStack = 0x00;        /* PSW */
-        pxTopOfStack++;
-        *pxTopOfStack = 0xbb;        /* BP */
+        *px_بالاترین_Of_پشته = 0x02;        /* R2 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x03;        /* R3 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x04;        /* R4 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x05;        /* R5 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x06;        /* R6 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x07;        /* R7 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x00;        /* R0 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x01;        /* R1 */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0x00;        /* PSW */
+        px_بالاترین_Of_پشته++;
+        *px_بالاترین_Of_پشته = 0xbb;        /* BP */
 
         /* Dont increment the stack size here as we don't want to include
         the stack size byte as part of the stack size count.
 
         Finally we place the stack size at the beginning. */
-        *pxStartOfStack = ( StackType_t ) ( pxTopOfStack - pxStartOfStack );
+        *px_Start_Of_پشته = ( پشته_Type_t ) ( px_بالاترین_Of_پشته - px_Start_Of_پشته );
 
         /* Unlike most ports, we return the start of the stack as this is where the
         size of the stack is stored. */
-        return pxStartOfStack;
+        بازگشت px_Start_Of_پشته;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( تهی )
 {
         /* Setup timer 2 to generate the RTOS tick. */
         prvSetupTimerInterrupt();
@@ -310,15 +310,15 @@ BaseType_t xPortStartScheduler( void )
 
         /* Copy the stack for the first task to execute from XRAM into the stack,
         restore the task context from the new stack, then start running the task. */
-        portCOPY_XRAM_TO_STACK();
+        port_COPY_XRAM_TO_پشته();
         portRESTORE_CONTEXT();
 
         /* Should never get here! */
-        return pdTRUE;
+        بازگشت pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+تهی vPortEndScheduler( تهی )
 {
         /* Not implemented for this port. */
 }
@@ -328,7 +328,7 @@ void vPortEndScheduler( void )
  * Manual context switch.  The first thing we do is save the registers so we
  * can use a naked attribute.
  */
-void vPortYield( void ) _naked
+تهی vPortYield( تهی ) _naked
 {
         /* Save the execution context onto the stack, then copy the entire stack
         to XRAM.  This is necessary as the internal RAM is only large enough to
@@ -337,39 +337,39 @@ void vPortYield( void ) _naked
         PERFORMANCE COULD BE IMPROVED BY ONLY COPYING TO XRAM IF A TASK SWITCH
         IS REQUIRED. */
         portSAVE_CONTEXT();
-        portCOPY_STACK_TO_XRAM();
+        port_COPY_پشته_TO_XRAM();
 
         /* Call the standard scheduler context switch function. */
         vTaskSwitchContext();
 
         /* Copy the stack of the task about to execute from XRAM into RAM and
         restore it's context ready to run on exiting. */
-        portCOPY_XRAM_TO_STACK();
+        port_COPY_XRAM_TO_پشته();
         portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
-        void vTimer2ISR( void ) interrupt 5 _naked
+#اگر configUSE_PREEMPTION == 1
+        تهی vTimer2ISR( تهی ) interrupt 5 _naked
         {
                 /* Preemptive context switch function triggered by the timer 2 ISR.
                 This does the same as vPortYield() (see above) with the addition
                 of incrementing the RTOS tick count. */
 
                 portSAVE_CONTEXT();
-                portCOPY_STACK_TO_XRAM();
+                port_COPY_پشته_TO_XRAM();
 
-                if( xTaskIncrementTick() != pdFALSE )
+                اگر( xTaskIncrementTick() != pdFALSE )
                 {
                         vTaskSwitchContext();
                 }
 
                 portCLEAR_INTERRUPT_FLAG();
-                portCOPY_XRAM_TO_STACK();
+                port_COPY_XRAM_TO_پشته();
                 portRESTORE_CONTEXT();
         }
-#else
-        void vTimer2ISR( void ) interrupt 5
+#وگرنه
+        تهی vTimer2ISR( تهی ) interrupt 5
         {
                 /* When using the cooperative scheduler the timer 2 ISR is only
                 required to increment the RTOS tick count. */
@@ -380,16 +380,16 @@ void vPortYield( void ) _naked
 #endif
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ایستا تهی prvSetupTimerInterrupt( تهی )
 {
 uint8_t ucOriginalSFRPage;
 
 /* Constants calculated to give the required timer capture values. */
-const uint32_t ulTicksPerSecond = configCPU_CLOCK_HZ / portCLOCK_DIVISOR;
-const uint32_t ulCaptureTime = ulTicksPerSecond / configTICK_RATE_HZ;
-const uint32_t ulCaptureValue = portMAX_TIMER_VALUE - ulCaptureTime;
-const uint8_t ucLowCaptureByte = ( uint8_t ) ( ulCaptureValue & ( uint32_t ) 0xff );
-const uint8_t ucHighCaptureByte = ( uint8_t ) ( ulCaptureValue >> ( uint32_t ) 8 );
+ثابت uint32_t ulTicksPerSecond = configCPU_CLOCK_HZ / port_CLOCK_مقسوم_علیه;
+ثابت uint32_t ulCaptureTime = ulTicksPerSecond / configTICK_RATE_HZ;
+ثابت uint32_t ul_Capture_مقدار = port_MAX_TIMER_مقدار - ulCaptureTime;
+ثابت uint8_t uc_کم_Capture_Byte = ( uint8_t ) ( ul_Capture_مقدار & ( uint32_t ) 0xff );
+ثابت uint8_t uc_بالا_Capture_Byte = ( uint8_t ) ( ul_Capture_مقدار >> ( uint32_t ) 8 );
 
         /* NOTE:  This uses a timer only present on 8052 architecture. */
 
@@ -402,12 +402,12 @@ const uint8_t ucHighCaptureByte = ( uint8_t ) ( ulCaptureValue >> ( uint32_t ) 8
         TMR2CF = ( uint8_t ) 0;
 
         /* Setup the overflow reload value. */
-        RCAP2L = ucLowCaptureByte;
-        RCAP2H = ucHighCaptureByte;
+        RCAP2L = uc_کم_Capture_Byte;
+        RCAP2H = uc_بالا_Capture_Byte;
 
         /* The initial load is performed manually. */
-        TMR2L = ucLowCaptureByte;
-        TMR2H = ucHighCaptureByte;
+        TMR2L = uc_کم_Capture_Byte;
+        TMR2H = uc_بالا_Capture_Byte;
 
         /* Enable the timer 2 interrupts. */
         IE |= portTIMER_2_INTERRUPT_ENABLE;

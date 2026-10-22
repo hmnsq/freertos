@@ -9,13 +9,13 @@
  * linking) to your LDFLAGS; same with all the other symbols you need.
  */
 
-#include "FreeRTOS.h"
-#include "esp_attr.h"
-#include "sdkconfig.h"
+#شامل "FreeRTOS.h"
+#شامل "esp_attr.h"
+#شامل "sdkconfig.h"
 
 #ifdef __GNUC__
     #define USED    __attribute__( ( used ) )
-#else
+#وگرنه
     #define USED
 #endif
 

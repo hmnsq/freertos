@@ -33,7 +33,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    بیرونی "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -63,7 +63,7 @@
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#شامل "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
 /**

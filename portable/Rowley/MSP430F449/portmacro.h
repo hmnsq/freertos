@@ -40,26 +40,26 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        نویسه
+#define portFLOAT       اعشاری
+#define portDOUBLE      دوگانه
 #define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
+#define portSHORT       صحیح
+#define port_پشته_TYPE  uint16_t
 #define portBASE_TYPE   short
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+تعریفنوع port_پشته_TYPE پشته_Type_t;
+تعریفنوع short BaseType_t;
+تعریفنوع unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#اگر( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعریفنوع uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#وگرنهاگر ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    تعریفنوع uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#وگرنه
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -75,7 +75,7 @@ typedef unsigned short UBaseType_t;
 
 #define portENTER_CRITICAL()                                                    \
 {                                                                               \
-extern volatile uint16_t usCriticalNesting;                         \
+بیرونی فرار uint16_t usCriticalNesting;                         \
                                                                                 \
     portDISABLE_INTERRUPTS();                                                   \
                                                                                 \
@@ -87,16 +87,16 @@ extern volatile uint16_t usCriticalNesting;                         \
 
 #define portEXIT_CRITICAL()                                                     \
 {                                                                               \
-extern volatile uint16_t usCriticalNesting;                         \
+بیرونی فرار uint16_t usCriticalNesting;                         \
                                                                                 \
-    if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+    اگر( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
     {                                                                           \
         /* Decrement the nesting count as we are leaving a critical section. */ \
         usCriticalNesting--;                                                    \
                                                                                 \
         /* If the nesting level has reached zero then interrupts should be */   \
         /* re-enabled. */                                                       \
-        if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+        اگر( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
         {                                                                       \
             portENABLE_INTERRUPTS();                                            \
         }                                                                       \
@@ -109,25 +109,25 @@ extern volatile uint16_t usCriticalNesting;                         \
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-extern void vPortYield( void );
+بیرونی تهی vPortYield( تهی );
 #define portYIELD() vPortYield()
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          2
-#define portSTACK_GROWTH            ( -1 )
+#define port_پشته_GROWTH            ( -1 )
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters ) __toplevel
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) تهی vFunction( تهی *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) تهی vFunction( تهی *pvParameters ) __toplevel
 
-#if configINTERRUPT_EXAMPLE_METHOD == 2
+#اگر configINTERRUPT_EXAMPLE_METHOD == 2
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x ) do { if( x ) vTaskSwitchContext(); } while( 0 )
+بیرونی تهی vTaskSwitchContext( تهی );
+#define portYIELD_FROM_ISR( x ) انجامبده { اگر( x ) vTaskSwitchContext(); } وقتی( 0 )
 
 #endif
 

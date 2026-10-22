@@ -27,11 +27,11 @@
  */
 
 /* Hardware includes. */
-#include "msp430.h"
+#شامل "msp430.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the MSP430X port.
@@ -41,12 +41,12 @@
 not the MCLK. */
 #define portACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
 #define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
-#define portFLAGS_INT_ENABLED           ( ( StackType_t ) 0x08 )
+#define portFLAGS_INT_ENABLED           ( ( پشته_Type_t ) 0x08 )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
 any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعریفنوع تهی TCB_t;
+بیرونی فرار TCB_t * فرار pxCurrentTCB;
 
 /* Each task maintains a count of the critical section nesting depth.  Each
 time a critical section is entered the count is incremented.  Each time a
@@ -56,7 +56,7 @@ being re-enabled if the count is zero.
 usCriticalNesting will get set to zero when the scheduler starts, but must
 not be initialised to zero as this will cause problems during the startup
 sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+فرار uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 
@@ -64,7 +64,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-void vPortSetupTimerInterrupt( void );
+تهی vPortSetupTimerInterrupt( تهی );
 /*-----------------------------------------------------------*/
 
 /*
@@ -73,10 +73,10 @@ void vPortSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+پشته_Type_t *px_Port_Initialise_پشته( پشته_Type_t *px_بالاترین_Of_پشته, TaskFunction_t pxCode, تهی *pvParameters )
 {
-uint16_t *pusTopOfStack;
-uint32_t *pulTopOfStack, ulTemp;
+uint16_t *pus_بالاترین_Of_پشته;
+uint32_t *pul_بالاترین_Of_پشته, ulTemp;
 
     /*
         Place a few bytes of known values on the bottom of the stack.
@@ -92,72 +92,72 @@ uint32_t *pulTopOfStack, ulTemp;
 
     /* Data types are need either 16 bits or 32 bits depending on the data
     and code model used. */
-    if( sizeof( pxCode ) == sizeof( uint16_t ) )
+    اگر( اندازه( pxCode ) == اندازه( uint16_t ) )
     {
-        pusTopOfStack = ( uint16_t * ) pxTopOfStack;
+        pus_بالاترین_Of_پشته = ( uint16_t * ) px_بالاترین_Of_پشته;
         ulTemp = ( uint32_t ) pxCode;
-        *pusTopOfStack = ( uint16_t ) ulTemp;
+        *pus_بالاترین_Of_پشته = ( uint16_t ) ulTemp;
     }
-    else
+    وگرنه
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
-        pusTopOfStack = ( uint16_t * ) pxTopOfStack;
-        pusTopOfStack--;
-        pulTopOfStack = ( uint32_t * ) pusTopOfStack;
-        *pulTopOfStack = ( uint32_t ) pxCode;
+        pus_بالاترین_Of_پشته = ( uint16_t * ) px_بالاترین_Of_پشته;
+        pus_بالاترین_Of_پشته--;
+        pul_بالاترین_Of_پشته = ( uint32_t * ) pus_بالاترین_Of_پشته;
+        *pul_بالاترین_Of_پشته = ( uint32_t ) pxCode;
     }
 
-    pusTopOfStack--;
-    *pusTopOfStack = portFLAGS_INT_ENABLED;
-    pusTopOfStack -= ( sizeof( StackType_t ) / 2 );
+    pus_بالاترین_Of_پشته--;
+    *pus_بالاترین_Of_پشته = portFLAGS_INT_ENABLED;
+    pus_بالاترین_Of_پشته -= ( اندازه( پشته_Type_t ) / 2 );
 
     /* From here on the size of stacked items depends on the memory model. */
-    pxTopOfStack = ( StackType_t * ) pusTopOfStack;
+    px_بالاترین_Of_پشته = ( پشته_Type_t * ) pus_بالاترین_Of_پشته;
 
     /* Next the general purpose registers. */
-    #ifdef PRELOAD_REGISTER_VALUES
-        *pxTopOfStack = ( StackType_t ) 0xffff;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xdddd;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x9999;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x8888;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x5555;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x6666;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x5555;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x4444;
-        pxTopOfStack--;
-    #else
-        pxTopOfStack -= 3;
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack -= 9;
+    #ifdef PRELOAD_REGISTER_مقادیر
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0xffff;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0xeeee;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0xdddd;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) pvParameters;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0xbbbb;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0xaaaa;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0x9999;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0x8888;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0x5555;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0x6666;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0x5555;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) 0x4444;
+        px_بالاترین_Of_پشته--;
+    #وگرنه
+        px_بالاترین_Of_پشته -= 3;
+        *px_بالاترین_Of_پشته = ( پشته_Type_t ) pvParameters;
+        px_بالاترین_Of_پشته -= 9;
     #endif
 
     /* A variable is used to keep track of the critical section nesting.
     This variable has to be stored as part of the task context and is
     initially set to zero. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) portNO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
     be stored in the task control block for the task. */
-    return pxTopOfStack;
+    بازگشت px_بالاترین_Of_پشته;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+تهی vPortEndScheduler( تهی )
 {
     /* It is unlikely that the MSP430 port will get stopped.  If required simply
     disable the tick interrupt here. */
@@ -167,23 +167,23 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-void vPortSetupTimerInterrupt( void )
+تهی vPortSetupTimerInterrupt( تهی )
 {
     vApplicationSetupTimerInterrupt();
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector=configTICK_VECTOR
-interrupt void vTickISREntry( void )
+interrupt تهی vTickISREntry( تهی )
 {
-extern void vPortTickISR( void );
+بیرونی تهی vPortTickISR( تهی );
 
     __bic_SR_register_on_exit( SCG1 + SCG0 + OSCOFF + CPUOFF );
-    #if configUSE_PREEMPTION == 1
-        extern void vPortPreemptiveTickISR( void );
+    #اگر configUSE_PREEMPTION == 1
+        بیرونی تهی vPortPreemptiveTickISR( تهی );
         vPortPreemptiveTickISR();
-    #else
-        extern void vPortCooperativeTickISR( void );
+    #وگرنه
+        بیرونی تهی vPortCooperativeTickISR( تهی );
         vPortCooperativeTickISR();
     #endif
 }

@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    بیرونی "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -54,45 +54,45 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          نویسه
+#define portFLOAT         اعشاری
+#define portDOUBLE        دوگانه
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_پشته_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعریفنوع port_پشته_TYPE   پشته_Type_t;
+تعریفنوع long             BaseType_t;
+تعریفنوع unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#اگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعریفنوع uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وگرنهاگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعریفنوع uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#وگرنه
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
+#define port_پشته_GROWTH      -1
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    __asm volatile ( "NOP" )
+#define portNOP()    __asm فرار ( "NOP" )
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
 #define portYIELD()                     \
-    __asm volatile                      \
+    __asm فرار                      \
     (                                   \
         "PUSH.L R10                 \n" \
         "MOV.L  #0x872E0, R10       \n" \
@@ -101,7 +101,7 @@ typedef unsigned long    UBaseType_t;
         "POP    R10                 \n" \
     )
 
-#define portYIELD_FROM_ISR( x )                           do { if( x != pdFALSE ) portYIELD( ); } while( 0 )
+#define portYIELD_FROM_ISR( x )                           انجامبده { اگر( x != pdFALSE ) portYIELD( ); } وقتی( 0 )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -112,36 +112,36 @@ typedef unsigned long    UBaseType_t;
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-#define portENABLE_INTERRUPTS()                           __asm volatile ( "MVTIPL    #0" )
-#if ( configASSERT_DEFINED == 1 )
+#define portENABLE_INTERRUPTS()                           __asm فرار ( "MVTIPL    #0" )
+#اگر ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( ulPortGetIPL() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm volatile( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#else
-    #define portDISABLE_INTERRUPTS()                      __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+    #define portDISABLE_INTERRUPTS()                      اگر( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm فرار( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#وگرنه
+    #define portDISABLE_INTERRUPTS()                      __asm فرار ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
 #endif
 
 /* Critical nesting counts are stored in the TCB. */
 #define portCRITICAL_NESTING_IN_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+بیرونی تهی vTaskEnterCritical( تهی );
+بیرونی تهی vTaskExitCritical( تهی );
 #define portENTER_CRITICAL()    vTaskEnterCritical()
 #define portEXIT_CRITICAL()     vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-uint32_t ulPortGetIPL( void ) __attribute__( ( naked ) );
-void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
+uint32_t ulPortGetIPL( تهی ) __attribute__( ( naked ) );
+تهی vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
 #define portSET_INTERRUPT_MASK_FROM_ISR()                              ulPortGetIPL(); portDISABLE_INTERRUPTS()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    vPortSetIPL( uxSavedInterruptStatus )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    تهی vFunction( تهی * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          تهی vFunction( تهی * pvParameters )
 
-#define portMEMORY_BARRIER()                                  __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()                                  __asm فرار ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

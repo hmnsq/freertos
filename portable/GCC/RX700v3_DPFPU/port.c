@@ -30,23 +30,23 @@
 * Implementation of functions defined in portable.h for the RXv3 DPFPU port.
 *----------------------------------------------------------*/
 
-#warning Testing for DFPU support in this port is not yet complete
+#warning Testing برای DFPU support in this port is not yet complete
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Library includes. */
-#include "string.h"
+#شامل "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#اگر ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #شامل "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#وگرنه /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #شامل "iodefine.h"
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -54,30 +54,30 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW                  ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW                 ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DPSW                 ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DCMR                 ( ( StackType_t ) 0x00000000 )
-#define portINITIAL_DECNT                ( ( StackType_t ) 0x00000001 )
+#define portINITIAL_PSW                  ( ( پشته_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW                 ( ( پشته_Type_t ) 0x00000100 )
+#define portINITIAL_DPSW                 ( ( پشته_Type_t ) 0x00000100 )
+#define portINITIAL_DCMR                 ( ( پشته_Type_t ) 0x00000000 )
+#define portINITIAL_DECNT                ( ( پشته_Type_t ) 0x00000001 )
 
 /* Tasks are not created with a DPFPU context, but can be given a DPFPU context
  * after they have been created.  A variable is stored as part of the tasks context
  * that holds portNO_DPFPU_CONTEXT if the task does not have a DPFPU context, or
  * any other value if the task does have a DPFPU context. */
-#define portNO_DPFPU_CONTEXT             ( ( StackType_t ) 0 )
-#define portHAS_DPFPU_CONTEXT            ( ( StackType_t ) 1 )
+#define portNO_DPFPU_CONTEXT             ( ( پشته_Type_t ) 0 )
+#define portHAS_DPFPU_CONTEXT            ( ( پشته_Type_t ) 1 )
 
 /* The space on the stack required to hold the DPFPU data registers.  This is 16
  * 64-bit registers. */
-#define portDPFPU_DATA_REGISTER_WORDS    ( 16 * 2 )
+#define port_DPFPU_DATA_REGISTER_واژگان    ( 16 * 2 )
 
 /* These macros allow a critical section to be added around the call to
  * xTaskIncrementTick(), which is only ever called from interrupts at the kernel
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm volatile ( "MVTIPL %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#define portMASK_INTERRUPTS_FROM_KERNEL_ISR()      __asm فرار ( "MVTIPL %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#define portUNMASK_INTERRUPTS_FROM_KERNEL_ISR()    __asm فرار ( "MVTIPL %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
 
 /*-----------------------------------------------------------*/
 
@@ -85,21 +85,21 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+ایستا تهی prvStartFirstTask( تهی ) __attribute__( ( naked ) );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#اگر ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_ATTRIB_INTERRUPT تهی vSoftwareInterruptISR( تهی ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#وگرنه /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    تهی vSoftwareInterruptISR( تهی ) __attribute__( ( naked ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
@@ -107,14 +107,14 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#اگر ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_ATTRIB_INTERRUPT تهی vTickISR( تهی ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#وگرنه /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vTickISR( void ) __attribute__( ( interrupt ) );
+    تهی vTickISR( تهی ) __attribute__( ( interrupt ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -122,168 +122,168 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
 
 /* Saved as part of the task context.  If ulPortTaskHasDPFPUContext is non-zero
  * then a DPFPU context must be saved and restored for the task. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
+    پشته_Type_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
 
 #endif /* configUSE_TASK_DPFPU_SUPPORT */
 
 /* This is accessed by the inline assembler functions so is file scope for
  * convenience. */
-extern void * pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+بیرونی تهی * pxCurrentTCB;
+بیرونی تهی vTaskSwitchContext( تهی );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+پشته_Type_t * px_Port_Initialise_پشته( پشته_Type_t * px_بالاترین_Of_پشته,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     تهی * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_بالاترین_Of_پشته = 0x00;
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = portINITIAL_PSW;
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xffffffff; /* r15. */
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xeeeeeeee;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xdddddddd;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xcccccccc;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xbbbbbbbb;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xaaaaaaaa;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x99999999;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x88888888;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x77777777;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x66666666;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x55555555;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x44444444;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x33333333;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x22222222;
+        px_بالاترین_Of_پشته--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #وگرنه /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_بالاترین_Of_پشته -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 0. */
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pvParameters; /* R1 */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = portINITIAL_FPSW;
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x11111111; /* Accumulator 1. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x22222222; /* Accumulator 1. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x33333333; /* Accumulator 1. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x44444444; /* Accumulator 0. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x55555555; /* Accumulator 0. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x66666666; /* Accumulator 0. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
     {
         /* The task will start without a DPFPU context.  A task that
          * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
          * executing any floating point instructions. */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_DPFPU_CONTEXT;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = portNO_DPFPU_CONTEXT;
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+    #وگرنهاگر ( configUSE_TASK_DPFPU_SUPPORT == 2 )
     {
         /* The task will start with a DPFPU context.  Leave enough
          * space for the registers - and ensure they are initialised if desired. */
         #ifdef USE_FULL_REGISTER_INITIALISATION
         {
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1515.1515;  /* DR15. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1414.1414;  /* DR14. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1313.1313;  /* DR13. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1212.1212;  /* DR12. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1111.1111;  /* DR11. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1010.1010;  /* DR10. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 909.0909;   /* DR9. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 808.0808;   /* DR8. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 707.0707;   /* DR7. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 606.0606;   /* DR6. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 505.0505;   /* DR5. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 404.0404;   /* DR4. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 303.0303;   /* DR3. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 202.0202;   /* DR2. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 101.0101;   /* DR1. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 9876.54321; /* DR0. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 1515.1515;  /* DR15. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 1414.1414;  /* DR14. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 1313.1313;  /* DR13. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 1212.1212;  /* DR12. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 1111.1111;  /* DR11. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 1010.1010;  /* DR10. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 909.0909;   /* DR9. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 808.0808;   /* DR8. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 707.0707;   /* DR7. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 606.0606;   /* DR6. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 505.0505;   /* DR5. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 404.0404;   /* DR4. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 303.0303;   /* DR3. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 202.0202;   /* DR2. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 101.0101;   /* DR1. */
+            px_بالاترین_Of_پشته -= 2;
+            *( دوگانه * ) px_بالاترین_Of_پشته = 9876.54321; /* DR0. */
         }
-        #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+        #وگرنه /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
-            pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+            px_بالاترین_Of_پشته -= port_DPFPU_DATA_REGISTER_واژگان;
+            memset( px_بالاترین_Of_پشته, 0x00, port_DPFPU_DATA_REGISTER_واژگان * اندازه( پشته_Type_t ) );
         }
         #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DECNT; /* DECNT. */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DCMR;  /* DCMR. */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DPSW;  /* DPSW. */
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = portINITIAL_DECNT; /* DECNT. */
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = portINITIAL_DCMR;  /* DCMR. */
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = portINITIAL_DPSW;  /* DPSW. */
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 0 )
+    #وگرنهاگر ( configUSE_TASK_DPFPU_SUPPORT == 0 )
     {
         /* Omit DPFPU support. */
     }
-    #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #وگرنه /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
     {
-        #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
+        #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or چپ undefined.
     }
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    بازگشت px_بالاترین_Of_پشته;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    void vPortTaskUsesDPFPU( void )
+    تهی vPortTaskUsesDPFPU( تهی )
     {
         /* A task is registering the fact that it needs a DPFPU context.  Set the
          * DPFPU flag (which is saved as part of the task context). */
@@ -293,12 +293,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 #endif /* configUSE_TASK_DPFPU_SUPPORT */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( تهی )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    بیرونی تهی vApplicationSetupTimerInterrupt( تهی );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    اگر( pxCurrentTCB != پوچ )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -319,21 +319,21 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    بازگشت pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+تهی vPortEndScheduler( تهی )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == پوچ );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+ایستا تهی prvStartFirstTask( تهی )
 {
-    __asm volatile
+    __asm فرار
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -352,7 +352,7 @@ static void prvStartFirstTask( void )
         /* Restore the registers from the stack of the task pointed to by
          * pxCurrentTCB. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* The restored ulPortTaskHasDPFPUContext is to be zero here.
              * So, it is never necessary to restore the DPFPU context here. */
@@ -360,7 +360,7 @@ static void prvStartFirstTask( void )
             "MOV.L      #_ulPortTaskHasDPFPUContext, R14    \n" \
             "MOV.L      R15, [R14]                          \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #وگرنهاگر ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context. */
             "DPOPM.L    DPSW-DECNT              \n" \
             "DPOPM.D    DR0-DR15                \n" \
@@ -407,9 +407,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+تهی vSoftwareInterruptISR( تهی )
 {
-    __asm volatile
+    __asm فرار
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -458,7 +458,7 @@ void vSoftwareInterruptISR( void )
         "MVFACLO    #0, A0, R15                 \n" /* Low order word. */ \
         "PUSH.L     R15                         \n"                       \
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Does the task have a DPFPU context that needs saving?  If
              * ulPortTaskHasDPFPUContext is 0 then no. */
@@ -475,7 +475,7 @@ void vSoftwareInterruptISR( void )
             /* Save ulPortTaskHasDPFPUContext itself. */
             "PUSH.L     R15                         \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #وگرنهاگر ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Save the DPFPU context, always. */
             "DPUSHM.D   DR0-DR15                    \n" \
             "DPUSHM.L   DPSW-DECNT                  \n" \
@@ -510,7 +510,7 @@ void vSoftwareInterruptISR( void )
         /* Restore the context of the new task.  The PSW (Program Status Word) and
          * PC will be popped by the RTE instruction. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #اگر ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Is there a DPFPU context to restore?  If the restored
              * ulPortTaskHasDPFPUContext is zero then no. */
@@ -525,7 +525,7 @@ void vSoftwareInterruptISR( void )
             "DPOPM.D    DR0-DR15                    \n" \
             "?:                                     \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #وگرنهاگر ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context, always. */
             "DPOPM.L    DPSW-DECNT                  \n" \
             "DPOPM.D    DR0-DR15                    \n" \
@@ -567,16 +567,16 @@ void vSoftwareInterruptISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vTickISR( void )
+تهی vTickISR( تهی )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW    I" );
+    __asm فرار ( "SETPSW    I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portMASK_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        اگر( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -585,9 +585,9 @@ void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ulPortGetIPL( تهی )
 {
-    __asm volatile
+    __asm فرار
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -595,16 +595,16 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    بازگشت 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+تهی vPortSetIPL( uint32_t ulNewIPL )
 {
     /* Avoid compiler warning about unreferenced parameter. */
-    ( void ) ulNewIPL;
+    ( تهی ) ulNewIPL;
 
-    __asm volatile
+    __asm فرار
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \

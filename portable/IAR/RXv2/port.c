@@ -31,21 +31,21 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Library includes. */
-#include "string.h"
+#شامل "string.h"
 
 /* Hardware specifics. */
-#include <machine.h>
+#شامل <machine.h>
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( پشته_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( پشته_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
@@ -53,102 +53,102 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-extern void prvStartFirstTask( void );
+بیرونی تهی prvStartFirstTask( تهی );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt تهی vTickISR( تهی );
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+بیرونی تهی * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+پشته_Type_t * px_Port_Initialise_پشته( پشته_Type_t * px_بالاترین_Of_پشته,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     تهی * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_بالاترین_Of_پشته = 0x00;
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = portINITIAL_PSW;
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xffffffff; /* r15. */
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xeeeeeeee;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xdddddddd;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xcccccccc;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xbbbbbbbb;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0xaaaaaaaa;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x99999999;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x88888888;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x77777777;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x66666666;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x55555555;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x44444444;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x33333333;
+        px_بالاترین_Of_پشته--;
+        *px_بالاترین_Of_پشته = 0x22222222;
+        px_بالاترین_Of_پشته--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #وگرنه /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_بالاترین_Of_پشته -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 1. */
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pvParameters; /* R1 */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = portINITIAL_FPSW;
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x11111111; /* Accumulator 0. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x22222222; /* Accumulator 0. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x33333333; /* Accumulator 0. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x44444444; /* Accumulator 1. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x55555555; /* Accumulator 1. */
+    px_بالاترین_Of_پشته--;
+    *px_بالاترین_Of_پشته = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    بازگشت px_بالاترین_Of_پشته;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( تهی )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    بیرونی تهی vApplicationSetupTimerInterrupt( تهی );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    اگر( pxCurrentTCB != پوچ )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -169,12 +169,12 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    بازگشت pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector = configTICK_VECTOR
-__interrupt void vTickISR( void )
+__interrupt تهی vTickISR( تهی )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -183,7 +183,7 @@ __interrupt void vTickISR( void )
      * necessitates. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        اگر( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -192,10 +192,10 @@ __interrupt void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+تهی vPortEndScheduler( تهی )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == پوچ );
 }
 /*-----------------------------------------------------------*/

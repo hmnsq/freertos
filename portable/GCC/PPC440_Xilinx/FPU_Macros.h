@@ -29,17 +29,17 @@
 /* When switching out a task, if the task tag contains a buffer address then
  * save the flop context into the buffer. */
 #define traceTASK_SWITCHED_OUT()                                         \
-    if( pxCurrentTCB->pxTaskTag != NULL )                                \
+    اگر( pxCurrentTCB->pxTaskTag != پوچ )                                \
     {                                                                    \
-        extern void vPortSaveFPURegisters( void * );                     \
-        vPortSaveFPURegisters( ( void * ) ( pxCurrentTCB->pxTaskTag ) ); \
+        بیرونی تهی vPortSaveFPURegisters( تهی * );                     \
+        vPortSaveFPURegisters( ( تهی * ) ( pxCurrentTCB->pxTaskTag ) ); \
     }
 
 /* When switching in a task, if the task tag contains a buffer address then
  * load the flop context from the buffer. */
 #define traceTASK_SWITCHED_IN()                                             \
-    if( pxCurrentTCB->pxTaskTag != NULL )                                   \
+    اگر( pxCurrentTCB->pxTaskTag != پوچ )                                   \
     {                                                                       \
-        extern void vPortRestoreFPURegisters( void * );                     \
-        vPortRestoreFPURegisters( ( void * ) ( pxCurrentTCB->pxTaskTag ) ); \
+        بیرونی تهی vPortRestoreFPURegisters( تهی * );                     \
+        vPortRestoreFPURegisters( ( تهی * ) ( pxCurrentTCB->pxTaskTag ) ); \
     }

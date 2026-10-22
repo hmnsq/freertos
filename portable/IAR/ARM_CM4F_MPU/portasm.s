@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS یا
+ * IMPLIED, INCLUDING BUT نه LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. در NO EVENT SHALL THE AUTHORS یا
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES یا OTHER LIABILITY, WHETHER
+ * در AN ACTION OF CONTRACT, TORT یا OTHERWISE, ARISING FROM, OUT OF یا در
+ * CONNECTION WITH THE SOFTWARE یا THE USE یا OTHER DEALINGS در THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -37,19 +37,19 @@ files (__ICCARM__ is defined by the IAR C compiler but not by the IAR assembler.
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
-    EXTERN vPortSVCHandler_C
-    EXTERN vSystemCallEnter
-    EXTERN vSystemCallExit
+    بیرونی pxCurrentTCB
+    بیرونی vTaskSwitchContext
+    بیرونی vPortSVCHandler_C
+    بیرونی vSystemCallEnter
+    بیرونی vSystemCallExit
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC vPortEnableVFP
-    PUBLIC vPortRestoreContextOfFirstTask
-    PUBLIC xIsPrivileged
-    PUBLIC vResetPrivilege
+    عمومی xPortPendSVHandler
+    عمومی vPortSVCHandler
+    عمومی vPortStartFirstTask
+    عمومی vPortEnableVFP
+    عمومی vPortRestoreContextOfFirstTask
+    عمومی xIsPrivileged
+    عمومی vResetPrivilege
 
 /*-----------------------------------------------------------*/
 
@@ -289,7 +289,7 @@ vPortEnableVFP:
 
 xIsPrivileged:
     mrs r0, control     /* r0 = CONTROL. */
-    tst r0, #1          /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    tst r0, #1          /* Perform r0 & 1 (bitwise و) and update the conditions flag. */
     ite ne
     movne r0, #0        /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
     moveq r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
@@ -303,4 +303,4 @@ vResetPrivilege:
     bx lr               /* Return to the caller. */
 /*-----------------------------------------------------------*/
 
-    END
+    پایان

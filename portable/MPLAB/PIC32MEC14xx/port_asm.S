@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS یا
+ * IMPLIED, INCLUDING BUT نه LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. در NO EVENT SHALL THE AUTHORS یا
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES یا OTHER LIABILITY, WHETHER
+ * در AN ACTION OF CONTRACT, TORT یا OTHERWISE, ARISING FROM, OUT OF یا در
+ * CONNECTION WITH THE SOFTWARE یا THE USE یا OTHER DEALINGS در THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -42,9 +42,9 @@
     PORT_CPP_JTVIC_BASE = 0xBFFFC000
     PORT_CCP_JTVIC_GIRQ24_SRC = 0xBFFFC100
 
-    .global vPortStartFirstTask .text
-    .global vPortYieldISR .text
-    .global vPortTickInterruptHandler .text
+    .عام vPortStartFirstTask .text
+    .عام vPortYieldISR .text
+    .عام vPortTickInterruptHandler .text
 
 
 /******************************************************************/
@@ -131,11 +131,11 @@ vPortStartFirstTask:
 
     .section .text, code
 
-    .global vPortYieldISR
+    .عام vPortYieldISR
 
 
 #if configCPU_DISAGGREGATED_ISRS == 0
-    .global girq24_isr
+    .عام girq24_isr
     .ent girq24_isr
 girq24_isr:
     la      k0, PORT_CPP_JTVIC_BASE
@@ -153,7 +153,7 @@ girq24_isr:
     .end girq24_isr
 
 #else
-    .global girq24_b1
+    .عام girq24_b1
 girq24_b1:
 #endif
         .ent  vPortYieldISR

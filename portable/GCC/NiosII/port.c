@@ -31,107 +31,107 @@
 *----------------------------------------------------------*/
 
 /* Standard Includes. */
-#include <string.h>
-#include <errno.h>
+#شامل <string.h>
+#شامل <errno.h>
 
 /* Altera includes. */
-#include "sys/alt_irq.h"
-#include "sys/alt_exceptions.h"
-#include "altera_avalon_timer_regs.h"
-#include "priv/alt_irq_table.h"
+#شامل "sys/alt_irq.h"
+#شامل "sys/alt_exceptions.h"
+#شامل "altera_avalon_timer_regs.h"
+#شامل "priv/alt_irq_table.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#شامل "FreeRTOS.h"
+#شامل "task.h"
 
 /* Interrupts are enabled. */
-#define portINITIAL_ESTATUS    ( StackType_t ) 0x01
+#define portINITIAL_ESTATUS    ( پشته_Type_t ) 0x01
 
-int _alt_ic_isr_register( alt_u32 ic_id,
+صحیح _alt_ic_isr_register( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags );
+                          تهی * isr_context,
+                          تهی * flags );
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+ایستا تهی prvSetupTimerInterrupt( تهی );
 
 /*
  * Call back for the alarm function.
  */
-void vPortSysTickHandler( void * context );
+تهی vPortSysTickHandler( تهی * context );
 
 /*-----------------------------------------------------------*/
 
-static void prvReadGp( uint32_t * ulValue )
+ایستا تهی prvReadGp( uint32_t * ul_مقدار )
 {
-    asm ( "stw gp, (%0)" ::"r" ( ulValue ) );
+    asm ( "stw gp, (%0)" ::"r" ( ul_مقدار ) );
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+پشته_Type_t * px_Port_Initialise_پشته( پشته_Type_t * px_بالاترین_Of_پشته,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     تهی * pvParameters )
 {
-    StackType_t * pxFramePointer = pxTopOfStack - 1;
-    StackType_t xGlobalPointer;
+    پشته_Type_t * pxFramePointer = px_بالاترین_Of_پشته - 1;
+    پشته_Type_t xGlobalPointer;
 
     prvReadGp( &xGlobalPointer );
 
     /* End of stack marker. */
-    *pxTopOfStack = 0xdeadbeef;
-    pxTopOfStack--;
+    *px_بالاترین_Of_پشته = 0xdeadbeef;
+    px_بالاترین_Of_پشته--;
 
-    *pxTopOfStack = ( StackType_t ) pxFramePointer;
-    pxTopOfStack--;
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pxFramePointer;
+    px_بالاترین_Of_پشته--;
 
-    *pxTopOfStack = xGlobalPointer;
+    *px_بالاترین_Of_پشته = xGlobalPointer;
 
     /* Space for R23 to R16. */
-    pxTopOfStack -= 9;
+    px_بالاترین_Of_پشته -= 9;
 
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pxCode;
+    px_بالاترین_Of_پشته--;
 
-    *pxTopOfStack = portINITIAL_ESTATUS;
+    *px_بالاترین_Of_پشته = portINITIAL_ESTATUS;
 
     /* Space for R15 to R5. */
-    pxTopOfStack -= 12;
+    px_بالاترین_Of_پشته -= 12;
 
-    *pxTopOfStack = ( StackType_t ) pvParameters;
+    *px_بالاترین_Of_پشته = ( پشته_Type_t ) pvParameters;
 
     /* Space for R3 to R1, muldiv and RA. */
-    pxTopOfStack -= 5;
+    px_بالاترین_Of_پشته -= 5;
 
-    return pxTopOfStack;
+    بازگشت px_بالاترین_Of_پشته;
 }
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( تهی )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
     prvSetupTimerInterrupt();
 
     /* Start the first task. */
-    asm volatile ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
+    asm فرار ( " movia r2, restore_sp_from_pxCurrentTCB        \n"
                    " jmp r2                                          " );
 
     /* Should not get here! */
-    return 0;
+    بازگشت 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+تهی vPortEndScheduler( تهی )
 {
     /* It is unlikely that the NIOS2 port will require this function as there
      * is nothing to return to.  */
@@ -142,15 +142,15 @@ void vPortEndScheduler( void )
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+تهی prvSetupTimerInterrupt( تهی )
 {
     /* Try to register the interrupt handler. */
-    if( -EINVAL == _alt_ic_isr_register( SYS_CLK_IRQ_INTERRUPT_CONTROLLER_ID, SYS_CLK_IRQ, vPortSysTickHandler, 0x0, 0x0 ) )
+    اگر( -EINVAL == _alt_ic_isr_register( SYS_CLK_IRQ_INTERRUPT_CONTROLLER_ID, SYS_CLK_IRQ, vPortSysTickHandler, 0x0, 0x0 ) )
     {
         /* Failed to install the Interrupt Handler. */
         asm ( "break" );
     }
-    else
+    وگرنه
     {
         /* Configure SysTick to interrupt at the requested rate. */
         IOWR_ALTERA_AVALON_TIMER_CONTROL( SYS_CLK_BASE, ALTERA_AVALON_TIMER_CONTROL_STOP_MSK );
@@ -164,10 +164,10 @@ void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortSysTickHandler( void * context )
+تهی vPortSysTickHandler( تهی * context )
 {
     /* Increment the kernel tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    اگر( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -183,17 +183,17 @@ void vPortSysTickHandler( void * context )
  * kernel has its scheduler started so that contexts are saved and switched
  * correctly.
  */
-int _alt_ic_isr_register( alt_u32 ic_id,
+صحیح _alt_ic_isr_register( alt_u32 ic_id,
                           alt_u32 irq,
                           alt_isr_func isr,
-                          void * isr_context,
-                          void * flags )
+                          تهی * isr_context,
+                          تهی * flags )
 {
-    int rc = -EINVAL;
+    صحیح rc = -EINVAL;
     alt_irq_context status;
-    int id = irq; /* IRQ interpreted as the interrupt ID. */
+    صحیح id = irq; /* IRQ interpreted as the interrupt ID. */
 
-    if( id < ALT_NIRQ )
+    اگر( id < ALT_NIRQ )
     {
         /*
          * interrupts are disabled while the handler tables are updated to ensure
@@ -211,6 +211,6 @@ int _alt_ic_isr_register( alt_u32 ic_id,
         /* alt_irq_enable_all(status); This line is removed to prevent the interrupt from being immediately enabled. */
     }
 
-    return rc;
+    بازگشت rc;
 }
 /*-----------------------------------------------------------*/

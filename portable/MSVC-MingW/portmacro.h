@@ -30,91 +30,91 @@
 #define PORTMACRO_H
 
 #ifdef __cplusplus
-extern "C" {
+بیرونی "C" {
 #endif
 
 /******************************************************************************
 *   Defines
 ******************************************************************************/
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
+#define portCHAR                 نویسه
+#define portFLOAT                اعشاری
+#define portDOUBLE               دوگانه
 #define portLONG                 long
 #define portSHORT                short
-#define portSTACK_TYPE           size_t
+#define port_پشته_TYPE           size_t
 #define portPOINTER_SIZE_TYPE    size_t
 
-typedef portSTACK_TYPE           StackType_t;
+تعریفنوع port_پشته_TYPE           پشته_Type_t;
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#اگر defined( __x86_64__ ) || defined( _M_X64 )
     #define portBASE_TYPE    long long
-    typedef long long            BaseType_t;
-    typedef unsigned long long   UBaseType_t;
-#else
+    تعریفنوع long long            BaseType_t;
+    تعریفنوع unsigned long long   UBaseType_t;
+#وگرنه
     #define portBASE_TYPE    long
-    typedef long                 BaseType_t;
-    typedef unsigned long        UBaseType_t;
+    تعریفنوع long                 BaseType_t;
+    تعریفنوع unsigned long        UBaseType_t;
 #endif
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t             TickType_t;
+#اگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعریفنوع uint16_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#وگرنهاگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعریفنوع uint32_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32/64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t             TickType_t;
+#وگرنهاگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
+    تعریفنوع uint64_t             TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffffffffffULL
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#اگر defined( __x86_64__ ) || defined( _M_X64 )
 /* 64-bit tick type on a 64-bit architecture, so reads of the tick
  * count do not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
 #endif
-#else
+#وگرنه
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH          ( -1 )
+#define port_پشته_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portINLINE                __inline
 
-#if defined( __x86_64__ ) || defined( _M_X64 )
+#اگر defined( __x86_64__ ) || defined( _M_X64 )
     #define portBYTE_ALIGNMENT    8
-#else
+#وگرنه
     #define portBYTE_ALIGNMENT    4
 #endif
 
 #define portYIELD()    vPortGenerateSimulatedInterrupt( portINTERRUPT_YIELD )
 
 
-extern volatile BaseType_t xInsideInterrupt;
-#define portSOFTWARE_BARRIER()    while( xInsideInterrupt != pdFALSE )
+بیرونی فرار BaseType_t xInsideInterrupt;
+#define portSOFTWARE_BARRIER()    وقتی( xInsideInterrupt != pdFALSE )
 
 
 /* Simulated interrupts return pdFALSE if no context switch should be performed,
  * or a non-zero number if a context switch should be performed. */
-#define portYIELD_FROM_ISR( x )       return x
+#define portYIELD_FROM_ISR( x )       بازگشت x
 #define portEND_SWITCHING_ISR( x )    portYIELD_FROM_ISR( ( x ) )
 
-void vPortCloseRunningThread( void * pvTaskToDelete,
-                              volatile BaseType_t * pxPendYield );
-void vPortDeleteThread( void * pvThreadToDelete );
+تهی vPortCloseRunningThread( تهی * pvTaskToDelete,
+                              فرار BaseType_t * pxPendYield );
+تهی vPortDeleteThread( تهی * pvThreadToDelete );
 #define portCLEAN_UP_TCB( pxTCB )                                  vPortDeleteThread( pxTCB )
 #define portPRE_TASK_DELETE_HOOK( pvTaskToDelete, pxPendYield )    vPortCloseRunningThread( ( pvTaskToDelete ), ( pxPendYield ) )
 #define portDISABLE_INTERRUPTS()                                   vPortEnterCritical()
 #define portENABLE_INTERRUPTS()                                    vPortExitCritical()
 
 /* Critical section handling. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
+تهی vPortEnterCritical( تهی );
+تهی vPortExitCritical( تهی );
 
 #define portENTER_CRITICAL()    vPortEnterCritical()
 #define portEXIT_CRITICAL()     vPortExitCritical()
@@ -125,10 +125,10 @@ void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#اگر configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #اگر ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -138,32 +138,32 @@ void vPortExitCritical( void );
 
     #ifdef __GNUC__
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-        __asm volatile ( "bsr %1, %0\n\t"                                       \
-                         : "=r" ( uxTopPriority )                               \
+        #define portGET_HIGHEST_PRIORITY( ux_بالاترین_Priority, uxReadyPriorities )    \
+        __asm فرار ( "bsr %1, %0\n\t"                                       \
+                         : "=r" ( ux_بالاترین_Priority )                               \
                          : "rm" ( uxReadyPriorities )                           \
                          : "cc" )
 
-    #else /* __GNUC__ */
-        #include <intrin.h>
+    #وگرنه /* __GNUC__ */
+        #شامل <intrin.h>
 
         /* BitScanReverse returns the bit position of the most significant '1'
          * in the word. */
-        #if defined( __x86_64__ ) || defined( _M_X64 )
+        #اگر defined( __x86_64__ ) || defined( _M_X64 )
             #pragma intrinsic(_BitScanReverse64)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    \
-            do                                                                      \
+            #define portGET_HIGHEST_PRIORITY( ux_بالاترین_Priority, uxReadyPriorities )    \
+            انجامبده                                                                      \
             {                                                                       \
-                unsigned long ulTopPriority;                                        \
-                _BitScanReverse64( &ulTopPriority, ( uxReadyPriorities ) );         \
-                uxTopPriority = ulTopPriority;                                      \
-            } while( 0 )
+                unsigned long ul_بالاترین_Priority;                                        \
+                _BitScanReverse64( &ul_بالاترین_Priority, ( uxReadyPriorities ) );         \
+                ux_بالاترین_Priority = ul_بالاترین_Priority;                                      \
+            } وقتی( 0 )
 
-        #else /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
+        #وگرنه /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
             #pragma intrinsic(_BitScanReverse)
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( uxTopPriority ), ( uxReadyPriorities ) )
+            #define portGET_HIGHEST_PRIORITY( ux_بالاترین_Priority, uxReadyPriorities )    _BitScanReverse( ( unsigned long * ) &( ux_بالاترین_Priority ), ( uxReadyPriorities ) )
 
         #endif /* #if defined( __x86_64__ ) || defined( _M_X64 ) */
 
@@ -177,8 +177,8 @@ void vPortExitCritical( void );
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    تهی vFunction( تهی * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          تهی vFunction( تهی * pvParameters )
 
 #define portINTERRUPT_YIELD                        ( 0UL )
 #define portINTERRUPT_TICK                         ( 1UL )
@@ -189,7 +189,7 @@ void vPortExitCritical( void );
  * Each bit can be used to represent an individual interrupt - with the first
  * two bits being used for the Yield and Tick interrupts respectively.
  */
-void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
+تهی vPortGenerateSimulatedInterrupt( uint32_t ul_Interrupt_عدد );
 
 /*
  * Raise a simulated interrupt represented by the bit mask in ulInterruptMask.
@@ -197,7 +197,7 @@ void vPortGenerateSimulatedInterrupt( uint32_t ulInterruptNumber );
  * two bits being used for the Yield and Tick interrupts respectively. This function
  * can be called in a windows thread.
  */
-void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumber );
+تهی vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ul_Interrupt_عدد );
 
 /*
  * Install an interrupt handler to be called by the simulated interrupt handler
@@ -208,8 +208,8 @@ void vPortGenerateSimulatedInterruptFromWindowsThread( uint32_t ulInterruptNumbe
  * Interrupt handler functions must return a non-zero value if executing the
  * handler resulted in a task switch being required.
  */
-void vPortSetInterruptHandler( uint32_t ulInterruptNumber,
-                               uint32_t ( * pvHandler )( void ) );
+تهی vPortSetInterruptHandler( uint32_t ul_Interrupt_عدد,
+                               uint32_t ( * pvHandler )( تهی ) );
 
 #ifdef __cplusplus
 }

@@ -31,13 +31,13 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    بیرونی "C" {
 #endif
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
+#ifndef config_RECORD_پشته_بالا_ADDRESS
+    #define config_RECORD_پشته_بالا_ADDRESS    1
 #endif
 
 /*-----------------------------------------------------------
@@ -51,23 +51,23 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          نویسه
+#define portFLOAT         اعشاری
+#define portDOUBLE        دوگانه
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    unsigned int
+#define port_پشته_TYPE    unsigned صحیح
 #define portBASE_TYPE     portLONG
 
 #ifndef Asm
-    #define Asm           __asm__ volatile
+    #define Asm           __asm__ فرار
 #endif
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
+#ifndef پوچ
+    #define پوچ    0           /* invalid pointer */
 #endif /* NULL */
 
 #ifndef true
@@ -78,22 +78,22 @@
     #define false    0          /* false */
 #endif /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعریفنوع port_پشته_TYPE   پشته_Type_t;
+تعریفنوع long             BaseType_t;
+تعریفنوع unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#اگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعریفنوع uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وگرنهاگر ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعریفنوع uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#وگرنه
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
+#define port_پشته_GROWTH           ( -1 )
 #define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT         8
 #define portNOP()               Asm( "nop_s" );
@@ -115,7 +115,7 @@ typedef unsigned long    UBaseType_t;
         Asm( "seti" );          \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+بیرونی فرار unsigned صحیح ulCriticalNesting;
 
 #define portENTER_CRITICAL()     \
     {                            \
@@ -126,10 +126,10 @@ extern volatile unsigned int ulCriticalNesting;
 
 #define portEXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        اگر( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            اگر( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
             {                                                  \
                 portENABLE_INTERRUPTS()                        \
             }                                                  \
@@ -137,19 +137,19 @@ extern volatile unsigned int ulCriticalNesting;
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    تهی vFunction( تهی * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          تهی vFunction( تهی * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              انجامبده {} وقتی( 0 )     /* we use the timer */
+#define port_ALT_GET_RUN_TIME_COUNTER_مقدار( dest )            ( dest = x_Tick_شمار )
 
-#if defined( __MW__ )
-    extern void task_end_hook( void * pxTCB );
-    #define portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( void * ) pxTCB )
+#اگر defined( __MW__ )
+    بیرونی تهی task_end_hook( تهی * pxTCB );
+    #define portCLEAN_UP_TCB( pxTCB )    task_end_hook( ( تهی * ) pxTCB )
 #endif
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+تهی vPortYield( تهی );
+تهی vPortYieldFromIsr( تهی );
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

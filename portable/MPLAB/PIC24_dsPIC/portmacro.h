@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    بیرونی "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,61 +46,61 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        نویسه
+#define portFLOAT       اعشاری
+#define portDOUBLE      دوگانه
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint16_t
+#define port_پشته_TYPE  uint16_t
 #define portBASE_TYPE   short
 #define portPOINTER_SIZE_TYPE size_t
 #define SIZE_MAX    ( ( size_t ) -1 )
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+تعریفنوع port_پشته_TYPE پشته_Type_t;
+تعریفنوع short BaseType_t;
+تعریفنوع unsigned short UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#اگر( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعریفنوع uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
 /* 16-bit tick type on a 16-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC 1
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#وگرنهاگر ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    تعریفنوع uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#وگرنه
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          2
-#define portSTACK_GROWTH            1
+#define port_پشته_GROWTH            1
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS()    SET_CPU_IPL( configKERNEL_INTERRUPT_PRIORITY ); __asm volatile ( "NOP" )
+#define portDISABLE_INTERRUPTS()    SET_CPU_IPL( configKERNEL_INTERRUPT_PRIORITY ); __asm فرار ( "NOP" )
 #define portENABLE_INTERRUPTS()     SET_CPU_IPL( 0 )
 
 /* Note that exiting a critical sectino will set the IPL bits to 0, no matter
 what their value was prior to entering the critical section. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+بیرونی تهی vPortEnterCritical( تهی );
+بیرونی تهی vPortExitCritical( تهی );
 #define portENTER_CRITICAL()        vPortEnterCritical()
 #define portEXIT_CRITICAL()         vPortExitCritical()
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
-#define portYIELD()             asm volatile ( "CALL _vPortYield            \n"     \
+بیرونی تهی vPortYield( تهی );
+#define portYIELD()             asm فرار ( "CALL _vPortYield            \n"     \
                                                 "NOP                      " );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) تهی vFunction( تهی *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) تهی vFunction( تهی *pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Required by the kernel aware debugger. */
@@ -108,7 +108,7 @@ extern void vPortYield( void );
     #define portREMOVE_STATIC_QUALIFIER
 #endif
 
-#define portNOP()               asm volatile ( "NOP" )
+#define portNOP()               asm فرار ( "NOP" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
