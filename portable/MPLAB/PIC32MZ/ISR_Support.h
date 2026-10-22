@@ -26,111 +26,111 @@
  *
  */
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
-#define portCONTEXT_SIZE                160
-#define portEPC_STACK_LOCATION          152
-#define portSTATUS_STACK_LOCATION       156
-#define portFPCSR_STACK_LOCATION        0
-#define portTASK_HAS_FPU_STACK_LOCATION     0
-#define portFPU_CONTEXT_SIZE            264
+#تعریف_کړه پورټ_CONTEXT_اندازه                160
+#تعریف_کړه پورټ_EPC_ډېری_LOCATION          152
+#تعریف_کړه پورټ_حالت_ډېری_LOCATION       156
+#تعریف_کړه پورټ_FPCSR_ډېری_LOCATION        0
+#تعریف_کړه پورټ_TASK_HAS_FPU_ډېری_LOCATION     0
+#تعریف_کړه پورټ_FPU_CONTEXT_اندازه            264
 
 /******************************************************************/
-.macro  portSAVE_FPU_REGS    offset, base
+.macro  پورټ_SAVE_FPU_REGS    offset, بنسټ
     /* Macro to assist with saving just the FPU registers to the
      * specified address and base offset,
      * offset is a constant, base is the base pointer register  */
 
-    sdc1        $f31, \offset + 248(\base)
-    sdc1        $f30, \offset + 240(\base)
-    sdc1        $f29, \offset + 232(\base)
-    sdc1        $f28, \offset + 224(\base)
-    sdc1        $f27, \offset + 216(\base)
-    sdc1        $f26, \offset + 208(\base)
-    sdc1        $f25, \offset + 200(\base)
-    sdc1        $f24, \offset + 192(\base)
-    sdc1        $f23, \offset + 184(\base)
-    sdc1        $f22, \offset + 176(\base)
-    sdc1        $f21, \offset + 168(\base)
-    sdc1        $f20, \offset + 160(\base)
-    sdc1        $f19, \offset + 152(\base)
-    sdc1        $f18, \offset + 144(\base)
-    sdc1        $f17, \offset + 136(\base)
-    sdc1        $f16, \offset + 128(\base)
-    sdc1        $f15, \offset + 120(\base)
-    sdc1        $f14, \offset + 112(\base)
-    sdc1        $f13, \offset + 104(\base)
-    sdc1        $f12, \offset + 96(\base)
-    sdc1        $f11, \offset + 88(\base)
-    sdc1        $f10, \offset + 80(\base)
-    sdc1        $f9, \offset + 72(\base)
-    sdc1        $f8, \offset + 64(\base)
-    sdc1        $f7, \offset + 56(\base)
-    sdc1        $f6, \offset + 48(\base)
-    sdc1        $f5, \offset + 40(\base)
-    sdc1        $f4, \offset + 32(\base)
-    sdc1        $f3, \offset + 24(\base)
-    sdc1        $f2, \offset + 16(\base)
-    sdc1        $f1, \offset + 8(\base)
-    sdc1        $f0, \offset + 0(\base)
+    sdc1        $f31, \offset + 248(\بنسټ)
+    sdc1        $f30, \offset + 240(\بنسټ)
+    sdc1        $f29, \offset + 232(\بنسټ)
+    sdc1        $f28, \offset + 224(\بنسټ)
+    sdc1        $f27, \offset + 216(\بنسټ)
+    sdc1        $f26, \offset + 208(\بنسټ)
+    sdc1        $f25, \offset + 200(\بنسټ)
+    sdc1        $f24, \offset + 192(\بنسټ)
+    sdc1        $f23, \offset + 184(\بنسټ)
+    sdc1        $f22, \offset + 176(\بنسټ)
+    sdc1        $f21, \offset + 168(\بنسټ)
+    sdc1        $f20, \offset + 160(\بنسټ)
+    sdc1        $f19, \offset + 152(\بنسټ)
+    sdc1        $f18, \offset + 144(\بنسټ)
+    sdc1        $f17, \offset + 136(\بنسټ)
+    sdc1        $f16, \offset + 128(\بنسټ)
+    sdc1        $f15, \offset + 120(\بنسټ)
+    sdc1        $f14, \offset + 112(\بنسټ)
+    sdc1        $f13, \offset + 104(\بنسټ)
+    sdc1        $f12, \offset + 96(\بنسټ)
+    sdc1        $f11, \offset + 88(\بنسټ)
+    sdc1        $f10, \offset + 80(\بنسټ)
+    sdc1        $f9, \offset + 72(\بنسټ)
+    sdc1        $f8, \offset + 64(\بنسټ)
+    sdc1        $f7, \offset + 56(\بنسټ)
+    sdc1        $f6, \offset + 48(\بنسټ)
+    sdc1        $f5, \offset + 40(\بنسټ)
+    sdc1        $f4, \offset + 32(\بنسټ)
+    sdc1        $f3, \offset + 24(\بنسټ)
+    sdc1        $f2, \offset + 16(\بنسټ)
+    sdc1        $f1, \offset + 8(\بنسټ)
+    sdc1        $f0, \offset + 0(\بنسټ)
 
     .endm
 
 /******************************************************************/
-.macro  portLOAD_FPU_REGS    offset, base
+.macro  پورټ_بارول_FPU_REGS    offset, بنسټ
     /* Macro to assist with loading just the FPU registers from the
      * specified address and base offset, offset is a constant,
      * base is the base pointer register  */
 
-    ldc1        $f0, \offset + 0(\base)
-    ldc1        $f1, \offset + 8(\base)
-    ldc1        $f2, \offset + 16(\base)
-    ldc1        $f3, \offset + 24(\base)
-    ldc1        $f4, \offset + 32(\base)
-    ldc1        $f5, \offset + 40(\base)
-    ldc1        $f6, \offset + 48(\base)
-    ldc1        $f7, \offset + 56(\base)
-    ldc1        $f8, \offset + 64(\base)
-    ldc1        $f9, \offset + 72(\base)
-    ldc1        $f10, \offset + 80(\base)
-    ldc1        $f11, \offset + 88(\base)
-    ldc1        $f12, \offset + 96(\base)
-    ldc1        $f13, \offset + 104(\base)
-    ldc1        $f14, \offset + 112(\base)
-    ldc1        $f15, \offset + 120(\base)
-    ldc1        $f16, \offset + 128(\base)
-    ldc1        $f17, \offset + 136(\base)
-    ldc1        $f18, \offset + 144(\base)
-    ldc1        $f19, \offset + 152(\base)
-    ldc1        $f20, \offset + 160(\base)
-    ldc1        $f21, \offset + 168(\base)
-    ldc1        $f22, \offset + 176(\base)
-    ldc1        $f23, \offset + 184(\base)
-    ldc1        $f24, \offset + 192(\base)
-    ldc1        $f25, \offset + 200(\base)
-    ldc1        $f26, \offset + 208(\base)
-    ldc1        $f27, \offset + 216(\base)
-    ldc1        $f28, \offset + 224(\base)
-    ldc1        $f29, \offset + 232(\base)
-    ldc1        $f30, \offset + 240(\base)
-    ldc1        $f31, \offset + 248(\base)
+    ldc1        $f0, \offset + 0(\بنسټ)
+    ldc1        $f1, \offset + 8(\بنسټ)
+    ldc1        $f2, \offset + 16(\بنسټ)
+    ldc1        $f3, \offset + 24(\بنسټ)
+    ldc1        $f4, \offset + 32(\بنسټ)
+    ldc1        $f5, \offset + 40(\بنسټ)
+    ldc1        $f6, \offset + 48(\بنسټ)
+    ldc1        $f7, \offset + 56(\بنسټ)
+    ldc1        $f8, \offset + 64(\بنسټ)
+    ldc1        $f9, \offset + 72(\بنسټ)
+    ldc1        $f10, \offset + 80(\بنسټ)
+    ldc1        $f11, \offset + 88(\بنسټ)
+    ldc1        $f12, \offset + 96(\بنسټ)
+    ldc1        $f13, \offset + 104(\بنسټ)
+    ldc1        $f14, \offset + 112(\بنسټ)
+    ldc1        $f15, \offset + 120(\بنسټ)
+    ldc1        $f16, \offset + 128(\بنسټ)
+    ldc1        $f17, \offset + 136(\بنسټ)
+    ldc1        $f18, \offset + 144(\بنسټ)
+    ldc1        $f19, \offset + 152(\بنسټ)
+    ldc1        $f20, \offset + 160(\بنسټ)
+    ldc1        $f21, \offset + 168(\بنسټ)
+    ldc1        $f22, \offset + 176(\بنسټ)
+    ldc1        $f23, \offset + 184(\بنسټ)
+    ldc1        $f24, \offset + 192(\بنسټ)
+    ldc1        $f25, \offset + 200(\بنسټ)
+    ldc1        $f26, \offset + 208(\بنسټ)
+    ldc1        $f27, \offset + 216(\بنسټ)
+    ldc1        $f28, \offset + 224(\بنسټ)
+    ldc1        $f29, \offset + 232(\بنسټ)
+    ldc1        $f30, \offset + 240(\بنسټ)
+    ldc1        $f31, \offset + 248(\بنسټ)
 
     .endm
 
 /******************************************************************/
-.macro  portSAVE_CONTEXT
+.macro  پورټ_SAVE_CONTEXT
 
     /* Make room for the context. First save the current status so it can be
     manipulated, and the cause and EPC registers so their original values are
     captured. */
     mfc0        k0, _CP0_CAUSE
-    addiu       sp, sp, -portCONTEXT_SIZE
+    addiu       sp, sp, -پورټ_CONTEXT_اندازه
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #إذا ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Test if we are already using the system stack. Only tasks may use the
         FPU so if we are already in a nested interrupt then the FPU context does
         not require saving. */
-        la          k1, uxInterruptNesting
+        la          k1, ux_مداخله_Nesting
         lw          k1, 0(k1)
         bne         k1, zero, 2f
         nop
@@ -142,23 +142,23 @@
         nop
 
         /* Adjust the stack to account for the additional FPU context.*/
-        addiu       sp, sp, -portFPU_CONTEXT_SIZE
+        addiu       sp, sp, -پورټ_FPU_CONTEXT_اندازه
 
     1:
         /* Save the ulTaskHasFPUContext flag. */
-        sw          k1, portTASK_HAS_FPU_STACK_LOCATION(sp)
+        sw          k1, پورټ_TASK_HAS_FPU_ډېری_LOCATION(sp)
 
     2:
-    #endif
+    #د_که_پای
 
-    mfc0        k1, _CP0_STATUS
+    mfc0        k1, CP0_حالت
 
     /* Also save s7, s6 and s5 so they can be used.  Any nesting interrupts
     should maintain the values of these registers across the ISR. */
     sw          s7, 48(sp)
     sw          s6, 44(sp)
     sw          s5, 40(sp)
-    sw          k1, portSTATUS_STACK_LOCATION(sp)
+    sw          k1, پورټ_حالت_ډېری_LOCATION(sp)
 
     /* Prepare to enable interrupts above the current priority. */
     srl         k0, k0, 0xa
@@ -168,10 +168,10 @@
     ins         k1, zero, 1, 4
 
     /* s5 is used as the frame pointer. */
-    add         s5, zero, sp
+    جمع_کړه         s5, zero, sp
 
     /* Check the nesting count value. */
-    la          k0, uxInterruptNesting
+    la          k0, ux_مداخله_Nesting
     lw          s6, (k0)
 
     /* If the nesting count is 0 then swap to the system stack, otherwise
@@ -180,7 +180,7 @@
     nop
 
     /* Swap to the system stack. */
-    la          sp, xISRStackTop
+    la          sp, x_ISRStack_سر
     lw          sp, (sp)
 
     /* Increment and save the nesting count. */
@@ -191,7 +191,7 @@
     mfc0        s6, _CP0_EPC
 
     /* Re-enable interrupts. */
-    mtc0        k1, _CP0_STATUS
+    mtc0        k1, CP0_حالت
 
     /* Save the context into the space just created.  s6 is saved again
     here as it now contains the EPC value.  No other s registers need be
@@ -214,7 +214,7 @@
     sw          a0, 60(s5)
     sw          v1, 56(s5)
     sw          v0, 52(s5)
-    sw          s6, portEPC_STACK_LOCATION(s5)
+    sw          s6, پورټ_EPC_ډېری_LOCATION(s5)
     sw          $1, 16(s5)
 
     /* Save the AC0, AC1, AC2, AC3 registers from the DSP.  s6 is used as a
@@ -245,67 +245,67 @@
     sw          s6, 8(s5)
 
     /* Save the FPU context if the nesting count was zero. */
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
-        la          s6, uxInterruptNesting
+    #إذا ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+        la          s6, ux_مداخله_Nesting
         lw          s6, 0(s6)
         addiu       s6, s6, -1
         bne         s6, zero, 1f
         nop
 
         /* Test if the current task needs the FPU context saving. */
-        lw          s6, portTASK_HAS_FPU_STACK_LOCATION(s5)
+        lw          s6, پورټ_TASK_HAS_FPU_ډېری_LOCATION(s5)
         beq         s6, zero, 1f
         nop
 
         /* Save the FPU registers. */
-        portSAVE_FPU_REGS ( portCONTEXT_SIZE + 8 ), s5
+        پورټ_SAVE_FPU_REGS ( پورټ_CONTEXT_اندازه + 8 ), s5
 
         /* Save the FPU status register */
         cfc1        s6, $f31
-        sw          s6, (portCONTEXT_SIZE + portFPCSR_STACK_LOCATION)(s5)
+        sw          s6, (پورټ_CONTEXT_اندازه + پورټ_FPCSR_ډېری_LOCATION)(s5)
 
         1:
-    #endif
+    #د_که_پای
 
     /* Update the task stack pointer value if nesting is zero. */
-    la          s6, uxInterruptNesting
+    la          s6, ux_مداخله_Nesting
     lw          s6, (s6)
     addiu       s6, s6, -1
     bne         s6, zero, 1f
     nop
 
     /* Save the stack pointer. */
-    la          s6, uxSavedTaskStackPointer
+    la          s6, ux_Saved_Task_ډېری_اشاره_ګر
     sw          s5, (s6)
 1:
     .endm
 
 /******************************************************************/
-.macro  portRESTORE_CONTEXT
+.macro  پورټ_RESTORE_CONTEXT
 
     /* Restore the stack pointer from the TCB.  This is only done if the
     nesting count is 1. */
-    la          s6, uxInterruptNesting
+    la          s6, ux_مداخله_Nesting
     lw          s6, (s6)
     addiu       s6, s6, -1
     bne         s6, zero, 1f
     nop
-    la          s6, uxSavedTaskStackPointer
+    la          s6, ux_Saved_Task_ډېری_اشاره_ګر
     lw          s5, (s6)
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #إذا ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* Restore the FPU context if required. */
-        lw          s6, portTASK_HAS_FPU_STACK_LOCATION(s5)
+        lw          s6, پورټ_TASK_HAS_FPU_ډېری_LOCATION(s5)
         beq         s6, zero, 1f
         nop
 
         /* Restore the FPU registers. */
-        portLOAD_FPU_REGS   ( portCONTEXT_SIZE + 8 ), s5
+        پورټ_بارول_FPU_REGS   ( پورټ_CONTEXT_اندازه + 8 ), s5
 
         /* Restore the FPU status register. */
-        lw          s6, ( portCONTEXT_SIZE + portFPCSR_STACK_LOCATION )(s5)
+        lw          s6, ( پورټ_CONTEXT_اندازه + پورټ_FPCSR_ډېری_LOCATION )(s5)
         ctc1        s6, $f31
-    #endif
+    #د_که_پای
 
 1:
 
@@ -363,12 +363,12 @@
     ehb
 
     /* Decrement the nesting count. */
-    la          k0, uxInterruptNesting
+    la          k0, ux_مداخله_Nesting
     lw          k1, (k0)
     addiu       k1, k1, -1
     sw          k1, 0(k0)
 
-    #if ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #إذا ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
         /* If the nesting count is now zero then the FPU context may be restored. */
         bne         k1, zero, 1f
         nop
@@ -383,47 +383,47 @@
         nop
 
         /* Restore the STATUS and EPC registers */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, پورټ_حالت_ډېری_LOCATION(s5)
+        lw          k1, پورټ_EPC_ډېری_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
-        add         sp, zero, s5
+        جمع_کړه         sp, zero, s5
         lw          s5, 40(sp)
 
         /* Adjust the stack pointer to remove the FPU context */
-        addiu       sp, sp, portFPU_CONTEXT_SIZE
+        addiu       sp, sp, پورټ_FPU_CONTEXT_اندازه
         beq         zero, zero, 2f
         nop
 
         1:  /* Restore the STATUS and EPC registers */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, پورټ_حالت_ډېری_LOCATION(s5)
+        lw          k1, پورټ_EPC_ډېری_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
-        add         sp, zero, s5
+        جمع_کړه         sp, zero, s5
         lw          s5, 40(sp)
 
         2:  /* Adjust the stack pointer */
-        addiu       sp, sp, portCONTEXT_SIZE
+        addiu       sp, sp, پورټ_CONTEXT_اندازه
 
-    #else
+    #وإلا
 
         /* Restore the frame when there is no hardware FP support. */
-        lw          k0, portSTATUS_STACK_LOCATION(s5)
-        lw          k1, portEPC_STACK_LOCATION(s5)
+        lw          k0, پورټ_حالت_ډېری_LOCATION(s5)
+        lw          k1, پورټ_EPC_ډېری_LOCATION(s5)
 
         /* Leave the stack in its original state.  First load sp from s5, then
         restore s5 from the stack. */
-        add         sp, zero, s5
+        جمع_کړه         sp, zero, s5
         lw          s5, 40(sp)
 
-        addiu       sp, sp, portCONTEXT_SIZE
+        addiu       sp, sp, پورټ_CONTEXT_اندازه
 
-    #endif // ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #د_که_پای // ( __mips_hard_float == 1 ) && ( configUSE_TASK_FPU_SUPPORT == 1 )
 
-    mtc0        k0, _CP0_STATUS
+    mtc0        k0, CP0_حالت
     mtc0        k1, _CP0_EPC
     ehb
     eret

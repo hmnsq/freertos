@@ -26,21 +26,21 @@
  *
  */
 
-#ifndef ARC_FREERTOS_EXCEPTIONS_H
-#define ARC_FREERTOS_EXCEPTIONS_H
+#که_نه_تعریف_شوی ARC_FREERTOS_EXCEPTIONS_H
+#تعریف_کړه ARC_FREERTOS_EXCEPTIONS_H
 
 /*
  * here, all arc cpu exceptions share the same entry, also for all interrupt
  * exceptions
  */
-extern void exc_entry_cpu( void ); /* cpu exception entry for freertos */
-extern void exc_entry_int( void ); /* int exception entry for freertos */
+خارجي فراغ exc_ثبت_cpu( فراغ ); /* cpu exception entry for freertos */
+خارجي فراغ exc_ثبت_int( فراغ ); /* int exception entry for freertos */
 
 /* task dispatch functions in .s */
-extern void start_r( void );
-extern void start_dispatch();
-extern void dispatch();
+خارجي فراغ پیل_r( فراغ );
+خارجي فراغ پیل_dispatch();
+خارجي فراغ dispatch();
 
-extern void freertos_exc_init( void );
+خارجي فراغ freertos_exc_init( فراغ );
 
-#endif /* ARC_FREERTOS_EXCEPTIONS_H */
+#د_که_پای /* ARC_FREERTOS_EXCEPTIONS_H */

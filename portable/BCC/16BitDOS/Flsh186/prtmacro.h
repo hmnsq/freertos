@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -40,60 +40,60 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      long
-#define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
-#define portBASE_TYPE   portSHORT
+#تعریف_کړه پورټ_CHAR        حرف
+#تعریف_کړه پورټ_FLOAT       عائم
+#تعریف_کړه پورټ_DOUBLE      اوږد
+#تعریف_کړه پورټ_LONG        اوږد
+#تعریف_کړه پورټ_SHORT       صحيح
+#تعریف_کړه پورټ_ډېری_TYPE  uint16_t
+#تعریف_کړه پورټ_بنسټ_TYPE   پورټ_SHORT
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE ډېری_Type_t;
+تعريفنوع لنډ بنسټ_Type_t;
+تعريفنوع بینښه لنډ UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY ( TickType_t ) 0xffffffffUL
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENTER_CRITICAL()            __asm{ pushf }  \
+#تعریف_کړه پورټ_ENTER_CRITICAL()            __asm{ pushf }  \
                                         __asm{ cli   }  \
 
-#define portEXIT_CRITICAL()             __asm{ popf }
+#تعریف_کړه پورټ_EXIT_CRITICAL()             __asm{ popf }
 
-#define portDISABLE_INTERRUPTS()        __asm{ cli }
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()        __asm{ cli }
 
-#define portENABLE_INTERRUPTS()         __asm{ sti }
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()         __asm{ sti }
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portNOP()                       __asm{ nop }
-#define portSTACK_GROWTH                ( -1 )
-#define portSWITCH_INT_NUMBER           0x80
-#define portYIELD()                     __asm{ int portSWITCH_INT_NUMBER }
-#define portTICK_PERIOD_MS      ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT      2
-#define portINITIAL_SW      ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#تعریف_کړه پورټ_NOP()                       __asm{ nop }
+#تعریف_کړه پورټ_ډېری_GROWTH                ( -1 )
+#تعریف_کړه پورټ_SWITCH_INT_شمېره           0x80
+#تعریف_کړه پورټ_YIELD()                     __asm{ صحيح پورټ_SWITCH_INT_شمېره }
+#تعریف_کړه پورټ_TICK_PERIOD_MS      ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT      2
+#تعریف_کړه پورټ_INITIAL_SW      ( ( پورټ_ډېری_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )             inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )   outp( xAddr, ucValue )
-#define portINPUT_WORD( xAddr )             inpw( xAddr )
-#define portOUTPUT_WORD( xAddr, usValue )   outpw( xAddr, usValue )
+#تعریف_کړه پورټ_ننوت_BYTE( xAddr )             inp( xAddr )
+#تعریف_کړه پورټ_OUTPUT_BYTE( xAddr, uc_ارزښت )   outp( xAddr, uc_ارزښت )
+#تعریف_کړه پورټ_ننوت_کلمه( xAddr )             inpw( xAddr )
+#تعریف_کړه پورټ_OUTPUT_کلمه( xAddr, us_ارزښت )   outpw( xAddr, us_ارزښت )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vTaskFunction, vParameters ) void vTaskFunction( void *pvParameters )
-#define portTASK_FUNCTION( vTaskFunction, vParameters ) void vTaskFunction( void *pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vTaskFunction, vParameters ) فراغ vTaskFunction( فراغ *pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vTaskFunction, vParameters ) فراغ vTaskFunction( فراغ *pvParameters )
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

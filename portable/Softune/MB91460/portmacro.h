@@ -26,14 +26,14 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* Hardware specific includes. */
-#include "mb91467d.h"
+#ضمن "mb91467d.h"
 
 /* Standard includes. */
-#include <stddef.h>
+#ضمن <stddef.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -46,66 +46,66 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#تعریف_کړه پورټ_CHAR        حرف
+#تعریف_کړه پورټ_FLOAT       عائم
+#تعریف_کړه پورټ_DOUBLE      مزدوج
+#تعریف_کړه پورټ_LONG        اوږد
+#تعریف_کړه پورټ_SHORT       لنډ
+#تعریف_کړه پورټ_ډېری_TYPE  uint32_t
+#تعریف_کړه پورټ_بنسټ_TYPE   اوږد
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE ډېری_Type_t;
+تعريفنوع اوږد بنسټ_Type_t;
+تعريفنوع بینښه اوږد UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه  == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t             TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-#if configKERNEL_INTERRUPT_PRIORITY != 30
-    #error configKERNEL_INTERRUPT_PRIORITY (set in FreeRTOSConfig.h) must match the ILM value set in the following line - 30 (1Eh) being the default.
-#endif
-#define portDISABLE_INTERRUPTS() __asm(" STILM #1Eh ")
-#define portENABLE_INTERRUPTS() __asm(" STILM #1Fh ")
+#إذا config_KERNEL_مداخله_لومړیتوب != 30
+    #تېروتنه config_KERNEL_مداخله_لومړیتوب (سېټ دننه FreeRTOSConfig.h) must سمون the ILM ارزښت سېټ دننه the following کرښه - 30 (1Eh) being the افتراضي.
+#د_که_پای
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS() __asm(" STILM #1Eh ")
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS() __asm(" STILM #1Fh ")
 
-#define portENTER_CRITICAL()    \
+#تعریف_کړه پورټ_ENTER_CRITICAL()    \
     __asm(" ST PS,@-R15 ");     \
     __asm(" ANDCCR #0xef ");    \
 
 
-#define portEXIT_CRITICAL()     \
+#تعریف_کړه پورټ_EXIT_CRITICAL()     \
     __asm(" LD @R15+,PS ");     \
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH            ( -1 )
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT          4
-#define portNOP()                   __asm( " nop " );
+#تعریف_کړه پورټ_ډېری_GROWTH            ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT          4
+#تعریف_کړه پورټ_NOP()                   __asm( " nop " );
 /*-----------------------------------------------------------*/
 
 /* portYIELD() uses a SW interrupt */
-#define portYIELD()                 __asm( " INT #40H " );
+#تعریف_کړه پورټ_YIELD()                 __asm( " INT #40H " );
 
 /* portYIELD_FROM_ISR() uses delayed interrupt */
-#define portYIELD_FROM_ISR()            DICR_DLYI = 1
+#تعریف_کړه پورټ_YIELD_FROM_ISR()            DICR_DLYI = 1
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 
-#define portMINIMAL_STACK_SIZE configMINIMAL_STACK_SIZE
+#تعریف_کړه پورټ_اصغري_ډېری_اندازه config_اصغري_ډېری_اندازه
 
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

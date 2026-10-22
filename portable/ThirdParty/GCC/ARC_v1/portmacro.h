@@ -26,20 +26,20 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
-#include "embARC.h"
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
+#ضمن "embARC.h"
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /* record stack high address for stack check */
-#ifndef configRECORD_STACK_HIGH_ADDRESS
-    #define configRECORD_STACK_HIGH_ADDRESS    1
-#endif
+#که_نه_تعریف_شوی config_ریکارډ_ډېری_لوړ_پته
+    #تعریف_کړه config_ریکارډ_ډېری_لوړ_پته    1
+#د_که_پای
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -52,103 +52,103 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    unsigned int
-#define portBASE_TYPE     portLONG
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         لنډ
+#تعریف_کړه پورټ_ډېری_TYPE    بینښه صحيح
+#تعریف_کړه پورټ_بنسټ_TYPE     پورټ_LONG
 
-#ifndef Asm
-    #define Asm           __asm__ volatile
-#endif
+#که_نه_تعریف_شوی Asm
+    #تعریف_کړه Asm           __asm__ متطاير
+#د_که_پای
 
 /*
  *  normal constants
  */
-#ifndef NULL
-    #define NULL    0           /* invalid pointer */
-#endif /* NULL */
+#که_نه_تعریف_شوی عدم
+    #تعریف_کړه عدم    0           /* invalid pointer */
+#د_که_پای /* NULL */
 
-#ifndef true
-    #define true    1           /* true */
-#endif /* true */
+#که_نه_تعریف_شوی true
+    #تعریف_کړه true    1           /* true */
+#د_که_پای /* true */
 
-#ifndef false
-    #define false    0          /* false */
-#endif /* false */
+#که_نه_تعریف_شوی false
+    #تعریف_کړه false    0          /* false */
+#د_که_پای /* false */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع اوږد             بنسټ_Type_t;
+تعريفنوع بینښه اوږد    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) 0xffffffffUL
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 
-#define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-#define portSTACK_GROWTH           ( -1 )
-#define portTICK_PERIOD_MS         ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT         8
-#define portNOP()               Asm( "nop_s" );
-#define IPM_ENABLE_ALL             1
+#تعریف_کړه پورټ_NO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
+#تعریف_کړه پورټ_ډېری_GROWTH           ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS         ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT         8
+#تعریف_کړه پورټ_NOP()               Asm( "nop_s" );
+#تعریف_کړه IPM_ENABLE_ALL             1
 
-#define portYIELD_FROM_ISR()    vPortYieldFromIsr()
-#define portYIELD()             vPortYield()
+#تعریف_کړه پورټ_YIELD_FROM_ISR()    v_پورټ_Yield_From_Isr()
+#تعریف_کړه پورټ_YIELD()             v_پورټ_Yield()
 
 /* Critical section management. */
-#define portDISABLE_INTERRUPTS() \
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS() \
     {                            \
-        arc_lock();              \
+        arc_قلف();              \
     }                            \
 
-#define portENABLE_INTERRUPTS() \
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS() \
     {                           \
         arc_unlock();           \
     }                           \
 
-extern volatile unsigned int ulCriticalNesting;
+خارجي متطاير بینښه صحيح ulCriticalNesting;
 
-#define portENTER_CRITICAL()     \
+#تعریف_کړه پورټ_ENTER_CRITICAL()     \
     {                            \
-        portDISABLE_INTERRUPTS() \
+        پورټ_DISABLE_INTERRUPTS() \
         ulCriticalNesting++;     \
     }
 
 
-#define portEXIT_CRITICAL()                                    \
+#تعریف_کړه پورټ_EXIT_CRITICAL()                                    \
     {                                                          \
-        if( ulCriticalNesting > portNO_CRITICAL_NESTING )      \
+        إذا( ulCriticalNesting > پورټ_NO_CRITICAL_NESTING )      \
         {                                                      \
             ulCriticalNesting--;                               \
-            if( ulCriticalNesting == portNO_CRITICAL_NESTING ) \
+            إذا( ulCriticalNesting == پورټ_NO_CRITICAL_NESTING ) \
             {                                                  \
-                portENABLE_INTERRUPTS()                        \
+                پورټ_ENABLE_INTERRUPTS()                        \
             }                                                  \
         }                                                      \
     }
 
 
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
-#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()              do {} while( 0 )     /* we use the timer */
-#define portALT_GET_RUN_TIME_COUNTER_VALUE( dest )            ( dest = xTickCount )
+#تعریف_کړه پورټ_CONFIGURE_TIMER_FOR_پرلپسې_وخت_STATS()              افعل {} طالما( 0 )     /* we use the timer */
+#تعریف_کړه پورټ_ALT_GET_پرلپسې_وخت_COUNTER_ارزښت( dest )            ( dest = x_Tick_شمېر )
 
-void vPortYield( void );
-void vPortYieldFromIsr( void );
+فراغ v_پورټ_Yield( فراغ );
+فراغ v_پورټ_Yield_From_Isr( فراغ );
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

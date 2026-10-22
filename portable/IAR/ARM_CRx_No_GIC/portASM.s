@@ -32,17 +32,17 @@
     arm
 
     /* Variables and functions. */
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
-    EXTERN vApplicationIRQHandler
-    EXTERN ulPortInterruptNesting
-    EXTERN ulPortTaskHasFPUContext
-    EXTERN ulPortYieldRequired
-    EXTERN ulCriticalNesting
+    خارجي pxCurrentTCB
+    خارجي vTaskSwitchContext
+    خارجي vApplicationIRQHandler
+    خارجي ulPortInterruptNesting
+    خارجي ulPortTaskHasFPUContext
+    خارجي ulPortYieldRequired
+    خارجي ulCriticalNesting
 
-    PUBLIC FreeRTOS_IRQ_Handler
-    PUBLIC FreeRTOS_SVC_Handler
-    PUBLIC vPortRestoreTaskContext
+    عام FreeRTOS_IRQ_Handler
+    عام FreeRTOS_SVC_Handler
+    عام v_پورټ_Restore_Task_Context
 
 SYS_MODE            EQU     0x1f
 SVC_MODE            EQU     0x13
@@ -138,9 +138,9 @@ FreeRTOS_SVC_Handler:
 
 
 /******************************************************************************
- * vPortRestoreTaskContext is used to start the scheduler.
+ * v_پورټ_Restore_Task_Context is used to start the scheduler.
  *****************************************************************************/
-vPortRestoreTaskContext:
+v_پورټ_Restore_Task_Context:
     /* Switch to system mode. */
     CPS     #SYS_MODE
     portRESTORE_CONTEXT
@@ -171,7 +171,7 @@ FreeRTOS_IRQ_Handler:
     /* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     future use. */
     MOV     r0, sp
-    AND     r2, r0, #4
+    و     r2, r0, #4
     SUB     sp, sp, r2
 
     /* Call the interrupt handler. */
@@ -240,4 +240,4 @@ switch_before_exit:
     next. */
     portRESTORE_CONTEXT
 
-    END
+    انته

@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,164 +46,164 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    size_t
-#define portBASE_TYPE     long
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         لنډ
+#تعریف_کړه پورټ_ډېری_TYPE    size_t
+#تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-typedef portSTACK_TYPE   StackType_t;
-typedef portBASE_TYPE    BaseType_t;
-typedef uint64_t         UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع پورټ_بنسټ_TYPE    بنسټ_Type_t;
+تعريفنوع uint64_t         UBaseType_t;
 
-typedef uint64_t         TickType_t;
-#define portMAX_DELAY              ( ( TickType_t ) 0xffffffffffffffff )
+تعريفنوع uint64_t         TickType_t;
+#تعریف_کړه پورټ_MAX_DELAY              ( ( TickType_t ) 0xffffffffffffffff )
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-#define portTICK_TYPE_IS_ATOMIC    1
+#تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portSTACK_GROWTH         ( -1 )
-#define portTICK_PERIOD_MS       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT       16
-#define portPOINTER_SIZE_TYPE    uint64_t
+#تعریف_کړه پورټ_ډېری_GROWTH         ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS       ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT       16
+#تعریف_کړه پورټ_اشاره_ګر_اندازه_TYPE    uint64_t
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
+#تعریف_کړه پورټ_پای_ټکی_SWITCHING_ISR( xSwitchRequired ) \
     {                                            \
-        extern uint64_t ullPortYieldRequired;    \
+        خارجي uint64_t ull_پورټ_Yield_Required;    \
                                                  \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            ullPortYieldRequired = pdTRUE;       \
+            ull_پورټ_Yield_Required = pdTRUE;       \
         }                                        \
     }
 
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#if defined( GUEST )
-    #define portYIELD()            __asm volatile ( "SVC 0" ::: "memory" )
-#else
-    #define portYIELD()            __asm volatile ( "SMC 0" ::: "memory" )
-#endif
+#تعریف_کړه پورټ_YIELD_FROM_ISR( x )    پورټ_پای_ټکی_SWITCHING_ISR( x )
+#إذا defined( GUEST )
+    #تعریف_کړه پورټ_YIELD()            __asm متطاير ( "SVC 0" ::: "memory" )
+#وإلا
+    #تعریف_کړه پورټ_YIELD()            __asm متطاير ( "SMC 0" ::: "memory" )
+#د_که_پای
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-extern UBaseType_t uxPortSetInterruptMask( void );
-extern void vPortClearInterruptMask( UBaseType_t uxNewMaskValue );
-extern void vPortInstallFreeRTOSVectorTable( void );
+خارجي فراغ v_پورټ_Enter_Critical( فراغ );
+خارجي فراغ v_پورټ_Exit_Critical( فراغ );
+خارجي UBaseType_t ux_پورټ_سېټ_مداخله_ماسک( فراغ );
+خارجي فراغ v_پورټ_Clear_مداخله_ماسک( UBaseType_t ux_New_ماسک_ارزښت );
+خارجي فراغ v_پورټ_Install_Free_RTOSVector_جدول( فراغ );
 
-#define portDISABLE_INTERRUPTS()                       \
-    __asm volatile ( "MSR DAIFSET, #2" ::: "memory" ); \
-    __asm volatile ( "DSB SY" );                       \
-    __asm volatile ( "ISB SY" );
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()                       \
+    __asm متطاير ( "MSR DAIFSET, #2" ::: "memory" ); \
+    __asm متطاير ( "DSB SY" );                       \
+    __asm متطاير ( "ISB SY" );
 
-#define portENABLE_INTERRUPTS()                        \
-    __asm volatile ( "MSR DAIFCLR, #2" ::: "memory" ); \
-    __asm volatile ( "DSB SY" );                       \
-    __asm volatile ( "ISB SY" );
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()                        \
+    __asm متطاير ( "MSR DAIFCLR, #2" ::: "memory" ); \
+    __asm متطاير ( "DSB SY" );                       \
+    __asm متطاير ( "ISB SY" );
 
 
 /* These macros do not globally disable/enable interrupts.  They do mask off
  * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-#define portENTER_CRITICAL()                      vPortEnterCritical();
-#define portEXIT_CRITICAL()                       vPortExitCritical();
-#define portSET_INTERRUPT_MASK_FROM_ISR()         uxPortSetInterruptMask()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortClearInterruptMask( x )
+#تعریف_کړه پورټ_ENTER_CRITICAL()                      v_پورټ_Enter_Critical();
+#تعریف_کړه پورټ_EXIT_CRITICAL()                       v_پورټ_Exit_Critical();
+#تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()         ux_پورټ_سېټ_مداخله_ماسک()
+#تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( x )    v_پورټ_Clear_مداخله_ماسک( x )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-void FreeRTOS_Tick_Handler( void );
+فراغ FreeRTOS_Tick_Handler( فراغ );
 
 /* If configUSE_TASK_FPU_SUPPORT is set to 1 (or left undefined) then tasks are
  * created without an FPU context and must call vPortTaskUsesFPU() to give
  * themselves an FPU context before using any FPU instructions.  If
  * configUSE_TASK_FPU_SUPPORT is set to 2 then all tasks will have an FPU context
  * by default. */
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
-    void vPortTaskUsesFPU( void );
-#else
+#إذا ( configUSE_TASK_FPU_SUPPORT != 2 )
+    فراغ v_پورټ_Task_کاروي_FPU( فراغ );
+#وإلا
     /* Each task has an FPU context already, so define this function away to
     * nothing to prevent it from being called accidentally. */
-    #define vPortTaskUsesFPU()
-#endif
-#define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    #تعریف_کړه v_پورټ_Task_کاروي_FPU()
+#د_که_پای
+#تعریف_کړه پورټ_TASK_کاروي_FLOATING_ټکی()    v_پورټ_Task_کاروي_FPU()
 
-#define portLOWEST_INTERRUPT_PRIORITY           ( ( ( uint32_t ) configUNIQUE_INTERRUPT_PRIORITIES ) - 1UL )
-#define portLOWEST_USABLE_INTERRUPT_PRIORITY    ( portLOWEST_INTERRUPT_PRIORITY - 1UL )
+#تعریف_کړه پورټ_ټیټ_ترین_مداخله_لومړیتوب           ( ( ( uint32_t ) config_UNIQUE_مداخله_PRIORITIES ) - 1UL )
+#تعریف_کړه پورټ_ټیټ_ترین_USABLE_مداخله_لومړیتوب    ( پورټ_ټیټ_ترین_مداخله_لومړیتوب - 1UL )
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#که_نه_تعریف_شوی config_USE_پورټ_OPTIMISED_TASK_SELECTION
+    #تعریف_کړه config_USE_پورټ_OPTIMISED_TASK_SELECTION    1
+#د_که_پای
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورټ_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کړه پورټ_ریکارډ_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_لومړیتوب ) )
+    #تعریف_کړه پورټ_RESET_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_لومړیتوب ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( uxReadyPriorities ) )
+    #تعریف_کړه پورټ_GET_HIGHEST_لومړیتوب( ux_سر_لومړیتوب, uxReadyPriorities )    ux_سر_لومړیتوب = ( 31 - __builtin_clz( uxReadyPriorities ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#د_که_پای /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif /* configASSERT */
+#إذا ( configASSERT_DEFINED == 1 )
+    فراغ v_پورټ_Validate_مداخله_لومړیتوب( فراغ );
+    #تعریف_کړه پورټ_ASSERT_IF_مداخله_لومړیتوب_INVALID()    v_پورټ_Validate_مداخله_لومړیتوب()
+#د_که_پای /* configASSERT */
 
-#define portNOP()                                         __asm volatile ( "NOP" )
-#define portINLINE    __inline
+#تعریف_کړه پورټ_NOP()                                         __asm متطاير ( "NOP" )
+#تعریف_کړه پورټ_INLINE    __inline
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
-    #define portPRIORITY_SHIFT            4
-    #define portMAX_BINARY_POINT_VALUE    3
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 32
-    #define portPRIORITY_SHIFT            3
-    #define portMAX_BINARY_POINT_VALUE    2
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 64
-    #define portPRIORITY_SHIFT            2
-    #define portMAX_BINARY_POINT_VALUE    1
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 128
-    #define portPRIORITY_SHIFT            1
-    #define portMAX_BINARY_POINT_VALUE    0
-#elif configUNIQUE_INTERRUPT_PRIORITIES == 256
-    #define portPRIORITY_SHIFT            0
-    #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
-    #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
-#endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#إذا config_UNIQUE_مداخله_PRIORITIES == 16
+    #تعریف_کړه پورټ_لومړیتوب_ښويدنه            4
+    #تعریف_کړه پورټ_MAX_دوګونی_ټکی_ارزښت    3
+#وإلاإذا config_UNIQUE_مداخله_PRIORITIES == 32
+    #تعریف_کړه پورټ_لومړیتوب_ښويدنه            3
+    #تعریف_کړه پورټ_MAX_دوګونی_ټکی_ارزښت    2
+#وإلاإذا config_UNIQUE_مداخله_PRIORITIES == 64
+    #تعریف_کړه پورټ_لومړیتوب_ښويدنه            2
+    #تعریف_کړه پورټ_MAX_دوګونی_ټکی_ارزښت    1
+#وإلاإذا config_UNIQUE_مداخله_PRIORITIES == 128
+    #تعریف_کړه پورټ_لومړیتوب_ښويدنه            1
+    #تعریف_کړه پورټ_MAX_دوګونی_ټکی_ارزښت    0
+#وإلاإذا config_UNIQUE_مداخله_PRIORITIES == 256
+    #تعریف_کړه پورټ_لومړیتوب_ښويدنه            0
+    #تعریف_کړه پورټ_MAX_دوګونی_ټکی_ارزښت    0
+#وإلا /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+    #تېروتنه Invalid config_UNIQUE_مداخله_PRIORITIES setting.  config_UNIQUE_مداخله_PRIORITIES must be سېټ منزل the شمېره د unique priorities implemented by the موخه hardware
+#د_که_پای /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#تعریف_کړه پورټ_حافظه_BARRIER()    __asm متطاير ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,83 +46,83 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
-#define portLONG        long
-#define portSHORT       short
-#define portSTACK_TYPE  uint32_t
-#define portBASE_TYPE   long
+#تعریف_کړه پورټ_CHAR        حرف
+#تعریف_کړه پورټ_FLOAT       عائم
+#تعریف_کړه پورټ_DOUBLE      مزدوج
+#تعریف_کړه پورټ_LONG        اوږد
+#تعریف_کړه پورټ_SHORT       لنډ
+#تعریف_کړه پورټ_ډېری_TYPE  uint32_t
+#تعریف_کړه پورټ_بنسټ_TYPE   اوږد
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE ډېری_Type_t;
+تعريفنوع اوږد بنسټ_Type_t;
+تعريفنوع بینښه اوږد UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
-    #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
-    #define portMAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY ( TickType_t )    ( 0xFFFFFFFFUL )
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT          4
-#define portSTACK_GROWTH            -1
-#define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT          4
+#تعریف_کړه پورټ_ډېری_GROWTH            -1
+#تعریف_کړه پورټ_TICK_PERIOD_MS          ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
 /*-----------------------------------------------------------*/
-uint32_t ulPortSetIPL( uint32_t );
-#define portDISABLE_INTERRUPTS()    ulPortSetIPL( configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#define portENABLE_INTERRUPTS()     ulPortSetIPL( 0 )
+uint32_t ul_پورټ_سېټ_IPL( uint32_t );
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()    ul_پورټ_سېټ_IPL( config_MAX_SYSCALL_مداخله_لومړیتوب )
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()     ul_پورټ_سېټ_IPL( 0 )
 
 
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
-#define portENTER_CRITICAL()        vPortEnterCritical()
-#define portEXIT_CRITICAL()         vPortExitCritical()
+خارجي فراغ v_پورټ_Enter_Critical( فراغ );
+خارجي فراغ v_پورټ_Exit_Critical( فراغ );
+#تعریف_کړه پورټ_ENTER_CRITICAL()        v_پورټ_Enter_Critical()
+#تعریف_کړه پورټ_EXIT_CRITICAL()         v_پورټ_Exit_Critical()
 
-extern UBaseType_t uxPortSetInterruptMaskFromISR( void );
-extern void vPortClearInterruptMaskFromISR( UBaseType_t );
-#define portSET_INTERRUPT_MASK_FROM_ISR()   ulPortSetIPL( configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedStatusRegister ) ulPortSetIPL( uxSavedStatusRegister )
+خارجي UBaseType_t ux_پورټ_سېټ_مداخله_ماسک_From_ISR( فراغ );
+خارجي فراغ v_پورټ_Clear_مداخله_ماسک_From_ISR( UBaseType_t );
+#تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()   ul_پورټ_سېټ_IPL( config_MAX_SYSCALL_مداخله_لومړیتوب )
+#تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( ux_Saved_حالت_ثبتوونکی ) ul_پورټ_سېټ_IPL( ux_Saved_حالت_ثبتوونکی )
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
-#define portNOP()   asm volatile (  "nop" )
+#تعریف_کړه پورټ_NOP()   asm متطاير (  "nop" )
 
 /* Note this will overwrite all other bits in the force register, it is done this way for speed. */
-#define portYIELD()         MCF_INTC0_INTFRCL = ( 1UL << configYIELD_INTERRUPT_VECTOR ); portNOP(); portNOP() /* -32 as we are using the high word of the 64bit mask. */
+#تعریف_کړه پورټ_YIELD()         MCF_INTC0_INTFRCL = ( 1UL << config_YIELD_مداخله_ویکټور ); پورټ_NOP(); پورټ_NOP() /* -32 as we are using the high word of the 64bit mask. */
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters ) __attribute__((noreturn))
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters ) __attribute__((noreturn))
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 /*-----------------------------------------------------------*/
 
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#تعریف_کړه پورټ_پای_ټکی_SWITCHING_ISR( xSwitchRequired ) \
+    افعل                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_منزل_SCHEDULER();        \
+            پورټ_YIELD();                         \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } طالما( 0 )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

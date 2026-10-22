@@ -31,33 +31,33 @@
  *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "portmacro.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "portmacro.h"
 
 /* Standard includes. */
-#include "string.h"
+#ضمن "string.h"
 
-#ifdef configCLINT_BASE_ADDRESS
+#که_تعریف_شوی config_CLINT_بنسټ_پته
     #warning "The configCLINT_BASE_ADDRESS constant has been deprecated.  configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS are currently being derived from the (possibly 0) configCLINT_BASE_ADDRESS setting.  Please update to define configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS directly in place of configCLINT_BASE_ADDRESS.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#د_که_پای
 
-#ifndef configMTIME_BASE_ADDRESS
+#که_نه_تعریف_شوی config_MTIME_بنسټ_پته
     #warning "configMTIME_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  If the target chip includes a memory-mapped mtime register then set configMTIME_BASE_ADDRESS to the mapped address.  Otherwise set configMTIME_BASE_ADDRESS to 0.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#د_که_پای
 
-#ifndef configMTIMECMP_BASE_ADDRESS
+#که_نه_تعریف_شوی config_MTIMECMP_بنسټ_پته
     #warning "configMTIMECMP_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  If the target chip includes a memory-mapped mtimecmp register then set configMTIMECMP_BASE_ADDRESS to the mapped address.  Otherwise set configMTIMECMP_BASE_ADDRESS to 0.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
-#endif
+#د_که_پای
 
 /* Let the user override the pre-loading of the initial LR with the address of
  * prvTaskExitError() in case it messes up unwinding of the stack in the
  * debugger. */
-#ifdef configTASK_RETURN_ADDRESS
-    #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
-    #define portTASK_RETURN_ADDRESS    prvTaskExitError
-#endif
+#که_تعریف_شوی config_TASK_RETURN_پته
+    #تعریف_کړه پورټ_TASK_RETURN_پته    config_TASK_RETURN_پته
+#وإلا
+    #تعریف_کړه پورټ_TASK_RETURN_پته    prvTaskExitError
+#د_که_پای
 
 /* The stack used by interrupt service routines.  Set configISR_STACK_SIZE_WORDS
  * to use a statically allocated array as the interrupt stack.  Alternative leave
@@ -66,39 +66,39 @@
  * of the stack used by main.  Using the linker script method will repurpose the
  * stack that was used by main before the scheduler was started for use as the
  * interrupt stack after the scheduler has started. */
-#ifdef configISR_STACK_SIZE_WORDS
-static __attribute__( ( aligned( 16 ) ) ) StackType_t xISRStack[ configISR_STACK_SIZE_WORDS ] = { 0 };
-const StackType_t xISRStackTop = ( StackType_t ) &( xISRStack[ configISR_STACK_SIZE_WORDS & ~portBYTE_ALIGNMENT_MASK ] );
+#که_تعریف_شوی config_ISR_ډېری_اندازه_ټکي
+ساكن __attribute__( ( aligned( 16 ) ) ) ډېری_Type_t xISRStack[ config_ISR_ډېری_اندازه_ټکي ] = { 0 };
+ثابت ډېری_Type_t x_ISRStack_سر = ( ډېری_Type_t ) &( xISRStack[ config_ISR_ډېری_اندازه_ټکي & ~پورټ_BYTE_ALIGNMENT_ماسک ] );
 
 /* Don't use 0xa5 as the stack fill bytes as that is used by the kernel for
  * the task stacks, and so will legitimately appear in many positions within
  * the ISR stack. */
-    #define portISR_STACK_FILL_BYTE    0xee
-#else
-    extern const uint32_t __freertos_irq_stack_top[];
-    const StackType_t xISRStackTop = ( StackType_t ) __freertos_irq_stack_top;
-#endif
+    #تعریف_کړه پورټ_ISR_ډېری_FILL_BYTE    0xee
+#وإلا
+    خارجي ثابت uint32_t __freertos_irq_stack_top[];
+    ثابت ډېری_Type_t x_ISRStack_سر = ( ډېری_Type_t ) __freertos_irq_stack_top;
+#د_که_پای
 
 /**
  * @brief Used to catch tasks that attempt to return from their implementing
  * function.
  */
-static void prvTaskExitError( void );
+ساكن فراغ prvTaskExitError( فراغ );
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void ) __attribute__( ( weak ) );
+فراغ v_پورټ_تیاری_Timer_مداخله( فراغ ) __attribute__( ( weak ) );
 
 /*-----------------------------------------------------------*/
 
 /* Used to program the machine timer compare register. */
-uint64_t ullNextTime = 0ULL;
-const uint64_t * pullNextTime = &ullNextTime;
-const size_t uxTimerIncrementsForOneTick = ( size_t ) ( ( configCPU_CLOCK_HZ ) / ( configTICK_RATE_HZ ) ); /* Assumes increment won't go over 32-bits. */
-volatile uint64_t * pullMachineTimerCompareRegister = NULL;
+uint64_t ull_بل_وخت = 0ULL;
+ثابت uint64_t * pull_بل_وخت = &ull_بل_وخت;
+ثابت size_t uxTimerIncrementsForOneTick = ( size_t ) ( ( configCPU_CLOCK_HZ ) / ( config_TICK_شرح_HZ ) ); /* Assumes increment won't go over 32-bits. */
+متطاير uint64_t * pull_Machine_Timer_Compare_ثبتوونکی = عدم;
 
 /* Holds the critical nesting value - deliberately non-zero at start up to
  * ensure interrupts are not accidentally enabled before the scheduler starts. */
@@ -106,35 +106,35 @@ size_t xCriticalNesting = ( size_t ) 0xaaaaaaaa;
 size_t * pxCriticalNesting = &xCriticalNesting;
 
 /* Used to catch tasks that attempt to return from their implementing function. */
-size_t xTaskReturnAddress = ( size_t ) portTASK_RETURN_ADDRESS;
+size_t x_Task_Return_پته = ( size_t ) پورټ_TASK_RETURN_پته;
 
 /* Set configCHECK_FOR_STACK_OVERFLOW to 3 to add ISR stack checking to task
  * stack checking.  A problem in the ISR stack will trigger an assert, not call
  * the stack overflow hook function (because the stack overflow hook is specific
  * to a task stack, not the ISR stack). */
-#if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 )
+#إذا defined( config_ISR_ډېری_اندازه_ټکي ) && ( config_CHECK_FOR_ډېری_ډکېدنه > 2 )
     #warning "This path not tested, or even compiled yet."
 
-    static const uint8_t ucExpectedStackBytes[] =
+    ساكن ثابت uint8_t uc_Expected_ډېری_بایټونه[] =
     {
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, \
-        portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE, portISR_STACK_FILL_BYTE
+        پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, \
+        پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, \
+        پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, \
+        پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, \
+        پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE, پورټ_ISR_ډېری_FILL_BYTE
     }; \
 
-    #define portCHECK_ISR_STACK()    configASSERT( ( memcmp( ( void * ) xISRStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) == 0 ) )
-#else /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
+    #تعریف_کړه پورټ_CHECK_ISR_ډېری()    configASSERT( ( memcmp( ( فراغ * ) xISRStack, ( فراغ * ) uc_Expected_ډېری_بایټونه, حجم( uc_Expected_ډېری_بایټونه ) ) == 0 ) )
+#وإلا /* if defined( configISR_STACK_SIZE_WORDS ) && ( configCHECK_FOR_STACK_OVERFLOW > 2 ) */
     /* Define the function away. */
-    #define portCHECK_ISR_STACK()
-#endif /* configCHECK_FOR_STACK_OVERFLOW > 2 */
+    #تعریف_کړه پورټ_CHECK_ISR_ډېری()
+#د_که_پای /* configCHECK_FOR_STACK_OVERFLOW > 2 */
 
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساكن فراغ prvTaskExitError( فراغ )
 {
-    volatile uint32_t ulDummy = 0UL;
+    متطاير uint32_t ulDummy = 0UL;
 
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
@@ -142,9 +142,9 @@ static void prvTaskExitError( void )
      * to be triggered if configASSERT() is defined, then stop here so
      * application writers can catch the error. */
     configASSERT( xCriticalNesting == ~0UL );
-    portDISABLE_INTERRUPTS();
+    پورټ_DISABLE_INTERRUPTS();
 
-    while( ulDummy == 0 )
+    طالما( ulDummy == 0 )
     {
         /* This file calls prvTaskExitError() after the scheduler has been
          * started to remove a compiler warning about the function being
@@ -157,83 +157,83 @@ static void prvTaskExitError( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 )
+#إذا ( config_MTIME_بنسټ_پته != 0 ) && ( config_MTIMECMP_بنسټ_پته != 0 )
 
-    void vPortSetupTimerInterrupt( void )
+    فراغ v_پورټ_تیاری_Timer_مداخله( فراغ )
     {
-        uint32_t ulCurrentTimeHigh, ulCurrentTimeLow;
-        volatile uint32_t * const pulTimeHigh = ( uint32_t * ) ( ( configMTIME_BASE_ADDRESS ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
-        volatile uint32_t * const pulTimeLow = ( uint32_t * ) ( configMTIME_BASE_ADDRESS );
-        volatile uint32_t ulHartId;
+        uint32_t ul_Current_وخت_لوړ, ul_Current_وخت_ټیټ;
+        متطاير uint32_t * ثابت pul_وخت_لوړ = ( uint32_t * ) ( ( config_MTIME_بنسټ_پته ) + 4UL ); /* 8-byte type so high 32-bit word is 4 bytes up. */
+        متطاير uint32_t * ثابت pul_وخت_ټیټ = ( uint32_t * ) ( config_MTIME_بنسټ_پته );
+        متطاير uint32_t ulHartId;
 
-        __asm volatile ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
+        __asm متطاير ( "csrr %0, 0xf14" : "=r" ( ulHartId ) ); /* 0xf14 is HART ID. */
 
-        pullMachineTimerCompareRegister = ( volatile uint64_t * ) ( configMTIMECMP_BASE_ADDRESS + ( ulHartId * sizeof( uint64_t ) ) );
+        pull_Machine_Timer_Compare_ثبتوونکی = ( متطاير uint64_t * ) ( config_MTIMECMP_بنسټ_پته + ( ulHartId * حجم( uint64_t ) ) );
 
-        do
+        افعل
         {
-            ulCurrentTimeHigh = *pulTimeHigh;
-            ulCurrentTimeLow = *pulTimeLow;
-        } while( ulCurrentTimeHigh != *pulTimeHigh );
+            ul_Current_وخت_لوړ = *pul_وخت_لوړ;
+            ul_Current_وخت_ټیټ = *pul_وخت_ټیټ;
+        } طالما( ul_Current_وخت_لوړ != *pul_وخت_لوړ );
 
-        ullNextTime = ( uint64_t ) ulCurrentTimeHigh;
-        ullNextTime <<= 32ULL; /* High 4-byte word is 32-bits up. */
-        ullNextTime |= ( uint64_t ) ulCurrentTimeLow;
-        ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
-        *pullMachineTimerCompareRegister = ullNextTime;
+        ull_بل_وخت = ( uint64_t ) ul_Current_وخت_لوړ;
+        ull_بل_وخت <<= 32ULL; /* High 4-byte word is 32-bits up. */
+        ull_بل_وخت |= ( uint64_t ) ul_Current_وخت_ټیټ;
+        ull_بل_وخت += ( uint64_t ) uxTimerIncrementsForOneTick;
+        *pull_Machine_Timer_Compare_ثبتوونکی = ull_بل_وخت;
 
         /* Prepare the time to use after the next tick interrupt. */
-        ullNextTime += ( uint64_t ) uxTimerIncrementsForOneTick;
+        ull_بل_وخت += ( uint64_t ) uxTimerIncrementsForOneTick;
     }
 
-#endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
+#د_که_پای /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنسټ_Type_t x_پورټ_پیل_Scheduler( فراغ )
 {
-    extern void xPortStartFirstTask( void );
+    خارجي فراغ x_پورټ_پیل_لومړی_Task( فراغ );
 
-    #if ( configASSERT_DEFINED == 1 )
+    #إذا ( configASSERT_DEFINED == 1 )
     {
         /* Check alignment of the interrupt stack - which is the same as the
          * stack that was being used by main() prior to the scheduler being
          * started. */
-        configASSERT( ( xISRStackTop & portBYTE_ALIGNMENT_MASK ) == 0 );
+        configASSERT( ( x_ISRStack_سر & پورټ_BYTE_ALIGNMENT_ماسک ) == 0 );
 
-        #ifdef configISR_STACK_SIZE_WORDS
+        #که_تعریف_شوی config_ISR_ډېری_اندازه_ټکي
         {
-            memset( ( void * ) xISRStack, portISR_STACK_FILL_BYTE, sizeof( xISRStack ) );
+            memset( ( فراغ * ) xISRStack, پورټ_ISR_ډېری_FILL_BYTE, حجم( xISRStack ) );
         }
-        #endif /* configISR_STACK_SIZE_WORDS */
+        #د_که_پای /* configISR_STACK_SIZE_WORDS */
     }
-    #endif /* configASSERT_DEFINED */
+    #د_که_پای /* configASSERT_DEFINED */
 
     /* If there is a CLINT then it is ok to use the default implementation
      * in this file, otherwise vPortSetupTimerInterrupt() must be implemented to
      * configure whichever clock is to be used to generate the tick interrupt. */
-    vPortSetupTimerInterrupt();
+    v_پورټ_تیاری_Timer_مداخله();
 
-    #if ( ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) )
+    #إذا ( ( config_MTIME_بنسټ_پته != 0 ) && ( config_MTIMECMP_بنسټ_پته != 0 ) )
     {
         /* Enable mtime and external interrupts.  1<<7 for timer interrupt,
          * 1<<11 for external interrupt.  _RB_ What happens here when mtime is
          * not present as with pulpino? */
-        __asm volatile ( "csrs 0x304, %0" ::"r" ( 0x880 ) ); /* 0x304 is mie. */
+        __asm متطاير ( "csrs 0x304, %0" ::"r" ( 0x880 ) ); /* 0x304 is mie. */
     }
-    #endif /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
+    #د_که_پای /* ( configMTIME_BASE_ADDRESS != 0 ) && ( configMTIMECMP_BASE_ADDRESS != 0 ) */
 
-    xPortStartFirstTask();
+    x_پورټ_پیل_لومړی_Task();
 
     /* Should not get here as after calling xPortStartFirstTask() only tasks
      * should be executing. */
-    return pdFAIL;
+    أرجع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورټ_پای_ټکی_Scheduler( فراغ )
 {
     /* Not implemented. */
-    for( ; ; )
+    لكل( ; ; )
     {
     }
 }

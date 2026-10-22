@@ -27,15 +27,15 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
-#include <machine.h>
+#ضمن <machine.h>
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -50,94 +50,94 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         لنډ
+#تعریف_کړه پورټ_ډېری_TYPE    uint32_t
+#تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع اوږد             بنسټ_Type_t;
+تعريفنوع بینښه اوږد    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#endif
+    #تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT               8
-#define portSTACK_GROWTH                 -1
-#define portTICK_PERIOD_MS               ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    nop()
-#define portSTART_SCHEDULER_TRAP_NO      ( 32 )
-#define portYIELD_TRAP_NO                ( 33 )
-#define portKERNEL_INTERRUPT_PRIORITY    ( 1 )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT               8
+#تعریف_کړه پورټ_ډېری_GROWTH                 -1
+#تعریف_کړه پورټ_TICK_PERIOD_MS               ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_NOP()    nop()
+#تعریف_کړه پورټ_پیل_SCHEDULER_TRAP_NO      ( 32 )
+#تعریف_کړه پورټ_YIELD_TRAP_NO                ( 33 )
+#تعریف_کړه پورټ_KERNEL_مداخله_لومړیتوب    ( 1 )
 
-void vPortYield( void );
-#define portYIELD()                vPortYield()
+فراغ v_پورټ_Yield( فراغ );
+#تعریف_کړه پورټ_YIELD()                v_پورټ_Yield()
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x )    do { if( x != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+خارجي فراغ vTaskSwitchContext( فراغ );
+#تعریف_کړه پورټ_YIELD_FROM_ISR( x )    افعل { إذا( x != pdFALSE ) vTaskSwitchContext( ); } طالما( 0 )
 
 /*
  * This function tells the kernel that the task referenced by xTask is going to
  * use the floating point registers and therefore requires the floating point
  * registers saved as part of its context.
  */
-BaseType_t xPortUsesFloatingPoint( void * xTask );
+بنسټ_Type_t x_پورټ_کاروي_Floating_ټکی( فراغ * xTask );
 
 /*
  * The flop save and restore functions are defined in portasm.src and called by
  * the trace "task switched in" and "trace task switched out" macros.
  */
-void vPortSaveFlopRegisters( void * pulBuffer );
-void vPortRestoreFlopRegisters( void * pulBuffer );
+فراغ v_پورټ_Save_Flop_Registers( فراغ * pul_بفر );
+فراغ v_پورټ_Restore_Flop_Registers( فراغ * pul_بفر );
 
 /*
  * pxTaskTag is used to point to the buffer into which the floating point
  * context should be saved.  If pxTaskTag is NULL then the task does not use
  * a floating point context.
  */
-#define traceTASK_SWITCHED_OUT()    do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
-#define traceTASK_SWITCHED_IN()     do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
+#تعریف_کړه trace_TASK_SWITCHED_بهر()    افعل { إذا( pxCurrentTCB->px_Task_نښان != عدم ) v_پورټ_Save_Flop_Registers( pxCurrentTCB->px_Task_نښان ); } طالما( 0 )
+#تعریف_کړه trace_TASK_SWITCHED_دننه()     افعل { إذا( pxCurrentTCB->px_Task_نښان != عدم ) v_پورټ_Restore_Flop_Registers( pxCurrentTCB->px_Task_نښان ); } طالما( 0 )
 
 /*
  * These macros should be called directly, but through the taskENTER_CRITICAL()
  * and taskEXIT_CRITICAL() macros.
  */
-#define portENABLE_INTERRUPTS()     set_imask( 0x00 )
-#define portDISABLE_INTERRUPTS()    set_imask( portKERNEL_INTERRUPT_PRIORITY )
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()     سېټ_imask( 0x00 )
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()    سېټ_imask( پورټ_KERNEL_مداخله_لومړیتوب )
 
 /* Critical nesting counts are stored in the TCB. */
-#define portCRITICAL_NESTING_IN_TCB    ( 1 )
+#تعریف_کړه پورټ_CRITICAL_NESTING_دننه_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()    vTaskEnterCritical();
-#define portEXIT_CRITICAL()     vTaskExitCritical();
+خارجي فراغ vTaskEnterCritical( فراغ );
+خارجي فراغ vTaskExitCritical( فراغ );
+#تعریف_کړه پورټ_ENTER_CRITICAL()    vTaskEnterCritical();
+#تعریف_کړه پورټ_EXIT_CRITICAL()     vTaskExitCritical();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

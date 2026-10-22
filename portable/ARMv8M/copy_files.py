@@ -26,11 +26,11 @@
 # *
 # */
 
-import os
-import shutil
+استورد os
+استورد shutil
 
-_THIS_FILE_DIRECTORY_ = os.path.dirname(os.path.realpath(__file__))
-_FREERTOS_PORTABLE_DIRECTORY_ = os.path.dirname(_THIS_FILE_DIRECTORY_)
+_THIS_FILE_DIRECTORY_ = os.لار.dirname(os.لار.realpath(__file__))
+_FREERTOS_PORTABLE_DIRECTORY_ = os.لار.dirname(_THIS_FILE_DIRECTORY_)
 
 _COMPILERS_ = ['GCC', 'IAR']
 _ARCH_NS_ = ['ARM_CM85', 'ARM_CM85_NTZ', 'ARM_CM55', 'ARM_CM55_NTZ', 'ARM_CM52', 'ARM_CM52_NTZ', 'ARM_CM35P', 'ARM_CM35P_NTZ', 'ARM_CM33', 'ARM_CM33_NTZ', 'ARM_CM23', 'ARM_CM23_NTZ', 'ARM_STAR_MC3', 'ARM_STAR_MC3_NTZ']
@@ -38,30 +38,30 @@ _ARCH_S_ = ['ARM_CM85', 'ARM_CM55', 'ARM_CM52', 'ARM_CM35P', 'ARM_CM33', 'ARM_CM
 
 # Files to be compiled in the Secure Project
 _SECURE_COMMON_FILE_PATHS_ = [
-    os.path.join('secure', 'context'),
-    os.path.join('secure', 'heap'),
-    os.path.join('secure', 'init'),
-    os.path.join('secure', 'macros')
+    os.لار.join('secure', 'context'),
+    os.لار.join('secure', 'heap'),
+    os.لار.join('secure', 'init'),
+    os.لار.join('secure', 'macros')
 ]
 
 _SECURE_PORTABLE_FILE_PATHS_ = {
     'GCC':{
-        'ARM_CM23'     :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM23')],
-        'ARM_CM33'     :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
-        'ARM_CM35P'    :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
-        'ARM_CM52'     :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
-        'ARM_CM55'     :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
-        'ARM_CM85'     :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
-        'ARM_STAR_MC3' :[os.path.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')]
+        'ARM_CM23'     :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM23')],
+        'ARM_CM33'     :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
+        'ARM_CM35P'    :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
+        'ARM_CM52'     :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
+        'ARM_CM55'     :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
+        'ARM_CM85'     :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')],
+        'ARM_STAR_MC3' :[os.لار.join('secure', 'context', 'portable', 'GCC', 'ARM_CM33')]
     },
     'IAR':{
-        'ARM_CM23'     :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM23')],
-        'ARM_CM33'     :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
-        'ARM_CM35P'    :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
-        'ARM_CM52'     :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
-        'ARM_CM55'     :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
-        'ARM_CM85'     :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
-        'ARM_STAR_MC3' :[os.path.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')]
+        'ARM_CM23'     :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM23')],
+        'ARM_CM33'     :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
+        'ARM_CM35P'    :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
+        'ARM_CM52'     :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
+        'ARM_CM55'     :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
+        'ARM_CM85'     :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')],
+        'ARM_STAR_MC3' :[os.لار.join('secure', 'context', 'portable', 'IAR', 'ARM_CM33')]
     }
 }
 
@@ -72,131 +72,131 @@ _NONSECURE_COMMON_FILE_PATHS_ = [
 
 _NONSECURE_PORTABLE_FILE_PATHS_ = {
     'GCC':{
-        'ARM_CM23'         : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM23')],
-        'ARM_CM23_NTZ'     : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM23_NTZ')],
-        'ARM_CM33'         : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33')],
-        'ARM_CM33_NTZ'     : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ')],
-        'ARM_CM35P'        : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM35P', 'portmacro.h')],
-        'ARM_CM35P_NTZ'    : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM35P', 'portmacro.h')],
-        'ARM_CM52'         : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM52', 'portmacro.h')],
-        'ARM_CM52_NTZ'     : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM52', 'portmacro.h')],
-        'ARM_CM55'         : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM55', 'portmacro.h')],
-        'ARM_CM55_NTZ'     : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM55', 'portmacro.h')],
-        'ARM_CM85'         : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM85', 'portmacro.h')],
-        'ARM_CM85_NTZ'     : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM85', 'portmacro.h')],
-        'ARM_STAR_MC3'     : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_STAR_MC3', 'portmacro.h')],
-        'ARM_STAR_MC3_NTZ' : [os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
-                              os.path.join('non_secure', 'portable', 'GCC', 'ARM_STAR_MC3', 'portmacro.h')]
+        'ARM_CM23'         : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM23')],
+        'ARM_CM23_NTZ'     : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM23_NTZ')],
+        'ARM_CM33'         : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33')],
+        'ARM_CM33_NTZ'     : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ')],
+        'ARM_CM35P'        : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM35P', 'portmacro.h')],
+        'ARM_CM35P_NTZ'    : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM35P', 'portmacro.h')],
+        'ARM_CM52'         : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM52', 'portmacro.h')],
+        'ARM_CM52_NTZ'     : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM52', 'portmacro.h')],
+        'ARM_CM55'         : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM55', 'portmacro.h')],
+        'ARM_CM55_NTZ'     : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM55', 'portmacro.h')],
+        'ARM_CM85'         : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM85', 'portmacro.h')],
+        'ARM_CM85_NTZ'     : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM85', 'portmacro.h')],
+        'ARM_STAR_MC3'     : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_STAR_MC3', 'portmacro.h')],
+        'ARM_STAR_MC3_NTZ' : [os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'portasm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.c'),
+                              os.لار.join('non_secure', 'portable', 'GCC', 'ARM_STAR_MC3', 'portmacro.h')]
     },
     'IAR':{
-        'ARM_CM23'         : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM23')],
-        'ARM_CM23_NTZ'     : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM23_NTZ')],
-        'ARM_CM33'         : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33')],
-        'ARM_CM33_NTZ'     : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ')],
-        'ARM_CM35P'        : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM35P', 'portmacro.h')],
-        'ARM_CM35P_NTZ'    : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM35P', 'portmacro.h')],
-        'ARM_CM52'         : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM52', 'portmacro.h')],
-        'ARM_CM52_NTZ'     : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM52', 'portmacro.h')],
-        'ARM_CM55'         : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM55', 'portmacro.h')],
-        'ARM_CM55_NTZ'     : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM55', 'portmacro.h')],
-        'ARM_CM85'         : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM85', 'portmacro.h')],
-        'ARM_CM85_NTZ'     : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM85', 'portmacro.h')],
-        'ARM_STAR_MC3'     : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_STAR_MC3', 'portmacro.h')],
-        'ARM_STAR_MC3_NTZ' : [os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
-                              os.path.join('non_secure', 'portable', 'IAR', 'ARM_STAR_MC3', 'portmacro.h')]
+        'ARM_CM23'         : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM23')],
+        'ARM_CM23_NTZ'     : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM23_NTZ')],
+        'ARM_CM33'         : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33')],
+        'ARM_CM33_NTZ'     : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ')],
+        'ARM_CM35P'        : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM35P', 'portmacro.h')],
+        'ARM_CM35P_NTZ'    : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM35P', 'portmacro.h')],
+        'ARM_CM52'         : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM52', 'portmacro.h')],
+        'ARM_CM52_NTZ'     : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM52', 'portmacro.h')],
+        'ARM_CM55'         : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM55', 'portmacro.h')],
+        'ARM_CM55_NTZ'     : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM55', 'portmacro.h')],
+        'ARM_CM85'         : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM85', 'portmacro.h')],
+        'ARM_CM85_NTZ'     : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM85', 'portmacro.h')],
+        'ARM_STAR_MC3'     : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_STAR_MC3', 'portmacro.h')],
+        'ARM_STAR_MC3_NTZ' : [os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'portasm.s'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_CM33_NTZ', 'mpu_wrappers_v2_asm.S'),
+                              os.لار.join('non_secure', 'portable', 'IAR', 'ARM_STAR_MC3', 'portmacro.h')]
     },
 }
 
 
-def copy_files_in_dir(src_abs_path, dst_abs_path):
-    if os.path.isfile(src_abs_path):
-        print('Src: {}'.format(src_abs_path))
-        print('Dst: {}\n'.format(dst_abs_path))
-        shutil.copy2(src_abs_path, dst_abs_path)
-    else:
-        for src_file in os.listdir(src_abs_path):
-            src_file_abs_path = os.path.join(src_abs_path, src_file)
-            if os.path.isfile(src_file_abs_path) and src_file != 'ReadMe.txt':
-                if not os.path.exists(dst_abs_path):
-                    os.makedirs(dst_abs_path)
-                print('Src: {}'.format(src_file_abs_path))
-                print('Dst: {}\n'.format(dst_abs_path))
-                shutil.copy2(src_file_abs_path, dst_abs_path)
+تعریف copy_files_دننه_dir(src_abs_لار, dst_abs_لار):
+    إذا os.لار.isfile(src_abs_لار):
+        چاپ('Src: {}'.format(src_abs_لار))
+        چاپ('Dst: {}\n'.format(dst_abs_لار))
+        shutil.copy2(src_abs_لار, dst_abs_لار)
+    وإلا:
+        لكل src_file في os.listdir(src_abs_لار):
+            src_file_abs_لار = os.لار.join(src_abs_لار, src_file)
+            إذا os.لار.isfile(src_file_abs_لار) و src_file != 'ReadMe.txt':
+                إذا ليس os.لار.exists(dst_abs_لار):
+                    os.makedirs(dst_abs_لار)
+                چاپ('Src: {}'.format(src_file_abs_لار))
+                چاپ('Dst: {}\n'.format(dst_abs_لار))
+                shutil.copy2(src_file_abs_لار, dst_abs_لار)
 
 
-def copy_common_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path):
-    for src_path in src_paths:
+تعریف copy_common_files_for_compiler_and_arch(compiler, arch, src_paths, dst_لار):
+    لكل src_لار في src_paths:
 
-        src_abs_path = os.path.join(_THIS_FILE_DIRECTORY_, src_path)
-        dst_abs_path = os.path.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_path)
+        src_abs_لار = os.لار.join(_THIS_FILE_DIRECTORY_, src_لار)
+        dst_abs_لار = os.لار.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_لار)
 
-        copy_files_in_dir(src_abs_path, dst_abs_path)
-
-
-def copy_portable_files_for_compiler_and_arch(compiler, arch, src_paths, dst_path):
-    for src_path in src_paths[compiler][arch]:
-
-        src_abs_path = os.path.join(_THIS_FILE_DIRECTORY_, src_path)
-        dst_abs_path = os.path.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_path)
-
-        copy_files_in_dir(src_abs_path, dst_abs_path)
+        copy_files_دننه_dir(src_abs_لار, dst_abs_لار)
 
 
-def copy_files():
+تعریف copy_portable_files_for_compiler_and_arch(compiler, arch, src_paths, dst_لار):
+    لكل src_لار في src_paths[compiler][arch]:
+
+        src_abs_لار = os.لار.join(_THIS_FILE_DIRECTORY_, src_لار)
+        dst_abs_لار = os.لار.join(_FREERTOS_PORTABLE_DIRECTORY_, compiler, arch, dst_لار)
+
+        copy_files_دننه_dir(src_abs_لار, dst_abs_لار)
+
+
+تعریف copy_files():
     # Copy Secure Files
-    for compiler in _COMPILERS_:
-        for arch in _ARCH_S_:
+    لكل compiler في _COMPILERS_:
+        لكل arch في _ARCH_S_:
             copy_common_files_for_compiler_and_arch(compiler, arch, _SECURE_COMMON_FILE_PATHS_, 'secure')
             copy_portable_files_for_compiler_and_arch(compiler, arch, _SECURE_PORTABLE_FILE_PATHS_, 'secure')
 
     # Copy Non-Secure Files
-    for compiler in _COMPILERS_:
-        for arch in _ARCH_NS_:
+    لكل compiler في _COMPILERS_:
+        لكل arch في _ARCH_NS_:
             copy_common_files_for_compiler_and_arch(compiler, arch, _NONSECURE_COMMON_FILE_PATHS_, 'non_secure')
             copy_portable_files_for_compiler_and_arch(compiler, arch, _NONSECURE_PORTABLE_FILE_PATHS_, 'non_secure')
 
 
-def main():
+تعریف اصلي():
     copy_files()
 
 
-if __name__ == '__main__':
-    main()
+إذا __name__ == '__main__':
+    اصلي()

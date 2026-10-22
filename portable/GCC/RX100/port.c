@@ -31,58 +31,58 @@
 *----------------------------------------------------------*/
 
 /* Standard C includes. */
-#include "limits.h"
+#ضمن "limits.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ضمن "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#إذا ( config_INCLUDE_PLATFORM_H_INSTEAD_د_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #ضمن "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#وإلا /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #ضمن "iodefine.h"
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#د_که_پای /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW    ( ( StackType_t ) 0x00030000 )
+#تعریف_کړه پورټ_INITIAL_PSW    ( ( ډېری_Type_t ) 0x00030000 )
 
 /* The peripheral clock is divided by this value before being supplying the
  * CMT. */
-#if ( configUSE_TICKLESS_IDLE == 0 )
+#إذا ( configUSE_TICKLESS_IDLE == 0 )
     /* If tickless idle is not used then the divisor can be fixed. */
-    #define portCLOCK_DIVISOR    8UL
-#elif ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
-    #define portCLOCK_DIVISOR    512UL
-#elif ( configPERIPHERAL_CLOCK_HZ >= 6000000 )
-    #define portCLOCK_DIVISOR    128UL
-#elif ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
-    #define portCLOCK_DIVISOR    32UL
-#else
-    #define portCLOCK_DIVISOR    8UL
-#endif
+    #تعریف_کړه پورټ_CLOCK_وېشونکی    8UL
+#وإلاإذا ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
+    #تعریف_کړه پورټ_CLOCK_وېشونکی    512UL
+#وإلاإذا ( configPERIPHERAL_CLOCK_HZ >= 6000000 )
+    #تعریف_کړه پورټ_CLOCK_وېشونکی    128UL
+#وإلاإذا ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
+    #تعریف_کړه پورټ_CLOCK_وېشونکی    32UL
+#وإلا
+    #تعریف_کړه پورټ_CLOCK_وېشونکی    8UL
+#د_که_پای
 
 /* These macros allow a critical section to be added around the call to
  * xTaskIncrementTick(), which is only ever called from interrupts at the kernel
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portDISABLE_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portENABLE_INTERRUPTS_FROM_KERNEL_ISR()     __asm volatile ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS_FROM_KERNEL_ISR()    __asm متطاير ( "MVTIPL    %0" ::"i" ( config_MAX_SYSCALL_مداخله_لومړیتوب ) )
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS_FROM_KERNEL_ISR()     __asm متطاير ( "MVTIPL    %0" ::"i" ( config_KERNEL_مداخله_لومړیتوب ) )
 
 /* Keys required to lock and unlock access to certain system registers
  * respectively. */
-#define portUNLOCK_KEY    0xA50B
-#define portLOCK_KEY      0xA500
+#تعریف_کړه پورټ_UNLOCK_کلی    0xA50B
+#تعریف_کړه پورټ_قلف_کلی      0xA500
 
 /*-----------------------------------------------------------*/
 
@@ -90,38 +90,38 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+ساكن فراغ prv_پیل_لومړی_Task( فراغ ) __attribute__( ( naked ) );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#إذا ( config_INCLUDE_PLATFORM_H_INSTEAD_د_IODEFINE_H == 1 )
 
-    R_BSP_PRAGMA_INTERRUPT( vPortSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vPortSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_PRAGMA_مداخله( v_پورټ_Software_مداخله_ISR, VECT( ICU, SWINT ) )
+    R_BSP_ATTRIB_مداخله فراغ v_پورټ_Software_مداخله_ISR( فراغ ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#وإلا /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vPortSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    فراغ v_پورټ_Software_مداخله_ISR( فراغ ) __attribute__( ( naked ) );
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
+#د_که_پای /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#إذا ( config_INCLUDE_PLATFORM_H_INSTEAD_د_IODEFINE_H == 1 )
 
-    R_BSP_PRAGMA_INTERRUPT( vPortTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vPortTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_PRAGMA_مداخله( v_پورټ_Tick_ISR, _VECT( config_TICK_ویکټور ) )
+    R_BSP_ATTRIB_مداخله فراغ v_پورټ_Tick_ISR( فراغ ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#وإلا /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vPortTickISR( void ) __attribute__( ( interrupt ) );
+    فراغ v_پورټ_Tick_ISR( فراغ ) __attribute__( ( مداخله ) );
 
-#endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#د_که_پای /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*
  * Sets up the periodic ISR used for the RTOS tick using the CMT.
@@ -129,43 +129,43 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * FreeRTOSConfig.h) such that their own tick interrupt configuration is used
  * in place of prvSetupTimerInterrupt().
  */
-static void prvSetupTimerInterrupt( void );
-#ifndef configSETUP_TICK_INTERRUPT
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ );
+#که_نه_تعریف_شوی config_تیاری_TICK_مداخله
 
 /* The user has not provided their own tick interrupt configuration so use
  * the definition in this file (which uses the interval timer). */
-    #define configSETUP_TICK_INTERRUPT()    prvSetupTimerInterrupt()
-#endif /* configSETUP_TICK_INTERRUPT */
+    #تعریف_کړه config_تیاری_TICK_مداخله()    prv_تیاری_Timer_مداخله()
+#د_که_پای /* configSETUP_TICK_INTERRUPT */
 
 /*
  * Called after the sleep mode registers have been configured, prvSleep()
  * executes the pre and post sleep macros, and actually calls the wait
  * instruction.
  */
-#if configUSE_TICKLESS_IDLE == 1
-    static void prvSleep( TickType_t xExpectedIdleTime );
-#endif /* configUSE_TICKLESS_IDLE */
+#إذا configUSE_TICKLESS_IDLE == 1
+    ساكن فراغ prvSleep( TickType_t x_Expected_Idle_وخت );
+#د_که_پای /* configUSE_TICKLESS_IDLE */
 
 /*-----------------------------------------------------------*/
 
 /* Used in the context save and restore code. */
-extern void * pxCurrentTCB;
+خارجي فراغ * pxCurrentTCB;
 
 /* Calculate how many clock increments make up a single tick period. */
-static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
+ساكن ثابت uint32_t ul_سمون_ارزښت_For_One_Tick = ( ( configPERIPHERAL_CLOCK_HZ / پورټ_CLOCK_وېشونکی ) / config_TICK_شرح_HZ );
 
-#if configUSE_TICKLESS_IDLE == 1
+#إذا configUSE_TICKLESS_IDLE == 1
 
 /* Holds the maximum number of ticks that can be suppressed - which is
  * basically how far into the future an interrupt can be generated. Set
  * during initialisation.  This is the maximum possible value that the
  * compare match register can hold divided by ulMatchValueForOneTick. */
-    static const TickType_t xMaximumPossibleSuppressedTicks = USHRT_MAX / ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
+    ساكن ثابت TickType_t x_اعظمي_Possible_Suppressed_Ticks = USHRT_MAX / ( ( configPERIPHERAL_CLOCK_HZ / پورټ_CLOCK_وېشونکی ) / config_TICK_شرح_HZ );
 
 /* Flag set from the tick interrupt to allow the sleep processing to know if
  * sleep mode was exited because of a tick interrupt, or an interrupt
  * generated by something else. */
-    static volatile uint32_t ulTickFlag = pdFALSE;
+    ساكن متطاير uint32_t ulTickFlag = pdFALSE;
 
 /* The CMT counter is stopped temporarily each time it is re-programmed.
  * The following constant offsets the CMT counter match value by the number of
@@ -173,95 +173,95 @@ static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / p
  * compensate for the lost time.  The large difference between the divided CMT
  * clock and the CPU clock means it is likely ulStoppedTimerCompensation will
  * equal zero - and be optimised away. */
-    static const uint32_t ulStoppedTimerCompensation = 100UL / ( configCPU_CLOCK_HZ / ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) );
+    ساكن ثابت uint32_t ulStoppedTimerCompensation = 100UL / ( configCPU_CLOCK_HZ / ( configPERIPHERAL_CLOCK_HZ / پورټ_CLOCK_وېشونکی ) );
 
-#endif /* if configUSE_TICKLESS_IDLE == 1 */
+#د_که_پای /* if configUSE_TICKLESS_IDLE == 1 */
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ډېری_Type_t * px_پورټ_Initialise_ډېری( ډېری_Type_t * px_سر_د_ډېری,
+                                     TaskFunction_t px_کوډ,
+                                     فراغ * pvParameters )
 {
     /* Offset to end up on 8 byte boundary. */
-    pxTopOfStack--;
+    px_سر_د_ډېری--;
 
     /* R0 is not included as it is the stack pointer. */
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_سر_د_ډېری = 0x00;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x00;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = پورټ_INITIAL_PSW;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) px_کوډ;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
-    #ifdef USE_FULL_REGISTER_INITIALISATION
+    #که_تعریف_شوی USE_ډک_ثبتوونکی_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0x12345678; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaabbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x12345678; /* r15. */
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0xaaaabbbb;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0xdddddddd;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0xcccccccc;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0xbbbbbbbb;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0xaaaaaaaa;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x99999999;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x88888888;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x77777777;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x66666666;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x55555555;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x44444444;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x33333333;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = 0x22222222;
+        px_سر_د_ډېری--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #وإلا /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         /* Leave space for the registers that will get popped from the stack
          * when the task first starts executing. */
-        pxTopOfStack -= 15;
+        px_سر_د_ډېری -= 15;
     }
-    #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #د_که_پای /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678;                   /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321;                   /* Accumulator. */
+    *px_سر_د_ډېری = ( ډېری_Type_t ) pvParameters; /* R1 */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x12345678;                   /* Accumulator. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x87654321;                   /* Accumulator. */
 
-    return pxTopOfStack;
+    أرجع px_سر_د_ډېری;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنسټ_Type_t x_پورټ_پیل_Scheduler( فراغ )
 {
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    إذا( pxCurrentTCB != عدم )
     {
         /* Call an application function to set up the timer that will generate
          * the tick interrupt.  This way the application can decide which
          * peripheral to use.  If tickless mode is used then the default
          * implementation defined in this file (which uses CMT0) should not be
          * overridden. */
-        configSETUP_TICK_INTERRUPT();
+        config_تیاری_TICK_مداخله();
 
         /* Enable the software interrupt. */
         _IEN( _ICU_SWINT ) = 1;
@@ -270,10 +270,10 @@ BaseType_t xPortStartScheduler( void )
         _IR( _ICU_SWINT ) = 0;
 
         /* Ensure the software interrupt is set to the kernel priority. */
-        _IPR( _ICU_SWINT ) = configKERNEL_INTERRUPT_PRIORITY;
+        _IPR( _ICU_SWINT ) = config_KERNEL_مداخله_لومړیتوب;
 
         /* Start the first task. */
-        prvStartFirstTask();
+        prv_پیل_لومړی_Task();
     }
 
     /* Execution should not reach here as the tasks are now running!
@@ -282,24 +282,24 @@ BaseType_t xPortStartScheduler( void )
      * case that the application writer has provided their own tick interrupt
      * configuration routine (and defined configSETUP_TICK_INTERRUPT() such that
      * their own routine will be called in place of prvSetupTimerInterrupt()). */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخله();
 
     /* Should not get here. */
-    return pdFAIL;
+    أرجع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورټ_پای_ټکی_Scheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == عدم );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+ساكن فراغ prv_پیل_لومړی_Task( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -337,9 +337,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortSoftwareInterruptISR( void )
+فراغ v_پورټ_Software_مداخله_ISR( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -417,43 +417,43 @@ void vPortSoftwareInterruptISR( void )
         "RTE                                    \n" \
         "NOP                                    \n" \
         "NOP                                      "
-        ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ), "i" ( configKERNEL_INTERRUPT_PRIORITY )
+        ::"i" ( config_MAX_SYSCALL_مداخله_لومړیتوب ), "i" ( config_KERNEL_مداخله_لومړیتوب )
     );
 }
 /*-----------------------------------------------------------*/
 
-void vPortTickISR( void )
+فراغ v_پورټ_Tick_ISR( فراغ )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW I" );
+    __asm متطاير ( "SETPSW I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
-    portDISABLE_INTERRUPTS_FROM_KERNEL_ISR();
+    پورټ_DISABLE_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
-    portENABLE_INTERRUPTS_FROM_KERNEL_ISR();
+    پورټ_ENABLE_INTERRUPTS_FROM_KERNEL_ISR();
 
-    #if configUSE_TICKLESS_IDLE == 1
+    #إذا configUSE_TICKLESS_IDLE == 1
     {
         /* The CPU woke because of a tick. */
         ulTickFlag = pdTRUE;
 
         /* If this is the first tick since exiting tickless mode then the CMT
          * compare match value needs resetting. */
-        CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
+        CMT0.CMCOR = ( uint16_t ) ul_سمون_ارزښت_For_One_Tick;
     }
-    #endif
+    #د_که_پای
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ul_پورټ_Get_IPL( فراغ )
 {
-    __asm volatile
+    __asm متطاير
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -461,13 +461,13 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+فراغ v_پورټ_سېټ_IPL( uint32_t ulNewIPL )
 {
-    __asm volatile
+    __asm متطاير
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \
@@ -481,119 +481,119 @@ void vPortSetIPL( uint32_t ulNewIPL )
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ )
 {
     /* Unlock. */
-    SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+    SYSTEM.PRCR.کلمه_3 = پورټ_UNLOCK_کلی;
 
     /* Enable CMT0. */
     MSTP( CMT0 ) = 0;
 
     /* Lock again. */
-    SYSTEM.PRCR.WORD = portLOCK_KEY;
+    SYSTEM.PRCR.کلمه_3 = پورټ_قلف_کلی;
 
     /* Interrupt on compare match. */
-    CMT0.CMCR.BIT.CMIE = 1;
+    CMT0.CMCR.بټ_3.CMIE = 1;
 
     /* Set the compare match value. */
-    CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
+    CMT0.CMCOR = ( uint16_t ) ul_سمون_ارزښت_For_One_Tick;
 
     /* Divide the PCLK. */
-    #if portCLOCK_DIVISOR == 512
+    #إذا پورټ_CLOCK_وېشونکی == 512
     {
-        CMT0.CMCR.BIT.CKS = 3;
+        CMT0.CMCR.بټ_3.CKS = 3;
     }
-    #elif portCLOCK_DIVISOR == 128
+    #وإلاإذا پورټ_CLOCK_وېشونکی == 128
     {
-        CMT0.CMCR.BIT.CKS = 2;
+        CMT0.CMCR.بټ_3.CKS = 2;
     }
-    #elif portCLOCK_DIVISOR == 32
+    #وإلاإذا پورټ_CLOCK_وېشونکی == 32
     {
-        CMT0.CMCR.BIT.CKS = 1;
+        CMT0.CMCR.بټ_3.CKS = 1;
     }
-    #elif portCLOCK_DIVISOR == 8
+    #وإلاإذا پورټ_CLOCK_وېشونکی == 8
     {
-        CMT0.CMCR.BIT.CKS = 0;
+        CMT0.CMCR.بټ_3.CKS = 0;
     }
-    #else /* if portCLOCK_DIVISOR == 512 */
+    #وإلا /* if portCLOCK_DIVISOR == 512 */
     {
-        #error Invalid portCLOCK_DIVISOR setting
+        #تېروتنه Invalid پورټ_CLOCK_وېشونکی setting
     }
-    #endif /* if portCLOCK_DIVISOR == 512 */
+    #د_که_پای /* if portCLOCK_DIVISOR == 512 */
 
     /* Enable the interrupt... */
     _IEN( _CMT0_CMI0 ) = 1;
 
     /* ...and set its priority to the application defined kernel priority. */
-    _IPR( _CMT0_CMI0 ) = configKERNEL_INTERRUPT_PRIORITY;
+    _IPR( _CMT0_CMI0 ) = config_KERNEL_مداخله_لومړیتوب;
 
     /* Start the timer. */
-    CMT.CMSTR0.BIT.STR0 = 1;
+    CMT.CMSTR0.بټ_3.STR0 = 1;
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#إذا configUSE_TICKLESS_IDLE == 1
 
-    static void prvSleep( TickType_t xExpectedIdleTime )
+    ساكن فراغ prvSleep( TickType_t x_Expected_Idle_وخت )
     {
         /* Allow the application to define some pre-sleep processing. */
-        configPRE_SLEEP_PROCESSING( xExpectedIdleTime );
+        configPRE_SLEEP_PROCESSING( x_Expected_Idle_وخت );
 
         /* xExpectedIdleTime being set to 0 by configPRE_SLEEP_PROCESSING()
          * means the application defined code has already executed the WAIT
          * instruction. */
-        if( xExpectedIdleTime > 0 )
+        إذا( x_Expected_Idle_وخت > 0 )
         {
-            __asm volatile ( "WAIT" );
+            __asm متطاير ( "WAIT" );
         }
 
         /* Allow the application to define some post sleep processing. */
-        configPOST_SLEEP_PROCESSING( xExpectedIdleTime );
+        configPOST_SLEEP_PROCESSING( x_Expected_Idle_وخت );
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#د_که_پای /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#إذا configUSE_TICKLESS_IDLE == 1
 
-    void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    فراغ v_پورټ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_وخت )
     {
-        uint32_t ulMatchValue, ulCompleteTickPeriods, ulCurrentCount;
-        eSleepModeStatus eSleepAction;
+        uint32_t ul_سمون_ارزښت, ulCompleteTickPeriods, ul_Current_شمېر;
+        e_Sleep_ډېرپېښ_حالت eSleepAction;
 
         /* THIS FUNCTION IS CALLED WITH THE SCHEDULER SUSPENDED. */
 
         /* Make sure the CMT reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        إذا( x_Expected_Idle_وخت > x_اعظمي_Possible_Suppressed_Ticks )
         {
-            xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
+            x_Expected_Idle_وخت = x_اعظمي_Possible_Suppressed_Ticks;
         }
 
         /* Calculate the reload value required to wait xExpectedIdleTime tick
          * periods. */
-        ulMatchValue = ulMatchValueForOneTick * xExpectedIdleTime;
+        ul_سمون_ارزښت = ul_سمون_ارزښت_For_One_Tick * x_Expected_Idle_وخت;
 
-        if( ulMatchValue > ulStoppedTimerCompensation )
+        إذا( ul_سمون_ارزښت > ulStoppedTimerCompensation )
         {
             /* Compensate for the fact that the CMT is going to be stopped
              * momentarily. */
-            ulMatchValue -= ulStoppedTimerCompensation;
+            ul_سمون_ارزښت -= ulStoppedTimerCompensation;
         }
 
         /* Stop the CMT momentarily.  The time the CMT is stopped for is
          * accounted for as best it can be, but using the tickless mode will
          * inevitably result in some tiny drift of the time maintained by the
          * kernel with respect to calendar time. */
-        CMT.CMSTR0.BIT.STR0 = 0;
+        CMT.CMSTR0.بټ_3.STR0 = 0;
 
-        while( CMT.CMSTR0.BIT.STR0 == 1 )
+        طالما( CMT.CMSTR0.بټ_3.STR0 == 1 )
         {
             /* Nothing to do here. */
         }
 
         /* Critical section using the global interrupt bit as the i bit is
          * automatically reset by the WAIT instruction. */
-        __asm volatile ( "CLRPSW i" );
+        __asm متطاير ( "CLRPSW i" );
 
         /* The tick flag is set to false before sleeping.  If it is true when
          * sleep mode is exited then sleep mode was probably exited because the
@@ -603,80 +603,80 @@ static void prvSetupTimerInterrupt( void )
         /* If a context switch is pending then abandon the low power entry as
          * the context switch might have been pended by an external interrupt that
          * requires processing. */
-        eSleepAction = eTaskConfirmSleepModeStatus();
+        eSleepAction = e_Task_Confirm_Sleep_ډېرپېښ_حالت();
 
-        if( eSleepAction == eAbortSleep )
+        إذا( eSleepAction == eAbortSleep )
         {
             /* Restart tick. */
-            CMT.CMSTR0.BIT.STR0 = 1;
-            __asm volatile ( "SETPSW i" );
+            CMT.CMSTR0.بټ_3.STR0 = 1;
+            __asm متطاير ( "SETPSW i" );
         }
-        else if( eSleepAction == eNoTasksWaitingTimeout )
+        وإلا إذا( eSleepAction == e_No_Tasks_انتظار_Timeout )
         {
             /* Protection off. */
-            SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+            SYSTEM.PRCR.کلمه_3 = پورټ_UNLOCK_کلی;
 
             /* Ready for software standby with all clocks stopped. */
-            SYSTEM.SBYCR.BIT.SSBY = 1;
+            SYSTEM.SBYCR.بټ_3.SSBY = 1;
 
             /* Protection on. */
-            SYSTEM.PRCR.WORD = portLOCK_KEY;
+            SYSTEM.PRCR.کلمه_3 = پورټ_قلف_کلی;
 
             /* Sleep until something happens.  Calling prvSleep() will
              * automatically reset the i bit in the PSW. */
-            prvSleep( xExpectedIdleTime );
+            prvSleep( x_Expected_Idle_وخت );
 
             /* Restart the CMT. */
-            CMT.CMSTR0.BIT.STR0 = 1;
+            CMT.CMSTR0.بټ_3.STR0 = 1;
         }
-        else
+        وإلا
         {
             /* Protection off. */
-            SYSTEM.PRCR.WORD = portUNLOCK_KEY;
+            SYSTEM.PRCR.کلمه_3 = پورټ_UNLOCK_کلی;
 
             /* Ready for deep sleep mode. */
-            SYSTEM.MSTPCRC.BIT.DSLPE = 1;
-            SYSTEM.MSTPCRA.BIT.MSTPA28 = 1;
-            SYSTEM.SBYCR.BIT.SSBY = 0;
+            SYSTEM.MSTPCRC.بټ_3.DSLPE = 1;
+            SYSTEM.MSTPCRA.بټ_3.MSTPA28 = 1;
+            SYSTEM.SBYCR.بټ_3.SSBY = 0;
 
             /* Protection on. */
-            SYSTEM.PRCR.WORD = portLOCK_KEY;
+            SYSTEM.PRCR.کلمه_3 = پورټ_قلف_کلی;
 
             /* Adjust the match value to take into account that the current
              * time slice is already partially complete. */
-            ulMatchValue -= ( uint32_t ) CMT0.CMCNT;
-            CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+            ul_سمون_ارزښت -= ( uint32_t ) CMT0.CMCNT;
+            CMT0.CMCOR = ( uint16_t ) ul_سمون_ارزښت;
 
             /* Restart the CMT to count up to the new match value. */
             CMT0.CMCNT = 0;
-            CMT.CMSTR0.BIT.STR0 = 1;
+            CMT.CMSTR0.بټ_3.STR0 = 1;
 
             /* Sleep until something happens.  Calling prvSleep() will
              * automatically reset the i bit in the PSW. */
-            prvSleep( xExpectedIdleTime );
+            prvSleep( x_Expected_Idle_وخت );
 
             /* Stop CMT.  Again, the time the SysTick is stopped for is
              * accounted for as best it can be, but using the tickless mode will
              * inevitably result in some tiny drift of the time maintained by the
              * kernel with respect to calendar time. */
-            CMT.CMSTR0.BIT.STR0 = 0;
+            CMT.CMSTR0.بټ_3.STR0 = 0;
 
-            while( CMT.CMSTR0.BIT.STR0 == 1 )
+            طالما( CMT.CMSTR0.بټ_3.STR0 == 1 )
             {
                 /* Nothing to do here. */
             }
 
-            ulCurrentCount = ( uint32_t ) CMT0.CMCNT;
+            ul_Current_شمېر = ( uint32_t ) CMT0.CMCNT;
 
-            if( ulTickFlag != pdFALSE )
+            إذا( ulTickFlag != pdFALSE )
             {
                 /* The tick interrupt has already executed, although because
                  * this function is called with the scheduler suspended the actual
                  * tick processing will not occur until after this function has
                  * exited.  Reset the match value with whatever remains of this
                  * tick period. */
-                ulMatchValue = ulMatchValueForOneTick - ulCurrentCount;
-                CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+                ul_سمون_ارزښت = ul_سمون_ارزښت_For_One_Tick - ul_Current_شمېر;
+                CMT0.CMCOR = ( uint16_t ) ul_سمون_ارزښت;
 
                 /* The tick interrupt handler will already have pended the tick
                  * processing in the kernel.  As the pending tick will be
@@ -684,31 +684,31 @@ static void prvSetupTimerInterrupt( void )
                  * maintained by the tick is stepped forward by one less than the
                  * time spent sleeping.  The actual stepping of the tick appears
                  * later in this function. */
-                ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
+                ulCompleteTickPeriods = x_Expected_Idle_وخت - 1UL;
             }
-            else
+            وإلا
             {
                 /* Something other than the tick interrupt ended the sleep.
                  * How many complete tick periods passed while the processor was
                  * sleeping? */
-                ulCompleteTickPeriods = ulCurrentCount / ulMatchValueForOneTick;
+                ulCompleteTickPeriods = ul_Current_شمېر / ul_سمون_ارزښت_For_One_Tick;
 
                 /* The match value is set to whatever fraction of a single tick
                  * period remains. */
-                ulMatchValue = ulCurrentCount - ( ulCompleteTickPeriods * ulMatchValueForOneTick );
-                CMT0.CMCOR = ( uint16_t ) ulMatchValue;
+                ul_سمون_ارزښت = ul_Current_شمېر - ( ulCompleteTickPeriods * ul_سمون_ارزښت_For_One_Tick );
+                CMT0.CMCOR = ( uint16_t ) ul_سمون_ارزښت;
             }
 
             /* Restart the CMT so it runs up to the match value.  The match value
              * will get set to the value required to generate exactly one tick period
              * the next time the CMT interrupt executes. */
             CMT0.CMCNT = 0;
-            CMT.CMSTR0.BIT.STR0 = 1;
+            CMT.CMSTR0.بټ_3.STR0 = 1;
 
             /* Wind the tick forward by the number of tick periods that the CPU
              * remained in a low power state. */
-            vTaskStepTick( ulCompleteTickPeriods );
+            v_Task_ګام_Tick( ulCompleteTickPeriods );
         }
     }
 
-#endif /* configUSE_TICKLESS_IDLE */
+#د_که_پای /* configUSE_TICKLESS_IDLE */

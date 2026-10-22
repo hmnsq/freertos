@@ -26,28 +26,28 @@
  *
  */
 
-    .extern ulTopOfSystemStack
-    .extern ulInterruptNesting
+    .خارجي ul_سر_د_System_ډېری
+    .خارجي ul_مداخله_Nesting
 
 /*-----------------------------------------------------------*/
 
-.macro portFREERTOS_INTERRUPT_ENTRY
+.macro پورټ_FREERTOS_مداخله_ثبت
 
     /* Save general purpose registers. */
     pusha
 
     /* If ulInterruptNesting is zero the rest of the task context will need
     saving and a stack switch might be required. */
-    movl    ulInterruptNesting, %eax
+    movl    ul_مداخله_Nesting, %eax
     test    %eax, %eax
     jne     2f
 
     /* Interrupts are not nested, so save the rest of the task context. */
-    .if configSUPPORT_FPU == 1
+    .إذا configSUPPORT_FPU == 1
 
         /* If the task has a buffer allocated to save the FPU context then
         save the FPU context now. */
-        movl    pucPortTaskFPUContextBuffer, %eax
+        movl    puc_پورټ_Task_FPUContext_بفر, %eax
         test    %eax, %eax
         je      1f
         fnsave  ( %eax ) /* Save FLOP context into ucTempFPUBuffer array. */
@@ -55,7 +55,7 @@
 
         1:
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        ټېل    puc_پورټ_Task_FPUContext_بفر
 
     .endif /* configSUPPORT_FPU */
 
@@ -66,31 +66,31 @@
     movl    %esp, (%eax)
 
     /* Switch stacks. */
-    movl    ulTopOfSystemStack, %esp
+    movl    ul_سر_د_System_ډېری, %esp
     movl    %esp, %ebp
 
     2:
     /* Increment nesting count. */
-    add     $1, ulInterruptNesting
+    جمع_کړه     $1, ul_مداخله_Nesting
 
 .endm
 /*-----------------------------------------------------------*/
 
-.macro portINTERRUPT_EPILOGUE
+.macro پورټ_مداخله_EPILOGUE
 
     cli
-    sub     $1, ulInterruptNesting
+    sub     $1, ul_مداخله_Nesting
 
     /* If the nesting has unwound to zero. */
-    movl    ulInterruptNesting, %eax
+    movl    ul_مداخله_Nesting, %eax
     test    %eax, %eax
     jne     2f
 
     /* If a yield was requested then select a new TCB now. */
-    movl    ulPortYieldPending, %eax
+    movl    ul_پورټ_Yield_Pending, %eax
     test    %eax, %eax
     je      1f
-    movl    $0, ulPortYieldPending
+    movl    $0, ul_پورټ_Yield_Pending
     call    vTaskSwitchContext
 
     1:
@@ -98,14 +98,14 @@
     movl    pxCurrentTCB, %eax
     movl    (%eax), %esp
 
-    .if configSUPPORT_FPU == 1
+    .إذا configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        راوباسه     puc_پورټ_Task_FPUContext_بفر
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */
-        movl    pucPortTaskFPUContextBuffer, %eax
+        movl    puc_پورټ_Task_FPUContext_بفر, %eax
         test    %eax, %eax
         je      1f
         frstor  ( %eax )
@@ -118,9 +118,9 @@
 .endm
 /*-----------------------------------------------------------*/
 
-.macro portFREERTOS_INTERRUPT_EXIT
+.macro پورټ_FREERTOS_مداخله_EXIT
 
-    portINTERRUPT_EPILOGUE
+    پورټ_مداخله_EPILOGUE
     /* EOI. */
     movl    $0x00, (0xFEE000B0)
     iret

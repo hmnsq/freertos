@@ -32,29 +32,29 @@
     .ref vTaskSwitchContext
     .ref ulMaxSyscallInterruptPriority
 
-    .def xPortPendSVHandler
-    .def ulPortGetIPSR
-    .def vPortSVCHandler
-    .def vPortStartFirstTask
+    .def x_پورټ_Pend_SVHandler
+    .def ul_پورټ_Get_IPSR
+    .def v_پورټ_SVCHandler
+    .def v_پورټ_پیل_لومړی_Task
 
 NVICOffsetConst:                    .word   0xE000ED08
 CPACRConst:                         .word   0xE000ED88
 pxCurrentTCBConst:                  .word   pxCurrentTCB
-ulMaxSyscallInterruptPriorityConst: .word ulMaxSyscallInterruptPriority
+ul_Max_Syscall_مداخله_لومړیتوب_Const: .word ulMaxSyscallInterruptPriority
 
 ; -----------------------------------------------------------
 
     .align 4
-ulPortGetIPSR: .asmfunc
+ul_پورټ_Get_IPSR: .asmfunc
     mrs r0, ipsr
     bx r14
     .endasmfunc
  ; -----------------------------------------------------------
 
     .align 4
-vPortSetInterruptMask: .asmfunc
+v_پورټ_سېټ_مداخله_ماسک: .asmfunc
     push {r0}
-    ldr r0, ulMaxSyscallInterruptPriorityConst
+    ldr r0, ul_Max_Syscall_مداخله_لومړیتوب_Const
     msr basepri, r0
     pop {r0}
     bx r14
@@ -62,7 +62,7 @@ vPortSetInterruptMask: .asmfunc
 ; -----------------------------------------------------------
 
     .align 4
-xPortPendSVHandler: .asmfunc
+x_پورټ_Pend_SVHandler: .asmfunc
     mrs r0, psp
     isb
 
@@ -77,7 +77,7 @@ xPortPendSVHandler: .asmfunc
     str r0, [r2]
 
     stmdb sp!, {r3, r14}
-    ldr r0, ulMaxSyscallInterruptPriorityConst
+    ldr r0, ul_Max_Syscall_مداخله_لومړیتوب_Const
     ldr r1, [r0]
     msr basepri, r1
     dsb
@@ -102,7 +102,7 @@ xPortPendSVHandler: .asmfunc
 ; -----------------------------------------------------------
 
     .align 4
-vPortSVCHandler: .asmfunc
+v_پورټ_SVCHandler: .asmfunc
     ;/* Get the location of the current TCB. */
     ldr r3, pxCurrentTCBConst
     ldr r1, [r3]
@@ -120,7 +120,7 @@ vPortSVCHandler: .asmfunc
 ; -----------------------------------------------------------
 
     .align 4
-vPortStartFirstTask: .asmfunc
+v_پورټ_پیل_لومړی_Task: .asmfunc
     ;/* Use the NVIC offset register to locate the stack. */
     ldr r0, NVICOffsetConst
     ldr r0, [r0]

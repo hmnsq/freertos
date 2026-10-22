@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,61 +47,61 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         لنډ
+#تعریف_کړه پورټ_ډېری_TYPE    uint32_t
+#تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع اوږد             بنسټ_Type_t;
+تعريفنوع بینښه اوږد    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
-#endif
+    #تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
+#وإلا
+    #تېروتنه "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
+#د_که_پای
 
 /* Errata 837070 workaround must be enabled on Cortex-M7 r0p0
  * and r0p1 cores. */
-#ifndef configENABLE_ERRATA_837070_WORKAROUND
-    #define configENABLE_ERRATA_837070_WORKAROUND    0
-#endif
+#که_نه_تعریف_شوی configENABLE_ERRATA_837070_WORKAROUND
+    #تعریف_کړه configENABLE_ERRATA_837070_WORKAROUND    0
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* MPU specific constants. */
-#define portUSING_MPU_WRAPPERS                                   1
-#define portPRIVILEGE_BIT                                        ( 0x80000000UL )
+#تعریف_کړه پورټ_USING_MPU_WRAPPERS                                   1
+#تعریف_کړه پورټ_PRIVILEGE_بټ                                        ( 0x80000000UL )
 
-#define portMPU_REGION_READ_WRITE                                ( 0x03UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_ONLY                      ( 0x05UL << 24UL )
-#define portMPU_REGION_READ_ONLY                                 ( 0x06UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_WRITE                     ( 0x01UL << 24UL )
-#define portMPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY    ( 0x02UL << 24UL )
-#define portMPU_REGION_CACHEABLE_BUFFERABLE                      ( 0x07UL << 16UL )
-#define portMPU_REGION_EXECUTE_NEVER                             ( 0x01UL << 28UL )
+#تعریف_کړه پورټ_MPU_REGION_READ_WRITE                                ( 0x03UL << 24UL )
+#تعریف_کړه پورټ_MPU_REGION_PRIVILEGED_READ_ONLY                      ( 0x05UL << 24UL )
+#تعریف_کړه پورټ_MPU_REGION_READ_ONLY                                 ( 0x06UL << 24UL )
+#تعریف_کړه پورټ_MPU_REGION_PRIVILEGED_READ_WRITE                     ( 0x01UL << 24UL )
+#تعریف_کړه پورټ_MPU_REGION_PRIVILEGED_READ_WRITE_UNPRIV_READ_ONLY    ( 0x02UL << 24UL )
+#تعریف_کړه پورټ_MPU_REGION_CACHEABLE_BUFFERABLE                      ( 0x07UL << 16UL )
+#تعریف_کړه پورټ_MPU_REGION_EXECUTE_NEVER                             ( 0x01UL << 28UL )
 
 /* Location of the TEX,S,C,B bits in the MPU Region Attribute and Size
  * Register (RASR). */
-#define portMPU_RASR_TEX_S_C_B_LOCATION                          ( 16UL )
-#define portMPU_RASR_TEX_S_C_B_MASK                              ( 0x3FUL )
+#تعریف_کړه پورټ_MPU_RASR_TEX_S_C_B_LOCATION                          ( 16UL )
+#تعریف_کړه پورټ_MPU_RASR_TEX_S_C_B_ماسک                              ( 0x3FUL )
 
 /* MPU settings that can be overridden in FreeRTOSConfig.h. */
-#ifndef configTOTAL_MPU_REGIONS
+#که_نه_تعریف_شوی config_ټول_MPU_REGIONS
     /* Define to 8 for backward compatibility. */
-    #define configTOTAL_MPU_REGIONS    ( 8UL )
-#endif
+    #تعریف_کړه config_ټول_MPU_REGIONS    ( 8UL )
+#د_که_پای
 
 /*
  * The TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits define the
@@ -167,56 +167,56 @@ typedef unsigned long    UBaseType_t;
 
 /* TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits for Flash
  * region. */
-#ifndef configTEX_S_C_B_FLASH
+#که_نه_تعریف_شوی configTEX_S_C_B_FLASH
     /* Default to TEX=000, S=1, C=1, B=1 for backward compatibility. */
-    #define configTEX_S_C_B_FLASH    ( 0x07UL )
-#endif
+    #تعریف_کړه configTEX_S_C_B_FLASH    ( 0x07UL )
+#د_که_پای
 
 /* TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits for SRAM
  * region. */
-#ifndef configTEX_S_C_B_SRAM
+#که_نه_تعریف_شوی configTEX_S_C_B_SRAM
     /* Default to TEX=000, S=1, C=1, B=1 for backward compatibility. */
-    #define configTEX_S_C_B_SRAM          ( 0x07UL )
-#endif
+    #تعریف_کړه configTEX_S_C_B_SRAM          ( 0x07UL )
+#د_که_پای
 
-#define portSTACK_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
-#define portGENERAL_PERIPHERALS_REGION    ( configTOTAL_MPU_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION     ( configTOTAL_MPU_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION       ( configTOTAL_MPU_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION         ( configTOTAL_MPU_REGIONS - 1UL )
-#define portFIRST_CONFIGURABLE_REGION     ( 0UL )
-#define portLAST_CONFIGURABLE_REGION      ( configTOTAL_MPU_REGIONS - 6UL )
-#define portNUM_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
-#define portTOTAL_NUM_REGIONS_IN_TCB      ( portNUM_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
+#تعریف_کړه پورټ_ډېری_REGION                  ( config_ټول_MPU_REGIONS - 5UL )
+#تعریف_کړه پورټ_GENERAL_PERIPHERALS_REGION    ( config_ټول_MPU_REGIONS - 4UL )
+#تعریف_کړه پورټ_UNPRIVILEGED_FLASH_REGION     ( config_ټول_MPU_REGIONS - 3UL )
+#تعریف_کړه پورټ_PRIVILEGED_FLASH_REGION       ( config_ټول_MPU_REGIONS - 2UL )
+#تعریف_کړه پورټ_PRIVILEGED_RAM_REGION         ( config_ټول_MPU_REGIONS - 1UL )
+#تعریف_کړه پورټ_لومړی_CONFIGURABLE_REGION     ( 0UL )
+#تعریف_کړه پورټ_وروستی_CONFIGURABLE_REGION      ( config_ټول_MPU_REGIONS - 6UL )
+#تعریف_کړه پورټ_عدد_CONFIGURABLE_REGIONS      ( config_ټول_MPU_REGIONS - 5UL )
+#تعریف_کړه پورټ_ټول_عدد_REGIONS_دننه_TCB      ( پورټ_عدد_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
 
-typedef struct MPU_REGION_REGISTERS
+تعريفنوع بنية MPU_REGION_REGISTERS
 {
-    uint32_t ulRegionBaseAddress;
+    uint32_t ul_Region_بنسټ_پته;
     uint32_t ulRegionAttribute;
 } xMPU_REGION_REGISTERS;
 
-typedef struct MPU_REGION_SETTINGS
+تعريفنوع بنية MPU_REGION_SETTINGS
 {
-    uint32_t ulRegionStartAddress;
-    uint32_t ulRegionEndAddress;
+    uint32_t ul_Region_پیل_پته;
+    uint32_t ul_Region_پای_ټکی_پته;
     uint32_t ulRegionPermissions;
 } xMPU_REGION_SETTINGS;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #ifndef configSYSTEM_CALL_STACK_SIZE
-        #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
-    #endif
+    #که_نه_تعریف_شوی config_SYSTEM_CALL_ډېری_اندازه
+        #تېروتنه "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
+    #د_که_پای
 
-    typedef struct SYSTEM_CALL_STACK_INFO
+    تعريفنوع بنية SYSTEM_CALL_ډېری_INFO
     {
-        uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-        uint32_t * pulSystemCallStack;
-        uint32_t * pulTaskStack;
-        uint32_t ulLinkRegisterAtSystemCallEntry;
-    } xSYSTEM_CALL_STACK_INFO;
+        uint32_t ul_System_Call_ډېری_بفر[ config_SYSTEM_CALL_ډېری_اندازه ];
+        uint32_t * pul_System_Call_ډېری;
+        uint32_t * pul_Task_ډېری;
+        uint32_t ul_Link_ثبتوونکی_At_System_Call_ثبت;
+    } x_SYSTEM_CALL_ډېری_INFO;
 
-#endif /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#د_که_پای /* #if ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
 /*
  * +---------+---------------+-----------------+-----------------+-----+
@@ -227,158 +227,158 @@ typedef struct MPU_REGION_SETTINGS
  * <--------><---------------><----------------><----------------><---->
  *     16           17               10                 9           1
  */
-#define MAX_CONTEXT_SIZE                    ( 53 )
+#تعریف_کړه MAX_CONTEXT_اندازه                    ( 53 )
 
 /* Size of an Access Control List (ACL) entry in bits. */
-#define portACL_ENTRY_SIZE_BITS             ( 32U )
+#تعریف_کړه پورټ_ACL_ثبت_اندازه_بټونه             ( 32U )
 
 /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-#define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
-#define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
+#تعریف_کړه پورټ_ډېری_چوکاټ_HAS_PADDING_FLAG    ( 1UL << 0UL )
+#تعریف_کړه پورټ_TASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
-typedef struct MPU_SETTINGS
+تعريفنوع بنية MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    xMPU_REGION_SETTINGS xRegionSettings[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    uint32_t ulContext[ MAX_CONTEXT_SIZE ];
+    xMPU_REGION_REGISTERS xRegion[ پورټ_ټول_عدد_REGIONS_دننه_TCB ];
+    xMPU_REGION_SETTINGS xRegionSettings[ پورټ_ټول_عدد_REGIONS_دننه_TCB ];
+    uint32_t ulContext[ MAX_CONTEXT_اندازه ];
     uint32_t ulTaskFlags;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-        xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-        #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
-            uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
-        #endif
-    #endif
+    #إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        x_SYSTEM_CALL_ډېری_INFO x_System_Call_ډېری_Info;
+        #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            uint32_t ulAccessControlList[ ( config_PROTECTED_KERNEL_OBJECT_POOL_اندازه / پورټ_ACL_ثبت_اندازه_بټونه ) + 1 ];
+        #د_که_پای
+    #د_که_پای
 } xMPU_SETTINGS;
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
-#define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT        8
+#تعریف_کړه پورټ_ډېری_GROWTH          ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS        ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT        8
 
 /* Constants used with memory barrier intrinsics. */
-#define portSY_FULL_READ_WRITE    ( 15 )
+#تعریف_کړه پورټ_SY_ډک_READ_WRITE    ( 15 )
 
 /*-----------------------------------------------------------*/
 
 /* SVC numbers for various services. */
-#define portSVC_START_SCHEDULER        100
-#define portSVC_YIELD                  101
-#define portSVC_RAISE_PRIVILEGE        102
-#define portSVC_SYSTEM_CALL_EXIT       103
+#تعریف_کړه پورټ_SVC_پیل_SCHEDULER        100
+#تعریف_کړه پورټ_SVC_YIELD                  101
+#تعریف_کړه پورټ_SVC_RAISE_PRIVILEGE        102
+#تعریف_کړه پورټ_SVC_SYSTEM_CALL_EXIT       103
 
 /* Scheduler utilities. */
 
-#define portYIELD()    __asm { SVC portSVC_YIELD }
-#define portYIELD_WITHIN_API()                          \
+#تعریف_کړه پورټ_YIELD()    __asm { SVC پورټ_SVC_YIELD }
+#تعریف_کړه پورټ_YIELD_WITHIN_API()                          \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
-        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+        پورټ_NVIC_INT_CTRL_REG = پورټ_NVIC_PENDSVSET_بټ; \
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
-        __dsb( portSY_FULL_READ_WRITE );                           \
-        __isb( portSY_FULL_READ_WRITE );                           \
+        __dsb( پورټ_SY_ډک_READ_WRITE );                           \
+        __isb( پورټ_SY_ډک_READ_WRITE );                           \
     }
 /*-----------------------------------------------------------*/
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired )            \
-    do                                                      \
+#تعریف_کړه پورټ_NVIC_INT_CTRL_REG     ( *( ( متطاير uint32_t * ) 0xe000ed04 ) )
+#تعریف_کړه پورټ_NVIC_PENDSVSET_بټ    ( 1UL << 28UL )
+#تعریف_کړه پورټ_پای_ټکی_SWITCHING_ISR( xSwitchRequired )            \
+    افعل                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        إذا( xSwitchRequired )                               \
         {                                                   \
-            traceISR_EXIT_TO_SCHEDULER();                   \
-            portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+            trace_ISR_EXIT_منزل_SCHEDULER();                   \
+            پورټ_NVIC_INT_CTRL_REG = پورټ_NVIC_PENDSVSET_بټ; \
         }                                                   \
-        else                                                \
+        وإلا                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } طالما( 0 )
+#تعریف_کړه پورټ_YIELD_FROM_ISR( x )    پورټ_پای_ټکی_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+خارجي فراغ v_پورټ_Enter_Critical( فراغ );
+خارجي فراغ v_پورټ_Exit_Critical( فراغ );
 
-#define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
-#define portENABLE_INTERRUPTS()                   vPortSetBASEPRI( 0 )
-#define portENTER_CRITICAL()                      vPortEnterCritical()
-#define portEXIT_CRITICAL()                       vPortExitCritical()
-#define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vPortSetBASEPRI( x )
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()                  v_پورټ_Raise_BASEPRI()
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()                   v_پورټ_سېټ_BASEPRI( 0 )
+#تعریف_کړه پورټ_ENTER_CRITICAL()                      v_پورټ_Enter_Critical()
+#تعریف_کړه پورټ_EXIT_CRITICAL()                       v_پورټ_Exit_Critical()
+#تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()         ul_پورټ_Raise_BASEPRI()
+#تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( x )    v_پورټ_سېټ_BASEPRI( x )
 
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-#ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-#endif
+#که_نه_تعریف_شوی config_USE_پورټ_OPTIMISED_TASK_SELECTION
+    #تعریف_کړه config_USE_پورټ_OPTIMISED_TASK_SELECTION    1
+#د_که_پای
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا config_USE_پورټ_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
-        #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
-    #endif
+    #إذا ( configMAX_PRIORITIES > 32 )
+        #تېروتنه "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
+    #د_که_پای
 
 /* Store/clear the ready priorities in a bit map. */
-    #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-    #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+    #تعریف_کړه پورټ_ریکارډ_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_لومړیتوب ) )
+    #تعریف_کړه پورټ_RESET_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_لومړیتوب ) )
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
+    #تعریف_کړه پورټ_GET_HIGHEST_لومړیتوب( ux_سر_لومړیتوب, uxReadyPriorities )    ux_سر_لومړیتوب = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
 
-#endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+#د_که_پای /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
-    #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-#endif
+#إذا ( configASSERT_DEFINED == 1 )
+    فراغ v_پورټ_Validate_مداخله_لومړیتوب( فراغ );
+    #تعریف_کړه پورټ_ASSERT_IF_مداخله_لومړیتوب_INVALID()    v_پورټ_Validate_مداخله_لومړیتوب()
+#د_که_پای
 
 /* portNOP() is not required by this port. */
-#define portNOP()
+#تعریف_کړه پورټ_NOP()
 
-#define portINLINE              __inline
+#تعریف_کړه پورټ_INLINE              __inline
 
-#ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    __forceinline
-#endif
+#که_نه_تعریف_شوی پورټ_FORCE_INLINE
+    #تعریف_کړه پورټ_FORCE_INLINE    __forceinline
+#د_که_پای
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xIsPrivileged( void );
-extern void vResetPrivilege( void );
-extern void vPortSwitchToUserMode( void );
+خارجي بنسټ_Type_t xIsPrivileged( فراغ );
+خارجي فراغ vResetPrivilege( فراغ );
+خارجي فراغ v_پورټ_Switch_منزل_User_ډېرپېښ( فراغ );
 
 /**
  * @brief Checks whether or not the processor is privileged.
  *
  * @return 1 if the processor is already privileged, 0 otherwise.
  */
-#define portIS_PRIVILEGED()          xIsPrivileged()
+#تعریف_کړه پورټ_IS_PRIVILEGED()          xIsPrivileged()
 
 /**
  * @brief Raise an SVC request to raise privilege.
  */
-#define portRAISE_PRIVILEGE()        __asm { svc portSVC_RAISE_PRIVILEGE }
+#تعریف_کړه پورټ_RAISE_PRIVILEGE()        __asm { svc پورټ_SVC_RAISE_PRIVILEGE }
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
  * register.
  */
-#define portRESET_PRIVILEGE()        vResetPrivilege()
+#تعریف_کړه پورټ_RESET_PRIVILEGE()        vResetPrivilege()
 
 /**
  * @brief Make a task unprivileged.
@@ -386,20 +386,20 @@ extern void vPortSwitchToUserMode( void );
  * It must be called from privileged tasks only. Calling it from unprivileged
  * task will result in a memory protection fault.
  */
-#define portSWITCH_TO_USER_MODE()    vPortSwitchToUserMode()
+#تعریف_کړه پورټ_SWITCH_منزل_USER_ډېرپېښ()    v_پورټ_Switch_منزل_User_ډېرپېښ()
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xPortIsTaskPrivileged( void );
+خارجي بنسټ_Type_t x_پورټ_Is_Task_Privileged( فراغ );
 
 /**
  * @brief Checks whether or not the calling task is privileged.
  *
  * @return pdTRUE if the calling task is privileged, pdFALSE otherwise.
  */
-#define portIS_TASK_PRIVILEGED()    xPortIsTaskPrivileged()
+#تعریف_کړه پورټ_IS_TASK_PRIVILEGED()    x_پورټ_Is_Task_Privileged()
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
+ساكن پورټ_FORCE_INLINE فراغ v_پورټ_سېټ_BASEPRI( uint32_t ulBASEPRI )
 {
     __asm
     {
@@ -412,30 +412,30 @@ static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortRaiseBASEPRI( void )
+ساكن پورټ_FORCE_INLINE فراغ v_پورټ_Raise_BASEPRI( فراغ )
 {
-    uint32_t ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+    uint32_t ulNewBASEPRI = config_MAX_SYSCALL_مداخله_لومړیتوب;
 
     __asm
     {
         /* Set BASEPRI to the max syscall priority to effect a critical
          * section. */
 /* *INDENT-OFF* */
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #إذا ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsid i
-    #endif
+    #د_که_پای
         msr basepri, ulNewBASEPRI
         dsb
         isb
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #إذا ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsie i
-    #endif
+    #د_که_پای
 /* *INDENT-ON* */
     }
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
+ساكن پورټ_FORCE_INLINE فراغ v_پورټ_Clear_BASEPRIFrom_ISR( فراغ )
 {
     __asm
     {
@@ -449,9 +449,9 @@ static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+ساكن پورټ_FORCE_INLINE uint32_t ul_پورټ_Raise_BASEPRI( فراغ )
 {
-    uint32_t ulReturn, ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+    uint32_t ulReturn, ulNewBASEPRI = config_MAX_SYSCALL_مداخله_لومړیتوب;
 
     __asm
     {
@@ -459,56 +459,56 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
          * section. */
 /* *INDENT-OFF* */
         mrs ulReturn, basepri
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #إذا ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsid i
-    #endif
+    #د_که_پای
         msr basepri, ulNewBASEPRI
         dsb
         isb
-    #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+    #إذا ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
         cpsie i
-    #endif
+    #د_که_پای
 /* *INDENT-ON* */
     }
 
-    return ulReturn;
+    أرجع ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
+ساكن پورټ_FORCE_INLINE بنسټ_Type_t x_پورټ_Is_Inside_مداخله( فراغ )
 {
-    uint32_t ulCurrentInterrupt;
-    BaseType_t xReturn;
+    uint32_t ul_Current_مداخله;
+    بنسټ_Type_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
     __asm
     {
-        mrs ulCurrentInterrupt, ipsr
+        mrs ul_Current_مداخله, ipsr
     }
 
-    if( ulCurrentInterrupt == 0 )
+    إذا( ul_Current_مداخله == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    وإلا
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    أرجع xReturn;
 }
 /*-----------------------------------------------------------*/
 
-#ifndef configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
+#که_نه_تعریف_شوی configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY
     #warning "configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY is not defined. We recommend defining it to 1 in FreeRTOSConfig.h for better security. www.FreeRTOS.org/FreeRTOS-V10.3.x.html"
-    #define configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY    0
-#endif
+    #تعریف_کړه configENFORCE_SYSTEM_CALLS_FROM_KERNEL_ONLY    0
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

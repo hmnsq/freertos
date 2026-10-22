@@ -27,15 +27,15 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* The critical nesting value is initialised to a non zero value to ensure
  * interrupts don't accidentally become enabled before the scheduler is started. */
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#تعریف_کړه پورټ_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
 
 /* Initial PSW value allocated to a newly created task.
  *   1100011000000000
@@ -48,12 +48,12 @@
  *   |--------------------- Zero Flag set
  *   ---------------------- Global Interrupt Flag set (enabled)
  */
-#define portPSW                         ( 0xc6UL )
+#تعریف_کړه پورټ_PSW                         ( 0xc6UL )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /* Most ports implement critical sections by placing the interrupt flags on
  * the stack before disabling interrupts.  Exiting the critical section is then
@@ -67,13 +67,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as this will cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متطاير uint16_t usCriticalNesting = پورټ_INITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -82,107 +82,107 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ډېری_Type_t * px_پورټ_Initialise_ډېری( ډېری_Type_t * px_سر_د_ډېری,
+                                     TaskFunction_t px_کوډ,
+                                     فراغ * pvParameters )
 {
     uint32_t * pulLocal;
 
-    #if configMEMORY_MODE == 1
+    #إذا config_حافظه_ډېرپېښ == 1
     {
         /* Parameters are passed in on the stack, and written using a 32bit value
          * hence a space is left for the second two bytes. */
-        pxTopOfStack--;
+        px_سر_د_ډېری--;
 
         /* Write in the parameter value. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
+        pulLocal = ( uint32_t * ) px_سر_د_ډېری;
         *pulLocal = ( uint32_t ) pvParameters;
-        pxTopOfStack--;
+        px_سر_د_ډېری--;
 
         /* These values are just spacers.  The return address of the function
          * would normally be written here. */
-        *pxTopOfStack = ( StackType_t ) 0xcdcd;
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0xcdcd;
-        pxTopOfStack--;
+        *px_سر_د_ډېری = ( ډېری_Type_t ) 0xcdcd;
+        px_سر_د_ډېری--;
+        *px_سر_د_ډېری = ( ډېری_Type_t ) 0xcdcd;
+        px_سر_د_ډېری--;
 
         /* The start address / PSW value is also written in as a 32bit value,
          * so leave a space for the second two bytes. */
-        pxTopOfStack--;
+        px_سر_د_ډېری--;
 
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        pulLocal = ( uint32_t * ) px_سر_د_ډېری;
+        *pulLocal = ( ( ( uint32_t ) px_کوډ ) | ( پورټ_PSW << 24UL ) );
+        px_سر_د_ډېری--;
 
         /* An initial value for the AX register. */
-        *pxTopOfStack = ( StackType_t ) 0x1111;
-        pxTopOfStack--;
+        *px_سر_د_ډېری = ( ډېری_Type_t ) 0x1111;
+        px_سر_د_ډېری--;
     }
-    #else /* if configMEMORY_MODE == 1 */
+    #وإلا /* if configMEMORY_MODE == 1 */
     {
         /* Task function address is written to the stack first.  As it is
          * written as a 32bit value a space is left on the stack for the second
          * two bytes. */
-        pxTopOfStack--;
+        px_سر_د_ډېری--;
 
         /* Task function start address combined with the PSW. */
-        pulLocal = ( uint32_t * ) pxTopOfStack;
-        *pulLocal = ( ( ( uint32_t ) pxCode ) | ( portPSW << 24UL ) );
-        pxTopOfStack--;
+        pulLocal = ( uint32_t * ) px_سر_د_ډېری;
+        *pulLocal = ( ( ( uint32_t ) px_کوډ ) | ( پورټ_PSW << 24UL ) );
+        px_سر_د_ډېری--;
 
         /* The parameter is passed in AX. */
-        *pxTopOfStack = ( StackType_t ) pvParameters;
-        pxTopOfStack--;
+        *px_سر_د_ډېری = ( ډېری_Type_t ) pvParameters;
+        px_سر_د_ډېری--;
     }
-    #endif /* if configMEMORY_MODE == 1 */
+    #د_که_پای /* if configMEMORY_MODE == 1 */
 
     /* An initial value for the HL register. */
-    *pxTopOfStack = ( StackType_t ) 0x2222;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x2222;
+    px_سر_د_ډېری--;
 
     /* CS and ES registers. */
-    *pxTopOfStack = ( StackType_t ) 0x0F00;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x0F00;
+    px_سر_د_ډېری--;
 
     /* Finally the remaining general purpose registers DE and BC */
-    *pxTopOfStack = ( StackType_t ) 0xDEDE;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBCBC;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xDEDE;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xBCBC;
+    px_سر_د_ډېری--;
 
     /* Finally the critical section nesting count is set to zero when the task
      * first starts. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) پورټ_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    أرجع px_سر_د_ډېری;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنسټ_Type_t x_پورټ_پیل_Scheduler( فراغ )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخله();
 
     /* Restore the context of the first task that is going to run. */
-    vPortStart();
+    v_پورټ_پیل();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورټ_پای_ټکی_Scheduler( فراغ )
 {
     /* It is unlikely that the 78K0R port will get stopped.  If required simply
      * disable the tick interrupt here. */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ )
 {
     /* Setup channel 5 of the TAU to generate the tick interrupt. */
 
@@ -207,7 +207,7 @@ static void prvSetupTimerInterrupt( void )
     TMR05 = 0x0000;
 
     /* Set the compare match value according to the tick rate we want. */
-    TDR05 = ( TickType_t ) ( configCPU_CLOCK_HZ / configTICK_RATE_HZ );
+    TDR05 = ( TickType_t ) ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ );
 
     /* Set Timer Array Unit Channel 5 output mode */
     TOM0 &= ~0x0020;

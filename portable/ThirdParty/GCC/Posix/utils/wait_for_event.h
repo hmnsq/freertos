@@ -26,21 +26,21 @@
  *
  */
 
-#ifndef WAIT_FOR_EVENT_H_
-#define WAIT_FOR_EVENT_H_
+#که_نه_تعریف_شوی WAIT_FOR_EVENT_H_
+#تعریف_کړه WAIT_FOR_EVENT_H_
 
-#include <stdbool.h>
-#include <time.h>
+#ضمن <stdbool.h>
+#ضمن <time.h>
 
-struct event;
+بنية event;
 
-struct event * event_create( void );
-void event_delete( struct event * );
-bool event_wait( struct event * ev );
-bool event_wait_timed( struct event * ev,
+بنية event * event_create( فراغ );
+فراغ event_delete( بنية event * );
+bool event_wait( بنية event * ev );
+bool event_wait_timed( بنية event * ev,
                        time_t ms );
-void event_signal( struct event * ev );
+فراغ event_signal( بنية event * ev );
 
 
 
-#endif /* ifndef WAIT_FOR_EVENT_H_ */
+#د_که_پای /* ifndef WAIT_FOR_EVENT_H_ */

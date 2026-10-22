@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+    #تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -48,48 +48,48 @@
 /* The compiler needs to be told functions that are only referenced by pointer
  * are to be included in the build.  NOTE:  Omitting these lines will result in a
  * run-time crash, not a linker error! */
-    #pragma funcall vTaskStartScheduler prvIdleTask
-    #pragma funcall xTimerCreateTimerTask prvTimerTask
+    #لارښوونه funcall v_Task_پیل_Scheduler prvIdleTask
+    #لارښوونه funcall xTimerCreateTimerTask prvTimerTask
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #تعریف_کړه پورټ_CHAR          حرف
+    #تعریف_کړه پورټ_FLOAT         عائم
+    #تعریف_کړه پورټ_DOUBLE        مزدوج
+    #تعریف_کړه پورټ_LONG          اوږد
+    #تعریف_کړه پورټ_SHORT         لنډ
+    #تعریف_کړه پورټ_ډېری_TYPE    uint32_t
+    #تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+    تعريفنوع اوږد             بنسټ_Type_t;
+    تعريفنوع بینښه اوږد    UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    #إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+        تعريفنوع uint16_t     TickType_t;
+        #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffff
+    #وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+        تعريفنوع uint32_t     TickType_t;
+        #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-        #define portTICK_TYPE_IS_ATOMIC    1
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+        #تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
+    #وإلا
+        #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+    #د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    8
+    #تعریف_کړه پورټ_ډېری_GROWTH      ( -1 )
+    #تعریف_کړه پورټ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+    #تعریف_کړه پورټ_BYTE_ALIGNMENT    8
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-    #define portYIELD()                                 \
+    #تعریف_کړه پورټ_YIELD()                                 \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
-        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
+        پورټ_NVIC_INT_CTRL_REG = پورټ_NVIC_PENDSVSET_بټ; \
                                                         \
         /* Barriers are normally not required but do ensure the code is completely \
          * within the specified behaviour for the architecture. */ \
@@ -97,112 +97,112 @@
         __asm{ isb };                                              \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
-#define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
-#define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+#تعریف_کړه پورټ_NVIC_INT_CTRL_REG     ( *( ( متطاير uint32_t * ) 0xe000ed04 ) )
+#تعریف_کړه پورټ_NVIC_PENDSVSET_بټ    ( 1UL << 28UL )
+#تعریف_کړه پورټ_پای_ټکی_SWITCHING_ISR( xSwitchRequired ) \
+    افعل                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
-            traceISR_EXIT_TO_SCHEDULER();        \
-            portYIELD();                         \
+            trace_ISR_EXIT_منزل_SCHEDULER();        \
+            پورټ_YIELD();                         \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
-#define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
+    } طالما( 0 )
+#تعریف_کړه پورټ_YIELD_FROM_ISR( x )    پورټ_پای_ټکی_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    #define portDISABLE_INTERRUPTS()                  CPU_REG_SET( CPU_BASEPRI, configMAX_SYSCALL_INTERRUPT_PRIORITY ); __asm{ dsb }; __asm{ isb }
-    #define portENABLE_INTERRUPTS()                   CPU_REG_SET( CPU_BASEPRI, 0 );
-    #define portENTER_CRITICAL()                      vPortEnterCritical()
-    #define portEXIT_CRITICAL()                       vPortExitCritical()
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         ulPortRaiseBASEPRI()
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    CPU_REG_SET( CPU_BASEPRI, x ); /* Barrier instructions not used as this is only used to lower the basepri. */
+    خارجي فراغ v_پورټ_Enter_Critical( فراغ );
+    خارجي فراغ v_پورټ_Exit_Critical( فراغ );
+    #تعریف_کړه پورټ_DISABLE_INTERRUPTS()                  CPU_REG_سېټ( CPU_BASEPRI, config_MAX_SYSCALL_مداخله_لومړیتوب ); __asm{ dsb }; __asm{ isb }
+    #تعریف_کړه پورټ_ENABLE_INTERRUPTS()                   CPU_REG_سېټ( CPU_BASEPRI, 0 );
+    #تعریف_کړه پورټ_ENTER_CRITICAL()                      v_پورټ_Enter_Critical()
+    #تعریف_کړه پورټ_EXIT_CRITICAL()                       v_پورټ_Exit_Critical()
+    #تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()         ul_پورټ_Raise_BASEPRI()
+    #تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( x )    CPU_REG_سېټ( CPU_BASEPRI, x ); /* Barrier instructions not used as this is only used to lower the basepri. */
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Tickless idle/low power functionality. */
-    #ifndef portSUPPRESS_TICKS_AND_SLEEP
-        extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
-        #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
-    #endif
+    #که_نه_تعریف_شوی پورټ_SUPPRESS_TICKS_AND_SLEEP
+        خارجي فراغ v_پورټ_Suppress_Ticks_And_Sleep( TickType_t x_Expected_Idle_وخت );
+        #تعریف_کړه پورټ_SUPPRESS_TICKS_AND_SLEEP( x_Expected_Idle_وخت )    v_پورټ_Suppress_Ticks_And_Sleep( x_Expected_Idle_وخت )
+    #د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-    #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #endif
+    #که_نه_تعریف_شوی config_USE_پورټ_OPTIMISED_TASK_SELECTION
+        #تعریف_کړه config_USE_پورټ_OPTIMISED_TASK_SELECTION    1
+    #د_که_پای
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #إذا config_USE_پورټ_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
-        __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+        __attribute__( ( always_inline ) ) ساكن مضمن uint8_t uc_پورټ_شمېر_Leading_Zeros( uint32_t ulBitmap )
         {
             uint8_t ucReturn;
 
-            __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
+            __asm متطاير ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
 
-            return ucReturn;
+            أرجع ucReturn;
         }
 
 /* Check the configuration. */
-        #if ( configMAX_PRIORITIES > 32 )
-            #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
-        #endif
+        #إذا ( configMAX_PRIORITIES > 32 )
+            #تېروتنه config_USE_پورټ_OPTIMISED_TASK_SELECTION can only be سېټ منزل 1 when configMAX_PRIORITIES is less than or equal منزل 32.  It is very rare that a system requires نور than 10 منزل 15 difference priorities as tasks that share a لومړیتوب will time ټوټه.
+        #د_که_پای
 
 /* Store/clear the ready priorities in a bit map. */
-        #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-        #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+        #تعریف_کړه پورټ_ریکارډ_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_لومړیتوب ) )
+        #تعریف_کړه پورټ_RESET_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_لومړیتوب ) )
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+        #تعریف_کړه پورټ_GET_HIGHEST_لومړیتوب( ux_سر_لومړیتوب, uxReadyPriorities )    ux_سر_لومړیتوب = ( 31UL - ( uint32_t ) uc_پورټ_شمېر_Leading_Zeros( ( uxReadyPriorities ) ) )
 
-    #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #د_که_پای /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /*-----------------------------------------------------------*/
 
-    #if ( configASSERT_DEFINED == 1 )
-        void vPortValidateInterruptPriority( void );
-        #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
-    #endif
+    #إذا ( configASSERT_DEFINED == 1 )
+        فراغ v_پورټ_Validate_مداخله_لومړیتوب( فراغ );
+        #تعریف_کړه پورټ_ASSERT_IF_مداخله_لومړیتوب_INVALID()    v_پورټ_Validate_مداخله_لومړیتوب()
+    #د_که_پای
 
 /* portNOP() is not required by this port. */
-    #define portNOP()
+    #تعریف_کړه پورټ_NOP()
 
-    BaseType_t xPortIsInsideInterrupt( void );
+    بنسټ_Type_t x_پورټ_Is_Inside_مداخله( فراغ );
 
 /*-----------------------------------------------------------*/
 
-    static inline uint32_t ulPortRaiseBASEPRI( void )
+    ساكن مضمن uint32_t ul_پورټ_Raise_BASEPRI( فراغ )
     {
         uint32_t ulOriginalBASEPRI;
 
         ulOriginalBASEPRI = CPU_REG_GET( CPU_BASEPRI );
-        CPU_REG_SET( CPU_BASEPRI, configMAX_SYSCALL_INTERRUPT_PRIORITY );
+        CPU_REG_سېټ( CPU_BASEPRI, config_MAX_SYSCALL_مداخله_لومړیتوب );
         __asm{ dsb };
         __asm{ isb };
-        return ulOriginalBASEPRI;
+        أرجع ulOriginalBASEPRI;
     }
 /*-----------------------------------------------------------*/
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

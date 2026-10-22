@@ -33,12 +33,12 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <signal.h>
+#ضمن <stdlib.h>
+#ضمن <signal.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the MSP430 port.
@@ -46,14 +46,14 @@
 
 /* Constants required for hardware setup.  The tick ISR runs off the ACLK,
  * not the MCLK. */
-#define portACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
-#define portINITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
-#define portFLAGS_INT_ENABLED           ( ( StackType_t ) 0x08 )
+#تعریف_کړه پورټ_ACLK_FREQUENCY_HZ           ( ( TickType_t ) 32768 )
+#تعریف_کړه پورټ_INITIAL_CRITICAL_NESTING    ( ( uint16_t ) 10 )
+#تعریف_کړه پورټ_FLAGS_INT_ENABLED           ( ( ډېری_Type_t ) 0x08 )
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /* Most ports implement critical sections by placing the interrupt flags on
  * the stack before disabling interrupts.  Exiting the critical section is then
@@ -67,7 +67,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * usCriticalNesting will get set to zero when the scheduler starts, but must
  * not be initialised to zero as this will cause problems during the startup
  * sequence. */
-volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
+متطاير uint16_t usCriticalNesting = پورټ_INITIAL_CRITICAL_NESTING;
 /*-----------------------------------------------------------*/
 
 /*
@@ -77,8 +77,8 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * pointer value is saved into the task control block so it can be retrieved
  * the next time the task executes.
  */
-#define portSAVE_CONTEXT()                               \
-    asm volatile ( "push   r4                      \n\t" \
+#تعریف_کړه پورټ_SAVE_CONTEXT()                               \
+    asm متطاير ( "push   r4                      \n\t" \
                    "push   r5                      \n\t" \
                    "push   r6                      \n\t" \
                    "push   r7                      \n\t" \
@@ -106,8 +106,8 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * The bic instruction ensures there are no low power bits set in the status
  * register that is about to be popped from the stack.
  */
-#define portRESTORE_CONTEXT()                            \
-    asm volatile ( "mov.w  pxCurrentTCB, r12       \n\t" \
+#تعریف_کړه پورټ_RESTORE_CONTEXT()                            \
+    asm متطاير ( "mov.w  pxCurrentTCB, r12       \n\t" \
                    "mov.w  @r12, r1                \n\t" \
                    "pop    r15                     \n\t" \
                    "mov.w  r15, usCriticalNesting  \n\t" \
@@ -132,7 +132,7 @@ volatile uint16_t usCriticalNesting = portINITIAL_CRITICAL_NESTING;
  * Sets up the periodic ISR used for the RTOS tick.  This uses timer 0, but
  * could have alternatively used the watchdog timer or timer 1.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
@@ -141,9 +141,9 @@ static void prvSetupTimerInterrupt( void );
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ډېری_Type_t * px_پورټ_Initialise_ډېری( ډېری_Type_t * px_سر_د_ډېری,
+                                     TaskFunction_t px_کوډ,
+                                     فراغ * pvParameters )
 {
     /*
      *  Place a few bytes of known values on the bottom of the stack.
@@ -161,75 +161,75 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * executing an ISR.  We want the stack to look just as if this has happened
      * so place a pointer to the start of the task on the stack first - followed
      * by the flags we want the task to use when it starts up. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) px_کوډ;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = پورټ_FLAGS_INT_ENABLED;
+    px_سر_د_ډېری--;
 
     /* Next the general purpose registers. */
-    *pxTopOfStack = ( StackType_t ) 0x4444;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x5555;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x6666;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x7777;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x8888;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x9999;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xaaaa;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xbbbb;
-    pxTopOfStack--;
-#ifdef __MSPGCC__
-    *pxTopOfStack = ( StackType_t ) 0xcccc;
-#else
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x4444;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x5555;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x6666;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x7777;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x8888;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x9999;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xaaaa;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xbbbb;
+    px_سر_د_ډېری--;
+#که_تعریف_شوی __MSPGCC__
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xcccc;
+#وإلا
     /* The MSP430 EABI expects the function parameter in R12. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-#endif
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xdddd;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xeeee;
-    pxTopOfStack--;
-#ifdef __MSPGCC__
+    *px_سر_د_ډېری = ( ډېری_Type_t ) pvParameters;
+#د_که_پای
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xdddd;
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xeeee;
+    px_سر_د_ډېری--;
+#که_تعریف_شوی __MSPGCC__
     /* The mspgcc ABI expects the function parameter in R15. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-#else
-    *pxTopOfStack = ( StackType_t ) 0xffff;
-#endif
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) pvParameters;
+#وإلا
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0xffff;
+#د_که_پای
+    px_سر_د_ډېری--;
 
     /* The code generated by the mspgcc compiler does not maintain separate
      * stack and frame pointers. The portENTER_CRITICAL macro cannot therefore
      * use the stack as per other ports.  Instead a variable is used to keep
      * track of the critical section nesting.  This variable has to be stored
      * as part of the task context and is initially set to zero. */
-    *pxTopOfStack = ( StackType_t ) portNO_CRITICAL_SECTION_NESTING;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) پورټ_NO_CRITICAL_SECTION_NESTING;
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    أرجع px_سر_د_ډېری;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنسټ_Type_t x_پورټ_پیل_Scheduler( فراغ )
 {
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called. */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخله();
 
     /* Restore the context of the first task that is going to run. */
-    portRESTORE_CONTEXT();
+    پورټ_RESTORE_CONTEXT();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورټ_پای_ټکی_Scheduler( فراغ )
 {
     /* It is unlikely that the MSP430 port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -241,24 +241,24 @@ void vPortEndScheduler( void )
  *
  * The first thing we do is save the registers so we can use a naked attribute.
  */
-void vPortYield( void ) __attribute__( ( naked ) );
-void vPortYield( void )
+فراغ v_پورټ_Yield( فراغ ) __attribute__( ( naked ) );
+فراغ v_پورټ_Yield( فراغ )
 {
     /* We want the stack of the task being saved to look exactly as if the task
      * was saved during a pre-emptive RTOS tick ISR.  Before calling an ISR the
      * msp430 places the status register onto the stack.  As this is a function
      * call and not an ISR we have to do this manually. */
-    asm volatile ( "push    r2" );
+    asm متطاير ( "push    r2" );
     _DINT();
 
     /* Save the context of the current task. */
-    portSAVE_CONTEXT();
+    پورټ_SAVE_CONTEXT();
 
     /* Switch to the highest priority task that is ready to run. */
     vTaskSwitchContext();
 
     /* Restore the context of the new task. */
-    portRESTORE_CONTEXT();
+    پورټ_RESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
@@ -266,7 +266,7 @@ void vPortYield( void )
  * Hardware initialisation to generate the RTOS tick.  This uses timer 0
  * but could alternatively use the watchdog timer or timer 1.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ )
 {
     /* Ensure the timer is stopped. */
     TACTL = 0;
@@ -278,7 +278,7 @@ static void prvSetupTimerInterrupt( void )
     TACTL |= TACLR;
 
     /* Set the compare match value according to the tick rate we want. */
-    TACCR0 = portACLK_FREQUENCY_HZ / configTICK_RATE_HZ;
+    TACCR0 = پورټ_ACLK_FREQUENCY_HZ / config_TICK_شرح_HZ;
 
     /* Enable the interrupts. */
     TACCTL0 = CCIE;
@@ -296,40 +296,40 @@ static void prvSetupTimerInterrupt( void )
  * scheduler is being used or not.
  */
 
-#if configUSE_PREEMPTION == 1
+#إذا configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a naked attribute as
  * the context is saved at the start of vPortYieldFromTick().  The tick
  * count is incremented after the context is saved.
  */
-    interrupt( TIMERA0_VECTOR ) void prvTickISR( void ) __attribute__( ( naked ) );
-    interrupt( TIMERA0_VECTOR ) void prvTickISR( void )
+    مداخله( TIMERA0_ویکټور ) فراغ prvTickISR( فراغ ) __attribute__( ( naked ) );
+    مداخله( TIMERA0_ویکټور ) فراغ prvTickISR( فراغ )
     {
         /* Save the context of the interrupted task. */
-        portSAVE_CONTEXT();
+        پورټ_SAVE_CONTEXT();
 
         /* Increment the tick count then switch to the highest priority task
          * that is ready to run. */
-        if( xTaskIncrementTick() != pdFALSE )
+        إذا( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
 
         /* Restore the context of the new task. */
-        portRESTORE_CONTEXT();
+        پورټ_RESTORE_CONTEXT();
     }
 
-#else /* if configUSE_PREEMPTION == 1 */
+#وإلا /* if configUSE_PREEMPTION == 1 */
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
  * tick count.  We don't need to switch context, this can only be done by
  * manual calls to taskYIELD();
  */
-    interrupt( TIMERA0_VECTOR ) void prvTickISR( void );
-    interrupt( TIMERA0_VECTOR ) void prvTickISR( void )
+    مداخله( TIMERA0_ویکټور ) فراغ prvTickISR( فراغ );
+    مداخله( TIMERA0_ویکټور ) فراغ prvTickISR( فراغ )
     {
         xTaskIncrementTick();
     }
-#endif /* if configUSE_PREEMPTION == 1 */
+#د_که_پای /* if configUSE_PREEMPTION == 1 */

@@ -26,164 +26,164 @@
  *
  */
 
-#ifndef PORTCONTEXT_H
-#define PORTCONTEXT_H
+#که_نه_تعریف_شوی PORTCONTEXT_H
+#تعریف_کړه PORTCONTEXT_H
 
-#if __riscv_xlen == 64
-    #define portWORD_SIZE    8
-    #define store_x          sd
-    #define load_x           ld
-#elif __riscv_xlen == 32
-    #define store_x          sw
-    #define load_x           lw
-    #define portWORD_SIZE    4
-#else
-    #error Assembler did not define __riscv_xlen
-#endif
+#إذا __riscv_xlen == 64
+    #تعریف_کړه پورټ_کلمه_اندازه    8
+    #تعریف_کړه store_x          sd
+    #تعریف_کړه بارول_x           ld
+#وإلاإذا __riscv_xlen == 32
+    #تعریف_کړه store_x          sw
+    #تعریف_کړه بارول_x           lw
+    #تعریف_کړه پورټ_کلمه_اندازه    4
+#وإلا
+    #تېروتنه Assembler did not define __riscv_xlen
+#د_که_پای
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#ضمن "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
  * portasmRESTORE_ADDITIONAL_REGISTERS macros - which can be defined in a chip
  * specific version of freertos_risc_v_chip_specific_extensions.h.  See the
  * notes at the top of portASM.S file. */
-#ifdef __riscv_32e
-    #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    13
-    #define portMSTATUS_OFFSET             14
-#else
-    #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    29
-    #define portMSTATUS_OFFSET             30
-#endif
+#که_تعریف_شوی __riscv_32e
+    #تعریف_کړه پورټ_CONTEXT_اندازه               ( 15 * پورټ_کلمه_اندازه )
+    #تعریف_کړه پورټ_CRITICAL_NESTING_دننه_واټن    13
+    #تعریف_کړه پورټ_MSTATUS_دننه_واټن             14
+#وإلا
+    #تعریف_کړه پورټ_CONTEXT_اندازه               ( 31 * پورټ_کلمه_اندازه )
+    #تعریف_کړه پورټ_CRITICAL_NESTING_دننه_واټن    29
+    #تعریف_کړه پورټ_MSTATUS_دننه_واټن             30
+#د_که_پای
 
 EXTERN pxCurrentTCB
-EXTERN xISRStackTop
+EXTERN x_ISRStack_سر
 EXTERN xCriticalNesting
 EXTERN pxCriticalNesting
 
 /*-----------------------------------------------------------*/
 
-portcontextSAVE_CONTEXT_INTERNAL MACRO
-addi sp, sp, -portCONTEXT_SIZE
-store_x x1, 1 * portWORD_SIZE( sp )
-store_x x5, 2 * portWORD_SIZE( sp )
-store_x x6, 3 * portWORD_SIZE( sp )
-store_x x7, 4 * portWORD_SIZE( sp )
-store_x x8, 5 * portWORD_SIZE( sp )
-store_x x9, 6 * portWORD_SIZE( sp )
-store_x x10, 7 * portWORD_SIZE( sp )
-store_x x11, 8 * portWORD_SIZE( sp )
-store_x x12, 9 * portWORD_SIZE( sp )
-store_x x13, 10 * portWORD_SIZE( sp )
-store_x x14, 11 * portWORD_SIZE( sp )
-store_x x15, 12 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    store_x x16, 13 * portWORD_SIZE( sp )
-    store_x x17, 14 * portWORD_SIZE( sp )
-    store_x x18, 15 * portWORD_SIZE( sp )
-    store_x x19, 16 * portWORD_SIZE( sp )
-    store_x x20, 17 * portWORD_SIZE( sp )
-    store_x x21, 18 * portWORD_SIZE( sp )
-    store_x x22, 19 * portWORD_SIZE( sp )
-    store_x x23, 20 * portWORD_SIZE( sp )
-    store_x x24, 21 * portWORD_SIZE( sp )
-    store_x x25, 22 * portWORD_SIZE( sp )
-    store_x x26, 23 * portWORD_SIZE( sp )
-    store_x x27, 24 * portWORD_SIZE( sp )
-    store_x x28, 25 * portWORD_SIZE( sp )
-    store_x x29, 26 * portWORD_SIZE( sp )
-    store_x x30, 27 * portWORD_SIZE( sp )
-    store_x x31, 28 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
+portcontext_SAVE_CONTEXT_دننی MACRO
+addi sp, sp, -پورټ_CONTEXT_اندازه
+store_x x1, 1 * پورټ_کلمه_اندازه( sp )
+store_x x5, 2 * پورټ_کلمه_اندازه( sp )
+store_x x6, 3 * پورټ_کلمه_اندازه( sp )
+store_x x7, 4 * پورټ_کلمه_اندازه( sp )
+store_x x8, 5 * پورټ_کلمه_اندازه( sp )
+store_x x9, 6 * پورټ_کلمه_اندازه( sp )
+store_x x10, 7 * پورټ_کلمه_اندازه( sp )
+store_x x11, 8 * پورټ_کلمه_اندازه( sp )
+store_x x12, 9 * پورټ_کلمه_اندازه( sp )
+store_x x13, 10 * پورټ_کلمه_اندازه( sp )
+store_x x14, 11 * پورټ_کلمه_اندازه( sp )
+store_x x15, 12 * پورټ_کلمه_اندازه( sp )
+#که_نه_تعریف_شوی __riscv_32e
+    store_x x16, 13 * پورټ_کلمه_اندازه( sp )
+    store_x x17, 14 * پورټ_کلمه_اندازه( sp )
+    store_x x18, 15 * پورټ_کلمه_اندازه( sp )
+    store_x x19, 16 * پورټ_کلمه_اندازه( sp )
+    store_x x20, 17 * پورټ_کلمه_اندازه( sp )
+    store_x x21, 18 * پورټ_کلمه_اندازه( sp )
+    store_x x22, 19 * پورټ_کلمه_اندازه( sp )
+    store_x x23, 20 * پورټ_کلمه_اندازه( sp )
+    store_x x24, 21 * پورټ_کلمه_اندازه( sp )
+    store_x x25, 22 * پورټ_کلمه_اندازه( sp )
+    store_x x26, 23 * پورټ_کلمه_اندازه( sp )
+    store_x x27, 24 * پورټ_کلمه_اندازه( sp )
+    store_x x28, 25 * پورټ_کلمه_اندازه( sp )
+    store_x x29, 26 * پورټ_کلمه_اندازه( sp )
+    store_x x30, 27 * پورټ_کلمه_اندازه( sp )
+    store_x x31, 28 * پورټ_کلمه_اندازه( sp )
+#د_که_پای /* ifndef __riscv_32e */
 
-load_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
-store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the critical nesting value to the stack. */
+بارول_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
+store_x t0, پورټ_CRITICAL_NESTING_دننه_واټن * پورټ_کلمه_اندازه( sp ) /* Store the critical nesting value to the stack. */
 
 csrr t0, mstatus                                              /* Required for MPIE bit. */
-store_x t0, portMSTATUS_OFFSET * portWORD_SIZE( sp )
+store_x t0, پورټ_MSTATUS_دننه_واټن * پورټ_کلمه_اندازه( sp )
 
 portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_extensions.h to save any registers unique to the RISC-V implementation. */
 
-load_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
+بارول_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
 store_x sp, 0 ( t0 )             /* Write sp to first TCB member. */
 
 ENDM
 /*-----------------------------------------------------------*/
 
 portcontextSAVE_EXCEPTION_CONTEXT MACRO
-portcontextSAVE_CONTEXT_INTERNAL
+portcontext_SAVE_CONTEXT_دننی
 csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+بارول_x sp, x_ISRStack_سر /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 
-portcontextSAVE_INTERRUPT_CONTEXT MACRO
-portcontextSAVE_CONTEXT_INTERNAL
+portcontext_SAVE_مداخله_CONTEXT MACRO
+portcontext_SAVE_CONTEXT_دننی
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+بارول_x sp, x_ISRStack_سر /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 
 portcontextRESTORE_CONTEXT MACRO
-load_x t1, pxCurrentTCB /* Load pxCurrentTCB. */
-load_x sp, 0 ( t1 )     /* Read sp from first TCB member. */
+بارول_x t1, pxCurrentTCB /* Load pxCurrentTCB. */
+بارول_x sp, 0 ( t1 )     /* Read sp from first TCB member. */
 
 /* Load mepc with the address of the instruction in the task to run next. */
-load_x t0, 0 ( sp )
+بارول_x t0, 0 ( sp )
 csrw mepc, t0
 
 /* Defined in freertos_risc_v_chip_specific_extensions.h to restore any registers unique to the RISC-V implementation. */
 portasmRESTORE_ADDITIONAL_REGISTERS
 
 /* Load mstatus with the interrupt enable bits used by the task. */
-load_x t0, portMSTATUS_OFFSET * portWORD_SIZE( sp )
+بارول_x t0, پورټ_MSTATUS_دننه_واټن * پورټ_کلمه_اندازه( sp )
 csrw mstatus, t0                                             /* Required for MPIE bit. */
 
-load_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
-load_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
+بارول_x t0, پورټ_CRITICAL_NESTING_دننه_واټن * پورټ_کلمه_اندازه( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
+بارول_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
 store_x t0, 0 ( t1 )                                         /* Restore the critical nesting value for this task. */
 
-load_x x1, 1 * portWORD_SIZE( sp )
-load_x x5, 2 * portWORD_SIZE( sp )
-load_x x6, 3 * portWORD_SIZE( sp )
-load_x x7, 4 * portWORD_SIZE( sp )
-load_x x8, 5 * portWORD_SIZE( sp )
-load_x x9, 6 * portWORD_SIZE( sp )
-load_x x10, 7 * portWORD_SIZE( sp )
-load_x x11, 8 * portWORD_SIZE( sp )
-load_x x12, 9 * portWORD_SIZE( sp )
-load_x x13, 10 * portWORD_SIZE( sp )
-load_x x14, 11 * portWORD_SIZE( sp )
-load_x x15, 12 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    load_x x16, 13 * portWORD_SIZE( sp )
-    load_x x17, 14 * portWORD_SIZE( sp )
-    load_x x18, 15 * portWORD_SIZE( sp )
-    load_x x19, 16 * portWORD_SIZE( sp )
-    load_x x20, 17 * portWORD_SIZE( sp )
-    load_x x21, 18 * portWORD_SIZE( sp )
-    load_x x22, 19 * portWORD_SIZE( sp )
-    load_x x23, 20 * portWORD_SIZE( sp )
-    load_x x24, 21 * portWORD_SIZE( sp )
-    load_x x25, 22 * portWORD_SIZE( sp )
-    load_x x26, 23 * portWORD_SIZE( sp )
-    load_x x27, 24 * portWORD_SIZE( sp )
-    load_x x28, 25 * portWORD_SIZE( sp )
-    load_x x29, 26 * portWORD_SIZE( sp )
-    load_x x30, 27 * portWORD_SIZE( sp )
-    load_x x31, 28 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
-addi sp, sp, portCONTEXT_SIZE
+بارول_x x1, 1 * پورټ_کلمه_اندازه( sp )
+بارول_x x5, 2 * پورټ_کلمه_اندازه( sp )
+بارول_x x6, 3 * پورټ_کلمه_اندازه( sp )
+بارول_x x7, 4 * پورټ_کلمه_اندازه( sp )
+بارول_x x8, 5 * پورټ_کلمه_اندازه( sp )
+بارول_x x9, 6 * پورټ_کلمه_اندازه( sp )
+بارول_x x10, 7 * پورټ_کلمه_اندازه( sp )
+بارول_x x11, 8 * پورټ_کلمه_اندازه( sp )
+بارول_x x12, 9 * پورټ_کلمه_اندازه( sp )
+بارول_x x13, 10 * پورټ_کلمه_اندازه( sp )
+بارول_x x14, 11 * پورټ_کلمه_اندازه( sp )
+بارول_x x15, 12 * پورټ_کلمه_اندازه( sp )
+#که_نه_تعریف_شوی __riscv_32e
+    بارول_x x16, 13 * پورټ_کلمه_اندازه( sp )
+    بارول_x x17, 14 * پورټ_کلمه_اندازه( sp )
+    بارول_x x18, 15 * پورټ_کلمه_اندازه( sp )
+    بارول_x x19, 16 * پورټ_کلمه_اندازه( sp )
+    بارول_x x20, 17 * پورټ_کلمه_اندازه( sp )
+    بارول_x x21, 18 * پورټ_کلمه_اندازه( sp )
+    بارول_x x22, 19 * پورټ_کلمه_اندازه( sp )
+    بارول_x x23, 20 * پورټ_کلمه_اندازه( sp )
+    بارول_x x24, 21 * پورټ_کلمه_اندازه( sp )
+    بارول_x x25, 22 * پورټ_کلمه_اندازه( sp )
+    بارول_x x26, 23 * پورټ_کلمه_اندازه( sp )
+    بارول_x x27, 24 * پورټ_کلمه_اندازه( sp )
+    بارول_x x28, 25 * پورټ_کلمه_اندازه( sp )
+    بارول_x x29, 26 * پورټ_کلمه_اندازه( sp )
+    بارول_x x30, 27 * پورټ_کلمه_اندازه( sp )
+    بارول_x x31, 28 * پورټ_کلمه_اندازه( sp )
+#د_که_پای /* ifndef __riscv_32e */
+addi sp, sp, پورټ_CONTEXT_اندازه
 
 mret
 ENDM
 /*-----------------------------------------------------------*/
 
-#endif /* PORTCONTEXT_H */
+#د_که_پای /* PORTCONTEXT_H */

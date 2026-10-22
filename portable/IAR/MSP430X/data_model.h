@@ -26,38 +26,38 @@
  *
  */
 
-#ifndef DATA_MODEL_H
-#define DATA_MODEL_H
+#که_نه_تعریف_شوی معلومات_MODEL_H
+#تعریف_کړه معلومات_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
-    #define pushm_x    pushm.w
-    #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_SMALL__
+    #تعریف_کړه pushm_x    pushm.w
+    #تعریف_کړه popm_x     popm.w
+    #تعریف_کړه ټېل_x     ټېل.w
+    #تعریف_کړه راوباسه_x      راوباسه.w
+    #تعریف_کړه mov_x      mov.w
+    #تعریف_کړه cmp_x      cmp.w
+#د_که_پای
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      mov.w
-    #define cmp_x      cmp.w
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+    #تعریف_کړه pushm_x    pushm.a
+    #تعریف_کړه popm_x     popm.a
+    #تعریف_کړه ټېل_x     pushx.a
+    #تعریف_کړه راوباسه_x      popx.a
+    #تعریف_کړه mov_x      mov.w
+    #تعریف_کړه cmp_x      cmp.w
+#د_که_پای
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
-    #define pushm_x    pushm.a
-    #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
-    #define mov_x      movx.a
-    #define cmp_x      cmpx.a
-#endif
+#إذا __DATA_MODEL__ == __DATA_MODEL_LARGE__
+    #تعریف_کړه pushm_x    pushm.a
+    #تعریف_کړه popm_x     popm.a
+    #تعریف_کړه ټېل_x     pushx.a
+    #تعریف_کړه راوباسه_x      popx.a
+    #تعریف_کړه mov_x      movx.a
+    #تعریف_کړه cmp_x      cmpx.a
+#د_که_پای
 
-#ifndef pushm_x
-    #error The assembler options must define one of the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
-#endif
+#که_نه_تعریف_شوی pushm_x
+    #تېروتنه The assembler options must define one د the following symbols: __DATA_MODEL_SMALL__, __DATA_MODEL_MEDIUM__, or __DATA_MODEL_LARGE__
+#د_که_پای
 
-#endif /* DATA_MODEL_H */
+#د_که_پای /* DATA_MODEL_H */

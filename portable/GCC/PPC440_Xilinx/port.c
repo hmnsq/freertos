@@ -32,62 +32,62 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "xtime_l.h"
-#include "xintc.h"
-#include "xintc_i.h"
+#ضمن "xtime_l.h"
+#ضمن "xintc.h"
+#ضمن "xintc_i.h"
 
 /*-----------------------------------------------------------*/
 
 /* Definitions to set the initial MSR of each task. */
-#define portCRITICAL_INTERRUPT_ENABLE    ( 1UL << 17UL )
-#define portEXTERNAL_INTERRUPT_ENABLE    ( 1UL << 15UL )
-#define portMACHINE_CHECK_ENABLE         ( 1UL << 12UL )
+#تعریف_کړه پورټ_CRITICAL_مداخله_ENABLE    ( 1UL << 17UL )
+#تعریف_کړه پورټ_EXTERNAL_مداخله_ENABLE    ( 1UL << 15UL )
+#تعریف_کړه پورټ_MACHINE_CHECK_ENABLE         ( 1UL << 12UL )
 
-#if configUSE_FPU == 1
-    #define portAPU_PRESENT              ( 1UL << 25UL )
-    #define portFCM_FPU_PRESENT          ( 1UL << 13UL )
-#else
-    #define portAPU_PRESENT              ( 0UL )
-    #define portFCM_FPU_PRESENT          ( 0UL )
-#endif
+#إذا configUSE_FPU == 1
+    #تعریف_کړه پورټ_APU_PRESENT              ( 1UL << 25UL )
+    #تعریف_کړه پورټ_FCM_FPU_PRESENT          ( 1UL << 13UL )
+#وإلا
+    #تعریف_کړه پورټ_APU_PRESENT              ( 0UL )
+    #تعریف_کړه پورټ_FCM_FPU_PRESENT          ( 0UL )
+#د_که_پای
 
-#define portINITIAL_MSR                  ( portCRITICAL_INTERRUPT_ENABLE | portEXTERNAL_INTERRUPT_ENABLE | portMACHINE_CHECK_ENABLE | portAPU_PRESENT | portFCM_FPU_PRESENT )
+#تعریف_کړه پورټ_INITIAL_MSR                  ( پورټ_CRITICAL_مداخله_ENABLE | پورټ_EXTERNAL_مداخله_ENABLE | پورټ_MACHINE_CHECK_ENABLE | پورټ_APU_PRESENT | پورټ_FCM_FPU_PRESENT )
 
 
-extern const unsigned _SDA_BASE_;
-extern const unsigned _SDA2_BASE_;
+خارجي ثابت بینښه SDA_بنسټ;
+خارجي ثابت بینښه SDA2_بنسټ;
 
 /*-----------------------------------------------------------*/
 
 /*
  * Setup the system timer to generate the tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ );
 
 /*
  * The handler for the tick interrupt - defined in portasm.s.
  */
-extern void vPortTickISR( void );
+خارجي فراغ v_پورټ_Tick_ISR( فراغ );
 
 /*
  * The handler for the yield function - defined in portasm.s.
  */
-extern void vPortYield( void );
+خارجي فراغ v_پورټ_Yield( فراغ );
 
 /*
  * Function to start the scheduler running by starting the highest
  * priority task that has thus far been created.
  */
-extern void vPortStartFirstTask( void );
+خارجي فراغ v_پورټ_پیل_لومړی_Task( فراغ );
 
 /*-----------------------------------------------------------*/
 
 /* Structure used to hold the state of the interrupt controller. */
-static XIntc xInterruptController;
+ساكن XIntc x_مداخله_Controller;
 
 /*-----------------------------------------------------------*/
 
@@ -97,70 +97,70 @@ static XIntc xInterruptController;
  *
  * See the header file portable.h.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ډېری_Type_t * px_پورټ_Initialise_ډېری( ډېری_Type_t * px_سر_د_ډېری,
+                                     TaskFunction_t px_کوډ,
+                                     فراغ * pvParameters )
 {
     /* Place a known value at the bottom of the stack for debugging. */
-    *pxTopOfStack = 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = 0xDEADBEEF;
+    px_سر_د_ډېری--;
 
     /* EABI stack frame. */
-    pxTopOfStack -= 20; /* Previous backchain and LR, R31 to R4 inclusive. */
+    px_سر_د_ډېری -= 20; /* Previous backchain and LR, R31 to R4 inclusive. */
 
     /* Parameters in R13. */
-    *pxTopOfStack = ( StackType_t ) &_SDA_BASE_; /* address of the first small data area */
-    pxTopOfStack -= 10;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) &SDA_بنسټ; /* address of the first small data area */
+    px_سر_د_ډېری -= 10;
 
     /* Parameters in R3. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) pvParameters;
+    px_سر_د_ډېری--;
 
     /* Parameters in R2. */
-    *pxTopOfStack = ( StackType_t ) &_SDA2_BASE_; /* address of the second small data area */
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) &SDA2_بنسټ; /* address of the second small data area */
+    px_سر_د_ډېری--;
 
     /* R1 is the stack pointer so is omitted. */
 
-    *pxTopOfStack = 0x10000001UL;                      /* R0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* USPRG0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* CR. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* XER. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* CTR. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) vPortEndScheduler; /* LR. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;            /* SRR0. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_MSR;                   /* SRR1. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) vPortEndScheduler; /* Next LR. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x00000000UL;                      /* Backchain. */
+    *px_سر_د_ډېری = 0x10000001UL;                      /* R0. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x00000000UL;                      /* USPRG0. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x00000000UL;                      /* CR. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x00000000UL;                      /* XER. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x00000000UL;                      /* CTR. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) v_پورټ_پای_ټکی_Scheduler; /* LR. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) px_کوډ;            /* SRR0. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = پورټ_INITIAL_MSR;                   /* SRR1. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) v_پورټ_پای_ټکی_Scheduler; /* Next LR. */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = 0x00000000UL;                      /* Backchain. */
 
-    return pxTopOfStack;
+    أرجع px_سر_د_ډېری;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنسټ_Type_t x_پورټ_پیل_Scheduler( فراغ )
 {
-    prvSetupTimerInterrupt();
-    XExc_RegisterHandler( XEXC_ID_SYSTEM_CALL, ( XExceptionHandler ) vPortYield, ( void * ) 0 );
-    vPortStartFirstTask();
+    prv_تیاری_Timer_مداخله();
+    XExc_ثبتوونکی_Handler( XEXC_ID_SYSTEM_CALL, ( XExceptionHandler ) v_پورټ_Yield, ( فراغ * ) 0 );
+    v_پورټ_پیل_لومړی_Task();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    أرجع pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورټ_پای_ټکی_Scheduler( فراغ )
 {
     /* Not implemented. */
-    for( ; ; )
+    لكل( ; ; )
     {
     }
 }
@@ -169,69 +169,69 @@ void vPortEndScheduler( void )
 /*
  * Hardware initialisation to generate the RTOS tick.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ )
 {
-    const uint32_t ulInterval = ( ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL );
+    ثابت uint32_t ulInterval = ( ( configCPU_CLOCK_HZ / config_TICK_شرح_HZ ) - 1UL );
 
-    XTime_DECClearInterrupt();
-    XTime_FITClearInterrupt();
-    XTime_WDTClearInterrupt();
-    XTime_WDTDisableInterrupt();
-    XTime_FITDisableInterrupt();
+    XTime_DECClear_مداخله();
+    XTime_FITClear_مداخله();
+    XTime_WDTClear_مداخله();
+    XTime_WDTDisable_مداخله();
+    XTime_FITDisable_مداخله();
 
-    XExc_RegisterHandler( XEXC_ID_DEC_INT, ( XExceptionHandler ) vPortTickISR, ( void * ) 0 );
+    XExc_ثبتوونکی_Handler( XEXC_ID_DEC_INT, ( XExceptionHandler ) v_پورټ_Tick_ISR, ( فراغ * ) 0 );
 
     XTime_DECEnableAutoReload();
     XTime_DECSetInterval( ulInterval );
-    XTime_DECEnableInterrupt();
+    XTime_DECEnable_مداخله();
 }
 /*-----------------------------------------------------------*/
 
-void vPortISRHandler( void * pvNullDoNotUse )
+فراغ v_پورټ_ISRHandler( فراغ * pvNullDoNotUse )
 {
-    uint32_t ulInterruptStatus, ulInterruptMask = 1UL;
-    BaseType_t xInterruptNumber;
-    XIntc_Config * pxInterruptController;
-    XIntc_VectorTableEntry * pxTable;
+    uint32_t ul_مداخله_حالت, ul_مداخله_ماسک = 1UL;
+    بنسټ_Type_t x_مداخله_شمېره;
+    XIntc_Config * px_مداخله_Controller;
+    XIntc_ویکټور_جدول_ثبت * px_جدول;
 
     /* Just to remove compiler warning. */
-    ( void ) pvNullDoNotUse;
+    ( فراغ ) pvNullDoNotUse;
 
     /* Get the configuration by using the device ID - in this case it is
      * assumed that only one interrupt controller is being used. */
-    pxInterruptController = &XIntc_ConfigTable[ XPAR_XPS_INTC_0_DEVICE_ID ];
+    px_مداخله_Controller = &XIntc_Config_جدول[ XPAR_XPS_INTC_0_DEVICE_ID ];
 
     /* Which interrupts are pending? */
-    ulInterruptStatus = XIntc_mGetIntrStatus( pxInterruptController->BaseAddress );
+    ul_مداخله_حالت = XIntc_m_Get_Intr_حالت( px_مداخله_Controller->بنسټ_پته );
 
-    for( xInterruptNumber = 0; xInterruptNumber < XPAR_INTC_MAX_NUM_INTR_INPUTS; xInterruptNumber++ )
+    لكل( x_مداخله_شمېره = 0; x_مداخله_شمېره < XPAR_INTC_MAX_عدد_INTR_INPUTS; x_مداخله_شمېره++ )
     {
-        if( ulInterruptStatus & 0x01UL )
+        إذا( ul_مداخله_حالت & 0x01UL )
         {
             /* Clear the pending interrupt. */
-            XIntc_mAckIntr( pxInterruptController->BaseAddress, ulInterruptMask );
+            XIntc_mAckIntr( px_مداخله_Controller->بنسټ_پته, ul_مداخله_ماسک );
 
             /* Call the registered handler. */
-            pxTable = &( pxInterruptController->HandlerTable[ xInterruptNumber ] );
-            pxTable->Handler( pxTable->CallBackRef );
+            px_جدول = &( px_مداخله_Controller->Handler_جدول[ x_مداخله_شمېره ] );
+            px_جدول->Handler( px_جدول->Call_شا_Ref );
         }
 
         /* Check the next interrupt. */
-        ulInterruptMask <<= 0x01UL;
-        ulInterruptStatus >>= 0x01UL;
+        ul_مداخله_ماسک <<= 0x01UL;
+        ul_مداخله_حالت >>= 0x01UL;
 
         /* Have we serviced all interrupts? */
-        if( ulInterruptStatus == 0UL )
+        إذا( ul_مداخله_حالت == 0UL )
         {
-            break;
+            اكسر;
         }
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetupInterruptController( void )
+فراغ v_پورټ_تیاری_مداخله_Controller( فراغ )
 {
-    extern void vPortISRWrapper( void );
+    خارجي فراغ v_پورټ_ISRWrapper( فراغ );
 
     /* Perform all library calls necessary to initialise the exception table
      * and interrupt controller.  This assumes only one interrupt controller is in
@@ -242,26 +242,26 @@ void vPortSetupInterruptController( void )
     /* The library functions save the context - we then jump to a wrapper to
      * save the stack into the TCB.  The wrapper then calls the handler defined
      * above. */
-    XExc_RegisterHandler( XEXC_ID_NON_CRITICAL_INT, ( XExceptionHandler ) vPortISRWrapper, NULL );
-    XIntc_Initialize( &xInterruptController, XPAR_XPS_INTC_0_DEVICE_ID );
-    XIntc_Start( &xInterruptController, XIN_REAL_MODE );
+    XExc_ثبتوونکی_Handler( XEXC_ID_NON_CRITICAL_INT, ( XExceptionHandler ) v_پورټ_ISRWrapper, عدم );
+    XIntc_Initialize( &x_مداخله_Controller, XPAR_XPS_INTC_0_DEVICE_ID );
+    XIntc_پیل( &x_مداخله_Controller, XIN_REAL_ډېرپېښ );
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
+بنسټ_Type_t x_پورټ_Install_مداخله_Handler( uint8_t uc_مداخله_ID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef )
+                                         فراغ * pv_Call_شا_Ref )
 {
-    BaseType_t xReturn = pdFAIL;
+    بنسټ_Type_t xReturn = pdFAIL;
 
     /* This function is defined here so the scope of xInterruptController can
      * remain within this file. */
 
-    if( XST_SUCCESS == XIntc_Connect( &xInterruptController, ucInterruptID, pxHandler, pvCallBackRef ) )
+    إذا( XST_SUCCESS == XIntc_Connect( &x_مداخله_Controller, uc_مداخله_ID, pxHandler, pv_Call_شا_Ref ) )
     {
-        XIntc_Enable( &xInterruptController, ucInterruptID );
+        XIntc_Enable( &x_مداخله_Controller, uc_مداخله_ID );
         xReturn = pdPASS;
     }
 
-    return xReturn;
+    أرجع xReturn;
 }

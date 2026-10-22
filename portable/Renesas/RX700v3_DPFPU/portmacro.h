@@ -27,17 +27,17 @@
  */
 
 
-#ifndef PORTMACRO_H
-    #define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+    #تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /* Hardware specifics. */
-    #include <machine.h>
+    #ضمن <machine.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,9 +51,9 @@
 
 /* When the FIT configurator or the Smart Configurator is used, platform.h has to be
  * used. */
-    #ifndef configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H
-        #define configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H 0
-    #endif
+    #که_نه_تعریف_شوی config_INCLUDE_PLATFORM_H_INSTEAD_د_IODEFINE_H
+        #تعریف_کړه config_INCLUDE_PLATFORM_H_INSTEAD_د_IODEFINE_H 0
+    #د_که_پای
 
 /* If configUSE_TASK_DPFPU_SUPPORT is set to 1 (or undefined) then each task will
  * be created without a DPFPU context, and a task must call vTaskUsesDPFPU() before
@@ -61,72 +61,72 @@
  * tasks are created with a DPFPU context by default, and calling vTaskUsesDPFPU() has
  * no effect.  If configUSE_TASK_DPFPU_SUPPORT is set to 0 then tasks never take care
  * of any DPFPU context (even if DPFPU registers are used). */
-    #ifndef configUSE_TASK_DPFPU_SUPPORT
-        #define configUSE_TASK_DPFPU_SUPPORT 1
-    #endif
+    #که_نه_تعریف_شوی configUSE_TASK_DPFPU_SUPPORT
+        #تعریف_کړه configUSE_TASK_DPFPU_SUPPORT 1
+    #د_که_پای
 
 /*-----------------------------------------------------------*/
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #تعریف_کړه پورټ_CHAR          حرف
+    #تعریف_کړه پورټ_FLOAT         عائم
+    #تعریف_کړه پورټ_DOUBLE        مزدوج
+    #تعریف_کړه پورټ_LONG          اوږد
+    #تعریف_کړه پورټ_SHORT         لنډ
+    #تعریف_کړه پورټ_ډېری_TYPE    uint32_t
+    #تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+    تعريفنوع اوږد             بنسټ_Type_t;
+    تعريفنوع بینښه اوږد    UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t     TickType_t;
-        #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    #إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+        تعريفنوع uint16_t     TickType_t;
+        #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffff
+    #وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+        تعريفنوع uint32_t     TickType_t;
+        #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-        #define portTICK_TYPE_IS_ATOMIC    1
-    #else
-        #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-    #endif
+        #تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
+    #وإلا
+        #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+    #د_که_پای
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portBYTE_ALIGNMENT    8     /* Could make four, according to manual. */
-    #define portSTACK_GROWTH      -1
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portNOP()    nop()
+    #تعریف_کړه پورټ_BYTE_ALIGNMENT    8     /* Could make four, according to manual. */
+    #تعریف_کړه پورټ_ډېری_GROWTH      -1
+    #تعریف_کړه پورټ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+    #تعریف_کړه پورټ_NOP()    nop()
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
-    #pragma inline_asm vPortYield
-    static void vPortYield( void )
+    #لارښوونه inline_asm v_پورټ_Yield
+    ساكن فراغ v_پورټ_Yield( فراغ )
     {
-    #ifndef __CDT_PARSER__
+    #که_نه_تعریف_شوی __CDT_PARSER__
         /* Save clobbered register - may not actually be necessary if inline asm
          * functions are considered to use the same rules as function calls by the
          * compiler. */
-        PUSH.L R5
+        ټېل_2.L R5
         /* Set ITU SWINTR. */
         MOV.L # 000872E0H, R5
         MOV.B # 1, [ R5 ]
         /* Read back to ensure the value is taken before proceeding. */
         CMP [ R5 ].UB, R5
         /* Restore clobbered register to its previous value. */
-        POP R5
-    #endif
+        راوباسه_2 R5
+    #د_که_پای
     }
 
-    #define portYIELD()                                       vPortYield()
-    #define portYIELD_FROM_ISR( x )                           do { if( ( x ) != pdFALSE ) portYIELD(); } while( 0 )
+    #تعریف_کړه پورټ_YIELD()                                       v_پورټ_Yield()
+    #تعریف_کړه پورټ_YIELD_FROM_ISR( x )                           افعل { إذا( ( x ) != pdFALSE ) پورټ_YIELD(); } طالما( 0 )
 
 /* These macros should not be called directly, but through the
  * taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -137,32 +137,32 @@
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-    #define portENABLE_INTERRUPTS()                           set_ipl( ( long ) 0 )
-    #if ( configASSERT_DEFINED == 1 )
-        #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( get_ipl() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-        #define portDISABLE_INTERRUPTS()                      if( get_ipl() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-    #else
-        #define portDISABLE_INTERRUPTS()                      set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-    #endif
+    #تعریف_کړه پورټ_ENABLE_INTERRUPTS()                           سېټ_ipl( ( اوږد ) 0 )
+    #إذا ( configASSERT_DEFINED == 1 )
+        #تعریف_کړه پورټ_ASSERT_IF_مداخله_لومړیتوب_INVALID()    configASSERT( ( get_ipl() <= config_MAX_SYSCALL_مداخله_لومړیتوب ) )
+        #تعریف_کړه پورټ_DISABLE_INTERRUPTS()                      إذا( get_ipl() < config_MAX_SYSCALL_مداخله_لومړیتوب ) سېټ_ipl( ( اوږد ) config_MAX_SYSCALL_مداخله_لومړیتوب )
+    #وإلا
+        #تعریف_کړه پورټ_DISABLE_INTERRUPTS()                      سېټ_ipl( ( اوږد ) config_MAX_SYSCALL_مداخله_لومړیتوب )
+    #د_که_پای
 
 /* Critical nesting counts are stored in the TCB. */
-    #define portCRITICAL_NESTING_IN_TCB    ( 1 )
+    #تعریف_کړه پورټ_CRITICAL_NESTING_دننه_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-    extern void vTaskEnterCritical( void );
-    extern void vTaskExitCritical( void );
-    #define portENTER_CRITICAL()    vTaskEnterCritical()
-    #define portEXIT_CRITICAL()     vTaskExitCritical()
+    خارجي فراغ vTaskEnterCritical( فراغ );
+    خارجي فراغ vTaskExitCritical( فراغ );
+    #تعریف_کړه پورټ_ENTER_CRITICAL()    vTaskEnterCritical()
+    #تعریف_کړه پورټ_EXIT_CRITICAL()     vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-    #define portSET_INTERRUPT_MASK_FROM_ISR()                              ( UBaseType_t ) get_ipl(); set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    set_ipl( ( long ) uxSavedInterruptStatus )
+    #تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()                              ( UBaseType_t ) get_ipl(); سېټ_ipl( ( اوږد ) config_MAX_SYSCALL_مداخله_لومړیتوب )
+    #تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( ux_Saved_مداخله_حالت )    سېټ_ipl( ( اوږد ) ux_Saved_مداخله_حالت )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
@@ -171,29 +171,29 @@
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-    #if( configUSE_TASK_DPFPU_SUPPORT == 1 )
-        void vPortTaskUsesDPFPU( void );
-    #else
+    #إذا( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        فراغ v_پورټ_Task_کاروي_DPFPU( فراغ );
+    #وإلا
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
-        #define vPortTaskUsesDPFPU()
-    #endif
-    #define portTASK_USES_DPFPU() vPortTaskUsesDPFPU()
+        #تعریف_کړه v_پورټ_Task_کاروي_DPFPU()
+    #د_که_پای
+    #تعریف_کړه پورټ_TASK_کاروي_DPFPU() v_پورټ_Task_کاروي_DPFPU()
 
 /* Definition to allow compatibility with existing FreeRTOS Demo using flop.c. */
-    #define portTASK_USES_FLOATING_POINT() vPortTaskUsesDPFPU()
+    #تعریف_کړه پورټ_TASK_کاروي_FLOATING_ټکی() v_پورټ_Task_کاروي_DPFPU()
 
-#pragma inline_asm vPortMemoryBarrier
-static void vPortMemoryBarrier( void )
+#لارښوونه inline_asm v_پورټ_حافظه_Barrier
+ساكن فراغ v_پورټ_حافظه_Barrier( فراغ )
 {
 }
 
-#define portMEMORY_BARRIER()    vPortMemoryBarrier()
+#تعریف_کړه پورټ_حافظه_BARRIER()    v_پورټ_حافظه_Barrier()
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

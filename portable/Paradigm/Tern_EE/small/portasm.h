@@ -26,47 +26,47 @@
  *
  */
 
-#ifndef PORT_ASM_H
-#define PORT_ASM_H
+#که_نه_تعریف_شوی پورټ_ASM_H
+#تعریف_کړه پورټ_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
+خارجي فراغ vTaskSwitchContext( فراغ );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portEND_SWITCHING_ISR( void );
+فراغ پورټ_پای_ټکی_SWITCHING_ISR( فراغ );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+فراغ پورټ_لومړی_CONTEXT( فراغ );
 
-#define portEND_SWITCHING_ISR()                                         \
+#تعریف_کړه پورټ_پای_ټکی_SWITCHING_ISR()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
-                            asm { mov   word ptr [bx], sp           }   \
+                            asm { mov   کلمه ptr [bx], sp           }   \
                             asm { call  far ptr vTaskSwitchContext  }   \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }
 
-#define portFIRST_CONTEXT()                                         \
+#تعریف_کړه پورټ_لومړی_CONTEXT()                                         \
                             asm { mov   bx, [pxCurrentTCB]          }   \
                             asm { mov   sp, [bx]                    }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { راوباسه   bp                          }   \
+                            asm { راوباسه   di                          }   \
+                            asm { راوباسه   si                          }   \
+                            asm { راوباسه   ds                          }   \
+                            asm { راوباسه   es                          }   \
+                            asm { راوباسه   dx                          }   \
+                            asm { راوباسه   cx                          }   \
+                            asm { راوباسه   bx                          }   \
+                            asm { راوباسه   ax                          }   \
                             asm { iret                              }
 
 
-#endif
+#د_که_پای

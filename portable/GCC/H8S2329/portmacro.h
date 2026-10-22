@@ -27,13 +27,13 @@
  */
 
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -47,48 +47,48 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         لنډ
+#تعریف_کړه پورټ_ډېری_TYPE    uint8_t
+#تعریف_کړه پورټ_بنسټ_TYPE     حرف
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع نښهدار حرف      بنسټ_Type_t;
+تعريفنوع بینښه حرف    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portYIELD()    asm volatile ( "TRAPA #0" )
-#define portNOP()      asm volatile ( "NOP" )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT    2
+#تعریف_کړه پورټ_ډېری_GROWTH      ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_YIELD()    asm متطاير ( "TRAPA #0" )
+#تعریف_کړه پورټ_NOP()      asm متطاير ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
-#define portENABLE_INTERRUPTS()     asm volatile ( "ANDC #0x7F, CCR" );
-#define portDISABLE_INTERRUPTS()    asm volatile ( "ORC  #0x80, CCR" );
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()     asm متطاير ( "ANDC #0x7F, CCR" );
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()    asm متطاير ( "ORC  #0x80, CCR" );
 
 /* Push the CCR then disable interrupts. */
-#define portENTER_CRITICAL()            \
-    asm volatile ( "STC  CCR, @-ER7" ); \
-    portDISABLE_INTERRUPTS();
+#تعریف_کړه پورټ_ENTER_CRITICAL()            \
+    asm متطاير ( "STC  CCR, @-ER7" ); \
+    پورټ_DISABLE_INTERRUPTS();
 
 /* Pop the CCR to set the interrupt masking back to its previous state. */
-#define  portEXIT_CRITICAL()    asm volatile ( "LDC  @ER7+, CCR" );
+#تعریف_کړه  پورټ_EXIT_CRITICAL()    asm متطاير ( "LDC  @ER7+, CCR" );
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
@@ -98,48 +98,48 @@ typedef unsigned char    UBaseType_t;
  * interrupt service routines.  These macros save and restore the stack
  * pointer to the TCB. */
 
-#define portSAVE_STACK_POINTER()                  \
-    extern void * pxCurrentTCB;                   \
+#تعریف_کړه پورټ_SAVE_ډېری_اشاره_ګر()                  \
+    خارجي فراغ * pxCurrentTCB;                   \
                                                   \
-    asm volatile (                                \
+    asm متطاير (                                \
         "MOV.L  @_pxCurrentTCB, ER5         \n\t" \
         "MOV.L  ER7, @ER5                   \n\t" \
         );                                        \
-    ( void ) pxCurrentTCB;
+    ( فراغ ) pxCurrentTCB;
 
 
-#define portRESTORE_STACK_POINTER()               \
-    extern void * pxCurrentTCB;                   \
+#تعریف_کړه پورټ_RESTORE_ډېری_اشاره_ګر()               \
+    خارجي فراغ * pxCurrentTCB;                   \
                                                   \
-    asm volatile (                                \
+    asm متطاير (                                \
         "MOV.L  @_pxCurrentTCB, ER5         \n\t" \
         "MOV.L  @ER5, ER7                   \n\t" \
         );                                        \
-    ( void ) pxCurrentTCB;
+    ( فراغ ) pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /* Macros to allow a context switch from within an application ISR. */
 
-#define portENTER_SWITCHING_ISR()    portSAVE_STACK_POINTER(); {
-#define portEXIT_SWITCHING_ISR( x )             \
-    if( x )                                     \
+#تعریف_کړه پورټ_ENTER_SWITCHING_ISR()    پورټ_SAVE_ډېری_اشاره_ګر(); {
+#تعریف_کړه پورټ_EXIT_SWITCHING_ISR( x )             \
+    إذا( x )                                     \
     {                                           \
-        extern void vTaskSwitchContext( void ); \
+        خارجي فراغ vTaskSwitchContext( فراغ ); \
         vTaskSwitchContext();                   \
     }                                           \
 }                                               \
-    portRESTORE_STACK_POINTER();
+    پورټ_RESTORE_ډېری_اشاره_ګر();
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

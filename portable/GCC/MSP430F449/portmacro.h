@@ -26,13 +26,13 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /*-----------------------------------------------------------
@@ -46,43 +46,43 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         int
-#define portSTACK_TYPE    uint16_t
-#define portBASE_TYPE     short
-#define portPOINTER_SIZE_TYPE uint16_t
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         صحيح
+#تعریف_کړه پورټ_ډېری_TYPE    uint16_t
+#تعریف_کړه پورټ_بنسټ_TYPE     لنډ
+#تعریف_کړه پورټ_اشاره_ګر_اندازه_TYPE uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef short            BaseType_t;
-typedef unsigned short   UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع لنډ            بنسټ_Type_t;
+تعريفنوع بینښه لنډ   UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+#إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-#define portDISABLE_INTERRUPTS()    asm volatile ( "DINT" ); asm volatile ( "NOP" )
-#define portENABLE_INTERRUPTS()     asm volatile ( "EINT" ); asm volatile ( "NOP" )
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()    asm متطاير ( "DINT" ); asm متطاير ( "NOP" )
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()     asm متطاير ( "EINT" ); asm متطاير ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section control macros. */
-#define portNO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
+#تعریف_کړه پورټ_NO_CRITICAL_SECTION_NESTING    ( ( uint16_t ) 0 )
 
-#define portENTER_CRITICAL()                                                      \
+#تعریف_کړه پورټ_ENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        خارجي متطاير uint16_t usCriticalNesting;                               \
                                                                                   \
-        portDISABLE_INTERRUPTS();                                                 \
+        پورټ_DISABLE_INTERRUPTS();                                                 \
                                                                                   \
         /* Now that interrupts are disabled, ulCriticalNesting can be accessed */ \
         /* directly.  Increment ulCriticalNesting to keep a count of how many */  \
@@ -90,50 +90,50 @@ typedef unsigned short   UBaseType_t;
         usCriticalNesting++;                                                      \
     }
 
-#define portEXIT_CRITICAL()                                                         \
+#تعریف_کړه پورټ_EXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile uint16_t usCriticalNesting;                                 \
+        خارجي متطاير uint16_t usCriticalNesting;                                 \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        إذا( usCriticalNesting > پورټ_NO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            إذا( usCriticalNesting == پورټ_NO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
-                portENABLE_INTERRUPTS();                                            \
+                پورټ_ENABLE_INTERRUPTS();                                            \
             }                                                                       \
         }                                                                           \
     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void ) __attribute__( ( naked ) );
-#define portYIELD()    vPortYield()
-#define portNOP()      asm volatile ( "NOP" )
+خارجي فراغ v_پورټ_Yield( فراغ ) __attribute__( ( naked ) );
+#تعریف_کړه پورټ_YIELD()    v_پورټ_Yield()
+#تعریف_کړه پورټ_NOP()      asm متطاير ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-#define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
-#define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT    2
+#تعریف_کړه پورټ_ډېری_GROWTH      ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
 
 /* GCC used to define these but doesn't any more */
-#define interrupt(vector) __attribute__((__interrupt__(vector)))
-#define wakeup __attribute__((__wakeup__))
+#تعریف_کړه مداخله(ویکټور) __attribute__((__interrupt__(ویکټور)))
+#تعریف_کړه wakeup __attribute__((__wakeup__))
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

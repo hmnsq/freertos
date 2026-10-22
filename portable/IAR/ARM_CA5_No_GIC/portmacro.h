@@ -26,19 +26,19 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /* IAR includes. */
-#ifdef __ICCARM__
+#که_تعریف_شوی __ICCARM__
 
-    #include <intrinsics.h>
+    #ضمن <intrinsics.h>
 
 
 
@@ -53,115 +53,115 @@
  */
 
 /* Type definitions. */
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
-    #define portLONG          long
-    #define portSHORT         short
-    #define portSTACK_TYPE    uint32_t
-    #define portBASE_TYPE     long
+    #تعریف_کړه پورټ_CHAR          حرف
+    #تعریف_کړه پورټ_FLOAT         عائم
+    #تعریف_کړه پورټ_DOUBLE        مزدوج
+    #تعریف_کړه پورټ_LONG          اوږد
+    #تعریف_کړه پورټ_SHORT         لنډ
+    #تعریف_کړه پورټ_ډېری_TYPE    uint32_t
+    #تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef long             BaseType_t;
-    typedef unsigned long    UBaseType_t;
+    تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+    تعريفنوع اوږد             بنسټ_Type_t;
+    تعريفنوع بینښه اوږد    UBaseType_t;
 
-    typedef uint32_t         TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+    تعريفنوع uint32_t         TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
+    #تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
 
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
-    #define portSTACK_GROWTH      ( -1 )
-    #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-    #define portBYTE_ALIGNMENT    8
+    #تعریف_کړه پورټ_ډېری_GROWTH      ( -1 )
+    #تعریف_کړه پورټ_TICK_PERIOD_MS    ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+    #تعریف_کړه پورټ_BYTE_ALIGNMENT    8
 
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
 
 /* Called at the end of an ISR that can cause a context switch. */
-    #define portEND_SWITCHING_ISR( xSwitchRequired ) \
+    #تعریف_کړه پورټ_پای_ټکی_SWITCHING_ISR( xSwitchRequired ) \
     {                                                \
-        extern uint32_t ulPortYieldRequired;         \
+        خارجي uint32_t ul_پورټ_Yield_Required;         \
                                                      \
-        if( xSwitchRequired != pdFALSE )             \
+        إذا( xSwitchRequired != pdFALSE )             \
         {                                            \
-            ulPortYieldRequired = pdTRUE;            \
+            ul_پورټ_Yield_Required = pdTRUE;            \
         }                                            \
     }
 
-    #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-    #define portYIELD()                __asm volatile ( "SWI 0" ); __ISB()
+    #تعریف_کړه پورټ_YIELD_FROM_ISR( x )    پورټ_پای_ټکی_SWITCHING_ISR( x )
+    #تعریف_کړه پورټ_YIELD()                __asm متطاير ( "SWI 0" ); __ISB()
 
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-    extern void vPortEnterCritical( void );
-    extern void vPortExitCritical( void );
-    extern uint32_t ulPortSetInterruptMask( void );
-    extern void vPortClearInterruptMask( uint32_t ulNewMaskValue );
+    خارجي فراغ v_پورټ_Enter_Critical( فراغ );
+    خارجي فراغ v_پورټ_Exit_Critical( فراغ );
+    خارجي uint32_t ul_پورټ_سېټ_مداخله_ماسک( فراغ );
+    خارجي فراغ v_پورټ_Clear_مداخله_ماسک( uint32_t ul_New_ماسک_ارزښت );
 
-    #define portENTER_CRITICAL()                      vPortEnterCritical();
-    #define portEXIT_CRITICAL()                       vPortExitCritical();
-    #define portDISABLE_INTERRUPTS()                  __disable_irq(); __DSB(); __ISB()        /* No priority mask register so global disable is used. */
-    #define portENABLE_INTERRUPTS()                   __enable_irq()
-    #define portSET_INTERRUPT_MASK_FROM_ISR()         __get_interrupt_state(); __disable_irq() /* No priority mask register so global disable is used. */
-    #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    __set_interrupt_state( x )
+    #تعریف_کړه پورټ_ENTER_CRITICAL()                      v_پورټ_Enter_Critical();
+    #تعریف_کړه پورټ_EXIT_CRITICAL()                       v_پورټ_Exit_Critical();
+    #تعریف_کړه پورټ_DISABLE_INTERRUPTS()                  __disable_irq(); __DSB(); __ISB()        /* No priority mask register so global disable is used. */
+    #تعریف_کړه پورټ_ENABLE_INTERRUPTS()                   __enable_irq()
+    #تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()         __get_interrupt_state(); __disable_irq() /* No priority mask register so global disable is used. */
+    #تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( x )    __set_interrupt_state( x )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not required for this port but included in case common demo code that uses these
  * macros is used. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+    #تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /* Prototype of the FreeRTOS tick handler.  This must be installed as the
  * handler for whichever peripheral is used to generate the RTOS tick. */
-    void FreeRTOS_Tick_Handler( void );
+    فراغ FreeRTOS_Tick_Handler( فراغ );
 
 /* Any task that uses the floating point unit MUST call vPortTaskUsesFPU()
  * before any floating point instructions are executed. */
-    void vPortTaskUsesFPU( void );
-    #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesFPU()
+    فراغ v_پورټ_Task_کاروي_FPU( فراغ );
+    #تعریف_کړه پورټ_TASK_کاروي_FLOATING_ټکی()    v_پورټ_Task_کاروي_FPU()
 
 /* Architecture specific optimisations. */
-    #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-        #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #endif
+    #که_نه_تعریف_شوی config_USE_پورټ_OPTIMISED_TASK_SELECTION
+        #تعریف_کړه config_USE_پورټ_OPTIMISED_TASK_SELECTION    1
+    #د_که_پای
 
-    #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+    #إذا config_USE_پورټ_OPTIMISED_TASK_SELECTION == 1
 
 /* Store/clear the ready priorities in a bit map. */
-        #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
-        #define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( uxPriority ) )
+        #تعریف_کړه پورټ_ریکارډ_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( ux_لومړیتوب ) )
+        #تعریف_کړه پورټ_RESET_READY_لومړیتوب( ux_لومړیتوب, uxReadyPriorities )     ( uxReadyPriorities ) &= ~( 1UL << ( ux_لومړیتوب ) )
 
 /*-----------------------------------------------------------*/
 
-        #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __CLZ( uxReadyPriorities ) )
+        #تعریف_کړه پورټ_GET_HIGHEST_لومړیتوب( ux_سر_لومړیتوب, uxReadyPriorities )    ux_سر_لومړیتوب = ( 31 - __CLZ( uxReadyPriorities ) )
 
-    #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+    #د_که_پای /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-    #define portNOP()    __asm volatile ( "NOP" )
+    #تعریف_کړه پورټ_NOP()    __asm متطاير ( "NOP" )
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be
  * fixed in the source code because to do so would cause other compilers to
  * generate warnings. */
-    #pragma diag_suppress=Pe191
-    #pragma diag_suppress=Pa082
+    #لارښوونه diag_suppress=Pe191
+    #لارښوونه diag_suppress=Pa082
 
-#endif /* __ICCARM__ */
+#د_که_پای /* __ICCARM__ */
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

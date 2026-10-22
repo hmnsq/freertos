@@ -27,50 +27,50 @@
  */
 
 
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <avr/wdt.h>
+#ضمن <avr/io.h>
+#ضمن <avr/interrupt.h>
+#ضمن <avr/wdt.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the AVR port.
 *----------------------------------------------------------*/
 
 /* Start tasks with interrupts enabled. */
-#define portFLAGS_INT_ENABLED    ( ( StackType_t ) 0x80 )
+#تعریف_کړه پورټ_FLAGS_INT_ENABLED    ( ( ډېری_Type_t ) 0x80 )
 
-#if defined( portUSE_WDTO )
+#إذا defined( پورټ_USE_WDTO )
     #warning "Watchdog Timer used for scheduler."
-    #define portSCHEDULER_ISR    WDT_vect
+    #تعریف_کړه پورټ_SCHEDULER_ISR    WDT_vect
 
-#elif defined( portUSE_TIMER0 )
+#وإلاإذا defined( پورټ_USE_TIMER0 )
 /* Hardware constants for Timer0. */
     #warning "Timer0 used for scheduler."
-    #define portSCHEDULER_ISR                       TIMER0_COMPA_vect
-    #define portCLEAR_COUNTER_ON_MATCH              ( ( uint8_t ) _BV( WGM01 ) )
-    #define portPRESCALE_1024                       ( ( uint8_t ) ( _BV( CS02 ) | _BV( CS00 ) ) )
-    #define portCLOCK_PRESCALER                     ( ( uint32_t ) 1024 )
-    #define portCOMPARE_MATCH_A_INTERRUPT_ENABLE    ( ( uint8_t ) _BV( OCIE0A ) )
-    #define portOCRL                                OCR0A
-    #define portTCCRa                               TCCR0A
-    #define portTCCRb                               TCCR0B
-    #define portTIMSK                               TIMSK0
-    #define portTIFR                                TIFR0
+    #تعریف_کړه پورټ_SCHEDULER_ISR                       TIMER0_COMPA_vect
+    #تعریف_کړه پورټ_CLEAR_COUNTER_ON_سمون              ( ( uint8_t ) _BV( WGM01 ) )
+    #تعریف_کړه پورټ_PRESCALE_1024                       ( ( uint8_t ) ( _BV( CS02 ) | _BV( CS00 ) ) )
+    #تعریف_کړه پورټ_CLOCK_PRESCALER                     ( ( uint32_t ) 1024 )
+    #تعریف_کړه پورټ_COMPARE_سمون_A_مداخله_ENABLE    ( ( uint8_t ) _BV( OCIE0A ) )
+    #تعریف_کړه پورټ_OCRL                                OCR0A
+    #تعریف_کړه پورټ_TCCRa                               TCCR0A
+    #تعریف_کړه پورټ_TCCRb                               TCCR0B
+    #تعریف_کړه پورټ_TIMSK                               TIMSK0
+    #تعریف_کړه پورټ_TIFR                                TIFR0
 
-#else /* if defined( portUSE_WDTO ) */
-    #error "No Timer defined for scheduler"
-#endif /* if defined( portUSE_WDTO ) */
+#وإلا /* if defined( portUSE_WDTO ) */
+    #تېروتنه "No Timer defined for scheduler"
+#د_که_پای /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
 /* We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type. */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+تعريفنوع فراغ TCB_t;
+خارجي متطاير TCB_t * متطاير pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -90,13 +90,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *  Updated to match avr-libc 2.0.0
  */
 
-#if defined( portUSE_WDTO )
+#إذا defined( پورټ_USE_WDTO )
 
-    static __inline__
+    ساكن __inline__
     __attribute__( ( __always_inline__ ) )
-    void wdt_interrupt_enable( const uint8_t value )
+    فراغ wdt_مداخله_enable( ثابت uint8_t ارزښت )
     {
-        if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
+        إذا( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -107,13 +107,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "out %0, %2"                "\n\t"
                 : /* no outputs */
                 : "I" ( _SFR_IO_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_بټ ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( ارزښت & 0x08 ? WD_PS3_ماسک : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | ( ارزښت & 0x07 ) ) )
                 : "r0"
                 );
         }
-        else
+        وإلا
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -124,14 +124,14 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "sts %0, %2"                "\n\t"
                 : /* no outputs */
                 : "n" ( _SFR_MEM_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_بټ ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( ارزښت & 0x08 ? WD_PS3_ماسک : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | ( ارزښت & 0x07 ) ) )
                 : "r0"
                 );
         }
     }
-#endif /* if defined( portUSE_WDTO ) */
+#د_که_پای /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
@@ -157,13 +157,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  *  Updated to match avr-libc 2.0.0
  */
 
-#if defined( portUSE_WDTO )
+#إذا defined( پورټ_USE_WDTO )
 
-    static __inline__
+    ساكن __inline__
     __attribute__( ( __always_inline__ ) )
-    void wdt_interrupt_reset_enable( const uint8_t value )
+    فراغ wdt_مداخله_reset_enable( ثابت uint8_t ارزښت )
     {
-        if( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
+        إذا( _SFR_IO_REG_P( _WD_CONTROL_REG ) )
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -174,13 +174,13 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "out %0, %2"                "\n\t"
                 : /* no outputs */
                 : "I" ( _SFR_IO_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_بټ ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( ارزښت & 0x08 ? WD_PS3_ماسک : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( ارزښت & 0x07 ) ) )
                 : "r0"
                 );
         }
-        else
+        وإلا
         {
             __asm__ __volatile__ (
                 "in __tmp_reg__,__SREG__"   "\n\t"
@@ -191,14 +191,14 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 "sts %0, %2"                "\n\t"
                 : /* no outputs */
                 : "n" ( _SFR_MEM_ADDR( _WD_CONTROL_REG ) ),
-                "r" ( ( uint8_t ) ( _BV( _WD_CHANGE_BIT ) | _BV( WDE ) ) ),
-                "r" ( ( uint8_t ) ( ( value & 0x08 ? _WD_PS3_MASK : 0x00 ) |
-                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( value & 0x07 ) ) )
+                "r" ( ( uint8_t ) ( _BV( WD_CHANGE_بټ ) | _BV( WDE ) ) ),
+                "r" ( ( uint8_t ) ( ( ارزښت & 0x08 ? WD_PS3_ماسک : 0x00 ) |
+                                    _BV( WDIF ) | _BV( WDIE ) | _BV( WDE ) | ( ارزښت & 0x07 ) ) )
                 : "r0"
                 );
         }
     }
-#endif /* if defined( portUSE_WDTO ) */
+#د_که_پای /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
@@ -227,9 +227,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * The interrupts will have been disabled during the call to portSAVE_CONTEXT()
  * so we need not worry about reading/writing to the stack pointer.
  */
-#if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
+#إذا defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
 /* 3-Byte PC Save  with RAMPZ */
-    #define portSAVE_CONTEXT()                                                   \
+    #تعریف_کړه پورټ_SAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
                            "in     __tmp_reg__, __SREG__                   \n\t" \
                            "cli                                            \n\t" \
@@ -277,9 +277,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#elif defined( __AVR_HAVE_RAMPZ__ )
+#وإلاإذا defined( __AVR_HAVE_RAMPZ__ )
 /* 2-Byte PC Save  with RAMPZ */
-    #define portSAVE_CONTEXT()                                                   \
+    #تعریف_کړه پورټ_SAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
                            "in     __tmp_reg__, __SREG__                   \n\t" \
                            "cli                                            \n\t" \
@@ -325,9 +325,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#else /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#وإلا /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /* 2-Byte PC Save */
-    #define portSAVE_CONTEXT()                                                   \
+    #تعریف_کړه پورټ_SAVE_CONTEXT()                                                   \
     __asm__ __volatile__ ( "push   __tmp_reg__                             \n\t" \
                            "in     __tmp_reg__, __SREG__                   \n\t" \
                            "cli                                            \n\t" \
@@ -371,15 +371,15 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "in     __tmp_reg__, __SP_H__                   \n\t" \
                            "st     x+, __tmp_reg__                         \n\t" \
                            );
-#endif /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#د_که_پای /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 
 /*
  * Opposite to portSAVE_CONTEXT().  Interrupts will have been disabled during
  * the context save so we can write to the stack pointer.
  */
-#if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
+#إذا defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ )
 /* 3-Byte PC Restore with RAMPZ */
-    #define portRESTORE_CONTEXT()                                                \
+    #تعریف_کړه پورټ_RESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
                            "lds    r27, pxCurrentTCB + 1                   \n\t" \
                            "ld     r28, x+                                 \n\t" \
@@ -425,9 +425,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#elif defined( __AVR_HAVE_RAMPZ__ )
+#وإلاإذا defined( __AVR_HAVE_RAMPZ__ )
 /* 2-Byte PC Restore with RAMPZ */
-    #define portRESTORE_CONTEXT()                                                \
+    #تعریف_کړه پورټ_RESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
                            "lds    r27, pxCurrentTCB + 1                   \n\t" \
                            "ld     r28, x+                                 \n\t" \
@@ -471,9 +471,9 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#else /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#وإلا /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /* 2-Byte PC Restore */
-    #define portRESTORE_CONTEXT()                                                \
+    #تعریف_کړه پورټ_RESTORE_CONTEXT()                                                \
     __asm__ __volatile__ ( "lds    r26, pxCurrentTCB                       \n\t" \
                            "lds    r27, pxCurrentTCB + 1                   \n\t" \
                            "ld     r28, x+                                 \n\t" \
@@ -515,38 +515,38 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                            "out    __SREG__, __tmp_reg__                   \n\t" \
                            "pop    __tmp_reg__                             \n\t" \
                            );
-#endif /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
+#د_که_پای /* if defined( __AVR_3_BYTE_PC__ ) && defined( __AVR_HAVE_RAMPZ__ ) */
 /*-----------------------------------------------------------*/
 
 /*
  * Perform hardware setup to enable ticks from relevant Timer.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prv_تیاری_Timer_مداخله( فراغ );
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
-                                     TaskFunction_t pxCode,
-                                     void * pvParameters )
+ډېری_Type_t * px_پورټ_Initialise_ډېری( ډېری_Type_t * px_سر_د_ډېری,
+                                     TaskFunction_t px_کوډ,
+                                     فراغ * pvParameters )
 {
-    uint16_t usAddress;
+    uint16_t us_پته;
 
     /* Simulate how the stack would look after a call to vPortYield() generated by
      * the compiler. */
 
     /* The start of the task code will be popped off the stack last, so place
      * it on first. */
-    usAddress = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_پته = ( uint16_t ) px_کوډ;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) ( us_پته & ( uint16_t ) 0x00ff );
+    px_سر_د_ډېری--;
 
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_پته >>= 8;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) ( us_پته & ( uint16_t ) 0x00ff );
+    px_سر_د_ډېری--;
 
-    #if defined( __AVR_3_BYTE_PC__ )
+    #إذا defined( __AVR_3_BYTE_PC__ )
 
         /* The AVR ATmega2560/ATmega2561 have 256KBytes of program memory and a 17-bit
          * program counter. When a code address is stored on the stack, it takes 3 bytes
@@ -558,76 +558,76 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
          * In order to do this properly, we would need to get a full 3-byte pointer to
          * pxCode. That requires a change to GCC. Not likely to happen any time soon.
          */
-        *pxTopOfStack = 0;
-        pxTopOfStack--;
-    #endif
+        *px_سر_د_ډېری = 0;
+        px_سر_د_ډېری--;
+    #د_که_پای
 
     /* Next simulate the stack as if after a call to portSAVE_CONTEXT().
      *  portSAVE_CONTEXT places the flags on the stack immediately after r0
      *  to ensure the interrupts get disabled as soon as possible, and so ensuring
      *  the stack use is minimal should a context switch interrupt occur. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R0 */
-    pxTopOfStack--;
-    *pxTopOfStack = portFLAGS_INT_ENABLED;
-    pxTopOfStack--;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x00; /* R0 */
+    px_سر_د_ډېری--;
+    *px_سر_د_ډېری = پورټ_FLAGS_INT_ENABLED;
+    px_سر_د_ډېری--;
 
-    #if defined( __AVR_3_BYTE_PC__ )
+    #إذا defined( __AVR_3_BYTE_PC__ )
 
         /* If we have an ATmega256x, we are also saving the EIND register.
          * We should default to 0.
          */
-        *pxTopOfStack = ( StackType_t ) 0x00; /* EIND */
-        pxTopOfStack--;
-    #endif
+        *px_سر_د_ډېری = ( ډېری_Type_t ) 0x00; /* EIND */
+        px_سر_د_ډېری--;
+    #د_که_پای
 
-    #if defined( __AVR_HAVE_RAMPZ__ )
+    #إذا defined( __AVR_HAVE_RAMPZ__ )
 
         /* We are saving the RAMPZ register.
          * We should default to 0.
          */
-        *pxTopOfStack = ( StackType_t ) 0x00; /* RAMPZ */
-        pxTopOfStack--;
-    #endif
+        *px_سر_د_ډېری = ( ډېری_Type_t ) 0x00; /* RAMPZ */
+        px_سر_د_ډېری--;
+    #د_که_پای
 
     /* Now the remaining registers. The compiler expects R1 to be 0. */
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R1 */
+    *px_سر_د_ډېری = ( ډېری_Type_t ) 0x00; /* R1 */
 
     /* Leave R2 - R23 untouched */
-    pxTopOfStack -= 23;
+    px_سر_د_ډېری -= 23;
 
     /* Place the parameter on the stack in the expected location. */
-    usAddress = ( uint16_t ) pvParameters;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
-    pxTopOfStack--;
+    us_پته = ( uint16_t ) pvParameters;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) ( us_پته & ( uint16_t ) 0x00ff );
+    px_سر_د_ډېری--;
 
-    usAddress >>= 8;
-    *pxTopOfStack = ( StackType_t ) ( usAddress & ( uint16_t ) 0x00ff );
+    us_پته >>= 8;
+    *px_سر_د_ډېری = ( ډېری_Type_t ) ( us_پته & ( uint16_t ) 0x00ff );
 
     /* Leave register R26 - R31 untouched */
-    pxTopOfStack -= 7;
+    px_سر_د_ډېری -= 7;
 
-    return pxTopOfStack;
+    أرجع px_سر_د_ډېری;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+بنسټ_Type_t x_پورټ_پیل_Scheduler( فراغ )
 {
     /* Setup the relevant timer hardware to generate the tick. */
-    prvSetupTimerInterrupt();
+    prv_تیاری_Timer_مداخله();
 
     /* Restore the context of the first task that is going to run. */
-    portRESTORE_CONTEXT();
+    پورټ_RESTORE_CONTEXT();
 
     /* Simulate a function call end as generated by the compiler. We will now
      * jump to the start of the task the context of which we have just restored. */
     __asm__ __volatile__ ( "ret" );
 
     /* Should not get here. */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ v_پورټ_پای_ټکی_Scheduler( فراغ )
 {
     /* It is unlikely that the ATmega port will get stopped. */
 }
@@ -637,12 +637,12 @@ void vPortEndScheduler( void )
  * Manual context switch. The first thing we do is save the registers so we
  * can use a naked attribute.
  */
-void vPortYield( void ) __attribute__( ( hot, flatten, naked ) );
-void vPortYield( void )
+فراغ v_پورټ_Yield( فراغ ) __attribute__( ( hot, flatten, naked ) );
+فراغ v_پورټ_Yield( فراغ )
 {
-    portSAVE_CONTEXT();
+    پورټ_SAVE_CONTEXT();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT();
+    پورټ_RESTORE_CONTEXT();
 
     __asm__ __volatile__ ( "ret" );
 }
@@ -652,12 +652,12 @@ void vPortYield( void )
  * Manual context switch callable from ISRs. The first thing we do is save
  * the registers so we can use a naked attribute.
  */
-void vPortYieldFromISR( void ) __attribute__( ( hot, flatten, naked ) );
-void vPortYieldFromISR( void )
+فراغ v_پورټ_Yield_From_ISR( فراغ ) __attribute__( ( hot, flatten, naked ) );
+فراغ v_پورټ_Yield_From_ISR( فراغ )
 {
-    portSAVE_CONTEXT();
+    پورټ_SAVE_CONTEXT();
     vTaskSwitchContext();
-    portRESTORE_CONTEXT();
+    پورټ_RESTORE_CONTEXT();
 
     __asm__ __volatile__ ( "reti" );
 }
@@ -669,78 +669,78 @@ void vPortYieldFromISR( void )
  * difference from vPortYield() is the tick count is incremented as the
  * call comes from the tick ISR.
  */
-void vPortYieldFromTick( void ) __attribute__( ( hot, flatten, naked ) );
-void vPortYieldFromTick( void )
+فراغ v_پورټ_Yield_From_Tick( فراغ ) __attribute__( ( hot, flatten, naked ) );
+فراغ v_پورټ_Yield_From_Tick( فراغ )
 {
-    portSAVE_CONTEXT();
+    پورټ_SAVE_CONTEXT();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    إذا( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
 
-    portRESTORE_CONTEXT();
+    پورټ_RESTORE_CONTEXT();
 
     __asm__ __volatile__ ( "ret" );
 }
 /*-----------------------------------------------------------*/
 
-#if defined( portUSE_WDTO )
+#إذا defined( پورټ_USE_WDTO )
 
 /*
  * Setup WDT to generate a tick interrupt.
  */
-    void prvSetupTimerInterrupt( void )
+    فراغ prv_تیاری_Timer_مداخله( فراغ )
     {
         /* reset watchdog */
         wdt_reset();
 
         /* set up WDT Interrupt (rather than the WDT Reset). */
-        wdt_interrupt_enable( portUSE_WDTO );
+        wdt_مداخله_enable( پورټ_USE_WDTO );
     }
 
-#elif defined( portUSE_TIMER0 )
+#وإلاإذا defined( پورټ_USE_TIMER0 )
 
 /*
  * Setup Timer0 compare match A to generate a tick interrupt.
  */
-    static void prvSetupTimerInterrupt( void )
+    ساكن فراغ prv_تیاری_Timer_مداخله( فراغ )
     {
-        uint32_t ulCompareMatch;
-        uint8_t ucLowByte;
+        uint32_t ul_Compare_سمون;
+        uint8_t uc_ټیټ_Byte;
 
         /* Using 8bit Timer0 to generate the tick. Correct fuses must be
          * selected for the configCPU_CLOCK_HZ clock.*/
 
-        ulCompareMatch = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
+        ul_Compare_سمون = configCPU_CLOCK_HZ / config_TICK_شرح_HZ;
 
         /* We only have 8 bits so have to scale 1024 to get our required tick rate. */
-        ulCompareMatch /= portCLOCK_PRESCALER;
+        ul_Compare_سمون /= پورټ_CLOCK_PRESCALER;
 
         /* Adjust for correct value. */
-        ulCompareMatch -= ( uint32_t ) 1;
+        ul_Compare_سمون -= ( uint32_t ) 1;
 
         /* Setup compare match value for compare match A. Interrupts are disabled
          * before this is called so we need not worry here. */
-        ucLowByte = ( uint8_t ) ( ulCompareMatch & ( uint32_t ) 0xff );
-        portOCRL = ucLowByte;
+        uc_ټیټ_Byte = ( uint8_t ) ( ul_Compare_سمون & ( uint32_t ) 0xff );
+        پورټ_OCRL = uc_ټیټ_Byte;
 
         /* Setup clock source and compare match behaviour. */
-        portTCCRa = portCLEAR_COUNTER_ON_MATCH;
-        portTCCRb = portPRESCALE_1024;
+        پورټ_TCCRa = پورټ_CLEAR_COUNTER_ON_سمون;
+        پورټ_TCCRb = پورټ_PRESCALE_1024;
 
 
         /* Enable the interrupt - this is okay as interrupt are currently globally disabled. */
-        ucLowByte = portTIMSK;
-        ucLowByte |= portCOMPARE_MATCH_A_INTERRUPT_ENABLE;
-        portTIMSK = ucLowByte;
+        uc_ټیټ_Byte = پورټ_TIMSK;
+        uc_ټیټ_Byte |= پورټ_COMPARE_سمون_A_مداخله_ENABLE;
+        پورټ_TIMSK = uc_ټیټ_Byte;
     }
 
-#endif /* if defined( portUSE_WDTO ) */
+#د_که_پای /* if defined( portUSE_WDTO ) */
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#إذا configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler. We can use a naked attribute as
@@ -750,16 +750,16 @@ void vPortYieldFromTick( void )
  * use ISR_NOBLOCK where there is an important timer running, that should preempt the scheduler.
  *
  */
-    ISR( portSCHEDULER_ISR, ISR_NAKED ) __attribute__( ( hot, flatten ) );
+    ISR( پورټ_SCHEDULER_ISR, ISR_NAKED ) __attribute__( ( hot, flatten ) );
 
 /*  ISR(portSCHEDULER_ISR, ISR_NAKED ISR_NOBLOCK) __attribute__ ((hot, flatten));
  */
-    ISR( portSCHEDULER_ISR )
+    ISR( پورټ_SCHEDULER_ISR )
     {
-        vPortYieldFromTick();
+        v_پورټ_Yield_From_Tick();
         __asm__ __volatile__ ( "reti" );
     }
-#else /* if configUSE_PREEMPTION == 1 */
+#وإلا /* if configUSE_PREEMPTION == 1 */
 
 /*
  * Tick ISR for the cooperative scheduler. All this does is increment the
@@ -768,12 +768,12 @@ void vPortYieldFromTick( void )
  *
  * use ISR_NOBLOCK where there is an important timer running, that should preempt the scheduler.
  */
-    ISR( portSCHEDULER_ISR ) __attribute__( ( hot, flatten ) );
+    ISR( پورټ_SCHEDULER_ISR ) __attribute__( ( hot, flatten ) );
 
 /*  ISR(portSCHEDULER_ISR, ISR_NOBLOCK) __attribute__ ((hot, flatten));
  */
-    ISR( portSCHEDULER_ISR )
+    ISR( پورټ_SCHEDULER_ISR )
     {
         xTaskIncrementTick();
     }
-#endif /* if configUSE_PREEMPTION == 1 */
+#د_که_پای /* if configUSE_PREEMPTION == 1 */

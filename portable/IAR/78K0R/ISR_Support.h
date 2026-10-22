@@ -26,10 +26,10 @@
    * ; *
    * ; */
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
 ;
-Variables used by scheduler
+Variables کارول_شوی by scheduler
 ;
 ------------------------------------------------------------------------------
 EXTERN pxCurrentTCB
@@ -38,34 +38,34 @@ EXTERN usCriticalNesting
 ;
 ------------------------------------------------------------------------------
 ;
-portSAVE_CONTEXT MACRO
+پورټ_SAVE_CONTEXT MACRO
 ;
-Saves the context of the general purpose registers, CS and ES( only in far
+Saves the context د the general purpose registers, CS and ES( only دننه far
                                                                ;
-                                                               memory mode ) registers the usCriticalNesting Value and the Stack Pointer
+                                                               حافظه ډېرپېښ_2 ) registers the usCriticalNesting ارزښت_2 and the ډېری_2 اشاره_ګر
 ;
-of the active Task onto the task stack
+د the فعال_2 Task onto the task ډېری
 ;
 ------------------------------------------------------------------------------
-portSAVE_CONTEXT MACRO
+پورټ_SAVE_CONTEXT MACRO
 
-PUSH AX;
-Save AX Register to stack.
-   PUSH HL
+ټېل_2 AX;
+Save AX ثبتوونکی منزل ډېری.
+   ټېل_2 HL
 MOV A, CS;
-Save CS register.
+Save CS سجل.
    XCH A, X
 MOV A, ES;
-Save ES register.
-   PUSH AX
-PUSH DE;
-Save the remaining general purpose registers.
-   PUSH BC
+Save ES سجل.
+   ټېل_2 AX
+ټېل_2 DE;
+Save the پاتې_شوی general purpose registers.
+   ټېل_2 BC
 MOVW AX, usCriticalNesting;
-Save the usCriticalNesting value.
-   PUSH AX
+Save the usCriticalNesting ارزښت.
+   ټېل_2 AX
 MOVW AX, pxCurrentTCB;
-Save the Stack pointer.
+Save the ډېری_2 اشاره_ګر_2.
    MOVW HL, AX
 MOVW AX, SP
         MOVW[ HL ], AX
@@ -76,36 +76,36 @@ MOVW AX, SP
 ;
 ------------------------------------------------------------------------------
 ;
-portRESTORE_CONTEXT MACRO
+پورټ_RESTORE_CONTEXT MACRO
 ;
-Restores the task Stack Pointer then use this to restore usCriticalNesting,
+Restores the task ډېری_2 اشاره_ګر then use this منزل restore usCriticalNesting,
 ;
-general purpose registers and the CS and ES( only in far memory mode )
+general purpose registers and the CS and ES( only دننه far حافظه ډېرپېښ_2 )
 ;
-of the selected task from the task stack
+د the selected task from the task ډېری
 ;
 ------------------------------------------------------------------------------
-portRESTORE_CONTEXT MACRO
+پورټ_RESTORE_CONTEXT MACRO
 MOVW AX, pxCurrentTCB;
-Restore the Stack pointer.
+Restore the ډېری_2 اشاره_ګر_2.
    MOVW HL, AX
 MOVW AX, [ HL ]
 MOVW SP, AX
-POP AX;
-Restore usCriticalNesting value.
+راوباسه_2 AX;
+Restore usCriticalNesting ارزښت.
    MOVW usCriticalNesting, AX
-POP BC;
+راوباسه_2 BC;
 Restore the necessary general purpose registers.
-   POP DE
-POP AX;
-Restore the ES register.
+   راوباسه_2 DE
+راوباسه_2 AX;
+Restore the ES سجل.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS سجل.
    MOV CS, A
-POP HL;
-Restore general purpose register HL.
-   POP AX;
+راوباسه_2 HL;
+Restore general purpose سجل HL.
+   راوباسه_2 AX;
 Restore AX.
    ENDM
 ;

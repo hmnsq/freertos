@@ -26,18 +26,18 @@
  *
  */
 
-#ifndef PORTMACRO_H
-#define PORTMACRO_H
+#که_نه_تعریف_شوی PORTMACRO_H
+#تعریف_کړه PORTMACRO_H
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
-    extern "C" {
-#endif
+#که_تعریف_شوی __cplusplus
+    خارجي "C" {
+#د_که_پای
 /* *INDENT-ON* */
 
 /* System Includes. */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
+#ضمن <tc1782.h>
+#ضمن <machine/intrinsics.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,106 +50,106 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
-#define portLONG          long
-#define portSHORT         short
-#define portSTACK_TYPE    uint32_t
-#define portBASE_TYPE     long
+#تعریف_کړه پورټ_CHAR          حرف
+#تعریف_کړه پورټ_FLOAT         عائم
+#تعریف_کړه پورټ_DOUBLE        مزدوج
+#تعریف_کړه پورټ_LONG          اوږد
+#تعریف_کړه پورټ_SHORT         لنډ
+#تعریف_کړه پورټ_ډېری_TYPE    uint32_t
+#تعریف_کړه پورټ_بنسټ_TYPE     اوږد
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع پورټ_ډېری_TYPE   ډېری_Type_t;
+تعريفنوع اوږد             بنسټ_Type_t;
+تعريفنوع بینښه اوږد    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
-    #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
+#إذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_16_بټونه )
+    تعريفنوع uint16_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffff
+#وإلاإذا ( config_TICK_TYPE_پلنوالی_دننه_بټونه == TICK_TYPE_پلنوالی_32_بټونه )
+    تعريفنوع uint32_t     TickType_t;
+    #تعریف_کړه پورټ_MAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
-    #define portTICK_TYPE_IS_ATOMIC    1
-#else
-    #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
-#endif
+    #تعریف_کړه پورټ_TICK_TYPE_IS_ATOMIC    1
+#وإلا
+    #تېروتنه config_TICK_TYPE_پلنوالی_دننه_بټونه سېټ منزل unsupported tick type پلنوالی.
+#د_که_پای
 /*---------------------------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH                         ( -1 )
-#define portTICK_PERIOD_MS                       ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portBYTE_ALIGNMENT                       4
-#define portNOP()    __asm volatile ( " nop " )
-#define portCRITICAL_NESTING_IN_TCB              1
-#define portRESTORE_FIRST_TASK_PRIORITY_LEVEL    1
+#تعریف_کړه پورټ_ډېری_GROWTH                         ( -1 )
+#تعریف_کړه پورټ_TICK_PERIOD_MS                       ( ( TickType_t ) 1000 / config_TICK_شرح_HZ )
+#تعریف_کړه پورټ_BYTE_ALIGNMENT                       4
+#تعریف_کړه پورټ_NOP()    __asm متطاير ( " nop " )
+#تعریف_کړه پورټ_CRITICAL_NESTING_دننه_TCB              1
+#تعریف_کړه پورټ_RESTORE_لومړی_TASK_لومړیتوب_LEVEL    1
 
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct MPU_SETTINGS
+تعريفنوع بنية MPU_SETTINGS
 {
-    uint32_t ulNotUsed;
+    uint32_t ul_Not_کارول_شوی;
 } xMPU_SETTINGS;
 
 /* Define away the instruction from the Restore Context Macro. */
-#define portPRIVILEGE_BIT    0x0UL
+#تعریف_کړه پورټ_PRIVILEGE_بټ    0x0UL
 
-#define portCCPN_MASK        ( 0x000000FFUL )
+#تعریف_کړه پورټ_CCPN_ماسک        ( 0x000000FFUL )
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
-#define portENTER_CRITICAL()    vTaskEnterCritical()
-#define portEXIT_CRITICAL()     vTaskExitCritical()
+خارجي فراغ vTaskEnterCritical( فراغ );
+خارجي فراغ vTaskExitCritical( فراغ );
+#تعریف_کړه پورټ_ENTER_CRITICAL()    vTaskEnterCritical()
+#تعریف_کړه پورټ_EXIT_CRITICAL()     vTaskExitCritical()
 /*---------------------------------------------------------------------------*/
 
 /* CSA Manipulation. */
-#define portCSA_TO_ADDRESS( pCSA )        ( ( uint32_t * ) ( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
-#define portADDRESS_TO_CSA( pAddress )    ( ( uint32_t ) ( ( ( ( ( uint32_t ) ( pAddress ) ) & 0xF0000000 ) >> 12 ) | ( ( ( uint32_t ) ( pAddress ) & 0x003FFFC0 ) >> 6 ) ) )
+#تعریف_کړه پورټ_CSA_منزل_پته( pCSA )        ( ( uint32_t * ) ( ( ( ( pCSA ) & 0x000F0000 ) << 12 ) | ( ( ( pCSA ) & 0x0000FFFF ) << 6 ) ) )
+#تعریف_کړه پورټ_پته_منزل_CSA( p_پته )    ( ( uint32_t ) ( ( ( ( ( uint32_t ) ( p_پته ) ) & 0xF0000000 ) >> 12 ) | ( ( ( uint32_t ) ( p_پته ) & 0x003FFFC0 ) >> 6 ) ) )
 /*---------------------------------------------------------------------------*/
 
-#define portYIELD()                       _syscall( 0 )
+#تعریف_کړه پورټ_YIELD()                       _syscall( 0 )
 /* Port Restore is implicit in the platform when the function is returned from the original PSW is automatically replaced. */
-#define portSYSCALL_TASK_YIELD        0
-#define portSYSCALL_RAISE_PRIORITY    1
+#تعریف_کړه پورټ_SYSCALL_TASK_YIELD        0
+#تعریف_کړه پورټ_SYSCALL_RAISE_لومړیتوب    1
 /*---------------------------------------------------------------------------*/
 
 /* Critical section management. */
 
 /* Set ICR.CCPN to configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-#define portDISABLE_INTERRUPTS()                                                                      \
+#تعریف_کړه پورټ_DISABLE_INTERRUPTS()                                                                      \
     {                                                                                                 \
         uint32_t ulICR;                                                                               \
         _disable();                                                                                   \
         ulICR = __MFCR( $ICR );                        /* Get current ICR value. */                   \
-        ulICR &= ~portCCPN_MASK;                       /* Clear down mask bits. */                    \
-        ulICR |= configMAX_SYSCALL_INTERRUPT_PRIORITY; /* Set mask bits to required priority mask. */ \
+        ulICR &= ~پورټ_CCPN_ماسک;                       /* Clear down mask bits. */                    \
+        ulICR |= config_MAX_SYSCALL_مداخله_لومړیتوب; /* Set mask bits to required priority mask. */ \
         _mtcr( $ICR, ulICR );                          /* Write back updated ICR. */                  \
         _isync();                                                                                     \
         _enable();                                                                                    \
     }
 
 /* Clear ICR.CCPN to allow all interrupt priorities. */
-#define portENABLE_INTERRUPTS()                                \
+#تعریف_کړه پورټ_ENABLE_INTERRUPTS()                                \
     {                                                          \
         uint32_t ulICR;                                        \
         _disable();                                            \
         ulICR = __MFCR( $ICR );  /* Get current ICR value. */  \
-        ulICR &= ~portCCPN_MASK; /* Clear down mask bits. */   \
+        ulICR &= ~پورټ_CCPN_ماسک; /* Clear down mask bits. */   \
         _mtcr( $ICR, ulICR );    /* Write back updated ICR. */ \
         _isync();                                              \
         _enable();                                             \
     }
 
 /* Set ICR.CCPN to uxSavedMaskValue. */
-#define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedMaskValue )                          \
+#تعریف_کړه پورټ_CLEAR_مداخله_ماسک_FROM_ISR( ux_Saved_ماسک_ارزښت )                          \
     {                                                                                  \
         uint32_t ulICR;                                                                \
         _disable();                                                                    \
         ulICR = __MFCR( $ICR );    /* Get current ICR value. */                        \
-        ulICR &= ~portCCPN_MASK;   /* Clear down mask bits. */                         \
-        ulICR |= uxSavedMaskValue; /* Set mask bits to previously saved mask value. */ \
+        ulICR &= ~پورټ_CCPN_ماسک;   /* Clear down mask bits. */                         \
+        ulICR |= ux_Saved_ماسک_ارزښت; /* Set mask bits to previously saved mask value. */ \
         _mtcr( $ICR, ulICR );      /* Write back updated ICR. */                       \
         _isync();                                                                      \
         _enable();                                                                     \
@@ -157,30 +157,30 @@ extern void vTaskExitCritical( void );
 
 
 /* Set ICR.CCPN to configMAX_SYSCALL_INTERRUPT_PRIORITY */
-extern uint32_t uxPortSetInterruptMaskFromISR( void );
-#define portSET_INTERRUPT_MASK_FROM_ISR()                 uxPortSetInterruptMaskFromISR()
+خارجي uint32_t ux_پورټ_سېټ_مداخله_ماسک_From_ISR( فراغ );
+#تعریف_کړه پورټ_سېټ_مداخله_ماسک_FROM_ISR()                 ux_پورټ_سېټ_مداخله_ماسک_From_ISR()
 
 /* Pend a priority 1 interrupt, which will take care of the context switch. */
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) { CPU_SRC0.bits.SETR = 1; _isync(); } } while( 0 )
+#تعریف_کړه پورټ_YIELD_FROM_ISR( x_Higher_لومړیتوب_Task_Woken )    افعل { إذا( x_Higher_لومړیتوب_Task_Woken != pdFALSE ) { CPU_SRC0.بټونه_2.SETR = 1; _isync(); } } طالما( 0 )
 
 /*---------------------------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#تعریف_کړه پورټ_TASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*---------------------------------------------------------------------------*/
 
 /*
  * Port specific clean up macro required to free the CSAs that were consumed by
  * a task that has since been deleted.
  */
-void vPortReclaimCSA( uint32_t * pxTCB );
-#define portCLEAN_UP_TCB( pxTCB )    vPortReclaimCSA( ( uint32_t * ) ( pxTCB ) )
+فراغ v_پورټ_Reclaim_CSA( uint32_t * pxTCB );
+#تعریف_کړه پورټ_CLEAN_پورته_TCB( pxTCB )    v_پورټ_Reclaim_CSA( ( uint32_t * ) ( pxTCB ) )
 
 /* *INDENT-OFF* */
-#ifdef __cplusplus
+#که_تعریف_شوی __cplusplus
     }
-#endif
+#د_که_پای
 /* *INDENT-ON* */
 
-#endif /* PORTMACRO_H */
+#د_که_پای /* PORTMACRO_H */

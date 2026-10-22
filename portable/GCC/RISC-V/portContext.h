@@ -26,45 +26,45 @@
  *
  */
 
-#ifndef PORTCONTEXT_H
-#define PORTCONTEXT_H
+#که_نه_تعریف_شوی PORTCONTEXT_H
+#تعریف_کړه PORTCONTEXT_H
 
-#ifndef configENABLE_FPU
-    #define configENABLE_FPU 0
-#endif
+#که_نه_تعریف_شوی configENABLE_FPU
+    #تعریف_کړه configENABLE_FPU 0
+#د_که_پای
 
-#ifndef configENABLE_VPU
-    #define configENABLE_VPU 0
-#endif
+#که_نه_تعریف_شوی configENABLE_VPU
+    #تعریف_کړه configENABLE_VPU 0
+#د_که_پای
 
-#if __riscv_xlen == 64
-    #define portWORD_SIZE    8
-    #define store_x          sd
-    #define load_x           ld
-#elif __riscv_xlen == 32
-    #define store_x          sw
-    #define load_x           lw
-    #define portWORD_SIZE    4
-#else
-    #error Assembler did not define __riscv_xlen
-#endif
+#إذا __riscv_xlen == 64
+    #تعریف_کړه پورټ_کلمه_اندازه    8
+    #تعریف_کړه store_x          sd
+    #تعریف_کړه بارول_x           ld
+#وإلاإذا __riscv_xlen == 32
+    #تعریف_کړه store_x          sw
+    #تعریف_کړه بارول_x           lw
+    #تعریف_کړه پورټ_کلمه_اندازه    4
+#وإلا
+    #تېروتنه Assembler did not define __riscv_xlen
+#د_که_پای
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#ضمن "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
  * portasmRESTORE_ADDITIONAL_REGISTERS macros - which can be defined in a chip
  * specific version of freertos_risc_v_chip_specific_extensions.h.  See the
  * notes at the top of portASM.S file. */
-#ifdef __riscv_32e
-    #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    14
-#else
-    #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
-    #define portCRITICAL_NESTING_OFFSET    30
-#endif
+#که_تعریف_شوی __riscv_32e
+    #تعریف_کړه پورټ_CONTEXT_اندازه               ( 15 * پورټ_کلمه_اندازه )
+    #تعریف_کړه پورټ_CRITICAL_NESTING_دننه_واټن    14
+#وإلا
+    #تعریف_کړه پورټ_CONTEXT_اندازه               ( 31 * پورټ_کلمه_اندازه )
+    #تعریف_کړه پورټ_CRITICAL_NESTING_دننه_واټن    30
+#د_که_پای
 
-#if ( configENABLE_FPU == 1 )
+#إذا ( configENABLE_FPU == 1 )
     /* Bit [14:13] in the mstatus encode the status of FPU state which is one of
      * the following values:
      * 1. Value: 0, Meaning: Off.
@@ -72,33 +72,33 @@
      * 3. Value: 2, Meaning: Clean.
      * 4. Value: 3, Meaning: Dirty.
      */
-    #define MSTATUS_FS_MASK                 0x6000
-    #define MSTATUS_FS_INITIAL              0x2000
-    #define MSTATUS_FS_CLEAN                0x4000
-    #define MSTATUS_FS_DIRTY                0x6000
-    #define MSTATUS_FS_OFFSET               13
+    #تعریف_کړه MSTATUS_FS_ماسک                 0x6000
+    #تعریف_کړه MSTATUS_FS_INITIAL              0x2000
+    #تعریف_کړه MSTATUS_FS_CLEAN                0x4000
+    #تعریف_کړه MSTATUS_FS_DIRTY                0x6000
+    #تعریف_کړه MSTATUS_FS_دننه_واټن               13
 
-    #ifdef __riscv_fdiv
-        #if __riscv_flen == 32
-            #define load_f                  flw
-            #define store_f                 fsw
-        #elif __riscv_flen == 64
-            #define load_f                  fld
-            #define store_f                 fsd
-        #else
-            #error Assembler did not define __riscv_flen
-        #endif
+    #که_تعریف_شوی __riscv_fdiv
+        #إذا __riscv_flen == 32
+            #تعریف_کړه بارول_f                  flw
+            #تعریف_کړه store_f                 fsw
+        #وإلاإذا __riscv_flen == 64
+            #تعریف_کړه بارول_f                  fld
+            #تعریف_کړه store_f                 fsd
+        #وإلا
+            #تېروتنه Assembler did not define __riscv_flen
+        #د_که_پای
 
-        #define portFPU_REG_SIZE                ( __riscv_flen / 8 )
-        #define portFPU_REG_COUNT               33 /* 32 Floating point registers plus one CSR. */
-        #define portFPU_REG_OFFSET( regIndex )  ( ( 2 * portWORD_SIZE ) + ( regIndex * portFPU_REG_SIZE ) )
-        #define portFPU_CONTEXT_SIZE            ( portFPU_REG_SIZE * portFPU_REG_COUNT )
-    #else
-        #error configENABLE_FPU must not be set to 1 if the hardware does not have FPU
-    #endif
-#endif
+        #تعریف_کړه پورټ_FPU_REG_اندازه                ( __riscv_flen / 8 )
+        #تعریف_کړه پورټ_FPU_REG_شمېر               33 /* 32 Floating point registers plus one CSR. */
+        #تعریف_کړه پورټ_FPU_REG_دننه_واټن( reg_شاخص )  ( ( 2 * پورټ_کلمه_اندازه ) + ( reg_شاخص * پورټ_FPU_REG_اندازه ) )
+        #تعریف_کړه پورټ_FPU_CONTEXT_اندازه            ( پورټ_FPU_REG_اندازه * پورټ_FPU_REG_شمېر )
+    #وإلا
+        #تېروتنه configENABLE_FPU must not be سېټ منزل 1 إذا the hardware does not have FPU
+    #د_که_پای
+#د_که_پای
 
-#if ( configENABLE_VPU == 1 )
+#إذا ( configENABLE_VPU == 1 )
     /* Bit [10:9] in the mstatus encode the status of VPU state which is one of
      * the following values:
      * 1. Value: 0, Meaning: Off.
@@ -106,294 +106,294 @@
      * 3. Value: 2, Meaning: Clean.
      * 4. Value: 3, Meaning: Dirty.
      */
-    #define MSTATUS_VS_MASK                 0x600
-    #define MSTATUS_VS_INITIAL              0x200
-    #define MSTATUS_VS_CLEAN                0x400
-    #define MSTATUS_VS_DIRTY                0x600
-    #define MSTATUS_VS_OFFSET               9
+    #تعریف_کړه MSTATUS_VS_ماسک                 0x600
+    #تعریف_کړه MSTATUS_VS_INITIAL              0x200
+    #تعریف_کړه MSTATUS_VS_CLEAN                0x400
+    #تعریف_کړه MSTATUS_VS_DIRTY                0x600
+    #تعریف_کړه MSTATUS_VS_دننه_واټن               9
 
-    #ifndef __riscv_vector
-        #error configENABLE_VPU must not be set to 1 if the hardware does not have VPU
-    #endif
-#endif
+    #که_نه_تعریف_شوی __riscv_vector
+        #تېروتنه configENABLE_VPU must not be سېټ منزل 1 إذا the hardware does not have VPU
+    #د_که_پای
+#د_که_پای
 /*-----------------------------------------------------------*/
 
-.extern pxCurrentTCB
-.extern xISRStackTop
-.extern xCriticalNesting
-.extern pxCriticalNesting
+.خارجي pxCurrentTCB
+.خارجي x_ISRStack_سر
+.خارجي xCriticalNesting
+.خارجي pxCriticalNesting
 /*-----------------------------------------------------------*/
 
     .macro portcontexSAVE_FPU_CONTEXT
-addi sp, sp, -( portFPU_CONTEXT_SIZE )
+addi sp, sp, -( پورټ_FPU_CONTEXT_اندازه )
 /* Store the FPU registers. */
-store_f f0,  portFPU_REG_OFFSET( 0  )( sp )
-store_f f1,  portFPU_REG_OFFSET( 1  )( sp )
-store_f f2,  portFPU_REG_OFFSET( 2  )( sp )
-store_f f3,  portFPU_REG_OFFSET( 3  )( sp )
-store_f f4,  portFPU_REG_OFFSET( 4  )( sp )
-store_f f5,  portFPU_REG_OFFSET( 5  )( sp )
-store_f f6,  portFPU_REG_OFFSET( 6  )( sp )
-store_f f7,  portFPU_REG_OFFSET( 7  )( sp )
-store_f f8,  portFPU_REG_OFFSET( 8  )( sp )
-store_f f9,  portFPU_REG_OFFSET( 9  )( sp )
-store_f f10, portFPU_REG_OFFSET( 10 )( sp )
-store_f f11, portFPU_REG_OFFSET( 11 )( sp )
-store_f f12, portFPU_REG_OFFSET( 12 )( sp )
-store_f f13, portFPU_REG_OFFSET( 13 )( sp )
-store_f f14, portFPU_REG_OFFSET( 14 )( sp )
-store_f f15, portFPU_REG_OFFSET( 15 )( sp )
-store_f f16, portFPU_REG_OFFSET( 16 )( sp )
-store_f f17, portFPU_REG_OFFSET( 17 )( sp )
-store_f f18, portFPU_REG_OFFSET( 18 )( sp )
-store_f f19, portFPU_REG_OFFSET( 19 )( sp )
-store_f f20, portFPU_REG_OFFSET( 20 )( sp )
-store_f f21, portFPU_REG_OFFSET( 21 )( sp )
-store_f f22, portFPU_REG_OFFSET( 22 )( sp )
-store_f f23, portFPU_REG_OFFSET( 23 )( sp )
-store_f f24, portFPU_REG_OFFSET( 24 )( sp )
-store_f f25, portFPU_REG_OFFSET( 25 )( sp )
-store_f f26, portFPU_REG_OFFSET( 26 )( sp )
-store_f f27, portFPU_REG_OFFSET( 27 )( sp )
-store_f f28, portFPU_REG_OFFSET( 28 )( sp )
-store_f f29, portFPU_REG_OFFSET( 29 )( sp )
-store_f f30, portFPU_REG_OFFSET( 30 )( sp )
-store_f f31, portFPU_REG_OFFSET( 31 )( sp )
+store_f f0,  پورټ_FPU_REG_دننه_واټن( 0  )( sp )
+store_f f1,  پورټ_FPU_REG_دننه_واټن( 1  )( sp )
+store_f f2,  پورټ_FPU_REG_دننه_واټن( 2  )( sp )
+store_f f3,  پورټ_FPU_REG_دننه_واټن( 3  )( sp )
+store_f f4,  پورټ_FPU_REG_دننه_واټن( 4  )( sp )
+store_f f5,  پورټ_FPU_REG_دننه_واټن( 5  )( sp )
+store_f f6,  پورټ_FPU_REG_دننه_واټن( 6  )( sp )
+store_f f7,  پورټ_FPU_REG_دننه_واټن( 7  )( sp )
+store_f f8,  پورټ_FPU_REG_دننه_واټن( 8  )( sp )
+store_f f9,  پورټ_FPU_REG_دننه_واټن( 9  )( sp )
+store_f f10, پورټ_FPU_REG_دننه_واټن( 10 )( sp )
+store_f f11, پورټ_FPU_REG_دننه_واټن( 11 )( sp )
+store_f f12, پورټ_FPU_REG_دننه_واټن( 12 )( sp )
+store_f f13, پورټ_FPU_REG_دننه_واټن( 13 )( sp )
+store_f f14, پورټ_FPU_REG_دننه_واټن( 14 )( sp )
+store_f f15, پورټ_FPU_REG_دننه_واټن( 15 )( sp )
+store_f f16, پورټ_FPU_REG_دننه_واټن( 16 )( sp )
+store_f f17, پورټ_FPU_REG_دننه_واټن( 17 )( sp )
+store_f f18, پورټ_FPU_REG_دننه_واټن( 18 )( sp )
+store_f f19, پورټ_FPU_REG_دننه_واټن( 19 )( sp )
+store_f f20, پورټ_FPU_REG_دننه_واټن( 20 )( sp )
+store_f f21, پورټ_FPU_REG_دننه_واټن( 21 )( sp )
+store_f f22, پورټ_FPU_REG_دننه_واټن( 22 )( sp )
+store_f f23, پورټ_FPU_REG_دننه_واټن( 23 )( sp )
+store_f f24, پورټ_FPU_REG_دننه_واټن( 24 )( sp )
+store_f f25, پورټ_FPU_REG_دننه_واټن( 25 )( sp )
+store_f f26, پورټ_FPU_REG_دننه_واټن( 26 )( sp )
+store_f f27, پورټ_FPU_REG_دننه_واټن( 27 )( sp )
+store_f f28, پورټ_FPU_REG_دننه_واټن( 28 )( sp )
+store_f f29, پورټ_FPU_REG_دننه_واټن( 29 )( sp )
+store_f f30, پورټ_FPU_REG_دننه_واټن( 30 )( sp )
+store_f f31, پورټ_FPU_REG_دننه_واټن( 31 )( sp )
 csrr t0, fcsr
-store_x t0,  portFPU_REG_OFFSET( 32 )( sp )
+store_x t0,  پورټ_FPU_REG_دننه_واټن( 32 )( sp )
     .endm
 /*-----------------------------------------------------------*/
 
     .macro portcontextRESTORE_FPU_CONTEXT
 /* Restore the FPU registers. */
-load_f f0,  portFPU_REG_OFFSET( 0  )( sp )
-load_f f1,  portFPU_REG_OFFSET( 1  )( sp )
-load_f f2,  portFPU_REG_OFFSET( 2  )( sp )
-load_f f3,  portFPU_REG_OFFSET( 3  )( sp )
-load_f f4,  portFPU_REG_OFFSET( 4  )( sp )
-load_f f5,  portFPU_REG_OFFSET( 5  )( sp )
-load_f f6,  portFPU_REG_OFFSET( 6  )( sp )
-load_f f7,  portFPU_REG_OFFSET( 7  )( sp )
-load_f f8,  portFPU_REG_OFFSET( 8  )( sp )
-load_f f9,  portFPU_REG_OFFSET( 9  )( sp )
-load_f f10, portFPU_REG_OFFSET( 10 )( sp )
-load_f f11, portFPU_REG_OFFSET( 11 )( sp )
-load_f f12, portFPU_REG_OFFSET( 12 )( sp )
-load_f f13, portFPU_REG_OFFSET( 13 )( sp )
-load_f f14, portFPU_REG_OFFSET( 14 )( sp )
-load_f f15, portFPU_REG_OFFSET( 15 )( sp )
-load_f f16, portFPU_REG_OFFSET( 16 )( sp )
-load_f f17, portFPU_REG_OFFSET( 17 )( sp )
-load_f f18, portFPU_REG_OFFSET( 18 )( sp )
-load_f f19, portFPU_REG_OFFSET( 19 )( sp )
-load_f f20, portFPU_REG_OFFSET( 20 )( sp )
-load_f f21, portFPU_REG_OFFSET( 21 )( sp )
-load_f f22, portFPU_REG_OFFSET( 22 )( sp )
-load_f f23, portFPU_REG_OFFSET( 23 )( sp )
-load_f f24, portFPU_REG_OFFSET( 24 )( sp )
-load_f f25, portFPU_REG_OFFSET( 25 )( sp )
-load_f f26, portFPU_REG_OFFSET( 26 )( sp )
-load_f f27, portFPU_REG_OFFSET( 27 )( sp )
-load_f f28, portFPU_REG_OFFSET( 28 )( sp )
-load_f f29, portFPU_REG_OFFSET( 29 )( sp )
-load_f f30, portFPU_REG_OFFSET( 30 )( sp )
-load_f f31, portFPU_REG_OFFSET( 31 )( sp )
-load_x t0,  portFPU_REG_OFFSET( 32 )( sp )
+بارول_f f0,  پورټ_FPU_REG_دننه_واټن( 0  )( sp )
+بارول_f f1,  پورټ_FPU_REG_دننه_واټن( 1  )( sp )
+بارول_f f2,  پورټ_FPU_REG_دننه_واټن( 2  )( sp )
+بارول_f f3,  پورټ_FPU_REG_دننه_واټن( 3  )( sp )
+بارول_f f4,  پورټ_FPU_REG_دننه_واټن( 4  )( sp )
+بارول_f f5,  پورټ_FPU_REG_دننه_واټن( 5  )( sp )
+بارول_f f6,  پورټ_FPU_REG_دننه_واټن( 6  )( sp )
+بارول_f f7,  پورټ_FPU_REG_دننه_واټن( 7  )( sp )
+بارول_f f8,  پورټ_FPU_REG_دننه_واټن( 8  )( sp )
+بارول_f f9,  پورټ_FPU_REG_دننه_واټن( 9  )( sp )
+بارول_f f10, پورټ_FPU_REG_دننه_واټن( 10 )( sp )
+بارول_f f11, پورټ_FPU_REG_دننه_واټن( 11 )( sp )
+بارول_f f12, پورټ_FPU_REG_دننه_واټن( 12 )( sp )
+بارول_f f13, پورټ_FPU_REG_دننه_واټن( 13 )( sp )
+بارول_f f14, پورټ_FPU_REG_دننه_واټن( 14 )( sp )
+بارول_f f15, پورټ_FPU_REG_دننه_واټن( 15 )( sp )
+بارول_f f16, پورټ_FPU_REG_دننه_واټن( 16 )( sp )
+بارول_f f17, پورټ_FPU_REG_دننه_واټن( 17 )( sp )
+بارول_f f18, پورټ_FPU_REG_دننه_واټن( 18 )( sp )
+بارول_f f19, پورټ_FPU_REG_دننه_واټن( 19 )( sp )
+بارول_f f20, پورټ_FPU_REG_دننه_واټن( 20 )( sp )
+بارول_f f21, پورټ_FPU_REG_دننه_واټن( 21 )( sp )
+بارول_f f22, پورټ_FPU_REG_دننه_واټن( 22 )( sp )
+بارول_f f23, پورټ_FPU_REG_دننه_واټن( 23 )( sp )
+بارول_f f24, پورټ_FPU_REG_دننه_واټن( 24 )( sp )
+بارول_f f25, پورټ_FPU_REG_دننه_واټن( 25 )( sp )
+بارول_f f26, پورټ_FPU_REG_دننه_واټن( 26 )( sp )
+بارول_f f27, پورټ_FPU_REG_دننه_واټن( 27 )( sp )
+بارول_f f28, پورټ_FPU_REG_دننه_واټن( 28 )( sp )
+بارول_f f29, پورټ_FPU_REG_دننه_واټن( 29 )( sp )
+بارول_f f30, پورټ_FPU_REG_دننه_واټن( 30 )( sp )
+بارول_f f31, پورټ_FPU_REG_دننه_واټن( 31 )( sp )
+بارول_x t0,  پورټ_FPU_REG_دننه_واټن( 32 )( sp )
 csrw fcsr, t0
-addi sp, sp, ( portFPU_CONTEXT_SIZE )
+addi sp, sp, ( پورټ_FPU_CONTEXT_اندازه )
     .endm
 /*-----------------------------------------------------------*/
 
     .macro portcontexSAVE_VPU_CONTEXT
 /* Un-reserve the space reserved for mstatus and epc. */
-add sp, sp, ( 2 * portWORD_SIZE )
+جمع_کړه sp, sp, ( 2 * پورټ_کلمه_اندازه )
 
 csrr t0, vlenb /* t0 = vlenb. vlenb is the length of each vector register in bytes. */
 slli t0, t0, 3 /* t0 = vlenb * 8. t0 now contains the space required to store 8 vector registers. */
 neg  t0, t0
 
 /* Store the vector registers in group of 8. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vs8r.v  v24, (sp)   /* Store v24-v31. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vs8r.v  v16, (sp)   /* Store v16-v23. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vs8r.v  v8, (sp)    /* Store v8-v15. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vs8r.v  v0, (sp)    /* Store v0-v7. */
 
 /* Store the VPU CSRs. */
-addi    sp, sp, -( 4 * portWORD_SIZE )
+addi    sp, sp, -( 4 * پورټ_کلمه_اندازه )
 csrr    t0, vstart
-store_x t0, 0 * portWORD_SIZE( sp )
+store_x t0, 0 * پورټ_کلمه_اندازه( sp )
 csrr    t0, vcsr
-store_x t0, 1 * portWORD_SIZE( sp )
+store_x t0, 1 * پورټ_کلمه_اندازه( sp )
 csrr    t0, vl
-store_x t0, 2 * portWORD_SIZE( sp )
+store_x t0, 2 * پورټ_کلمه_اندازه( sp )
 csrr    t0, vtype
-store_x t0, 3 * portWORD_SIZE( sp )
+store_x t0, 3 * پورټ_کلمه_اندازه( sp )
 
 /* Re-reserve the space for mstatus and epc. */
-add sp, sp, -( 2 * portWORD_SIZE )
+جمع_کړه sp, sp, -( 2 * پورټ_کلمه_اندازه )
     .endm
 /*-----------------------------------------------------------*/
 
     .macro portcontextRESTORE_VPU_CONTEXT
 /* Un-reserve the space reserved for mstatus and epc. */
-add sp, sp, ( 2 * portWORD_SIZE )
+جمع_کړه sp, sp, ( 2 * پورټ_کلمه_اندازه )
 
 /* Restore the VPU CSRs. */
-load_x  t0, 0  * portWORD_SIZE( sp )
+بارول_x  t0, 0  * پورټ_کلمه_اندازه( sp )
 csrw    vstart, t0
-load_x  t0, 1 * portWORD_SIZE( sp )
+بارول_x  t0, 1 * پورټ_کلمه_اندازه( sp )
 csrw    vcsr, t0
-load_x  t0, 2 * portWORD_SIZE( sp )
-load_x  t1, 3 * portWORD_SIZE( sp )
+بارول_x  t0, 2 * پورټ_کلمه_اندازه( sp )
+بارول_x  t1, 3 * پورټ_کلمه_اندازه( sp )
 vsetvl  x0, t0, t1 /* vlen and vtype can only be updated by using vset*vl* instructions. */
-addi    sp, sp, ( 4 * portWORD_SIZE )
+addi    sp, sp, ( 4 * پورټ_کلمه_اندازه )
 
 csrr t0, vlenb /* t0 = vlenb. vlenb is the length of each vector register in bytes. */
 slli t0, t0, 3 /* t0 = vlenb * 8. t0 now contains the space required to store 8 vector registers. */
 
 /* Restore the vector registers. */
 vl8r.v  v0, (sp)    /* Restore v0-v7. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vl8r.v  v8, (sp)    /* Restore v8-v15. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vl8r.v  v16, (sp)   /* Restore v16-v23. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 vl8r.v  v24, (sp)   /* Restore v23-v31. */
-add     sp, sp, t0
+جمع_کړه     sp, sp, t0
 
 /* Re-reserve the space for mstatus and epc. */
-add sp, sp, -( 2 * portWORD_SIZE )
+جمع_کړه sp, sp, -( 2 * پورټ_کلمه_اندازه )
     .endm
 /*-----------------------------------------------------------*/
 
-   .macro portcontextSAVE_CONTEXT_INTERNAL
-addi sp, sp, -portCONTEXT_SIZE
-store_x x1,  2  * portWORD_SIZE( sp )
-store_x x5,  3  * portWORD_SIZE( sp )
-store_x x6,  4  * portWORD_SIZE( sp )
-store_x x7,  5  * portWORD_SIZE( sp )
-store_x x8,  6  * portWORD_SIZE( sp )
-store_x x9,  7  * portWORD_SIZE( sp )
-store_x x10, 8  * portWORD_SIZE( sp )
-store_x x11, 9  * portWORD_SIZE( sp )
-store_x x12, 10 * portWORD_SIZE( sp )
-store_x x13, 11 * portWORD_SIZE( sp )
-store_x x14, 12 * portWORD_SIZE( sp )
-store_x x15, 13 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    store_x x16, 14 * portWORD_SIZE( sp )
-    store_x x17, 15 * portWORD_SIZE( sp )
-    store_x x18, 16 * portWORD_SIZE( sp )
-    store_x x19, 17 * portWORD_SIZE( sp )
-    store_x x20, 18 * portWORD_SIZE( sp )
-    store_x x21, 19 * portWORD_SIZE( sp )
-    store_x x22, 20 * portWORD_SIZE( sp )
-    store_x x23, 21 * portWORD_SIZE( sp )
-    store_x x24, 22 * portWORD_SIZE( sp )
-    store_x x25, 23 * portWORD_SIZE( sp )
-    store_x x26, 24 * portWORD_SIZE( sp )
-    store_x x27, 25 * portWORD_SIZE( sp )
-    store_x x28, 26 * portWORD_SIZE( sp )
-    store_x x29, 27 * portWORD_SIZE( sp )
-    store_x x30, 28 * portWORD_SIZE( sp )
-    store_x x31, 29 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
+   .macro portcontext_SAVE_CONTEXT_دننی
+addi sp, sp, -پورټ_CONTEXT_اندازه
+store_x x1,  2  * پورټ_کلمه_اندازه( sp )
+store_x x5,  3  * پورټ_کلمه_اندازه( sp )
+store_x x6,  4  * پورټ_کلمه_اندازه( sp )
+store_x x7,  5  * پورټ_کلمه_اندازه( sp )
+store_x x8,  6  * پورټ_کلمه_اندازه( sp )
+store_x x9,  7  * پورټ_کلمه_اندازه( sp )
+store_x x10, 8  * پورټ_کلمه_اندازه( sp )
+store_x x11, 9  * پورټ_کلمه_اندازه( sp )
+store_x x12, 10 * پورټ_کلمه_اندازه( sp )
+store_x x13, 11 * پورټ_کلمه_اندازه( sp )
+store_x x14, 12 * پورټ_کلمه_اندازه( sp )
+store_x x15, 13 * پورټ_کلمه_اندازه( sp )
+#که_نه_تعریف_شوی __riscv_32e
+    store_x x16, 14 * پورټ_کلمه_اندازه( sp )
+    store_x x17, 15 * پورټ_کلمه_اندازه( sp )
+    store_x x18, 16 * پورټ_کلمه_اندازه( sp )
+    store_x x19, 17 * پورټ_کلمه_اندازه( sp )
+    store_x x20, 18 * پورټ_کلمه_اندازه( sp )
+    store_x x21, 19 * پورټ_کلمه_اندازه( sp )
+    store_x x22, 20 * پورټ_کلمه_اندازه( sp )
+    store_x x23, 21 * پورټ_کلمه_اندازه( sp )
+    store_x x24, 22 * پورټ_کلمه_اندازه( sp )
+    store_x x25, 23 * پورټ_کلمه_اندازه( sp )
+    store_x x26, 24 * پورټ_کلمه_اندازه( sp )
+    store_x x27, 25 * پورټ_کلمه_اندازه( sp )
+    store_x x28, 26 * پورټ_کلمه_اندازه( sp )
+    store_x x29, 27 * پورټ_کلمه_اندازه( sp )
+    store_x x30, 28 * پورټ_کلمه_اندازه( sp )
+    store_x x31, 29 * پورټ_کلمه_اندازه( sp )
+#د_که_پای /* ifndef __riscv_32e */
 
-load_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
-store_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Store the critical nesting value to the stack. */
+بارول_x t0, xCriticalNesting                                   /* Load the value of xCriticalNesting into t0. */
+store_x t0, پورټ_CRITICAL_NESTING_دننه_واټن * پورټ_کلمه_اندازه( sp ) /* Store the critical nesting value to the stack. */
 
-#if( configENABLE_FPU == 1 )
+#إذا( configENABLE_FPU == 1 )
     csrr t0, mstatus
-    srl t1, t0, MSTATUS_FS_OFFSET
+    srl t1, t0, MSTATUS_FS_دننه_واټن
     andi t1, t1, 3
     addi t2, x0, 3
     bne t1, t2, 1f /* If FPU status is not dirty, do not save FPU registers. */
 
     portcontexSAVE_FPU_CONTEXT
 1:
-#endif
+#د_که_پای
 
-#if( configENABLE_VPU == 1 )
+#إذا( configENABLE_VPU == 1 )
     csrr t0, mstatus
-    srl t1, t0, MSTATUS_VS_OFFSET
+    srl t1, t0, MSTATUS_VS_دننه_واټن
     andi t1, t1, 3
     addi t2, x0, 3
     bne t1, t2, 2f /* If VPU status is not dirty, do not save VPU registers. */
 
     portcontexSAVE_VPU_CONTEXT
 2:
-#endif
+#د_که_پای
 
 csrr t0, mstatus
-store_x t0, 1 * portWORD_SIZE( sp )
+store_x t0, 1 * پورټ_کلمه_اندازه( sp )
 
 portasmSAVE_ADDITIONAL_REGISTERS /* Defined in freertos_risc_v_chip_specific_extensions.h to save any registers unique to the RISC-V implementation. */
 
-#if( configENABLE_FPU == 1 )
+#إذا( configENABLE_FPU == 1 )
     /* Mark the FPU as clean, if it was dirty and we saved FPU registers. */
-    srl t1, t0, MSTATUS_FS_OFFSET
+    srl t1, t0, MSTATUS_FS_دننه_واټن
     andi t1, t1, 3
     addi t2, x0, 3
     bne t1, t2, 3f
 
-    li t1, ~MSTATUS_FS_MASK
+    li t1, ~MSTATUS_FS_ماسک
     and t0, t0, t1
     li t1, MSTATUS_FS_CLEAN
     or t0, t0, t1
     csrw mstatus, t0
 3:
-#endif
+#د_که_پای
 
-#if( configENABLE_VPU == 1 )
+#إذا( configENABLE_VPU == 1 )
     /* Mark the VPU as clean, if it was dirty and we saved VPU registers. */
-    srl t1, t0, MSTATUS_VS_OFFSET
+    srl t1, t0, MSTATUS_VS_دننه_واټن
     andi t1, t1, 3
     addi t2, x0, 3
     bne t1, t2, 4f
 
-    li t1, ~MSTATUS_VS_MASK
+    li t1, ~MSTATUS_VS_ماسک
     and t0, t0, t1
     li t1, MSTATUS_VS_CLEAN
     or t0, t0, t1
     csrw mstatus, t0
 4:
-#endif
+#د_که_پای
 
-load_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
+بارول_x t0, pxCurrentTCB          /* Load pxCurrentTCB. */
 store_x sp, 0 ( t0 )             /* Write sp to first TCB member. */
 
    .endm
 /*-----------------------------------------------------------*/
 
    .macro portcontextSAVE_EXCEPTION_CONTEXT
-portcontextSAVE_CONTEXT_INTERNAL
+portcontext_SAVE_CONTEXT_دننی
 csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+بارول_x sp, x_ISRStack_سر /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
-   .macro portcontextSAVE_INTERRUPT_CONTEXT
-portcontextSAVE_CONTEXT_INTERNAL
+   .macro portcontext_SAVE_مداخله_CONTEXT
+portcontext_SAVE_CONTEXT_دننی
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+بارول_x sp, x_ISRStack_سر /* Switch to ISR stack. */
    .endm
 /*-----------------------------------------------------------*/
 
    .macro portcontextRESTORE_CONTEXT
-load_x t1, pxCurrentTCB /* Load pxCurrentTCB. */
-load_x sp, 0 ( t1 )     /* Read sp from first TCB member. */
+بارول_x t1, pxCurrentTCB /* Load pxCurrentTCB. */
+بارول_x sp, 0 ( t1 )     /* Read sp from first TCB member. */
 
 /* Load mepc with the address of the instruction in the task to run next. */
-load_x t0, 0 ( sp )
+بارول_x t0, 0 ( sp )
 csrw mepc, t0
 
 /* Defined in freertos_risc_v_chip_specific_extensions.h to restore any registers unique to the RISC-V implementation. */
@@ -402,67 +402,67 @@ portasmRESTORE_ADDITIONAL_REGISTERS
 /* Restore mstatus register. It is important to use t3 (and not t0) here as t3
  * is not clobbered by portcontextRESTORE_VPU_CONTEXT and
  * portcontextRESTORE_FPU_CONTEXT. */
-load_x t3, 1 * portWORD_SIZE( sp )
+بارول_x t3, 1 * پورټ_کلمه_اندازه( sp )
 csrw mstatus, t3
 
-#if( configENABLE_VPU == 1 )
-    srl t1, t3, MSTATUS_VS_OFFSET
+#إذا( configENABLE_VPU == 1 )
+    srl t1, t3, MSTATUS_VS_دننه_واټن
     andi t1, t1, 3
     addi t2, x0, 3
     bne t1, t2, 5f /* If VPU status is not dirty, do not restore VPU registers. */
 
     portcontextRESTORE_VPU_CONTEXT
 5:
-#endif /* ifdef portasmSTORE_VPU_CONTEXT */
+#د_که_پای /* ifdef portasmSTORE_VPU_CONTEXT */
 
-#if( configENABLE_FPU == 1 )
-    srl t1, t3, MSTATUS_FS_OFFSET
+#إذا( configENABLE_FPU == 1 )
+    srl t1, t3, MSTATUS_FS_دننه_واټن
     andi t1, t1, 3
     addi t2, x0, 3
     bne t1, t2, 6f /* If FPU status is not dirty, do not restore FPU registers. */
 
     portcontextRESTORE_FPU_CONTEXT
 6:
-#endif /* ifdef portasmSTORE_FPU_CONTEXT */
+#د_که_پای /* ifdef portasmSTORE_FPU_CONTEXT */
 
-load_x t0, portCRITICAL_NESTING_OFFSET * portWORD_SIZE( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
-load_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
+بارول_x t0, پورټ_CRITICAL_NESTING_دننه_واټن * پورټ_کلمه_اندازه( sp ) /* Obtain xCriticalNesting value for this task from task's stack. */
+بارول_x t1, pxCriticalNesting                                 /* Load the address of xCriticalNesting into t1. */
 store_x t0, 0 ( t1 )                                         /* Restore the critical nesting value for this task. */
 
-load_x x1,  2  * portWORD_SIZE( sp )
-load_x x5,  3  * portWORD_SIZE( sp )
-load_x x6,  4  * portWORD_SIZE( sp )
-load_x x7,  5  * portWORD_SIZE( sp )
-load_x x8,  6  * portWORD_SIZE( sp )
-load_x x9,  7  * portWORD_SIZE( sp )
-load_x x10, 8  * portWORD_SIZE( sp )
-load_x x11, 9  * portWORD_SIZE( sp )
-load_x x12, 10 * portWORD_SIZE( sp )
-load_x x13, 11 * portWORD_SIZE( sp )
-load_x x14, 12 * portWORD_SIZE( sp )
-load_x x15, 13 * portWORD_SIZE( sp )
-#ifndef __riscv_32e
-    load_x x16, 14 * portWORD_SIZE( sp )
-    load_x x17, 15 * portWORD_SIZE( sp )
-    load_x x18, 16 * portWORD_SIZE( sp )
-    load_x x19, 17 * portWORD_SIZE( sp )
-    load_x x20, 18 * portWORD_SIZE( sp )
-    load_x x21, 19 * portWORD_SIZE( sp )
-    load_x x22, 20 * portWORD_SIZE( sp )
-    load_x x23, 21 * portWORD_SIZE( sp )
-    load_x x24, 22 * portWORD_SIZE( sp )
-    load_x x25, 23 * portWORD_SIZE( sp )
-    load_x x26, 24 * portWORD_SIZE( sp )
-    load_x x27, 25 * portWORD_SIZE( sp )
-    load_x x28, 26 * portWORD_SIZE( sp )
-    load_x x29, 27 * portWORD_SIZE( sp )
-    load_x x30, 28 * portWORD_SIZE( sp )
-    load_x x31, 29 * portWORD_SIZE( sp )
-#endif /* ifndef __riscv_32e */
-addi sp, sp, portCONTEXT_SIZE
+بارول_x x1,  2  * پورټ_کلمه_اندازه( sp )
+بارول_x x5,  3  * پورټ_کلمه_اندازه( sp )
+بارول_x x6,  4  * پورټ_کلمه_اندازه( sp )
+بارول_x x7,  5  * پورټ_کلمه_اندازه( sp )
+بارول_x x8,  6  * پورټ_کلمه_اندازه( sp )
+بارول_x x9,  7  * پورټ_کلمه_اندازه( sp )
+بارول_x x10, 8  * پورټ_کلمه_اندازه( sp )
+بارول_x x11, 9  * پورټ_کلمه_اندازه( sp )
+بارول_x x12, 10 * پورټ_کلمه_اندازه( sp )
+بارول_x x13, 11 * پورټ_کلمه_اندازه( sp )
+بارول_x x14, 12 * پورټ_کلمه_اندازه( sp )
+بارول_x x15, 13 * پورټ_کلمه_اندازه( sp )
+#که_نه_تعریف_شوی __riscv_32e
+    بارول_x x16, 14 * پورټ_کلمه_اندازه( sp )
+    بارول_x x17, 15 * پورټ_کلمه_اندازه( sp )
+    بارول_x x18, 16 * پورټ_کلمه_اندازه( sp )
+    بارول_x x19, 17 * پورټ_کلمه_اندازه( sp )
+    بارول_x x20, 18 * پورټ_کلمه_اندازه( sp )
+    بارول_x x21, 19 * پورټ_کلمه_اندازه( sp )
+    بارول_x x22, 20 * پورټ_کلمه_اندازه( sp )
+    بارول_x x23, 21 * پورټ_کلمه_اندازه( sp )
+    بارول_x x24, 22 * پورټ_کلمه_اندازه( sp )
+    بارول_x x25, 23 * پورټ_کلمه_اندازه( sp )
+    بارول_x x26, 24 * پورټ_کلمه_اندازه( sp )
+    بارول_x x27, 25 * پورټ_کلمه_اندازه( sp )
+    بارول_x x28, 26 * پورټ_کلمه_اندازه( sp )
+    بارول_x x29, 27 * پورټ_کلمه_اندازه( sp )
+    بارول_x x30, 28 * پورټ_کلمه_اندازه( sp )
+    بارول_x x31, 29 * پورټ_کلمه_اندازه( sp )
+#د_که_پای /* ifndef __riscv_32e */
+addi sp, sp, پورټ_CONTEXT_اندازه
 
 mret
    .endm
 /*-----------------------------------------------------------*/
 
-#endif /* PORTCONTEXT_H */
+#د_که_پای /* PORTCONTEXT_H */

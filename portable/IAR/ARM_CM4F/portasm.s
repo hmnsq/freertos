@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,18 +31,18 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    خارجي pxCurrentTCB
+    خارجي vTaskSwitchContext
 
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC vPortEnableVFP
+    عام x_پورټ_Pend_SVHandler
+    عام v_پورټ_SVCHandler
+    عام vPortStartFirstTask
+    عام v_پورټ_Enable_VFP
 
 
 /*-----------------------------------------------------------*/
 
-xPortPendSVHandler:
+x_پورټ_Pend_SVHandler:
     mrs r0, psp
     isb
     /* Get the location of the current TCB. */
@@ -97,7 +97,7 @@ xPortPendSVHandler:
 
 /*-----------------------------------------------------------*/
 
-vPortSVCHandler:
+v_پورټ_SVCHandler:
     /* Get the location of the current TCB. */
     ldr r3, =pxCurrentTCB
     ldr r1, [r3]
@@ -134,7 +134,7 @@ vPortStartFirstTask
 
 /*-----------------------------------------------------------*/
 
-vPortEnableVFP:
+v_پورټ_Enable_VFP:
     /* The FPU enable bits are in the CPACR. */
     ldr.w r0, =0xE000ED88
     ldr r1, [r0]
@@ -146,4 +146,4 @@ vPortEnableVFP:
 
 
 
-    END
+    انته

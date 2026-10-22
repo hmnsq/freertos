@@ -37,10 +37,10 @@
     .global pxCurrentTCB
     .global usCriticalNesting
 
-    .def vPortPreemptiveTickISR
-    .def vPortCooperativeTickISR
-    .def vPortYield
-    .def xPortStartScheduler
+    .def v_پورټ_Preemptive_Tick_ISR
+    .def v_پورټ_Cooperative_Tick_ISR
+    .def v_پورټ_Yield
+    .def x_پورټ_پیل_Scheduler
 
 ;-----------------------------------------------------------
 
@@ -81,7 +81,7 @@ portRESTORE_CONTEXT .macro
     .text
     .align 2
 
-vPortPreemptiveTickISR: .asmfunc
+v_پورټ_Preemptive_Tick_ISR: .asmfunc
 
     ; The sr is not saved in portSAVE_CONTEXT() because vPortYield() needs
     ;to save it manually before it gets modified (interrupts get disabled).
@@ -97,7 +97,7 @@ vPortPreemptiveTickISR: .asmfunc
 
     .align 2
 
-vPortCooperativeTickISR: .asmfunc
+v_پورټ_Cooperative_Tick_ISR: .asmfunc
 
     ; The sr is not saved in portSAVE_CONTEXT() because vPortYield() needs
     ;to save it manually before it gets modified (interrupts get disabled).
@@ -117,7 +117,7 @@ vPortCooperativeTickISR: .asmfunc
 
     .align 2
 
-vPortYield: .asmfunc
+v_پورټ_Yield: .asmfunc
 
     ; The sr needs saving before it is modified.
     push.w  sr
@@ -145,7 +145,7 @@ vPortYield: .asmfunc
 
     .align 2
 
-xPortStartScheduler: .asmfunc
+x_پورټ_پیل_Scheduler: .asmfunc
 
     ; Setup the hardware to generate the tick.  Interrupts are disabled
     ; when this function is called.
