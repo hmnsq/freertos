@@ -29,19 +29,19 @@
 #ifndef PORTCONTEXT_H
 #define PORTCONTEXT_H
 
-#if __riscv_xlen == 64
+#إذا __riscv_xlen == 64
     #define portWORD_SIZE    8
     #define store_x          sd
     #define load_x           ld
-#elif __riscv_xlen == 32
+#وإلاإذا __riscv_xlen == 32
     #define store_x          sw
     #define load_x           lw
     #define portWORD_SIZE    4
-#else
+#وإلا
     #error Assembler did not define __riscv_xlen
 #endif
 
-#include "freertos_risc_v_chip_specific_extensions.h"
+#ضمن "freertos_risc_v_chip_specific_extensions.h"
 
 /* Only the standard core registers are stored by default.  Any additional
  * registers must be saved by the portasmSAVE_ADDITIONAL_REGISTERS and
@@ -52,14 +52,14 @@
     #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    13
     #define portMSTATUS_OFFSET             14
-#else
+#وإلا
     #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    29
     #define portMSTATUS_OFFSET             30
 #endif
 
 EXTERN pxCurrentTCB
-EXTERN xISRStackTop
+EXTERN x_ISRStack_كولي
 EXTERN xCriticalNesting
 EXTERN pxCriticalNesting
 
@@ -118,7 +118,7 @@ csrr a0, mcause
 csrr a1, mepc
 addi a1, a1, 4          /* Synchronous so update exception return address to the instruction after the instruction that generated the exception. */
 store_x a1, 0 ( sp )    /* Save updated exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_كولي /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 
@@ -127,7 +127,7 @@ portcontextSAVE_CONTEXT_INTERNAL
 csrr a0, mcause
 csrr a1, mepc
 store_x a1, 0 ( sp )    /* Asynchronous interrupt so save unmodified exception return address. */
-load_x sp, xISRStackTop /* Switch to ISR stack. */
+load_x sp, x_ISRStack_كولي /* Switch to ISR stack. */
 ENDM
 /*-----------------------------------------------------------*/
 

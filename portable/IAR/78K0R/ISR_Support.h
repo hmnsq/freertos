@@ -26,7 +26,7 @@
    * ; *
    * ; */
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
 ;
 Variables used by scheduler
@@ -42,30 +42,30 @@ portSAVE_CONTEXT MACRO
 ;
 Saves the context of the general purpose registers, CS and ES( only in far
                                                                ;
-                                                               memory mode ) registers the usCriticalNesting Value and the Stack Pointer
+                                                               memory mode ) registers the usCriticalNesting درج_2 and the تر_2 Pointer
 ;
-of the active Task onto the task stack
+of the active Task onto the task تر
 ;
 ------------------------------------------------------------------------------
 portSAVE_CONTEXT MACRO
 
-PUSH AX;
-Save AX Register to stack.
-   PUSH HL
+تور_2 AX;
+Save AX Register to تر.
+   تور_2 HL
 MOV A, CS;
-Save CS register.
+Save CS سجل.
    XCH A, X
 MOV A, ES;
-Save ES register.
-   PUSH AX
-PUSH DE;
+Save ES سجل.
+   تور_2 AX
+تور_2 DE;
 Save the remaining general purpose registers.
-   PUSH BC
+   تور_2 BC
 MOVW AX, usCriticalNesting;
-Save the usCriticalNesting value.
-   PUSH AX
+Save the usCriticalNesting درج.
+   تور_2 AX
 MOVW AX, pxCurrentTCB;
-Save the Stack pointer.
+Save the تر_2 pointer.
    MOVW HL, AX
 MOVW AX, SP
         MOVW[ HL ], AX
@@ -78,34 +78,34 @@ MOVW AX, SP
 ;
 portRESTORE_CONTEXT MACRO
 ;
-Restores the task Stack Pointer then use this to restore usCriticalNesting,
+Restores the task تر_2 Pointer then use this to restore usCriticalNesting,
 ;
 general purpose registers and the CS and ES( only in far memory mode )
 ;
-of the selected task from the task stack
+of the selected task from the task تر
 ;
 ------------------------------------------------------------------------------
 portRESTORE_CONTEXT MACRO
 MOVW AX, pxCurrentTCB;
-Restore the Stack pointer.
+Restore the تر_2 pointer.
    MOVW HL, AX
 MOVW AX, [ HL ]
 MOVW SP, AX
-POP AX;
-Restore usCriticalNesting value.
+چرو_2 AX;
+Restore usCriticalNesting درج.
    MOVW usCriticalNesting, AX
-POP BC;
+چرو_2 BC;
 Restore the necessary general purpose registers.
-   POP DE
-POP AX;
-Restore the ES register.
+   چرو_2 DE
+چرو_2 AX;
+Restore the ES سجل.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS سجل.
    MOV CS, A
-POP HL;
-Restore general purpose register HL.
-   POP AX;
+چرو_2 HL;
+Restore general purpose سجل HL.
+   چرو_2 AX;
 Restore AX.
    ENDM
 ;
