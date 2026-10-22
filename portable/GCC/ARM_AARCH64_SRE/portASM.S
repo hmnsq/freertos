@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 𐤀𐤅
+ * IMPLIED, INCLUDING BUT 𐤋𐤀 LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE 𐤅 NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS 𐤀𐤅
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 𐤀𐤅 OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT 𐤀𐤅 OTHERWISE, ARISING FROM, OUT OF 𐤀𐤅 في
+ * CONNECTION WITH THE SOFTWARE 𐤀𐤅 THE USE 𐤀𐤅 OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -316,14 +316,14 @@ FreeRTOS_IRQ_Handler:
     ADD     X6, X1, #1
     STR     X6, [X5]    /* Address of nesting count variable in X5. */
 
-    /* Maintain the interrupt nesting information across the function call. */
+    /* Maintain the interrupt nesting information across the function نادي. */
     STP     X1, X5, [SP, #-0x10]!
 
     /* Read interrupt ID from the interrupt acknowledge register and store it
     in X0 for future parameter and interrupt clearing use. */
     MRS     X0, S3_0_C12_C12_0  /* S3_0_C12_C12_0 is ICC_IAR1_EL1. */
 
-    /* Maintain the interrupt ID value across the function call. */
+    /* Maintain the interrupt ID value across the function نادي. */
     STP     X0, X1, [SP, #-0x10]!
 
     /* Call the C handler. */
@@ -423,7 +423,7 @@ Exit_IRQ_No_Context_Switch:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * نادي vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry their IRQ handler must be called

@@ -17,31 +17,31 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
+#define portCHAR                 حرف
+#define portFLOAT                عائم
+#define portDOUBLE               مزدوج
 #define portLONG                 long
-#define portSHORT                int
+#define portSHORT                صحيح
 #define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#define portBASE_TYPE            حرف
 
 #define portSTACK_GROWTH         ( -1 )
 #define portBYTE_ALIGNMENT       4
 #define portPOINTER_SIZE_TYPE    size_t
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+تعريفنوع portSTACK_TYPE   StackType_t;
+تعريفنوع signed حرف      BaseType_t;
+تعريفنوع unsigned حرف    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#𐤀𐤌 ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffU
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffU
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
-    typedef uint64_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_64_BITS )
+    تعريفنوع uint64_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffffffffffU
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -50,10 +50,10 @@ typedef unsigned char    UBaseType_t;
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#𐤀𐤌 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #𐤀𐤌 ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -64,25 +64,25 @@ typedef unsigned char    UBaseType_t;
 /*-----------------------------------------------------------*/
 
     #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) \
-    do {                                                                 \
+    𐤐𐤏𐤋 {                                                                 \
         uxTopPriority = 0;                                               \
-    } while( 0 )
+    } طالما( 0 )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* Disable the interrupts */
-#define portDISABLE_INTERRUPTS()    do {} while( 0 )
+#define portDISABLE_INTERRUPTS()    𐤐𐤏𐤋 {} طالما( 0 )
 
 /* Enable the interrupts */
-#define portENABLE_INTERRUPTS()     do {} while( 0 )
+#define portENABLE_INTERRUPTS()     𐤐𐤏𐤋 {} طالما( 0 )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#𐤀𐤌 ( configNUMBER_OF_CORES == 1 )
 /* preserve current interrupt state and then disable interrupts */
-    #define portENTER_CRITICAL()    do {} while( 0 )
+    #define portENTER_CRITICAL()    𐤐𐤏𐤋 {} طالما( 0 )
 
 /* restore previously preserved interrupt state */
-    #define portEXIT_CRITICAL()     do {} while( 0 )
-#else
+    #define portEXIT_CRITICAL()     𐤐𐤏𐤋 {} طالما( 0 )
+#وإلا
 
 /* The port can maintain the critical nesting count in TCB or maintain the critical
  * nesting count in the port. */
@@ -101,14 +101,14 @@ typedef unsigned char    UBaseType_t;
 
 #endif /* if ( configNUMBER_OF_CORES == 1 ) */
 
-extern void vPortYield( void );
+خارجي فراغ vPortYield( فراغ );
 #define portYIELD()                                           vPortYield()
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters ) __attribute__( ( noreturn ) )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters ) __attribute__( ( noreturn ) )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#𐤀𐤌 ( configNUMBER_OF_CORES > 1 )
     /* Return the core ID on which the code is running. */
     #define portGET_CORE_ID()                0
 
@@ -116,26 +116,26 @@ extern void vPortYield( void );
     #define portSET_INTERRUPT_MASK()         0
 
 /* Clear the interrupt mask. */
-    #define portCLEAR_INTERRUPT_MASK( x )    ( ( void ) ( x ) )
+    #define portCLEAR_INTERRUPT_MASK( x )    ( ( فراغ ) ( x ) )
 
 /* Request the core ID x to yield. */
-    #define portYIELD_CORE( x )              do {} while( 0 )
+    #define portYIELD_CORE( x )              𐤐𐤏𐤋 {} طالما( 0 )
 
 /* Acquire the TASK lock. TASK lock is a recursive lock.
  * It should be able to be locked by the same core multiple times. */
-    #define portGET_TASK_LOCK( xCoreID )     do {} while( 0 )
+    #define portGET_TASK_LOCK( xCoreID )     𐤐𐤏𐤋 {} طالما( 0 )
 
 /* Release the TASK lock. If a TASK lock is locked by the same core multiple times,
  * it should be released as many times as it is locked. */
-    #define portRELEASE_TASK_LOCK( xCoreID ) do {} while( 0 )
+    #define portRELEASE_TASK_LOCK( xCoreID ) 𐤐𐤏𐤋 {} طالما( 0 )
 
 /* Acquire the ISR lock. ISR lock is a recursive lock.
  * It should be able to be locked by the same core multiple times. */
-    #define portGET_ISR_LOCK( xCoreID )      do {} while( 0 )
+    #define portGET_ISR_LOCK( xCoreID )      𐤐𐤏𐤋 {} طالما( 0 )
 
 /* Release the ISR lock. If a ISR lock is locked by the same core multiple times, \
  * it should be released as many times as it is locked. */
-    #define portRELEASE_ISR_LOCK( xCoreID )  do {} while( 0 )
+    #define portRELEASE_ISR_LOCK( xCoreID )  𐤐𐤏𐤋 {} طالما( 0 )
 
 #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 

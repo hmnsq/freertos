@@ -31,14 +31,14 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Library includes. */
-#include "string.h"
+#ضمن "string.h"
 
 /* Hardware specifics. */
-#include <machine.h>
+#ضمن <machine.h>
 
 /*-----------------------------------------------------------*/
 
@@ -53,17 +53,17 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-extern void prvStartFirstTask( void );
+خارجي فراغ prvStartFirstTask( فراغ );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt فراغ vTickISR( فراغ );
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+خارجي فراغ * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -72,7 +72,7 @@ extern void * pxCurrentTCB;
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
@@ -117,7 +117,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #وإلا /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
         pxTopOfStack -= 15;
     }
@@ -139,16 +139,16 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    خارجي فراغ vApplicationSetupTimerInterrupt( فراغ );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    𐤀𐤌( pxCurrentTCB != عدم )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -169,12 +169,12 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    أرجع pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector = configTICK_VECTOR
-__interrupt void vTickISR( void )
+__interrupt فراغ vTickISR( فراغ )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -183,7 +183,7 @@ __interrupt void vTickISR( void )
      * necessitates. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        𐤀𐤌( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -192,10 +192,10 @@ __interrupt void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == عدم );
 }
 /*-----------------------------------------------------------*/

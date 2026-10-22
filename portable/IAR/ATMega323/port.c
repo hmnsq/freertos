@@ -26,10 +26,10 @@
  *
  */
 
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /*-----------------------------------------------------------
 * Implementation of functions defined in portable.h for the AVR/IAR port.
@@ -57,14 +57,14 @@ UBaseType_t uxCriticalNesting = 0x50;
 /*
  * Perform hardware setup to enable ticks from timer 1, compare match A.
  */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * The IAR compiler does not have full support for inline assembler, so
  * these are defined in the portmacro assembler file.
  */
-extern void vPortYieldFromTick( void );
-extern void vPortStart( void );
+خارجي فراغ vPortYieldFromTick( فراغ );
+خارجي فراغ vPortStart( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -73,7 +73,7 @@ extern void vPortStart( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     uint16_t usAddress;
     StackType_t * pxTopOfHardwareStack;
@@ -229,11 +229,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Setup the hardware to generate the tick. */
     prvSetupTimerInterrupt();
@@ -244,11 +244,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here! */
-    return pdTRUE;
+    أرجع pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the AVR port will get stopped.  If required simply
      * disable the tick interrupt here. */
@@ -258,7 +258,7 @@ void vPortEndScheduler( void )
 /*
  * Setup timer 1 compare match A to generate a tick interrupt.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     uint32_t ulCompareMatch;
     uint8_t ucHighByte, ucLowByte;
@@ -292,20 +292,20 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#𐤀𐤌 configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a __task attribute as
  * the context is saved at the start of vPortYieldFromTick().  The tick
  * count is incremented after the context is saved.
  */
-    __task void SIG_OUTPUT_COMPARE1A( void )
+    __task فراغ SIG_OUTPUT_COMPARE1A( فراغ )
     {
         vPortYieldFromTick();
         asm ( "reti" );
     }
 
-#else
+#وإلا
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -315,25 +315,25 @@ static void prvSetupTimerInterrupt( void )
  * THE INTERRUPT VECTOR IS POPULATED IN portmacro.s90.  DO NOT INSTALL
  * IT HERE USING THE USUAL PRAGMA.
  */
-    __interrupt void SIG_OUTPUT_COMPARE1A( void )
+    __interrupt فراغ SIG_OUTPUT_COMPARE1A( فراغ )
     {
         xTaskIncrementTick();
     }
 #endif /* if configUSE_PREEMPTION == 1 */
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     portDISABLE_INTERRUPTS();
     uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == portNO_CRITICAL_NESTING )
+    𐤀𐤌( uxCriticalNesting == portNO_CRITICAL_NESTING )
     {
         portENABLE_INTERRUPTS();
     }

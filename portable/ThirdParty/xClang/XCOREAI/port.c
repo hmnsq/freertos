@@ -1,14 +1,14 @@
 /* Copyright (c) 2019, XMOS Ltd, All rights reserved */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include <string.h>
-#include <xs1.h>
-#include <xcore/hwtimer.h>
-#include <xcore/triggerable.h>
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن <string.h>
+#ضمن <xs1.h>
+#ضمن <xcore/hwtimer.h>
+#ضمن <xcore/triggerable.h>
 
-static hwtimer_t xKernelTimer;
+ساكن hwtimer_t xKernelTimer;
 
 uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ] = { pdFALSE };
 
@@ -19,13 +19,13 @@ uint32_t ulPortYieldRequired[ portMAX_CORE_COUNT ] = { pdFALSE };
    of indirection - we populate this pointer-to-pointer in the RTOS kernel entry
    function below. This makes this port agnostic to whether it is running on SMP
    or singlecore RTOS. */
-void ** xcorePvtTCBContainer;
+فراغ ** xcorePvtTCBContainer;
 
 /*-----------------------------------------------------------*/
 
-void vIntercoreInterruptISR( void )
+فراغ vIntercoreInterruptISR( فراغ )
 {
-    int xCoreID;
+    صحيح xCoreID;
 
 /*	debug_printf( "In KCALL: %u\n", ulData ); */
     xCoreID = rtos_core_id_get();
@@ -37,7 +37,7 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
 {
     uint32_t ulLastTrigger;
     uint32_t ulNow;
-    int xCoreID;
+    صحيح xCoreID;
     UBaseType_t uxSavedInterruptStatus;
 
     xCoreID = 0;
@@ -53,7 +53,7 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
      * want to schedule the next interrupt to be in the past. */
     ulNow = hwtimer_get_time( xKernelTimer );
 
-    if( ulNow - ulLastTrigger >= configCPU_CLOCK_HZ / configTICK_RATE_HZ )
+    𐤀𐤌( ulNow - ulLastTrigger >= configCPU_CLOCK_HZ / configTICK_RATE_HZ )
     {
         ulLastTrigger = ulNow;
     }
@@ -61,13 +61,13 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
     ulLastTrigger += configCPU_CLOCK_HZ / configTICK_RATE_HZ;
     hwtimer_change_trigger_time( xKernelTimer, ulLastTrigger );
 
-    #if configUPDATE_RTOS_TIME_FROM_TICK_ISR == 1
+    #𐤀𐤌 configUPDATE_RTOS_TIME_FROM_TICK_ISR == 1
         rtos_time_increment( RTOS_TICK_PERIOD( configTICK_RATE_HZ ) );
     #endif
 
     uxSavedInterruptStatus = taskENTER_CRITICAL_FROM_ISR();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    𐤀𐤌( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired[ xCoreID ] = pdTRUE;
     }
@@ -76,9 +76,9 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldOtherCore( int xOtherCoreID )
+فراغ vPortYieldOtherCore( صحيح xOtherCoreID )
 {
-    int xCoreID;
+    صحيح xCoreID;
 
     /*
      * This function must be called from within a critical section.
@@ -94,14 +94,14 @@ void vPortYieldOtherCore( int xOtherCoreID )
 }
 /*-----------------------------------------------------------*/
 
-static int prvCoreInit( void )
+ساكن صحيح prvCoreInit( فراغ )
 {
-    int xCoreID;
+    صحيح xCoreID;
 
     xCoreID = rtos_core_register();
     debug_printf( "Logical Core %d initializing as FreeRTOS Core %d\n", get_logical_core_id(), xCoreID );
 
-    asm volatile (
+    asm متطاير (
         "ldap r11, kexcept\n\t"
         "set kep, r11\n\t"
         :
@@ -114,11 +114,11 @@ static int prvCoreInit( void )
     /*
      * All threads wait here until all have enabled IRQs
      */
-    while( rtos_irq_ready() == pdFALSE )
+    طالما( rtos_irq_ready() == pdFALSE )
     {
     }
 
-    if( xCoreID == 0 )
+    𐤀𐤌( xCoreID == 0 )
     {
         uint32_t ulNow;
         ulNow = hwtimer_get_time( xKernelTimer );
@@ -126,42 +126,42 @@ static int prvCoreInit( void )
 
         ulNow += configCPU_CLOCK_HZ / configTICK_RATE_HZ;
 
-        triggerable_setup_interrupt_callback( xKernelTimer, NULL, RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR ) );
+        triggerable_setup_interrupt_callback( xKernelTimer, عدم, RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR ) );
         hwtimer_set_trigger_time( xKernelTimer, ulNow );
         triggerable_enable_trigger( xKernelTimer );
     }
 
-    return xCoreID;
+    أرجع xCoreID;
 }
 /*-----------------------------------------------------------*/
 
-DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
+DEFINE_RTOS_KERNEL_ENTRY( فراغ, vPortStartSchedulerOnCore, فراغ )
 {
-    int xCoreID;
+    صحيح xCoreID;
 
     xCoreID = prvCoreInit();
 
-    #if ( configUSE_CORE_INIT_HOOK == 1 )
+    #𐤀𐤌 ( configUSE_CORE_INIT_HOOK == 1 )
     {
-        extern void vApplicationCoreInitHook( BaseType_t xCoreID );
+        خارجي فراغ vApplicationCoreInitHook( BaseType_t xCoreID );
 
         vApplicationCoreInitHook( xCoreID );
     }
     #endif
 
     /* Populate the TCBContainer depending on whether we're singlecore or SMP */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #𐤀𐤌 ( configNUMBER_OF_CORES == 1 )
     {
-        asm volatile (
+        asm متطاير (
             "ldaw %0, dp[pxCurrentTCB]\n\t"
             : "=r"(xcorePvtTCBContainer)
             : /* no inputs */
             : /* no clobbers */
             );
     }
-    #else
+    #وإلا
     {
-        asm volatile (
+        asm متطاير (
             "ldaw %0, dp[pxCurrentTCBs]\n\t"
             : "=r"(xcorePvtTCBContainer)
             : /* no inputs */
@@ -177,7 +177,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
      * Restore the context of the first thread
      * to run and jump into it.
      */
-    asm volatile (
+    asm متطاير (
         "mov r6, %0\n\t"                       /* R6 must be the FreeRTOS core ID. In singlecore this is always 0. */
         "ldw r5, dp[xcorePvtTCBContainer]\n\t" /* R5 must be the TCB list which is indexed by R6 */
         "bu _freertos_restore_ctx\n\t"
@@ -197,7 +197,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /*debug_printf( "Top of stack was %p for task %p\n", pxTopOfStack, pxCode ); */
 
@@ -213,7 +213,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /*
      * We need to get the current CP and DP pointers.
      */
-    asm volatile (
+    asm متطاير (
         "ldaw r11, cp[0]\n\t"      /* get CP into R11 */
         "mov %0, r11\n\t"          /* get R11 (CP) into cp */
         "ldaw r11, dp[0]\n\t"      /* get DP into R11 */
@@ -261,20 +261,20 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /*
      * Returns the new top of the stack
      */
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-void vPortStartSMPScheduler( void );
+فراغ vPortStartSMPScheduler( فراغ );
 
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    if( ( configNUMBER_OF_CORES > portMAX_CORE_COUNT ) || ( configNUMBER_OF_CORES <= 0 ) )
+    𐤀𐤌( ( configNUMBER_OF_CORES > portMAX_CORE_COUNT ) || ( configNUMBER_OF_CORES <= 0 ) )
     {
-        return pdFAIL;
+        أرجع pdFAIL;
     }
 
     rtos_locks_initialize();
@@ -282,11 +282,11 @@ BaseType_t xPortStartScheduler( void )
 
     vPortStartSMPScheduler();
 
-    return pdPASS;
+    أرجع pdPASS;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Do not implement. */
 }

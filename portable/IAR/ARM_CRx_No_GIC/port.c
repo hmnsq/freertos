@@ -27,15 +27,15 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#𐤀𐤌 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #𐤀𐤌 ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -76,7 +76,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#وإلا
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -86,12 +86,12 @@
  * Starts the first task executing.  This function is necessarily written in
  * assembly code so is implemented in portASM.s.
  */
-extern void vPortRestoreTaskContext( void );
+خارجي فراغ vPortRestoreTaskContext( فراغ );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ساكن فراغ prvTaskExitError( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -100,18 +100,18 @@ static void prvTaskExitError( void );
  * a non zero value to ensure interrupts don't inadvertently become unmasked before
  * the scheduler starts.  As it is stored as part of the task context it will
  * automatically be set to 0 when the first task is started. */
-volatile uint32_t ulCriticalNesting = 9999UL;
+متطاير uint32_t ulCriticalNesting = 9999UL;
 
 /* Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
  * a floating point context must be saved and restored for the task. */
-volatile uint32_t ulPortTaskHasFPUContext = pdFALSE;
+متطاير uint32_t ulPortTaskHasFPUContext = pdFALSE;
 
 /* Set to 1 to pend a context switch from an ISR. */
-volatile uint32_t ulPortYieldRequired = pdFALSE;
+متطاير uint32_t ulPortYieldRequired = pdFALSE;
 
 /* Counts the interrupt nesting depth.  A context switch is only performed if
  * if the nesting depth is 0. */
-volatile uint32_t ulPortInterruptNesting = 0UL;
+متطاير uint32_t ulPortInterruptNesting = 0UL;
 
 /*-----------------------------------------------------------*/
 
@@ -120,7 +120,7 @@ volatile uint32_t ulPortInterruptNesting = 0UL;
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro.
@@ -128,15 +128,15 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * The fist real value on the stack is the status register, which is set for
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address. */
-    *pxTopOfStack = ( StackType_t ) NULL;
+    *pxTopOfStack = ( StackType_t ) عدم;
     pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
+    *pxTopOfStack = ( StackType_t ) عدم;
     pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
+    *pxTopOfStack = ( StackType_t ) عدم;
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    𐤀𐤌( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -188,11 +188,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * any floating point instructions. */
     *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساكن فراغ prvTaskExitError( فراغ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -203,24 +203,24 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    لكل( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     uint32_t ulAPSR;
 
     /* Only continue if the CPU is not in User mode.  The CPU must be in a
      * Privileged mode for the scheduler to start. */
-    __asm volatile ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
+    __asm متطاير ( "MRS %0, APSR" : "=r" ( ulAPSR ) );
 
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    𐤀𐤌( ulAPSR != portAPSR_USER_MODE )
     {
         /* Start the timer that generates the tick ISR. */
         portDISABLE_INTERRUPTS();
@@ -235,12 +235,12 @@ BaseType_t xPortStartScheduler( void )
      * possible value.  prvTaskExitError() is referenced to prevent a compiler
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
-    ( void ) prvTaskExitError;
-    return 0;
+    ( فراغ ) prvTaskExitError;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -248,7 +248,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     portDISABLE_INTERRUPTS();
 
@@ -262,16 +262,16 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    𐤀𐤌( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    𐤀𐤌( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -279,7 +279,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        𐤀𐤌( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -289,14 +289,14 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void FreeRTOS_Tick_Handler( void )
+فراغ FreeRTOS_Tick_Handler( فراغ )
 {
     uint32_t ulInterruptStatus;
 
     ulInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    𐤀𐤌( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }
@@ -307,7 +307,7 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortTaskUsesFPU( void )
+فراغ vPortTaskUsesFPU( فراغ )
 {
     uint32_t ulInitialFPSCR = 0;
 
@@ -316,6 +316,6 @@ void vPortTaskUsesFPU( void )
     ulPortTaskHasFPUContext = pdTRUE;
 
     /* Initialise the floating point status register. */
-    __asm volatile ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) );
+    __asm متطاير ( "FMXR  FPSCR, %0" ::"r" ( ulInitialFPSCR ) );
 }
 /*-----------------------------------------------------------*/

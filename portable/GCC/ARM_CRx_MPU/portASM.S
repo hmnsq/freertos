@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 𐤀𐤅
+ * IMPLIED, INCLUDING BUT 𐤋𐤀 LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE 𐤅 NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS 𐤀𐤅
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 𐤀𐤅 OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT 𐤀𐤅 OTHERWISE, ARISING FROM, OUT OF 𐤀𐤅 في
+ * CONNECTION WITH THE SOFTWARE 𐤀𐤅 THE USE 𐤀𐤅 OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -227,7 +227,7 @@ svcSystemCallExit:
     /* Restore the user mode SP and LR. */
     LDM   R11, { R13-R14 }^
 
-    AND     R12, R12, #0x0      /* R12 = 0. */
+    𐤅     R12, R12, #0x0      /* R12 = 0. */
     STR     R12, [R11]          /* xSystemCallStackInfo.pulTaskStackPointer = NULL. */
     STR     R12, [R11, #0x4]    /* xSystemCallStackInfo.pulLinkRegisterAtSystemCallEntry = NULL. */
 
@@ -246,7 +246,7 @@ svcSystemCallExit:
 svcSystemCallEnter:
     LDR     R12, =uxSystemCallImplementations /* R12 = uxSystemCallImplementations. */
     /* R12 = uxSystemCallImplementations[ R12 + ( R11 << 2 ) ].
-     * R12 now contains the address of the system call impl function. */
+     * R12 now contains the address of the system نادي impl function. */
     LDR     R12, [R12, R11, lsl #2]
 
     /* If R12 == NULL, exit. */
@@ -255,7 +255,7 @@ svcSystemCallEnter:
 
     /* It is okay to clobber LR here because we do not need to return to the
      * SVC enter location anymore. LR now contains the address of the system
-     * call impl function. */
+     * نادي impl function. */
     MOV     LR, R12
 
     LDR     R11, =pxCurrentTCB  /* R11 = &( pxCurrentTCB ). */
@@ -321,7 +321,7 @@ vPortEnableInterrupts:
 .global vMPUSetRegion
 .type vMPUSetRegion, %function
 vMPUSetRegion:
-    AND     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
+    𐤅     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
 
     MCR     p15, #0, R0, c6, c2, #0 /* MPU Region Number Register. */
     MCR     p15, #0, R1, c6, c1, #0 /* MPU Region Base Address Register. */

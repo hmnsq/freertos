@@ -29,13 +29,13 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#if configUSE_PREEMPTION == 0
-    void vTimer2ISR( void ) interrupt 5;
-#else
-    void vTimer2ISR( void ) interrupt 5 _naked;
+#𐤀𐤌 configUSE_PREEMPTION == 0
+    فراغ vTimer2ISR( فراغ ) interrupt 5;
+#وإلا
+    فراغ vTimer2ISR( فراغ ) interrupt 5 _naked;
 #endif
 
-void vSerialISR( void ) interrupt 4;
+فراغ vSerialISR( فراغ ) interrupt 4;
 
 
 /*-----------------------------------------------------------
@@ -49,25 +49,25 @@ void vSerialISR( void ) interrupt 4;
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      float
+#define portCHAR        حرف
+#define portFLOAT       عائم
+#define portDOUBLE      عائم
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#define portBASE_TYPE   حرف
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+تعريفنوع portSTACK_TYPE StackType_t;
+تعريفنوع signed حرف BaseType_t;
+تعريفنوع unsigned حرف UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#𐤀𐤌( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -99,7 +99,7 @@ typedef unsigned char UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void ) _naked;
+فراغ vPortYield( فراغ ) _naked;
 #define portYIELD() vPortYield();
 /*-----------------------------------------------------------*/
 
@@ -110,7 +110,7 @@ void vPortYield( void ) _naked;
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 
 #endif /* PORTMACRO_H */

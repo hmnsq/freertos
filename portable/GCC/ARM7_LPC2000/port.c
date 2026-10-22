@@ -37,11 +37,11 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#ضمن <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to setup the task context. */
 #define portINITIAL_SPSR                   ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
@@ -63,13 +63,13 @@
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*
  * The scheduler can only be started from ARM mode, so
  * vPortISRStartFirstSTask() is defined in portISR.c.
  */
-extern void vPortISRStartFirstTask( void );
+خارجي فراغ vPortISRStartFirstTask( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -81,7 +81,7 @@ extern void vPortISRStartFirstTask( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     StackType_t * pxOriginalTOS;
 
@@ -138,7 +138,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * system mode, with interrupts enabled. */
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
+    𐤀𐤌( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00 )
     {
         /* We want the task to start in thumb mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -152,11 +152,11 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -166,11 +166,11 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
@@ -180,11 +180,11 @@ void vPortEndScheduler( void )
 /*
  * Setup the timer 0 to generate the tick interrupts at the required frequency.
  */
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     uint32_t ulCompareMatch;
 
-    extern void( vTickISR )( void );
+    خارجي فراغ( vTickISR )( فراغ );
 
     /* A 1ms tick does not require the use of the timer prescale.  This is
      * defaulted to zero but can be used if necessary. */
@@ -195,7 +195,7 @@ static void prvSetupTimerInterrupt( void )
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #𐤀𐤌 portPRESCALE_VALUE != 0
     {
         ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
     }

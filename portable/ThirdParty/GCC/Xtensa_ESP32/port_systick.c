@@ -4,31 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include "soc/cpu.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "esp_intr_alloc.h"
-#include "esp_err.h"
-#include "esp_log.h"
-#include "sdkconfig.h"
+#ضمن <stdlib.h>
+#ضمن <string.h>
+#ضمن "soc/cpu.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
+#ضمن "esp_intr_alloc.h"
+#ضمن "esp_err.h"
+#ضمن "esp_log.h"
+#ضمن "sdkconfig.h"
 #ifdef CONFIG_FREERTOS_SYSTICK_USES_SYSTIMER
-    #include "soc/periph_defs.h"
-    #include "soc/system_reg.h"
-    #include "hal/systimer_hal.h"
-    #include "hal/systimer_ll.h"
+    #ضمن "soc/periph_defs.h"
+    #ضمن "soc/system_reg.h"
+    #ضمن "hal/systimer_hal.h"
+    #ضمن "hal/systimer_ll.h"
 #endif
 
 #ifdef CONFIG_PM_TRACE
-    #include "esp_private/pm_trace.h"
+    #ضمن "esp_private/pm_trace.h"
 #endif //CONFIG_PM_TRACE
 
-BaseType_t xPortSysTickHandler( void );
+BaseType_t xPortSysTickHandler( فراغ );
 
 #ifdef CONFIG_FREERTOS_SYSTICK_USES_CCOUNT
-    extern void _frxt_tick_timer_init( void );
-    extern void _xt_tick_divisor_init( void );
+    خارجي فراغ _frxt_tick_timer_init( فراغ );
+    خارجي فراغ _xt_tick_divisor_init( فراغ );
 
     #ifdef CONFIG_FREERTOS_CORETIMER_0
         #define SYSTICK_INTR_ID    ( ETS_INTERNAL_TIMER0_INTR_SOURCE + ETS_INTERNAL_INTR_SOURCE_OFF )
@@ -41,7 +41,7 @@ BaseType_t xPortSysTickHandler( void );
  * @brief Initialize CCONT timer to generate the tick interrupt
  *
  */
-    void vPortSetupTimer( void )
+    فراغ vPortSetupTimer( فراغ )
     {
         /* Init the tick divisor value */
         _xt_tick_divisor_init();
@@ -50,13 +50,13 @@ BaseType_t xPortSysTickHandler( void );
     }
 
 
-#elif CONFIG_FREERTOS_SYSTICK_USES_SYSTIMER
+#وإلاإذا CONFIG_FREERTOS_SYSTICK_USES_SYSTIMER
 
     _Static_assert( SOC_CPU_CORES_NUM <= SOC_SYSTIMER_ALARM_NUM - 1, "the number of cores must match the number of core alarms in SYSTIMER" );
 
-    void SysTickIsrHandler( void * arg );
+    فراغ SysTickIsrHandler( فراغ * arg );
 
-    static uint32_t s_handled_systicks[ portNUM_PROCESSORS ] = { 0 };
+    ساكن uint32_t s_handled_systicks[ portNUM_PROCESSORS ] = { 0 };
 
     #define SYSTICK_INTR_ID    ( ETS_SYSTIMER_TARGET0_EDGE_INTR_SOURCE )
 
@@ -67,32 +67,32 @@ BaseType_t xPortSysTickHandler( void );
  * It is done at the same time so SysTicks for both CPUs occur at the same time or very close.
  * Shifts a time of triggering interrupts for core 0 and core 1.
  */
-    void vPortSetupTimer( void )
+    فراغ vPortSetupTimer( فراغ )
     {
         unsigned cpuid = xPortGetCoreID();
 
         #ifdef CONFIG_FREERTOS_CORETIMER_SYSTIMER_LVL3
-            const unsigned level = ESP_INTR_FLAG_LEVEL3;
-        #else
-            const unsigned level = ESP_INTR_FLAG_LEVEL1;
+            ثابت unsigned level = ESP_INTR_FLAG_LEVEL3;
+        #وإلا
+            ثابت unsigned level = ESP_INTR_FLAG_LEVEL1;
         #endif
         /* Systimer HAL layer object */
-        static systimer_hal_context_t systimer_hal;
+        ساكن systimer_hal_context_t systimer_hal;
         /* set system timer interrupt vector */
-        ESP_ERROR_CHECK( esp_intr_alloc( ETS_SYSTIMER_TARGET0_EDGE_INTR_SOURCE + cpuid, ESP_INTR_FLAG_IRAM | level, SysTickIsrHandler, &systimer_hal, NULL ) );
+        ESP_ERROR_CHECK( esp_intr_alloc( ETS_SYSTIMER_TARGET0_EDGE_INTR_SOURCE + cpuid, ESP_INTR_FLAG_IRAM | level, SysTickIsrHandler, &systimer_hal, عدم ) );
 
-        if( cpuid == 0 )
+        𐤀𐤌( cpuid == 0 )
         {
             systimer_hal_init( &systimer_hal );
             systimer_ll_set_counter_value( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK, 0 );
             systimer_ll_apply_counter_value( systimer_hal.dev, SYSTIMER_LL_COUNTER_OS_TICK );
 
-            for( cpuid = 0; cpuid < SOC_CPU_CORES_NUM; cpuid++ )
+            لكل( cpuid = 0; cpuid < SOC_CPU_CORES_NUM; cpuid++ )
             {
                 systimer_hal_counter_can_stall_by_cpu( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, cpuid, false );
             }
 
-            for( cpuid = 0; cpuid < portNUM_PROCESSORS; ++cpuid )
+            لكل( cpuid = 0; cpuid < portNUM_PROCESSORS; ++cpuid )
             {
                 uint32_t alarm_id = SYSTIMER_LL_ALARM_OS_TICK_CORE0 + cpuid;
 
@@ -102,7 +102,7 @@ BaseType_t xPortSysTickHandler( void );
                 systimer_hal_select_alarm_mode( &systimer_hal, alarm_id, SYSTIMER_ALARM_MODE_PERIOD );
                 systimer_hal_counter_can_stall_by_cpu( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK, cpuid, true );
 
-                if( cpuid == 0 )
+                𐤀𐤌( cpuid == 0 )
                 {
                     systimer_hal_enable_alarm_int( &systimer_hal, alarm_id );
                     systimer_hal_enable_counter( &systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK );
@@ -113,7 +113,7 @@ BaseType_t xPortSysTickHandler( void );
                 }
             }
         }
-        else
+        وإلا
         {
             uint32_t alarm_id = SYSTIMER_LL_ALARM_OS_TICK_CORE0 + cpuid;
             systimer_hal_enable_alarm_int( &systimer_hal, alarm_id );
@@ -126,7 +126,7 @@ BaseType_t xPortSysTickHandler( void );
  * The Systimer interrupt for SysTick works in periodic mode no need to calc the next alarm.
  * If a timer interrupt is ever serviced more than one tick late, it is necessary to process multiple ticks.
  */
-    IRAM_ATTR void SysTickIsrHandler( void * arg )
+    IRAM_ATTR فراغ SysTickIsrHandler( فراغ * arg )
     {
         uint32_t cpuid = xPortGetCoreID();
         systimer_hal_context_t * systimer_hal = ( systimer_hal_context_t * ) arg;
@@ -137,30 +137,30 @@ BaseType_t xPortSysTickHandler( void );
 
         uint32_t alarm_id = SYSTIMER_LL_ALARM_OS_TICK_CORE0 + cpuid;
 
-        do
+        𐤐𐤏𐤋
         {
             systimer_ll_clear_alarm_int( systimer_hal->dev, alarm_id );
 
             uint32_t diff = systimer_hal_get_counter_value( systimer_hal, SYSTIMER_LL_COUNTER_OS_TICK ) / systimer_ll_get_alarm_period( systimer_hal->dev, alarm_id ) - s_handled_systicks[ cpuid ];
 
-            if( diff > 0 )
+            𐤀𐤌( diff > 0 )
             {
-                if( s_handled_systicks[ cpuid ] == 0 )
+                𐤀𐤌( s_handled_systicks[ cpuid ] == 0 )
                 {
                     s_handled_systicks[ cpuid ] = diff;
                     diff = 1;
                 }
-                else
+                وإلا
                 {
                     s_handled_systicks[ cpuid ] += diff;
                 }
 
-                do
+                𐤐𐤏𐤋
                 {
                     xPortSysTickHandler();
-                } while( --diff );
+                } طالما( --diff );
             }
-        } while( systimer_ll_is_alarm_int_fired( systimer_hal->dev, alarm_id ) );
+        } طالما( systimer_ll_is_alarm_int_fired( systimer_hal->dev, alarm_id ) );
 
         #ifdef CONFIG_PM_TRACE
             ESP_PM_TRACE_EXIT( TICK, cpuid );
@@ -177,21 +177,21 @@ BaseType_t xPortSysTickHandler( void );
  *  - SysTickIsrHandler for xtensa with CONFIG_FREERTOS_SYSTICK_USES_SYSTIMER
  *  - SysTickIsrHandler for riscv
  */
-BaseType_t xPortSysTickHandler( void )
+BaseType_t xPortSysTickHandler( فراغ )
 {
     portbenchmarkIntLatency();
     traceISR_ENTER( SYSTICK_INTR_ID );
     BaseType_t ret = xTaskIncrementTick();
 
-    if( ret != pdFALSE )
+    𐤀𐤌( ret != pdFALSE )
     {
         traceISR_EXIT_TO_SCHEDULER();
         portYIELD_FROM_ISR();
     }
-    else
+    وإلا
     {
         traceISR_EXIT();
     }
 
-    return ret;
+    أرجع ret;
 }

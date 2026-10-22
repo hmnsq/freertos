@@ -27,16 +27,16 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
-#include <string.h>
+#ضمن <stdlib.h>
+#ضمن <string.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#𐤀𐤌 configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #𐤀𐤌 ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -63,7 +63,7 @@
 /* Constants required to setup the initial task context. */
 #ifdef __ARMEB__
     #define portINITIAL_SPSR             ( ( StackType_t ) 0x21f ) /* System mode, ARM mode, IRQ enabled FIQ enabled, Big-endian. */
-#else
+#وإلا
     #define portINITIAL_SPSR             ( ( StackType_t ) 0x01f ) /* System mode, ARM mode, IRQ enabled FIQ enabled, Little-endian. */
 #endif
 #define portTHUMB_MODE_BIT               ( ( StackType_t ) 0x20 )
@@ -81,14 +81,14 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#وإلا
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
 /* The space on the stack required to hold the FPU registers. */
-#if ( configFPU_D32 == 1 )
+#𐤀𐤌 ( configFPU_D32 == 1 )
     #define portFPU_REGISTER_WORDS     ( ( 32 * 2 ) + 1 ) /* D0-D31 and FPSCR. */
-#else
+#وإلا
     #define portFPU_REGISTER_WORDS     ( ( 16 * 2 ) + 1 ) /* D0-D15 and FPSCR. */
 #endif /* configFPU_D32 */
 
@@ -98,14 +98,14 @@
  * These functions are necessarily written in assembly code, so are implemented
  * in portASM.S.
  */
-extern void vPortRestoreTaskContext( void );
-extern void vPortInitialiseFPSCR( void );
-extern uint32_t ulReadAPSR( void );
+خارجي فراغ vPortRestoreTaskContext( فراغ );
+خارجي فراغ vPortInitialiseFPSCR( فراغ );
+خارجي uint32_t ulReadAPSR( فراغ );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+ساكن فراغ prvTaskExitError( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -114,21 +114,21 @@ static void prvTaskExitError( void );
  * a non zero value to ensure interrupts don't inadvertently become unmasked before
  * the scheduler starts.  As it is stored as part of the task context it will
  * automatically be set to 0 when the first task is started. */
-volatile uint32_t ulCriticalNesting = 9999UL;
+متطاير uint32_t ulCriticalNesting = 9999UL;
 
 /* Saved as part of the task context.  If ulPortTaskHasFPUContext is non-zero then
  * a floating point context must be saved and restored for the task. */
-volatile uint32_t ulPortTaskHasFPUContext = pdFALSE;
+متطاير uint32_t ulPortTaskHasFPUContext = pdFALSE;
 
 /* Set to 1 to pend a context switch from an ISR. */
-volatile uint32_t ulPortYieldRequired = pdFALSE;
+متطاير uint32_t ulPortYieldRequired = pdFALSE;
 
 /* Counts the interrupt nesting depth.  A context switch is only performed if
  * if the nesting depth is 0. */
-volatile uint32_t ulPortInterruptNesting = 0UL;
+متطاير uint32_t ulPortInterruptNesting = 0UL;
 
 /* Used in the asm file to clear an interrupt. */
-__attribute__( ( used ) ) const uint32_t ulICCEOIR = configEOI_ADDRESS;
+__attribute__( ( used ) ) ثابت uint32_t ulICCEOIR = configEOI_ADDRESS;
 
 /*-----------------------------------------------------------*/
 
@@ -137,7 +137,7 @@ __attribute__( ( used ) ) const uint32_t ulICCEOIR = configEOI_ADDRESS;
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro.
@@ -145,15 +145,15 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * The fist real value on the stack is the status register, which is set for
      * system mode, with interrupts enabled.  A few NULLs are added first to ensure
      * GDB does not try decoding a non-existent return address. */
-    *pxTopOfStack = ( StackType_t ) NULL;
+    *pxTopOfStack = ( StackType_t ) عدم;
     pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
+    *pxTopOfStack = ( StackType_t ) عدم;
     pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;
+    *pxTopOfStack = ( StackType_t ) عدم;
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    𐤀𐤌( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -199,7 +199,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * enabled. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    #if ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #𐤀𐤌 ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /* The task will start without a floating point context.  A task that uses
          * the floating point hardware must call vPortTaskUsesFPU() before executing
@@ -207,12 +207,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         pxTopOfStack--;
         *pxTopOfStack = portNO_FLOATING_POINT_CONTEXT;
     }
-    #elif ( configUSE_TASK_FPU_SUPPORT == 2 )
+    #وإلاإذا ( configUSE_TASK_FPU_SUPPORT == 2 )
     {
         /* The task will start with a floating point context.  Leave enough
          * space for the registers - and ensure they are initialised to 0. */
         pxTopOfStack -= portFPU_REGISTER_WORDS;
-        memset( pxTopOfStack, 0x00, portFPU_REGISTER_WORDS * sizeof( StackType_t ) );
+        memset( pxTopOfStack, 0x00, portFPU_REGISTER_WORDS * حجم( StackType_t ) );
 
         /* Initialise the slot containing ulPortTaskHasFPUContext to true as
          * the task starts with a floating point context. */
@@ -220,17 +220,17 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = pdTRUE;
         ulPortTaskHasFPUContext = pdTRUE;
     }
-    #else
+    #وإلا
     {
         #error "Invalid configUSE_TASK_FPU_SUPPORT value - configUSE_TASK_FPU_SUPPORT must be set to 1, 2, or left undefined."
     }
     #endif /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+ساكن فراغ prvTaskExitError( فراغ )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -241,13 +241,13 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    لكل( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
     uint32_t ulAPSR;
 
@@ -258,7 +258,7 @@ BaseType_t xPortStartScheduler( void )
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    𐤀𐤌( ulAPSR != portAPSR_USER_MODE )
     {
         /* Start the timer that generates the tick ISR. */
         portDISABLE_INTERRUPTS();
@@ -273,12 +273,12 @@ BaseType_t xPortStartScheduler( void )
      * possible value.  prvTaskExitError() is referenced to prevent a compiler
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
-    ( void ) prvTaskExitError;
-    return 0;
+    ( فراغ ) prvTaskExitError;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -286,7 +286,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+فراغ vPortEnterCritical( فراغ )
 {
     portDISABLE_INTERRUPTS();
 
@@ -300,16 +300,16 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    𐤀𐤌( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+فراغ vPortExitCritical( فراغ )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    𐤀𐤌( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -317,7 +317,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        𐤀𐤌( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -327,14 +327,14 @@ void vPortExitCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void FreeRTOS_Tick_Handler( void )
+فراغ FreeRTOS_Tick_Handler( فراغ )
 {
     uint32_t ulInterruptStatus;
 
     ulInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    𐤀𐤌( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }
@@ -345,9 +345,9 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#𐤀𐤌 ( configUSE_TASK_FPU_SUPPORT != 2 )
 
-    void vPortTaskUsesFPU( void )
+    فراغ vPortTaskUsesFPU( فراغ )
     {
         /* A task is registering the fact that it needs an FPU context.  Set the
          * FPU flag (which is saved as part of the task context). */

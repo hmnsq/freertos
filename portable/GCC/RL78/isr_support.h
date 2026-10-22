@@ -27,8 +27,8 @@
  */
 
 /* Variables used by scheduler */
-.extern _pxCurrentTCB
-   .extern _usCriticalNesting
+.خارجي _pxCurrentTCB
+   .خارجي _usCriticalNesting
 
 /*
  * portSAVE_CONTEXT MACRO

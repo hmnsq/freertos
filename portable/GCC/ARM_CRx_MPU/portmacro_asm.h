@@ -30,18 +30,18 @@
 #define PORTMACRO_ASM_H
 
 #ifdef __cplusplus
-extern "C" {
+خارجي "C" {
 #endif
 
-#include "FreeRTOSConfig.h"
+#ضمن "FreeRTOSConfig.h"
 
 #ifndef configTOTAL_MPU_REGIONS
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#elif( configTOTAL_MPU_REGIONS == 12 )
+#وإلاإذا( configTOTAL_MPU_REGIONS == 12 )
     #define portMPU_TOTAL_REGIONS ( 12UL )
-#elif( configTOTAL_MPU_REGIONS == 16 )
+#وإلاإذا( configTOTAL_MPU_REGIONS == 16 )
     #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
+#وإلا
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
 #endif /* configTOTAL_MPU_REGIONS */
 
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#𐤀𐤌( portENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -251,7 +251,7 @@ extern "C" {
      *           1            1        32         13         1         1          1        1
      */
     #define CONTEXT_SIZE 51U
-#else
+#وإلا
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |

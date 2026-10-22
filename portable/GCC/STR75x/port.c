@@ -32,12 +32,12 @@
 *----------------------------------------------------------*/
 
 /* Library includes. */
-#include "75x_tb.h"
-#include "75x_eic.h"
+#ضمن "75x_tb.h"
+#ضمن "75x_eic.h"
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ضمن "FreeRTOS.h"
+#ضمن "task.h"
 
 /* Constants required to setup the initial stack. */
 #define portINITIAL_SPSR           ( ( StackType_t ) 0x1f )      /* System mode, ARM mode, interrupts enabled. */
@@ -54,7 +54,7 @@
 /*-----------------------------------------------------------*/
 
 /* Setup the TB to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+ساكن فراغ prvSetupTimerInterrupt( فراغ );
 
 /*-----------------------------------------------------------*/
 
@@ -66,7 +66,7 @@ static void prvSetupTimerInterrupt( void );
  */
 StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     فراغ * pvParameters )
 {
     StackType_t * pxOriginalTOS;
 
@@ -136,13 +136,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * tasks context. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    return pxTopOfStack;
+    أرجع pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( فراغ )
 {
-    extern void vPortISRStartFirstTask( void );
+    خارجي فراغ vPortISRStartFirstTask( فراغ );
 
     /* Start the timer that generates the tick ISR.  Interrupts are disabled
      * here already. */
@@ -152,18 +152,18 @@ BaseType_t xPortStartScheduler( void )
     vPortISRStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    أرجع 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+فراغ vPortEndScheduler( فراغ )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  */
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+ساكن فراغ prvSetupTimerInterrupt( فراغ )
 {
     EIC_IRQInitTypeDef EIC_IRQInitStructure;
     TB_InitTypeDef TB_InitStructure;
