@@ -33,10 +33,10 @@
 
 /* #include "embARC.h" */
 
-#include "arc_freertos_exceptions.h"
+#അന്തര്ഭാവ "arc_freertos_exceptions.h"
 
 #ifdef __GNU__
-    extern void gnu_printf_setup( void );
+    ബാഹ്യ ശൂന്യം gnu_printf_setup( ശൂന്യം );
 #endif
 
 /**
@@ -44,7 +44,7 @@
  * fast irqs. If fiq is needed, please install the default firq_exc_entry or your own fast irq entry into
  * the specific interrupt exception.
  */
-void freertos_exc_init( void )
+ശൂന്യം freertos_exc_init( ശൂന്യം )
 {
     #ifdef __GNU__
         gnu_printf_setup();

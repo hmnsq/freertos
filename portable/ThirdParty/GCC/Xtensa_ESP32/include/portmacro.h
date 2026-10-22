@@ -63,35 +63,35 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ബാഹ്യ "C" {
 #endif
 /* *INDENT-ON* */
 
 #ifndef __ASSEMBLER__
 
-    #include <stdint.h>
+    #അന്തര്ഭാവ <stdint.h>
 
-    #include <xtensa/hal.h>
-    #include <xtensa/config/core.h>
-    #include <xtensa/config/system.h> /* required for XSHAL_CLIB */
-    #include <xtensa/xtruntime.h>
-    #include "soc/spinlock.h"
-    #include "esp_timer.h" /* required for FreeRTOS run time stats */
-    #include "esp_system.h"
-    #include "esp_idf_version.h"
-    #include "esp_heap_caps.h"
+    #അന്തര്ഭാവ <xtensa/hal.h>
+    #അന്തര്ഭാവ <xtensa/config/core.h>
+    #അന്തര്ഭാവ <xtensa/config/system.h> /* required for XSHAL_CLIB */
+    #അന്തര്ഭാവ <xtensa/xtruntime.h>
+    #അന്തര്ഭാവ "soc/spinlock.h"
+    #അന്തര്ഭാവ "esp_timer.h" /* required for FreeRTOS run time stats */
+    #അന്തര്ഭാവ "esp_system.h"
+    #അന്തര്ഭാവ "esp_idf_version.h"
+    #അന്തര്ഭാവ "esp_heap_caps.h"
 
 /* TODO: Resolve build warnings generated due to this header inclusion */
-    #include "hal/cpu_hal.h"
+    #അന്തര്ഭാവ "hal/cpu_hal.h"
 
 /* TODO: These includes are not directly used in this file. They are kept into to prevent a breaking change. Remove these. */
-    #include <limits.h>
-    #include <xtensa/xtensa_api.h>
+    #അന്തര്ഭാവ <limits.h>
+    #അന്തര്ഭാവ <xtensa/xtensa_api.h>
 
-    #include "soc/cpu.h"
-    #include "soc/soc_memory_layout.h"
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-        #include "soc/compare_set.h"
+    #അന്തര്ഭാവ "soc/cpu.h"
+    #അന്തര്ഭാവ "soc/soc_memory_layout.h"
+    #എങ്കിൽ ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+        #അന്തര്ഭാവ "soc/compare_set.h"
     #endif /* ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0) */
 
 /*#include "xtensa_context.h" */
@@ -109,36 +109,36 @@
 /* Type definitions. */
 
     #define portCHAR          int8_t
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portFLOAT         ദശാംശം
+    #define portDOUBLE        ഇരട്ട
     #define portLONG          int32_t
     #define portSHORT         int16_t
-    #define portSTACK_TYPE    uint8_t
-    #define portBASE_TYPE     int
+    #define port_അട്ടി_TYPE    uint8_t
+    #define portBASE_TYPE     പൂർണ്ണസംഖ്യ
 
-    typedef portSTACK_TYPE           StackType_t;
-    typedef portBASE_TYPE            BaseType_t;
-    typedef unsigned portBASE_TYPE   UBaseType_t;
+    തരനിർവചനം port_അട്ടി_TYPE           അട്ടി_Type_t;
+    തരനിർവചനം portBASE_TYPE            BaseType_t;
+    തരനിർവചനം unsigned portBASE_TYPE   UBaseType_t;
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef uint16_t             TickType_t;
+    #എങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        തരനിർവചനം uint16_t             TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t             TickType_t;
+    #അല്ലെങ്കിലെങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        തരനിർവചനം uint32_t             TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-    #else
+    #അല്ലെങ്കിൽ
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
 
 /* portbenchmark */
-    #include "portbenchmark.h"
+    #അന്തര്ഭാവ "portbenchmark.h"
 
-    #include "sdkconfig.h"
-    #include "esp_attr.h"
+    #അന്തര്ഭാവ "sdkconfig.h"
+    #അന്തര്ഭാവ "esp_attr.h"
 
 /* "mux" data structure (spinlock) */
-    typedef spinlock_t portMUX_TYPE;                                /**< Spinlock type used by FreeRTOS critical sections */
+    തരനിർവചനം spinlock_t portMUX_TYPE;                                /**< Spinlock type used by FreeRTOS critical sections */
     #define portMUX_INITIALIZER_UNLOCKED    SPINLOCK_INITIALIZER    /**< Spinlock initializer */
     #define portMUX_FREE_VAL                SPINLOCK_FREE           /**< Spinlock is free. [refactor-todo] check if this is still required */
     #define portMUX_NO_TIMEOUT              SPINLOCK_WAIT_FOREVER   /**< When passed for 'timeout_cycles', spin forever if necessary. [refactor-todo] check if this is still required */
@@ -173,14 +173,14 @@
  * that either function can be called both from ISR as well as task context. This is not standard FreeRTOS
  * behaviour; please keep this in mind if you need any compatibility with other FreeRTOS implementations.
  */
-    void vPortCPUInitializeMutex( portMUX_TYPE * mux );
+    ശൂന്യം vPortCPUInitializeMutex( portMUX_TYPE * mux );
     #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
         #error CONFIG_FREERTOS_PORTMUX_DEBUG not supported in Amazon FreeRTOS
     #endif
 
-    void vTaskExitCritical();
-    void vTaskEnterCritical();
-    static inline void vPortConsumeSpinlockArg( int unused,
+    ശൂന്യം vTaskExitCritical();
+    ശൂന്യം vTaskEnterCritical();
+    സ്ഥിതം വരിയിൽ ശൂന്യം vPortConsumeSpinlockArg( പൂർണ്ണസംഖ്യ unused,
                                                 ... )
     {
     }
@@ -194,58 +194,58 @@
  * @return true if mutex is successfully acquired, false on timeout.
  */
     bool vPortCPUAcquireMutexTimeout( portMUX_TYPE * mux,
-                                      int timeout_cycles );
-    void vPortCPUReleaseMutex( portMUX_TYPE * mux );
+                                      പൂർണ്ണസംഖ്യ timeout_cycles );
+    ശൂന്യം vPortCPUReleaseMutex( portMUX_TYPE * mux );
 
-    #define portENTER_CRITICAL( ... )        do { vTaskEnterCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
-    #define portEXIT_CRITICAL( ... )         do { vTaskExitCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } while( 0 )
+    #define portENTER_CRITICAL( ... )        ചെയ്യുക { vTaskEnterCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } ആകുമ്പോൾ( 0 )
+    #define portEXIT_CRITICAL( ... )         ചെയ്യുക { vTaskExitCritical(); vPortConsumeSpinlockArg( 0, ## __VA_ARGS__ ); } ആകുമ്പോൾ( 0 )
 
 
     #define portENTER_CRITICAL_ISR( mux )    vPortCPUAcquireMutexTimeout( mux, portMUX_NO_TIMEOUT )
     #define portEXIT_CRITICAL_ISR( mux )     vPortCPUReleaseMutex( mux )
 
     #define portENTER_CRITICAL_SAFE( mux ) \
-    do {                                   \
-        if( xPortInIsrContext() ) {        \
+    ചെയ്യുക {                                   \
+        എങ്കിൽ( xPortInIsrContext() ) {        \
             portENTER_CRITICAL_ISR( mux ); \
         }                                  \
-        else {                             \
+        അല്ലെങ്കിൽ {                             \
             portENTER_CRITICAL( mux );     \
         }                                  \
-    } while( 0 )
+    } ആകുമ്പോൾ( 0 )
 
     #define portEXIT_CRITICAL_SAFE( mux ) \
-    do {                                  \
-        if( xPortInIsrContext() ) {       \
+    ചെയ്യുക {                                  \
+        എങ്കിൽ( xPortInIsrContext() ) {       \
             portEXIT_CRITICAL_ISR( mux ); \
         }                                 \
-        else {                            \
+        അല്ലെങ്കിൽ {                            \
             portEXIT_CRITICAL( mux );     \
         }                                 \
-    } while( 0 )
+    } ആകുമ്പോൾ( 0 )
 
     #define portASSERT_IF_IN_ISR()    vPortAssertIfInISR()
-    void vPortAssertIfInISR( void );
+    ശൂന്യം vPortAssertIfInISR( ശൂന്യം );
 
 /* Critical section management. NW-TODO: replace XTOS_SET_INTLEVEL with more efficient version, if any? */
 /* These cannot be nested. They should be used with a lot of care and cannot be called from interrupt level. */
 /* */
 /* Only applies to one CPU. See notes above & below for reasons not to use these. */
-    #define portDISABLE_INTERRUPTS()    do { XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmarkINTERRUPT_DISABLE(); } while( 0 )
-    #define portENABLE_INTERRUPTS()     do { portbenchmarkINTERRUPT_RESTORE( 0 ); XTOS_SET_INTLEVEL( 0 ); } while( 0 )
+    #define portDISABLE_INTERRUPTS()    ചെയ്യുക { XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL ); portbenchmarkINTERRUPT_DISABLE(); } ആകുമ്പോൾ( 0 )
+    #define portENABLE_INTERRUPTS()     ചെയ്യുക { portbenchmarkINTERRUPT_RESTORE( 0 ); XTOS_SET_INTLEVEL( 0 ); } ആകുമ്പോൾ( 0 )
 
 /* Cleaner solution allows nested interrupts disabling and restoring via local registers or stack. */
 /* They can be called from interrupts too. */
 /* WARNING: Only applies to current CPU. See notes above. */
-    static inline UBaseType_t __attribute__( ( always_inline ) ) xPortSetInterruptMaskFromISR( void )
+    സ്ഥിതം വരിയിൽ UBaseType_t __attribute__( ( always_inline ) ) xPortSetInterruptMaskFromISR( ശൂന്യം )
     {
         UBaseType_t prev_int_level = XTOS_SET_INTLEVEL( XCHAL_EXCM_LEVEL );
 
         portbenchmarkINTERRUPT_DISABLE();
-        return prev_int_level;
+        തിരികെ prev_int_level;
     }
 
-    static inline void __attribute__( ( always_inline ) ) vPortClearInterruptMaskFromISR( UBaseType_t prev_level )
+    സ്ഥിതം വരിയിൽ ശൂന്യം __attribute__( ( always_inline ) ) vPortClearInterruptMaskFromISR( UBaseType_t prev_level )
     {
         portbenchmarkINTERRUPT_RESTORE( prev_level );
         XTOS_RESTORE_JUST_INTLEVEL( prev_level );
@@ -258,17 +258,17 @@
 /*Because the ROM routines don't necessarily handle a stack in external RAM correctly, we force */
 /*the stack memory to always be internal. */
     #define portTcbMemoryCaps      ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
-    #define portStackMemoryCaps    ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
+    #define port_അട്ടി_Memory_Caps    ( MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT )
 
     #define pvPortMallocTcbMem( size )        heap_caps_malloc( size, portTcbMemoryCaps )
-    #define pvPortMallocStackMem( size )      heap_caps_malloc( size, portStackMemoryCaps )
+    #define pv_Port_Malloc_അട്ടി_Mem( size )      heap_caps_malloc( size, port_അട്ടി_Memory_Caps )
 
 /*xTaskCreateStatic uses these functions to check incoming memory. */
     #define portVALID_TCB_MEM( ptr )          ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
-    #ifdef CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY
-        #define portVALID_STACK_MEM( ptr )    esp_ptr_byte_accessible( ptr )
-    #else
-        #define portVALID_STACK_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
+    #ifdef CONFIG_SPIRAM_ALLOW_അട്ടി_EXTERNAL_MEMORY
+        #define port_VALID_അട്ടി_MEM( ptr )    esp_ptr_byte_accessible( ptr )
+    #അല്ലെങ്കിൽ
+        #define port_VALID_അട്ടി_MEM( ptr )    ( esp_ptr_internal( ptr ) && esp_ptr_byte_accessible( ptr ) )
     #endif
 
 /*
@@ -280,34 +280,34 @@
  * *bitwise inverse* of the old mem if the mem wasn't written. This doesn't seem to happen on the
  * ESP32 (portMUX assertions would fail).
  */
-    static inline void uxPortCompareSet( volatile uint32_t * addr,
+    സ്ഥിതം വരിയിൽ ശൂന്യം uxPortCompareSet( അസ്ഥിര uint32_t * addr,
                                          uint32_t compare,
                                          uint32_t * set )
     {
-        #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+        #എങ്കിൽ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
             __asm__ __volatile__ (
                 "WSR       %2,SCOMPARE1 \n"
                 "S32C1I     %0, %1, 0   \n"
                 : "=r" ( *set )
                 : "r" ( addr ), "r" ( compare ), "0" ( *set )
                 );
-        #else
-            #if ( XCHAL_HAVE_S32C1I > 0 )
+        #അല്ലെങ്കിൽ
+            #എങ്കിൽ ( XCHAL_HAVE_S32C1I > 0 )
                 __asm__ __volatile__ (
                     "WSR        %2,SCOMPARE1 \n"
                     "S32C1I     %0, %1, 0    \n"
                     : "=r" ( *set )
                     : "r" ( addr ), "r" ( compare ), "0" ( *set )
                     );
-            #else
+            #അല്ലെങ്കിൽ
                 /* No S32C1I, so do this by disabling and re-enabling interrupts (slower) */
-                uint32_t intlevel, old_value;
+                uint32_t intlevel, old_മൂല്യം;
                 __asm__ __volatile__ ( "rsil %0, " XTSTR( XCHAL_EXCM_LEVEL ) "\n"
                                        : "=r" ( intlevel ) );
 
-                old_value = *addr;
+                old_മൂല്യം = *addr;
 
-                if( old_value == compare )
+                എങ്കിൽ( old_മൂല്യം == compare )
                 {
                     *addr = *set;
                 }
@@ -316,21 +316,21 @@
                                        "wsr %0, ps\n"
                                        : : "r" ( intlevel ) );
 
-                *set = old_value;
+                *set = old_മൂല്യം;
             #endif /* if ( XCHAL_HAVE_S32C1I > 0 ) */
         #endif /* #if (ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL(4, 2, 0)) */
     }
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
-        void uxPortCompareSetExtram( volatile uint32_t * addr,
+    #എങ്കിൽ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+        ശൂന്യം uxPortCompareSetExtram( അസ്ഥിര uint32_t * addr,
                                      uint32_t compare,
                                      uint32_t * set );
-    #else
-        static inline void uxPortCompareSetExtram( volatile uint32_t * addr,
+    #അല്ലെങ്കിൽ
+        സ്ഥിതം വരിയിൽ ശൂന്യം uxPortCompareSetExtram( അസ്ഥിര uint32_t * addr,
                                                    uint32_t compare,
                                                    uint32_t * set )
         {
-            #if defined( CONFIG_SPIRAM )
+            #എങ്കിൽ defined( CONFIG_SPIRAM )
                 compare_and_set_extram( addr, compare, set );
             #endif
         }
@@ -339,29 +339,29 @@
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_അട്ടി_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
     #define portBYTE_ALIGNMENT    4
     #define portNOP()    XT_NOP()
 /*-----------------------------------------------------------*/
 
 /* Fine resolution time */
-    #define portGET_RUN_TIME_COUNTER_VALUE()    xthal_get_ccount()
+    #define port_GET_RUN_TIME_COUNTER_മൂല്യം()    xthal_get_ccount()
 /*ccount or esp_timer are initialized elsewhere */
     #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()
 
     #ifdef CONFIG_FREERTOS_RUN_TIME_STATS_USING_ESP_TIMER
 /* Coarse resolution time (us) */
-        #define portALT_GET_RUN_TIME_COUNTER_VALUE( x )    do { x = ( uint32_t ) esp_timer_get_time(); } while( 0 )
+        #define port_ALT_GET_RUN_TIME_COUNTER_മൂല്യം( x )    ചെയ്യുക { x = ( uint32_t ) esp_timer_get_time(); } ആകുമ്പോൾ( 0 )
     #endif
 
 
 
 /* Kernel utilities. */
-    void vPortYield( void );
-    void vPortEvaluateYieldFromISR( int argc,
+    ശൂന്യം vPortYield( ശൂന്യം );
+    ശൂന്യം vPortEvaluateYieldFromISR( പൂർണ്ണസംഖ്യ argc,
                                     ... );
-    void _frxt_setup_switch( void );
+    ശൂന്യം _frxt_setup_switch( ശൂന്യം );
 
 /* Macro to count number of arguments of a __VA_ARGS__ used to support portYIELD_FROM_ISR with,
  * or without arguments. The macro counts only 0 or 1 arguments.
@@ -372,15 +372,15 @@
  * This allows users to compile their code with standard C++20 enabled instead of the GNU extension.
  * Below C++20, we haven't found any good alternative to using ##__VA_ARGS__.
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
-    #else
-        #define portGET_ARGUMENT_COUNT( ... )                        portGET_ARGUMENT_COUNT_INNER( 0, ## __VA_ARGS__, 1, 0 )
+    #എങ്കിൽ defined( __cplusplus ) && ( __cplusplus > 201703L )
+        #define port_GET_ARGUMENT_എണ്ണം( ... )                        port_GET_ARGUMENT_എണ്ണം_INNER( 0 __VA_OPT__(, ) __VA_ARGS__, 1, 0 )
+    #അല്ലെങ്കിൽ
+        #define port_GET_ARGUMENT_എണ്ണം( ... )                        port_GET_ARGUMENT_എണ്ണം_INNER( 0, ## __VA_ARGS__, 1, 0 )
     #endif
-    #define portGET_ARGUMENT_COUNT_INNER( zero, one, count, ... )    count
+    #define port_GET_ARGUMENT_എണ്ണം_INNER( zero, one, എണ്ണം, ... )    എണ്ണം
 
-    _Static_assert( portGET_ARGUMENT_COUNT() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
-    _Static_assert( portGET_ARGUMENT_COUNT( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
+    _Static_assert( port_GET_ARGUMENT_എണ്ണം() == 0, "portGET_ARGUMENT_COUNT() result does not match for 0 arguments" );
+    _Static_assert( port_GET_ARGUMENT_എണ്ണം( 1 ) == 1, "portGET_ARGUMENT_COUNT() result does not match for 1 argument" );
 
     #define portYIELD()    vPortYield()
 
@@ -388,47 +388,47 @@
  * it was developed to support both usages of portYIELD inside of an ISR. Any other usage form
  * might result in undesired behaviour
  */
-    #if defined( __cplusplus ) && ( __cplusplus > 201703L )
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
-    #else
-        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( portGET_ARGUMENT_COUNT( __VA_ARGS__ ), ## __VA_ARGS__ )
+    #എങ്കിൽ defined( __cplusplus ) && ( __cplusplus > 201703L )
+        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( port_GET_ARGUMENT_എണ്ണം( __VA_ARGS__ ) __VA_OPT__(, ) __VA_ARGS__ )
+    #അല്ലെങ്കിൽ
+        #define portYIELD_FROM_ISR( ... )    vPortEvaluateYieldFromISR( port_GET_ARGUMENT_എണ്ണം( __VA_ARGS__ ), ## __VA_ARGS__ )
     #endif
 
-    static inline BaseType_t xPortGetCoreID();
+    സ്ഥിതം വരിയിൽ BaseType_t xPortGetCoreID();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ശൂന്യം vFunction( ശൂന്യം * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          ശൂന്യം vFunction( ശൂന്യം * pvParameters )
 
 /* When coprocessors are defined, we to maintain a pointer to coprocessors area. */
 /* We currently use a hack: redefine field xMPU_SETTINGS in TCB block as a structure that can hold: */
 /* MPU wrappers, coprocessor area pointer, trace code structure, and more if needed. */
 /* The field is normally used for memory protection. FreeRTOS should create another general purpose field. */
-    typedef struct
+    തരനിർവചനം ഘടന
     {
-        #if XCHAL_CP_NUM > 0
-            volatile StackType_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
+        #എങ്കിൽ XCHAL_CP_അക്കം > 0
+            അസ്ഥിര അട്ടി_Type_t * coproc_area; /* Pointer to coprocessor save area; MUST BE FIRST */
         #endif
 
-        #if portUSING_MPU_WRAPPERS
+        #എങ്കിൽ portUSING_MPU_WRAPPERS
             /* Define here mpu_settings, which is port dependent */
-            int mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
+            പൂർണ്ണസംഖ്യ mpu_setting; /* Just a dummy example here; MPU not ported to Xtensa yet */
         #endif
 
-        #if configUSE_TRACE_FACILITY_2
-            struct
+        #എങ്കിൽ configUSE_TRACE_FACILITY_2
+            ഘടന
             {
                 /* Cf. porttraceStamp() */
-                int taskstamp;      /* Stamp from inside task to see where we are */
-                int taskstampcount; /* A counter usually incremented when we restart the task's loop */
+                പൂർണ്ണസംഖ്യ taskstamp;      /* Stamp from inside task to see where we are */
+                പൂർണ്ണസംഖ്യ taskstampcount; /* A counter usually incremented when we restart the task's loop */
             } porttrace;
         #endif
     } xMPU_SETTINGS;
 
 /* Main hack to use MPU_wrappers even when no MPU is defined (warning: mpu_setting should not be accessed; otherwise move this above xMPU_SETTINGS) */
-    #if ( XCHAL_CP_NUM > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
+    #എങ്കിൽ ( XCHAL_CP_അക്കം > 0 || configUSE_TRACE_FACILITY_2 ) && !portUSING_MPU_WRAPPERS /* If MPU wrappers not used, we still need to allocate coproc area */
         #undef portUSING_MPU_WRAPPERS
         #define portUSING_MPU_WRAPPERS    1                                           /* Enable it to allocate coproc area */
         #define MPU_WRAPPERS_H                                                        /* Override mpu_wrapper.h to disable unwanted code */
@@ -436,21 +436,21 @@
         #define PRIVILEGED_DATA
     #endif
 
-    void vApplicationSleep( TickType_t xExpectedIdleTime );
+    ശൂന്യം vApplicationSleep( TickType_t xExpectedIdleTime );
 
     #define portSUPPRESS_TICKS_AND_SLEEP( idleTime )    vApplicationSleep( idleTime )
 
-    void _xt_coproc_release( volatile void * coproc_sa_base );
+    ശൂന്യം _xt_coproc_release( അസ്ഥിര ശൂന്യം * coproc_sa_base );
 
 /*-----------------------------------------------------------*/
 
-    #if ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #എങ്കിൽ ( ESP_IDF_VERSION >= ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
         /* Architecture specific optimisations. */
 
-        #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+        #എങ്കിൽ configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-            #if ( configMAX_PRIORITIES > 32 )
+            #എങ്കിൽ ( configMAX_PRIORITIES > 32 )
                 #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
             #endif
 
@@ -460,7 +460,7 @@
 
 /*-----------------------------------------------------------*/
 
-            #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
+            #define portGET_HIGHEST_PRIORITY( ux_മുകൾ_Priority, uxReadyPriorities )    ux_മുകൾ_Priority = ( 31 - __builtin_clz( ( uxReadyPriorities ) ) )
 
         #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -480,14 +480,14 @@
     #define xPortGetFreeHeapSize               esp_get_free_heap_size
     #define xPortGetMinimumEverFreeHeapSize    esp_get_minimum_free_heap_size
 
-    #if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+    #എങ്കിൽ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
 
 /*
  * Send an interrupt to another core in order to make the task running
  * on it yield for a higher-priority task.
  */
 
-        void vPortYieldOtherCore( BaseType_t coreid ) PRIVILEGED_FUNCTION;
+        ശൂന്യം vPortYieldOtherCore( BaseType_t coreid ) PRIVILEGED_FUNCTION;
 
     #endif /* ESP_IDF_VERSION < ESP_IDF_VERSION_VAL(4, 2, 0) */
 
@@ -495,7 +495,7 @@
  * Callback to set a watchpoint on the end of the stack. Called every context switch to change the stack
  * watchpoint around.
  */
-    void vPortSetStackWatchpoint( void * pxStackStart );
+    ശൂന്യം v_Port_Set_അട്ടി_Watchpoint( ശൂന്യം * px_അട്ടി_Start );
 
 /*
  * Returns true if the current core is in ISR context; low prio ISR, med prio ISR or timer tick ISR. High prio ISRs
@@ -517,25 +517,25 @@
  * Fills the xMPUSettings structure with the memory region information
  * contained in xRegions.
  */
-    #if ( portUSING_MPU_WRAPPERS == 1 )
-        struct xMEMORY_REGION;
-        void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                        const struct xMEMORY_REGION * const xRegions,
-                                        StackType_t * pxBottomOfStack,
-                                        configSTACK_DEPTH_TYPE uxStackDepth ) PRIVILEGED_FUNCTION;
-        void vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings );
+    #എങ്കിൽ ( portUSING_MPU_WRAPPERS == 1 )
+        ഘടന xMEMORY_REGION;
+        ശൂന്യം vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                        സ്ഥിരം ഘടന xMEMORY_REGION * സ്ഥിരം xRegions,
+                                        അട്ടി_Type_t * px_Bottom_Of_അട്ടി,
+                                        config_അട്ടി_DEPTH_TYPE ux_അട്ടി_Depth ) PRIVILEGED_FUNCTION;
+        ശൂന്യം vPortReleaseTaskMPUSettings( xMPU_SETTINGS * xMPUSettings );
     #endif
 
 /* Multi-core: get current core ID */
-    static inline BaseType_t IRAM_ATTR xPortGetCoreID()
+    സ്ഥിതം വരിയിൽ BaseType_t IRAM_ATTR xPortGetCoreID()
     {
-        return ( uint32_t ) cpu_hal_get_core_id();
+        തിരികെ ( uint32_t ) cpu_hal_get_core_id();
     }
 
 /* Get tick rate per second */
-    uint32_t xPortGetTickRateHz( void );
+    uint32_t xPortGetTickRateHz( ശൂന്യം );
 
-    static inline bool IRAM_ATTR xPortCanYield( void )
+    സ്ഥിതം വരിയിൽ bool IRAM_ATTR xPortCanYield( ശൂന്യം )
     {
         uint32_t ps_reg = 0;
 
@@ -549,23 +549,23 @@
          * However, just return true, only intlevel is zero.
          */
 
-        return( ( ps_reg & PS_INTLEVEL_MASK ) == 0 );
+        തിരികെ( ( ps_reg & PS_INTLEVEL_MASK ) == 0 );
     }
 
 /* porttrace */
-    #if configUSE_TRACE_FACILITY_2
-        #include "porttrace.h"
+    #എങ്കിൽ configUSE_TRACE_FACILITY_2
+        #അന്തര്ഭാവ "porttrace.h"
     #endif
 
 /* configASSERT_2 if requested */
-    #if configASSERT_2
-        #include <stdio.h>
-        void exit( int );
-        #define configASSERT( x )    if( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
+    #എങ്കിൽ configASSERT_2
+        #അന്തര്ഭാവ <stdio.h>
+        ശൂന്യം exit( പൂർണ്ണസംഖ്യ );
+        #define configASSERT( x )    എങ്കിൽ( !( x ) ) { porttracePrint( -1 ); printf( "\nAssertion failed in %s:%d\n", __FILE__, __LINE__ ); exit( -1 ); }
     #endif
 
 /* Barriers */
-    #define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+    #define portMEMORY_BARRIER()    __asm അസ്ഥിര ( "" ::: "memory" )
 
 
 #endif // __ASSEMBLER__

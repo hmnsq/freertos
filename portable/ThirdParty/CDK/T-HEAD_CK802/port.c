@@ -23,10 +23,10 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
 
-extern void vPortStartTask( void );
+ബാഹ്യ ശൂന്യം vPortStartTask( ശൂന്യം );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
  * will be set to 0 prior to the first task being started. */
@@ -36,13 +36,13 @@ portLONG ulCriticalNesting = 0x9999UL;
  * and implement task switch after exit critical area */
 portLONG pendsvflag = 0;
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+അട്ടി_Type_t * px_Port_Initialise_അട്ടി( അട്ടി_Type_t * px_മുകൾ_Of_അട്ടി,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ശൂന്യം * pvParameters )
 {
-    StackType_t * stk = NULL;
+    അട്ടി_Type_t * stk = ശൂന്യ;
 
-    stk = pxTopOfStack;
+    stk = px_മുകൾ_Of_അട്ടി;
 
     *( --stk ) = ( uint32_t ) pxCode;       /* Entry Point                                         */
     *( --stk ) = ( uint32_t ) 0xE0000140L;  /* PSR                                                 */
@@ -62,46 +62,46 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *( --stk ) = ( uint32_t ) 0x01010101L;  /* R1                                                  */
     *( --stk ) = ( uint32_t ) pvParameters; /* R0 : argument                                       */
 
-    return stk;
+    തിരികെ stk;
 }
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ശൂന്യം )
 {
     ulCriticalNesting = 0UL;
 
     vPortStartTask();
 
-    return pdFALSE;
+    തിരികെ pdFALSE;
 }
 
 
-void vPortEndScheduler( void )
+ശൂന്യം vPortEndScheduler( ശൂന്യം )
 {
     /* Not implemented as there is nothing to return to. */
 }
 
-void vPortEnterCritical( void )
+ശൂന്യം vPortEnterCritical( ശൂന്യം )
 {
     portDISABLE_INTERRUPTS();
     ulCriticalNesting++;
 }
 
-void vPortExitCritical( void )
+ശൂന്യം vPortExitCritical( ശൂന്യം )
 {
-    if( ulCriticalNesting == 0 )
+    എങ്കിൽ( ulCriticalNesting == 0 )
     {
-        while( 1 )
+        ആകുമ്പോൾ( 1 )
         {
         }
     }
 
     ulCriticalNesting--;
 
-    if( ulCriticalNesting == 0 )
+    എങ്കിൽ( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
 
-        if( pendsvflag )
+        എങ്കിൽ( pendsvflag )
         {
             pendsvflag = 0;
             portYIELD();
@@ -109,8 +109,8 @@ void vPortExitCritical( void )
     }
 }
 
-#if configUSE_PREEMPTION == 0
-    void xPortSysTickHandler( void )
+#എങ്കിൽ configUSE_PREEMPTION == 0
+    ശൂന്യം xPortSysTickHandler( ശൂന്യം )
     {
         portLONG ulDummy;
 
@@ -119,20 +119,20 @@ void vPortExitCritical( void )
         portCLEAR_INTERRUPT_MASK_FROM_ISR( ulDummy );
     }
 
-#else
-    void xPortSysTickHandler( void )
+#അല്ലെങ്കിൽ
+    ശൂന്യം xPortSysTickHandler( ശൂന്യം )
     {
         portLONG ulDummy;
 
         ulDummy = portSET_INTERRUPT_MASK_FROM_ISR();
         traceISR_ENTER();
         {
-            if( xTaskIncrementTick() != pdFALSE )
+            എങ്കിൽ( xTaskIncrementTick() != pdFALSE )
             {
                 traceISR_EXIT_TO_SCHEDULER();
                 portYIELD_FROM_ISR( pdTRUE );
             }
-            else
+            അല്ലെങ്കിൽ
             {
                 traceISR_EXIT();
             }
@@ -141,7 +141,7 @@ void vPortExitCritical( void )
     }
 #endif /* if configUSE_PREEMPTION == 0 */
 
-void vPortYieldHandler( void )
+ശൂന്യം vPortYieldHandler( ശൂന്യം )
 {
     uint32_t ulSavedInterruptMask;
 
@@ -152,17 +152,17 @@ void vPortYieldHandler( void )
     portCLEAR_INTERRUPT_MASK_FROM_ISR( ulSavedInterruptMask );
 }
 
-__attribute__( ( weak ) ) void vApplicationStackOverflowHook( xTaskHandle * pxTask,
+__attribute__( ( weak ) ) ശൂന്യം v_Application_അട്ടി_Overflow_Hook( xTaskHandle * pxTask,
                                                               signed portCHAR * pcTaskName )
 {
-    for( ; ; )
+    വേണ്ടി( ; ; )
     {
     }
 }
 
-__attribute__( ( weak ) ) void vApplicationMallocFailedHook( void )
+__attribute__( ( weak ) ) ശൂന്യം vApplicationMallocFailedHook( ശൂന്യം )
 {
-    for( ; ; )
+    വേണ്ടി( ; ; )
     {
     }
 }

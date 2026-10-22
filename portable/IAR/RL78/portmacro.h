@@ -33,7 +33,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ബാഹ്യ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,43 +47,43 @@
  *-----------------------------------------------------------
  */
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
+    #എങ്കിൽ __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
         #warning This port has not been tested with your selected memory model combination. If a far data model is required it is recommended to also use a far code model.
     #endif
 
-    #if __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #എങ്കിൽ __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
         #warning This port has not been tested with your selected memory model combination. If a far code model is required it is recommended to also use a far data model.
     #endif
 
 /* Type definitions. */
 
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          അക്ഷരം
+    #define portFLOAT         ദശാംശം
+    #define portDOUBLE        ഇരട്ട
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint16_t
+    #define port_അട്ടി_TYPE    uint16_t
     #define portBASE_TYPE     short
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef short            BaseType_t;
-    typedef unsigned short   UBaseType_t;
+    തരനിർവചനം port_അട്ടി_TYPE   അട്ടി_Type_t;
+    തരനിർവചനം short            BaseType_t;
+    തരനിർവചനം unsigned short   UBaseType_t;
 
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__
+    #എങ്കിൽ __DATA_MODEL__ == __DATA_MODEL_FAR__
         #define portPOINTER_SIZE_TYPE    uint32_t
-    #else
+    #അല്ലെങ്കിൽ
         #define portPOINTER_SIZE_TYPE    uint16_t
     #endif
 
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef unsigned int   TickType_t;
+    #എങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        തരനിർവചനം unsigned പൂർണ്ണസംഖ്യ   TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t       TickType_t;
+    #അല്ലെങ്കിലെങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        തരനിർവചനം uint32_t       TickType_t;
         #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-    #else
+    #അല്ലെങ്കിൽ
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
@@ -98,7 +98,7 @@
 
     #define portENTER_CRITICAL()                                                  \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        ബാഹ്യ അസ്ഥിര uint16_t usCriticalNesting;                               \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -110,16 +110,16 @@
 
     #define portEXIT_CRITICAL()                                                   \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        ബാഹ്യ അസ്ഥിര uint16_t usCriticalNesting;                               \
                                                                                   \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
+        എങ്കിൽ( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
         {                                                                         \
             /* Decrement the nesting count when leaving a critical section. */    \
             usCriticalNesting--;                                                  \
                                                                                   \
             /* If the nesting level has reached zero then interrupts should be */ \
             /* re-enabled. */                                                     \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
+            എങ്കിൽ( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
             {                                                                     \
                 portENABLE_INTERRUPTS();                                          \
             }                                                                     \
@@ -133,26 +133,26 @@
     #ifndef configREQUIRE_ASM_ISR_WRAPPER
         #define configREQUIRE_ASM_ISR_WRAPPER    1
     #endif
-    #if( configREQUIRE_ASM_ISR_WRAPPER == 1 )
+    #എങ്കിൽ( configREQUIRE_ASM_ISR_WRAPPER == 1 )
         /* You must implement an assembly ISR wrapper (see the below for details) if you need an ISR to cause a context switch.
          * https://www.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/Renesas/RTOS_RL78_IAR_Demos#writing-interrupt-service-routines */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } while( 0 )
-    #else
+        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    ചെയ്യുക { എങ്കിൽ( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } ആകുമ്പോൾ( 0 )
+    #അല്ലെങ്കിൽ
         /* You must not implement an assembly ISR wrapper even if you need an ISR to cause a context switch.
          * The portYIELD, which is similar to role of an assembly ISR wrapper, runs only when a context switch is required. */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } while( 0 )
+        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    ചെയ്യുക { എങ്കിൽ( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } ആകുമ്പോൾ( 0 )
     #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
     #define portBYTE_ALIGNMENT    2
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_അട്ടി_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ശൂന്യം vFunction( ശൂന്യം * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          ശൂന്യം vFunction( ശൂന്യം * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
@@ -174,9 +174,9 @@
 
     ; /* Macro used to declutter calls, depends on the selected code model. */
       /*----------------------------------------------------------------------------- */
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #എങ്കിൽ __CODE_MODEL__ == __CODE_MODEL_FAR__
         #define RCALL( X )    CALL F: X
-    #else
+    #അല്ലെങ്കിൽ
         #define RCALL( X )    CALL X
     #endif
 
@@ -188,21 +188,21 @@
               * ; * of the active Task onto the task stack.
               * ; *---------------------------------------------------------------------------*/
 portSAVE_CONTEXT MACRO
-    PUSH AX; /* Save AX Register to stack. */
-    PUSH HL
-    #if  __CODE_MODEL__ == __CODE_MODEL_FAR__
+    തള്ളുക_2 AX; /* Save AX Register to stack. */
+    തള്ളുക_2 HL
+    #എങ്കിൽ  __CODE_MODEL__ == __CODE_MODEL_FAR__
         MOV A, CS; /* Save CS register. */
         XCH A, X
         MOV A, ES; /* Save ES register. */
-        PUSH AX
-    #else
+        തള്ളുക_2 AX
+    #അല്ലെങ്കിൽ
         MOV A, CS; /* Save CS register. */
-        PUSH AX
+        തള്ളുക_2 AX
     #endif
-    PUSH DE;                     /* Save the remaining general purpose registers. */
-    PUSH BC
+    തള്ളുക_2 DE;                     /* Save the remaining general purpose registers. */
+    തള്ളുക_2 BC
     MOVW AX, _usCriticalNesting; /* Save the _usCriticalNesting value. */
-    PUSH AX
+    തള്ളുക_2 AX
     MOVW AX, _pxCurrentTCB;      /* Save the Task stack pointer. */
     MOVW HL, AX
     MOVW AX, SP
@@ -222,21 +222,21 @@ portRESTORE_CONTEXT MACRO
     MOVW HL, AX
     MOVW AX, [ HL ]
     MOVW SP, AX
-    POP AX; /* Restore _usCriticalNesting value. */
+    എടുക്കുക_2 AX; /* Restore _usCriticalNesting value. */
     MOVW _usCriticalNesting, AX
-    POP BC; /* Restore the necessary general purpose registers. */
-    POP DE
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
-        POP AX;   /* Restore the ES register. */
+    എടുക്കുക_2 BC; /* Restore the necessary general purpose registers. */
+    എടുക്കുക_2 DE
+    #എങ്കിൽ __CODE_MODEL__ == __CODE_MODEL_FAR__
+        എടുക്കുക_2 AX;   /* Restore the ES register. */
         MOV ES, A
         XCH A, X; /* Restore the CS register. */
         MOV CS, A
-    #else
-        POP AX
+    #അല്ലെങ്കിൽ
+        എടുക്കുക_2 AX
         MOV CS, A; /* Restore CS register. */
     #endif
-    POP HL;        /* Restore general purpose register HL. */
-    POP AX;        /* Restore AX. */
+    എടുക്കുക_2 HL;        /* Restore general purpose register HL. */
+    എടുക്കുക_2 AX;        /* Restore AX. */
     ENDM
     ;              /*----------------------------------------------------------------------------- */
 

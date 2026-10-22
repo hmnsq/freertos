@@ -31,11 +31,11 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ബാഹ്യ "C" {
 #endif
 /* *INDENT-ON* */
 
-#include "sys/alt_irq.h"
+#അന്തര്ഭാവ "sys/alt_irq.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -48,64 +48,64 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          അക്ഷരം
+#define portFLOAT         ദശാംശം
+#define portDOUBLE        ഇരട്ട
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_അട്ടി_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+തരനിർവചനം port_അട്ടി_TYPE   അട്ടി_Type_t;
+തരനിർവചനം long             BaseType_t;
+തരനിർവചനം unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#എങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    തരനിർവചനം uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#അല്ലെങ്കിലെങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    തരനിർവചനം uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#അല്ലെങ്കിൽ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH               ( -1 )
+#define port_അട്ടി_GROWTH               ( -1 )
 #define portTICK_PERIOD_MS             ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT             4
-#define portNOP()    asm volatile ( "NOP" )
+#define portNOP()    asm അസ്ഥിര ( "NOP" )
 #define portCRITICAL_NESTING_IN_TCB    1
 /*-----------------------------------------------------------*/
 
-extern void vTaskSwitchContext( void );
-#define portYIELD()    asm volatile ( "trap" );
+ബാഹ്യ ശൂന്യം vTaskSwitchContext( ശൂന്യം );
+#define portYIELD()    asm അസ്ഥിര ( "trap" );
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    ചെയ്യുക                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        എങ്കിൽ( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        അല്ലെങ്കിൽ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ആകുമ്പോൾ( 0 )
 
 /* Include the port_asm.S file where the Context saving/restoring is defined. */
 __asm__ ( "\n\t.globl    save_context" );
 
 /*-----------------------------------------------------------*/
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+ബാഹ്യ ശൂന്യം vTaskEnterCritical( ശൂന്യം );
+ബാഹ്യ ശൂന്യം vTaskExitCritical( ശൂന്യം );
 
 #define portDISABLE_INTERRUPTS()    alt_irq_disable_all()
 #define portENABLE_INTERRUPTS()     alt_irq_enable_all( 0x01 );
@@ -114,8 +114,8 @@ extern void vTaskExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ശൂന്യം vFunction( ശൂന്യം * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ശൂന്യം vFunction( ശൂന്യം * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

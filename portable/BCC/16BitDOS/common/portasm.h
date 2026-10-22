@@ -29,23 +29,23 @@
 #ifndef PORT_ASM_H
 #define PORT_ASM_H
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+തരനിർവചനം ശൂന്യം TCB_t;
+ബാഹ്യ അസ്ഥിര TCB_t * അസ്ഥിര pxCurrentTCB;
+ബാഹ്യ ശൂന്യം vTaskSwitchContext( ശൂന്യം );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+ശൂന്യം portSWITCH_CONTEXT( ശൂന്യം );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+ശൂന്യം portFIRST_CONTEXT( ശൂന്യം );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -72,15 +72,15 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                             __asm { les bx, dword ptr pxCurrentTCB  }   \
                             __asm { mov ss, es:[ bx + 2 ]           }   \
                             __asm { mov sp, es:[ bx ]               }   \
-                            __asm { pop bp                          }   \
-                            __asm { pop di                          }   \
-                            __asm { pop si                          }   \
-                            __asm { pop ds                          }   \
-                            __asm { pop es                          }   \
-                            __asm { pop dx                          }   \
-                            __asm { pop cx                          }   \
-                            __asm { pop bx                          }   \
-                            __asm { pop ax                          }   \
+                            __asm { എടുക്കുക bp                          }   \
+                            __asm { എടുക്കുക di                          }   \
+                            __asm { എടുക്കുക si                          }   \
+                            __asm { എടുക്കുക ds                          }   \
+                            __asm { എടുക്കുക es                          }   \
+                            __asm { എടുക്കുക dx                          }   \
+                            __asm { എടുക്കുക cx                          }   \
+                            __asm { എടുക്കുക bx                          }   \
+                            __asm { എടുക്കുക ax                          }   \
                             __asm { iret                            }
 
 

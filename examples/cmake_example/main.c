@@ -34,27 +34,27 @@
  */
 
 /* FreeRTOS includes. */
-#include <FreeRTOS.h>
-#include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
+#അന്തര്ഭാവ <FreeRTOS.h>
+#അന്തര്ഭാവ <task.h>
+#അന്തര്ഭാവ <queue.h>
+#അന്തര്ഭാവ <timers.h>
+#അന്തര്ഭാവ <semphr.h>
 
 /* Standard includes. */
-#include <stdio.h>
+#അന്തര്ഭാവ <stdio.h>
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters ) __attribute__( ( noreturn ) );
+സ്ഥിതം ശൂന്യം exampleTask( ശൂന്യം * parameters ) __attribute__( ( noreturn ) );
 
 /*-----------------------------------------------------------*/
 
-static void exampleTask( void * parameters )
+സ്ഥിതം ശൂന്യം exampleTask( ശൂന്യം * parameters )
 {
     /* Unused parameters. */
-    ( void ) parameters;
+    ( ശൂന്യം ) parameters;
 
-    for( ; ; )
+    വേണ്ടി( ; ; )
     {
         /* Example Task Code */
         vTaskDelay( 100 ); /* delay 100 ticks */
@@ -62,42 +62,42 @@ static void exampleTask( void * parameters )
 }
 /*-----------------------------------------------------------*/
 
-int main( void )
+പൂർണ്ണസംഖ്യ പ്രധാന( ശൂന്യം )
 {
-    static StaticTask_t exampleTaskTCB;
-    static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
+    സ്ഥിതം StaticTask_t exampleTaskTCB;
+    സ്ഥിതം അട്ടി_Type_t example_Task_അട്ടി[ config_MINIMAL_അട്ടി_SIZE ];
 
-    ( void ) printf( "Example FreeRTOS Project\n" );
+    ( ശൂന്യം ) printf( "Example FreeRTOS Project\n" );
 
-    ( void ) xTaskCreateStatic( &exampleTask,
+    ( ശൂന്യം ) xTaskCreateStatic( &exampleTask,
                                 "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
+                                config_MINIMAL_അട്ടി_SIZE,
+                                ശൂന്യ,
                                 configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
+                                &( example_Task_അട്ടി[ 0 ] ),
                                 &( exampleTaskTCB ) );
 
     /* Start the scheduler. */
     vTaskStartScheduler();
 
-    for( ; ; )
+    വേണ്ടി( ; ; )
     {
         /* Should not reach here. */
     }
 
-    return 0;
+    തിരികെ 0;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configCHECK_FOR_STACK_OVERFLOW > 0 )
+#എങ്കിൽ ( config_CHECK_FOR_അട്ടി_OVERFLOW > 0 )
 
-    void vApplicationStackOverflowHook( TaskHandle_t xTask,
-                                        char * pcTaskName )
+    ശൂന്യം v_Application_അട്ടി_Overflow_Hook( TaskHandle_t xTask,
+                                        അക്ഷരം * pcTaskName )
     {
         /* Check pcTaskName for the name of the offending task,
          * or pxCurrentTCB if pcTaskName has itself been corrupted. */
-        ( void ) xTask;
-        ( void ) pcTaskName;
+        ( ശൂന്യം ) xTask;
+        ( ശൂന്യം ) pcTaskName;
     }
 
 #endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */

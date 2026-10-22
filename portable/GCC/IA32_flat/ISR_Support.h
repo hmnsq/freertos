@@ -26,8 +26,8 @@
  *
  */
 
-    .extern ulTopOfSystemStack
-    .extern ulInterruptNesting
+    .ബാഹ്യ ul_മുകൾ_Of_System_അട്ടി
+    .ബാഹ്യ ulInterruptNesting
 
 /*-----------------------------------------------------------*/
 
@@ -43,7 +43,7 @@
     jne     2f
 
     /* Interrupts are not nested, so save the rest of the task context. */
-    .if configSUPPORT_FPU == 1
+    .എങ്കിൽ configSUPPORT_FPU == 1
 
         /* If the task has a buffer allocated to save the FPU context then
         save the FPU context now. */
@@ -55,7 +55,7 @@
 
         1:
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        തള്ളുക    pucPortTaskFPUContextBuffer
 
     .endif /* configSUPPORT_FPU */
 
@@ -66,7 +66,7 @@
     movl    %esp, (%eax)
 
     /* Switch stacks. */
-    movl    ulTopOfSystemStack, %esp
+    movl    ul_മുകൾ_Of_System_അട്ടി, %esp
     movl    %esp, %ebp
 
     2:
@@ -98,10 +98,10 @@
     movl    pxCurrentTCB, %eax
     movl    (%eax), %esp
 
-    .if configSUPPORT_FPU == 1
+    .എങ്കിൽ configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        എടുക്കുക     pucPortTaskFPUContextBuffer
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */

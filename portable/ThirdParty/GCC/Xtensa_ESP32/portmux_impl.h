@@ -27,13 +27,13 @@
  * vPortCPUReleaseMutexIntsDisabled will then use the appropriate function to do the
  * actual lock/unlock.
  */
-#include "soc/cpu.h"
-#include "portable.h"
+#അന്തര്ഭാവ "soc/cpu.h"
+#അന്തര്ഭാവ "portable.h"
 
 /* XOR one core ID with this value to get the other core ID */
-#if ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
+#എങ്കിൽ ( ESP_IDF_VERSION < ESP_IDF_VERSION_VAL( 4, 2, 0 ) )
     #define CORE_ID_XOR_SWAP           ( CORE_ID_PRO ^ CORE_ID_APP )
-#else
+#അല്ലെങ്കിൽ
     #define CORE_ID_REGVAL_XOR_SWAP    ( CORE_ID_REGVAL_PRO ^ CORE_ID_REGVAL_APP )
 #endif
 
@@ -43,18 +43,18 @@
 #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledInternal
 #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledInternal
 #define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSet
-#include "portmux_impl.inc.h"
+#അന്തര്ഭാവ "portmux_impl.inc.h"
 #undef PORTMUX_AQUIRE_MUX_FN_NAME
 #undef PORTMUX_RELEASE_MUX_FN_NAME
 #undef PORTMUX_COMPARE_SET_FN_NAME
 
 
-#if defined( CONFIG_SPIRAM_SUPPORT )
+#എങ്കിൽ defined( CONFIG_SPIRAM_SUPPORT )
 
     #define PORTMUX_AQUIRE_MUX_FN_NAME     vPortCPUAcquireMutexIntsDisabledExtram
     #define PORTMUX_RELEASE_MUX_FN_NAME    vPortCPUReleaseMutexIntsDisabledExtram
     #define PORTMUX_COMPARE_SET_FN_NAME    uxPortCompareSetExtram
-    #include "portmux_impl.inc.h"
+    #അന്തര്ഭാവ "portmux_impl.inc.h"
     #undef PORTMUX_AQUIRE_MUX_FN_NAME
     #undef PORTMUX_RELEASE_MUX_FN_NAME
     #undef PORTMUX_COMPARE_SET_FN_NAME
@@ -63,37 +63,37 @@
 
 
 #ifdef CONFIG_FREERTOS_PORTMUX_DEBUG
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles, const char * fnName, int line
-    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, const char * fnName, int line
-    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, line
-    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, line
-#else
-    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, int timeout_cycles
+    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, പൂർണ്ണസംഖ്യ timeout_cycles, സ്ഥിരം അക്ഷരം * fnName, പൂർണ്ണസംഖ്യ വരി
+    #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux, സ്ഥിരം അക്ഷരം * fnName, പൂർണ്ണസംഖ്യ വരി
+    #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles, fnName, വരി
+    #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x, fnName, വരി
+#അല്ലെങ്കിൽ
+    #define PORTMUX_AQUIRE_MUX_FN_ARGS     portMUX_TYPE * mux, പൂർണ്ണസംഖ്യ timeout_cycles
     #define PORTMUX_RELEASE_MUX_FN_ARGS    portMUX_TYPE * mux
     #define PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( x )     x, timeout_cycles
     #define PORTMUX_RELEASE_MUX_FN_CALL_ARGS( x )    x
 #endif
 
 
-static inline bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
+സ്ഥിതം വരിയിൽ bool __attribute__( ( always_inline ) ) vPortCPUAcquireMutexIntsDisabled( PORTMUX_AQUIRE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #എങ്കിൽ defined( CONFIG_SPIRAM_SUPPORT )
+        എങ്കിൽ( esp_ptr_external_ram( mux ) )
         {
-            return vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+            തിരികെ vPortCPUAcquireMutexIntsDisabledExtram( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
         }
     #endif
-    return vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
+    തിരികെ vPortCPUAcquireMutexIntsDisabledInternal( PORTMUX_AQUIRE_MUX_FN_CALL_ARGS( mux ) );
 }
 
 
-static inline void vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
+സ്ഥിതം വരിയിൽ ശൂന്യം vPortCPUReleaseMutexIntsDisabled( PORTMUX_RELEASE_MUX_FN_ARGS )
 {
-    #if defined( CONFIG_SPIRAM_SUPPORT )
-        if( esp_ptr_external_ram( mux ) )
+    #എങ്കിൽ defined( CONFIG_SPIRAM_SUPPORT )
+        എങ്കിൽ( esp_ptr_external_ram( mux ) )
         {
             vPortCPUReleaseMutexIntsDisabledExtram( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );
-            return;
+            തിരികെ;
         }
     #endif
     vPortCPUReleaseMutexIntsDisabledInternal( PORTMUX_RELEASE_MUX_FN_CALL_ARGS( mux ) );

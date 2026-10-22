@@ -27,18 +27,18 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
 
 /* Machine includes */
-#include <tc1782.h>
-#include <machine/intrinsics.h>
-#include <machine/cint.h>
+#അന്തര്ഭാവ <tc1782.h>
+#അന്തര്ഭാവ <machine/intrinsics.h>
+#അന്തര്ഭാവ <machine/cint.h>
 /*---------------------------------------------------------------------------*/
 
 /*
  * This reference is required by the Save/Restore Context Macros.
  */
-extern volatile uint32_t * pxCurrentTCB;
+ബാഹ്യ അസ്ഥിര uint32_t * pxCurrentTCB;
 /*-----------------------------------------------------------*/
 
 /*
@@ -84,7 +84,7 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_CM_CALL_DEPTH_OVERFLOW                                    2
 #define portTIN_CM_CALL_DEPTH_UNDEFLOW                                    3
 #define portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW                            4
-#define portTIN_CM_CALL_STACK_UNDERFLOW                                   5
+#define port_TIN_CM_CALL_അട്ടി_UNDERFLOW                                   5
 #define portTIN_CM_CONTEXT_TYPE                                           6
 #define portTIN_CM_NESTING_ERROR                                          7
 
@@ -104,179 +104,179 @@ extern volatile uint32_t * pxCurrentTCB;
 #define portTIN_NMI_NON_MASKABLE_INTERRUPT                                0
 /*---------------------------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInternalProtectionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vInstructionErrorTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vContextManagementTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vAssertionTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
-void vNonMaskableInterruptTrap( int iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vMMUTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vInternalProtectionTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vInstructionErrorTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vContextManagementTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vSystemBusAndPeripheralsTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vAssertionTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
+ശൂന്യം vNonMaskableInterruptTrap( പൂർണ്ണസംഖ്യ iTrapIdentification ) __attribute__( ( longcall, weak ) );
 /*---------------------------------------------------------------------------*/
 
-void vTrapInstallHandlers( void )
+ശൂന്യം vTrapInstallHandlers( ശൂന്യം )
 {
-    if( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portMMU_TRAP, vMMUTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portIPT_TRAP, vInternalProtectionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portIE_TRAP, vInstructionErrorTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portCM_TRAP, vContextManagementTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portSBP_TRAP, vSystemBusAndPeripheralsTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portASSERT_TRAP, vAssertionTrap ) )
     {
         _debug();
     }
 
-    if( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
+    എങ്കിൽ( 0 == _install_trap_handler( portNMI_TRAP, vNonMaskableInterruptTrap ) )
     {
         _debug();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vMMUTrap( int iTrapIdentification )
+ശൂന്യം vMMUTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_MMU_VIRTUAL_ADDRESS_FILL:
-        case portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
-        default:
+        അവസ്ഥ portTIN_MMU_VIRTUAL_ADDRESS_FILL:
+        അവസ്ഥ portTIN_MMU_VIRTUAL_ADDRESS_PROTECTION:
+        സ്ഥിരസ്ഥിതി:
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInternalProtectionTrap( int iTrapIdentification )
+ശൂന്യം vInternalProtectionTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_IPT_PRIVILEGED_INSTRUCTION:
+        അവസ്ഥ portTIN_IPT_PRIVILEGED_INSTRUCTION:
         /* Instruction is not allowed at current execution level, eg DISABLE at User-0. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_READ:
+        അവസ്ഥ portTIN_IPT_MEMORY_PROTECTION_READ:
         /* Load word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_WRITE:
+        അവസ്ഥ portTIN_IPT_MEMORY_PROTECTION_WRITE:
         /* Store Word using invalid address. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
+        അവസ്ഥ portTIN_IPT_MEMORY_PROTECTION_EXECUTION:
         /* PC jumped to an address outside of the valid range. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
+        അവസ്ഥ portTIN_IPT_MEMORY_PROTECTION_PERIPHERAL_ACCESS:
         /* Access to a peripheral denied at current execution level. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
+        അവസ്ഥ portTIN_IPT_MEMORY_PROTECTION_NULL_ADDRESS:
         /* NULL Pointer. */
 
-        case portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
+        അവസ്ഥ portTIN_IPT_MEMORY_PROTECTION_GLOBAL_REGISTER_WRITE_PROTECTION:
         /* Tried to modify a global address pointer register. */
 
-        default:
+        സ്ഥിരസ്ഥിതി:
 
             pxCurrentTCB[ 0 ] = __MFCR( $PCXI );
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vInstructionErrorTrap( int iTrapIdentification )
+ശൂന്യം vInstructionErrorTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_IE_ILLEGAL_OPCODE:
-        case portTIN_IE_UNIMPLEMENTED_OPCODE:
-        case portTIN_IE_INVALID_OPERAND:
-        case portTIN_IE_DATA_ADDRESS_ALIGNMENT:
-        case portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
-        default:
+        അവസ്ഥ portTIN_IE_ILLEGAL_OPCODE:
+        അവസ്ഥ portTIN_IE_UNIMPLEMENTED_OPCODE:
+        അവസ്ഥ portTIN_IE_INVALID_OPERAND:
+        അവസ്ഥ portTIN_IE_DATA_ADDRESS_ALIGNMENT:
+        അവസ്ഥ portTIN_IE_INVALID_LOCAL_MEMORY_ADDRESS:
+        സ്ഥിരസ്ഥിതി:
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vContextManagementTrap( int iTrapIdentification )
+ശൂന്യം vContextManagementTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
-        case portTIN_CM_CALL_DEPTH_OVERFLOW:
-        case portTIN_CM_CALL_DEPTH_UNDEFLOW:
-        case portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
-        case portTIN_CM_CALL_STACK_UNDERFLOW:
-        case portTIN_CM_CONTEXT_TYPE:
-        case portTIN_CM_NESTING_ERROR:
-        default:
+        അവസ്ഥ portTIN_CM_FREE_CONTEXT_LIST_DEPLETION:
+        അവസ്ഥ portTIN_CM_CALL_DEPTH_OVERFLOW:
+        അവസ്ഥ portTIN_CM_CALL_DEPTH_UNDEFLOW:
+        അവസ്ഥ portTIN_CM_FREE_CONTEXT_LIST_UNDERFLOW:
+        അവസ്ഥ port_TIN_CM_CALL_അട്ടി_UNDERFLOW:
+        അവസ്ഥ portTIN_CM_CONTEXT_TYPE:
+        അവസ്ഥ portTIN_CM_NESTING_ERROR:
+        സ്ഥിരസ്ഥിതി:
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vSystemBusAndPeripheralsTrap( int iTrapIdentification )
+ശൂന്യം vSystemBusAndPeripheralsTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
-        case portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
-        case portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
-        case portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
-        default:
+        അവസ്ഥ portTIN_SBP_PROGRAM_FETCH_SYNCHRONOUS_ERROR:
+        അവസ്ഥ portTIN_SBP_DATA_ACCESS_SYNCHRONOUS_ERROR:
+        അവസ്ഥ portTIN_SBP_DATA_ACCESS_ASYNCHRONOUS_ERROR:
+        അവസ്ഥ portTIN_SBP_COPROCESSOR_TRAP_ASYNCHRONOUS_ERROR:
+        അവസ്ഥ portTIN_SBP_PROGRAM_MEMORY_INTEGRITY_ERROR:
+        അവസ്ഥ portTIN_SBP_DATA_MEMORY_INTEGRITY_ERROR:
+        സ്ഥിരസ്ഥിതി:
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vAssertionTrap( int iTrapIdentification )
+ശൂന്യം vAssertionTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_ASSERT_ARITHMETIC_OVERFLOW:
-        case portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
-        default:
+        അവസ്ഥ portTIN_ASSERT_ARITHMETIC_OVERFLOW:
+        അവസ്ഥ portTIN_ASSERT_STICKY_ARITHMETIC_OVERFLOW:
+        സ്ഥിരസ്ഥിതി:
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/
 
-void vNonMaskableInterruptTrap( int iTrapIdentification )
+ശൂന്യം vNonMaskableInterruptTrap( പൂർണ്ണസംഖ്യ iTrapIdentification )
 {
     /* Deliberate fall through to default. */
-    switch( iTrapIdentification )
+    തിരഞ്ഞെടുപ്പ്( iTrapIdentification )
     {
-        case portTIN_NMI_NON_MASKABLE_INTERRUPT:
-        default:
+        അവസ്ഥ portTIN_NMI_NON_MASKABLE_INTERRUPT:
+        സ്ഥിരസ്ഥിതി:
             _debug();
-            break;
+            നിർത്തുക;
     }
 }
 /*---------------------------------------------------------------------------*/

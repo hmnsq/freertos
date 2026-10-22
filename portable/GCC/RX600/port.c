@@ -31,20 +31,20 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
 
 /* Library includes. */
-#include "string.h"
+#അന്തര്ഭാവ "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#എങ്കിൽ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #അന്തര്ഭാവ "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#അല്ലെങ്കിൽ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #അന്തര്ഭാവ "iodefine.h"
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -53,16 +53,16 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( അട്ടി_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( അട്ടി_Type_t ) 0x00000100 )
 
 /* These macros allow a critical section to be added around the call to
  * xTaskIncrementTick(), which is only ever called from interrupts at the kernel
  * priority - ie a known priority.  Therefore these local macros are a slight
  * optimisation compared to calling the global SET/CLEAR_INTERRUPT_MASK macros,
  * which would require the old IPL to be read first and stored in a local variable. */
-#define portDISABLE_INTERRUPTS_FROM_KERNEL_ISR()    __asm volatile ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#define portENABLE_INTERRUPTS_FROM_KERNEL_ISR()     __asm volatile ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
+#define portDISABLE_INTERRUPTS_FROM_KERNEL_ISR()    __asm അസ്ഥിര ( "MVTIPL    %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#define portENABLE_INTERRUPTS_FROM_KERNEL_ISR()     __asm അസ്ഥിര ( "MVTIPL    %0" ::"i" ( configKERNEL_INTERRUPT_PRIORITY ) )
 
 /*-----------------------------------------------------------*/
 
@@ -70,21 +70,21 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void ) __attribute__( ( naked ) );
+സ്ഥിതം ശൂന്യം prvStartFirstTask( ശൂന്യം ) __attribute__( ( naked ) );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#എങ്കിൽ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vSoftwareInterruptISR, VECT( ICU, SWINT ) )
-    R_BSP_ATTRIB_INTERRUPT void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    R_BSP_ATTRIB_INTERRUPT ശൂന്യം vSoftwareInterruptISR( ശൂന്യം ) __attribute__( ( naked ) );
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#അല്ലെങ്കിൽ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vSoftwareInterruptISR( void ) __attribute__( ( naked ) );
+    ശൂന്യം vSoftwareInterruptISR( ശൂന്യം ) __attribute__( ( naked ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H  */
 
@@ -92,97 +92,97 @@ static void prvStartFirstTask( void ) __attribute__( ( naked ) );
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#എങ്കിൽ ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
     R_BSP_PRAGMA_INTERRUPT( vTickISR, _VECT( configTICK_VECTOR ) )
-    R_BSP_ATTRIB_INTERRUPT void vTickISR( void ); /* Do not add __attribute__( ( interrupt ) ). */
+    R_BSP_ATTRIB_INTERRUPT ശൂന്യം vTickISR( ശൂന്യം ); /* Do not add __attribute__( ( interrupt ) ). */
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#അല്ലെങ്കിൽ /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    void vTickISR( void ) __attribute__( ( interrupt ) );
+    ശൂന്യം vTickISR( ശൂന്യം ) __attribute__( ( interrupt ) );
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+ബാഹ്യ ശൂന്യം * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+അട്ടി_Type_t * px_Port_Initialise_അട്ടി( അട്ടി_Type_t * px_മുകൾ_Of_അട്ടി,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ശൂന്യം * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_മുകൾ_Of_അട്ടി = 0x00;
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = portINITIAL_PSW;
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0xffffffff; /* r15. */
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0xeeeeeeee;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0xdddddddd;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0xcccccccc;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0xbbbbbbbb;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0xaaaaaaaa;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x99999999;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x88888888;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x77777777;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x66666666;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x55555555;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x44444444;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x33333333;
+        px_മുകൾ_Of_അട്ടി--;
+        *px_മുകൾ_Of_അട്ടി = 0x22222222;
+        px_മുകൾ_Of_അട്ടി--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #അല്ലെങ്കിൽ /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_മുകൾ_Of_അട്ടി -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x12345678; /* Accumulator. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x87654321; /* Accumulator. */
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pvParameters; /* R1 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = portINITIAL_FPSW;
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = 0x12345678; /* Accumulator. */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = 0x87654321; /* Accumulator. */
 
-    return pxTopOfStack;
+    തിരികെ px_മുകൾ_Of_അട്ടി;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ശൂന്യം )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    ബാഹ്യ ശൂന്യം vApplicationSetupTimerInterrupt( ശൂന്യം );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    എങ്കിൽ( pxCurrentTCB != ശൂന്യ )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -203,21 +203,21 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    തിരികെ pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ശൂന്യം vPortEndScheduler( ശൂന്യം )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ശൂന്യ );
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+സ്ഥിതം ശൂന്യം prvStartFirstTask( ശൂന്യം )
 {
-    __asm volatile
+    __asm അസ്ഥിര
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -259,9 +259,9 @@ static void prvStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-void vSoftwareInterruptISR( void )
+ശൂന്യം vSoftwareInterruptISR( ശൂന്യം )
 {
-    __asm volatile
+    __asm അസ്ഥിര
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -348,16 +348,16 @@ void vSoftwareInterruptISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vTickISR( void )
+ശൂന്യം vTickISR( ശൂന്യം )
 {
     /* Re-enabled interrupts. */
-    __asm volatile ( "SETPSW I" );
+    __asm അസ്ഥിര ( "SETPSW I" );
 
     /* Increment the tick, and perform any processing the new tick value
      * necessitates.  Ensure IPL is at the max syscall value first. */
     portDISABLE_INTERRUPTS_FROM_KERNEL_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        എങ്കിൽ( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -366,9 +366,9 @@ void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-uint32_t ulPortGetIPL( void )
+uint32_t ulPortGetIPL( ശൂന്യം )
 {
-    __asm volatile
+    __asm അസ്ഥിര
     (
         "MVFC   PSW, R1         \n" \
         "SHLR   #24, R1         \n" \
@@ -376,16 +376,16 @@ uint32_t ulPortGetIPL( void )
     );
 
     /* This will never get executed, but keeps the compiler from complaining. */
-    return 0;
+    തിരികെ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortSetIPL( uint32_t ulNewIPL )
+ശൂന്യം vPortSetIPL( uint32_t ulNewIPL )
 {
     /* Avoid compiler warning about unreferenced parameter. */
-    ( void ) ulNewIPL;
+    ( ശൂന്യം ) ulNewIPL;
 
-    __asm volatile
+    __asm അസ്ഥിര
     (
         "PUSH   R5              \n" \
         "MVFC   PSW, R5         \n" \

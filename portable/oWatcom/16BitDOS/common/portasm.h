@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+തരനിർവചനം ശൂന്യം TCB_t;
+ബാഹ്യ അസ്ഥിര TCB_t * അസ്ഥിര pxCurrentTCB;
+ബാഹ്യ ശൂന്യം vTaskSwitchContext( ശൂന്യം );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+ശൂന്യം portSWITCH_CONTEXT( ശൂന്യം );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+ശൂന്യം portFIRST_CONTEXT( ശൂന്യം );
 
 /* There are slightly different versions depending on whether you are building
 to include debugger information.  If debugger information is used then there
@@ -80,7 +80,7 @@ debugger).  The true stack pointer is then stored in the bp register.  We add
                                         "pop    ds"                             \
                                         "popa"                                  \
                                         "iret"
-#else
+#അല്ലെങ്കിൽ
 
     #pragma aux portSWITCH_CONTEXT =    "mov    ax, seg pxCurrentTCB"                                                       \
                                         "mov    ds, ax"                                                                     \

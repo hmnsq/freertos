@@ -27,15 +27,15 @@
  */
 
 /* Standard includes. */
-#include <stdlib.h>
+#അന്തര്ഭാവ <stdlib.h>
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
 
 /* Machine includes */
-#include <machine/counter.h>
-#include <machine/ic.h>
+#അന്തര്ഭാവ <machine/counter.h>
+#അന്തര്ഭാവ <machine/ic.h>
 /*-----------------------------------------------------------*/
 
 /* The initial PSR has the Previous Interrupt Enabled (PIEN) flag set. */
@@ -46,41 +46,41 @@
 /*
  * Perform any hardware configuration necessary to generate the tick interrupt.
  */
-static void prvSetupTimerInterrupt( void );
+സ്ഥിതം ശൂന്യം prvSetupTimerInterrupt( ശൂന്യം );
 /*-----------------------------------------------------------*/
 
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+അട്ടി_Type_t * px_Port_Initialise_അട്ടി( അട്ടി_Type_t * px_മുകൾ_Of_അട്ടി,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ശൂന്യം * pvParameters )
 {
     /* Make space on the stack for the context - this leaves a couple of spaces
      * empty.  */
-    pxTopOfStack -= 20;
+    px_മുകൾ_Of_അട്ടി -= 20;
 
     /* Fill the registers with known values to assist debugging. */
-    pxTopOfStack[ 16 ] = 0;
-    pxTopOfStack[ 15 ] = portINITIAL_PSR;
-    pxTopOfStack[ 14 ] = ( uint32_t ) pxCode;
-    pxTopOfStack[ 13 ] = 0x00000000UL; /* R15. */
-    pxTopOfStack[ 12 ] = 0x00000000UL; /* R14. */
-    pxTopOfStack[ 11 ] = 0x0d0d0d0dUL;
-    pxTopOfStack[ 10 ] = 0x0c0c0c0cUL;
-    pxTopOfStack[ 9 ] = 0x0b0b0b0bUL;
-    pxTopOfStack[ 8 ] = 0x0a0a0a0aUL;
-    pxTopOfStack[ 7 ] = 0x09090909UL;
-    pxTopOfStack[ 6 ] = 0x08080808UL;
-    pxTopOfStack[ 5 ] = 0x07070707UL;
-    pxTopOfStack[ 4 ] = 0x06060606UL;
-    pxTopOfStack[ 3 ] = 0x05050505UL;
-    pxTopOfStack[ 2 ] = 0x04040404UL;
-    pxTopOfStack[ 1 ] = 0x03030303UL;
-    pxTopOfStack[ 0 ] = ( uint32_t ) pvParameters;
+    px_മുകൾ_Of_അട്ടി[ 16 ] = 0;
+    px_മുകൾ_Of_അട്ടി[ 15 ] = portINITIAL_PSR;
+    px_മുകൾ_Of_അട്ടി[ 14 ] = ( uint32_t ) pxCode;
+    px_മുകൾ_Of_അട്ടി[ 13 ] = 0x00000000UL; /* R15. */
+    px_മുകൾ_Of_അട്ടി[ 12 ] = 0x00000000UL; /* R14. */
+    px_മുകൾ_Of_അട്ടി[ 11 ] = 0x0d0d0d0dUL;
+    px_മുകൾ_Of_അട്ടി[ 10 ] = 0x0c0c0c0cUL;
+    px_മുകൾ_Of_അട്ടി[ 9 ] = 0x0b0b0b0bUL;
+    px_മുകൾ_Of_അട്ടി[ 8 ] = 0x0a0a0a0aUL;
+    px_മുകൾ_Of_അട്ടി[ 7 ] = 0x09090909UL;
+    px_മുകൾ_Of_അട്ടി[ 6 ] = 0x08080808UL;
+    px_മുകൾ_Of_അട്ടി[ 5 ] = 0x07070707UL;
+    px_മുകൾ_Of_അട്ടി[ 4 ] = 0x06060606UL;
+    px_മുകൾ_Of_അട്ടി[ 3 ] = 0x05050505UL;
+    px_മുകൾ_Of_അട്ടി[ 2 ] = 0x04040404UL;
+    px_മുകൾ_Of_അട്ടി[ 1 ] = 0x03030303UL;
+    px_മുകൾ_Of_അട്ടി[ 0 ] = ( uint32_t ) pvParameters;
 
-    return pxTopOfStack;
+    തിരികെ px_മുകൾ_Of_അട്ടി;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ശൂന്യം )
 {
     /* Set-up the timer interrupt. */
     prvSetupTimerInterrupt();
@@ -92,15 +92,15 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Should not get here. */
-    return 0;
+    തിരികെ 0;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+സ്ഥിതം ശൂന്യം prvSetupTimerInterrupt( ശൂന്യം )
 {
     /* Enable timer interrupts */
     counter1->reload = ( configCPU_CLOCK_HZ / configTICK_RATE_HZ ) - 1;
-    counter1->value = counter1->reload;
+    counter1->മൂല്യം = counter1->reload;
     counter1->mask = 1;
 
     /* Set the IRQ Handler priority and enable it. */
@@ -109,19 +109,19 @@ static void prvSetupTimerInterrupt( void )
 /*-----------------------------------------------------------*/
 
 /* Trap 31 handler. */
-void interrupt31_handler( void ) __attribute__( ( naked ) );
-void interrupt31_handler( void )
+ശൂന്യം interrupt31_handler( ശൂന്യം ) __attribute__( ( naked ) );
+ശൂന്യം interrupt31_handler( ശൂന്യം )
 {
     portSAVE_CONTEXT();
-    __asm volatile ( "call vTaskSwitchContext" );
+    __asm അസ്ഥിര ( "call vTaskSwitchContext" );
     portRESTORE_CONTEXT();
 }
 /*-----------------------------------------------------------*/
 
-static void prvProcessTick( void ) __attribute__( ( noinline ) );
-static void prvProcessTick( void )
+സ്ഥിതം ശൂന്യം prvProcessTick( ശൂന്യം ) __attribute__( ( noinline ) );
+സ്ഥിതം ശൂന്യം prvProcessTick( ശൂന്യം )
 {
-    if( xTaskIncrementTick() != pdFALSE )
+    എങ്കിൽ( xTaskIncrementTick() != pdFALSE )
     {
         vTaskSwitchContext();
     }
@@ -132,8 +132,8 @@ static void prvProcessTick( void )
 /*-----------------------------------------------------------*/
 
 /* Timer 1 interrupt handler, used for tick interrupt. */
-void interrupt7_handler( void ) __attribute__( ( naked ) );
-void interrupt7_handler( void )
+ശൂന്യം interrupt7_handler( ശൂന്യം ) __attribute__( ( naked ) );
+ശൂന്യം interrupt7_handler( ശൂന്യം )
 {
     portSAVE_CONTEXT();
     prvProcessTick();
@@ -141,7 +141,7 @@ void interrupt7_handler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ശൂന്യം vPortEndScheduler( ശൂന്യം )
 {
     /* Nothing to do. Unlikely to want to end. */
 }

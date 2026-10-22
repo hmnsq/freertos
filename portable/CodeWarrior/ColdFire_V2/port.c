@@ -27,18 +27,18 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR       ( ( അട്ടി_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#define portINITIAL_STATUS_REGISTER     ( ( അട്ടി_Type_t ) 0x2000)
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+സ്ഥിതം uint32_t ulCriticalNesting = 0x9999UL;
 
 
 #define portSAVE_CONTEXT()              \
@@ -58,31 +58,31 @@ static uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+അട്ടി_Type_t *px_Port_Initialise_അട്ടി( അട്ടി_Type_t * px_മുകൾ_Of_അട്ടി, TaskFunction_t pxCode, ശൂന്യം *pvParameters )
 {
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pvParameters;
+    px_മുകൾ_Of_അട്ടി--;
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = (അട്ടി_Type_t) 0xDEADBEEF;
+    px_മുകൾ_Of_അട്ടി--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pxCode;
+    px_മുകൾ_Of_അട്ടി--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_മുകൾ_Of_അട്ടി--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x0; /*FP*/
+    px_മുകൾ_Of_അട്ടി -= 14; /* A5 to D0. */
 
-    return pxTopOfStack;
+    തിരികെ px_മുകൾ_Of_അട്ടി;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ശൂന്യം )
 {
-extern void vPortStartFirstTask( void );
+ബാഹ്യ ശൂന്യം vPortStartFirstTask( ശൂന്യം );
 
     ulCriticalNesting = 0UL;
 
@@ -92,49 +92,49 @@ extern void vPortStartFirstTask( void );
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    തിരികെ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ശൂന്യം vPortEndScheduler( ശൂന്യം )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ശൂന്യം vPortEnterCritical( ശൂന്യം )
 {
-    if( ulCriticalNesting == 0UL )
+    എങ്കിൽ( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        ചെയ്യുക
         {
             portDISABLE_INTERRUPTS();
-            if( MCF_INTC0_INTFRCH == 0UL )
+            എങ്കിൽ( MCF_INTC0_INTFRCH == 0UL )
             {
-                break;
+                നിർത്തുക;
             }
 
             portENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } ആകുമ്പോൾ( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ശൂന്യം vPortExitCritical( ശൂന്യം )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    എങ്കിൽ( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+ശൂന്യം vPortYieldHandler( ശൂന്യം )
 {
 uint32_t ulSavedInterruptMask;
 

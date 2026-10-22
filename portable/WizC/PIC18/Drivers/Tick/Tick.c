@@ -37,8 +37,8 @@ Changes from V3.0.0
 Changes from V3.0.1
 */
 
-#include <FreeRTOS.h>
-#include <task.h>
+#അന്തര്ഭാവ <FreeRTOS.h>
+#അന്തര്ഭാവ <task.h>
 
 /* IO port constants. */
 #define portBIT_SET     (1)
@@ -52,23 +52,23 @@ Changes from V3.0.1
  */
 #define portTIMER_COMPARE_BASE          ((APROCFREQ/4)/configTICK_RATE_HZ)
 
-#if portTIMER_COMPARE_BASE   < 0x10000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE)
+#എങ്കിൽ portTIMER_COMPARE_BASE   < 0x10000
+    #define port_TIMER_COMPARE_മൂല്യം     (portTIMER_COMPARE_BASE)
     #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
     #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x20000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 2)
+#അല്ലെങ്കിലെങ്കിൽ portTIMER_COMPARE_BASE < 0x20000
+    #define port_TIMER_COMPARE_മൂല്യം     (portTIMER_COMPARE_BASE / 2)
     #define portTIMER_COMPARE_PS1       (portBIT_CLEAR)
     #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#elif portTIMER_COMPARE_BASE < 0x40000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 4)
+#അല്ലെങ്കിലെങ്കിൽ portTIMER_COMPARE_BASE < 0x40000
+    #define port_TIMER_COMPARE_മൂല്യം     (portTIMER_COMPARE_BASE / 4)
     #define portTIMER_COMPARE_PS1       (portBIT_SET)
     #define portTIMER_COMPARE_PS0       (portBIT_CLEAR)
-#elif portTIMER_COMPARE_BASE < 0x80000
-    #define portTIMER_COMPARE_VALUE     (portTIMER_COMPARE_BASE / 8)
+#അല്ലെങ്കിലെങ്കിൽ portTIMER_COMPARE_BASE < 0x80000
+    #define port_TIMER_COMPARE_മൂല്യം     (portTIMER_COMPARE_BASE / 8)
     #define portTIMER_COMPARE_PS1       (portBIT_SET)
     #define portTIMER_COMPARE_PS0       (portBIT_SET)
-#else
+#അല്ലെങ്കിൽ
     #error "TickRate out of range"
 #endif
 
@@ -77,7 +77,7 @@ Changes from V3.0.1
 /*
  * Setup a timer for a regular tick.
  */
-void portSetupTick( void )
+ശൂന്യം portSetupTick( ശൂന്യം )
 {
     /*
      * Interrupts are disabled when this function is called.
@@ -91,8 +91,8 @@ void portSetupTick( void )
     /*
      * Set the compare match value.
      */
-    CCPR1H = ( uint8_t ) ( ( portTIMER_COMPARE_VALUE >> 8 ) & 0xff );
-    CCPR1L = ( uint8_t )   ( portTIMER_COMPARE_VALUE & 0xff );
+    CCPR1H = ( uint8_t ) ( ( port_TIMER_COMPARE_മൂല്യം >> 8 ) & 0xff );
+    CCPR1L = ( uint8_t )   ( port_TIMER_COMPARE_മൂല്യം & 0xff );
 
     /*
      * Set Compare Special Event Trigger Mode

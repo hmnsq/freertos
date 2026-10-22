@@ -31,13 +31,13 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ബാഹ്യ "C" {
 #endif
 /* *INDENT-ON* */
 
 /* BSP includes. */
-#include <mb_interface.h>
-#include <xparameters.h>
+#അന്തര്ഭാവ <mb_interface.h>
+#അന്തര്ഭാവ <xparameters.h>
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -50,57 +50,57 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          അക്ഷരം
+#define portFLOAT         ദശാംശം
+#define portDOUBLE        ഇരട്ട
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_അട്ടി_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+തരനിർവചനം port_അട്ടി_TYPE   അട്ടി_Type_t;
+തരനിർവചനം long             BaseType_t;
+തരനിർവചനം unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#എങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    തരനിർവചനം uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#അല്ലെങ്കിലെങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    തരനിർവചനം uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#അല്ലെങ്കിൽ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros and functions. */
-void microblaze_disable_interrupts( void );
-void microblaze_enable_interrupts( void );
+ശൂന്യം microblaze_disable_interrupts( ശൂന്യം );
+ശൂന്യം microblaze_enable_interrupts( ശൂന്യം );
 #define portDISABLE_INTERRUPTS()    microblaze_disable_interrupts()
 #define portENABLE_INTERRUPTS()     microblaze_enable_interrupts()
 /*-----------------------------------------------------------*/
 
 /* Critical section macros. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
+ശൂന്യം vPortEnterCritical( ശൂന്യം );
+ശൂന്യം vPortExitCritical( ശൂന്യം );
 #define portENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        ബാഹ്യ അസ്ഥിര UBaseType_t uxCriticalNesting; \
         microblaze_disable_interrupts();               \
         uxCriticalNesting++;                           \
     }
 
 #define portEXIT_CRITICAL()                            \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        ബാഹ്യ അസ്ഥിര UBaseType_t uxCriticalNesting; \
         /* Interrupts are disabled, so we can */       \
         /* access the variable directly. */            \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        എങ്കിൽ( uxCriticalNesting == 0 )                   \
         {                                              \
             /* The nesting has unwound and we \
              * can enable interrupts again. */ \
@@ -111,7 +111,7 @@ void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* The yield macro maps directly to the vPortYield() function. */
-void vPortYield( void );
+ശൂന്യം vPortYield( ശൂന്യം );
 #define portYIELD()    vPortYield()
 
 /* portYIELD_FROM_ISR() does not directly call vTaskSwitchContext(), but instead
@@ -120,25 +120,25 @@ void vPortYield( void );
  * context, if the flag is not false.  This is done to prevent multiple calls to
  * vTaskSwitchContext() being made from a single interrupt, as a single interrupt
  * can result in multiple peripherals being serviced. */
-extern volatile uint32_t ulTaskSwitchRequested;
+ബാഹ്യ അസ്ഥിര uint32_t ulTaskSwitchRequested;
 #define portYIELD_FROM_ISR( x )                              \
-    do { if( ( x ) != pdFALSE ) ulTaskSwitchRequested = 1; } \
-    while( 0 )
+    ചെയ്യുക { എങ്കിൽ( ( x ) != pdFALSE ) ulTaskSwitchRequested = 1; } \
+    ആകുമ്പോൾ( 0 )
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#എങ്കിൽ ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Generic helper function. */
-    __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
+    __attribute__( ( always_inline ) ) സ്ഥിതം വരിയിൽ uint8_t uc_Port_എണ്ണം_Leading_Zeros( uint32_t ulBitmap )
     {
         uint8_t ucReturn;
 
-        __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
+        __asm അസ്ഥിര ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) );
 
-        return ucReturn;
+        തിരികെ ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #എങ്കിൽ ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -148,7 +148,7 @@ extern volatile uint32_t ulTaskSwitchRequested;
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) ucPortCountLeadingZeros( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_മുകൾ_Priority, uxReadyPriorities )    ux_മുകൾ_Priority = ( 31UL - ( uint32_t ) uc_Port_എണ്ണം_Leading_Zeros( ( uxReadyPriorities ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
@@ -156,21 +156,21 @@ extern volatile uint32_t ulTaskSwitchRequested;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
+#define port_അട്ടി_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()               asm volatile ( "NOP" )
-#define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
+#define portNOP()               asm അസ്ഥിര ( "NOP" )
+#define portMEMORY_BARRIER()    asm അസ്ഥിര ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ശൂന്യം vFunction( ശൂന്യം * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ശൂന്യം vFunction( ശൂന്യം * pvParameters )
 /*-----------------------------------------------------------*/
 
 /* The following structure is used by the FreeRTOS exception handler.  It is
  * filled with the MicroBlaze context as it was at the time the exception occurred.
  * This is done as an aid to debugging exception occurrences. */
-typedef struct PORT_REGISTER_DUMP
+തരനിർവചനം ഘടന PORT_REGISTER_DUMP
 {
     /* The following structure members hold the values of the MicroBlaze
      * registers at the time the exception was raised. */
@@ -220,11 +220,11 @@ typedef struct PORT_REGISTER_DUMP
     /* The human readable name of the task that was running at the time the
      * exception occurred.  This is the name that was given to the task when the
      * task was created using the FreeRTOS xTaskCreate() API function. */
-    char * pcCurrentTaskName;
+    അക്ഷരം * pcCurrentTaskName;
 
     /* The handle of the task that was running a the time the exception
      * occurred. */
-    void * xCurrentTaskHandle;
+    ശൂന്യം * xCurrentTaskHandle;
 } xPortRegisterDump;
 
 
@@ -265,7 +265,7 @@ typedef struct PORT_REGISTER_DUMP
  */
 BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef );
+                                         ശൂന്യം * pvCallBackRef );
 
 
 /*
@@ -286,7 +286,7 @@ BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
  * XPAR_INTC_0_GPIO_1_VEC_ID      -  for the button inputs.
  *
  */
-void vPortEnableInterrupt( uint8_t ucInterruptID );
+ശൂന്യം vPortEnableInterrupt( uint8_t ucInterruptID );
 
 /*
  * Disables the interrupt, within the interrupt controller, for the peripheral
@@ -306,7 +306,7 @@ void vPortEnableInterrupt( uint8_t ucInterruptID );
  * XPAR_INTC_0_GPIO_1_VEC_ID      -  for the button inputs.
  *
  */
-void vPortDisableInterrupt( uint8_t ucInterruptID );
+ശൂന്യം vPortDisableInterrupt( uint8_t ucInterruptID );
 
 /*
  * This is an application defined callback function used to install the tick
@@ -318,7 +318,7 @@ void vPortDisableInterrupt( uint8_t ucInterruptID );
  * The name of the interrupt handler that should be installed is vPortTickISR(),
  * which the function below declares as an extern.
  */
-void vApplicationSetupTimerInterrupt( void );
+ശൂന്യം vApplicationSetupTimerInterrupt( ശൂന്യം );
 
 /*
  * This is an application defined callback function used to clear whichever
@@ -331,7 +331,7 @@ void vApplicationSetupTimerInterrupt( void );
  * implementation should not require modification provided the example definition
  * of vApplicationSetupTimerInterrupt() is also not modified.
  */
-void vApplicationClearTimerInterrupt( void );
+ശൂന്യം vApplicationClearTimerInterrupt( ശൂന്യം );
 
 /*
  * vPortExceptionsInstallHandlers() is only available when the MicroBlaze
@@ -354,7 +354,7 @@ void vApplicationClearTimerInterrupt( void );
  * See the description of vApplicationExceptionRegisterDump() for information
  * on the processing performed by the FreeRTOS exception handler.
  */
-void vPortExceptionsInstallHandlers( void );
+ശൂന്യം vPortExceptionsInstallHandlers( ശൂന്യം );
 
 /*
  * The FreeRTOS exception handler fills an xPortRegisterDump structure (defined
@@ -370,7 +370,7 @@ void vPortExceptionsInstallHandlers( void );
  * register dump information.  For example, an implementation could be provided
  * that wrote the register dump data to a display, or a UART port.
  */
-void vApplicationExceptionRegisterDump( xPortRegisterDump * xRegisterDump );
+ശൂന്യം vApplicationExceptionRegisterDump( xPortRegisterDump * xRegisterDump );
 
 
 /* *INDENT-OFF* */

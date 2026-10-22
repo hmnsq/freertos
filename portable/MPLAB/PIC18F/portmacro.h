@@ -40,25 +40,25 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        അക്ഷരം
+#define portFLOAT       ദശാംശം
+#define portDOUBLE      ഇരട്ട
 #define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint8_t
-#define portBASE_TYPE   char
+#define portSHORT       പൂർണ്ണസംഖ്യ
+#define port_അട്ടി_TYPE  uint8_t
+#define portBASE_TYPE   അക്ഷരം
 
-typedef portSTACK_TYPE StackType_t;
-typedef signed char BaseType_t;
-typedef unsigned char UBaseType_t;
+തരനിർവചനം port_അട്ടി_TYPE അട്ടി_Type_t;
+തരനിർവചനം signed അക്ഷരം BaseType_t;
+തരനിർവചനം unsigned അക്ഷരം UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#എങ്കിൽ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    തരനിർവചനം uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#അല്ലെങ്കിലെങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    തരനിർവചനം uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#അല്ലെങ്കിൽ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -66,7 +66,7 @@ typedef unsigned char UBaseType_t;
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT          1
 #define portGLOBAL_INT_ENABLE_BIT   0x80
-#define portSTACK_GROWTH            1
+#define port_അട്ടി_GROWTH            1
 #define portTICK_PERIOD_MS          ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
@@ -85,20 +85,20 @@ modified within the critical region. */
 #define portEXIT_CRITICAL()         _asm                                    \
                                         MOVF    POSTDEC1, 1, 0              \
                                     _endasm                                 \
-                                    if( INDF1 & portGLOBAL_INT_ENABLE_BIT ) \
+                                    എങ്കിൽ( INDF1 & portGLOBAL_INT_ENABLE_BIT ) \
                                     {                                       \
                                         portENABLE_INTERRUPTS();            \
                                     }
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortYield( void );
+ബാഹ്യ ശൂന്യം vPortYield( ശൂന്യം );
 #define portYIELD()             vPortYield()
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) ശൂന്യം vFunction( ശൂന്യം *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) ശൂന്യം vFunction( ശൂന്യം *pvParameters )
 /*-----------------------------------------------------------*/
 
 /* Required by the kernel aware debugger. */

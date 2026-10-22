@@ -26,7 +26,7 @@
    * ; *
    * ; */
 
-#include "FreeRTOSConfig.h"
+#അന്തര്ഭാവ "FreeRTOSConfig.h"
 
 ;
 Variables used by scheduler
@@ -42,30 +42,30 @@ portSAVE_CONTEXT MACRO
 ;
 Saves the context of the general purpose registers, CS and ES( only in far
                                                                ;
-                                                               memory mode ) registers the usCriticalNesting Value and the Stack Pointer
+                                                               memory mode ) registers the usCriticalNesting മൂല്യം_2 and the അട്ടി_2 Pointer
 ;
-of the active Task onto the task stack
+of the active Task onto the task അട്ടി
 ;
 ------------------------------------------------------------------------------
 portSAVE_CONTEXT MACRO
 
-PUSH AX;
-Save AX Register to stack.
-   PUSH HL
+തള്ളുക_2 AX;
+Save AX Register to അട്ടി.
+   തള്ളുക_2 HL
 MOV A, CS;
-Save CS register.
+Save CS രജിസ്റ്റർ.
    XCH A, X
 MOV A, ES;
-Save ES register.
-   PUSH AX
-PUSH DE;
+Save ES രജിസ്റ്റർ.
+   തള്ളുക_2 AX
+തള്ളുക_2 DE;
 Save the remaining general purpose registers.
-   PUSH BC
+   തള്ളുക_2 BC
 MOVW AX, usCriticalNesting;
-Save the usCriticalNesting value.
-   PUSH AX
+Save the usCriticalNesting മൂല്യം.
+   തള്ളുക_2 AX
 MOVW AX, pxCurrentTCB;
-Save the Stack pointer.
+Save the അട്ടി_2 pointer.
    MOVW HL, AX
 MOVW AX, SP
         MOVW[ HL ], AX
@@ -78,34 +78,34 @@ MOVW AX, SP
 ;
 portRESTORE_CONTEXT MACRO
 ;
-Restores the task Stack Pointer then use this to restore usCriticalNesting,
+Restores the task അട്ടി_2 Pointer then use this to restore usCriticalNesting,
 ;
 general purpose registers and the CS and ES( only in far memory mode )
 ;
-of the selected task from the task stack
+of the selected task from the task അട്ടി
 ;
 ------------------------------------------------------------------------------
 portRESTORE_CONTEXT MACRO
 MOVW AX, pxCurrentTCB;
-Restore the Stack pointer.
+Restore the അട്ടി_2 pointer.
    MOVW HL, AX
 MOVW AX, [ HL ]
 MOVW SP, AX
-POP AX;
-Restore usCriticalNesting value.
+എടുക്കുക_2 AX;
+Restore usCriticalNesting മൂല്യം.
    MOVW usCriticalNesting, AX
-POP BC;
+എടുക്കുക_2 BC;
 Restore the necessary general purpose registers.
-   POP DE
-POP AX;
-Restore the ES register.
+   എടുക്കുക_2 DE
+എടുക്കുക_2 AX;
+Restore the ES രജിസ്റ്റർ.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS രജിസ്റ്റർ.
    MOV CS, A
-POP HL;
-Restore general purpose register HL.
-   POP AX;
+എടുക്കുക_2 HL;
+Restore general purpose രജിസ്റ്റർ HL.
+   എടുക്കുക_2 AX;
 Restore AX.
    ENDM
 ;

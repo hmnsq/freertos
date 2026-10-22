@@ -28,16 +28,16 @@
  * The implementation is based on FreeRTOS mutex type semaphore.
  */
 
-#include <stdbool.h>
+#അന്തര്ഭാവ <stdbool.h>
 
-#include "os_wrapper/mutex.h"
+#അന്തര്ഭാവ "os_wrapper/mutex.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "semphr.h"
-#include "mpu_wrappers.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
+#അന്തര്ഭാവ "semphr.h"
+#അന്തര്ഭാവ "mpu_wrappers.h"
 
-#if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+#എങ്കിൽ ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
 /*
  * In the static allocation, the RAM is required to hold the semaphore's
@@ -46,77 +46,77 @@
     StaticSemaphore_t xSecureMutexBuffer;
 #endif
 
-#if ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
-    bool os_wrapper_is_kernel_started( void )
+#എങ്കിൽ ( ( INCLUDE_xTaskGetSchedulerState == 1 ) || ( configUSE_TIMERS == 1 ) )
+    bool os_wrapper_is_kernel_started( ശൂന്യം )
     {
-        return xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED;
+        തിരികെ xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED;
     }
 #endif
 
-void * os_wrapper_mutex_create( void )
+ശൂന്യം * os_wrapper_mutex_create( ശൂന്യം )
 {
-    SemaphoreHandle_t xMutexHandle = NULL;
+    SemaphoreHandle_t xMutexHandle = ശൂന്യ;
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #എങ്കിൽ ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
         xMutexHandle = xSemaphoreCreateMutex();
-    #elif ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #അല്ലെങ്കിലെങ്കിൽ ( configSUPPORT_STATIC_ALLOCATION == 1 )
         xMutexHandle = xSemaphoreCreateMutexStatic( &xSecureMutexBuffer );
     #endif
-    return ( void * ) xMutexHandle;
+    തിരികെ ( ശൂന്യം * ) xMutexHandle;
 }
 /*-----------------------------------------------------------*/
 
-uint32_t os_wrapper_mutex_acquire( void * handle,
+uint32_t os_wrapper_mutex_acquire( ശൂന്യം * handle,
                                    uint32_t timeout )
 {
     BaseType_t xRet;
 
-    if( !handle )
+    എങ്കിൽ( !handle )
     {
-        return OS_WRAPPER_ERROR;
+        തിരികെ OS_WRAPPER_ERROR;
     }
 
     xRet = xSemaphoreTake( ( SemaphoreHandle_t ) handle,
                            ( timeout == OS_WRAPPER_WAIT_FOREVER ) ?
                            portMAX_DELAY : ( TickType_t ) timeout );
 
-    if( xRet != pdPASS )
+    എങ്കിൽ( xRet != pdPASS )
     {
-        return OS_WRAPPER_ERROR;
+        തിരികെ OS_WRAPPER_ERROR;
     }
-    else
+    അല്ലെങ്കിൽ
     {
-        return OS_WRAPPER_SUCCESS;
+        തിരികെ OS_WRAPPER_SUCCESS;
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t os_wrapper_mutex_release( void * handle )
+uint32_t os_wrapper_mutex_release( ശൂന്യം * handle )
 {
     BaseType_t xRet;
 
-    if( !handle )
+    എങ്കിൽ( !handle )
     {
-        return OS_WRAPPER_ERROR;
+        തിരികെ OS_WRAPPER_ERROR;
     }
 
     xRet = xSemaphoreGive( ( SemaphoreHandle_t ) handle );
 
-    if( xRet != pdPASS )
+    എങ്കിൽ( xRet != pdPASS )
     {
-        return OS_WRAPPER_ERROR;
+        തിരികെ OS_WRAPPER_ERROR;
     }
-    else
+    അല്ലെങ്കിൽ
     {
-        return OS_WRAPPER_SUCCESS;
+        തിരികെ OS_WRAPPER_SUCCESS;
     }
 }
 /*-----------------------------------------------------------*/
 
-uint32_t os_wrapper_mutex_delete( void * handle )
+uint32_t os_wrapper_mutex_delete( ശൂന്യം * handle )
 {
     vSemaphoreDelete( ( SemaphoreHandle_t ) handle );
 
-    return OS_WRAPPER_SUCCESS;
+    തിരികെ OS_WRAPPER_SUCCESS;
 }
 /*-----------------------------------------------------------*/

@@ -28,23 +28,23 @@
 
 
 /* Standard includes. */
-#include <stdlib.h>
+#അന്തര്ഭാവ <stdlib.h>
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
 
 /* Constants required to setup the initial task context. */
-#define portINITIAL_SPSR                   ( ( StackType_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
-#define portTHUMB_MODE_BIT                 ( ( StackType_t ) 0x20 )
-#define portINSTRUCTION_SIZE               ( ( StackType_t ) 4 )
-#define portNO_CRITICAL_SECTION_NESTING    ( ( StackType_t ) 0 )
+#define portINITIAL_SPSR                   ( ( അട്ടി_Type_t ) 0x1f ) /* System mode, ARM mode, interrupts enabled. */
+#define portTHUMB_MODE_BIT                 ( ( അട്ടി_Type_t ) 0x20 )
+#define portINSTRUCTION_SIZE               ( ( അട്ടി_Type_t ) 4 )
+#define portNO_CRITICAL_SECTION_NESTING    ( ( അട്ടി_Type_t ) 0 )
 
 /* Constants required to setup the tick ISR. */
 #define portENABLE_TIMER                   ( ( uint8_t ) 0x01 )
-#define portPRESCALE_VALUE                 0x00
+#define port_PRESCALE_മൂല്യം                 0x00
 #define portINTERRUPT_ON_MATCH             ( ( uint32_t ) 0x01 )
-#define portRESET_COUNT_ON_MATCH           ( ( uint32_t ) 0x02 )
+#define port_RESET_എണ്ണം_ON_MATCH           ( ( uint32_t ) 0x02 )
 
 /* Constants required to setup the VIC for the tick ISR. */
 #define portTIMER_VIC_CHANNEL              ( ( uint32_t ) 0x0004 )
@@ -64,102 +64,102 @@
  * as part of the task context and must be initialised to a non zero value. */
 
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+അസ്ഥിര uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
 /* Setup the timer to generate the tick interrupts. */
-static void prvSetupTimerInterrupt( void );
+സ്ഥിതം ശൂന്യം prvSetupTimerInterrupt( ശൂന്യം );
 
 /*
  * The scheduler can only be started from ARM mode, so
  * vPortStartFirstSTask() is defined in portISR.c.
  */
-extern __asm void vPortStartFirstTask( void );
+ബാഹ്യ __asm ശൂന്യം vPortStartFirstTask( ശൂന്യം );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+അട്ടി_Type_t * px_Port_Initialise_അട്ടി( അട്ടി_Type_t * px_മുകൾ_Of_അട്ടി,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ശൂന്യം * pvParameters )
 {
-    StackType_t * pxOriginalTOS;
+    അട്ടി_Type_t * pxOriginalTOS;
 
     /* Setup the initial stack of the task.  The stack is set exactly as
      * expected by the portRESTORE_CONTEXT() macro.
      *
      * Remember where the top of the (simulated) stack is before we place
      * anything on it. */
-    pxOriginalTOS = pxTopOfStack;
+    pxOriginalTOS = px_മുകൾ_Of_അട്ടി;
 
     /* To ensure asserts in tasks.c don't fail, although in this case the assert
      * is not really required. */
-    pxTopOfStack--;
+    px_മുകൾ_Of_അട്ടി--;
 
     /* First on the stack is the return address - which in this case is the
      * start of the task.  The offset is added to make the return address appear
      * as it would within an IRQ ISR. */
-    *pxTopOfStack = ( StackType_t ) pxCode + portINSTRUCTION_SIZE;
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pxCode + portINSTRUCTION_SIZE;
+    px_മുകൾ_Of_അട്ടി--;
 
-    *pxTopOfStack = ( StackType_t ) 0xaaaaaaaa;    /* R14 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x12121212;    /* R12 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x11111111;    /* R11 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x10101010;    /* R10 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x09090909;    /* R9 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x08080808;    /* R8 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x07070707;    /* R7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x06060606;    /* R6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x05050505;    /* R5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04040404;    /* R4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03030303;    /* R3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x02020202;    /* R2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x01010101;    /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters;  /* R0 */
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0xaaaaaaaa;    /* R14 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pxOriginalTOS; /* Stack used when task starts goes in R13. */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x12121212;    /* R12 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x11111111;    /* R11 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x10101010;    /* R10 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x09090909;    /* R9 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x08080808;    /* R8 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x07070707;    /* R7 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x06060606;    /* R6 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x05050505;    /* R5 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x04040404;    /* R4 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x03030303;    /* R3 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x02020202;    /* R2 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) 0x01010101;    /* R1 */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pvParameters;  /* R0 */
+    px_മുകൾ_Of_അട്ടി--;
 
     /* The last thing onto the stack is the status register, which is set for
      * system mode, with interrupts enabled. */
-    *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
+    എങ്കിൽ( ( ( uint32_t ) pxCode & 0x01UL ) != 0x00UL )
     {
         /* We want the task to start in thumb mode. */
-        *pxTopOfStack |= portTHUMB_MODE_BIT;
+        *px_മുകൾ_Of_അട്ടി |= portTHUMB_MODE_BIT;
     }
 
-    pxTopOfStack--;
+    px_മുകൾ_Of_അട്ടി--;
 
     /* The code generated by the Keil compiler does not maintain separate
      * stack and frame pointers. The portENTER_CRITICAL macro cannot therefore
      * use the stack as per other ports.  Instead a variable is used to keep
      * track of the critical section nesting.  This variable has to be stored
      * as part of the task context and is initially set to zero. */
-    *pxTopOfStack = portNO_CRITICAL_SECTION_NESTING;
+    *px_മുകൾ_Of_അട്ടി = portNO_CRITICAL_SECTION_NESTING;
 
-    return pxTopOfStack;
+    തിരികെ px_മുകൾ_Of_അട്ടി;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ശൂന്യം )
 {
     /* Start the timer that generates the tick ISR. */
     prvSetupTimerInterrupt();
@@ -169,11 +169,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here! */
-    return 0;
+    തിരികെ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ശൂന്യം vPortEndScheduler( ശൂന്യം )
 {
     /* It is unlikely that the ARM port will require this function as there
      * is nothing to return to.  If this is required - stop the tick ISR then
@@ -181,14 +181,14 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 0
+#എങ്കിൽ configUSE_PREEMPTION == 0
 
 /*
  * The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick.
  */
-    void vNonPreemptiveTick( void ) __irq;
-    void vNonPreemptiveTick( void ) __irq
+    ശൂന്യം vNonPreemptiveTick( ശൂന്യം ) __irq;
+    ശൂന്യം vNonPreemptiveTick( ശൂന്യം ) __irq
     {
         /* Increment the tick count - this may make a delaying task ready
          * to run - but a context switch is not performed. */
@@ -198,7 +198,7 @@ void vPortEndScheduler( void )
         VICVectAddr = portCLEAR_VIC_INTERRUPT; /* Acknowledge the Interrupt */
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#അല്ലെങ്കിൽ /* if configUSE_PREEMPTION == 0 */
 
 /*
  **************************************************************************
@@ -208,34 +208,34 @@ void vPortEndScheduler( void )
  **************************************************************************
  */
 
-    void vPreemptiveTick( void );
+    ശൂന്യം vPreemptiveTick( ശൂന്യം );
 
 #endif /* if configUSE_PREEMPTION == 0 */
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+സ്ഥിതം ശൂന്യം prvSetupTimerInterrupt( ശൂന്യം )
 {
     uint32_t ulCompareMatch;
 
     /* A 1ms tick does not require the use of the timer prescale.  This is
      * defaulted to zero but can be used if necessary. */
-    T0PR = portPRESCALE_VALUE;
+    T0PR = port_PRESCALE_മൂല്യം;
 
     /* Calculate the match value required for our wanted tick rate. */
     ulCompareMatch = configCPU_CLOCK_HZ / configTICK_RATE_HZ;
 
     /* Protect against divide by zero.  Using an if() statement still results
      * in a warning - hence the #if. */
-    #if portPRESCALE_VALUE != 0
+    #എങ്കിൽ port_PRESCALE_മൂല്യം != 0
     {
-        ulCompareMatch /= ( portPRESCALE_VALUE + 1 );
+        ulCompareMatch /= ( port_PRESCALE_മൂല്യം + 1 );
     }
     #endif
 
     T0MR0 = ulCompareMatch;
 
     /* Generate tick with timer 0 compare match. */
-    T0MCR = portRESET_COUNT_ON_MATCH | portINTERRUPT_ON_MATCH;
+    T0MCR = port_RESET_എണ്ണം_ON_MATCH | portINTERRUPT_ON_MATCH;
 
     /* Setup the VIC for the timer. */
     VICIntSelect &= ~( portTIMER_VIC_CHANNEL_BIT );
@@ -243,11 +243,11 @@ static void prvSetupTimerInterrupt( void )
 
     /* The ISR installed depends on whether the preemptive or cooperative
      * scheduler is being used. */
-    #if configUSE_PREEMPTION == 1
+    #എങ്കിൽ configUSE_PREEMPTION == 1
     {
         VICVectAddr0 = ( uint32_t ) vPreemptiveTick;
     }
-    #else
+    #അല്ലെങ്കിൽ
     {
         VICVectAddr0 = ( uint32_t ) vNonPreemptiveTick;
     }
@@ -261,7 +261,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ശൂന്യം vPortEnterCritical( ശൂന്യം )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
     __disable_irq();
@@ -273,16 +273,16 @@ void vPortEnterCritical( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ശൂന്യം vPortExitCritical( ശൂന്യം )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    എങ്കിൽ( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        എങ്കിൽ( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL(). */
             __enable_irq();

@@ -32,12 +32,12 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ബാഹ്യ "C" {
 #endif
 /* *INDENT-ON* */
 
 /* Hardware specifics. */
-#include "machine.h"
+#അന്തര്ഭാവ "machine.h"
 
 /*-----------------------------------------------------------
  * Port specific definitions.
@@ -51,56 +51,56 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
 portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        അക്ഷരം
+#define portFLOAT       ദശാംശം
+#define portDOUBLE      ഇരട്ട
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_അട്ടി_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+തരനിർവചനം port_അട്ടി_TYPE അട്ടി_Type_t;
+തരനിർവചനം long BaseType_t;
+തരനിർവചനം unsigned long UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#എങ്കിൽ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    തരനിർവചനം uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t TickType_t;
+#അല്ലെങ്കിലെങ്കിൽ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    തരനിർവചനം uint32_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffffffffUL
 
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC 1
-#else
+#അല്ലെങ്കിൽ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT              8   /* Could make four, according to manual. */
-#define portSTACK_GROWTH                -1
+#define port_അട്ടി_GROWTH                -1
 #define portTICK_PERIOD_MS              ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()                       nop()
 
 #pragma inline_asm vPortYield
-static void vPortYield( void )
+സ്ഥിതം ശൂന്യം vPortYield( ശൂന്യം )
 {
     /* Save clobbered register - may not actually be necessary if inline asm
     functions are considered to use the same rules as function calls by the
     compiler. */
-    PUSH.L R5
+    തള്ളുക_2.L R5
     /* Set ITU SWINTR. */
     MOV.L #553696, R5
     MOV.B #1, [R5]
     /* Read back to ensure the value is taken before proceeding. */
     MOV.L [R5], R5
     /* Restore clobbered register to its previous value. */
-    POP R5
+    എടുക്കുക_2 R5
 }
 #define portYIELD() vPortYield()
-#define portYIELD_FROM_ISR( x ) do { if( x != pdFALSE ) portYIELD(); } while( 0 )
+#define portYIELD_FROM_ISR( x ) ചെയ്യുക { എങ്കിൽ( x != pdFALSE ) portYIELD(); } ആകുമ്പോൾ( 0 )
 
 /* These macros should not be called directly, but through the
 taskENTER_CRITICAL() and taskEXIT_CRITICAL() macros.  An extra check is
@@ -112,10 +112,10 @@ functions are those that end in FromISR.  FreeRTOS maintains a separate
 interrupt API to ensure API function and interrupt entry is as fast and as
 simple as possible. */
 #define portENABLE_INTERRUPTS()     set_ipl( ( long ) 0 )
-#if ( configASSERT_DEFINED == 1 )
+#എങ്കിൽ ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID() configASSERT( ( get_ipl() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()    if( get_ipl() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
-#else
+    #define portDISABLE_INTERRUPTS()    എങ്കിൽ( get_ipl() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
+#അല്ലെങ്കിൽ
     #define portDISABLE_INTERRUPTS()    set_ipl( ( long ) configMAX_SYSCALL_INTERRUPT_PRIORITY )
 #endif
 
@@ -123,8 +123,8 @@ simple as possible. */
 #define portCRITICAL_NESTING_IN_TCB ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+ബാഹ്യ ശൂന്യം vTaskEnterCritical( ശൂന്യം );
+ബാഹ്യ ശൂന്യം vTaskExitCritical( ശൂന്യം );
 #define portENTER_CRITICAL()    vTaskEnterCritical()
 #define portEXIT_CRITICAL()     vTaskExitCritical()
 
@@ -135,11 +135,11 @@ extern void vTaskExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) ശൂന്യം vFunction( ശൂന്യം *pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters ) ശൂന്യം vFunction( ശൂന്യം *pvParameters )
 
 #pragma inline_asm vPortMemoryBarrier
-static void vPortMemoryBarrier( void )
+സ്ഥിതം ശൂന്യം vPortMemoryBarrier( ശൂന്യം )
 {
 }
 

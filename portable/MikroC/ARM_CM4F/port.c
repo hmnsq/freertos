@@ -31,19 +31,19 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#അന്തര്ഭാവ "FreeRTOS.h"
+#അന്തര്ഭാവ "task.h"
 
 /* Constants required to manipulate the core.  Registers first... */
-#define portNVIC_SYSTICK_CTRL_REG             ( *( ( volatile uint32_t * ) 0xe000e010 ) )
-#define portNVIC_SYSTICK_LOAD_REG             ( *( ( volatile uint32_t * ) 0xe000e014 ) )
-#define portNVIC_SYSTICK_CURRENT_VALUE_REG    ( *( ( volatile uint32_t * ) 0xe000e018 ) )
-#define portNVIC_SHPR3_REG                    ( *( ( volatile uint32_t * ) 0xe000ed20 ) )
+#define portNVIC_SYSTICK_CTRL_REG             ( *( ( അസ്ഥിര uint32_t * ) 0xe000e010 ) )
+#define portNVIC_SYSTICK_LOAD_REG             ( *( ( അസ്ഥിര uint32_t * ) 0xe000e014 ) )
+#define port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG    ( *( ( അസ്ഥിര uint32_t * ) 0xe000e018 ) )
+#define portNVIC_SHPR3_REG                    ( *( ( അസ്ഥിര uint32_t * ) 0xe000ed20 ) )
 /* ...then bits in the registers. */
 #define portNVIC_SYSTICK_CLK_BIT              ( 1UL << 2UL )
 #define portNVIC_SYSTICK_INT_BIT              ( 1UL << 1UL )
 #define portNVIC_SYSTICK_ENABLE_BIT           ( 1UL << 0UL )
-#define portNVIC_SYSTICK_COUNT_FLAG_BIT       ( 1UL << 16UL )
+#define port_NVIC_SYSTICK_എണ്ണം_FLAG_BIT       ( 1UL << 16UL )
 #define portNVIC_PENDSVCLEAR_BIT              ( 1UL << 27UL )
 #define portNVIC_PEND_SYSTICK_SET_BIT         ( 1UL << 26UL )
 #define portNVIC_PEND_SYSTICK_CLEAR_BIT       ( 1UL << 25UL )
@@ -53,11 +53,11 @@
 #define portNVIC_SYSTICK_PRI                  ( ( ( uint32_t ) portMIN_INTERRUPT_PRIORITY ) << 24UL )
 
 /* Constants required to check the validity of an interrupt priority. */
-#define portFIRST_USER_INTERRUPT_NUMBER       ( 16 )
+#define port_FIRST_USER_INTERRUPT_സംഖ്യ       ( 16 )
 #define portNVIC_IP_REGISTERS_OFFSET_16       ( 0xE000E3F0 )
-#define portAIRCR_REG                         ( *( ( volatile uint32_t * ) 0xE000ED0C ) )
-#define portMAX_8_BIT_VALUE                   ( ( uint8_t ) 0xff )
-#define portTOP_BIT_OF_BYTE                   ( ( uint8_t ) 0x80 )
+#define portAIRCR_REG                         ( *( ( അസ്ഥിര uint32_t * ) 0xE000ED0C ) )
+#define port_MAX_8_BIT_മൂല്യം                   ( ( uint8_t ) 0xff )
+#define port_മുകൾ_BIT_OF_BYTE                   ( ( uint8_t ) 0x80 )
 #define portMAX_PRIGROUP_BITS                 ( ( uint8_t ) 7 )
 #define portPRIORITY_GROUP_MASK               ( 0x07UL << 8UL )
 #define portPRIGROUP_SHIFT                    ( 8UL )
@@ -66,7 +66,7 @@
 #define portVECTACTIVE_MASK                   ( 0xFFUL )
 
 /* Constants required to manipulate the VFP. */
-#define portFPCCR                             ( ( volatile uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
+#define portFPCCR                             ( ( അസ്ഥിര uint32_t * ) 0xe000ef34 ) /* Floating point context control register. */
 #define portASPEN_AND_LSPEN_BITS              ( 0x3UL << 30UL )
 
 /* Constants required to set up the initial stack. */
@@ -74,7 +74,7 @@
 #define portINITIAL_EXC_RETURN                ( 0xfffffffd )
 
 /* The systick is a 24-bit counter. */
-#define portMAX_24_BIT_NUMBER                 ( 0xffffffUL )
+#define port_MAX_24_BIT_സംഖ്യ                 ( 0xffffffUL )
 
 /* A fiddle factor to estimate the number of SysTick counts that would have
  * occurred while the SysTick counter is stopped during tickless idle
@@ -88,7 +88,7 @@
     #define configSYSTICK_CLOCK_HZ             ( configCPU_CLOCK_HZ )
     /* Ensure the SysTick is clocked at the same frequency as the core. */
     #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( portNVIC_SYSTICK_CLK_BIT )
-#else
+#അല്ലെങ്കിൽ
     /* Select the option to clock SysTick not at the same frequency as the core. */
     #define portNVIC_SYSTICK_CLK_BIT_CONFIG    ( 0 )
 #endif
@@ -98,7 +98,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#അല്ലെങ്കിൽ
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -119,64 +119,64 @@
 #define control    20
 
 /* From port.c. */
-extern void * pxCurrentTCB;
+ബാഹ്യ ശൂന്യം * pxCurrentTCB;
 
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. */
-static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
+സ്ഥിതം UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 
 /*
  * Setup the timer to generate the tick interrupts.  The implementation in this
  * file is weak to allow application writers to change the timer used to
  * generate the tick interrupt.
  */
-void vPortSetupTimerInterrupt( void );
+ശൂന്യം vPortSetupTimerInterrupt( ശൂന്യം );
 
 /*
  * Exception handlers.
  */
-void xPortPendSVHandler( void );
-void xPortSysTickHandler( void );
-void vPortSVCHandler( void );
+ശൂന്യം xPortPendSVHandler( ശൂന്യം );
+ശൂന്യം xPortSysTickHandler( ശൂന്യം );
+ശൂന്യം vPortSVCHandler( ശൂന്യം );
 
 /*
  * Start first task is a separate function so it can be tested in isolation.
  */
-static void prvPortStartFirstTask( void );
+സ്ഥിതം ശൂന്യം prvPortStartFirstTask( ശൂന്യം );
 
 /*
  * Function to enable the VFP.
  */
-static void vPortEnableVFP( void );
+സ്ഥിതം ശൂന്യം vPortEnableVFP( ശൂന്യം );
 
 /*
  * Used to catch tasks that attempt to return from their implementing function.
  */
-static void prvTaskExitError( void );
+സ്ഥിതം ശൂന്യം prvTaskExitError( ശൂന്യം );
 
 /*-----------------------------------------------------------*/
 
 /*
  * The number of SysTick increments that make up one tick period.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t ulTimerCountsForOneTick = 0;
+#എങ്കിൽ ( configUSE_TICKLESS_IDLE == 1 )
+    സ്ഥിതം uint32_t ulTimerCountsForOneTick = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
 /*
  * The maximum number of tick periods that can be suppressed is limited by the
  * 24 bit resolution of the SysTick timer.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t xMaximumPossibleSuppressedTicks = 0;
+#എങ്കിൽ ( configUSE_TICKLESS_IDLE == 1 )
+    സ്ഥിതം uint32_t xMaximumPossibleSuppressedTicks = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
 /*
  * Compensate for the CPU cycles that pass while the SysTick is stopped (low
  * power functionality only.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
-    static uint32_t ulStoppedTimerCompensation = 0;
+#എങ്കിൽ ( configUSE_TICKLESS_IDLE == 1 )
+    സ്ഥിതം uint32_t ulStoppedTimerCompensation = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
 /*
@@ -184,9 +184,9 @@ static void prvTaskExitError( void );
  * FreeRTOS API functions are not called from interrupts that have been assigned
  * a priority above configMAX_SYSCALL_INTERRUPT_PRIORITY.
  */
-#if ( configASSERT_DEFINED == 1 )
-    static uint8_t ucMaxSysCallPriority = 0;
-    static uint32_t ulMaxPRIGROUPValue = 0;
+#എങ്കിൽ ( configASSERT_DEFINED == 1 )
+    സ്ഥിതം uint8_t ucMaxSysCallPriority = 0;
+    സ്ഥിതം uint32_t ulMaxPRIGROUPValue = 0;
 #endif /* configASSERT_DEFINED */
 
 /*-----------------------------------------------------------*/
@@ -194,43 +194,43 @@ static void prvTaskExitError( void );
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+അട്ടി_Type_t * px_Port_Initialise_അട്ടി( അട്ടി_Type_t * px_മുകൾ_Of_അട്ടി,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ശൂന്യം * pvParameters )
 {
     /* Simulate the stack frame as it would be created by a context switch
      * interrupt. */
 
     /* Offset added to account for the way the MCU uses the stack on entry/exit
      * of interrupts, and to ensure alignment. */
-    pxTopOfStack--;
+    px_മുകൾ_Of_അട്ടി--;
 
     /* Sometimes the parameters are loaded from the stack. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pvParameters;
+    px_മുകൾ_Of_അട്ടി--;
 
-    *pxTopOfStack = portINITIAL_XPSR;                        /* xPSR */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;                  /* PC */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR */
+    *px_മുകൾ_Of_അട്ടി = portINITIAL_XPSR;                        /* xPSR */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pxCode;                  /* PC */
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) portTASK_RETURN_ADDRESS; /* LR */
 
     /* Save code space by skipping register initialisation. */
-    pxTopOfStack -= 5;                            /* R12, R3, R2 and R1. */
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R0 */
+    px_മുകൾ_Of_അട്ടി -= 5;                            /* R12, R3, R2 and R1. */
+    *px_മുകൾ_Of_അട്ടി = ( അട്ടി_Type_t ) pvParameters; /* R0 */
 
     /* A save method is being used that requires each task to maintain its
      * own exec return value. */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_EXC_RETURN;
+    px_മുകൾ_Of_അട്ടി--;
+    *px_മുകൾ_Of_അട്ടി = portINITIAL_EXC_RETURN;
 
-    pxTopOfStack -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
+    px_മുകൾ_Of_അട്ടി -= 8; /* R11, R10, R9, R8, R7, R6, R5 and R4. */
 
-    return pxTopOfStack;
+    തിരികെ px_മുകൾ_Of_അട്ടി;
 }
 /*-----------------------------------------------------------*/
 
-static void prvTaskExitError( void )
+സ്ഥിതം ശൂന്യം prvTaskExitError( ശൂന്യം )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to.  If a task wants to exit it
@@ -241,13 +241,13 @@ static void prvTaskExitError( void )
     configASSERT( uxCriticalNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    വേണ്ടി( ; ; )
     {
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortSVCHandler( void ) iv IVT_INT_SVCall ics ICS_OFF
+ശൂന്യം vPortSVCHandler( ശൂന്യം ) iv IVT_INT_SVCall ics ICS_OFF
 {
     __asm {
 /* *INDENT-OFF* */
@@ -265,7 +265,7 @@ void vPortSVCHandler( void ) iv IVT_INT_SVCall ics ICS_OFF
 }
 /*-----------------------------------------------------------*/
 
-static void prvPortStartFirstTask( void )
+സ്ഥിതം ശൂന്യം prvPortStartFirstTask( ശൂന്യം )
 {
     __asm {
 /* *INDENT-OFF* */
@@ -294,14 +294,14 @@ static void prvPortStartFirstTask( void )
 /*
  * See header file for description.
  */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ശൂന്യം )
 {
-    #if ( configASSERT_DEFINED == 1 )
+    #എങ്കിൽ ( configASSERT_DEFINED == 1 )
     {
-        volatile uint8_t ucOriginalPriority;
-        volatile uint32_t ulImplementedPrioBits = 0;
-        volatile uint8_t * const pucFirstUserPriorityRegister = ( volatile uint8_t * const ) ( portNVIC_IP_REGISTERS_OFFSET_16 + portFIRST_USER_INTERRUPT_NUMBER );
-        volatile uint8_t ucMaxPriorityValue;
+        അസ്ഥിര uint8_t ucOriginalPriority;
+        അസ്ഥിര uint32_t ulImplementedPrioBits = 0;
+        അസ്ഥിര uint8_t * സ്ഥിരം pucFirstUserPriorityRegister = ( അസ്ഥിര uint8_t * സ്ഥിരം ) ( portNVIC_IP_REGISTERS_OFFSET_16 + port_FIRST_USER_INTERRUPT_സംഖ്യ );
+        അസ്ഥിര uint8_t uc_Max_Priority_മൂല്യം;
 
         /* Determine the maximum priority from which ISR safe FreeRTOS API
          * functions can be called.  ISR safe functions are those that end in
@@ -313,13 +313,13 @@ BaseType_t xPortStartScheduler( void )
 
         /* Determine the number of priority bits available.  First write to all
          * possible bits. */
-        *pucFirstUserPriorityRegister = portMAX_8_BIT_VALUE;
+        *pucFirstUserPriorityRegister = port_MAX_8_BIT_മൂല്യം;
 
         /* Read the value back to see how many bits stuck. */
-        ucMaxPriorityValue = *pucFirstUserPriorityRegister;
+        uc_Max_Priority_മൂല്യം = *pucFirstUserPriorityRegister;
 
         /* Use the same mask on the maximum system call priority. */
-        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & ucMaxPriorityValue;
+        ucMaxSysCallPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY & uc_Max_Priority_മൂല്യം;
 
         /* Check that the maximum system call priority is nonzero after
          * accounting for the number of priority bits supported by the
@@ -331,18 +331,18 @@ BaseType_t xPortStartScheduler( void )
 
         /* Check that the bits not implemented in hardware are zero in
          * configMAX_SYSCALL_INTERRUPT_PRIORITY. */
-        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( ~ucMaxPriorityValue ) ) == 0U );
+        configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & ( ~uc_Max_Priority_മൂല്യം ) ) == 0U );
 
         /* Calculate the maximum acceptable priority group value for the number
          * of bits read back. */
 
-        while( ( ucMaxPriorityValue & portTOP_BIT_OF_BYTE ) == portTOP_BIT_OF_BYTE )
+        ആകുമ്പോൾ( ( uc_Max_Priority_മൂല്യം & port_മുകൾ_BIT_OF_BYTE ) == port_മുകൾ_BIT_OF_BYTE )
         {
             ulImplementedPrioBits++;
-            ucMaxPriorityValue <<= ( uint8_t ) 0x01;
+            uc_Max_Priority_മൂല്യം <<= ( uint8_t ) 0x01;
         }
 
-        if( ulImplementedPrioBits == 8 )
+        എങ്കിൽ( ulImplementedPrioBits == 8 )
         {
             /* When the hardware implements 8 priority bits, there is no way for
             * the software to configure PRIGROUP to not have sub-priorities. As
@@ -364,7 +364,7 @@ BaseType_t xPortStartScheduler( void )
             configASSERT( ( configMAX_SYSCALL_INTERRUPT_PRIORITY & 0x1U ) == 0U );
             ulMaxPRIGROUPValue = 0;
         }
-        else
+        അല്ലെങ്കിൽ
         {
             ulMaxPRIGROUPValue = portMAX_PRIGROUP_BITS - ulImplementedPrioBits;
         }
@@ -407,11 +407,11 @@ BaseType_t xPortStartScheduler( void )
     prvTaskExitError();
 
     /* Should not get here! */
-    return 0;
+    തിരികെ 0;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ശൂന്യം vPortEndScheduler( ശൂന്യം )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -419,7 +419,7 @@ void vPortEndScheduler( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+ശൂന്യം vPortEnterCritical( ശൂന്യം )
 {
     portDISABLE_INTERRUPTS();
     uxCriticalNesting++;
@@ -429,27 +429,27 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( uxCriticalNesting == 1 )
+    എങ്കിൽ( uxCriticalNesting == 1 )
     {
         configASSERT( ( portNVIC_INT_CTRL_REG & portVECTACTIVE_MASK ) == 0 );
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+ശൂന്യം vPortExitCritical( ശൂന്യം )
 {
     configASSERT( uxCriticalNesting );
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == 0 )
+    എങ്കിൽ( uxCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-const uint8_t ucMaxSyscallInterruptPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY;
-void xPortPendSVHandler( void ) iv IVT_INT_PendSV ics ICS_OFF
+സ്ഥിരം uint8_t ucMaxSyscallInterruptPriority = configMAX_SYSCALL_INTERRUPT_PRIORITY;
+ശൂന്യം xPortPendSVHandler( ശൂന്യം ) iv IVT_INT_PendSV ics ICS_OFF
 {
     __asm {
         #ifdef HW_DEBUG
@@ -501,7 +501,7 @@ void xPortPendSVHandler( void ) iv IVT_INT_PendSV ics ICS_OFF
 }
 /*-----------------------------------------------------------*/
 
-void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
+ശൂന്യം xPortSysTickHandler( ശൂന്യം ) iv IVT_INT_SysTick ics ICS_AUTO
 {
     /* The SysTick runs at the lowest interrupt priority, so when this interrupt
      * executes all interrupts must be unmasked.  There is therefore no need to
@@ -512,7 +512,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        എങ്കിൽ( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
 
@@ -520,7 +520,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
              * the PendSV interrupt.  Pend the PendSV interrupt. */
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
         }
-        else
+        അല്ലെങ്കിൽ
         {
             traceISR_EXIT();
         }
@@ -529,15 +529,15 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
 }
 /*-----------------------------------------------------------*/
 
-    #if ( ( configUSE_TICKLESS_IDLE == 1 ) && ( configOVERRIDE_DEFAULT_TICK_CONFIGURATION == 0 ) )
+    #എങ്കിൽ ( ( configUSE_TICKLESS_IDLE == 1 ) && ( configOVERRIDE_DEFAULT_TICK_CONFIGURATION == 0 ) )
 
-    void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
+    ശൂന്യം vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
-        uint32_t ulReloadValue, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ulSysTickDecrementsLeft;
+        uint32_t ul_Reload_മൂല്യം, ulCompleteTickPeriods, ulCompletedSysTickDecrements, ul_Sys_Tick_Decrements_ഇടത്;
         TickType_t xModifiableIdleTime;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        എങ്കിൽ( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
         {
             xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
         }
@@ -556,7 +556,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        എങ്കിൽ( eTaskConfirmSleepModeStatus() == eAbortSleep )
         {
             /* Re-enable interrupts - see comments above the cpsid instruction
              * above. */
@@ -564,7 +564,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
                 "cpsie i"
             };
         }
-        else
+        അല്ലെങ്കിൽ
         {
             /* Stop the SysTick momentarily.  The time the SysTick is stopped for
              * is accounted for as best it can be, but using the tickless mode will
@@ -577,11 +577,11 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
              * current-value register is zero, then there are actually
              * ulTimerCountsForOneTick decrements remaining, not zero, because the
              * SysTick requests the interrupt when decrementing from 1 to 0. */
-            ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
+            ul_Sys_Tick_Decrements_ഇടത് = port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG;
 
-            if( ulSysTickDecrementsLeft == 0 )
+            എങ്കിൽ( ul_Sys_Tick_Decrements_ഇടത് == 0 )
             {
-                ulSysTickDecrementsLeft = ulTimerCountsForOneTick;
+                ul_Sys_Tick_Decrements_ഇടത് = ulTimerCountsForOneTick;
             }
 
             /* Calculate the reload value required to wait xExpectedIdleTime
@@ -590,25 +590,25 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
              * pending, then clear the IRQ, suppressing the first tick, and correct
              * the reload value to reflect that the second tick period is already
              * underway.  The expected idle time is always at least two ticks. */
-            ulReloadValue = ulSysTickDecrementsLeft + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
+            ul_Reload_മൂല്യം = ul_Sys_Tick_Decrements_ഇടത് + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
 
-            if( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
+            എങ്കിൽ( ( portNVIC_INT_CTRL_REG & portNVIC_PEND_SYSTICK_SET_BIT ) != 0 )
             {
                 portNVIC_INT_CTRL_REG = portNVIC_PEND_SYSTICK_CLEAR_BIT;
-                ulReloadValue -= ulTimerCountsForOneTick;
+                ul_Reload_മൂല്യം -= ulTimerCountsForOneTick;
             }
 
-            if( ulReloadValue > ulStoppedTimerCompensation )
+            എങ്കിൽ( ul_Reload_മൂല്യം > ulStoppedTimerCompensation )
             {
-                ulReloadValue -= ulStoppedTimerCompensation;
+                ul_Reload_മൂല്യം -= ulStoppedTimerCompensation;
             }
 
             /* Set the new reload value. */
-            portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
+            portNVIC_SYSTICK_LOAD_REG = ul_Reload_മൂല്യം;
 
             /* Clear the SysTick count flag and set the count value back to
              * zero. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG = 0UL;
 
             /* Restart SysTick. */
             portNVIC_SYSTICK_CTRL_REG |= portNVIC_SYSTICK_ENABLE_BIT;
@@ -621,7 +621,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
             xModifiableIdleTime = xExpectedIdleTime;
             configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
 
-            if( xModifiableIdleTime > 0 )
+            എങ്കിൽ( xModifiableIdleTime > 0 )
             {
                 __asm {
                     "dsb"
@@ -673,49 +673,49 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
             portNVIC_SYSTICK_CTRL_REG = ( portNVIC_SYSTICK_CLK_BIT_CONFIG | portNVIC_SYSTICK_INT_BIT );
 
             /* Determine whether the SysTick has already counted to zero. */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            എങ്കിൽ( ( portNVIC_SYSTICK_CTRL_REG & port_NVIC_SYSTICK_എണ്ണം_FLAG_BIT ) != 0 )
             {
-                uint32_t ulCalculatedLoadValue;
+                uint32_t ul_Calculated_Load_മൂല്യം;
 
                 /* The tick interrupt ended the sleep (or is now pending), and
                  * a new tick period has started.  Reset portNVIC_SYSTICK_LOAD_REG
                  * with whatever remains of the new tick period. */
-                ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL ) - ( ulReloadValue - portNVIC_SYSTICK_CURRENT_VALUE_REG );
+                ul_Calculated_Load_മൂല്യം = ( ulTimerCountsForOneTick - 1UL ) - ( ul_Reload_മൂല്യം - port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG );
 
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long or because the SysTick current-value register
                  * is zero. */
-                if( ( ulCalculatedLoadValue <= ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                എങ്കിൽ( ( ul_Calculated_Load_മൂല്യം <= ulStoppedTimerCompensation ) || ( ul_Calculated_Load_മൂല്യം > ulTimerCountsForOneTick ) )
                 {
-                    ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
+                    ul_Calculated_Load_മൂല്യം = ( ulTimerCountsForOneTick - 1UL );
                 }
 
-                portNVIC_SYSTICK_LOAD_REG = ulCalculatedLoadValue;
+                portNVIC_SYSTICK_LOAD_REG = ul_Calculated_Load_മൂല്യം;
 
                 /* As the pending tick will be processed as soon as this
                  * function exits, the tick value maintained by the tick is stepped
                  * forward by one less than the time spent waiting. */
                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
             }
-            else
+            അല്ലെങ്കിൽ
             {
                 /* Something other than the tick interrupt ended the sleep. */
 
                 /* Use the SysTick current-value register to determine the
                  * number of SysTick decrements remaining until the expected idle
                  * time would have ended. */
-                ulSysTickDecrementsLeft = portNVIC_SYSTICK_CURRENT_VALUE_REG;
-                #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
+                ul_Sys_Tick_Decrements_ഇടത് = port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG;
+                #എങ്കിൽ ( portNVIC_SYSTICK_CLK_BIT_CONFIG != portNVIC_SYSTICK_CLK_BIT )
                 {
                     /* If the SysTick is not using the core clock, the current-
                      * value register might still be zero here.  In that case, the
                      * SysTick didn't load from the reload register, and there are
                      * ulReloadValue decrements remaining in the expected idle
                      * time, not zero. */
-                    if( ulSysTickDecrementsLeft == 0 )
+                    എങ്കിൽ( ul_Sys_Tick_Decrements_ഇടത് == 0 )
                     {
-                        ulSysTickDecrementsLeft = ulReloadValue;
+                        ul_Sys_Tick_Decrements_ഇടത് = ul_Reload_മൂല്യം;
                     }
                 }
                 #endif /* portNVIC_SYSTICK_CLK_BIT_CONFIG */
@@ -723,7 +723,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
                 /* Work out how long the sleep lasted rounded to complete tick
                  * periods (not the ulReload value which accounted for part
                  * ticks). */
-                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ulSysTickDecrementsLeft;
+                ulCompletedSysTickDecrements = ( xExpectedIdleTime * ulTimerCountsForOneTick ) - ul_Sys_Tick_Decrements_ഇടത്;
 
                 /* How many complete tick periods passed while the processor
                  * was waiting? */
@@ -741,23 +741,23 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
              * from portNVIC_SYSTICK_LOAD_REG immediately instead of at the next
              * cycle of the other clock.  Then portNVIC_SYSTICK_LOAD_REG is ready
              * to receive the standard value immediately. */
-            portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+            port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG = 0UL;
             portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT | portNVIC_SYSTICK_ENABLE_BIT;
-            #if ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
+            #എങ്കിൽ ( portNVIC_SYSTICK_CLK_BIT_CONFIG == portNVIC_SYSTICK_CLK_BIT )
             {
                 portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
             }
-            #else
+            #അല്ലെങ്കിൽ
             {
                 /* The temporary usage of the core clock has served its purpose,
                  * as described above.  Resume usage of the other clock. */
                 portNVIC_SYSTICK_CTRL_REG = portNVIC_SYSTICK_CLK_BIT | portNVIC_SYSTICK_INT_BIT;
 
-                if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+                എങ്കിൽ( ( portNVIC_SYSTICK_CTRL_REG & port_NVIC_SYSTICK_എണ്ണം_FLAG_BIT ) != 0 )
                 {
                     /* The partial tick period already ended.  Be sure the SysTick
                      * counts it only once. */
-                    portNVIC_SYSTICK_CURRENT_VALUE_REG = 0;
+                    port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG = 0;
                 }
 
                 portNVIC_SYSTICK_LOAD_REG = ulTimerCountsForOneTick - 1UL;
@@ -782,22 +782,22 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-    #if ( configOVERRIDE_DEFAULT_TICK_CONFIGURATION == 0 )
+    #എങ്കിൽ ( configOVERRIDE_DEFAULT_TICK_CONFIGURATION == 0 )
 
-    void vPortSetupTimerInterrupt( void )
+    ശൂന്യം vPortSetupTimerInterrupt( ശൂന്യം )
     {
         /* Calculate the constants required to configure the tick interrupt. */
-        #if ( configUSE_TICKLESS_IDLE == 1 )
+        #എങ്കിൽ ( configUSE_TICKLESS_IDLE == 1 )
         {
             ulTimerCountsForOneTick = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ );
-            xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
+            xMaximumPossibleSuppressedTicks = port_MAX_24_BIT_സംഖ്യ / ulTimerCountsForOneTick;
             ulStoppedTimerCompensation = portMISSED_COUNTS_FACTOR / ( configCPU_CLOCK_HZ / configSYSTICK_CLOCK_HZ );
         }
         #endif /* configUSE_TICKLESS_IDLE */
 
         /* Reset SysTick. */
         portNVIC_SYSTICK_CTRL_REG = 0UL;
-        portNVIC_SYSTICK_CURRENT_VALUE_REG = 0UL;
+        port_NVIC_SYSTICK_CURRENT_മൂല്യം_REG = 0UL;
 
         /* Configure SysTick to interrupt at the requested rate. */
         portNVIC_SYSTICK_LOAD_REG = ( configSYSTICK_CLOCK_HZ / configTICK_RATE_HZ ) - 1UL;
@@ -808,7 +808,7 @@ void xPortSysTickHandler( void ) iv IVT_INT_SysTick ics ICS_AUTO
 /*-----------------------------------------------------------*/
 
 /* This is a naked function. */
-static void vPortEnableVFP( void )
+സ്ഥിതം ശൂന്യം vPortEnableVFP( ശൂന്യം )
 {
     __asm {
 /* *INDENT-OFF* */
@@ -823,25 +823,25 @@ static void vPortEnableVFP( void )
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortIsInsideInterrupt( void )
+BaseType_t xPortIsInsideInterrupt( ശൂന്യം )
 {
     BaseType_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
-    if( CPU_REG_GET( CPU_IPSR ) == 0 )
+    എങ്കിൽ( CPU_REG_GET( CPU_IPSR ) == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    അല്ലെങ്കിൽ
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    തിരികെ xReturn;
 }
 /*-----------------------------------------------------------*/
 
-    #if ( configASSERT_DEFINED == 1 )
+    #എങ്കിൽ ( configASSERT_DEFINED == 1 )
 
 /* Limitations in the MikroC inline asm means ulCurrentInterrupt has to be
  * global - which makes vPortValidateInterruptPriority() non re-entrant.
@@ -851,21 +851,21 @@ BaseType_t xPortIsInsideInterrupt( void )
  * an invalid interrupt priority being missed. */
     uint32_t ulCurrentInterrupt;
     uint8_t ucCurrentPriority;
-    void vPortValidateInterruptPriority( void )
+    ശൂന്യം vPortValidateInterruptPriority( ശൂന്യം )
     {
         /* Obtain the number of the currently executing interrupt. */
         __asm {
 /* *INDENT-OFF* */
-            push( r0, r1 )
+            തള്ളുക( r0, r1 )
             mrs r0, ipsr
             ldr r1, =_ulCurrentInterrupt
             str r0, [ r1 ]
-            pop( r0, r1 )
+            എടുക്കുക( r0, r1 )
 /* *INDENT-ON* */
         };
 
         /* Is the interrupt number a user defined interrupt? */
-        if( ulCurrentInterrupt >= portFIRST_USER_INTERRUPT_NUMBER )
+        എങ്കിൽ( ulCurrentInterrupt >= port_FIRST_USER_INTERRUPT_സംഖ്യ )
         {
             /* Look up the interrupt's priority. */
             ucCurrentPriority = *( ( uint8_t * ) ( portNVIC_IP_REGISTERS_OFFSET_16 + ulCurrentInterrupt ) );
