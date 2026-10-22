@@ -51,7 +51,7 @@ portSAVE_CONTEXT macro
     LDR     R3, [R2]
     CMP     R3, #0
 
-    ; Save the floating point context, if any
+    ; Save the floating point context, ᱡᱩᱫᱤ any
     FMRXNE  R1,  FPSCR
     VPUSHNE {D0-D15}
     VPUSHNE {D16-D31}
@@ -83,7 +83,7 @@ portRESTORE_CONTEXT macro
     STR     R1, [R0]
     CMP     R1, #0
 
-    ; Restore the floating point context, if any
+    ; Restore the floating point context, ᱡᱩᱫᱤ any
     POPNE   {R0}
     VPOPNE  {D16-D31}
     VPOPNE  {D0-D15}

@@ -47,7 +47,7 @@ store EIPC to stack
     stsr    1, lp
     st.w lp, 0[ sp ];
 store EIPSW to stack
-#if configDATA_MODE == 1; Using the Tiny data model
+#ᱡᱩᱫᱤ configDATA_MODE == 1; Using the Tiny data model
 prepare {
     r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
 }, 76, sp;
@@ -68,7 +68,7 @@ sst.w r7, 24[ ep ]
 sst.w r6, 20[ ep ]
 sst.w r5, 16[ ep ]
 sst.w r4, 12[ ep ]
-#else; Using the Small / Large data model
+#ᱵᱟᱝ; Using the Small / Large data model
 prepare {
     r20, r21, r22, r23, r24, r26, r27, r28, r29, r30
 }, 72, sp;
@@ -119,7 +119,7 @@ st.w r1, lw1( usCriticalNesting )[ r2 ]
 sld.w   4[ ep ], r1;
 restore general purpose registers
 sld.w   8[ ep ], r2
-#if configDATA_MODE == 1; Using Tiny data model
+#ᱡᱩᱫᱤ configDATA_MODE == 1; Using Tiny data model
     sld.w   12[ ep ], r4
     sld.w   16[ ep ], r5
     sld.w   20[ ep ], r6
@@ -139,7 +139,7 @@ sld.w   8[ ep ], r2
     dispose 76, {
         r20, r21, r22, r23, r24, r25, r26, r27, r28, r29, r30
     }
-#else; Using Small / Large data model
+#ᱵᱟᱝ; Using Small / Large data model
     sld.w   12[ ep ], r5
     sld.w   16[ ep ], r6
     sld.w   20[ ep ], r7
