@@ -33,7 +33,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ಬಾಹ್ಯ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,43 +47,43 @@
  *-----------------------------------------------------------
  */
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
+    #ಯದಿ __DATA_MODEL__ == __DATA_MODEL_FAR__ && __CODE_MODEL__ == __CODE_MODEL_NEAR__
         #warning This port has not been tested with your selected memory model combination. If a far data model is required it is recommended to also use a far code model.
     #endif
 
-    #if __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #ಯದಿ __DATA_MODEL__ == __DATA_MODEL_NEAR__ && __CODE_MODEL__ == __CODE_MODEL_FAR__
         #warning This port has not been tested with your selected memory model combination. If a far code model is required it is recommended to also use a far data model.
     #endif
 
 /* Type definitions. */
 
-    #define portCHAR          char
-    #define portFLOAT         float
-    #define portDOUBLE        double
+    #define portCHAR          ವರ್ಣ
+    #define portFLOAT         ಭಿನ್ನ
+    #define portDOUBLE        ದ್ವಿಗುಣ
     #define portLONG          long
     #define portSHORT         short
-    #define portSTACK_TYPE    uint16_t
+    #define port_ರಾಶಿ_TYPE    uint16_t
     #define portBASE_TYPE     short
 
-    typedef portSTACK_TYPE   StackType_t;
-    typedef short            BaseType_t;
-    typedef unsigned short   UBaseType_t;
+    ಪ್ರಕಾರನಿರ್ದೇಶ port_ರಾಶಿ_TYPE   ರಾಶಿ_Type_t;
+    ಪ್ರಕಾರನಿರ್ದೇಶ short            BaseType_t;
+    ಪ್ರಕಾರನಿರ್ದೇಶ unsigned short   UBaseType_t;
 
 
-    #if __DATA_MODEL__ == __DATA_MODEL_FAR__
+    #ಯದಿ __DATA_MODEL__ == __DATA_MODEL_FAR__
         #define portPOINTER_SIZE_TYPE    uint32_t
-    #else
+    #ಅನ್ಯಥಾ
         #define portPOINTER_SIZE_TYPE    uint16_t
     #endif
 
 
-    #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-        typedef unsigned int   TickType_t;
+    #ಯದಿ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        ಪ್ರಕಾರನಿರ್ದೇಶ unsigned ಪೂರ್ಣಾಙ್ಕ   TickType_t;
         #define portMAX_DELAY    ( TickType_t ) 0xffff
-    #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-        typedef uint32_t       TickType_t;
+    #ನೋಚೇದ್ಯದಿ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+        ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t       TickType_t;
         #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-    #else
+    #ಅನ್ಯಥಾ
         #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
     #endif
 /*-----------------------------------------------------------*/
@@ -98,7 +98,7 @@
 
     #define portENTER_CRITICAL()                                                  \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        ಬಾಹ್ಯ ಚಞ್ಚಲ uint16_t usCriticalNesting;                               \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -110,16 +110,16 @@
 
     #define portEXIT_CRITICAL()                                                   \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        ಬಾಹ್ಯ ಚಞ್ಚಲ uint16_t usCriticalNesting;                               \
                                                                                   \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
+        ಯದಿ( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                 \
         {                                                                         \
             /* Decrement the nesting count when leaving a critical section. */    \
             usCriticalNesting--;                                                  \
                                                                                   \
             /* If the nesting level has reached zero then interrupts should be */ \
             /* re-enabled. */                                                     \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
+            ಯದಿ( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )            \
             {                                                                     \
                 portENABLE_INTERRUPTS();                                          \
             }                                                                     \
@@ -133,26 +133,26 @@
     #ifndef configREQUIRE_ASM_ISR_WRAPPER
         #define configREQUIRE_ASM_ISR_WRAPPER    1
     #endif
-    #if( configREQUIRE_ASM_ISR_WRAPPER == 1 )
+    #ಯದಿ( configREQUIRE_ASM_ISR_WRAPPER == 1 )
         /* You must implement an assembly ISR wrapper (see the below for details) if you need an ISR to cause a context switch.
          * https://www.freertos.org/Documentation/02-Kernel/03-Supported-devices/04-Demos/Renesas/RTOS_RL78_IAR_Demos#writing-interrupt-service-routines */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } while( 0 )
-    #else
+        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    ಕುರು { ಯದಿ( xHigherPriorityTaskWoken != pdFALSE ) vTaskSwitchContext(); } ಯಾವತ್( 0 )
+    #ಅನ್ಯಥಾ
         /* You must not implement an assembly ISR wrapper even if you need an ISR to cause a context switch.
          * The portYIELD, which is similar to role of an assembly ISR wrapper, runs only when a context switch is required. */
-        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } while( 0 )
+        #define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    ಕುರು { ಯದಿ( xHigherPriorityTaskWoken != pdFALSE ) portYIELD(); } ಯಾವತ್( 0 )
     #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
     #define portBYTE_ALIGNMENT    2
-    #define portSTACK_GROWTH      ( -1 )
+    #define port_ರಾಶಿ_GROWTH      ( -1 )
     #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-    #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+    #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
+    #define portTASK_FUNCTION( vFunction, pvParameters )          ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
@@ -174,9 +174,9 @@
 
     ; /* Macro used to declutter calls, depends on the selected code model. */
       /*----------------------------------------------------------------------------- */
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
+    #ಯದಿ __CODE_MODEL__ == __CODE_MODEL_FAR__
         #define RCALL( X )    CALL F: X
-    #else
+    #ಅನ್ಯಥಾ
         #define RCALL( X )    CALL X
     #endif
 
@@ -188,21 +188,21 @@
               * ; * of the active Task onto the task stack.
               * ; *---------------------------------------------------------------------------*/
 portSAVE_CONTEXT MACRO
-    PUSH AX; /* Save AX Register to stack. */
-    PUSH HL
-    #if  __CODE_MODEL__ == __CODE_MODEL_FAR__
+    ತಳ್ಳು_2 AX; /* Save AX Register to stack. */
+    ತಳ್ಳು_2 HL
+    #ಯದಿ  __CODE_MODEL__ == __CODE_MODEL_FAR__
         MOV A, CS; /* Save CS register. */
         XCH A, X
         MOV A, ES; /* Save ES register. */
-        PUSH AX
-    #else
+        ತಳ್ಳು_2 AX
+    #ಅನ್ಯಥಾ
         MOV A, CS; /* Save CS register. */
-        PUSH AX
+        ತಳ್ಳು_2 AX
     #endif
-    PUSH DE;                     /* Save the remaining general purpose registers. */
-    PUSH BC
+    ತಳ್ಳು_2 DE;                     /* Save the remaining general purpose registers. */
+    ತಳ್ಳು_2 BC
     MOVW AX, _usCriticalNesting; /* Save the _usCriticalNesting value. */
-    PUSH AX
+    ತಳ್ಳು_2 AX
     MOVW AX, _pxCurrentTCB;      /* Save the Task stack pointer. */
     MOVW HL, AX
     MOVW AX, SP
@@ -222,21 +222,21 @@ portRESTORE_CONTEXT MACRO
     MOVW HL, AX
     MOVW AX, [ HL ]
     MOVW SP, AX
-    POP AX; /* Restore _usCriticalNesting value. */
+    ತೆಗೆ_2 AX; /* Restore _usCriticalNesting value. */
     MOVW _usCriticalNesting, AX
-    POP BC; /* Restore the necessary general purpose registers. */
-    POP DE
-    #if __CODE_MODEL__ == __CODE_MODEL_FAR__
-        POP AX;   /* Restore the ES register. */
+    ತೆಗೆ_2 BC; /* Restore the necessary general purpose registers. */
+    ತೆಗೆ_2 DE
+    #ಯದಿ __CODE_MODEL__ == __CODE_MODEL_FAR__
+        ತೆಗೆ_2 AX;   /* Restore the ES register. */
         MOV ES, A
         XCH A, X; /* Restore the CS register. */
         MOV CS, A
-    #else
-        POP AX
+    #ಅನ್ಯಥಾ
+        ತೆಗೆ_2 AX
         MOV CS, A; /* Restore CS register. */
     #endif
-    POP HL;        /* Restore general purpose register HL. */
-    POP AX;        /* Restore AX. */
+    ತೆಗೆ_2 HL;        /* Restore general purpose register HL. */
+    ತೆಗೆ_2 AX;        /* Restore AX. */
     ENDM
     ;              /*----------------------------------------------------------------------------- */
 

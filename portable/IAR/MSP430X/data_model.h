@@ -29,29 +29,29 @@
 #ifndef DATA_MODEL_H
 #define DATA_MODEL_H
 
-#if __DATA_MODEL__ == __DATA_MODEL_SMALL__
+#ಯದಿ __DATA_MODEL__ == __DATA_MODEL_SMALL__
     #define pushm_x    pushm.w
     #define popm_x     popm.w
-    #define push_x     push.w
-    #define pop_x      pop.w
+    #define ತಳ್ಳು_x     ತಳ್ಳು.w
+    #define ತೆಗೆ_x      ತೆಗೆ.w
     #define mov_x      mov.w
     #define cmp_x      cmp.w
 #endif
 
-#if __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
+#ಯದಿ __DATA_MODEL__ == __DATA_MODEL_MEDIUM__
     #define pushm_x    pushm.a
     #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
+    #define ತಳ್ಳು_x     pushx.a
+    #define ತೆಗೆ_x      popx.a
     #define mov_x      mov.w
     #define cmp_x      cmp.w
 #endif
 
-#if __DATA_MODEL__ == __DATA_MODEL_LARGE__
+#ಯದಿ __DATA_MODEL__ == __DATA_MODEL_LARGE__
     #define pushm_x    pushm.a
     #define popm_x     popm.a
-    #define push_x     pushx.a
-    #define pop_x      popx.a
+    #define ತಳ್ಳು_x     pushx.a
+    #define ತೆಗೆ_x      popx.a
     #define mov_x      movx.a
     #define cmp_x      cmpx.a
 #endif

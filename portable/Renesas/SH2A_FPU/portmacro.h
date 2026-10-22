@@ -30,11 +30,11 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#include <machine.h>
+#ಅನ್ತರ್ಭಾವ <machine.h>
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ಬಾಹ್ಯ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -50,23 +50,23 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          ವರ್ಣ
+#define portFLOAT         ಭಿನ್ನ
+#define portDOUBLE        ದ್ವಿಗುಣ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_ರಾಶಿ_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ port_ರಾಶಿ_TYPE   ರಾಶಿ_Type_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ long             BaseType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#ಯದಿ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ಪ್ರಕಾರನಿರ್ದೇಶ uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#ನೋಚೇದ್ಯದಿ ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
@@ -77,40 +77,40 @@ typedef unsigned long    UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT               8
-#define portSTACK_GROWTH                 -1
+#define port_ರಾಶಿ_GROWTH                 -1
 #define portTICK_PERIOD_MS               ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()    nop()
 #define portSTART_SCHEDULER_TRAP_NO      ( 32 )
 #define portYIELD_TRAP_NO                ( 33 )
 #define portKERNEL_INTERRUPT_PRIORITY    ( 1 )
 
-void vPortYield( void );
+ಶೂನ್ಯ vPortYield( ಶೂನ್ಯ );
 #define portYIELD()                vPortYield()
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x )    do { if( x != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskSwitchContext( ಶೂನ್ಯ );
+#define portYIELD_FROM_ISR( x )    ಕುರು { ಯದಿ( x != pdFALSE ) vTaskSwitchContext( ); } ಯಾವತ್( 0 )
 
 /*
  * This function tells the kernel that the task referenced by xTask is going to
  * use the floating point registers and therefore requires the floating point
  * registers saved as part of its context.
  */
-BaseType_t xPortUsesFloatingPoint( void * xTask );
+BaseType_t xPortUsesFloatingPoint( ಶೂನ್ಯ * xTask );
 
 /*
  * The flop save and restore functions are defined in portasm.src and called by
  * the trace "task switched in" and "trace task switched out" macros.
  */
-void vPortSaveFlopRegisters( void * pulBuffer );
-void vPortRestoreFlopRegisters( void * pulBuffer );
+ಶೂನ್ಯ vPortSaveFlopRegisters( ಶೂನ್ಯ * pulBuffer );
+ಶೂನ್ಯ vPortRestoreFlopRegisters( ಶೂನ್ಯ * pulBuffer );
 
 /*
  * pxTaskTag is used to point to the buffer into which the floating point
  * context should be saved.  If pxTaskTag is NULL then the task does not use
  * a floating point context.
  */
-#define traceTASK_SWITCHED_OUT()    do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
-#define traceTASK_SWITCHED_IN()     do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
+#define traceTASK_SWITCHED_OUT()    ಕುರು { ಯದಿ( pxCurrentTCB->pxTaskTag != ರಿಕ್ತ ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } ಯಾವತ್( 0 )
+#define traceTASK_SWITCHED_IN()     ಕುರು { ಯದಿ( pxCurrentTCB->pxTaskTag != ರಿಕ್ತ ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } ಯಾವತ್( 0 )
 
 /*
  * These macros should be called directly, but through the taskENTER_CRITICAL()
@@ -123,16 +123,16 @@ void vPortRestoreFlopRegisters( void * pulBuffer );
 #define portCRITICAL_NESTING_IN_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskEnterCritical( ಶೂನ್ಯ );
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskExitCritical( ಶೂನ್ಯ );
 #define portENTER_CRITICAL()    vTaskEnterCritical();
 #define portEXIT_CRITICAL()     vTaskExitCritical();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

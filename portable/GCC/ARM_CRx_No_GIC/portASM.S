@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ವಾ
+ * IMPLIED, INCLUDING BUT ನ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ಚ NONINFRINGEMENT. ಅನ್ತಃ NO EVENT SHALL THE AUTHORS ವಾ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ವಾ OTHER LIABILITY, WHETHER
+ * ಅನ್ತಃ AN ACTION OF CONTRACT, TORT ವಾ OTHERWISE, ARISING FROM, OUT OF ವಾ ಅನ್ತಃ
+ * CONNECTION WITH THE SOFTWARE ವಾ THE USE ವಾ OTHER DEALINGS ಅನ್ತಃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -45,16 +45,16 @@
     .extern ulICCEOIR
     .extern ulPortYieldRequired
 
-    .global FreeRTOS_IRQ_Handler
-    .global FreeRTOS_SVC_Handler
-    .global vPortRestoreTaskContext
-    .global vPortInitialiseFPSCR
-    .global ulReadAPSR
+    .ವೈಶ್ವಿಕ FreeRTOS_IRQ_Handler
+    .ವೈಶ್ವಿಕ FreeRTOS_SVC_Handler
+    .ವೈಶ್ವಿಕ vPortRestoreTaskContext
+    .ವೈಶ್ವಿಕ vPortInitialiseFPSCR
+    .ವೈಶ್ವಿಕ ulReadAPSR
     .weak   vPortYield
-    .global vPortEnableInterrupts
-    .global vPortDisableInterrupts
-    .global ulPortSetInterruptMaskFromISR
-    .global ulPortCountLeadingZeros
+    .ವೈಶ್ವಿಕ vPortEnableInterrupts
+    .ವೈಶ್ವಿಕ vPortDisableInterrupts
+    .ವೈಶ್ವಿಕ ulPortSetInterruptMaskFromISR
+    .ವೈಶ್ವಿಕ ul_Port_ಎಣಿಕೆ_Leading_Zeros
 
     .weak   vApplicationSVCHandler
 /*-----------------------------------------------------------*/
@@ -220,7 +220,7 @@ vPortDisableInterrupts:
 .type ulPortSetInterruptMaskFromISR, %function
 ulPortSetInterruptMaskFromISR:
     MRS     R0, CPSR
-    AND     R0, R0, #CPSR_I_BIT
+    ಚ     R0, R0, #CPSR_I_BIT
     CPSID   I
     DSB
     ISB
@@ -246,7 +246,7 @@ vApplicationSVCHandler:
  * If the application provides its own implementation of
  * vApplicationFPUSafeIRQHandler() then this implementation of
  * vApplicationIRQHandler() will be called, save the FPU registers, and then
- * call vApplicationFPUSafeIRQHandler().
+ * ಆಹ್ವಾನ vApplicationFPUSafeIRQHandler().
  *
  * Therefore, if the application writer wants FPU registers to be saved on
  * interrupt entry, their IRQ handler must be called
@@ -283,15 +283,15 @@ vApplicationFPUSafeIRQHandler:
 /*-----------------------------------------------------------*/
 
 /*
- * UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+ * UBaseType_t ul_Port_ಎಣಿಕೆ_Leading_Zeros( UBaseType_t ulBitmap );
  *
  * According to the Procedure Call Standard for the ARM Architecture (AAPCS):
  * - Parameter ulBitmap is passed in R0.
  * - Return value must be in R0.
  */
 .align 4
-.type ulPortCountLeadingZeros, %function
-ulPortCountLeadingZeros:
+.type ul_Port_ಎಣಿಕೆ_Leading_Zeros, %function
+ul_Port_ಎಣಿಕೆ_Leading_Zeros:
     CLZ     R0, R0
     BX      LR
 
@@ -360,7 +360,7 @@ FreeRTOS_IRQ_Handler:
     /* Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
      * future use. */
     MOV     R0, SP
-    AND     R2, R0, #4
+    ಚ     R2, R0, #4
     SUB     SP, SP, R2
 
     /* Call the interrupt handler. */

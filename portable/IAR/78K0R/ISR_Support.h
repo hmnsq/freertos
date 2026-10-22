@@ -26,7 +26,7 @@
    * ; *
    * ; */
 
-#include "FreeRTOSConfig.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOSConfig.h"
 
 ;
 Variables used by scheduler
@@ -42,30 +42,30 @@ portSAVE_CONTEXT MACRO
 ;
 Saves the context of the general purpose registers, CS and ES( only in far
                                                                ;
-                                                               memory mode ) registers the usCriticalNesting Value and the Stack Pointer
+                                                               memory mode ) registers the usCriticalNesting ಮೌಲ್ಯ_2 and the ರಾಶಿ_2 Pointer
 ;
-of the active Task onto the task stack
+of the active Task onto the task ರಾಶಿ
 ;
 ------------------------------------------------------------------------------
 portSAVE_CONTEXT MACRO
 
-PUSH AX;
-Save AX Register to stack.
-   PUSH HL
+ತಳ್ಳು_2 AX;
+Save AX Register to ರಾಶಿ.
+   ತಳ್ಳು_2 HL
 MOV A, CS;
-Save CS register.
+Save CS ಪಞ್ಜಿಕಾ.
    XCH A, X
 MOV A, ES;
-Save ES register.
-   PUSH AX
-PUSH DE;
+Save ES ಪಞ್ಜಿಕಾ.
+   ತಳ್ಳು_2 AX
+ತಳ್ಳು_2 DE;
 Save the remaining general purpose registers.
-   PUSH BC
+   ತಳ್ಳು_2 BC
 MOVW AX, usCriticalNesting;
-Save the usCriticalNesting value.
-   PUSH AX
+Save the usCriticalNesting ಮೌಲ್ಯ.
+   ತಳ್ಳು_2 AX
 MOVW AX, pxCurrentTCB;
-Save the Stack pointer.
+Save the ರಾಶಿ_2 pointer.
    MOVW HL, AX
 MOVW AX, SP
         MOVW[ HL ], AX
@@ -78,34 +78,34 @@ MOVW AX, SP
 ;
 portRESTORE_CONTEXT MACRO
 ;
-Restores the task Stack Pointer then use this to restore usCriticalNesting,
+Restores the task ರಾಶಿ_2 Pointer then use this to restore usCriticalNesting,
 ;
 general purpose registers and the CS and ES( only in far memory mode )
 ;
-of the selected task from the task stack
+of the selected task from the task ರಾಶಿ
 ;
 ------------------------------------------------------------------------------
 portRESTORE_CONTEXT MACRO
 MOVW AX, pxCurrentTCB;
-Restore the Stack pointer.
+Restore the ರಾಶಿ_2 pointer.
    MOVW HL, AX
 MOVW AX, [ HL ]
 MOVW SP, AX
-POP AX;
-Restore usCriticalNesting value.
+ತೆಗೆ_2 AX;
+Restore usCriticalNesting ಮೌಲ್ಯ.
    MOVW usCriticalNesting, AX
-POP BC;
+ತೆಗೆ_2 BC;
 Restore the necessary general purpose registers.
-   POP DE
-POP AX;
-Restore the ES register.
+   ತೆಗೆ_2 DE
+ತೆಗೆ_2 AX;
+Restore the ES ಪಞ್ಜಿಕಾ.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS ಪಞ್ಜಿಕಾ.
    MOV CS, A
-POP HL;
-Restore general purpose register HL.
-   POP AX;
+ತೆಗೆ_2 HL;
+Restore general purpose ಪಞ್ಜಿಕಾ HL.
+   ತೆಗೆ_2 AX;
 Restore AX.
    ENDM
 ;

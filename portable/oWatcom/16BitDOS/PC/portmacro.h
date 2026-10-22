@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ಬಾಹ್ಯ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,67 +46,67 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        ವರ್ಣ
+#define portFLOAT       ಭಿನ್ನ
+#define portDOUBLE      ದ್ವಿಗುಣ
 #define portLONG        long
-#define portSHORT       int
-#define portSTACK_TYPE  uint16_t
+#define portSHORT       ಪೂರ್ಣಾಙ್ಕ
+#define port_ರಾಶಿ_TYPE  uint16_t
 #define portBASE_TYPE   short
 
-typedef portSTACK_TYPE StackType_t;
-typedef short BaseType_t;
-typedef unsigned short UBaseType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ port_ರಾಶಿ_TYPE ರಾಶಿ_Type_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ short BaseType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ unsigned short UBaseType_t;
 
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#ಯದಿ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    ಪ್ರಕಾರನಿರ್ದೇಶ uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#ನೋಚೇದ್ಯದಿ ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    ಪ್ರಕಾರನಿರ್ದೇಶ uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#ಅನ್ಯಥಾ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Critical section definitions.  portENTER_CRITICAL() must be defined as a
 macro for portable.h to work properly. */
-void portLOCAL_ENTER_CRITICAL( void );
+ಶೂನ್ಯ portLOCAL_ENTER_CRITICAL( ಶೂನ್ಯ );
 #pragma aux portLOCAL_ENTER_CRITICAL =  "pushf" \
                                         "cli";
 #define portENTER_CRITICAL() portLOCAL_ENTER_CRITICAL()
 
-void portEXIT_CRITICAL( void );
+ಶೂನ್ಯ portEXIT_CRITICAL( ಶೂನ್ಯ );
 #pragma aux portEXIT_CRITICAL   =       "popf";
 
-void portDISABLE_INTERRUPTS( void );
+ಶೂನ್ಯ portDISABLE_INTERRUPTS( ಶೂನ್ಯ );
 #pragma aux portDISABLE_INTERRUPTS =    "cli";
 
-void portENABLE_INTERRUPTS( void );
+ಶೂನ್ಯ portENABLE_INTERRUPTS( ಶೂನ್ಯ );
 #pragma aux portENABLE_INTERRUPTS =     "sti";
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH        ( -1 )
-#define portSWITCH_INT_NUMBER   0x80
-#define portYIELD()             __asm{ int portSWITCH_INT_NUMBER }
+#define port_ರಾಶಿ_GROWTH        ( -1 )
+#define port_SWITCH_INT_ಸಂಖ್ಯೆ   0x80
+#define portYIELD()             __asm{ ಪೂರ್ಣಾಙ್ಕ port_SWITCH_INT_ಸಂಖ್ಯೆ }
 #define portDOS_TICK_RATE       ( 18.20648 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portTICKS_PER_DOS_TICK  ( ( uint16_t ) ( ( ( portDOUBLE ) configTICK_RATE_HZ / portDOS_TICK_RATE ) + 0.5 ) )
-#define portINITIAL_SW          ( ( portSTACK_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
+#define portINITIAL_SW          ( ( port_ರಾಶಿ_TYPE ) 0x0202 )   /* Start the tasks with interrupts enabled. */
 #define portBYTE_ALIGNMENT      ( 2 )
 /*-----------------------------------------------------------*/
 
 /* Compiler specifics. */
-#define portINPUT_BYTE( xAddr )             inp( xAddr )
-#define portOUTPUT_BYTE( xAddr, ucValue )   outp( xAddr, ucValue )
+#define port_ಒಳಹರಿವು_BYTE( xAddr )             inp( xAddr )
+#define portOUTPUT_BYTE( xAddr, uc_ಮೌಲ್ಯ )   outp( xAddr, uc_ಮೌಲ್ಯ )
 #define portNOP() __asm{ nop }
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vTaskFunction, pvParameters ) void vTaskFunction( void *pvParameters )
-#define portTASK_FUNCTION( vTaskFunction, pvParameters ) void vTaskFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vTaskFunction, pvParameters ) ಶೂನ್ಯ vTaskFunction( ಶೂನ್ಯ *pvParameters )
+#define portTASK_FUNCTION( vTaskFunction, pvParameters ) ಶೂನ್ಯ vTaskFunction( ಶೂನ್ಯ *pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

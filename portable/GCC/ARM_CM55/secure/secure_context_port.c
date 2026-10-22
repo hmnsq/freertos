@@ -27,18 +27,18 @@
  */
 
 /* Secure context includes. */
-#include "secure_context.h"
+#ಅನ್ತರ್ಭಾವ "secure_context.h"
 
 /* Secure port macros. */
-#include "secure_port_macros.h"
+#ಅನ್ತರ್ಭಾವ "secure_port_macros.h"
 
-void SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext ) __attribute__( ( naked ) );
-void SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext ) __attribute__( ( naked ) );
+ಶೂನ್ಯ SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext ) __attribute__( ( naked ) );
+ಶೂನ್ಯ SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext ) __attribute__( ( naked ) );
 
-void SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext )
+ಶೂನ್ಯ SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext )
 {
     /* pxSecureContext value is in r0. */
-    __asm volatile
+    __asm ಚಞ್ಚಲ
     (
         " .syntax unified                   \n"
         "                                   \n"
@@ -46,7 +46,7 @@ void SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext )
         " cbz r1, load_ctx_therad_mode      \n" /* Do nothing if the processor is running in the Thread Mode. */
         " ldmia r0!, {r1, r2}               \n" /* r1 = pxSecureContext->pucCurrentStackPointer, r2 = pxSecureContext->pucStackLimit. */
         "                                   \n"
-        #if ( configENABLE_MPU == 1 )
+        #ಯದಿ ( configENABLE_MPU == 1 )
             " ldmia r1!, {r3}               \n" /* Read CONTROL register value from task's stack. r3 = CONTROL. */
             " msr control, r3               \n" /* CONTROL = r3. */
         #endif /* configENABLE_MPU */
@@ -62,10 +62,10 @@ void SecureContext_LoadContextAsm( SecureContext_t * pxSecureContext )
 }
 /*-----------------------------------------------------------*/
 
-void SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext )
+ಶೂನ್ಯ SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext )
 {
     /* pxSecureContext value is in r0. */
-    __asm volatile
+    __asm ಚಞ್ಚಲ
     (
         " .syntax unified                   \n"
         "                                   \n"
@@ -73,12 +73,12 @@ void SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext )
         " cbz r1, save_ctx_therad_mode      \n" /* Do nothing if the processor is running in the Thread Mode. */
         " mrs r1, psp                       \n" /* r1 = PSP. */
         "                                   \n"
-        #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+        #ಯದಿ ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
             " vstmdb r1!, {s0}              \n" /* Trigger the deferred stacking of FPU registers. */
             " vldmia r1!, {s0}              \n" /* Nullify the effect of the previous statement. */
         #endif /* configENABLE_FPU || configENABLE_MVE */
         "                                   \n"
-        #if ( configENABLE_MPU == 1 )
+        #ಯದಿ ( configENABLE_MPU == 1 )
             " mrs r2, control               \n" /* r2 = CONTROL. */
             " stmdb r1!, {r2}               \n" /* Store CONTROL value on the stack. */
         #endif /* configENABLE_MPU */
@@ -91,7 +91,7 @@ void SecureContext_SaveContextAsm( SecureContext_t * pxSecureContext )
         " save_ctx_therad_mode:             \n"
         "    bx lr                          \n"
         "                                   \n"
-        ::"i" ( securecontextNO_STACK ) : "r1", "memory"
+        ::"i" ( securecontext_NO_ರಾಶಿ ) : "r1", "memory"
     );
 }
 /*-----------------------------------------------------------*/

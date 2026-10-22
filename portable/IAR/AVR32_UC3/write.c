@@ -72,9 +72,9 @@
  */
 
 
-#include <yfuns.h>
-#include <avr32/io.h>
-#include "usart.h"
+#ಅನ್ತರ್ಭಾವ <yfuns.h>
+#ಅನ್ತರ್ಭಾವ <avr32/io.h>
+#ಅನ್ತರ್ಭಾವ "usart.h"
 
 
 _STD_BEGIN
@@ -84,7 +84,7 @@ _STD_BEGIN
 
 
 /*! Pointer to the base of the USART module instance to use for stdio. */
-__no_init volatile avr32_usart_t * volatile stdio_usart_base;
+__no_init ಚಞ್ಚಲ avr32_usart_t * ಚಞ್ಚಲ stdio_usart_base;
 
 
 /*! \brief Writes a number of bytes, at most \a size, from the memory area
@@ -100,36 +100,36 @@ __no_init volatile avr32_usart_t * volatile stdio_usart_base;
  *
  * \return The number of bytes written, or \c _LLIO_ERROR on failure.
  */
-size_t __write( int handle,
-                const uint8_t * buffer,
+size_t __write( ಪೂರ್ಣಾಙ್ಕ handle,
+                ಧ್ರುವ uint8_t * buffer,
                 size_t size )
 {
     size_t nChars = 0;
 
-    if( buffer == 0 )
+    ಯದಿ( buffer == 0 )
     {
         /* This means that we should flush internal buffers. */
-        return 0;
+        ಪ್ರತ್ಯಾಗಮ 0;
     }
 
     /* This implementation only writes to stdout and stderr. */
     /* For all other file handles, it returns failure. */
-    if( ( handle != _LLIO_STDOUT ) && ( handle != _LLIO_STDERR ) )
+    ಯದಿ( ( handle != _LLIO_STDOUT ) && ( handle != _LLIO_STDERR ) )
     {
-        return _LLIO_ERROR;
+        ಪ್ರತ್ಯಾಗಮ _LLIO_ERROR;
     }
 
-    for( ; size != 0; --size )
+    ಪ್ರತಿ( ; size != 0; --size )
     {
-        if( usart_putchar( stdio_usart_base, *buffer++ ) < 0 )
+        ಯದಿ( usart_putchar( stdio_usart_base, *buffer++ ) < 0 )
         {
-            return _LLIO_ERROR;
+            ಪ್ರತ್ಯಾಗಮ _LLIO_ERROR;
         }
 
         ++nChars;
     }
 
-    return nChars;
+    ಪ್ರತ್ಯಾಗಮ nChars;
 }
 
 

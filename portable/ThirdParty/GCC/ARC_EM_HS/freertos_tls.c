@@ -26,25 +26,25 @@
  *
  */
 
-#if defined( __MW__ )
+#ಯದಿ defined( __MW__ )
 
-    #include <stdint.h>
-    #include <stdlib.h>
-    #include <string.h>
+    #ಅನ್ತರ್ಭಾವ <stdint.h>
+    #ಅನ್ತರ್ಭಾವ <stdlib.h>
+    #ಅನ್ತರ್ಭಾವ <string.h>
 
-    #include "FreeRTOS.h"
+    #ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
 
-    #include "queue.h"
-    #include "semphr.h"
-    #include "task.h"
+    #ಅನ್ತರ್ಭಾವ "queue.h"
+    #ಅನ್ತರ್ಭಾವ "semphr.h"
+    #ಅನ್ತರ್ಭಾವ "task.h"
 
-    #include "arc/arc_exception.h"
-    #include "embARC_toolchain.h"
-    #include "embARC_debug.h"
+    #ಅನ್ತರ್ಭಾವ "arc/arc_exception.h"
+    #ಅನ್ತರ್ಭಾವ "embARC_toolchain.h"
+    #ಅನ್ತರ್ಭಾವ "embARC_debug.h"
 
     #ifdef ENABLE_FREERTOS_TLS_DEBUG
         #define TLS_DEBUG( fmt, ... )    EMBARC_PRINTF( fmt, ## __VA_ARGS__ )
-    #else
+    #ಅನ್ಯಥಾ
         #define TLS_DEBUG( fmt, ... )
     #endif
 
@@ -52,23 +52,23 @@
  * Runtime routines to execute constructors and
  * destructors for task local storage.
  */
-    extern void __mw_run_tls_dtor();
-    extern void __mw_run_tls_ctor();
+    ಬಾಹ್ಯ ಶೂನ್ಯ __mw_run_tls_dtor();
+    ಬಾಹ್ಯ ಶೂನ್ಯ __mw_run_tls_ctor();
 
-    extern uint32_t exc_nest_count;
+    ಬಾಹ್ಯ uint32_t exc_nest_ಎಣಿಕೆ;
 
 /*
  * Linker generated symbols to mark .tls section addresses
  * first byte .. last byte
  */
-    extern char _ftls[], _etls[];
+    ಬಾಹ್ಯ ವರ್ಣ _ftls[], _etls[];
     #pragma weak _ftls
     #pragma weak _etls
 
-    void executable_requires_tls_section( void )
+    ಶೂನ್ಯ executable_requires_tls_section( ಶೂನ್ಯ )
     {
-        #if _ARC
-            for( ; ; )
+        #ಯದಿ _ARC
+            ಪ್ರತಿ( ; ; )
             {
                 _flag( 1 );
                 _nop();
@@ -82,159 +82,159 @@
     #pragma off_inline(executable_requires_tls_section);
     #pragma alias(executable_requires_tls_section, "executable_requires_.tls_section");
 
-    static void * init_task_tls( void )
+    ಸ್ಥಿರ ಶೂನ್ಯ * init_task_tls( ಶೂನ್ಯ )
     {
         uint32_t len = ( uint32_t ) ( _etls - _ftls );
-        void * tls = NULL;
+        ಶೂನ್ಯ * tls = ರಿಕ್ತ;
 
-        #if FREERTOS_HEAP_SEL == 3
+        #ಯದಿ FREERTOS_HEAP_SEL == 3
         #warning "FreeRTOS TLS support is not compatible with heap 3 solution(FREERTOS_HEAP_SEL=3)!"
         #warning "You can change FREERTOS_HEAP_SEL in freertos.mk to select other heap solution."
-        #else
+        #ಅನ್ಯಥಾ
             tls = pvPortMalloc( len );
         #endif
 
-        if( tls )
+        ಯದಿ( tls )
         {
             TLS_DEBUG( "Malloc task tls:%dbytes\r\n", len );
             memcpy( tls, _ftls, len );
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return tls;
+        ಪ್ರತ್ಯಾಗಮ tls;
     }
 
-    static void free_task_tls( void * pxTCB )
+    ಸ್ಥಿರ ಶೂನ್ಯ free_task_tls( ಶೂನ್ಯ * pxTCB )
     {
         TaskHandle_t task2free = ( TaskHandle_t ) pxTCB;
 
-        if( task2free != NULL )
+        ಯದಿ( task2free != ರಿಕ್ತ )
         {
-            void * tls = pvTaskGetThreadLocalStoragePointer( task2free, 0 );
+            ಶೂನ್ಯ * tls = pvTaskGetThreadLocalStoragePointer( task2free, 0 );
 
-            if( tls )
+            ಯದಿ( tls )
             {
                 TLS_DEBUG( "Free task tls\r\n" );
                 __mw_run_tls_dtor();
                 vPortFree( tls );
-                vTaskSetThreadLocalStoragePointer( task2free, 0, NULL );
+                vTaskSetThreadLocalStoragePointer( task2free, 0, ರಿಕ್ತ );
             }
         }
     }
 
-    void task_end_hook( void * pxTCB )
+    ಶೂನ್ಯ task_end_hook( ಶೂನ್ಯ * pxTCB )
     {
         free_task_tls( pxTCB );
     }
 
-    static void * get_isr_tls( void )
+    ಸ್ಥಿರ ಶೂನ್ಯ * get_isr_tls( ಶೂನ್ಯ )
     {
         /* In an ISR */
-        static int first = 1;
+        ಸ್ಥಿರ ಪೂರ್ಣಾಙ್ಕ first = 1;
 
-        if( _Rarely( first ) )
+        ಯದಿ( _Rarely( first ) )
         {
             first = 0;
             __mw_run_tls_ctor(); /* Run constructors */
         }
 
-        return ( void * ) _ftls;
+        ಪ್ರತ್ಯಾಗಮ ( ಶೂನ್ಯ * ) _ftls;
     }
     #pragma off_inline(get_isr_tls)
 
-    static void * get_task_tls( void )
+    ಸ್ಥಿರ ಶೂನ್ಯ * get_task_tls( ಶೂನ್ಯ )
     {
         TaskHandle_t cur_task;
 
         cur_task = xTaskGetCurrentTaskHandle();
 
-        if( cur_task == NULL )
+        ಯದಿ( cur_task == ರಿಕ್ತ )
         {
-            return get_isr_tls();
+            ಪ್ರತ್ಯಾಗಮ get_isr_tls();
         }
 
-        void * tls = pvTaskGetThreadLocalStoragePointer( cur_task, 0 );
+        ಶೂನ್ಯ * tls = pvTaskGetThreadLocalStoragePointer( cur_task, 0 );
 
-        if( tls == NULL )
+        ಯದಿ( tls == ರಿಕ್ತ )
         {
             tls = init_task_tls();
 
-            if( tls )
+            ಯದಿ( tls )
             {
                 vTaskSetThreadLocalStoragePointer( cur_task, 0, tls );
             }
-            else
+            ಅನ್ಯಥಾ
             {
                 tls = get_isr_tls();
             }
         }
 
-        return tls;
+        ಪ್ರತ್ಯಾಗಮ tls;
     }
     #pragma off_inline(get_task_tls)
 
-    #if _ARC /* for ARC XCALLs need to preserve flags */
-        extern void * _Preserve_flags _mwget_tls( void );
+    #ಯದಿ _ARC /* for ARC XCALLs need to preserve flags */
+        ಬಾಹ್ಯ ಶೂನ್ಯ * _Preserve_flags _mwget_tls( ಶೂನ್ಯ );
     #endif
 
 /*
  * Back end gens calls to find local data for this task
  */
-    void * _mwget_tls( void )
+    ಶೂನ್ಯ * _mwget_tls( ಶೂನ್ಯ )
     {
-        if( _ftls == ( char * ) 0 )
+        ಯದಿ( _ftls == ( ವರ್ಣ * ) 0 )
         {
             executable_requires_tls_section();
         }
 
-        if( exc_nest_count > 0 ) /* In ISR */
+        ಯದಿ( exc_nest_ಎಣಿಕೆ > 0 ) /* In ISR */
         {
-            return get_isr_tls();
+            ಪ್ರತ್ಯಾಗಮ get_isr_tls();
         }
-        else /* In Task */
+        ಅನ್ಯಥಾ /* In Task */
         {
-            return get_task_tls();
+            ಪ್ರತ್ಯಾಗಮ get_task_tls();
         }
     }
 
 
 /* simple interface of thread safe */
-    typedef xSemaphoreHandle _lock_t;
-    #if configUSE_RECURSIVE_MUTEXES != 1
+    ಪ್ರಕಾರನಿರ್ದೇಶ xSemaphoreHandle _lock_t;
+    #ಯದಿ configUSE_RECURSIVE_MUTEXES != 1
         #error "configUSE_RECURSIVE_MUTEXES in FreeRTOSConfig.h need to 1"
     #endif
 
-    void _mwmutex_create( _lock_t * mutex_ptr )
+    ಶೂನ್ಯ _mwmutex_create( _lock_t * mutex_ptr )
     {
         *mutex_ptr = xSemaphoreCreateRecursiveMutex();
     }
 
-    void _mwmutex_delete( _lock_t * mutex_ptr )
+    ಶೂನ್ಯ _mwmutex_delete( _lock_t * mutex_ptr )
     {
-        if( ( *mutex_ptr ) != NULL )
+        ಯದಿ( ( *mutex_ptr ) != ರಿಕ್ತ )
         {
             vSemaphoreDelete( *mutex_ptr );
         }
     }
 
-    void _mwmutex_lock( _lock_t mutex )
+    ಶೂನ್ಯ _mwmutex_lock( _lock_t mutex )
     {
-        if( ( mutex ) != NULL )
+        ಯದಿ( ( mutex ) != ರಿಕ್ತ )
         {
-            while( xSemaphoreTakeRecursive( mutex, portMAX_DELAY ) != pdTRUE )
+            ಯಾವತ್( xSemaphoreTakeRecursive( mutex, portMAX_DELAY ) != pdTRUE )
             {
             }
         }
     }
 
-    void _mwmutex_unlock( _lock_t mutex )
+    ಶೂನ್ಯ _mwmutex_unlock( _lock_t mutex )
     {
-        if( ( mutex ) != NULL )
+        ಯದಿ( ( mutex ) != ರಿಕ್ತ )
         {
             xSemaphoreGiveRecursive( mutex );
         }
     }
 
-#else /* if defined( __MW__ ) */
+#ಅನ್ಯಥಾ /* if defined( __MW__ ) */
 
 #endif /* __MW__ */

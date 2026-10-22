@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS ವಾ
+ * IMPLIED, INCLUDING BUT ನ LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ಚ NONINFRINGEMENT. ಅನ್ತಃ NO EVENT SHALL THE AUTHORS ವಾ
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES ವಾ OTHER LIABILITY, WHETHER
+ * ಅನ್ತಃ AN ACTION OF CONTRACT, TORT ವಾ OTHERWISE, ARISING FROM, OUT OF ವಾ ಅನ್ತಃ
+ * CONNECTION WITH THE SOFTWARE ವಾ THE USE ವಾ OTHER DEALINGS ಅನ್ತಃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -28,7 +28,7 @@
 
 #if defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
 
-        .global _vPortYield
+        .ವೈಶ್ವಿಕ _vPortYield
         .extern _vTaskSwitchContext
         .extern uxCriticalNesting
 
@@ -61,7 +61,7 @@ _vPortYield:
         MOV     _pxCurrentTCB, W0           /* Save the new top of stack into the TCB. */
         MOV     W15, [W0]
 
-        call    _vTaskSwitchContext
+        ಆಹ್ವಾನ    _vTaskSwitchContext
 
         MOV     _pxCurrentTCB, W0           /* Restore the stack pointer for the task. */
         MOV     [W0], W15

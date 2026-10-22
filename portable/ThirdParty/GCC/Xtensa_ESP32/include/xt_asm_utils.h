@@ -49,7 +49,7 @@
  */
 
 .macro SPILL_ALL_WINDOWS
-#if XCHAL_NUM_AREGS == 64
+#ಯದಿ XCHAL_ಅಂಕೆ_AREGS == 64
     and a12, a12, a12
     rotw 3
     and a12, a12, a12
@@ -60,15 +60,15 @@
     rotw 3
     and a12, a12, a12
     rotw 4
-#elif XCHAL_NUM_AREGS == 32
+#ನೋಚೇದ್ಯದಿ XCHAL_ಅಂಕೆ_AREGS == 32
     and a12, a12, a12
     rotw 3
     and a12, a12, a12
     rotw 3
     and a4, a4, a4
     rotw 2
-#else /* if XCHAL_NUM_AREGS == 64 */
-    #error Unrecognized XCHAL_NUM_AREGS
+#ಅನ್ಯಥಾ /* if XCHAL_NUM_AREGS == 64 */
+    #error Unrecognized XCHAL_ಅಂಕೆ_AREGS
 #endif /* if XCHAL_NUM_AREGS == 64 */
    .endm
 

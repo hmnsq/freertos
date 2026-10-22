@@ -20,17 +20,17 @@
  * in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * EXPRESS ವಾ IMPLIED, INCLUDING BUT ನ LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE ಚ NONINFRINGEMENT.
+ * ಅನ್ತಃ NO EVENT SHALL THE AUTHORS ವಾ COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES ವಾ OTHER LIABILITY, WHETHER ಅನ್ತಃ AN ACTION OF CONTRACT,
+ * TORT ವಾ OTHERWISE, ARISING FROM, OUT OF ವಾ ಅನ್ತಃ CONNECTION WITH THE
+ * SOFTWARE ವಾ THE USE ವಾ OTHER DEALINGS ಅನ್ತಃ THE SOFTWARE.
  */
 
 /*******************************************************************************
 
-        XTENSA CONTEXT SAVE AND RESTORE ROUTINES
+        XTENSA CONTEXT SAVE ಚ RESTORE ROUTINES
 
 Low-level Call0 functions for handling generic context save and restore of
 registers not specifically addressed by the interrupt vectors and handlers.
@@ -83,7 +83,7 @@ Its counterpart is _xt_context_restore (which also restores A12, A13).
 
 Caller is expected to have saved PC, PS, A0, A1 (SP), A12, A13 in the frame.
 This function preserves A12 & A13 in order to provide the caller with 2 scratch
-regs that need not be saved over the call to this function. The choice of which
+regs that need not be saved over the ಆಹ್ವಾನ to this function. The choice of which
 2 regs to provide is governed by xthal_window_spill_nw and xthal_save_extra_nw,
 to avoid moving data more than necessary. Caller can assign regs accordingly.
 
@@ -103,7 +103,7 @@ Exit conditions:
 
 *******************************************************************************/
 
-    .global _xt_context_save
+    .ವೈಶ್ವಿಕ _xt_context_save
     .type   _xt_context_save,@function
     .align  4
     .literal_position
@@ -226,7 +226,7 @@ _xt_context_save:
      * need to save/restore EPC1 as well.
      * Note: even though a4-a15 are saved into the exception frame, we should not
      * clobber them until after SPILL_ALL_WINDOWS. This is because these registers
-     * may contain live windows belonging to previous frames in the call stack.
+     * may contain live windows belonging to previous frames in the ಆಹ್ವಾನ stack.
      * These frames will be spilled by SPILL_ALL_WINDOWS, and if the register was
      * used as a temporary by this code, the temporary value would get stored
      * onto the stack, instead of the real value.
@@ -289,7 +289,7 @@ Exit conditions:
 
 *******************************************************************************/
 
-    .global _xt_context_restore
+    .ವೈಶ್ವಿಕ _xt_context_restore
     .type   _xt_context_restore,@function
     .align  4
     .literal_position
@@ -384,8 +384,8 @@ _xt_context_restore:
 
 _xt_coproc_init
 
-Initializes global co-processor management data, setting all co-processors
-to "unowned". Leaves CPENABLE as it found it (does NOT clear it).
+Initializes ವೈಶ್ವಿಕ co-processor management data, setting all co-processors
+to "unowned". Leaves CPENABLE as it found it (does ನ clear it).
 
 Called during initialization of the RTOS, before any threads run.
 
@@ -408,7 +408,7 @@ Obeys ABI conventions per prototype:
 
 #if XCHAL_CP_NUM > 0
 
-    .global _xt_coproc_init
+    .ವೈಶ್ವಿಕ _xt_coproc_init
     .type   _xt_coproc_init,@function
     .align  4
     .literal_position
@@ -458,7 +458,7 @@ Obeys ABI conventions per prototype:
 
 #if XCHAL_CP_NUM > 0
 
-    .global _xt_coproc_release
+    .ವೈಶ್ವಿಕ _xt_coproc_release
     .type   _xt_coproc_release,@function
     .align  4
     .literal_position
@@ -513,7 +513,7 @@ Must be called from assembly code only, using CALL0.
 
     .extern     _xt_coproc_sa_offset   /* external reference */
 
-    .global     _xt_coproc_savecs
+    .ವೈಶ್ವಿಕ     _xt_coproc_savecs
     .type       _xt_coproc_savecs,@function
     .align  4
     .literal_position
@@ -623,7 +623,7 @@ Must be called from assembly code only, using CALL0.
 *******************************************************************************/
 #if XCHAL_CP_NUM > 0
 
-    .global     _xt_coproc_restorecs
+    .ವೈಶ್ವಿಕ     _xt_coproc_restorecs
     .type       _xt_coproc_restorecs,@function
     .align  4
     .literal_position

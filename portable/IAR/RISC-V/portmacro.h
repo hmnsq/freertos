@@ -30,11 +30,11 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#include "intrinsics.h"
+#ಅನ್ತರ್ಭಾವ "intrinsics.h"
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    ಬಾಹ್ಯ "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -49,30 +49,30 @@
  */
 
 /* Type definitions. */
-#if __riscv_xlen == 64
-    #define portSTACK_TYPE           uint64_t
+#ಯದಿ __riscv_xlen == 64
+    #define port_ರಾಶಿ_TYPE           uint64_t
     #define portBASE_TYPE            int64_t
     #define portUBASE_TYPE           uint64_t
     #define portMAX_DELAY            ( TickType_t ) 0xffffffffffffffffUL
     #define portPOINTER_SIZE_TYPE    uint64_t
-#elif __riscv_xlen == 32
-    #define portSTACK_TYPE           uint32_t
+#ನೋಚೇದ್ಯದಿ __riscv_xlen == 32
+    #define port_ರಾಶಿ_TYPE           uint32_t
     #define portBASE_TYPE            int32_t
     #define portUBASE_TYPE           uint32_t
     #define portMAX_DELAY            ( TickType_t ) 0xffffffffUL
-#else /* if __riscv_xlen == 64 */
+#ಅನ್ಯಥಾ /* if __riscv_xlen == 64 */
     #error "Assembler did not define __riscv_xlen"
 #endif /* if __riscv_xlen == 64 */
 
-typedef portSTACK_TYPE   StackType_t;
-typedef portBASE_TYPE    BaseType_t;
-typedef portUBASE_TYPE   UBaseType_t;
-typedef portUBASE_TYPE   TickType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ port_ರಾಶಿ_TYPE   ರಾಶಿ_Type_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ portBASE_TYPE    BaseType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ portUBASE_TYPE   UBaseType_t;
+ಪ್ರಕಾರನಿರ್ದೇಶ portUBASE_TYPE   TickType_t;
 
 /* Legacy type definitions. */
-#define portCHAR                   char
-#define portFLOAT                  float
-#define portDOUBLE                 double
+#define portCHAR                   ವರ್ಣ
+#define portFLOAT                  ಭಿನ್ನ
+#define portDOUBLE                 ದ್ವಿಗುಣ
 #define portLONG                   long
 #define portSHORT                  short
 
@@ -82,31 +82,31 @@ typedef portUBASE_TYPE   TickType_t;
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
+#define port_ರಾಶಿ_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #ifdef __riscv_32e
     #define portBYTE_ALIGNMENT    8         /* RV32E uses RISC-V EABI with reduced stack alignment requirements. */
-#else
+#ಅನ್ಯಥಾ
     #define portBYTE_ALIGNMENT    16
 #endif
 /*-----------------------------------------------------------*/
 
 /* Scheduler utilities. */
-extern void vTaskSwitchContext( void );
-#define portYIELD()                __asm volatile ( "ecall" );
+ಬಾಹ್ಯ ಶೂನ್ಯ vTaskSwitchContext( ಶೂನ್ಯ );
+#define portYIELD()                __asm ಚಞ್ಚಲ ( "ecall" );
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    ಕುರು                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        ಯದಿ( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        ಅನ್ಯಥಾ                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } ಯಾವತ್( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -116,7 +116,7 @@ extern void vTaskSwitchContext( void );
 #define portDISABLE_INTERRUPTS()                                   __disable_interrupt()
 #define portENABLE_INTERRUPTS()                                    __enable_interrupt()
 
-extern size_t xCriticalNesting;
+ಬಾಹ್ಯ size_t xCriticalNesting;
 #define portENTER_CRITICAL()      \
     {                             \
         portDISABLE_INTERRUPTS(); \
@@ -126,7 +126,7 @@ extern size_t xCriticalNesting;
 #define portEXIT_CRITICAL()          \
     {                                \
         xCriticalNesting--;          \
-        if( xCriticalNesting == 0 )  \
+        ಯದಿ( xCriticalNesting == 0 )  \
         {                            \
             portENABLE_INTERRUPTS(); \
         }                            \
@@ -135,7 +135,7 @@ extern size_t xCriticalNesting;
 /*-----------------------------------------------------------*/
 
 /* Architecture specific optimisations. */
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#ಯದಿ ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
     #error "configUSE_PORT_OPTIMISED_TASK_SELECTION cannot yet be used in the IAR RISC-V port, the CLZ instruction needs to be emulated."
 
@@ -147,19 +147,19 @@ extern size_t xCriticalNesting;
 /* Task function macros as described on the FreeRTOS.org WEB site. These are
  * not necessary for to use this port.  They are defined so the common demo
  * files (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          ಶೂನ್ಯ vFunction( ಶೂನ್ಯ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
-#define portNOP()    __asm volatile ( " nop " )
+#define portNOP()    __asm ಚಞ್ಚಲ ( " nop " )
 #define portINLINE              __inline
 
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE    ಅನ್ತಃಸ್ಥ __attribute__( ( always_inline ) )
 #endif
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm ಚಞ್ಚಲ ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Suppress warnings that are generated by the IAR tools, but cannot be fixed in
@@ -171,21 +171,21 @@ extern size_t xCriticalNesting;
  * configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS definitions.  For
  * backward compatibility derive the newer definitions from the old if the old
  * definition is found. */
-#if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
+#ಯದಿ defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 )
 
 /* Legacy case where configCLINT_BASE_ADDRESS was defined as 0 to indicate
  * there was no CLINT.  Equivalent now is to set the MTIME and MTIMECMP
  * addresses to 0. */
     #define configMTIME_BASE_ADDRESS       ( 0 )
     #define configMTIMECMP_BASE_ADDRESS    ( 0 )
-#elif defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS )
+#ನೋಚೇದ್ಯದಿ defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS )
 
 /* Legacy case where configCLINT_BASE_ADDRESS was set to the base address of
  * the CLINT.  Equivalent now is to derive the MTIME and MTIMECMP addresses
  * from the CLINT address. */
     #define configMTIME_BASE_ADDRESS       ( ( configCLINT_BASE_ADDRESS ) + 0xBFF8UL )
     #define configMTIMECMP_BASE_ADDRESS    ( ( configCLINT_BASE_ADDRESS ) + 0x4000UL )
-#elif !defined( configMTIME_BASE_ADDRESS ) || !defined( configMTIMECMP_BASE_ADDRESS )
+#ನೋಚೇದ್ಯದಿ !defined( configMTIME_BASE_ADDRESS ) || !defined( configMTIMECMP_BASE_ADDRESS )
     #error "configMTIME_BASE_ADDRESS and configMTIMECMP_BASE_ADDRESS must be defined in FreeRTOSConfig.h.  Set them to zero if there is no MTIME (machine time) clock.  See www.FreeRTOS.org/Using-FreeRTOS-on-RISC-V.html"
 #endif /* if defined( configCLINT_BASE_ADDRESS ) && !defined( configMTIME_BASE_ADDRESS ) && ( configCLINT_BASE_ADDRESS == 0 ) */
 

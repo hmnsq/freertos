@@ -45,30 +45,30 @@ Changes from V2.6.1:
 
 
 
-#include <stdlib.h>
-#include "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ <stdlib.h>
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
 
 /*-----------------------------------------------------------*/
 
 /* See header file for description. */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+ರಾಶಿ_Type_t *px_Port_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t *px_ತುದಿ_Of_ರಾಶಿ, TaskFunction_t pxCode, ಶೂನ್ಯ *pvParameters )
 {
-StackType_t DS_Reg = 0;
-StackType_t * pxOriginalSP;
+ರಾಶಿ_Type_t DS_Reg = 0;
+ರಾಶಿ_Type_t * pxOriginalSP;
 
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
 
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x4444;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x5555;
-    pxTopOfStack--;
+    *px_ತುದಿ_Of_ರಾಶಿ = 0x1111;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = 0x2222;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = 0x3333;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = 0x4444;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = 0x5555;
+    px_ತುದಿ_Of_ರಾಶಿ--;
 
 
     /*lint -e950 -e611 -e923 Lint doesn't like this much - but nothing I can do about it. */
@@ -77,53 +77,53 @@ StackType_t * pxOriginalSP;
     instruction to load the program counter, so first there would be the
     status register and interrupt return address.  We make this the start
     of the task. */
-    *pxTopOfStack = portINITIAL_SW;
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pxCode );
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxCode );
-    pxTopOfStack--;
+    *px_ತುದಿ_Of_ರಾಶಿ = portINITIAL_SW;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_SEG( pxCode );
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_OFF( pxCode );
+    px_ತುದಿ_Of_ರಾಶಿ--;
 
     /* We are going to setup the stack for the new task to look like
     the stack frame was setup by a compiler generated ISR.  We need to know
     the address of the existing stack top to place in the SP register within
     the stack frame.  pxOriginalSP holds SP before (simulated) pusha was
     called. */
-    pxOriginalSP = pxTopOfStack;
+    pxOriginalSP = px_ತುದಿ_Of_ರಾಶಿ;
 
     /* The remaining registers would be pushed on the stack by our context
     switch function.  These are loaded with values simply to make debugging
     easier. */
-    *pxTopOfStack = FP_OFF( pvParameters );     /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xCCCC; /* CX */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_SEG( pvParameters );     /* DX */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BX */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pxOriginalSP );     /* SP */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x0123; /* SI */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xDDDD; /* DI */
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_OFF( pvParameters );     /* AX */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xCCCC; /* CX */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_SEG( pvParameters );     /* DX */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xBBBB; /* BX */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_OFF( pxOriginalSP );     /* SP */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xBBBB; /* BP */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x0123; /* SI */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xDDDD; /* DI */
 
     /* We need the true data segment. */
     __asm{  MOV DS_Reg, DS };
 
-    pxTopOfStack--;
-    *pxTopOfStack = DS_Reg; /* DS */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = DS_Reg; /* DS */
 
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0xEEEE; /* ES */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0xEEEE; /* ES */
 
     /* The AX register is pushed again twice - don't know why. */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pvParameters );     /* AX */
-    pxTopOfStack--;
-    *pxTopOfStack = FP_OFF( pvParameters );     /* AX */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_OFF( pvParameters );     /* AX */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = FP_OFF( pvParameters );     /* AX */
 
 
     #ifdef DEBUG_BUILD
@@ -131,11 +131,11 @@ StackType_t * pxOriginalSP;
         include debug information.  Presumably this is used by the
         debugger - we don't need to initialise it to anything just
         make sure it is there. */
-        pxTopOfStack--;
+        px_ತುದಿ_Of_ರಾಶಿ--;
     #endif
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    ಪ್ರತ್ಯಾಗಮ px_ತುದಿ_Of_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/

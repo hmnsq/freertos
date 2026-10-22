@@ -32,21 +32,21 @@
 
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ಅನ್ತರ್ಭಾವ "FreeRTOS.h"
+#ಅನ್ತರ್ಭಾವ "task.h"
 
 /* Standard includes. */
-#include <string.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
 
 /* Hardware includes. */
-#include <xintc_i.h>
-#include <xil_exception.h>
-#include <microblaze_exceptions_g.h>
+#ಅನ್ತರ್ಭಾವ <xintc_i.h>
+#ಅನ್ತರ್ಭಾವ <xil_exception.h>
+#ಅನ್ತರ್ಭಾವ <microblaze_exceptions_g.h>
 
 /* Tasks are started with a critical section nesting of 0 - however, prior to
  * the scheduler being commenced interrupts should not be enabled, so the critical
  * nesting variable is initialised to a non-zero value. */
-#define portINITIAL_NESTING_VALUE    ( 0xff )
+#define port_INITIAL_NESTING_ಮೌಲ್ಯ    ( 0xff )
 
 /* The bit within the MSR register that enabled/disables interrupts and
  * exceptions respectively. */
@@ -63,19 +63,19 @@
 /*
  * Initialise the interrupt controller instance.
  */
-static int32_t prvInitialiseInterruptController( void );
+ಸ್ಥಿರ int32_t prvInitialiseInterruptController( ಶೂನ್ಯ );
 
 /* Ensure the interrupt controller instance variable is initialised before it is
  * used, and that the initialisation only happens once.
  */
-static int32_t prvEnsureInterruptControllerIsInitialised( void );
+ಸ್ಥಿರ int32_t prvEnsureInterruptControllerIsInitialised( ಶೂನ್ಯ );
 
 /*-----------------------------------------------------------*/
 
 /* Counts the nesting depth of calls to portENTER_CRITICAL().  Each task
  * maintains its own count, so this variable is saved as part of the task
  * context. */
-volatile UBaseType_t uxCriticalNesting = portINITIAL_NESTING_VALUE;
+ಚಞ್ಚಲ UBaseType_t uxCriticalNesting = port_INITIAL_NESTING_ಮೌಲ್ಯ;
 
 /* This port uses a separate stack for interrupts.  This prevents the stack of
  * every task needing to be large enough to hold an entire interrupt stack on top
@@ -90,11 +90,11 @@ uint32_t * pulISRStack;
  * an unusual mechanism, but is used for this port because a single interrupt can
  * cause the servicing of multiple peripherals - and it is inefficient to call
  * vTaskSwitchContext() multiple times as each peripheral is serviced. */
-volatile uint32_t ulTaskSwitchRequested = 0UL;
+ಚಞ್ಚಲ uint32_t ulTaskSwitchRequested = 0UL;
 
 /* The instance of the interrupt controller used by this port.  This is required
  * by the Xilinx library API functions. */
-static XIntc xInterruptControllerInstance;
+ಸ್ಥಿರ XIntc xInterruptControllerInstance;
 
 /*-----------------------------------------------------------*/
 
@@ -104,142 +104,142 @@ static XIntc xInterruptControllerInstance;
  *
  * See the portable.h header file.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+ರಾಶಿ_Type_t * px_Port_Initialise_ರಾಶಿ( ರಾಶಿ_Type_t * px_ತುದಿ_Of_ರಾಶಿ,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     ಶೂನ್ಯ * pvParameters )
 {
-    extern void * _SDA2_BASE_;
-    extern void * _SDA_BASE_;
-    const uint32_t ulR2 = ( uint32_t ) &_SDA2_BASE_;
-    const uint32_t ulR13 = ( uint32_t ) &_SDA_BASE_;
+    ಬಾಹ್ಯ ಶೂನ್ಯ * _SDA2_BASE_;
+    ಬಾಹ್ಯ ಶೂನ್ಯ * _SDA_BASE_;
+    ಧ್ರುವ uint32_t ulR2 = ( uint32_t ) &_SDA2_BASE_;
+    ಧ್ರುವ uint32_t ulR13 = ( uint32_t ) &_SDA_BASE_;
 
     /* Place a few bytes of known values on the bottom of the stack.
      * This is essential for the Microblaze port and these lines must
      * not be omitted. */
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x00000000;
-    pxTopOfStack--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x00000000;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x00000000;
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x00000000;
+    px_ತುದಿ_Of_ರಾಶಿ--;
 
-    #if ( XPAR_MICROBLAZE_USE_FPU != 0 )
+    #ಯದಿ ( XPAR_MICROBLAZE_USE_FPU != 0 )
         /* The FSR value placed in the initial task context is just 0. */
-        *pxTopOfStack = portINITIAL_FSR;
-        pxTopOfStack--;
+        *px_ತುದಿ_Of_ರಾಶಿ = portINITIAL_FSR;
+        px_ತುದಿ_Of_ರಾಶಿ--;
     #endif
 
     /* The MSR value placed in the initial task context should have interrupts
      * disabled.  Each task will enable interrupts automatically when it enters
      * the running state for the first time. */
-    *pxTopOfStack = mfmsr() & ~portMSR_IE;
+    *px_ತುದಿ_Of_ರಾಶಿ = mfmsr() & ~portMSR_IE;
 
-    #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
+    #ಯದಿ ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 )
     {
         /* Ensure exceptions are enabled for the task. */
-        *pxTopOfStack |= portMSR_EE;
+        *px_ತುದಿ_Of_ರಾಶಿ |= portMSR_EE;
     }
     #endif
 
-    pxTopOfStack--;
+    px_ತುದಿ_Of_ರಾಶಿ--;
 
     /* First stack an initial value for the critical section nesting.  This
      * is initialised to zero. */
-    *pxTopOfStack = ( StackType_t ) 0x00;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x00;
 
     /* R0 is always zero. */
     /* R1 is the SP. */
 
     /* Place an initial value for all the general purpose registers. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) ulR2;         /* R2 - read only small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x03;         /* R3 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x04;         /* R4 - return values and temporaries. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R5 contains the function call parameters. */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) ulR2;         /* R2 - read only small data area. */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x03;         /* R3 - return values and temporaries. */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x04;         /* R4 - return values and temporaries. */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pvParameters; /* R5 contains the function call parameters. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x06; /* R6 - other parameters and temporaries.  Used as the return address from vPortTaskEntryPoint. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x07; /* R7 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x08; /* R8 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x09; /* R9 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0a; /* R10 - other parameters and temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0b; /* R11 - temporaries. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x0c; /* R12 - temporaries. */
-        pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 8;
+    #ifdef port_PRE_LOAD_ರಾಶಿ_FOR_DEBUGGING
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x06; /* R6 - other parameters and temporaries.  Used as the return address from vPortTaskEntryPoint. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x07; /* R7 - other parameters and temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x08; /* R8 - other parameters and temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x09; /* R9 - other parameters and temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x0a; /* R10 - other parameters and temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x0b; /* R11 - temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x0c; /* R12 - temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+    #ಅನ್ಯಥಾ /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+        px_ತುದಿ_Of_ರಾಶಿ -= 8;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
-    *pxTopOfStack = ( StackType_t ) ulR13;  /* R13 - read/write small data area. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode; /* R14 - return address for interrupt. */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) NULL;   /* R15 - return address for subroutine. */
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) ulR13;  /* R13 - read/write small data area. */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) pxCode; /* R14 - return address for interrupt. */
+    px_ತುದಿ_Of_ರಾಶಿ--;
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) ರಿಕ್ತ;   /* R15 - return address for subroutine. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x10; /* R16 - return address for trap (debugger). */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x11; /* R17 - return address for exceptions, if configured. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x12; /* R18 - reserved for assembler and compiler temporaries. */
-        pxTopOfStack--;
-    #else
-        pxTopOfStack -= 4;
+    #ifdef port_PRE_LOAD_ರಾಶಿ_FOR_DEBUGGING
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x10; /* R16 - return address for trap (debugger). */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x11; /* R17 - return address for exceptions, if configured. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x12; /* R18 - reserved for assembler and compiler temporaries. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+    #ಅನ್ಯಥಾ
+        px_ತುದಿ_Of_ರಾಶಿ -= 4;
     #endif
 
-    *pxTopOfStack = ( StackType_t ) 0x00; /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
+    *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x00; /* R19 - must be saved across function calls. Callee-save.  Seems to be interpreted as the frame pointer. */
 
-    #ifdef portPRE_LOAD_STACK_FOR_DEBUGGING
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x14; /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x15; /* R21 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x16; /* R22 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x17; /* R23 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x18; /* R24 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x19; /* R25 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1a; /* R26 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1b; /* R27 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1c; /* R28 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1d; /* R29 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1e; /* R30 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-        *pxTopOfStack = ( StackType_t ) 0x1f; /* R31 - must be saved across function calls. Callee-save. */
-        pxTopOfStack--;
-    #else /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
-        pxTopOfStack -= 13;
+    #ifdef port_PRE_LOAD_ರಾಶಿ_FOR_DEBUGGING
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x14; /* R20 - reserved for storing a pointer to the Global Offset Table (GOT) in Position Independent Code (PIC). Non-volatile in non-PIC code. Must be saved across function calls. Callee-save.  Not used by FreeRTOS. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x15; /* R21 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x16; /* R22 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x17; /* R23 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x18; /* R24 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x19; /* R25 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x1a; /* R26 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x1b; /* R27 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x1c; /* R28 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x1d; /* R29 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x1e; /* R30 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+        *px_ತುದಿ_Of_ರಾಶಿ = ( ರಾಶಿ_Type_t ) 0x1f; /* R31 - must be saved across function calls. Callee-save. */
+        px_ತುದಿ_Of_ರಾಶಿ--;
+    #ಅನ್ಯಥಾ /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
+        px_ತುದಿ_Of_ರಾಶಿ -= 13;
     #endif /* ifdef portPRE_LOAD_STACK_FOR_DEBUGGING */
 
     /* Return a pointer to the top of the stack that has been generated so this
      * can be stored in the task control block for the task. */
-    return pxTopOfStack;
+    ಪ್ರತ್ಯಾಗಮ px_ತುದಿ_Of_ರಾಶಿ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( ಶೂನ್ಯ )
 {
-    extern void( vPortStartFirstTask )( void );
-    extern uint32_t _stack[];
+    ಬಾಹ್ಯ ಶೂನ್ಯ( vPortStartFirstTask )( ಶೂನ್ಯ );
+    ಬಾಹ್ಯ uint32_t ರಾಶಿ_3[];
 
     /* Setup the hardware to generate the tick.  Interrupts are disabled when
      * this function is called.
@@ -253,7 +253,7 @@ BaseType_t xPortStartScheduler( void )
     vApplicationSetupTimerInterrupt();
 
     /* Reuse the stack from main() as the stack for the interrupts/exceptions. */
-    pulISRStack = ( uint32_t * ) _stack;
+    pulISRStack = ( uint32_t * ) ರಾಶಿ_3;
 
     /* Ensure there is enough space for the functions called from the interrupt
      * service routines to write back into the stack frame of the caller. */
@@ -264,11 +264,11 @@ BaseType_t xPortStartScheduler( void )
     vPortStartFirstTask();
 
     /* Should not get here as the tasks are now running! */
-    return pdFALSE;
+    ಪ್ರತ್ಯಾಗಮ pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+ಶೂನ್ಯ vPortEndScheduler( ಶೂನ್ಯ )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
@@ -279,9 +279,9 @@ void vPortEndScheduler( void )
 /*
  * Manual context switch called by portYIELD or taskYIELD.
  */
-void vPortYield( void )
+ಶೂನ್ಯ vPortYield( ಶೂನ್ಯ )
 {
-    extern void VPortYieldASM( void );
+    ಬಾಹ್ಯ ಶೂನ್ಯ VPortYieldASM( ಶೂನ್ಯ );
 
     /* Perform the context switch in a critical section to assure it is
      * not interrupted by the tick ISR.  It is not a problem to do this as
@@ -290,14 +290,14 @@ void vPortYield( void )
     {
         /* Jump directly to the yield function to ensure there is no
          * compiler generated prologue code. */
-        asm volatile ( "bralid r14, VPortYieldASM      \n\t" \
+        asm ಚಞ್ಚಲ ( "bralid r14, VPortYieldASM      \n\t" \
                        "or r0, r0, r0                  \n\t" );
     }
     portEXIT_CRITICAL();
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnableInterrupt( uint8_t ucInterruptID )
+ಶೂನ್ಯ vPortEnableInterrupt( uint8_t ucInterruptID )
 {
     int32_t lReturn;
 
@@ -306,7 +306,7 @@ void vPortEnableInterrupt( uint8_t ucInterruptID )
      * to this file. */
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ಯದಿ( lReturn == pdPASS )
     {
         XIntc_Enable( &xInterruptControllerInstance, ucInterruptID );
     }
@@ -315,7 +315,7 @@ void vPortEnableInterrupt( uint8_t ucInterruptID )
 }
 /*-----------------------------------------------------------*/
 
-void vPortDisableInterrupt( uint8_t ucInterruptID )
+ಶೂನ್ಯ vPortDisableInterrupt( uint8_t ucInterruptID )
 {
     int32_t lReturn;
 
@@ -324,7 +324,7 @@ void vPortDisableInterrupt( uint8_t ucInterruptID )
      * to this file. */
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ಯದಿ( lReturn == pdPASS )
     {
         XIntc_Disable( &xInterruptControllerInstance, ucInterruptID );
     }
@@ -335,7 +335,7 @@ void vPortDisableInterrupt( uint8_t ucInterruptID )
 
 BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
                                          XInterruptHandler pxHandler,
-                                         void * pvCallBackRef )
+                                         ಶೂನ್ಯ * pvCallBackRef )
 {
     int32_t lReturn;
 
@@ -344,44 +344,44 @@ BaseType_t xPortInstallInterruptHandler( uint8_t ucInterruptID,
 
     lReturn = prvEnsureInterruptControllerIsInitialised();
 
-    if( lReturn == pdPASS )
+    ಯದಿ( lReturn == pdPASS )
     {
         lReturn = XIntc_Connect( &xInterruptControllerInstance, ucInterruptID, pxHandler, pvCallBackRef );
     }
 
-    if( lReturn == XST_SUCCESS )
+    ಯದಿ( lReturn == XST_SUCCESS )
     {
         lReturn = pdPASS;
     }
 
     configASSERT( lReturn == pdPASS );
 
-    return lReturn;
+    ಪ್ರತ್ಯಾಗಮ lReturn;
 }
 /*-----------------------------------------------------------*/
 
-static int32_t prvEnsureInterruptControllerIsInitialised( void )
+ಸ್ಥಿರ int32_t prvEnsureInterruptControllerIsInitialised( ಶೂನ್ಯ )
 {
-    static int32_t lInterruptControllerInitialised = pdFALSE;
+    ಸ್ಥಿರ int32_t lInterruptControllerInitialised = pdFALSE;
     int32_t lReturn;
 
     /* Ensure the interrupt controller instance variable is initialised before
      * it is used, and that the initialisation only happens once. */
-    if( lInterruptControllerInitialised != pdTRUE )
+    ಯದಿ( lInterruptControllerInitialised != pdTRUE )
     {
         lReturn = prvInitialiseInterruptController();
 
-        if( lReturn == pdPASS )
+        ಯದಿ( lReturn == pdPASS )
         {
             lInterruptControllerInitialised = pdTRUE;
         }
     }
-    else
+    ಅನ್ಯಥಾ
     {
         lReturn = pdPASS;
     }
 
-    return lReturn;
+    ಪ್ರತ್ಯಾಗಮ lReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -389,12 +389,12 @@ static int32_t prvEnsureInterruptControllerIsInitialised( void )
  * Handler for the timer interrupt.  This is the handler that the application
  * defined callback function vApplicationSetupTimerInterrupt() should install.
  */
-void vPortTickISR( void * pvUnused )
+ಶೂನ್ಯ vPortTickISR( ಶೂನ್ಯ * pvUnused )
 {
-    extern void vApplicationClearTimerInterrupt( void );
+    ಬಾಹ್ಯ ಶೂನ್ಯ vApplicationClearTimerInterrupt( ಶೂನ್ಯ );
 
     /* Ensure the unused parameter does not generate a compiler warning. */
-    ( void ) pvUnused;
+    ( ಶೂನ್ಯ ) pvUnused;
 
     /* This port uses an application defined callback function to clear the tick
      * interrupt because the kernel will run on lots of different MicroBlaze and
@@ -405,7 +405,7 @@ void vPortTickISR( void * pvUnused )
     vApplicationClearTimerInterrupt();
 
     /* Increment the RTOS tick - this might cause a task to unblock. */
-    if( xTaskIncrementTick() != pdFALSE )
+    ಯದಿ( xTaskIncrementTick() != pdFALSE )
     {
         /* Force vTaskSwitchContext() to be called as the interrupt exits. */
         ulTaskSwitchRequested = 1;
@@ -413,13 +413,13 @@ void vPortTickISR( void * pvUnused )
 }
 /*-----------------------------------------------------------*/
 
-static int32_t prvInitialiseInterruptController( void )
+ಸ್ಥಿರ int32_t prvInitialiseInterruptController( ಶೂನ್ಯ )
 {
     int32_t lStatus;
 
     lStatus = XIntc_Initialize( &xInterruptControllerInstance, configINTERRUPT_CONTROLLER_TO_USE );
 
-    if( lStatus == XST_SUCCESS )
+    ಯದಿ( lStatus == XST_SUCCESS )
     {
         /* Initialise the exception table. */
         Xil_ExceptionInit();
@@ -430,7 +430,7 @@ static int32_t prvInitialiseInterruptController( void )
         /* Install exception handlers if the MicroBlaze is configured to handle
          * exceptions, and the application defined constant
          * configINSTALL_EXCEPTION_HANDLERS is set to 1. */
-        #if ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
+        #ಯದಿ ( MICROBLAZE_EXCEPTIONS_ENABLED == 1 ) && ( configINSTALL_EXCEPTION_HANDLERS == 1 )
         {
             vPortExceptionsInstallHandlers();
         }
@@ -440,11 +440,11 @@ static int32_t prvInitialiseInterruptController( void )
          * scheduler starts. */
         lStatus = XIntc_Start( &xInterruptControllerInstance, XIN_REAL_MODE );
 
-        if( lStatus == XST_SUCCESS )
+        ಯದಿ( lStatus == XST_SUCCESS )
         {
             lStatus = pdPASS;
         }
-        else
+        ಅನ್ಯಥಾ
         {
             lStatus = pdFAIL;
         }
@@ -452,6 +452,6 @@ static int32_t prvInitialiseInterruptController( void )
 
     configASSERT( lStatus == pdPASS );
 
-    return lStatus;
+    ಪ್ರತ್ಯಾಗಮ lStatus;
 }
 /*-----------------------------------------------------------*/
