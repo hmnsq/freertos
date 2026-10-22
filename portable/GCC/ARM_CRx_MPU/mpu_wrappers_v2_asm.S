@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS أو
+ * IMPLIED, INCLUDING BUT ليس LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE و NONINFRINGEMENT. في NO EVENT SHALL THE AUTHORS أو
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES أو OTHER LIABILITY, WHETHER
+ * في AN ACTION OF CONTRACT, TORT أو OTHERWISE, ARISING FROM, OUT OF أو في
+ * CONNECTION WITH THE SOFTWARE أو THE USE أو OTHER DEALINGS في THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -75,7 +75,7 @@ vPortSystemCallExit:
 .type xPortIsPrivileged, %function
 xPortIsPrivileged:
     MRS     R0, CPSR        /* R0 = CPSR. */
-    AND     R0, R0, #0x1F   /* R0 = R0 & 0x1F. Extract mode bits.*/
+    و     R0, R0, #0x1F   /* R0 = R0 & 0x1F. Extract mode bits.*/
     CMP     R0, #USER_MODE  /* If R0 == #USER_MODE. */
     MOVEQ   R0, #0x0        /* Then, set R0 to 0 to indicate that the processer is not privileged. */
     MOVNE   R0, #0x01       /* Otherwise, set R0 to 1 to indicate that the processer is privileged. */
@@ -84,16 +84,16 @@ xPortIsPrivileged:
 /* ----------------------------------------------------------------------------------- */
 
 /*
- * UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+ * UBaseType_t ul_Port_عدد_Leading_Zeros( UBaseType_t ulBitmap );
  *
  * According to the Procedure Call Standard for the ARM Architecture (AAPCS):
  * - Parameter ulBitmap is passed in R0.
  * - Return value must be in R0.
  */
 .align 4
-.weak ulPortCountLeadingZeros
-.type ulPortCountLeadingZeros, %function
-ulPortCountLeadingZeros:
+.weak ul_Port_عدد_Leading_Zeros
+.type ul_Port_عدد_Leading_Zeros, %function
+ul_Port_عدد_Leading_Zeros:
     CLZ     R0, R0
     BX      LR
 
@@ -102,7 +102,7 @@ ulPortCountLeadingZeros:
 .macro INVOKE_SYSTEM_CALL systemCallNumber, systemCallImpl
     PUSH    {R0}
     MRS     R0, CPSR
-    AND     R0, R0, #0x1F
+    و     R0, R0, #0x1F
     CMP     R0, #USER_MODE
     POP     {R0}
     SVCEQ   \systemCallNumber

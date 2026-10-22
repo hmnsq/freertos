@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,32 +47,32 @@
  */
 
 /* IAR includes. */
-#include <intrinsics.h>
+#ضمن <intrinsics.h>
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_مكدس_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع port_مكدس_TYPE   مكدس_Type_t;
+تعريفنوع long             BaseType_t;
+تعريفنوع unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#إذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#وإلا
     #error "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
 #endif
 
@@ -182,42 +182,42 @@ typedef unsigned long    UBaseType_t;
     #define configTEX_S_C_B_SRAM          ( 0x07UL )
 #endif
 
-#define portSTACK_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
+#define port_مكدس_REGION                  ( configTOTAL_MPU_REGIONS - 5UL )
 #define portGENERAL_PERIPHERALS_REGION    ( configTOTAL_MPU_REGIONS - 4UL )
 #define portUNPRIVILEGED_FLASH_REGION     ( configTOTAL_MPU_REGIONS - 3UL )
 #define portPRIVILEGED_FLASH_REGION       ( configTOTAL_MPU_REGIONS - 2UL )
 #define portPRIVILEGED_RAM_REGION         ( configTOTAL_MPU_REGIONS - 1UL )
 #define portFIRST_CONFIGURABLE_REGION     ( 0UL )
 #define portLAST_CONFIGURABLE_REGION      ( configTOTAL_MPU_REGIONS - 6UL )
-#define portNUM_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
-#define portTOTAL_NUM_REGIONS_IN_TCB      ( portNUM_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
+#define port_رقم_CONFIGURABLE_REGIONS      ( configTOTAL_MPU_REGIONS - 5UL )
+#define port_TOTAL_رقم_REGIONS_IN_TCB      ( port_رقم_CONFIGURABLE_REGIONS + 1 ) /* Plus 1 to create space for the stack region. */
 
-typedef struct MPU_REGION_REGISTERS
+تعريفنوع بنية MPU_REGION_REGISTERS
 {
     uint32_t ulRegionBaseAddress;
     uint32_t ulRegionAttribute;
 } xMPU_REGION_REGISTERS;
 
-typedef struct MPU_REGION_SETTINGS
+تعريفنوع بنية MPU_REGION_SETTINGS
 {
     uint32_t ulRegionStartAddress;
     uint32_t ulRegionEndAddress;
     uint32_t ulRegionPermissions;
 } xMPU_REGION_SETTINGS;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-    #ifndef configSYSTEM_CALL_STACK_SIZE
+    #ifndef config_SYSTEM_CALL_مكدس_SIZE
         #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
     #endif
 
-    typedef struct SYSTEM_CALL_STACK_INFO
+    تعريفنوع بنية SYSTEM_CALL_مكدس_INFO
     {
-        uint32_t ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE ];
-        uint32_t * pulSystemCallStack;
-        uint32_t * pulTaskStack;
+        uint32_t ul_System_Call_مكدس_Buffer[ config_SYSTEM_CALL_مكدس_SIZE ];
+        uint32_t * pul_System_Call_مكدس;
+        uint32_t * pul_Task_مكدس;
         uint32_t ulLinkRegisterAtSystemCallEntry;
-    } xSYSTEM_CALL_STACK_INFO;
+    } x_SYSTEM_CALL_مكدس_INFO;
 
 #endif /* configUSE_MPU_WRAPPERS_V1 == 0 */
 
@@ -236,26 +236,26 @@ typedef struct MPU_REGION_SETTINGS
 #define portACL_ENTRY_SIZE_BITS             ( 32U )
 
 /* Flags used for xMPU_SETTINGS.ulTaskFlags member. */
-#define portSTACK_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
+#define port_مكدس_FRAME_HAS_PADDING_FLAG    ( 1UL << 0UL )
 #define portTASK_IS_PRIVILEGED_FLAG         ( 1UL << 1UL )
 
-typedef struct MPU_SETTINGS
+تعريفنوع بنية MPU_SETTINGS
 {
-    xMPU_REGION_REGISTERS xRegion[ portTOTAL_NUM_REGIONS_IN_TCB ];
-    xMPU_REGION_SETTINGS xRegionSettings[ portTOTAL_NUM_REGIONS_IN_TCB ];
+    xMPU_REGION_REGISTERS xRegion[ port_TOTAL_رقم_REGIONS_IN_TCB ];
+    xMPU_REGION_SETTINGS xRegionSettings[ port_TOTAL_رقم_REGIONS_IN_TCB ];
     uint32_t ulContext[ MAX_CONTEXT_SIZE ];
     uint32_t ulTaskFlags;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
-        xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-        #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #إذا ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        x_SYSTEM_CALL_مكدس_INFO x_System_Call_مكدس_Info;
+        #إذا ( configENABLE_ACCESS_CONTROL_LIST == 1 )
             uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
         #endif
     #endif
 } xMPU_SETTINGS;
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_مكدس_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
 /*-----------------------------------------------------------*/
@@ -268,7 +268,7 @@ typedef struct MPU_SETTINGS
 
 /* Scheduler utilities. */
 
-#define portYIELD()    __asm volatile ( "   SVC %0  \n" ::"i" ( portSVC_YIELD ) : "memory" )
+#define portYIELD()    __asm متطاير ( "   SVC %0  \n" ::"i" ( portSVC_YIELD ) : "memory" )
 #define portYIELD_WITHIN_API()                          \
     {                                                   \
         /* Set a PendSV to request a context switch. */ \
@@ -277,21 +277,21 @@ typedef struct MPU_SETTINGS
         __ISB();                                        \
     }
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( متطاير uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    افعل                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD_WITHIN_API();              \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } طالما( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -300,10 +300,10 @@ typedef struct MPU_SETTINGS
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#إذا ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #إذا ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 
@@ -313,16 +313,16 @@ typedef struct MPU_SETTINGS
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( ( uint32_t ) __CLZ( ( uxReadyPriorities ) ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_قمة_Priority, uxReadyPriorities )    ux_قمة_Priority = ( 31UL - ( ( uint32_t ) __CLZ( ( uxReadyPriorities ) ) ) )
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+خارجي فراغ vPortEnterCritical( فراغ );
+خارجي فراغ vPortExitCritical( فراغ );
 
-#if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+#إذا ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
     #define portDISABLE_INTERRUPTS()                           \
     {                                                          \
         __disable_interrupt();                                 \
@@ -331,7 +331,7 @@ extern void vPortExitCritical( void );
         __ISB();                                               \
         __enable_interrupt();                                  \
     }
-#else
+#وإلا
     #define portDISABLE_INTERRUPTS()                           \
     {                                                          \
         __set_BASEPRI( configMAX_SYSCALL_INTERRUPT_PRIORITY ); \
@@ -350,12 +350,12 @@ extern void vPortExitCritical( void );
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
+#إذا ( configASSERT_DEFINED == 1 )
+    فراغ vPortValidateInterruptPriority( فراغ );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
 
@@ -365,37 +365,37 @@ extern void vPortExitCritical( void );
 #define portINLINE              __inline
 
 #ifndef portFORCE_INLINE
-    #define portFORCE_INLINE    inline __attribute__( ( always_inline ) )
+    #define portFORCE_INLINE    مضمن __attribute__( ( always_inline ) )
 #endif
 
 /*-----------------------------------------------------------*/
 
-portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
+portFORCE_INLINE ساكن BaseType_t xPortIsInsideInterrupt( فراغ )
 {
     uint32_t ulCurrentInterrupt;
     BaseType_t xReturn;
 
     /* Obtain the number of the currently executing interrupt. */
-    __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
+    __asm متطاير ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    إذا( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    وإلا
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    أرجع xReturn;
 }
 
 
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xIsPrivileged( void );
-extern void vResetPrivilege( void );
-extern void vPortSwitchToUserMode( void );
+خارجي BaseType_t xIsPrivileged( فراغ );
+خارجي فراغ vResetPrivilege( فراغ );
+خارجي فراغ vPortSwitchToUserMode( فراغ );
 
 /**
  * @brief Checks whether or not the processor is privileged.
@@ -407,7 +407,7 @@ extern void vPortSwitchToUserMode( void );
 /**
  * @brief Raise an SVC request to raise privilege.
  */
-#define portRAISE_PRIVILEGE()        __asm volatile ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
+#define portRAISE_PRIVILEGE()        __asm متطاير ( "svc %0 \n" ::"i" ( portSVC_RAISE_PRIVILEGE ) : "memory" );
 
 /**
  * @brief Lowers the privilege level by setting the bit 0 of the CONTROL
@@ -424,7 +424,7 @@ extern void vPortSwitchToUserMode( void );
 #define portSWITCH_TO_USER_MODE()    vPortSwitchToUserMode()
 /*-----------------------------------------------------------*/
 
-extern BaseType_t xPortIsTaskPrivileged( void );
+خارجي BaseType_t xPortIsTaskPrivileged( فراغ );
 
 /**
  * @brief Checks whether or not the calling task is privileged.
