@@ -166,7 +166,7 @@
 #define AT91C_AIC_SRCTYPE                            ( 0x3 << 5 ) /* (AIC) Interrupt Source Type */
 #define     AT91C_AIC_SRCTYPE_INT_LEVEL_SENSITIVE    ( 0x0 << 5 ) /* (AIC) Internal Sources Code Label Level Sensitive */
 #define     AT91C_AIC_SRCTYPE_INT_EDGE_TRIGGERED     ( 0x1 << 5 ) /* (AIC) Internal Sources Code Label Edge triggered */
-#define     AT91C_AIC_SRCTYPE_EXT_HIGH_LEVEL         ( 0x2 << 5 ) /* (AIC) External Sources Code Label High-level Sensitive */
+#define     AT91_C_AIC_SRCTYPE_EXT_উপরের_LEVEL         ( 0x2 << 5 ) /* (AIC) External Sources Code Label High-level Sensitive */
 #define     AT91C_AIC_SRCTYPE_EXT_POSITIVE_EDGE      ( 0x3 << 5 ) /* (AIC) External Sources Code Label Positive Edge triggered */
 /* -------- AIC_CISR : (AIC Offset: 0x114) AIC Core Interrupt Status Register -------- */
 #define AT91C_AIC_NFIQ                               ( 0x1 << 0 ) /* (AIC) NFIQ Status */
@@ -394,7 +394,7 @@
 #define AT91C_SYSC_ICERST                 ( 0x1 << 1 )   /* (RSTC) ICE Interface Reset */
 #define AT91C_SYSC_PERRST                 ( 0x1 << 2 )   /* (RSTC) Peripheral Reset */
 #define AT91C_SYSC_EXTRST                 ( 0x1 << 3 )   /* (RSTC) External Reset */
-#define AT91C_SYSC_KEY                    ( 0xFF << 24 ) /* (RSTC) Password */
+#define AT91_C_SYSC_চাবি                    ( 0xFF << 24 ) /* (RSTC) Password */
 /* -------- SYSC_RSR : (RSTC Offset: 0x4) Reset Status Register -------- */
 #define AT91C_SYSC_URSTS                  ( 0x1 << 0 )   /* (RSTC) User Reset Status */
 #define AT91C_SYSC_BODSTS                 ( 0x1 << 1 )   /* (RSTC) Brown-out Detection Status */
@@ -523,7 +523,7 @@
 #define     AT91C_MC_FCMD_CLR_GP_NVM       ( 0xD )        /* (MC) Clear General Purpose NVM bits. */
 #define     AT91C_MC_FCMD_SET_SECURITY     ( 0xF )        /* (MC) Set Security Bit. */
 #define AT91C_MC_PAGEN                     ( 0x3FF << 8 ) /* (MC) Page Number */
-#define AT91C_MC_KEY                       ( 0xFF << 24 ) /* (MC) Writing Protect Key */
+#define AT91_C_MC_চাবি                       ( 0xFF << 24 ) /* (MC) Writing Protect Key */
 /* -------- MC_FSR : (MC Offset: 0x68) MC Flash Command Register -------- */
 #define AT91C_MC_SECURITY                  ( 0x1 << 4 )   /* (MC) Security Bit Status */
 #define AT91C_MC_GPNVM0                    ( 0x1 << 8 )   /* (MC) Sector 0 Lock Status */
@@ -723,7 +723,7 @@
 /* -------- ADC_IDR : (ADC Offset: 0x28) ADC Interrupt Disable Register -------- */
 /* -------- ADC_IMR : (ADC Offset: 0x2c) ADC Interrupt Mask Register -------- */
 /* -------- ADC_CDR0 : (ADC Offset: 0x30) ADC Channel Data Register 0 -------- */
-#define AT91C_ADC_DATA    ( 0x3FF << 0 )        /* (ADC) Converted Data */
+#define AT91_C_ADC_তথ্য    ( 0x3FF << 0 )        /* (ADC) Converted Data */
 /* -------- ADC_CDR1 : (ADC Offset: 0x34) ADC Channel Data Register 1 -------- */
 /* -------- ADC_CDR2 : (ADC Offset: 0x38) ADC Channel Data Register 2 -------- */
 /* -------- ADC_CDR3 : (ADC Offset: 0x3c) ADC Channel Data Register 3 -------- */
@@ -776,17 +776,17 @@
 #define AT91C_SSC_CKO                     ( 0x7 << 2 )   /* (SSC) Receive/Transmit Clock Output Mode Selection */
 #define     AT91C_SSC_CKO_NONE            ( 0x0 << 2 )   /* (SSC) Receive/Transmit Clock Output Mode: None RK pin: Input-only */
 #define     AT91C_SSC_CKO_CONTINUOUS      ( 0x1 << 2 )   /* (SSC) Continuous Receive/Transmit Clock RK pin: Output */
-#define     AT91C_SSC_CKO_DATA_TX         ( 0x2 << 2 )   /* (SSC) Receive/Transmit Clock only during data transfers RK pin: Output */
+#define     AT91_C_SSC_CKO_তথ্য_TX         ( 0x2 << 2 )   /* (SSC) Receive/Transmit Clock only during data transfers RK pin: Output */
 #define AT91C_SSC_CKI                     ( 0x1 << 5 )   /* (SSC) Receive/Transmit Clock Inversion */
 #define AT91C_SSC_CKG                     ( 0x3 << 6 )   /* (SSC) Receive/Transmit Clock Gating Selection */
 #define     AT91C_SSC_CKG_NONE            ( 0x0 << 6 )   /* (SSC) Receive/Transmit Clock Gating: None, continuous clock */
-#define     AT91C_SSC_CKG_LOW             ( 0x1 << 6 )   /* (SSC) Receive/Transmit Clock enabled only if RF Low */
-#define     AT91C_SSC_CKG_HIGH            ( 0x2 << 6 )   /* (SSC) Receive/Transmit Clock enabled only if RF High */
+#define     AT91_C_SSC_CKG_নিচের             ( 0x1 << 6 )   /* (SSC) Receive/Transmit Clock enabled only if RF Low */
+#define     AT91_C_SSC_CKG_উপরের            ( 0x2 << 6 )   /* (SSC) Receive/Transmit Clock enabled only if RF High */
 #define AT91C_SSC_START                   ( 0xF << 8 )   /* (SSC) Receive/Transmit Start Selection */
 #define     AT91C_SSC_START_CONTINUOUS    ( 0x0 << 8 )   /* (SSC) Continuous, as soon as the receiver is enabled, and immediately after the end of transfer of the previous data. */
 #define     AT91C_SSC_START_TX            ( 0x1 << 8 )   /* (SSC) Transmit/Receive start */
-#define     AT91C_SSC_START_LOW_RF        ( 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
-#define     AT91C_SSC_START_HIGH_RF       ( 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
+#define     AT91_C_SSC_START_নিচের_RF        ( 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
+#define     AT91_C_SSC_START_উপরের_RF       ( 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
 #define     AT91C_SSC_START_FALL_RF       ( 0x4 << 8 )   /* (SSC) Detection of a falling edge on RF input */
 #define     AT91C_SSC_START_RISE_RF       ( 0x5 << 8 )   /* (SSC) Detection of a rising edge on RF input */
 #define     AT91C_SSC_START_LEVEL_RF      ( 0x6 << 8 )   /* (SSC) Detection of any level change on RF input */
@@ -806,8 +806,8 @@
 #define     AT91C_SSC_FSOS_NONE           ( 0x0 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: None RK pin Input-only */
 #define     AT91C_SSC_FSOS_NEGATIVE       ( 0x1 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Negative Pulse */
 #define     AT91C_SSC_FSOS_POSITIVE       ( 0x2 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Positive Pulse */
-#define     AT91C_SSC_FSOS_LOW            ( 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
-#define     AT91C_SSC_FSOS_HIGH           ( 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
+#define     AT91_C_SSC_FSOS_নিচের            ( 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
+#define     AT91_C_SSC_FSOS_উপরের           ( 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
 #define     AT91C_SSC_FSOS_TOGGLE         ( 0x5 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Toggling at each start of data transfer */
 #define AT91C_SSC_FSEDGE                  ( 0x1 << 24 )  /* (SSC) Frame Sync Edge Detection */
 /* -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register -------- */
@@ -1201,7 +1201,7 @@
 /*              SOFTWARE API DEFINITION  FOR USB Device Interface */
 /* ***************************************************************************** */
 /* *** Register offset in AT91S_UDP structure *** */
-#define UDP_NUM              ( 0 )          /* Frame Number Register */
+#define UDP_অঙ্ক              ( 0 )          /* Frame Number Register */
 #define UDP_GLBSTATE         ( 4 )          /* Global State Register */
 #define UDP_FADDR            ( 8 )          /* Function Address Register */
 #define UDP_IER              ( 16 )         /* Interrupt Enable Register */
@@ -1213,7 +1213,7 @@
 #define UDP_CSR              ( 48 )         /* Endpoint Control and Status Register */
 #define UDP_FDR              ( 80 )         /* Endpoint FIFO Data Register */
 /* -------- UDP_FRM_NUM : (UDP Offset: 0x0) USB Frame Number Register -------- */
-#define AT91C_UDP_FRM_NUM    ( 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
+#define AT91_C_UDP_FRM_অঙ্ক    ( 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
 #define AT91C_UDP_FRM_ERR    ( 0x1 << 16 )  /* (UDP) Frame Error */
 #define AT91C_UDP_FRM_OK     ( 0x1 << 17 )  /* (UDP) Frame OK */
 /* -------- UDP_GLB_STATE : (UDP Offset: 0x4) USB Global State Register -------- */
@@ -1254,12 +1254,12 @@
 #define AT91C_UDP_EP7                    ( 0x1 << 7 )    /* (UDP) Reset Endpoint 7 */
 /* -------- UDP_CSR : (UDP Offset: 0x30) USB Endpoint Control and Status Register -------- */
 #define AT91C_UDP_TXCOMP                 ( 0x1 << 0 )    /* (UDP) Generates an IN packet with data previously written in the DPR */
-#define AT91C_UDP_RX_DATA_BK0            ( 0x1 << 1 )    /* (UDP) Receive Data Bank 0 */
+#define AT91_C_UDP_RX_তথ্য_BK0            ( 0x1 << 1 )    /* (UDP) Receive Data Bank 0 */
 #define AT91C_UDP_RXSETUP                ( 0x1 << 2 )    /* (UDP) Sends STALL to the Host (Control endpoints) */
 #define AT91C_UDP_ISOERROR               ( 0x1 << 3 )    /* (UDP) Isochronous error (Isochronous endpoints) */
 #define AT91C_UDP_TXPKTRDY               ( 0x1 << 4 )    /* (UDP) Transmit Packet Ready */
 #define AT91C_UDP_FORCESTALL             ( 0x1 << 5 )    /* (UDP) Force Stall (used by Control, Bulk and Isochronous endpoints). */
-#define AT91C_UDP_RX_DATA_BK1            ( 0x1 << 6 )    /* (UDP) Receive Data Bank 1 (only used by endpoints with ping-pong attributes). */
+#define AT91_C_UDP_RX_তথ্য_BK1            ( 0x1 << 6 )    /* (UDP) Receive Data Bank 1 (only used by endpoints with ping-pong attributes). */
 #define AT91C_UDP_DIR                    ( 0x1 << 7 )    /* (UDP) Transfer Direction */
 #define AT91C_UDP_EPTYPE                 ( 0x7 << 8 )    /* (UDP) Endpoint type */
 #define     AT91C_UDP_EPTYPE_CTRL        ( 0x0 << 8 )    /* (UDP) Control */
@@ -1626,7 +1626,7 @@
 #define AT91C_UDP_IMR           ( 0xFFFB0018 ) /* (UDP) Interrupt Mask Register */
 #define AT91C_UDP_IER           ( 0xFFFB0010 ) /* (UDP) Interrupt Enable Register */
 #define AT91C_UDP_FADDR         ( 0xFFFB0008 ) /* (UDP) Function Address Register */
-#define AT91C_UDP_NUM           ( 0xFFFB0000 ) /* (UDP) Frame Number Register */
+#define AT91_C_UDP_অঙ্ক           ( 0xFFFB0000 ) /* (UDP) Frame Number Register */
 
 /* ***************************************************************************** */
 /*               PIO DEFINITIONS FOR AT91SAM7S64 */
@@ -1805,6 +1805,6 @@
 /*               MEMORY MAPPING DEFINITIONS FOR AT91SAM7S64 */
 /* ***************************************************************************** */
 #define AT91C_ISRAM          ( 0x00200000 )    /* Internal SRAM base address */
-#define AT91C_ISRAM_SIZE     ( 0x00004000 )    /* Internal SRAM size in byte (16 Kbyte) */
+#define AT91_C_ISRAM_আকার     ( 0x00004000 )    /* Internal SRAM size in byte (16 Kbyte) */
 #define AT91C_IFLASH         ( 0x00100000 )    /* Internal ROM base address */
-#define AT91C_IFLASH_SIZE    ( 0x00010000 )    /* Internal ROM size in byte (64 Kbyte) */
+#define AT91_C_IFLASH_আকার    ( 0x00010000 )    /* Internal ROM size in byte (64 Kbyte) */

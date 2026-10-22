@@ -45,15 +45,15 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্যিক "C" {
 #endif
 /* *INDENT-ON* */
 
-#include <xtensa/hal.h>
-#include <xtensa/config/core.h>
-#include <xtensa/config/system.h> /* required for XSHAL_CLIB */
+#অন্তর্ভাব <xtensa/hal.h>
+#অন্তর্ভাব <xtensa/config/core.h>
+#অন্তর্ভাব <xtensa/config/system.h> /* required for XSHAL_CLIB */
 
-#include "xtensa_context.h"
+#অন্তর্ভাব "xtensa_context.h"
 
 
 /*-----------------------------------------------------------------------------
@@ -109,23 +109,23 @@
 #ifdef XT_INTEXC_HOOKS
     #ifdef __XTENSA_CALL0_ABI__
         #define STK_INTEXC_EXTRA     0x200
-    #else
+    #অন্যথা
         #define STK_INTEXC_EXTRA     0x180
     #endif
-#else
+#অন্যথা
     #define STK_INTEXC_EXTRA         0
 #endif
 
-#define XT_CLIB_CONTEXT_AREA_SIZE    0
+#define XT_CLIB_CONTEXT_AREA_আকার    0
 
 /*------------------------------------------------------------------------------
  *  Extra size -- interrupt frame plus coprocessor save area plus hook space.
  *  NOTE: Make sure XT_INTEXC_HOOKS is undefined unless you really need the hooks.
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
-    #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_SIZE )
-#else
-    #define XT_XTRA_SIZE    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_SIZE )
+    #define XT_XTRA_আকার    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x10 + XT_CP_আকার )
+#অন্যথা
+    #define XT_XTRA_আকার    ( XT_STK_FRMSZ + STK_INTEXC_EXTRA + 0x20 + XT_CP_আকার )
 #endif
 
 /*------------------------------------------------------------------------------
@@ -137,17 +137,17 @@
  *  for spilling register windows.
  *  ------------------------------------------------------------------------------*/
 #ifdef __XTENSA_CALL0_ABI__
-    #define XT_USER_SIZE    0x200
-#else
-    #define XT_USER_SIZE    0x400
+    #define XT_USER_আকার    0x200
+#অন্যথা
+    #define XT_USER_আকার    0x400
 #endif
 
 /* Minimum recommended stack size. */
-#define XT_STACK_MIN_SIZE      ( ( XT_XTRA_SIZE + XT_USER_SIZE ) / sizeof( unsigned char ) )
+#define XT_স্তূপ_MIN_আকার      ( ( XT_XTRA_আকার + XT_USER_আকার ) / আকার( unsigned অক্ষর ) )
 
 /* OS overhead with and without C library thread context. */
-#define XT_STACK_EXTRA         ( XT_XTRA_SIZE )
-#define XT_STACK_EXTRA_CLIB    ( XT_XTRA_SIZE + XT_CLIB_CONTEXT_AREA_SIZE )
+#define XT_স্তূপ_EXTRA         ( XT_XTRA_আকার )
+#define XT_স্তূপ_EXTRA_CLIB    ( XT_XTRA_আকার + XT_CLIB_CONTEXT_AREA_আকার )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

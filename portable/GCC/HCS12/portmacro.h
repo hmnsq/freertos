@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্যিক "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,33 +47,33 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          অক্ষর
+#define portFLOAT         দশমিক
+#define portDOUBLE        দ্বিগুণ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint8_t
-#define portBASE_TYPE     char
+#define port_স্তূপ_TYPE    uint8_t
+#define portBASE_TYPE     অক্ষর
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+প্রকারলেখ port_স্তূপ_TYPE   স্তূপ_Type_t;
+প্রকারলেখ signed অক্ষর      BaseType_t;
+প্রকারলেখ unsigned অক্ষর    UBaseType_t;
 
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারলেখ uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#নতুবা_যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারলেখ uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    1
-#define portSTACK_GROWTH      ( -1 )
+#define port_স্তূপ_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portYIELD()    __asm( "swi" );
 /*-----------------------------------------------------------*/
@@ -90,7 +90,7 @@ typedef unsigned char    UBaseType_t;
  */
 #define portENTER_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        বাহ্যিক অস্থির UBaseType_t uxCriticalNesting; \
                                                        \
         portDISABLE_INTERRUPTS();                      \
         uxCriticalNesting++;                           \
@@ -103,10 +103,10 @@ typedef unsigned char    UBaseType_t;
  */
 #define  portEXIT_CRITICAL()                           \
     {                                                  \
-        extern volatile UBaseType_t uxCriticalNesting; \
+        বাহ্যিক অস্থির UBaseType_t uxCriticalNesting; \
                                                        \
         uxCriticalNesting--;                           \
-        if( uxCriticalNesting == 0 )                   \
+        যদি( uxCriticalNesting == 0 )                   \
         {                                              \
             portENABLE_INTERRUPTS();                   \
         }                                              \
@@ -135,11 +135,11 @@ typedef unsigned char    UBaseType_t;
     #define portRESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; শূন্য *            \n\
+        .globl uxCriticalNesting        ; অক্ষর              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; স্তূপ_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         movb 1,sp+,0x30             ; PPAGE             \n\
@@ -154,17 +154,17 @@ typedef unsigned char    UBaseType_t;
     #define portSAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; শূন্য *            \n\
+        .globl uxCriticalNesting        ; অক্ষর              \n\
                                             \n\
         movb 0x30, 1,-sp            ; PPAGE             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; স্তূপ_2             \n\
         " );                   \
     }
-#else /* ifdef BANKED_MODEL */
+#অন্যথা /* ifdef BANKED_MODEL */
 
 /*
  * These macros are as per the BANKED versions above, but without saving
@@ -174,11 +174,11 @@ typedef unsigned char    UBaseType_t;
     #define portRESTORE_CONTEXT() \
     {                             \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; শূন্য *            \n\
+        .globl uxCriticalNesting        ; অক্ষর              \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        lds  0,x                ; Stack             \n\
+        lds  0,x                ; স্তূপ_2             \n\
                                             \n\
         movb 1,sp+,uxCriticalNesting                        \n\
         " );                      \
@@ -187,13 +187,13 @@ typedef unsigned char    UBaseType_t;
     #define portSAVE_CONTEXT() \
     {                          \
         __asm( "                                \n\
-        .globl pxCurrentTCB         ; void *            \n\
-        .globl uxCriticalNesting        ; char              \n\
+        .globl pxCurrentTCB         ; শূন্য *            \n\
+        .globl uxCriticalNesting        ; অক্ষর              \n\
                                             \n\
         movb uxCriticalNesting, 1,-sp                       \n\
                                             \n\
         ldx  pxCurrentTCB                           \n\
-        sts  0,x                ; Stack             \n\
+        sts  0,x                ; স্তূপ_2             \n\
         " );                   \
     }
 #endif /* ifdef BANKED_MODEL */
@@ -202,7 +202,7 @@ typedef unsigned char    UBaseType_t;
  * Utility macros to save/restore correct software registers for GCC. This is
  * useful when GCC does not generate appropriate ISR head/tail code.
  */
-#define portISR_HEAD() \
+#define port_ISR_শীর্ষ() \
     {                  \
         __asm( "                                 \n\
         movw _.frame, 2,-sp                         \n\
@@ -214,7 +214,7 @@ typedef unsigned char    UBaseType_t;
         " );           \
     }
 
-#define portISR_TAIL() \
+#define port_ISR_লেজ() \
     {                  \
         __asm( "                                 \n\
         movw 2,sp+, _.xy                            \n\
@@ -241,8 +241,8 @@ typedef unsigned char    UBaseType_t;
 
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    শূন্য vFunction( শূন্য * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          শূন্য vFunction( শূন্য * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

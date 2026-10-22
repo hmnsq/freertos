@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS অথবা
+ * IMPLIED, INCLUDING BUT নয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE এবং NONINFRINGEMENT. মধ্যে NO EVENT SHALL THE AUTHORS অথবা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES অথবা OTHER LIABILITY, WHETHER
+ * মধ্যে AN ACTION OF CONTRACT, TORT অথবা OTHERWISE, ARISING FROM, OUT OF অথবা মধ্যে
+ * CONNECTION WITH THE SOFTWARE অথবা THE USE অথবা OTHER DEALINGS মধ্যে THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -87,10 +87,10 @@ back into the caller stack. */
     .extern vPortExceptionHandler
     .extern pulStackPointerOnFunctionEntry
 
-    .global _interrupt_handler
-    .global VPortYieldASM
-    .global vPortStartFirstTask
-    .global vPortExceptionHandlerEntry
+    .বৈশ্বিক _interrupt_handler
+    .বৈশ্বিক VPortYieldASM
+    .বৈশ্বিক vPortStartFirstTask
+    .বৈশ্বিক vPortExceptionHandlerEntry
 
 
 .macro portSAVE_CONTEXT
@@ -289,7 +289,7 @@ VPortYieldASM:
     portSAVE_CONTEXT
 
     /* Modify the return address so a return is done to the instruction after
-    the call to VPortYieldASM. */
+    the ডাকো to VPortYieldASM. */
     addi r14, r14, 8
     swi r14, r1, portR14_OFFSET
 

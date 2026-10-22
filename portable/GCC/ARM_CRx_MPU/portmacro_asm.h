@@ -30,18 +30,18 @@
 #define PORTMACRO_ASM_H
 
 #ifdef __cplusplus
-extern "C" {
+বাহ্যিক "C" {
 #endif
 
-#include "FreeRTOSConfig.h"
+#অন্তর্ভাব "FreeRTOSConfig.h"
 
-#ifndef configTOTAL_MPU_REGIONS
+#ifndef config_যোগ_MPU_REGIONS
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
-#elif( configTOTAL_MPU_REGIONS == 12 )
-    #define portMPU_TOTAL_REGIONS ( 12UL )
-#elif( configTOTAL_MPU_REGIONS == 16 )
-    #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
+#নতুবা_যদি( config_যোগ_MPU_REGIONS == 12 )
+    #define port_MPU_যোগ_REGIONS ( 12UL )
+#নতুবা_যদি( config_যোগ_MPU_REGIONS == 16 )
+    #define port_MPU_যোগ_REGIONS ( 16UL )
+#অন্যথা
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
 #endif /* configTOTAL_MPU_REGIONS */
 
@@ -124,46 +124,46 @@ extern "C" {
 
 /* Default MPU regions. */
 #define portFIRST_CONFIGURABLE_REGION ( 0 )
-#define portLAST_CONFIGURABLE_REGION  ( portMPU_TOTAL_REGIONS - 5UL )
-#define portSTACK_REGION              ( portMPU_TOTAL_REGIONS - 4UL )
-#define portUNPRIVILEGED_FLASH_REGION ( portMPU_TOTAL_REGIONS - 3UL )
-#define portPRIVILEGED_FLASH_REGION   ( portMPU_TOTAL_REGIONS - 2UL )
-#define portPRIVILEGED_RAM_REGION     ( portMPU_TOTAL_REGIONS - 1UL )
-#define portNUM_CONFIGURABLE_REGIONS \
+#define portLAST_CONFIGURABLE_REGION  ( port_MPU_যোগ_REGIONS - 5UL )
+#define port_স্তূপ_REGION              ( port_MPU_যোগ_REGIONS - 4UL )
+#define portUNPRIVILEGED_FLASH_REGION ( port_MPU_যোগ_REGIONS - 3UL )
+#define portPRIVILEGED_FLASH_REGION   ( port_MPU_যোগ_REGIONS - 2UL )
+#define portPRIVILEGED_RAM_REGION     ( port_MPU_যোগ_REGIONS - 1UL )
+#define port_অঙ্ক_CONFIGURABLE_REGIONS \
     ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1UL )
 /* Plus one to make space for the stack region. */
-#define portTOTAL_NUM_REGIONS_IN_TCB        ( portNUM_CONFIGURABLE_REGIONS + 1UL )
+#define port_যোগ_অঙ্ক_REGIONS_IN_TCB        ( port_অঙ্ক_CONFIGURABLE_REGIONS + 1UL )
 
 /* MPU region sizes. This information is encoded in the MPU Region Size and
  * Enable Register. */
-#define portMPU_REGION_SIZE_32B             ( 0x04UL << 1UL )
-#define portMPU_REGION_SIZE_64B             ( 0x05UL << 1UL )
-#define portMPU_REGION_SIZE_128B            ( 0x06UL << 1UL )
-#define portMPU_REGION_SIZE_256B            ( 0x07UL << 1UL )
-#define portMPU_REGION_SIZE_512B            ( 0x08UL << 1UL )
-#define portMPU_REGION_SIZE_1KB             ( 0x09UL << 1UL )
-#define portMPU_REGION_SIZE_2KB             ( 0x0AUL << 1UL )
-#define portMPU_REGION_SIZE_4KB             ( 0x0BUL << 1UL )
-#define portMPU_REGION_SIZE_8KB             ( 0x0CUL << 1UL )
-#define portMPU_REGION_SIZE_16KB            ( 0x0DUL << 1UL )
-#define portMPU_REGION_SIZE_32KB            ( 0x0EUL << 1UL )
-#define portMPU_REGION_SIZE_64KB            ( 0x0FUL << 1UL )
-#define portMPU_REGION_SIZE_128KB           ( 0x10UL << 1UL )
-#define portMPU_REGION_SIZE_256KB           ( 0x11UL << 1UL )
-#define portMPU_REGION_SIZE_512KB           ( 0x12UL << 1UL )
-#define portMPU_REGION_SIZE_1MB             ( 0x13UL << 1UL )
-#define portMPU_REGION_SIZE_2MB             ( 0x14UL << 1UL )
-#define portMPU_REGION_SIZE_4MB             ( 0x15UL << 1UL )
-#define portMPU_REGION_SIZE_8MB             ( 0x16UL << 1UL )
-#define portMPU_REGION_SIZE_16MB            ( 0x17UL << 1UL )
-#define portMPU_REGION_SIZE_32MB            ( 0x18UL << 1UL )
-#define portMPU_REGION_SIZE_64MB            ( 0x19UL << 1UL )
-#define portMPU_REGION_SIZE_128MB           ( 0x1AUL << 1UL )
-#define portMPU_REGION_SIZE_256MB           ( 0x1BUL << 1UL )
-#define portMPU_REGION_SIZE_512MB           ( 0x1CUL << 1UL )
-#define portMPU_REGION_SIZE_1GB             ( 0x1DUL << 1UL )
-#define portMPU_REGION_SIZE_2GB             ( 0x1EUL << 1UL )
-#define portMPU_REGION_SIZE_4GB             ( 0x1FUL << 1UL )
+#define port_MPU_REGION_আকার_32_B             ( 0x04UL << 1UL )
+#define port_MPU_REGION_আকার_64_B             ( 0x05UL << 1UL )
+#define port_MPU_REGION_আকার_128_B            ( 0x06UL << 1UL )
+#define port_MPU_REGION_আকার_256_B            ( 0x07UL << 1UL )
+#define port_MPU_REGION_আকার_512_B            ( 0x08UL << 1UL )
+#define port_MPU_REGION_আকার_1_KB             ( 0x09UL << 1UL )
+#define port_MPU_REGION_আকার_2_KB             ( 0x0AUL << 1UL )
+#define port_MPU_REGION_আকার_4_KB             ( 0x0BUL << 1UL )
+#define port_MPU_REGION_আকার_8_KB             ( 0x0CUL << 1UL )
+#define port_MPU_REGION_আকার_16_KB            ( 0x0DUL << 1UL )
+#define port_MPU_REGION_আকার_32_KB            ( 0x0EUL << 1UL )
+#define port_MPU_REGION_আকার_64_KB            ( 0x0FUL << 1UL )
+#define port_MPU_REGION_আকার_128_KB           ( 0x10UL << 1UL )
+#define port_MPU_REGION_আকার_256_KB           ( 0x11UL << 1UL )
+#define port_MPU_REGION_আকার_512_KB           ( 0x12UL << 1UL )
+#define port_MPU_REGION_আকার_1_MB             ( 0x13UL << 1UL )
+#define port_MPU_REGION_আকার_2_MB             ( 0x14UL << 1UL )
+#define port_MPU_REGION_আকার_4_MB             ( 0x15UL << 1UL )
+#define port_MPU_REGION_আকার_8_MB             ( 0x16UL << 1UL )
+#define port_MPU_REGION_আকার_16_MB            ( 0x17UL << 1UL )
+#define port_MPU_REGION_আকার_32_MB            ( 0x18UL << 1UL )
+#define port_MPU_REGION_আকার_64_MB            ( 0x19UL << 1UL )
+#define port_MPU_REGION_আকার_128_MB           ( 0x1AUL << 1UL )
+#define port_MPU_REGION_আকার_256_MB           ( 0x1BUL << 1UL )
+#define port_MPU_REGION_আকার_512_MB           ( 0x1CUL << 1UL )
+#define port_MPU_REGION_আকার_1_GB             ( 0x1DUL << 1UL )
+#define port_MPU_REGION_আকার_2_GB             ( 0x1EUL << 1UL )
+#define port_MPU_REGION_আকার_4_GB             ( 0x1FUL << 1UL )
 
 /* MPU memory types. This information is encoded in the TEX, S, C and B bits
  * of the MPU Region Access Control Register. */
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#যদি( portENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -250,8 +250,8 @@ extern "C" {
      * <------------------><------><---------><--------><---------><--------><----------><----->
      *           1            1        32         13         1         1          1        1
      */
-    #define CONTEXT_SIZE 51U
-#else
+    #define CONTEXT_আকার 51U
+#অন্যথা
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -260,7 +260,7 @@ extern "C" {
      * <------------------><--------><---------><--------><----------><----->
      *           1             13         1         1          1        1
      */
-    #define CONTEXT_SIZE 18U
+    #define CONTEXT_আকার 18U
 #endif /* CONTEXT_SIZE */
 
 /**
@@ -268,7 +268,7 @@ extern "C" {
  */
 #define portSYSTEM_CALL_INFO_OFFSET             \
     ( ( 1U /* pxTopOfStack. */ +                \
-        ( portTOTAL_NUM_REGIONS_IN_TCB * 3U ) + \
+        ( port_যোগ_অঙ্ক_REGIONS_IN_TCB * 3U ) + \
         1U /* ulTaskFlags. */                   \
       ) * 4U )
 

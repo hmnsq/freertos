@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্যিক "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,25 +47,25 @@
 
 /* Type definitions. */
 
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          অক্ষর
+#define portFLOAT         দশমিক
+#define portDOUBLE        দ্বিগুণ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint16_t
+#define port_স্তূপ_TYPE    uint16_t
 #define portBASE_TYPE     short
 
-typedef portSTACK_TYPE     StackType_t;
-typedef short              BaseType_t;
-typedef unsigned short     UBaseType_t;
+প্রকারলেখ port_স্তূপ_TYPE     স্তূপ_Type_t;
+প্রকারলেখ short              BaseType_t;
+প্রকারলেখ unsigned short     UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef unsigned int   TickType_t;
+#যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারলেখ unsigned পূর্ণসংখ্যা   TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t       TickType_t;
+#নতুবা_যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারলেখ uint32_t       TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -80,7 +80,7 @@ typedef unsigned short     UBaseType_t;
 
 #define portENTER_CRITICAL()                                                      \
     {                                                                             \
-        extern volatile uint16_t usCriticalNesting;                               \
+        বাহ্যিক অস্থির uint16_t usCriticalNesting;                               \
                                                                                   \
         portDISABLE_INTERRUPTS();                                                 \
                                                                                   \
@@ -92,16 +92,16 @@ typedef unsigned short     UBaseType_t;
 
 #define portEXIT_CRITICAL()                                                         \
     {                                                                               \
-        extern volatile uint16_t usCriticalNesting;                                 \
+        বাহ্যিক অস্থির uint16_t usCriticalNesting;                                 \
                                                                                     \
-        if( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
+        যদি( usCriticalNesting > portNO_CRITICAL_SECTION_NESTING )                   \
         {                                                                           \
             /* Decrement the nesting count as we are leaving a critical section. */ \
             usCriticalNesting--;                                                    \
                                                                                     \
             /* If the nesting level has reached zero then interrupts should be */   \
             /* re-enabled. */                                                       \
-            if( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
+            যদি( usCriticalNesting == portNO_CRITICAL_SECTION_NESTING )              \
             {                                                                       \
                 portENABLE_INTERRUPTS();                                            \
             }                                                                       \
@@ -110,30 +110,30 @@ typedef unsigned short     UBaseType_t;
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-extern void vPortStart( void );
+বাহ্যিক শূন্য vPortStart( শূন্য );
 #define portYIELD()                                       __asm( "BRK" )
-#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    do { if( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } while( 0 )
+#define portYIELD_FROM_ISR( xHigherPriorityTaskWoken )    করো { যদি( xHigherPriorityTaskWoken ) vTaskSwitchContext( ); } যখন( 0 )
 #define portNOP()                                         __asm( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    2
-#define portSTACK_GROWTH      ( -1 )
+#define port_স্তূপ_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    শূন্য vFunction( শূন্য * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          শূন্য vFunction( শূন্য * pvParameters )
 
 
-static __interrupt void P0_isr( void );
+স্থির __interrupt শূন্য P0_isr( শূন্য );
 
 /* --------------------------------------------------------------------------*/
 /* Option-bytes and security ID                                              */
 /* --------------------------------------------------------------------------*/
-#define OPT_BYTES_SIZE       4
-#define SECU_ID_SIZE         10
+#define OPT_BYTES_আকার       4
+#define SECU_ID_আকার         10
 #define WATCHDOG_DISABLED    0x00
 #define LVI_ENABLED          0xFE
 #define LVI_DISABLED         0xFF

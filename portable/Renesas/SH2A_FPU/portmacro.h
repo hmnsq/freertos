@@ -30,11 +30,11 @@
 #ifndef PORTMACRO_H
 #define PORTMACRO_H
 
-#include <machine.h>
+#অন্তর্ভাব <machine.h>
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্যিক "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -50,23 +50,23 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          অক্ষর
+#define portFLOAT         দশমিক
+#define portDOUBLE        দ্বিগুণ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_স্তূপ_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+প্রকারলেখ port_স্তূপ_TYPE   স্তূপ_Type_t;
+প্রকারলেখ long             BaseType_t;
+প্রকারলেখ unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারলেখ uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#নতুবা_যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারলেখ uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
@@ -77,40 +77,40 @@ typedef unsigned long    UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT               8
-#define portSTACK_GROWTH                 -1
+#define port_স্তূপ_GROWTH                 -1
 #define portTICK_PERIOD_MS               ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portNOP()    nop()
 #define portSTART_SCHEDULER_TRAP_NO      ( 32 )
 #define portYIELD_TRAP_NO                ( 33 )
 #define portKERNEL_INTERRUPT_PRIORITY    ( 1 )
 
-void vPortYield( void );
+শূন্য vPortYield( শূন্য );
 #define portYIELD()                vPortYield()
 
-extern void vTaskSwitchContext( void );
-#define portYIELD_FROM_ISR( x )    do { if( x != pdFALSE ) vTaskSwitchContext( ); } while( 0 )
+বাহ্যিক শূন্য vTaskSwitchContext( শূন্য );
+#define portYIELD_FROM_ISR( x )    করো { যদি( x != pdFALSE ) vTaskSwitchContext( ); } যখন( 0 )
 
 /*
  * This function tells the kernel that the task referenced by xTask is going to
  * use the floating point registers and therefore requires the floating point
  * registers saved as part of its context.
  */
-BaseType_t xPortUsesFloatingPoint( void * xTask );
+BaseType_t xPortUsesFloatingPoint( শূন্য * xTask );
 
 /*
  * The flop save and restore functions are defined in portasm.src and called by
  * the trace "task switched in" and "trace task switched out" macros.
  */
-void vPortSaveFlopRegisters( void * pulBuffer );
-void vPortRestoreFlopRegisters( void * pulBuffer );
+শূন্য vPortSaveFlopRegisters( শূন্য * pul_বাফার );
+শূন্য vPortRestoreFlopRegisters( শূন্য * pul_বাফার );
 
 /*
  * pxTaskTag is used to point to the buffer into which the floating point
  * context should be saved.  If pxTaskTag is NULL then the task does not use
  * a floating point context.
  */
-#define traceTASK_SWITCHED_OUT()    do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
-#define traceTASK_SWITCHED_IN()     do { if( pxCurrentTCB->pxTaskTag != NULL ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } while( 0 )
+#define traceTASK_SWITCHED_OUT()    করো { যদি( pxCurrentTCB->pxTaskTag != ফাঁকা ) vPortSaveFlopRegisters( pxCurrentTCB->pxTaskTag ); } যখন( 0 )
+#define traceTASK_SWITCHED_IN()     করো { যদি( pxCurrentTCB->pxTaskTag != ফাঁকা ) vPortRestoreFlopRegisters( pxCurrentTCB->pxTaskTag ); } যখন( 0 )
 
 /*
  * These macros should be called directly, but through the taskENTER_CRITICAL()
@@ -123,16 +123,16 @@ void vPortRestoreFlopRegisters( void * pulBuffer );
 #define portCRITICAL_NESTING_IN_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+বাহ্যিক শূন্য vTaskEnterCritical( শূন্য );
+বাহ্যিক শূন্য vTaskExitCritical( শূন্য );
 #define portENTER_CRITICAL()    vTaskEnterCritical();
 #define portEXIT_CRITICAL()     vTaskExitCritical();
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    শূন্য vFunction( শূন্য * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          শূন্য vFunction( শূন্য * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

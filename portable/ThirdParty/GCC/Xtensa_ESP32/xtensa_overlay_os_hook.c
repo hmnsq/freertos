@@ -31,15 +31,15 @@
 
 /* xtensa_overlay_os_hook.c -- Overlay manager OS hooks for FreeRTOS. */
 
-#include "FreeRTOS.h"
-#include "semphr.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "semphr.h"
 
-#if configUSE_MUTEX
+#যদি configUSE_MUTEX
 
 /* Mutex object that controls access to the overlay. Currently only one
  * overlay region is supported so one mutex suffices.
  */
-    static SemaphoreHandle_t xt_overlay_mutex;
+    স্থির SemaphoreHandle_t xt_overlay_mutex;
 
 
 /* This function should be overridden to provide OS specific init such
@@ -47,7 +47,7 @@
  * Typically this mutex would be set up with priority inheritance. See
  * overlay manager documentation for more details.
  */
-    void xt_overlay_init_os( void )
+    শূন্য xt_overlay_init_os( শূন্য )
     {
         /* Create the mutex for overlay access. Priority inheritance is
          * required.
@@ -59,7 +59,7 @@
 /* This function locks access to shared overlay resources, typically
  * by acquiring a mutex.
  */
-    void xt_overlay_lock( void )
+    শূন্য xt_overlay_lock( শূন্য )
     {
         xSemaphoreTake( xt_overlay_mutex, 0 );
     }
@@ -68,7 +68,7 @@
 /* This function releases access to shared overlay resources, typically
  * by unlocking a mutex.
  */
-    void xt_overlay_unlock( void )
+    শূন্য xt_overlay_unlock( শূন্য )
     {
         xSemaphoreGive( xt_overlay_mutex );
     }

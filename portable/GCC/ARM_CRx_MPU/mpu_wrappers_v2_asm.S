@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS অথবা
+ * IMPLIED, INCLUDING BUT নয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE এবং NONINFRINGEMENT. মধ্যে NO EVENT SHALL THE AUTHORS অথবা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES অথবা OTHER LIABILITY, WHETHER
+ * মধ্যে AN ACTION OF CONTRACT, TORT অথবা OTHERWISE, ARISING FROM, OUT OF অথবা মধ্যে
+ * CONNECTION WITH THE SOFTWARE অথবা THE USE অথবা OTHER DEALINGS মধ্যে THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -44,7 +44,7 @@
  * void vPortYield( void );
  */
 .align 4
-.global vPortYield
+.বৈশ্বিক vPortYield
 .type vPortYield, %function
 vPortYield:
     SVC     #portSVC_YIELD
@@ -56,7 +56,7 @@ vPortYield:
  * void vPortSystemCallExit( void );
  */
 .align 4
-.global vPortSystemCallExit
+.বৈশ্বিক vPortSystemCallExit
 .type vPortSystemCallExit, %function
 vPortSystemCallExit:
     SVC     #portSVC_SYSTEM_CALL_EXIT
@@ -71,11 +71,11 @@ vPortSystemCallExit:
  * - Return value must be in R0.
  */
 .align 4
-.global xPortIsPrivileged
+.বৈশ্বিক xPortIsPrivileged
 .type xPortIsPrivileged, %function
 xPortIsPrivileged:
     MRS     R0, CPSR        /* R0 = CPSR. */
-    AND     R0, R0, #0x1F   /* R0 = R0 & 0x1F. Extract mode bits.*/
+    এবং     R0, R0, #0x1F   /* R0 = R0 & 0x1F. Extract mode bits.*/
     CMP     R0, #USER_MODE  /* If R0 == #USER_MODE. */
     MOVEQ   R0, #0x0        /* Then, set R0 to 0 to indicate that the processer is not privileged. */
     MOVNE   R0, #0x01       /* Otherwise, set R0 to 1 to indicate that the processer is privileged. */
@@ -84,16 +84,16 @@ xPortIsPrivileged:
 /* ----------------------------------------------------------------------------------- */
 
 /*
- * UBaseType_t ulPortCountLeadingZeros( UBaseType_t ulBitmap );
+ * UBaseType_t ul_Port_গুনতি_Leading_Zeros( UBaseType_t ulBitmap );
  *
  * According to the Procedure Call Standard for the ARM Architecture (AAPCS):
  * - Parameter ulBitmap is passed in R0.
  * - Return value must be in R0.
  */
 .align 4
-.weak ulPortCountLeadingZeros
-.type ulPortCountLeadingZeros, %function
-ulPortCountLeadingZeros:
+.weak ul_Port_গুনতি_Leading_Zeros
+.type ul_Port_গুনতি_Leading_Zeros, %function
+ul_Port_গুনতি_Leading_Zeros:
     CLZ     R0, R0
     BX      LR
 
@@ -102,7 +102,7 @@ ulPortCountLeadingZeros:
 .macro INVOKE_SYSTEM_CALL systemCallNumber, systemCallImpl
     PUSH    {R0}
     MRS     R0, CPSR
-    AND     R0, R0, #0x1F
+    এবং     R0, R0, #0x1F
     CMP     R0, #USER_MODE
     POP     {R0}
     SVCEQ   \systemCallNumber
@@ -113,7 +113,7 @@ ulPortCountLeadingZeros:
 
 .extern MPU_xTaskGetTickCountImpl
 .align 4
-.global MPU_xTaskGetTickCount
+.বৈশ্বিক MPU_xTaskGetTickCount
 .type MPU_xTaskGetTickCount, function
 MPU_xTaskGetTickCount:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGetTickCount, MPU_xTaskGetTickCountImpl
@@ -122,7 +122,7 @@ MPU_xTaskGetTickCount:
 
 .extern MPU_uxTaskGetNumberOfTasksImpl
 .align 4
-.global MPU_uxTaskGetNumberOfTasks
+.বৈশ্বিক MPU_uxTaskGetNumberOfTasks
 .type MPU_uxTaskGetNumberOfTasks, function
 MPU_uxTaskGetNumberOfTasks:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxTaskGetNumberOfTasks, MPU_uxTaskGetNumberOfTasksImpl
@@ -131,7 +131,7 @@ MPU_uxTaskGetNumberOfTasks:
 
 .extern MPU_vTaskSetTimeOutStateImpl
 .align 4
-.global MPU_vTaskSetTimeOutState
+.বৈশ্বিক MPU_vTaskSetTimeOutState
 .type MPU_vTaskSetTimeOutState, function
 MPU_vTaskSetTimeOutState:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskSetTimeOutState, MPU_vTaskSetTimeOutStateImpl
@@ -140,7 +140,7 @@ MPU_vTaskSetTimeOutState:
 
 .extern MPU_xTaskCheckForTimeOutImpl
 .align 4
-.global MPU_xTaskCheckForTimeOut
+.বৈশ্বিক MPU_xTaskCheckForTimeOut
 .type MPU_xTaskCheckForTimeOut, function
 MPU_xTaskCheckForTimeOut:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskCheckForTimeOut, MPU_xTaskCheckForTimeOutImpl
@@ -149,7 +149,7 @@ MPU_xTaskCheckForTimeOut:
 
 .extern MPU_xQueueGenericSendImpl
 .align 4
-.global MPU_xQueueGenericSend
+.বৈশ্বিক MPU_xQueueGenericSend
 .type MPU_xQueueGenericSend, function
 MPU_xQueueGenericSend:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueGenericSend, MPU_xQueueGenericSendImpl
@@ -158,7 +158,7 @@ MPU_xQueueGenericSend:
 
 .extern MPU_uxQueueMessagesWaitingImpl
 .align 4
-.global MPU_uxQueueMessagesWaiting
+.বৈশ্বিক MPU_uxQueueMessagesWaiting
 .type MPU_uxQueueMessagesWaiting, function
 MPU_uxQueueMessagesWaiting:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxQueueMessagesWaiting, MPU_uxQueueMessagesWaitingImpl
@@ -167,7 +167,7 @@ MPU_uxQueueMessagesWaiting:
 
 .extern MPU_uxQueueSpacesAvailableImpl
 .align 4
-.global MPU_uxQueueSpacesAvailable
+.বৈশ্বিক MPU_uxQueueSpacesAvailable
 .type MPU_uxQueueSpacesAvailable, function
 MPU_uxQueueSpacesAvailable:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxQueueSpacesAvailable, MPU_uxQueueSpacesAvailableImpl
@@ -176,7 +176,7 @@ MPU_uxQueueSpacesAvailable:
 
 .extern MPU_xQueueReceiveImpl
 .align 4
-.global MPU_xQueueReceive
+.বৈশ্বিক MPU_xQueueReceive
 .type MPU_xQueueReceive, function
 MPU_xQueueReceive:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueReceive, MPU_xQueueReceiveImpl
@@ -185,7 +185,7 @@ MPU_xQueueReceive:
 
 .extern MPU_xQueuePeekImpl
 .align 4
-.global MPU_xQueuePeek
+.বৈশ্বিক MPU_xQueuePeek
 .type MPU_xQueuePeek, function
 MPU_xQueuePeek:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueuePeek, MPU_xQueuePeekImpl
@@ -194,7 +194,7 @@ MPU_xQueuePeek:
 
 .extern MPU_xQueueSemaphoreTakeImpl
 .align 4
-.global MPU_xQueueSemaphoreTake
+.বৈশ্বিক MPU_xQueueSemaphoreTake
 .type MPU_xQueueSemaphoreTake, function
 MPU_xQueueSemaphoreTake:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueSemaphoreTake, MPU_xQueueSemaphoreTakeImpl
@@ -205,7 +205,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xEventGroupWaitBitsImpl
     .align 4
-    .global MPU_xEventGroupWaitBitsEntry
+    .বৈশ্বিক MPU_xEventGroupWaitBitsEntry
     .type MPU_xEventGroupWaitBitsEntry, function
     MPU_xEventGroupWaitBitsEntry:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xEventGroupWaitBits, MPU_xEventGroupWaitBitsImpl
@@ -214,7 +214,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xEventGroupClearBitsImpl
     .align 4
-    .global MPU_xEventGroupClearBits
+    .বৈশ্বিক MPU_xEventGroupClearBits
     .type MPU_xEventGroupClearBits, function
     MPU_xEventGroupClearBits:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xEventGroupClearBits, MPU_xEventGroupClearBitsImpl
@@ -223,7 +223,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xEventGroupSetBitsImpl
     .align 4
-    .global MPU_xEventGroupSetBits
+    .বৈশ্বিক MPU_xEventGroupSetBits
     .type MPU_xEventGroupSetBits, function
     MPU_xEventGroupSetBits:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xEventGroupSetBits, MPU_xEventGroupSetBitsImpl
@@ -232,7 +232,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xEventGroupSyncImpl
     .align 4
-    .global MPU_xEventGroupSync
+    .বৈশ্বিক MPU_xEventGroupSync
     .type MPU_xEventGroupSync, function
     MPU_xEventGroupSync:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xEventGroupSync, MPU_xEventGroupSyncImpl
@@ -245,7 +245,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferSendImpl
     .align 4
-    .global MPU_xStreamBufferSend
+    .বৈশ্বিক MPU_xStreamBufferSend
     .type MPU_xStreamBufferSend, function
     MPU_xStreamBufferSend:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferSend, MPU_xStreamBufferSendImpl
@@ -254,7 +254,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferReceiveImpl
     .align 4
-    .global MPU_xStreamBufferReceive
+    .বৈশ্বিক MPU_xStreamBufferReceive
     .type MPU_xStreamBufferReceive, function
     MPU_xStreamBufferReceive:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferReceive, MPU_xStreamBufferReceiveImpl
@@ -263,7 +263,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferIsFullImpl
     .align 4
-    .global MPU_xStreamBufferIsFull
+    .বৈশ্বিক MPU_xStreamBufferIsFull
     .type MPU_xStreamBufferIsFull, function
     MPU_xStreamBufferIsFull:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferIsFull, MPU_xStreamBufferIsFullImpl
@@ -272,7 +272,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferIsEmptyImpl
     .align 4
-    .global MPU_xStreamBufferIsEmpty
+    .বৈশ্বিক MPU_xStreamBufferIsEmpty
     .type MPU_xStreamBufferIsEmpty, function
     MPU_xStreamBufferIsEmpty:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferIsEmpty, MPU_xStreamBufferIsEmptyImpl
@@ -281,7 +281,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferSpacesAvailableImpl
     .align 4
-    .global MPU_xStreamBufferSpacesAvailable
+    .বৈশ্বিক MPU_xStreamBufferSpacesAvailable
     .type MPU_xStreamBufferSpacesAvailable, function
     MPU_xStreamBufferSpacesAvailable:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferSpacesAvailable, MPU_xStreamBufferSpacesAvailableImpl
@@ -290,7 +290,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferBytesAvailableImpl
     .align 4
-    .global MPU_xStreamBufferBytesAvailable
+    .বৈশ্বিক MPU_xStreamBufferBytesAvailable
     .type MPU_xStreamBufferBytesAvailable, function
     MPU_xStreamBufferBytesAvailable:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferBytesAvailable, MPU_xStreamBufferBytesAvailableImpl
@@ -299,7 +299,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferSetTriggerLevelImpl
     .align 4
-    .global MPU_xStreamBufferSetTriggerLevel
+    .বৈশ্বিক MPU_xStreamBufferSetTriggerLevel
     .type MPU_xStreamBufferSetTriggerLevel, function
     MPU_xStreamBufferSetTriggerLevel:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferSetTriggerLevel, MPU_xStreamBufferSetTriggerLevelImpl
@@ -308,7 +308,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xStreamBufferNextMessageLengthBytesImpl
     .align 4
-    .global MPU_xStreamBufferNextMessageLengthBytes
+    .বৈশ্বিক MPU_xStreamBufferNextMessageLengthBytes
     .type MPU_xStreamBufferNextMessageLengthBytes, function
     MPU_xStreamBufferNextMessageLengthBytes:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xStreamBufferNextMessageLengthBytes, MPU_xStreamBufferNextMessageLengthBytesImpl
@@ -321,7 +321,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskDelayUntilImpl
     .align 4
-    .global MPU_xTaskDelayUntil
+    .বৈশ্বিক MPU_xTaskDelayUntil
     .type MPU_xTaskDelayUntil, function
     MPU_xTaskDelayUntil:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskDelayUntil, MPU_xTaskDelayUntilImpl
@@ -334,7 +334,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskAbortDelayImpl
     .align 4
-    .global MPU_xTaskAbortDelay
+    .বৈশ্বিক MPU_xTaskAbortDelay
     .type MPU_xTaskAbortDelay, function
     MPU_xTaskAbortDelay:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskAbortDelay, MPU_xTaskAbortDelayImpl
@@ -347,7 +347,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTaskDelayImpl
     .align 4
-    .global MPU_vTaskDelay
+    .বৈশ্বিক MPU_vTaskDelay
     .type MPU_vTaskDelay, function
     MPU_vTaskDelay:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskDelay, MPU_vTaskDelayImpl
@@ -360,7 +360,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_uxTaskPriorityGetImpl
     .align 4
-    .global MPU_uxTaskPriorityGet
+    .বৈশ্বিক MPU_uxTaskPriorityGet
     .type MPU_uxTaskPriorityGet, function
     MPU_uxTaskPriorityGet:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxTaskPriorityGet, MPU_uxTaskPriorityGetImpl
@@ -373,7 +373,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_eTaskGetStateImpl
     .align 4
-    .global MPU_eTaskGetState
+    .বৈশ্বিক MPU_eTaskGetState
     .type MPU_eTaskGetState, function
     MPU_eTaskGetState:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_eTaskGetState, MPU_eTaskGetStateImpl
@@ -386,7 +386,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTaskGetInfoImpl
     .align 4
-    .global MPU_vTaskGetInfo
+    .বৈশ্বিক MPU_vTaskGetInfo
     .type MPU_vTaskGetInfo, function
     MPU_vTaskGetInfo:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskGetInfo, MPU_vTaskGetInfoImpl
@@ -395,7 +395,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_uxTaskGetSystemStateImpl
     .align 4
-    .global MPU_uxTaskGetSystemState
+    .বৈশ্বিক MPU_uxTaskGetSystemState
     .type MPU_uxTaskGetSystemState, function
     MPU_uxTaskGetSystemState:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxTaskGetSystemState, MPU_uxTaskGetSystemStateImpl
@@ -407,7 +407,7 @@ MPU_xQueueSemaphoreTake:
 #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
     .extern MPU_uxEventGroupGetNumberImpl
     .align 4
-    .global MPU_uxEventGroupGetNumber
+    .বৈশ্বিক MPU_uxEventGroupGetNumber
     .type MPU_uxEventGroupGetNumber, function
     MPU_uxEventGroupGetNumber:
     INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxEventGroupGetNumber, MPU_uxEventGroupGetNumberImpl
@@ -418,7 +418,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vEventGroupSetNumberImpl
     .align 4
-    .global MPU_vEventGroupSetNumber
+    .বৈশ্বিক MPU_vEventGroupSetNumber
     .type MPU_vEventGroupSetNumber, function
     MPU_vEventGroupSetNumber:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vEventGroupSetNumber, MPU_vEventGroupSetNumberImpl
@@ -433,7 +433,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGetIdleTaskHandleImpl
     .align 4
-    .global MPU_xTaskGetIdleTaskHandle
+    .বৈশ্বিক MPU_xTaskGetIdleTaskHandle
     .type MPU_xTaskGetIdleTaskHandle, function
     MPU_xTaskGetIdleTaskHandle:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGetIdleTaskHandle, MPU_xTaskGetIdleTaskHandleImpl
@@ -447,7 +447,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTaskSuspendImpl
     .align 4
-    .global MPU_vTaskSuspend
+    .বৈশ্বিক MPU_vTaskSuspend
     .type MPU_vTaskSuspend, function
     MPU_vTaskSuspend:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskSuspend, MPU_vTaskSuspendImpl
@@ -456,7 +456,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTaskResumeImpl
     .align 4
-    .global MPU_vTaskResume
+    .বৈশ্বিক MPU_vTaskResume
     .type MPU_vTaskResume, function
     MPU_vTaskResume:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskResume, MPU_vTaskResumeImpl
@@ -471,7 +471,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_ulTaskGetRunTimeCounterImpl
     .align 4
-    .global MPU_ulTaskGetRunTimeCounter
+    .বৈশ্বিক MPU_ulTaskGetRunTimeCounter
     .type MPU_ulTaskGetRunTimeCounter, function
     MPU_ulTaskGetRunTimeCounter:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_ulTaskGetRunTimeCounter, MPU_ulTaskGetRunTimeCounterImpl
@@ -480,7 +480,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_ulTaskGetRunTimePercentImpl
     .align 4
-    .global MPU_ulTaskGetRunTimePercent
+    .বৈশ্বিক MPU_ulTaskGetRunTimePercent
     .type MPU_ulTaskGetRunTimePercent, function
     MPU_ulTaskGetRunTimePercent:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_ulTaskGetRunTimePercent, MPU_ulTaskGetRunTimePercentImpl
@@ -491,7 +491,7 @@ MPU_xQueueSemaphoreTake:
 
         .extern MPU_ulTaskGetIdleRunTimePercentImpl
         .align 4
-        .global MPU_ulTaskGetIdleRunTimePercent
+        .বৈশ্বিক MPU_ulTaskGetIdleRunTimePercent
         .type MPU_ulTaskGetIdleRunTimePercent, function
         MPU_ulTaskGetIdleRunTimePercent:
             INVOKE_SYSTEM_CALL #SYSTEM_CALL_ulTaskGetIdleRunTimePercent, MPU_ulTaskGetIdleRunTimePercentImpl
@@ -500,7 +500,7 @@ MPU_xQueueSemaphoreTake:
 
         .extern MPU_ulTaskGetIdleRunTimeCounterImpl
         .align 4
-        .global MPU_ulTaskGetIdleRunTimeCounter
+        .বৈশ্বিক MPU_ulTaskGetIdleRunTimeCounter
         .type MPU_ulTaskGetIdleRunTimeCounter, function
         MPU_ulTaskGetIdleRunTimeCounter:
             INVOKE_SYSTEM_CALL #SYSTEM_CALL_ulTaskGetIdleRunTimeCounter, MPU_ulTaskGetIdleRunTimeCounterImpl
@@ -517,7 +517,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTaskSetApplicationTaskTagImpl
     .align 4
-    .global MPU_vTaskSetApplicationTaskTag
+    .বৈশ্বিক MPU_vTaskSetApplicationTaskTag
     .type MPU_vTaskSetApplicationTaskTag, function
     MPU_vTaskSetApplicationTaskTag:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskSetApplicationTaskTag, MPU_vTaskSetApplicationTaskTagImpl
@@ -526,7 +526,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGetApplicationTaskTagImpl
     .align 4
-    .global MPU_xTaskGetApplicationTaskTag
+    .বৈশ্বিক MPU_xTaskGetApplicationTaskTag
     .type MPU_xTaskGetApplicationTaskTag, function
     MPU_xTaskGetApplicationTaskTag:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGetApplicationTaskTag, MPU_xTaskGetApplicationTaskTagImpl
@@ -541,7 +541,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTaskSetThreadLocalStoragePointerImpl
     .align 4
-    .global MPU_vTaskSetThreadLocalStoragePointer
+    .বৈশ্বিক MPU_vTaskSetThreadLocalStoragePointer
     .type MPU_vTaskSetThreadLocalStoragePointer, function
     MPU_vTaskSetThreadLocalStoragePointer:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTaskSetThreadLocalStoragePointer, MPU_vTaskSetThreadLocalStoragePointerImpl
@@ -550,7 +550,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_pvTaskGetThreadLocalStoragePointerImpl
     .align 4
-    .global MPU_pvTaskGetThreadLocalStoragePointer
+    .বৈশ্বিক MPU_pvTaskGetThreadLocalStoragePointer
     .type MPU_pvTaskGetThreadLocalStoragePointer, function
     MPU_pvTaskGetThreadLocalStoragePointer:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_pvTaskGetThreadLocalStoragePointer, MPU_pvTaskGetThreadLocalStoragePointerImpl
@@ -565,7 +565,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_uxTaskGetStackHighWaterMarkImpl
     .align 4
-    .global MPU_uxTaskGetStackHighWaterMark
+    .বৈশ্বিক MPU_uxTaskGetStackHighWaterMark
     .type MPU_uxTaskGetStackHighWaterMark, function
     MPU_uxTaskGetStackHighWaterMark:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxTaskGetStackHighWaterMark, MPU_uxTaskGetStackHighWaterMarkImpl
@@ -578,7 +578,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_uxTaskGetStackHighWaterMark2Impl
     .align 4
-    .global MPU_uxTaskGetStackHighWaterMark2
+    .বৈশ্বিক MPU_uxTaskGetStackHighWaterMark2
     .type MPU_uxTaskGetStackHighWaterMark2, function
     MPU_uxTaskGetStackHighWaterMark2:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxTaskGetStackHighWaterMark2, MPU_uxTaskGetStackHighWaterMark2Impl
@@ -591,7 +591,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGetCurrentTaskHandleImpl
     .align 4
-    .global MPU_xTaskGetCurrentTaskHandle
+    .বৈশ্বিক MPU_xTaskGetCurrentTaskHandle
     .type MPU_xTaskGetCurrentTaskHandle, function
     MPU_xTaskGetCurrentTaskHandle:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGetCurrentTaskHandle, MPU_xTaskGetCurrentTaskHandleImpl
@@ -604,7 +604,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGetSchedulerStateImpl
     .align 4
-    .global MPU_xTaskGetSchedulerState
+    .বৈশ্বিক MPU_xTaskGetSchedulerState
     .type MPU_xTaskGetSchedulerState, function
     MPU_xTaskGetSchedulerState:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGetSchedulerState, MPU_xTaskGetSchedulerStateImpl
@@ -618,7 +618,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xQueueGetMutexHolderImpl
     .align 4
-    .global MPU_xQueueGetMutexHolder
+    .বৈশ্বিক MPU_xQueueGetMutexHolder
     .type MPU_xQueueGetMutexHolder, function
     MPU_xQueueGetMutexHolder:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueGetMutexHolder, MPU_xQueueGetMutexHolderImpl
@@ -631,7 +631,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xQueueTakeMutexRecursiveImpl
     .align 4
-    .global MPU_xQueueTakeMutexRecursive
+    .বৈশ্বিক MPU_xQueueTakeMutexRecursive
     .type MPU_xQueueTakeMutexRecursive, function
     MPU_xQueueTakeMutexRecursive:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueTakeMutexRecursive, MPU_xQueueTakeMutexRecursiveImpl
@@ -640,7 +640,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xQueueGiveMutexRecursiveImpl
     .align 4
-    .global MPU_xQueueGiveMutexRecursive
+    .বৈশ্বিক MPU_xQueueGiveMutexRecursive
     .type MPU_xQueueGiveMutexRecursive, function
     MPU_xQueueGiveMutexRecursive:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueGiveMutexRecursive, MPU_xQueueGiveMutexRecursiveImpl
@@ -655,7 +655,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xQueueSelectFromSetImpl
     .align 4
-    .global MPU_xQueueSelectFromSet
+    .বৈশ্বিক MPU_xQueueSelectFromSet
     .type MPU_xQueueSelectFromSet, function
     MPU_xQueueSelectFromSet:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueSelectFromSet, MPU_xQueueSelectFromSetImpl
@@ -664,7 +664,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xQueueAddToSetImpl
     .align 4
-    .global MPU_xQueueAddToSet
+    .বৈশ্বিক MPU_xQueueAddToSet
     .type MPU_xQueueAddToSet, function
     MPU_xQueueAddToSet:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xQueueAddToSet, MPU_xQueueAddToSetImpl
@@ -679,7 +679,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vQueueAddToRegistryImpl
     .align 4
-    .global MPU_vQueueAddToRegistry
+    .বৈশ্বিক MPU_vQueueAddToRegistry
     .type MPU_vQueueAddToRegistry, function
     MPU_vQueueAddToRegistry:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vQueueAddToRegistry, MPU_vQueueAddToRegistryImpl
@@ -688,7 +688,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vQueueUnregisterQueueImpl
     .align 4
-    .global MPU_vQueueUnregisterQueue
+    .বৈশ্বিক MPU_vQueueUnregisterQueue
     .type MPU_vQueueUnregisterQueue, function
     MPU_vQueueUnregisterQueue:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vQueueUnregisterQueue, MPU_vQueueUnregisterQueueImpl
@@ -697,7 +697,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_pcQueueGetNameImpl
     .align 4
-    .global MPU_pcQueueGetName
+    .বৈশ্বিক MPU_pcQueueGetName
     .type MPU_pcQueueGetName, function
     MPU_pcQueueGetName:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_pcQueueGetName, MPU_pcQueueGetNameImpl
@@ -712,7 +712,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_pvTimerGetTimerIDImpl
     .align 4
-    .global MPU_pvTimerGetTimerID
+    .বৈশ্বিক MPU_pvTimerGetTimerID
     .type MPU_pvTimerGetTimerID, function
     MPU_pvTimerGetTimerID:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_pvTimerGetTimerID, MPU_pvTimerGetTimerIDImpl
@@ -721,7 +721,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTimerSetTimerIDImpl
     .align 4
-    .global MPU_vTimerSetTimerID
+    .বৈশ্বিক MPU_vTimerSetTimerID
     .type MPU_vTimerSetTimerID, function
     MPU_vTimerSetTimerID:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTimerSetTimerID, MPU_vTimerSetTimerIDImpl
@@ -730,7 +730,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTimerIsTimerActiveImpl
     .align 4
-    .global MPU_xTimerIsTimerActive
+    .বৈশ্বিক MPU_xTimerIsTimerActive
     .type MPU_xTimerIsTimerActive, function
     MPU_xTimerIsTimerActive:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTimerIsTimerActive, MPU_xTimerIsTimerActiveImpl
@@ -739,7 +739,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTimerGetTimerDaemonTaskHandleImpl
     .align 4
-    .global MPU_xTimerGetTimerDaemonTaskHandle
+    .বৈশ্বিক MPU_xTimerGetTimerDaemonTaskHandle
     .type MPU_xTimerGetTimerDaemonTaskHandle, function
     MPU_xTimerGetTimerDaemonTaskHandle:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTimerGetTimerDaemonTaskHandle, MPU_xTimerGetTimerDaemonTaskHandleImpl
@@ -748,7 +748,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTimerGenericCommandFromTaskImpl
     .align 4
-    .global MPU_xTimerGenericCommandFromTaskEntry
+    .বৈশ্বিক MPU_xTimerGenericCommandFromTaskEntry
     .type MPU_xTimerGenericCommandFromTaskEntry, function
     MPU_xTimerGenericCommandFromTaskEntry:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTimerGenericCommandFromTask, MPU_xTimerGenericCommandFromTaskImpl
@@ -757,7 +757,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_pcTimerGetNameImpl
     .align 4
-    .global MPU_pcTimerGetName
+    .বৈশ্বিক MPU_pcTimerGetName
     .type MPU_pcTimerGetName, function
     MPU_pcTimerGetName:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_pcTimerGetName, MPU_pcTimerGetNameImpl
@@ -766,7 +766,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_vTimerSetReloadModeImpl
     .align 4
-    .global MPU_vTimerSetReloadMode
+    .বৈশ্বিক MPU_vTimerSetReloadMode
     .type MPU_vTimerSetReloadMode, function
     MPU_vTimerSetReloadMode:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_vTimerSetReloadMode, MPU_vTimerSetReloadModeImpl
@@ -775,7 +775,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTimerGetReloadModeImpl
     .align 4
-    .global MPU_xTimerGetReloadMode
+    .বৈশ্বিক MPU_xTimerGetReloadMode
     .type MPU_xTimerGetReloadMode, function
     MPU_xTimerGetReloadMode:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTimerGetReloadMode, MPU_xTimerGetReloadModeImpl
@@ -784,7 +784,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_uxTimerGetReloadModeImpl
     .align 4
-    .global MPU_uxTimerGetReloadMode
+    .বৈশ্বিক MPU_uxTimerGetReloadMode
     .type MPU_uxTimerGetReloadMode, function
     MPU_uxTimerGetReloadMode:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_uxTimerGetReloadMode, MPU_uxTimerGetReloadModeImpl
@@ -793,7 +793,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTimerGetPeriodImpl
     .align 4
-    .global MPU_xTimerGetPeriod
+    .বৈশ্বিক MPU_xTimerGetPeriod
     .type MPU_xTimerGetPeriod, function
     MPU_xTimerGetPeriod:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTimerGetPeriod, MPU_xTimerGetPeriodImpl
@@ -802,7 +802,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTimerGetExpiryTimeImpl
     .align 4
-    .global MPU_xTimerGetExpiryTime
+    .বৈশ্বিক MPU_xTimerGetExpiryTime
     .type MPU_xTimerGetExpiryTime, function
     MPU_xTimerGetExpiryTime:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTimerGetExpiryTime, MPU_xTimerGetExpiryTimeImpl
@@ -817,7 +817,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGenericNotifyImpl
     .align 4
-    .global MPU_xTaskGenericNotifyEntry
+    .বৈশ্বিক MPU_xTaskGenericNotifyEntry
     .type MPU_xTaskGenericNotifyEntry, function
     MPU_xTaskGenericNotifyEntry:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGenericNotify, MPU_xTaskGenericNotifyImpl
@@ -826,7 +826,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGenericNotifyWaitImpl
     .align 4
-    .global MPU_xTaskGenericNotifyWaitEntry
+    .বৈশ্বিক MPU_xTaskGenericNotifyWaitEntry
     .type MPU_xTaskGenericNotifyWaitEntry, function
     MPU_xTaskGenericNotifyWaitEntry:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGenericNotifyWait, MPU_xTaskGenericNotifyWaitImpl
@@ -835,7 +835,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_ulTaskGenericNotifyTakeImpl
     .align 4
-    .global MPU_ulTaskGenericNotifyTake
+    .বৈশ্বিক MPU_ulTaskGenericNotifyTake
     .type MPU_ulTaskGenericNotifyTake, function
     MPU_ulTaskGenericNotifyTake:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_ulTaskGenericNotifyTake, MPU_ulTaskGenericNotifyTakeImpl
@@ -844,7 +844,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_xTaskGenericNotifyStateClearImpl
     .align 4
-    .global MPU_xTaskGenericNotifyStateClear
+    .বৈশ্বিক MPU_xTaskGenericNotifyStateClear
     .type MPU_xTaskGenericNotifyStateClear, function
     MPU_xTaskGenericNotifyStateClear:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_xTaskGenericNotifyStateClear, MPU_xTaskGenericNotifyStateClearImpl
@@ -853,7 +853,7 @@ MPU_xQueueSemaphoreTake:
 
     .extern MPU_ulTaskGenericNotifyValueClearImpl
     .align 4
-    .global MPU_ulTaskGenericNotifyValueClear
+    .বৈশ্বিক MPU_ulTaskGenericNotifyValueClear
     .type MPU_ulTaskGenericNotifyValueClear, function
     MPU_ulTaskGenericNotifyValueClear:
         INVOKE_SYSTEM_CALL #SYSTEM_CALL_ulTaskGenericNotifyValueClear, MPU_ulTaskGenericNotifyValueClearImpl

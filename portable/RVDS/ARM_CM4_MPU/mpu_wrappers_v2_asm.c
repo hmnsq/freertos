@@ -32,35 +32,35 @@
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
-#include "timers.h"
-#include "event_groups.h"
-#include "stream_buffer.h"
-#include "mpu_prototypes.h"
-#include "mpu_syscall_numbers.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
+#অন্তর্ভাব "queue.h"
+#অন্তর্ভাব "timers.h"
+#অন্তর্ভাব "event_groups.h"
+#অন্তর্ভাব "stream_buffer.h"
+#অন্তর্ভাব "mpu_prototypes.h"
+#অন্তর্ভাব "mpu_syscall_numbers.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#যদি ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
-#if ( INCLUDE_xTaskDelayUntil == 1 )
+#যদি ( INCLUDE_xTaskDelayUntil == 1 )
 
-BaseType_t MPU_xTaskDelayUntil( TickType_t * const pxPreviousWakeTime,
-                                const TickType_t xTimeIncrement ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_xTaskDelayUntil( TickType_t * ধ্রুবক pxPreviousWakeTime,
+                                ধ্রুবক TickType_t xTimeIncrement ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xTaskDelayUntil( TickType_t * const pxPreviousWakeTime,
-                                      const TickType_t xTimeIncrement ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_xTaskDelayUntil( TickType_t * ধ্রুবক pxPreviousWakeTime,
+                                      ধ্রুবক TickType_t xTimeIncrement ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskDelayUntilImpl
+    বাহ্যিক MPU_xTaskDelayUntilImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskDelayUntil_Unpriv
 MPU_xTaskDelayUntil_Priv
         b MPU_xTaskDelayUntilImpl
@@ -71,19 +71,19 @@ MPU_xTaskDelayUntil_Unpriv
 #endif /* if ( INCLUDE_xTaskDelayUntil == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_xTaskAbortDelay == 1 )
+#যদি ( INCLUDE_xTaskAbortDelay == 1 )
 
 BaseType_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xTaskAbortDelay( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskAbortDelayImpl
+    বাহ্যিক MPU_xTaskAbortDelayImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskAbortDelay_Unpriv
 MPU_xTaskAbortDelay_Priv
         b MPU_xTaskAbortDelayImpl
@@ -94,19 +94,19 @@ MPU_xTaskAbortDelay_Unpriv
 #endif /* if ( INCLUDE_xTaskAbortDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_vTaskDelay == 1 )
+#যদি ( INCLUDE_vTaskDelay == 1 )
 
-void MPU_vTaskDelay( const TickType_t xTicksToDelay ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTaskDelay( ধ্রুবক TickType_t xTicksToDelay ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskDelay( const TickType_t xTicksToDelay ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTaskDelay( ধ্রুবক TickType_t xTicksToDelay ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskDelayImpl
+    বাহ্যিক MPU_vTaskDelayImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskDelay_Unpriv
 MPU_vTaskDelay_Priv
         b MPU_vTaskDelayImpl
@@ -117,19 +117,19 @@ MPU_vTaskDelay_Unpriv
 #endif /* if ( INCLUDE_vTaskDelay == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_uxTaskPriorityGet == 1 )
+#যদি ( INCLUDE_uxTaskPriorityGet == 1 )
 
-UBaseType_t MPU_uxTaskPriorityGet( const TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_uxTaskPriorityGet( ধ্রুবক TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxTaskPriorityGet( const TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_uxTaskPriorityGet( ধ্রুবক TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskPriorityGetImpl
+    বাহ্যিক MPU_uxTaskPriorityGetImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_uxTaskPriorityGet_Unpriv
 MPU_uxTaskPriorityGet_Priv
         b MPU_uxTaskPriorityGetImpl
@@ -140,19 +140,19 @@ MPU_uxTaskPriorityGet_Unpriv
 #endif /* if ( INCLUDE_uxTaskPriorityGet == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_eTaskGetState == 1 )
+#যদি ( INCLUDE_eTaskGetState == 1 )
 
 eTaskState MPU_eTaskGetState( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
 __asm eTaskState MPU_eTaskGetState( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_eTaskGetStateImpl
+    বাহ্যিক MPU_eTaskGetStateImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_eTaskGetState_Unpriv
 MPU_eTaskGetState_Priv
         b MPU_eTaskGetStateImpl
@@ -163,25 +163,25 @@ MPU_eTaskGetState_Unpriv
 #endif /* if ( INCLUDE_eTaskGetState == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TRACE_FACILITY == 1 )
+#যদি ( configUSE_TRACE_FACILITY == 1 )
 
-void MPU_vTaskGetInfo( TaskHandle_t xTask,
+শূন্য MPU_vTaskGetInfo( TaskHandle_t xTask,
                        TaskStatus_t * pxTaskStatus,
-                       BaseType_t xGetFreeStackSpace,
+                       BaseType_t x_Get_Free_স্তূপ_Space,
                        eTaskState eState ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskGetInfo( TaskHandle_t xTask,
+__asm শূন্য MPU_vTaskGetInfo( TaskHandle_t xTask,
                              TaskStatus_t * pxTaskStatus,
-                             BaseType_t xGetFreeStackSpace,
+                             BaseType_t x_Get_Free_স্তূপ_Space,
                              eTaskState eState ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskGetInfoImpl
+    বাহ্যিক MPU_vTaskGetInfoImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskGetInfo_Unpriv
 MPU_vTaskGetInfo_Priv
         b MPU_vTaskGetInfoImpl
@@ -192,19 +192,19 @@ MPU_vTaskGetInfo_Unpriv
 #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
+#যদি ( INCLUDE_xTaskGetIdleTaskHandle == 1 )
 
-TaskHandle_t MPU_xTaskGetIdleTaskHandle( void ) FREERTOS_SYSTEM_CALL;
+TaskHandle_t MPU_xTaskGetIdleTaskHandle( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm TaskHandle_t MPU_xTaskGetIdleTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
+__asm TaskHandle_t MPU_xTaskGetIdleTaskHandle( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGetIdleTaskHandleImpl
+    বাহ্যিক MPU_xTaskGetIdleTaskHandleImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGetIdleTaskHandle_Unpriv
 MPU_xTaskGetIdleTaskHandle_Priv
         b MPU_xTaskGetIdleTaskHandleImpl
@@ -215,19 +215,19 @@ MPU_xTaskGetIdleTaskHandle_Unpriv
 #endif /* if ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_vTaskSuspend == 1 )
+#যদি ( INCLUDE_vTaskSuspend == 1 )
 
-void MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTaskSuspend( TaskHandle_t xTaskToSuspend ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskSuspendImpl
+    বাহ্যিক MPU_vTaskSuspendImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskSuspend_Unpriv
 MPU_vTaskSuspend_Priv
         b MPU_vTaskSuspendImpl
@@ -238,19 +238,19 @@ MPU_vTaskSuspend_Unpriv
 #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_vTaskSuspend == 1 )
+#যদি ( INCLUDE_vTaskSuspend == 1 )
 
-void MPU_vTaskResume( TaskHandle_t xTaskToResume ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTaskResume( TaskHandle_t xTaskToResume ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskResume( TaskHandle_t xTaskToResume ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTaskResume( TaskHandle_t xTaskToResume ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskResumeImpl
+    বাহ্যিক MPU_vTaskResumeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskResume_Unpriv
 MPU_vTaskResume_Priv
         b MPU_vTaskResumeImpl
@@ -261,80 +261,80 @@ MPU_vTaskResume_Unpriv
 #endif /* if ( INCLUDE_vTaskSuspend == 1 ) */
 /*-----------------------------------------------------------*/
 
-TickType_t MPU_xTaskGetTickCount( void ) FREERTOS_SYSTEM_CALL;
+TickType_t MPU_x_Task_Get_Tick_গুনতি( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm TickType_t MPU_xTaskGetTickCount( void ) /* FREERTOS_SYSTEM_CALL */
+__asm TickType_t MPU_x_Task_Get_Tick_গুনতি( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGetTickCountImpl
+    বাহ্যিক MPU_x_Task_Get_Tick_গুনতি_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xTaskGetTickCount_Unpriv
-MPU_xTaskGetTickCount_Priv
-        b MPU_xTaskGetTickCountImpl
-MPU_xTaskGetTickCount_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Task_Get_Tick_গুনতি_Unpriv
+MPU_x_Task_Get_Tick_গুনতি_Priv
+        b MPU_x_Task_Get_Tick_গুনতি_Impl
+MPU_x_Task_Get_Tick_গুনতি_Unpriv
         svc #SYSTEM_CALL_xTaskGetTickCount
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_ux_Task_Get_সংখ্যা_Of_Tasks( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxTaskGetNumberOfTasks( void ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_ux_Task_Get_সংখ্যা_Of_Tasks( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetNumberOfTasksImpl
+    বাহ্যিক MPU_ux_Task_Get_সংখ্যা_Of_Tasks_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxTaskGetNumberOfTasks_Unpriv
-MPU_uxTaskGetNumberOfTasks_Priv
-        b MPU_uxTaskGetNumberOfTasksImpl
-MPU_uxTaskGetNumberOfTasks_Unpriv
+    বের_করো {r0}
+    bne MPU_ux_Task_Get_সংখ্যা_Of_Tasks_Unpriv
+MPU_ux_Task_Get_সংখ্যা_Of_Tasks_Priv
+        b MPU_ux_Task_Get_সংখ্যা_Of_Tasks_Impl
+MPU_ux_Task_Get_সংখ্যা_Of_Tasks_Unpriv
         svc #SYSTEM_CALL_uxTaskGetNumberOfTasks
 }
 /*-----------------------------------------------------------*/
 
-#if ( configGENERATE_RUN_TIME_STATS == 1 )
+#যদি ( configGENERATE_RUN_TIME_STATS == 1 )
 
-configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounter( const TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+config_RUN_TIME_গণক_TYPE MPU_ul_Task_Get_Run_Time_গণক( ধ্রুবক TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimeCounter( const TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm config_RUN_TIME_গণক_TYPE MPU_ul_Task_Get_Run_Time_গণক( ধ্রুবক TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGetRunTimeCounterImpl
+    বাহ্যিক MPU_ul_Task_Get_Run_Time_গণক_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_ulTaskGetRunTimeCounter_Unpriv
-MPU_ulTaskGetRunTimeCounter_Priv
-        b MPU_ulTaskGetRunTimeCounterImpl
-MPU_ulTaskGetRunTimeCounter_Unpriv
+    বের_করো {r0}
+    bne MPU_ul_Task_Get_Run_Time_গণক_Unpriv
+MPU_ul_Task_Get_Run_Time_গণক_Priv
+        b MPU_ul_Task_Get_Run_Time_গণক_Impl
+MPU_ul_Task_Get_Run_Time_গণক_Unpriv
         svc #SYSTEM_CALL_ulTaskGetRunTimeCounter
 }
 
 #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configGENERATE_RUN_TIME_STATS == 1 )
+#যদি ( configGENERATE_RUN_TIME_STATS == 1 )
 
-configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercent( const TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+config_RUN_TIME_গণক_TYPE MPU_ulTaskGetRunTimePercent( ধ্রুবক TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetRunTimePercent( const TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm config_RUN_TIME_গণক_TYPE MPU_ulTaskGetRunTimePercent( ধ্রুবক TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGetRunTimePercentImpl
+    বাহ্যিক MPU_ulTaskGetRunTimePercentImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_ulTaskGetRunTimePercent_Unpriv
 MPU_ulTaskGetRunTimePercent_Priv
         b MPU_ulTaskGetRunTimePercentImpl
@@ -345,19 +345,19 @@ MPU_ulTaskGetRunTimePercent_Unpriv
 #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+#যদি ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( void ) FREERTOS_SYSTEM_CALL;
+config_RUN_TIME_গণক_TYPE MPU_ulTaskGetIdleRunTimePercent( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimePercent( void ) /* FREERTOS_SYSTEM_CALL */
+__asm config_RUN_TIME_গণক_TYPE MPU_ulTaskGetIdleRunTimePercent( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGetIdleRunTimePercentImpl
+    বাহ্যিক MPU_ulTaskGetIdleRunTimePercentImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_ulTaskGetIdleRunTimePercent_Unpriv
 MPU_ulTaskGetIdleRunTimePercent_Priv
         b MPU_ulTaskGetIdleRunTimePercentImpl
@@ -368,44 +368,44 @@ MPU_ulTaskGetIdleRunTimePercent_Unpriv
 #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
+#যদি ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) )
 
-configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( void ) FREERTOS_SYSTEM_CALL;
+config_RUN_TIME_গণক_TYPE MPU_ul_Task_Get_Idle_Run_Time_গণক( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm configRUN_TIME_COUNTER_TYPE MPU_ulTaskGetIdleRunTimeCounter( void ) /* FREERTOS_SYSTEM_CALL */
+__asm config_RUN_TIME_গণক_TYPE MPU_ul_Task_Get_Idle_Run_Time_গণক( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGetIdleRunTimeCounterImpl
+    বাহ্যিক MPU_ul_Task_Get_Idle_Run_Time_গণক_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_ulTaskGetIdleRunTimeCounter_Unpriv
-MPU_ulTaskGetIdleRunTimeCounter_Priv
-        b MPU_ulTaskGetIdleRunTimeCounterImpl
-MPU_ulTaskGetIdleRunTimeCounter_Unpriv
+    বের_করো {r0}
+    bne MPU_ul_Task_Get_Idle_Run_Time_গণক_Unpriv
+MPU_ul_Task_Get_Idle_Run_Time_গণক_Priv
+        b MPU_ul_Task_Get_Idle_Run_Time_গণক_Impl
+MPU_ul_Task_Get_Idle_Run_Time_গণক_Unpriv
         svc #SYSTEM_CALL_ulTaskGetIdleRunTimeCounter
 }
 
 #endif /* if ( ( configGENERATE_RUN_TIME_STATS == 1 ) && ( INCLUDE_xTaskGetIdleTaskHandle == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_APPLICATION_TASK_TAG == 1 )
+#যদি ( configUSE_APPLICATION_TASK_TAG == 1 )
 
-void MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
+শূন্য MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
                                      TaskHookFunction_t pxHookFunction ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
+__asm শূন্য MPU_vTaskSetApplicationTaskTag( TaskHandle_t xTask,
                                            TaskHookFunction_t pxHookFunction ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskSetApplicationTaskTagImpl
+    বাহ্যিক MPU_vTaskSetApplicationTaskTagImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskSetApplicationTaskTag_Unpriv
 MPU_vTaskSetApplicationTaskTag_Priv
         b MPU_vTaskSetApplicationTaskTagImpl
@@ -416,19 +416,19 @@ MPU_vTaskSetApplicationTaskTag_Unpriv
 #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_APPLICATION_TASK_TAG == 1 )
+#যদি ( configUSE_APPLICATION_TASK_TAG == 1 )
 
 TaskHookFunction_t MPU_xTaskGetApplicationTaskTag( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
 __asm TaskHookFunction_t MPU_xTaskGetApplicationTaskTag( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGetApplicationTaskTagImpl
+    বাহ্যিক MPU_xTaskGetApplicationTaskTagImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGetApplicationTaskTag_Unpriv
 MPU_xTaskGetApplicationTaskTag_Priv
         b MPU_xTaskGetApplicationTaskTagImpl
@@ -439,23 +439,23 @@ MPU_xTaskGetApplicationTaskTag_Unpriv
 #endif /* if ( configUSE_APPLICATION_TASK_TAG == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+#যদি ( config_অঙ্ক_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
-void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
-                                            BaseType_t xIndex,
-                                            void * pvValue ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
+                                            BaseType_t x_সূচক,
+                                            শূন্য * pv_মান ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
-                                                  BaseType_t xIndex,
-                                                  void * pvValue ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTaskSetThreadLocalStoragePointer( TaskHandle_t xTaskToSet,
+                                                  BaseType_t x_সূচক,
+                                                  শূন্য * pv_মান ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskSetThreadLocalStoragePointerImpl
+    বাহ্যিক MPU_vTaskSetThreadLocalStoragePointerImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskSetThreadLocalStoragePointer_Unpriv
 MPU_vTaskSetThreadLocalStoragePointer_Priv
         b MPU_vTaskSetThreadLocalStoragePointerImpl
@@ -466,21 +466,21 @@ MPU_vTaskSetThreadLocalStoragePointer_Unpriv
 #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 )
+#যদি ( config_অঙ্ক_THREAD_LOCAL_STORAGE_POINTERS != 0 )
 
-void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
-                                               BaseType_t xIndex ) FREERTOS_SYSTEM_CALL;
+শূন্য * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
+                                               BaseType_t x_সূচক ) FREERTOS_SYSTEM_CALL;
 
-__asm void * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
-                                                     BaseType_t xIndex ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য * MPU_pvTaskGetThreadLocalStoragePointer( TaskHandle_t xTaskToQuery,
+                                                     BaseType_t x_সূচক ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_pvTaskGetThreadLocalStoragePointerImpl
+    বাহ্যিক MPU_pvTaskGetThreadLocalStoragePointerImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_pvTaskGetThreadLocalStoragePointer_Unpriv
 MPU_pvTaskGetThreadLocalStoragePointer_Priv
         b MPU_pvTaskGetThreadLocalStoragePointerImpl
@@ -491,23 +491,23 @@ MPU_pvTaskGetThreadLocalStoragePointer_Unpriv
 #endif /* if ( configNUM_THREAD_LOCAL_STORAGE_POINTERS != 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TRACE_FACILITY == 1 )
+#যদি ( configUSE_TRACE_FACILITY == 1 )
 
-UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * const pxTaskStatusArray,
-                                      const UBaseType_t uxArraySize,
-                                      configRUN_TIME_COUNTER_TYPE * const pulTotalRunTime ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * ধ্রুবক pxTaskStatusArray,
+                                      ধ্রুবক UBaseType_t ux_Array_আকার,
+                                      config_RUN_TIME_গণক_TYPE * ধ্রুবক pul_যোগ_Run_Time ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * const pxTaskStatusArray,
-                                            const UBaseType_t uxArraySize,
-                                            configRUN_TIME_COUNTER_TYPE * const pulTotalRunTime ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_uxTaskGetSystemState( TaskStatus_t * ধ্রুবক pxTaskStatusArray,
+                                            ধ্রুবক UBaseType_t ux_Array_আকার,
+                                            config_RUN_TIME_গণক_TYPE * ধ্রুবক pul_যোগ_Run_Time ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetSystemStateImpl
+    বাহ্যিক MPU_uxTaskGetSystemStateImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_uxTaskGetSystemState_Unpriv
 MPU_uxTaskGetSystemState_Priv
         b MPU_uxTaskGetSystemStateImpl
@@ -518,65 +518,65 @@ MPU_uxTaskGetSystemState_Unpriv
 #endif /* if ( configUSE_TRACE_FACILITY == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 )
+#যদি ( INCLUDE_ux_Task_Get_স্তূপ_উপরের_Water_Mark == 1 )
 
-UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxTaskGetStackHighWaterMark( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetStackHighWaterMarkImpl
+    বাহ্যিক MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxTaskGetStackHighWaterMark_Unpriv
-MPU_uxTaskGetStackHighWaterMark_Priv
-        b MPU_uxTaskGetStackHighWaterMarkImpl
-MPU_uxTaskGetStackHighWaterMark_Unpriv
+    বের_করো {r0}
+    bne MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark_Unpriv
+MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark_Priv
+        b MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark_Impl
+MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark_Unpriv
         svc #SYSTEM_CALL_uxTaskGetStackHighWaterMark
 }
 
 #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 )
+#যদি ( INCLUDE_ux_Task_Get_স্তূপ_উপরের_Water_Mark2 == 1 )
 
-configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
+config_স্তূপ_DEPTH_TYPE MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2( TaskHandle_t xTask ) FREERTOS_SYSTEM_CALL;
 
-__asm configSTACK_DEPTH_TYPE MPU_uxTaskGetStackHighWaterMark2( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
+__asm config_স্তূপ_DEPTH_TYPE MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2( TaskHandle_t xTask ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTaskGetStackHighWaterMark2Impl
+    বাহ্যিক MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxTaskGetStackHighWaterMark2_Unpriv
-MPU_uxTaskGetStackHighWaterMark2_Priv
-        b MPU_uxTaskGetStackHighWaterMark2Impl
-MPU_uxTaskGetStackHighWaterMark2_Unpriv
+    বের_করো {r0}
+    bne MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2_Unpriv
+MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2_Priv
+        b MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2_Impl
+MPU_ux_Task_Get_স্তূপ_উপরের_Water_Mark2_Unpriv
         svc #SYSTEM_CALL_uxTaskGetStackHighWaterMark2
 }
 
 #endif /* if ( INCLUDE_uxTaskGetStackHighWaterMark2 == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
+#যদি ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) )
 
-TaskHandle_t MPU_xTaskGetCurrentTaskHandle( void ) FREERTOS_SYSTEM_CALL;
+TaskHandle_t MPU_xTaskGetCurrentTaskHandle( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm TaskHandle_t MPU_xTaskGetCurrentTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
+__asm TaskHandle_t MPU_xTaskGetCurrentTaskHandle( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGetCurrentTaskHandleImpl
+    বাহ্যিক MPU_xTaskGetCurrentTaskHandleImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGetCurrentTaskHandle_Unpriv
 MPU_xTaskGetCurrentTaskHandle_Priv
         b MPU_xTaskGetCurrentTaskHandleImpl
@@ -587,19 +587,19 @@ MPU_xTaskGetCurrentTaskHandle_Unpriv
 #endif /* if ( ( INCLUDE_xTaskGetCurrentTaskHandle == 1 ) || ( configUSE_MUTEXES == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( INCLUDE_xTaskGetSchedulerState == 1 )
+#যদি ( INCLUDE_xTaskGetSchedulerState == 1 )
 
-BaseType_t MPU_xTaskGetSchedulerState( void ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_xTaskGetSchedulerState( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xTaskGetSchedulerState( void ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_xTaskGetSchedulerState( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGetSchedulerStateImpl
+    বাহ্যিক MPU_xTaskGetSchedulerStateImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGetSchedulerState_Unpriv
 MPU_xTaskGetSchedulerState_Priv
         b MPU_xTaskGetSchedulerStateImpl
@@ -610,17 +610,17 @@ MPU_xTaskGetSchedulerState_Unpriv
 #endif /* if ( INCLUDE_xTaskGetSchedulerState == 1 ) */
 /*-----------------------------------------------------------*/
 
-void MPU_vTaskSetTimeOutState( TimeOut_t * const pxTimeOut ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTaskSetTimeOutState( TimeOut_t * ধ্রুবক pxTimeOut ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTaskSetTimeOutState( TimeOut_t * const pxTimeOut ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTaskSetTimeOutState( TimeOut_t * ধ্রুবক pxTimeOut ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTaskSetTimeOutStateImpl
+    বাহ্যিক MPU_vTaskSetTimeOutStateImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTaskSetTimeOutState_Unpriv
 MPU_vTaskSetTimeOutState_Priv
         b MPU_vTaskSetTimeOutStateImpl
@@ -629,19 +629,19 @@ MPU_vTaskSetTimeOutState_Unpriv
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * const pxTimeOut,
-                                     TickType_t * const pxTicksToWait ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * ধ্রুবক pxTimeOut,
+                                     TickType_t * ধ্রুবক pxTicksToWait ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * const pxTimeOut,
-                                     TickType_t * const pxTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_xTaskCheckForTimeOut( TimeOut_t * ধ্রুবক pxTimeOut,
+                                     TickType_t * ধ্রুবক pxTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskCheckForTimeOutImpl
+    বাহ্যিক MPU_xTaskCheckForTimeOutImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskCheckForTimeOut_Unpriv
 MPU_xTaskCheckForTimeOut_Priv
         b MPU_xTaskCheckForTimeOutImpl
@@ -650,19 +650,19 @@ MPU_xTaskCheckForTimeOut_Unpriv
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_NOTIFICATIONS == 1 )
+#যদি ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-BaseType_t MPU_xTaskGenericNotifyEntry( const xTaskGenericNotifyParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_xTaskGenericNotifyEntry( ধ্রুবক xTaskGenericNotifyParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xTaskGenericNotifyEntry( const xTaskGenericNotifyParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_xTaskGenericNotifyEntry( ধ্রুবক xTaskGenericNotifyParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGenericNotifyImpl
+    বাহ্যিক MPU_xTaskGenericNotifyImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGenericNotify_Unpriv
 MPU_xTaskGenericNotify_Priv
         b MPU_xTaskGenericNotifyImpl
@@ -673,19 +673,19 @@ MPU_xTaskGenericNotify_Unpriv
 #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_NOTIFICATIONS == 1 )
+#যদি ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-BaseType_t MPU_xTaskGenericNotifyWaitEntry( const xTaskGenericNotifyWaitParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_xTaskGenericNotifyWaitEntry( ধ্রুবক xTaskGenericNotifyWaitParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xTaskGenericNotifyWaitEntry( const xTaskGenericNotifyWaitParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_xTaskGenericNotifyWaitEntry( ধ্রুবক xTaskGenericNotifyWaitParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGenericNotifyWaitImpl
+    বাহ্যিক MPU_xTaskGenericNotifyWaitImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGenericNotifyWait_Unpriv
 MPU_xTaskGenericNotifyWait_Priv
         b MPU_xTaskGenericNotifyWaitImpl
@@ -696,23 +696,23 @@ MPU_xTaskGenericNotifyWait_Unpriv
 #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_NOTIFICATIONS == 1 )
+#যদি ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                      BaseType_t xClearCountOnExit,
+uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t ux_সূচক_To_Wait_On,
+                                      BaseType_t x_Clear_গুনতি_On_Exit,
                                       TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
-__asm uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t uxIndexToWaitOn,
-                                            BaseType_t xClearCountOnExit,
+__asm uint32_t MPU_ulTaskGenericNotifyTake( UBaseType_t ux_সূচক_To_Wait_On,
+                                            BaseType_t x_Clear_গুনতি_On_Exit,
                                             TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGenericNotifyTakeImpl
+    বাহ্যিক MPU_ulTaskGenericNotifyTakeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_ulTaskGenericNotifyTake_Unpriv
 MPU_ulTaskGenericNotifyTake_Priv
         b MPU_ulTaskGenericNotifyTakeImpl
@@ -723,21 +723,21 @@ MPU_ulTaskGenericNotifyTake_Unpriv
 #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_NOTIFICATIONS == 1 )
+#যদি ( configUSE_TASK_NOTIFICATIONS == 1 )
 
 BaseType_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
-                                             UBaseType_t uxIndexToClear ) FREERTOS_SYSTEM_CALL;
+                                             UBaseType_t ux_সূচক_To_Clear ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xTaskGenericNotifyStateClear( TaskHandle_t xTask,
-                                                   UBaseType_t uxIndexToClear ) /* FREERTOS_SYSTEM_CALL */
+                                                   UBaseType_t ux_সূচক_To_Clear ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTaskGenericNotifyStateClearImpl
+    বাহ্যিক MPU_xTaskGenericNotifyStateClearImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTaskGenericNotifyStateClear_Unpriv
 MPU_xTaskGenericNotifyStateClear_Priv
         b MPU_xTaskGenericNotifyStateClearImpl
@@ -748,27 +748,27 @@ MPU_xTaskGenericNotifyStateClear_Unpriv
 #endif /* if ( configUSE_TASK_NOTIFICATIONS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_NOTIFICATIONS == 1 )
+#যদি ( configUSE_TASK_NOTIFICATIONS == 1 )
 
-uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
-                                            UBaseType_t uxIndexToClear,
+uint32_t MPU_ul_Task_Generic_Notify_মান_Clear( TaskHandle_t xTask,
+                                            UBaseType_t ux_সূচক_To_Clear,
                                             uint32_t ulBitsToClear ) FREERTOS_SYSTEM_CALL;
 
-__asm uint32_t MPU_ulTaskGenericNotifyValueClear( TaskHandle_t xTask,
-                                                  UBaseType_t uxIndexToClear,
+__asm uint32_t MPU_ul_Task_Generic_Notify_মান_Clear( TaskHandle_t xTask,
+                                                  UBaseType_t ux_সূচক_To_Clear,
                                                   uint32_t ulBitsToClear ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_ulTaskGenericNotifyValueClearImpl
+    বাহ্যিক MPU_ul_Task_Generic_Notify_মান_Clear_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_ulTaskGenericNotifyValueClear_Unpriv
-MPU_ulTaskGenericNotifyValueClear_Priv
-        b MPU_ulTaskGenericNotifyValueClearImpl
-MPU_ulTaskGenericNotifyValueClear_Unpriv
+    বের_করো {r0}
+    bne MPU_ul_Task_Generic_Notify_মান_Clear_Unpriv
+MPU_ul_Task_Generic_Notify_মান_Clear_Priv
+        b MPU_ul_Task_Generic_Notify_মান_Clear_Impl
+MPU_ul_Task_Generic_Notify_মান_Clear_Unpriv
         svc #SYSTEM_CALL_ulTaskGenericNotifyValueClear
 }
 
@@ -776,22 +776,22 @@ MPU_ulTaskGenericNotifyValueClear_Unpriv
 /*-----------------------------------------------------------*/
 
 BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue,
-                                  const void * const pvItemToQueue,
+                                  ধ্রুবক শূন্য * ধ্রুবক pvItemToQueue,
                                   TickType_t xTicksToWait,
-                                  const BaseType_t xCopyPosition ) FREERTOS_SYSTEM_CALL;
+                                  ধ্রুবক BaseType_t xCopyPosition ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xQueueGenericSend( QueueHandle_t xQueue,
-                                        const void * const pvItemToQueue,
+                                        ধ্রুবক শূন্য * ধ্রুবক pvItemToQueue,
                                         TickType_t xTicksToWait,
-                                        const BaseType_t xCopyPosition ) /* FREERTOS_SYSTEM_CALL */
+                                        ধ্রুবক BaseType_t xCopyPosition ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueGenericSendImpl
+    বাহ্যিক MPU_xQueueGenericSendImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueGenericSend_Unpriv
 MPU_xQueueGenericSend_Priv
         b MPU_xQueueGenericSendImpl
@@ -800,17 +800,17 @@ MPU_xQueueGenericSend_Unpriv
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_uxQueueMessagesWaiting( ধ্রুবক QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxQueueMessagesWaiting( const QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_uxQueueMessagesWaiting( ধ্রুবক QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxQueueMessagesWaitingImpl
+    বাহ্যিক MPU_uxQueueMessagesWaitingImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_uxQueueMessagesWaiting_Unpriv
 MPU_uxQueueMessagesWaiting_Priv
         b MPU_uxQueueMessagesWaitingImpl
@@ -819,17 +819,17 @@ MPU_uxQueueMessagesWaiting_Unpriv
 }
 /*-----------------------------------------------------------*/
 
-UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_uxQueueSpacesAvailable( ধ্রুবক QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxQueueSpacesAvailable( const QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_uxQueueSpacesAvailable( ধ্রুবক QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxQueueSpacesAvailableImpl
+    বাহ্যিক MPU_uxQueueSpacesAvailableImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_uxQueueSpacesAvailable_Unpriv
 MPU_uxQueueSpacesAvailable_Priv
         b MPU_uxQueueSpacesAvailableImpl
@@ -839,20 +839,20 @@ MPU_uxQueueSpacesAvailable_Unpriv
 /*-----------------------------------------------------------*/
 
 BaseType_t MPU_xQueueReceive( QueueHandle_t xQueue,
-                              void * const pvBuffer,
+                              শূন্য * ধ্রুবক pv_বাফার,
                               TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xQueueReceive( QueueHandle_t xQueue,
-                                    void * const pvBuffer,
+                                    শূন্য * ধ্রুবক pv_বাফার,
                                     TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueReceiveImpl
+    বাহ্যিক MPU_xQueueReceiveImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueReceive_Unpriv
 MPU_xQueueReceive_Priv
         b MPU_xQueueReceiveImpl
@@ -862,20 +862,20 @@ MPU_xQueueReceive_Unpriv
 /*-----------------------------------------------------------*/
 
 BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue,
-                           void * const pvBuffer,
+                           শূন্য * ধ্রুবক pv_বাফার,
                            TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xQueuePeek( QueueHandle_t xQueue,
-                                 void * const pvBuffer,
+                                 শূন্য * ধ্রুবক pv_বাফার,
                                  TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueuePeekImpl
+    বাহ্যিক MPU_xQueuePeekImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueuePeek_Unpriv
 MPU_xQueuePeek_Priv
         b MPU_xQueuePeekImpl
@@ -891,12 +891,12 @@ __asm BaseType_t MPU_xQueueSemaphoreTake( QueueHandle_t xQueue,
                                           TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueSemaphoreTakeImpl
+    বাহ্যিক MPU_xQueueSemaphoreTakeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueSemaphoreTake_Unpriv
 MPU_xQueueSemaphoreTake_Priv
         b MPU_xQueueSemaphoreTakeImpl
@@ -905,19 +905,19 @@ MPU_xQueueSemaphoreTake_Unpriv
 }
 /*-----------------------------------------------------------*/
 
-#if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
+#যদি ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) )
 
 TaskHandle_t MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore ) FREERTOS_SYSTEM_CALL;
 
 __asm TaskHandle_t MPU_xQueueGetMutexHolder( QueueHandle_t xSemaphore ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueGetMutexHolderImpl
+    বাহ্যিক MPU_xQueueGetMutexHolderImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueGetMutexHolder_Unpriv
 MPU_xQueueGetMutexHolder_Priv
         b MPU_xQueueGetMutexHolderImpl
@@ -928,7 +928,7 @@ MPU_xQueueGetMutexHolder_Unpriv
 #endif /* if ( ( configUSE_MUTEXES == 1 ) && ( INCLUDE_xSemaphoreGetMutexHolder == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_RECURSIVE_MUTEXES == 1 )
+#যদি ( configUSE_RECURSIVE_MUTEXES == 1 )
 
 BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
                                          TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
@@ -937,12 +937,12 @@ __asm BaseType_t MPU_xQueueTakeMutexRecursive( QueueHandle_t xMutex,
                                                TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueTakeMutexRecursiveImpl
+    বাহ্যিক MPU_xQueueTakeMutexRecursiveImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueTakeMutexRecursive_Unpriv
 MPU_xQueueTakeMutexRecursive_Priv
         b MPU_xQueueTakeMutexRecursiveImpl
@@ -953,19 +953,19 @@ MPU_xQueueTakeMutexRecursive_Unpriv
 #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_RECURSIVE_MUTEXES == 1 )
+#যদি ( configUSE_RECURSIVE_MUTEXES == 1 )
 
 BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t pxMutex ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xQueueGiveMutexRecursive( QueueHandle_t pxMutex ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueGiveMutexRecursiveImpl
+    বাহ্যিক MPU_xQueueGiveMutexRecursiveImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueGiveMutexRecursive_Unpriv
 MPU_xQueueGiveMutexRecursive_Priv
         b MPU_xQueueGiveMutexRecursiveImpl
@@ -976,21 +976,21 @@ MPU_xQueueGiveMutexRecursive_Unpriv
 #endif /* if ( configUSE_RECURSIVE_MUTEXES == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_QUEUE_SETS == 1 )
+#যদি ( configUSE_QUEUE_SETS == 1 )
 
 QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet,
-                                                const TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
+                                                ধ্রুবক TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
 __asm QueueSetMemberHandle_t MPU_xQueueSelectFromSet( QueueSetHandle_t xQueueSet,
-                                                      const TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
+                                                      ধ্রুবক TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueSelectFromSetImpl
+    বাহ্যিক MPU_xQueueSelectFromSetImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueSelectFromSet_Unpriv
 MPU_xQueueSelectFromSet_Priv
         b MPU_xQueueSelectFromSetImpl
@@ -1001,7 +1001,7 @@ MPU_xQueueSelectFromSet_Unpriv
 #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_QUEUE_SETS == 1 )
+#যদি ( configUSE_QUEUE_SETS == 1 )
 
 BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
                                QueueSetHandle_t xQueueSet ) FREERTOS_SYSTEM_CALL;
@@ -1010,12 +1010,12 @@ __asm BaseType_t MPU_xQueueAddToSet( QueueSetMemberHandle_t xQueueOrSemaphore,
                                      QueueSetHandle_t xQueueSet ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xQueueAddToSetImpl
+    বাহ্যিক MPU_xQueueAddToSetImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xQueueAddToSet_Unpriv
 MPU_xQueueAddToSet_Priv
         b MPU_xQueueAddToSetImpl
@@ -1026,21 +1026,21 @@ MPU_xQueueAddToSet_Unpriv
 #endif /* if ( configUSE_QUEUE_SETS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configQUEUE_REGISTRY_SIZE > 0 )
+#যদি ( config_QUEUE_REGISTRY_আকার > 0 )
 
-void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
-                              const char * pcName ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
+                              ধ্রুবক অক্ষর * pcName ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
-                                    const char * pcName ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vQueueAddToRegistry( QueueHandle_t xQueue,
+                                    ধ্রুবক অক্ষর * pcName ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vQueueAddToRegistryImpl
+    বাহ্যিক MPU_vQueueAddToRegistryImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vQueueAddToRegistry_Unpriv
 MPU_vQueueAddToRegistry_Priv
         b MPU_vQueueAddToRegistryImpl
@@ -1051,19 +1051,19 @@ MPU_vQueueAddToRegistry_Unpriv
 #endif /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configQUEUE_REGISTRY_SIZE > 0 )
+#যদি ( config_QUEUE_REGISTRY_আকার > 0 )
 
-void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vQueueUnregisterQueue( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vQueueUnregisterQueueImpl
+    বাহ্যিক MPU_vQueueUnregisterQueueImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vQueueUnregisterQueue_Unpriv
 MPU_vQueueUnregisterQueue_Priv
         b MPU_vQueueUnregisterQueueImpl
@@ -1074,19 +1074,19 @@ MPU_vQueueUnregisterQueue_Unpriv
 #endif /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configQUEUE_REGISTRY_SIZE > 0 )
+#যদি ( config_QUEUE_REGISTRY_আকার > 0 )
 
-const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
+ধ্রুবক অক্ষর * MPU_pcQueueGetName( QueueHandle_t xQueue ) FREERTOS_SYSTEM_CALL;
 
-__asm const char * MPU_pcQueueGetName( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
+__asm ধ্রুবক অক্ষর * MPU_pcQueueGetName( QueueHandle_t xQueue ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_pcQueueGetNameImpl
+    বাহ্যিক MPU_pcQueueGetNameImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_pcQueueGetName_Unpriv
 MPU_pcQueueGetName_Priv
         b MPU_pcQueueGetNameImpl
@@ -1097,19 +1097,19 @@ MPU_pcQueueGetName_Unpriv
 #endif /* if ( configQUEUE_REGISTRY_SIZE > 0 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
-void * MPU_pvTimerGetTimerID( const TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
+শূন্য * MPU_pvTimerGetTimerID( ধ্রুবক TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
-__asm void * MPU_pvTimerGetTimerID( const TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য * MPU_pvTimerGetTimerID( ধ্রুবক TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_pvTimerGetTimerIDImpl
+    বাহ্যিক MPU_pvTimerGetTimerIDImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_pvTimerGetTimerID_Unpriv
 MPU_pvTimerGetTimerID_Priv
         b MPU_pvTimerGetTimerIDImpl
@@ -1120,21 +1120,21 @@ MPU_pvTimerGetTimerID_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
-void MPU_vTimerSetTimerID( TimerHandle_t xTimer,
-                           void * pvNewID ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTimerSetTimerID( TimerHandle_t xTimer,
+                           শূন্য * pvNewID ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTimerSetTimerID( TimerHandle_t xTimer,
-                                 void * pvNewID ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTimerSetTimerID( TimerHandle_t xTimer,
+                                 শূন্য * pvNewID ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTimerSetTimerIDImpl
+    বাহ্যিক MPU_vTimerSetTimerIDImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTimerSetTimerID_Unpriv
 MPU_vTimerSetTimerID_Priv
         b MPU_vTimerSetTimerIDImpl
@@ -1145,19 +1145,19 @@ MPU_vTimerSetTimerID_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
 BaseType_t MPU_xTimerIsTimerActive( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xTimerIsTimerActive( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTimerIsTimerActiveImpl
+    বাহ্যিক MPU_xTimerIsTimerActiveImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTimerIsTimerActive_Unpriv
 MPU_xTimerIsTimerActive_Priv
         b MPU_xTimerIsTimerActiveImpl
@@ -1168,19 +1168,19 @@ MPU_xTimerIsTimerActive_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
-TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( void ) FREERTOS_SYSTEM_CALL;
+TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( শূন্য ) FREERTOS_SYSTEM_CALL;
 
-__asm TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( void ) /* FREERTOS_SYSTEM_CALL */
+__asm TaskHandle_t MPU_xTimerGetTimerDaemonTaskHandle( শূন্য ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTimerGetTimerDaemonTaskHandleImpl
+    বাহ্যিক MPU_xTimerGetTimerDaemonTaskHandleImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTimerGetTimerDaemonTaskHandle_Unpriv
 MPU_xTimerGetTimerDaemonTaskHandle_Priv
         b MPU_xTimerGetTimerDaemonTaskHandleImpl
@@ -1191,19 +1191,19 @@ MPU_xTimerGetTimerDaemonTaskHandle_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
-BaseType_t MPU_xTimerGenericCommandFromTaskEntry( const xTimerGenericCommandFromTaskParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_xTimerGenericCommandFromTaskEntry( ধ্রুবক xTimerGenericCommandFromTaskParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xTimerGenericCommandFromTaskEntry( const xTimerGenericCommandFromTaskParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_xTimerGenericCommandFromTaskEntry( ধ্রুবক xTimerGenericCommandFromTaskParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTimerGenericCommandFromTaskImpl
+    বাহ্যিক MPU_xTimerGenericCommandFromTaskImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTimerGenericCommandFromTask_Unpriv
 MPU_xTimerGenericCommandFromTask_Priv
         b MPU_xTimerGenericCommandFromTaskImpl
@@ -1214,19 +1214,19 @@ MPU_xTimerGenericCommandFromTask_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
-const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
+ধ্রুবক অক্ষর * MPU_pcTimerGetName( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
-__asm const char * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
+__asm ধ্রুবক অক্ষর * MPU_pcTimerGetName( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_pcTimerGetNameImpl
+    বাহ্যিক MPU_pcTimerGetNameImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_pcTimerGetName_Unpriv
 MPU_pcTimerGetName_Priv
         b MPU_pcTimerGetNameImpl
@@ -1237,21 +1237,21 @@ MPU_pcTimerGetName_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
-void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
-                              const BaseType_t xAutoReload ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
+                              ধ্রুবক BaseType_t xAutoReload ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
-                                    const BaseType_t xAutoReload ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_vTimerSetReloadMode( TimerHandle_t xTimer,
+                                    ধ্রুবক BaseType_t xAutoReload ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vTimerSetReloadModeImpl
+    বাহ্যিক MPU_vTimerSetReloadModeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_vTimerSetReloadMode_Unpriv
 MPU_vTimerSetReloadMode_Priv
         b MPU_vTimerSetReloadModeImpl
@@ -1262,19 +1262,19 @@ MPU_vTimerSetReloadMode_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
 BaseType_t MPU_xTimerGetReloadMode( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
 __asm BaseType_t MPU_xTimerGetReloadMode( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTimerGetReloadModeImpl
+    বাহ্যিক MPU_xTimerGetReloadModeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTimerGetReloadMode_Unpriv
 MPU_xTimerGetReloadMode_Priv
         b MPU_xTimerGetReloadModeImpl
@@ -1285,19 +1285,19 @@ MPU_xTimerGetReloadMode_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
 UBaseType_t MPU_uxTimerGetReloadMode( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
 __asm UBaseType_t MPU_uxTimerGetReloadMode( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxTimerGetReloadModeImpl
+    বাহ্যিক MPU_uxTimerGetReloadModeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_uxTimerGetReloadMode_Unpriv
 MPU_uxTimerGetReloadMode_Priv
         b MPU_uxTimerGetReloadModeImpl
@@ -1308,19 +1308,19 @@ MPU_uxTimerGetReloadMode_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
 TickType_t MPU_xTimerGetPeriod( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
 __asm TickType_t MPU_xTimerGetPeriod( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTimerGetPeriodImpl
+    বাহ্যিক MPU_xTimerGetPeriodImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTimerGetPeriod_Unpriv
 MPU_xTimerGetPeriod_Priv
         b MPU_xTimerGetPeriodImpl
@@ -1331,19 +1331,19 @@ MPU_xTimerGetPeriod_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TIMERS == 1 )
+#যদি ( configUSE_TIMERS == 1 )
 
 TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) FREERTOS_SYSTEM_CALL;
 
 __asm TickType_t MPU_xTimerGetExpiryTime( TimerHandle_t xTimer ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xTimerGetExpiryTimeImpl
+    বাহ্যিক MPU_xTimerGetExpiryTimeImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xTimerGetExpiryTime_Unpriv
 MPU_xTimerGetExpiryTime_Priv
         b MPU_xTimerGetExpiryTimeImpl
@@ -1354,19 +1354,19 @@ MPU_xTimerGetExpiryTime_Unpriv
 #endif /* if ( configUSE_TIMERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_EVENT_GROUPS == 1 )
+#যদি ( configUSE_EVENT_GROUPS == 1 )
 
-EventBits_t MPU_xEventGroupWaitBitsEntry( const xEventGroupWaitBitsParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
+EventBits_t MPU_xEventGroupWaitBitsEntry( ধ্রুবক xEventGroupWaitBitsParams_t * pxParams ) FREERTOS_SYSTEM_CALL;
 
-__asm EventBits_t MPU_xEventGroupWaitBitsEntry( const xEventGroupWaitBitsParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
+__asm EventBits_t MPU_xEventGroupWaitBitsEntry( ধ্রুবক xEventGroupWaitBitsParams_t * pxParams ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xEventGroupWaitBitsImpl
+    বাহ্যিক MPU_xEventGroupWaitBitsImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xEventGroupWaitBits_Unpriv
 MPU_xEventGroupWaitBits_Priv
         b MPU_xEventGroupWaitBitsImpl
@@ -1377,21 +1377,21 @@ MPU_xEventGroupWaitBits_Unpriv
 #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_EVENT_GROUPS == 1 )
+#যদি ( configUSE_EVENT_GROUPS == 1 )
 
 EventBits_t MPU_xEventGroupClearBits( EventGroupHandle_t xEventGroup,
-                                      const EventBits_t uxBitsToClear ) FREERTOS_SYSTEM_CALL;
+                                      ধ্রুবক EventBits_t uxBitsToClear ) FREERTOS_SYSTEM_CALL;
 
 __asm EventBits_t MPU_xEventGroupClearBits( EventGroupHandle_t xEventGroup,
-                                            const EventBits_t uxBitsToClear ) /* FREERTOS_SYSTEM_CALL */
+                                            ধ্রুবক EventBits_t uxBitsToClear ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xEventGroupClearBitsImpl
+    বাহ্যিক MPU_xEventGroupClearBitsImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xEventGroupClearBits_Unpriv
 MPU_xEventGroupClearBits_Priv
         b MPU_xEventGroupClearBitsImpl
@@ -1402,21 +1402,21 @@ MPU_xEventGroupClearBits_Unpriv
 #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_EVENT_GROUPS == 1 )
+#যদি ( configUSE_EVENT_GROUPS == 1 )
 
 EventBits_t MPU_xEventGroupSetBits( EventGroupHandle_t xEventGroup,
-                                    const EventBits_t uxBitsToSet ) FREERTOS_SYSTEM_CALL;
+                                    ধ্রুবক EventBits_t uxBitsToSet ) FREERTOS_SYSTEM_CALL;
 
 __asm EventBits_t MPU_xEventGroupSetBits( EventGroupHandle_t xEventGroup,
-                                          const EventBits_t uxBitsToSet ) /* FREERTOS_SYSTEM_CALL */
+                                          ধ্রুবক EventBits_t uxBitsToSet ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xEventGroupSetBitsImpl
+    বাহ্যিক MPU_xEventGroupSetBitsImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xEventGroupSetBits_Unpriv
 MPU_xEventGroupSetBits_Priv
         b MPU_xEventGroupSetBitsImpl
@@ -1427,25 +1427,25 @@ MPU_xEventGroupSetBits_Unpriv
 #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_EVENT_GROUPS == 1 )
+#যদি ( configUSE_EVENT_GROUPS == 1 )
 
 EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
-                                 const EventBits_t uxBitsToSet,
-                                 const EventBits_t uxBitsToWaitFor,
+                                 ধ্রুবক EventBits_t uxBitsToSet,
+                                 ধ্রুবক EventBits_t uxBitsToWaitFor,
                                  TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
 __asm EventBits_t MPU_xEventGroupSync( EventGroupHandle_t xEventGroup,
-                                       const EventBits_t uxBitsToSet,
-                                       const EventBits_t uxBitsToWaitFor,
+                                       ধ্রুবক EventBits_t uxBitsToSet,
+                                       ধ্রুবক EventBits_t uxBitsToWaitFor,
                                        TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xEventGroupSyncImpl
+    বাহ্যিক MPU_xEventGroupSyncImpl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
+    বের_করো {r0}
     bne MPU_xEventGroupSync_Unpriv
 MPU_xEventGroupSync_Priv
         b MPU_xEventGroupSyncImpl
@@ -1456,246 +1456,246 @@ MPU_xEventGroupSync_Unpriv
 #endif /* #if ( configUSE_EVENT_GROUPS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+#যদি ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) FREERTOS_SYSTEM_CALL;
+UBaseType_t MPU_ux_Event_Group_Get_সংখ্যা( শূন্য * xEventGroup ) FREERTOS_SYSTEM_CALL;
 
-__asm UBaseType_t MPU_uxEventGroupGetNumber( void * xEventGroup ) /* FREERTOS_SYSTEM_CALL */
+__asm UBaseType_t MPU_ux_Event_Group_Get_সংখ্যা( শূন্য * xEventGroup ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_uxEventGroupGetNumberImpl
+    বাহ্যিক MPU_ux_Event_Group_Get_সংখ্যা_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_uxEventGroupGetNumber_Unpriv
-MPU_uxEventGroupGetNumber_Priv
-        b MPU_uxEventGroupGetNumberImpl
-MPU_uxEventGroupGetNumber_Unpriv
+    বের_করো {r0}
+    bne MPU_ux_Event_Group_Get_সংখ্যা_Unpriv
+MPU_ux_Event_Group_Get_সংখ্যা_Priv
+        b MPU_ux_Event_Group_Get_সংখ্যা_Impl
+MPU_ux_Event_Group_Get_সংখ্যা_Unpriv
         svc #SYSTEM_CALL_uxEventGroupGetNumber
 }
 
 #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
+#যদি ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) )
 
-void MPU_vEventGroupSetNumber( void * xEventGroup,
-                               UBaseType_t uxEventGroupNumber ) FREERTOS_SYSTEM_CALL;
+শূন্য MPU_v_Event_Group_Set_সংখ্যা( শূন্য * xEventGroup,
+                               UBaseType_t ux_Event_Group_সংখ্যা ) FREERTOS_SYSTEM_CALL;
 
-__asm void MPU_vEventGroupSetNumber( void * xEventGroup,
-                                     UBaseType_t uxEventGroupNumber ) /* FREERTOS_SYSTEM_CALL */
+__asm শূন্য MPU_v_Event_Group_Set_সংখ্যা( শূন্য * xEventGroup,
+                                     UBaseType_t ux_Event_Group_সংখ্যা ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_vEventGroupSetNumberImpl
+    বাহ্যিক MPU_v_Event_Group_Set_সংখ্যা_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_vEventGroupSetNumber_Unpriv
-MPU_vEventGroupSetNumber_Priv
-        b MPU_vEventGroupSetNumberImpl
-MPU_vEventGroupSetNumber_Unpriv
+    বের_করো {r0}
+    bne MPU_v_Event_Group_Set_সংখ্যা_Unpriv
+MPU_v_Event_Group_Set_সংখ্যা_Priv
+        b MPU_v_Event_Group_Set_সংখ্যা_Impl
+MPU_v_Event_Group_Set_সংখ্যা_Unpriv
         svc #SYSTEM_CALL_vEventGroupSetNumber
 }
 
 #endif /* #if ( ( configUSE_EVENT_GROUPS == 1 ) && ( configUSE_TRACE_FACILITY == 1 ) ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-size_t MPU_xStreamBufferSend( StreamBufferHandle_t xStreamBuffer,
-                              const void * pvTxData,
-                              size_t xDataLengthBytes,
+size_t MPU_x_Stream_বাফার_Send( Stream_বাফার_Handle_t x_Stream_বাফার,
+                              ধ্রুবক শূন্য * pv_Tx_তথ্য,
+                              size_t x_তথ্য_দৈর্ঘ্য_Bytes,
                               TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
-__asm size_t MPU_xStreamBufferSend( StreamBufferHandle_t xStreamBuffer,
-                                    const void * pvTxData,
-                                    size_t xDataLengthBytes,
+__asm size_t MPU_x_Stream_বাফার_Send( Stream_বাফার_Handle_t x_Stream_বাফার,
+                                    ধ্রুবক শূন্য * pv_Tx_তথ্য,
+                                    size_t x_তথ্য_দৈর্ঘ্য_Bytes,
                                     TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferSendImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Send_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferSend_Unpriv
-MPU_xStreamBufferSend_Priv
-        b MPU_xStreamBufferSendImpl
-MPU_xStreamBufferSend_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Send_Unpriv
+MPU_x_Stream_বাফার_Send_Priv
+        b MPU_x_Stream_বাফার_Send_Impl
+MPU_x_Stream_বাফার_Send_Unpriv
         svc #SYSTEM_CALL_xStreamBufferSend
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-size_t MPU_xStreamBufferReceive( StreamBufferHandle_t xStreamBuffer,
-                                 void * pvRxData,
-                                 size_t xBufferLengthBytes,
+size_t MPU_x_Stream_বাফার_Receive( Stream_বাফার_Handle_t x_Stream_বাফার,
+                                 শূন্য * pv_Rx_তথ্য,
+                                 size_t x_বাফার_দৈর্ঘ্য_Bytes,
                                  TickType_t xTicksToWait ) FREERTOS_SYSTEM_CALL;
 
-__asm size_t MPU_xStreamBufferReceive( StreamBufferHandle_t xStreamBuffer,
-                                       void * pvRxData,
-                                       size_t xBufferLengthBytes,
+__asm size_t MPU_x_Stream_বাফার_Receive( Stream_বাফার_Handle_t x_Stream_বাফার,
+                                       শূন্য * pv_Rx_তথ্য,
+                                       size_t x_বাফার_দৈর্ঘ্য_Bytes,
                                        TickType_t xTicksToWait ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferReceiveImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Receive_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferReceive_Unpriv
-MPU_xStreamBufferReceive_Priv
-        b MPU_xStreamBufferReceiveImpl
-MPU_xStreamBufferReceive_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Receive_Unpriv
+MPU_x_Stream_বাফার_Receive_Priv
+        b MPU_x_Stream_বাফার_Receive_Impl
+MPU_x_Stream_বাফার_Receive_Unpriv
         svc #SYSTEM_CALL_xStreamBufferReceive
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-BaseType_t MPU_xStreamBufferIsFull( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_x_Stream_বাফার_Is_Full( Stream_বাফার_Handle_t x_Stream_বাফার ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xStreamBufferIsFull( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_x_Stream_বাফার_Is_Full( Stream_বাফার_Handle_t x_Stream_বাফার ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferIsFullImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Is_Full_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferIsFull_Unpriv
-MPU_xStreamBufferIsFull_Priv
-        b MPU_xStreamBufferIsFullImpl
-MPU_xStreamBufferIsFull_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Is_Full_Unpriv
+MPU_x_Stream_বাফার_Is_Full_Priv
+        b MPU_x_Stream_বাফার_Is_Full_Impl
+MPU_x_Stream_বাফার_Is_Full_Unpriv
         svc #SYSTEM_CALL_xStreamBufferIsFull
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-BaseType_t MPU_xStreamBufferIsEmpty( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
+BaseType_t MPU_x_Stream_বাফার_Is_Empty( Stream_বাফার_Handle_t x_Stream_বাফার ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xStreamBufferIsEmpty( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
+__asm BaseType_t MPU_x_Stream_বাফার_Is_Empty( Stream_বাফার_Handle_t x_Stream_বাফার ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferIsEmptyImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Is_Empty_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferIsEmpty_Unpriv
-MPU_xStreamBufferIsEmpty_Priv
-        b MPU_xStreamBufferIsEmptyImpl
-MPU_xStreamBufferIsEmpty_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Is_Empty_Unpriv
+MPU_x_Stream_বাফার_Is_Empty_Priv
+        b MPU_x_Stream_বাফার_Is_Empty_Impl
+MPU_x_Stream_বাফার_Is_Empty_Unpriv
         svc #SYSTEM_CALL_xStreamBufferIsEmpty
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-size_t MPU_xStreamBufferSpacesAvailable( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
+size_t MPU_x_Stream_বাফার_Spaces_Available( Stream_বাফার_Handle_t x_Stream_বাফার ) FREERTOS_SYSTEM_CALL;
 
-__asm size_t MPU_xStreamBufferSpacesAvailable( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
+__asm size_t MPU_x_Stream_বাফার_Spaces_Available( Stream_বাফার_Handle_t x_Stream_বাফার ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferSpacesAvailableImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Spaces_Available_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferSpacesAvailable_Unpriv
-MPU_xStreamBufferSpacesAvailable_Priv
-        b MPU_xStreamBufferSpacesAvailableImpl
-MPU_xStreamBufferSpacesAvailable_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Spaces_Available_Unpriv
+MPU_x_Stream_বাফার_Spaces_Available_Priv
+        b MPU_x_Stream_বাফার_Spaces_Available_Impl
+MPU_x_Stream_বাফার_Spaces_Available_Unpriv
         svc #SYSTEM_CALL_xStreamBufferSpacesAvailable
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-size_t MPU_xStreamBufferBytesAvailable( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
+size_t MPU_x_Stream_বাফার_Bytes_Available( Stream_বাফার_Handle_t x_Stream_বাফার ) FREERTOS_SYSTEM_CALL;
 
-__asm size_t MPU_xStreamBufferBytesAvailable( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
+__asm size_t MPU_x_Stream_বাফার_Bytes_Available( Stream_বাফার_Handle_t x_Stream_বাফার ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferBytesAvailableImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Bytes_Available_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferBytesAvailable_Unpriv
-MPU_xStreamBufferBytesAvailable_Priv
-        b MPU_xStreamBufferBytesAvailableImpl
-MPU_xStreamBufferBytesAvailable_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Bytes_Available_Unpriv
+MPU_x_Stream_বাফার_Bytes_Available_Priv
+        b MPU_x_Stream_বাফার_Bytes_Available_Impl
+MPU_x_Stream_বাফার_Bytes_Available_Unpriv
         svc #SYSTEM_CALL_xStreamBufferBytesAvailable
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-BaseType_t MPU_xStreamBufferSetTriggerLevel( StreamBufferHandle_t xStreamBuffer,
+BaseType_t MPU_x_Stream_বাফার_Set_Trigger_Level( Stream_বাফার_Handle_t x_Stream_বাফার,
                                              size_t xTriggerLevel ) FREERTOS_SYSTEM_CALL;
 
-__asm BaseType_t MPU_xStreamBufferSetTriggerLevel( StreamBufferHandle_t xStreamBuffer,
+__asm BaseType_t MPU_x_Stream_বাফার_Set_Trigger_Level( Stream_বাফার_Handle_t x_Stream_বাফার,
                                                    size_t xTriggerLevel ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferSetTriggerLevelImpl
+    বাহ্যিক MPU_x_Stream_বাফার_Set_Trigger_Level_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferSetTriggerLevel_Unpriv
-MPU_xStreamBufferSetTriggerLevel_Priv
-        b MPU_xStreamBufferSetTriggerLevelImpl
-MPU_xStreamBufferSetTriggerLevel_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_Set_Trigger_Level_Unpriv
+MPU_x_Stream_বাফার_Set_Trigger_Level_Priv
+        b MPU_x_Stream_বাফার_Set_Trigger_Level_Impl
+MPU_x_Stream_বাফার_Set_Trigger_Level_Unpriv
         svc #SYSTEM_CALL_xStreamBufferSetTriggerLevel
 }
 
 #endif /* #if ( configUSE_STREAM_BUFFERS == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_STREAM_BUFFERS == 1 )
+#যদি ( configUSE_STREAM_BUFFERS == 1 )
 
-size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuffer ) FREERTOS_SYSTEM_CALL;
+size_t MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes( Stream_বাফার_Handle_t x_Stream_বাফার ) FREERTOS_SYSTEM_CALL;
 
-__asm size_t MPU_xStreamBufferNextMessageLengthBytes( StreamBufferHandle_t xStreamBuffer ) /* FREERTOS_SYSTEM_CALL */
+__asm size_t MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes( Stream_বাফার_Handle_t x_Stream_বাফার ) /* FREERTOS_SYSTEM_CALL */
 {
     PRESERVE8
-    extern MPU_xStreamBufferNextMessageLengthBytesImpl
+    বাহ্যিক MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes_Impl
 
-    push {r0}
+    ঠেলো {r0}
     mrs r0, control
     tst r0, #1
-    pop {r0}
-    bne MPU_xStreamBufferNextMessageLengthBytes_Unpriv
-MPU_xStreamBufferNextMessageLengthBytes_Priv
-        b MPU_xStreamBufferNextMessageLengthBytesImpl
-MPU_xStreamBufferNextMessageLengthBytes_Unpriv
+    বের_করো {r0}
+    bne MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes_Unpriv
+MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes_Priv
+        b MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes_Impl
+MPU_x_Stream_বাফার_পরবর্তী_Message_দৈর্ঘ্য_Bytes_Unpriv
         svc #SYSTEM_CALL_xStreamBufferNextMessageLengthBytes
 }
 

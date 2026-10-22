@@ -37,8 +37,8 @@
  *----------------------------------------------------------*/
 
 /* Scheduler include files. */
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
 
 /* Hardware specifics. */
 #define portBIT_SET 1
@@ -63,15 +63,15 @@ not provided their own. */
 /* Records the nesting depth of calls to portENTER_CRITICAL(). */
 UBaseType_t uxCriticalNesting = 0xef;
 
-#if configKERNEL_INTERRUPT_PRIORITY != 1
-    #error If configKERNEL_INTERRUPT_PRIORITY is not 1 then the #32 in the following macros needs changing to equal the portINTERRUPT_BITS value, which is ( configKERNEL_INTERRUPT_PRIORITY << 5 )
+#যদি configKERNEL_INTERRUPT_PRIORITY != 1
+    #error If configKERNEL_INTERRUPT_PRIORITY is not 1 then the #32 in the following macros needs changing to equal the portINTERRUPT_BITS মান, which is ( configKERNEL_INTERRUPT_PRIORITY << 5 )
 #endif
 
-#if defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
+#যদি defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
 
     #ifdef __HAS_EDS__
         #define portRESTORE_CONTEXT()                                                                                       \
-                    asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */       \
+                    asm অস্থির(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */       \
                             "MOV    [W0], W15               \n"                                                             \
                             "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                             "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -89,9 +89,9 @@ UBaseType_t uxCriticalNesting = 0xef;
                             "POP.D  W2                      \n"                                                             \
                             "POP.D  W0                      \n"                                                             \
                             "POP    SR                        " );
-    #else /* __HAS_EDS__ */
+    #অন্যথা /* __HAS_EDS__ */
         #define portRESTORE_CONTEXT()                                                                                       \
-            asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
+            asm অস্থির(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
                             "MOV    [W0], W15               \n"                                                             \
                             "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                             "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -111,10 +111,10 @@ UBaseType_t uxCriticalNesting = 0xef;
         #endif /* __HAS_EDS__ */
 #endif /* defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ ) */
 
-#if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
+#যদি defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
 
     #define portRESTORE_CONTEXT()                                                                                       \
-        asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
+        asm অস্থির(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
                         "MOV    [W0], W15               \n"                                                             \
                         "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                         "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -155,17 +155,17 @@ UBaseType_t uxCriticalNesting = 0xef;
 /*
  * Setup the timer used to generate the tick interrupt.
  */
-void vApplicationSetupTickTimerInterrupt( void );
+শূন্য vApplicationSetupTickTimerInterrupt( শূন্য );
 
 /*
  * See header file for description.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+স্তূপ_Type_t *px_Port_Initialise_স্তূপ( স্তূপ_Type_t *px_শীর্ষ_Of_স্তূপ, TaskFunction_t pxCode, শূন্য *pvParameters )
 {
 uint16_t usCode;
 UBaseType_t i;
 
-const StackType_t xInitialStack[] =
+ধ্রুবক স্তূপ_Type_t x_Initial_স্তূপ[] =
 {
     0x1111, /* W1 */
     0x2222, /* W2 */
@@ -185,7 +185,7 @@ const StackType_t xInitialStack[] =
     0xabac, /* TBLPAG */
 
     /* dsPIC specific registers. */
-    #if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
+    #যদি defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
         0x0202, /* ACCAL */
         0x0303, /* ACCAH */
         0x0404, /* ACCAU */
@@ -204,51 +204,51 @@ const StackType_t xInitialStack[] =
 
     Save the low bytes of the program counter. */
     usCode = ( uint16_t ) pxCode;
-    *pxTopOfStack = ( StackType_t ) usCode;
-    pxTopOfStack++;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) usCode;
+    px_শীর্ষ_Of_স্তূপ++;
 
     /* Save the high byte of the program counter.  This will always be zero
     here as it is passed in a 16bit pointer.  If the address is greater than
     16 bits then the pointer will point to a jump table. */
-    *pxTopOfStack = ( StackType_t ) 0;
-    pxTopOfStack++;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0;
+    px_শীর্ষ_Of_স্তূপ++;
 
     /* Status register with interrupts enabled. */
-    *pxTopOfStack = portINITIAL_SR;
-    pxTopOfStack++;
+    *px_শীর্ষ_Of_স্তূপ = portINITIAL_SR;
+    px_শীর্ষ_Of_স্তূপ++;
 
     /* Parameters are passed in W0. */
-    *pxTopOfStack = ( StackType_t ) pvParameters;
-    pxTopOfStack++;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pvParameters;
+    px_শীর্ষ_Of_স্তূপ++;
 
-    for( i = 0; i < ( sizeof( xInitialStack ) / sizeof( StackType_t ) ); i++ )
+    জন্য( i = 0; i < ( আকার( x_Initial_স্তূপ ) / আকার( স্তূপ_Type_t ) ); i++ )
     {
-        *pxTopOfStack = xInitialStack[ i ];
-        pxTopOfStack++;
+        *px_শীর্ষ_Of_স্তূপ = x_Initial_স্তূপ[ i ];
+        px_শীর্ষ_Of_স্তূপ++;
     }
 
-    *pxTopOfStack = CORCON;
-    pxTopOfStack++;
+    *px_শীর্ষ_Of_স্তূপ = CORCON;
+    px_শীর্ষ_Of_স্তূপ++;
 
-    #if defined(__HAS_EDS__)
-        *pxTopOfStack = DSRPAG;
-        pxTopOfStack++;
-        *pxTopOfStack = DSWPAG;
-        pxTopOfStack++;
-    #else /* __HAS_EDS__ */
-        *pxTopOfStack = PSVPAG;
-        pxTopOfStack++;
+    #যদি defined(__HAS_EDS__)
+        *px_শীর্ষ_Of_স্তূপ = DSRPAG;
+        px_শীর্ষ_Of_স্তূপ++;
+        *px_শীর্ষ_Of_স্তূপ = DSWPAG;
+        px_শীর্ষ_Of_স্তূপ++;
+    #অন্যথা /* __HAS_EDS__ */
+        *px_শীর্ষ_Of_স্তূপ = PSVPAG;
+        px_শীর্ষ_Of_স্তূপ++;
     #endif /* __HAS_EDS__ */
 
     /* Finally the critical nesting depth. */
-    *pxTopOfStack = 0x00;
-    pxTopOfStack++;
+    *px_শীর্ষ_Of_স্তূপ = 0x00;
+    px_শীর্ষ_Of_স্তূপ++;
 
-    return pxTopOfStack;
+    ফেরত px_শীর্ষ_Of_স্তূপ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( শূন্য )
 {
     /* Setup a timer for the tick ISR. */
     vApplicationSetupTickTimerInterrupt();
@@ -257,14 +257,14 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Simulate the end of the yield function. */
-    asm volatile ( "return" );
+    asm অস্থির ( "return" );
 
     /* Should not reach here. */
-    return pdTRUE;
+    ফেরত pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+শূন্য vPortEndScheduler( শূন্য )
 {
     /* Not implemented in ports where there is nothing to return to.
     Artificially force an assert. */
@@ -275,9 +275,9 @@ void vPortEndScheduler( void )
 /*
  * Setup a timer for a regular tick.
  */
-__attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void )
+__attribute__(( weak )) শূন্য vApplicationSetupTickTimerInterrupt( শূন্য )
 {
-const uint32_t ulCompareMatch = ( ( configCPU_CLOCK_HZ / portTIMER_PRESCALE ) / configTICK_RATE_HZ ) - 1;
+ধ্রুবক uint32_t ulCompareMatch = ( ( configCPU_CLOCK_HZ / portTIMER_PRESCALE ) / configTICK_RATE_HZ ) - 1;
 
     /* Prescale of 8. */
     T1CON = 0;
@@ -303,30 +303,30 @@ const uint32_t ulCompareMatch = ( ( configCPU_CLOCK_HZ / portTIMER_PRESCALE ) / 
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+শূন্য vPortEnterCritical( শূন্য )
 {
     portDISABLE_INTERRUPTS();
     uxCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+শূন্য vPortExitCritical( শূন্য )
 {
     configASSERT( uxCriticalNesting );
     uxCriticalNesting--;
-    if( uxCriticalNesting == 0 )
+    যদি( uxCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void __attribute__((__interrupt__, auto_psv)) configTICK_INTERRUPT_HANDLER( void )
+শূন্য __attribute__((__interrupt__, auto_psv)) configTICK_INTERRUPT_HANDLER( শূন্য )
 {
     /* Clear the timer interrupt. */
     IFS0bits.T1IF = 0;
 
-    if( xTaskIncrementTick() != pdFALSE )
+    যদি( xTaskIncrementTick() != pdFALSE )
     {
         portYIELD();
     }

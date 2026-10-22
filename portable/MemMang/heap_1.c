@@ -34,70 +34,70 @@
  * See heap_2.c, heap_3.c and heap_4.c for alternative implementations, and the
  * memory management pages of https://www.FreeRTOS.org for more information.
  */
-#include <stdlib.h>
+#অন্তর্ভাব <stdlib.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers.  That should only be done when
  * task.h is included from an application file. */
 #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
-    #error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
+#যদি ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+    #error This file must not be used যদি configSUPPORT_DYNAMIC_ALLOCATION is 0
 #endif
 
 /* A few bytes might be lost to byte aligning the heap start address. */
-#define configADJUSTED_HEAP_SIZE        ( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
+#define config_ADJUSTED_HEAP_আকার        ( config_যোগ_HEAP_আকার - portBYTE_ALIGNMENT )
 
 /* Max value that fits in a size_t type. */
-#define heapSIZE_MAX                    ( ~( ( size_t ) 0 ) )
+#define heap_আকার_MAX                    ( ~( ( size_t ) 0 ) )
 
 /* Check if adding a and b will result in overflow. */
-#define heapADD_WILL_OVERFLOW( a, b )   ( ( a ) > ( heapSIZE_MAX - ( b ) ) )
+#define heapADD_WILL_OVERFLOW( a, b )   ( ( a ) > ( heap_আকার_MAX - ( b ) ) )
 
 /*-----------------------------------------------------------*/
 
 /* Allocate the memory for the heap. */
-#if ( configAPPLICATION_ALLOCATED_HEAP == 1 )
+#যদি ( configAPPLICATION_ALLOCATED_HEAP == 1 )
 
 /* The application writer has already defined the array used for the RTOS
  * heap - probably so it can be placed in a special segment or address. */
-    extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
-#else
-    static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+    বাহ্যিক uint8_t ucHeap[ config_যোগ_HEAP_আকার ];
+#অন্যথা
+    স্থির uint8_t ucHeap[ config_যোগ_HEAP_আকার ];
 #endif /* configAPPLICATION_ALLOCATED_HEAP */
 
 /* Index into the ucHeap array. */
-static size_t xNextFreeByte = ( size_t ) 0U;
+স্থির size_t x_পরবর্তী_Free_Byte = ( size_t ) 0U;
 
 /*-----------------------------------------------------------*/
 
-void * pvPortMalloc( size_t xWantedSize )
+শূন্য * pvPortMalloc( size_t x_Wanted_আকার )
 {
-    void * pvReturn = NULL;
-    static uint8_t * pucAlignedHeap = NULL;
+    শূন্য * pvReturn = ফাঁকা;
+    স্থির uint8_t * pucAlignedHeap = ফাঁকা;
 
     /* Ensure that blocks are always aligned. */
-    #if ( portBYTE_ALIGNMENT != 1 )
+    #যদি ( portBYTE_ALIGNMENT != 1 )
     {
-        size_t xAdditionalRequiredSize;
+        size_t x_Additional_Required_আকার;
 
-        if( ( xWantedSize & portBYTE_ALIGNMENT_MASK ) != 0x00 )
+        যদি( ( x_Wanted_আকার & portBYTE_ALIGNMENT_MASK ) != 0x00 )
         {
             /* Byte alignment required. */
-            xAdditionalRequiredSize = portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK );
+            x_Additional_Required_আকার = portBYTE_ALIGNMENT - ( x_Wanted_আকার & portBYTE_ALIGNMENT_MASK );
 
-            if( heapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
+            যদি( heapADD_WILL_OVERFLOW( x_Wanted_আকার, x_Additional_Required_আকার ) == 0 )
             {
-                xWantedSize += xAdditionalRequiredSize;
+                x_Wanted_আকার += x_Additional_Required_আকার;
             }
-            else
+            অন্যথা
             {
-                xWantedSize = 0;
+                x_Wanted_আকার = 0;
             }
         }
     }
@@ -105,63 +105,63 @@ void * pvPortMalloc( size_t xWantedSize )
 
     vTaskSuspendAll();
     {
-        if( pucAlignedHeap == NULL )
+        যদি( pucAlignedHeap == ফাঁকা )
         {
             /* Ensure the heap starts on a correctly aligned boundary. */
-            pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &( ucHeap[ portBYTE_ALIGNMENT - 1 ] ) ) &
-                                             ( ~( ( portPOINTER_SIZE_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
+            pucAlignedHeap = ( uint8_t * ) ( ( ( port_POINTER_আকার_TYPE ) &( ucHeap[ portBYTE_ALIGNMENT - 1 ] ) ) &
+                                             ( ~( ( port_POINTER_আকার_TYPE ) portBYTE_ALIGNMENT_MASK ) ) );
         }
 
         /* Check there is enough room left for the allocation. */
-        if( ( xWantedSize > 0 ) &&
-            ( heapADD_WILL_OVERFLOW( xNextFreeByte, xWantedSize ) == 0 ) &&
-            ( ( xNextFreeByte + xWantedSize ) < configADJUSTED_HEAP_SIZE ) )
+        যদি( ( x_Wanted_আকার > 0 ) &&
+            ( heapADD_WILL_OVERFLOW( x_পরবর্তী_Free_Byte, x_Wanted_আকার ) == 0 ) &&
+            ( ( x_পরবর্তী_Free_Byte + x_Wanted_আকার ) < config_ADJUSTED_HEAP_আকার ) )
         {
             /* Return the next free byte then increment the index past this
              * block. */
-            pvReturn = pucAlignedHeap + xNextFreeByte;
-            xNextFreeByte += xWantedSize;
+            pvReturn = pucAlignedHeap + x_পরবর্তী_Free_Byte;
+            x_পরবর্তী_Free_Byte += x_Wanted_আকার;
         }
 
-        traceMALLOC( pvReturn, xWantedSize );
+        traceMALLOC( pvReturn, x_Wanted_আকার );
     }
-    ( void ) xTaskResumeAll();
+    ( শূন্য ) xTaskResumeAll();
 
-    #if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+    #যদি ( configUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        যদি( pvReturn == ফাঁকা )
         {
             vApplicationMallocFailedHook();
         }
     }
     #endif
 
-    return pvReturn;
+    ফেরত pvReturn;
 }
 /*-----------------------------------------------------------*/
 
-void vPortFree( void * pv )
+শূন্য vPortFree( শূন্য * pv )
 {
     /* Memory cannot be freed using this scheme.  See heap_2.c, heap_3.c and
      * heap_4.c for alternative implementations, and the memory management pages of
      * https://www.FreeRTOS.org for more information. */
-    ( void ) pv;
+    ( শূন্য ) pv;
 
     /* Force an assert as it is invalid to call this function. */
-    configASSERT( pv == NULL );
+    configASSERT( pv == ফাঁকা );
 }
 /*-----------------------------------------------------------*/
 
-void vPortInitialiseBlocks( void )
+শূন্য vPortInitialiseBlocks( শূন্য )
 {
     /* Only required when static memory is not cleared. */
-    xNextFreeByte = ( size_t ) 0;
+    x_পরবর্তী_Free_Byte = ( size_t ) 0;
 }
 /*-----------------------------------------------------------*/
 
-size_t xPortGetFreeHeapSize( void )
+size_t x_Port_Get_Free_Heap_আকার( শূন্য )
 {
-    return( configADJUSTED_HEAP_SIZE - xNextFreeByte );
+    ফেরত( config_ADJUSTED_HEAP_আকার - x_পরবর্তী_Free_Byte );
 }
 
 /*-----------------------------------------------------------*/
@@ -171,8 +171,8 @@ size_t xPortGetFreeHeapSize( void )
  * This function must be called by the application before restarting the
  * scheduler.
  */
-void vPortHeapResetState( void )
+শূন্য vPortHeapResetState( শূন্য )
 {
-    xNextFreeByte = ( size_t ) 0U;
+    x_পরবর্তী_Free_Byte = ( size_t ) 0U;
 }
 /*-----------------------------------------------------------*/

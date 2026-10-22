@@ -69,40 +69,40 @@
 #define lpcount1                          0x7b6
 
 /* Six additional registers to save and restore, as per the #defines above. */
-#define portasmADDITIONAL_CONTEXT_SIZE    6 /* Must be even number on 32-bit cores. */
+#define portasm_ADDITIONAL_CONTEXT_আকার    6 /* Must be even number on 32-bit cores. */
 
 /* Save additional registers found on the Pulpino. */
 .macro portasmSAVE_ADDITIONAL_REGISTERS
-addi sp, sp, -( portasmADDITIONAL_CONTEXT_SIZE * portWORD_SIZE ) /* Make room for the additional registers. */
+addi sp, sp, -( portasm_ADDITIONAL_CONTEXT_আকার * port_WORD_আকার ) /* Make room for the additional registers. */
 csrr t0, lpstart0                                                /* Load additional registers into accessible temporary registers. */
 csrr t1, lpend0
 csrr t2, lpcount0
 csrr t3, lpstart1
 csrr t4, lpend1
 csrr t5, lpcount1
-sw t0, 1 * portWORD_SIZE( sp )
-sw t1, 2 * portWORD_SIZE( sp )
-sw t2, 3 * portWORD_SIZE( sp )
-sw t3, 4 * portWORD_SIZE( sp )
-sw t4, 5 * portWORD_SIZE( sp )
-sw t5, 6 * portWORD_SIZE( sp )
+sw t0, 1 * port_WORD_আকার( sp )
+sw t1, 2 * port_WORD_আকার( sp )
+sw t2, 3 * port_WORD_আকার( sp )
+sw t3, 4 * port_WORD_আকার( sp )
+sw t4, 5 * port_WORD_আকার( sp )
+sw t5, 6 * port_WORD_আকার( sp )
    .endm
 
 /* Restore the additional registers found on the Pulpino. */
    .macro portasmRESTORE_ADDITIONAL_REGISTERS
-lw t0, 1 * portWORD_SIZE( sp ) /* Load additional registers into accessible temporary registers. */
-lw t1, 2 * portWORD_SIZE( sp )
-lw t2, 3 * portWORD_SIZE( sp )
-lw t3, 4 * portWORD_SIZE( sp )
-lw t4, 5 * portWORD_SIZE( sp )
-lw t5, 6 * portWORD_SIZE( sp )
+lw t0, 1 * port_WORD_আকার( sp ) /* Load additional registers into accessible temporary registers. */
+lw t1, 2 * port_WORD_আকার( sp )
+lw t2, 3 * port_WORD_আকার( sp )
+lw t3, 4 * port_WORD_আকার( sp )
+lw t4, 5 * port_WORD_আকার( sp )
+lw t5, 6 * port_WORD_আকার( sp )
 csrw lpstart0, t0
 csrw lpend0, t1
 csrw lpcount0, t2
 csrw lpstart1, t3
 csrw lpend1, t4
 csrw lpcount1, t5
-addi sp, sp, ( portasmADDITIONAL_CONTEXT_SIZE * portWORD_SIZE ) /* Remove space added for additional registers. */
+addi sp, sp, ( portasm_ADDITIONAL_CONTEXT_আকার * port_WORD_আকার ) /* Remove space added for additional registers. */
    .endm
 
 #endif /* __FREERTOS_RISC_V_EXTENSIONS_H__ */

@@ -31,21 +31,21 @@
 *----------------------------------------------------------*/
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
 
 /* Library includes. */
-#include "string.h"
+#অন্তর্ভাব "string.h"
 
 /* Hardware specifics. */
-#include <machine.h>
+#অন্তর্ভাব <machine.h>
 
 /*-----------------------------------------------------------*/
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW     ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW    ( ( StackType_t ) 0x00000100 )
+#define portINITIAL_PSW     ( ( স্তূপ_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW    ( ( স্তূপ_Type_t ) 0x00000100 )
 
 /*-----------------------------------------------------------*/
 
@@ -53,102 +53,102 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-extern void prvStartFirstTask( void );
+বাহ্যিক শূন্য prvStartFirstTask( শূন্য );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt শূন্য vTickISR( শূন্য );
 
 /*-----------------------------------------------------------*/
 
-extern void * pxCurrentTCB;
+বাহ্যিক শূন্য * pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+স্তূপ_Type_t * px_Port_Initialise_স্তূপ( স্তূপ_Type_t * px_শীর্ষ_Of_স্তূপ,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     শূন্য * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_শীর্ষ_Of_স্তূপ = 0x00;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = portINITIAL_PSW;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xffffffff; /* r15. */
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xeeeeeeee;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xdddddddd;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xcccccccc;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xbbbbbbbb;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xaaaaaaaa;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x99999999;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x88888888;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x77777777;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x66666666;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x55555555;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x44444444;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x33333333;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x22222222;
+        px_শীর্ষ_Of_স্তূপ--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #অন্যথা /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_শীর্ষ_Of_স্তূপ -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 1. */
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pvParameters; /* R1 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = portINITIAL_FPSW;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x11111111; /* Accumulator 0. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x22222222; /* Accumulator 0. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x33333333; /* Accumulator 0. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x44444444; /* Accumulator 1. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x55555555; /* Accumulator 1. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x66666666; /* Accumulator 1. */
 
-    return pxTopOfStack;
+    ফেরত px_শীর্ষ_Of_স্তূপ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( শূন্য )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    বাহ্যিক শূন্য vApplicationSetupTimerInterrupt( শূন্য );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    যদি( pxCurrentTCB != ফাঁকা )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -169,12 +169,12 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    ফেরত pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
 #pragma vector = configTICK_VECTOR
-__interrupt void vTickISR( void )
+__interrupt শূন্য vTickISR( শূন্য )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -183,7 +183,7 @@ __interrupt void vTickISR( void )
      * necessitates. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        যদি( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
@@ -192,10 +192,10 @@ __interrupt void vTickISR( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+শূন্য vPortEndScheduler( শূন্য )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ফাঁকা );
 }
 /*-----------------------------------------------------------*/

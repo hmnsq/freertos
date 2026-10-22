@@ -26,8 +26,8 @@
  *
  */
 
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
 
 /*-----------------------------------------------------------
  * Implementation of functions defined in portable.h for the 16FX port.
@@ -36,18 +36,18 @@
 /*
  * Get current value of DPR and ADB registers
  */
-StackType_t xGet_DPR_ADB_bank( void );
+স্তূপ_Type_t xGet_DPR_ADB_bank( শূন্য );
 
 /*
  * Get current value of DTB and PCB registers
  */
-StackType_t xGet_DTB_PCB_bank( void );
+স্তূপ_Type_t xGet_DTB_PCB_bank( শূন্য );
 
 /*
  * Sets up the periodic ISR used for the RTOS tick.  This uses RLT0, but
  * can be done using any given RLT.
  */
-static void prvSetupRLT0Interrupt( void );
+স্থির শূন্য prvSetupRLT0Interrupt( শূন্য );
 
 /*-----------------------------------------------------------*/
 
@@ -55,8 +55,8 @@ static void prvSetupRLT0Interrupt( void );
  * We require the address of the pxCurrentTCB variable, but don't want to know
  * any details of its type.
  */
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
+প্রকারলেখ শূন্য TCB_t;
+বাহ্যিক অস্থির TCB_t * অস্থির pxCurrentTCB;
 
 /*-----------------------------------------------------------*/
 
@@ -70,7 +70,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
  * task  control  block  so  it  can  be retrieved the next time the task
  * executes.
  */
-#if( ( configMEMMODEL == portSMALL ) || ( configMEMMODEL == portMEDIUM ) )
+#যদি( ( configMEMMODEL == portSMALL ) || ( configMEMMODEL == portMEDIUM ) )
 
     #define portSAVE_CONTEXT()                                          \
             {   __asm(" POPW  A ");                                     \
@@ -145,7 +145,7 @@ extern volatile TCB_t * volatile pxCurrentTCB;
                 __asm(" PUSHW  A ");                                    \
             }
 
-#elif( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
+#নতুবা_যদি( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
 
     #define portSAVE_CONTEXT()                                          \
             {   __asm(" POPW  A ");                                     \
@@ -233,9 +233,9 @@ _xGet_DPR_ADB_bank:
     SWAP
     MOV A, ADB
     ORW A
-    #if configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
+    #যদি configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
         RETP
-    #elif configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
+    #নতুবা_যদি configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
         RET
     #endif
 
@@ -246,9 +246,9 @@ _xGet_DTB_PCB_bank:
     SWAP
     MOV A, PCB
     ORW A
-    #if configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
+    #যদি configMEMMODEL == portMEDIUM || configMEMMODEL == portLARGE
         RETP
-    #elif configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
+    #নতুবা_যদি configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
         RET
     #endif
 
@@ -261,119 +261,119 @@ _xGet_DTB_PCB_bank:
  *
  * See the header file portable.h.
  */
-StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+স্তূপ_Type_t *px_Port_Initialise_স্তূপ( স্তূপ_Type_t *px_শীর্ষ_Of_স্তূপ, TaskFunction_t pxCode, শূন্য *pvParameters )
 {
     /* Place a few bytes of known values on the bottom of the stack.
     This is just useful for debugging. */
-    *pxTopOfStack = 0x1111;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x2222;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x3333;
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = 0x1111;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x2222;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x3333;
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* Once the task is called the task  would  push  the  pointer to the
     parameter onto the stack. Hence here the pointer would be copied to the stack
     first.  When using the COMPACT or LARGE memory model the pointer would be 24
     bits, and when using the SMALL or MEDIUM memory model the pointer would be 16
     bits. */
-    #if( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
+    #যদি( ( configMEMMODEL == portCOMPACT ) || ( configMEMMODEL == portLARGE ) )
     {
-        *pxTopOfStack = ( StackType_t ) ( ( uint32_t ) ( pvParameters ) >> 16 );
-        pxTopOfStack--;
+        *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) ( ( uint32_t ) ( pvParameters ) >> 16 );
+        px_শীর্ষ_Of_স্তূপ--;
     }
     #endif
 
-    *pxTopOfStack = ( StackType_t ) ( pvParameters );
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) ( pvParameters );
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* This is redundant push to the stack. This is required in order to introduce
     an offset so that the task accesses a parameter correctly that is passed on to
     the task stack. */
-    #if( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
+    #যদি( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
     {
-        *pxTopOfStack = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
-        pxTopOfStack--;
+        *px_শীর্ষ_Of_স্তূপ = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
+        px_শীর্ষ_Of_স্তূপ--;
     }
     #endif
 
     /* This is redundant push to the stack. This is required in order to introduce
     an offset so the task correctly accesses the parameter passed on the task stack. */
-    *pxTopOfStack = ( StackType_t ) ( pxCode );
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) ( pxCode );
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* PS - User Mode, ILM=7, RB=0, Interrupts enabled,USP */
-    *pxTopOfStack = 0xE0C0;
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = 0xE0C0;
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* PC */
-    *pxTopOfStack = ( StackType_t ) ( pxCode );
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) ( pxCode );
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* DTB | PCB */
-    #if configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
+    #যদি configMEMMODEL == portSMALL || configMEMMODEL == portCOMPACT
     {
-        *pxTopOfStack = xGet_DTB_PCB_bank();
-        pxTopOfStack--;
+        *px_শীর্ষ_Of_স্তূপ = xGet_DTB_PCB_bank();
+        px_শীর্ষ_Of_স্তূপ--;
     }
     #endif
 
     /* DTB | PCB, in case of MEDIUM and LARGE memory models, PCB would be used
     along with PC to indicate the start address of the function. */
-    #if( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
+    #যদি( ( configMEMMODEL == portMEDIUM ) || ( configMEMMODEL == portLARGE ) )
     {
-        *pxTopOfStack = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
-        pxTopOfStack--;
+        *px_শীর্ষ_Of_স্তূপ = ( xGet_DTB_PCB_bank() & 0xff00 ) | ( ( ( int32_t ) ( pxCode ) >> 16 ) & 0xff );
+        px_শীর্ষ_Of_স্তূপ--;
     }
     #endif
 
     /* DPR | ADB  */
-    *pxTopOfStack = xGet_DPR_ADB_bank();
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = xGet_DPR_ADB_bank();
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* AL */
-    *pxTopOfStack = ( StackType_t ) 0x9999;
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x9999;
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* AH */
-    *pxTopOfStack = ( StackType_t ) 0xAAAA;
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0xAAAA;
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* Next the general purpose registers. */
-    *pxTopOfStack = ( StackType_t ) 0x7777; /* RW7 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x6666; /* RW6 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x5555; /* RW5 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x4444; /* RW4 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x3333; /* RW3 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x2222; /* RW2 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x1111; /* RW1 */
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) 0x8888; /* RW0 */
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x7777; /* RW7 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x6666; /* RW6 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x5555; /* RW5 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x4444; /* RW4 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x3333; /* RW3 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x2222; /* RW2 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x1111; /* RW1 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x8888; /* RW0 */
 
-    return pxTopOfStack;
+    ফেরত px_শীর্ষ_Of_স্তূপ;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupRLT0Interrupt( void )
+স্থির শূন্য prvSetupRLT0Interrupt( শূন্য )
 {
 /* The peripheral clock divided by 16 is used by the timer. */
-const uint16_t usReloadValue = ( uint16_t ) ( ( ( configCLKP1_CLOCK_HZ / configTICK_RATE_HZ ) / 16UL ) - 1UL );
+ধ্রুবক uint16_t us_Reload_মান = ( uint16_t ) ( ( ( configCLKP1_CLOCK_HZ / configTICK_RATE_HZ ) / 16UL ) - 1UL );
 
     /* set reload value = 34999+1, TICK Interrupt after 10 ms @ 56MHz of CLKP1 */
-    TMRLR0 = usReloadValue;
+    TMRLR0 = us_Reload_মান;
 
     /* prescaler 1:16, reload, interrupt enable, count enable, trigger */
     TMCSR0 = 0x041B;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( শূন্য )
 {
     /* Setup the hardware to generate the tick. */
     prvSetupRLT0Interrupt();
@@ -387,11 +387,11 @@ BaseType_t xPortStartScheduler( void )
 
 
     /* Should not get here. */
-    return pdTRUE;
+    ফেরত pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+শূন্য vPortEndScheduler( শূন্য )
 {
     /* Not implemented - unlikely to ever be required as there is nothing to
     return to. */
@@ -404,7 +404,7 @@ void vPortEndScheduler( void )
  * scheduler is being used or not.
  */
 
-#if configUSE_PREEMPTION == 1
+#যদি configUSE_PREEMPTION == 1
 
     /*
      * Tick ISR for preemptive scheduler.  We can use a __nosavereg attribute
@@ -412,7 +412,7 @@ void vPortEndScheduler( void )
      * compiler generated code.  The tick count is incremented after the context
      * is saved.
      */
-    __nosavereg __interrupt void prvRLT0_TICKISR( void )
+    __nosavereg __interrupt শূন্য prvRLT0_TICKISR( শূন্য )
     {
         /* Disable interrupts so that portSAVE_CONTEXT() is not interrupted */
         __DI();
@@ -428,7 +428,7 @@ void vPortEndScheduler( void )
 
         /* Increment the tick count then switch to the highest priority task
         that is ready to run. */
-        if( xTaskIncrementTick() != pdFALSE )
+        যদি( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -443,14 +443,14 @@ void vPortEndScheduler( void )
         __EI();
     }
 
-#else
+#অন্যথা
 
     /*
      * Tick ISR for the cooperative scheduler.  All this does is increment the
      * tick count.  We don't need to switch context, this can only be done by
      * manual calls to taskYIELD();
      */
-    __interrupt void prvRLT0_TICKISR( void )
+    __interrupt শূন্য prvRLT0_TICKISR( শূন্য )
     {
         /* Clear RLT0 interrupt flag */
         TMCSR0_UF = 0;
@@ -467,7 +467,7 @@ void vPortEndScheduler( void )
  * is to be saved by the portSAVE_CONTEXT() macro, not the compiler generated
  * code.
  */
-__nosavereg __interrupt void vPortYield( void )
+__nosavereg __interrupt শূন্য vPortYield( শূন্য )
 {
     /* Save the context of the interrupted task. */
     portSAVE_CONTEXT();
@@ -480,7 +480,7 @@ __nosavereg __interrupt void vPortYield( void )
 }
 /*-----------------------------------------------------------*/
 
-__nosavereg __interrupt void vPortYieldDelayed( void )
+__nosavereg __interrupt শূন্য vPortYieldDelayed( শূন্য )
 {
     /* Disable interrupts so that portSAVE_CONTEXT() is not interrupted */
     __DI();

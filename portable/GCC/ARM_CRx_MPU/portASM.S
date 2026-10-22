@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS অথবা
+ * IMPLIED, INCLUDING BUT নয় LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE এবং NONINFRINGEMENT. মধ্যে NO EVENT SHALL THE AUTHORS অথবা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES অথবা OTHER LIABILITY, WHETHER
+ * মধ্যে AN ACTION OF CONTRACT, TORT অথবা OTHERWISE, ARISING FROM, OUT OF অথবা মধ্যে
+ * CONNECTION WITH THE SOFTWARE অথবা THE USE অথবা OTHER DEALINGS মধ্যে THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -159,7 +159,7 @@
  * void vPortStartFirstTask( void );
  */
 .align 4
-.global vPortStartFirstTask
+.বৈশ্বিক vPortStartFirstTask
 .type vPortStartFirstTask, %function
 vPortStartFirstTask:
     /* This function is called from System Mode to start the FreeRTOS-Kernel.
@@ -172,7 +172,7 @@ vPortStartFirstTask:
 /* ----------------------------------------------------------------------------------- */
 
 .align 4
-.global FreeRTOS_SVC_Handler
+.বৈশ্বিক FreeRTOS_SVC_Handler
 .type FreeRTOS_SVC_Handler, %function
 FreeRTOS_SVC_Handler:
     PUSH    { R11-R12 }
@@ -227,7 +227,7 @@ svcSystemCallExit:
     /* Restore the user mode SP and LR. */
     LDM   R11, { R13-R14 }^
 
-    AND     R12, R12, #0x0      /* R12 = 0. */
+    এবং     R12, R12, #0x0      /* R12 = 0. */
     STR     R12, [R11]          /* xSystemCallStackInfo.pulTaskStackPointer = NULL. */
     STR     R12, [R11, #0x4]    /* xSystemCallStackInfo.pulLinkRegisterAtSystemCallEntry = NULL. */
 
@@ -246,7 +246,7 @@ svcSystemCallExit:
 svcSystemCallEnter:
     LDR     R12, =uxSystemCallImplementations /* R12 = uxSystemCallImplementations. */
     /* R12 = uxSystemCallImplementations[ R12 + ( R11 << 2 ) ].
-     * R12 now contains the address of the system call impl function. */
+     * R12 now contains the address of the system ডাকো impl function. */
     LDR     R12, [R12, R11, lsl #2]
 
     /* If R12 == NULL, exit. */
@@ -255,7 +255,7 @@ svcSystemCallEnter:
 
     /* It is okay to clobber LR here because we do not need to return to the
      * SVC enter location anymore. LR now contains the address of the system
-     * call impl function. */
+     * ডাকো impl function. */
     MOV     LR, R12
 
     LDR     R11, =pxCurrentTCB  /* R11 = &( pxCurrentTCB ). */
@@ -284,7 +284,7 @@ svcSystemCallEnter:
  * void vPortDisableInterrupts( void );
  */
 .align 4
-.global vPortDisableInterrupts
+.বৈশ্বিক vPortDisableInterrupts
 .type vPortDisableInterrupts, %function
 vPortDisableInterrupts:
     CPSID    I
@@ -296,7 +296,7 @@ vPortDisableInterrupts:
  * void vPortEnableInterrupts( void );
  */
 .align 4
-.global vPortEnableInterrupts
+.বৈশ্বিক vPortEnableInterrupts
 .type vPortEnableInterrupts, %function
 vPortEnableInterrupts:
     CPSIE   I
@@ -318,10 +318,10 @@ vPortEnableInterrupts:
  * R3 = ulRegionPermissions.
  */
 .align 4
-.global vMPUSetRegion
+.বৈশ্বিক vMPUSetRegion
 .type vMPUSetRegion, %function
 vMPUSetRegion:
-    AND     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
+    এবং     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
 
     MCR     p15, #0, R0, c6, c2, #0 /* MPU Region Number Register. */
     MCR     p15, #0, R1, c6, c1, #0 /* MPU Region Base Address Register. */
@@ -336,7 +336,7 @@ vMPUSetRegion:
  * void vMPUEnable( void );
  */
 .align 4
-.global vMPUEnable
+.বৈশ্বিক vMPUEnable
 .type vMPUEnable, %function
 vMPUEnable:
     PUSH    { R0 }
@@ -356,7 +356,7 @@ vMPUEnable:
  * void vMPUDisable( void );
  */
 .align 4
-.global vMPUDisable
+.বৈশ্বিক vMPUDisable
 .type vMPUDisable, %function
 vMPUDisable:
     PUSH    { R0 }
@@ -379,7 +379,7 @@ vMPUDisable:
  * void vMPUEnableBackgroundRegion( void );
  */
 .align 4
-.global vMPUEnableBackgroundRegion
+.বৈশ্বিক vMPUEnableBackgroundRegion
 .type vMPUEnableBackgroundRegion, %function
 vMPUEnableBackgroundRegion:
     PUSH    { R0 }
@@ -397,7 +397,7 @@ vMPUEnableBackgroundRegion:
  * void vMPUDisableBackgroundRegion( void );
  */
 .align 4
-.global vMPUDisableBackgroundRegion
+.বৈশ্বিক vMPUDisableBackgroundRegion
 .type vMPUDisableBackgroundRegion, %function
 vMPUDisableBackgroundRegion:
     PUSH    { R0 }
@@ -412,7 +412,7 @@ vMPUDisableBackgroundRegion:
 /* ----------------------------------------------------------------------------------- */
 
 .align 4
-.global FreeRTOS_IRQ_Handler
+.বৈশ্বিক FreeRTOS_IRQ_Handler
 .type FreeRTOS_IRQ_Handler, %function
 FreeRTOS_IRQ_Handler:
     SUB     LR, LR, #4 /* Return to the interrupted instruction. */

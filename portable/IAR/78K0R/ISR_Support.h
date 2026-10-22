@@ -26,7 +26,7 @@
    * ; *
    * ; */
 
-#include "FreeRTOSConfig.h"
+#অন্তর্ভাব "FreeRTOSConfig.h"
 
 ;
 Variables used by scheduler
@@ -42,30 +42,30 @@ portSAVE_CONTEXT MACRO
 ;
 Saves the context of the general purpose registers, CS and ES( only in far
                                                                ;
-                                                               memory mode ) registers the usCriticalNesting Value and the Stack Pointer
+                                                               memory mode ) registers the usCriticalNesting মান_2 and the স্তূপ_2 Pointer
 ;
-of the active Task onto the task stack
+of the active Task onto the task স্তূপ
 ;
 ------------------------------------------------------------------------------
 portSAVE_CONTEXT MACRO
 
-PUSH AX;
-Save AX Register to stack.
-   PUSH HL
+ঠেলো_2 AX;
+Save AX Register to স্তূপ.
+   ঠেলো_2 HL
 MOV A, CS;
-Save CS register.
+Save CS নিবন্ধ.
    XCH A, X
 MOV A, ES;
-Save ES register.
-   PUSH AX
-PUSH DE;
+Save ES নিবন্ধ.
+   ঠেলো_2 AX
+ঠেলো_2 DE;
 Save the remaining general purpose registers.
-   PUSH BC
+   ঠেলো_2 BC
 MOVW AX, usCriticalNesting;
-Save the usCriticalNesting value.
-   PUSH AX
+Save the usCriticalNesting মান.
+   ঠেলো_2 AX
 MOVW AX, pxCurrentTCB;
-Save the Stack pointer.
+Save the স্তূপ_2 pointer.
    MOVW HL, AX
 MOVW AX, SP
         MOVW[ HL ], AX
@@ -78,34 +78,34 @@ MOVW AX, SP
 ;
 portRESTORE_CONTEXT MACRO
 ;
-Restores the task Stack Pointer then use this to restore usCriticalNesting,
+Restores the task স্তূপ_2 Pointer then use this to restore usCriticalNesting,
 ;
 general purpose registers and the CS and ES( only in far memory mode )
 ;
-of the selected task from the task stack
+of the selected task from the task স্তূপ
 ;
 ------------------------------------------------------------------------------
 portRESTORE_CONTEXT MACRO
 MOVW AX, pxCurrentTCB;
-Restore the Stack pointer.
+Restore the স্তূপ_2 pointer.
    MOVW HL, AX
 MOVW AX, [ HL ]
 MOVW SP, AX
-POP AX;
-Restore usCriticalNesting value.
+বের_করো_2 AX;
+Restore usCriticalNesting মান.
    MOVW usCriticalNesting, AX
-POP BC;
+বের_করো_2 BC;
 Restore the necessary general purpose registers.
-   POP DE
-POP AX;
-Restore the ES register.
+   বের_করো_2 DE
+বের_করো_2 AX;
+Restore the ES নিবন্ধ.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS নিবন্ধ.
    MOV CS, A
-POP HL;
-Restore general purpose register HL.
-   POP AX;
+বের_করো_2 HL;
+Restore general purpose নিবন্ধ HL.
+   বের_করো_2 AX;
 Restore AX.
    ENDM
 ;

@@ -30,23 +30,23 @@
 * Implementation of functions defined in portable.h for the RXv3 DPFPU port.
 *----------------------------------------------------------*/
 
-#warning Testing for DFPU support in this port is not yet complete
+#warning Testing জন্য DFPU support in this port is not yet complete
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
 
 /* Library includes. */
-#include "string.h"
+#অন্তর্ভাব "string.h"
 
 /* Hardware specifics. */
-#if ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
+#যদি ( configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H == 1 )
 
-    #include "platform.h"
+    #অন্তর্ভাব "platform.h"
 
-#else /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
+#অন্যথা /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
-    #include "iodefine.h"
+    #অন্তর্ভাব "iodefine.h"
 
 #endif /* configINCLUDE_PLATFORM_H_INSTEAD_OF_IODEFINE_H */
 
@@ -54,22 +54,22 @@
 
 /* Tasks should start with interrupts enabled and in Supervisor mode, therefore
  * PSW is set with U and I set, and PM and IPL clear. */
-#define portINITIAL_PSW                  ( ( StackType_t ) 0x00030000 )
-#define portINITIAL_FPSW                 ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DPSW                 ( ( StackType_t ) 0x00000100 )
-#define portINITIAL_DCMR                 ( ( StackType_t ) 0x00000000 )
-#define portINITIAL_DECNT                ( ( StackType_t ) 0x00000001 )
+#define portINITIAL_PSW                  ( ( স্তূপ_Type_t ) 0x00030000 )
+#define portINITIAL_FPSW                 ( ( স্তূপ_Type_t ) 0x00000100 )
+#define portINITIAL_DPSW                 ( ( স্তূপ_Type_t ) 0x00000100 )
+#define portINITIAL_DCMR                 ( ( স্তূপ_Type_t ) 0x00000000 )
+#define portINITIAL_DECNT                ( ( স্তূপ_Type_t ) 0x00000001 )
 
 /* Tasks are not created with a DPFPU context, but can be given a DPFPU context
  * after they have been created.  A variable is stored as part of the tasks context
  * that holds portNO_DPFPU_CONTEXT if the task does not have a DPFPU context, or
  * any other value if the task does have a DPFPU context. */
-#define portNO_DPFPU_CONTEXT             ( ( StackType_t ) 0 )
-#define portHAS_DPFPU_CONTEXT            ( ( StackType_t ) 1 )
+#define portNO_DPFPU_CONTEXT             ( ( স্তূপ_Type_t ) 0 )
+#define portHAS_DPFPU_CONTEXT            ( ( স্তূপ_Type_t ) 1 )
 
 /* The space on the stack required to hold the DPFPU data registers.  This is 16
  * 64-bit registers. */
-#define portDPFPU_DATA_REGISTER_WORDS    ( 16 * 2 )
+#define port_DPFPU_তথ্য_REGISTER_শব্দগুলি    ( 16 * 2 )
 
 /*-----------------------------------------------------------*/
 
@@ -77,187 +77,187 @@
  * Function to start the first task executing - written in asm code as direct
  * access to registers is required.
  */
-static void prvStartFirstTask( void );
+স্থির শূন্য prvStartFirstTask( শূন্য );
 
 /*
  * Software interrupt handler.  Performs the actual context switch (saving and
  * restoring of registers).  Written in asm code as direct register access is
  * required.
  */
-__interrupt void vSoftwareInterruptISR( void );
+__interrupt শূন্য vSoftwareInterruptISR( শূন্য );
 
 /*
  * The tick ISR handler.  The peripheral used is configured by the application
  * via a hook/callback function.
  */
-__interrupt void vTickISR( void );
+__interrupt শূন্য vTickISR( শূন্য );
 
 /*-----------------------------------------------------------*/
 
 /* Saved as part of the task context.  If ulPortTaskHasDPFPUContext is non-zero
  * then a DPFPU context must be saved and restored for the task. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#যদি ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    StackType_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
+    স্তূপ_Type_t ulPortTaskHasDPFPUContext = portNO_DPFPU_CONTEXT;
 
 #endif /* configUSE_TASK_DPFPU_SUPPORT */
 
 /* This is accessed by the inline assembler functions so is file scope for
  * convenience. */
-extern void * pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+বাহ্যিক শূন্য * pxCurrentTCB;
+বাহ্যিক শূন্য vTaskSwitchContext( শূন্য );
 
 /*-----------------------------------------------------------*/
 
 /*
  * See header file for description.
  */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+স্তূপ_Type_t * px_Port_Initialise_স্তূপ( স্তূপ_Type_t * px_শীর্ষ_Of_স্তূপ,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters )
+                                     শূন্য * pvParameters )
 {
     /* R0 is not included as it is the stack pointer. */
 
-    *pxTopOfStack = 0x00;
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_PSW;
-    pxTopOfStack--;
-    *pxTopOfStack = ( StackType_t ) pxCode;
+    *px_শীর্ষ_Of_স্তূপ = 0x00;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = portINITIAL_PSW;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pxCode;
 
     /* When debugging it can be useful if every register is set to a known
      * value.  Otherwise code space can be saved by just setting the registers
      * that need to be set. */
     #ifdef USE_FULL_REGISTER_INITIALISATION
     {
-        pxTopOfStack--;
-        *pxTopOfStack = 0xffffffff; /* r15. */
-        pxTopOfStack--;
-        *pxTopOfStack = 0xeeeeeeee;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xdddddddd;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xcccccccc;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xbbbbbbbb;
-        pxTopOfStack--;
-        *pxTopOfStack = 0xaaaaaaaa;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x99999999;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x88888888;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x77777777;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x66666666;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x55555555;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x44444444;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x33333333;
-        pxTopOfStack--;
-        *pxTopOfStack = 0x22222222;
-        pxTopOfStack--;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xffffffff; /* r15. */
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xeeeeeeee;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xdddddddd;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xcccccccc;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xbbbbbbbb;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0xaaaaaaaa;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x99999999;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x88888888;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x77777777;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x66666666;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x55555555;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x44444444;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x33333333;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = 0x22222222;
+        px_শীর্ষ_Of_স্তূপ--;
     }
-    #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+    #অন্যথা /* ifdef USE_FULL_REGISTER_INITIALISATION */
     {
-        pxTopOfStack -= 15;
+        px_শীর্ষ_Of_স্তূপ -= 15;
     }
     #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
 
-    *pxTopOfStack = ( StackType_t ) pvParameters; /* R1 */
-    pxTopOfStack--;
-    *pxTopOfStack = portINITIAL_FPSW;
-    pxTopOfStack--;
-    *pxTopOfStack = 0x11111111; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x22222222; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x33333333; /* Accumulator 1. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x44444444; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x55555555; /* Accumulator 0. */
-    pxTopOfStack--;
-    *pxTopOfStack = 0x66666666; /* Accumulator 0. */
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pvParameters; /* R1 */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = portINITIAL_FPSW;
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x11111111; /* Accumulator 1. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x22222222; /* Accumulator 1. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x33333333; /* Accumulator 1. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x44444444; /* Accumulator 0. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x55555555; /* Accumulator 0. */
+    px_শীর্ষ_Of_স্তূপ--;
+    *px_শীর্ষ_Of_স্তূপ = 0x66666666; /* Accumulator 0. */
 
-    #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    #যদি ( configUSE_TASK_DPFPU_SUPPORT == 1 )
     {
         /* The task will start without a DPFPU context.  A task that
          * uses the DPFPU hardware must call vPortTaskUsesDPFPU() before
          * executing any floating point instructions. */
-        pxTopOfStack--;
-        *pxTopOfStack = portNO_DPFPU_CONTEXT;
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = portNO_DPFPU_CONTEXT;
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+    #নতুবা_যদি ( configUSE_TASK_DPFPU_SUPPORT == 2 )
     {
         /* The task will start with a DPFPU context.  Leave enough
          * space for the registers - and ensure they are initialised if desired. */
         #ifdef USE_FULL_REGISTER_INITIALISATION
         {
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1515.1515;  /* DR15. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1414.1414;  /* DR14. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1313.1313;  /* DR13. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1212.1212;  /* DR12. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1111.1111;  /* DR11. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 1010.1010;  /* DR10. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 909.0909;   /* DR9. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 808.0808;   /* DR8. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 707.0707;   /* DR7. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 606.0606;   /* DR6. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 505.0505;   /* DR5. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 404.0404;   /* DR4. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 303.0303;   /* DR3. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 202.0202;   /* DR2. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 101.0101;   /* DR1. */
-            pxTopOfStack -= 2;
-            *( double * ) pxTopOfStack = 9876.54321; /* DR0. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 1515.1515;  /* DR15. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 1414.1414;  /* DR14. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 1313.1313;  /* DR13. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 1212.1212;  /* DR12. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 1111.1111;  /* DR11. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 1010.1010;  /* DR10. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 909.0909;   /* DR9. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 808.0808;   /* DR8. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 707.0707;   /* DR7. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 606.0606;   /* DR6. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 505.0505;   /* DR5. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 404.0404;   /* DR4. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 303.0303;   /* DR3. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 202.0202;   /* DR2. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 101.0101;   /* DR1. */
+            px_শীর্ষ_Of_স্তূপ -= 2;
+            *( দ্বিগুণ * ) px_শীর্ষ_Of_স্তূপ = 9876.54321; /* DR0. */
         }
-        #else /* ifdef USE_FULL_REGISTER_INITIALISATION */
+        #অন্যথা /* ifdef USE_FULL_REGISTER_INITIALISATION */
         {
-            pxTopOfStack -= portDPFPU_DATA_REGISTER_WORDS;
-            memset( pxTopOfStack, 0x00, portDPFPU_DATA_REGISTER_WORDS * sizeof( StackType_t ) );
+            px_শীর্ষ_Of_স্তূপ -= port_DPFPU_তথ্য_REGISTER_শব্দগুলি;
+            memset( px_শীর্ষ_Of_স্তূপ, 0x00, port_DPFPU_তথ্য_REGISTER_শব্দগুলি * আকার( স্তূপ_Type_t ) );
         }
         #endif /* ifdef USE_FULL_REGISTER_INITIALISATION */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DECNT; /* DECNT. */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DCMR;  /* DCMR. */
-        pxTopOfStack--;
-        *pxTopOfStack = portINITIAL_DPSW;  /* DPSW. */
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = portINITIAL_DECNT; /* DECNT. */
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = portINITIAL_DCMR;  /* DCMR. */
+        px_শীর্ষ_Of_স্তূপ--;
+        *px_শীর্ষ_Of_স্তূপ = portINITIAL_DPSW;  /* DPSW. */
     }
-    #elif ( configUSE_TASK_DPFPU_SUPPORT == 0 )
+    #নতুবা_যদি ( configUSE_TASK_DPFPU_SUPPORT == 0 )
     {
         /* Omit DPFPU support. */
     }
-    #else /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
+    #অন্যথা /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
     {
-        #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or left undefined.
+        #error Invalid configUSE_TASK_DPFPU_SUPPORT setting - configUSE_TASK_DPFPU_SUPPORT must be set to 0, 1, 2, or বাম undefined.
     }
     #endif /* if ( configUSE_TASK_DPFPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    ফেরত px_শীর্ষ_Of_স্তূপ;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+#যদি ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
-    void vPortTaskUsesDPFPU( void )
+    শূন্য vPortTaskUsesDPFPU( শূন্য )
     {
         /* A task is registering the fact that it needs a DPFPU context.  Set the
          * DPFPU flag (which is saved as part of the task context). */
@@ -267,12 +267,12 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 #endif /* configUSE_TASK_DPFPU_SUPPORT */
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( শূন্য )
 {
-    extern void vApplicationSetupTimerInterrupt( void );
+    বাহ্যিক শূন্য vApplicationSetupTimerInterrupt( শূন্য );
 
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    যদি( pxCurrentTCB != ফাঁকা )
     {
         /* Call an application function to set up the timer that will generate the
          * tick interrupt.  This way the application can decide which peripheral to
@@ -293,24 +293,24 @@ BaseType_t xPortStartScheduler( void )
     }
 
     /* Should not get here. */
-    return pdFAIL;
+    ফেরত pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+শূন্য vPortEndScheduler( শূন্য )
 {
     /* Not implemented in ports where there is nothing to return to.
      * Artificially force an assert. */
-    configASSERT( pxCurrentTCB == NULL );
+    configASSERT( pxCurrentTCB == ফাঁকা );
 
     /* The following line is just to prevent the symbol getting optimised away. */
-    ( void ) vTaskSwitchContext();
+    ( শূন্য ) vTaskSwitchContext();
 }
 /*-----------------------------------------------------------*/
 
-static void prvStartFirstTask( void )
+স্থির শূন্য prvStartFirstTask( শূন্য )
 {
-    __asm volatile
+    __asm অস্থির
     (
 
         /* When starting the scheduler there is nothing that needs moving to the
@@ -329,7 +329,7 @@ static void prvStartFirstTask( void )
         /* Restore the registers from the stack of the task pointed to by
          * pxCurrentTCB. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #যদি ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* The restored ulPortTaskHasDPFPUContext is to be zero here.
              * So, it is never necessary to restore the DPFPU context here. */
@@ -337,7 +337,7 @@ static void prvStartFirstTask( void )
             "MOV.L      #_ulPortTaskHasDPFPUContext, R14    \n" \
             "MOV.L      R15, [R14]                          \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #নতুবা_যদি ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context. */
             "DPOPM.L    DPSW-DECNT              \n" \
             "DPOPM.D    DR0-DR15                \n" \
@@ -385,9 +385,9 @@ static void prvStartFirstTask( void )
 /*-----------------------------------------------------------*/
 
 #pragma vector = VECT( ICU, SWINT )
-__interrupt void vSoftwareInterruptISR( void )
+__interrupt শূন্য vSoftwareInterruptISR( শূন্য )
 {
-    __asm volatile
+    __asm অস্থির
     (
         /* Re-enable interrupts. */
         "SETPSW     I                           \n" \
@@ -436,7 +436,7 @@ __interrupt void vSoftwareInterruptISR( void )
         "MVFACLO    #0, A0, R15                 \n" /* Low order word. */ \
         "PUSH.L     R15                         \n"                       \
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #যদি ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Does the task have a DPFPU context that needs saving?  If
              * ulPortTaskHasDPFPUContext is 0 then no. */
@@ -453,7 +453,7 @@ __interrupt void vSoftwareInterruptISR( void )
             /* Save ulPortTaskHasDPFPUContext itself. */
             "PUSH.L     R15                         \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #নতুবা_যদি ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Save the DPFPU context, always. */
             "DPUSHM.D   DR0-DR15                    \n" \
             "DPUSHM.L   DPSW-DECNT                  \n" \
@@ -488,7 +488,7 @@ __interrupt void vSoftwareInterruptISR( void )
         /* Restore the context of the new task.  The PSW (Program Status Word) and
          * PC will be popped by the RTE instruction. */
 
-        #if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+        #যদি ( configUSE_TASK_DPFPU_SUPPORT == 1 )
 
             /* Is there a DPFPU context to restore?  If the restored
              * ulPortTaskHasDPFPUContext is zero then no. */
@@ -503,7 +503,7 @@ __interrupt void vSoftwareInterruptISR( void )
             "DPOPM.D    DR0-DR15                    \n" \
             "__lab2:                                \n" \
 
-        #elif ( configUSE_TASK_DPFPU_SUPPORT == 2 )
+        #নতুবা_যদি ( configUSE_TASK_DPFPU_SUPPORT == 2 )
             /* Restore the DPFPU context, always. */
             "DPOPM.L    DPSW-DECNT                  \n" \
             "DPOPM.D    DR0-DR15                    \n" \
@@ -546,7 +546,7 @@ __interrupt void vSoftwareInterruptISR( void )
 /*-----------------------------------------------------------*/
 
 #pragma vector = _VECT( configTICK_VECTOR )
-__interrupt void vTickISR( void )
+__interrupt শূন্য vTickISR( শূন্য )
 {
     /* Re-enable interrupts. */
     __enable_interrupt();
@@ -555,7 +555,7 @@ __interrupt void vTickISR( void )
      * necessitates.  Ensure IPL is at the max syscall value first. */
     __set_interrupt_level( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        যদি( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }

@@ -115,7 +115,7 @@
  * (in words, not in bytes!).  The kernel does not use this constant for any
  * other purpose.  Demo applications use the constant to make the demos somewhat
  * portable across hardware architectures. */
-#define configMINIMAL_STACK_SIZE                   128
+#define config_MINIMAL_স্তূপ_আকার                   128
 
 /* configMAX_TASK_NAME_LEN sets the maximum length (in characters) of a task's
  * human readable name.  Includes the NULL terminator. */
@@ -153,7 +153,7 @@
 /* configQUEUE_REGISTRY_SIZE sets the maximum number of queues and semaphores
  * that can be referenced from the queue registry.  Only required when using a
  * kernel aware debugger.  Defaults to 0 if left undefined. */
-#define configQUEUE_REGISTRY_SIZE                  0
+#define config_QUEUE_REGISTRY_আকার                  0
 
 /* Set configENABLE_BACKWARD_COMPATIBILITY to 1 to map function names and
  * datatypes from old version of FreeRTOS to their latest equivalent.  Defaults
@@ -165,7 +165,7 @@
  * in the array.  See
  * https://www.freertos.org/thread-local-storage-pointers.html Defaults to 0 if
  * left undefined. */
-#define configNUM_THREAD_LOCAL_STORAGE_POINTERS    0
+#define config_অঙ্ক_THREAD_LOCAL_STORAGE_POINTERS    0
 
 /* When configUSE_MINI_LIST_ITEM is set to 0, MiniListItem_t and ListItem_t are
  * both the same. When configUSE_MINI_LIST_ITEM is set to 1, MiniListItem_t
@@ -178,14 +178,14 @@
  * size of the task being created.  The same type is used to return information
  * about stack usage in various other API calls.  Defaults to size_t if left
  * undefined. */
-#define configSTACK_DEPTH_TYPE                     size_t
+#define config_স্তূপ_DEPTH_TYPE                     size_t
 
 /* configMESSAGE_BUFFER_LENGTH_TYPE sets the type used to store the length of
  * each message written to a FreeRTOS message buffer (the length is also written
  * to the message buffer.  Defaults to size_t if left undefined - but that may
  * waste space if messages never go above a length that could be held in a
  * uint8_t. */
-#define configMESSAGE_BUFFER_LENGTH_TYPE           size_t
+#define config_MESSAGE_বাফার_দৈর্ঘ্য_TYPE           size_t
 
 /* If configHEAP_CLEAR_MEMORY_ON_FREE is set to 1, then blocks of memory
  * allocated using pvPortMalloc() will be cleared (i.e. set to zero) when freed
@@ -197,7 +197,7 @@
  * Defaults to 0xFFFF if left undefined. New applications are recommended to use
  * vTaskListTasks and vTaskGetRunTimeStatistics APIs instead and supply the
  * length of the buffer explicitly to avoid memory corruption. */
-#define configSTATS_BUFFER_MAX_LENGTH              0xFFFF
+#define config_STATS_বাফার_MAX_দৈর্ঘ্য              0xFFFF
 
 /* Set configUSE_NEWLIB_REENTRANT to 1 to have a newlib reent structure
  * allocated for each task.  Set to 0 to not support newlib reent structures.
@@ -234,13 +234,13 @@
  * task.  See
  * https://www.freertos.org/RTOS-software-timer-service-daemon-task.html Only
  * used if configUSE_TIMERS is set to 1. */
-#define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
+#define config_TIMER_TASK_স্তূপ_DEPTH    config_MINIMAL_স্তূপ_আকার
 
 /* configTIMER_QUEUE_LENGTH sets the length of the queue (the number of discrete
  * items the queue can hold) used to send commands to the timer task.  See
  * https://www.freertos.org/RTOS-software-timer-service-daemon-task.html  Only
  * used if configUSE_TIMERS is set to 1. */
-#define configTIMER_QUEUE_LENGTH        10
+#define config_TIMER_QUEUE_দৈর্ঘ্য        10
 
 /******************************************************************************/
 /* Event Group related definitions. *******************************************/
@@ -287,7 +287,7 @@
  * or heap_4.c are included in the build.  This value is defaulted to 4096 bytes
  * but it must be tailored to each application.  Note the heap will appear in
  * the .bss section.  See https://www.freertos.org/a00111.html. */
-#define configTOTAL_HEAP_SIZE                        4096
+#define config_যোগ_HEAP_আকার                        4096
 
 /* Set configAPPLICATION_ALLOCATED_HEAP to 1 to have the application allocate
  * the array used as the FreeRTOS heap.  Set to 0 to have the linker allocate
@@ -300,7 +300,7 @@
  * come from the standard FreeRTOS heap.  The application writer must provide
  * implementations for pvPortMallocStack() and vPortFreeStack() if set to 1.
  * Defaults to 0 if left undefined. */
-#define configSTACK_ALLOCATION_FROM_SEPARATE_HEAP    0
+#define config_স্তূপ_ALLOCATION_FROM_SEPARATE_HEAP    0
 
 /* Set configENABLE_HEAP_PROTECTOR to 1 to enable bounds checking and
  * obfuscation to internal heap block pointers in heap_4.c and heap_5.c to help
@@ -362,7 +362,7 @@
  * configCHECK_FOR_STACK_OVERFLOW is set to 1. See
  * https://www.freertos.org/Stacks-and-stack-overflow-checking.html  Defaults to
  * 0 if left undefined. */
-#define configCHECK_FOR_STACK_OVERFLOW        2
+#define config_CHECK_FOR_স্তূপ_OVERFLOW        2
 
 /******************************************************************************/
 /* Run time and task stats gathering related definitions. *********************/
@@ -418,10 +418,10 @@
 
 /* *INDENT-OFF* */
 #define configASSERT( x )         \
-    if( ( x ) == 0 )              \
+    যদি( ( x ) == 0 )              \
     {                             \
         taskDISABLE_INTERRUPTS(); \
-        for( ; ; )                \
+        জন্য( ; ; )                \
         ;                         \
     }
 /* *INDENT-ON* */
@@ -442,7 +442,7 @@
  * target hardware.  Normally 8 or 16.  Only used by the FreeRTOS Cortex-M MPU
  * ports, not the standard ARMv7-M Cortex-M port.  Defaults to 8 if left
  * undefined. */
-#define configTOTAL_MPU_REGIONS                                   8
+#define config_যোগ_MPU_REGIONS                                   8
 
 /* configTEX_S_C_B_FLASH allows application writers to override the default
  * values for the for TEX, Shareable (S), Cacheable (C) and Bufferable (B) bits
@@ -484,7 +484,7 @@
  * application. The application will not be able to have more than
  * configPROTECTED_KERNEL_OBJECT_POOL_SIZE kernel objects at any point of
  * time. */
-#define configPROTECTED_KERNEL_OBJECT_POOL_SIZE                   10
+#define config_PROTECTED_KERNEL_OBJECT_POOL_আকার                   10
 
 /* When using the v2 MPU wrapper, set configSYSTEM_CALL_STACK_SIZE to the size
  * of the system call stack in words. Each task has a statically allocated
@@ -492,7 +492,7 @@
  * calls. For example, if configSYSTEM_CALL_STACK_SIZE is defined as 128 and
  * there are 10 tasks in the application, the total amount of memory used for
  * system call stacks is 128 * 10 = 1280 words. */
-#define configSYSTEM_CALL_STACK_SIZE                              128
+#define config_SYSTEM_CALL_স্তূপ_আকার                              128
 
 /* When using the v2 MPU wrapper, set configENABLE_ACCESS_CONTROL_LIST to 1 to
  * enable Access Control List (ACL) feature. When ACL is enabled, an
@@ -664,7 +664,7 @@
 #define INCLUDE_vTaskDelay                     1
 #define INCLUDE_xTaskGetSchedulerState         1
 #define INCLUDE_xTaskGetCurrentTaskHandle      1
-#define INCLUDE_uxTaskGetStackHighWaterMark    0
+#define INCLUDE_ux_Task_Get_স্তূপ_উপরের_Water_Mark    0
 #define INCLUDE_xTaskGetIdleTaskHandle         0
 #define INCLUDE_eTaskGetState                  0
 #define INCLUDE_xTimerPendFunctionCall         0

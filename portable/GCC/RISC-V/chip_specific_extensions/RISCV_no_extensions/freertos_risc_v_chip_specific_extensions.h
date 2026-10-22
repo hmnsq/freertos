@@ -56,7 +56,7 @@
 
 #define portasmHAS_SIFIVE_CLINT           0
 #define portasmHAS_MTIME                  0
-#define portasmADDITIONAL_CONTEXT_SIZE    0
+#define portasm_ADDITIONAL_CONTEXT_আকার    0
 
 .macro portasmSAVE_ADDITIONAL_REGISTERS
 /* No additional registers to save, so this macro does nothing. */

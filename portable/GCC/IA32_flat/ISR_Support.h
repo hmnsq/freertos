@@ -26,8 +26,8 @@
  *
  */
 
-    .extern ulTopOfSystemStack
-    .extern ulInterruptNesting
+    .বাহ্যিক ul_শীর্ষ_Of_System_স্তূপ
+    .বাহ্যিক ulInterruptNesting
 
 /*-----------------------------------------------------------*/
 
@@ -43,11 +43,11 @@
     jne     2f
 
     /* Interrupts are not nested, so save the rest of the task context. */
-    .if configSUPPORT_FPU == 1
+    .যদি configSUPPORT_FPU == 1
 
         /* If the task has a buffer allocated to save the FPU context then
         save the FPU context now. */
-        movl    pucPortTaskFPUContextBuffer, %eax
+        movl    puc_Port_Task_FPUContext_বাফার, %eax
         test    %eax, %eax
         je      1f
         fnsave  ( %eax ) /* Save FLOP context into ucTempFPUBuffer array. */
@@ -55,7 +55,7 @@
 
         1:
         /* Save the address of the FPU context, if any. */
-        push    pucPortTaskFPUContextBuffer
+        ঠেলো    puc_Port_Task_FPUContext_বাফার
 
     .endif /* configSUPPORT_FPU */
 
@@ -66,7 +66,7 @@
     movl    %esp, (%eax)
 
     /* Switch stacks. */
-    movl    ulTopOfSystemStack, %esp
+    movl    ul_শীর্ষ_Of_System_স্তূপ, %esp
     movl    %esp, %ebp
 
     2:
@@ -98,14 +98,14 @@
     movl    pxCurrentTCB, %eax
     movl    (%eax), %esp
 
-    .if configSUPPORT_FPU == 1
+    .যদি configSUPPORT_FPU == 1
 
         /* Restore address of task's FPU context buffer. */
-        pop     pucPortTaskFPUContextBuffer
+        বের_করো     puc_Port_Task_FPUContext_বাফার
 
         /* If the task has a buffer allocated in which its FPU context is saved,
         then restore it now. */
-        movl    pucPortTaskFPUContextBuffer, %eax
+        movl    puc_Port_Task_FPUContext_বাফার, %eax
         test    %eax, %eax
         je      1f
         frstor  ( %eax )
