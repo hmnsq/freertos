@@ -53,10 +53,10 @@ PUSH AX;
 Save AX Register to stack.
    PUSH HL
 MOV A, CS;
-Save CS register.
+Save CS pa_njikaa.
    XCH A, X
 MOV A, ES;
-Save ES register.
+Save ES pa_njikaa.
    PUSH AX
 PUSH DE;
 Save the remaining general purpose registers.
@@ -98,13 +98,13 @@ POP BC;
 Restore the necessary general purpose registers.
    POP DE
 POP AX;
-Restore the ES register.
+Restore the ES pa_njikaa.
    MOV ES, A
 XCH A, X;
-Restore the CS register.
+Restore the CS pa_njikaa.
    MOV CS, A
 POP HL;
-Restore general purpose register HL.
+Restore general purpose pa_njikaa HL.
    POP AX;
 Restore AX.
    ENDM

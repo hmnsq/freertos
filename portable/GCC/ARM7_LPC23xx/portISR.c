@@ -43,7 +43,7 @@
 
 /* Constants required to handle critical sections. */
 #define portNO_CRITICAL_NESTING    ( ( uint32_t ) 0 )
-volatile uint32_t ulCriticalNesting = 9999UL;
+ca_ncala uint32_t ulCriticalNesting = 9999UL;
 
 /*-----------------------------------------------------------*/
 
@@ -78,13 +78,13 @@ void vPortYieldProcessor( void )
     /* Within an IRQ ISR the link register has an offset from the true return
      * address, but an SWI ISR does not.  Add the offset manually so the same
      * ISR return code can be used in both cases. */
-    __asm volatile ( "ADD       LR, LR, #4" );
+    __asm ca_ncala ( "ADD       LR, LR, #4" );
 
     /* Perform the context switch.  First save the context of the current task. */
     portSAVE_CONTEXT();
 
     /* Find the highest priority task that is ready to run. */
-    __asm volatile ( "bl         vTaskSwitchContext" );
+    __asm ca_ncala ( "bl         vTaskSwitchContext" );
 
     /* Restore the context of the new task. */
     portRESTORE_CONTEXT();
@@ -97,7 +97,7 @@ void vPortYieldProcessor( void )
  */
 
 
-#if configUSE_PREEMPTION == 0
+#නම් configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
@@ -109,7 +109,7 @@ void vPortYieldProcessor( void )
         VICVectAddr = portCLEAR_VIC_INTERRUPT;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#නැතහොත් /* if configUSE_PREEMPTION == 0 */
 
 /* The preemptive scheduler is defined as "naked" as the full context is
  * saved on entry as part of the context switch. */
@@ -121,7 +121,7 @@ void vPortYieldProcessor( void )
 
         /* Increment the RTOS tick count, then look for the highest priority
          * task that is ready to run. */
-        __asm volatile
+        __asm ca_ncala
         (
             "   bl xTaskIncrementTick   \t\n" \
             "   cmp r0, #0              \t\n" \
@@ -154,7 +154,7 @@ void vPortYieldProcessor( void )
 
     void vPortDisableInterruptsFromThumb( void )
     {
-        __asm volatile (
+        __asm ca_ncala (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "ORR    R0, R0, #0xC0   \n\t" /* Disable IRQ, FIQ.                        */
@@ -165,7 +165,7 @@ void vPortYieldProcessor( void )
 
     void vPortEnableInterruptsFromThumb( void )
     {
-        __asm volatile (
+        __asm ca_ncala (
             "STMDB  SP!, {R0}       \n\t" /* Push R0.                                 */
             "MRS    R0, CPSR        \n\t" /* Get CPSR.                                */
             "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.                         */
@@ -183,7 +183,7 @@ void vPortYieldProcessor( void )
 void vPortEnterCritical( void )
 {
     /* Disable interrupts as per portDISABLE_INTERRUPTS();                          */
-    __asm volatile (
+    __asm ca_ncala (
         "STMDB  SP!, {R0}           \n\t" /* Push R0.                             */
         "MRS    R0, CPSR            \n\t" /* Get CPSR.                            */
         "ORR    R0, R0, #0xC0       \n\t" /* Disable IRQ, FIQ.                    */
@@ -198,17 +198,17 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    නම්( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        නම්( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
-            __asm volatile (
+            __asm ca_ncala (
                 "STMDB  SP!, {R0}       \n\t" /* Push R0.                     */
                 "MRS    R0, CPSR        \n\t" /* Get CPSR.                    */
                 "BIC    R0, R0, #0xC0   \n\t" /* Enable IRQ, FIQ.             */

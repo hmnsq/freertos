@@ -15,7 +15,7 @@
 
 #ifdef __GNUC__
     #define USED    __attribute__( ( used ) )
-#else
+#නැතහොත්
     #define USED
 #endif
 

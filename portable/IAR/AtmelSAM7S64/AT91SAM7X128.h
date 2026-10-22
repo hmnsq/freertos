@@ -46,12 +46,12 @@
 #ifndef AT91SAM7X128_H
 #define AT91SAM7X128_H
 
-typedef volatile unsigned int AT91_REG; /* Hardware register definition */
+typedef ca_ncala unsigned පූර්ණ_සංඛ්‍යා AT91_REG; /* Hardware register definition */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR System Peripherals */
 /* ***************************************************************************** */
-typedef struct _AT91S_SYS
+typedef sa_nracanaa _AT91S_SYS
 {
     AT91_REG AIC_SMR[ 32 ];     /* Source Mode Register */
     AT91_REG AIC_SVR[ 32 ];     /* Source Vector Register */
@@ -215,7 +215,7 @@ typedef struct _AT91S_SYS
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Advanced Interrupt Controller */
 /* ***************************************************************************** */
-typedef struct _AT91S_AIC
+typedef sa_nracanaa _AT91S_AIC
 {
     AT91_REG AIC_SMR[ 32 ];  /* Source Mode Register */
     AT91_REG AIC_SVR[ 32 ];  /* Source Vector Register */
@@ -240,27 +240,27 @@ typedef struct _AT91S_AIC
 } AT91S_AIC, * AT91PS_AIC;
 
 /* -------- AIC_SMR : (AIC Offset: 0x0) Control Register -------- */
-#define AT91C_AIC_PRIOR                            ( ( unsigned int ) 0x7 << 0 ) /* (AIC) Priority Level */
-#define     AT91C_AIC_PRIOR_LOWEST                 ( ( unsigned int ) 0x0 )      /* (AIC) Lowest priority level */
-#define     AT91C_AIC_PRIOR_HIGHEST                ( ( unsigned int ) 0x7 )      /* (AIC) Highest priority level */
-#define AT91C_AIC_SRCTYPE                          ( ( unsigned int ) 0x3 << 5 ) /* (AIC) Interrupt Source Type */
-#define     AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL       ( ( unsigned int ) 0x0 << 5 ) /* (AIC) Internal Sources Code Label High-level Sensitive */
-#define     AT91C_AIC_SRCTYPE_EXT_LOW_LEVEL        ( ( unsigned int ) 0x0 << 5 ) /* (AIC) External Sources Code Label Low-level Sensitive */
-#define     AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE    ( ( unsigned int ) 0x1 << 5 ) /* (AIC) Internal Sources Code Label Positive Edge triggered */
-#define     AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE    ( ( unsigned int ) 0x1 << 5 ) /* (AIC) External Sources Code Label Negative Edge triggered */
-#define     AT91C_AIC_SRCTYPE_HIGH_LEVEL           ( ( unsigned int ) 0x2 << 5 ) /* (AIC) Internal Or External Sources Code Label High-level Sensitive */
-#define     AT91C_AIC_SRCTYPE_POSITIVE_EDGE        ( ( unsigned int ) 0x3 << 5 ) /* (AIC) Internal Or External Sources Code Label Positive Edge triggered */
+#define AT91C_AIC_PRIOR                            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 0 ) /* (AIC) Priority Level */
+#define     AT91C_AIC_PRIOR_LOWEST                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )      /* (AIC) Lowest priority level */
+#define     AT91C_AIC_PRIOR_HIGHEST                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 )      /* (AIC) Highest priority level */
+#define AT91C_AIC_SRCTYPE                          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 5 ) /* (AIC) Interrupt Source Type */
+#define     AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 5 ) /* (AIC) Internal Sources Code Label High-level Sensitive */
+#define     AT91C_AIC_SRCTYPE_EXT_LOW_LEVEL        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 5 ) /* (AIC) External Sources Code Label Low-level Sensitive */
+#define     AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 ) /* (AIC) Internal Sources Code Label Positive Edge triggered */
+#define     AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 ) /* (AIC) External Sources Code Label Negative Edge triggered */
+#define     AT91C_AIC_SRCTYPE_HIGH_LEVEL           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 5 ) /* (AIC) Internal Or External Sources Code Label High-level Sensitive */
+#define     AT91C_AIC_SRCTYPE_POSITIVE_EDGE        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 5 ) /* (AIC) Internal Or External Sources Code Label Positive Edge triggered */
 /* -------- AIC_CISR : (AIC Offset: 0x114) AIC Core Interrupt Status Register -------- */
-#define AT91C_AIC_NFIQ                             ( ( unsigned int ) 0x1 << 0 ) /* (AIC) NFIQ Status */
-#define AT91C_AIC_NIRQ                             ( ( unsigned int ) 0x1 << 1 ) /* (AIC) NIRQ Status */
+#define AT91C_AIC_NFIQ                             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 ) /* (AIC) NFIQ Status */
+#define AT91C_AIC_NIRQ                             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 ) /* (AIC) NIRQ Status */
 /* -------- AIC_DCR : (AIC Offset: 0x138) AIC Debug Control Register (Protect) -------- */
-#define AT91C_AIC_DCR_PROT                         ( ( unsigned int ) 0x1 << 0 ) /* (AIC) Protection Mode */
-#define AT91C_AIC_DCR_GMSK                         ( ( unsigned int ) 0x1 << 1 ) /* (AIC) General Mask */
+#define AT91C_AIC_DCR_PROT                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 ) /* (AIC) Protection Mode */
+#define AT91C_AIC_DCR_GMSK                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 ) /* (AIC) General Mask */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Peripheral DMA Controller */
 /* ***************************************************************************** */
-typedef struct _AT91S_PDC
+typedef sa_nracanaa _AT91S_PDC
 {
     AT91_REG PDC_RPR;  /* Receive Pointer Register */
     AT91_REG PDC_RCR;  /* Receive Counter Register */
@@ -275,16 +275,16 @@ typedef struct _AT91S_PDC
 } AT91S_PDC, * AT91PS_PDC;
 
 /* -------- PDC_PTCR : (PDC Offset: 0x20) PDC Transfer Control Register -------- */
-#define AT91C_PDC_RXTEN     ( ( unsigned int ) 0x1 << 0 ) /* (PDC) Receiver Transfer Enable */
-#define AT91C_PDC_RXTDIS    ( ( unsigned int ) 0x1 << 1 ) /* (PDC) Receiver Transfer Disable */
-#define AT91C_PDC_TXTEN     ( ( unsigned int ) 0x1 << 8 ) /* (PDC) Transmitter Transfer Enable */
-#define AT91C_PDC_TXTDIS    ( ( unsigned int ) 0x1 << 9 ) /* (PDC) Transmitter Transfer Disable */
+#define AT91C_PDC_RXTEN     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 ) /* (PDC) Receiver Transfer Enable */
+#define AT91C_PDC_RXTDIS    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 ) /* (PDC) Receiver Transfer Disable */
+#define AT91C_PDC_TXTEN     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 ) /* (PDC) Transmitter Transfer Enable */
+#define AT91C_PDC_TXTDIS    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 ) /* (PDC) Transmitter Transfer Disable */
 /* -------- PDC_PTSR : (PDC Offset: 0x24) PDC Transfer Status Register -------- */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Debug Unit */
 /* ***************************************************************************** */
-typedef struct _AT91S_DBGU
+typedef sa_nracanaa _AT91S_DBGU
 {
     AT91_REG DBGU_CR;         /* Control Register */
     AT91_REG DBGU_MR;         /* Mode Register */
@@ -313,49 +313,49 @@ typedef struct _AT91S_DBGU
 } AT91S_DBGU, * AT91PS_DBGU;
 
 /* -------- DBGU_CR : (DBGU Offset: 0x0) Debug Unit Control Register -------- */
-#define AT91C_US_RSTRX                 ( ( unsigned int ) 0x1 << 2 )  /* (DBGU) Reset Receiver */
-#define AT91C_US_RSTTX                 ( ( unsigned int ) 0x1 << 3 )  /* (DBGU) Reset Transmitter */
-#define AT91C_US_RXEN                  ( ( unsigned int ) 0x1 << 4 )  /* (DBGU) Receiver Enable */
-#define AT91C_US_RXDIS                 ( ( unsigned int ) 0x1 << 5 )  /* (DBGU) Receiver Disable */
-#define AT91C_US_TXEN                  ( ( unsigned int ) 0x1 << 6 )  /* (DBGU) Transmitter Enable */
-#define AT91C_US_TXDIS                 ( ( unsigned int ) 0x1 << 7 )  /* (DBGU) Transmitter Disable */
-#define AT91C_US_RSTSTA                ( ( unsigned int ) 0x1 << 8 )  /* (DBGU) Reset Status Bits */
+#define AT91C_US_RSTRX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (DBGU) Reset Receiver */
+#define AT91C_US_RSTTX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (DBGU) Reset Transmitter */
+#define AT91C_US_RXEN                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (DBGU) Receiver Enable */
+#define AT91C_US_RXDIS                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (DBGU) Receiver Disable */
+#define AT91C_US_TXEN                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (DBGU) Transmitter Enable */
+#define AT91C_US_TXDIS                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (DBGU) Transmitter Disable */
+#define AT91C_US_RSTSTA                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (DBGU) Reset Status Bits */
 /* -------- DBGU_MR : (DBGU Offset: 0x4) Debug Unit Mode Register -------- */
-#define AT91C_US_PAR                   ( ( unsigned int ) 0x7 << 9 )  /* (DBGU) Parity type */
-#define     AT91C_US_PAR_EVEN          ( ( unsigned int ) 0x0 << 9 )  /* (DBGU) Even Parity */
-#define     AT91C_US_PAR_ODD           ( ( unsigned int ) 0x1 << 9 )  /* (DBGU) Odd Parity */
-#define     AT91C_US_PAR_SPACE         ( ( unsigned int ) 0x2 << 9 )  /* (DBGU) Parity forced to 0 (Space) */
-#define     AT91C_US_PAR_MARK          ( ( unsigned int ) 0x3 << 9 )  /* (DBGU) Parity forced to 1 (Mark) */
-#define     AT91C_US_PAR_NONE          ( ( unsigned int ) 0x4 << 9 )  /* (DBGU) No Parity */
-#define     AT91C_US_PAR_MULTI_DROP    ( ( unsigned int ) 0x6 << 9 )  /* (DBGU) Multi-drop mode */
-#define AT91C_US_CHMODE                ( ( unsigned int ) 0x3 << 14 ) /* (DBGU) Channel Mode */
-#define     AT91C_US_CHMODE_NORMAL     ( ( unsigned int ) 0x0 << 14 ) /* (DBGU) Normal Mode: The USART channel operates as an RX/TX USART. */
-#define     AT91C_US_CHMODE_AUTO       ( ( unsigned int ) 0x1 << 14 ) /* (DBGU) Automatic Echo: Receiver Data Input is connected to the TXD pin. */
-#define     AT91C_US_CHMODE_LOCAL      ( ( unsigned int ) 0x2 << 14 ) /* (DBGU) Local Loopback: Transmitter Output Signal is connected to Receiver Input Signal. */
-#define     AT91C_US_CHMODE_REMOTE     ( ( unsigned int ) 0x3 << 14 ) /* (DBGU) Remote Loopback: RXD pin is internally connected to TXD pin. */
+#define AT91C_US_PAR                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 9 )  /* (DBGU) Parity type */
+#define     AT91C_US_PAR_EVEN          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 9 )  /* (DBGU) Even Parity */
+#define     AT91C_US_PAR_ODD           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (DBGU) Odd Parity */
+#define     AT91C_US_PAR_SPACE         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 9 )  /* (DBGU) Parity forced to 0 (Space) */
+#define     AT91C_US_PAR_MARK          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 9 )  /* (DBGU) Parity forced to 1 (Mark) */
+#define     AT91C_US_PAR_NONE          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 9 )  /* (DBGU) No Parity */
+#define     AT91C_US_PAR_MULTI_DROP    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 << 9 )  /* (DBGU) Multi-drop mode */
+#define AT91C_US_CHMODE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 14 ) /* (DBGU) Channel Mode */
+#define     AT91C_US_CHMODE_NORMAL     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 14 ) /* (DBGU) Normal Mode: The USART channel operates as an RX/TX USART. */
+#define     AT91C_US_CHMODE_AUTO       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 ) /* (DBGU) Automatic Echo: Receiver Data Input is connected to the TXD pin. */
+#define     AT91C_US_CHMODE_LOCAL      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 14 ) /* (DBGU) Local Loopback: Transmitter Output Signal is connected to Receiver Input Signal. */
+#define     AT91C_US_CHMODE_REMOTE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 14 ) /* (DBGU) Remote Loopback: RXD pin is internally connected to TXD pin. */
 /* -------- DBGU_IER : (DBGU Offset: 0x8) Debug Unit Interrupt Enable Register -------- */
-#define AT91C_US_RXRDY                 ( ( unsigned int ) 0x1 << 0 )  /* (DBGU) RXRDY Interrupt */
-#define AT91C_US_TXRDY                 ( ( unsigned int ) 0x1 << 1 )  /* (DBGU) TXRDY Interrupt */
-#define AT91C_US_ENDRX                 ( ( unsigned int ) 0x1 << 3 )  /* (DBGU) End of Receive Transfer Interrupt */
-#define AT91C_US_ENDTX                 ( ( unsigned int ) 0x1 << 4 )  /* (DBGU) End of Transmit Interrupt */
-#define AT91C_US_OVRE                  ( ( unsigned int ) 0x1 << 5 )  /* (DBGU) Overrun Interrupt */
-#define AT91C_US_FRAME                 ( ( unsigned int ) 0x1 << 6 )  /* (DBGU) Framing Error Interrupt */
-#define AT91C_US_PARE                  ( ( unsigned int ) 0x1 << 7 )  /* (DBGU) Parity Error Interrupt */
-#define AT91C_US_TXEMPTY               ( ( unsigned int ) 0x1 << 9 )  /* (DBGU) TXEMPTY Interrupt */
-#define AT91C_US_TXBUFE                ( ( unsigned int ) 0x1 << 11 ) /* (DBGU) TXBUFE Interrupt */
-#define AT91C_US_RXBUFF                ( ( unsigned int ) 0x1 << 12 ) /* (DBGU) RXBUFF Interrupt */
-#define AT91C_US_COMM_TX               ( ( unsigned int ) 0x1 << 30 ) /* (DBGU) COMM_TX Interrupt */
-#define AT91C_US_COMM_RX               ( ( unsigned int ) 0x1 << 31 ) /* (DBGU) COMM_RX Interrupt */
+#define AT91C_US_RXRDY                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (DBGU) RXRDY Interrupt */
+#define AT91C_US_TXRDY                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (DBGU) TXRDY Interrupt */
+#define AT91C_US_ENDRX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (DBGU) End of Receive Transfer Interrupt */
+#define AT91C_US_ENDTX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (DBGU) End of Transmit Interrupt */
+#define AT91C_US_OVRE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (DBGU) Overrun Interrupt */
+#define AT91C_US_FRAME                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (DBGU) Framing Error Interrupt */
+#define AT91C_US_PARE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (DBGU) Parity Error Interrupt */
+#define AT91C_US_TXEMPTY               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (DBGU) TXEMPTY Interrupt */
+#define AT91C_US_TXBUFE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (DBGU) TXBUFE Interrupt */
+#define AT91C_US_RXBUFF                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (DBGU) RXBUFF Interrupt */
+#define AT91C_US_COMM_TX               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 30 ) /* (DBGU) COMM_TX Interrupt */
+#define AT91C_US_COMM_RX               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 31 ) /* (DBGU) COMM_RX Interrupt */
 /* -------- DBGU_IDR : (DBGU Offset: 0xc) Debug Unit Interrupt Disable Register -------- */
 /* -------- DBGU_IMR : (DBGU Offset: 0x10) Debug Unit Interrupt Mask Register -------- */
 /* -------- DBGU_CSR : (DBGU Offset: 0x14) Debug Unit Channel Status Register -------- */
 /* -------- DBGU_FNTR : (DBGU Offset: 0x48) Debug Unit FORCE_NTRST Register -------- */
-#define AT91C_US_FORCE_NTRST    ( ( unsigned int ) 0x1 << 0 ) /* (DBGU) Force NTRST in JTAG */
+#define AT91C_US_FORCE_NTRST    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 ) /* (DBGU) Force NTRST in JTAG */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Parallel Input Output Controller */
 /* ***************************************************************************** */
-typedef struct _AT91S_PIO
+typedef sa_nracanaa _AT91S_PIO
 {
     AT91_REG PIO_PER;        /* PIO Enable Register */
     AT91_REG PIO_PDR;        /* PIO Disable Register */
@@ -398,7 +398,7 @@ typedef struct _AT91S_PIO
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Clock Generator Controller */
 /* ***************************************************************************** */
-typedef struct _AT91S_CKGR
+typedef sa_nracanaa _AT91S_CKGR
 {
     AT91_REG CKGR_MOR;       /* Main Oscillator Register */
     AT91_REG CKGR_MCFR;      /* Main Clock  Frequency Register */
@@ -407,32 +407,32 @@ typedef struct _AT91S_CKGR
 } AT91S_CKGR, * AT91PS_CKGR;
 
 /* -------- CKGR_MOR : (CKGR Offset: 0x0) Main Oscillator Register -------- */
-#define AT91C_CKGR_MOSCEN            ( ( unsigned int ) 0x1 << 0 )    /* (CKGR) Main Oscillator Enable */
-#define AT91C_CKGR_OSCBYPASS         ( ( unsigned int ) 0x1 << 1 )    /* (CKGR) Main Oscillator Bypass */
-#define AT91C_CKGR_OSCOUNT           ( ( unsigned int ) 0xFF << 8 )   /* (CKGR) Main Oscillator Start-up Time */
+#define AT91C_CKGR_MOSCEN            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (CKGR) Main Oscillator Enable */
+#define AT91C_CKGR_OSCBYPASS         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (CKGR) Main Oscillator Bypass */
+#define AT91C_CKGR_OSCOUNT           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 8 )   /* (CKGR) Main Oscillator Start-up Time */
 /* -------- CKGR_MCFR : (CKGR Offset: 0x4) Main Clock Frequency Register -------- */
-#define AT91C_CKGR_MAINF             ( ( unsigned int ) 0xFFFF << 0 ) /* (CKGR) Main Clock Frequency */
-#define AT91C_CKGR_MAINRDY           ( ( unsigned int ) 0x1 << 16 )   /* (CKGR) Main Clock Ready */
+#define AT91C_CKGR_MAINF             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 ) /* (CKGR) Main Clock Frequency */
+#define AT91C_CKGR_MAINRDY           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )   /* (CKGR) Main Clock Ready */
 /* -------- CKGR_PLLR : (CKGR Offset: 0xc) PLL B Register -------- */
-#define AT91C_CKGR_DIV               ( ( unsigned int ) 0xFF << 0 )   /* (CKGR) Divider Selected */
-#define     AT91C_CKGR_DIV_0         ( ( unsigned int ) 0x0 )         /* (CKGR) Divider output is 0 */
-#define     AT91C_CKGR_DIV_BYPASS    ( ( unsigned int ) 0x1 )         /* (CKGR) Divider is bypassed */
-#define AT91C_CKGR_PLLCOUNT          ( ( unsigned int ) 0x3F << 8 )   /* (CKGR) PLL Counter */
-#define AT91C_CKGR_OUT               ( ( unsigned int ) 0x3 << 14 )   /* (CKGR) PLL Output Frequency Range */
-#define     AT91C_CKGR_OUT_0         ( ( unsigned int ) 0x0 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
-#define     AT91C_CKGR_OUT_1         ( ( unsigned int ) 0x1 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
-#define     AT91C_CKGR_OUT_2         ( ( unsigned int ) 0x2 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
-#define     AT91C_CKGR_OUT_3         ( ( unsigned int ) 0x3 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
-#define AT91C_CKGR_MUL               ( ( unsigned int ) 0x7FF << 16 ) /* (CKGR) PLL Multiplier */
-#define AT91C_CKGR_USBDIV            ( ( unsigned int ) 0x3 << 28 )   /* (CKGR) Divider for USB Clocks */
-#define     AT91C_CKGR_USBDIV_0      ( ( unsigned int ) 0x0 << 28 )   /* (CKGR) Divider output is PLL clock output */
-#define     AT91C_CKGR_USBDIV_1      ( ( unsigned int ) 0x1 << 28 )   /* (CKGR) Divider output is PLL clock output divided by 2 */
-#define     AT91C_CKGR_USBDIV_2      ( ( unsigned int ) 0x2 << 28 )   /* (CKGR) Divider output is PLL clock output divided by 4 */
+#define AT91C_CKGR_DIV               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 0 )   /* (CKGR) Divider Selected */
+#define     AT91C_CKGR_DIV_0         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )         /* (CKGR) Divider output is 0 */
+#define     AT91C_CKGR_DIV_BYPASS    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )         /* (CKGR) Divider is bypassed */
+#define AT91C_CKGR_PLLCOUNT          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3F << 8 )   /* (CKGR) PLL Counter */
+#define AT91C_CKGR_OUT               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 14 )   /* (CKGR) PLL Output Frequency Range */
+#define     AT91C_CKGR_OUT_0         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
+#define     AT91C_CKGR_OUT_1         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
+#define     AT91C_CKGR_OUT_2         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
+#define     AT91C_CKGR_OUT_3         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 14 )   /* (CKGR) Please refer to the PLL datasheet */
+#define AT91C_CKGR_MUL               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7FF << 16 ) /* (CKGR) PLL Multiplier */
+#define AT91C_CKGR_USBDIV            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 28 )   /* (CKGR) Divider for USB Clocks */
+#define     AT91C_CKGR_USBDIV_0      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 28 )   /* (CKGR) Divider output is PLL clock output */
+#define     AT91C_CKGR_USBDIV_1      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 28 )   /* (CKGR) Divider output is PLL clock output divided by 2 */
+#define     AT91C_CKGR_USBDIV_2      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 28 )   /* (CKGR) Divider output is PLL clock output divided by 4 */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Power Management Controller */
 /* ***************************************************************************** */
-typedef struct _AT91S_PMC
+typedef sa_nracanaa _AT91S_PMC
 {
     AT91_REG PMC_SCER;       /* System Clock Enable Register */
     AT91_REG PMC_SCDR;       /* System Clock Disable Register */
@@ -457,39 +457,39 @@ typedef struct _AT91S_PMC
 } AT91S_PMC, * AT91PS_PMC;
 
 /* -------- PMC_SCER : (PMC Offset: 0x0) System Clock Enable Register -------- */
-#define AT91C_PMC_PCK     ( ( unsigned int ) 0x1 << 0 )  /* (PMC) Processor Clock */
-#define AT91C_PMC_UDP     ( ( unsigned int ) 0x1 << 7 )  /* (PMC) USB Device Port Clock */
-#define AT91C_PMC_PCK0    ( ( unsigned int ) 0x1 << 8 )  /* (PMC) Programmable Clock Output */
-#define AT91C_PMC_PCK1    ( ( unsigned int ) 0x1 << 9 )  /* (PMC) Programmable Clock Output */
-#define AT91C_PMC_PCK2    ( ( unsigned int ) 0x1 << 10 ) /* (PMC) Programmable Clock Output */
-#define AT91C_PMC_PCK3    ( ( unsigned int ) 0x1 << 11 ) /* (PMC) Programmable Clock Output */
+#define AT91C_PMC_PCK     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (PMC) Processor Clock */
+#define AT91C_PMC_UDP     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (PMC) USB Device Port Clock */
+#define AT91C_PMC_PCK0    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (PMC) Programmable Clock Output */
+#define AT91C_PMC_PCK1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (PMC) Programmable Clock Output */
+#define AT91C_PMC_PCK2    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (PMC) Programmable Clock Output */
+#define AT91C_PMC_PCK3    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (PMC) Programmable Clock Output */
 /* -------- PMC_SCDR : (PMC Offset: 0x4) System Clock Disable Register -------- */
 /* -------- PMC_SCSR : (PMC Offset: 0x8) System Clock Status Register -------- */
 /* -------- CKGR_MOR : (PMC Offset: 0x20) Main Oscillator Register -------- */
 /* -------- CKGR_MCFR : (PMC Offset: 0x24) Main Clock Frequency Register -------- */
 /* -------- CKGR_PLLR : (PMC Offset: 0x2c) PLL B Register -------- */
 /* -------- PMC_MCKR : (PMC Offset: 0x30) Master Clock Register -------- */
-#define AT91C_PMC_CSS                 ( ( unsigned int ) 0x3 << 0 ) /* (PMC) Programmable Clock Selection */
-#define     AT91C_PMC_CSS_SLOW_CLK    ( ( unsigned int ) 0x0 )      /* (PMC) Slow Clock is selected */
-#define     AT91C_PMC_CSS_MAIN_CLK    ( ( unsigned int ) 0x1 )      /* (PMC) Main Clock is selected */
-#define     AT91C_PMC_CSS_PLL_CLK     ( ( unsigned int ) 0x3 )      /* (PMC) Clock from PLL is selected */
-#define AT91C_PMC_PRES                ( ( unsigned int ) 0x7 << 2 ) /* (PMC) Programmable Clock Prescaler */
-#define     AT91C_PMC_PRES_CLK        ( ( unsigned int ) 0x0 << 2 ) /* (PMC) Selected clock */
-#define     AT91C_PMC_PRES_CLK_2      ( ( unsigned int ) 0x1 << 2 ) /* (PMC) Selected clock divided by 2 */
-#define     AT91C_PMC_PRES_CLK_4      ( ( unsigned int ) 0x2 << 2 ) /* (PMC) Selected clock divided by 4 */
-#define     AT91C_PMC_PRES_CLK_8      ( ( unsigned int ) 0x3 << 2 ) /* (PMC) Selected clock divided by 8 */
-#define     AT91C_PMC_PRES_CLK_16     ( ( unsigned int ) 0x4 << 2 ) /* (PMC) Selected clock divided by 16 */
-#define     AT91C_PMC_PRES_CLK_32     ( ( unsigned int ) 0x5 << 2 ) /* (PMC) Selected clock divided by 32 */
-#define     AT91C_PMC_PRES_CLK_64     ( ( unsigned int ) 0x6 << 2 ) /* (PMC) Selected clock divided by 64 */
+#define AT91C_PMC_CSS                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 0 ) /* (PMC) Programmable Clock Selection */
+#define     AT91C_PMC_CSS_SLOW_CLK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )      /* (PMC) Slow Clock is selected */
+#define     AT91C_PMC_CSS_MAIN_CLK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )      /* (PMC) Main Clock is selected */
+#define     AT91C_PMC_CSS_PLL_CLK     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 )      /* (PMC) Clock from PLL is selected */
+#define AT91C_PMC_PRES                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 2 ) /* (PMC) Programmable Clock Prescaler */
+#define     AT91C_PMC_PRES_CLK        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 2 ) /* (PMC) Selected clock */
+#define     AT91C_PMC_PRES_CLK_2      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 ) /* (PMC) Selected clock divided by 2 */
+#define     AT91C_PMC_PRES_CLK_4      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 2 ) /* (PMC) Selected clock divided by 4 */
+#define     AT91C_PMC_PRES_CLK_8      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 2 ) /* (PMC) Selected clock divided by 8 */
+#define     AT91C_PMC_PRES_CLK_16     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 2 ) /* (PMC) Selected clock divided by 16 */
+#define     AT91C_PMC_PRES_CLK_32     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 2 ) /* (PMC) Selected clock divided by 32 */
+#define     AT91C_PMC_PRES_CLK_64     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 << 2 ) /* (PMC) Selected clock divided by 64 */
 /* -------- PMC_PCKR : (PMC Offset: 0x40) Programmable Clock Register -------- */
 /* -------- PMC_IER : (PMC Offset: 0x60) PMC Interrupt Enable Register -------- */
-#define AT91C_PMC_MOSCS               ( ( unsigned int ) 0x1 << 0 )  /* (PMC) MOSC Status/Enable/Disable/Mask */
-#define AT91C_PMC_LOCK                ( ( unsigned int ) 0x1 << 2 )  /* (PMC) PLL Status/Enable/Disable/Mask */
-#define AT91C_PMC_MCKRDY              ( ( unsigned int ) 0x1 << 3 )  /* (PMC) MCK_RDY Status/Enable/Disable/Mask */
-#define AT91C_PMC_PCK0RDY             ( ( unsigned int ) 0x1 << 8 )  /* (PMC) PCK0_RDY Status/Enable/Disable/Mask */
-#define AT91C_PMC_PCK1RDY             ( ( unsigned int ) 0x1 << 9 )  /* (PMC) PCK1_RDY Status/Enable/Disable/Mask */
-#define AT91C_PMC_PCK2RDY             ( ( unsigned int ) 0x1 << 10 ) /* (PMC) PCK2_RDY Status/Enable/Disable/Mask */
-#define AT91C_PMC_PCK3RDY             ( ( unsigned int ) 0x1 << 11 ) /* (PMC) PCK3_RDY Status/Enable/Disable/Mask */
+#define AT91C_PMC_MOSCS               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (PMC) MOSC Status/Enable/Disable/Mask */
+#define AT91C_PMC_LOCK                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (PMC) PLL Status/Enable/Disable/Mask */
+#define AT91C_PMC_MCKRDY              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (PMC) MCK_RDY Status/Enable/Disable/Mask */
+#define AT91C_PMC_PCK0RDY             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (PMC) PCK0_RDY Status/Enable/Disable/Mask */
+#define AT91C_PMC_PCK1RDY             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (PMC) PCK1_RDY Status/Enable/Disable/Mask */
+#define AT91C_PMC_PCK2RDY             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (PMC) PCK2_RDY Status/Enable/Disable/Mask */
+#define AT91C_PMC_PCK3RDY             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (PMC) PCK3_RDY Status/Enable/Disable/Mask */
 /* -------- PMC_IDR : (PMC Offset: 0x64) PMC Interrupt Disable Register -------- */
 /* -------- PMC_SR : (PMC Offset: 0x68) PMC Status Register -------- */
 /* -------- PMC_IMR : (PMC Offset: 0x6c) PMC Interrupt Mask Register -------- */
@@ -497,7 +497,7 @@ typedef struct _AT91S_PMC
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Reset Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_RSTC
+typedef sa_nracanaa _AT91S_RSTC
 {
     AT91_REG RSTC_RCR; /* Reset Control Register */
     AT91_REG RSTC_RSR; /* Reset Status Register */
@@ -505,32 +505,32 @@ typedef struct _AT91S_RSTC
 } AT91S_RSTC, * AT91PS_RSTC;
 
 /* -------- RSTC_RCR : (RSTC Offset: 0x0) Reset Control Register -------- */
-#define AT91C_RSTC_PROCRST                ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) Processor Reset */
-#define AT91C_RSTC_PERRST                 ( ( unsigned int ) 0x1 << 2 )   /* (RSTC) Peripheral Reset */
-#define AT91C_RSTC_EXTRST                 ( ( unsigned int ) 0x1 << 3 )   /* (RSTC) External Reset */
-#define AT91C_RSTC_KEY                    ( ( unsigned int ) 0xFF << 24 ) /* (RSTC) Password */
+#define AT91C_RSTC_PROCRST                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (RSTC) Processor Reset */
+#define AT91C_RSTC_PERRST                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (RSTC) Peripheral Reset */
+#define AT91C_RSTC_EXTRST                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (RSTC) External Reset */
+#define AT91C_RSTC_KEY                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 24 ) /* (RSTC) Password */
 /* -------- RSTC_RSR : (RSTC Offset: 0x4) Reset Status Register -------- */
-#define AT91C_RSTC_URSTS                  ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) User Reset Status */
-#define AT91C_RSTC_BODSTS                 ( ( unsigned int ) 0x1 << 1 )   /* (RSTC) Brownout Detection Status */
-#define AT91C_RSTC_RSTTYP                 ( ( unsigned int ) 0x7 << 8 )   /* (RSTC) Reset Type */
-#define     AT91C_RSTC_RSTTYP_POWERUP     ( ( unsigned int ) 0x0 << 8 )   /* (RSTC) Power-up Reset. VDDCORE rising. */
-#define     AT91C_RSTC_RSTTYP_WAKEUP      ( ( unsigned int ) 0x1 << 8 )   /* (RSTC) WakeUp Reset. VDDCORE rising. */
-#define     AT91C_RSTC_RSTTYP_WATCHDOG    ( ( unsigned int ) 0x2 << 8 )   /* (RSTC) Watchdog Reset. Watchdog overflow occurred. */
-#define     AT91C_RSTC_RSTTYP_SOFTWARE    ( ( unsigned int ) 0x3 << 8 )   /* (RSTC) Software Reset. Processor reset required by the software. */
-#define     AT91C_RSTC_RSTTYP_USER        ( ( unsigned int ) 0x4 << 8 )   /* (RSTC) User Reset. NRST pin detected low. */
-#define     AT91C_RSTC_RSTTYP_BROWNOUT    ( ( unsigned int ) 0x5 << 8 )   /* (RSTC) Brownout Reset occurred. */
-#define AT91C_RSTC_NRSTL                  ( ( unsigned int ) 0x1 << 16 )  /* (RSTC) NRST pin level */
-#define AT91C_RSTC_SRCMP                  ( ( unsigned int ) 0x1 << 17 )  /* (RSTC) Software Reset Command in Progress. */
+#define AT91C_RSTC_URSTS                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (RSTC) User Reset Status */
+#define AT91C_RSTC_BODSTS                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (RSTC) Brownout Detection Status */
+#define AT91C_RSTC_RSTTYP                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 8 )   /* (RSTC) Reset Type */
+#define     AT91C_RSTC_RSTTYP_POWERUP     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (RSTC) Power-up Reset. VDDCORE rising. */
+#define     AT91C_RSTC_RSTTYP_WAKEUP      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (RSTC) WakeUp Reset. VDDCORE rising. */
+#define     AT91C_RSTC_RSTTYP_WATCHDOG    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )   /* (RSTC) Watchdog Reset. Watchdog overflow occurred. */
+#define     AT91C_RSTC_RSTTYP_SOFTWARE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (RSTC) Software Reset. Processor reset required by the software. */
+#define     AT91C_RSTC_RSTTYP_USER        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 8 )   /* (RSTC) User Reset. NRST pin detected low. */
+#define     AT91C_RSTC_RSTTYP_BROWNOUT    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 8 )   /* (RSTC) Brownout Reset occurred. */
+#define AT91C_RSTC_NRSTL                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (RSTC) NRST pin level */
+#define AT91C_RSTC_SRCMP                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )  /* (RSTC) Software Reset Command in Progress. */
 /* -------- RSTC_RMR : (RSTC Offset: 0x8) Reset Mode Register -------- */
-#define AT91C_RSTC_URSTEN                 ( ( unsigned int ) 0x1 << 0 )   /* (RSTC) User Reset Enable */
-#define AT91C_RSTC_URSTIEN                ( ( unsigned int ) 0x1 << 4 )   /* (RSTC) User Reset Interrupt Enable */
-#define AT91C_RSTC_ERSTL                  ( ( unsigned int ) 0xF << 8 )   /* (RSTC) User Reset Enable */
-#define AT91C_RSTC_BODIEN                 ( ( unsigned int ) 0x1 << 16 )  /* (RSTC) Brownout Detection Interrupt Enable */
+#define AT91C_RSTC_URSTEN                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (RSTC) User Reset Enable */
+#define AT91C_RSTC_URSTIEN                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (RSTC) User Reset Interrupt Enable */
+#define AT91C_RSTC_ERSTL                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 8 )   /* (RSTC) User Reset Enable */
+#define AT91C_RSTC_BODIEN                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (RSTC) Brownout Detection Interrupt Enable */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Real Time Timer Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_RTTC
+typedef sa_nracanaa _AT91S_RTTC
 {
     AT91_REG RTTC_RTMR; /* Real-time Mode Register */
     AT91_REG RTTC_RTAR; /* Real-time Alarm Register */
@@ -539,22 +539,22 @@ typedef struct _AT91S_RTTC
 } AT91S_RTTC, * AT91PS_RTTC;
 
 /* -------- RTTC_RTMR : (RTTC Offset: 0x0) Real-time Mode Register -------- */
-#define AT91C_RTTC_RTPRES       ( ( unsigned int ) 0xFFFF << 0 ) /* (RTTC) Real-time Timer Prescaler Value */
-#define AT91C_RTTC_ALMIEN       ( ( unsigned int ) 0x1 << 16 )   /* (RTTC) Alarm Interrupt Enable */
-#define AT91C_RTTC_RTTINCIEN    ( ( unsigned int ) 0x1 << 17 )   /* (RTTC) Real Time Timer Increment Interrupt Enable */
-#define AT91C_RTTC_RTTRST       ( ( unsigned int ) 0x1 << 18 )   /* (RTTC) Real Time Timer Restart */
+#define AT91C_RTTC_RTPRES       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 ) /* (RTTC) Real-time Timer Prescaler Value */
+#define AT91C_RTTC_ALMIEN       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )   /* (RTTC) Alarm Interrupt Enable */
+#define AT91C_RTTC_RTTINCIEN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )   /* (RTTC) Real Time Timer Increment Interrupt Enable */
+#define AT91C_RTTC_RTTRST       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 )   /* (RTTC) Real Time Timer Restart */
 /* -------- RTTC_RTAR : (RTTC Offset: 0x4) Real-time Alarm Register -------- */
-#define AT91C_RTTC_ALMV         ( ( unsigned int ) 0x0 << 0 )    /* (RTTC) Alarm Value */
+#define AT91C_RTTC_ALMV         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 0 )    /* (RTTC) Alarm Value */
 /* -------- RTTC_RTVR : (RTTC Offset: 0x8) Current Real-time Value Register -------- */
-#define AT91C_RTTC_CRTV         ( ( unsigned int ) 0x0 << 0 )    /* (RTTC) Current Real-time Value */
+#define AT91C_RTTC_CRTV         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 0 )    /* (RTTC) Current Real-time Value */
 /* -------- RTTC_RTSR : (RTTC Offset: 0xc) Real-time Status Register -------- */
-#define AT91C_RTTC_ALMS         ( ( unsigned int ) 0x1 << 0 )    /* (RTTC) Real-time Alarm Status */
-#define AT91C_RTTC_RTTINC       ( ( unsigned int ) 0x1 << 1 )    /* (RTTC) Real-time Timer Increment */
+#define AT91C_RTTC_ALMS         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (RTTC) Real-time Alarm Status */
+#define AT91C_RTTC_RTTINC       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (RTTC) Real-time Timer Increment */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Periodic Interval Timer Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_PITC
+typedef sa_nracanaa _AT91S_PITC
 {
     AT91_REG PITC_PIMR; /* Period Interval Mode Register */
     AT91_REG PITC_PISR; /* Period Interval Status Register */
@@ -563,20 +563,20 @@ typedef struct _AT91S_PITC
 } AT91S_PITC, * AT91PS_PITC;
 
 /* -------- PITC_PIMR : (PITC Offset: 0x0) Periodic Interval Mode Register -------- */
-#define AT91C_PITC_PIV       ( ( unsigned int ) 0xFFFFF << 0 ) /* (PITC) Periodic Interval Value */
-#define AT91C_PITC_PITEN     ( ( unsigned int ) 0x1 << 24 )    /* (PITC) Periodic Interval Timer Enabled */
-#define AT91C_PITC_PITIEN    ( ( unsigned int ) 0x1 << 25 )    /* (PITC) Periodic Interval Timer Interrupt Enable */
+#define AT91C_PITC_PIV       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFFF << 0 ) /* (PITC) Periodic Interval Value */
+#define AT91C_PITC_PITEN     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )    /* (PITC) Periodic Interval Timer Enabled */
+#define AT91C_PITC_PITIEN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 25 )    /* (PITC) Periodic Interval Timer Interrupt Enable */
 /* -------- PITC_PISR : (PITC Offset: 0x4) Periodic Interval Status Register -------- */
-#define AT91C_PITC_PITS      ( ( unsigned int ) 0x1 << 0 )     /* (PITC) Periodic Interval Timer Status */
+#define AT91C_PITC_PITS      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )     /* (PITC) Periodic Interval Timer Status */
 /* -------- PITC_PIVR : (PITC Offset: 0x8) Periodic Interval Value Register -------- */
-#define AT91C_PITC_CPIV      ( ( unsigned int ) 0xFFFFF << 0 ) /* (PITC) Current Periodic Interval Value */
-#define AT91C_PITC_PICNT     ( ( unsigned int ) 0xFFF << 20 )  /* (PITC) Periodic Interval Counter */
+#define AT91C_PITC_CPIV      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFFF << 0 ) /* (PITC) Current Periodic Interval Value */
+#define AT91C_PITC_PICNT     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFF << 20 )  /* (PITC) Periodic Interval Counter */
 /* -------- PITC_PIIR : (PITC Offset: 0xc) Periodic Interval Image Register -------- */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Watchdog Timer Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_WDTC
+typedef sa_nracanaa _AT91S_WDTC
 {
     AT91_REG WDTC_WDCR; /* Watchdog Control Register */
     AT91_REG WDTC_WDMR; /* Watchdog Mode Register */
@@ -584,36 +584,36 @@ typedef struct _AT91S_WDTC
 } AT91S_WDTC, * AT91PS_WDTC;
 
 /* -------- WDTC_WDCR : (WDTC Offset: 0x0) Periodic Interval Image Register -------- */
-#define AT91C_WDTC_WDRSTT       ( ( unsigned int ) 0x1 << 0 )    /* (WDTC) Watchdog Restart */
-#define AT91C_WDTC_KEY          ( ( unsigned int ) 0xFF << 24 )  /* (WDTC) Watchdog KEY Password */
+#define AT91C_WDTC_WDRSTT       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (WDTC) Watchdog Restart */
+#define AT91C_WDTC_KEY          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 24 )  /* (WDTC) Watchdog KEY Password */
 /* -------- WDTC_WDMR : (WDTC Offset: 0x4) Watchdog Mode Register -------- */
-#define AT91C_WDTC_WDV          ( ( unsigned int ) 0xFFF << 0 )  /* (WDTC) Watchdog Timer Restart */
-#define AT91C_WDTC_WDFIEN       ( ( unsigned int ) 0x1 << 12 )   /* (WDTC) Watchdog Fault Interrupt Enable */
-#define AT91C_WDTC_WDRSTEN      ( ( unsigned int ) 0x1 << 13 )   /* (WDTC) Watchdog Reset Enable */
-#define AT91C_WDTC_WDRPROC      ( ( unsigned int ) 0x1 << 14 )   /* (WDTC) Watchdog Timer Restart */
-#define AT91C_WDTC_WDDIS        ( ( unsigned int ) 0x1 << 15 )   /* (WDTC) Watchdog Disable */
-#define AT91C_WDTC_WDD          ( ( unsigned int ) 0xFFF << 16 ) /* (WDTC) Watchdog Delta Value */
-#define AT91C_WDTC_WDDBGHLT     ( ( unsigned int ) 0x1 << 28 )   /* (WDTC) Watchdog Debug Halt */
-#define AT91C_WDTC_WDIDLEHLT    ( ( unsigned int ) 0x1 << 29 )   /* (WDTC) Watchdog Idle Halt */
+#define AT91C_WDTC_WDV          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFF << 0 )  /* (WDTC) Watchdog Timer Restart */
+#define AT91C_WDTC_WDFIEN       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 )   /* (WDTC) Watchdog Fault Interrupt Enable */
+#define AT91C_WDTC_WDRSTEN      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 )   /* (WDTC) Watchdog Reset Enable */
+#define AT91C_WDTC_WDRPROC      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 )   /* (WDTC) Watchdog Timer Restart */
+#define AT91C_WDTC_WDDIS        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 )   /* (WDTC) Watchdog Disable */
+#define AT91C_WDTC_WDD          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFF << 16 ) /* (WDTC) Watchdog Delta Value */
+#define AT91C_WDTC_WDDBGHLT     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 28 )   /* (WDTC) Watchdog Debug Halt */
+#define AT91C_WDTC_WDIDLEHLT    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 29 )   /* (WDTC) Watchdog Idle Halt */
 /* -------- WDTC_WDSR : (WDTC Offset: 0x8) Watchdog Status Register -------- */
-#define AT91C_WDTC_WDUNF        ( ( unsigned int ) 0x1 << 0 )    /* (WDTC) Watchdog Underflow */
-#define AT91C_WDTC_WDERR        ( ( unsigned int ) 0x1 << 1 )    /* (WDTC) Watchdog Error */
+#define AT91C_WDTC_WDUNF        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (WDTC) Watchdog Underflow */
+#define AT91C_WDTC_WDERR        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (WDTC) Watchdog Error */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Voltage Regulator Mode Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_VREG
+typedef sa_nracanaa _AT91S_VREG
 {
     AT91_REG VREG_MR; /* Voltage Regulator Mode Register */
 } AT91S_VREG, * AT91PS_VREG;
 
 /* -------- VREG_MR : (VREG Offset: 0x0) Voltage Regulator Mode Register -------- */
-#define AT91C_VREG_PSTDBY    ( ( unsigned int ) 0x1 << 0 ) /* (VREG) Voltage Regulator Power Standby Mode */
+#define AT91C_VREG_PSTDBY    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 ) /* (VREG) Voltage Regulator Power Standby Mode */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Memory Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_MC
+typedef sa_nracanaa _AT91S_MC
 {
     AT91_REG MC_RCR;          /* MC Remap Control Register */
     AT91_REG MC_ASR;          /* MC Abort Status Register */
@@ -625,76 +625,76 @@ typedef struct _AT91S_MC
 } AT91S_MC, * AT91PS_MC;
 
 /* -------- MC_RCR : (MC Offset: 0x0) MC Remap Control Register -------- */
-#define AT91C_MC_RCB                       ( ( unsigned int ) 0x1 << 0 )   /* (MC) Remap Command Bit */
+#define AT91C_MC_RCB                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (MC) Remap Command Bit */
 /* -------- MC_ASR : (MC Offset: 0x4) MC Abort Status Register -------- */
-#define AT91C_MC_UNDADD                    ( ( unsigned int ) 0x1 << 0 )   /* (MC) Undefined Address Abort Status */
-#define AT91C_MC_MISADD                    ( ( unsigned int ) 0x1 << 1 )   /* (MC) Misaligned Address Abort Status */
-#define AT91C_MC_ABTSZ                     ( ( unsigned int ) 0x3 << 8 )   /* (MC) Abort Size Status */
-#define     AT91C_MC_ABTSZ_BYTE            ( ( unsigned int ) 0x0 << 8 )   /* (MC) Byte */
-#define     AT91C_MC_ABTSZ_HWORD           ( ( unsigned int ) 0x1 << 8 )   /* (MC) Half-word */
-#define     AT91C_MC_ABTSZ_WORD            ( ( unsigned int ) 0x2 << 8 )   /* (MC) Word */
-#define AT91C_MC_ABTTYP                    ( ( unsigned int ) 0x3 << 10 )  /* (MC) Abort Type Status */
-#define     AT91C_MC_ABTTYP_DATAR          ( ( unsigned int ) 0x0 << 10 )  /* (MC) Data Read */
-#define     AT91C_MC_ABTTYP_DATAW          ( ( unsigned int ) 0x1 << 10 )  /* (MC) Data Write */
-#define     AT91C_MC_ABTTYP_FETCH          ( ( unsigned int ) 0x2 << 10 )  /* (MC) Code Fetch */
-#define AT91C_MC_MST0                      ( ( unsigned int ) 0x1 << 16 )  /* (MC) Master 0 Abort Source */
-#define AT91C_MC_MST1                      ( ( unsigned int ) 0x1 << 17 )  /* (MC) Master 1 Abort Source */
-#define AT91C_MC_SVMST0                    ( ( unsigned int ) 0x1 << 24 )  /* (MC) Saved Master 0 Abort Source */
-#define AT91C_MC_SVMST1                    ( ( unsigned int ) 0x1 << 25 )  /* (MC) Saved Master 1 Abort Source */
+#define AT91C_MC_UNDADD                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (MC) Undefined Address Abort Status */
+#define AT91C_MC_MISADD                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (MC) Misaligned Address Abort Status */
+#define AT91C_MC_ABTSZ                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (MC) Abort Size Status */
+#define     AT91C_MC_ABTSZ_BYTE            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (MC) Byte */
+#define     AT91C_MC_ABTSZ_HWORD           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (MC) Half-word */
+#define     AT91C_MC_ABTSZ_WORD            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )   /* (MC) Word */
+#define AT91C_MC_ABTTYP                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 10 )  /* (MC) Abort Type Status */
+#define     AT91C_MC_ABTTYP_DATAR          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 10 )  /* (MC) Data Read */
+#define     AT91C_MC_ABTTYP_DATAW          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 )  /* (MC) Data Write */
+#define     AT91C_MC_ABTTYP_FETCH          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 10 )  /* (MC) Code Fetch */
+#define AT91C_MC_MST0                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (MC) Master 0 Abort Source */
+#define AT91C_MC_MST1                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )  /* (MC) Master 1 Abort Source */
+#define AT91C_MC_SVMST0                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )  /* (MC) Saved Master 0 Abort Source */
+#define AT91C_MC_SVMST1                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 25 )  /* (MC) Saved Master 1 Abort Source */
 /* -------- MC_FMR : (MC Offset: 0x60) MC Flash Mode Register -------- */
-#define AT91C_MC_FRDY                      ( ( unsigned int ) 0x1 << 0 )   /* (MC) Flash Ready */
-#define AT91C_MC_LOCKE                     ( ( unsigned int ) 0x1 << 2 )   /* (MC) Lock Error */
-#define AT91C_MC_PROGE                     ( ( unsigned int ) 0x1 << 3 )   /* (MC) Programming Error */
-#define AT91C_MC_NEBP                      ( ( unsigned int ) 0x1 << 7 )   /* (MC) No Erase Before Programming */
-#define AT91C_MC_FWS                       ( ( unsigned int ) 0x3 << 8 )   /* (MC) Flash Wait State */
-#define     AT91C_MC_FWS_0FWS              ( ( unsigned int ) 0x0 << 8 )   /* (MC) 1 cycle for Read, 2 for Write operations */
-#define     AT91C_MC_FWS_1FWS              ( ( unsigned int ) 0x1 << 8 )   /* (MC) 2 cycles for Read, 3 for Write operations */
-#define     AT91C_MC_FWS_2FWS              ( ( unsigned int ) 0x2 << 8 )   /* (MC) 3 cycles for Read, 4 for Write operations */
-#define     AT91C_MC_FWS_3FWS              ( ( unsigned int ) 0x3 << 8 )   /* (MC) 4 cycles for Read, 4 for Write operations */
-#define AT91C_MC_FMCN                      ( ( unsigned int ) 0xFF << 16 ) /* (MC) Flash Microsecond Cycle Number */
+#define AT91C_MC_FRDY                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (MC) Flash Ready */
+#define AT91C_MC_LOCKE                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (MC) Lock Error */
+#define AT91C_MC_PROGE                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (MC) Programming Error */
+#define AT91C_MC_NEBP                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )   /* (MC) No Erase Before Programming */
+#define AT91C_MC_FWS                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (MC) Flash Wait State */
+#define     AT91C_MC_FWS_0FWS              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (MC) 1 cycle for Read, 2 for Write operations */
+#define     AT91C_MC_FWS_1FWS              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (MC) 2 cycles for Read, 3 for Write operations */
+#define     AT91C_MC_FWS_2FWS              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )   /* (MC) 3 cycles for Read, 4 for Write operations */
+#define     AT91C_MC_FWS_3FWS              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (MC) 4 cycles for Read, 4 for Write operations */
+#define AT91C_MC_FMCN                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 16 ) /* (MC) Flash Microsecond Cycle Number */
 /* -------- MC_FCR : (MC Offset: 0x64) MC Flash Command Register -------- */
-#define AT91C_MC_FCMD                      ( ( unsigned int ) 0xF << 0 )   /* (MC) Flash Command */
-#define     AT91C_MC_FCMD_START_PROG       ( ( unsigned int ) 0x1 )        /* (MC) Starts the programming of th epage specified by PAGEN. */
-#define     AT91C_MC_FCMD_LOCK             ( ( unsigned int ) 0x2 )        /* (MC) Starts a lock sequence of the sector defined by the bits 4 to 7 of the field PAGEN. */
-#define     AT91C_MC_FCMD_PROG_AND_LOCK    ( ( unsigned int ) 0x3 )        /* (MC) The lock sequence automatically happens after the programming sequence is completed. */
-#define     AT91C_MC_FCMD_UNLOCK           ( ( unsigned int ) 0x4 )        /* (MC) Starts an unlock sequence of the sector defined by the bits 4 to 7 of the field PAGEN. */
-#define     AT91C_MC_FCMD_ERASE_ALL        ( ( unsigned int ) 0x8 )        /* (MC) Starts the erase of the entire flash.If at least a page is locked, the command is cancelled. */
-#define     AT91C_MC_FCMD_SET_GP_NVM       ( ( unsigned int ) 0xB )        /* (MC) Set General Purpose NVM bits. */
-#define     AT91C_MC_FCMD_CLR_GP_NVM       ( ( unsigned int ) 0xD )        /* (MC) Clear General Purpose NVM bits. */
-#define     AT91C_MC_FCMD_SET_SECURITY     ( ( unsigned int ) 0xF )        /* (MC) Set Security Bit. */
-#define AT91C_MC_PAGEN                     ( ( unsigned int ) 0x3FF << 8 ) /* (MC) Page Number */
-#define AT91C_MC_KEY                       ( ( unsigned int ) 0xFF << 24 ) /* (MC) Writing Protect Key */
+#define AT91C_MC_FCMD                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 0 )   /* (MC) Flash Command */
+#define     AT91C_MC_FCMD_START_PROG       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )        /* (MC) Starts the programming of th epage specified by PAGEN. */
+#define     AT91C_MC_FCMD_LOCK             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 )        /* (MC) Starts a lock sequence of the sector defined by the bits 4 to 7 of the field PAGEN. */
+#define     AT91C_MC_FCMD_PROG_AND_LOCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 )        /* (MC) The lock sequence automatically happens after the programming sequence is completed. */
+#define     AT91C_MC_FCMD_UNLOCK           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 )        /* (MC) Starts an unlock sequence of the sector defined by the bits 4 to 7 of the field PAGEN. */
+#define     AT91C_MC_FCMD_ERASE_ALL        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x8 )        /* (MC) Starts the erase of the entire flash.If at least a page is locked, the command is cancelled. */
+#define     AT91C_MC_FCMD_SET_GP_NVM       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xB )        /* (MC) Set General Purpose NVM bits. */
+#define     AT91C_MC_FCMD_CLR_GP_NVM       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xD )        /* (MC) Clear General Purpose NVM bits. */
+#define     AT91C_MC_FCMD_SET_SECURITY     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF )        /* (MC) Set Security Bit. */
+#define AT91C_MC_PAGEN                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3FF << 8 ) /* (MC) Page Number */
+#define AT91C_MC_KEY                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 24 ) /* (MC) Writing Protect Key */
 /* -------- MC_FSR : (MC Offset: 0x68) MC Flash Command Register -------- */
-#define AT91C_MC_SECURITY                  ( ( unsigned int ) 0x1 << 4 )   /* (MC) Security Bit Status */
-#define AT91C_MC_GPNVM0                    ( ( unsigned int ) 0x1 << 8 )   /* (MC) Sector 0 Lock Status */
-#define AT91C_MC_GPNVM1                    ( ( unsigned int ) 0x1 << 9 )   /* (MC) Sector 1 Lock Status */
-#define AT91C_MC_GPNVM2                    ( ( unsigned int ) 0x1 << 10 )  /* (MC) Sector 2 Lock Status */
-#define AT91C_MC_GPNVM3                    ( ( unsigned int ) 0x1 << 11 )  /* (MC) Sector 3 Lock Status */
-#define AT91C_MC_GPNVM4                    ( ( unsigned int ) 0x1 << 12 )  /* (MC) Sector 4 Lock Status */
-#define AT91C_MC_GPNVM5                    ( ( unsigned int ) 0x1 << 13 )  /* (MC) Sector 5 Lock Status */
-#define AT91C_MC_GPNVM6                    ( ( unsigned int ) 0x1 << 14 )  /* (MC) Sector 6 Lock Status */
-#define AT91C_MC_GPNVM7                    ( ( unsigned int ) 0x1 << 15 )  /* (MC) Sector 7 Lock Status */
-#define AT91C_MC_LOCKS0                    ( ( unsigned int ) 0x1 << 16 )  /* (MC) Sector 0 Lock Status */
-#define AT91C_MC_LOCKS1                    ( ( unsigned int ) 0x1 << 17 )  /* (MC) Sector 1 Lock Status */
-#define AT91C_MC_LOCKS2                    ( ( unsigned int ) 0x1 << 18 )  /* (MC) Sector 2 Lock Status */
-#define AT91C_MC_LOCKS3                    ( ( unsigned int ) 0x1 << 19 )  /* (MC) Sector 3 Lock Status */
-#define AT91C_MC_LOCKS4                    ( ( unsigned int ) 0x1 << 20 )  /* (MC) Sector 4 Lock Status */
-#define AT91C_MC_LOCKS5                    ( ( unsigned int ) 0x1 << 21 )  /* (MC) Sector 5 Lock Status */
-#define AT91C_MC_LOCKS6                    ( ( unsigned int ) 0x1 << 22 )  /* (MC) Sector 6 Lock Status */
-#define AT91C_MC_LOCKS7                    ( ( unsigned int ) 0x1 << 23 )  /* (MC) Sector 7 Lock Status */
-#define AT91C_MC_LOCKS8                    ( ( unsigned int ) 0x1 << 24 )  /* (MC) Sector 8 Lock Status */
-#define AT91C_MC_LOCKS9                    ( ( unsigned int ) 0x1 << 25 )  /* (MC) Sector 9 Lock Status */
-#define AT91C_MC_LOCKS10                   ( ( unsigned int ) 0x1 << 26 )  /* (MC) Sector 10 Lock Status */
-#define AT91C_MC_LOCKS11                   ( ( unsigned int ) 0x1 << 27 )  /* (MC) Sector 11 Lock Status */
-#define AT91C_MC_LOCKS12                   ( ( unsigned int ) 0x1 << 28 )  /* (MC) Sector 12 Lock Status */
-#define AT91C_MC_LOCKS13                   ( ( unsigned int ) 0x1 << 29 )  /* (MC) Sector 13 Lock Status */
-#define AT91C_MC_LOCKS14                   ( ( unsigned int ) 0x1 << 30 )  /* (MC) Sector 14 Lock Status */
-#define AT91C_MC_LOCKS15                   ( ( unsigned int ) 0x1 << 31 )  /* (MC) Sector 15 Lock Status */
+#define AT91C_MC_SECURITY                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (MC) Security Bit Status */
+#define AT91C_MC_GPNVM0                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (MC) Sector 0 Lock Status */
+#define AT91C_MC_GPNVM1                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )   /* (MC) Sector 1 Lock Status */
+#define AT91C_MC_GPNVM2                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 )  /* (MC) Sector 2 Lock Status */
+#define AT91C_MC_GPNVM3                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 )  /* (MC) Sector 3 Lock Status */
+#define AT91C_MC_GPNVM4                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 )  /* (MC) Sector 4 Lock Status */
+#define AT91C_MC_GPNVM5                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 )  /* (MC) Sector 5 Lock Status */
+#define AT91C_MC_GPNVM6                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 )  /* (MC) Sector 6 Lock Status */
+#define AT91C_MC_GPNVM7                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 )  /* (MC) Sector 7 Lock Status */
+#define AT91C_MC_LOCKS0                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (MC) Sector 0 Lock Status */
+#define AT91C_MC_LOCKS1                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )  /* (MC) Sector 1 Lock Status */
+#define AT91C_MC_LOCKS2                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 )  /* (MC) Sector 2 Lock Status */
+#define AT91C_MC_LOCKS3                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 )  /* (MC) Sector 3 Lock Status */
+#define AT91C_MC_LOCKS4                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 )  /* (MC) Sector 4 Lock Status */
+#define AT91C_MC_LOCKS5                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 21 )  /* (MC) Sector 5 Lock Status */
+#define AT91C_MC_LOCKS6                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 22 )  /* (MC) Sector 6 Lock Status */
+#define AT91C_MC_LOCKS7                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 23 )  /* (MC) Sector 7 Lock Status */
+#define AT91C_MC_LOCKS8                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )  /* (MC) Sector 8 Lock Status */
+#define AT91C_MC_LOCKS9                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 25 )  /* (MC) Sector 9 Lock Status */
+#define AT91C_MC_LOCKS10                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 26 )  /* (MC) Sector 10 Lock Status */
+#define AT91C_MC_LOCKS11                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 27 )  /* (MC) Sector 11 Lock Status */
+#define AT91C_MC_LOCKS12                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 28 )  /* (MC) Sector 12 Lock Status */
+#define AT91C_MC_LOCKS13                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 29 )  /* (MC) Sector 13 Lock Status */
+#define AT91C_MC_LOCKS14                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 30 )  /* (MC) Sector 14 Lock Status */
+#define AT91C_MC_LOCKS15                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 31 )  /* (MC) Sector 15 Lock Status */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Serial Parallel Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_SPI
+typedef sa_nracanaa _AT91S_SPI
 {
     AT91_REG SPI_CR;          /* Control Register */
     AT91_REG SPI_MR;          /* Mode Register */
@@ -720,64 +720,64 @@ typedef struct _AT91S_SPI
 } AT91S_SPI, * AT91PS_SPI;
 
 /* -------- SPI_CR : (SPI Offset: 0x0) SPI Control Register -------- */
-#define AT91C_SPI_SPIEN              ( ( unsigned int ) 0x1 << 0 )    /* (SPI) SPI Enable */
-#define AT91C_SPI_SPIDIS             ( ( unsigned int ) 0x1 << 1 )    /* (SPI) SPI Disable */
-#define AT91C_SPI_SWRST              ( ( unsigned int ) 0x1 << 7 )    /* (SPI) SPI Software reset */
-#define AT91C_SPI_LASTXFER           ( ( unsigned int ) 0x1 << 24 )   /* (SPI) SPI Last Transfer */
+#define AT91C_SPI_SPIEN              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (SPI) SPI Enable */
+#define AT91C_SPI_SPIDIS             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (SPI) SPI Disable */
+#define AT91C_SPI_SWRST              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )    /* (SPI) SPI Software reset */
+#define AT91C_SPI_LASTXFER           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )   /* (SPI) SPI Last Transfer */
 /* -------- SPI_MR : (SPI Offset: 0x4) SPI Mode Register -------- */
-#define AT91C_SPI_MSTR               ( ( unsigned int ) 0x1 << 0 )    /* (SPI) Master/Slave Mode */
-#define AT91C_SPI_PS                 ( ( unsigned int ) 0x1 << 1 )    /* (SPI) Peripheral Select */
-#define     AT91C_SPI_PS_FIXED       ( ( unsigned int ) 0x0 << 1 )    /* (SPI) Fixed Peripheral Select */
-#define     AT91C_SPI_PS_VARIABLE    ( ( unsigned int ) 0x1 << 1 )    /* (SPI) Variable Peripheral Select */
-#define AT91C_SPI_PCSDEC             ( ( unsigned int ) 0x1 << 2 )    /* (SPI) Chip Select Decode */
-#define AT91C_SPI_FDIV               ( ( unsigned int ) 0x1 << 3 )    /* (SPI) Clock Selection */
-#define AT91C_SPI_MODFDIS            ( ( unsigned int ) 0x1 << 4 )    /* (SPI) Mode Fault Detection */
-#define AT91C_SPI_LLB                ( ( unsigned int ) 0x1 << 7 )    /* (SPI) Clock Selection */
-#define AT91C_SPI_PCS                ( ( unsigned int ) 0xF << 16 )   /* (SPI) Peripheral Chip Select */
-#define AT91C_SPI_DLYBCS             ( ( unsigned int ) 0xFF << 24 )  /* (SPI) Delay Between Chip Selects */
+#define AT91C_SPI_MSTR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (SPI) Master/Slave Mode */
+#define AT91C_SPI_PS                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (SPI) Peripheral Select */
+#define     AT91C_SPI_PS_FIXED       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 1 )    /* (SPI) Fixed Peripheral Select */
+#define     AT91C_SPI_PS_VARIABLE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (SPI) Variable Peripheral Select */
+#define AT91C_SPI_PCSDEC             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )    /* (SPI) Chip Select Decode */
+#define AT91C_SPI_FDIV               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )    /* (SPI) Clock Selection */
+#define AT91C_SPI_MODFDIS            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )    /* (SPI) Mode Fault Detection */
+#define AT91C_SPI_LLB                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )    /* (SPI) Clock Selection */
+#define AT91C_SPI_PCS                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 16 )   /* (SPI) Peripheral Chip Select */
+#define AT91C_SPI_DLYBCS             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 24 )  /* (SPI) Delay Between Chip Selects */
 /* -------- SPI_RDR : (SPI Offset: 0x8) Receive Data Register -------- */
-#define AT91C_SPI_RD                 ( ( unsigned int ) 0xFFFF << 0 ) /* (SPI) Receive Data */
-#define AT91C_SPI_RPCS               ( ( unsigned int ) 0xF << 16 )   /* (SPI) Peripheral Chip Select Status */
+#define AT91C_SPI_RD                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 ) /* (SPI) Receive Data */
+#define AT91C_SPI_RPCS               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 16 )   /* (SPI) Peripheral Chip Select Status */
 /* -------- SPI_TDR : (SPI Offset: 0xc) Transmit Data Register -------- */
-#define AT91C_SPI_TD                 ( ( unsigned int ) 0xFFFF << 0 ) /* (SPI) Transmit Data */
-#define AT91C_SPI_TPCS               ( ( unsigned int ) 0xF << 16 )   /* (SPI) Peripheral Chip Select Status */
+#define AT91C_SPI_TD                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 ) /* (SPI) Transmit Data */
+#define AT91C_SPI_TPCS               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 16 )   /* (SPI) Peripheral Chip Select Status */
 /* -------- SPI_SR : (SPI Offset: 0x10) Status Register -------- */
-#define AT91C_SPI_RDRF               ( ( unsigned int ) 0x1 << 0 )    /* (SPI) Receive Data Register Full */
-#define AT91C_SPI_TDRE               ( ( unsigned int ) 0x1 << 1 )    /* (SPI) Transmit Data Register Empty */
-#define AT91C_SPI_MODF               ( ( unsigned int ) 0x1 << 2 )    /* (SPI) Mode Fault Error */
-#define AT91C_SPI_OVRES              ( ( unsigned int ) 0x1 << 3 )    /* (SPI) Overrun Error Status */
-#define AT91C_SPI_ENDRX              ( ( unsigned int ) 0x1 << 4 )    /* (SPI) End of Receiver Transfer */
-#define AT91C_SPI_ENDTX              ( ( unsigned int ) 0x1 << 5 )    /* (SPI) End of Receiver Transfer */
-#define AT91C_SPI_RXBUFF             ( ( unsigned int ) 0x1 << 6 )    /* (SPI) RXBUFF Interrupt */
-#define AT91C_SPI_TXBUFE             ( ( unsigned int ) 0x1 << 7 )    /* (SPI) TXBUFE Interrupt */
-#define AT91C_SPI_NSSR               ( ( unsigned int ) 0x1 << 8 )    /* (SPI) NSSR Interrupt */
-#define AT91C_SPI_TXEMPTY            ( ( unsigned int ) 0x1 << 9 )    /* (SPI) TXEMPTY Interrupt */
-#define AT91C_SPI_SPIENS             ( ( unsigned int ) 0x1 << 16 )   /* (SPI) Enable Status */
+#define AT91C_SPI_RDRF               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (SPI) Receive Data Register Full */
+#define AT91C_SPI_TDRE               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (SPI) Transmit Data Register Empty */
+#define AT91C_SPI_MODF               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )    /* (SPI) Mode Fault Error */
+#define AT91C_SPI_OVRES              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )    /* (SPI) Overrun Error Status */
+#define AT91C_SPI_ENDRX              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )    /* (SPI) End of Receiver Transfer */
+#define AT91C_SPI_ENDTX              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )    /* (SPI) End of Receiver Transfer */
+#define AT91C_SPI_RXBUFF             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )    /* (SPI) RXBUFF Interrupt */
+#define AT91C_SPI_TXBUFE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )    /* (SPI) TXBUFE Interrupt */
+#define AT91C_SPI_NSSR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )    /* (SPI) NSSR Interrupt */
+#define AT91C_SPI_TXEMPTY            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )    /* (SPI) TXEMPTY Interrupt */
+#define AT91C_SPI_SPIENS             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )   /* (SPI) Enable Status */
 /* -------- SPI_IER : (SPI Offset: 0x14) Interrupt Enable Register -------- */
 /* -------- SPI_IDR : (SPI Offset: 0x18) Interrupt Disable Register -------- */
 /* -------- SPI_IMR : (SPI Offset: 0x1c) Interrupt Mask Register -------- */
 /* -------- SPI_CSR : (SPI Offset: 0x30) Chip Select Register -------- */
-#define AT91C_SPI_CPOL           ( ( unsigned int ) 0x1 << 0 )   /* (SPI) Clock Polarity */
-#define AT91C_SPI_NCPHA          ( ( unsigned int ) 0x1 << 1 )   /* (SPI) Clock Phase */
-#define AT91C_SPI_CSAAT          ( ( unsigned int ) 0x1 << 3 )   /* (SPI) Chip Select Active After Transfer */
-#define AT91C_SPI_BITS           ( ( unsigned int ) 0xF << 4 )   /* (SPI) Bits Per Transfer */
-#define     AT91C_SPI_BITS_8     ( ( unsigned int ) 0x0 << 4 )   /* (SPI) 8 Bits Per transfer */
-#define     AT91C_SPI_BITS_9     ( ( unsigned int ) 0x1 << 4 )   /* (SPI) 9 Bits Per transfer */
-#define     AT91C_SPI_BITS_10    ( ( unsigned int ) 0x2 << 4 )   /* (SPI) 10 Bits Per transfer */
-#define     AT91C_SPI_BITS_11    ( ( unsigned int ) 0x3 << 4 )   /* (SPI) 11 Bits Per transfer */
-#define     AT91C_SPI_BITS_12    ( ( unsigned int ) 0x4 << 4 )   /* (SPI) 12 Bits Per transfer */
-#define     AT91C_SPI_BITS_13    ( ( unsigned int ) 0x5 << 4 )   /* (SPI) 13 Bits Per transfer */
-#define     AT91C_SPI_BITS_14    ( ( unsigned int ) 0x6 << 4 )   /* (SPI) 14 Bits Per transfer */
-#define     AT91C_SPI_BITS_15    ( ( unsigned int ) 0x7 << 4 )   /* (SPI) 15 Bits Per transfer */
-#define     AT91C_SPI_BITS_16    ( ( unsigned int ) 0x8 << 4 )   /* (SPI) 16 Bits Per transfer */
-#define AT91C_SPI_SCBR           ( ( unsigned int ) 0xFF << 8 )  /* (SPI) Serial Clock Baud Rate */
-#define AT91C_SPI_DLYBS          ( ( unsigned int ) 0xFF << 16 ) /* (SPI) Delay Before SPCK */
-#define AT91C_SPI_DLYBCT         ( ( unsigned int ) 0xFF << 24 ) /* (SPI) Delay Between Consecutive Transfers */
+#define AT91C_SPI_CPOL           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (SPI) Clock Polarity */
+#define AT91C_SPI_NCPHA          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (SPI) Clock Phase */
+#define AT91C_SPI_CSAAT          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (SPI) Chip Select Active After Transfer */
+#define AT91C_SPI_BITS           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 4 )   /* (SPI) Bits Per Transfer */
+#define     AT91C_SPI_BITS_8     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 4 )   /* (SPI) 8 Bits Per transfer */
+#define     AT91C_SPI_BITS_9     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (SPI) 9 Bits Per transfer */
+#define     AT91C_SPI_BITS_10    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 4 )   /* (SPI) 10 Bits Per transfer */
+#define     AT91C_SPI_BITS_11    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 )   /* (SPI) 11 Bits Per transfer */
+#define     AT91C_SPI_BITS_12    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 4 )   /* (SPI) 12 Bits Per transfer */
+#define     AT91C_SPI_BITS_13    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 4 )   /* (SPI) 13 Bits Per transfer */
+#define     AT91C_SPI_BITS_14    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 << 4 )   /* (SPI) 14 Bits Per transfer */
+#define     AT91C_SPI_BITS_15    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 4 )   /* (SPI) 15 Bits Per transfer */
+#define     AT91C_SPI_BITS_16    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x8 << 4 )   /* (SPI) 16 Bits Per transfer */
+#define AT91C_SPI_SCBR           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 8 )  /* (SPI) Serial Clock Baud Rate */
+#define AT91C_SPI_DLYBS          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 16 ) /* (SPI) Delay Before SPCK */
+#define AT91C_SPI_DLYBCT         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 24 ) /* (SPI) Delay Between Consecutive Transfers */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Usart */
 /* ***************************************************************************** */
-typedef struct _AT91S_USART
+typedef sa_nracanaa _AT91S_USART
 {
     AT91_REG US_CR;           /* Control Register */
     AT91_REG US_MR;           /* Mode Register */
@@ -809,71 +809,71 @@ typedef struct _AT91S_USART
 } AT91S_USART, * AT91PS_USART;
 
 /* -------- US_CR : (USART Offset: 0x0) Debug Unit Control Register -------- */
-#define AT91C_US_STTBRK                  ( ( unsigned int ) 0x1 << 9 )  /* (USART) Start Break */
-#define AT91C_US_STPBRK                  ( ( unsigned int ) 0x1 << 10 ) /* (USART) Stop Break */
-#define AT91C_US_STTTO                   ( ( unsigned int ) 0x1 << 11 ) /* (USART) Start Time-out */
-#define AT91C_US_SENDA                   ( ( unsigned int ) 0x1 << 12 ) /* (USART) Send Address */
-#define AT91C_US_RSTIT                   ( ( unsigned int ) 0x1 << 13 ) /* (USART) Reset Iterations */
-#define AT91C_US_RSTNACK                 ( ( unsigned int ) 0x1 << 14 ) /* (USART) Reset Non Acknowledge */
-#define AT91C_US_RETTO                   ( ( unsigned int ) 0x1 << 15 ) /* (USART) Rearm Time-out */
-#define AT91C_US_DTREN                   ( ( unsigned int ) 0x1 << 16 ) /* (USART) Data Terminal ready Enable */
-#define AT91C_US_DTRDIS                  ( ( unsigned int ) 0x1 << 17 ) /* (USART) Data Terminal ready Disable */
-#define AT91C_US_RTSEN                   ( ( unsigned int ) 0x1 << 18 ) /* (USART) Request to Send enable */
-#define AT91C_US_RTSDIS                  ( ( unsigned int ) 0x1 << 19 ) /* (USART) Request to Send Disable */
+#define AT91C_US_STTBRK                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (USART) Start Break */
+#define AT91C_US_STPBRK                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (USART) Stop Break */
+#define AT91C_US_STTTO                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (USART) Start Time-out */
+#define AT91C_US_SENDA                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (USART) Send Address */
+#define AT91C_US_RSTIT                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 ) /* (USART) Reset Iterations */
+#define AT91C_US_RSTNACK                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 ) /* (USART) Reset Non Acknowledge */
+#define AT91C_US_RETTO                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 ) /* (USART) Rearm Time-out */
+#define AT91C_US_DTREN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (USART) Data Terminal ready Enable */
+#define AT91C_US_DTRDIS                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (USART) Data Terminal ready Disable */
+#define AT91C_US_RTSEN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (USART) Request to Send enable */
+#define AT91C_US_RTSDIS                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 ) /* (USART) Request to Send Disable */
 /* -------- US_MR : (USART Offset: 0x4) Debug Unit Mode Register -------- */
-#define AT91C_US_USMODE                  ( ( unsigned int ) 0xF << 0 )  /* (USART) Usart mode */
-#define     AT91C_US_USMODE_NORMAL       ( ( unsigned int ) 0x0 )       /* (USART) Normal */
-#define     AT91C_US_USMODE_RS485        ( ( unsigned int ) 0x1 )       /* (USART) RS485 */
-#define     AT91C_US_USMODE_HWHSH        ( ( unsigned int ) 0x2 )       /* (USART) Hardware Handshaking */
-#define     AT91C_US_USMODE_MODEM        ( ( unsigned int ) 0x3 )       /* (USART) Modem */
-#define     AT91C_US_USMODE_ISO7816_0    ( ( unsigned int ) 0x4 )       /* (USART) ISO7816 protocol: T = 0 */
-#define     AT91C_US_USMODE_ISO7816_1    ( ( unsigned int ) 0x6 )       /* (USART) ISO7816 protocol: T = 1 */
-#define     AT91C_US_USMODE_IRDA         ( ( unsigned int ) 0x8 )       /* (USART) IrDA */
-#define     AT91C_US_USMODE_SWHSH        ( ( unsigned int ) 0xC )       /* (USART) Software Handshaking */
-#define AT91C_US_CLKS                    ( ( unsigned int ) 0x3 << 4 )  /* (USART) Clock Selection (Baud Rate generator Input Clock */
-#define     AT91C_US_CLKS_CLOCK          ( ( unsigned int ) 0x0 << 4 )  /* (USART) Clock */
-#define     AT91C_US_CLKS_FDIV1          ( ( unsigned int ) 0x1 << 4 )  /* (USART) fdiv1 */
-#define     AT91C_US_CLKS_SLOW           ( ( unsigned int ) 0x2 << 4 )  /* (USART) slow_clock (ARM) */
-#define     AT91C_US_CLKS_EXT            ( ( unsigned int ) 0x3 << 4 )  /* (USART) External (SCK) */
-#define AT91C_US_CHRL                    ( ( unsigned int ) 0x3 << 6 )  /* (USART) Clock Selection (Baud Rate generator Input Clock */
-#define     AT91C_US_CHRL_5_BITS         ( ( unsigned int ) 0x0 << 6 )  /* (USART) Character Length: 5 bits */
-#define     AT91C_US_CHRL_6_BITS         ( ( unsigned int ) 0x1 << 6 )  /* (USART) Character Length: 6 bits */
-#define     AT91C_US_CHRL_7_BITS         ( ( unsigned int ) 0x2 << 6 )  /* (USART) Character Length: 7 bits */
-#define     AT91C_US_CHRL_8_BITS         ( ( unsigned int ) 0x3 << 6 )  /* (USART) Character Length: 8 bits */
-#define AT91C_US_SYNC                    ( ( unsigned int ) 0x1 << 8 )  /* (USART) Synchronous Mode Select */
-#define AT91C_US_NBSTOP                  ( ( unsigned int ) 0x3 << 12 ) /* (USART) Number of Stop bits */
-#define     AT91C_US_NBSTOP_1_BIT        ( ( unsigned int ) 0x0 << 12 ) /* (USART) 1 stop bit */
-#define     AT91C_US_NBSTOP_15_BIT       ( ( unsigned int ) 0x1 << 12 ) /* (USART) Asynchronous (SYNC=0) 2 stop bits Synchronous (SYNC=1) 2 stop bits */
-#define     AT91C_US_NBSTOP_2_BIT        ( ( unsigned int ) 0x2 << 12 ) /* (USART) 2 stop bits */
-#define AT91C_US_MSBF                    ( ( unsigned int ) 0x1 << 16 ) /* (USART) Bit Order */
-#define AT91C_US_MODE9                   ( ( unsigned int ) 0x1 << 17 ) /* (USART) 9-bit Character length */
-#define AT91C_US_CKLO                    ( ( unsigned int ) 0x1 << 18 ) /* (USART) Clock Output Select */
-#define AT91C_US_OVER                    ( ( unsigned int ) 0x1 << 19 ) /* (USART) Over Sampling Mode */
-#define AT91C_US_INACK                   ( ( unsigned int ) 0x1 << 20 ) /* (USART) Inhibit Non Acknowledge */
-#define AT91C_US_DSNACK                  ( ( unsigned int ) 0x1 << 21 ) /* (USART) Disable Successive NACK */
-#define AT91C_US_MAX_ITER                ( ( unsigned int ) 0x1 << 24 ) /* (USART) Number of Repetitions */
-#define AT91C_US_FILTER                  ( ( unsigned int ) 0x1 << 28 ) /* (USART) Receive Line Filter */
+#define AT91C_US_USMODE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 0 )  /* (USART) Usart mode */
+#define     AT91C_US_USMODE_NORMAL       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )       /* (USART) Normal */
+#define     AT91C_US_USMODE_RS485        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )       /* (USART) RS485 */
+#define     AT91C_US_USMODE_HWHSH        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 )       /* (USART) Hardware Handshaking */
+#define     AT91C_US_USMODE_MODEM        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 )       /* (USART) Modem */
+#define     AT91C_US_USMODE_ISO7816_0    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 )       /* (USART) ISO7816 protocol: T = 0 */
+#define     AT91C_US_USMODE_ISO7816_1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 )       /* (USART) ISO7816 protocol: T = 1 */
+#define     AT91C_US_USMODE_IRDA         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x8 )       /* (USART) IrDA */
+#define     AT91C_US_USMODE_SWHSH        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xC )       /* (USART) Software Handshaking */
+#define AT91C_US_CLKS                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 )  /* (USART) Clock Selection (Baud Rate generator Input Clock */
+#define     AT91C_US_CLKS_CLOCK          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 4 )  /* (USART) Clock */
+#define     AT91C_US_CLKS_FDIV1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (USART) fdiv1 */
+#define     AT91C_US_CLKS_SLOW           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 4 )  /* (USART) slow_clock (ARM) */
+#define     AT91C_US_CLKS_EXT            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 )  /* (USART) External (SCK) */
+#define AT91C_US_CHRL                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 6 )  /* (USART) Clock Selection (Baud Rate generator Input Clock */
+#define     AT91C_US_CHRL_5_BITS         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 6 )  /* (USART) Character Length: 5 bits */
+#define     AT91C_US_CHRL_6_BITS         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (USART) Character Length: 6 bits */
+#define     AT91C_US_CHRL_7_BITS         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 6 )  /* (USART) Character Length: 7 bits */
+#define     AT91C_US_CHRL_8_BITS         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 6 )  /* (USART) Character Length: 8 bits */
+#define AT91C_US_SYNC                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (USART) Synchronous Mode Select */
+#define AT91C_US_NBSTOP                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 ) /* (USART) Number of Stop bits */
+#define     AT91C_US_NBSTOP_1_BIT        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 12 ) /* (USART) 1 stop bit */
+#define     AT91C_US_NBSTOP_15_BIT       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (USART) Asynchronous (SYNC=0) 2 stop bits Synchronous (SYNC=1) 2 stop bits */
+#define     AT91C_US_NBSTOP_2_BIT        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 12 ) /* (USART) 2 stop bits */
+#define AT91C_US_MSBF                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (USART) Bit Order */
+#define AT91C_US_MODE9                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (USART) 9-bit Character length */
+#define AT91C_US_CKLO                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (USART) Clock Output Select */
+#define AT91C_US_OVER                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 ) /* (USART) Over Sampling Mode */
+#define AT91C_US_INACK                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 ) /* (USART) Inhibit Non Acknowledge */
+#define AT91C_US_DSNACK                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 21 ) /* (USART) Disable Successive NACK */
+#define AT91C_US_MAX_ITER                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 ) /* (USART) Number of Repetitions */
+#define AT91C_US_FILTER                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 28 ) /* (USART) Receive Line Filter */
 /* -------- US_IER : (USART Offset: 0x8) Debug Unit Interrupt Enable Register -------- */
-#define AT91C_US_RXBRK                   ( ( unsigned int ) 0x1 << 2 )  /* (USART) Break Received/End of Break */
-#define AT91C_US_TIMEOUT                 ( ( unsigned int ) 0x1 << 8 )  /* (USART) Receiver Time-out */
-#define AT91C_US_ITERATION               ( ( unsigned int ) 0x1 << 10 ) /* (USART) Max number of Repetitions Reached */
-#define AT91C_US_NACK                    ( ( unsigned int ) 0x1 << 13 ) /* (USART) Non Acknowledge */
-#define AT91C_US_RIIC                    ( ( unsigned int ) 0x1 << 16 ) /* (USART) Ring INdicator Input Change Flag */
-#define AT91C_US_DSRIC                   ( ( unsigned int ) 0x1 << 17 ) /* (USART) Data Set Ready Input Change Flag */
-#define AT91C_US_DCDIC                   ( ( unsigned int ) 0x1 << 18 ) /* (USART) Data Carrier Flag */
-#define AT91C_US_CTSIC                   ( ( unsigned int ) 0x1 << 19 ) /* (USART) Clear To Send Input Change Flag */
+#define AT91C_US_RXBRK                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (USART) Break Received/End of Break */
+#define AT91C_US_TIMEOUT                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (USART) Receiver Time-out */
+#define AT91C_US_ITERATION               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (USART) Max number of Repetitions Reached */
+#define AT91C_US_NACK                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 ) /* (USART) Non Acknowledge */
+#define AT91C_US_RIIC                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (USART) Ring INdicator Input Change Flag */
+#define AT91C_US_DSRIC                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (USART) Data Set Ready Input Change Flag */
+#define AT91C_US_DCDIC                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (USART) Data Carrier Flag */
+#define AT91C_US_CTSIC                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 ) /* (USART) Clear To Send Input Change Flag */
 /* -------- US_IDR : (USART Offset: 0xc) Debug Unit Interrupt Disable Register -------- */
 /* -------- US_IMR : (USART Offset: 0x10) Debug Unit Interrupt Mask Register -------- */
 /* -------- US_CSR : (USART Offset: 0x14) Debug Unit Channel Status Register -------- */
-#define AT91C_US_RI     ( ( unsigned int ) 0x1 << 20 )   /* (USART) Image of RI Input */
-#define AT91C_US_DSR    ( ( unsigned int ) 0x1 << 21 )   /* (USART) Image of DSR Input */
-#define AT91C_US_DCD    ( ( unsigned int ) 0x1 << 22 )   /* (USART) Image of DCD Input */
-#define AT91C_US_CTS    ( ( unsigned int ) 0x1 << 23 )   /* (USART) Image of CTS Input */
+#define AT91C_US_RI     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 )   /* (USART) Image of RI Input */
+#define AT91C_US_DSR    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 21 )   /* (USART) Image of DSR Input */
+#define AT91C_US_DCD    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 22 )   /* (USART) Image of DCD Input */
+#define AT91C_US_CTS    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 23 )   /* (USART) Image of CTS Input */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Synchronous Serial Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_SSC
+typedef sa_nracanaa _AT91S_SSC
 {
     AT91_REG SSC_CR;          /* Control Register */
     AT91_REG SSC_CMR;         /* Clock Mode Register */
@@ -906,64 +906,64 @@ typedef struct _AT91S_SSC
 } AT91S_SSC, * AT91PS_SSC;
 
 /* -------- SSC_CR : (SSC Offset: 0x0) SSC Control Register -------- */
-#define AT91C_SSC_RXEN                    ( ( unsigned int ) 0x1 << 0 )   /* (SSC) Receive Enable */
-#define AT91C_SSC_RXDIS                   ( ( unsigned int ) 0x1 << 1 )   /* (SSC) Receive Disable */
-#define AT91C_SSC_TXEN                    ( ( unsigned int ) 0x1 << 8 )   /* (SSC) Transmit Enable */
-#define AT91C_SSC_TXDIS                   ( ( unsigned int ) 0x1 << 9 )   /* (SSC) Transmit Disable */
-#define AT91C_SSC_SWRST                   ( ( unsigned int ) 0x1 << 15 )  /* (SSC) Software Reset */
+#define AT91C_SSC_RXEN                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (SSC) Receive Enable */
+#define AT91C_SSC_RXDIS                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (SSC) Receive Disable */
+#define AT91C_SSC_TXEN                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (SSC) Transmit Enable */
+#define AT91C_SSC_TXDIS                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )   /* (SSC) Transmit Disable */
+#define AT91C_SSC_SWRST                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 )  /* (SSC) Software Reset */
 /* -------- SSC_RCMR : (SSC Offset: 0x10) SSC Receive Clock Mode Register -------- */
-#define AT91C_SSC_CKS                     ( ( unsigned int ) 0x3 << 0 )   /* (SSC) Receive/Transmit Clock Selection */
-#define     AT91C_SSC_CKS_DIV             ( ( unsigned int ) 0x0 )        /* (SSC) Divided Clock */
-#define     AT91C_SSC_CKS_TK              ( ( unsigned int ) 0x1 )        /* (SSC) TK Clock signal */
-#define     AT91C_SSC_CKS_RK              ( ( unsigned int ) 0x2 )        /* (SSC) RK pin */
-#define AT91C_SSC_CKO                     ( ( unsigned int ) 0x7 << 2 )   /* (SSC) Receive/Transmit Clock Output Mode Selection */
-#define     AT91C_SSC_CKO_NONE            ( ( unsigned int ) 0x0 << 2 )   /* (SSC) Receive/Transmit Clock Output Mode: None RK pin: Input-only */
-#define     AT91C_SSC_CKO_CONTINUOUS      ( ( unsigned int ) 0x1 << 2 )   /* (SSC) Continuous Receive/Transmit Clock RK pin: Output */
-#define     AT91C_SSC_CKO_DATA_TX         ( ( unsigned int ) 0x2 << 2 )   /* (SSC) Receive/Transmit Clock only during data transfers RK pin: Output */
-#define AT91C_SSC_CKI                     ( ( unsigned int ) 0x1 << 5 )   /* (SSC) Receive/Transmit Clock Inversion */
-#define AT91C_SSC_START                   ( ( unsigned int ) 0xF << 8 )   /* (SSC) Receive/Transmit Start Selection */
-#define     AT91C_SSC_START_CONTINUOUS    ( ( unsigned int ) 0x0 << 8 )   /* (SSC) Continuous, as soon as the receiver is enabled, and immediately after the end of transfer of the previous data. */
-#define     AT91C_SSC_START_TX            ( ( unsigned int ) 0x1 << 8 )   /* (SSC) Transmit/Receive start */
-#define     AT91C_SSC_START_LOW_RF        ( ( unsigned int ) 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
-#define     AT91C_SSC_START_HIGH_RF       ( ( unsigned int ) 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
-#define     AT91C_SSC_START_FALL_RF       ( ( unsigned int ) 0x4 << 8 )   /* (SSC) Detection of a falling edge on RF input */
-#define     AT91C_SSC_START_RISE_RF       ( ( unsigned int ) 0x5 << 8 )   /* (SSC) Detection of a rising edge on RF input */
-#define     AT91C_SSC_START_LEVEL_RF      ( ( unsigned int ) 0x6 << 8 )   /* (SSC) Detection of any level change on RF input */
-#define     AT91C_SSC_START_EDGE_RF       ( ( unsigned int ) 0x7 << 8 )   /* (SSC) Detection of any edge on RF input */
-#define     AT91C_SSC_START_0             ( ( unsigned int ) 0x8 << 8 )   /* (SSC) Compare 0 */
-#define AT91C_SSC_STTDLY                  ( ( unsigned int ) 0xFF << 16 ) /* (SSC) Receive/Transmit Start Delay */
-#define AT91C_SSC_PERIOD                  ( ( unsigned int ) 0xFF << 24 ) /* (SSC) Receive/Transmit Period Divider Selection */
+#define AT91C_SSC_CKS                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 0 )   /* (SSC) Receive/Transmit Clock Selection */
+#define     AT91C_SSC_CKS_DIV             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )        /* (SSC) Divided Clock */
+#define     AT91C_SSC_CKS_TK              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )        /* (SSC) TK Clock signal */
+#define     AT91C_SSC_CKS_RK              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 )        /* (SSC) RK pin */
+#define AT91C_SSC_CKO                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 2 )   /* (SSC) Receive/Transmit Clock Output Mode Selection */
+#define     AT91C_SSC_CKO_NONE            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 2 )   /* (SSC) Receive/Transmit Clock Output Mode: None RK pin: Input-only */
+#define     AT91C_SSC_CKO_CONTINUOUS      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (SSC) Continuous Receive/Transmit Clock RK pin: Output */
+#define     AT91C_SSC_CKO_DATA_TX         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 2 )   /* (SSC) Receive/Transmit Clock only during data transfers RK pin: Output */
+#define AT91C_SSC_CKI                     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (SSC) Receive/Transmit Clock Inversion */
+#define AT91C_SSC_START                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 8 )   /* (SSC) Receive/Transmit Start Selection */
+#define     AT91C_SSC_START_CONTINUOUS    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (SSC) Continuous, as soon as the receiver is enabled, and immediately after the end of transfer of the previous data. */
+#define     AT91C_SSC_START_TX            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (SSC) Transmit/Receive start */
+#define     AT91C_SSC_START_LOW_RF        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )   /* (SSC) Detection of a low level on RF input */
+#define     AT91C_SSC_START_HIGH_RF       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (SSC) Detection of a high level on RF input */
+#define     AT91C_SSC_START_FALL_RF       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 8 )   /* (SSC) Detection of a falling edge on RF input */
+#define     AT91C_SSC_START_RISE_RF       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 8 )   /* (SSC) Detection of a rising edge on RF input */
+#define     AT91C_SSC_START_LEVEL_RF      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 << 8 )   /* (SSC) Detection of any level change on RF input */
+#define     AT91C_SSC_START_EDGE_RF       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 8 )   /* (SSC) Detection of any edge on RF input */
+#define     AT91C_SSC_START_0             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x8 << 8 )   /* (SSC) Compare 0 */
+#define AT91C_SSC_STTDLY                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 16 ) /* (SSC) Receive/Transmit Start Delay */
+#define AT91C_SSC_PERIOD                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 24 ) /* (SSC) Receive/Transmit Period Divider Selection */
 /* -------- SSC_RFMR : (SSC Offset: 0x14) SSC Receive Frame Mode Register -------- */
-#define AT91C_SSC_DATLEN                  ( ( unsigned int ) 0x1F << 0 )  /* (SSC) Data Length */
-#define AT91C_SSC_LOOP                    ( ( unsigned int ) 0x1 << 5 )   /* (SSC) Loop Mode */
-#define AT91C_SSC_MSBF                    ( ( unsigned int ) 0x1 << 7 )   /* (SSC) Most Significant Bit First */
-#define AT91C_SSC_DATNB                   ( ( unsigned int ) 0xF << 8 )   /* (SSC) Data Number per Frame */
-#define AT91C_SSC_FSLEN                   ( ( unsigned int ) 0xF << 16 )  /* (SSC) Receive/Transmit Frame Sync length */
-#define AT91C_SSC_FSOS                    ( ( unsigned int ) 0x7 << 20 )  /* (SSC) Receive/Transmit Frame Sync Output Selection */
-#define     AT91C_SSC_FSOS_NONE           ( ( unsigned int ) 0x0 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: None RK pin Input-only */
-#define     AT91C_SSC_FSOS_NEGATIVE       ( ( unsigned int ) 0x1 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Negative Pulse */
-#define     AT91C_SSC_FSOS_POSITIVE       ( ( unsigned int ) 0x2 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Positive Pulse */
-#define     AT91C_SSC_FSOS_LOW            ( ( unsigned int ) 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
-#define     AT91C_SSC_FSOS_HIGH           ( ( unsigned int ) 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
-#define     AT91C_SSC_FSOS_TOGGLE         ( ( unsigned int ) 0x5 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Toggling at each start of data transfer */
-#define AT91C_SSC_FSEDGE                  ( ( unsigned int ) 0x1 << 24 )  /* (SSC) Frame Sync Edge Detection */
+#define AT91C_SSC_DATLEN                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1F << 0 )  /* (SSC) Data Length */
+#define AT91C_SSC_LOOP                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (SSC) Loop Mode */
+#define AT91C_SSC_MSBF                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )   /* (SSC) Most Significant Bit First */
+#define AT91C_SSC_DATNB                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 8 )   /* (SSC) Data Number per Frame */
+#define AT91C_SSC_FSLEN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 16 )  /* (SSC) Receive/Transmit Frame Sync length */
+#define AT91C_SSC_FSOS                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 20 )  /* (SSC) Receive/Transmit Frame Sync Output Selection */
+#define     AT91C_SSC_FSOS_NONE           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: None RK pin Input-only */
+#define     AT91C_SSC_FSOS_NEGATIVE       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Negative Pulse */
+#define     AT91C_SSC_FSOS_POSITIVE       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Positive Pulse */
+#define     AT91C_SSC_FSOS_LOW            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver Low during data transfer */
+#define     AT91C_SSC_FSOS_HIGH           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Driver High during data transfer */
+#define     AT91C_SSC_FSOS_TOGGLE         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 20 )  /* (SSC) Selected Receive/Transmit Frame Sync Signal: Toggling at each start of data transfer */
+#define AT91C_SSC_FSEDGE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )  /* (SSC) Frame Sync Edge Detection */
 /* -------- SSC_TCMR : (SSC Offset: 0x18) SSC Transmit Clock Mode Register -------- */
 /* -------- SSC_TFMR : (SSC Offset: 0x1c) SSC Transmit Frame Mode Register -------- */
-#define AT91C_SSC_DATDEF                  ( ( unsigned int ) 0x1 << 5 )  /* (SSC) Data Default Value */
-#define AT91C_SSC_FSDEN                   ( ( unsigned int ) 0x1 << 23 ) /* (SSC) Frame Sync Data Enable */
+#define AT91C_SSC_DATDEF                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (SSC) Data Default Value */
+#define AT91C_SSC_FSDEN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 23 ) /* (SSC) Frame Sync Data Enable */
 /* -------- SSC_SR : (SSC Offset: 0x40) SSC Status Register -------- */
-#define AT91C_SSC_TXRDY                   ( ( unsigned int ) 0x1 << 0 )  /* (SSC) Transmit Ready */
-#define AT91C_SSC_TXEMPTY                 ( ( unsigned int ) 0x1 << 1 )  /* (SSC) Transmit Empty */
-#define AT91C_SSC_ENDTX                   ( ( unsigned int ) 0x1 << 2 )  /* (SSC) End Of Transmission */
-#define AT91C_SSC_TXBUFE                  ( ( unsigned int ) 0x1 << 3 )  /* (SSC) Transmit Buffer Empty */
-#define AT91C_SSC_RXRDY                   ( ( unsigned int ) 0x1 << 4 )  /* (SSC) Receive Ready */
-#define AT91C_SSC_OVRUN                   ( ( unsigned int ) 0x1 << 5 )  /* (SSC) Receive Overrun */
-#define AT91C_SSC_ENDRX                   ( ( unsigned int ) 0x1 << 6 )  /* (SSC) End of Reception */
-#define AT91C_SSC_RXBUFF                  ( ( unsigned int ) 0x1 << 7 )  /* (SSC) Receive Buffer Full */
-#define AT91C_SSC_TXSYN                   ( ( unsigned int ) 0x1 << 10 ) /* (SSC) Transmit Sync */
-#define AT91C_SSC_RXSYN                   ( ( unsigned int ) 0x1 << 11 ) /* (SSC) Receive Sync */
-#define AT91C_SSC_TXENA                   ( ( unsigned int ) 0x1 << 16 ) /* (SSC) Transmit Enable */
-#define AT91C_SSC_RXENA                   ( ( unsigned int ) 0x1 << 17 ) /* (SSC) Receive Enable */
+#define AT91C_SSC_TXRDY                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (SSC) Transmit Ready */
+#define AT91C_SSC_TXEMPTY                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (SSC) Transmit Empty */
+#define AT91C_SSC_ENDTX                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (SSC) End Of Transmission */
+#define AT91C_SSC_TXBUFE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (SSC) Transmit Buffer Empty */
+#define AT91C_SSC_RXRDY                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (SSC) Receive Ready */
+#define AT91C_SSC_OVRUN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (SSC) Receive Overrun */
+#define AT91C_SSC_ENDRX                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (SSC) End of Reception */
+#define AT91C_SSC_RXBUFF                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (SSC) Receive Buffer Full */
+#define AT91C_SSC_TXSYN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (SSC) Transmit Sync */
+#define AT91C_SSC_RXSYN                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (SSC) Receive Sync */
+#define AT91C_SSC_TXENA                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (SSC) Transmit Enable */
+#define AT91C_SSC_RXENA                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (SSC) Receive Enable */
 /* -------- SSC_IER : (SSC Offset: 0x44) SSC Interrupt Enable Register -------- */
 /* -------- SSC_IDR : (SSC Offset: 0x48) SSC Interrupt Disable Register -------- */
 /* -------- SSC_IMR : (SSC Offset: 0x4c) SSC Interrupt Mask Register -------- */
@@ -971,7 +971,7 @@ typedef struct _AT91S_SSC
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Two-wire Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_TWI
+typedef sa_nracanaa _AT91S_TWI
 {
     AT91_REG TWI_CR;         /* Control Register */
     AT91_REG TWI_MMR;        /* Master Mode Register */
@@ -988,30 +988,30 @@ typedef struct _AT91S_TWI
 } AT91S_TWI, * AT91PS_TWI;
 
 /* -------- TWI_CR : (TWI Offset: 0x0) TWI Control Register -------- */
-#define AT91C_TWI_START                ( ( unsigned int ) 0x1 << 0 )   /* (TWI) Send a START Condition */
-#define AT91C_TWI_STOP                 ( ( unsigned int ) 0x1 << 1 )   /* (TWI) Send a STOP Condition */
-#define AT91C_TWI_MSEN                 ( ( unsigned int ) 0x1 << 2 )   /* (TWI) TWI Master Transfer Enabled */
-#define AT91C_TWI_MSDIS                ( ( unsigned int ) 0x1 << 3 )   /* (TWI) TWI Master Transfer Disabled */
-#define AT91C_TWI_SWRST                ( ( unsigned int ) 0x1 << 7 )   /* (TWI) Software Reset */
+#define AT91C_TWI_START                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (TWI) Send a START Condition */
+#define AT91C_TWI_STOP                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (TWI) Send a STOP Condition */
+#define AT91C_TWI_MSEN                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (TWI) TWI Master Transfer Enabled */
+#define AT91C_TWI_MSDIS                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (TWI) TWI Master Transfer Disabled */
+#define AT91C_TWI_SWRST                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )   /* (TWI) Software Reset */
 /* -------- TWI_MMR : (TWI Offset: 0x4) TWI Master Mode Register -------- */
-#define AT91C_TWI_IADRSZ               ( ( unsigned int ) 0x3 << 8 )   /* (TWI) Internal Device Address Size */
-#define     AT91C_TWI_IADRSZ_NO        ( ( unsigned int ) 0x0 << 8 )   /* (TWI) No internal device address */
-#define     AT91C_TWI_IADRSZ_1_BYTE    ( ( unsigned int ) 0x1 << 8 )   /* (TWI) One-byte internal device address */
-#define     AT91C_TWI_IADRSZ_2_BYTE    ( ( unsigned int ) 0x2 << 8 )   /* (TWI) Two-byte internal device address */
-#define     AT91C_TWI_IADRSZ_3_BYTE    ( ( unsigned int ) 0x3 << 8 )   /* (TWI) Three-byte internal device address */
-#define AT91C_TWI_MREAD                ( ( unsigned int ) 0x1 << 12 )  /* (TWI) Master Read Direction */
-#define AT91C_TWI_DADR                 ( ( unsigned int ) 0x7F << 16 ) /* (TWI) Device Address */
+#define AT91C_TWI_IADRSZ               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (TWI) Internal Device Address Size */
+#define     AT91C_TWI_IADRSZ_NO        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (TWI) No internal device address */
+#define     AT91C_TWI_IADRSZ_1_BYTE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (TWI) One-byte internal device address */
+#define     AT91C_TWI_IADRSZ_2_BYTE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )   /* (TWI) Two-byte internal device address */
+#define     AT91C_TWI_IADRSZ_3_BYTE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (TWI) Three-byte internal device address */
+#define AT91C_TWI_MREAD                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 )  /* (TWI) Master Read Direction */
+#define AT91C_TWI_DADR                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7F << 16 ) /* (TWI) Device Address */
 /* -------- TWI_CWGR : (TWI Offset: 0x10) TWI Clock Waveform Generator Register -------- */
-#define AT91C_TWI_CLDIV                ( ( unsigned int ) 0xFF << 0 )  /* (TWI) Clock Low Divider */
-#define AT91C_TWI_CHDIV                ( ( unsigned int ) 0xFF << 8 )  /* (TWI) Clock High Divider */
-#define AT91C_TWI_CKDIV                ( ( unsigned int ) 0x7 << 16 )  /* (TWI) Clock Divider */
+#define AT91C_TWI_CLDIV                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 0 )  /* (TWI) Clock Low Divider */
+#define AT91C_TWI_CHDIV                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 8 )  /* (TWI) Clock High Divider */
+#define AT91C_TWI_CKDIV                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 16 )  /* (TWI) Clock Divider */
 /* -------- TWI_SR : (TWI Offset: 0x20) TWI Status Register -------- */
-#define AT91C_TWI_TXCOMP               ( ( unsigned int ) 0x1 << 0 )   /* (TWI) Transmission Completed */
-#define AT91C_TWI_RXRDY                ( ( unsigned int ) 0x1 << 1 )   /* (TWI) Receive holding register ReaDY */
-#define AT91C_TWI_TXRDY                ( ( unsigned int ) 0x1 << 2 )   /* (TWI) Transmit holding register ReaDY */
-#define AT91C_TWI_OVRE                 ( ( unsigned int ) 0x1 << 6 )   /* (TWI) Overrun Error */
-#define AT91C_TWI_UNRE                 ( ( unsigned int ) 0x1 << 7 )   /* (TWI) Underrun Error */
-#define AT91C_TWI_NACK                 ( ( unsigned int ) 0x1 << 8 )   /* (TWI) Not Acknowledged */
+#define AT91C_TWI_TXCOMP               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (TWI) Transmission Completed */
+#define AT91C_TWI_RXRDY                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (TWI) Receive holding register ReaDY */
+#define AT91C_TWI_TXRDY                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (TWI) Transmit holding register ReaDY */
+#define AT91C_TWI_OVRE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )   /* (TWI) Overrun Error */
+#define AT91C_TWI_UNRE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )   /* (TWI) Underrun Error */
+#define AT91C_TWI_NACK                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (TWI) Not Acknowledged */
 /* -------- TWI_IER : (TWI Offset: 0x24) TWI Interrupt Enable Register -------- */
 /* -------- TWI_IDR : (TWI Offset: 0x28) TWI Interrupt Disable Register -------- */
 /* -------- TWI_IMR : (TWI Offset: 0x2c) TWI Interrupt Mask Register -------- */
@@ -1019,7 +1019,7 @@ typedef struct _AT91S_TWI
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR PWMC Channel Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_PWMC_CH
+typedef sa_nracanaa _AT91S_PWMC_CH
 {
     AT91_REG PWMC_CMR;           /* Channel Mode Register */
     AT91_REG PWMC_CDTYR;         /* Channel Duty Cycle Register */
@@ -1030,26 +1030,26 @@ typedef struct _AT91S_PWMC_CH
 } AT91S_PWMC_CH, * AT91PS_PWMC_CH;
 
 /* -------- PWMC_CMR : (PWMC_CH Offset: 0x0) PWMC Channel Mode Register -------- */
-#define AT91C_PWMC_CPRE             ( ( unsigned int ) 0xF << 0 )  /* (PWMC_CH) Channel Pre-scaler : PWMC_CLKx */
-#define     AT91C_PWMC_CPRE_MCK     ( ( unsigned int ) 0x0 )       /* (PWMC_CH) */
-#define     AT91C_PWMC_CPRE_MCKA    ( ( unsigned int ) 0xB )       /* (PWMC_CH) */
-#define     AT91C_PWMC_CPRE_MCKB    ( ( unsigned int ) 0xC )       /* (PWMC_CH) */
-#define AT91C_PWMC_CALG             ( ( unsigned int ) 0x1 << 8 )  /* (PWMC_CH) Channel Alignment */
-#define AT91C_PWMC_CPOL             ( ( unsigned int ) 0x1 << 9 )  /* (PWMC_CH) Channel Polarity */
-#define AT91C_PWMC_CPD              ( ( unsigned int ) 0x1 << 10 ) /* (PWMC_CH) Channel Update Period */
+#define AT91C_PWMC_CPRE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 0 )  /* (PWMC_CH) Channel Pre-scaler : PWMC_CLKx */
+#define     AT91C_PWMC_CPRE_MCK     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )       /* (PWMC_CH) */
+#define     AT91C_PWMC_CPRE_MCKA    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xB )       /* (PWMC_CH) */
+#define     AT91C_PWMC_CPRE_MCKB    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xC )       /* (PWMC_CH) */
+#define AT91C_PWMC_CALG             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (PWMC_CH) Channel Alignment */
+#define AT91C_PWMC_CPOL             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (PWMC_CH) Channel Polarity */
+#define AT91C_PWMC_CPD              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (PWMC_CH) Channel Update Period */
 /* -------- PWMC_CDTYR : (PWMC_CH Offset: 0x4) PWMC Channel Duty Cycle Register -------- */
-#define AT91C_PWMC_CDTY             ( ( unsigned int ) 0x0 << 0 )  /* (PWMC_CH) Channel Duty Cycle */
+#define AT91C_PWMC_CDTY             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 0 )  /* (PWMC_CH) Channel Duty Cycle */
 /* -------- PWMC_CPRDR : (PWMC_CH Offset: 0x8) PWMC Channel Period Register -------- */
-#define AT91C_PWMC_CPRD             ( ( unsigned int ) 0x0 << 0 )  /* (PWMC_CH) Channel Period */
+#define AT91C_PWMC_CPRD             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 0 )  /* (PWMC_CH) Channel Period */
 /* -------- PWMC_CCNTR : (PWMC_CH Offset: 0xc) PWMC Channel Counter Register -------- */
-#define AT91C_PWMC_CCNT             ( ( unsigned int ) 0x0 << 0 )  /* (PWMC_CH) Channel Counter */
+#define AT91C_PWMC_CCNT             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 0 )  /* (PWMC_CH) Channel Counter */
 /* -------- PWMC_CUPDR : (PWMC_CH Offset: 0x10) PWMC Channel Update Register -------- */
-#define AT91C_PWMC_CUPD             ( ( unsigned int ) 0x0 << 0 )  /* (PWMC_CH) Channel Update */
+#define AT91C_PWMC_CUPD             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 0 )  /* (PWMC_CH) Channel Update */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Pulse Width Modulation Controller Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_PWMC
+typedef sa_nracanaa _AT91S_PWMC
 {
     AT91_REG PWMC_MR;           /* PWMC Mode Register */
     AT91_REG PWMC_ENA;          /* PWMC Enable Register */
@@ -1066,17 +1066,17 @@ typedef struct _AT91S_PWMC
 } AT91S_PWMC, * AT91PS_PWMC;
 
 /* -------- PWMC_MR : (PWMC Offset: 0x0) PWMC Mode Register -------- */
-#define AT91C_PWMC_DIVA            ( ( unsigned int ) 0xFF << 0 )  /* (PWMC) CLKA divide factor. */
-#define AT91C_PWMC_PREA            ( ( unsigned int ) 0xF << 8 )   /* (PWMC) Divider Input Clock Prescaler A */
-#define     AT91C_PWMC_PREA_MCK    ( ( unsigned int ) 0x0 << 8 )   /* (PWMC) */
-#define AT91C_PWMC_DIVB            ( ( unsigned int ) 0xFF << 16 ) /* (PWMC) CLKB divide factor. */
-#define AT91C_PWMC_PREB            ( ( unsigned int ) 0xF << 24 )  /* (PWMC) Divider Input Clock Prescaler B */
-#define     AT91C_PWMC_PREB_MCK    ( ( unsigned int ) 0x0 << 24 )  /* (PWMC) */
+#define AT91C_PWMC_DIVA            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 0 )  /* (PWMC) CLKA divide factor. */
+#define AT91C_PWMC_PREA            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 8 )   /* (PWMC) Divider Input Clock Prescaler A */
+#define     AT91C_PWMC_PREA_MCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (PWMC) */
+#define AT91C_PWMC_DIVB            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 16 ) /* (PWMC) CLKB divide factor. */
+#define AT91C_PWMC_PREB            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 24 )  /* (PWMC) Divider Input Clock Prescaler B */
+#define     AT91C_PWMC_PREB_MCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 24 )  /* (PWMC) */
 /* -------- PWMC_ENA : (PWMC Offset: 0x4) PWMC Enable Register -------- */
-#define AT91C_PWMC_CHID0           ( ( unsigned int ) 0x1 << 0 )   /* (PWMC) Channel ID 0 */
-#define AT91C_PWMC_CHID1           ( ( unsigned int ) 0x1 << 1 )   /* (PWMC) Channel ID 1 */
-#define AT91C_PWMC_CHID2           ( ( unsigned int ) 0x1 << 2 )   /* (PWMC) Channel ID 2 */
-#define AT91C_PWMC_CHID3           ( ( unsigned int ) 0x1 << 3 )   /* (PWMC) Channel ID 3 */
+#define AT91C_PWMC_CHID0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (PWMC) Channel ID 0 */
+#define AT91C_PWMC_CHID1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (PWMC) Channel ID 1 */
+#define AT91C_PWMC_CHID2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (PWMC) Channel ID 2 */
+#define AT91C_PWMC_CHID3           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (PWMC) Channel ID 3 */
 /* -------- PWMC_DIS : (PWMC Offset: 0x8) PWMC Disable Register -------- */
 /* -------- PWMC_SR : (PWMC Offset: 0xc) PWMC Status Register -------- */
 /* -------- PWMC_IER : (PWMC Offset: 0x10) PWMC Interrupt Enable Register -------- */
@@ -1087,7 +1087,7 @@ typedef struct _AT91S_PWMC
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR USB Device Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_UDP
+typedef sa_nracanaa _AT91S_UDP
 {
     AT91_REG UDP_NUM;        /* Frame Number Register */
     AT91_REG UDP_GLBSTATE;   /* Global State Register */
@@ -1109,70 +1109,70 @@ typedef struct _AT91S_UDP
 } AT91S_UDP, * AT91PS_UDP;
 
 /* -------- UDP_FRM_NUM : (UDP Offset: 0x0) USB Frame Number Register -------- */
-#define AT91C_UDP_FRM_NUM    ( ( unsigned int ) 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
-#define AT91C_UDP_FRM_ERR    ( ( unsigned int ) 0x1 << 16 )  /* (UDP) Frame Error */
-#define AT91C_UDP_FRM_OK     ( ( unsigned int ) 0x1 << 17 )  /* (UDP) Frame OK */
+#define AT91C_UDP_FRM_NUM    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7FF << 0 ) /* (UDP) Frame Number as Defined in the Packet Field Formats */
+#define AT91C_UDP_FRM_ERR    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (UDP) Frame Error */
+#define AT91C_UDP_FRM_OK     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )  /* (UDP) Frame OK */
 /* -------- UDP_GLB_STATE : (UDP Offset: 0x4) USB Global State Register -------- */
-#define AT91C_UDP_FADDEN     ( ( unsigned int ) 0x1 << 0 )   /* (UDP) Function Address Enable */
-#define AT91C_UDP_CONFG      ( ( unsigned int ) 0x1 << 1 )   /* (UDP) Configured */
-#define AT91C_UDP_ESR        ( ( unsigned int ) 0x1 << 2 )   /* (UDP) Enable Send Resume */
-#define AT91C_UDP_RSMINPR    ( ( unsigned int ) 0x1 << 3 )   /* (UDP) A Resume Has Been Sent to the Host */
-#define AT91C_UDP_RMWUPE     ( ( unsigned int ) 0x1 << 4 )   /* (UDP) Remote Wake Up Enable */
+#define AT91C_UDP_FADDEN     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (UDP) Function Address Enable */
+#define AT91C_UDP_CONFG      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (UDP) Configured */
+#define AT91C_UDP_ESR        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (UDP) Enable Send Resume */
+#define AT91C_UDP_RSMINPR    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (UDP) A Resume Has Been Sent to the Host */
+#define AT91C_UDP_RMWUPE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (UDP) Remote Wake Up Enable */
 /* -------- UDP_FADDR : (UDP Offset: 0x8) USB Function Address Register -------- */
-#define AT91C_UDP_FADD       ( ( unsigned int ) 0xFF << 0 )  /* (UDP) Function Address Value */
-#define AT91C_UDP_FEN        ( ( unsigned int ) 0x1 << 8 )   /* (UDP) Function Enable */
+#define AT91C_UDP_FADD       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 0 )  /* (UDP) Function Address Value */
+#define AT91C_UDP_FEN        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (UDP) Function Enable */
 /* -------- UDP_IER : (UDP Offset: 0x10) USB Interrupt Enable Register -------- */
-#define AT91C_UDP_EPINT0     ( ( unsigned int ) 0x1 << 0 )   /* (UDP) Endpoint 0 Interrupt */
-#define AT91C_UDP_EPINT1     ( ( unsigned int ) 0x1 << 1 )   /* (UDP) Endpoint 0 Interrupt */
-#define AT91C_UDP_EPINT2     ( ( unsigned int ) 0x1 << 2 )   /* (UDP) Endpoint 2 Interrupt */
-#define AT91C_UDP_EPINT3     ( ( unsigned int ) 0x1 << 3 )   /* (UDP) Endpoint 3 Interrupt */
-#define AT91C_UDP_EPINT4     ( ( unsigned int ) 0x1 << 4 )   /* (UDP) Endpoint 4 Interrupt */
-#define AT91C_UDP_EPINT5     ( ( unsigned int ) 0x1 << 5 )   /* (UDP) Endpoint 5 Interrupt */
-#define AT91C_UDP_RXSUSP     ( ( unsigned int ) 0x1 << 8 )   /* (UDP) USB Suspend Interrupt */
-#define AT91C_UDP_RXRSM      ( ( unsigned int ) 0x1 << 9 )   /* (UDP) USB Resume Interrupt */
-#define AT91C_UDP_EXTRSM     ( ( unsigned int ) 0x1 << 10 )  /* (UDP) USB External Resume Interrupt */
-#define AT91C_UDP_SOFINT     ( ( unsigned int ) 0x1 << 11 )  /* (UDP) USB Start Of frame Interrupt */
-#define AT91C_UDP_WAKEUP     ( ( unsigned int ) 0x1 << 13 )  /* (UDP) USB Resume Interrupt */
+#define AT91C_UDP_EPINT0     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (UDP) Endpoint 0 Interrupt */
+#define AT91C_UDP_EPINT1     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (UDP) Endpoint 0 Interrupt */
+#define AT91C_UDP_EPINT2     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (UDP) Endpoint 2 Interrupt */
+#define AT91C_UDP_EPINT3     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (UDP) Endpoint 3 Interrupt */
+#define AT91C_UDP_EPINT4     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (UDP) Endpoint 4 Interrupt */
+#define AT91C_UDP_EPINT5     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (UDP) Endpoint 5 Interrupt */
+#define AT91C_UDP_RXSUSP     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (UDP) USB Suspend Interrupt */
+#define AT91C_UDP_RXRSM      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )   /* (UDP) USB Resume Interrupt */
+#define AT91C_UDP_EXTRSM     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 )  /* (UDP) USB External Resume Interrupt */
+#define AT91C_UDP_SOFINT     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 )  /* (UDP) USB Start Of frame Interrupt */
+#define AT91C_UDP_WAKEUP     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 )  /* (UDP) USB Resume Interrupt */
 /* -------- UDP_IDR : (UDP Offset: 0x14) USB Interrupt Disable Register -------- */
 /* -------- UDP_IMR : (UDP Offset: 0x18) USB Interrupt Mask Register -------- */
 /* -------- UDP_ISR : (UDP Offset: 0x1c) USB Interrupt Status Register -------- */
-#define AT91C_UDP_ENDBUSRES              ( ( unsigned int ) 0x1 << 12 ) /* (UDP) USB End Of Bus Reset Interrupt */
+#define AT91C_UDP_ENDBUSRES              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (UDP) USB End Of Bus Reset Interrupt */
 /* -------- UDP_ICR : (UDP Offset: 0x20) USB Interrupt Clear Register -------- */
 /* -------- UDP_RST_EP : (UDP Offset: 0x28) USB Reset Endpoint Register -------- */
-#define AT91C_UDP_EP0                    ( ( unsigned int ) 0x1 << 0 )    /* (UDP) Reset Endpoint 0 */
-#define AT91C_UDP_EP1                    ( ( unsigned int ) 0x1 << 1 )    /* (UDP) Reset Endpoint 1 */
-#define AT91C_UDP_EP2                    ( ( unsigned int ) 0x1 << 2 )    /* (UDP) Reset Endpoint 2 */
-#define AT91C_UDP_EP3                    ( ( unsigned int ) 0x1 << 3 )    /* (UDP) Reset Endpoint 3 */
-#define AT91C_UDP_EP4                    ( ( unsigned int ) 0x1 << 4 )    /* (UDP) Reset Endpoint 4 */
-#define AT91C_UDP_EP5                    ( ( unsigned int ) 0x1 << 5 )    /* (UDP) Reset Endpoint 5 */
+#define AT91C_UDP_EP0                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (UDP) Reset Endpoint 0 */
+#define AT91C_UDP_EP1                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (UDP) Reset Endpoint 1 */
+#define AT91C_UDP_EP2                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )    /* (UDP) Reset Endpoint 2 */
+#define AT91C_UDP_EP3                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )    /* (UDP) Reset Endpoint 3 */
+#define AT91C_UDP_EP4                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )    /* (UDP) Reset Endpoint 4 */
+#define AT91C_UDP_EP5                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )    /* (UDP) Reset Endpoint 5 */
 /* -------- UDP_CSR : (UDP Offset: 0x30) USB Endpoint Control and Status Register -------- */
-#define AT91C_UDP_TXCOMP                 ( ( unsigned int ) 0x1 << 0 )    /* (UDP) Generates an IN packet with data previously written in the DPR */
-#define AT91C_UDP_RX_DATA_BK0            ( ( unsigned int ) 0x1 << 1 )    /* (UDP) Receive Data Bank 0 */
-#define AT91C_UDP_RXSETUP                ( ( unsigned int ) 0x1 << 2 )    /* (UDP) Sends STALL to the Host (Control endpoints) */
-#define AT91C_UDP_ISOERROR               ( ( unsigned int ) 0x1 << 3 )    /* (UDP) Isochronous error (Isochronous endpoints) */
-#define AT91C_UDP_TXPKTRDY               ( ( unsigned int ) 0x1 << 4 )    /* (UDP) Transmit Packet Ready */
-#define AT91C_UDP_FORCESTALL             ( ( unsigned int ) 0x1 << 5 )    /* (UDP) Force Stall (used by Control, Bulk and Isochronous endpoints). */
-#define AT91C_UDP_RX_DATA_BK1            ( ( unsigned int ) 0x1 << 6 )    /* (UDP) Receive Data Bank 1 (only used by endpoints with ping-pong attributes). */
-#define AT91C_UDP_DIR                    ( ( unsigned int ) 0x1 << 7 )    /* (UDP) Transfer Direction */
-#define AT91C_UDP_EPTYPE                 ( ( unsigned int ) 0x7 << 8 )    /* (UDP) Endpoint type */
-#define     AT91C_UDP_EPTYPE_CTRL        ( ( unsigned int ) 0x0 << 8 )    /* (UDP) Control */
-#define     AT91C_UDP_EPTYPE_ISO_OUT     ( ( unsigned int ) 0x1 << 8 )    /* (UDP) Isochronous OUT */
-#define     AT91C_UDP_EPTYPE_BULK_OUT    ( ( unsigned int ) 0x2 << 8 )    /* (UDP) Bulk OUT */
-#define     AT91C_UDP_EPTYPE_INT_OUT     ( ( unsigned int ) 0x3 << 8 )    /* (UDP) Interrupt OUT */
-#define     AT91C_UDP_EPTYPE_ISO_IN      ( ( unsigned int ) 0x5 << 8 )    /* (UDP) Isochronous IN */
-#define     AT91C_UDP_EPTYPE_BULK_IN     ( ( unsigned int ) 0x6 << 8 )    /* (UDP) Bulk IN */
-#define     AT91C_UDP_EPTYPE_INT_IN      ( ( unsigned int ) 0x7 << 8 )    /* (UDP) Interrupt IN */
-#define AT91C_UDP_DTGLE                  ( ( unsigned int ) 0x1 << 11 )   /* (UDP) Data Toggle */
-#define AT91C_UDP_EPEDS                  ( ( unsigned int ) 0x1 << 15 )   /* (UDP) Endpoint Enable Disable */
-#define AT91C_UDP_RXBYTECNT              ( ( unsigned int ) 0x7FF << 16 ) /* (UDP) Number Of Bytes Available in the FIFO */
+#define AT91C_UDP_TXCOMP                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )    /* (UDP) Generates an IN packet with data previously written in the DPR */
+#define AT91C_UDP_RX_DATA_BK0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )    /* (UDP) Receive Data Bank 0 */
+#define AT91C_UDP_RXSETUP                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )    /* (UDP) Sends STALL to the Host (Control endpoints) */
+#define AT91C_UDP_ISOERROR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )    /* (UDP) Isochronous error (Isochronous endpoints) */
+#define AT91C_UDP_TXPKTRDY               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )    /* (UDP) Transmit Packet Ready */
+#define AT91C_UDP_FORCESTALL             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )    /* (UDP) Force Stall (used by Control, Bulk and Isochronous endpoints). */
+#define AT91C_UDP_RX_DATA_BK1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )    /* (UDP) Receive Data Bank 1 (only used by endpoints with ping-pong attributes). */
+#define AT91C_UDP_DIR                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )    /* (UDP) Transfer Direction */
+#define AT91C_UDP_EPTYPE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 8 )    /* (UDP) Endpoint type */
+#define     AT91C_UDP_EPTYPE_CTRL        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )    /* (UDP) Control */
+#define     AT91C_UDP_EPTYPE_ISO_OUT     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )    /* (UDP) Isochronous OUT */
+#define     AT91C_UDP_EPTYPE_BULK_OUT    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )    /* (UDP) Bulk OUT */
+#define     AT91C_UDP_EPTYPE_INT_OUT     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )    /* (UDP) Interrupt OUT */
+#define     AT91C_UDP_EPTYPE_ISO_IN      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 8 )    /* (UDP) Isochronous IN */
+#define     AT91C_UDP_EPTYPE_BULK_IN     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 << 8 )    /* (UDP) Bulk IN */
+#define     AT91C_UDP_EPTYPE_INT_IN      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 8 )    /* (UDP) Interrupt IN */
+#define AT91C_UDP_DTGLE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 )   /* (UDP) Data Toggle */
+#define AT91C_UDP_EPEDS                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 )   /* (UDP) Endpoint Enable Disable */
+#define AT91C_UDP_RXBYTECNT              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7FF << 16 ) /* (UDP) Number Of Bytes Available in the FIFO */
 /* -------- UDP_TXVC : (UDP Offset: 0x74) Transceiver Control Register -------- */
-#define AT91C_UDP_TXVDIS                 ( ( unsigned int ) 0x1 << 8 )    /* (UDP) */
-#define AT91C_UDP_PUON                   ( ( unsigned int ) 0x1 << 9 )    /* (UDP) Pull-up ON */
+#define AT91C_UDP_TXVDIS                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )    /* (UDP) */
+#define AT91C_UDP_PUON                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )    /* (UDP) Pull-up ON */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Timer Counter Channel Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_TC
+typedef sa_nracanaa _AT91S_TC
 {
     AT91_REG TC_CCR;         /* Channel Control Register */
     AT91_REG TC_CMR;         /* Channel Mode Register (Capture Mode / Waveform Mode) */
@@ -1188,115 +1188,115 @@ typedef struct _AT91S_TC
 } AT91S_TC, * AT91PS_TC;
 
 /* -------- TC_CCR : (TC Offset: 0x0) TC Channel Control Register -------- */
-#define AT91C_TC_CLKEN                        ( ( unsigned int ) 0x1 << 0 )  /* (TC) Counter Clock Enable Command */
-#define AT91C_TC_CLKDIS                       ( ( unsigned int ) 0x1 << 1 )  /* (TC) Counter Clock Disable Command */
-#define AT91C_TC_SWTRG                        ( ( unsigned int ) 0x1 << 2 )  /* (TC) Software Trigger Command */
+#define AT91C_TC_CLKEN                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (TC) Counter Clock Enable Command */
+#define AT91C_TC_CLKDIS                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (TC) Counter Clock Disable Command */
+#define AT91C_TC_SWTRG                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (TC) Software Trigger Command */
 /* -------- TC_CMR : (TC Offset: 0x4) TC Channel Mode Register: Capture Mode / Waveform Mode -------- */
-#define AT91C_TC_CLKS                         ( ( unsigned int ) 0x7 << 0 )  /* (TC) Clock Selection */
-#define     AT91C_TC_CLKS_TIMER_DIV1_CLOCK    ( ( unsigned int ) 0x0 )       /* (TC) Clock selected: TIMER_DIV1_CLOCK */
-#define     AT91C_TC_CLKS_TIMER_DIV2_CLOCK    ( ( unsigned int ) 0x1 )       /* (TC) Clock selected: TIMER_DIV2_CLOCK */
-#define     AT91C_TC_CLKS_TIMER_DIV3_CLOCK    ( ( unsigned int ) 0x2 )       /* (TC) Clock selected: TIMER_DIV3_CLOCK */
-#define     AT91C_TC_CLKS_TIMER_DIV4_CLOCK    ( ( unsigned int ) 0x3 )       /* (TC) Clock selected: TIMER_DIV4_CLOCK */
-#define     AT91C_TC_CLKS_TIMER_DIV5_CLOCK    ( ( unsigned int ) 0x4 )       /* (TC) Clock selected: TIMER_DIV5_CLOCK */
-#define     AT91C_TC_CLKS_XC0                 ( ( unsigned int ) 0x5 )       /* (TC) Clock selected: XC0 */
-#define     AT91C_TC_CLKS_XC1                 ( ( unsigned int ) 0x6 )       /* (TC) Clock selected: XC1 */
-#define     AT91C_TC_CLKS_XC2                 ( ( unsigned int ) 0x7 )       /* (TC) Clock selected: XC2 */
-#define AT91C_TC_CLKI                         ( ( unsigned int ) 0x1 << 3 )  /* (TC) Clock Invert */
-#define AT91C_TC_BURST                        ( ( unsigned int ) 0x3 << 4 )  /* (TC) Burst Signal Selection */
-#define     AT91C_TC_BURST_NONE               ( ( unsigned int ) 0x0 << 4 )  /* (TC) The clock is not gated by an external signal */
-#define     AT91C_TC_BURST_XC0                ( ( unsigned int ) 0x1 << 4 )  /* (TC) XC0 is ANDed with the selected clock */
-#define     AT91C_TC_BURST_XC1                ( ( unsigned int ) 0x2 << 4 )  /* (TC) XC1 is ANDed with the selected clock */
-#define     AT91C_TC_BURST_XC2                ( ( unsigned int ) 0x3 << 4 )  /* (TC) XC2 is ANDed with the selected clock */
-#define AT91C_TC_CPCSTOP                      ( ( unsigned int ) 0x1 << 6 )  /* (TC) Counter Clock Stopped with RC Compare */
-#define AT91C_TC_LDBSTOP                      ( ( unsigned int ) 0x1 << 6 )  /* (TC) Counter Clock Stopped with RB Loading */
-#define AT91C_TC_CPCDIS                       ( ( unsigned int ) 0x1 << 7 )  /* (TC) Counter Clock Disable with RC Compare */
-#define AT91C_TC_LDBDIS                       ( ( unsigned int ) 0x1 << 7 )  /* (TC) Counter Clock Disabled with RB Loading */
-#define AT91C_TC_ETRGEDG                      ( ( unsigned int ) 0x3 << 8 )  /* (TC) External Trigger Edge Selection */
-#define     AT91C_TC_ETRGEDG_NONE             ( ( unsigned int ) 0x0 << 8 )  /* (TC) Edge: None */
-#define     AT91C_TC_ETRGEDG_RISING           ( ( unsigned int ) 0x1 << 8 )  /* (TC) Edge: rising edge */
-#define     AT91C_TC_ETRGEDG_FALLING          ( ( unsigned int ) 0x2 << 8 )  /* (TC) Edge: falling edge */
-#define     AT91C_TC_ETRGEDG_BOTH             ( ( unsigned int ) 0x3 << 8 )  /* (TC) Edge: each edge */
-#define AT91C_TC_EEVTEDG                      ( ( unsigned int ) 0x3 << 8 )  /* (TC) External Event Edge Selection */
-#define     AT91C_TC_EEVTEDG_NONE             ( ( unsigned int ) 0x0 << 8 )  /* (TC) Edge: None */
-#define     AT91C_TC_EEVTEDG_RISING           ( ( unsigned int ) 0x1 << 8 )  /* (TC) Edge: rising edge */
-#define     AT91C_TC_EEVTEDG_FALLING          ( ( unsigned int ) 0x2 << 8 )  /* (TC) Edge: falling edge */
-#define     AT91C_TC_EEVTEDG_BOTH             ( ( unsigned int ) 0x3 << 8 )  /* (TC) Edge: each edge */
-#define AT91C_TC_EEVT                         ( ( unsigned int ) 0x3 << 10 ) /* (TC) External Event  Selection */
-#define     AT91C_TC_EEVT_TIOB                ( ( unsigned int ) 0x0 << 10 ) /* (TC) Signal selected as external event: TIOB TIOB direction: input */
-#define     AT91C_TC_EEVT_XC0                 ( ( unsigned int ) 0x1 << 10 ) /* (TC) Signal selected as external event: XC0 TIOB direction: output */
-#define     AT91C_TC_EEVT_XC1                 ( ( unsigned int ) 0x2 << 10 ) /* (TC) Signal selected as external event: XC1 TIOB direction: output */
-#define     AT91C_TC_EEVT_XC2                 ( ( unsigned int ) 0x3 << 10 ) /* (TC) Signal selected as external event: XC2 TIOB direction: output */
-#define AT91C_TC_ABETRG                       ( ( unsigned int ) 0x1 << 10 ) /* (TC) TIOA or TIOB External Trigger Selection */
-#define AT91C_TC_ENETRG                       ( ( unsigned int ) 0x1 << 12 ) /* (TC) External Event Trigger enable */
-#define AT91C_TC_WAVESEL                      ( ( unsigned int ) 0x3 << 13 ) /* (TC) Waveform  Selection */
-#define     AT91C_TC_WAVESEL_UP               ( ( unsigned int ) 0x0 << 13 ) /* (TC) UP mode without atomatic trigger on RC Compare */
-#define     AT91C_TC_WAVESEL_UPDOWN           ( ( unsigned int ) 0x1 << 13 ) /* (TC) UPDOWN mode without automatic trigger on RC Compare */
-#define     AT91C_TC_WAVESEL_UP_AUTO          ( ( unsigned int ) 0x2 << 13 ) /* (TC) UP mode with automatic trigger on RC Compare */
-#define     AT91C_TC_WAVESEL_UPDOWN_AUTO      ( ( unsigned int ) 0x3 << 13 ) /* (TC) UPDOWN mode with automatic trigger on RC Compare */
-#define AT91C_TC_CPCTRG                       ( ( unsigned int ) 0x1 << 14 ) /* (TC) RC Compare Trigger Enable */
-#define AT91C_TC_WAVE                         ( ( unsigned int ) 0x1 << 15 ) /* (TC) */
-#define AT91C_TC_ACPA                         ( ( unsigned int ) 0x3 << 16 ) /* (TC) RA Compare Effect on TIOA */
-#define     AT91C_TC_ACPA_NONE                ( ( unsigned int ) 0x0 << 16 ) /* (TC) Effect: none */
-#define     AT91C_TC_ACPA_SET                 ( ( unsigned int ) 0x1 << 16 ) /* (TC) Effect: set */
-#define     AT91C_TC_ACPA_CLEAR               ( ( unsigned int ) 0x2 << 16 ) /* (TC) Effect: clear */
-#define     AT91C_TC_ACPA_TOGGLE              ( ( unsigned int ) 0x3 << 16 ) /* (TC) Effect: toggle */
-#define AT91C_TC_LDRA                         ( ( unsigned int ) 0x3 << 16 ) /* (TC) RA Loading Selection */
-#define     AT91C_TC_LDRA_NONE                ( ( unsigned int ) 0x0 << 16 ) /* (TC) Edge: None */
-#define     AT91C_TC_LDRA_RISING              ( ( unsigned int ) 0x1 << 16 ) /* (TC) Edge: rising edge of TIOA */
-#define     AT91C_TC_LDRA_FALLING             ( ( unsigned int ) 0x2 << 16 ) /* (TC) Edge: falling edge of TIOA */
-#define     AT91C_TC_LDRA_BOTH                ( ( unsigned int ) 0x3 << 16 ) /* (TC) Edge: each edge of TIOA */
-#define AT91C_TC_ACPC                         ( ( unsigned int ) 0x3 << 18 ) /* (TC) RC Compare Effect on TIOA */
-#define     AT91C_TC_ACPC_NONE                ( ( unsigned int ) 0x0 << 18 ) /* (TC) Effect: none */
-#define     AT91C_TC_ACPC_SET                 ( ( unsigned int ) 0x1 << 18 ) /* (TC) Effect: set */
-#define     AT91C_TC_ACPC_CLEAR               ( ( unsigned int ) 0x2 << 18 ) /* (TC) Effect: clear */
-#define     AT91C_TC_ACPC_TOGGLE              ( ( unsigned int ) 0x3 << 18 ) /* (TC) Effect: toggle */
-#define AT91C_TC_LDRB                         ( ( unsigned int ) 0x3 << 18 ) /* (TC) RB Loading Selection */
-#define     AT91C_TC_LDRB_NONE                ( ( unsigned int ) 0x0 << 18 ) /* (TC) Edge: None */
-#define     AT91C_TC_LDRB_RISING              ( ( unsigned int ) 0x1 << 18 ) /* (TC) Edge: rising edge of TIOA */
-#define     AT91C_TC_LDRB_FALLING             ( ( unsigned int ) 0x2 << 18 ) /* (TC) Edge: falling edge of TIOA */
-#define     AT91C_TC_LDRB_BOTH                ( ( unsigned int ) 0x3 << 18 ) /* (TC) Edge: each edge of TIOA */
-#define AT91C_TC_AEEVT                        ( ( unsigned int ) 0x3 << 20 ) /* (TC) External Event Effect on TIOA */
-#define     AT91C_TC_AEEVT_NONE               ( ( unsigned int ) 0x0 << 20 ) /* (TC) Effect: none */
-#define     AT91C_TC_AEEVT_SET                ( ( unsigned int ) 0x1 << 20 ) /* (TC) Effect: set */
-#define     AT91C_TC_AEEVT_CLEAR              ( ( unsigned int ) 0x2 << 20 ) /* (TC) Effect: clear */
-#define     AT91C_TC_AEEVT_TOGGLE             ( ( unsigned int ) 0x3 << 20 ) /* (TC) Effect: toggle */
-#define AT91C_TC_ASWTRG                       ( ( unsigned int ) 0x3 << 22 ) /* (TC) Software Trigger Effect on TIOA */
-#define     AT91C_TC_ASWTRG_NONE              ( ( unsigned int ) 0x0 << 22 ) /* (TC) Effect: none */
-#define     AT91C_TC_ASWTRG_SET               ( ( unsigned int ) 0x1 << 22 ) /* (TC) Effect: set */
-#define     AT91C_TC_ASWTRG_CLEAR             ( ( unsigned int ) 0x2 << 22 ) /* (TC) Effect: clear */
-#define     AT91C_TC_ASWTRG_TOGGLE            ( ( unsigned int ) 0x3 << 22 ) /* (TC) Effect: toggle */
-#define AT91C_TC_BCPB                         ( ( unsigned int ) 0x3 << 24 ) /* (TC) RB Compare Effect on TIOB */
-#define     AT91C_TC_BCPB_NONE                ( ( unsigned int ) 0x0 << 24 ) /* (TC) Effect: none */
-#define     AT91C_TC_BCPB_SET                 ( ( unsigned int ) 0x1 << 24 ) /* (TC) Effect: set */
-#define     AT91C_TC_BCPB_CLEAR               ( ( unsigned int ) 0x2 << 24 ) /* (TC) Effect: clear */
-#define     AT91C_TC_BCPB_TOGGLE              ( ( unsigned int ) 0x3 << 24 ) /* (TC) Effect: toggle */
-#define AT91C_TC_BCPC                         ( ( unsigned int ) 0x3 << 26 ) /* (TC) RC Compare Effect on TIOB */
-#define     AT91C_TC_BCPC_NONE                ( ( unsigned int ) 0x0 << 26 ) /* (TC) Effect: none */
-#define     AT91C_TC_BCPC_SET                 ( ( unsigned int ) 0x1 << 26 ) /* (TC) Effect: set */
-#define     AT91C_TC_BCPC_CLEAR               ( ( unsigned int ) 0x2 << 26 ) /* (TC) Effect: clear */
-#define     AT91C_TC_BCPC_TOGGLE              ( ( unsigned int ) 0x3 << 26 ) /* (TC) Effect: toggle */
-#define AT91C_TC_BEEVT                        ( ( unsigned int ) 0x3 << 28 ) /* (TC) External Event Effect on TIOB */
-#define     AT91C_TC_BEEVT_NONE               ( ( unsigned int ) 0x0 << 28 ) /* (TC) Effect: none */
-#define     AT91C_TC_BEEVT_SET                ( ( unsigned int ) 0x1 << 28 ) /* (TC) Effect: set */
-#define     AT91C_TC_BEEVT_CLEAR              ( ( unsigned int ) 0x2 << 28 ) /* (TC) Effect: clear */
-#define     AT91C_TC_BEEVT_TOGGLE             ( ( unsigned int ) 0x3 << 28 ) /* (TC) Effect: toggle */
-#define AT91C_TC_BSWTRG                       ( ( unsigned int ) 0x3 << 30 ) /* (TC) Software Trigger Effect on TIOB */
-#define     AT91C_TC_BSWTRG_NONE              ( ( unsigned int ) 0x0 << 30 ) /* (TC) Effect: none */
-#define     AT91C_TC_BSWTRG_SET               ( ( unsigned int ) 0x1 << 30 ) /* (TC) Effect: set */
-#define     AT91C_TC_BSWTRG_CLEAR             ( ( unsigned int ) 0x2 << 30 ) /* (TC) Effect: clear */
-#define     AT91C_TC_BSWTRG_TOGGLE            ( ( unsigned int ) 0x3 << 30 ) /* (TC) Effect: toggle */
+#define AT91C_TC_CLKS                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 0 )  /* (TC) Clock Selection */
+#define     AT91C_TC_CLKS_TIMER_DIV1_CLOCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )       /* (TC) Clock selected: TIMER_DIV1_CLOCK */
+#define     AT91C_TC_CLKS_TIMER_DIV2_CLOCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )       /* (TC) Clock selected: TIMER_DIV2_CLOCK */
+#define     AT91C_TC_CLKS_TIMER_DIV3_CLOCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 )       /* (TC) Clock selected: TIMER_DIV3_CLOCK */
+#define     AT91C_TC_CLKS_TIMER_DIV4_CLOCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 )       /* (TC) Clock selected: TIMER_DIV4_CLOCK */
+#define     AT91C_TC_CLKS_TIMER_DIV5_CLOCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 )       /* (TC) Clock selected: TIMER_DIV5_CLOCK */
+#define     AT91C_TC_CLKS_XC0                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 )       /* (TC) Clock selected: XC0 */
+#define     AT91C_TC_CLKS_XC1                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 )       /* (TC) Clock selected: XC1 */
+#define     AT91C_TC_CLKS_XC2                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 )       /* (TC) Clock selected: XC2 */
+#define AT91C_TC_CLKI                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (TC) Clock Invert */
+#define AT91C_TC_BURST                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 )  /* (TC) Burst Signal Selection */
+#define     AT91C_TC_BURST_NONE               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 4 )  /* (TC) The clock is not gated by an external signal */
+#define     AT91C_TC_BURST_XC0                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (TC) XC0 is ANDed with the selected clock */
+#define     AT91C_TC_BURST_XC1                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 4 )  /* (TC) XC1 is ANDed with the selected clock */
+#define     AT91C_TC_BURST_XC2                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 )  /* (TC) XC2 is ANDed with the selected clock */
+#define AT91C_TC_CPCSTOP                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (TC) Counter Clock Stopped with RC Compare */
+#define AT91C_TC_LDBSTOP                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (TC) Counter Clock Stopped with RB Loading */
+#define AT91C_TC_CPCDIS                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (TC) Counter Clock Disable with RC Compare */
+#define AT91C_TC_LDBDIS                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (TC) Counter Clock Disabled with RB Loading */
+#define AT91C_TC_ETRGEDG                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )  /* (TC) External Trigger Edge Selection */
+#define     AT91C_TC_ETRGEDG_NONE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )  /* (TC) Edge: None */
+#define     AT91C_TC_ETRGEDG_RISING           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (TC) Edge: rising edge */
+#define     AT91C_TC_ETRGEDG_FALLING          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )  /* (TC) Edge: falling edge */
+#define     AT91C_TC_ETRGEDG_BOTH             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )  /* (TC) Edge: each edge */
+#define AT91C_TC_EEVTEDG                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )  /* (TC) External Event Edge Selection */
+#define     AT91C_TC_EEVTEDG_NONE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )  /* (TC) Edge: None */
+#define     AT91C_TC_EEVTEDG_RISING           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (TC) Edge: rising edge */
+#define     AT91C_TC_EEVTEDG_FALLING          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )  /* (TC) Edge: falling edge */
+#define     AT91C_TC_EEVTEDG_BOTH             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )  /* (TC) Edge: each edge */
+#define AT91C_TC_EEVT                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 10 ) /* (TC) External Event  Selection */
+#define     AT91C_TC_EEVT_TIOB                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 10 ) /* (TC) Signal selected as external event: TIOB TIOB direction: input */
+#define     AT91C_TC_EEVT_XC0                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (TC) Signal selected as external event: XC0 TIOB direction: output */
+#define     AT91C_TC_EEVT_XC1                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 10 ) /* (TC) Signal selected as external event: XC1 TIOB direction: output */
+#define     AT91C_TC_EEVT_XC2                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 10 ) /* (TC) Signal selected as external event: XC2 TIOB direction: output */
+#define AT91C_TC_ABETRG                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (TC) TIOA or TIOB External Trigger Selection */
+#define AT91C_TC_ENETRG                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (TC) External Event Trigger enable */
+#define AT91C_TC_WAVESEL                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 13 ) /* (TC) Waveform  Selection */
+#define     AT91C_TC_WAVESEL_UP               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 13 ) /* (TC) UP mode without atomatic trigger on RC Compare */
+#define     AT91C_TC_WAVESEL_UPDOWN           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 ) /* (TC) UPDOWN mode without automatic trigger on RC Compare */
+#define     AT91C_TC_WAVESEL_UP_AUTO          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 13 ) /* (TC) UP mode with automatic trigger on RC Compare */
+#define     AT91C_TC_WAVESEL_UPDOWN_AUTO      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 13 ) /* (TC) UPDOWN mode with automatic trigger on RC Compare */
+#define AT91C_TC_CPCTRG                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 ) /* (TC) RC Compare Trigger Enable */
+#define AT91C_TC_WAVE                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 ) /* (TC) */
+#define AT91C_TC_ACPA                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 ) /* (TC) RA Compare Effect on TIOA */
+#define     AT91C_TC_ACPA_NONE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 16 ) /* (TC) Effect: none */
+#define     AT91C_TC_ACPA_SET                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (TC) Effect: set */
+#define     AT91C_TC_ACPA_CLEAR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 16 ) /* (TC) Effect: clear */
+#define     AT91C_TC_ACPA_TOGGLE              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 ) /* (TC) Effect: toggle */
+#define AT91C_TC_LDRA                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 ) /* (TC) RA Loading Selection */
+#define     AT91C_TC_LDRA_NONE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 16 ) /* (TC) Edge: None */
+#define     AT91C_TC_LDRA_RISING              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (TC) Edge: rising edge of TIOA */
+#define     AT91C_TC_LDRA_FALLING             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 16 ) /* (TC) Edge: falling edge of TIOA */
+#define     AT91C_TC_LDRA_BOTH                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 ) /* (TC) Edge: each edge of TIOA */
+#define AT91C_TC_ACPC                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 18 ) /* (TC) RC Compare Effect on TIOA */
+#define     AT91C_TC_ACPC_NONE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 18 ) /* (TC) Effect: none */
+#define     AT91C_TC_ACPC_SET                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (TC) Effect: set */
+#define     AT91C_TC_ACPC_CLEAR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 18 ) /* (TC) Effect: clear */
+#define     AT91C_TC_ACPC_TOGGLE              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 18 ) /* (TC) Effect: toggle */
+#define AT91C_TC_LDRB                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 18 ) /* (TC) RB Loading Selection */
+#define     AT91C_TC_LDRB_NONE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 18 ) /* (TC) Edge: None */
+#define     AT91C_TC_LDRB_RISING              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (TC) Edge: rising edge of TIOA */
+#define     AT91C_TC_LDRB_FALLING             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 18 ) /* (TC) Edge: falling edge of TIOA */
+#define     AT91C_TC_LDRB_BOTH                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 18 ) /* (TC) Edge: each edge of TIOA */
+#define AT91C_TC_AEEVT                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 20 ) /* (TC) External Event Effect on TIOA */
+#define     AT91C_TC_AEEVT_NONE               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 20 ) /* (TC) Effect: none */
+#define     AT91C_TC_AEEVT_SET                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 ) /* (TC) Effect: set */
+#define     AT91C_TC_AEEVT_CLEAR              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 20 ) /* (TC) Effect: clear */
+#define     AT91C_TC_AEEVT_TOGGLE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 20 ) /* (TC) Effect: toggle */
+#define AT91C_TC_ASWTRG                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 22 ) /* (TC) Software Trigger Effect on TIOA */
+#define     AT91C_TC_ASWTRG_NONE              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 22 ) /* (TC) Effect: none */
+#define     AT91C_TC_ASWTRG_SET               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 22 ) /* (TC) Effect: set */
+#define     AT91C_TC_ASWTRG_CLEAR             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 22 ) /* (TC) Effect: clear */
+#define     AT91C_TC_ASWTRG_TOGGLE            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 22 ) /* (TC) Effect: toggle */
+#define AT91C_TC_BCPB                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 24 ) /* (TC) RB Compare Effect on TIOB */
+#define     AT91C_TC_BCPB_NONE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 24 ) /* (TC) Effect: none */
+#define     AT91C_TC_BCPB_SET                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 ) /* (TC) Effect: set */
+#define     AT91C_TC_BCPB_CLEAR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 24 ) /* (TC) Effect: clear */
+#define     AT91C_TC_BCPB_TOGGLE              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 24 ) /* (TC) Effect: toggle */
+#define AT91C_TC_BCPC                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 26 ) /* (TC) RC Compare Effect on TIOB */
+#define     AT91C_TC_BCPC_NONE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 26 ) /* (TC) Effect: none */
+#define     AT91C_TC_BCPC_SET                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 26 ) /* (TC) Effect: set */
+#define     AT91C_TC_BCPC_CLEAR               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 26 ) /* (TC) Effect: clear */
+#define     AT91C_TC_BCPC_TOGGLE              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 26 ) /* (TC) Effect: toggle */
+#define AT91C_TC_BEEVT                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 28 ) /* (TC) External Event Effect on TIOB */
+#define     AT91C_TC_BEEVT_NONE               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 28 ) /* (TC) Effect: none */
+#define     AT91C_TC_BEEVT_SET                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 28 ) /* (TC) Effect: set */
+#define     AT91C_TC_BEEVT_CLEAR              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 28 ) /* (TC) Effect: clear */
+#define     AT91C_TC_BEEVT_TOGGLE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 28 ) /* (TC) Effect: toggle */
+#define AT91C_TC_BSWTRG                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 30 ) /* (TC) Software Trigger Effect on TIOB */
+#define     AT91C_TC_BSWTRG_NONE              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 30 ) /* (TC) Effect: none */
+#define     AT91C_TC_BSWTRG_SET               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 30 ) /* (TC) Effect: set */
+#define     AT91C_TC_BSWTRG_CLEAR             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 30 ) /* (TC) Effect: clear */
+#define     AT91C_TC_BSWTRG_TOGGLE            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 30 ) /* (TC) Effect: toggle */
 /* -------- TC_SR : (TC Offset: 0x20) TC Channel Status Register -------- */
-#define AT91C_TC_COVFS                        ( ( unsigned int ) 0x1 << 0 )  /* (TC) Counter Overflow */
-#define AT91C_TC_LOVRS                        ( ( unsigned int ) 0x1 << 1 )  /* (TC) Load Overrun */
-#define AT91C_TC_CPAS                         ( ( unsigned int ) 0x1 << 2 )  /* (TC) RA Compare */
-#define AT91C_TC_CPBS                         ( ( unsigned int ) 0x1 << 3 )  /* (TC) RB Compare */
-#define AT91C_TC_CPCS                         ( ( unsigned int ) 0x1 << 4 )  /* (TC) RC Compare */
-#define AT91C_TC_LDRAS                        ( ( unsigned int ) 0x1 << 5 )  /* (TC) RA Loading */
-#define AT91C_TC_LDRBS                        ( ( unsigned int ) 0x1 << 6 )  /* (TC) RB Loading */
-#define AT91C_TC_ETRGS                        ( ( unsigned int ) 0x1 << 7 )  /* (TC) External Trigger */
-#define AT91C_TC_CLKSTA                       ( ( unsigned int ) 0x1 << 16 ) /* (TC) Clock Enabling */
-#define AT91C_TC_MTIOA                        ( ( unsigned int ) 0x1 << 17 ) /* (TC) TIOA Mirror */
-#define AT91C_TC_MTIOB                        ( ( unsigned int ) 0x1 << 18 ) /* (TC) TIOA Mirror */
+#define AT91C_TC_COVFS                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (TC) Counter Overflow */
+#define AT91C_TC_LOVRS                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (TC) Load Overrun */
+#define AT91C_TC_CPAS                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (TC) RA Compare */
+#define AT91C_TC_CPBS                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (TC) RB Compare */
+#define AT91C_TC_CPCS                         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (TC) RC Compare */
+#define AT91C_TC_LDRAS                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (TC) RA Loading */
+#define AT91C_TC_LDRBS                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (TC) RB Loading */
+#define AT91C_TC_ETRGS                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (TC) External Trigger */
+#define AT91C_TC_CLKSTA                       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (TC) Clock Enabling */
+#define AT91C_TC_MTIOA                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (TC) TIOA Mirror */
+#define AT91C_TC_MTIOB                        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (TC) TIOA Mirror */
 /* -------- TC_IER : (TC Offset: 0x24) TC Channel Interrupt Enable Register -------- */
 /* -------- TC_IDR : (TC Offset: 0x28) TC Channel Interrupt Disable Register -------- */
 /* -------- TC_IMR : (TC Offset: 0x2c) TC Channel Interrupt Mask Register -------- */
@@ -1304,7 +1304,7 @@ typedef struct _AT91S_TC
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Timer Counter Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_TCB
+typedef sa_nracanaa _AT91S_TCB
 {
     AT91S_TC TCB_TC0;        /* TC Channel 0 */
     AT91_REG Reserved0[ 4 ]; /* */
@@ -1317,28 +1317,28 @@ typedef struct _AT91S_TCB
 } AT91S_TCB, * AT91PS_TCB;
 
 /* -------- TCB_BCR : (TCB Offset: 0xc0) TC Block Control Register -------- */
-#define AT91C_TCB_SYNC                 ( ( unsigned int ) 0x1 << 0 ) /* (TCB) Synchro Command */
+#define AT91C_TCB_SYNC                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 ) /* (TCB) Synchro Command */
 /* -------- TCB_BMR : (TCB Offset: 0xc4) TC Block Mode Register -------- */
-#define AT91C_TCB_TC0XC0S              ( ( unsigned int ) 0x3 << 0 ) /* (TCB) External Clock Signal 0 Selection */
-#define     AT91C_TCB_TC0XC0S_TCLK0    ( ( unsigned int ) 0x0 )      /* (TCB) TCLK0 connected to XC0 */
-#define     AT91C_TCB_TC0XC0S_NONE     ( ( unsigned int ) 0x1 )      /* (TCB) None signal connected to XC0 */
-#define     AT91C_TCB_TC0XC0S_TIOA1    ( ( unsigned int ) 0x2 )      /* (TCB) TIOA1 connected to XC0 */
-#define     AT91C_TCB_TC0XC0S_TIOA2    ( ( unsigned int ) 0x3 )      /* (TCB) TIOA2 connected to XC0 */
-#define AT91C_TCB_TC1XC1S              ( ( unsigned int ) 0x3 << 2 ) /* (TCB) External Clock Signal 1 Selection */
-#define     AT91C_TCB_TC1XC1S_TCLK1    ( ( unsigned int ) 0x0 << 2 ) /* (TCB) TCLK1 connected to XC1 */
-#define     AT91C_TCB_TC1XC1S_NONE     ( ( unsigned int ) 0x1 << 2 ) /* (TCB) None signal connected to XC1 */
-#define     AT91C_TCB_TC1XC1S_TIOA0    ( ( unsigned int ) 0x2 << 2 ) /* (TCB) TIOA0 connected to XC1 */
-#define     AT91C_TCB_TC1XC1S_TIOA2    ( ( unsigned int ) 0x3 << 2 ) /* (TCB) TIOA2 connected to XC1 */
-#define AT91C_TCB_TC2XC2S              ( ( unsigned int ) 0x3 << 4 ) /* (TCB) External Clock Signal 2 Selection */
-#define     AT91C_TCB_TC2XC2S_TCLK2    ( ( unsigned int ) 0x0 << 4 ) /* (TCB) TCLK2 connected to XC2 */
-#define     AT91C_TCB_TC2XC2S_NONE     ( ( unsigned int ) 0x1 << 4 ) /* (TCB) None signal connected to XC2 */
-#define     AT91C_TCB_TC2XC2S_TIOA0    ( ( unsigned int ) 0x2 << 4 ) /* (TCB) TIOA0 connected to XC2 */
-#define     AT91C_TCB_TC2XC2S_TIOA1    ( ( unsigned int ) 0x3 << 4 ) /* (TCB) TIOA2 connected to XC2 */
+#define AT91C_TCB_TC0XC0S              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 0 ) /* (TCB) External Clock Signal 0 Selection */
+#define     AT91C_TCB_TC0XC0S_TCLK0    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )      /* (TCB) TCLK0 connected to XC0 */
+#define     AT91C_TCB_TC0XC0S_NONE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )      /* (TCB) None signal connected to XC0 */
+#define     AT91C_TCB_TC0XC0S_TIOA1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 )      /* (TCB) TIOA1 connected to XC0 */
+#define     AT91C_TCB_TC0XC0S_TIOA2    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 )      /* (TCB) TIOA2 connected to XC0 */
+#define AT91C_TCB_TC1XC1S              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 2 ) /* (TCB) External Clock Signal 1 Selection */
+#define     AT91C_TCB_TC1XC1S_TCLK1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 2 ) /* (TCB) TCLK1 connected to XC1 */
+#define     AT91C_TCB_TC1XC1S_NONE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 ) /* (TCB) None signal connected to XC1 */
+#define     AT91C_TCB_TC1XC1S_TIOA0    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 2 ) /* (TCB) TIOA0 connected to XC1 */
+#define     AT91C_TCB_TC1XC1S_TIOA2    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 2 ) /* (TCB) TIOA2 connected to XC1 */
+#define AT91C_TCB_TC2XC2S              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 ) /* (TCB) External Clock Signal 2 Selection */
+#define     AT91C_TCB_TC2XC2S_TCLK2    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 4 ) /* (TCB) TCLK2 connected to XC2 */
+#define     AT91C_TCB_TC2XC2S_NONE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 ) /* (TCB) None signal connected to XC2 */
+#define     AT91C_TCB_TC2XC2S_TIOA0    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 4 ) /* (TCB) TIOA0 connected to XC2 */
+#define     AT91C_TCB_TC2XC2S_TIOA1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 4 ) /* (TCB) TIOA2 connected to XC2 */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Control Area Network MailBox Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_CAN_MB
+typedef sa_nracanaa _AT91S_CAN_MB
 {
     AT91_REG CAN_MB_MMR;  /* MailBox Mode Register */
     AT91_REG CAN_MB_MAM;  /* MailBox Acceptance Mask Register */
@@ -1351,38 +1351,38 @@ typedef struct _AT91S_CAN_MB
 } AT91S_CAN_MB, * AT91PS_CAN_MB;
 
 /* -------- CAN_MMR : (CAN_MB Offset: 0x0) CAN Message Mode Register -------- */
-#define AT91C_CAN_MTIMEMARK              ( ( unsigned int ) 0xFFFF << 0 )  /* (CAN_MB) Mailbox Timemark */
-#define AT91C_CAN_PRIOR                  ( ( unsigned int ) 0xF << 16 )    /* (CAN_MB) Mailbox Priority */
-#define AT91C_CAN_MOT                    ( ( unsigned int ) 0x7 << 24 )    /* (CAN_MB) Mailbox Object Type */
-#define     AT91C_CAN_MOT_DIS            ( ( unsigned int ) 0x0 << 24 )    /* (CAN_MB) */
-#define     AT91C_CAN_MOT_RX             ( ( unsigned int ) 0x1 << 24 )    /* (CAN_MB) */
-#define     AT91C_CAN_MOT_RXOVERWRITE    ( ( unsigned int ) 0x2 << 24 )    /* (CAN_MB) */
-#define     AT91C_CAN_MOT_TX             ( ( unsigned int ) 0x3 << 24 )    /* (CAN_MB) */
-#define     AT91C_CAN_MOT_CONSUMER       ( ( unsigned int ) 0x4 << 24 )    /* (CAN_MB) */
-#define     AT91C_CAN_MOT_PRODUCER       ( ( unsigned int ) 0x5 << 24 )    /* (CAN_MB) */
+#define AT91C_CAN_MTIMEMARK              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 )  /* (CAN_MB) Mailbox Timemark */
+#define AT91C_CAN_PRIOR                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 16 )    /* (CAN_MB) Mailbox Priority */
+#define AT91C_CAN_MOT                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 24 )    /* (CAN_MB) Mailbox Object Type */
+#define     AT91C_CAN_MOT_DIS            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 24 )    /* (CAN_MB) */
+#define     AT91C_CAN_MOT_RX             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )    /* (CAN_MB) */
+#define     AT91C_CAN_MOT_RXOVERWRITE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 24 )    /* (CAN_MB) */
+#define     AT91C_CAN_MOT_TX             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 24 )    /* (CAN_MB) */
+#define     AT91C_CAN_MOT_CONSUMER       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 24 )    /* (CAN_MB) */
+#define     AT91C_CAN_MOT_PRODUCER       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 24 )    /* (CAN_MB) */
 /* -------- CAN_MAM : (CAN_MB Offset: 0x4) CAN Message Acceptance Mask Register -------- */
-#define AT91C_CAN_MIDvB                  ( ( unsigned int ) 0x3FFFF << 0 ) /* (CAN_MB) Complementary bits for identifier in extended mode */
-#define AT91C_CAN_MIDvA                  ( ( unsigned int ) 0x7FF << 18 )  /* (CAN_MB) Identifier for standard frame mode */
-#define AT91C_CAN_MIDE                   ( ( unsigned int ) 0x1 << 29 )    /* (CAN_MB) Identifier Version */
+#define AT91C_CAN_MIDvB                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3FFFF << 0 ) /* (CAN_MB) Complementary bits for identifier in extended mode */
+#define AT91C_CAN_MIDvA                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7FF << 18 )  /* (CAN_MB) Identifier for standard frame mode */
+#define AT91C_CAN_MIDE                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 29 )    /* (CAN_MB) Identifier Version */
 /* -------- CAN_MID : (CAN_MB Offset: 0x8) CAN Message ID Register -------- */
 /* -------- CAN_MFID : (CAN_MB Offset: 0xc) CAN Message Family ID Register -------- */
 /* -------- CAN_MSR : (CAN_MB Offset: 0x10) CAN Message Status Register -------- */
-#define AT91C_CAN_MTIMESTAMP    ( ( unsigned int ) 0xFFFF << 0 ) /* (CAN_MB) Timer Value */
-#define AT91C_CAN_MDLC          ( ( unsigned int ) 0xF << 16 )   /* (CAN_MB) Mailbox Data Length Code */
-#define AT91C_CAN_MRTR          ( ( unsigned int ) 0x1 << 20 )   /* (CAN_MB) Mailbox Remote Transmission Request */
-#define AT91C_CAN_MABT          ( ( unsigned int ) 0x1 << 22 )   /* (CAN_MB) Mailbox Message Abort */
-#define AT91C_CAN_MRDY          ( ( unsigned int ) 0x1 << 23 )   /* (CAN_MB) Mailbox Ready */
-#define AT91C_CAN_MMI           ( ( unsigned int ) 0x1 << 24 )   /* (CAN_MB) Mailbox Message Ignored */
+#define AT91C_CAN_MTIMESTAMP    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 ) /* (CAN_MB) Timer Value */
+#define AT91C_CAN_MDLC          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 16 )   /* (CAN_MB) Mailbox Data Length Code */
+#define AT91C_CAN_MRTR          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 )   /* (CAN_MB) Mailbox Remote Transmission Request */
+#define AT91C_CAN_MABT          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 22 )   /* (CAN_MB) Mailbox Message Abort */
+#define AT91C_CAN_MRDY          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 23 )   /* (CAN_MB) Mailbox Ready */
+#define AT91C_CAN_MMI           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )   /* (CAN_MB) Mailbox Message Ignored */
 /* -------- CAN_MDL : (CAN_MB Offset: 0x14) CAN Message Data Low Register -------- */
 /* -------- CAN_MDH : (CAN_MB Offset: 0x18) CAN Message Data High Register -------- */
 /* -------- CAN_MCR : (CAN_MB Offset: 0x1c) CAN Message Control Register -------- */
-#define AT91C_CAN_MACR    ( ( unsigned int ) 0x1 << 22 ) /* (CAN_MB) Abort Request for Mailbox */
-#define AT91C_CAN_MTCR    ( ( unsigned int ) 0x1 << 23 ) /* (CAN_MB) Mailbox Transfer Command */
+#define AT91C_CAN_MACR    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 22 ) /* (CAN_MB) Abort Request for Mailbox */
+#define AT91C_CAN_MTCR    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 23 ) /* (CAN_MB) Mailbox Transfer Command */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Control Area Network Interface */
 /* ***************************************************************************** */
-typedef struct _AT91S_CAN
+typedef sa_nracanaa _AT91S_CAN
 {
     AT91_REG CAN_MR;          /* Mode Register */
     AT91_REG CAN_IER;         /* Interrupt Enable Register */
@@ -1417,71 +1417,71 @@ typedef struct _AT91S_CAN
 } AT91S_CAN, * AT91PS_CAN;
 
 /* -------- CAN_MR : (CAN Offset: 0x0) CAN Mode Register -------- */
-#define AT91C_CAN_CANEN     ( ( unsigned int ) 0x1 << 0 )  /* (CAN) CAN Controller Enable */
-#define AT91C_CAN_LPM       ( ( unsigned int ) 0x1 << 1 )  /* (CAN) Disable/Enable Low Power Mode */
-#define AT91C_CAN_ABM       ( ( unsigned int ) 0x1 << 2 )  /* (CAN) Disable/Enable Autobaud/Listen Mode */
-#define AT91C_CAN_OVL       ( ( unsigned int ) 0x1 << 3 )  /* (CAN) Disable/Enable Overload Frame */
-#define AT91C_CAN_TEOF      ( ( unsigned int ) 0x1 << 4 )  /* (CAN) Time Stamp messages at each end of Frame */
-#define AT91C_CAN_TTM       ( ( unsigned int ) 0x1 << 5 )  /* (CAN) Disable/Enable Time Trigger Mode */
-#define AT91C_CAN_TIMFRZ    ( ( unsigned int ) 0x1 << 6 )  /* (CAN) Enable Timer Freeze */
-#define AT91C_CAN_DRPT      ( ( unsigned int ) 0x1 << 7 )  /* (CAN) Disable Repeat */
+#define AT91C_CAN_CANEN     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (CAN) CAN Controller Enable */
+#define AT91C_CAN_LPM       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (CAN) Disable/Enable Low Power Mode */
+#define AT91C_CAN_ABM       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (CAN) Disable/Enable Autobaud/Listen Mode */
+#define AT91C_CAN_OVL       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (CAN) Disable/Enable Overload Frame */
+#define AT91C_CAN_TEOF      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (CAN) Time Stamp messages at each end of Frame */
+#define AT91C_CAN_TTM       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (CAN) Disable/Enable Time Trigger Mode */
+#define AT91C_CAN_TIMFRZ    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (CAN) Enable Timer Freeze */
+#define AT91C_CAN_DRPT      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (CAN) Disable Repeat */
 /* -------- CAN_IER : (CAN Offset: 0x4) CAN Interrupt Enable Register -------- */
-#define AT91C_CAN_MB0       ( ( unsigned int ) 0x1 << 0 )  /* (CAN) Mailbox 0 Flag */
-#define AT91C_CAN_MB1       ( ( unsigned int ) 0x1 << 1 )  /* (CAN) Mailbox 1 Flag */
-#define AT91C_CAN_MB2       ( ( unsigned int ) 0x1 << 2 )  /* (CAN) Mailbox 2 Flag */
-#define AT91C_CAN_MB3       ( ( unsigned int ) 0x1 << 3 )  /* (CAN) Mailbox 3 Flag */
-#define AT91C_CAN_MB4       ( ( unsigned int ) 0x1 << 4 )  /* (CAN) Mailbox 4 Flag */
-#define AT91C_CAN_MB5       ( ( unsigned int ) 0x1 << 5 )  /* (CAN) Mailbox 5 Flag */
-#define AT91C_CAN_MB6       ( ( unsigned int ) 0x1 << 6 )  /* (CAN) Mailbox 6 Flag */
-#define AT91C_CAN_MB7       ( ( unsigned int ) 0x1 << 7 )  /* (CAN) Mailbox 7 Flag */
-#define AT91C_CAN_MB8       ( ( unsigned int ) 0x1 << 8 )  /* (CAN) Mailbox 8 Flag */
-#define AT91C_CAN_MB9       ( ( unsigned int ) 0x1 << 9 )  /* (CAN) Mailbox 9 Flag */
-#define AT91C_CAN_MB10      ( ( unsigned int ) 0x1 << 10 ) /* (CAN) Mailbox 10 Flag */
-#define AT91C_CAN_MB11      ( ( unsigned int ) 0x1 << 11 ) /* (CAN) Mailbox 11 Flag */
-#define AT91C_CAN_MB12      ( ( unsigned int ) 0x1 << 12 ) /* (CAN) Mailbox 12 Flag */
-#define AT91C_CAN_MB13      ( ( unsigned int ) 0x1 << 13 ) /* (CAN) Mailbox 13 Flag */
-#define AT91C_CAN_MB14      ( ( unsigned int ) 0x1 << 14 ) /* (CAN) Mailbox 14 Flag */
-#define AT91C_CAN_MB15      ( ( unsigned int ) 0x1 << 15 ) /* (CAN) Mailbox 15 Flag */
-#define AT91C_CAN_ERRA      ( ( unsigned int ) 0x1 << 16 ) /* (CAN) Error Active Mode Flag */
-#define AT91C_CAN_WARN      ( ( unsigned int ) 0x1 << 17 ) /* (CAN) Warning Limit Flag */
-#define AT91C_CAN_ERRP      ( ( unsigned int ) 0x1 << 18 ) /* (CAN) Error Passive Mode Flag */
-#define AT91C_CAN_BOFF      ( ( unsigned int ) 0x1 << 19 ) /* (CAN) Bus Off Mode Flag */
-#define AT91C_CAN_SLEEP     ( ( unsigned int ) 0x1 << 20 ) /* (CAN) Sleep Flag */
-#define AT91C_CAN_WAKEUP    ( ( unsigned int ) 0x1 << 21 ) /* (CAN) Wakeup Flag */
-#define AT91C_CAN_TOVF      ( ( unsigned int ) 0x1 << 22 ) /* (CAN) Timer Overflow Flag */
-#define AT91C_CAN_TSTP      ( ( unsigned int ) 0x1 << 23 ) /* (CAN) Timestamp Flag */
-#define AT91C_CAN_CERR      ( ( unsigned int ) 0x1 << 24 ) /* (CAN) CRC Error */
-#define AT91C_CAN_SERR      ( ( unsigned int ) 0x1 << 25 ) /* (CAN) Stuffing Error */
-#define AT91C_CAN_AERR      ( ( unsigned int ) 0x1 << 26 ) /* (CAN) Acknowledgment Error */
-#define AT91C_CAN_FERR      ( ( unsigned int ) 0x1 << 27 ) /* (CAN) Form Error */
-#define AT91C_CAN_BERR      ( ( unsigned int ) 0x1 << 28 ) /* (CAN) Bit Error */
+#define AT91C_CAN_MB0       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (CAN) Mailbox 0 Flag */
+#define AT91C_CAN_MB1       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (CAN) Mailbox 1 Flag */
+#define AT91C_CAN_MB2       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (CAN) Mailbox 2 Flag */
+#define AT91C_CAN_MB3       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (CAN) Mailbox 3 Flag */
+#define AT91C_CAN_MB4       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (CAN) Mailbox 4 Flag */
+#define AT91C_CAN_MB5       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (CAN) Mailbox 5 Flag */
+#define AT91C_CAN_MB6       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (CAN) Mailbox 6 Flag */
+#define AT91C_CAN_MB7       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (CAN) Mailbox 7 Flag */
+#define AT91C_CAN_MB8       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (CAN) Mailbox 8 Flag */
+#define AT91C_CAN_MB9       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (CAN) Mailbox 9 Flag */
+#define AT91C_CAN_MB10      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (CAN) Mailbox 10 Flag */
+#define AT91C_CAN_MB11      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (CAN) Mailbox 11 Flag */
+#define AT91C_CAN_MB12      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (CAN) Mailbox 12 Flag */
+#define AT91C_CAN_MB13      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 ) /* (CAN) Mailbox 13 Flag */
+#define AT91C_CAN_MB14      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 ) /* (CAN) Mailbox 14 Flag */
+#define AT91C_CAN_MB15      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 ) /* (CAN) Mailbox 15 Flag */
+#define AT91C_CAN_ERRA      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (CAN) Error Active Mode Flag */
+#define AT91C_CAN_WARN      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (CAN) Warning Limit Flag */
+#define AT91C_CAN_ERRP      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (CAN) Error Passive Mode Flag */
+#define AT91C_CAN_BOFF      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 ) /* (CAN) Bus Off Mode Flag */
+#define AT91C_CAN_SLEEP     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 20 ) /* (CAN) Sleep Flag */
+#define AT91C_CAN_WAKEUP    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 21 ) /* (CAN) Wakeup Flag */
+#define AT91C_CAN_TOVF      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 22 ) /* (CAN) Timer Overflow Flag */
+#define AT91C_CAN_TSTP      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 23 ) /* (CAN) Timestamp Flag */
+#define AT91C_CAN_CERR      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 ) /* (CAN) CRC Error */
+#define AT91C_CAN_SERR      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 25 ) /* (CAN) Stuffing Error */
+#define AT91C_CAN_AERR      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 26 ) /* (CAN) Acknowledgment Error */
+#define AT91C_CAN_FERR      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 27 ) /* (CAN) Form Error */
+#define AT91C_CAN_BERR      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 28 ) /* (CAN) Bit Error */
 /* -------- CAN_IDR : (CAN Offset: 0x8) CAN Interrupt Disable Register -------- */
 /* -------- CAN_IMR : (CAN Offset: 0xc) CAN Interrupt Mask Register -------- */
 /* -------- CAN_SR : (CAN Offset: 0x10) CAN Status Register -------- */
-#define AT91C_CAN_RBSY      ( ( unsigned int ) 0x1 << 29 )   /* (CAN) Receiver Busy */
-#define AT91C_CAN_TBSY      ( ( unsigned int ) 0x1 << 30 )   /* (CAN) Transmitter Busy */
-#define AT91C_CAN_OVLY      ( ( unsigned int ) 0x1 << 31 )   /* (CAN) Overload Busy */
+#define AT91C_CAN_RBSY      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 29 )   /* (CAN) Receiver Busy */
+#define AT91C_CAN_TBSY      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 30 )   /* (CAN) Transmitter Busy */
+#define AT91C_CAN_OVLY      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 31 )   /* (CAN) Overload Busy */
 /* -------- CAN_BR : (CAN Offset: 0x14) CAN Baudrate Register -------- */
-#define AT91C_CAN_PHASE2    ( ( unsigned int ) 0x7 << 0 )    /* (CAN) Phase 2 segment */
-#define AT91C_CAN_PHASE1    ( ( unsigned int ) 0x7 << 4 )    /* (CAN) Phase 1 segment */
-#define AT91C_CAN_PROPAG    ( ( unsigned int ) 0x7 << 8 )    /* (CAN) Programmation time segment */
-#define AT91C_CAN_SYNC      ( ( unsigned int ) 0x3 << 12 )   /* (CAN) Re-synchronization jump width segment */
-#define AT91C_CAN_BRP       ( ( unsigned int ) 0x7F << 16 )  /* (CAN) Baudrate Prescaler */
-#define AT91C_CAN_SMP       ( ( unsigned int ) 0x1 << 24 )   /* (CAN) Sampling mode */
+#define AT91C_CAN_PHASE2    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 0 )    /* (CAN) Phase 2 segment */
+#define AT91C_CAN_PHASE1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 4 )    /* (CAN) Phase 1 segment */
+#define AT91C_CAN_PROPAG    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 8 )    /* (CAN) Programmation time segment */
+#define AT91C_CAN_SYNC      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 )   /* (CAN) Re-synchronization jump width segment */
+#define AT91C_CAN_BRP       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7F << 16 )  /* (CAN) Baudrate Prescaler */
+#define AT91C_CAN_SMP       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )   /* (CAN) Sampling mode */
 /* -------- CAN_TIM : (CAN Offset: 0x18) CAN Timer Register -------- */
-#define AT91C_CAN_TIMER     ( ( unsigned int ) 0xFFFF << 0 ) /* (CAN) Timer field */
+#define AT91C_CAN_TIMER     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 ) /* (CAN) Timer field */
 /* -------- CAN_TIMESTP : (CAN Offset: 0x1c) CAN Timestamp Register -------- */
 /* -------- CAN_ECR : (CAN Offset: 0x20) CAN Error Counter Register -------- */
-#define AT91C_CAN_REC       ( ( unsigned int ) 0xFF << 0 )  /* (CAN) Receive Error Counter */
-#define AT91C_CAN_TEC       ( ( unsigned int ) 0xFF << 16 ) /* (CAN) Transmit Error Counter */
+#define AT91C_CAN_REC       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 0 )  /* (CAN) Receive Error Counter */
+#define AT91C_CAN_TEC       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFF << 16 ) /* (CAN) Transmit Error Counter */
 /* -------- CAN_TCR : (CAN Offset: 0x24) CAN Transfer Command Register -------- */
-#define AT91C_CAN_TIMRST    ( ( unsigned int ) 0x1 << 31 )  /* (CAN) Timer Reset Field */
+#define AT91C_CAN_TIMRST    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 31 )  /* (CAN) Timer Reset Field */
 /* -------- CAN_ACR : (CAN Offset: 0x28) CAN Abort Command Register -------- */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Ethernet MAC 10/100 */
 /* ***************************************************************************** */
-typedef struct _AT91S_EMAC
+typedef sa_nracanaa _AT91S_EMAC
 {
     AT91_REG EMAC_NCR;        /* Network Control Register */
     AT91_REG EMAC_NCFGR;      /* Network Configuration Register */
@@ -1537,100 +1537,100 @@ typedef struct _AT91S_EMAC
 } AT91S_EMAC, * AT91PS_EMAC;
 
 /* -------- EMAC_NCR : (EMAC Offset: 0x0)  -------- */
-#define AT91C_EMAC_LB                   ( ( unsigned int ) 0x1 << 0 )  /* (EMAC) Loopback. Optional. When set, loopback signal is at high level. */
-#define AT91C_EMAC_LLB                  ( ( unsigned int ) 0x1 << 1 )  /* (EMAC) Loopback local. */
-#define AT91C_EMAC_RE                   ( ( unsigned int ) 0x1 << 2 )  /* (EMAC) Receive enable. */
-#define AT91C_EMAC_TE                   ( ( unsigned int ) 0x1 << 3 )  /* (EMAC) Transmit enable. */
-#define AT91C_EMAC_MPE                  ( ( unsigned int ) 0x1 << 4 )  /* (EMAC) Management port enable. */
-#define AT91C_EMAC_CLRSTAT              ( ( unsigned int ) 0x1 << 5 )  /* (EMAC) Clear statistics registers. */
-#define AT91C_EMAC_INCSTAT              ( ( unsigned int ) 0x1 << 6 )  /* (EMAC) Increment statistics registers. */
-#define AT91C_EMAC_WESTAT               ( ( unsigned int ) 0x1 << 7 )  /* (EMAC) Write enable for statistics registers. */
-#define AT91C_EMAC_BP                   ( ( unsigned int ) 0x1 << 8 )  /* (EMAC) Back pressure. */
-#define AT91C_EMAC_TSTART               ( ( unsigned int ) 0x1 << 9 )  /* (EMAC) Start Transmission. */
-#define AT91C_EMAC_THALT                ( ( unsigned int ) 0x1 << 10 ) /* (EMAC) Transmission Halt. */
-#define AT91C_EMAC_TPFR                 ( ( unsigned int ) 0x1 << 11 ) /* (EMAC) Transmit pause frame */
-#define AT91C_EMAC_TZQ                  ( ( unsigned int ) 0x1 << 12 ) /* (EMAC) Transmit zero quantum pause frame */
+#define AT91C_EMAC_LB                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (EMAC) Loopback. Optional. When set, loopback signal is at high level. */
+#define AT91C_EMAC_LLB                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (EMAC) Loopback local. */
+#define AT91C_EMAC_RE                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (EMAC) Receive enable. */
+#define AT91C_EMAC_TE                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (EMAC) Transmit enable. */
+#define AT91C_EMAC_MPE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (EMAC) Management port enable. */
+#define AT91C_EMAC_CLRSTAT              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (EMAC) Clear statistics registers. */
+#define AT91C_EMAC_INCSTAT              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (EMAC) Increment statistics registers. */
+#define AT91C_EMAC_WESTAT               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (EMAC) Write enable for statistics registers. */
+#define AT91C_EMAC_BP                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (EMAC) Back pressure. */
+#define AT91C_EMAC_TSTART               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (EMAC) Start Transmission. */
+#define AT91C_EMAC_THALT                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (EMAC) Transmission Halt. */
+#define AT91C_EMAC_TPFR                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (EMAC) Transmit pause frame */
+#define AT91C_EMAC_TZQ                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (EMAC) Transmit zero quantum pause frame */
 /* -------- EMAC_NCFGR : (EMAC Offset: 0x4) Network Configuration Register -------- */
-#define AT91C_EMAC_SPD                  ( ( unsigned int ) 0x1 << 0 )  /* (EMAC) Speed. */
-#define AT91C_EMAC_FD                   ( ( unsigned int ) 0x1 << 1 )  /* (EMAC) Full duplex. */
-#define AT91C_EMAC_JFRAME               ( ( unsigned int ) 0x1 << 3 )  /* (EMAC) Jumbo Frames. */
-#define AT91C_EMAC_CAF                  ( ( unsigned int ) 0x1 << 4 )  /* (EMAC) Copy all frames. */
-#define AT91C_EMAC_NBC                  ( ( unsigned int ) 0x1 << 5 )  /* (EMAC) No broadcast. */
-#define AT91C_EMAC_MTI                  ( ( unsigned int ) 0x1 << 6 )  /* (EMAC) Multicast hash event enable */
-#define AT91C_EMAC_UNI                  ( ( unsigned int ) 0x1 << 7 )  /* (EMAC) Unicast hash enable. */
-#define AT91C_EMAC_BIG                  ( ( unsigned int ) 0x1 << 8 )  /* (EMAC) Receive 1522 bytes. */
-#define AT91C_EMAC_EAE                  ( ( unsigned int ) 0x1 << 9 )  /* (EMAC) External address match enable. */
-#define AT91C_EMAC_CLK                  ( ( unsigned int ) 0x3 << 10 ) /* (EMAC) */
-#define     AT91C_EMAC_CLK_HCLK_8       ( ( unsigned int ) 0x0 << 10 ) /* (EMAC) HCLK divided by 8 */
-#define     AT91C_EMAC_CLK_HCLK_16      ( ( unsigned int ) 0x1 << 10 ) /* (EMAC) HCLK divided by 16 */
-#define     AT91C_EMAC_CLK_HCLK_32      ( ( unsigned int ) 0x2 << 10 ) /* (EMAC) HCLK divided by 32 */
-#define     AT91C_EMAC_CLK_HCLK_64      ( ( unsigned int ) 0x3 << 10 ) /* (EMAC) HCLK divided by 64 */
-#define AT91C_EMAC_RTY                  ( ( unsigned int ) 0x1 << 12 ) /* (EMAC) */
-#define AT91C_EMAC_PAE                  ( ( unsigned int ) 0x1 << 13 ) /* (EMAC) */
-#define AT91C_EMAC_RBOF                 ( ( unsigned int ) 0x3 << 14 ) /* (EMAC) */
-#define     AT91C_EMAC_RBOF_OFFSET_0    ( ( unsigned int ) 0x0 << 14 ) /* (EMAC) no offset from start of receive buffer */
-#define     AT91C_EMAC_RBOF_OFFSET_1    ( ( unsigned int ) 0x1 << 14 ) /* (EMAC) one byte offset from start of receive buffer */
-#define     AT91C_EMAC_RBOF_OFFSET_2    ( ( unsigned int ) 0x2 << 14 ) /* (EMAC) two bytes offset from start of receive buffer */
-#define     AT91C_EMAC_RBOF_OFFSET_3    ( ( unsigned int ) 0x3 << 14 ) /* (EMAC) three bytes offset from start of receive buffer */
-#define AT91C_EMAC_RLCE                 ( ( unsigned int ) 0x1 << 16 ) /* (EMAC) Receive Length field Checking Enable */
-#define AT91C_EMAC_DRFCS                ( ( unsigned int ) 0x1 << 17 ) /* (EMAC) Discard Receive FCS */
-#define AT91C_EMAC_EFRHD                ( ( unsigned int ) 0x1 << 18 ) /* (EMAC) */
-#define AT91C_EMAC_IRXFCS               ( ( unsigned int ) 0x1 << 19 ) /* (EMAC) Ignore RX FCS */
+#define AT91C_EMAC_SPD                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (EMAC) Speed. */
+#define AT91C_EMAC_FD                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (EMAC) Full duplex. */
+#define AT91C_EMAC_JFRAME               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (EMAC) Jumbo Frames. */
+#define AT91C_EMAC_CAF                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (EMAC) Copy all frames. */
+#define AT91C_EMAC_NBC                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (EMAC) No broadcast. */
+#define AT91C_EMAC_MTI                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (EMAC) Multicast hash event enable */
+#define AT91C_EMAC_UNI                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (EMAC) Unicast hash enable. */
+#define AT91C_EMAC_BIG                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (EMAC) Receive 1522 bytes. */
+#define AT91C_EMAC_EAE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (EMAC) External address match enable. */
+#define AT91C_EMAC_CLK                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 10 ) /* (EMAC) */
+#define     AT91C_EMAC_CLK_HCLK_8       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 10 ) /* (EMAC) HCLK divided by 8 */
+#define     AT91C_EMAC_CLK_HCLK_16      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (EMAC) HCLK divided by 16 */
+#define     AT91C_EMAC_CLK_HCLK_32      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 10 ) /* (EMAC) HCLK divided by 32 */
+#define     AT91C_EMAC_CLK_HCLK_64      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 10 ) /* (EMAC) HCLK divided by 64 */
+#define AT91C_EMAC_RTY                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (EMAC) */
+#define AT91C_EMAC_PAE                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 ) /* (EMAC) */
+#define AT91C_EMAC_RBOF                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 14 ) /* (EMAC) */
+#define     AT91C_EMAC_RBOF_OFFSET_0    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 14 ) /* (EMAC) no offset from start of receive buffer */
+#define     AT91C_EMAC_RBOF_OFFSET_1    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 ) /* (EMAC) one byte offset from start of receive buffer */
+#define     AT91C_EMAC_RBOF_OFFSET_2    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 14 ) /* (EMAC) two bytes offset from start of receive buffer */
+#define     AT91C_EMAC_RBOF_OFFSET_3    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 14 ) /* (EMAC) three bytes offset from start of receive buffer */
+#define AT91C_EMAC_RLCE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (EMAC) Receive Length field Checking Enable */
+#define AT91C_EMAC_DRFCS                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 ) /* (EMAC) Discard Receive FCS */
+#define AT91C_EMAC_EFRHD                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 ) /* (EMAC) */
+#define AT91C_EMAC_IRXFCS               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 ) /* (EMAC) Ignore RX FCS */
 /* -------- EMAC_NSR : (EMAC Offset: 0x8) Network Status Register -------- */
-#define AT91C_EMAC_LINKR                ( ( unsigned int ) 0x1 << 0 )  /* (EMAC) */
-#define AT91C_EMAC_MDIO                 ( ( unsigned int ) 0x1 << 1 )  /* (EMAC) */
-#define AT91C_EMAC_IDLE                 ( ( unsigned int ) 0x1 << 2 )  /* (EMAC) */
+#define AT91C_EMAC_LINKR                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (EMAC) */
+#define AT91C_EMAC_MDIO                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (EMAC) */
+#define AT91C_EMAC_IDLE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (EMAC) */
 /* -------- EMAC_TSR : (EMAC Offset: 0x14) Transmit Status Register -------- */
-#define AT91C_EMAC_UBR                  ( ( unsigned int ) 0x1 << 0 )  /* (EMAC) */
-#define AT91C_EMAC_COL                  ( ( unsigned int ) 0x1 << 1 )  /* (EMAC) */
-#define AT91C_EMAC_RLES                 ( ( unsigned int ) 0x1 << 2 )  /* (EMAC) */
-#define AT91C_EMAC_TGO                  ( ( unsigned int ) 0x1 << 3 )  /* (EMAC) Transmit Go */
-#define AT91C_EMAC_BEX                  ( ( unsigned int ) 0x1 << 4 )  /* (EMAC) Buffers exhausted mid frame */
-#define AT91C_EMAC_COMP                 ( ( unsigned int ) 0x1 << 5 )  /* (EMAC) */
-#define AT91C_EMAC_UND                  ( ( unsigned int ) 0x1 << 6 )  /* (EMAC) */
+#define AT91C_EMAC_UBR                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (EMAC) */
+#define AT91C_EMAC_COL                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (EMAC) */
+#define AT91C_EMAC_RLES                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (EMAC) */
+#define AT91C_EMAC_TGO                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (EMAC) Transmit Go */
+#define AT91C_EMAC_BEX                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (EMAC) Buffers exhausted mid frame */
+#define AT91C_EMAC_COMP                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (EMAC) */
+#define AT91C_EMAC_UND                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (EMAC) */
 /* -------- EMAC_RSR : (EMAC Offset: 0x20) Receive Status Register -------- */
-#define AT91C_EMAC_BNA                  ( ( unsigned int ) 0x1 << 0 )  /* (EMAC) */
-#define AT91C_EMAC_REC                  ( ( unsigned int ) 0x1 << 1 )  /* (EMAC) */
-#define AT91C_EMAC_OVR                  ( ( unsigned int ) 0x1 << 2 )  /* (EMAC) */
+#define AT91C_EMAC_BNA                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (EMAC) */
+#define AT91C_EMAC_REC                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (EMAC) */
+#define AT91C_EMAC_OVR                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (EMAC) */
 /* -------- EMAC_ISR : (EMAC Offset: 0x24) Interrupt Status Register -------- */
-#define AT91C_EMAC_MFD                  ( ( unsigned int ) 0x1 << 0 )  /* (EMAC) */
-#define AT91C_EMAC_RCOMP                ( ( unsigned int ) 0x1 << 1 )  /* (EMAC) */
-#define AT91C_EMAC_RXUBR                ( ( unsigned int ) 0x1 << 2 )  /* (EMAC) */
-#define AT91C_EMAC_TXUBR                ( ( unsigned int ) 0x1 << 3 )  /* (EMAC) */
-#define AT91C_EMAC_TUNDR                ( ( unsigned int ) 0x1 << 4 )  /* (EMAC) */
-#define AT91C_EMAC_RLEX                 ( ( unsigned int ) 0x1 << 5 )  /* (EMAC) */
-#define AT91C_EMAC_TXERR                ( ( unsigned int ) 0x1 << 6 )  /* (EMAC) */
-#define AT91C_EMAC_TCOMP                ( ( unsigned int ) 0x1 << 7 )  /* (EMAC) */
-#define AT91C_EMAC_LINK                 ( ( unsigned int ) 0x1 << 9 )  /* (EMAC) */
-#define AT91C_EMAC_ROVR                 ( ( unsigned int ) 0x1 << 10 ) /* (EMAC) */
-#define AT91C_EMAC_HRESP                ( ( unsigned int ) 0x1 << 11 ) /* (EMAC) */
-#define AT91C_EMAC_PFRE                 ( ( unsigned int ) 0x1 << 12 ) /* (EMAC) */
-#define AT91C_EMAC_PTZ                  ( ( unsigned int ) 0x1 << 13 ) /* (EMAC) */
+#define AT91C_EMAC_MFD                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (EMAC) */
+#define AT91C_EMAC_RCOMP                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (EMAC) */
+#define AT91C_EMAC_RXUBR                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (EMAC) */
+#define AT91C_EMAC_TXUBR                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (EMAC) */
+#define AT91C_EMAC_TUNDR                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (EMAC) */
+#define AT91C_EMAC_RLEX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )  /* (EMAC) */
+#define AT91C_EMAC_TXERR                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )  /* (EMAC) */
+#define AT91C_EMAC_TCOMP                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )  /* (EMAC) */
+#define AT91C_EMAC_LINK                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )  /* (EMAC) */
+#define AT91C_EMAC_ROVR                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 ) /* (EMAC) */
+#define AT91C_EMAC_HRESP                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 ) /* (EMAC) */
+#define AT91C_EMAC_PFRE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (EMAC) */
+#define AT91C_EMAC_PTZ                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 ) /* (EMAC) */
 /* -------- EMAC_IER : (EMAC Offset: 0x28) Interrupt Enable Register -------- */
 /* -------- EMAC_IDR : (EMAC Offset: 0x2c) Interrupt Disable Register -------- */
 /* -------- EMAC_IMR : (EMAC Offset: 0x30) Interrupt Mask Register -------- */
 /* -------- EMAC_MAN : (EMAC Offset: 0x34) PHY Maintenance Register -------- */
-#define AT91C_EMAC_DATA       ( ( unsigned int ) 0xFFFF << 0 )  /* (EMAC) */
-#define AT91C_EMAC_CODE       ( ( unsigned int ) 0x3 << 16 )    /* (EMAC) */
-#define AT91C_EMAC_REGA       ( ( unsigned int ) 0x1F << 18 )   /* (EMAC) */
-#define AT91C_EMAC_PHYA       ( ( unsigned int ) 0x1F << 23 )   /* (EMAC) */
-#define AT91C_EMAC_RW         ( ( unsigned int ) 0x3 << 28 )    /* (EMAC) */
-#define AT91C_EMAC_SOF        ( ( unsigned int ) 0x3 << 30 )    /* (EMAC) */
+#define AT91C_EMAC_DATA       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 )  /* (EMAC) */
+#define AT91C_EMAC_CODE       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 )    /* (EMAC) */
+#define AT91C_EMAC_REGA       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1F << 18 )   /* (EMAC) */
+#define AT91C_EMAC_PHYA       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1F << 23 )   /* (EMAC) */
+#define AT91C_EMAC_RW         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 28 )    /* (EMAC) */
+#define AT91C_EMAC_SOF        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 30 )    /* (EMAC) */
 /* -------- EMAC_USRIO : (EMAC Offset: 0xc0) USER Input Output Register -------- */
-#define AT91C_EMAC_RMII       ( ( unsigned int ) 0x1 << 0 )     /* (EMAC) Reduce MII */
+#define AT91C_EMAC_RMII       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )     /* (EMAC) Reduce MII */
 /* -------- EMAC_WOL : (EMAC Offset: 0xc4) Wake On LAN Register -------- */
-#define AT91C_EMAC_IP         ( ( unsigned int ) 0xFFFF << 0 )  /* (EMAC) ARP request IP address */
-#define AT91C_EMAC_MAG        ( ( unsigned int ) 0x1 << 16 )    /* (EMAC) Magic packet event enable */
-#define AT91C_EMAC_ARP        ( ( unsigned int ) 0x1 << 17 )    /* (EMAC) ARP request event enable */
-#define AT91C_EMAC_SA1        ( ( unsigned int ) 0x1 << 18 )    /* (EMAC) Specific address register 1 event enable */
+#define AT91C_EMAC_IP         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 )  /* (EMAC) ARP request IP address */
+#define AT91C_EMAC_MAG        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )    /* (EMAC) Magic packet event enable */
+#define AT91C_EMAC_ARP        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )    /* (EMAC) ARP request event enable */
+#define AT91C_EMAC_SA1        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 )    /* (EMAC) Specific address register 1 event enable */
 /* -------- EMAC_REV : (EMAC Offset: 0xfc) Revision Register -------- */
-#define AT91C_EMAC_REVREF     ( ( unsigned int ) 0xFFFF << 0 )  /* (EMAC) */
-#define AT91C_EMAC_PARTREF    ( ( unsigned int ) 0xFFFF << 16 ) /* (EMAC) */
+#define AT91C_EMAC_REVREF     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 0 )  /* (EMAC) */
+#define AT91C_EMAC_PARTREF    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xFFFF << 16 ) /* (EMAC) */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Analog to Digital Convertor */
 /* ***************************************************************************** */
-typedef struct _AT91S_ADC
+typedef sa_nracanaa _AT91S_ADC
 {
     AT91_REG ADC_CR;          /* ADC Control Register */
     AT91_REG ADC_MR;          /* ADC Mode Register */
@@ -1665,68 +1665,68 @@ typedef struct _AT91S_ADC
 } AT91S_ADC, * AT91PS_ADC;
 
 /* -------- ADC_CR : (ADC Offset: 0x0) ADC Control Register -------- */
-#define AT91C_ADC_SWRST                    ( ( unsigned int ) 0x1 << 0 )   /* (ADC) Software Reset */
-#define AT91C_ADC_START                    ( ( unsigned int ) 0x1 << 1 )   /* (ADC) Start Conversion */
+#define AT91C_ADC_SWRST                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (ADC) Software Reset */
+#define AT91C_ADC_START                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (ADC) Start Conversion */
 /* -------- ADC_MR : (ADC Offset: 0x4) ADC Mode Register -------- */
-#define AT91C_ADC_TRGEN                    ( ( unsigned int ) 0x1 << 0 )   /* (ADC) Trigger Enable */
-#define     AT91C_ADC_TRGEN_DIS            ( ( unsigned int ) 0x0 )        /* (ADC) Hardware triggers are disabled. Starting a conversion is only possible by software */
-#define     AT91C_ADC_TRGEN_EN             ( ( unsigned int ) 0x1 )        /* (ADC) Hardware trigger selected by TRGSEL field is enabled. */
-#define AT91C_ADC_TRGSEL                   ( ( unsigned int ) 0x7 << 1 )   /* (ADC) Trigger Selection */
-#define     AT91C_ADC_TRGSEL_TIOA0         ( ( unsigned int ) 0x0 << 1 )   /* (ADC) Selected TRGSEL = TIAO0 */
-#define     AT91C_ADC_TRGSEL_TIOA1         ( ( unsigned int ) 0x1 << 1 )   /* (ADC) Selected TRGSEL = TIAO1 */
-#define     AT91C_ADC_TRGSEL_TIOA2         ( ( unsigned int ) 0x2 << 1 )   /* (ADC) Selected TRGSEL = TIAO2 */
-#define     AT91C_ADC_TRGSEL_TIOA3         ( ( unsigned int ) 0x3 << 1 )   /* (ADC) Selected TRGSEL = TIAO3 */
-#define     AT91C_ADC_TRGSEL_TIOA4         ( ( unsigned int ) 0x4 << 1 )   /* (ADC) Selected TRGSEL = TIAO4 */
-#define     AT91C_ADC_TRGSEL_TIOA5         ( ( unsigned int ) 0x5 << 1 )   /* (ADC) Selected TRGSEL = TIAO5 */
-#define     AT91C_ADC_TRGSEL_EXT           ( ( unsigned int ) 0x6 << 1 )   /* (ADC) Selected TRGSEL = External Trigger */
-#define AT91C_ADC_LOWRES                   ( ( unsigned int ) 0x1 << 4 )   /* (ADC) Resolution. */
-#define     AT91C_ADC_LOWRES_10_BIT        ( ( unsigned int ) 0x0 << 4 )   /* (ADC) 10-bit resolution */
-#define     AT91C_ADC_LOWRES_8_BIT         ( ( unsigned int ) 0x1 << 4 )   /* (ADC) 8-bit resolution */
-#define AT91C_ADC_SLEEP                    ( ( unsigned int ) 0x1 << 5 )   /* (ADC) Sleep Mode */
-#define     AT91C_ADC_SLEEP_NORMAL_MODE    ( ( unsigned int ) 0x0 << 5 )   /* (ADC) Normal Mode */
-#define     AT91C_ADC_SLEEP_MODE           ( ( unsigned int ) 0x1 << 5 )   /* (ADC) Sleep Mode */
-#define AT91C_ADC_PRESCAL                  ( ( unsigned int ) 0x3F << 8 )  /* (ADC) Prescaler rate selection */
-#define AT91C_ADC_STARTUP                  ( ( unsigned int ) 0x1F << 16 ) /* (ADC) Startup Time */
-#define AT91C_ADC_SHTIM                    ( ( unsigned int ) 0xF << 24 )  /* (ADC) Sample & Hold Time */
+#define AT91C_ADC_TRGEN                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (ADC) Trigger Enable */
+#define     AT91C_ADC_TRGEN_DIS            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 )        /* (ADC) Hardware triggers are disabled. Starting a conversion is only possible by software */
+#define     AT91C_ADC_TRGEN_EN             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 )        /* (ADC) Hardware trigger selected by TRGSEL field is enabled. */
+#define AT91C_ADC_TRGSEL                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 1 )   /* (ADC) Trigger Selection */
+#define     AT91C_ADC_TRGSEL_TIOA0         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 1 )   /* (ADC) Selected TRGSEL = TIAO0 */
+#define     AT91C_ADC_TRGSEL_TIOA1         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (ADC) Selected TRGSEL = TIAO1 */
+#define     AT91C_ADC_TRGSEL_TIOA2         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 1 )   /* (ADC) Selected TRGSEL = TIAO2 */
+#define     AT91C_ADC_TRGSEL_TIOA3         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 1 )   /* (ADC) Selected TRGSEL = TIAO3 */
+#define     AT91C_ADC_TRGSEL_TIOA4         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 1 )   /* (ADC) Selected TRGSEL = TIAO4 */
+#define     AT91C_ADC_TRGSEL_TIOA5         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 1 )   /* (ADC) Selected TRGSEL = TIAO5 */
+#define     AT91C_ADC_TRGSEL_EXT           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x6 << 1 )   /* (ADC) Selected TRGSEL = External Trigger */
+#define AT91C_ADC_LOWRES                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (ADC) Resolution. */
+#define     AT91C_ADC_LOWRES_10_BIT        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 4 )   /* (ADC) 10-bit resolution */
+#define     AT91C_ADC_LOWRES_8_BIT         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (ADC) 8-bit resolution */
+#define AT91C_ADC_SLEEP                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (ADC) Sleep Mode */
+#define     AT91C_ADC_SLEEP_NORMAL_MODE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 5 )   /* (ADC) Normal Mode */
+#define     AT91C_ADC_SLEEP_MODE           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (ADC) Sleep Mode */
+#define AT91C_ADC_PRESCAL                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3F << 8 )  /* (ADC) Prescaler rate selection */
+#define AT91C_ADC_STARTUP                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1F << 16 ) /* (ADC) Startup Time */
+#define AT91C_ADC_SHTIM                    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 24 )  /* (ADC) Sample & Hold Time */
 /* --------     ADC_CHER : (ADC Offset: 0x10) ADC Channel Enable Register -------- */
-#define AT91C_ADC_CH0                      ( ( unsigned int ) 0x1 << 0 )   /* (ADC) Channel 0 */
-#define AT91C_ADC_CH1                      ( ( unsigned int ) 0x1 << 1 )   /* (ADC) Channel 1 */
-#define AT91C_ADC_CH2                      ( ( unsigned int ) 0x1 << 2 )   /* (ADC) Channel 2 */
-#define AT91C_ADC_CH3                      ( ( unsigned int ) 0x1 << 3 )   /* (ADC) Channel 3 */
-#define AT91C_ADC_CH4                      ( ( unsigned int ) 0x1 << 4 )   /* (ADC) Channel 4 */
-#define AT91C_ADC_CH5                      ( ( unsigned int ) 0x1 << 5 )   /* (ADC) Channel 5 */
-#define AT91C_ADC_CH6                      ( ( unsigned int ) 0x1 << 6 )   /* (ADC) Channel 6 */
-#define AT91C_ADC_CH7                      ( ( unsigned int ) 0x1 << 7 )   /* (ADC) Channel 7 */
+#define AT91C_ADC_CH0                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (ADC) Channel 0 */
+#define AT91C_ADC_CH1                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (ADC) Channel 1 */
+#define AT91C_ADC_CH2                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (ADC) Channel 2 */
+#define AT91C_ADC_CH3                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (ADC) Channel 3 */
+#define AT91C_ADC_CH4                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (ADC) Channel 4 */
+#define AT91C_ADC_CH5                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (ADC) Channel 5 */
+#define AT91C_ADC_CH6                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )   /* (ADC) Channel 6 */
+#define AT91C_ADC_CH7                      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )   /* (ADC) Channel 7 */
 /* --------     ADC_CHDR : (ADC Offset: 0x14) ADC Channel Disable Register -------- */
 /* --------     ADC_CHSR : (ADC Offset: 0x18) ADC Channel Status Register -------- */
 /* -------- ADC_SR : (ADC Offset: 0x1c) ADC Status Register -------- */
-#define AT91C_ADC_EOC0      ( ( unsigned int ) 0x1 << 0 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC1      ( ( unsigned int ) 0x1 << 1 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC2      ( ( unsigned int ) 0x1 << 2 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC3      ( ( unsigned int ) 0x1 << 3 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC4      ( ( unsigned int ) 0x1 << 4 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC5      ( ( unsigned int ) 0x1 << 5 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC6      ( ( unsigned int ) 0x1 << 6 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_EOC7      ( ( unsigned int ) 0x1 << 7 )   /* (ADC) End of Conversion */
-#define AT91C_ADC_OVRE0     ( ( unsigned int ) 0x1 << 8 )   /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE1     ( ( unsigned int ) 0x1 << 9 )   /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE2     ( ( unsigned int ) 0x1 << 10 )  /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE3     ( ( unsigned int ) 0x1 << 11 )  /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE4     ( ( unsigned int ) 0x1 << 12 )  /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE5     ( ( unsigned int ) 0x1 << 13 )  /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE6     ( ( unsigned int ) 0x1 << 14 )  /* (ADC) Overrun Error */
-#define AT91C_ADC_OVRE7     ( ( unsigned int ) 0x1 << 15 )  /* (ADC) Overrun Error */
-#define AT91C_ADC_DRDY      ( ( unsigned int ) 0x1 << 16 )  /* (ADC) Data Ready */
-#define AT91C_ADC_GOVRE     ( ( unsigned int ) 0x1 << 17 )  /* (ADC) General Overrun */
-#define AT91C_ADC_ENDRX     ( ( unsigned int ) 0x1 << 18 )  /* (ADC) End of Receiver Transfer */
-#define AT91C_ADC_RXBUFF    ( ( unsigned int ) 0x1 << 19 )  /* (ADC) RXBUFF Interrupt */
+#define AT91C_ADC_EOC0      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC1      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC2      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC3      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC4      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC5      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 5 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC6      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 6 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_EOC7      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 7 )   /* (ADC) End of Conversion */
+#define AT91C_ADC_OVRE0     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE1     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 9 )   /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE2     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 10 )  /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE3     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 11 )  /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE4     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 )  /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE5     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 13 )  /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE6     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 14 )  /* (ADC) Overrun Error */
+#define AT91C_ADC_OVRE7     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 )  /* (ADC) Overrun Error */
+#define AT91C_ADC_DRDY      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (ADC) Data Ready */
+#define AT91C_ADC_GOVRE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 17 )  /* (ADC) General Overrun */
+#define AT91C_ADC_ENDRX     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 18 )  /* (ADC) End of Receiver Transfer */
+#define AT91C_ADC_RXBUFF    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 19 )  /* (ADC) RXBUFF Interrupt */
 /* -------- ADC_LCDR : (ADC Offset: 0x20) ADC Last Converted Data Register -------- */
-#define AT91C_ADC_LDATA     ( ( unsigned int ) 0x3FF << 0 ) /* (ADC) Last Data Converted */
+#define AT91C_ADC_LDATA     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3FF << 0 ) /* (ADC) Last Data Converted */
 /* -------- ADC_IER : (ADC Offset: 0x24) ADC Interrupt Enable Register -------- */
 /* -------- ADC_IDR : (ADC Offset: 0x28) ADC Interrupt Disable Register -------- */
 /* -------- ADC_IMR : (ADC Offset: 0x2c) ADC Interrupt Mask Register -------- */
 /* -------- ADC_CDR0 : (ADC Offset: 0x30) ADC Channel Data Register 0 -------- */
-#define AT91C_ADC_DATA    ( ( unsigned int ) 0x3FF << 0 )  /* (ADC) Converted Data */
+#define AT91C_ADC_DATA    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3FF << 0 )  /* (ADC) Converted Data */
 /* -------- ADC_CDR1 : (ADC Offset: 0x34) ADC Channel Data Register 1 -------- */
 /* -------- ADC_CDR2 : (ADC Offset: 0x38) ADC Channel Data Register 2 -------- */
 /* -------- ADC_CDR3 : (ADC Offset: 0x3c) ADC Channel Data Register 3 -------- */
@@ -1738,7 +1738,7 @@ typedef struct _AT91S_ADC
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Advanced  Encryption Standard */
 /* ***************************************************************************** */
-typedef struct _AT91S_AES
+typedef sa_nracanaa _AT91S_AES
 {
     AT91_REG AES_CR;           /* Control Register */
     AT91_REG AES_MR;           /* Mode Register */
@@ -1767,58 +1767,58 @@ typedef struct _AT91S_AES
 } AT91S_AES, * AT91PS_AES;
 
 /* -------- AES_CR : (AES Offset: 0x0) Control Register -------- */
-#define AT91C_AES_START                 ( ( unsigned int ) 0x1 << 0 )   /* (AES) Starts Processing */
-#define AT91C_AES_SWRST                 ( ( unsigned int ) 0x1 << 8 )   /* (AES) Software Reset */
-#define AT91C_AES_LOADSEED              ( ( unsigned int ) 0x1 << 16 )  /* (AES) Random Number Generator Seed Loading */
+#define AT91C_AES_START                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (AES) Starts Processing */
+#define AT91C_AES_SWRST                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (AES) Software Reset */
+#define AT91C_AES_LOADSEED              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (AES) Random Number Generator Seed Loading */
 /* -------- AES_MR : (AES Offset: 0x4) Mode Register -------- */
-#define AT91C_AES_CIPHER                ( ( unsigned int ) 0x1 << 0 )   /* (AES) Processing Mode */
-#define AT91C_AES_PROCDLY               ( ( unsigned int ) 0xF << 4 )   /* (AES) Processing Delay */
-#define AT91C_AES_SMOD                  ( ( unsigned int ) 0x3 << 8 )   /* (AES) Start Mode */
-#define     AT91C_AES_SMOD_MANUAL       ( ( unsigned int ) 0x0 << 8 )   /* (AES) Manual Mode: The START bit in register AES_CR must be set to begin encryption or decryption. */
-#define     AT91C_AES_SMOD_AUTO         ( ( unsigned int ) 0x1 << 8 )   /* (AES) Auto Mode: no action in AES_CR is necessary (cf datasheet). */
-#define     AT91C_AES_SMOD_PDC          ( ( unsigned int ) 0x2 << 8 )   /* (AES) PDC Mode (cf datasheet). */
-#define AT91C_AES_OPMOD                 ( ( unsigned int ) 0x7 << 12 )  /* (AES) Operation Mode */
-#define     AT91C_AES_OPMOD_ECB         ( ( unsigned int ) 0x0 << 12 )  /* (AES) ECB Electronic CodeBook mode. */
-#define     AT91C_AES_OPMOD_CBC         ( ( unsigned int ) 0x1 << 12 )  /* (AES) CBC Cipher Block Chaining mode. */
-#define     AT91C_AES_OPMOD_OFB         ( ( unsigned int ) 0x2 << 12 )  /* (AES) OFB Output Feedback mode. */
-#define     AT91C_AES_OPMOD_CFB         ( ( unsigned int ) 0x3 << 12 )  /* (AES) CFB Cipher Feedback mode. */
-#define     AT91C_AES_OPMOD_CTR         ( ( unsigned int ) 0x4 << 12 )  /* (AES) CTR Counter mode. */
-#define AT91C_AES_LOD                   ( ( unsigned int ) 0x1 << 15 )  /* (AES) Last Output Data Mode */
-#define AT91C_AES_CFBS                  ( ( unsigned int ) 0x7 << 16 )  /* (AES) Cipher Feedback Data Size */
-#define     AT91C_AES_CFBS_128_BIT      ( ( unsigned int ) 0x0 << 16 )  /* (AES) 128-bit. */
-#define     AT91C_AES_CFBS_64_BIT       ( ( unsigned int ) 0x1 << 16 )  /* (AES) 64-bit. */
-#define     AT91C_AES_CFBS_32_BIT       ( ( unsigned int ) 0x2 << 16 )  /* (AES) 32-bit. */
-#define     AT91C_AES_CFBS_16_BIT       ( ( unsigned int ) 0x3 << 16 )  /* (AES) 16-bit. */
-#define     AT91C_AES_CFBS_8_BIT        ( ( unsigned int ) 0x4 << 16 )  /* (AES) 8-bit. */
-#define AT91C_AES_CKEY                  ( ( unsigned int ) 0xF << 20 )  /* (AES) Countermeasure Key */
-#define AT91C_AES_CTYPE                 ( ( unsigned int ) 0x1F << 24 ) /* (AES) Countermeasure Type */
-#define     AT91C_AES_CTYPE_TYPE1_EN    ( ( unsigned int ) 0x1 << 24 )  /* (AES) Countermeasure type 1 is enabled. */
-#define     AT91C_AES_CTYPE_TYPE2_EN    ( ( unsigned int ) 0x2 << 24 )  /* (AES) Countermeasure type 2 is enabled. */
-#define     AT91C_AES_CTYPE_TYPE3_EN    ( ( unsigned int ) 0x4 << 24 )  /* (AES) Countermeasure type 3 is enabled. */
-#define     AT91C_AES_CTYPE_TYPE4_EN    ( ( unsigned int ) 0x8 << 24 )  /* (AES) Countermeasure type 4 is enabled. */
-#define     AT91C_AES_CTYPE_TYPE5_EN    ( ( unsigned int ) 0x10 << 24 ) /* (AES) Countermeasure type 5 is enabled. */
+#define AT91C_AES_CIPHER                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (AES) Processing Mode */
+#define AT91C_AES_PROCDLY               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 4 )   /* (AES) Processing Delay */
+#define AT91C_AES_SMOD                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )   /* (AES) Start Mode */
+#define     AT91C_AES_SMOD_MANUAL       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )   /* (AES) Manual Mode: The START bit in register AES_CR must be set to begin encryption or decryption. */
+#define     AT91C_AES_SMOD_AUTO         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (AES) Auto Mode: no action in AES_CR is necessary (cf datasheet). */
+#define     AT91C_AES_SMOD_PDC          ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )   /* (AES) PDC Mode (cf datasheet). */
+#define AT91C_AES_OPMOD                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 12 )  /* (AES) Operation Mode */
+#define     AT91C_AES_OPMOD_ECB         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 12 )  /* (AES) ECB Electronic CodeBook mode. */
+#define     AT91C_AES_OPMOD_CBC         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 )  /* (AES) CBC Cipher Block Chaining mode. */
+#define     AT91C_AES_OPMOD_OFB         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 12 )  /* (AES) OFB Output Feedback mode. */
+#define     AT91C_AES_OPMOD_CFB         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 )  /* (AES) CFB Cipher Feedback mode. */
+#define     AT91C_AES_OPMOD_CTR         ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 12 )  /* (AES) CTR Counter mode. */
+#define AT91C_AES_LOD                   ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 )  /* (AES) Last Output Data Mode */
+#define AT91C_AES_CFBS                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 16 )  /* (AES) Cipher Feedback Data Size */
+#define     AT91C_AES_CFBS_128_BIT      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 16 )  /* (AES) 128-bit. */
+#define     AT91C_AES_CFBS_64_BIT       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 )  /* (AES) 64-bit. */
+#define     AT91C_AES_CFBS_32_BIT       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 16 )  /* (AES) 32-bit. */
+#define     AT91C_AES_CFBS_16_BIT       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 )  /* (AES) 16-bit. */
+#define     AT91C_AES_CFBS_8_BIT        ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 16 )  /* (AES) 8-bit. */
+#define AT91C_AES_CKEY                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0xF << 20 )  /* (AES) Countermeasure Key */
+#define AT91C_AES_CTYPE                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1F << 24 ) /* (AES) Countermeasure Type */
+#define     AT91C_AES_CTYPE_TYPE1_EN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 24 )  /* (AES) Countermeasure type 1 is enabled. */
+#define     AT91C_AES_CTYPE_TYPE2_EN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 24 )  /* (AES) Countermeasure type 2 is enabled. */
+#define     AT91C_AES_CTYPE_TYPE3_EN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 24 )  /* (AES) Countermeasure type 3 is enabled. */
+#define     AT91C_AES_CTYPE_TYPE4_EN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x8 << 24 )  /* (AES) Countermeasure type 4 is enabled. */
+#define     AT91C_AES_CTYPE_TYPE5_EN    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x10 << 24 ) /* (AES) Countermeasure type 5 is enabled. */
 /* -------- AES_IER : (AES Offset: 0x10) Interrupt Enable Register -------- */
-#define AT91C_AES_DATRDY                ( ( unsigned int ) 0x1 << 0 )   /* (AES) DATRDY */
-#define AT91C_AES_ENDRX                 ( ( unsigned int ) 0x1 << 1 )   /* (AES) PDC Read Buffer End */
-#define AT91C_AES_ENDTX                 ( ( unsigned int ) 0x1 << 2 )   /* (AES) PDC Write Buffer End */
-#define AT91C_AES_RXBUFF                ( ( unsigned int ) 0x1 << 3 )   /* (AES) PDC Read Buffer Full */
-#define AT91C_AES_TXBUFE                ( ( unsigned int ) 0x1 << 4 )   /* (AES) PDC Write Buffer Empty */
-#define AT91C_AES_URAD                  ( ( unsigned int ) 0x1 << 8 )   /* (AES) Unspecified Register Access Detection */
+#define AT91C_AES_DATRDY                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )   /* (AES) DATRDY */
+#define AT91C_AES_ENDRX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )   /* (AES) PDC Read Buffer End */
+#define AT91C_AES_ENDTX                 ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )   /* (AES) PDC Write Buffer End */
+#define AT91C_AES_RXBUFF                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )   /* (AES) PDC Read Buffer Full */
+#define AT91C_AES_TXBUFE                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )   /* (AES) PDC Write Buffer Empty */
+#define AT91C_AES_URAD                  ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )   /* (AES) Unspecified Register Access Detection */
 /* -------- AES_IDR : (AES Offset: 0x14) Interrupt Disable Register -------- */
 /* -------- AES_IMR : (AES Offset: 0x18) Interrupt Mask Register -------- */
 /* -------- AES_ISR : (AES Offset: 0x1c) Interrupt Status Register -------- */
-#define AT91C_AES_URAT                              ( ( unsigned int ) 0x7 << 12 ) /* (AES) Unspecified Register Access Type Status */
-#define     AT91C_AES_URAT_IN_DAT_WRITE_DATPROC     ( ( unsigned int ) 0x0 << 12 ) /* (AES) Input data register written during the data processing in PDC mode. */
-#define     AT91C_AES_URAT_OUT_DAT_READ_DATPROC     ( ( unsigned int ) 0x1 << 12 ) /* (AES) Output data register read during the data processing. */
-#define     AT91C_AES_URAT_MODEREG_WRITE_DATPROC    ( ( unsigned int ) 0x2 << 12 ) /* (AES) Mode register written during the data processing. */
-#define     AT91C_AES_URAT_OUT_DAT_READ_SUBKEY      ( ( unsigned int ) 0x3 << 12 ) /* (AES) Output data register read during the sub-keys generation. */
-#define     AT91C_AES_URAT_MODEREG_WRITE_SUBKEY     ( ( unsigned int ) 0x4 << 12 ) /* (AES) Mode register written during the sub-keys generation. */
-#define     AT91C_AES_URAT_WO_REG_READ              ( ( unsigned int ) 0x5 << 12 ) /* (AES) Write-only register read access. */
+#define AT91C_AES_URAT                              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x7 << 12 ) /* (AES) Unspecified Register Access Type Status */
+#define     AT91C_AES_URAT_IN_DAT_WRITE_DATPROC     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 12 ) /* (AES) Input data register written during the data processing in PDC mode. */
+#define     AT91C_AES_URAT_OUT_DAT_READ_DATPROC     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (AES) Output data register read during the data processing. */
+#define     AT91C_AES_URAT_MODEREG_WRITE_DATPROC    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 12 ) /* (AES) Mode register written during the data processing. */
+#define     AT91C_AES_URAT_OUT_DAT_READ_SUBKEY      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 ) /* (AES) Output data register read during the sub-keys generation. */
+#define     AT91C_AES_URAT_MODEREG_WRITE_SUBKEY     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x4 << 12 ) /* (AES) Mode register written during the sub-keys generation. */
+#define     AT91C_AES_URAT_WO_REG_READ              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x5 << 12 ) /* (AES) Write-only register read access. */
 
 /* ***************************************************************************** */
 /*              SOFTWARE API DEFINITION  FOR Triple Data Encryption Standard */
 /* ***************************************************************************** */
-typedef struct _AT91S_TDES
+typedef sa_nracanaa _AT91S_TDES
 {
     AT91_REG TDES_CR;           /* Control Register */
     AT91_REG TDES_MR;           /* Mode Register */
@@ -1851,42 +1851,42 @@ typedef struct _AT91S_TDES
 } AT91S_TDES, * AT91PS_TDES;
 
 /* -------- TDES_CR : (TDES Offset: 0x0) Control Register -------- */
-#define AT91C_TDES_START              ( ( unsigned int ) 0x1 << 0 )  /* (TDES) Starts Processing */
-#define AT91C_TDES_SWRST              ( ( unsigned int ) 0x1 << 8 )  /* (TDES) Software Reset */
+#define AT91C_TDES_START              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (TDES) Starts Processing */
+#define AT91C_TDES_SWRST              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (TDES) Software Reset */
 /* -------- TDES_MR : (TDES Offset: 0x4) Mode Register -------- */
-#define AT91C_TDES_CIPHER             ( ( unsigned int ) 0x1 << 0 )  /* (TDES) Processing Mode */
-#define AT91C_TDES_TDESMOD            ( ( unsigned int ) 0x1 << 1 )  /* (TDES) Single or Triple DES Mode */
-#define AT91C_TDES_KEYMOD             ( ( unsigned int ) 0x1 << 4 )  /* (TDES) Key Mode */
-#define AT91C_TDES_SMOD               ( ( unsigned int ) 0x3 << 8 )  /* (TDES) Start Mode */
-#define     AT91C_TDES_SMOD_MANUAL    ( ( unsigned int ) 0x0 << 8 )  /* (TDES) Manual Mode: The START bit in register TDES_CR must be set to begin encryption or decryption. */
-#define     AT91C_TDES_SMOD_AUTO      ( ( unsigned int ) 0x1 << 8 )  /* (TDES) Auto Mode: no action in TDES_CR is necessary (cf datasheet). */
-#define     AT91C_TDES_SMOD_PDC       ( ( unsigned int ) 0x2 << 8 )  /* (TDES) PDC Mode (cf datasheet). */
-#define AT91C_TDES_OPMOD              ( ( unsigned int ) 0x3 << 12 ) /* (TDES) Operation Mode */
-#define     AT91C_TDES_OPMOD_ECB      ( ( unsigned int ) 0x0 << 12 ) /* (TDES) ECB Electronic CodeBook mode. */
-#define     AT91C_TDES_OPMOD_CBC      ( ( unsigned int ) 0x1 << 12 ) /* (TDES) CBC Cipher Block Chaining mode. */
-#define     AT91C_TDES_OPMOD_OFB      ( ( unsigned int ) 0x2 << 12 ) /* (TDES) OFB Output Feedback mode. */
-#define     AT91C_TDES_OPMOD_CFB      ( ( unsigned int ) 0x3 << 12 ) /* (TDES) CFB Cipher Feedback mode. */
-#define AT91C_TDES_LOD                ( ( unsigned int ) 0x1 << 15 ) /* (TDES) Last Output Data Mode */
-#define AT91C_TDES_CFBS               ( ( unsigned int ) 0x3 << 16 ) /* (TDES) Cipher Feedback Data Size */
-#define     AT91C_TDES_CFBS_64_BIT    ( ( unsigned int ) 0x0 << 16 ) /* (TDES) 64-bit. */
-#define     AT91C_TDES_CFBS_32_BIT    ( ( unsigned int ) 0x1 << 16 ) /* (TDES) 32-bit. */
-#define     AT91C_TDES_CFBS_16_BIT    ( ( unsigned int ) 0x2 << 16 ) /* (TDES) 16-bit. */
-#define     AT91C_TDES_CFBS_8_BIT     ( ( unsigned int ) 0x3 << 16 ) /* (TDES) 8-bit. */
+#define AT91C_TDES_CIPHER             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (TDES) Processing Mode */
+#define AT91C_TDES_TDESMOD            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (TDES) Single or Triple DES Mode */
+#define AT91C_TDES_KEYMOD             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (TDES) Key Mode */
+#define AT91C_TDES_SMOD               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 8 )  /* (TDES) Start Mode */
+#define     AT91C_TDES_SMOD_MANUAL    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 8 )  /* (TDES) Manual Mode: The START bit in register TDES_CR must be set to begin encryption or decryption. */
+#define     AT91C_TDES_SMOD_AUTO      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (TDES) Auto Mode: no action in TDES_CR is necessary (cf datasheet). */
+#define     AT91C_TDES_SMOD_PDC       ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 8 )  /* (TDES) PDC Mode (cf datasheet). */
+#define AT91C_TDES_OPMOD              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 ) /* (TDES) Operation Mode */
+#define     AT91C_TDES_OPMOD_ECB      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 12 ) /* (TDES) ECB Electronic CodeBook mode. */
+#define     AT91C_TDES_OPMOD_CBC      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (TDES) CBC Cipher Block Chaining mode. */
+#define     AT91C_TDES_OPMOD_OFB      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 12 ) /* (TDES) OFB Output Feedback mode. */
+#define     AT91C_TDES_OPMOD_CFB      ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 ) /* (TDES) CFB Cipher Feedback mode. */
+#define AT91C_TDES_LOD                ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 15 ) /* (TDES) Last Output Data Mode */
+#define AT91C_TDES_CFBS               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 ) /* (TDES) Cipher Feedback Data Size */
+#define     AT91C_TDES_CFBS_64_BIT    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 16 ) /* (TDES) 64-bit. */
+#define     AT91C_TDES_CFBS_32_BIT    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 16 ) /* (TDES) 32-bit. */
+#define     AT91C_TDES_CFBS_16_BIT    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 16 ) /* (TDES) 16-bit. */
+#define     AT91C_TDES_CFBS_8_BIT     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 16 ) /* (TDES) 8-bit. */
 /* -------- TDES_IER : (TDES Offset: 0x10) Interrupt Enable Register -------- */
-#define AT91C_TDES_DATRDY             ( ( unsigned int ) 0x1 << 0 )  /* (TDES) DATRDY */
-#define AT91C_TDES_ENDRX              ( ( unsigned int ) 0x1 << 1 )  /* (TDES) PDC Read Buffer End */
-#define AT91C_TDES_ENDTX              ( ( unsigned int ) 0x1 << 2 )  /* (TDES) PDC Write Buffer End */
-#define AT91C_TDES_RXBUFF             ( ( unsigned int ) 0x1 << 3 )  /* (TDES) PDC Read Buffer Full */
-#define AT91C_TDES_TXBUFE             ( ( unsigned int ) 0x1 << 4 )  /* (TDES) PDC Write Buffer Empty */
-#define AT91C_TDES_URAD               ( ( unsigned int ) 0x1 << 8 )  /* (TDES) Unspecified Register Access Detection */
+#define AT91C_TDES_DATRDY             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 0 )  /* (TDES) DATRDY */
+#define AT91C_TDES_ENDRX              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 1 )  /* (TDES) PDC Read Buffer End */
+#define AT91C_TDES_ENDTX              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 2 )  /* (TDES) PDC Write Buffer End */
+#define AT91C_TDES_RXBUFF             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 3 )  /* (TDES) PDC Read Buffer Full */
+#define AT91C_TDES_TXBUFE             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 4 )  /* (TDES) PDC Write Buffer Empty */
+#define AT91C_TDES_URAD               ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 8 )  /* (TDES) Unspecified Register Access Detection */
 /* -------- TDES_IDR : (TDES Offset: 0x14) Interrupt Disable Register -------- */
 /* -------- TDES_IMR : (TDES Offset: 0x18) Interrupt Mask Register -------- */
 /* -------- TDES_ISR : (TDES Offset: 0x1c) Interrupt Status Register -------- */
-#define AT91C_TDES_URAT                              ( ( unsigned int ) 0x3 << 12 ) /* (TDES) Unspecified Register Access Type Status */
-#define     AT91C_TDES_URAT_IN_DAT_WRITE_DATPROC     ( ( unsigned int ) 0x0 << 12 ) /* (TDES) Input data register written during the data processing in PDC mode. */
-#define     AT91C_TDES_URAT_OUT_DAT_READ_DATPROC     ( ( unsigned int ) 0x1 << 12 ) /* (TDES) Output data register read during the data processing. */
-#define     AT91C_TDES_URAT_MODEREG_WRITE_DATPROC    ( ( unsigned int ) 0x2 << 12 ) /* (TDES) Mode register written during the data processing. */
-#define     AT91C_TDES_URAT_WO_REG_READ              ( ( unsigned int ) 0x3 << 12 ) /* (TDES) Write-only register read access. */
+#define AT91C_TDES_URAT                              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 ) /* (TDES) Unspecified Register Access Type Status */
+#define     AT91C_TDES_URAT_IN_DAT_WRITE_DATPROC     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x0 << 12 ) /* (TDES) Input data register written during the data processing in PDC mode. */
+#define     AT91C_TDES_URAT_OUT_DAT_READ_DATPROC     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x1 << 12 ) /* (TDES) Output data register read during the data processing. */
+#define     AT91C_TDES_URAT_MODEREG_WRITE_DATPROC    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x2 << 12 ) /* (TDES) Mode register written during the data processing. */
+#define     AT91C_TDES_URAT_WO_REG_READ              ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x3 << 12 ) /* (TDES) Write-only register read access. */
 
 /* ***************************************************************************** */
 /*               REGISTER ADDRESS DEFINITION FOR AT91SAM7X128 */
@@ -2477,205 +2477,205 @@ typedef struct _AT91S_TDES
 /* ***************************************************************************** */
 /*               PIO DEFINITIONS FOR AT91SAM7X128 */
 /* ***************************************************************************** */
-#define AT91C_PIO_PA0             ( ( unsigned int ) 1 << 0 )         /* Pin Controlled by PA0 */
-#define AT91C_PA0_RXD0            ( ( unsigned int ) AT91C_PIO_PA0 )  /*  USART 0 Receive Data */
-#define AT91C_PIO_PA1             ( ( unsigned int ) 1 << 1 )         /* Pin Controlled by PA1 */
-#define AT91C_PA1_TXD0            ( ( unsigned int ) AT91C_PIO_PA1 )  /*  USART 0 Transmit Data */
-#define AT91C_PIO_PA10            ( ( unsigned int ) 1 << 10 )        /* Pin Controlled by PA10 */
-#define AT91C_PA10_TWD            ( ( unsigned int ) AT91C_PIO_PA10 ) /*  TWI Two-wire Serial Data */
-#define AT91C_PIO_PA11            ( ( unsigned int ) 1 << 11 )        /* Pin Controlled by PA11 */
-#define AT91C_PA11_TWCK           ( ( unsigned int ) AT91C_PIO_PA11 ) /*  TWI Two-wire Serial Clock */
-#define AT91C_PIO_PA12            ( ( unsigned int ) 1 << 12 )        /* Pin Controlled by PA12 */
-#define AT91C_PA12_NPCS00         ( ( unsigned int ) AT91C_PIO_PA12 ) /*  SPI 0 Peripheral Chip Select 0 */
-#define AT91C_PIO_PA13            ( ( unsigned int ) 1 << 13 )        /* Pin Controlled by PA13 */
-#define AT91C_PA13_NPCS01         ( ( unsigned int ) AT91C_PIO_PA13 ) /*  SPI 0 Peripheral Chip Select 1 */
-#define AT91C_PA13_PCK1           ( ( unsigned int ) AT91C_PIO_PA13 ) /*  PMC Programmable Clock Output 1 */
-#define AT91C_PIO_PA14            ( ( unsigned int ) 1 << 14 )        /* Pin Controlled by PA14 */
-#define AT91C_PA14_NPCS02         ( ( unsigned int ) AT91C_PIO_PA14 ) /*  SPI 0 Peripheral Chip Select 2 */
-#define AT91C_PA14_IRQ1           ( ( unsigned int ) AT91C_PIO_PA14 ) /*  External Interrupt 1 */
-#define AT91C_PIO_PA15            ( ( unsigned int ) 1 << 15 )        /* Pin Controlled by PA15 */
-#define AT91C_PA15_NPCS03         ( ( unsigned int ) AT91C_PIO_PA15 ) /*  SPI 0 Peripheral Chip Select 3 */
-#define AT91C_PA15_TCLK2          ( ( unsigned int ) AT91C_PIO_PA15 ) /*  Timer Counter 2 external clock input */
-#define AT91C_PIO_PA16            ( ( unsigned int ) 1 << 16 )        /* Pin Controlled by PA16 */
-#define AT91C_PA16_MISO0          ( ( unsigned int ) AT91C_PIO_PA16 ) /*  SPI 0 Master In Slave */
-#define AT91C_PIO_PA17            ( ( unsigned int ) 1 << 17 )        /* Pin Controlled by PA17 */
-#define AT91C_PA17_MOSI0          ( ( unsigned int ) AT91C_PIO_PA17 ) /*  SPI 0 Master Out Slave */
-#define AT91C_PIO_PA18            ( ( unsigned int ) 1 << 18 )        /* Pin Controlled by PA18 */
-#define AT91C_PA18_SPCK0          ( ( unsigned int ) AT91C_PIO_PA18 ) /*  SPI 0 Serial Clock */
-#define AT91C_PIO_PA19            ( ( unsigned int ) 1 << 19 )        /* Pin Controlled by PA19 */
-#define AT91C_PA19_CANRX          ( ( unsigned int ) AT91C_PIO_PA19 ) /*  CAN Receive */
-#define AT91C_PIO_PA2             ( ( unsigned int ) 1 << 2 )         /* Pin Controlled by PA2 */
-#define AT91C_PA2_SCK0            ( ( unsigned int ) AT91C_PIO_PA2 )  /*  USART 0 Serial Clock */
-#define AT91C_PA2_NPCS11          ( ( unsigned int ) AT91C_PIO_PA2 )  /*  SPI 1 Peripheral Chip Select 1 */
-#define AT91C_PIO_PA20            ( ( unsigned int ) 1 << 20 )        /* Pin Controlled by PA20 */
-#define AT91C_PA20_CANTX          ( ( unsigned int ) AT91C_PIO_PA20 ) /*  CAN Transmit */
-#define AT91C_PIO_PA21            ( ( unsigned int ) 1 << 21 )        /* Pin Controlled by PA21 */
-#define AT91C_PA21_TF             ( ( unsigned int ) AT91C_PIO_PA21 ) /*  SSC Transmit Frame Sync */
-#define AT91C_PA21_NPCS10         ( ( unsigned int ) AT91C_PIO_PA21 ) /*  SPI 1 Peripheral Chip Select 0 */
-#define AT91C_PIO_PA22            ( ( unsigned int ) 1 << 22 )        /* Pin Controlled by PA22 */
-#define AT91C_PA22_TK             ( ( unsigned int ) AT91C_PIO_PA22 ) /*  SSC Transmit Clock */
-#define AT91C_PA22_SPCK1          ( ( unsigned int ) AT91C_PIO_PA22 ) /*  SPI 1 Serial Clock */
-#define AT91C_PIO_PA23            ( ( unsigned int ) 1 << 23 )        /* Pin Controlled by PA23 */
-#define AT91C_PA23_TD             ( ( unsigned int ) AT91C_PIO_PA23 ) /*  SSC Transmit data */
-#define AT91C_PA23_MOSI1          ( ( unsigned int ) AT91C_PIO_PA23 ) /*  SPI 1 Master Out Slave */
-#define AT91C_PIO_PA24            ( ( unsigned int ) 1 << 24 )        /* Pin Controlled by PA24 */
-#define AT91C_PA24_RD             ( ( unsigned int ) AT91C_PIO_PA24 ) /*  SSC Receive Data */
-#define AT91C_PA24_MISO1          ( ( unsigned int ) AT91C_PIO_PA24 ) /*  SPI 1 Master In Slave */
-#define AT91C_PIO_PA25            ( ( unsigned int ) 1 << 25 )        /* Pin Controlled by PA25 */
-#define AT91C_PA25_RK             ( ( unsigned int ) AT91C_PIO_PA25 ) /*  SSC Receive Clock */
-#define AT91C_PA25_NPCS11         ( ( unsigned int ) AT91C_PIO_PA25 ) /*  SPI 1 Peripheral Chip Select 1 */
-#define AT91C_PIO_PA26            ( ( unsigned int ) 1 << 26 )        /* Pin Controlled by PA26 */
-#define AT91C_PA26_RF             ( ( unsigned int ) AT91C_PIO_PA26 ) /*  SSC Receive Frame Sync */
-#define AT91C_PA26_NPCS12         ( ( unsigned int ) AT91C_PIO_PA26 ) /*  SPI 1 Peripheral Chip Select 2 */
-#define AT91C_PIO_PA27            ( ( unsigned int ) 1 << 27 )        /* Pin Controlled by PA27 */
-#define AT91C_PA27_DRXD           ( ( unsigned int ) AT91C_PIO_PA27 ) /*  DBGU Debug Receive Data */
-#define AT91C_PA27_PCK3           ( ( unsigned int ) AT91C_PIO_PA27 ) /*  PMC Programmable Clock Output 3 */
-#define AT91C_PIO_PA28            ( ( unsigned int ) 1 << 28 )        /* Pin Controlled by PA28 */
-#define AT91C_PA28_DTXD           ( ( unsigned int ) AT91C_PIO_PA28 ) /*  DBGU Debug Transmit Data */
-#define AT91C_PIO_PA29            ( ( unsigned int ) 1 << 29 )        /* Pin Controlled by PA29 */
-#define AT91C_PA29_FIQ            ( ( unsigned int ) AT91C_PIO_PA29 ) /*  AIC Fast Interrupt Input */
-#define AT91C_PA29_NPCS13         ( ( unsigned int ) AT91C_PIO_PA29 ) /*  SPI 1 Peripheral Chip Select 3 */
-#define AT91C_PIO_PA3             ( ( unsigned int ) 1 << 3 )         /* Pin Controlled by PA3 */
-#define AT91C_PA3_RTS0            ( ( unsigned int ) AT91C_PIO_PA3 )  /*  USART 0 Ready To Send */
-#define AT91C_PA3_NPCS12          ( ( unsigned int ) AT91C_PIO_PA3 )  /*  SPI 1 Peripheral Chip Select 2 */
-#define AT91C_PIO_PA30            ( ( unsigned int ) 1 << 30 )        /* Pin Controlled by PA30 */
-#define AT91C_PA30_IRQ0           ( ( unsigned int ) AT91C_PIO_PA30 ) /*  External Interrupt 0 */
-#define AT91C_PA30_PCK2           ( ( unsigned int ) AT91C_PIO_PA30 ) /*  PMC Programmable Clock Output 2 */
-#define AT91C_PIO_PA4             ( ( unsigned int ) 1 << 4 )         /* Pin Controlled by PA4 */
-#define AT91C_PA4_CTS0            ( ( unsigned int ) AT91C_PIO_PA4 )  /*  USART 0 Clear To Send */
-#define AT91C_PA4_NPCS13          ( ( unsigned int ) AT91C_PIO_PA4 )  /*  SPI 1 Peripheral Chip Select 3 */
-#define AT91C_PIO_PA5             ( ( unsigned int ) 1 << 5 )         /* Pin Controlled by PA5 */
-#define AT91C_PA5_RXD1            ( ( unsigned int ) AT91C_PIO_PA5 )  /*  USART 1 Receive Data */
-#define AT91C_PIO_PA6             ( ( unsigned int ) 1 << 6 )         /* Pin Controlled by PA6 */
-#define AT91C_PA6_TXD1            ( ( unsigned int ) AT91C_PIO_PA6 )  /*  USART 1 Transmit Data */
-#define AT91C_PIO_PA7             ( ( unsigned int ) 1 << 7 )         /* Pin Controlled by PA7 */
-#define AT91C_PA7_SCK1            ( ( unsigned int ) AT91C_PIO_PA7 )  /*  USART 1 Serial Clock */
-#define AT91C_PA7_NPCS01          ( ( unsigned int ) AT91C_PIO_PA7 )  /*  SPI 0 Peripheral Chip Select 1 */
-#define AT91C_PIO_PA8             ( ( unsigned int ) 1 << 8 )         /* Pin Controlled by PA8 */
-#define AT91C_PA8_RTS1            ( ( unsigned int ) AT91C_PIO_PA8 )  /*  USART 1 Ready To Send */
-#define AT91C_PA8_NPCS02          ( ( unsigned int ) AT91C_PIO_PA8 )  /*  SPI 0 Peripheral Chip Select 2 */
-#define AT91C_PIO_PA9             ( ( unsigned int ) 1 << 9 )         /* Pin Controlled by PA9 */
-#define AT91C_PA9_CTS1            ( ( unsigned int ) AT91C_PIO_PA9 )  /*  USART 1 Clear To Send */
-#define AT91C_PA9_NPCS03          ( ( unsigned int ) AT91C_PIO_PA9 )  /*  SPI 0 Peripheral Chip Select 3 */
-#define AT91C_PIO_PB0             ( ( unsigned int ) 1 << 0 )         /* Pin Controlled by PB0 */
-#define AT91C_PB0_ETXCK_EREFCK    ( ( unsigned int ) AT91C_PIO_PB0 )  /*  Ethernet MAC Transmit Clock/Reference Clock */
-#define AT91C_PB0_PCK0            ( ( unsigned int ) AT91C_PIO_PB0 )  /*  PMC Programmable Clock Output 0 */
-#define AT91C_PIO_PB1             ( ( unsigned int ) 1 << 1 )         /* Pin Controlled by PB1 */
-#define AT91C_PB1_ETXEN           ( ( unsigned int ) AT91C_PIO_PB1 )  /*  Ethernet MAC Transmit Enable */
-#define AT91C_PIO_PB10            ( ( unsigned int ) 1 << 10 )        /* Pin Controlled by PB10 */
-#define AT91C_PB10_ETX2           ( ( unsigned int ) AT91C_PIO_PB10 ) /*  Ethernet MAC Transmit Data 2 */
-#define AT91C_PB10_NPCS11         ( ( unsigned int ) AT91C_PIO_PB10 ) /*  SPI 1 Peripheral Chip Select 1 */
-#define AT91C_PIO_PB11            ( ( unsigned int ) 1 << 11 )        /* Pin Controlled by PB11 */
-#define AT91C_PB11_ETX3           ( ( unsigned int ) AT91C_PIO_PB11 ) /*  Ethernet MAC Transmit Data 3 */
-#define AT91C_PB11_NPCS12         ( ( unsigned int ) AT91C_PIO_PB11 ) /*  SPI 1 Peripheral Chip Select 2 */
-#define AT91C_PIO_PB12            ( ( unsigned int ) 1 << 12 )        /* Pin Controlled by PB12 */
-#define AT91C_PB12_ETXER          ( ( unsigned int ) AT91C_PIO_PB12 ) /*  Ethernet MAC Transmit Coding Error */
-#define AT91C_PB12_TCLK0          ( ( unsigned int ) AT91C_PIO_PB12 ) /*  Timer Counter 0 external clock input */
-#define AT91C_PIO_PB13            ( ( unsigned int ) 1 << 13 )        /* Pin Controlled by PB13 */
-#define AT91C_PB13_ERX2           ( ( unsigned int ) AT91C_PIO_PB13 ) /*  Ethernet MAC Receive Data 2 */
-#define AT91C_PB13_NPCS01         ( ( unsigned int ) AT91C_PIO_PB13 ) /*  SPI 0 Peripheral Chip Select 1 */
-#define AT91C_PIO_PB14            ( ( unsigned int ) 1 << 14 )        /* Pin Controlled by PB14 */
-#define AT91C_PB14_ERX3           ( ( unsigned int ) AT91C_PIO_PB14 ) /*  Ethernet MAC Receive Data 3 */
-#define AT91C_PB14_NPCS02         ( ( unsigned int ) AT91C_PIO_PB14 ) /*  SPI 0 Peripheral Chip Select 2 */
-#define AT91C_PIO_PB15            ( ( unsigned int ) 1 << 15 )        /* Pin Controlled by PB15 */
-#define AT91C_PB15_ERXDV          ( ( unsigned int ) AT91C_PIO_PB15 ) /*  Ethernet MAC Receive Data Valid */
-#define AT91C_PIO_PB16            ( ( unsigned int ) 1 << 16 )        /* Pin Controlled by PB16 */
-#define AT91C_PB16_ECOL           ( ( unsigned int ) AT91C_PIO_PB16 ) /*  Ethernet MAC Collision Detected */
-#define AT91C_PB16_NPCS13         ( ( unsigned int ) AT91C_PIO_PB16 ) /*  SPI 1 Peripheral Chip Select 3 */
-#define AT91C_PIO_PB17            ( ( unsigned int ) 1 << 17 )        /* Pin Controlled by PB17 */
-#define AT91C_PB17_ERXCK          ( ( unsigned int ) AT91C_PIO_PB17 ) /*  Ethernet MAC Receive Clock */
-#define AT91C_PB17_NPCS03         ( ( unsigned int ) AT91C_PIO_PB17 ) /*  SPI 0 Peripheral Chip Select 3 */
-#define AT91C_PIO_PB18            ( ( unsigned int ) 1 << 18 )        /* Pin Controlled by PB18 */
-#define AT91C_PB18_EF100          ( ( unsigned int ) AT91C_PIO_PB18 ) /*  Ethernet MAC Force 100 Mbits/sec */
-#define AT91C_PB18_ADTRG          ( ( unsigned int ) AT91C_PIO_PB18 ) /*  ADC External Trigger */
-#define AT91C_PIO_PB19            ( ( unsigned int ) 1 << 19 )        /* Pin Controlled by PB19 */
-#define AT91C_PB19_PWM0           ( ( unsigned int ) AT91C_PIO_PB19 ) /*  PWM Channel 0 */
-#define AT91C_PB19_TCLK1          ( ( unsigned int ) AT91C_PIO_PB19 ) /*  Timer Counter 1 external clock input */
-#define AT91C_PIO_PB2             ( ( unsigned int ) 1 << 2 )         /* Pin Controlled by PB2 */
-#define AT91C_PB2_ETX0            ( ( unsigned int ) AT91C_PIO_PB2 )  /*  Ethernet MAC Transmit Data 0 */
-#define AT91C_PIO_PB20            ( ( unsigned int ) 1 << 20 )        /* Pin Controlled by PB20 */
-#define AT91C_PB20_PWM1           ( ( unsigned int ) AT91C_PIO_PB20 ) /*  PWM Channel 1 */
-#define AT91C_PB20_PCK0           ( ( unsigned int ) AT91C_PIO_PB20 ) /*  PMC Programmable Clock Output 0 */
-#define AT91C_PIO_PB21            ( ( unsigned int ) 1 << 21 )        /* Pin Controlled by PB21 */
-#define AT91C_PB21_PWM2           ( ( unsigned int ) AT91C_PIO_PB21 ) /*  PWM Channel 2 */
-#define AT91C_PB21_PCK1           ( ( unsigned int ) AT91C_PIO_PB21 ) /*  PMC Programmable Clock Output 1 */
-#define AT91C_PIO_PB22            ( ( unsigned int ) 1 << 22 )        /* Pin Controlled by PB22 */
-#define AT91C_PB22_PWM3           ( ( unsigned int ) AT91C_PIO_PB22 ) /*  PWM Channel 3 */
-#define AT91C_PB22_PCK2           ( ( unsigned int ) AT91C_PIO_PB22 ) /*  PMC Programmable Clock Output 2 */
-#define AT91C_PIO_PB23            ( ( unsigned int ) 1 << 23 )        /* Pin Controlled by PB23 */
-#define AT91C_PB23_TIOA0          ( ( unsigned int ) AT91C_PIO_PB23 ) /*  Timer Counter 0 Multipurpose Timer I/O Pin A */
-#define AT91C_PB23_DCD1           ( ( unsigned int ) AT91C_PIO_PB23 ) /*  USART 1 Data Carrier Detect */
-#define AT91C_PIO_PB24            ( ( unsigned int ) 1 << 24 )        /* Pin Controlled by PB24 */
-#define AT91C_PB24_TIOB0          ( ( unsigned int ) AT91C_PIO_PB24 ) /*  Timer Counter 0 Multipurpose Timer I/O Pin B */
-#define AT91C_PB24_DSR1           ( ( unsigned int ) AT91C_PIO_PB24 ) /*  USART 1 Data Set ready */
-#define AT91C_PIO_PB25            ( ( unsigned int ) 1 << 25 )        /* Pin Controlled by PB25 */
-#define AT91C_PB25_TIOA1          ( ( unsigned int ) AT91C_PIO_PB25 ) /*  Timer Counter 1 Multipurpose Timer I/O Pin A */
-#define AT91C_PB25_DTR1           ( ( unsigned int ) AT91C_PIO_PB25 ) /*  USART 1 Data Terminal ready */
-#define AT91C_PIO_PB26            ( ( unsigned int ) 1 << 26 )        /* Pin Controlled by PB26 */
-#define AT91C_PB26_TIOB1          ( ( unsigned int ) AT91C_PIO_PB26 ) /*  Timer Counter 1 Multipurpose Timer I/O Pin B */
-#define AT91C_PB26_RI1            ( ( unsigned int ) AT91C_PIO_PB26 ) /*  USART 1 Ring Indicator */
-#define AT91C_PIO_PB27            ( ( unsigned int ) 1 << 27 )        /* Pin Controlled by PB27 */
-#define AT91C_PB27_TIOA2          ( ( unsigned int ) AT91C_PIO_PB27 ) /*  Timer Counter 2 Multipurpose Timer I/O Pin A */
-#define AT91C_PB27_PWM0           ( ( unsigned int ) AT91C_PIO_PB27 ) /*  PWM Channel 0 */
-#define AT91C_PIO_PB28            ( ( unsigned int ) 1 << 28 )        /* Pin Controlled by PB28 */
-#define AT91C_PB28_TIOB2          ( ( unsigned int ) AT91C_PIO_PB28 ) /*  Timer Counter 2 Multipurpose Timer I/O Pin B */
-#define AT91C_PB28_PWM1           ( ( unsigned int ) AT91C_PIO_PB28 ) /*  PWM Channel 1 */
-#define AT91C_PIO_PB29            ( ( unsigned int ) 1 << 29 )        /* Pin Controlled by PB29 */
-#define AT91C_PB29_PCK1           ( ( unsigned int ) AT91C_PIO_PB29 ) /*  PMC Programmable Clock Output 1 */
-#define AT91C_PB29_PWM2           ( ( unsigned int ) AT91C_PIO_PB29 ) /*  PWM Channel 2 */
-#define AT91C_PIO_PB3             ( ( unsigned int ) 1 << 3 )         /* Pin Controlled by PB3 */
-#define AT91C_PB3_ETX1            ( ( unsigned int ) AT91C_PIO_PB3 )  /*  Ethernet MAC Transmit Data 1 */
-#define AT91C_PIO_PB30            ( ( unsigned int ) 1 << 30 )        /* Pin Controlled by PB30 */
-#define AT91C_PB30_PCK2           ( ( unsigned int ) AT91C_PIO_PB30 ) /*  PMC Programmable Clock Output 2 */
-#define AT91C_PB30_PWM3           ( ( unsigned int ) AT91C_PIO_PB30 ) /*  PWM Channel 3 */
-#define AT91C_PIO_PB4             ( ( unsigned int ) 1 << 4 )         /* Pin Controlled by PB4 */
-#define AT91C_PB4_ECRS_ECRSDV     ( ( unsigned int ) AT91C_PIO_PB4 )  /*  Ethernet MAC Carrier Sense/Carrier Sense and Data Valid */
-#define AT91C_PIO_PB5             ( ( unsigned int ) 1 << 5 )         /* Pin Controlled by PB5 */
-#define AT91C_PB5_ERX0            ( ( unsigned int ) AT91C_PIO_PB5 )  /*  Ethernet MAC Receive Data 0 */
-#define AT91C_PIO_PB6             ( ( unsigned int ) 1 << 6 )         /* Pin Controlled by PB6 */
-#define AT91C_PB6_ERX1            ( ( unsigned int ) AT91C_PIO_PB6 )  /*  Ethernet MAC Receive Data 1 */
-#define AT91C_PIO_PB7             ( ( unsigned int ) 1 << 7 )         /* Pin Controlled by PB7 */
-#define AT91C_PB7_ERXER           ( ( unsigned int ) AT91C_PIO_PB7 )  /*  Ethernet MAC Receive Error */
-#define AT91C_PIO_PB8             ( ( unsigned int ) 1 << 8 )         /* Pin Controlled by PB8 */
-#define AT91C_PB8_EMDC            ( ( unsigned int ) AT91C_PIO_PB8 )  /*  Ethernet MAC Management Data Clock */
-#define AT91C_PIO_PB9             ( ( unsigned int ) 1 << 9 )         /* Pin Controlled by PB9 */
-#define AT91C_PB9_EMDIO           ( ( unsigned int ) AT91C_PIO_PB9 )  /*  Ethernet MAC Management Data Input/Output */
+#define AT91C_PIO_PA0             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 0 )         /* Pin Controlled by PA0 */
+#define AT91C_PA0_RXD0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA0 )  /*  USART 0 Receive Data */
+#define AT91C_PIO_PA1             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 1 )         /* Pin Controlled by PA1 */
+#define AT91C_PA1_TXD0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA1 )  /*  USART 0 Transmit Data */
+#define AT91C_PIO_PA10            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 10 )        /* Pin Controlled by PA10 */
+#define AT91C_PA10_TWD            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA10 ) /*  TWI Two-wire Serial Data */
+#define AT91C_PIO_PA11            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 11 )        /* Pin Controlled by PA11 */
+#define AT91C_PA11_TWCK           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA11 ) /*  TWI Two-wire Serial Clock */
+#define AT91C_PIO_PA12            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 12 )        /* Pin Controlled by PA12 */
+#define AT91C_PA12_NPCS00         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA12 ) /*  SPI 0 Peripheral Chip Select 0 */
+#define AT91C_PIO_PA13            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 13 )        /* Pin Controlled by PA13 */
+#define AT91C_PA13_NPCS01         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA13 ) /*  SPI 0 Peripheral Chip Select 1 */
+#define AT91C_PA13_PCK1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA13 ) /*  PMC Programmable Clock Output 1 */
+#define AT91C_PIO_PA14            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 14 )        /* Pin Controlled by PA14 */
+#define AT91C_PA14_NPCS02         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA14 ) /*  SPI 0 Peripheral Chip Select 2 */
+#define AT91C_PA14_IRQ1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA14 ) /*  External Interrupt 1 */
+#define AT91C_PIO_PA15            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 15 )        /* Pin Controlled by PA15 */
+#define AT91C_PA15_NPCS03         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA15 ) /*  SPI 0 Peripheral Chip Select 3 */
+#define AT91C_PA15_TCLK2          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA15 ) /*  Timer Counter 2 external clock input */
+#define AT91C_PIO_PA16            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 16 )        /* Pin Controlled by PA16 */
+#define AT91C_PA16_MISO0          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA16 ) /*  SPI 0 Master In Slave */
+#define AT91C_PIO_PA17            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 17 )        /* Pin Controlled by PA17 */
+#define AT91C_PA17_MOSI0          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA17 ) /*  SPI 0 Master Out Slave */
+#define AT91C_PIO_PA18            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 18 )        /* Pin Controlled by PA18 */
+#define AT91C_PA18_SPCK0          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA18 ) /*  SPI 0 Serial Clock */
+#define AT91C_PIO_PA19            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 19 )        /* Pin Controlled by PA19 */
+#define AT91C_PA19_CANRX          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA19 ) /*  CAN Receive */
+#define AT91C_PIO_PA2             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 2 )         /* Pin Controlled by PA2 */
+#define AT91C_PA2_SCK0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA2 )  /*  USART 0 Serial Clock */
+#define AT91C_PA2_NPCS11          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA2 )  /*  SPI 1 Peripheral Chip Select 1 */
+#define AT91C_PIO_PA20            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 20 )        /* Pin Controlled by PA20 */
+#define AT91C_PA20_CANTX          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA20 ) /*  CAN Transmit */
+#define AT91C_PIO_PA21            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 21 )        /* Pin Controlled by PA21 */
+#define AT91C_PA21_TF             ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA21 ) /*  SSC Transmit Frame Sync */
+#define AT91C_PA21_NPCS10         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA21 ) /*  SPI 1 Peripheral Chip Select 0 */
+#define AT91C_PIO_PA22            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 22 )        /* Pin Controlled by PA22 */
+#define AT91C_PA22_TK             ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA22 ) /*  SSC Transmit Clock */
+#define AT91C_PA22_SPCK1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA22 ) /*  SPI 1 Serial Clock */
+#define AT91C_PIO_PA23            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 23 )        /* Pin Controlled by PA23 */
+#define AT91C_PA23_TD             ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA23 ) /*  SSC Transmit data */
+#define AT91C_PA23_MOSI1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA23 ) /*  SPI 1 Master Out Slave */
+#define AT91C_PIO_PA24            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 24 )        /* Pin Controlled by PA24 */
+#define AT91C_PA24_RD             ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA24 ) /*  SSC Receive Data */
+#define AT91C_PA24_MISO1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA24 ) /*  SPI 1 Master In Slave */
+#define AT91C_PIO_PA25            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 25 )        /* Pin Controlled by PA25 */
+#define AT91C_PA25_RK             ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA25 ) /*  SSC Receive Clock */
+#define AT91C_PA25_NPCS11         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA25 ) /*  SPI 1 Peripheral Chip Select 1 */
+#define AT91C_PIO_PA26            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 26 )        /* Pin Controlled by PA26 */
+#define AT91C_PA26_RF             ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA26 ) /*  SSC Receive Frame Sync */
+#define AT91C_PA26_NPCS12         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA26 ) /*  SPI 1 Peripheral Chip Select 2 */
+#define AT91C_PIO_PA27            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 27 )        /* Pin Controlled by PA27 */
+#define AT91C_PA27_DRXD           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA27 ) /*  DBGU Debug Receive Data */
+#define AT91C_PA27_PCK3           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA27 ) /*  PMC Programmable Clock Output 3 */
+#define AT91C_PIO_PA28            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 28 )        /* Pin Controlled by PA28 */
+#define AT91C_PA28_DTXD           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA28 ) /*  DBGU Debug Transmit Data */
+#define AT91C_PIO_PA29            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 29 )        /* Pin Controlled by PA29 */
+#define AT91C_PA29_FIQ            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA29 ) /*  AIC Fast Interrupt Input */
+#define AT91C_PA29_NPCS13         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA29 ) /*  SPI 1 Peripheral Chip Select 3 */
+#define AT91C_PIO_PA3             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 3 )         /* Pin Controlled by PA3 */
+#define AT91C_PA3_RTS0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA3 )  /*  USART 0 Ready To Send */
+#define AT91C_PA3_NPCS12          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA3 )  /*  SPI 1 Peripheral Chip Select 2 */
+#define AT91C_PIO_PA30            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 30 )        /* Pin Controlled by PA30 */
+#define AT91C_PA30_IRQ0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA30 ) /*  External Interrupt 0 */
+#define AT91C_PA30_PCK2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA30 ) /*  PMC Programmable Clock Output 2 */
+#define AT91C_PIO_PA4             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 4 )         /* Pin Controlled by PA4 */
+#define AT91C_PA4_CTS0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA4 )  /*  USART 0 Clear To Send */
+#define AT91C_PA4_NPCS13          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA4 )  /*  SPI 1 Peripheral Chip Select 3 */
+#define AT91C_PIO_PA5             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 5 )         /* Pin Controlled by PA5 */
+#define AT91C_PA5_RXD1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA5 )  /*  USART 1 Receive Data */
+#define AT91C_PIO_PA6             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 6 )         /* Pin Controlled by PA6 */
+#define AT91C_PA6_TXD1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA6 )  /*  USART 1 Transmit Data */
+#define AT91C_PIO_PA7             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 7 )         /* Pin Controlled by PA7 */
+#define AT91C_PA7_SCK1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA7 )  /*  USART 1 Serial Clock */
+#define AT91C_PA7_NPCS01          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA7 )  /*  SPI 0 Peripheral Chip Select 1 */
+#define AT91C_PIO_PA8             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 8 )         /* Pin Controlled by PA8 */
+#define AT91C_PA8_RTS1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA8 )  /*  USART 1 Ready To Send */
+#define AT91C_PA8_NPCS02          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA8 )  /*  SPI 0 Peripheral Chip Select 2 */
+#define AT91C_PIO_PA9             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 9 )         /* Pin Controlled by PA9 */
+#define AT91C_PA9_CTS1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA9 )  /*  USART 1 Clear To Send */
+#define AT91C_PA9_NPCS03          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PA9 )  /*  SPI 0 Peripheral Chip Select 3 */
+#define AT91C_PIO_PB0             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 0 )         /* Pin Controlled by PB0 */
+#define AT91C_PB0_ETXCK_EREFCK    ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB0 )  /*  Ethernet MAC Transmit Clock/Reference Clock */
+#define AT91C_PB0_PCK0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB0 )  /*  PMC Programmable Clock Output 0 */
+#define AT91C_PIO_PB1             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 1 )         /* Pin Controlled by PB1 */
+#define AT91C_PB1_ETXEN           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB1 )  /*  Ethernet MAC Transmit Enable */
+#define AT91C_PIO_PB10            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 10 )        /* Pin Controlled by PB10 */
+#define AT91C_PB10_ETX2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB10 ) /*  Ethernet MAC Transmit Data 2 */
+#define AT91C_PB10_NPCS11         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB10 ) /*  SPI 1 Peripheral Chip Select 1 */
+#define AT91C_PIO_PB11            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 11 )        /* Pin Controlled by PB11 */
+#define AT91C_PB11_ETX3           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB11 ) /*  Ethernet MAC Transmit Data 3 */
+#define AT91C_PB11_NPCS12         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB11 ) /*  SPI 1 Peripheral Chip Select 2 */
+#define AT91C_PIO_PB12            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 12 )        /* Pin Controlled by PB12 */
+#define AT91C_PB12_ETXER          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB12 ) /*  Ethernet MAC Transmit Coding Error */
+#define AT91C_PB12_TCLK0          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB12 ) /*  Timer Counter 0 external clock input */
+#define AT91C_PIO_PB13            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 13 )        /* Pin Controlled by PB13 */
+#define AT91C_PB13_ERX2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB13 ) /*  Ethernet MAC Receive Data 2 */
+#define AT91C_PB13_NPCS01         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB13 ) /*  SPI 0 Peripheral Chip Select 1 */
+#define AT91C_PIO_PB14            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 14 )        /* Pin Controlled by PB14 */
+#define AT91C_PB14_ERX3           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB14 ) /*  Ethernet MAC Receive Data 3 */
+#define AT91C_PB14_NPCS02         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB14 ) /*  SPI 0 Peripheral Chip Select 2 */
+#define AT91C_PIO_PB15            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 15 )        /* Pin Controlled by PB15 */
+#define AT91C_PB15_ERXDV          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB15 ) /*  Ethernet MAC Receive Data Valid */
+#define AT91C_PIO_PB16            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 16 )        /* Pin Controlled by PB16 */
+#define AT91C_PB16_ECOL           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB16 ) /*  Ethernet MAC Collision Detected */
+#define AT91C_PB16_NPCS13         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB16 ) /*  SPI 1 Peripheral Chip Select 3 */
+#define AT91C_PIO_PB17            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 17 )        /* Pin Controlled by PB17 */
+#define AT91C_PB17_ERXCK          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB17 ) /*  Ethernet MAC Receive Clock */
+#define AT91C_PB17_NPCS03         ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB17 ) /*  SPI 0 Peripheral Chip Select 3 */
+#define AT91C_PIO_PB18            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 18 )        /* Pin Controlled by PB18 */
+#define AT91C_PB18_EF100          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB18 ) /*  Ethernet MAC Force 100 Mbits/sec */
+#define AT91C_PB18_ADTRG          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB18 ) /*  ADC External Trigger */
+#define AT91C_PIO_PB19            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 19 )        /* Pin Controlled by PB19 */
+#define AT91C_PB19_PWM0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB19 ) /*  PWM Channel 0 */
+#define AT91C_PB19_TCLK1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB19 ) /*  Timer Counter 1 external clock input */
+#define AT91C_PIO_PB2             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 2 )         /* Pin Controlled by PB2 */
+#define AT91C_PB2_ETX0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB2 )  /*  Ethernet MAC Transmit Data 0 */
+#define AT91C_PIO_PB20            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 20 )        /* Pin Controlled by PB20 */
+#define AT91C_PB20_PWM1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB20 ) /*  PWM Channel 1 */
+#define AT91C_PB20_PCK0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB20 ) /*  PMC Programmable Clock Output 0 */
+#define AT91C_PIO_PB21            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 21 )        /* Pin Controlled by PB21 */
+#define AT91C_PB21_PWM2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB21 ) /*  PWM Channel 2 */
+#define AT91C_PB21_PCK1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB21 ) /*  PMC Programmable Clock Output 1 */
+#define AT91C_PIO_PB22            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 22 )        /* Pin Controlled by PB22 */
+#define AT91C_PB22_PWM3           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB22 ) /*  PWM Channel 3 */
+#define AT91C_PB22_PCK2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB22 ) /*  PMC Programmable Clock Output 2 */
+#define AT91C_PIO_PB23            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 23 )        /* Pin Controlled by PB23 */
+#define AT91C_PB23_TIOA0          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB23 ) /*  Timer Counter 0 Multipurpose Timer I/O Pin A */
+#define AT91C_PB23_DCD1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB23 ) /*  USART 1 Data Carrier Detect */
+#define AT91C_PIO_PB24            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 24 )        /* Pin Controlled by PB24 */
+#define AT91C_PB24_TIOB0          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB24 ) /*  Timer Counter 0 Multipurpose Timer I/O Pin B */
+#define AT91C_PB24_DSR1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB24 ) /*  USART 1 Data Set ready */
+#define AT91C_PIO_PB25            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 25 )        /* Pin Controlled by PB25 */
+#define AT91C_PB25_TIOA1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB25 ) /*  Timer Counter 1 Multipurpose Timer I/O Pin A */
+#define AT91C_PB25_DTR1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB25 ) /*  USART 1 Data Terminal ready */
+#define AT91C_PIO_PB26            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 26 )        /* Pin Controlled by PB26 */
+#define AT91C_PB26_TIOB1          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB26 ) /*  Timer Counter 1 Multipurpose Timer I/O Pin B */
+#define AT91C_PB26_RI1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB26 ) /*  USART 1 Ring Indicator */
+#define AT91C_PIO_PB27            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 27 )        /* Pin Controlled by PB27 */
+#define AT91C_PB27_TIOA2          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB27 ) /*  Timer Counter 2 Multipurpose Timer I/O Pin A */
+#define AT91C_PB27_PWM0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB27 ) /*  PWM Channel 0 */
+#define AT91C_PIO_PB28            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 28 )        /* Pin Controlled by PB28 */
+#define AT91C_PB28_TIOB2          ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB28 ) /*  Timer Counter 2 Multipurpose Timer I/O Pin B */
+#define AT91C_PB28_PWM1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB28 ) /*  PWM Channel 1 */
+#define AT91C_PIO_PB29            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 29 )        /* Pin Controlled by PB29 */
+#define AT91C_PB29_PCK1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB29 ) /*  PMC Programmable Clock Output 1 */
+#define AT91C_PB29_PWM2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB29 ) /*  PWM Channel 2 */
+#define AT91C_PIO_PB3             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 3 )         /* Pin Controlled by PB3 */
+#define AT91C_PB3_ETX1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB3 )  /*  Ethernet MAC Transmit Data 1 */
+#define AT91C_PIO_PB30            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 30 )        /* Pin Controlled by PB30 */
+#define AT91C_PB30_PCK2           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB30 ) /*  PMC Programmable Clock Output 2 */
+#define AT91C_PB30_PWM3           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB30 ) /*  PWM Channel 3 */
+#define AT91C_PIO_PB4             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 4 )         /* Pin Controlled by PB4 */
+#define AT91C_PB4_ECRS_ECRSDV     ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB4 )  /*  Ethernet MAC Carrier Sense/Carrier Sense and Data Valid */
+#define AT91C_PIO_PB5             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 5 )         /* Pin Controlled by PB5 */
+#define AT91C_PB5_ERX0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB5 )  /*  Ethernet MAC Receive Data 0 */
+#define AT91C_PIO_PB6             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 6 )         /* Pin Controlled by PB6 */
+#define AT91C_PB6_ERX1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB6 )  /*  Ethernet MAC Receive Data 1 */
+#define AT91C_PIO_PB7             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 7 )         /* Pin Controlled by PB7 */
+#define AT91C_PB7_ERXER           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB7 )  /*  Ethernet MAC Receive Error */
+#define AT91C_PIO_PB8             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 8 )         /* Pin Controlled by PB8 */
+#define AT91C_PB8_EMDC            ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB8 )  /*  Ethernet MAC Management Data Clock */
+#define AT91C_PIO_PB9             ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 << 9 )         /* Pin Controlled by PB9 */
+#define AT91C_PB9_EMDIO           ( ( unsigned පූර්ණ_සංඛ්‍යා ) AT91C_PIO_PB9 )  /*  Ethernet MAC Management Data Input/Output */
 
 /* ***************************************************************************** */
 /*               PERIPHERAL ID DEFINITIONS FOR AT91SAM7X128 */
 /* ***************************************************************************** */
-#define AT91C_ID_FIQ            ( ( unsigned int ) 0 )  /* Advanced Interrupt Controller (FIQ) */
-#define AT91C_ID_SYS            ( ( unsigned int ) 1 )  /* System Peripheral */
-#define AT91C_ID_PIOA           ( ( unsigned int ) 2 )  /* Parallel IO Controller A */
-#define AT91C_ID_PIOB           ( ( unsigned int ) 3 )  /* Parallel IO Controller B */
-#define AT91C_ID_SPI0           ( ( unsigned int ) 4 )  /* Serial Peripheral Interface 0 */
-#define AT91C_ID_SPI1           ( ( unsigned int ) 5 )  /* Serial Peripheral Interface 1 */
-#define AT91C_ID_US0            ( ( unsigned int ) 6 )  /* USART 0 */
-#define AT91C_ID_US1            ( ( unsigned int ) 7 )  /* USART 1 */
-#define AT91C_ID_SSC            ( ( unsigned int ) 8 )  /* Serial Synchronous Controller */
-#define AT91C_ID_TWI            ( ( unsigned int ) 9 )  /* Two-Wire Interface */
-#define AT91C_ID_PWMC           ( ( unsigned int ) 10 ) /* PWM Controller */
-#define AT91C_ID_UDP            ( ( unsigned int ) 11 ) /* USB Device Port */
-#define AT91C_ID_TC0            ( ( unsigned int ) 12 ) /* Timer Counter 0 */
-#define AT91C_ID_TC1            ( ( unsigned int ) 13 ) /* Timer Counter 1 */
-#define AT91C_ID_TC2            ( ( unsigned int ) 14 ) /* Timer Counter 2 */
-#define AT91C_ID_CAN            ( ( unsigned int ) 15 ) /* Control Area Network Controller */
-#define AT91C_ID_EMAC           ( ( unsigned int ) 16 ) /* Ethernet MAC */
-#define AT91C_ID_ADC            ( ( unsigned int ) 17 ) /* Analog-to-Digital Converter */
-#define AT91C_ID_AES            ( ( unsigned int ) 18 ) /* Advanced Encryption Standard 128-bit */
-#define AT91C_ID_TDES           ( ( unsigned int ) 19 ) /* Triple Data Encryption Standard */
-#define AT91C_ID_20_Reserved    ( ( unsigned int ) 20 ) /* Reserved */
-#define AT91C_ID_21_Reserved    ( ( unsigned int ) 21 ) /* Reserved */
-#define AT91C_ID_22_Reserved    ( ( unsigned int ) 22 ) /* Reserved */
-#define AT91C_ID_23_Reserved    ( ( unsigned int ) 23 ) /* Reserved */
-#define AT91C_ID_24_Reserved    ( ( unsigned int ) 24 ) /* Reserved */
-#define AT91C_ID_25_Reserved    ( ( unsigned int ) 25 ) /* Reserved */
-#define AT91C_ID_26_Reserved    ( ( unsigned int ) 26 ) /* Reserved */
-#define AT91C_ID_27_Reserved    ( ( unsigned int ) 27 ) /* Reserved */
-#define AT91C_ID_28_Reserved    ( ( unsigned int ) 28 ) /* Reserved */
-#define AT91C_ID_29_Reserved    ( ( unsigned int ) 29 ) /* Reserved */
-#define AT91C_ID_IRQ0           ( ( unsigned int ) 30 ) /* Advanced Interrupt Controller (IRQ0) */
-#define AT91C_ID_IRQ1           ( ( unsigned int ) 31 ) /* Advanced Interrupt Controller (IRQ1) */
+#define AT91C_ID_FIQ            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0 )  /* Advanced Interrupt Controller (FIQ) */
+#define AT91C_ID_SYS            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 1 )  /* System Peripheral */
+#define AT91C_ID_PIOA           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 2 )  /* Parallel IO Controller A */
+#define AT91C_ID_PIOB           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 3 )  /* Parallel IO Controller B */
+#define AT91C_ID_SPI0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 4 )  /* Serial Peripheral Interface 0 */
+#define AT91C_ID_SPI1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 5 )  /* Serial Peripheral Interface 1 */
+#define AT91C_ID_US0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 6 )  /* USART 0 */
+#define AT91C_ID_US1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 7 )  /* USART 1 */
+#define AT91C_ID_SSC            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 8 )  /* Serial Synchronous Controller */
+#define AT91C_ID_TWI            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 9 )  /* Two-Wire Interface */
+#define AT91C_ID_PWMC           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 10 ) /* PWM Controller */
+#define AT91C_ID_UDP            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 11 ) /* USB Device Port */
+#define AT91C_ID_TC0            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 12 ) /* Timer Counter 0 */
+#define AT91C_ID_TC1            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 13 ) /* Timer Counter 1 */
+#define AT91C_ID_TC2            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 14 ) /* Timer Counter 2 */
+#define AT91C_ID_CAN            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 15 ) /* Control Area Network Controller */
+#define AT91C_ID_EMAC           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 16 ) /* Ethernet MAC */
+#define AT91C_ID_ADC            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 17 ) /* Analog-to-Digital Converter */
+#define AT91C_ID_AES            ( ( unsigned පූර්ණ_සංඛ්‍යා ) 18 ) /* Advanced Encryption Standard 128-bit */
+#define AT91C_ID_TDES           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 19 ) /* Triple Data Encryption Standard */
+#define AT91C_ID_20_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 20 ) /* Reserved */
+#define AT91C_ID_21_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 21 ) /* Reserved */
+#define AT91C_ID_22_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 22 ) /* Reserved */
+#define AT91C_ID_23_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 23 ) /* Reserved */
+#define AT91C_ID_24_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 24 ) /* Reserved */
+#define AT91C_ID_25_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 25 ) /* Reserved */
+#define AT91C_ID_26_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 26 ) /* Reserved */
+#define AT91C_ID_27_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 27 ) /* Reserved */
+#define AT91C_ID_28_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 28 ) /* Reserved */
+#define AT91C_ID_29_Reserved    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 29 ) /* Reserved */
+#define AT91C_ID_IRQ0           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 30 ) /* Advanced Interrupt Controller (IRQ0) */
+#define AT91C_ID_IRQ1           ( ( unsigned පූර්ණ_සංඛ්‍යා ) 31 ) /* Advanced Interrupt Controller (IRQ1) */
 
 /* ***************************************************************************** */
 /*               BASE ADDRESS DEFINITIONS FOR AT91SAM7X128 */
@@ -2735,9 +2735,9 @@ typedef struct _AT91S_TDES
 /* ***************************************************************************** */
 /*               MEMORY MAPPING DEFINITIONS FOR AT91SAM7X128 */
 /* ***************************************************************************** */
-#define AT91C_ISRAM          ( ( char * ) 0x00200000 )       /* Internal SRAM base address */
-#define AT91C_ISRAM_SIZE     ( ( unsigned int ) 0x00008000 ) /* Internal SRAM size in byte (32 Kbyte) */
-#define AT91C_IFLASH         ( ( char * ) 0x00100000 )       /* Internal ROM base address */
-#define AT91C_IFLASH_SIZE    ( ( unsigned int ) 0x00020000 ) /* Internal ROM size in byte (128 Kbyte) */
+#define AT91C_ISRAM          ( ( var_na * ) 0x00200000 )       /* Internal SRAM base address */
+#define AT91C_ISRAM_SIZE     ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x00008000 ) /* Internal SRAM size in byte (32 Kbyte) */
+#define AT91C_IFLASH         ( ( var_na * ) 0x00100000 )       /* Internal ROM base address */
+#define AT91C_IFLASH_SIZE    ( ( unsigned පූර්ණ_සංඛ්‍යා ) 0x00020000 ) /* Internal ROM size in byte (128 Kbyte) */
 
 #endif /* ifndef AT91SAM7X128_H */

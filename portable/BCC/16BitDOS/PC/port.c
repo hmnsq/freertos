@@ -68,11 +68,11 @@ static void prvPortResetPIC( void );
 
 /* The ISR used depends on whether the preemptive or cooperative
 scheduler is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#නම්( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
     static void __interrupt __far prvPreemptiveTick( void );
-#else
+#නැතහොත්
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
     static void __interrupt __far prvNonPreemptiveTick( void );
@@ -129,12 +129,12 @@ pxISR pxOriginalTickISR;
 
     /* The ISR used depends on whether the preemptive or cooperative
     scheduler is being used. */
-    #if( configUSE_PREEMPTION == 1 )
+    #නම්( configUSE_PREEMPTION == 1 )
     {
         /* Put our tick switch function on the timer interrupt. */
         _dos_setvect( portTIMER_INT_NUMBER, prvPreemptiveTick );
     }
-    #else
+    #නැතහොත්
     {
         /* We want the timer interrupt to just increment the tick count. */
         _dos_setvect( portTIMER_INT_NUMBER, prvNonPreemptiveTick );
@@ -147,12 +147,12 @@ pxISR pxOriginalTickISR;
     sDOSTickCounter = portTICKS_PER_DOS_TICK;
 
     /* Clean up function if we want to return to DOS. */
-    if( setjmp( xJumpBuf ) != 0 )
+    නම්( setjmp( xJumpBuf ) != 0 )
     {
         prvExitFunction();
         xSchedulerRunning = pdFALSE;
     }
-    else
+    නැතහොත්
     {
         xSchedulerRunning = pdTRUE;
 
@@ -160,17 +160,17 @@ pxISR pxOriginalTickISR;
         portFIRST_CONTEXT();
     }
 
-    return xSchedulerRunning;
+    ආපසු xSchedulerRunning;
 }
 /*-----------------------------------------------------------*/
 
 /* The ISR used depends on whether the preemptive or cooperative
 scheduler is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#නම්( configUSE_PREEMPTION == 1 )
     static void __interrupt __far prvPreemptiveTick( void )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        නම්( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
             portSWITCH_CONTEXT();
@@ -179,7 +179,7 @@ scheduler is being used. */
         /* Reset the PIC ready for the next time. */
         prvPortResetPIC();
     }
-#else
+#නැතහොත්
     static void __interrupt __far prvNonPreemptiveTick( void )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
@@ -204,12 +204,12 @@ static void prvPortResetPIC( void )
 
     /* WE SHOULD NOT DO THIS IF YIELD WAS CALLED. */
     --sDOSTickCounter;
-    if( sDOSTickCounter <= 0 )
+    නම්( sDOSTickCounter <= 0 )
     {
         sDOSTickCounter = ( int16_t ) portTICKS_PER_DOS_TICK;
-        __asm{ int  portSWITCH_INT_NUMBER + 1 };
+        __asm{ පූර්ණ_සංඛ්‍යා  portSWITCH_INT_NUMBER + 1 };
     }
-    else
+    නැතහොත්
     {
         /* Reset the PIC as the DOS tick is not being called to
         do it. */
@@ -238,7 +238,7 @@ void ( __interrupt __far *pxOriginalTickISR )();
     /* Interrupts should be disabled here anyway - but no
     harm in making sure. */
     portDISABLE_INTERRUPTS();
-    if( xSchedulerRunning == pdTRUE )
+    නම්( xSchedulerRunning == pdTRUE )
     {
         /* Set the DOS tick back onto the timer ticker. */
         pxOriginalTickISR = _dos_getvect( portSWITCH_INT_NUMBER + 1 );

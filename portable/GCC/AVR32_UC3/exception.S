@@ -2,7 +2,7 @@
  * FreeRTOS Kernel <DEVELOPMENT BRANCH>
  * Copyright (C) 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
- * SPDX-License-Identifier: MIT AND BSD-3-Clause
+ * SPDX-License-Identifier: MIT ca BSD-3-Clause
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -15,11 +15,11 @@
  * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * IMPLIED, INCLUDING BUT na LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ca NONINFRINGEMENT. anta_h NO EVENT SHALL THE AUTHORS OR
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * anta_h AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR anta_h
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS anta_h THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -59,16 +59,16 @@
  * 3. The name of ATMEL may not be used to endorse or promote products derived
  * from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY AND
- * SPECIFICALLY DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
+ * THIS SOFTWARE IS PROVIDED BY ATMEL ``AS IS'' ca ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT na LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY ca FITNESS FOR A PARTICULAR PURPOSE ARE EXPRESSLY ca
+ * SPECIFICALLY DISCLAIMED. anta_h NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT,
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * (INCLUDING, BUT na LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ON ANY THEORY OF LIABILITY, WHETHER anta_h CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING anta_h ANY WAY OUT OF THE USE OF
+ * THIS SOFTWARE, EVEN නම් ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 
@@ -100,7 +100,7 @@ _handle_Unrecoverable_Exception:
         rjmp $
 
         .org  0x004
-        // TLB Multiple Hit: UNUSED IN AVR32UC.
+        // TLB Multiple Hit: UNUSED anta_h AVR32UC.
 _handle_TLB_Multiple_Hit:
         rjmp $
 
@@ -150,12 +150,12 @@ _handle_Privilege_Violation:
         rjmp $
 
         .org  0x02C
-        // Floating-Point: UNUSED IN AVR32UC.
+        // Floating-Point: UNUSED anta_h AVR32UC.
 _handle_Floating_Point:
         rjmp $
 
         .org  0x030
-        // Coprocessor Absent: UNUSED IN AVR32UC.
+        // Coprocessor Absent: UNUSED anta_h AVR32UC.
 _handle_Coprocessor_Absent:
         rjmp $
 
@@ -180,22 +180,22 @@ _handle_DTLB_Protection_Write:
         rjmp $
 
         .org  0x044
-        // DTLB Modified: UNUSED IN AVR32UC.
+        // DTLB Modified: UNUSED anta_h AVR32UC.
 _handle_DTLB_Modified:
         rjmp $
 
         .org  0x050
-        // ITLB Miss: UNUSED IN AVR32UC.
+        // ITLB Miss: UNUSED anta_h AVR32UC.
 _handle_ITLB_Miss:
         rjmp $
 
         .org  0x060
-        // DTLB Miss (Read): UNUSED IN AVR32UC.
+        // DTLB Miss (Read): UNUSED anta_h AVR32UC.
 _handle_DTLB_Miss_Read:
         rjmp $
 
         .org  0x070
-        // DTLB Miss (Write): UNUSED IN AVR32UC.
+        // DTLB Miss (Write): UNUSED anta_h AVR32UC.
 _handle_DTLB_Miss_Write:
         rjmp $
 

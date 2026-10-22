@@ -47,9 +47,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    uint32_t
@@ -59,13 +59,13 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#නම් ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
     typedef uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#නැතහොත්
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -74,8 +74,8 @@ typedef unsigned long    UBaseType_t;
 #define portSTACK_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    8
-#define portYIELD()    asm volatile ( "SWI 0" )
-#define portNOP()      asm volatile ( "NOP" )
+#define portYIELD()    asm ca_ncala ( "SWI 0" )
+#define portNOP()      asm ca_ncala ( "NOP" )
 /*-----------------------------------------------------------*/
 
 /* Critical section handling. */
@@ -95,10 +95,10 @@ typedef unsigned long    UBaseType_t;
     #define portDISABLE_INTERRUPTS()    vPortDisableInterruptsFromThumb()
     #define portENABLE_INTERRUPTS()     vPortEnableInterruptsFromThumb()
 
-#else
+#නැතහොත්
 
     #define portDISABLE_INTERRUPTS()                                       \
-    asm volatile (                                                         \
+    asm ca_ncala (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "ORR    R0, R0, #0xC0   \n\t"   /* Disable IRQ, FIQ.            */ \
@@ -106,7 +106,7 @@ typedef unsigned long    UBaseType_t;
         "LDMIA  SP!, {R0}           " ) /* Pop R0.                      */
 
     #define portENABLE_INTERRUPTS()                                        \
-    asm volatile (                                                         \
+    asm ca_ncala (                                                         \
         "STMDB  SP!, {R0}       \n\t"   /* Push R0.                     */ \
         "MRS    R0, CPSR        \n\t"   /* Get CPSR.                    */ \
         "BIC    R0, R0, #0xC0   \n\t"   /* Enable IRQ, FIQ.             */ \
@@ -127,12 +127,12 @@ extern void vPortExitCritical( void );
     {                                            \
         extern void vTaskSwitchContext( void );  \
                                                  \
-        if( xSwitchRequired )                    \
+        නම්( xSwitchRequired )                    \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             vTaskSwitchContext();                \
         }                                        \
-        else                                     \
+        නැතහොත්                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \

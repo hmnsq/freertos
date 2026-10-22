@@ -36,7 +36,7 @@ Context save and restore macro definitions
 portSAVE_CONTEXT MACRO
 
 ;
-Push R0 as we are going to use the register.
+Push R0 as we are going to use the pa_njikaa.
    STMDB SP !, {
     R0
 }
@@ -53,7 +53,7 @@ LDMIA SP !, {
 }
 
 ;
-Push the return address onto the stack.
+Push the ආපසු address onto the stack.
           STMDB R0 !, {
            LR
        }
@@ -91,7 +91,7 @@ STMDB LR !, {
 
 Store the new top of stack
 
-for the task.
+සඳහා the task.
    LDR R1, = pxCurrentTCB
              LDR R0, [ R1 ]
 STR LR, [ R0 ]
@@ -128,7 +128,7 @@ MSR SPSR_cxsf, R0
 ;
 Restore all system mode registers
 
-for the task.
+සඳහා the task.
    LDMFD LR, {
     R0 - R14
 }
@@ -137,12 +137,12 @@ for the task.
 NOP
 
 ;
-Restore the return address.
+Restore the ආපසු address.
           LDR LR, [ LR, # + 60 ]
 
 ;
 
-And return -correcting the offset in the LR to obtain the
+And ආපසු -correcting the offset in the LR to obtain the
 ;
 
 correct address.

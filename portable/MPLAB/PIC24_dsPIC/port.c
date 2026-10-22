@@ -63,15 +63,15 @@ not provided their own. */
 /* Records the nesting depth of calls to portENTER_CRITICAL(). */
 UBaseType_t uxCriticalNesting = 0xef;
 
-#if configKERNEL_INTERRUPT_PRIORITY != 1
+#නම් configKERNEL_INTERRUPT_PRIORITY != 1
     #error If configKERNEL_INTERRUPT_PRIORITY is not 1 then the #32 in the following macros needs changing to equal the portINTERRUPT_BITS value, which is ( configKERNEL_INTERRUPT_PRIORITY << 5 )
 #endif
 
-#if defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
+#නම් defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ )
 
     #ifdef __HAS_EDS__
         #define portRESTORE_CONTEXT()                                                                                       \
-                    asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */       \
+                    asm ca_ncala(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */       \
                             "MOV    [W0], W15               \n"                                                             \
                             "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                             "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -89,9 +89,9 @@ UBaseType_t uxCriticalNesting = 0xef;
                             "POP.D  W2                      \n"                                                             \
                             "POP.D  W0                      \n"                                                             \
                             "POP    SR                        " );
-    #else /* __HAS_EDS__ */
+    #නැතහොත් /* __HAS_EDS__ */
         #define portRESTORE_CONTEXT()                                                                                       \
-            asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
+            asm ca_ncala(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
                             "MOV    [W0], W15               \n"                                                             \
                             "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                             "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -111,10 +111,10 @@ UBaseType_t uxCriticalNesting = 0xef;
         #endif /* __HAS_EDS__ */
 #endif /* defined( __PIC24E__ ) || defined ( __PIC24F__ ) || defined( __PIC24FK__ ) || defined( __PIC24H__ ) */
 
-#if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
+#නම් defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
 
     #define portRESTORE_CONTEXT()                                                                                       \
-        asm volatile(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
+        asm ca_ncala(   "MOV    _pxCurrentTCB, W0       \n" /* Restore the stack pointer for the task. */               \
                         "MOV    [W0], W15               \n"                                                             \
                         "POP    W0                      \n" /* Restore the critical nesting counter for the task. */    \
                         "MOV    W0, _uxCriticalNesting  \n"                                                             \
@@ -185,7 +185,7 @@ const StackType_t xInitialStack[] =
     0xabac, /* TBLPAG */
 
     /* dsPIC specific registers. */
-    #if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
+    #නම් defined( __dsPIC30F__ ) || defined( __dsPIC33F__ )
         0x0202, /* ACCAL */
         0x0303, /* ACCAH */
         0x0404, /* ACCAU */
@@ -221,7 +221,7 @@ const StackType_t xInitialStack[] =
     *pxTopOfStack = ( StackType_t ) pvParameters;
     pxTopOfStack++;
 
-    for( i = 0; i < ( sizeof( xInitialStack ) / sizeof( StackType_t ) ); i++ )
+    සඳහා( i = 0; i < ( parimaa_na( xInitialStack ) / parimaa_na( StackType_t ) ); i++ )
     {
         *pxTopOfStack = xInitialStack[ i ];
         pxTopOfStack++;
@@ -230,12 +230,12 @@ const StackType_t xInitialStack[] =
     *pxTopOfStack = CORCON;
     pxTopOfStack++;
 
-    #if defined(__HAS_EDS__)
+    #නම් defined(__HAS_EDS__)
         *pxTopOfStack = DSRPAG;
         pxTopOfStack++;
         *pxTopOfStack = DSWPAG;
         pxTopOfStack++;
-    #else /* __HAS_EDS__ */
+    #නැතහොත් /* __HAS_EDS__ */
         *pxTopOfStack = PSVPAG;
         pxTopOfStack++;
     #endif /* __HAS_EDS__ */
@@ -244,7 +244,7 @@ const StackType_t xInitialStack[] =
     *pxTopOfStack = 0x00;
     pxTopOfStack++;
 
-    return pxTopOfStack;
+    ආපසු pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -257,10 +257,10 @@ BaseType_t xPortStartScheduler( void )
     portRESTORE_CONTEXT();
 
     /* Simulate the end of the yield function. */
-    asm volatile ( "return" );
+    asm ca_ncala ( "return" );
 
     /* Should not reach here. */
-    return pdTRUE;
+    ආපසු pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -314,7 +314,7 @@ void vPortExitCritical( void )
 {
     configASSERT( uxCriticalNesting );
     uxCriticalNesting--;
-    if( uxCriticalNesting == 0 )
+    නම්( uxCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
@@ -326,7 +326,7 @@ void __attribute__((__interrupt__, auto_psv)) configTICK_INTERRUPT_HANDLER( void
     /* Clear the timer interrupt. */
     IFS0bits.T1IF = 0;
 
-    if( xTaskIncrementTick() != pdFALSE )
+    නම්( xTaskIncrementTick() != pdFALSE )
     {
         portYIELD();
     }

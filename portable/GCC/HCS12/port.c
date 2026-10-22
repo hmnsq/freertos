@@ -67,7 +67,7 @@ BaseType_t ATTR_NEAR xStartSchedulerNear( void );
  * depth.  Each task maintains its own critical nesting depth variable so
  * uxCriticalNesting is saved and restored from the task stack during a context
  * switch. */
-volatile UBaseType_t uxCriticalNesting = 0x80; /* un-initialized */
+ca_ncala UBaseType_t uxCriticalNesting = 0x80; /* un-initialized */
 
 /*-----------------------------------------------------------*/
 
@@ -127,7 +127,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *--pxTopOfStack = ( StackType_t ) 0x00;
 
 
-    return pxTopOfStack;
+    ආපසු pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -154,10 +154,10 @@ BaseType_t xPortStartScheduler( void )
      * Instead it simply calls the locally defined xNearStartScheduler() -
      * which does use the CODE_SEG pragma. */
 
-    int16_t register d;
+    int16_t pa_njikaa d;
 
     __asm( "jmp  xStartSchedulerNear        ; will never return" : "=d" ( d ) );
-    return d;
+    ආපසු d;
 }
 /*-----------------------------------------------------------*/
 
@@ -173,7 +173,7 @@ BaseType_t xStartSchedulerNear( void )
     portISR_TAIL();
 
     /* Should not get here! */
-    return pdFALSE;
+    ආපසු pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -213,13 +213,13 @@ void vPortTickInterrupt( void )
     /* Clear tick timer flag */
     CRGFLG = 0x80;
 
-    #if configUSE_PREEMPTION == 1
+    #නම් configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        නම්( xTaskIncrementTick() != pdFALSE )
         {
             /* A context switch is necessary. */
             vTaskSwitchContext();
@@ -229,7 +229,7 @@ void vPortTickInterrupt( void )
          * to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else /* if configUSE_PREEMPTION == 1 */
+    #නැතහොත් /* if configUSE_PREEMPTION == 1 */
     {
         xTaskIncrementTick();
     }
