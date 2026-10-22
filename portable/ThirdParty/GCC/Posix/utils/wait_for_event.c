@@ -32,7 +32,7 @@
 
 #include "wait_for_event.h"
 
-struct event
+sa_nracanaa event
 {
     pthread_mutex_t mutex;
     pthread_mutexattr_t mutexattr;
@@ -41,11 +41,11 @@ struct event
 };
 /*-----------------------------------------------------------*/
 
-struct event * event_create( void )
+sa_nracanaa event * event_create( void )
 {
-    struct event * ev = malloc( sizeof( struct event ) );
+    sa_nracanaa event * ev = malloc( parimaa_na( sa_nracanaa event ) );
 
-    if( ev != NULL )
+    ပေႃး( ev != NULL )
     {
         ev->event_triggered = false;
         pthread_mutexattr_init( &ev->mutexattr );
@@ -56,11 +56,11 @@ struct event * event_create( void )
         pthread_cond_init( &ev->cond, NULL );
     }
 
-    return ev;
+    ပွၵ်ႈ ev;
 }
 /*-----------------------------------------------------------*/
 
-void event_delete( struct event * ev )
+void event_delete( sa_nracanaa event * ev )
 {
     pthread_mutex_destroy( &ev->mutex );
     pthread_mutexattr_destroy( &ev->mutexattr );
@@ -69,9 +69,9 @@ void event_delete( struct event * ev )
 }
 /*-----------------------------------------------------------*/
 
-bool event_wait( struct event * ev )
+bool event_wait( sa_nracanaa event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ပေႃး( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
         #ifndef __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
@@ -79,27 +79,27 @@ bool event_wait( struct event * ev )
         #endif
     }
 
-    while( ev->event_triggered == false )
+    ၶၢဝ်း( ev->event_triggered == false )
     {
         pthread_cond_wait( &ev->cond, &ev->mutex );
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    ပွၵ်ႈ true;
 }
 /*-----------------------------------------------------------*/
 
-bool event_wait_timed( struct event * ev,
+bool event_wait_timed( sa_nracanaa event * ev,
                        time_t ms )
 {
-    struct timespec ts;
-    int ret = 0;
+    sa_nracanaa timespec ts;
+    puur_naa_nka ret = 0;
 
     clock_gettime( CLOCK_REALTIME, &ts );
     ts.tv_sec += ms / 1000;
     ts.tv_nsec += ( ( ms % 1000 ) * 1000000 );
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ပေႃး( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
         #ifndef __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */
@@ -107,25 +107,25 @@ bool event_wait_timed( struct event * ev,
         #endif
     }
 
-    while( ( ev->event_triggered == false ) && ( ret == 0 ) )
+    ၶၢဝ်း( ( ev->event_triggered == false ) && ( ret == 0 ) )
     {
         ret = pthread_cond_timedwait( &ev->cond, &ev->mutex, &ts );
 
-        if( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
+        ပေႃး( ( ret == -1 ) && ( errno == ETIMEDOUT ) )
         {
-            return false;
+            ပွၵ်ႈ false;
         }
     }
 
     ev->event_triggered = false;
     pthread_mutex_unlock( &ev->mutex );
-    return true;
+    ပွၵ်ႈ true;
 }
 /*-----------------------------------------------------------*/
 
-void event_signal( struct event * ev )
+void event_signal( sa_nracanaa event * ev )
 {
-    if( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
+    ပေႃး( pthread_mutex_lock( &ev->mutex ) == EOWNERDEAD )
     {
         #ifndef __APPLE__
             /* If the thread owning the mutex died, make the mutex consistent. */

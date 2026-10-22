@@ -29,7 +29,7 @@
 #ifndef PORTCONTEXT_H
 #define PORTCONTEXT_H
 
-#if __riscv_xlen == 64
+#ပေႃး __riscv_xlen == 64
     #define portWORD_SIZE    8
     #define store_x          sd
     #define load_x           ld
@@ -37,7 +37,7 @@
     #define store_x          sw
     #define load_x           lw
     #define portWORD_SIZE    4
-#else
+#ပေႃးဢမ်ႇ
     #error Assembler did not define __riscv_xlen
 #endif
 
@@ -52,7 +52,7 @@
     #define portCONTEXT_SIZE               ( 15 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    13
     #define portMSTATUS_OFFSET             14
-#else
+#ပေႃးဢမ်ႇ
     #define portCONTEXT_SIZE               ( 31 * portWORD_SIZE )
     #define portCRITICAL_NESTING_OFFSET    29
     #define portMSTATUS_OFFSET             30

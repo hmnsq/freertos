@@ -43,21 +43,21 @@
  * header files. */
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
-#if ( configENABLE_FPU == 1 )
+#ပေႃး ( configENABLE_FPU == 1 )
     #error Cortex-M23 does not have a Floating Point Unit (FPU) and therefore configENABLE_FPU must be set to 0.
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#ပေႃး ( configENABLE_MPU == 1 )
     #define SECURE_CONTEXT_OFFSET   -20
-#else
+#ပေႃးဢမ်ႇ
     #define SECURE_CONTEXT_OFFSET   0
 #endif
 
-#if ( configENABLE_MPU == 1 )
+#ပေႃး ( configENABLE_MPU == 1 )
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .syntax unified                                 \n"
             "                                                 \n"
@@ -145,11 +145,11 @@
         );
     }
 
-#else /* configENABLE_MPU */
+#ပေႃးဢမ်ႇ /* configENABLE_MPU */
 
     void vRestoreContextOfFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -174,7 +174,7 @@
 
 BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -194,7 +194,7 @@ BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */
 
 void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -210,7 +210,7 @@ void vRaisePrivilege( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -226,7 +226,7 @@ void vResetPrivilege( void ) /* __attribute__ (( naked )) */
 
 void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -246,7 +246,7 @@ void vStartFirstTask( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 
 uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -260,7 +260,7 @@ uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCT
 
 void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -271,11 +271,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 }
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ပေႃး ( configENABLE_MPU == 1 )
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             " .syntax unified                                 \n"
             " .extern SecureContext_SaveContext               \n"
@@ -421,11 +421,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* configENABLE_MPU */
+#ပေႃးဢမ်ႇ /* configENABLE_MPU */
 
     void PendSV_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             "   .syntax unified                                 \n"
             "   .extern SecureContext_SaveContext               \n"
@@ -509,11 +509,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
+#ပေႃး ( ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) )
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             ".syntax unified                \n"
             ".extern vPortSVCHandler_C      \n"
@@ -552,11 +552,11 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
         );
     }
 
-#else /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
+#ပေႃးဢမ်ႇ /* ( configENABLE_MPU == 1 ) && ( configUSE_MPU_WRAPPERS_V1 == 0 ) */
 
     void SVC_Handler( void ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
     {
-        __asm volatile
+        __asm ca_ncala
         (
             "   .syntax unified                                 \n"
             "                                                   \n"
@@ -579,7 +579,7 @@ void vClearInterruptMask( __attribute__( ( unused ) ) uint32_t ulMask ) /* __att
 
 void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) /* __attribute__ (( naked )) */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"
@@ -592,7 +592,7 @@ void vPortAllocateSecureContext( uint32_t ulSecureStackSize ) /* __attribute__ (
 
 void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */
 {
-    __asm volatile
+    __asm ca_ncala
     (
         "   .syntax unified                                 \n"
         "                                                   \n"

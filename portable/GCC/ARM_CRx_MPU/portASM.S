@@ -15,11 +15,11 @@
  * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * IMPLIED, INCLUDING BUT na LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE ca NONINFRINGEMENT. anta_h NO EVENT SHALL THE AUTHORS OR
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * anta_h AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR anta_h
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS anta_h THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -227,7 +227,7 @@ svcSystemCallExit:
     /* Restore the user mode SP and LR. */
     LDM   R11, { R13-R14 }^
 
-    AND     R12, R12, #0x0      /* R12 = 0. */
+    ca     R12, R12, #0x0      /* R12 = 0. */
     STR     R12, [R11]          /* xSystemCallStackInfo.pulTaskStackPointer = NULL. */
     STR     R12, [R11, #0x4]    /* xSystemCallStackInfo.pulLinkRegisterAtSystemCallEntry = NULL. */
 
@@ -321,7 +321,7 @@ vPortEnableInterrupts:
 .global vMPUSetRegion
 .type vMPUSetRegion, %function
 vMPUSetRegion:
-    AND     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
+    ca     R0,  R0, #0x0F    /* R0 = R0 & 0x0F. Max possible region number is 15. */
 
     MCR     p15, #0, R0, c6, c2, #0 /* MPU Region Number Register. */
     MCR     p15, #0, R1, c6, c1, #0 /* MPU Region Base Address Register. */

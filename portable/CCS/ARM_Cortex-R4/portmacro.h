@@ -40,9 +40,9 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
+#define portCHAR        var_na
 #define portFLOAT       float
-#define portDOUBLE      double
+#define portDOUBLE      dviguu_na
 #define portLONG        long
 #define portSHORT       short
 #define portSTACK_TYPE  uint32_t
@@ -52,7 +52,7 @@ typedef portSTACK_TYPE StackType_t;
 typedef long BaseType_t;
 typedef unsigned long UBaseType_t;
 
-#if (configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS)
+#ပေႃး (configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS)
     typedef uint16_t TickType_t;
     #define portMAX_DELAY (TickType_t) 0xFFFF
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -62,7 +62,7 @@ typedef unsigned long UBaseType_t;
     /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
     not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC 1
-#else
+#ပေႃးဢမ်ႇ
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -84,20 +84,20 @@ extern void vPortExitCritical(void);
 #pragma SWI_ALIAS( vPortYield, 0 )
 extern void vPortYield( void );
 #define portYIELD()                 vPortYield()
-#define portSYS_SSIR1_REG           ( * ( ( volatile uint32_t * ) 0xFFFFFFB0 ) )
+#define portSYS_SSIR1_REG           ( * ( ( ca_ncala uint32_t * ) 0xFFFFFFB0 ) )
 #define portSYS_SSIR1_SSKEY         ( 0x7500UL )
 #define portYIELD_WITHIN_API()      { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  asm( " DSB " ); asm( " ISB " ); }
-#define portYIELD_FROM_ISR( x )     do { if( x != pdFALSE ) { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  ( void ) portSYS_SSIR1_REG; } } while( 0 )
+#define portYIELD_FROM_ISR( x )     do { ပေႃး( x != pdFALSE ) { portSYS_SSIR1_REG = portSYS_SSIR1_SSKEY;  ( void ) portSYS_SSIR1_REG; } } ၶၢဝ်း( 0 )
 
 #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
 #endif
 
 /* Architecture specific optimisations. */
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ပေႃး configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #ပေႃး( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 

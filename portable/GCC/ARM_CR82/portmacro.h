@@ -48,15 +48,15 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
+#define portCHAR          var_na
 #define portFLOAT         float
-#define portDOUBLE        double
+#define portDOUBLE        dviguu_na
 #define portLONG          long
 #define portSHORT         short
 #define portSTACK_TYPE    size_t
 #define portBASE_TYPE     long
 
-#if !defined(__ASSEMBLER__)
+#ပေႃး !defined(__ASSEMBLER__)
     typedef portSTACK_TYPE   StackType_t;
     typedef portBASE_TYPE    BaseType_t;
     typedef uint64_t         UBaseType_t;
@@ -81,24 +81,24 @@
 
 /* Task utilities. */
 
-#if !defined(__ASSEMBLER__)
+#ပေႃး !defined(__ASSEMBLER__)
     /* Called at the end of an ISR that can cause a context switch. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #ပေႃး ( configNUMBER_OF_CORES == 1 )
         #define portEND_SWITCHING_ISR( xSwitchRequired ) \
         {                                                \
             extern uint64_t ullPortYieldRequired;        \
                                                         \
-            if( xSwitchRequired != pdFALSE )             \
+            ပေႃး( xSwitchRequired != pdFALSE )             \
             {                                            \
                 ullPortYieldRequired = pdTRUE;           \
             }                                            \
         }
-    #else
+    #ပေႃးဢမ်ႇ
         #define portEND_SWITCHING_ISR( xSwitchRequired )                   \
         {                                                                  \
             extern uint64_t ullPortYieldRequired[ configNUMBER_OF_CORES ]; \
                                                                         \
-            if( xSwitchRequired != pdFALSE )                               \
+            ပေႃး( xSwitchRequired != pdFALSE )                               \
             {                                                              \
                 ullPortYieldRequired[ portGET_CORE_ID() ] = pdTRUE;        \
             }                                                              \
@@ -126,13 +126,13 @@
 #define portSVC_INTERRUPT_CORE                      117
 
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
-#define portYIELD()                __asm volatile ( "SVC %0" : : "i" ( portSVC_YIELD ) : "memory" )
+#define portYIELD()                __asm ca_ncala ( "SVC %0" : : "i" ( portSVC_YIELD ) : "memory" )
 
 /*-----------------------------------------------------------
 * Critical section control
 *----------------------------------------------------------*/
 
-#if !defined(__ASSEMBLER__)
+#ပေႃး !defined(__ASSEMBLER__)
     extern UBaseType_t vTaskEnterCriticalFromISR( void );
     extern void vTaskExitCriticalFromISR( UBaseType_t uxSavedInterruptStatus );
     extern UBaseType_t uxPortSetInterruptMask( void );
@@ -143,23 +143,23 @@
 #endif /* if !defined(__ASSEMBLER__) */
 
 /* Use SVC so this is safe from EL0. EL1 sites in the port use direct MSR. */
-#define portDISABLE_INTERRUPTS() __asm volatile ( "SVC %0" : : "i" ( portSVC_DISABLE_INTERRUPTS ) : "memory" )
+#define portDISABLE_INTERRUPTS() __asm ca_ncala ( "SVC %0" : : "i" ( portSVC_DISABLE_INTERRUPTS ) : "memory" )
 
-#define portENABLE_INTERRUPTS()  __asm volatile ( "SVC %0" : : "i" ( portSVC_ENABLE_INTERRUPTS ) : "memory" )
+#define portENABLE_INTERRUPTS()  __asm ca_ncala ( "SVC %0" : : "i" ( portSVC_ENABLE_INTERRUPTS ) : "memory" )
 
 /* In all GICs 255 can be written to the priority mask register to unmask all
  * (but the lowest) interrupt priority. */
 #define portUNMASK_VALUE           ( 0xFFUL )
 
-#if !defined(__ASSEMBLER__)
+#ပေႃး !defined(__ASSEMBLER__)
     /* These macros do not globally disable/enable interrupts.  They do mask off
      * interrupts that have a priority below configMAX_API_CALL_INTERRUPT_PRIORITY. */
-    #if  ( configNUMBER_OF_CORES == 1 )
+    #ပေႃး  ( configNUMBER_OF_CORES == 1 )
         extern void vPortEnterCritical( void );
         extern void vPortExitCritical( void );
         #define portENTER_CRITICAL()                  vPortEnterCritical()
         #define portEXIT_CRITICAL()                   vPortExitCritical()
-    #else
+    #ပေႃးဢမ်ႇ
         #define portENTER_CRITICAL()                  vTaskEnterCritical()
         #define portEXIT_CRITICAL()                   vTaskExitCritical()
     #endif
@@ -177,7 +177,7 @@
 #define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 
-#if !defined(__ASSEMBLER__)
+#ပေႃး !defined(__ASSEMBLER__)
     /* Prototype of the FreeRTOS tick handler.  This must be installed as the
      * handler for whichever peripheral is used to generate the RTOS tick. */
     void FreeRTOS_Tick_Handler( void );
@@ -192,9 +192,9 @@
  * using any FPU instructions.  If configUSE_TASK_FPU_SUPPORT is set to
  * portTASK_HAVE_FPU_CONTEXT_BY_DEFAULT (2U) then all tasks will have an FPU context
  * by default. */
-#if ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
+#ပေႃး ( configUSE_TASK_FPU_SUPPORT == portTASK_NO_FPU_CONTEXT_BY_DEFAULT )
     void vPortTaskUsesFPU( void );
-#else
+#ပေႃးဢမ်ႇ
 /* Each task has an FPU context already, so define this function away to
  * nothing to prevent it from being called accidentally. */
     #define vPortTaskUsesFPU()
@@ -210,7 +210,7 @@
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#ပေႃး configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Store/clear the ready priorities in a bit map. */
     #define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities )    ( uxReadyPriorities ) |= ( 1UL << ( uxPriority ) )
@@ -220,17 +220,17 @@
 
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
-#if ( configASSERT_DEFINED == 1 )
+#ပေႃး ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif /* configASSERT */
 
-#define portNOP()     __asm volatile ( "NOP" )
+#define portNOP()     __asm ca_ncala ( "NOP" )
 #define portINLINE    __inline
 
 /* The number of bits to shift for an interrupt priority is dependent on the
  * number of bits implemented by the interrupt controller. */
-#if configUNIQUE_INTERRUPT_PRIORITIES == 16
+#ပေႃး configUNIQUE_INTERRUPT_PRIORITIES == 16
     #define portPRIORITY_SHIFT            4
     #define portMAX_BINARY_POINT_VALUE    3
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 32
@@ -245,7 +245,7 @@
 #elif configUNIQUE_INTERRUPT_PRIORITIES == 256
     #define portPRIORITY_SHIFT            0
     #define portMAX_BINARY_POINT_VALUE    0
-#else /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
+#ပေႃးဢမ်ႇ /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
     #error Invalid configUNIQUE_INTERRUPT_PRIORITIES setting.  configUNIQUE_INTERRUPT_PRIORITIES must be set to the number of unique priorities implemented by the target hardware
 #endif /* if configUNIQUE_INTERRUPT_PRIORITIES == 16 */
 
@@ -253,17 +253,17 @@
 #define portYIELD_CORE_INT_ID                     ( 0x0U )
 #define portMAX_API_PRIORITY_MASK                 ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT )
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ပေႃး ( configNUMBER_OF_CORES > 1 )
 
-    #if !defined(__ASSEMBLER__)
-        typedef enum
+    #ပေႃး !defined(__ASSEMBLER__)
+        typedef ga_nanaa
         {
             eIsrLock = 0,
             eTaskLock,
             eLockCount
         } ePortRTOSLock;
 
-        extern volatile uint64_t ullCriticalNestings[ configNUMBER_OF_CORES ];
+        extern ca_ncala uint64_t ullCriticalNestings[ configNUMBER_OF_CORES ];
         extern void vPortRecursiveLock( uint8_t ucCoreID,
                                         ePortRTOSLock eLockNum,
                                         BaseType_t uxAcquire );
@@ -293,14 +293,14 @@
 
 #endif /* configNUMBER_OF_CORES > 1 */
 
-#define portMEMORY_BARRIER()    __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()    __asm ca_ncala ( "" ::: "memory" )
 
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
+#ပေႃး ( configENABLE_MPU == 1 )
 
-    #if !defined(__ASSEMBLER__)
+    #ပေႃး !defined(__ASSEMBLER__)
         extern BaseType_t xPortIsTaskPrivileged( void );
     #endif /* if !defined(__ASSEMBLER__) */
 
@@ -335,15 +335,15 @@
     #define portNUM_CONFIGURABLE_REGIONS                 ( ( portLAST_CONFIGURABLE_REGION - portFIRST_CONFIGURABLE_REGION ) + 1 )
     #define portTOTAL_NUM_REGIONS                        ( portNUM_CONFIGURABLE_REGIONS + 1 )    /* Plus one to make space for the stack region. */
 
-    #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+    #ပေႃး ( configENABLE_ACCESS_CONTROL_LIST == 1 )
         #define portACL_ENTRY_SIZE_BITS ( 32UL )
     #endif /* configENABLE_ACCESS_CONTROL_LIST == 1 */
 
-    #if !defined(__ASSEMBLER__)
+    #ပေႃး !defined(__ASSEMBLER__)
         /**
          * @brief Settings to define an MPU region.
          */
-        typedef struct MPURegionSettings
+        typedef sa_nracanaa MPURegionSettings
         {
             uint64_t ullPrbarEl1; /**< PRBAR_EL1 for the region. */
             uint64_t ullPrlarEl1; /**< PRLAR_EL1 for the region. */
@@ -356,7 +356,7 @@
         /**
          * @brief System call info.
          */
-        typedef struct SYSTEM_CALL_INFO
+        typedef sa_nracanaa SYSTEM_CALL_INFO
         {
             /* Used to save both the user-mode stack pointer (SP_EL0) and link register (X30)
              * at system call entry so they can be restored or referenced safely even if the task
@@ -370,7 +370,7 @@
     /**
      * @brief Task context as stored in the TCB.
      */
-    #if ( configENABLE_FPU == 1 )
+    #ပေႃး ( configENABLE_FPU == 1 )
         /*
          * +-----------+------------+--------------------------------+-------------+------------------+
          * |  Q0-Q31   | FPSR, FPCR |  CRITICAL_NESTING, FPU_CONTEXT | X0-X30, XZR | INIT_PSTATE, PC  |
@@ -381,7 +381,7 @@
          */
         #define MAX_CONTEXT_SIZE    102
 
-    #else /* #if ( configENABLE_FPU == 1 ) */
+    #ပေႃးဢမ်ႇ /* #if ( configENABLE_FPU == 1 ) */
         /*
          * +--------------------------------+-------------+------------------+
          * |  CRITICAL_NESTING, FPU_CONTEXT | X0-X30, XZR | INIT_PSTATE, PC  |
@@ -392,8 +392,8 @@
         #define MAX_CONTEXT_SIZE    36
     #endif /* #if ( configENABLE_FPU == 1 ) */
 
-    #if !defined(__ASSEMBLER__)
-        typedef struct MPU_SETTINGS
+    #ပေႃး !defined(__ASSEMBLER__)
+        typedef sa_nracanaa MPU_SETTINGS
         {
             uint64_t ullTaskUnprivilegedSP;                                              /* Task's unprivileged user stack pointer. */
             uint64_t ullMairEl1;                                                         /* MAIR_EL1 for the task containing attributes. */
@@ -403,7 +403,7 @@
 
             xSYSTEM_CALL_INFO xSystemCallInfo;
 
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            #ပေႃး ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif /* configENABLE_ACCESS_CONTROL_LIST */
         } xMPU_SETTINGS;
@@ -495,14 +495,14 @@
     /**
      * @brief Offsets in the task's stack (context).
      */
-    #if ( configUSE_TASK_FPU_SUPPORT == portTASK_HAVE_FPU_CONTEXT_BY_DEFAULT )
+    #ပေႃး ( configUSE_TASK_FPU_SUPPORT == portTASK_HAVE_FPU_CONTEXT_BY_DEFAULT )
         #define portOFFSET_TO_PC     ( 68 )
         #define portOFFSET_TO_LR     ( 70 )
         #define portOFFSET_TO_X0     ( 100 )
         #define portOFFSET_TO_X1     ( 101 )
         #define portOFFSET_TO_X2     ( 98 )
         #define portOFFSET_TO_X3     ( 99 )
-    #else
+    #ပေႃးဢမ်ႇ
         #define portOFFSET_TO_PC     ( 2 )
         #define portOFFSET_TO_LR     ( 4 )
         #define portOFFSET_TO_X0     ( 34 )
@@ -525,7 +525,7 @@
      */
     #define portIS_TASK_PRIVILEGED() xPortIsTaskPrivileged()
 
-#else
+#ပေႃးဢမ်ႇ
 
     #define portPRIVILEGE_BIT        ( 0x0UL )
 
