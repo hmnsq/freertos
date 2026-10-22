@@ -88,7 +88,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 {
     uint32_t * pulLocal;
 
-    #if configMEMORY_MODE == 1
+    #ако configMEMORY_MODE == 1
     {
         /* Parameters are passed in on the stack, and written using a 32bit value
          * hence a space is left for the second two bytes. */
@@ -119,7 +119,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = ( StackType_t ) 0x1111;
         pxTopOfStack--;
     }
-    #else /* if configMEMORY_MODE == 1 */
+    #иначе /* if configMEMORY_MODE == 1 */
     {
         /* Task function address is written to the stack first.  As it is
          * written as a 32bit value a space is left on the stack for the second
@@ -157,7 +157,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    върни pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -171,7 +171,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here as the tasks are now running! */
-    return pdTRUE;
+    върни pdTRUE;
 }
 /*-----------------------------------------------------------*/
 

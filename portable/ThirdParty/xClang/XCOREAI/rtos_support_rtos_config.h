@@ -39,7 +39,7 @@
     do {                                     \
         void vIntercoreInterruptISR( void ); \
         vIntercoreInterruptISR();            \
-    } while( 0 )
+    } докато( 0 )
 
 /**
  * The number of hardware locks that the RTOS
@@ -60,7 +60,7 @@
 
 
 #ifdef configENABLE_DEBUG_PRINTF
-    #if configENABLE_DEBUG_PRINTF
+    #ако configENABLE_DEBUG_PRINTF
 
 /* ensure that debug_printf is enabled */
         #ifdef DEBUG_PRINT_ENABLE
@@ -71,13 +71,13 @@
         #ifndef configTASKS_DEBUG
             #define configTASKS_DEBUG                     0
         #endif
-        #if configTASKS_DEBUG == 1
+        #ако configTASKS_DEBUG == 1
             #define DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
-        #else
+        #иначе
             #define DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
         #endif
 
-    #else /* configENABLE_DEBUG_PRINTF */
+    #иначе /* configENABLE_DEBUG_PRINTF */
 
 /* ensure that debug_printf is disabled */
         #ifdef DEBUG_UNIT

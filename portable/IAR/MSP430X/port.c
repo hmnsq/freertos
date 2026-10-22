@@ -95,14 +95,14 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * Some stacked items do not change size depending on the data model so have
      * to be explicitly cast to the correct size so this function will work
      * whichever data model is being used. */
-    if( sizeof( StackType_t ) == sizeof( uint16_t ) )
+    ако( sizeof( StackType_t ) == sizeof( uint16_t ) )
     {
         /* Make room for a 20 bit value stored as a 32 bit value. */
         pusTopOfStack = ( uint16_t * ) pxTopOfStack;
         pusTopOfStack--;
         pulTopOfStack = ( uint32_t * ) pusTopOfStack;
     }
-    else
+    иначе
     {
         pulTopOfStack = ( uint32_t * ) pxTopOfStack;
     }
@@ -143,7 +143,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         pxTopOfStack--;
         *pxTopOfStack = ( StackType_t ) 0x4444;
         pxTopOfStack--;
-    #else /* ifdef PRELOAD_REGISTER_VALUES */
+    #иначе /* ifdef PRELOAD_REGISTER_VALUES */
         pxTopOfStack -= 3;
         *pxTopOfStack = ( StackType_t ) pvParameters;
         pxTopOfStack -= 9;
@@ -157,7 +157,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /* Return a pointer to the top of the stack we have generated so this can
      * be stored in the task control block for the task. */
-    return pxTopOfStack;
+    върни pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 

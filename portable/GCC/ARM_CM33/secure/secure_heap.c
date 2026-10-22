@@ -84,12 +84,12 @@
 /*-----------------------------------------------------------*/
 
 /* Allocate the memory for the heap. */
-#if ( configAPPLICATION_ALLOCATED_HEAP == 1 )
+#ако ( configAPPLICATION_ALLOCATED_HEAP == 1 )
 
 /* The application writer has already defined the array used for the RTOS
 * heap - probably so it can be placed in a special segment or address. */
     extern uint8_t ucHeap[ secureconfigTOTAL_HEAP_SIZE ];
-#else /* configAPPLICATION_ALLOCATED_HEAP */
+#иначе /* configAPPLICATION_ALLOCATED_HEAP */
     static uint8_t ucHeap[ secureconfigTOTAL_HEAP_SIZE ];
 #endif /* configAPPLICATION_ALLOCATED_HEAP */
 
@@ -154,7 +154,7 @@ static void prvHeapInit( void )
     /* Ensure the heap starts on a correctly aligned boundary. */
     uxAddress = ( size_t ) ucHeap;
 
-    if( ( uxAddress & secureportBYTE_ALIGNMENT_MASK ) != 0 )
+    ако( ( uxAddress & secureportBYTE_ALIGNMENT_MASK ) != 0 )
     {
         uxAddress += ( secureportBYTE_ALIGNMENT - 1 );
         uxAddress &= ~( ( size_t ) secureportBYTE_ALIGNMENT_MASK );
@@ -196,7 +196,7 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
 
     /* Iterate through the list until a block is found that has a higher address
      * than the block being inserted. */
-    for( pxIterator = &xStart; pxIterator->pxNextFreeBlock < pxBlockToInsert; pxIterator = pxIterator->pxNextFreeBlock )
+    за( pxIterator = &xStart; pxIterator->pxNextFreeBlock < pxBlockToInsert; pxIterator = pxIterator->pxNextFreeBlock )
     {
         /* Nothing to do here, just iterate to the right position. */
     }
@@ -205,12 +205,12 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
      * make a contiguous block of memory? */
     puc = ( uint8_t * ) pxIterator;
 
-    if( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) pxBlockToInsert )
+    ако( ( puc + pxIterator->xBlockSize ) == ( uint8_t * ) pxBlockToInsert )
     {
         pxIterator->xBlockSize += pxBlockToInsert->xBlockSize;
         pxBlockToInsert = pxIterator;
     }
-    else
+    иначе
     {
         mtCOVERAGE_TEST_MARKER();
     }
@@ -219,20 +219,20 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
      * make a contiguous block of memory? */
     puc = ( uint8_t * ) pxBlockToInsert;
 
-    if( ( puc + pxBlockToInsert->xBlockSize ) == ( uint8_t * ) pxIterator->pxNextFreeBlock )
+    ако( ( puc + pxBlockToInsert->xBlockSize ) == ( uint8_t * ) pxIterator->pxNextFreeBlock )
     {
-        if( pxIterator->pxNextFreeBlock != pxEnd )
+        ако( pxIterator->pxNextFreeBlock != pxEnd )
         {
             /* Form one big block from the two blocks. */
             pxBlockToInsert->xBlockSize += pxIterator->pxNextFreeBlock->xBlockSize;
             pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock->pxNextFreeBlock;
         }
-        else
+        иначе
         {
             pxBlockToInsert->pxNextFreeBlock = pxEnd;
         }
     }
-    else
+    иначе
     {
         pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;
     }
@@ -241,11 +241,11 @@ static void prvInsertBlockIntoFreeList( BlockLink_t * pxBlockToInsert )
      * before and the block after, then it's pxNextFreeBlock pointer will have
      * already been set, and should not be set here as that would make it point
      * to itself. */
-    if( pxIterator != pxBlockToInsert )
+    ако( pxIterator != pxBlockToInsert )
     {
         pxIterator->pxNextFreeBlock = pxBlockToInsert;
     }
-    else
+    иначе
     {
         mtCOVERAGE_TEST_MARKER();
     }
@@ -263,50 +263,50 @@ void * pvPortMalloc( size_t xWantedSize )
 
     /* If this is the first call to malloc then the heap will require
      * initialisation to setup the list of free blocks. */
-    if( pxEnd == NULL )
+    ако( pxEnd == NULL )
     {
         prvHeapInit();
     }
-    else
+    иначе
     {
         mtCOVERAGE_TEST_MARKER();
     }
 
-    if( xWantedSize > 0 )
+    ако( xWantedSize > 0 )
     {
         /* The wanted size must be increased so it can contain a BlockLink_t
          * structure in addition to the requested amount of bytes. */
-        if( secureheapADD_WILL_OVERFLOW( xWantedSize, xHeapStructSize ) == 0 )
+        ако( secureheapADD_WILL_OVERFLOW( xWantedSize, xHeapStructSize ) == 0 )
         {
             xWantedSize += xHeapStructSize;
 
             /* Ensure that blocks are always aligned to the required number
              * of bytes. */
-            if( ( xWantedSize & secureportBYTE_ALIGNMENT_MASK ) != 0x00 )
+            ако( ( xWantedSize & secureportBYTE_ALIGNMENT_MASK ) != 0x00 )
             {
                 /* Byte alignment required. */
                 xAdditionalRequiredSize = secureportBYTE_ALIGNMENT - ( xWantedSize & secureportBYTE_ALIGNMENT_MASK );
 
-                if( secureheapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
+                ако( secureheapADD_WILL_OVERFLOW( xWantedSize, xAdditionalRequiredSize ) == 0 )
                 {
                     xWantedSize += xAdditionalRequiredSize;
                 }
-                else
+                иначе
                 {
                     xWantedSize = 0;
                 }
             }
-            else
+            иначе
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        иначе
         {
             xWantedSize = 0;
         }
     }
-    else
+    иначе
     {
         mtCOVERAGE_TEST_MARKER();
     }
@@ -315,16 +315,16 @@ void * pvPortMalloc( size_t xWantedSize )
      * The top bit of the block size member of the BlockLink_t structure is used
      * to determine who owns the block - the application or the kernel, so it
      * must be free. */
-    if( secureheapBLOCK_SIZE_IS_VALID( xWantedSize ) != 0 )
+    ако( secureheapBLOCK_SIZE_IS_VALID( xWantedSize ) != 0 )
     {
-        if( ( xWantedSize > 0 ) && ( xWantedSize <= xFreeBytesRemaining ) )
+        ако( ( xWantedSize > 0 ) && ( xWantedSize <= xFreeBytesRemaining ) )
         {
             /* Traverse the list from the start (lowest address) block until
              * one of adequate size is found. */
             pxPreviousBlock = &xStart;
             pxBlock = xStart.pxNextFreeBlock;
 
-            while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
+            докато( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
             {
                 pxPreviousBlock = pxBlock;
                 pxBlock = pxBlock->pxNextFreeBlock;
@@ -332,7 +332,7 @@ void * pvPortMalloc( size_t xWantedSize )
 
             /* If the end marker was reached then a block of adequate size was
              * not found. */
-            if( pxBlock != pxEnd )
+            ако( pxBlock != pxEnd )
             {
                 /* Return the memory space pointed to - jumping over the
                  * BlockLink_t structure at its start. */
@@ -344,7 +344,7 @@ void * pvPortMalloc( size_t xWantedSize )
 
                 /* If the block is larger than required it can be split into
                  * two. */
-                if( ( pxBlock->xBlockSize - xWantedSize ) > secureheapMINIMUM_BLOCK_SIZE )
+                ако( ( pxBlock->xBlockSize - xWantedSize ) > secureheapMINIMUM_BLOCK_SIZE )
                 {
                     /* This block is to be split into two.  Create a new
                      * block following the number of bytes requested. The void
@@ -362,18 +362,18 @@ void * pvPortMalloc( size_t xWantedSize )
                     pxNewBlockLink->pxNextFreeBlock = pxPreviousBlock->pxNextFreeBlock;
                     pxPreviousBlock->pxNextFreeBlock = pxNewBlockLink;
                 }
-                else
+                иначе
                 {
                     mtCOVERAGE_TEST_MARKER();
                 }
 
                 xFreeBytesRemaining -= pxBlock->xBlockSize;
 
-                if( xFreeBytesRemaining < xMinimumEverFreeBytesRemaining )
+                ако( xFreeBytesRemaining < xMinimumEverFreeBytesRemaining )
                 {
                     xMinimumEverFreeBytesRemaining = xFreeBytesRemaining;
                 }
-                else
+                иначе
                 {
                     mtCOVERAGE_TEST_MARKER();
                 }
@@ -385,17 +385,17 @@ void * pvPortMalloc( size_t xWantedSize )
                 secureheapALLOCATE_BLOCK( pxBlock );
                 pxBlock->pxNextFreeBlock = NULL;
             }
-            else
+            иначе
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        иначе
         {
             mtCOVERAGE_TEST_MARKER();
         }
     }
-    else
+    иначе
     {
         mtCOVERAGE_TEST_MARKER();
     }
@@ -405,14 +405,14 @@ void * pvPortMalloc( size_t xWantedSize )
     /* Prevent compiler warnings when trace macros are not used. */
     ( void ) xAllocatedBlockSize;
 
-    #if ( secureconfigUSE_MALLOC_FAILED_HOOK == 1 )
+    #ако ( secureconfigUSE_MALLOC_FAILED_HOOK == 1 )
     {
-        if( pvReturn == NULL )
+        ако( pvReturn == NULL )
         {
             extern void vApplicationMallocFailedHook( void );
             vApplicationMallocFailedHook();
         }
-        else
+        иначе
         {
             mtCOVERAGE_TEST_MARKER();
         }
@@ -420,7 +420,7 @@ void * pvPortMalloc( size_t xWantedSize )
     #endif /* if ( secureconfigUSE_MALLOC_FAILED_HOOK == 1 ) */
 
     secureportASSERT( ( ( ( size_t ) pvReturn ) & ( size_t ) secureportBYTE_ALIGNMENT_MASK ) == 0 );
-    return pvReturn;
+    върни pvReturn;
 }
 /*-----------------------------------------------------------*/
 
@@ -429,7 +429,7 @@ void vPortFree( void * pv )
     uint8_t * puc = ( uint8_t * ) pv;
     BlockLink_t * pxLink;
 
-    if( pv != NULL )
+    ако( pv != NULL )
     {
         /* The memory being freed will have an BlockLink_t structure immediately
          * before it. */
@@ -442,9 +442,9 @@ void vPortFree( void * pv )
         secureportASSERT( secureheapBLOCK_IS_ALLOCATED( pxLink ) != 0 );
         secureportASSERT( pxLink->pxNextFreeBlock == NULL );
 
-        if( secureheapBLOCK_IS_ALLOCATED( pxLink ) != 0 )
+        ако( secureheapBLOCK_IS_ALLOCATED( pxLink ) != 0 )
         {
-            if( pxLink->pxNextFreeBlock == NULL )
+            ако( pxLink->pxNextFreeBlock == NULL )
             {
                 /* The block is being returned to the heap - it is no longer
                  * allocated. */
@@ -459,12 +459,12 @@ void vPortFree( void * pv )
                 }
                 secureportENABLE_NON_SECURE_INTERRUPTS();
             }
-            else
+            иначе
             {
                 mtCOVERAGE_TEST_MARKER();
             }
         }
-        else
+        иначе
         {
             mtCOVERAGE_TEST_MARKER();
         }
@@ -474,12 +474,12 @@ void vPortFree( void * pv )
 
 size_t xPortGetFreeHeapSize( void )
 {
-    return xFreeBytesRemaining;
+    върни xFreeBytesRemaining;
 }
 /*-----------------------------------------------------------*/
 
 size_t xPortGetMinimumEverFreeHeapSize( void )
 {
-    return xMinimumEverFreeBytesRemaining;
+    върни xMinimumEverFreeBytesRemaining;
 }
 /*-----------------------------------------------------------*/

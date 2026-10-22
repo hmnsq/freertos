@@ -58,8 +58,8 @@
     #error configENABLE_TRUSTZONE must be defined in FreeRTOSConfig.h.  Set configENABLE_TRUSTZONE to 1 to enable TrustZone or 0 to disable TrustZone.
 #endif /* configENABLE_TRUSTZONE */
 
-#if ( configNUMBER_OF_CORES > 1 )
-    #if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
+#ако ( configNUMBER_OF_CORES > 1 )
+    #ако ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 )
         #error "Multi-core SMP is currently only validated for Cortex-M33 non-TrustZone non-MPU port."
     #endif /* if ( portVALIDATED_FOR_SMP != 1 ) || ( configENABLE_MPU == 1 ) || ( configENABLE_TRUSTZONE == 1 ) ) */
 
@@ -88,7 +88,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#ако ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -98,7 +98,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#иначе
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
@@ -130,17 +130,17 @@ extern void vPortExitCritical( void ) /* PRIVILEGED_FUNCTION */;
 extern uint32_t ulSetInterruptMask( void ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) PRIVILEGED_FUNCTION */;
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#ако ( configENABLE_TRUSTZONE == 1 )
     extern void vPortAllocateSecureContext( uint32_t ulSecureStackSize ); /* __attribute__ (( naked )) */
     extern void vPortFreeSecureContext( uint32_t * pulTCB ) /* __attribute__ (( naked )) PRIVILEGED_FUNCTION */;
 #endif /* configENABLE_TRUSTZONE */
 
-#if ( configENABLE_MPU == 1 )
+#ако ( configENABLE_MPU == 1 )
     extern BaseType_t xIsPrivileged( void ) /* __attribute__ (( naked )) */;
     extern void vResetPrivilege( void ) /* __attribute__ (( naked )) */;
 #endif /* configENABLE_MPU */
 
-#if ( configENABLE_PAC == 1 )
+#ако ( configENABLE_PAC == 1 )
 
     /**
      * @brief Generates 128-bit task's random PAC key.
@@ -156,10 +156,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief MPU specific constants.
  */
-#if ( configENABLE_MPU == 1 )
+#ако ( configENABLE_MPU == 1 )
     #define portUSING_MPU_WRAPPERS    1
     #define portPRIVILEGE_BIT         ( 0x80000000UL )
-#else
+#иначе
     #define portPRIVILEGE_BIT         ( 0x0UL )
 #endif /* configENABLE_MPU */
 
@@ -212,7 +212,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portMPU_REGION_EXECUTE_NEVER                  ( 1UL )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ако ( configENABLE_MPU == 1 )
 
     /**
      * @brief Settings to define an MPU region.
@@ -223,10 +223,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
         uint32_t ulRLAR; /**< RLAR for the region. */
     } MPURegionSettings_t;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #ако ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
         #ifndef configSYSTEM_CALL_STACK_SIZE
-            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2.
+            #error configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words за using MPU wrappers v2.
         #endif
 
         /**
@@ -247,9 +247,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     /**
      * @brief MPU settings as stored in the TCB.
      */
-    #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
+    #ако ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) )
 
-        #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
+        #ако ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +-----------+---------------+----------+-----------------+------------------------------+------------+-----+
@@ -288,7 +288,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    58
 
-        #else /* if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
+        #иначе /* if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
             /*
              * +-----------+---------------+----------+-----------------+----------------------+-----+
@@ -303,9 +303,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 
         #endif /* #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) ) */
 
-    #else /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
+    #иначе /* #if ( ( configENABLE_FPU == 1 ) || ( configENABLE_MVE == 1 ) ) */
 
-        #if ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
+        #ако ( ( configENABLE_TRUSTZONE == 1 ) && ( configENABLE_PAC == 1 ) )
 
             /*
              * +----------+-----------------+------------------------------+------------+-----+
@@ -344,7 +344,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
              */
             #define MAX_CONTEXT_SIZE    25
 
-        #else /* #if( configENABLE_TRUSTZONE == 1 ) */
+        #иначе /* #if( configENABLE_TRUSTZONE == 1 ) */
 
             /*
              * +----------+-----------------+----------------------+-----+
@@ -375,9 +375,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
         uint32_t ulContext[ MAX_CONTEXT_SIZE ];
         uint32_t ulTaskFlags;
 
-        #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+        #ако ( configUSE_MPU_WRAPPERS_V1 == 0 )
             xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-            #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+            #ако ( configENABLE_ACCESS_CONTROL_LIST == 1 )
                 uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
             #endif
         #endif
@@ -390,8 +390,8 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * @brief Validate priority of ISRs that are allowed to call FreeRTOS
  * system calls.
  */
-#if ( configASSERT_DEFINED == 1 )
-    #if ( portHAS_ARMV8M_MAIN_EXTENSION == 1 )
+#ако ( configASSERT_DEFINED == 1 )
+    #ако ( portHAS_ARMV8M_MAIN_EXTENSION == 1 )
         void vPortValidateInterruptPriority( void );
         #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
     #endif
@@ -411,10 +411,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Scheduler utilities.
  */
-#if ( configENABLE_MPU == 1 )
+#ако ( configENABLE_MPU == 1 )
     #define portYIELD()               __asm volatile ( "svc %0" ::"i" ( portSVC_YIELD ) : "memory" )
     #define portYIELD_WITHIN_API()    vPortYield()
-#else
+#иначе
     #define portYIELD()               vPortYield()
     #define portYIELD_WITHIN_API()    vPortYield()
 #endif
@@ -424,16 +424,16 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
     do                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        ако( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        иначе                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } докато( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -446,10 +446,10 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portSET_INTERRUPT_MASK_FROM_ISR()         ulSetInterruptMask()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( x )    vClearInterruptMask( x )
 
-#if ( configNUMBER_OF_CORES == 1 )
+#ако ( configNUMBER_OF_CORES == 1 )
     #define portENTER_CRITICAL()                      vPortEnterCritical()
     #define portEXIT_CRITICAL()                       vPortExitCritical()
-#else /* ( configNUMBER_OF_CORES == 1 ) */
+#иначе /* ( configNUMBER_OF_CORES == 1 ) */
     extern void vTaskEnterCritical( void );
     extern void vTaskExitCritical( void );
     extern UBaseType_t vTaskEnterCriticalFromISR( void );
@@ -478,7 +478,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_TRUSTZONE == 1 )
+#ако ( configENABLE_TRUSTZONE == 1 )
 
 /**
  * @brief Allocate a secure context for the task.
@@ -501,7 +501,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 #endif /* configENABLE_TRUSTZONE */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ако ( configENABLE_MPU == 1 )
 
 /**
  * @brief Checks whether or not the processor is privileged.
@@ -524,14 +524,14 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
  * register.
  */
     #define portRESET_PRIVILEGE()    vResetPrivilege()
-#else
+#иначе
     #define portIS_PRIVILEGED()
     #define portRAISE_PRIVILEGE()
     #define portRESET_PRIVILEGE()
 #endif /* configENABLE_MPU */
 /*-----------------------------------------------------------*/
 
-#if ( configENABLE_MPU == 1 )
+#ако ( configENABLE_MPU == 1 )
 
     extern BaseType_t xPortIsTaskPrivileged( void );
 
@@ -554,9 +554,9 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /* Select correct value of configUSE_PORT_OPTIMISED_TASK_SELECTION
  * based on whether or not Mainline extension is implemented. */
 #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
-    #if ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( configNUMBER_OF_CORES == 1 ) )
+    #ако ( ( portHAS_ARMV8M_MAIN_EXTENSION == 1 ) && ( configNUMBER_OF_CORES == 1 ) )
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
-    #else
+    #иначе
         #define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
     #endif
 #endif /* #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -564,7 +564,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /**
  * @brief Port-optimised task selection.
  */
-#if ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
+#ако ( configUSE_PORT_OPTIMISED_TASK_SELECTION == 1 )
 
 /**
  * @brief Count the number of leading zeros in a 32-bit value.
@@ -575,15 +575,15 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 
         __asm volatile ( "clz %0, %1" : "=r" ( ulReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ulReturn;
+        върни ulReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #ако ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 different priorities as tasks that share a priority will time slice.
     #endif
 
-    #if ( portHAS_ARMV8M_MAIN_EXTENSION == 0 )
+    #ако ( portHAS_ARMV8M_MAIN_EXTENSION == 0 )
         #error ARMv8-M baseline implementations (such as Cortex-M23) do not support port-optimised task selection.  Please set configUSE_PORT_OPTIMISED_TASK_SELECTION to 0 or leave it undefined.
     #endif
 
@@ -602,7 +602,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
 /*-----------------------------------------------------------*/
 
 
-#if ( configNUMBER_OF_CORES > 1 )
+#ако ( configNUMBER_OF_CORES > 1 )
     typedef enum
     {
         eIsrLock = 0,
@@ -634,7 +634,7 @@ extern void vClearInterruptMask( uint32_t ulMask ) /* __attribute__(( naked )) P
     #define portRELEASE_TASK_LOCK( xCoreID )                   vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdFALSE )
     #define portGET_TASK_LOCK( xCoreID )                       vPortRecursiveLock( ( uint8_t ) xCoreID, eTaskLock, pdTRUE )
 
-    #if ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
+    #ако ( ( configENABLE_PAC == 1 ) || ( configENABLE_BTI == 1 ) )
         uint32_t vConfigurePACBTI( BaseType_t xWriteControlRegister );
     #endif /* ( configENABLE_PAC == 1 || configENABLE_BTI == 1 ) */
 #endif

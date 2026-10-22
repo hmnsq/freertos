@@ -25,7 +25,7 @@ void ** xcorePvtTCBContainer;
 
 void vIntercoreInterruptISR( void )
 {
-    int xCoreID;
+    цяло xCoreID;
 
 /*	debug_printf( "In KCALL: %u\n", ulData ); */
     xCoreID = rtos_core_id_get();
@@ -37,7 +37,7 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
 {
     uint32_t ulLastTrigger;
     uint32_t ulNow;
-    int xCoreID;
+    цяло xCoreID;
     UBaseType_t uxSavedInterruptStatus;
 
     xCoreID = 0;
@@ -53,7 +53,7 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
      * want to schedule the next interrupt to be in the past. */
     ulNow = hwtimer_get_time( xKernelTimer );
 
-    if( ulNow - ulLastTrigger >= configCPU_CLOCK_HZ / configTICK_RATE_HZ )
+    ако( ulNow - ulLastTrigger >= configCPU_CLOCK_HZ / configTICK_RATE_HZ )
     {
         ulLastTrigger = ulNow;
     }
@@ -61,13 +61,13 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
     ulLastTrigger += configCPU_CLOCK_HZ / configTICK_RATE_HZ;
     hwtimer_change_trigger_time( xKernelTimer, ulLastTrigger );
 
-    #if configUPDATE_RTOS_TIME_FROM_TICK_ISR == 1
+    #ако configUPDATE_RTOS_TIME_FROM_TICK_ISR == 1
         rtos_time_increment( RTOS_TICK_PERIOD( configTICK_RATE_HZ ) );
     #endif
 
     uxSavedInterruptStatus = taskENTER_CRITICAL_FROM_ISR();
 
-    if( xTaskIncrementTick() != pdFALSE )
+    ако( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired[ xCoreID ] = pdTRUE;
     }
@@ -76,9 +76,9 @@ DEFINE_RTOS_INTERRUPT_CALLBACK( pxKernelTimerISR, pvData )
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldOtherCore( int xOtherCoreID )
+void vPortYieldOtherCore( цяло xOtherCoreID )
 {
-    int xCoreID;
+    цяло xCoreID;
 
     /*
      * This function must be called from within a critical section.
@@ -94,9 +94,9 @@ void vPortYieldOtherCore( int xOtherCoreID )
 }
 /*-----------------------------------------------------------*/
 
-static int prvCoreInit( void )
+static цяло prvCoreInit( void )
 {
-    int xCoreID;
+    цяло xCoreID;
 
     xCoreID = rtos_core_register();
     debug_printf( "Logical Core %d initializing as FreeRTOS Core %d\n", get_logical_core_id(), xCoreID );
@@ -114,11 +114,11 @@ static int prvCoreInit( void )
     /*
      * All threads wait here until all have enabled IRQs
      */
-    while( rtos_irq_ready() == pdFALSE )
+    докато( rtos_irq_ready() == pdFALSE )
     {
     }
 
-    if( xCoreID == 0 )
+    ако( xCoreID == 0 )
     {
         uint32_t ulNow;
         ulNow = hwtimer_get_time( xKernelTimer );
@@ -131,17 +131,17 @@ static int prvCoreInit( void )
         triggerable_enable_trigger( xKernelTimer );
     }
 
-    return xCoreID;
+    върни xCoreID;
 }
 /*-----------------------------------------------------------*/
 
 DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
 {
-    int xCoreID;
+    цяло xCoreID;
 
     xCoreID = prvCoreInit();
 
-    #if ( configUSE_CORE_INIT_HOOK == 1 )
+    #ако ( configUSE_CORE_INIT_HOOK == 1 )
     {
         extern void vApplicationCoreInitHook( BaseType_t xCoreID );
 
@@ -150,7 +150,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
     #endif
 
     /* Populate the TCBContainer depending on whether we're singlecore or SMP */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #ако ( configNUMBER_OF_CORES == 1 )
     {
         asm volatile (
             "ldaw %0, dp[pxCurrentTCB]\n\t"
@@ -159,7 +159,7 @@ DEFINE_RTOS_KERNEL_ENTRY( void, vPortStartSchedulerOnCore, void )
             : /* no clobbers */
             );
     }
-    #else
+    #иначе
     {
         asm volatile (
             "ldaw %0, dp[pxCurrentTCBs]\n\t"
@@ -261,7 +261,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     /*
      * Returns the new top of the stack
      */
-    return pxTopOfStack;
+    върни pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -272,9 +272,9 @@ void vPortStartSMPScheduler( void );
  */
 BaseType_t xPortStartScheduler( void )
 {
-    if( ( configNUMBER_OF_CORES > portMAX_CORE_COUNT ) || ( configNUMBER_OF_CORES <= 0 ) )
+    ако( ( configNUMBER_OF_CORES > portMAX_CORE_COUNT ) || ( configNUMBER_OF_CORES <= 0 ) )
     {
-        return pdFAIL;
+        върни pdFAIL;
     }
 
     rtos_locks_initialize();
@@ -282,7 +282,7 @@ BaseType_t xPortStartScheduler( void )
 
     vPortStartSMPScheduler();
 
-    return pdPASS;
+    върни pdPASS;
 }
 /*-----------------------------------------------------------*/
 

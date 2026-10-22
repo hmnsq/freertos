@@ -41,7 +41,7 @@ extern "C" {
     #define portMPU_TOTAL_REGIONS ( 12UL )
 #elif( configTOTAL_MPU_REGIONS == 16 )
     #define portMPU_TOTAL_REGIONS ( 16UL )
-#else
+#иначе
     #error "Set configTOTAL_MPU_REGIONS to the number of MPU regions in FreeRTOSConfig.h"
 #endif /* configTOTAL_MPU_REGIONS */
 
@@ -241,7 +241,7 @@ extern "C" {
  *
  */
 
-#if( portENABLE_FPU == 1 )
+#ако( portENABLE_FPU == 1 )
     /*
      * +-------------------+-------+----------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | FPSCR |  S0-S31  | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |
@@ -251,7 +251,7 @@ extern "C" {
      *           1            1        32         13         1         1          1        1
      */
     #define CONTEXT_SIZE 51U
-#else
+#иначе
     /*
      * +-------------------+--------+----------+----------+----------+------+
      * | ulCriticalNesting | R0-R12 | SP (R13) | LR (R14) | PC (R15) | CPSR |

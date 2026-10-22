@@ -96,24 +96,24 @@ extern volatile avr32_usart_t * volatile stdio_usart_base;
  * \return The number of bytes read, \c 0 at the end of the file, or
  *         \c _LLIO_ERROR on failure.
  */
-size_t __read( int handle,
+size_t __read( цяло handle,
                uint8_t * buffer,
                size_t size )
 {
-    int nChars = 0;
+    цяло nChars = 0;
 
     /* This implementation only reads from stdin. */
     /* For all other file handles, it returns failure. */
-    if( handle != _LLIO_STDIN )
+    ако( handle != _LLIO_STDIN )
     {
-        return _LLIO_ERROR;
+        върни _LLIO_ERROR;
     }
 
-    for( ; size > 0; --size )
+    за( ; size > 0; --size )
     {
-        int c = usart_getchar( stdio_usart_base );
+        цяло c = usart_getchar( stdio_usart_base );
 
-        if( c < 0 )
+        ако( c < 0 )
         {
             break;
         }
@@ -122,7 +122,7 @@ size_t __read( int handle,
         ++nChars;
     }
 
-    return nChars;
+    върни nChars;
 }
 
 
