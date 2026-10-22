@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -66,29 +66,29 @@
 
 /* Type definitions - these are a bit legacy and not really used now, other than
  * portSTACK_TYPE and portBASE_TYPE. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          حرف
+#define portFLOAT         عائم
+#define portDOUBLE        مزدوج
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_تيندنن_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+تعريفنوع port_تيندنن_TYPE   تيندنن_Type_t;
+تعريفنوع long             BaseType_t;
+تعريفنوع unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#إذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
@@ -96,16 +96,16 @@ typedef unsigned long    UBaseType_t;
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    8         /* Could make four, according to manual. */
-#define portSTACK_GROWTH      -1
+#define port_تيندنن_GROWTH      -1
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()    __asm volatile ( "NOP" )
+#define portNOP()    __asm متطاير ( "NOP" )
 
 /* Yield equivalent to "*portITU_SWINTR = 0x01; ( void ) *portITU_SWINTR;"
  * where portITU_SWINTR is the location of the software interrupt register
  * (0x000872E0).  Don't rely on the assembler to select a register, so instead
  * save and restore clobbered registers manually. */
 #define portYIELD()                     \
-    __asm volatile                      \
+    __asm متطاير                      \
     (                                   \
         "PUSH.L R10                 \n" \
         "MOV.L  #0x872E0, R10       \n" \
@@ -115,7 +115,7 @@ typedef unsigned long    UBaseType_t;
         ::: "cc"                        \
     )
 
-#define portYIELD_FROM_ISR( x )    do { if( ( x ) != pdFALSE ) portYIELD( ); } while( 0 )
+#define portYIELD_FROM_ISR( x )    افعل { إذا( ( x ) != pdFALSE ) portYIELD( ); } طالما( 0 )
 
 /* Workaround to reduce errors/warnings caused by e2 studio CDT's INDEXER and CODAN. */
 #ifdef __CDT_PARSER__
@@ -136,34 +136,34 @@ typedef unsigned long    UBaseType_t;
  * functions are those that end in FromISR.  FreeRTOS maintains a separate
  * interrupt API to ensure API function and interrupt entry is as fast and as
  * simple as possible. */
-#define portENABLE_INTERRUPTS()                           __asm volatile ( "MVTIPL  #0" )
-#if ( configASSERT_DEFINED == 1 )
+#define portENABLE_INTERRUPTS()                           __asm متطاير ( "MVTIPL  #0" )
+#إذا ( configASSERT_DEFINED == 1 )
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    configASSERT( ( ulPortGetIPL() <= configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-    #define portDISABLE_INTERRUPTS()                      if( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm volatile( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
-#else
-    #define portDISABLE_INTERRUPTS()                      __asm volatile ( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+    #define portDISABLE_INTERRUPTS()                      إذا( ulPortGetIPL() < configMAX_SYSCALL_INTERRUPT_PRIORITY ) __asm متطاير( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
+#وإلا
+    #define portDISABLE_INTERRUPTS()                      __asm متطاير ( "MVTIPL  %0" ::"i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) )
 #endif
 
 /* Critical nesting counts are stored in the TCB. */
 #define portCRITICAL_NESTING_IN_TCB    ( 1 )
 
 /* The critical nesting functions defined within tasks.c. */
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+خارجي فراغ vTaskEnterCritical( فراغ );
+خارجي فراغ vTaskExitCritical( فراغ );
 #define portENTER_CRITICAL()    vTaskEnterCritical()
 #define portEXIT_CRITICAL()     vTaskExitCritical()
 
 /* As this port allows interrupt nesting... */
-uint32_t ulPortGetIPL( void ) __attribute__( ( naked ) );
-void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
+uint32_t ulPortGetIPL( فراغ ) __attribute__( ( naked ) );
+فراغ vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
 #define portSET_INTERRUPT_MASK_FROM_ISR()                              ulPortGetIPL(); portDISABLE_INTERRUPTS()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedInterruptStatus )    vPortSetIPL( uxSavedInterruptStatus )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    فراغ vFunction( فراغ * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          فراغ vFunction( فراغ * pvParameters )
 
 /*-----------------------------------------------------------*/
 
@@ -172,9 +172,9 @@ void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
  * themselves a DPFPU context before using any DPFPU instructions.  If
  * configUSE_TASK_DPFPU_SUPPORT is set to 2 then all tasks will have a DPFPU context
  * by default. */
-#if ( configUSE_TASK_DPFPU_SUPPORT == 1 )
-    void vPortTaskUsesDPFPU( void );
-#else
+#إذا ( configUSE_TASK_DPFPU_SUPPORT == 1 )
+    فراغ vPortTaskUsesDPFPU( فراغ );
+#وإلا
 
 /* Each task has a DPFPU context already, so define this function away to
  * nothing to prevent it being called accidentally. */
@@ -185,7 +185,7 @@ void vPortSetIPL( uint32_t ulNewIPL ) __attribute__( ( naked ) );
 /* Definition to allow compatibility with existing FreeRTOS Demo using flop.c. */
 #define portTASK_USES_FLOATING_POINT()    vPortTaskUsesDPFPU()
 
-#define portMEMORY_BARRIER()              __asm volatile ( "" ::: "memory" )
+#define portMEMORY_BARRIER()              __asm متطاير ( "" ::: "memory" )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

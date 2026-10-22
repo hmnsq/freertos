@@ -26,8 +26,8 @@
  *
  */
 
-#ifndef STACK_MACROS_H
-#define STACK_MACROS_H
+#ifndef تيندنن_MACROS_H
+#define تيندنن_MACROS_H
 
 /*
  * Call the stack overflow hook function if the stack of the task being swapped
@@ -49,8 +49,8 @@
  * portSTACK_LIMIT_PADDING is a number of extra words to consider to be in
  * use on the stack.
  */
-#ifndef portSTACK_LIMIT_PADDING
-    #define portSTACK_LIMIT_PADDING    0
+#ifndef port_تيندنن_LIMIT_PADDING
+    #define port_تيندنن_LIMIT_PADDING    0
 #endif
 
 /* Stack overflow check is not straight forward to implement for MPU ports
@@ -64,90 +64,90 @@
  * Additionally, architectures with hardware stack overflow checking support
  * (such as Armv8-M) will trigger a fault when a task's stack overflows.
  */
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#إذا ( ( config_CHECK_FOR_تيندنن_OVERFLOW == 1 ) && ( port_تيندنن_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                      \
-    do                                                                                          \
+    #define task_CHECK_FOR_تيندنن_OVERFLOW()                                                      \
+    افعل                                                                                          \
     {                                                                                           \
         /* Is the currently saved stack pointer within the stack limit? */                      \
-        if( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING )     \
+        إذا( pxCurrentTCB->px_اتس_Of_تيندنن <= pxCurrentTCB->px_تيندنن + port_تيندنن_LIMIT_PADDING )     \
         {                                                                                       \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
+            حرف * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                               \
+            v_Application_تيندنن_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName ); \
         }                                                                                       \
-    } while( 0 )
+    } طالما( 0 )
 
 #endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW == 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#إذا ( ( config_CHECK_FOR_تيندنن_OVERFLOW == 1 ) && ( port_تيندنن_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
 /* Only the current stack state is to be checked. */
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #define task_CHECK_FOR_تيندنن_OVERFLOW()                                                       \
+    افعل                                                                                           \
     {                                                                                            \
         /* Is the currently saved stack pointer within the stack limit? */                       \
-        if( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) \
+        إذا( pxCurrentTCB->px_اتس_Of_تيندنن >= pxCurrentTCB->px_End_Of_تيندنن - port_تيندنن_LIMIT_PADDING ) \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            حرف * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
+            v_Application_تيندنن_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
         }                                                                                        \
-    } while( 0 )
+    } طالما( 0 )
 
 #endif /* configCHECK_FOR_STACK_OVERFLOW == 1 */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#إذا ( ( config_CHECK_FOR_تيندنن_OVERFLOW > 1 ) && ( port_تيندنن_GROWTH < 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                       \
-    do                                                                                           \
+    #define task_CHECK_FOR_تيندنن_OVERFLOW()                                                       \
+    افعل                                                                                           \
     {                                                                                            \
-        const uint32_t * const pulStack = ( uint32_t * ) pxCurrentTCB->pxStack;                  \
-        const uint32_t ulCheckValue = ( uint32_t ) 0xa5a5a5a5U;                                  \
+        ثابت uint32_t * ثابت pul_تيندنن = ( uint32_t * ) pxCurrentTCB->px_تيندنن;                  \
+        ثابت uint32_t ul_Check_نيلاي = ( uint32_t ) 0xa5a5a5a5U;                                  \
                                                                                                  \
-        if( ( pxCurrentTCB->pxTopOfStack <= pxCurrentTCB->pxStack + portSTACK_LIMIT_PADDING ) || \
-            ( pulStack[ 0 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 1 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 2 ] != ulCheckValue ) ||                                                 \
-            ( pulStack[ 3 ] != ulCheckValue ) )                                                  \
+        إذا( ( pxCurrentTCB->px_اتس_Of_تيندنن <= pxCurrentTCB->px_تيندنن + port_تيندنن_LIMIT_PADDING ) || \
+            ( pul_تيندنن[ 0 ] != ul_Check_نيلاي ) ||                                                 \
+            ( pul_تيندنن[ 1 ] != ul_Check_نيلاي ) ||                                                 \
+            ( pul_تيندنن[ 2 ] != ul_Check_نيلاي ) ||                                                 \
+            ( pul_تيندنن[ 3 ] != ul_Check_نيلاي ) )                                                  \
         {                                                                                        \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
+            حرف * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                \
+            v_Application_تيندنن_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );  \
         }                                                                                        \
-    } while( 0 )
+    } طالما( 0 )
 
 #endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( ( configCHECK_FOR_STACK_OVERFLOW > 1 ) && ( portSTACK_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
+#إذا ( ( config_CHECK_FOR_تيندنن_OVERFLOW > 1 ) && ( port_تيندنن_GROWTH > 0 ) && ( portUSING_MPU_WRAPPERS != 1 ) )
 
-    #define taskCHECK_FOR_STACK_OVERFLOW()                                                                                                \
-    do                                                                                                                                    \
+    #define task_CHECK_FOR_تيندنن_OVERFLOW()                                                                                                \
+    افعل                                                                                                                                    \
     {                                                                                                                                     \
-        int8_t * pcEndOfStack = ( int8_t * ) pxCurrentTCB->pxEndOfStack;                                                                  \
-        static const uint8_t ucExpectedStackBytes[] = { tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE,   \
-                                                        tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE, tskSTACK_FILL_BYTE }; \
+        int8_t * pc_End_Of_تيندنن = ( int8_t * ) pxCurrentTCB->px_End_Of_تيندنن;                                                                  \
+        ساكن ثابت uint8_t uc_Expected_تيندنن_Bytes[] = { tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE,   \
+                                                        tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE,   \
+                                                        tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE,   \
+                                                        tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE,   \
+                                                        tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE, tsk_تيندنن_FILL_BYTE }; \
                                                                                                                                           \
-        pcEndOfStack -= sizeof( ucExpectedStackBytes );                                                                                   \
+        pc_End_Of_تيندنن -= حجم( uc_Expected_تيندنن_Bytes );                                                                                   \
                                                                                                                                           \
-        if( ( pxCurrentTCB->pxTopOfStack >= pxCurrentTCB->pxEndOfStack - portSTACK_LIMIT_PADDING ) ||                                     \
-            ( memcmp( ( void * ) pcEndOfStack, ( void * ) ucExpectedStackBytes, sizeof( ucExpectedStackBytes ) ) != 0 ) )                 \
+        إذا( ( pxCurrentTCB->px_اتس_Of_تيندنن >= pxCurrentTCB->px_End_Of_تيندنن - port_تيندنن_LIMIT_PADDING ) ||                                     \
+            ( memcmp( ( فراغ * ) pc_End_Of_تيندنن, ( فراغ * ) uc_Expected_تيندنن_Bytes, حجم( uc_Expected_تيندنن_Bytes ) ) != 0 ) )                 \
         {                                                                                                                                 \
-            char * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
-            vApplicationStackOverflowHook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
+            حرف * pcOverflowTaskName = pxCurrentTCB->pcTaskName;                                                                         \
+            v_Application_تيندنن_Overflow_Hook( ( TaskHandle_t ) pxCurrentTCB, pcOverflowTaskName );                                           \
         }                                                                                                                                 \
-    } while( 0 )
+    } طالما( 0 )
 
 #endif /* #if( configCHECK_FOR_STACK_OVERFLOW > 1 ) */
 /*-----------------------------------------------------------*/
 
 /* Remove stack overflow macro if not being used. */
-#ifndef taskCHECK_FOR_STACK_OVERFLOW
-    #define taskCHECK_FOR_STACK_OVERFLOW()
+#ifndef task_CHECK_FOR_تيندنن_OVERFLOW
+    #define task_CHECK_FOR_تيندنن_OVERFLOW()
 #endif
 
 

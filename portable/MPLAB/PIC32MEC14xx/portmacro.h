@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    خارجي "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,32 +46,32 @@
  */
 
 /* Type definitions. */
-#define portCHAR        char
-#define portFLOAT       float
-#define portDOUBLE      double
+#define portCHAR        حرف
+#define portFLOAT       عائم
+#define portDOUBLE      مزدوج
 #define portLONG        long
 #define portSHORT       short
-#define portSTACK_TYPE  uint32_t
+#define port_تيندنن_TYPE  uint32_t
 #define portBASE_TYPE   long
 
-typedef portSTACK_TYPE StackType_t;
-typedef long BaseType_t;
-typedef unsigned long UBaseType_t;
+تعريفنوع port_تيندنن_TYPE تيندنن_Type_t;
+تعريفنوع long BaseType_t;
+تعريفنوع unsigned long UBaseType_t;
 
-#if( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t TickType_t;
+#إذا( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    تعريفنوع uint16_t TickType_t;
     #define portMAX_DELAY ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t             TickType_t;
+#وإلاإذا ( configTICK_TYPE_WIDTH_IN_BITS  == TICK_TYPE_WIDTH_32_BITS )
+    تعريفنوع uint32_t             TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffffffffUL
-#else
+#وإلا
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT  8
-#define portSTACK_GROWTH    -1
+#define port_تيندنن_GROWTH    -1
 #define portTICK_PERIOD_MS  ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 /*-----------------------------------------------------------*/
 
@@ -83,27 +83,27 @@ never have higher IPL bits set anyway. */
 #define portSW0_BIT         ( 0x01 << 8 )
 
 /* Interrupt priority conversion */
-#define portIPL_TO_CODE( iplNumber )    ( ( iplNumber >> 1 ) & 0x03ul )
+#define portIPL_TO_CODE( ipl_نومبور )    ( ( ipl_نومبور >> 1 ) & 0x03ul )
 #define portCODE_TO_IPL( iplCode )      ( ( iplCode << 1 ) | 0x01ul )
 
 /*-----------------------------------------------------------*/
 
-static inline uint32_t ulPortGetCP0Status( void )
+ساكن مضمن uint32_t ulPortGetCP0Status( فراغ )
 {
 uint32_t rv;
 
-    __asm volatile(
+    __asm متطاير(
             "\n\t"
             "mfc0 %0,$12,0      \n\t"
             : "=r" ( rv ) :: );
 
-    return rv;
+    أرجع rv;
 }
 /*-----------------------------------------------------------*/
 
-static inline void vPortSetCP0Status( uint32_t new_status)
+ساكن مضمن فراغ vPortSetCP0Status( uint32_t new_status)
 {
-    ( void ) new_status;
+    ( فراغ ) new_status;
 
     __asm__ __volatile__(
             "\n\t"
@@ -114,22 +114,22 @@ static inline void vPortSetCP0Status( uint32_t new_status)
 }
 /*-----------------------------------------------------------*/
 
-static inline uint32_t ulPortGetCP0Cause( void )
+ساكن مضمن uint32_t ulPortGetCP0Cause( فراغ )
 {
 uint32_t rv;
 
-    __asm volatile(
+    __asm متطاير(
             "\n\t"
             "mfc0 %0,$13,0      \n\t"
             : "=r" ( rv ) :: );
 
-    return rv;
+    أرجع rv;
 }
 /*-----------------------------------------------------------*/
 
-static inline void vPortSetCP0Cause( uint32_t new_cause )
+ساكن مضمن فراغ vPortSetCP0Cause( uint32_t new_cause )
 {
-    ( void ) new_cause;
+    ( فراغ ) new_cause;
 
     __asm__ __volatile__(
             "\n\t"
@@ -148,20 +148,20 @@ value was found to be above configMAX_SYSCALL_INTERRUPT_PRIORITY when an ISR
 safe FreeRTOS API function was executed.  ISR safe FreeRTOS API functions are
 those that end in FromISR.  FreeRTOS maintains a separate interrupt API to
 ensure API function and interrupt entry is as fast and as simple as possible. */
-#if ( configASSERT_DEFINED == 1 )
+#إذا ( configASSERT_DEFINED == 1 )
     #define portDISABLE_INTERRUPTS()                                                                            \
     {                                                                                                           \
     uint32_t ulStatus;                                                                                          \
         /* Mask interrupts at and below the kernel interrupt priority. */                                       \
         ulStatus = ulPortGetCP0Status();                                                                        \
         /* Is the current IPL below configMAX_SYSCALL_INTERRUPT_PRIORITY? */                                    \
-        if( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY )       \
+        إذا( ( ( ulStatus & portALL_IPL_BITS ) >> portIPL_SHIFT ) < configMAX_SYSCALL_INTERRUPT_PRIORITY )       \
         {                                                                                                       \
             ulStatus &= ~portALL_IPL_BITS;                                                                      \
             vPortSetCP0Status( ( ulStatus | ( configMAX_SYSCALL_INTERRUPT_PRIORITY << portIPL_SHIFT ) ) );      \
         }                                                                                                       \
     }
-#else /* configASSERT */
+#وإلا /* configASSERT */
     #define portDISABLE_INTERRUPTS()                                                                            \
     {                                                                                                           \
     uint32_t ulStatus;                                                                                          \
@@ -182,14 +182,14 @@ uint32_t ulStatus;                          \
 }
 
 
-extern void vTaskEnterCritical( void );
-extern void vTaskExitCritical( void );
+خارجي فراغ vTaskEnterCritical( فراغ );
+خارجي فراغ vTaskExitCritical( فراغ );
 #define portCRITICAL_NESTING_IN_TCB 1
 #define portENTER_CRITICAL()        vTaskEnterCritical()
 #define portEXIT_CRITICAL()         vTaskExitCritical()
 
-extern UBaseType_t uxPortSetInterruptMaskFromISR();
-extern void vPortClearInterruptMaskFromISR( UBaseType_t );
+خارجي UBaseType_t uxPortSetInterruptMaskFromISR();
+خارجي فراغ vPortClearInterruptMaskFromISR( UBaseType_t );
 #define portSET_INTERRUPT_MASK_FROM_ISR() uxPortSetInterruptMaskFromISR()
 #define portCLEAR_INTERRUPT_MASK_FROM_ISR( uxSavedStatusRegister ) vPortClearInterruptMaskFromISR( uxSavedStatusRegister )
 
@@ -197,10 +197,10 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#إذا configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
     /* Check the configuration. */
-    #if( configMAX_PRIORITIES > 32 )
+    #إذا( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -210,7 +210,7 @@ extern void vPortClearInterruptMaskFromISR( UBaseType_t );
 
     /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31 - _clz( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_اتس_Priority, uxReadyPriorities ) ux_اتس_Priority = ( 31 - _clz( ( uxReadyPriorities ) ) )
 
 #endif /* taskRECORD_READY_PRIORITY */
 
@@ -227,31 +227,31 @@ uint32_t ulCause;                           \
     vPortSetCP0Cause( ulCause );            \
 }
 
-extern volatile UBaseType_t uxInterruptNesting;
+خارجي متطاير UBaseType_t uxInterruptNesting;
 #define portASSERT_IF_IN_ISR() configASSERT( uxInterruptNesting == 0 )
 
-#define portNOP() __asm volatile ( "nop" )
+#define portNOP() __asm متطاير ( "nop" )
 
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters ) __attribute__((noreturn))
-#define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters ) __attribute__((noreturn))
+#define portTASK_FUNCTION( vFunction, pvParameters ) فراغ vFunction( فراغ *pvParameters )
 /*-----------------------------------------------------------*/
 
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    افعل                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        إذا( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        وإلا                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } طالما( 0 )
 
 /* Required by the kernel aware debugger. */
 #ifdef __DEBUG
