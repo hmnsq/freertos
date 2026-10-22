@@ -17,29 +17,29 @@
  * it is OK to store words at SP[0]. Therefore the ISR must leave SP[0] alone
  * even though it is normally not necessary to do so.
  */
-#define RTOS_SUPPORT_INTERRUPT_STACK_GROWTH        ( 44 + 1 )
+#define RTOS_SUPPORT_INTERRUPT_স্তূপ_GROWTH        ( 44 + 1 )
 
 /**
  * The word offset into the stack where R1 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R1_STACK_OFFSET     9
+#define RTOS_SUPPORT_INTERRUPT_R1_স্তূপ_OFFSET     9
 
 /**
  * The word offset into the stack where R11 is to be stored after it
  * is extended when saving a thread's context.
  */
-#define RTOS_SUPPORT_INTERRUPT_R11_STACK_OFFSET    19
+#define RTOS_SUPPORT_INTERRUPT_R11_স্তূপ_OFFSET    19
 
 /**
  * The RTOS provided handler that should run when a
  * core receives an intercore interrupt request.
  */
 #define RTOS_INTERCORE_INTERRUPT_ISR()       \
-    do {                                     \
-        void vIntercoreInterruptISR( void ); \
+    কুরু {                                     \
+        শূন্য vIntercoreInterruptISR( শূন্য ); \
         vIntercoreInterruptISR();            \
-    } while( 0 )
+    } যাবত্( 0 )
 
 /**
  * The number of hardware locks that the RTOS
@@ -49,7 +49,7 @@
  * Note that the IRQ routines require a lock and
  * will share the first one with the RTOS.
  */
-#define RTOS_LOCK_COUNT            2
+#define RTOS_LOCK_গুনতি            2
 
 /**
  * Remaps all calls to debug_printf() to rtos_printf().
@@ -60,7 +60,7 @@
 
 
 #ifdef configENABLE_DEBUG_PRINTF
-    #if configENABLE_DEBUG_PRINTF
+    #যদি configENABLE_DEBUG_PRINTF
 
 /* ensure that debug_printf is enabled */
         #ifdef DEBUG_PRINT_ENABLE
@@ -71,13 +71,13 @@
         #ifndef configTASKS_DEBUG
             #define configTASKS_DEBUG                     0
         #endif
-        #if configTASKS_DEBUG == 1
+        #যদি configTASKS_DEBUG == 1
             #define DEBUG_PRINT_ENABLE_FREERTOS_TASKS     1
-        #else
+        #অন্যথা
             #define DEBUG_PRINT_DISABLE_FREERTOS_TASKS    1
         #endif
 
-    #else /* configENABLE_DEBUG_PRINTF */
+    #অন্যথা /* configENABLE_DEBUG_PRINTF */
 
 /* ensure that debug_printf is disabled */
         #ifdef DEBUG_UNIT

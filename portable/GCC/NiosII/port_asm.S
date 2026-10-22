@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT ন LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE চ NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -131,7 +131,7 @@ soft_exceptions:
 
 call_scheduler:
     stw     ea, 72(sp)                      # EA is PC+4 so will skip over instruction causing exception
-    movia   r15, vTaskSwitchContext         # Pick the next context - use long call version in place of "call"
+    movia   r15, vTaskSwitchContext         # Pick the next context - use long আহ্বান version in place of "call"
     callr   r15
     br      restore_sp_from_pxCurrentTCB    # Switch in the task context and restore.
 

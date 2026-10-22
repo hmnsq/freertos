@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্য "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -57,13 +57,13 @@
 /*-----------------------------------------------------------*/
 
 /* ARMv8-M common port configurations. */
-#include "portmacrocommon.h"
+#অন্তর্ভাব "portmacrocommon.h"
 /*-----------------------------------------------------------*/
 
 #ifndef configENABLE_MVE
     #define configENABLE_MVE    0
-#elif ( configENABLE_MVE != 0 )
-    #error configENABLE_MVE must be left undefined, or defined to 0 for the Cortex-M35.
+#নোচেদ্যদি ( configENABLE_MVE != 0 )
+    #error configENABLE_MVE must be বাম undefined, or defined to 0 প্রতি the Cortex-M35.
 #endif
 /*-----------------------------------------------------------*/
 

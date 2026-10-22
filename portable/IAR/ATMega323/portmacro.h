@@ -38,7 +38,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্য "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -53,34 +53,34 @@
  */
 
 /* Type definitions. */
-#define portCHAR                 char
-#define portFLOAT                float
-#define portDOUBLE               double
+#define portCHAR                 বর্ণ
+#define portFLOAT                ভিন্ন
+#define portDOUBLE               দ্বিগুণ
 #define portLONG                 long
-#define portSHORT                int
-#define portSTACK_TYPE           uint8_t
-#define portBASE_TYPE            char
+#define portSHORT                পূর্ণাঙ্ক
+#define port_স্তূপ_TYPE           uint8_t
+#define portBASE_TYPE            বর্ণ
 #define portPOINTER_SIZE_TYPE    uint16_t
 
-typedef portSTACK_TYPE   StackType_t;
-typedef signed char      BaseType_t;
-typedef unsigned char    UBaseType_t;
+প্রকারনির্দেশ port_স্তূপ_TYPE   স্তূপ_Type_t;
+প্রকারনির্দেশ signed বর্ণ      BaseType_t;
+প্রকারনির্দেশ unsigned বর্ণ    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারনির্দেশ uint16_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#নোচেদ্যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারনির্দেশ uint32_t     TickType_t;
     #define portMAX_DELAY    ( TickType_t ) ( 0xFFFFFFFFUL )
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+বাহ্য শূন্য vPortEnterCritical( শূন্য );
+বাহ্য শূন্য vPortExitCritical( শূন্য );
 #define portENTER_CRITICAL()        vPortEnterCritical()
 #define portEXIT_CRITICAL()         vPortExitCritical()
 
@@ -89,24 +89,24 @@ extern void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH      ( -1 )
+#define port_স্তূপ_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT    1
 #define portNOP()    asm ( "nop" )
 /*-----------------------------------------------------------*/
 
 /* Kernel utilities. */
-void vPortYield( void );
+শূন্য vPortYield( শূন্য );
 #define portYIELD()                vPortYield()
 
 #ifdef IAR_MEGA_AVR
-    #define outb( PORT, VALUE )    PORT = VALUE
+    #define outb( PORT, মান_3 )    PORT = মান_3
 #endif
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    শূন্য vFunction( শূন্য * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          শূন্য vFunction( শূন্য * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

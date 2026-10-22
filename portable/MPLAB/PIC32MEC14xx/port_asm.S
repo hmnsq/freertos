@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT ন LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE চ NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -42,9 +42,9 @@
     PORT_CPP_JTVIC_BASE = 0xBFFFC000
     PORT_CCP_JTVIC_GIRQ24_SRC = 0xBFFFC100
 
-    .global vPortStartFirstTask .text
-    .global vPortYieldISR .text
-    .global vPortTickInterruptHandler .text
+    .বৈশ্বিক vPortStartFirstTask .text
+    .বৈশ্বিক vPortYieldISR .text
+    .বৈশ্বিক vPortTickInterruptHandler .text
 
 
 /******************************************************************/
@@ -131,11 +131,11 @@ vPortStartFirstTask:
 
     .section .text, code
 
-    .global vPortYieldISR
+    .বৈশ্বিক vPortYieldISR
 
 
 #if configCPU_DISAGGREGATED_ISRS == 0
-    .global girq24_isr
+    .বৈশ্বিক girq24_isr
     .ent girq24_isr
 girq24_isr:
     la      k0, PORT_CPP_JTVIC_BASE
@@ -153,7 +153,7 @@ girq24_isr:
     .end girq24_isr
 
 #else
-    .global girq24_b1
+    .বৈশ্বিক girq24_b1
 girq24_b1:
 #endif
         .ent  vPortYieldISR

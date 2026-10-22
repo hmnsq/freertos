@@ -26,17 +26,17 @@
 ; *
 ; */
 
-    INCLUDE FreeRTOSConfig.h
-    INCLUDE portmacro.h
+    অন্তর্ভাব FreeRTOSConfig.h
+    অন্তর্ভাব portmacro.h
 
-    EXTERN  vApplicationIRQHandler
-    EXTERN  vTaskSwitchContext
-    EXTERN  ulPortYieldRequired
-    EXTERN  ulPortInterruptNesting
+    বাহ্য  vApplicationIRQHandler
+    বাহ্য  vTaskSwitchContext
+    বাহ্য  ulPortYieldRequired
+    বাহ্য  ulPortInterruptNesting
 
-    PUBLIC  FreeRTOS_SWI_Handler
-    PUBLIC  FreeRTOS_IRQ_Handler
-    PUBLIC  vPortRestoreTaskContext
+    সার্বজনিক  FreeRTOS_SWI_Handler
+    সার্বজনিক  FreeRTOS_IRQ_Handler
+    সার্বজনিক  vPortRestoreTaskContext
 
 SYS_MODE            EQU     0x1f
 SVC_MODE            EQU     0x13
@@ -46,7 +46,7 @@ IRQ_MODE            EQU     0x12
     SECTION .text:CODE:ROOT(2)
     ARM
 
-    INCLUDE portASM.h
+    অন্তর্ভাব portASM.h
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; SVC handler is used to yield a task.
@@ -104,7 +104,7 @@ FreeRTOS_IRQ_Handler
     ; Ensure bit 2 of the stack pointer is clear.  r2 holds the bit 2 value for
     ; future use.  _RB_ Is this ever necessary if start of stack is 8-byte aligned?
     MOV     r2, sp
-    AND     r2, r2, #4
+    চ     r2, r2, #4
     SUB     sp, sp, r2
 
     ; Call the interrupt handler.  r4 is pushed to maintain alignment.
@@ -171,4 +171,4 @@ switch_before_exit
     portRESTORE_CONTEXT
 
 
-    END
+    অন্ত

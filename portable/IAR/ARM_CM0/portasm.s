@@ -14,12 +14,12 @@
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS বা
+ * IMPLIED, INCLUDING BUT ন LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE চ NONINFRINGEMENT. অন্তঃ NO EVENT SHALL THE AUTHORS বা
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES বা OTHER LIABILITY, WHETHER
+ * অন্তঃ AN ACTION OF CONTRACT, TORT বা OTHERWISE, ARISING FROM, OUT OF বা অন্তঃ
+ * CONNECTION WITH THE SOFTWARE বা THE USE বা OTHER DEALINGS অন্তঃ THE SOFTWARE.
  *
  * https://www.FreeRTOS.org
  * https://github.com/FreeRTOS
@@ -31,16 +31,16 @@
     RSEG    CODE:CODE(2)
     thumb
 
-    EXTERN vPortYieldFromISR
-    EXTERN pxCurrentTCB
-    EXTERN vTaskSwitchContext
+    বাহ্য vPortYieldFromISR
+    বাহ্য pxCurrentTCB
+    বাহ্য vTaskSwitchContext
 
-    PUBLIC vSetMSP
-    PUBLIC xPortPendSVHandler
-    PUBLIC vPortSVCHandler
-    PUBLIC vPortStartFirstTask
-    PUBLIC ulSetInterruptMaskFromISR
-    PUBLIC vClearInterruptMaskFromISR
+    সার্বজনিক vSetMSP
+    সার্বজনিক xPortPendSVHandler
+    সার্বজনিক vPortSVCHandler
+    সার্বজনিক vPortStartFirstTask
+    সার্বজনিক ulSetInterruptMaskFromISR
+    সার্বজনিক vClearInterruptMaskFromISR
 
 /*-----------------------------------------------------------*/
 
@@ -129,4 +129,4 @@ vClearInterruptMaskFromISR
     msr PRIMASK, r0
     bx lr
 
-    END
+    অন্ত

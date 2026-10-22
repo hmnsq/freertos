@@ -32,7 +32,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্য "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -47,35 +47,35 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          বর্ণ
+#define portFLOAT         ভিন্ন
+#define portDOUBLE        দ্বিগুণ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_স্তূপ_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+প্রকারনির্দেশ port_স্তূপ_TYPE   স্তূপ_Type_t;
+প্রকারনির্দেশ long             BaseType_t;
+প্রকারনির্দেশ unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারনির্দেশ uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#নোচেদ্যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারনির্দেশ uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Architecture specifics. */
-#define portSTACK_GROWTH          ( -1 )
+#define port_স্তূপ_GROWTH          ( -1 )
 #define portTICK_PERIOD_MS        ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
 #define portBYTE_ALIGNMENT        8
 
@@ -97,27 +97,27 @@ typedef unsigned long    UBaseType_t;
     }
 /*-----------------------------------------------------------*/
 
-#define portNVIC_INT_CTRL_REG     ( *( ( volatile uint32_t * ) 0xe000ed04 ) )
+#define portNVIC_INT_CTRL_REG     ( *( ( চঞ্চল uint32_t * ) 0xe000ed04 ) )
 #define portNVIC_PENDSVSET_BIT    ( 1UL << 28UL )
 #define portEND_SWITCHING_ISR( xSwitchRequired ) \
-    do                                           \
+    কুরু                                           \
     {                                            \
-        if( xSwitchRequired != pdFALSE )         \
+        যদি( xSwitchRequired != pdFALSE )         \
         {                                        \
             traceISR_EXIT_TO_SCHEDULER();        \
             portYIELD();                         \
         }                                        \
-        else                                     \
+        অন্যথা                                     \
         {                                        \
             traceISR_EXIT();                     \
         }                                        \
-    } while( 0 )
+    } যাবত্( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
 /* Critical section management. */
-extern void vPortEnterCritical( void );
-extern void vPortExitCritical( void );
+বাহ্য শূন্য vPortEnterCritical( শূন্য );
+বাহ্য শূন্য vPortExitCritical( শূন্য );
 
 #define portDISABLE_INTERRUPTS()                  vPortRaiseBASEPRI()
 #define portENABLE_INTERRUPTS()                   vPortSetBASEPRI( 0 )
@@ -130,7 +130,7 @@ extern void vPortExitCritical( void );
 
 /* Tickless idle/low power functionality. */
 #ifndef portSUPPRESS_TICKS_AND_SLEEP
-    extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+    বাহ্য শূন্য vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
     #define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime )    vPortSuppressTicksAndSleep( xExpectedIdleTime )
 #endif
 /*-----------------------------------------------------------*/
@@ -140,10 +140,10 @@ extern void vPortExitCritical( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#যদি configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #যদি ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 
@@ -153,7 +153,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-    #define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities )    uxTopPriority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
+    #define portGET_HIGHEST_PRIORITY( ux_শীর্ষ_Priority, uxReadyPriorities )    ux_শীর্ষ_Priority = ( 31UL - ( uint32_t ) __clz( ( uxReadyPriorities ) ) )
 
 #endif /* taskRECORD_READY_PRIORITY */
 /*-----------------------------------------------------------*/
@@ -161,12 +161,12 @@ extern void vPortExitCritical( void );
 /* Task function macros as described on the FreeRTOS.org WEB site.  These are
  * not necessary for to use this port.  They are defined so the common demo files
  * (which build with all the ports) will build. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    শূন্য vFunction( শূন্য * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          শূন্য vFunction( শূন্য * pvParameters )
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
-    void vPortValidateInterruptPriority( void );
+#যদি ( configASSERT_DEFINED == 1 )
+    শূন্য vPortValidateInterruptPriority( শূন্য );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
 
@@ -181,7 +181,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
+স্থির portFORCE_INLINE শূন্য vPortSetBASEPRI( uint32_t ulBASEPRI )
 {
     __asm
     {
@@ -194,7 +194,7 @@ static portFORCE_INLINE void vPortSetBASEPRI( uint32_t ulBASEPRI )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortRaiseBASEPRI( void )
+স্থির portFORCE_INLINE শূন্য vPortRaiseBASEPRI( শূন্য )
 {
     uint32_t ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
 
@@ -211,7 +211,7 @@ static portFORCE_INLINE void vPortRaiseBASEPRI( void )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
+স্থির portFORCE_INLINE শূন্য vPortClearBASEPRIFromISR( শূন্য )
 {
     __asm
     {
@@ -225,7 +225,7 @@ static portFORCE_INLINE void vPortClearBASEPRIFromISR( void )
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
+স্থির portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( শূন্য )
 {
     uint32_t ulReturn, ulNewBASEPRI = configMAX_SYSCALL_INTERRUPT_PRIORITY;
 
@@ -241,11 +241,11 @@ static portFORCE_INLINE uint32_t ulPortRaiseBASEPRI( void )
 /* *INDENT-ON* */
     }
 
-    return ulReturn;
+    প্রত্যাগম ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
+স্থির portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( শূন্য )
 {
     uint32_t ulCurrentInterrupt;
     BaseType_t xReturn;
@@ -258,16 +258,16 @@ static portFORCE_INLINE BaseType_t xPortIsInsideInterrupt( void )
 /* *INDENT-ON* */
     }
 
-    if( ulCurrentInterrupt == 0 )
+    যদি( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    অন্যথা
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    প্রত্যাগম xReturn;
 }
 
 

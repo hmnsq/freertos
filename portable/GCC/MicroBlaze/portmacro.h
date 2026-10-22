@@ -31,7 +31,7 @@
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus
-    extern "C" {
+    বাহ্য "C" {
 #endif
 /* *INDENT-ON* */
 
@@ -46,57 +46,57 @@
  */
 
 /* Type definitions. */
-#define portCHAR          char
-#define portFLOAT         float
-#define portDOUBLE        double
+#define portCHAR          বর্ণ
+#define portFLOAT         ভিন্ন
+#define portDOUBLE        দ্বিগুণ
 #define portLONG          long
 #define portSHORT         short
-#define portSTACK_TYPE    uint32_t
+#define port_স্তূপ_TYPE    uint32_t
 #define portBASE_TYPE     long
 
-typedef portSTACK_TYPE   StackType_t;
-typedef long             BaseType_t;
-typedef unsigned long    UBaseType_t;
+প্রকারনির্দেশ port_স্তূপ_TYPE   স্তূপ_Type_t;
+প্রকারনির্দেশ long             BaseType_t;
+প্রকারনির্দেশ unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-    typedef uint16_t     TickType_t;
+#যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+    প্রকারনির্দেশ uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
-#elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-    typedef uint32_t     TickType_t;
+#নোচেদ্যদি ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
+    প্রকারনির্দেশ uint32_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffffffffUL
 
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#অন্যথা
     #error configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width.
 #endif
 /*-----------------------------------------------------------*/
 
 /* Interrupt control macros. */
-void microblaze_disable_interrupts( void );
-void microblaze_enable_interrupts( void );
+শূন্য microblaze_disable_interrupts( শূন্য );
+শূন্য microblaze_enable_interrupts( শূন্য );
 #define portDISABLE_INTERRUPTS()    microblaze_disable_interrupts()
 #define portENABLE_INTERRUPTS()     microblaze_enable_interrupts()
 /*-----------------------------------------------------------*/
 
 /* Critical section macros. */
-void vPortEnterCritical( void );
-void vPortExitCritical( void );
+শূন্য vPortEnterCritical( শূন্য );
+শূন্য vPortExitCritical( শূন্য );
 #define portENTER_CRITICAL()                  \
     {                                         \
-        extern UBaseType_t uxCriticalNesting; \
+        বাহ্য UBaseType_t uxCriticalNesting; \
         microblaze_disable_interrupts();      \
         uxCriticalNesting++;                  \
     }
 
 #define portEXIT_CRITICAL()                      \
     {                                            \
-        extern UBaseType_t uxCriticalNesting;    \
+        বাহ্য UBaseType_t uxCriticalNesting;    \
         /* Interrupts are disabled, so we can */ \
         /* access the variable directly. */      \
         uxCriticalNesting--;                     \
-        if( uxCriticalNesting == 0 )             \
+        যদি( uxCriticalNesting == 0 )             \
         {                                        \
             /* The nesting has unwound and we \
              * can enable interrupts again. */ \
@@ -107,24 +107,24 @@ void vPortExitCritical( void );
 /*-----------------------------------------------------------*/
 
 /* Task utilities. */
-void vPortYield( void );
+শূন্য vPortYield( শূন্য );
 #define portYIELD()             vPortYield()
 
-void vTaskSwitchContext();
+শূন্য vTaskSwitchContext();
 #define portYIELD_FROM_ISR()    vTaskSwitchContext()
 /*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT    4
-#define portSTACK_GROWTH      ( -1 )
+#define port_স্তূপ_GROWTH      ( -1 )
 #define portTICK_PERIOD_MS    ( ( TickType_t ) 1000 / configTICK_RATE_HZ )
-#define portNOP()               asm volatile ( "NOP" )
-#define portMEMORY_BARRIER()    asm volatile ( "" ::: "memory" )
+#define portNOP()               asm চঞ্চল ( "NOP" )
+#define portMEMORY_BARRIER()    asm চঞ্চল ( "" ::: "memory" )
 /*-----------------------------------------------------------*/
 
 /* Task function macros as described on the FreeRTOS.org WEB site. */
-#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    void vFunction( void * pvParameters )
-#define portTASK_FUNCTION( vFunction, pvParameters )          void vFunction( void * pvParameters )
+#define portTASK_FUNCTION_PROTO( vFunction, pvParameters )    শূন্য vFunction( শূন্য * pvParameters )
+#define portTASK_FUNCTION( vFunction, pvParameters )          শূন্য vFunction( শূন্য * pvParameters )
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

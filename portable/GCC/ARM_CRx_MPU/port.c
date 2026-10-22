@@ -27,7 +27,7 @@
  */
 
 /* Standard includes. */
-#include <stdint.h>
+#অন্তর্ভাব <stdint.h>
 
 /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
  * all the API functions to use the MPU wrappers. That should only be done when
@@ -37,10 +37,10 @@
 #endif /* MPU_WRAPPERS_INCLUDED_FROM_API_FILE */
 
 /* Scheduler includes. */
-#include "FreeRTOS.h"
-#include "portmacro.h"
-#include "task.h"
-#include "mpu_syscall_numbers.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "portmacro.h"
+#অন্তর্ভাব "task.h"
+#অন্তর্ভাব "mpu_syscall_numbers.h"
 
 #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
 
@@ -61,21 +61,21 @@
  * before the scheduler starts. As it is stored as part of the task context, it
  * will be set to 0 when the first task is started.
  */
-PRIVILEGED_DATA volatile UBaseType_t ulCriticalNesting = 0xFFFF;
+PRIVILEGED_DATA চঞ্চল UBaseType_t ulCriticalNesting = 0xFFFF;
 
 /**
  * @brief Set to 1 to pend a context switch from an ISR.
  *
  * @ingroup Interrupt Management
  */
-PRIVILEGED_DATA volatile UBaseType_t ulPortYieldRequired = pdFALSE;
+PRIVILEGED_DATA চঞ্চল UBaseType_t ulPortYieldRequired = pdFALSE;
 
 /**
  * @brief Interrupt nesting depth, used to count the number of interrupts to unwind.
  *
  * @ingroup Interrupt Management
  */
-PRIVILEGED_DATA volatile UBaseType_t ulPortInterruptNesting = 0UL;
+PRIVILEGED_DATA চঞ্চল UBaseType_t ulPortInterruptNesting = 0UL;
 
 /**
  * @brief Variable to track whether or not the scheduler has been started.
@@ -84,7 +84,7 @@ PRIVILEGED_DATA volatile UBaseType_t ulPortInterruptNesting = 0UL;
  *
  * This is the port specific version of the xSchedulerRunning in tasks.c.
  */
-PRIVILEGED_DATA static BaseType_t prvPortSchedulerRunning = pdFALSE;
+PRIVILEGED_DATA স্থির BaseType_t prvPortSchedulerRunning = pdFALSE;
 
 /* -------------------------- Private Function Declarations -------------------------- */
 
@@ -103,10 +103,10 @@ PRIVILEGED_DATA static BaseType_t prvPortSchedulerRunning = pdFALSE;
  * @return pdTRUE if MPU region settings authorizes the requested access to the
  * given buffer, pdFALSE otherwise.
  */
-PRIVILEGED_FUNCTION static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xTaskMPURegion,
-                                                                    const uint32_t ulBufferStart,
-                                                                    const uint32_t ulBufferLength,
-                                                                    const uint32_t ulAccessRequested );
+PRIVILEGED_FUNCTION স্থির BaseType_t prvMPURegionAuthorizesBuffer( ধ্রুব xMPU_REGION_REGISTERS * xTaskMPURegion,
+                                                                    ধ্রুব uint32_t ulBufferStart,
+                                                                    ধ্রুব uint32_t ulBufferLength,
+                                                                    ধ্রুব uint32_t ulAccessRequested );
 
 /**
  * @brief Determine the smallest MPU Region Size Encoding for the given MPU
@@ -118,14 +118,14 @@ PRIVILEGED_FUNCTION static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_R
  *
  * @return The smallest MPU Region Size Encoding for the given MPU region size.
  */
-PRIVILEGED_FUNCTION static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize );
+PRIVILEGED_FUNCTION স্থির uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize );
 
 /**
  * @brief Set up MPU.
  *
  * @ingroup MPU Control
  */
-PRIVILEGED_FUNCTION static void prvSetupMPU( void );
+PRIVILEGED_FUNCTION স্থির শূন্য prvSetupMPU( শূন্য );
 
 /* -------------------------- Exported Function Declarations -------------------------- */
 
@@ -134,14 +134,14 @@ PRIVILEGED_FUNCTION static void prvSetupMPU( void );
  *
  * @ingroup Critical Section
  */
-PRIVILEGED_FUNCTION void vPortEnterCritical( void );
+PRIVILEGED_FUNCTION শূন্য vPortEnterCritical( শূন্য );
 
 /**
  * @brief Exit critical section.
  *
  * @ingroup Critical Section
  */
-PRIVILEGED_FUNCTION void vPortExitCritical( void );
+PRIVILEGED_FUNCTION শূন্য vPortExitCritical( শূন্য );
 
 /* ----------------------------------------------------------------------------------- */
 
@@ -159,9 +159,9 @@ PRIVILEGED_FUNCTION void vPortExitCritical( void );
  * @return Location where to restore the task's context from.
  */
 /* PRIVILEGED_FUNCTION */
-StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
+স্তূপ_Type_t * px_Port_Initialise_স্তূপ( স্তূপ_Type_t * px_শীর্ষ_Of_স্তূপ,
                                      TaskFunction_t pxCode,
-                                     void * pvParameters,
+                                     শূন্য * pvParameters,
                                      BaseType_t xRunPrivileged,
                                      xMPU_SETTINGS * xMPUSettings )
 {
@@ -169,22 +169,22 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * expected by the portRESTORE_CONTEXT() macro. */
     UBaseType_t ulIndex = CONTEXT_SIZE - 1U;
 
-    xSYSTEM_CALL_STACK_INFO * xSysCallInfo = NULL;
+    x_SYSTEM_CALL_স্তূপ_INFO * xSysCallInfo = রিক্ত;
 
-    if( xRunPrivileged == pdTRUE )
+    যদি( xRunPrivileged == pdTRUE )
     {
         xMPUSettings->ulTaskFlags |= portTASK_IS_PRIVILEGED_FLAG;
         /* Current Program Status Register (CPSR). */
         xMPUSettings->ulContext[ ulIndex ] = SYS_MODE;
     }
-    else
+    অন্যথা
     {
         xMPUSettings->ulTaskFlags &= ( ~portTASK_IS_PRIVILEGED_FLAG );
         /* Current Program Status Register (CPSR). */
         xMPUSettings->ulContext[ ulIndex ] = USER_MODE;
     }
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x0UL )
+    যদি( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x0UL )
     {
         /* The task will cause the processor to start in THUMB state, set the
          * Thumb state bit in the CPSR. */
@@ -193,111 +193,111 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     ulIndex--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pxCode; /* PC. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) pxCode; /* PC. */
     ulIndex--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) portTASK_RETURN_ADDRESS; /* LR. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) portTASK_RETURN_ADDRESS; /* LR. */
     ulIndex--;
 
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pxTopOfStack; /* SP. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) px_শীর্ষ_Of_স্তূপ; /* SP. */
     ulIndex--;
 
     /* General Purpose Registers. */
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x12121212; /* R12. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x12121212; /* R12. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x11111111; /* R11. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x11111111; /* R11. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x10101010; /* R10. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x10101010; /* R10. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x09090909; /* R9. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x09090909; /* R9. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x08080808; /* R8. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x08080808; /* R8. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x07070707; /* R7. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x07070707; /* R7. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x06060606; /* R6. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x06060606; /* R6. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x05050505; /* R5. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x05050505; /* R5. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x04040404; /* R4. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x04040404; /* R4. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x03030303; /* R3. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x03030303; /* R3. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x02020202; /* R2. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x02020202; /* R2. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x01010101; /* R1. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x01010101; /* R1. */
     ulIndex--;
-    xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) pvParameters; /* R0. */
+    xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) pvParameters; /* R0. */
     ulIndex--;
 
-    #if( portENABLE_FPU == 1 )
+    #যদি( portENABLE_FPU == 1 )
     {
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000015; /* S31. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000015; /* S31. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1500000; /* S30. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1500000; /* S30. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000014; /* S29. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000014; /* S29. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1400000; /* S28. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1400000; /* S28. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000013; /* S27. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000013; /* S27. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1300000; /* S26. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1300000; /* S26. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000012; /* S25. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000012; /* S25. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1200000; /* S24. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1200000; /* S24. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000011; /* S23. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000011; /* S23. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1100000; /* S22. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1100000; /* S22. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000010; /* S21. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000010; /* S21. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1000000; /* S20. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1000000; /* S20. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000009; /* S19. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000009; /* S19. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD9000000; /* S18. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD9000000; /* S18. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000008; /* S17. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000008; /* S17. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD8000000; /* S16. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD8000000; /* S16. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000007; /* S15. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000007; /* S15. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD7000000; /* S14. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD7000000; /* S14. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000006; /* S13. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000006; /* S13. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD6000000; /* S12. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD6000000; /* S12. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000005; /* S11. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000005; /* S11. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD5000000; /* S10. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD5000000; /* S10. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000004; /* S9. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000004; /* S9. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD4000000; /* S8. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD4000000; /* S8. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000003; /* S7. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000003; /* S7. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD3000000; /* S6. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD3000000; /* S6. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000002; /* S5. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000002; /* S5. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD2000000; /* S4. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD2000000; /* S4. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000001; /* S3. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000001; /* S3. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD1000000; /* S2. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD1000000; /* S2. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000000; /* S1. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000000; /* S1. */
         ulIndex--;
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0xD0000000; /* S0. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0xD0000000; /* S0. */
         ulIndex--;
 
-        xMPUSettings->ulContext[ ulIndex ] = ( StackType_t ) 0x00000000; /* FPSR. */
+        xMPUSettings->ulContext[ ulIndex ] = ( স্তূপ_Type_t ) 0x00000000; /* FPSR. */
         ulIndex--;
     }
     #endif /* portENABLE_FPU */
@@ -306,19 +306,19 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     xMPUSettings->ulContext[ ulIndex ] = portNO_CRITICAL_NESTING;
 
     /* Ensure that the system call stack is double word aligned. */
-    xSysCallInfo = &( xMPUSettings->xSystemCallStackInfo );
-    xSysCallInfo->pulSystemCallStackPointer = &( xSysCallInfo->ulSystemCallStackBuffer[ configSYSTEM_CALL_STACK_SIZE - 1U ] );
-    xSysCallInfo->pulSystemCallStackPointer = ( uint32_t * ) ( ( ( uint32_t ) ( xSysCallInfo->pulSystemCallStackPointer ) ) &
+    xSysCallInfo = &( xMPUSettings->x_System_Call_স্তূপ_Info );
+    xSysCallInfo->pul_System_Call_স্তূপ_Pointer = &( xSysCallInfo->ul_System_Call_স্তূপ_Buffer[ config_SYSTEM_CALL_স্তূপ_SIZE - 1U ] );
+    xSysCallInfo->pul_System_Call_স্তূপ_Pointer = ( uint32_t * ) ( ( ( uint32_t ) ( xSysCallInfo->pul_System_Call_স্তূপ_Pointer ) ) &
                                                                ( ( uint32_t ) ( ~( portBYTE_ALIGNMENT_MASK ) ) ) );
 
     /* This is not NULL only for the duration of a system call. */
-    xSysCallInfo->pulTaskStackPointer = NULL;
+    xSysCallInfo->pul_Task_স্তূপ_Pointer = রিক্ত;
 
     /* Set the System Call to return to vPortSystemCallExit. */
     xSysCallInfo->pulSystemCallExitAddress = ( uint32_t * ) ( &vPortSystemCallExit );
 
     /* Return the address where this task's context should be restored from. */
-    return &( xMPUSettings->ulContext[ ulIndex ] );
+    প্রত্যাগম &( xMPUSettings->ulContext[ ulIndex ] );
 }
 
 /* ----------------------------------------------------------------------------------- */
@@ -335,20 +335,20 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
  * @param ulStackDepth The length of the task's stack.
  */
 /* PRIVILEGED_FUNCTION */
-void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
-                                const struct xMEMORY_REGION * const xRegions,
-                                StackType_t * pxBottomOfStack,
-                                uint32_t ulStackDepth )
+শূন্য vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
+                                ধ্রুব সংরচনা xMEMORY_REGION * ধ্রুব xRegions,
+                                স্তূপ_Type_t * px_Bottom_Of_স্তূপ,
+                                uint32_t ul_স্তূপ_Depth )
 {
-    #if defined( __ARMCC_VERSION )
+    #যদি defined( __ARMCC_VERSION )
         /* Declaration when these variable are defined in code instead of being
          * exported from linker scripts. */
-        extern uint32_t * __SRAM_segment_start__;
-        extern uint32_t * __SRAM_segment_end__;
-    #else
+        বাহ্য uint32_t * __SRAM_segment_start__;
+        বাহ্য uint32_t * __SRAM_segment_end__;
+    #অন্যথা
         /* Declaration when these variable are exported from linker scripts. */
-        extern uint32_t __SRAM_segment_start__[];
-        extern uint32_t __SRAM_segment_end__[];
+        বাহ্য uint32_t __SRAM_segment_start__[];
+        বাহ্য uint32_t __SRAM_segment_end__[];
     #endif /* if defined( __ARMCC_VERSION ) */
 
     uint32_t ulIndex = 0x0;
@@ -356,7 +356,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
     uint32_t ulRegionLengthEncoded;
     uint32_t ulRegionLengthDecoded;
 
-    if( xRegions == NULL )
+    যদি( xRegions == রিক্ত )
     {
         /* No MPU regions are specified so allow access to all of the RAM. */
         ulRegionLength = ( uint32_t ) __SRAM_segment_end__ - ( uint32_t ) __SRAM_segment_start__;
@@ -366,7 +366,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         /* MPU Settings is zero'd out in the TCB before this function is called.
          * We, therefore, do not need to explicitly zero out unused MPU regions
          * in xMPUSettings. */
-        ulIndex = portSTACK_REGION;
+        ulIndex = port_স্তূপ_REGION;
 
         xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) __SRAM_segment_start__;
         xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
@@ -374,12 +374,12 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
         xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = ( portMPU_REGION_PRIV_RW_USER_RW_NOEXEC |
                                                                portMPU_REGION_NORMAL_OIWTNOWA_SHARED );
     }
-    else
+    অন্যথা
     {
-        for( ulIndex = 0UL; ulIndex < portNUM_CONFIGURABLE_REGIONS; ulIndex++ )
+        প্রতি( ulIndex = 0UL; ulIndex < port_অঙ্ক_CONFIGURABLE_REGIONS; ulIndex++ )
         {
             /* If a length has been provided, the region is in use. */
-            if( ( xRegions[ ulIndex ] ).ulLengthInBytes > 0UL )
+            যদি( ( xRegions[ ulIndex ] ).ulLengthInBytes > 0UL )
             {
                 ulRegionLength = xRegions[ ulIndex ].ulLengthInBytes;
                 ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulRegionLength );
@@ -394,7 +394,7 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
                                                                   portMPU_REGION_ENABLE );
                 xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = xRegions[ ulIndex ].ulParameters;
             }
-            else
+            অন্যথা
             {
                 xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = 0x0UL;
                 xMPUSettings->xRegion[ ulIndex ].ulRegionSize = 0x0UL;
@@ -406,17 +406,17 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
          * which case the stack region parameters will be valid. At all other
          * times the stack parameters will not be valid and it is assumed that the
          * stack region has already been configured. */
-        if( ulStackDepth != 0x0UL )
+        যদি( ul_স্তূপ_Depth != 0x0UL )
         {
-            ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ulStackDepth * ( uint32_t ) sizeof( StackType_t ) );
+            ulRegionLengthEncoded = prvGetMPURegionSizeEncoding( ul_স্তূপ_Depth * ( uint32_t ) পরিমাণ( স্তূপ_Type_t ) );
 
             /* MPU region base address must be aligned to the region size
              * boundary. */
             ulRegionLengthDecoded = 2UL << ( ulRegionLengthEncoded >> 1UL );
-            configASSERT( ( ( uint32_t ) pxBottomOfStack % ( ulRegionLengthDecoded ) ) == 0U );
+            configASSERT( ( ( uint32_t ) px_Bottom_Of_স্তূপ % ( ulRegionLengthDecoded ) ) == 0U );
 
-            ulIndex = portSTACK_REGION;
-            xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) pxBottomOfStack;
+            ulIndex = port_স্তূপ_REGION;
+            xMPUSettings->xRegion[ ulIndex ].ulRegionBaseAddress = ( uint32_t ) px_Bottom_Of_স্তূপ;
             xMPUSettings->xRegion[ ulIndex ].ulRegionSize = ( ulRegionLengthEncoded |
                                                               portMPU_REGION_ENABLE );
             xMPUSettings->xRegion[ ulIndex ].ulRegionAttribute = ( portMPU_REGION_PRIV_RW_USER_RW_NOEXEC |
@@ -428,25 +428,25 @@ void vPortStoreTaskMPUSettings( xMPU_SETTINGS * xMPUSettings,
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortIsTaskPrivileged( void )
+BaseType_t xPortIsTaskPrivileged( শূন্য )
 {
     BaseType_t xTaskIsPrivileged = pdFALSE;
 
     /* Calling task's MPU settings. */
-    const xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( NULL );
+    ধ্রুব xMPU_SETTINGS * xTaskMpuSettings = xTaskGetMPUSettings( রিক্ত );
 
-    if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+    যদি( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
     {
         xTaskIsPrivileged = pdTRUE;
     }
 
-    return xTaskIsPrivileged;
+    প্রত্যাগম xTaskIsPrivileged;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( শূন্য )
 {
     /* Start the timer that generates the tick ISR. */
     configSETUP_TICK_INTERRUPT();
@@ -464,66 +464,66 @@ BaseType_t xPortStartScheduler( void )
      * possible value. prvTaskExitError() is referenced to prevent a compiler
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
-    ( void ) prvTaskExitError();
-    return pdFALSE;
+    ( শূন্য ) prvTaskExitError();
+    প্রত্যাগম pdFALSE;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-static uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
+স্থির uint32_t prvGetMPURegionSizeEncoding( uint32_t ulActualMPURegionSize )
 {
-    uint32_t ulRegionSize, ulReturnValue = 4U;
+    uint32_t ulRegionSize, ul_Return_মান = 4U;
 
     /* 32 bytes is the smallest valid region for Cortex R4 and R5 CPUs. */
-    for( ulRegionSize = 0x20UL; ulReturnValue < 0x1FUL; ( ulRegionSize <<= 1UL ) )
+    প্রতি( ulRegionSize = 0x20UL; ul_Return_মান < 0x1FUL; ( ulRegionSize <<= 1UL ) )
     {
-        if( ulActualMPURegionSize <= ulRegionSize )
+        যদি( ulActualMPURegionSize <= ulRegionSize )
         {
-            break;
+            ভঙ্গ;
         }
-        else
+        অন্যথা
         {
-            ulReturnValue++;
+            ul_Return_মান++;
         }
     }
 
     /* Shift the code by one before returning so it can be written directly
      * into the correct bit position of the attribute register. */
-    return ulReturnValue << 1UL;
+    প্রত্যাগম ul_Return_মান << 1UL;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-static void prvSetupMPU( void )
+স্থির শূন্য prvSetupMPU( শূন্য )
 {
-#if defined( __ARMCC_VERSION )
+#যদি defined( __ARMCC_VERSION )
     /* Declaration when these variable are defined in code. */
     /* Sections used for FLASH. */
-    extern uint32_t * __FLASH_segment_start__;
-    extern uint32_t * __FLASH_segment_end__;
-    extern uint32_t * __privileged_functions_start__;
-    extern uint32_t * __privileged_functions_end__;
+    বাহ্য uint32_t * __FLASH_segment_start__;
+    বাহ্য uint32_t * __FLASH_segment_end__;
+    বাহ্য uint32_t * __privileged_functions_start__;
+    বাহ্য uint32_t * __privileged_functions_end__;
 
     /* Sections used for RAM. */
-    extern uint32_t * __SRAM_segment_start__;
-    extern uint32_t * __SRAM_segment_end__;
-    extern uint32_t * __privileged_data_start__;
-    extern uint32_t * __privileged_data_end__;
-#else
+    বাহ্য uint32_t * __SRAM_segment_start__;
+    বাহ্য uint32_t * __SRAM_segment_end__;
+    বাহ্য uint32_t * __privileged_data_start__;
+    বাহ্য uint32_t * __privileged_data_end__;
+#অন্যথা
     /* Declaration when these variable are exported from linker scripts. */
     /* Sections used for FLASH. */
-    extern uint32_t __FLASH_segment_start__[];
-    extern uint32_t __FLASH_segment_end__[];
-    extern uint32_t __privileged_functions_start__[];
-    extern uint32_t __privileged_functions_end__[];
+    বাহ্য uint32_t __FLASH_segment_start__[];
+    বাহ্য uint32_t __FLASH_segment_end__[];
+    বাহ্য uint32_t __privileged_functions_start__[];
+    বাহ্য uint32_t __privileged_functions_end__[];
 
     /* Sections used for RAM. */
-    extern uint32_t __SRAM_segment_start__[];
-    extern uint32_t __SRAM_segment_end__[];
-    extern uint32_t __privileged_data_start__[];
-    extern uint32_t __privileged_data_end__[];
+    বাহ্য uint32_t __SRAM_segment_start__[];
+    বাহ্য uint32_t __SRAM_segment_end__[];
+    বাহ্য uint32_t __privileged_data_start__[];
+    বাহ্য uint32_t __privileged_data_end__[];
 #endif /* if defined( __ARMCC_VERSION ) */
 
     uint32_t ulRegionLength;
@@ -570,10 +570,10 @@ static void prvSetupMPU( void )
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xTaskMPURegion,
-                                                const uint32_t ulBufferStart,
-                                                const uint32_t ulBufferLength,
-                                                const uint32_t ulAccessRequested )
+স্থির BaseType_t prvMPURegionAuthorizesBuffer( ধ্রুব xMPU_REGION_REGISTERS * xTaskMPURegion,
+                                                ধ্রুব uint32_t ulBufferStart,
+                                                ধ্রুব uint32_t ulBufferLength,
+                                                ধ্রুব uint32_t ulAccessRequested )
 {
     BaseType_t xAccessGranted = pdFALSE;
     uint32_t ulBufferEnd;
@@ -582,22 +582,22 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
     uint32_t ulMPURegionEnd;
     uint32_t ulMPURegionAccessPermissions;
 
-    if( portADD_UINT32_WILL_OVERFLOW( ulBufferStart, ( ulBufferLength - 1UL ) ) == pdFALSE )
+    যদি( portADD_UINT32_WILL_OVERFLOW( ulBufferStart, ( ulBufferLength - 1UL ) ) == pdFALSE )
     {
         ulBufferEnd = ulBufferStart + ulBufferLength - 1UL;
         ulMPURegionLength = 2UL << ( xTaskMPURegion->ulRegionSize >> 1UL );
         ulMPURegionStart = xTaskMPURegion->ulRegionBaseAddress;
         ulMPURegionEnd = xTaskMPURegion->ulRegionBaseAddress + ulMPURegionLength - 1UL;
 
-        if( ( ulBufferStart >= ulMPURegionStart ) &&
+        যদি( ( ulBufferStart >= ulMPURegionStart ) &&
             ( ulBufferEnd <= ulMPURegionEnd ) &&
             ( ulBufferStart <= ulBufferEnd ) )
         {
             ulMPURegionAccessPermissions = xTaskMPURegion->ulRegionAttribute & portMPU_REGION_AP_BITMASK;
 
-            if( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
+            যদি( ulAccessRequested == tskMPU_READ_PERMISSION ) /* RO. */
             {
-                if( ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RO ) ||
+                যদি( ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RO ) ||
                     ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RO_USER_RO ) ||
                     ( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW ) )
 
@@ -605,9 +605,9 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
                     xAccessGranted = pdTRUE;
                 }
             }
-            else if( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
+            অন্যথা যদি( ( ulAccessRequested & tskMPU_WRITE_PERMISSION ) != 0UL ) /* W or RW. */
             {
-                if( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW )
+                যদি( ulMPURegionAccessPermissions == portMPU_REGION_PRIV_RW_USER_RW )
                 {
                     xAccessGranted = pdTRUE;
                 }
@@ -615,69 +615,69 @@ static BaseType_t prvMPURegionAuthorizesBuffer( const xMPU_REGION_REGISTERS * xT
         }
     }
 
-    return xAccessGranted;
+    প্রত্যাগম xAccessGranted;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-BaseType_t xPortIsAuthorizedToAccessBuffer( const void * pvBuffer,
+BaseType_t xPortIsAuthorizedToAccessBuffer( ধ্রুব শূন্য * pvBuffer,
                                             size_t xBufferLength,
                                             uint32_t ulAccessRequested )
 {
     BaseType_t xAccessGranted = pdFALSE;
     uint32_t ulRegionIndex;
-    xMPU_SETTINGS * xTaskMPUSettings = NULL;
+    xMPU_SETTINGS * xTaskMPUSettings = রিক্ত;
 
-    if( prvPortSchedulerRunning == pdFALSE )
+    যদি( prvPortSchedulerRunning == pdFALSE )
     {
         /* Grant access to all the memory before the scheduler is started. It is
          * necessary because there is no task running yet and therefore, we
          * cannot use the permissions of any task. */
         xAccessGranted = pdTRUE;
     }
-    else
+    অন্যথা
     {
         /* Calling task's MPU settings. */
-        xTaskMPUSettings = xTaskGetMPUSettings( NULL );
+        xTaskMPUSettings = xTaskGetMPUSettings( রিক্ত );
 
-        if( ( xTaskMPUSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        যদি( ( xTaskMPUSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             /* Privileged tasks have access to all the memory. */
             xAccessGranted = pdTRUE;
         }
-        else
+        অন্যথা
         {
-            for( ulRegionIndex = 0x0UL; ulRegionIndex < portTOTAL_NUM_REGIONS_IN_TCB; ulRegionIndex++ )
+            প্রতি( ulRegionIndex = 0x0UL; ulRegionIndex < port_TOTAL_অঙ্ক_REGIONS_IN_TCB; ulRegionIndex++ )
             {
                 xAccessGranted = prvMPURegionAuthorizesBuffer( &( xTaskMPUSettings->xRegion[ ulRegionIndex ] ),
                                                                ( uint32_t ) pvBuffer,
                                                                ( uint32_t ) xBufferLength,
                                                                ulAccessRequested );
 
-                if( xAccessGranted == pdTRUE )
+                যদি( xAccessGranted == pdTRUE )
                 {
-                    break;
+                    ভঙ্গ;
                 }
             }
         }
     }
 
-    return xAccessGranted;
+    প্রত্যাগম xAccessGranted;
 }
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#যদি( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
 BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject )
 {
     uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
     BaseType_t xAccessGranted = pdFALSE;
-    const xMPU_SETTINGS * xTaskMpuSettings;
+    ধ্রুব xMPU_SETTINGS * xTaskMpuSettings;
 
-    if( prvPortSchedulerRunning == pdFALSE )
+    যদি( prvPortSchedulerRunning == pdFALSE )
     {
         /* Grant access to all the kernel objects before the scheduler
          * is started. It is necessary because there is no task running
@@ -685,23 +685,23 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
          * task. */
         xAccessGranted = pdTRUE;
     }
-    else
+    অন্যথা
     {
         /* Calling task's MPU settings. */
-        xTaskMpuSettings = xTaskGetMPUSettings( NULL );
+        xTaskMpuSettings = xTaskGetMPUSettings( রিক্ত );
 
         ulAccessControlListEntryIndex = ( ( uint32_t ) lInternalIndexOfKernelObject
                                           / portACL_ENTRY_SIZE_BITS );
         ulAccessControlListEntryBit = ( ( uint32_t ) lInternalIndexOfKernelObject
                                         % portACL_ENTRY_SIZE_BITS );
 
-        if( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
+        যদি( ( xTaskMpuSettings->ulTaskFlags & portTASK_IS_PRIVILEGED_FLAG ) == portTASK_IS_PRIVILEGED_FLAG )
         {
             xAccessGranted = pdTRUE;
         }
-        else
+        অন্যথা
         {
-            if( ( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] ) &
+            যদি( ( ( xTaskMpuSettings->ulAccessControlList[ ulAccessControlListEntryIndex ] ) &
                   ( 1U << ulAccessControlListEntryBit ) ) != 0UL )
             {
                 xAccessGranted = pdTRUE;
@@ -709,29 +709,29 @@ BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernel
         }
     }
 
-    return xAccessGranted;
+    প্রত্যাগম xAccessGranted;
 }
 
-#else
+#অন্যথা
 
 /* PRIVILEGED_FUNCTION */
 BaseType_t xPortIsAuthorizedToAccessKernelObject( int32_t lInternalIndexOfKernelObject )
 {
-    ( void ) lInternalIndexOfKernelObject;
+    ( শূন্য ) lInternalIndexOfKernelObject;
 
     /* If Access Control List feature is not used, all the tasks have
      * access to all the kernel objects. */
-    return pdTRUE;
+    প্রত্যাগম pdTRUE;
 }
 
 #endif /* #if ( configENABLE_ACCESS_CONTROL_LIST == 1 ) */
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#যদি( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
-void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
+শূন্য vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
                                      int32_t lInternalIndexOfKernelObject )
 {
     uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
@@ -751,10 +751,10 @@ void vPortGrantAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
 
 /* ----------------------------------------------------------------------------------- */
 
-#if( configENABLE_ACCESS_CONTROL_LIST == 1 )
+#যদি( configENABLE_ACCESS_CONTROL_LIST == 1 )
 
 /* PRIVILEGED_FUNCTION */
-void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
+শূন্য vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
                                       int32_t lInternalIndexOfKernelObject )
 {
     uint32_t ulAccessControlListEntryIndex, ulAccessControlListEntryBit;
@@ -774,7 +774,7 @@ void vPortRevokeAccessToKernelObject( TaskHandle_t xInternalTaskHandle,
 
 /* ----------------------------------------------------------------------------------- */
 
-void prvTaskExitError( void )
+শূন্য prvTaskExitError( শূন্য )
 {
     /* A function that implements a task must not exit or attempt to return to
      * its caller as there is nothing to return to. If a task wants to exit it
@@ -784,14 +784,14 @@ void prvTaskExitError( void )
      * defined, then stop here so application writers can catch the error. */
     configASSERT( ulPortInterruptNesting == ~0UL );
 
-    for( ;; )
+    প্রতি( ;; )
     {
     }
 }
 
 /* ----------------------------------------------------------------------------------- */
 
-void vPortEndScheduler( void )
+শূন্য vPortEndScheduler( শূন্য )
 {
     prvPortSchedulerRunning = pdFALSE;
 
@@ -802,7 +802,7 @@ void vPortEndScheduler( void )
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-void vPortEnterCritical( void )
+শূন্য vPortEnterCritical( শূন্য )
 {
     portDISABLE_INTERRUPTS();
 
@@ -816,7 +816,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert
      * if the critical nesting count is 1 to protect against recursive calls if
      * the assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    যদি( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
@@ -824,9 +824,9 @@ void vPortEnterCritical( void )
 /* ----------------------------------------------------------------------------------- */
 
 /* PRIVILEGED_FUNCTION */
-void vPortExitCritical( void )
+শূন্য vPortExitCritical( শূন্য )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    যদি( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -834,7 +834,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        যদি( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */

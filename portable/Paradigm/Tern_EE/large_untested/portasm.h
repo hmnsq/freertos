@@ -26,23 +26,23 @@
  *
  */
 
-typedef void TCB_t;
-extern volatile TCB_t * volatile pxCurrentTCB;
-extern void vTaskSwitchContext( void );
+প্রকারনির্দেশ শূন্য TCB_t;
+বাহ্য চঞ্চল TCB_t * চঞ্চল pxCurrentTCB;
+বাহ্য শূন্য vTaskSwitchContext( শূন্য );
 
 /*
  * Saves the stack pointer for one task into its TCB, calls
  * vTaskSwitchContext() to update the TCB being used, then restores the stack
  * from the new TCB read to run the task.
  */
-void portSWITCH_CONTEXT( void );
+শূন্য portSWITCH_CONTEXT( শূন্য );
 
 /*
  * Load the stack pointer from the TCB of the task which is going to be first
  * to execute.  Then force an IRET so the registers and IP are popped off the
  * stack.
  */
-void portFIRST_CONTEXT( void );
+শূন্য portFIRST_CONTEXT( শূন্য );
 
 #define portSWITCH_CONTEXT()                                         \
                         asm { mov   ax, seg pxCurrentTCB        } \
@@ -63,13 +63,13 @@ void portFIRST_CONTEXT( void );
                             asm { les   bx, dword ptr pxCurrentTCB  }   \
                             asm { mov   ss, es:[ bx + 2 ]           }   \
                             asm { mov   sp, es:[ bx ]               }   \
-                            asm { pop   bp                          }   \
-                            asm { pop   di                          }   \
-                            asm { pop   si                          }   \
-                            asm { pop   ds                          }   \
-                            asm { pop   es                          }   \
-                            asm { pop   dx                          }   \
-                            asm { pop   cx                          }   \
-                            asm { pop   bx                          }   \
-                            asm { pop   ax                          }   \
+                            asm { বের_করো   bp                          }   \
+                            asm { বের_করো   di                          }   \
+                            asm { বের_করো   si                          }   \
+                            asm { বের_করো   ds                          }   \
+                            asm { বের_করো   es                          }   \
+                            asm { বের_করো   dx                          }   \
+                            asm { বের_করো   cx                          }   \
+                            asm { বের_করো   bx                          }   \
+                            asm { বের_করো   ax                          }   \
                             asm { iret                              }

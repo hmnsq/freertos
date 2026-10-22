@@ -27,31 +27,31 @@
  */
 
 /* Kernel includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#অন্তর্ভাব "FreeRTOS.h"
+#অন্তর্ভাব "task.h"
 
 
-#define portINITIAL_FORMAT_VECTOR       ( ( StackType_t ) 0x4000 )
+#define portINITIAL_FORMAT_VECTOR       ( ( স্তূপ_Type_t ) 0x4000 )
 
 /* Supervisor mode set. */
-#define portINITIAL_STATUS_REGISTER     ( ( StackType_t ) 0x2000)
+#define portINITIAL_STATUS_REGISTER     ( ( স্তূপ_Type_t ) 0x2000)
 
 /* The clock prescale into the timer peripheral. */
-#define portPRESCALE_VALUE              ( ( uint8_t ) 10 )
+#define port_PRESCALE_মান              ( ( uint8_t ) 10 )
 
 /* The clock frequency into the RTC. */
 #define portRTC_CLOCK_HZ                ( ( uint32_t ) 1000 )
 
-asm void interrupt VectorNumber_VL1swi vPortYieldISR( void );
-static void prvSetupTimerInterrupt( void );
+asm শূন্য interrupt Vector_সংখ্যা_VL1swi vPortYieldISR( শূন্য );
+স্থির শূন্য prvSetupTimerInterrupt( শূন্য );
 
 /* Used to keep track of the number of nested calls to taskENTER_CRITICAL().  This
 will be set to 0 prior to the first task being started. */
-static uint32_t ulCriticalNesting = 0x9999UL;
+স্থির uint32_t ulCriticalNesting = 0x9999UL;
 
 /*-----------------------------------------------------------*/
 
-StackType_t *pxPortInitialiseStack( StackType_t * pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
+স্তূপ_Type_t *px_Port_Initialise_স্তূপ( স্তূপ_Type_t * px_শীর্ষ_Of_স্তূপ, TaskFunction_t pxCode, শূন্য *pvParameters )
 {
 
 uint32_t ulOriginalA5;
@@ -59,32 +59,32 @@ uint32_t ulOriginalA5;
     __asm{ MOVE.L A5, ulOriginalA5 };
 
 
-    *pxTopOfStack = (StackType_t) 0xDEADBEEF;
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = (স্তূপ_Type_t) 0xDEADBEEF;
+    px_শীর্ষ_Of_স্তূপ--;
 
     /* Exception stack frame starts with the return address. */
-    *pxTopOfStack = ( StackType_t ) pxCode;
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) pxCode;
+    px_শীর্ষ_Of_স্তূপ--;
 
-    *pxTopOfStack = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
-    pxTopOfStack--;
+    *px_শীর্ষ_Of_স্তূপ = ( portINITIAL_FORMAT_VECTOR << 16UL ) | ( portINITIAL_STATUS_REGISTER );
+    px_শীর্ষ_Of_স্তূপ--;
 
-    *pxTopOfStack = ( StackType_t ) 0x0; /*FP*/
-    pxTopOfStack -= 14; /* A5 to D0. */
+    *px_শীর্ষ_Of_স্তূপ = ( স্তূপ_Type_t ) 0x0; /*FP*/
+    px_শীর্ষ_Of_স্তূপ -= 14; /* A5 to D0. */
 
     /* Parameter in A0. */
-    *( pxTopOfStack + 8 ) = ( StackType_t ) pvParameters;
+    *( px_শীর্ষ_Of_স্তূপ + 8 ) = ( স্তূপ_Type_t ) pvParameters;
 
     /* A5 must be maintained as it is reserved by the compiler. */
-    *( pxTopOfStack + 13 ) = ulOriginalA5;
+    *( px_শীর্ষ_Of_স্তূপ + 13 ) = ulOriginalA5;
 
-    return pxTopOfStack;
+    প্রত্যাগম px_শীর্ষ_Of_স্তূপ;
 }
 /*-----------------------------------------------------------*/
 
-BaseType_t xPortStartScheduler( void )
+BaseType_t xPortStartScheduler( শূন্য )
 {
-extern void vPortStartFirstTask( void );
+বাহ্য শূন্য vPortStartFirstTask( শূন্য );
 
     ulCriticalNesting = 0UL;
 
@@ -94,11 +94,11 @@ extern void vPortStartFirstTask( void );
     /* Start the first task executing. */
     vPortStartFirstTask();
 
-    return pdFALSE;
+    প্রত্যাগম pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
-static void prvSetupTimerInterrupt( void )
+স্থির শূন্য prvSetupTimerInterrupt( শূন্য )
 {
     /* Prescale by 1 - ie no prescale. */
     RTCSC |= 8;
@@ -112,45 +112,45 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-void vPortEndScheduler( void )
+শূন্য vPortEndScheduler( শূন্য )
 {
     /* Not implemented as there is nothing to return to. */
 }
 /*-----------------------------------------------------------*/
 
-void vPortEnterCritical( void )
+শূন্য vPortEnterCritical( শূন্য )
 {
-    if( ulCriticalNesting == 0UL )
+    যদি( ulCriticalNesting == 0UL )
     {
         /* Guard against context switches being pended simultaneously with a
         critical section being entered. */
-        do
+        কুরু
         {
             portDISABLE_INTERRUPTS();
-            if( INTC_FRC == 0UL )
+            যদি( INTC_FRC == 0UL )
             {
-                break;
+                ভঙ্গ;
             }
 
             portENABLE_INTERRUPTS();
 
-        } while( 1 );
+        } যাবত্( 1 );
     }
     ulCriticalNesting++;
 }
 /*-----------------------------------------------------------*/
 
-void vPortExitCritical( void )
+শূন্য vPortExitCritical( শূন্য )
 {
     ulCriticalNesting--;
-    if( ulCriticalNesting == 0 )
+    যদি( ulCriticalNesting == 0 )
     {
         portENABLE_INTERRUPTS();
     }
 }
 /*-----------------------------------------------------------*/
 
-void vPortYieldHandler( void )
+শূন্য vPortYieldHandler( শূন্য )
 {
 uint32_t ulSavedInterruptMask;
 
@@ -164,7 +164,7 @@ uint32_t ulSavedInterruptMask;
 }
 /*-----------------------------------------------------------*/
 
-void interrupt VectorNumber_Vrtc vPortTickISR( void )
+শূন্য interrupt Vector_সংখ্যা_Vrtc vPortTickISR( শূন্য )
 {
 uint32_t ulSavedInterruptMask;
 
@@ -174,7 +174,7 @@ uint32_t ulSavedInterruptMask;
     /* Increment the RTOS tick. */
     ulSavedInterruptMask = portSET_INTERRUPT_MASK_FROM_ISR();
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        যদি( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
