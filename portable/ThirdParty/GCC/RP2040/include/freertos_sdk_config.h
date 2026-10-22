@@ -36,7 +36,7 @@
         /* malloc needs to be made thread safe */
         #define PICO_USE_MALLOC_MUTEX    1
     #endif /* PICO_USE_MALLOC_MUTEX */
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+    #если ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* increase the amount of time it may reasonably take to wake us up */
         #ifndef PICO_TIME_SLEEP_OVERHEAD_ADJUST_US
             #define PICO_TIME_SLEEP_OVERHEAD_ADJUST_US    150
@@ -69,7 +69,7 @@
         #endif
     #endif /* configSUPPORT_PICO_SYNC_INTEROP */
 
-    #if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
+    #если ( configSUPPORT_PICO_TIME_INTEROP == 1 )
         extern void xPortSyncInternalYieldUntilBefore( absolute_time_t t );
         #define sync_internal_yield_until_before( t )    xPortSyncInternalYieldUntilBefore( t )
     #endif /* configSUPPORT_PICO_TIME_INTEROP */

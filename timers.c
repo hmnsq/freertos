@@ -39,7 +39,7 @@
 #include "queue.h"
 #include "timers.h"
 
-#if ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 0 )
+#если ( INCLUDE_xTimerPendFunctionCall == 1 ) && ( configUSE_TIMERS == 0 )
     #error configUSE_TIMERS must be set to 1 to make the xTimerPendFunctionCall() function available.
 #endif
 
@@ -53,7 +53,7 @@
  * to include software timer functionality.  This #if is closed at the very bottom
  * of this file.  If you want to include software timer functionality then ensure
  * configUSE_TIMERS is set to 1 in FreeRTOSConfig.h. */
-#if ( configUSE_TIMERS == 1 )
+#если ( configUSE_TIMERS == 1 )
 
 /* Misc definitions. */
     #define tmrNO_DELAY                    ( ( TickType_t ) 0U )
@@ -65,7 +65,7 @@
         #define configTIMER_SERVICE_TASK_NAME    "Tmr Svc"
     #endif
 
-    #if ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) )
+    #если ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) )
 
 /* The core affinity assigned to the timer service task on SMP systems.
  * This can be overridden by defining configTIMER_SERVICE_TASK_CORE_AFFINITY in FreeRTOSConfig.h. */
@@ -87,7 +87,7 @@
         TickType_t xTimerPeriodInTicks;                                          /**< How quickly and often the timer expires. */
         void * pvTimerID;                                                        /**< An ID to identify the timer.  This allows the timer to be identified when the same callback is used for multiple timers. */
         portTIMER_CALLBACK_ATTRIBUTE TimerCallbackFunction_t pxCallbackFunction; /**< The function that will be called when the timer expires. */
-        #if ( configUSE_TRACE_FACILITY == 1 )
+        #если ( configUSE_TRACE_FACILITY == 1 )
             UBaseType_t uxTimerNumber;                                           /**< An ID assigned by trace tools such as FreeRTOS+Trace */
         #endif
         uint8_t ucStatus;                                                        /**< Holds bits to say if the timer was statically allocated or not, and if it is active or not. */
@@ -128,7 +128,7 @@
 
             /* Don't include xCallbackParameters if it is not going to be used as
              * it makes the structure (and therefore the timer queue) larger. */
-            #if ( INCLUDE_xTimerPendFunctionCall == 1 )
+            #если ( INCLUDE_xTimerPendFunctionCall == 1 )
                 CallbackParameters_t xCallbackParameters;
             #endif /* INCLUDE_xTimerPendFunctionCall */
         } u;
@@ -246,11 +246,11 @@
          * been created then the initialisation will already have been performed. */
         prvCheckForValidListAndQueue();
 
-        if( xTimerQueue != NULL )
+        если( xTimerQueue != NULL )
         {
-            #if ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) )
+            #если ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) )
             {
-                #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+                #если ( configSUPPORT_STATIC_ALLOCATION == 1 )
                 {
                     StaticTask_t * pxTimerTaskTCBBuffer = NULL;
                     StackType_t * pxTimerTaskStackBuffer = NULL;
@@ -266,12 +266,12 @@
                                                                      pxTimerTaskTCBBuffer,
                                                                      configTIMER_SERVICE_TASK_CORE_AFFINITY );
 
-                    if( xTimerTaskHandle != NULL )
+                    если( xTimerTaskHandle != NULL )
                     {
                         xReturn = pdPASS;
                     }
                 }
-                #else /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
+                #иначе /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
                 {
                     xReturn = xTaskCreateAffinitySet( &prvTimerTask,
                                                       configTIMER_SERVICE_TASK_NAME,
@@ -283,9 +283,9 @@
                 }
                 #endif /* configSUPPORT_STATIC_ALLOCATION */
             }
-            #else /* #if ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) ) */
+            #иначе /* #if ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) ) */
             {
-                #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+                #если ( configSUPPORT_STATIC_ALLOCATION == 1 )
                 {
                     StaticTask_t * pxTimerTaskTCBBuffer = NULL;
                     StackType_t * pxTimerTaskStackBuffer = NULL;
@@ -300,12 +300,12 @@
                                                           pxTimerTaskStackBuffer,
                                                           pxTimerTaskTCBBuffer );
 
-                    if( xTimerTaskHandle != NULL )
+                    если( xTimerTaskHandle != NULL )
                     {
                         xReturn = pdPASS;
                     }
                 }
-                #else /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
+                #иначе /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
                 {
                     xReturn = xTaskCreate( &prvTimerTask,
                                            configTIMER_SERVICE_TASK_NAME,
@@ -318,7 +318,7 @@
             }
             #endif /* #if ( ( configNUMBER_OF_CORES > 1 ) && ( configUSE_CORE_AFFINITY == 1 ) ) */
         }
-        else
+        иначе
         {
             mtCOVERAGE_TEST_MARKER();
         }
@@ -327,11 +327,11 @@
 
         traceRETURN_xTimerCreateTimerTask( xReturn );
 
-        return xReturn;
+        вернуть xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+    #если ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
 
         TimerHandle_t xTimerCreate( const char * const pcTimerName,
                                     const TickType_t xTimerPeriodInTicks,
@@ -348,7 +348,7 @@
             /* coverity[misra_c_2012_rule_11_5_violation] */
             pxNewTimer = ( Timer_t * ) pvPortMalloc( sizeof( Timer_t ) );
 
-            if( pxNewTimer != NULL )
+            если( pxNewTimer != NULL )
             {
                 /* Status is thus far zero as the timer is not created statically
                  * and has not been started.  The auto-reload bit may get set in
@@ -359,13 +359,13 @@
 
             traceRETURN_xTimerCreate( pxNewTimer );
 
-            return pxNewTimer;
+            вернуть pxNewTimer;
         }
 
     #endif /* configSUPPORT_DYNAMIC_ALLOCATION */
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #если ( configSUPPORT_STATIC_ALLOCATION == 1 )
 
         TimerHandle_t xTimerCreateStatic( const char * const pcTimerName,
                                           const TickType_t xTimerPeriodInTicks,
@@ -378,7 +378,7 @@
 
             traceENTER_xTimerCreateStatic( pcTimerName, xTimerPeriodInTicks, xAutoReload, pvTimerID, pxCallbackFunction, pxTimerBuffer );
 
-            #if ( configASSERT_DEFINED == 1 )
+            #если ( configASSERT_DEFINED == 1 )
             {
                 /* Sanity check that the size of the structure used to declare a
                  * variable of type StaticTimer_t equals the size of the real timer
@@ -396,7 +396,7 @@
             /* coverity[misra_c_2012_rule_11_3_violation] */
             pxNewTimer = ( Timer_t * ) pxTimerBuffer;
 
-            if( pxNewTimer != NULL )
+            если( pxNewTimer != NULL )
             {
                 /* Timers can be created statically or dynamically so note this
                  * timer was created statically in case it is later deleted.  The
@@ -408,7 +408,7 @@
 
             traceRETURN_xTimerCreateStatic( pxNewTimer );
 
-            return pxNewTimer;
+            вернуть pxNewTimer;
         }
 
     #endif /* configSUPPORT_STATIC_ALLOCATION */
@@ -436,7 +436,7 @@
         pxNewTimer->pxCallbackFunction = pxCallbackFunction;
         vListInitialiseItem( &( pxNewTimer->xTimerListItem ) );
 
-        if( xAutoReload != pdFALSE )
+        если( xAutoReload != pdFALSE )
         {
             pxNewTimer->ucStatus |= ( uint8_t ) tmrSTATUS_IS_AUTORELOAD;
         }
@@ -460,7 +460,7 @@
 
         /* Send a message to the timer service task to perform a particular action
          * on a particular timer definition. */
-        if( ( xTimerQueue != NULL ) && ( xTimer != NULL ) )
+        если( ( xTimerQueue != NULL ) && ( xTimer != NULL ) )
         {
             /* Send a command to the timer service task to start the xTimer timer. */
             xMessage.xMessageID = xCommandID;
@@ -471,13 +471,13 @@
              * valid task-issued commands are accepted here. */
             configASSERT( ( xCommandID >= tmrCOMMAND_START_DONT_TRACE ) && ( xCommandID < tmrFIRST_FROM_ISR_COMMAND ) );
 
-            if( ( xCommandID >= tmrCOMMAND_START_DONT_TRACE ) && ( xCommandID < tmrFIRST_FROM_ISR_COMMAND ) )
+            если( ( xCommandID >= tmrCOMMAND_START_DONT_TRACE ) && ( xCommandID < tmrFIRST_FROM_ISR_COMMAND ) )
             {
-                if( xTaskGetSchedulerState() == taskSCHEDULER_RUNNING )
+                если( xTaskGetSchedulerState() == taskSCHEDULER_RUNNING )
                 {
                     xReturn = xQueueSendToBack( xTimerQueue, &xMessage, xTicksToWait );
                 }
-                else
+                иначе
                 {
                     xReturn = xQueueSendToBack( xTimerQueue, &xMessage, tmrNO_DELAY );
                 }
@@ -485,14 +485,14 @@
 
             traceTIMER_COMMAND_SEND( xTimer, xCommandID, xOptionalValue, xReturn );
         }
-        else
+        иначе
         {
             mtCOVERAGE_TEST_MARKER();
         }
 
         traceRETURN_xTimerGenericCommandFromTask( xReturn );
 
-        return xReturn;
+        вернуть xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -511,7 +511,7 @@
 
         /* Send a message to the timer service task to perform a particular action
          * on a particular timer definition. */
-        if( ( xTimerQueue != NULL ) && ( xTimer != NULL ) )
+        если( ( xTimerQueue != NULL ) && ( xTimer != NULL ) )
         {
             /* Send a command to the timer service task to start the xTimer timer. */
             xMessage.xMessageID = xCommandID;
@@ -520,21 +520,21 @@
 
             configASSERT( xCommandID >= tmrFIRST_FROM_ISR_COMMAND );
 
-            if( xCommandID >= tmrFIRST_FROM_ISR_COMMAND )
+            если( xCommandID >= tmrFIRST_FROM_ISR_COMMAND )
             {
                 xReturn = xQueueSendToBackFromISR( xTimerQueue, &xMessage, pxHigherPriorityTaskWoken );
             }
 
             traceTIMER_COMMAND_SEND( xTimer, xCommandID, xOptionalValue, xReturn );
         }
-        else
+        иначе
         {
             mtCOVERAGE_TEST_MARKER();
         }
 
         traceRETURN_xTimerGenericCommandFromISR( xReturn );
 
-        return xReturn;
+        вернуть xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -548,7 +548,7 @@
 
         traceRETURN_xTimerGetTimerDaemonTaskHandle( xTimerTaskHandle );
 
-        return xTimerTaskHandle;
+        вернуть xTimerTaskHandle;
     }
 /*-----------------------------------------------------------*/
 
@@ -562,7 +562,7 @@
 
         traceRETURN_xTimerGetPeriod( pxTimer->xTimerPeriodInTicks );
 
-        return pxTimer->xTimerPeriodInTicks;
+        вернуть pxTimer->xTimerPeriodInTicks;
     }
 /*-----------------------------------------------------------*/
 
@@ -576,11 +576,11 @@
         configASSERT( xTimer );
         taskENTER_CRITICAL();
         {
-            if( xAutoReload != pdFALSE )
+            если( xAutoReload != pdFALSE )
             {
                 pxTimer->ucStatus |= ( uint8_t ) tmrSTATUS_IS_AUTORELOAD;
             }
-            else
+            иначе
             {
                 pxTimer->ucStatus &= ( ( uint8_t ) ~tmrSTATUS_IS_AUTORELOAD );
             }
@@ -601,12 +601,12 @@
         configASSERT( xTimer );
         portBASE_TYPE_ENTER_CRITICAL();
         {
-            if( ( pxTimer->ucStatus & tmrSTATUS_IS_AUTORELOAD ) == 0U )
+            если( ( pxTimer->ucStatus & tmrSTATUS_IS_AUTORELOAD ) == 0U )
             {
                 /* Not an auto-reload timer. */
                 xReturn = pdFALSE;
             }
-            else
+            иначе
             {
                 /* Is an auto-reload timer. */
                 xReturn = pdTRUE;
@@ -616,7 +616,7 @@
 
         traceRETURN_xTimerGetReloadMode( xReturn );
 
-        return xReturn;
+        вернуть xReturn;
     }
 
     UBaseType_t uxTimerGetReloadMode( TimerHandle_t xTimer )
@@ -629,7 +629,7 @@
 
         traceRETURN_uxTimerGetReloadMode( uxReturn );
 
-        return uxReturn;
+        вернуть uxReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -645,11 +645,11 @@
 
         traceRETURN_xTimerGetExpiryTime( xReturn );
 
-        return xReturn;
+        вернуть xReturn;
     }
 /*-----------------------------------------------------------*/
 
-    #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+    #если ( configSUPPORT_STATIC_ALLOCATION == 1 )
         BaseType_t xTimerGetStaticBuffer( TimerHandle_t xTimer,
                                           StaticTimer_t ** ppxTimerBuffer )
         {
@@ -660,7 +660,7 @@
 
             configASSERT( ppxTimerBuffer != NULL );
 
-            if( ( pxTimer->ucStatus & tmrSTATUS_IS_STATICALLY_ALLOCATED ) != 0U )
+            если( ( pxTimer->ucStatus & tmrSTATUS_IS_STATICALLY_ALLOCATED ) != 0U )
             {
                 /* MISRA Ref 11.3.1 [Misaligned access] */
                 /* More details at: https://github.com/FreeRTOS/FreeRTOS-Kernel/blob/main/MISRA.md#rule-113 */
@@ -668,14 +668,14 @@
                 *ppxTimerBuffer = ( StaticTimer_t * ) pxTimer;
                 xReturn = pdTRUE;
             }
-            else
+            иначе
             {
                 xReturn = pdFALSE;
             }
 
             traceRETURN_xTimerGetStaticBuffer( xReturn );
 
-            return xReturn;
+            вернуть xReturn;
         }
     #endif /* configSUPPORT_STATIC_ALLOCATION */
 /*-----------------------------------------------------------*/
@@ -690,7 +690,7 @@
 
         traceRETURN_pcTimerGetName( pxTimer->pcTimerName );
 
-        return pxTimer->pcTimerName;
+        вернуть pxTimer->pcTimerName;
     }
 /*-----------------------------------------------------------*/
 
@@ -701,7 +701,7 @@
         /* Insert the timer into the appropriate list for the next expiry time.
          * If the next expiry time has already passed, advance the expiry time,
          * call the callback function, and try again. */
-        while( prvInsertTimerInActiveList( pxTimer, ( xExpiredTime + pxTimer->xTimerPeriodInTicks ), xTimeNow, xExpiredTime ) != pdFALSE )
+        пока( prvInsertTimerInActiveList( pxTimer, ( xExpiredTime + pxTimer->xTimerPeriodInTicks ), xTimeNow, xExpiredTime ) != pdFALSE )
         {
             /* Advance the expiry time. */
             xExpiredTime += pxTimer->xTimerPeriodInTicks;
@@ -728,11 +728,11 @@
 
         /* If the timer is an auto-reload timer then calculate the next
          * expiry time and re-insert the timer in the list of active timers. */
-        if( ( pxTimer->ucStatus & tmrSTATUS_IS_AUTORELOAD ) != 0U )
+        если( ( pxTimer->ucStatus & tmrSTATUS_IS_AUTORELOAD ) != 0U )
         {
             prvReloadTimer( pxTimer, xNextExpireTime, xTimeNow );
         }
-        else
+        иначе
         {
             pxTimer->ucStatus &= ( ( uint8_t ) ~tmrSTATUS_IS_ACTIVE );
         }
@@ -751,7 +751,7 @@
         /* Just to avoid compiler warnings. */
         ( void ) pvParameters;
 
-        #if ( configUSE_DAEMON_TASK_STARTUP_HOOK == 1 )
+        #если ( configUSE_DAEMON_TASK_STARTUP_HOOK == 1 )
         {
             /* Allow the application writer to execute some code in the context of
              * this task at the point the task starts executing.  This is useful if the
@@ -761,7 +761,7 @@
         }
         #endif /* configUSE_DAEMON_TASK_STARTUP_HOOK */
 
-        for( ; configCONTROL_INFINITE_LOOP(); )
+        для( ; configCONTROL_INFINITE_LOOP(); )
         {
             /* Query the timers list to see if it contains any timers, and if so,
              * obtain the time at which the next timer will expire. */
@@ -792,15 +792,15 @@
              * prvSampleTimeNow() function. */
             xTimeNow = prvSampleTimeNow( &xTimerListsWereSwitched );
 
-            if( xTimerListsWereSwitched == pdFALSE )
+            если( xTimerListsWereSwitched == pdFALSE )
             {
                 /* The tick count has not overflowed, has the timer expired? */
-                if( ( xListWasEmpty == pdFALSE ) && ( xNextExpireTime <= xTimeNow ) )
+                если( ( xListWasEmpty == pdFALSE ) && ( xNextExpireTime <= xTimeNow ) )
                 {
                     ( void ) xTaskResumeAll();
                     prvProcessExpiredTimer( xNextExpireTime, xTimeNow );
                 }
-                else
+                иначе
                 {
                     /* The tick count has not overflowed, and the next expire
                      * time has not been reached yet.  This task should therefore
@@ -808,7 +808,7 @@
                      * received - whichever comes first.  The following line cannot
                      * be reached unless xNextExpireTime > xTimeNow, except in the
                      * case when the current timer list is empty. */
-                    if( xListWasEmpty != pdFALSE )
+                    если( xListWasEmpty != pdFALSE )
                     {
                         /* The current timer list is empty - is the overflow list
                          * also empty? */
@@ -817,7 +817,7 @@
 
                     vQueueWaitForMessageRestricted( xTimerQueue, ( xNextExpireTime - xTimeNow ), xListWasEmpty );
 
-                    if( xTaskResumeAll() == pdFALSE )
+                    если( xTaskResumeAll() == pdFALSE )
                     {
                         /* Yield to wait for either a command to arrive, or the
                          * block time to expire.  If a command arrived between the
@@ -825,13 +825,13 @@
                          * will not cause the task to block. */
                         taskYIELD_WITHIN_API();
                     }
-                    else
+                    иначе
                     {
                         mtCOVERAGE_TEST_MARKER();
                     }
                 }
             }
-            else
+            иначе
             {
                 ( void ) xTaskResumeAll();
             }
@@ -852,17 +852,17 @@
          * re-assessed.  */
         *pxListWasEmpty = listLIST_IS_EMPTY( pxCurrentTimerList );
 
-        if( *pxListWasEmpty == pdFALSE )
+        если( *pxListWasEmpty == pdFALSE )
         {
             xNextExpireTime = listGET_ITEM_VALUE_OF_HEAD_ENTRY( pxCurrentTimerList );
         }
-        else
+        иначе
         {
             /* Ensure the task unblocks when the tick count rolls over. */
             xNextExpireTime = ( TickType_t ) 0U;
         }
 
-        return xNextExpireTime;
+        вернуть xNextExpireTime;
     }
 /*-----------------------------------------------------------*/
 
@@ -873,19 +873,19 @@
 
         xTimeNow = xTaskGetTickCount();
 
-        if( xTimeNow < xLastTime )
+        если( xTimeNow < xLastTime )
         {
             prvSwitchTimerLists();
             *pxTimerListsWereSwitched = pdTRUE;
         }
-        else
+        иначе
         {
             *pxTimerListsWereSwitched = pdFALSE;
         }
 
         xLastTime = xTimeNow;
 
-        return xTimeNow;
+        вернуть xTimeNow;
     }
 /*-----------------------------------------------------------*/
 
@@ -899,37 +899,37 @@
         listSET_LIST_ITEM_VALUE( &( pxTimer->xTimerListItem ), xNextExpiryTime );
         listSET_LIST_ITEM_OWNER( &( pxTimer->xTimerListItem ), pxTimer );
 
-        if( xNextExpiryTime <= xTimeNow )
+        если( xNextExpiryTime <= xTimeNow )
         {
             /* Has the expiry time elapsed between the command to start/reset a
              * timer was issued, and the time the command was processed? */
-            if( ( ( TickType_t ) ( xTimeNow - xCommandTime ) ) >= pxTimer->xTimerPeriodInTicks )
+            если( ( ( TickType_t ) ( xTimeNow - xCommandTime ) ) >= pxTimer->xTimerPeriodInTicks )
             {
                 /* The time between a command being issued and the command being
                  * processed actually exceeds the timers period.  */
                 xProcessTimerNow = pdTRUE;
             }
-            else
+            иначе
             {
                 vListInsert( pxOverflowTimerList, &( pxTimer->xTimerListItem ) );
             }
         }
-        else
+        иначе
         {
-            if( ( xTimeNow < xCommandTime ) && ( xNextExpiryTime >= xCommandTime ) )
+            если( ( xTimeNow < xCommandTime ) && ( xNextExpiryTime >= xCommandTime ) )
             {
                 /* If, since the command was issued, the tick count has overflowed
                  * but the expiry time has not, then the timer must have already passed
                  * its expiry time and should be processed immediately. */
                 xProcessTimerNow = pdTRUE;
             }
-            else
+            иначе
             {
                 vListInsert( pxCurrentTimerList, &( pxTimer->xTimerListItem ) );
             }
         }
 
-        return xProcessTimerNow;
+        вернуть xProcessTimerNow;
     }
 /*-----------------------------------------------------------*/
 
@@ -940,13 +940,13 @@
         BaseType_t xTimerListsWereSwitched;
         TickType_t xTimeNow;
 
-        while( xQueueReceive( xTimerQueue, &xMessage, tmrNO_DELAY ) != pdFAIL )
+        пока( xQueueReceive( xTimerQueue, &xMessage, tmrNO_DELAY ) != pdFAIL )
         {
-            #if ( INCLUDE_xTimerPendFunctionCall == 1 )
+            #если ( INCLUDE_xTimerPendFunctionCall == 1 )
             {
                 /* Negative commands are pended function calls rather than timer
                  * commands. */
-                if( xMessage.xMessageID < ( BaseType_t ) 0 )
+                если( xMessage.xMessageID < ( BaseType_t ) 0 )
                 {
                     const CallbackParameters_t * const pxCallback = &( xMessage.u.xCallbackParameters );
 
@@ -957,7 +957,7 @@
                     /* Call the function. */
                     pxCallback->pxCallbackFunction( pxCallback->pvParameter1, pxCallback->ulParameter2 );
                 }
-                else
+                иначе
                 {
                     mtCOVERAGE_TEST_MARKER();
                 }
@@ -966,20 +966,20 @@
 
             /* Commands that are positive are timer commands rather than pended
              * function calls. */
-            if( xMessage.xMessageID >= ( BaseType_t ) 0 )
+            если( xMessage.xMessageID >= ( BaseType_t ) 0 )
             {
                 /* The messages uses the xTimerParameters member to work on a
                  * software timer. */
                 pxTimer = xMessage.u.xTimerParameters.pxTimer;
 
-                if( pxTimer != NULL )
+                если( pxTimer != NULL )
                 {
-                    if( listIS_CONTAINED_WITHIN( NULL, &( pxTimer->xTimerListItem ) ) == pdFALSE )
+                    если( listIS_CONTAINED_WITHIN( NULL, &( pxTimer->xTimerListItem ) ) == pdFALSE )
                     {
                         /* The timer is in a list, remove it. */
                         ( void ) uxListRemove( &( pxTimer->xTimerListItem ) );
                     }
-                    else
+                    иначе
                     {
                         mtCOVERAGE_TEST_MARKER();
                     }
@@ -1003,15 +1003,15 @@
                             /* Start or restart a timer. */
                             pxTimer->ucStatus |= ( uint8_t ) tmrSTATUS_IS_ACTIVE;
 
-                            if( prvInsertTimerInActiveList( pxTimer, xMessage.u.xTimerParameters.xMessageValue + pxTimer->xTimerPeriodInTicks, xTimeNow, xMessage.u.xTimerParameters.xMessageValue ) != pdFALSE )
+                            если( prvInsertTimerInActiveList( pxTimer, xMessage.u.xTimerParameters.xMessageValue + pxTimer->xTimerPeriodInTicks, xTimeNow, xMessage.u.xTimerParameters.xMessageValue ) != pdFALSE )
                             {
                                 /* The timer expired before it was added to the active
                                  * timer list.  Process it now. */
-                                if( ( pxTimer->ucStatus & tmrSTATUS_IS_AUTORELOAD ) != 0U )
+                                если( ( pxTimer->ucStatus & tmrSTATUS_IS_AUTORELOAD ) != 0U )
                                 {
                                     prvReloadTimer( pxTimer, xMessage.u.xTimerParameters.xMessageValue + pxTimer->xTimerPeriodInTicks, xTimeNow );
                                 }
-                                else
+                                иначе
                                 {
                                     pxTimer->ucStatus &= ( ( uint8_t ) ~tmrSTATUS_IS_ACTIVE );
                                 }
@@ -1020,7 +1020,7 @@
                                 traceTIMER_EXPIRED( pxTimer );
                                 pxTimer->pxCallbackFunction( ( TimerHandle_t ) pxTimer );
                             }
-                            else
+                            иначе
                             {
                                 mtCOVERAGE_TEST_MARKER();
                             }
@@ -1049,21 +1049,21 @@
                             break;
 
                         case tmrCOMMAND_DELETE:
-                            #if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
+                            #если ( configSUPPORT_DYNAMIC_ALLOCATION == 1 )
                             {
                                 /* The timer has already been removed from the active list,
                                  * just free up the memory if the memory was dynamically
                                  * allocated. */
-                                if( ( pxTimer->ucStatus & tmrSTATUS_IS_STATICALLY_ALLOCATED ) == ( uint8_t ) 0 )
+                                если( ( pxTimer->ucStatus & tmrSTATUS_IS_STATICALLY_ALLOCATED ) == ( uint8_t ) 0 )
                                 {
                                     vPortFree( pxTimer );
                                 }
-                                else
+                                иначе
                                 {
                                     pxTimer->ucStatus &= ( ( uint8_t ) ~tmrSTATUS_IS_ACTIVE );
                                 }
                             }
-                            #else /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) */
+                            #иначе /* if ( configSUPPORT_DYNAMIC_ALLOCATION == 1 ) */
                             {
                                 /* If dynamic allocation is not enabled, the memory
                                  * could not have been dynamically allocated. So there is
@@ -1079,7 +1079,7 @@
                             break;
                     }
                 }
-                else
+                иначе
                 {
                     mtCOVERAGE_TEST_MARKER();
                 }
@@ -1097,7 +1097,7 @@
          * If there are any timers still referenced from the current timer list
          * then they must have expired and should be processed before the lists
          * are switched. */
-        while( listLIST_IS_EMPTY( pxCurrentTimerList ) == pdFALSE )
+        пока( listLIST_IS_EMPTY( pxCurrentTimerList ) == pdFALSE )
         {
             xNextExpireTime = listGET_ITEM_VALUE_OF_HEAD_ENTRY( pxCurrentTimerList );
 
@@ -1120,14 +1120,14 @@
          * initialised. */
         taskENTER_CRITICAL();
         {
-            if( xTimerQueue == NULL )
+            если( xTimerQueue == NULL )
             {
                 vListInitialise( &xActiveTimerList1 );
                 vListInitialise( &xActiveTimerList2 );
                 pxCurrentTimerList = &xActiveTimerList1;
                 pxOverflowTimerList = &xActiveTimerList2;
 
-                #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+                #если ( configSUPPORT_STATIC_ALLOCATION == 1 )
                 {
                     /* The timer queue is allocated statically in case
                      * configSUPPORT_DYNAMIC_ALLOCATION is 0. */
@@ -1136,26 +1136,26 @@
 
                     xTimerQueue = xQueueCreateStatic( ( UBaseType_t ) configTIMER_QUEUE_LENGTH, ( UBaseType_t ) sizeof( DaemonTaskMessage_t ), &( ucStaticTimerQueueStorage[ 0 ] ), &xStaticTimerQueue );
                 }
-                #else
+                #иначе
                 {
                     xTimerQueue = xQueueCreate( ( UBaseType_t ) configTIMER_QUEUE_LENGTH, ( UBaseType_t ) sizeof( DaemonTaskMessage_t ) );
                 }
                 #endif /* if ( configSUPPORT_STATIC_ALLOCATION == 1 ) */
 
-                #if ( configQUEUE_REGISTRY_SIZE > 0 )
+                #если ( configQUEUE_REGISTRY_SIZE > 0 )
                 {
-                    if( xTimerQueue != NULL )
+                    если( xTimerQueue != NULL )
                     {
                         vQueueAddToRegistry( xTimerQueue, "TmrQ" );
                     }
-                    else
+                    иначе
                     {
                         mtCOVERAGE_TEST_MARKER();
                     }
                 }
                 #endif /* configQUEUE_REGISTRY_SIZE */
             }
-            else
+            иначе
             {
                 mtCOVERAGE_TEST_MARKER();
             }
@@ -1176,11 +1176,11 @@
         /* Is the timer in the list of active timers? */
         portBASE_TYPE_ENTER_CRITICAL();
         {
-            if( ( pxTimer->ucStatus & tmrSTATUS_IS_ACTIVE ) == 0U )
+            если( ( pxTimer->ucStatus & tmrSTATUS_IS_ACTIVE ) == 0U )
             {
                 xReturn = pdFALSE;
             }
-            else
+            иначе
             {
                 xReturn = pdTRUE;
             }
@@ -1189,7 +1189,7 @@
 
         traceRETURN_xTimerIsTimerActive( xReturn );
 
-        return xReturn;
+        вернуть xReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -1210,7 +1210,7 @@
 
         traceRETURN_pvTimerGetTimerID( pvReturn );
 
-        return pvReturn;
+        вернуть pvReturn;
     }
 /*-----------------------------------------------------------*/
 
@@ -1233,7 +1233,7 @@
     }
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTimerPendFunctionCall == 1 )
+    #если ( INCLUDE_xTimerPendFunctionCall == 1 )
 
         BaseType_t xTimerPendFunctionCallFromISR( PendedFunction_t xFunctionToPend,
                                                   void * pvParameter1,
@@ -1257,13 +1257,13 @@
             tracePEND_FUNC_CALL_FROM_ISR( xFunctionToPend, pvParameter1, ulParameter2, xReturn );
             traceRETURN_xTimerPendFunctionCallFromISR( xReturn );
 
-            return xReturn;
+            вернуть xReturn;
         }
 
     #endif /* INCLUDE_xTimerPendFunctionCall */
 /*-----------------------------------------------------------*/
 
-    #if ( INCLUDE_xTimerPendFunctionCall == 1 )
+    #если ( INCLUDE_xTimerPendFunctionCall == 1 )
 
         BaseType_t xTimerPendFunctionCall( PendedFunction_t xFunctionToPend,
                                            void * pvParameter1,
@@ -1292,13 +1292,13 @@
             tracePEND_FUNC_CALL( xFunctionToPend, pvParameter1, ulParameter2, xReturn );
             traceRETURN_xTimerPendFunctionCall( xReturn );
 
-            return xReturn;
+            вернуть xReturn;
         }
 
     #endif /* INCLUDE_xTimerPendFunctionCall */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #если ( configUSE_TRACE_FACILITY == 1 )
 
         UBaseType_t uxTimerGetTimerNumber( TimerHandle_t xTimer )
         {
@@ -1306,13 +1306,13 @@
 
             traceRETURN_uxTimerGetTimerNumber( ( ( Timer_t * ) xTimer )->uxTimerNumber );
 
-            return ( ( Timer_t * ) xTimer )->uxTimerNumber;
+            вернуть ( ( Timer_t * ) xTimer )->uxTimerNumber;
         }
 
     #endif /* configUSE_TRACE_FACILITY */
 /*-----------------------------------------------------------*/
 
-    #if ( configUSE_TRACE_FACILITY == 1 )
+    #если ( configUSE_TRACE_FACILITY == 1 )
 
         void vTimerSetTimerNumber( TimerHandle_t xTimer,
                                    UBaseType_t uxTimerNumber )

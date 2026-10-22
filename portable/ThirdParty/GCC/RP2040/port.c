@@ -42,7 +42,7 @@
  * the non SMP FreeRTOS_Kernel is not linked with pico_multicore itself). We
  * use this flag to determine if we need multi-core functionality.
  */
-#if ( LIB_PICO_MULTICORE == 1 )
+#если ( LIB_PICO_MULTICORE == 1 )
     #include "pico/multicore.h"
 #endif /* LIB_PICO_MULTICORE */
 
@@ -79,7 +79,7 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#иначе
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
@@ -112,26 +112,26 @@ static void prvTaskExitError( void );
 /* Each task maintains its own interrupt status in the critical nesting
  * variable. This is initialized to 0 to allow vPortEnter/ExitCritical
  * to be called before the scheduler is started */
-#if ( configNUMBER_OF_CORES == 1 )
+#если ( configNUMBER_OF_CORES == 1 )
     static UBaseType_t uxCriticalNesting;
-#else /* #if ( configNUMBER_OF_CORES == 1 ) */
+#иначе /* #if ( configNUMBER_OF_CORES == 1 ) */
 UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
 #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
 
 /*-----------------------------------------------------------*/
 
-#if ( configSUPPORT_PICO_SYNC_INTEROP == 1 || configNUMBER_OF_CORES > 1 )
+#если ( configSUPPORT_PICO_SYNC_INTEROP == 1 || configNUMBER_OF_CORES > 1 )
     #include "hardware/irq.h"
 #endif /* ( configSUPPORT_PICO_SYNC_INTEROP == 1 || configNUMBER_OF_CORES > 1 ) */
-#if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+#если ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
     #include "pico/lock_core.h"
     #include "event_groups.h"
-    #if configSUPPORT_STATIC_ALLOCATION
+    #если configSUPPORT_STATIC_ALLOCATION
         static StaticEventGroup_t xStaticEventGroup;
         #define pEventGroup    ( &xStaticEventGroup )
     #endif /* configSUPPORT_STATIC_ALLOCATION */
     static EventGroupHandle_t xEventGroup;
-    #if ( configNUMBER_OF_CORES == 1 )
+    #если ( configNUMBER_OF_CORES == 1 )
         static EventBits_t uxCrossCoreEventBits;
         static spin_lock_t * pxCrossCoreSpinLock; /* protects uxCrossCoreEventBits */
     #endif
@@ -140,7 +140,7 @@ UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
 /*
  * The number of SysTick increments that make up one tick period.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#если ( configUSE_TICKLESS_IDLE == 1 )
     static uint32_t ulTimerCountsForOneTick = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -148,7 +148,7 @@ UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
  * The maximum number of tick periods that can be suppressed is limited by the
  * 24 bit resolution of the SysTick timer.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#если ( configUSE_TICKLESS_IDLE == 1 )
     static uint32_t xMaximumPossibleSuppressedTicks = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -156,7 +156,7 @@ UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
  * Compensate for the CPU cycles that pass while the SysTick is stopped (low
  * power functionality only.
  */
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#если ( configUSE_TICKLESS_IDLE == 1 )
     static uint32_t ulStoppedTimerCompensation = 0;
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -167,9 +167,9 @@ UBaseType_t uxCriticalNestings[ configNUMBER_OF_CORES ] = { 0 };
 static uint8_t ucPrimaryCoreNum = INVALID_PRIMARY_CORE_NUM;
 
 /* Note: portIS_FREE_RTOS_CORE() also returns false until the scheduler is started */
-#if ( configNUMBER_OF_CORES != 1 )
+#если ( configNUMBER_OF_CORES != 1 )
     #define portIS_FREE_RTOS_CORE()    ( ucPrimaryCoreNum != INVALID_PRIMARY_CORE_NUM )
-#else
+#иначе
     #define portIS_FREE_RTOS_CORE()    ( ucPrimaryCoreNum == get_core_num() )
 #endif
 
@@ -192,7 +192,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     *pxTopOfStack = ( StackType_t ) pvParameters;            /* R0 */
     pxTopOfStack -= 8;                                       /* R11..R4. */
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -214,7 +214,7 @@ void vPortSVCHandler( void )
 
 void vPortStartFirstTask( void )
 {
-    #if ( configNUMBER_OF_CORES == 1 )
+    #если ( configNUMBER_OF_CORES == 1 )
         __asm volatile (
             "   .syntax unified             \n"
             "   ldr  r2, pxCurrentTCBConst1 \n" /* Obtain location of pxCurrentTCB. */
@@ -234,10 +234,10 @@ void vPortStartFirstTask( void )
             "   .align 4                       \n"
             "pxCurrentTCBConst1: .word pxCurrentTCB\n"
             );
-    #else /* if ( configNUMBER_OF_CORES == 1 ) */
+    #иначе /* if ( configNUMBER_OF_CORES == 1 ) */
         __asm volatile (
             "    .syntax unified                    \n"
-            #if configRESET_STACK_POINTER
+            #если configRESET_STACK_POINTER
                 "   ldr  r0, =0xE000ED08            \n" /* Use the NVIC offset register to locate the stack. */
                 "   ldr r0, [r0]                    \n"
                 "   ldr r0, [r0]                    \n"
@@ -270,7 +270,7 @@ void vPortStartFirstTask( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( LIB_PICO_MULTICORE == 1 ) && ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+#если ( LIB_PICO_MULTICORE == 1 ) && ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
     static void prvFIFOInterruptHandler()
     {
         /* We must remove the contents (which we don't care about)
@@ -280,7 +280,7 @@ void vPortStartFirstTask( void )
         /* And explicitly clear any other IRQ flags. */
         multicore_fifo_clear_irq();
 
-        #if ( configNUMBER_OF_CORES != 1 )
+        #если ( configNUMBER_OF_CORES != 1 )
             portYIELD_FROM_ISR( pdTRUE );
         #elif ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
             BaseType_t xHigherPriorityTaskWoken = pdFALSE;
@@ -294,14 +294,14 @@ void vPortStartFirstTask( void )
     }
 #endif /* if ( LIB_PICO_MULTICORE == 1 ) && ( configSUPPORT_PICO_SYNC_INTEROP == 1 ) */
 
-#if ( configNUMBER_OF_CORES > 1 )
+#если ( configNUMBER_OF_CORES > 1 )
 
 /*
  * See header file for description.
  */
     static BaseType_t xPortStartSchedulerOnCore()
     {
-        if( ucPrimaryCoreNum == get_core_num() )
+        если( ucPrimaryCoreNum == get_core_num() )
         {
             /* Start the timer that generates the tick ISR.  Interrupts are disabled
              * here already. */
@@ -309,14 +309,14 @@ void vPortStartFirstTask( void )
 
             /* Make PendSV, CallSV and SysTick the same priority as the kernel. */
             portNVIC_SHPR3_REG |= portNVIC_SYSTICK_PRI;
-            #if ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 )
+            #если ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 )
                 exception_set_exclusive_handler( SYSTICK_EXCEPTION, xPortSysTickHandler );
             #endif
         }
 
         portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
 
-        #if ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 )
+        #если ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 )
             exception_set_exclusive_handler( PENDSV_EXCEPTION, xPortPendSVHandler );
             exception_set_exclusive_handler( SVCALL_EXCEPTION, vPortSVCHandler );
         #endif
@@ -342,7 +342,7 @@ void vPortStartFirstTask( void )
         prvTaskExitError();
 
         /* Should not get here. */
-        return 0;
+        вернуть 0;
     }
 
     static void prvDisableInterruptsAndPortStartSchedulerOnCore( void )
@@ -370,10 +370,10 @@ void vPortStartFirstTask( void )
         xPortStartSchedulerOnCore();
 
         /* Should not get here! */
-        return 0;
+        вернуть 0;
     }
 
-#else /* if ( configNUMBER_OF_CORES > 1 ) */
+#иначе /* if ( configNUMBER_OF_CORES > 1 ) */
 
 /*
  * See header file for description.
@@ -384,7 +384,7 @@ void vPortStartFirstTask( void )
         portNVIC_SHPR3_REG |= portNVIC_PENDSV_PRI;
         portNVIC_SHPR3_REG |= portNVIC_SYSTICK_PRI;
 
-        #if ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 )
+        #если ( configUSE_DYNAMIC_EXCEPTION_HANDLERS == 1 )
             exception_set_exclusive_handler( PENDSV_EXCEPTION, xPortPendSVHandler );
             exception_set_exclusive_handler( SYSTICK_EXCEPTION, xPortSysTickHandler );
             exception_set_exclusive_handler( SVCALL_EXCEPTION, vPortSVCHandler );
@@ -398,8 +398,8 @@ void vPortStartFirstTask( void )
         uxCriticalNesting = 0;
 
         ucPrimaryCoreNum = get_core_num();
-        #if ( LIB_PICO_MULTICORE == 1 )
-            #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+        #если ( LIB_PICO_MULTICORE == 1 )
+            #если ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
                 multicore_fifo_clear_irq();
                 multicore_fifo_drain();
                 uint32_t irq_num = SIO_IRQ_PROC0 + get_core_num();
@@ -422,7 +422,7 @@ void vPortStartFirstTask( void )
         prvTaskExitError();
 
         /* Should not get here! */
-        return 0;
+        вернуть 0;
     }
 #endif /* if ( configNUMBER_OF_CORES > 1 ) */
 
@@ -449,7 +449,7 @@ void vPortYield( void )
 
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
+#если ( configNUMBER_OF_CORES == 1 )
     void vPortEnterCritical( void )
     {
         portDISABLE_INTERRUPTS();
@@ -460,13 +460,13 @@ void vPortYield( void )
 #endif /* #if ( configNUMBER_OF_CORES == 1 ) */
 /*-----------------------------------------------------------*/
 
-#if ( configNUMBER_OF_CORES == 1 )
+#если ( configNUMBER_OF_CORES == 1 )
     void vPortExitCritical( void )
     {
         configASSERT( uxCriticalNesting );
         uxCriticalNesting--;
 
-        if( uxCriticalNesting == 0 )
+        если( uxCriticalNesting == 0 )
         {
             portENABLE_INTERRUPTS();
         }
@@ -497,15 +497,15 @@ void vClearInterruptMaskFromISR( __attribute__( ( unused ) ) uint32_t ulMask )
 
 /*-----------------------------------------------------------*/
 
-void vYieldCore( int xCoreID )
+void vYieldCore( целое xCoreID )
 {
     /* Remove warning if configASSERT is not defined.
      * xCoreID is not used in this function due to this is a dual-core system. The yielding core must be different from the current core. */
     ( void ) xCoreID;
 
-    configASSERT( xCoreID != ( int ) portGET_CORE_ID() );
+    configASSERT( xCoreID != ( целое ) portGET_CORE_ID() );
 
-    #if configNUMBER_OF_CORES != 1
+    #если configNUMBER_OF_CORES != 1
 
         /* Non blocking, will cause interrupt on other core if the queue isn't already full,
          * in which case an IRQ must be pending */
@@ -518,7 +518,7 @@ void vYieldCore( int xCoreID )
 void xPortPendSVHandler( void )
 {
     /* This is a naked function. */
-    #if ( configNUMBER_OF_CORES == 1 )
+    #если ( configNUMBER_OF_CORES == 1 )
         __asm volatile
         (
             "   .syntax unified                     \n"
@@ -535,7 +535,7 @@ void xPortPendSVHandler( void )
             "   mov r6, r10                         \n"
             "   mov r7, r11                         \n"
             "   stmia r0!, {r4-r7}                  \n"
-            #if portUSE_DIVIDER_SAVE_RESTORE
+            #если portUSE_DIVIDER_SAVE_RESTORE
                 "   movs r2, #0xd                   \n" /* Store the divider state. */
                 "   lsls r2, #28                    \n"
 
@@ -577,7 +577,7 @@ void xPortPendSVHandler( void )
             "                                       \n"
             "   msr psp, r0                         \n" /* Remember the new top of stack for the task. */
             "                                       \n"
-            #if portUSE_DIVIDER_SAVE_RESTORE
+            #если portUSE_DIVIDER_SAVE_RESTORE
                 "   movs r2, #0xd                       \n" /* Pop the divider state. */
                 "   lsls r2, #28                        \n"
                 "   subs r0, r0, #48                    \n" /* Go back for the divider state */
@@ -591,7 +591,7 @@ void xPortPendSVHandler( void )
                 "   str r5, [r2, #0x64]                 \n" /* SIO_DIV_UDIVISOR_OFFSET */
                 "   str r6, [r2, #0x74]                 \n" /* SIO_DIV_REMAINDER_OFFSET */
                 "   str r7, [r2, #0x70]                 \n" /* SIO_DIV_QUOTIENT_OFFSET */
-            #else /* if portUSE_DIVIDER_SAVE_RESTORE */
+            #иначе /* if portUSE_DIVIDER_SAVE_RESTORE */
                 "   subs r0, r0, #32                    \n" /* Go back for the low registers that are not automatically restored. */
             #endif /* portUSE_DIVIDER_SAVE_RESTORE */
             "   ldmia r0!, {r4-r7}                  \n"     /* Pop low registers.  */
@@ -600,7 +600,7 @@ void xPortPendSVHandler( void )
             "   .align 4                            \n"
             "pxCurrentTCBConst2: .word pxCurrentTCB \n"
         );
-    #else /* if ( configNUMBER_OF_CORES == 1 ) */
+    #иначе /* if ( configNUMBER_OF_CORES == 1 ) */
         __asm volatile
         (
             "   .syntax unified                     \n"
@@ -621,7 +621,7 @@ void xPortPendSVHandler( void )
             "   mov r6, r10                         \n"
             "   mov r7, r11                         \n"
             "   stmia r1!, {r4-r7}                  \n"
-            #if portUSE_DIVIDER_SAVE_RESTORE
+            #если portUSE_DIVIDER_SAVE_RESTORE
 
                 /* We expect that the divider is ready at this point (which is
                  * necessary to safely save/restore), because:
@@ -662,7 +662,7 @@ void xPortPendSVHandler( void )
             "                                       \n"
             "   msr psp, r0                         \n" /* Remember the new top of stack for the task. */
             "                                       \n"
-            #if portUSE_DIVIDER_SAVE_RESTORE
+            #если portUSE_DIVIDER_SAVE_RESTORE
                 "   movs r2, #0xd                       \n" /* Pop the divider state. */
                 "   lsls r2, #28                        \n"
                 "   subs r0, r0, #48                    \n" /* Go back for the divider state */
@@ -676,7 +676,7 @@ void xPortPendSVHandler( void )
                 "   str r5, [r2, #0x64]                \n" /* SIO_DIV_UDIVISOR_OFFSET */
                 "   str r6, [r2, #0x74]                \n" /* SIO_DIV_REMAINDER_OFFSET */
                 "   str r7, [r2, #0x70]                \n" /* SIO_DIV_QUOTIENT_OFFSET */
-            #else /* if portUSE_DIVIDER_SAVE_RESTORE */
+            #иначе /* if portUSE_DIVIDER_SAVE_RESTORE */
                 "   subs r0, r0, #32                   \n" /* Go back for the low registers that are not automatically restored. */
             #endif /* portUSE_DIVIDER_SAVE_RESTORE */
             "   ldmia r0!, {r4-r7}                 \n"     /* Pop low registers.  */
@@ -700,13 +700,13 @@ void xPortSysTickHandler( void )
     traceISR_ENTER();
     {
         /* Increment the RTOS tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        если( xTaskIncrementTick() != pdFALSE )
         {
             traceISR_EXIT_TO_SCHEDULER();
             /* Pend a context switch. */
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
         }
-        else
+        иначе
         {
             traceISR_EXIT();
         }
@@ -722,7 +722,7 @@ void xPortSysTickHandler( void )
 __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 {
     /* Calculate the constants required to configure the tick interrupt. */
-    #if ( configUSE_TICKLESS_IDLE == 1 )
+    #если ( configUSE_TICKLESS_IDLE == 1 )
     {
         ulTimerCountsForOneTick = ( clock_get_hz( clk_sys ) / configTICK_RATE_HZ );
         xMaximumPossibleSuppressedTicks = portMAX_24_BIT_NUMBER / ulTimerCountsForOneTick;
@@ -740,7 +740,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TICKLESS_IDLE == 1 )
+#если ( configUSE_TICKLESS_IDLE == 1 )
 
     __attribute__( ( weak ) ) void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
@@ -748,7 +748,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         TickType_t xModifiableIdleTime;
 
         /* Make sure the SysTick reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        если( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
         {
             xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
         }
@@ -764,7 +764,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
          * through one of the tick periods. */
         ulReloadValue = portNVIC_SYSTICK_CURRENT_VALUE_REG + ( ulTimerCountsForOneTick * ( xExpectedIdleTime - 1UL ) );
 
-        if( ulReloadValue > ulStoppedTimerCompensation )
+        если( ulReloadValue > ulStoppedTimerCompensation )
         {
             ulReloadValue -= ulStoppedTimerCompensation;
         }
@@ -777,7 +777,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 
         /* If a context switch is pending or a task is waiting for the scheduler
          * to be unsuspended then abandon the low power entry. */
-        if( eTaskConfirmSleepModeStatus() == eAbortSleep )
+        если( eTaskConfirmSleepModeStatus() == eAbortSleep )
         {
             /* Restart from whatever is left in the count register to complete
              * this tick period. */
@@ -794,7 +794,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
              * above. */
             __asm volatile ( "cpsie i" ::: "memory" );
         }
-        else
+        иначе
         {
             /* Set the new reload value. */
             portNVIC_SYSTICK_LOAD_REG = ulReloadValue;
@@ -814,7 +814,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
             xModifiableIdleTime = xExpectedIdleTime;
             configPRE_SLEEP_PROCESSING( xModifiableIdleTime );
 
-            if( xModifiableIdleTime > 0 )
+            если( xModifiableIdleTime > 0 )
             {
                 __asm volatile ( "dsb" ::: "memory" );
                 __asm volatile ( "wfi" );
@@ -852,7 +852,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
              * correct for the entire expected idle time) or if the SysTick is yet
              * to count to zero (in which case an interrupt other than the SysTick
              * must have brought the system out of sleep mode). */
-            if( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
+            если( ( portNVIC_SYSTICK_CTRL_REG & portNVIC_SYSTICK_COUNT_FLAG_BIT ) != 0 )
             {
                 uint32_t ulCalculatedLoadValue;
 
@@ -865,7 +865,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
                 /* Don't allow a tiny value, or values that have somehow
                  * underflowed because the post sleep hook did something
                  * that took too long. */
-                if( ( ulCalculatedLoadValue < ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
+                если( ( ulCalculatedLoadValue < ulStoppedTimerCompensation ) || ( ulCalculatedLoadValue > ulTimerCountsForOneTick ) )
                 {
                     ulCalculatedLoadValue = ( ulTimerCountsForOneTick - 1UL );
                 }
@@ -877,7 +877,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
                  * forward by one less than the time spent waiting. */
                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
             }
-            else
+            иначе
             {
                 /* Something other than the tick interrupt ended the sleep.
                  * Work out how long the sleep lasted rounded to complete tick
@@ -909,7 +909,7 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 
 #endif /* configUSE_TICKLESS_IDLE */
 
-#if ( configSUPPORT_PICO_SYNC_INTEROP == 1 ) || ( configSUPPORT_PICO_TIME_INTEROP == 1 )
+#если ( configSUPPORT_PICO_SYNC_INTEROP == 1 ) || ( configSUPPORT_PICO_TIME_INTEROP == 1 )
     static TickType_t prvGetTicksToWaitBefore( absolute_time_t t )
     {
         int64_t xDelay = absolute_time_diff_us( get_absolute_time(), t );
@@ -917,59 +917,59 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
 
         xDelay -= ulTickPeriod;
 
-        if( xDelay >= ulTickPeriod )
+        если( xDelay >= ulTickPeriod )
         {
-            return xDelay / ulTickPeriod;
+            вернуть xDelay / ulTickPeriod;
         }
 
-        return 0;
+        вернуть 0;
     }
 #endif /* if ( configSUPPORT_PICO_SYNC_INTEROP == 1 ) || ( configSUPPORT_PICO_TIME_INTEROP == 1 ) */
 
-#if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+#если ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
     uint32_t ulPortLockGetCurrentOwnerId()
     {
-        if( portIS_FREE_RTOS_CORE() )
+        если( portIS_FREE_RTOS_CORE() )
         {
             uint32_t exception = __get_current_exception();
 
-            if( !exception )
+            если( !exception )
             {
-                return ( uintptr_t ) xTaskGetCurrentTaskHandle();
+                вернуть ( uintptr_t ) xTaskGetCurrentTaskHandle();
             }
 
             /* Note: since ROM as at 0x00000000, these can't be confused with
              * valid task handles (pointers) in RAM */
             /* We make all exception handler/core combinations distinct owners */
-            return get_core_num() + exception * 2;
+            вернуть get_core_num() + exception * 2;
         }
 
         /* Note: since ROM as at 0x00000000, this can't be confused with
          * valid task handles (pointers) in RAM */
-        return get_core_num();
+        вернуть get_core_num();
     }
 
     static inline EventBits_t prvGetEventGroupBit( spin_lock_t * spinLock )
     {
         uint32_t ulBit;
 
-        #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+        #если ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
             ulBit = 1u << ( spin_lock_get_num( spinLock ) & 0x7u );
         #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
             /* Avoid potential use of SIO divider for % here out of abundance of caution */
             ulBit = spin_lock_get_num( spinLock );
-            if (ulBit >= 24) ulBit -= 24;
+            если (ulBit >= 24) ulBit -= 24;
             ulBit = 1u << ulBit;
         #endif /* configTICK_TYPE_WIDTH_IN_BITS */
-        return ( EventBits_t ) ulBit;
+        вернуть ( EventBits_t ) ulBit;
     }
 
     static inline EventBits_t prvGetAllEventGroupBits()
     {
-        #if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
-            return ( EventBits_t ) 0xffu;
+        #если ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+            вернуть ( EventBits_t ) 0xffu;
         #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
-            return ( EventBits_t ) 0xffffffu;
+            вернуть ( EventBits_t ) 0xffffffu;
         #endif /* configTICK_TYPE_WIDTH_IN_BITS */
     }
 
@@ -979,12 +979,12 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         configASSERT( !portCHECK_IF_IN_ISR() );
         configASSERT( pxLock->spin_lock );
 
-        if( !portIS_FREE_RTOS_CORE() )
+        если( !portIS_FREE_RTOS_CORE() )
         {
             spin_unlock( pxLock->spin_lock, ulSave );
             __wfe();
         }
-        else
+        иначе
         {
             /* The requirement (from the SDK) on this implementation is that this method
              * should always wake up from a corresponding call to vPortLockInternalSpinUnlockWithNotify
@@ -1033,36 +1033,36 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
     {
         EventBits_t uxBits = prvGetEventGroupBit( pxLock->spin_lock );
 
-        if( portIS_FREE_RTOS_CORE() )
+        если( portIS_FREE_RTOS_CORE() )
         {
-            #if LIB_PICO_MULTICORE
+            #если LIB_PICO_MULTICORE
                 /* signal an event in case a regular core is waiting */
                 __sev();
             #endif
             spin_unlock( pxLock->spin_lock, ulSave );
 
-            if( !portCHECK_IF_IN_ISR() )
+            если( !portCHECK_IF_IN_ISR() )
             {
                 xEventGroupSetBits( xEventGroup, uxBits );
             }
-            else
+            иначе
             {
                 BaseType_t xHigherPriorityTaskWoken = pdFALSE;
                 xEventGroupSetBitsFromISR( xEventGroup, uxBits, &xHigherPriorityTaskWoken );
                 portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
             }
         }
-        else
+        иначе
         {
             __sev();
-            #if ( configNUMBER_OF_CORES == 1 )
-                if( pxCrossCoreSpinLock != pxLock->spin_lock )
+            #если ( configNUMBER_OF_CORES == 1 )
+                если( pxCrossCoreSpinLock != pxLock->spin_lock )
                 {
                     spin_lock_unsafe_blocking( pxCrossCoreSpinLock );
                     uxCrossCoreEventBits |= uxBits;
                     spin_unlock_unsafe( pxCrossCoreSpinLock );
                 }
-                else
+                иначе
                 {
                     uxCrossCoreEventBits |= uxBits;
                 }
@@ -1082,18 +1082,18 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
         configASSERT( pxLock->spin_lock );
 
         /* note no need to check LIB_PICO_MULTICORE, as this is always returns true if that is not defined */
-        if( !portIS_FREE_RTOS_CORE() )
+        если( !portIS_FREE_RTOS_CORE() )
         {
             spin_unlock( pxLock->spin_lock, ulSave );
-            return best_effort_wfe_or_timeout( uxUntil );
+            вернуть best_effort_wfe_or_timeout( uxUntil );
         }
-        else
+        иначе
         {
             configASSERT( portIS_FREE_RTOS_CORE() );
 
             TickType_t uxTicksToWait = prvGetTicksToWaitBefore( uxUntil );
 
-            if( uxTicksToWait )
+            если( uxTicksToWait )
             {
                 /* See comment in vPortLockInternalSpinUnlockWithWait for detail
                  * about possible race conditions */
@@ -1102,40 +1102,40 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
                                      prvGetEventGroupBit( pxLock->spin_lock ), pdTRUE,
                                      pdFALSE, uxTicksToWait );
             }
-            else
+            иначе
             {
                 spin_unlock( pxLock->spin_lock, ulSave );
             }
 
-            if( time_reached( uxUntil ) )
+            если( time_reached( uxUntil ) )
             {
-                return true;
+                вернуть true;
             }
-            else
+            иначе
             {
                 /* We do not want to hog the core */
                 portYIELD();
                 /* We aren't sure if we've reached the timeout yet; the caller will check */
-                return false;
+                вернуть false;
             }
         }
     }
 
-    #if ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
+    #если ( configSUPPORT_PICO_SYNC_INTEROP == 1 )
         /* runs before main */
         static void __attribute__( ( constructor ) ) prvRuntimeInitializer( void )
         {
             /* This must be done even before the scheduler is started, as the spin lock
              * is used by the overrides of the SDK wait/notify primitives */
-            #if ( configNUMBER_OF_CORES == 1 )
+            #если ( configNUMBER_OF_CORES == 1 )
                 pxCrossCoreSpinLock = spin_lock_instance( next_striped_spin_lock_num() );
             #endif /* configNUMBER_OF_CORES == 1 */
 
             /* The event group is not used prior to scheduler init, but is initialized
              * here to since it logically belongs with the spin lock */
-            #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
+            #если ( configSUPPORT_STATIC_ALLOCATION == 1 )
                 xEventGroup = xEventGroupCreateStatic( &xStaticEventGroup );
-            #else
+            #иначе
 
                 /* Note that it is slightly dubious calling this here before the scheduler is initialized,
                  * however the only thing it touches is the allocator which then calls vPortEnterCritical
@@ -1147,12 +1147,12 @@ __attribute__( ( weak ) ) void vPortSetupTimerInterrupt( void )
     #endif /* if ( configSUPPORT_PICO_SYNC_INTEROP == 1 ) */
 #endif /* configSUPPORT_PICO_SYNC_INTEROP */
 
-#if ( configSUPPORT_PICO_TIME_INTEROP == 1 )
+#если ( configSUPPORT_PICO_TIME_INTEROP == 1 )
     void xPortSyncInternalYieldUntilBefore( absolute_time_t t )
     {
         TickType_t uxTicksToWait = prvGetTicksToWaitBefore( t );
 
-        if( uxTicksToWait )
+        если( uxTicksToWait )
         {
             vTaskDelay( uxTicksToWait );
         }

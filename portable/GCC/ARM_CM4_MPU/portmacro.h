@@ -60,7 +60,7 @@ typedef portSTACK_TYPE   StackType_t;
 typedef long             BaseType_t;
 typedef unsigned long    UBaseType_t;
 
-#if ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
+#если ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_16_BITS )
     typedef uint16_t     TickType_t;
     #define portMAX_DELAY              ( TickType_t ) 0xffff
 #elif ( configTICK_TYPE_WIDTH_IN_BITS == TICK_TYPE_WIDTH_32_BITS )
@@ -70,7 +70,7 @@ typedef unsigned long    UBaseType_t;
 /* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
  * not need to be guarded with a critical section. */
     #define portTICK_TYPE_IS_ATOMIC    1
-#else
+#иначе
     #error "configTICK_TYPE_WIDTH_IN_BITS set to unsupported tick type width."
 #endif
 
@@ -203,7 +203,7 @@ typedef struct MPU_REGION_SETTINGS
     uint32_t ulRegionPermissions;
 } xMPU_REGION_SETTINGS;
 
-#if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+#если ( configUSE_MPU_WRAPPERS_V1 == 0 )
 
     #ifndef configSYSTEM_CALL_STACK_SIZE
         #error "configSYSTEM_CALL_STACK_SIZE must be defined to the desired size of the system call stack in words for using MPU wrappers v2."
@@ -244,9 +244,9 @@ typedef struct MPU_SETTINGS
     uint32_t ulContext[ MAX_CONTEXT_SIZE ];
     uint32_t ulTaskFlags;
 
-    #if ( configUSE_MPU_WRAPPERS_V1 == 0 )
+    #если ( configUSE_MPU_WRAPPERS_V1 == 0 )
         xSYSTEM_CALL_STACK_INFO xSystemCallStackInfo;
-        #if ( configENABLE_ACCESS_CONTROL_LIST == 1 )
+        #если ( configENABLE_ACCESS_CONTROL_LIST == 1 )
             uint32_t ulAccessControlList[ ( configPROTECTED_KERNEL_OBJECT_POOL_SIZE / portACL_ENTRY_SIZE_BITS ) + 1 ];
         #endif
     #endif
@@ -284,16 +284,16 @@ typedef struct MPU_SETTINGS
 #define portEND_SWITCHING_ISR( xSwitchRequired )            \
     do                                                      \
     {                                                       \
-        if( xSwitchRequired )                               \
+        если( xSwitchRequired )                               \
         {                                                   \
             traceISR_EXIT_TO_SCHEDULER();                   \
             portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT; \
         }                                                   \
-        else                                                \
+        иначе                                                \
         {                                                   \
             traceISR_EXIT();                                \
         }                                                   \
-    } while( 0 )
+    } пока( 0 )
 #define portYIELD_FROM_ISR( x )    portEND_SWITCHING_ISR( x )
 /*-----------------------------------------------------------*/
 
@@ -321,7 +321,7 @@ extern void vPortExitCritical( void );
     #define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#если configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
 
 /* Generic helper function. */
     __attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitmap )
@@ -330,11 +330,11 @@ extern void vPortExitCritical( void );
 
         __asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
 
-        return ucReturn;
+        вернуть ucReturn;
     }
 
 /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #если ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 
@@ -350,7 +350,7 @@ extern void vPortExitCritical( void );
 
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#если ( configASSERT_DEFINED == 1 )
     void vPortValidateInterruptPriority( void );
     #define portASSERT_IF_INTERRUPT_PRIORITY_INVALID()    vPortValidateInterruptPriority()
 #endif
@@ -414,16 +414,16 @@ portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
     /* Obtain the number of the currently executing interrupt. */
     __asm volatile ( "mrs %0, ipsr" : "=r" ( ulCurrentInterrupt )::"memory" );
 
-    if( ulCurrentInterrupt == 0 )
+    если( ulCurrentInterrupt == 0 )
     {
         xReturn = pdFALSE;
     }
-    else
+    иначе
     {
         xReturn = pdTRUE;
     }
 
-    return xReturn;
+    вернуть xReturn;
 }
 
 /*-----------------------------------------------------------*/
@@ -435,13 +435,13 @@ portFORCE_INLINE static void vPortRaiseBASEPRI( void )
     __asm volatile
     (
         "   mov %0, %1                                              \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #если ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsid i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
         #endif
         "   msr basepri, %0                                         \n"
         "   isb                                                     \n"
         "   dsb                                                     \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #если ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsie i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
         #endif
         : "=r" ( ulNewBASEPRI ) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "memory"
@@ -458,13 +458,13 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
     (
         "   mrs %0, basepri                                         \n"
         "   mov %1, %2                                              \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #если ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsid i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
         #endif
         "   msr basepri, %1                                         \n"
         "   isb                                                     \n"
         "   dsb                                                     \n"
-        #if ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
+        #если ( configENABLE_ERRATA_837070_WORKAROUND == 1 )
             "   cpsie i                                             \n" /* ARM Cortex-M7 r0p1 Errata 837070 workaround. */
         #endif
         : "=r" ( ulOriginalBASEPRI ), "=r" ( ulNewBASEPRI ) : "i" ( configMAX_SYSCALL_INTERRUPT_PRIORITY ) : "memory"
@@ -472,7 +472,7 @@ portFORCE_INLINE static uint32_t ulPortRaiseBASEPRI( void )
 
     /* This return will not be reached but is necessary to prevent compiler
      * warnings. */
-    return ulOriginalBASEPRI;
+    вернуть ulOriginalBASEPRI;
 }
 /*-----------------------------------------------------------*/
 

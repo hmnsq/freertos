@@ -56,11 +56,11 @@ static void prvSetupTimerInterrupt( void );
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#если( configUSE_PREEMPTION == 1 )
     /* Tick service routine used by the scheduler when preemptive scheduling is
     being used. */
     static void __interrupt __far prvPreemptiveTick( void );
-#else
+#иначе
     /* Tick service routine used by the scheduler when cooperative scheduling is
     being used. */
     static void __interrupt __far prvNonPreemptiveTick( void );
@@ -136,7 +136,7 @@ StackType_t DS_Reg = 0;
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) 0xBBBB; /* BP */
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -155,7 +155,7 @@ BaseType_t xPortStartScheduler( void )
     portFIRST_CONTEXT();
 
     /* Should not get here! */
-    return pdFALSE;
+    вернуть pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -170,11 +170,11 @@ static void __interrupt __far prvDummyISR( void )
 
 /* The ISR used depends on whether the preemptive or cooperative scheduler
 is being used. */
-#if( configUSE_PREEMPTION == 1 )
+#если( configUSE_PREEMPTION == 1 )
     static void __interrupt __far prvPreemptiveTick( void )
     {
         /* Get the scheduler to update the task states following the tick. */
-        if( xTaskIncrementTick() != pdFALSE )
+        если( xTaskIncrementTick() != pdFALSE )
         {
             /* Switch in the context of the next task to be run. */
             portSWITCH_CONTEXT();
@@ -183,7 +183,7 @@ is being used. */
         /* Reset interrupt. */
         outport( portEIO_REGISTER, portCLEAR_INTERRUPT );
     }
-#else
+#иначе
     static void __interrupt __far prvNonPreemptiveTick( void )
     {
         /* Same as preemptive tick, but the cooperative scheduler is being used
@@ -221,11 +221,11 @@ const uint16_t usT2_IRQ = 0x13;
     /* Disable interrupts again before installing the real handlers. */
     portDISABLE_INTERRUPTS();
 
-    #if( configUSE_PREEMPTION == 1 )
+    #если( configUSE_PREEMPTION == 1 )
         /* Tick service routine used by the scheduler when preemptive scheduling is
         being used. */
         setvect( usT2_IRQ, prvPreemptiveTick );
-    #else
+    #иначе
         /* Tick service routine used by the scheduler when cooperative scheduling is
         being used. */
         setvect( usT2_IRQ, prvNonPreemptiveTick );

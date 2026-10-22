@@ -129,7 +129,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
 
     #ifdef BANKED_MODEL
         /* The page of the task. */
-        *pxTopOfStack = ( StackType_t ) ( ( int ) pxCode );
+        *pxTopOfStack = ( StackType_t ) ( ( целое ) pxCode );
         pxTopOfStack--;
     #endif
 
@@ -137,7 +137,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     a critical section). */
     *pxTopOfStack = ( StackType_t ) 0x00;
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -162,7 +162,7 @@ BaseType_t xPortStartScheduler( void )
     Instead it simply calls the locally defined xBankedStartScheduler() -
     which does use the CODE_SEG pragma. */
 
-    return xBankedStartScheduler();
+    вернуть xBankedStartScheduler();
 }
 /*-----------------------------------------------------------*/
 
@@ -181,7 +181,7 @@ static BaseType_t xBankedStartScheduler( void )
     __asm( "rti" );
 
     /* Should not get here! */
-    return pdFALSE;
+    вернуть pdFALSE;
 }
 /*-----------------------------------------------------------*/
 
@@ -208,13 +208,13 @@ void interrupt vPortYield( void )
  */
 void interrupt vPortTickInterrupt( void )
 {
-    #if configUSE_PREEMPTION == 1
+    #если configUSE_PREEMPTION == 1
     {
         /* A context switch might happen so save the context. */
         portSAVE_CONTEXT();
 
         /* Increment the tick ... */
-        if( xTaskIncrementTick() != pdFALSE )
+        если( xTaskIncrementTick() != pdFALSE )
         {
             vTaskSwitchContext();
         }
@@ -225,7 +225,7 @@ void interrupt vPortTickInterrupt( void )
         to that interrupted. */
         portRESTORE_CONTEXT();
     }
-    #else
+    #иначе
     {
         xTaskIncrementTick();
         TFLG1 = 1;

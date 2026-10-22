@@ -51,7 +51,7 @@ PSW is set with U and I set, and PM and IPL clear. */
 
 /* The peripheral clock is divided by this value before being supplying the
 CMT. */
-#if ( configUSE_TICKLESS_IDLE == 0 )
+#если ( configUSE_TICKLESS_IDLE == 0 )
     /* If tickless idle is not used then the divisor can be fixed. */
     #define portCLOCK_DIVISOR   8UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 12000000 )
@@ -60,7 +60,7 @@ CMT. */
     #define portCLOCK_DIVISOR   128UL
 #elif ( configPERIPHERAL_CLOCK_HZ >= 1000000 )
     #define portCLOCK_DIVISOR   32UL
-#else
+#иначе
     #define portCLOCK_DIVISOR   8UL
 #endif
 
@@ -119,7 +119,7 @@ static void prvSetupTimerInterrupt( void );
  * executes the pre and post sleep macros, and actually calls the wait
  * instruction.
  */
-#if configUSE_TICKLESS_IDLE == 1
+#если configUSE_TICKLESS_IDLE == 1
     static void prvSleep( TickType_t xExpectedIdleTime );
 #endif /* configUSE_TICKLESS_IDLE */
 
@@ -134,7 +134,7 @@ extern void vTaskSwitchContext( void );
 /* Calculate how many clock increments make up a single tick period. */
 static const uint32_t ulMatchValueForOneTick = ( ( configPERIPHERAL_CLOCK_HZ / portCLOCK_DIVISOR ) / configTICK_RATE_HZ );
 
-#if configUSE_TICKLESS_IDLE == 1
+#если configUSE_TICKLESS_IDLE == 1
 
     /* Holds the maximum number of ticks that can be suppressed - which is
     basically how far into the future an interrupt can be generated. Set
@@ -211,7 +211,7 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
         *pxTopOfStack = 0x22222222;
         pxTopOfStack--;
     }
-    #else
+    #иначе
     {
         /* Leave space for the registers that will get popped from the stack
         when the task first starts executing. */
@@ -225,14 +225,14 @@ StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t px
     pxTopOfStack--;
     *pxTopOfStack = 0x87654321; /* Accumulator. */
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
 BaseType_t xPortStartScheduler( void )
 {
     /* Use pxCurrentTCB just so it does not get optimised away. */
-    if( pxCurrentTCB != NULL )
+    если( pxCurrentTCB != NULL )
     {
         /* Call an application function to set up the timer that will generate
         the tick interrupt.  This way the application can decide which
@@ -266,7 +266,7 @@ BaseType_t xPortStartScheduler( void )
     ( void ) vSoftwareInterruptISR();
 
     /* Should not get here. */
-    return pdFAIL;
+    вернуть pdFAIL;
 }
 /*-----------------------------------------------------------*/
 
@@ -304,14 +304,14 @@ void prvTickISR( void )
     necessitates. */
     set_ipl( configMAX_SYSCALL_INTERRUPT_PRIORITY );
     {
-        if( xTaskIncrementTick() != pdFALSE )
+        если( xTaskIncrementTick() != pdFALSE )
         {
             taskYIELD();
         }
     }
     set_ipl( configKERNEL_INTERRUPT_PRIORITY );
 
-    #if configUSE_TICKLESS_IDLE == 1
+    #если configUSE_TICKLESS_IDLE == 1
     {
         /* The CPU woke because of a tick. */
         ulTickFlag = pdTRUE;
@@ -434,7 +434,7 @@ static void prvSetupTimerInterrupt( void )
     CMT0.CMCOR = ( uint16_t ) ulMatchValueForOneTick;
 
     /* Divide the PCLK. */
-    #if portCLOCK_DIVISOR == 512
+    #если portCLOCK_DIVISOR == 512
     {
         CMT0.CMCR.BIT.CKS = 3;
     }
@@ -450,7 +450,7 @@ static void prvSetupTimerInterrupt( void )
     {
         CMT0.CMCR.BIT.CKS = 0;
     }
-    #else
+    #иначе
     {
         #error Invalid portCLOCK_DIVISOR setting
     }
@@ -468,7 +468,7 @@ static void prvSetupTimerInterrupt( void )
 }
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#если configUSE_TICKLESS_IDLE == 1
 
     static void prvSleep( TickType_t xExpectedIdleTime )
     {
@@ -478,7 +478,7 @@ static void prvSetupTimerInterrupt( void )
         /* xExpectedIdleTime being set to 0 by configPRE_SLEEP_PROCESSING()
         means the application defined code has already executed the WAIT
         instruction. */
-        if( xExpectedIdleTime > 0 )
+        если( xExpectedIdleTime > 0 )
         {
             wait();
         }
@@ -490,7 +490,7 @@ static void prvSetupTimerInterrupt( void )
 #endif /* configUSE_TICKLESS_IDLE */
 /*-----------------------------------------------------------*/
 
-#if configUSE_TICKLESS_IDLE == 1
+#если configUSE_TICKLESS_IDLE == 1
 
     void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime )
     {
@@ -500,7 +500,7 @@ static void prvSetupTimerInterrupt( void )
         /* THIS FUNCTION IS CALLED WITH THE SCHEDULER SUSPENDED. */
 
         /* Make sure the CMT reload value does not overflow the counter. */
-        if( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
+        если( xExpectedIdleTime > xMaximumPossibleSuppressedTicks )
         {
             xExpectedIdleTime = xMaximumPossibleSuppressedTicks;
         }
@@ -508,7 +508,7 @@ static void prvSetupTimerInterrupt( void )
         /* Calculate the reload value required to wait xExpectedIdleTime tick
         periods. */
         ulMatchValue = ulMatchValueForOneTick * xExpectedIdleTime;
-        if( ulMatchValue > ulStoppedTimerCompensation )
+        если( ulMatchValue > ulStoppedTimerCompensation )
         {
             /* Compensate for the fact that the CMT is going to be stopped
             momentarily. */
@@ -520,7 +520,7 @@ static void prvSetupTimerInterrupt( void )
         inevitably result in some tiny drift of the time maintained by the
         kernel with respect to calendar time. */
         CMT.CMSTR0.BIT.STR0 = 0;
-        while( CMT.CMSTR0.BIT.STR0 == 1 )
+        пока( CMT.CMSTR0.BIT.STR0 == 1 )
         {
             /* Nothing to do here. */
         }
@@ -538,13 +538,13 @@ static void prvSetupTimerInterrupt( void )
         the context switch might have been pended by an external interrupt that
         requires processing. */
         eSleepAction = eTaskConfirmSleepModeStatus();
-        if( eSleepAction == eAbortSleep )
+        если( eSleepAction == eAbortSleep )
         {
             /* Restart tick. */
             CMT.CMSTR0.BIT.STR0 = 1;
             setpsw_i();
         }
-        else if( eSleepAction == eNoTasksWaitingTimeout )
+        иначе если( eSleepAction == eNoTasksWaitingTimeout )
         {
             /* Protection off. */
             SYSTEM.PRCR.WORD = portUNLOCK_KEY;
@@ -562,7 +562,7 @@ static void prvSetupTimerInterrupt( void )
             /* Restart the CMT. */
             CMT.CMSTR0.BIT.STR0 = 1;
         }
-        else
+        иначе
         {
             /* Protection off. */
             SYSTEM.PRCR.WORD = portUNLOCK_KEY;
@@ -593,14 +593,14 @@ static void prvSetupTimerInterrupt( void )
             inevitably result in some tiny drift of the time maintained by the
             kernel with respect to calendar time. */
             CMT.CMSTR0.BIT.STR0 = 0;
-            while( CMT.CMSTR0.BIT.STR0 == 1 )
+            пока( CMT.CMSTR0.BIT.STR0 == 1 )
             {
                 /* Nothing to do here. */
             }
 
             ulCurrentCount = ( uint32_t ) CMT0.CMCNT;
 
-            if( ulTickFlag != pdFALSE )
+            если( ulTickFlag != pdFALSE )
             {
                 /* The tick interrupt has already executed, although because
                 this function is called with the scheduler suspended the actual
@@ -618,7 +618,7 @@ static void prvSetupTimerInterrupt( void )
                 later in this function. */
                 ulCompleteTickPeriods = xExpectedIdleTime - 1UL;
             }
-            else
+            иначе
             {
                 /* Something other than the tick interrupt ended the sleep.
                 How many complete tick periods passed while the processor was

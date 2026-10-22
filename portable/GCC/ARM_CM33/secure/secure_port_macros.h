@@ -38,9 +38,9 @@
 /**
  * @brief Macro to declare a function as non-secure callable.
  */
-#if defined( __IAR_SYSTEMS_ICC__ )
+#если defined( __IAR_SYSTEMS_ICC__ )
     #define secureportNON_SECURE_CALLABLE    __cmse_nonsecure_entry __root
-#else
+#иначе
     #define secureportNON_SECURE_CALLABLE    __attribute__( ( cmse_nonsecure_entry ) ) __attribute__( ( used ) )
 #endif
 
@@ -130,11 +130,11 @@
  * @brief Assert definition.
  */
 #define secureportASSERT( x )                      \
-    if( ( x ) == 0 )                               \
+    если( ( x ) == 0 )                               \
     {                                              \
         secureportDISABLE_SECURE_INTERRUPTS();     \
         secureportDISABLE_NON_SECURE_INTERRUPTS(); \
-        for( ; ; ) {; }                            \
+        для( ; ; ) {; }                            \
     }
 
 #endif /* __SECURE_PORT_MACROS_H__ */

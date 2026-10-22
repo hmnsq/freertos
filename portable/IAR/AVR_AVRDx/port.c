@@ -214,7 +214,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
 
     /*lint +e950 +e611 +e923 */
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -229,7 +229,7 @@ BaseType_t xPortStartScheduler( void )
     vPortStart();
 
     /* Should not get here. */
-    return pdTRUE;
+    вернуть pdTRUE;
 }
 /*-----------------------------------------------------------*/
 
@@ -250,7 +250,7 @@ static void prvSetupTimerInterrupt( void )
 
 /*-----------------------------------------------------------*/
 
-#if configUSE_PREEMPTION == 1
+#если configUSE_PREEMPTION == 1
 
 /*
  * Tick ISR for preemptive scheduler.  We can use a naked attribute as
@@ -263,7 +263,7 @@ static void prvSetupTimerInterrupt( void )
         vPortYieldFromTick();
         asm ( "reti" );
     }
-#else
+#иначе
 
 /*
  * Tick ISR for the cooperative scheduler.  All this does is increment the
@@ -294,7 +294,7 @@ void vPortExitCritical( void )
 {
     uxCriticalNesting--;
 
-    if( uxCriticalNesting == portNO_CRITICAL_NESTING )
+    если( uxCriticalNesting == portNO_CRITICAL_NESTING )
     {
         portENABLE_INTERRUPTS();
     }

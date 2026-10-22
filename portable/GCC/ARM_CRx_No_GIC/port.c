@@ -34,9 +34,9 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#если configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #если ( configMAX_PRIORITIES > 32 )
         #error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice.
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
@@ -63,7 +63,7 @@
 /* Constants required to setup the initial task context. */
 #ifdef __ARMEB__
     #define portINITIAL_SPSR             ( ( StackType_t ) 0x21f ) /* System mode, ARM mode, IRQ enabled FIQ enabled, Big-endian. */
-#else
+#иначе
     #define portINITIAL_SPSR             ( ( StackType_t ) 0x01f ) /* System mode, ARM mode, IRQ enabled FIQ enabled, Little-endian. */
 #endif
 #define portTHUMB_MODE_BIT               ( ( StackType_t ) 0x20 )
@@ -81,14 +81,14 @@
  * debugger. */
 #ifdef configTASK_RETURN_ADDRESS
     #define portTASK_RETURN_ADDRESS    configTASK_RETURN_ADDRESS
-#else
+#иначе
     #define portTASK_RETURN_ADDRESS    prvTaskExitError
 #endif
 
 /* The space on the stack required to hold the FPU registers. */
-#if ( configFPU_D32 == 1 )
+#если ( configFPU_D32 == 1 )
     #define portFPU_REGISTER_WORDS     ( ( 32 * 2 ) + 1 ) /* D0-D31 and FPSCR. */
-#else
+#иначе
     #define portFPU_REGISTER_WORDS     ( ( 16 * 2 ) + 1 ) /* D0-D15 and FPSCR. */
 #endif /* configFPU_D32 */
 
@@ -153,7 +153,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) portINITIAL_SPSR;
 
-    if( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
+    если( ( ( uint32_t ) pxCode & portTHUMB_MODE_ADDRESS ) != 0x00UL )
     {
         /* The task will start in THUMB mode. */
         *pxTopOfStack |= portTHUMB_MODE_BIT;
@@ -199,7 +199,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
      * enabled. */
     *pxTopOfStack = portNO_CRITICAL_NESTING;
 
-    #if ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #если ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /* The task will start without a floating point context.  A task that uses
          * the floating point hardware must call vPortTaskUsesFPU() before executing
@@ -220,13 +220,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = pdTRUE;
         ulPortTaskHasFPUContext = pdTRUE;
     }
-    #else
+    #иначе
     {
         #error "Invalid configUSE_TASK_FPU_SUPPORT value - configUSE_TASK_FPU_SUPPORT must be set to 1, 2, or left undefined."
     }
     #endif /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -241,7 +241,7 @@ static void prvTaskExitError( void )
     configASSERT( ulPortInterruptNesting == ~0UL );
     portDISABLE_INTERRUPTS();
 
-    for( ; ; )
+    для( ; ; )
     {
     }
 }
@@ -258,7 +258,7 @@ BaseType_t xPortStartScheduler( void )
     ulAPSR &= portAPSR_MODE_BITS_MASK;
     configASSERT( ulAPSR != portAPSR_USER_MODE );
 
-    if( ulAPSR != portAPSR_USER_MODE )
+    если( ulAPSR != portAPSR_USER_MODE )
     {
         /* Start the timer that generates the tick ISR. */
         portDISABLE_INTERRUPTS();
@@ -274,7 +274,7 @@ BaseType_t xPortStartScheduler( void )
      * warning about it being defined but not referenced in the case that the user
      * defines their own exit address. */
     ( void ) prvTaskExitError;
-    return 0;
+    вернуть 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -300,7 +300,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ulCriticalNesting == 1 )
+    если( ulCriticalNesting == 1 )
     {
         configASSERT( ulPortInterruptNesting == 0 );
     }
@@ -309,7 +309,7 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    если( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -317,7 +317,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        если( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -334,7 +334,7 @@ void FreeRTOS_Tick_Handler( void )
     ulInterruptStatus = portSET_INTERRUPT_MASK_FROM_ISR();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    если( xTaskIncrementTick() != pdFALSE )
     {
         ulPortYieldRequired = pdTRUE;
     }
@@ -345,7 +345,7 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#если ( configUSE_TASK_FPU_SUPPORT != 2 )
 
     void vPortTaskUsesFPU( void )
     {

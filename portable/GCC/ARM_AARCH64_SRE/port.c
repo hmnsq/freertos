@@ -45,23 +45,23 @@
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be defined.  See www.FreeRTOS.org/Using-FreeRTOS-on-Cortex-A-Embedded-Processors.html"
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY == 0
+#если configMAX_API_CALL_INTERRUPT_PRIORITY == 0
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must not be set to 0"
 #endif
 
-#if configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
+#если configMAX_API_CALL_INTERRUPT_PRIORITY > configUNIQUE_INTERRUPT_PRIORITIES
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be less than or equal to configUNIQUE_INTERRUPT_PRIORITIES as the lower the numeric priority value the higher the logical interrupt priority"
 #endif
 
-#if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+#если configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
     /* Check the configuration. */
-    #if ( configMAX_PRIORITIES > 32 )
+    #если ( configMAX_PRIORITIES > 32 )
         #error "configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is less than or equal to 32.  It is very rare that a system requires more than 10 to 15 difference priorities as tasks that share a priority will time slice."
     #endif
 #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
 
 /* In case security extensions are implemented. */
-#if configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
+#если configMAX_API_CALL_INTERRUPT_PRIORITY <= ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )
     #error "configMAX_API_CALL_INTERRUPT_PRIORITY must be greater than ( configUNIQUE_INTERRUPT_PRIORITIES / 2 )"
 #endif
 
@@ -90,10 +90,10 @@
 #define portSP_ELx                       ( ( StackType_t ) 0x01 )
 #define portSP_EL0                       ( ( StackType_t ) 0x00 )
 
-#if defined( GUEST )
+#если defined( GUEST )
     #define portEL1                      ( ( StackType_t ) 0x04 )
     #define portINITIAL_PSTATE           ( portEL1 | portSP_EL0 )
-#else
+#иначе
     #define portEL3                      ( ( StackType_t ) 0x0c )
     /* At the time of writing, the BSP only supports EL3. */
     #define portINITIAL_PSTATE           ( portEL3 | portSP_EL0 )
@@ -261,7 +261,7 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
     pxTopOfStack--;
     *pxTopOfStack = ( StackType_t ) pxCode; /* Exception return address. */
 
-    #if ( configUSE_TASK_FPU_SUPPORT == 1 )
+    #если ( configUSE_TASK_FPU_SUPPORT == 1 )
     {
         /* The task will start with a critical nesting count of 0 as interrupts are
         * enabled. */
@@ -290,13 +290,13 @@ StackType_t * pxPortInitialiseStack( StackType_t * pxTopOfStack,
         *pxTopOfStack = pdTRUE;
         ullPortTaskHasFPUContext = pdTRUE;
     }
-    #else /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
+    #иначе /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
     {
         #error "Invalid configUSE_TASK_FPU_SUPPORT setting - configUSE_TASK_FPU_SUPPORT must be set to 1, 2, or left undefined."
     }
     #endif /* if ( configUSE_TASK_FPU_SUPPORT == 1 ) */
 
-    return pxTopOfStack;
+    вернуть pxTopOfStack;
 }
 /*-----------------------------------------------------------*/
 
@@ -308,14 +308,14 @@ BaseType_t xPortStartScheduler( void )
 
     ulAPSR &= portAPSR_MODE_BITS_MASK;
 
-    #if defined( GUEST )
+    #если defined( GUEST )
         configASSERT( ulAPSR == portEL1 );
 
-        if( ulAPSR == portEL1 )
-    #else
+        если( ulAPSR == portEL1 )
+    #иначе
         configASSERT( ulAPSR == portEL3 );
 
-        if( ulAPSR == portEL3 )
+        если( ulAPSR == portEL3 )
     #endif
     {
         /* Interrupts are turned off in the CPU itself to ensure a tick does
@@ -331,7 +331,7 @@ BaseType_t xPortStartScheduler( void )
         vPortRestoreTaskContext();
     }
 
-    return 0;
+    вернуть 0;
 }
 /*-----------------------------------------------------------*/
 
@@ -358,7 +358,7 @@ void vPortEnterCritical( void )
      * functions that end in "FromISR" can be used in an interrupt.  Only assert if
      * the critical nesting count is 1 to protect against recursive calls if the
      * assert function also uses a critical section. */
-    if( ullCriticalNesting == 1ULL )
+    если( ullCriticalNesting == 1ULL )
     {
         configASSERT( ullPortInterruptNesting == 0 );
     }
@@ -367,7 +367,7 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ullCriticalNesting > portNO_CRITICAL_NESTING )
+    если( ullCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as the critical section is being
          * exited. */
@@ -375,7 +375,7 @@ void vPortExitCritical( void )
 
         /* If the nesting level has reached zero then all interrupt
          * priorities must be re-enabled. */
-        if( ullCriticalNesting == portNO_CRITICAL_NESTING )
+        если( ullCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Critical nesting has reached zero so all interrupt priorities
              * should be unmasked. */
@@ -388,7 +388,7 @@ void vPortExitCritical( void )
 void FreeRTOS_Tick_Handler( void )
 {
     /* Must be the lowest possible priority. */
-    #if !defined( QEMU )
+    #если !defined( QEMU )
     {
         uint64_t ullRunningInterruptPriority;
         /* s3_0_c12_c11_3 is ICC_RPR_EL1. */
@@ -398,7 +398,7 @@ void FreeRTOS_Tick_Handler( void )
     #endif
 
     /* Interrupts should not be enabled before this point. */
-    #if ( configASSERT_DEFINED == 1 )
+    #если ( configASSERT_DEFINED == 1 )
     {
         uint32_t ulMaskBits;
 
@@ -423,7 +423,7 @@ void FreeRTOS_Tick_Handler( void )
     portENABLE_INTERRUPTS();
 
     /* Increment the RTOS tick. */
-    if( xTaskIncrementTick() != pdFALSE )
+    если( xTaskIncrementTick() != pdFALSE )
     {
         ullPortYieldRequired = pdTRUE;
     }
@@ -433,7 +433,7 @@ void FreeRTOS_Tick_Handler( void )
 }
 /*-----------------------------------------------------------*/
 
-#if ( configUSE_TASK_FPU_SUPPORT != 2 )
+#если ( configUSE_TASK_FPU_SUPPORT != 2 )
 
 void vPortTaskUsesFPU( void )
 {
@@ -450,7 +450,7 @@ void vPortTaskUsesFPU( void )
 
 void vPortClearInterruptMask( UBaseType_t uxNewMaskValue )
 {
-    if( uxNewMaskValue == pdFALSE )
+    если( uxNewMaskValue == pdFALSE )
     {
         portCLEAR_INTERRUPT_MASK();
     }
@@ -468,12 +468,12 @@ UBaseType_t uxPortSetInterruptMask( void )
     /* s3_0_c4_c6_0 is ICC_PMR_EL1. */
     __asm volatile ( "MRS %0, s3_0_c4_c6_0" : "=r" ( ullPMRValue ) );
 
-    if( ullPMRValue == ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
+    если( ullPMRValue == ( configMAX_API_CALL_INTERRUPT_PRIORITY << portPRIORITY_SHIFT ) )
     {
         /* Interrupts were already masked. */
         ulReturn = pdTRUE;
     }
-    else
+    иначе
     {
         ulReturn = pdFALSE;
         /* s3_0_c4_c6_0 is ICC_PMR_EL1. */
@@ -485,11 +485,11 @@ UBaseType_t uxPortSetInterruptMask( void )
 
     portENABLE_INTERRUPTS();
 
-    return ulReturn;
+    вернуть ulReturn;
 }
 /*-----------------------------------------------------------*/
 
-#if ( configASSERT_DEFINED == 1 )
+#если ( configASSERT_DEFINED == 1 )
 
     void vPortValidateInterruptPriority( void )
     {

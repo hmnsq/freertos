@@ -105,7 +105,7 @@ void vPortYieldProcessor( void )
  * the preemptive scheduler is being used.
  */
 
-#if configUSE_PREEMPTION == 0
+#если configUSE_PREEMPTION == 0
 
 /* The cooperative scheduler requires a normal IRQ service routine to
  * simply increment the system tick. */
@@ -126,7 +126,7 @@ void vPortYieldProcessor( void )
         AT91C_BASE_AIC->AIC_EOICR = ulDummy;
     }
 
-#else /* if configUSE_PREEMPTION == 0 */
+#иначе /* if configUSE_PREEMPTION == 0 */
 
 /* The preemptive scheduler is defined as "naked" as the full context is
  * saved on entry as part of the context switch. */
@@ -137,7 +137,7 @@ void vPortYieldProcessor( void )
         portSAVE_CONTEXT();
 
         /* Increment the tick count - this may wake a task. */
-        if( xTaskIncrementTick() != pdFALSE )
+        если( xTaskIncrementTick() != pdFALSE )
         {
             /* Find the highest priority task that is ready to run. */
             vTaskSwitchContext();
@@ -206,14 +206,14 @@ void vPortEnterCritical( void )
 
 void vPortExitCritical( void )
 {
-    if( ulCriticalNesting > portNO_CRITICAL_NESTING )
+    если( ulCriticalNesting > portNO_CRITICAL_NESTING )
     {
         /* Decrement the nesting count as we are leaving a critical section. */
         ulCriticalNesting--;
 
         /* If the nesting level has reached zero then interrupts should be
          * re-enabled. */
-        if( ulCriticalNesting == portNO_CRITICAL_NESTING )
+        если( ulCriticalNesting == portNO_CRITICAL_NESTING )
         {
             /* Enable interrupts as per portEXIT_CRITICAL().                    */
             __asm volatile (
